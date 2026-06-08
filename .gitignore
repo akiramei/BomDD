@@ -1,0 +1,16 @@
+# .NET build output
+[Bb]in/
+[Oo]bj/
+
+# 受入ハーネスが実行時に生成するメディア・生信号(harness 再実行で再生成される)
+**/work/
+*.mp4
+*.wav
+*.pcm
+
+# IDE / editor
+.vs/
+.idea/
+*.user
+*.suo
+*.DotSettings.user
