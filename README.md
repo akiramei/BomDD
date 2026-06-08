@@ -10,6 +10,8 @@
 📄 **詳細総括は [FINDINGS.md](FINDINGS.md)** — 7ループの実験記録・ずる台帳12件・三層BOM構想へのフィードバック。
 📘 **正規の方法論は [method/bomdd-method-v1.md](method/bomdd-method-v1.md)** — 実証済みの規則だけを束ねた薄い手順(E/M-BOM・K-BOM・Control Plan・FMEA・マルチファクトリ・受入の梯子・品質二軸)。
 
+> **用語の注意**: 本研究の **S-BOM は一般的な SBOM(Software Bill of Materials)ではなく、Service BOM / 保守部品表**を指す。OSS 依存一覧はその一部に過ぎず、「何が影響し・何を再検査し・交換/再製造が要るか」を導く保守層である。概念は [docs/concept.md](docs/concept.md)、用語の固定は [docs/terminology.md](docs/terminology.md)。
+
 ## 方法 — アクションリサーチのループ
 
 1. **リバース**: MoviePad のソース/doc/テストから要求仕様・機能仕様を復元
@@ -23,7 +25,10 @@
 ## 構成
 
 ```
-FINDINGS.md         5ループ最終総括(核/表面の法則)
+docs/               公開ドキュメント
+  concept.md          構想の全体像(概念)
+  terminology.md      用語集(E/M/S/K-BOM・核/表面・ずる・鋳造の固定)
+FINDINGS.md         7ループ最終総括(核/表面の法則)
 method/             手法定義(ループ毎に進化)
   bomdd-method-v1.md  ★正規の方法論(薄い版)
   cheat-taxonomy.md   ずるの分類・記録様式・製造装置の隔離規律
@@ -31,6 +36,7 @@ method/             手法定義(ループ毎に進化)
   control-plan.md     製造条件表+検査計画(検査深さ/許容差/承認者)
   k-bom-ffmpeg.md     知識部品BOM(ffmpeg文法パック)
 loops/
+  metrics.csv         全ループの測定値集約(二軸品質: 合格率/介入/ずる/工場間ばらつき/再検査絞込)
   loop-01-split/      Loop1 区間分割(純粋ロジック): 00-charter〜06-acceptance, cheat-log
   loop-01-report.md   Loop1 総括
   loop-01.5-split/    Loop1.5 改善効果測定(再製造でずる減を実測)
@@ -46,5 +52,5 @@ loops/
 
 ## 関連
 
-- 構想の全体像はセッションメモリ参照(`bomdd-core-concept` / `bomdd-open-questions` / `bomdd-moviepad-research`)。
+- 構想の全体像: [docs/concept.md](docs/concept.md) / 用語定義: [docs/terminology.md](docs/terminology.md)
 - 題材 MoviePad: Avalonia 12 + .NET 10 + C# / LibVLC + ffmpeg の非破壊動画編集デスクトップアプリ。

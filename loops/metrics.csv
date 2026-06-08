@@ -1,0 +1,10 @@
+loop,domain,slice,acceptance_pass,manual_intervention_count,new_cheats,blocker_cheats,deepest_acceptance_depth,factory_variance,reinspection_scope_ratio,key_finding
+1,pure-logic,split,14/14,1,001-006,"002,005",unit,,,"BOMのみでビルド成功。製造報告16ギャップ中、発散2のみ(残14は暗黙知で原版一致)=C2"
+1.5,improvement-effect,split-remanufacture,15/15,0,,,unit,,,"新装置で1回目15/15・介入0・発散2→0・製造ギャップ16→10。改善はBOM側に効く"
+2,external-tool-io,export,"unitA 15/15; unitB 26/30",1,007-009,008,"L0-string(broke)",,,"規則部15/15。ffmpeg文字列部で文字列照合が破綻(過剰結合かつ被覆不足)。CHEAT-008が機能バグ化"
+2.5,execution-acceptance,export-exec,4/5 exec (1 FAIL = correct catch),0,,,L2(ffprobe),,,"過剰結合の誤検出消滅。別コーデックの沈黙乖離(Lossless ffv1→libx264)をL2で捕捉。CHEAT-009解決"
+3,ui-perception,timeline-raster,"geometry 7/7 facts + pixel-exact",0,010-011,,golden(pixel),,,"幾何=画素完全一致。未規定の速度ティント色だけ31672/97600画素(32.5%)乖離・ティント矩形に完全局在"
+4,multi-factory,export-filtergraph,3 factories char-identical (K-BOM on),0,012,,unit/string-compare,"off: ~8 dims diverge; on: 0",,"K-BOMなし=全次元分岐+haiku実バグ2件。K-BOMあり=3工場(opus/sonnet/haiku)が4シナリオ全て文字一致(ばらつき0)"
+5,execution-L3,export-seek-signal,L3 distinguishes correct vs buggy,0,,,L3(signal),,,"L2尺=5.00s同一でcorrect/buggy区別不能。L3だけが音声座標系バグ捕捉(correct 800-1200Hz / buggy 300-700Hz)"
+6,sbom-plm,export-seek-audio,impact narrowed to 1/6 parts,0,,,L3(derived),,"1/6 (83% excluded)","知識更新イベント逆引きで影響を6部品中1へ絞込・核は再検査不要・L2でなくL3必須と導出。治具も劣化対象"
+7,reverse,export-seek-audio,3 readers behavior-agree; rationale-precision diverges,0,,,trace+audit(input),,,"双方向トレース+カバレッジ監査で形式化(CHEAT-001決着)。弱点はbehaviorでなく根拠の精度(全員が真のAACサンプル精度を取りこぼし)"
