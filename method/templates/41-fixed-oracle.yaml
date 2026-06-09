@@ -12,6 +12,7 @@ bomdd:
 
 fixed_oracle:
   frozen_since: <commit/tag>
+  self_test: <治具セルフテストの方法と実施記録。凍結前に必須(フォワードは原版が無く治具が未検証のまま初回採点になる。forward-01 CHEAT-F01-H001)>
   equivalence_rules:
     - id: EQ-001
       compares: [<契約セマンティクス 例 status code, error code, 状態遷移, 冪等の同一ID性>]
