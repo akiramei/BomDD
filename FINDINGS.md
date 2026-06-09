@@ -156,10 +156,25 @@
 
 探索プローブ層(合否非混在): ID 形式・ID 一意性・日時表現・応答スキーマが全工場で分散=**ばらつきは BOM が沈黙する場所に集中**。Loop4(K-BOM で工場間ばらつき消失)の Web 多工場版。
 
-### 6.3 v2 で言えること(N=2、引き続き「観測した範囲」)
+### 6.3 v2 で言えること(Web/API 時点 N=2 → §6.4 で分散 Saga を追加し N=3)
 1. 核/表面の法則は **MoviePad 固有でなく Web/API でも再現**(2 題材目)。
 2. **BOM は差分を観測→補正→再製造で鋳造性を漸近的に上げる**(2→3→0)。
 3. 多工場で **仕様化済み契約は転移し、未規定の表面は分散**。差分は単なる「AI 差」でなく **BOM欠落 / 工場能力 / 探索的未規定面**に**分類できる**。
 
 記述規律: 全工場一致を「完全鋳造」と呼ばず「**現固定オラクル被覆で未観測差分ゼロ**」とする。詳細は BomDD-WebApi-Sample の `loops/webapi-0*/report*.md`・`metrics.yaml`。
 **Future Work**: 応答スキーマ・ID アルゴリズム・日時形式まで締めると探索層の分散が消えるか(webapi-02.5)。題材 N の拡大(分散/組込・リアルタイム)。
+
+### 6.4 N=3 — 分散 Saga(非同期イベント駆動)でも再現
+3 題材目 **BomDD-DistributedSaga-Sample**(注文フルフィルメント Saga・.NET10・in-memory synthetic event bus)で再検証。核=Saga 状態遷移/在庫・支払い・出荷の判定と補償規則、表面=event schema・at-least-once・冪等 consumer・retry/dead-letter・ordering。HTTP の無い in-process 題材なので、観測の黒箱境界を**「固定シナリオを流し正規化イベントログ/dispatch trace を emit する観測契約」**で作り、内部 C# 名でなくイベント契約 + Control Plan の語彙で 2-way diff した。
+
+| ループ | 工場 | 固定オラクル(挙動契約) | 備考 |
+|---|---|---|---|
+| saga-01 | factory-01(opus) | **0/7** | 練られた seed BOM から初回 0(収束不要)。核を非同期ドメインで鋳造 |
+| saga-02 | opus / sonnet / haiku | **0 / 0 / 0** | 仕様化済み契約は全ティアへ転移(webapi-02 で 3/16 だった haiku も 0) |
+
+- **未規定面は分散**(探索プローブ層・合否非混在): eventId 形式(original 含め4通り)・timestamp 精度・sequence 基点・inbox key 区切り(`:`×3 vs `#`)・causationId 方針・events.json の JSON 形状 が工場間で割れた=ばらつきは BOM が沈黙する場所に集中。
+- **検査器側の発見(製品差分と分離して記録)**: sonnet の見かけ上の差(リテラルキー採点 1/7)は**製品でなく観測ハーネスの表現差**(dispatch outcome キーを C# 慣習 camelCase で出力。冪等は正しく働き重複も記録済)。さらに設計者オラクル自身が events.json の JSON 形状(map/array)に **L0 過剰結合**していた。いずれも「**オラクルは付随表現でなく契約セマンティクスを見る**」で表現非依存に補正(cheat-log の CHEAT-SAGA-01-002 / -02-002)。**C2(共有暗黙知)が製品でなく測定ハーネスの表現に現れた**新パターン。
+
+> 証拠(公開): [akiramei/BomDD-DistributedSaga-Sample](https://github.com/akiramei/BomDD-DistributedSaga-Sample)。入力固定 tag `saga-02-input-bom`、結果固定 tag/release `v0.1-saga-multifactory`。コミット列 `cef17bf` seed → `5facf25` 設計者オラクル → `fbed7e7` saga-01(0/7)→ `ce21e52` saga-02(0/0/0)。再現手順 [docs/reproduce-saga-v2.md](docs/reproduce-saga-v2.md)。
+
+**N=3 で言える範囲**: 核/表面の法則と品質二軸(決定性=工場間ばらつき / 正しさ=受入)は、同期 GUI(MoviePad)・同期 HTTP(Web/API)・**非同期分散(Saga)**の3ドメインで再現した(観測した範囲。一般法則は引き続き未検証)。決定性は (a)工場能力 と (b)BOM 未規定 に分離して読む。

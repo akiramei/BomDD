@@ -112,15 +112,26 @@ BOM 品質は2軸で独立に測る。
 - **BOM=成果物 崩壊境界の特定**: 表面の最適 BOM 化粒度。外部ツール/デザインシステムを部品として外部化する設計の検証。
 - **長期 PLM**: AIモデル更新を S-BOM の劣化イベントとして扱い、再製造差分の管理手順を確立。
 
-## 11. 外部妥当性 — Web/API での再現(v2 中間結果)
+## 11. 外部妥当性 — 別ドメインでの再現(v2 中間結果, N=3)
 §10 の最優先課題に着手し、別題材(会議室予約 API・.NET/HTTP、別リポジトリ **BomDD-WebApi-Sample**)で核/表面の法則を再検証した。核=予約可否/重複/冪等/キャンセル、表面=HTTP status・OpenAPI 契約・API key 認証・UTC 日時・error schema。手法は本研究と同型(機械可読 BOM、原版非開示の隔離製造、設計者側の固定ブラックボックス HTTP オラクルで 2-way diff)。
 
 - **収束(単一ファクトリ)**: seed 2/16 → 第1次補正 3/16 → 第2次補正 0/16。各補正は fresh device で一致=**修正は BOM に宿る**。完全性は漸近(締めると別の未規定次元が出る)。
 - **マルチファクトリ(opus/sonnet/haiku)**: 固定オラクル層 opus 0 / sonnet 1 / haiku 3。差分は ①**BOM未規定残渣**(sonnet: not_found code 名)②**仕様化済み契約の取りこぼし=工場能力**(haiku: 409→400 等)③**探索的未規定面**(ID/日時/応答スキーマの分散)に分類できる。締めた仕様は能力ある工場へ転移し、未規定の表面は工場間で分散した。
 
-**言える範囲**: 核/表面の法則は MoviePad 固有でなく Web/API でも再現した(題材2つ目。一般法則は引き続き未検証=N=2)。BomDD の測定器は、工場間差分を「AI 差」で済ませず **BOM欠落 / 工場能力 / 未規定面** に切り分ける。**用語規律**: 全工場一致を「完全鋳造」と呼ばず「現固定オラクル被覆で未観測差分ゼロ」とする(被覆を広げれば別の未規定次元が出うる)。**Future Work**: 応答スキーマ・ID・日時まで締めると探索層の分散が消えるか(webapi-02.5)。
+**言える範囲**: 核/表面の法則は MoviePad 固有でなく Web/API でも再現した(題材2つ目。下記 §11 末の分散 Saga で3つ目=N=3。一般法則としては引き続き未検証)。BomDD の測定器は、工場間差分を「AI 差」で済ませず **BOM欠落 / 工場能力 / 未規定面** に切り分ける。**用語規律**: 全工場一致を「完全鋳造」と呼ばず「現固定オラクル被覆で未観測差分ゼロ」とする(被覆を広げれば別の未規定次元が出うる)。**Future Work**: 応答スキーマ・ID・日時まで締めると探索層の分散が消えるか(webapi-02.5)。
 
 詳細・証拠は公開リポジトリ [akiramei/BomDD-WebApi-Sample](https://github.com/akiramei/BomDD-WebApi-Sample) の `bomdd/`(機械可読 BOM)・`loops/webapi-0*/`(各ループ報告・metrics・固定オラクル/探索プローブ・As-Built)。コミット列 `35c3022`(seed)→ `7b3a4f2`(webapi-01)→ `c46fe8b`(01.5)→ `4eed25f`(01.6, tag `webapi-02-input-bom`)→ `84338b0`(webapi-02)。
+
+### 11.1 分散 Saga(N=3 — 非同期イベント駆動)
+3題材目 **BomDD-DistributedSaga-Sample**(注文フルフィルメント Saga・in-memory synthetic event bus)でも再検証した。核=Saga 状態遷移/在庫・支払い・出荷の判定と補償規則、表面=event schema・at-least-once・冪等 consumer・retry/dead-letter・ordering。HTTP のようなワイヤ境界が無い in-process 題材のため、観測の黒箱境界を**「固定シナリオを流し正規化イベントログ/dispatch trace を emit する観測契約」**で作り、内部 C# 名でなくイベント契約 + Control Plan の語彙で 2-way diff した。
+
+- **単一ファクトリ**: 練られた seed BOM から clean factory が初回で固定オラクル **0/7**(happy 完全イベント列・3 補償フロー・冪等・retry 回復・event 契約)。webapi-01(2/16)と異なり収束を要さず鋳造。
+- **多工場(opus/sonnet/haiku)**: **挙動契約の差分 = 0 / 0 / 0**。仕様化済み saga 契約は **3 ティアすべてへ転移**(webapi-02 で 3/16 だった haiku も 0)。探索層(eventId 形式・timestamp 精度・sequence 基点・inbox 区切り・causationId・JSON 形状)は工場間で分散。
+- **検査器側の知見(製品差分と分離)**: sonnet の見かけ上の差(リテラルキー採点 1/7)は**製品でなく観測ハーネスの表現差**(dispatch outcome キーを C# 慣習 camelCase で出力。挙動は完全一致)。加えて設計者オラクル自身が events.json の JSON 形状(map/array)に L0 過剰結合していた。いずれも「**オラクルは付随表現でなく契約セマンティクスを見る**」で表現非依存に補正——この規律を**検査器自身**に課すのが v1.2 の追補。**C2(共有暗黙知)は製品だけでなく測定ハーネスの表現にも現れる**。
+
+証拠(公開): [akiramei/BomDD-DistributedSaga-Sample](https://github.com/akiramei/BomDD-DistributedSaga-Sample)。入力固定 tag `saga-02-input-bom`、結果固定 tag/release `v0.1-saga-multifactory`。コミット列 `cef17bf`(seed)→ `5facf25`(設計者オラクル, tag)→ `fbed7e7`(saga-01, 0/7)→ `ce21e52`(saga-02, 0/0/0)。再現手順は [docs/reproduce-saga-v2.md](docs/reproduce-saga-v2.md)。
+
+**N=3 で言える範囲**: 核/表面の法則と品質二軸は、同期 GUI(MoviePad)・同期 HTTP(Web/API)・**非同期分散(Saga)**の3ドメインで再現した(観測した範囲。一般法則は引き続き未検証)。
 
 ---
 **付録**: 詳細な実験記録は [FINDINGS.md](FINDINGS.md) と `loops/loop-0*-*/`、手法は `method/`(bomdd-method-v1 / control-plan / k-bom-ffmpeg / s-bom-template / cheat-taxonomy)を参照。
