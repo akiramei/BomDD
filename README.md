@@ -9,6 +9,7 @@
 📕 **公開版ホワイトペーパー: [WHITEPAPER.md](WHITEPAPER.md)** — 「BOM-Driven Development: AIをソフトウェア製造装置とみなす工業化手法の実証研究」(7ループ・10章・強い主張/未検証の分離)。
 📄 **詳細総括は [FINDINGS.md](FINDINGS.md)** — 7ループの実験記録・ずる台帳12件・三層BOM構想へのフィードバック。
 📘 **正規の方法論は [method/bomdd-method-v1.md](method/bomdd-method-v1.md)** — 実証済みの規則だけを束ねた薄い手順(E/M-BOM・K-BOM・Control Plan・FMEA・マルチファクトリ・受入の梯子・品質二軸)。
+🔬 **v2 — Web/API でも再現済み(N=2)**: 題材は MoviePad だけではない。別ドメイン「会議室予約 API」で核/表面の法則を再現し、BOM 補正で原版との差分が **2→3→0** に収束、多工場(opus/sonnet/haiku)で **0/1/3**。証拠リポ [akiramei/BomDD-WebApi-Sample](https://github.com/akiramei/BomDD-WebApi-Sample) / まとめ [FINDINGS.md §6](FINDINGS.md) / **自分の手で追う [docs/reproduce-webapi-v2.md](docs/reproduce-webapi-v2.md)**。
 
 > **用語の注意**: 本研究の **S-BOM は一般的な SBOM(Software Bill of Materials)ではなく、Service BOM / 保守部品表**を指す。OSS 依存一覧はその一部に過ぎず、「何が影響し・何を再検査し・交換/再製造が要るか」を導く保守層である。概念は [docs/concept.md](docs/concept.md)、用語の固定は [docs/terminology.md](docs/terminology.md)。
 
