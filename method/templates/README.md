@@ -22,5 +22,6 @@ YAML の語彙は v2 実証リポジトリ([BomDD-WebApi-Sample](https://github.
 | 51 | [51-cheat-log.md](51-cheat-log.md) | 全期間 ずる台帳 | 記録 |
 | 52 | [52-metrics.yaml](52-metrics.yaml) | Phase 5 測定 | 記録 |
 | 53 | [53-service-bom.yaml](53-service-bom.yaml) | Phase 6 保守部品表(概念は [s-bom-template.md](../s-bom-template.md)) | 納品物 |
+| 60 | [60-change-order.md](60-change-order.md) | Phase 7 変更オーダー(ECO: 影響分析→部分再製造→回帰) | 設計者(改訂 BOM のみ工場へ) |
 
 **隔離規律(再掲)**: 製造装置に渡してよいのは 20/30–34/40(+観測契約)だけ。41/42 と設計対話の履歴は渡さない。

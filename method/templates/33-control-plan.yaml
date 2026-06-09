@@ -26,3 +26,17 @@ control_plan:
       fixture: <治具(受入ハーネスのパス)>
       oracle: <合否の判定方法(1文)>
       approver: automated               # automated | <人名/役割>(G は人間必須)
+      test_vectors:                     # 完全性が要る特性は必須(CHEAT-005: 中間値ベクタ未整備が
+        - <境界値>                      #   サイレント乖離を通した。「受入の被覆が捕捉を決める」)
+        - <中間値(丸めの分岐点)>
+        - <反例(FMEA の故障モード由来)>
+
+    # NFR 特性行の例(candidate — 目標値は E-BOM nfr_targets、実現は M-BOM)
+    - id: CP-NFR-001
+      characteristic: <例 予約作成 p95 < 200ms @ 100 req/s>
+      classification: surface
+      depth: L3                         # NFR は原則 execution measurement
+      tolerance: <例 p95 ≤ 200ms(計測 3 回の中央値)>
+      fixture: <負荷計測スクリプト(治具として repo 管理)>
+      oracle: <計測手順と判定(環境条件込みで再現可能に)>
+      approver: automated

@@ -26,3 +26,11 @@ ebom:
         - <この部品が守る不変条件>
       acceptance_refs:                  # → Control Plan の特性 ID
         - CP-<NAME>-001
+
+# NFR 目標値(candidate — playbook §4.1 三分割: 目標値=E-BOM / 実現=M-BOM / 検証=Control Plan)
+# 「速い」等の未測定形は置けない(G2' で unmeasurable=仕様未完成)
+nfr_targets:
+  - id: NFR-001
+    statement: <測定可能な目標値+条件(例 予約作成 API p95 レイテンシ < 200ms @ 100 req/s)>
+    requirement_refs: [REQ-001]
+    verified_by: CP-NFR-001             # → Control Plan の NFR 特性行(原則 L3 execution measurement)

@@ -34,6 +34,16 @@ mbom:
       verifies:
         - M-<NAME>-001
 
+# 調達部品表(製造業 M-BOM の購入部品に相当 — gap-analysis §B1)
+# ここに無いパッケージを使う判断は ずる報告対象(work order に明示)。
+# 本物の SBOM(Software Bill of Materials)・ライセンス管理への輸出元になる
+procurement:
+  - package: <例 Microsoft.Data.Sqlite>
+    version: <固定バージョン or 範囲(固定方針を明記)>
+    rationale: <選定理由>
+    license: <例 MIT>
+    substitutable: false                # 工場が同等品へ代替してよいか
+
 fmea:
   - id: FMEA-001
     unit: M-<NAME>-001

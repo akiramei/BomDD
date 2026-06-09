@@ -10,5 +10,6 @@
 | [phase3-design.md](phase3-design.md) | BOM・工程設計 | G3 ドライラン |
 | [phase4-manufacture.md](phase4-manufacture.md) | 製造(隔離ファクトリ) | 自己受入+ずる報告 |
 | [phase5-accept.md](phase5-accept.md) | 受入・収束 | 未観測差分ゼロ+blocker ずるゼロ |
+| [phase7-change-order.md](phase7-change-order.md) | 変更オーダー(納品後の仕様変更・ECO) | 回帰ゼロ+変更受入通過 |
 
 **正典はこの prompts/ である**(運用方針 2026-06-10)。Claude Code の slash command / skill 化は、forward-01 ループで playbook の有効性を検証してから、必要なら **adapter 層**として別途追加する。それまではリポジトリに `.claude/skills` を置かない(各ファイルに frontmatter を付けて `.claude/skills/<name>/SKILL.md` に置けばスキルになる、という変換は機械的に可能)。
