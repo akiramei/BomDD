@@ -1,0 +1,24 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: K-BOM
+
+# K-BOM 調達(playbook §4.3 — フォワードでは製造前に抽出):
+#   表面部品ごとに設計AIへ「この領域を BOM 記載なしで実装するとき、
+#   あなたが慣習で埋めるであろう判断をすべて列挙せよ」と問い、
+#   1件ずつ 固定(ここへ) / exploratory / out-of-scope に裁定する。
+# 「K-BOM に無い判断は CHEAT として記録」(method-v1 §2)
+
+kbom:
+  items:
+    - id: K-<NAME>-001
+      name: <知識パック名 例 HTTP/REST status conventions>
+      knowledge_kind: tool-grammar      # tool-grammar | design-system | domain-convention
+      version: v1                       # S-BOM が劣化逆引きに使う
+      source: <出所(仕様URL / デザインシステム / 規約)>
+      managed_knowledge:                # 製造装置が従うべき判断を箇条書きで固定
+        - <例 全ての検証エラーは HTTP 400 + code=invalid_request(validation_error は使わない)>
+        - <例 idempotency fingerprint は roomId, customerId, startUtc, endUtc(key は含めない)>
+      risk_if_implicit: <暗黙のままだと工場ごとに何が分岐するか>
+      consumers:                        # この知識を参照する表面部品
+        - E-<NAME>-001

@@ -1,0 +1,28 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: Control Plan
+
+# 深さの梯子(method-v1 §5): unit < L1 存在 < L2 メタデータ < L3 content/signal < G golden+承認者
+#   核 = unit(exact, 丸め規定込み)
+#   表面 = 外部ツール≥L2 / 同期・座標系=L3 / 知覚=G(golden+許容差+承認者)
+#   L0 文字列照合・pixel-exact は既定不採用(例外: 仕様化された正規形のみ)
+# 深い段は FMEA で要注意と判定した特性にのみ割当(コスト)
+
+control_plan:
+  depth_ladder:
+    unit: <この題材での unit 検査の定義>
+    L1: <プロセス起動・成果物存在>
+    L2: <メタデータ検査(例 OpenAPI JSON / ffprobe)>
+    L3: <内容・信号・相互作用(例 HTTP 実打 / 音声相関)>
+    G: <人間承認(知覚・ユーザビリティ)>
+
+  characteristics:
+    - id: CP-<NAME>-001
+      characteristic: <保証する特性(1文)>
+      classification: core              # core | surface
+      depth: unit                       # unit | L1 | L2 | L3 | G
+      tolerance: exact                  # exact | ±N ms | ΔE<N | required nodes present ...
+      fixture: <治具(受入ハーネスのパス)>
+      oracle: <合否の判定方法(1文)>
+      approver: automated               # automated | <人名/役割>(G は人間必須)

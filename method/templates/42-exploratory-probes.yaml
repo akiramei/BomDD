@@ -1,0 +1,18 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: Exploratory Probes    # ★設計者のみ。製造装置に渡さない
+
+# 規律: 合否を出さない。BOM が沈黙する次元(32-mbom.yaml silence_sweep の
+# exploratory 宣言行)の値・分散を観測して記録するだけ。
+# 観測結果は Phase 5 で「ユーザーへの質問リスト」へ変換し、裁定後に
+# 次ループの BOM 補正+オラクル昇格(開始時のみ)に使う。
+
+exploratory_probes:
+  - id: P-01
+    scenario: <探索入力(例 create→cancel→別keyで同内容re-create)>
+    dimension: <観測する次元(例 ID 一意性の根拠)>
+    sweep_ref: <32-mbom.yaml silence_sweep の対応行>
+    observed:                   # 実行後に記入(工場ごと)
+      factory-01: ~
+      factory-02: ~

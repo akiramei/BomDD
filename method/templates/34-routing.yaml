@@ -1,0 +1,37 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: Routing
+
+routing:
+  id: ROUTING-<NAME>-001
+  purpose: <この工程列の目的>
+  factory_isolation: 製造装置には本パッケージ(20/30-34/40+観測契約)のみ供与。設計対話・オラクル・他工場成果は非開示
+  cheat_report: BOM/K-BOM/Control Plan から導けなかった判断は実装を止めず全件 cheat-log 形式で報告する
+  steps:
+    - order: 1
+      id: ROUTE-READ
+      name: BOM 一式を読む
+      input: [bomdd/20-spec.md, bomdd/30-ebom.yaml, bomdd/31-kbom.yaml, bomdd/32-mbom.yaml, bomdd/33-control-plan.yaml]
+      output: [implementation plan]
+    - order: 2
+      id: ROUTE-MANUFACTURE-CORE
+      name: 核を製造する
+      input: [<M-CORE ユニット>]
+      output: [<成果物パス>]
+    - order: 3
+      id: ROUTE-MANUFACTURE-SURFACE
+      name: 表面を製造する(K-BOM 参照必須)
+      input: [<M-SURFACE ユニット>]
+      output: [<成果物パス>]
+    - order: 4
+      id: ROUTE-SELF-ACCEPTANCE
+      name: 自己受入(緑が納品条件。ただし自己受入緑≠合格)
+      command:
+        - <例 dotnet build>
+        - <例 dotnet run --project test/Project.Acceptance>
+      output: [acceptance log]
+    - order: 5
+      id: ROUTE-CHEAT-REPORT
+      name: ずる報告を提出する
+      output: [cheat-report(cheat-log 形式・全件)]

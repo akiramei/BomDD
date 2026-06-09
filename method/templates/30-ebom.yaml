@@ -1,0 +1,28 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: E-BOM
+
+# 規律(method-v1 §2):
+#   - 核/表面で型分け。核は requirement_refs 必須、表面は external_source_ref 必須
+#   - 木でなくグラフ(woven 部品に owner/consumers)
+#   - 表面の変更は defect でなく知識更新
+
+ebom:
+  items:
+    - id: E-<NAME>-001
+      name: <部品名>
+      classification: core              # core | surface
+      rationale_type: requirement       # requirement | defect-class | constraint | external-knowledge | design-token
+      requirement_refs:                 # core は必須
+        - REQ-001
+      external_source_ref: ~            # surface は必須(K-BOM ID か出所)
+      kbom_refs: []                     # 参照する知識部品
+      depends_on: []
+      graph_edges:                      # woven(横断)部品のみ
+        owner: ~
+        consumers: []
+      invariants:                       # 仕様 §3 の不変条件を割り付ける
+        - <この部品が守る不変条件>
+      acceptance_refs:                  # → Control Plan の特性 ID
+        - CP-<NAME>-001

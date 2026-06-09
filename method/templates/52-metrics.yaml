@@ -1,0 +1,24 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: Metrics
+
+# 規律(observation-schema-candidates §4.6, §6):
+#   raw 一致率を単独で報告しない。分解して残す。
+#   全通過は「完全鋳造」と呼ばず「現固定オラクル被覆で未観測差分ゼロ」と表現する。
+
+metric_runs:
+  - loop: <例 forward-01>
+    factory: <例 factory-01(opus)>
+    bom_rev: <seed | rev1 | ...>
+    oracle_ref: bomdd/41-fixed-oracle.yaml@<frozen tag>
+    raw_match: <例 14/16(参考値)>
+    targeted_fix_success: ~        # 前ループで狙った補正が消えたか
+    blocker_diffs: ~               # blocker 件数(例 1→0)
+    new_unspecified_diffs: ~       # 補正で新たに露出した未規定次元
+    specified_contract_miss: ~     # 明記済み契約の取りこぼし(=工場能力)
+    exploratory_variance_count: ~  # 探索層の分散次元数(合否外)
+    # フォワード固有(playbook §9)
+    g3_dryrun_questions: ~         # G3 ドライランが検出した質問数
+    user_rulings: ~                # Phase 5 質問リストの裁定数(昇格/探索/対象外)
+    note: ""

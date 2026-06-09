@@ -1,0 +1,26 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID 例 forward-01>
+  layer: Requirements
+
+# 根拠精度の規律(playbook §2):
+#   rationale は「受入の深さと許容差を決められる精度」まで掘る。
+#   判定質問: この記述だけから検査深さ(unit/L1-L3/golden)と許容差を決められるか?
+#   例: 「AV同期が必要」(×) →「シーク後も音声は絶対時刻基準、ズレ ±N ms 以内」(○)
+
+requirements:
+  - id: REQ-001
+    statement: <要求の宣言文(検証可能な形)>
+    rationale: <なぜこの要求か。許容差・深さが決まる精度で>
+    rationale_precision: ok        # ok | needs-refinement(G1 で ok に揃える)
+    classification_hint: core      # core(要求から導出可) | surface(外部知識の転記が要る)
+    external_source: ~             # surface の場合の出所(ツール仕様/デザインシステム/プロトコル)
+    counterexamples:               # AI 反例生成の結果(FMEA の種)
+      - <この要求が破られるシナリオ>
+
+  - id: REQ-002
+    statement: ...
+    rationale: ...
+    rationale_precision: needs-refinement
+    classification_hint: surface
+    external_source: <例 OpenAPI 3.1 / ffmpeg docs / デザイントークン>

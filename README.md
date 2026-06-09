@@ -11,6 +11,8 @@
 📘 **正規の方法論は [method/bomdd-method-v1.md](method/bomdd-method-v1.md)** — 実証済みの規則だけを束ねた薄い手順(E/M-BOM・K-BOM・Control Plan・FMEA・マルチファクトリ・受入の梯子・品質二軸)。
 🔬 **v2 — 別ドメインでも再現済み(N=3)**: 題材は MoviePad だけではない。**Web/API**(会議室予約)で BOM 補正により原版との差分が **2→3→0** に収束・多工場で **0/1/3**。**分散Saga**(非同期イベント駆動)で多工場(opus/sonnet/haiku)の**挙動契約が 0/0/0**=仕様面は全ティアへ転移し未規定面のみ分散。証拠リポ [BomDD-WebApi-Sample](https://github.com/akiramei/BomDD-WebApi-Sample)・[BomDD-DistributedSaga-Sample](https://github.com/akiramei/BomDD-DistributedSaga-Sample) / まとめ [FINDINGS.md §6](FINDINGS.md) / **自分の手で追う [reproduce-webapi-v2](docs/reproduce-webapi-v2.md)・[reproduce-saga-v2](docs/reproduce-saga-v2.md)**。
 
+🛠 **実用パイプライン(フォワード・モード): [method/bomdd-playbook-v1.md](method/bomdd-playbook-v1.md)** — 原版の無い新規開発(ブレスト→仕様→BOM・工程設計→AI製造→受入・収束)を回すための実践手順。リバースで実証した装置群(固定オラクル・隔離ファクトリ・ずる報告・マルチファクトリ分散)をフォワードへ移植した **prescriptive draft(未実証・forward ループで検証予定)**。付属: [沈黙次元カタログ](method/silence-checklist.md)(BOMが沈黙しがちな次元の掃討表)/ [テンプレ一式](method/templates/) / [フェーズ実行プロンプト](method/prompts/)(**実行手順の正典**。ツール固有の skill/slash command 化は forward-01 検証後に adapter 層として検討)。
+
 > **用語の注意**: 本研究の **S-BOM は一般的な SBOM(Software Bill of Materials)ではなく、Service BOM / 保守部品表**を指す。OSS 依存一覧はその一部に過ぎず、「何が影響し・何を再検査し・交換/再製造が要るか」を導く保守層である。概念は [docs/concept.md](docs/concept.md)、用語の固定は [docs/terminology.md](docs/terminology.md)。
 
 ## 方法 — アクションリサーチのループ
@@ -31,7 +33,11 @@ docs/               公開ドキュメント
   terminology.md      用語集(E/M/S/K-BOM・核/表面・ずる・鋳造の固定)
 FINDINGS.md         7ループ最終総括(核/表面の法則)
 method/             手法定義(ループ毎に進化)
-  bomdd-method-v1.md  ★正規の方法論(薄い版)
+  bomdd-method-v1.md  ★正規の方法論(薄い版・実証済み規則のみ)
+  bomdd-playbook-v1.md ★実用パイプライン(フォワード・モード/prescriptive draft)
+  silence-checklist.md 沈黙次元カタログ(BOM設計時の掃討表)
+  templates/          フォワード成果物テンプレ一式(00〜52)
+  prompts/            フェーズ実行プロンプト(Phase1〜5)
   cheat-taxonomy.md   ずるの分類・記録様式・製造装置の隔離規律
   improvements.md     手法改善ログ(各ループの効果測定)
   control-plan.md     製造条件表+検査計画(検査深さ/許容差/承認者)

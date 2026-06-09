@@ -1,0 +1,28 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: Fixed Oracle          # ★設計者のみ。製造装置に渡さない
+
+# 規律(method-v1 §5 / observation-schema-candidates §4.2, §6):
+#   - 仕様化済み契約だけを合否に入れる(未規定次元は 42-exploratory-probes へ)
+#   - 製造開始前に凍結(frozen_since に commit/tag)。収束ループ中は不変(同一ヤードスティック)
+#   - プローブ→オラクル昇格は次ループの開始時のみ(study 途中で足さない)
+#   - 等価規則: 契約セマンティクスを比較、付随表現は ignores に明記(検査器自身の L0 回避)
+#   - フォワードでは期待値を仕様から導く。期待値が書けない行=仕様の穴(Phase 2 へ差し戻し)
+
+fixed_oracle:
+  frozen_since: <commit/tag>
+  equivalence_rules:
+    - id: EQ-001
+      compares: [<契約セマンティクス 例 status code, error code, 状態遷移, 冪等の同一ID性>]
+      ignores: [<付随表現 例 JSON形状 map/array, キー綴り, ID 具体値, 日時の小数秒>]
+      normalization: <比較前の正規化>
+      rationale: <なぜ無視してよいか(契約に未規定/様式差)>
+
+  cases:
+    - id: S1
+      scenario: <決定的な入力(手順)>
+      contract_expectation: <仕様由来の期待(product behavior のみ)>
+      spec_ref: <期待値の典拠(仕様の節/REQ)>
+      equivalence_ref: EQ-001
+      depth: L3

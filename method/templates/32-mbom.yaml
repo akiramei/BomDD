@@ -1,0 +1,54 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: M-BOM
+
+# 受入3条件(method-v1 §3):
+#   完全性 = 全数値/全フィールドを規定(丸め・継承・既定値)
+#   無矛盾性 = AC 同士が矛盾しない(識別子ポリシー等)
+#   Control Plan 列 = 各 AC に深さ+許容差+承認者
+# FMEA を M-BOM 確定前に実施し、受入を狙い撃つ(Loop4)
+
+mbom:
+  manufacturing_units:
+    - id: M-<NAME>-001
+      ebom_refs:
+        - E-<NAME>-001
+      artifact:
+        path: <例 src/Project.Core>
+        type: <例 dotnet-classlib>
+      interface_contract:               # 公開契約(表面ユニットは特に厚く)
+        <key>: <value>
+      invariants:                       # 関係の不変条件。中身はドメイン固有(CHEAT-008)
+        - <例 シーク後の音声時刻は絶対時刻基準(seekBase)>
+        - <例 booking id は bk_ prefix + 16hex の内容ハッシュ>
+      acceptance_refs:
+        - CP-<NAME>-001
+      fmea_refs:
+        - FMEA-001
+
+    - id: M-ACCEPTANCE-HARNESS-001     # 治具は製品と同格に管理(Loop2.5,3,5)
+      artifact:
+        path: <例 test/Project.Acceptance>
+        type: <例 dotnet-console-acceptance>
+      verifies:
+        - M-<NAME>-001
+
+fmea:
+  - id: FMEA-001
+    unit: M-<NAME>-001
+    failure_mode: <故障モード(Phase 1 の反例を種に)>
+    effect: <影響>
+    targeted_by: CP-<NAME>-001          # この故障を狙い撃つ受入
+
+# 沈黙次元の第2回掃討(silence-checklist 全行。未宣言=ずるの温床)
+# ここでは deferred-to-phase3 は使えない。第1回掃討(20-spec.md §4)の
+# deferred 行を含む全行を specified / exploratory / out-of-scope に解消する
+silence_sweep:
+  - dimension: 丸め方式
+    decision: specified                 # specified | exploratory | out-of-scope
+    where: M-<NAME>-001 invariants
+    note: <例 MidpointRounding.AwayFromZero>
+  - dimension: 応答フィールド集合
+    decision: exploratory
+    note: <例 createdAt の有無は固定しない。probe P-03 で観測>

@@ -1,0 +1,24 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: As-Built
+
+# 製造来歴(SLSA provenance の AI 製造拡張)。1工場の1製造 = 1エントリ
+
+as_built:
+  - id: AB-<ループID>-factory-01
+    mbom_ref: bomdd/32-mbom.yaml@<commit/tag>
+    routing_ref: bomdd/34-routing.yaml@<commit/tag>
+    input_bom_tag: <供与した固定 BOM の tag>
+    ai_model: <例 claude-opus-4-8>
+    prompt_hash: <投入プロンプト(work order 全文)の sha256>
+    isolation: clean             # 設計対話・オラクル・前工場成果の非開示を確認
+    artifacts_sha256:
+      - path: <成果物>
+        sha256: <hash>
+    self_acceptance: <例 26/26 green>
+    inspections:                 # 設計者側オラクルの結果(Phase 5)
+      fixed_oracle: <例 0/16 差分(現固定オラクル被覆で未観測差分ゼロ)>
+      exploratory: <probe 結果への参照>
+    cheats:                      # 申告されたずるへの参照
+      - CHEAT-<ID>
