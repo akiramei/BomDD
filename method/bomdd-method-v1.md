@@ -3,6 +3,7 @@
 MoviePad 再実装の**7ループ**([../FINDINGS.md](../FINDINGS.md))で実証した規則だけを束ねた、最小の正規方法論。
 各規則に**根拠(ループ番号)**を付す。詳細な物語は FINDINGS、公開版は [../WHITEPAPER.md](../WHITEPAPER.md)、運用表は method/ 各ファイル。
 > **v1.1 addendum (v2 Web/API)** — 本書 §0–§7 の規則は **MoviePad 7ループ(v1)**で実証したもの。§5「受入の2層分離」と §6「差分帰属の3分類」は、**v2 Web/API(公開リポジトリ [BomDD-WebApi-Sample](https://github.com/akiramei/BomDD-WebApi-Sample)、webapi-01〜02)で追加された v1.1 規律**であり、本文中で「(v1.1, webapi-02)」と明示する。読者は v1(MoviePad)と v1.1(Web/API 追補)を区別されたい。根拠ループは `webapi-*`。
+> **v1.2 addendum (v2 分散Saga, N=3)** — 3題材目 [BomDD-DistributedSaga-Sample](https://github.com/akiramei/BomDD-DistributedSaga-Sample)(非同期イベント駆動、saga-01〜02)で2つの規律を追加。**(a) 観測契約**: HTTP のようなワイヤ境界が無い in-process 題材では、内部 C# 名に結合しない**観測契約**(固定シナリオを流し正規化イベントログ/dispatch trace を emit する I/F)を設計者側に置き、それで黒箱 2-way diff する。**(b) 検査器側の L0 回避**: 「オラクルは原版/慣習の付随表現(JSON 形状・キー綴り)でなく**契約セマンティクス**を見る」(§A の L0 過剰結合回避)は製造品だけでなく**検査器・観測契約の設計自身**に課す——saga で2度再発し補正した(events.json map/array、dispatch キー snake/camel)。C2(共有暗黙知)は製品だけでなく測定ハーネスの表現にも現れる。根拠ループは `saga-*`。
 
 ## 0. 第一原理 — 核と表面
 > 部品を「**ロジックの核**(要求から導出可・unitで検査・鋳造できる)」と
