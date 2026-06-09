@@ -129,3 +129,37 @@
 - **長期PLM**: AIモデル更新を S-BOM 劣化イベントとして扱う再製造差分管理。
 
 各ループ詳細: `loops/loop-0*-*/`。手法: `method/`(bomdd-method-v1 / control-plan / k-bom-ffmpeg / s-bom-template / cheat-taxonomy / improvements)。
+
+---
+
+## 6. v2 — Web/API での外部妥当性検証(別題材: 予約 API)
+
+§5 の最優先課題「別題材で核/表面の法則が再現するか」に着手。別リポジトリ **BomDD-WebApi-Sample**(会議室予約 API・.NET10 minimal API)で、機械可読 BOM(E/K/M-BOM・Control Plan・Routing・As-Built・Service BOM の YAML)から隔離再製造を回した。核=予約可否/重複/冪等/キャンセル期限、表面=HTTP status code・OpenAPI 契約・API key 認証・UTC 日時・JSON error schema。製造装置は原版非開示のクリーンなサブエージェント、採点は設計者側の**固定ブラックボックス HTTP オラクル**(原版と製造品の 2-way diff、内部C#名でなくHTTP契約で見る)。
+
+> **証拠リポジトリ(公開)**: [akiramei/BomDD-WebApi-Sample](https://github.com/akiramei/BomDD-WebApi-Sample) — 機械可読 BOM(`bomdd/`)・各ループ成果物(`loops/webapi-0*/`)・固定オラクル/探索プローブ・As-Built/metrics。コミット列:
+> [`35c3022`](https://github.com/akiramei/BomDD-WebApi-Sample/commit/35c3022) seed → [`7b3a4f2`](https://github.com/akiramei/BomDD-WebApi-Sample/commit/7b3a4f2) webapi-01(2/16)→ [`c46fe8b`](https://github.com/akiramei/BomDD-WebApi-Sample/commit/c46fe8b) 01.5(3/16)→ [`4eed25f`](https://github.com/akiramei/BomDD-WebApi-Sample/commit/4eed25f) 01.6(0/16, tag `webapi-02-input-bom`)→ [`84338b0`](https://github.com/akiramei/BomDD-WebApi-Sample/commit/84338b0) webapi-02 多工場(opus 0 / sonnet 1 / haiku 3)。
+
+### 6.1 単一ファクトリの収束 — BOM補正で鋳造性が漸近的に上がる
+| ループ | BOM | 原版との差分 | 何が起きたか |
+|---|---|---|---|
+| webapi-01 | seed | 2/16 | 冪等 fingerprint 構成未列挙→customerId 次元の機能差(blocker)/ リプレイ status 未規定 |
+| webapi-01.5 | 第1次補正 | 3/16 | 上記消失。代わりに別の未規定次元(エラーコード名・非Zオフセット)が露出 |
+| webapi-01.6 | 第2次補正 | 0/16 | 明記で解消(現固定オラクル被覆で未観測差分ゼロ) |
+
+各補正は毎回 baseline も前ファクトリも知らない fresh device で一致を出した=**修正はコーチングでなく BOM に宿る**。完全性は漸近(締めると別次元が顔を出す)。MoviePad の核/表面の法則・改善ループ(Loop1.5)が Web で再現した。
+
+### 6.2 マルチファクトリ(opus/sonnet/haiku)— 仕様面は転移・未規定面は分散
+締めた BOM を固定(tag 化)し 3 工場へ同一供与(BOM・オラクル不変)。固定オラクル層: **opus 0/16・sonnet 1/16・haiku 3/16**。差分を 3 分類すると:
+- **capable factory transfer**: opus 0(締めた BOM は能力ある工場へ完全転移。opus は2回とも 0/16=同ティア再現性)。
+- **unspecified BOM residue**: sonnet 1(`not_found` code 名は無指定。単一ティアでは慣習で隠れ、別ティアが露見=共有暗黙知 C2)。
+- **specified contract miss**: haiku 3(409=conflict を 400、code=unauthorized 欠落=明記済み契約の取りこぼし=**工場能力**)。
+
+探索プローブ層(合否非混在): ID 形式・ID 一意性・日時表現・応答スキーマが全工場で分散=**ばらつきは BOM が沈黙する場所に集中**。Loop4(K-BOM で工場間ばらつき消失)の Web 多工場版。
+
+### 6.3 v2 で言えること(N=2、引き続き「観測した範囲」)
+1. 核/表面の法則は **MoviePad 固有でなく Web/API でも再現**(2 題材目)。
+2. **BOM は差分を観測→補正→再製造で鋳造性を漸近的に上げる**(2→3→0)。
+3. 多工場で **仕様化済み契約は転移し、未規定の表面は分散**。差分は単なる「AI 差」でなく **BOM欠落 / 工場能力 / 探索的未規定面**に**分類できる**。
+
+記述規律: 全工場一致を「完全鋳造」と呼ばず「**現固定オラクル被覆で未観測差分ゼロ**」とする。詳細は BomDD-WebApi-Sample の `loops/webapi-0*/report*.md`・`metrics.yaml`。
+**Future Work**: 応答スキーマ・ID アルゴリズム・日時形式まで締めると探索層の分散が消えるか(webapi-02.5)。題材 N の拡大(分散/組込・リアルタイム)。

@@ -1,0 +1,7 @@
+loop,factory,bom_rev,raw_match_rate,targeted_fix_success,blocker_diffs,new_unspecified_diffs,specified_contract_miss,exploratory_variance_count,note
+webapi-01,factory-01(opus),seed,14/16,,1,2,0,,"S5/S7=BOM未規定残渣(fingerprint構成/replay status)。S7はblocker(REQ-003機能差)"
+webapi-01.5,factory-02(opus),rev1,13/16,2,0,3,0,,"S5/S7消失(targeted)。新たにS9/S10/S11=未規定(validation code名/非Zオフセット方針)"
+webapi-01.6,factory-03(opus),rev2,16/16,2,0,0,0,,"validation=invalid_request固定+literal-Z明記で0/16(現固定オラクル被覆で未観測差分ゼロ)"
+webapi-02,opus,rev2,0/16,,0,0,0,5,"capable factory transfer(締めたBOMが能力ある工場へ転移。opusは2回とも0/16)"
+webapi-02,sonnet,rev2,1/16,,0,1,0,5,"unspecified BOM residue=not_foundコード名(別ティアで露見=C2)"
+webapi-02,haiku,rev2,3/16,,0,0,3,5,"specified contract miss=409→400/code欠落(明記済み契約の取りこぼし=工場能力)"
