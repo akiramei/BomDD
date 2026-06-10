@@ -178,3 +178,49 @@
 > 証拠(公開): [akiramei/BomDD-DistributedSaga-Sample](https://github.com/akiramei/BomDD-DistributedSaga-Sample)。入力固定 tag `saga-02-input-bom`、結果固定 tag/release `v0.1-saga-multifactory`。コミット列 `cef17bf` seed → `5facf25` 設計者オラクル → `fbed7e7` saga-01(0/7)→ `ce21e52` saga-02(0/0/0)。再現手順 [docs/reproduce-saga-v2.md](docs/reproduce-saga-v2.md)。
 
 **N=3 で言える範囲**: 核/表面の法則と品質二軸(決定性=工場間ばらつき / 正しさ=受入)は、同期 GUI(MoviePad)・同期 HTTP(Web/API)・**非同期分散(Saga)**の3ドメインで再現した(観測した範囲。一般法則は引き続き未検証)。決定性は (a)工場能力 と (b)BOM 未規定 に分離して読む。
+
+---
+
+## 7. フォワード・モード — 原版なしの新規開発と変更オーダー(forward-01 / 01.5)
+
+§1–§6 はすべて「**原版あり**」(リバース→隔離再製造→原版との diff)の検証だった。実用の本丸である**原版が存在しない新規開発**(ブレスト→仕様→BOM→AI製造)へ方法論を移植した実践手順 [method/bomdd-playbook-v1.md](method/bomdd-playbook-v1.md) を、グリーンフィールド1題材で「**作れる**(初回製造)→**直せる**(仕様昇格の転移)→**保守できる**(変更オーダー)」の3段で検証した。題材: 図書貸出 API(.NET10 + SQLite。N=3 で最大の未検証領域だった**永続化**を意図的にスコープへ含めた)。Limitation: PO 役は設計者が代行(要求エリシテーションの忠実性は検証対象外)。
+
+> **証拠リポジトリ(公開)**: [akiramei/BomDD-LibraryLending-Sample](https://github.com/akiramei/BomDD-LibraryLending-Sample) — 機械可読 BOM 一式(`bomdd/` 00–60)・固定/移行オラクルと fixture(`oracle/`)・全工場成果物と採点/較正 JSON(`loops/`)。コミット列 [`30b8347`](https://github.com/akiramei/BomDD-LibraryLending-Sample/commit/30b8347) seed → [`4973080`](https://github.com/akiramei/BomDD-LibraryLending-Sample/commit/4973080) rev1(G3 補正, tag `forward-01-input-bom`)→ [`c368e66`](https://github.com/akiramei/BomDD-LibraryLending-Sample/commit/c368e66) forward-01(tag `v0.1-forward-01-baseline`)→ [`4f23d44`](https://github.com/akiramei/BomDD-LibraryLending-Sample/commit/4f23d44) rev2(tag `v0.2-forward-01-rev2`)→ [`cda7f17`](https://github.com/akiramei/BomDD-LibraryLending-Sample/commit/cda7f17) ECO-001 凍結(tag `forward-015-input`)→ [`deb5433`](https://github.com/akiramei/BomDD-LibraryLending-Sample/commit/deb5433) forward-01.5(tag `v0.3-forward-015`)。再現手順 [docs/reproduce-forward-01.md](docs/reproduce-forward-01.md)。
+
+### 7.1 原版 diff の代替装置が機能した — 初回 0 発進(forward-01)
+リバースの測定器は「原版との 2-way diff」に依存していた。フォワードでは置換装置を立てた: **仕様由来の固定オラクル**(オラクル・ファースト)/ **マルチリーダー仕様監査 G2**(原版でなく仕様を読ませる)/ **BOM 自己完結性ドライラン G3** / **K-BOM 事前抽出**(慣習判断を製造前に列挙・裁定)/ **多工場分散**(残った沈黙の検出器)。
+
+| 工場(fresh) | 自己受入 | 固定オラクル S01–S20 | 帰属 |
+|---|---|---|---|
+| opus | 24/24 | **20/20** | — |
+| sonnet | 22/22 | **20/20** | — |
+| haiku | 17/17(緑) | 6/20 | specified_contract_miss(工場能力: 自己受入緑のまま API 表面が実行時欠陥) |
+
+- **unspecified_bom_residue = 0(初回)**。webapi の 2/16 → 3/16 → 0/16 と対照的に、収束ループ 0 回で「現固定オラクル被覆で未観測差分ゼロ」へ到達した。解釈: G2(3体が曖昧 13–17 件を検出、共通指摘6件は全て「期待値が一意に書けない」級)・G3(7問+矛盾2件を製造前検出)・K-BOM 事前抽出(40+ 判断)が、リバースで収束ループに払っていたコストを**前倒しで払った**(N=1。一般化しない)。
+- 探索層の分散(ID 形式・小数秒・message 文面)は **exploratory 宣言済みの次元に正確に集中**。「ばらつきは BOM が沈黙する場所に集中する」がフォワードでも再現。
+
+### 7.2 仕様昇格は fresh 工場へ転移する(rev2)
+分散と解釈をユーザーへの質問リストに変換(フォワード固有の要求エリシテーション第2ラウンド)→ 裁定4点を仕様昇格(ID=接頭辞+32桁hex / 応答日時=秒精度 / null・空文字=400 / internal_error 追加)→ オラクル v2(S21–S23)。**v1 個体が S23 で FAIL することを確認した上で**(較正)、fresh 2工場が **23/23**。**修正はコーチングでなく BOM に宿る**(webapi 2→3→0 と同じ証明形式)。haiku-retry 19/23 はローカル TZ 混入の工場能力 — ただし v1 と違い test_vectors が自己受入で捕捉しており、故障モードが「自己に不可視」から「**可視だが未修正**」へ移行(赤のまま納品=manufacturing nonconformance として記録。以後 stop/report を work order に明文化)。
+
+### 7.3 変更オーダー(ECO)は BOM に宿り転移する — 「保守できる」の初回データ(forward-01.5)
+納品済み個体(v0.2 = factory-04 ビルド)への ECO-001(会員区分 standard=3冊 / premium=5冊 の導入+**v0.2 スキーマの自動移行**)を Phase 7 の型で実施: 影響分析と**影響なし予測を反証可能な形で製造前に凍結**→ 既存オラクル不変+追加 S24–S25+移行専用オラクル M01–M04(fixture=As-Maintained 個体の実 DB)→ fresh 2工場の部分改修(変更前ソース複製を事前コミット=diff 基準点)。
+
+| 測定 | opus | sonnet |
+|---|---|---|
+| 回帰 S01–S23(既存オラクル不変) | 23/23 | 23/23 |
+| 変更受入 S24–S25 | 2/2 | 2/2 |
+| 移行 M01–M04(fixture=実 v0.2 DB) | 4/4 | 4/4 |
+| 不要改変(影響分析外への diff) | **0** | **0** |
+
+- **影響なし予測が全的中**(under/over-inclusion 0)。S07(既定 standard=上限3)も予測どおり不変=「**既定値設計が既存オラクルを保存する**」が成立。
+- **移行方式が独立収束**: 両工場とも `PRAGMA user_version` + `ALTER TABLE ... DEFAULT`(DROP/CREATE なし)。K-BOM に追記した移行規律が方式を一意化(Loop4 の K-BOM 効果の保守版)。
+- データは**コードと違い再鋳造で交換できない**(gap-analysis §A3)ため、移行は専用オラクル+実データ fixture で黒箱検査した。
+- 粒度の発見: 小規模 ECO では M-BOM unit 粒度の影響集合が 3/3 に達し**絞り込み効果なし** → E-BOM 粒度+不要改変 diff 測定で代替(playbook §4.1 へ反映)。
+
+### 7.4 フォワード固有の構造リスク — 検査器は未検証のまま初回採点に臨む
+リバースでは原版が治具の検証相手だった。フォワードには居ない。実測: 検査器側ずる 2件(CHEAT-F01-H001 デシリアライザ暗黙日時変換=v1 採点を一時誤らせた / H002 PS 変数名大小非区別=**セルフテストが凍結前捕捉**)+ 1件(CHEAT-F015-H001 判定順序干渉=**較正が凍結前捕捉**)。v1.2「C2 は測定ハーネスにも現れる」の4–6例目。対策を3段で正式化(playbook §4.4): ①**治具セルフテスト**(静的)②**較正 negative control**(動的: 検査一式を既知個体へ実行し、既存行=PASS・変更行=FAIL の期待プロファイルと突合してから凍結)③等価規則の表現非依存。
+
+### 7.5 言える範囲と限界
+- **言える**(観測した範囲): 原版なしでも、置換装置の下で (1) 能力ある工場が初回 0 差分・残渣 0(7.1)(2) 裁定の仕様昇格が fresh へ転移(7.2)(3) **ECO が既存挙動と既存データを保ったまま fresh へ転移**(7.3)。「作れる」に加えて「**保守できる**」の初回データ。
+- **限界**: N=1 題材・変更1件・小規模(改修4ファイル)・影響分析が自明に近い規模・永続化は SQLite 単体・PO 役は設計者代行。次の検証対象は**影響グラフが非自明な規模の ECO**。
+- metrics 全数値: [bomdd/52-metrics.yaml](https://github.com/akiramei/BomDD-LibraryLending-Sample/blob/main/bomdd/52-metrics.yaml)(raw 一致率単独で報告しない規律のまま、blocker / 残渣 / targeted_fix / 不要改変 に分解)。
