@@ -71,6 +71,19 @@ BomDD の参照は、現行 baseline を構成する `active_structural_ref` と
 
 ECO/CAPA の編集中に一時的な不整合が生じることはあるが、製造凍結、PLM Gate、ECO 完了時点では `active_structural_ref` と `active_trace_ref` が active item だけを指していなければならない。
 
+legacy 成果物では、`lifecycle_state` が欠落している E-BOM item を active とみなす。欠落 item を非 active として除外すると、旧成果物の参照走査が空振りし、トレース切れを見逃すためである。PLM はこの場合 `legacy-lifecycle-defaulted` warning を出し、明示的な lifecycle migration を修復キューに載せる。
+
+PLM は参照エラーだけでなく、参照フィールドを認識できたかを検査する。artifact が存在するのに既知スキーマの参照フィールドを掴めない場合、`coverage-gap` または `unrecognized-schema` として stop する。これは「0件検出」を「問題なし」と誤解する vacuous pass を防ぐための規則である。
+
+UI-BOM / trace-map の既知参照フィールドは少なくとも次を含む:
+
+- `promotion.ebomItemRef`
+- `items[].ebomCandidate.items[]`(legacy UI-BOM 互換)
+- `meta.ebomItemsReferenced[]`
+- `ebomIntegrationCandidates[].suggestedEbomId`(`decision` が accepted/promoted のもの)
+- `mappings[].ebomItemRef`
+- `ebomPromotionDecisions[].ebomItemRef`
+
 ### `requirement_refs`
 
 - REQ への直接参照。
@@ -143,6 +156,9 @@ as_built:
 | broken dependency | depends_on の相手が存在しない | stop |
 | lineage-without-retirement | `supersedes` / `split_by` はあるが旧 item が active のまま | stop at PLM Gate |
 | reattribution-incomplete | split / supersede 後も旧 ID の active consumer が残る | stop at PLM Gate |
+| coverage-gap | artifact は存在するが、PLM が期待する参照フィールドを認識できない | stop at PLM Gate |
+| unrecognized-schema | artifact が既知スキーマでも migration 宣言済みスキーマでもない | stop at PLM Gate |
+| legacy-lifecycle-defaulted | lifecycle 欠落 item を active として後方互換処理した | warning + migration queue |
 
 ## 7. 修復キュー化
 

@@ -116,6 +116,8 @@ lifecycle_state: as-built
 
 active E-BOM item は `lifecycle_state` が `draft`、`ready-for-plm`、`manufacturing-ready` の item とする。`retired` と `superseded` は active 集合から除外する。
 
+legacy 成果物で `lifecycle_state` が欠落している E-BOM item は、後方互換のため **active とみなす**。PLM は `legacy-lifecycle-defaulted` warning を出し、migration queue に載せる。欠落を非 active とみなしてはならない。欠落=非 active にすると、旧成果物の active set が空になり、参照検査が vacuous pass するためである。
+
 PLM が検査する active E-BOM 参照:
 
 | 層 | active 参照フィールド |
@@ -124,8 +126,10 @@ PLM が検査する active E-BOM 参照:
 | M-BOM | active `manufacturing_units[].ebom_refs[]` |
 | Control Plan | `characteristics[].verifies[]` の `E-*` |
 | Service BOM | active/as-built `items[].part_ref` |
-| UI-BOM / trace-map | 昇格済み `promotion.ebomItemRef`, `ebomIntegrationCandidates[].suggestedEbomId`(`decision` が accepted/promoted のもの), `mappings[].ebomItemRef`, `ebomPromotionDecisions[].ebomItemRef` |
+| UI-BOM / trace-map | 昇格済み `promotion.ebomItemRef`, `items[].ebomCandidate.items[]`(legacy UI-BOM 互換), `meta.ebomItemsReferenced[]`, `ebomIntegrationCandidates[].suggestedEbomId`(`decision` が accepted/promoted のもの), `mappings[].ebomItemRef`, `ebomPromotionDecisions[].ebomItemRef` |
 | Design System BOM | 正式化済み `root.ebom_item_ref`, `coverage_matrix.owner`, active consumer refs |
+
+PLM は各 artifact について「期待した参照フィールドを実際に読めたか」を coverage として記録する。対象 artifact が存在するのに、既知スキーマの参照フィールドを 1 つも認識できない場合は、参照エラー 0 件として通さず `coverage-gap` / `unrecognized-schema` を出す。`0 stop findings` は「検査対象を読めた上で問題が無い」ことを意味し、「読めなかった」ことを意味してはならない。
 
 来歴参照として許可する場所:
 
@@ -145,6 +149,9 @@ PLM finding:
 | `stale-active-tracelink` | `status: active` TraceLink が `retired` / `superseded` ID を指す | stop at PLM Gate |
 | `lineage-without-retirement` | `supersedes` / `split_by` はあるが旧 item が active のまま | stop at PLM Gate |
 | `reattribution-incomplete` | split / supersede 後も旧 ID の active consumer が残る | stop at PLM Gate |
+| `coverage-gap` | artifact は存在するが、PLM が期待する参照フィールドを認識できず検査対象を掴めない | stop at PLM Gate |
+| `unrecognized-schema` | UI-BOM / Design System BOM / Service BOM などが既知スキーマでも migration 宣言済みスキーマでもない | stop at PLM Gate |
+| `legacy-lifecycle-defaulted` | `lifecycle_state` 欠落 item を後方互換で active とみなした | warning + migration queue |
 
 ## 4. 最小粒度
 
