@@ -14,7 +14,22 @@ requirements:
     rationale: <なぜこの要求か。許容差・深さが決まる精度で>
     rationale_precision: ok        # ok | needs-refinement(G1 で ok に揃える)
     classification_hint: core      # core(要求から導出可) | surface(外部知識の転記が要る)
+    priority: must                 # must | should | could
+    source_refs:                   # 人間が置いた原典資料。PLM intake から逆引きする
+      - bomdd/plm-intake/<source>.md
     external_source: ~             # surface の場合の出所(ツール仕様/デザインシステム/プロトコル)
+    acceptance_intent:             # まだ Control Plan ではない。検査深さの意図を先に置く
+      depth_hint: unit             # unit | L1 | L2 | L3 | G
+      tolerance_hint: exact
+      approver_hint: automated
+    trace_links:
+      - trace_id: TL-REQ-SPEC-001
+        from: REQ-001
+        to: bomdd/20-spec.md#<section>
+        relation: specified-by
+        status: proposed
+    lifecycle_state: draft         # draft | ready-for-plm | retired
+    unresolved_questions: []
     counterexamples:               # AI 反例生成の結果(FMEA の種)
       - <この要求が破られるシナリオ>
 
@@ -24,3 +39,17 @@ requirements:
     rationale_precision: needs-refinement
     classification_hint: surface
     external_source: <例 OpenAPI 3.1 / ffmpeg docs / デザイントークン>
+    acceptance_intent:
+      depth_hint: L2
+      tolerance_hint: <例 required metadata fields present>
+      approver_hint: automated
+    unresolved_questions:
+      - question_id: UQ-REQ-002-001
+        question: <この要求を固定するために人間へ聞くこと>
+        severity: blocker
+
+# PLM-ready checklist:
+#   - 全 REQ が id / statement / rationale / rationale_precision / acceptance_intent を持つ
+#   - rationale_precision=needs-refinement の REQ は G1 未通過
+#   - surface 要求は external_source または K-BOM 候補を持つ
+#   - 各 REQ は最終的に 20-spec.md と 30-ebom.yaml へ TraceLink される

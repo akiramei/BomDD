@@ -1,18 +1,23 @@
-# Change Order — <ECO-ID>(Phase 7 変更オーダー)
+# Change / Corrective Order — <ECO/CAPA-ID>(Phase 7 変更/是正オーダー)
 
-> 納品後の仕様変更・機能追加の再入口(playbook §8・candidate / forward-01.5 で1回検証済み)。
+> 納品後の仕様変更・機能追加・欠陥是正の再入口(playbook §8・candidate / forward-01.5 で1回検証済み)。
 > 規律: 影響分析で**絞り込み**+**影響なし予測の先行凍結**、部分再製造は fresh factory、既存固定オラクルは**不変**(回帰のヤードスティック)。
-> 詳細ワークシート: 影響分析=[61-impact-analysis.md](61-impact-analysis.md) / データ移行=[62-migration-oracle.md](62-migration-oracle.md) / 不要改変監査=[63-diff-audit.md](63-diff-audit.md)。
+> 欠陥是正の規律: 直接ソース修正から始めない。まず Phase 5 の帰属調査で `spec_omission / bom_sync_gap / oracle_gap / manufacturing_miss / harness_bug` を決め、原因が仕様/BOM/検査器なら上流成果物を改訂・同期してから再製造する。
+> 詳細ワークシート: 影響分析=[61-impact-analysis.md](61-impact-analysis.md) / データ移行=[62-migration-oracle.md](62-migration-oracle.md) / 不要改変監査=[63-diff-audit.md](63-diff-audit.md) / 部品分割・置換=[64-part-lineage-reattribution.md](64-part-lineage-reattribution.md)。
 
 ## 0. 変更前 baseline の凍結
 - As-Maintained 個体: <どの工場のどのビルドを改修するか(tag/commit)>
 - データ fixture(永続データを持つ題材): <実データ DB+期待値 manifest(62 §1)>
 - 既存固定オラクル: <S-行の範囲。凍結済み・不変>
 
-## 1. 変更要求
-- ECO-ID:
-- 変更内容(1〜3行):
+## 1. 変更/欠陥要求
+- ID:
+- 発生契機: 仕様変更 / 機能追加 / ユーザー指摘 / 固定オラクル失敗 / 探索プローブ / 保守イベント
+- 内容(1〜3行):
 - 種別: REQ 追加 / REQ 改訂 / 欠陥修正(=劣化部品の交換)
+- 欠陥帰属(欠陥修正時): spec_omission / bom_sync_gap / oracle_gap / manufacturing_miss / harness_bug
+- 観測と再現手順(欠陥修正時):
+- 原因が宿った上流成果物:
 - REQ への反映: <REQ-xxx 新規 or 改訂。根拠精度の規律(G1)を適用>
 
 ## 2. 影響分析(トレース逆引き+影響なし予測)
@@ -29,6 +34,8 @@
 ## 3. BOM 改訂
 - bom_rev: <旧> → <新>(tag: )
 - 改訂ファイル:
+- 部品分割・置換がある場合: [64-part-lineage-reattribution.md](64-part-lineage-reattribution.md) を作り、旧 ID の active 参照を全て再帰属する
+- 同期確認: REQ / 仕様 / E-BOM / K-BOM / M-BOM / Control Plan / Oracle / Routing / Work Order
 - **変更分の受入を先に追加**(オラクル・ファースト): 新オラクル行 / test_vectors / Control Plan 行 / 移行オラクル(スキーマ変更時。62):
 - **治具の凍結条件**: セルフテスト+**較正**(変更前個体に対し既存行=PASS・新規行=FAIL。playbook §4.4):
 

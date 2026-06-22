@@ -12,13 +12,26 @@ bomdd:
 mbom:
   manufacturing_units:
     - id: M-<NAME>-001
+      name: <製造単位名>
+      purpose: <この単位で何を製造し、工程管理者が何を把握できるか>
+      lifecycle_state: draft            # draft | ready-for-plm | manufacturing-ready | retired
+      granularity:
+        level: unit
+        rationale: <独立に製造・自己受入・As-Built 記録できる理由>
       ebom_refs:
         - E-<NAME>-001
+      kbom_refs: []
       artifact:
         path: <例 src/Project.Core>
         type: <例 dotnet-classlib>
+      planned_output_artifact_ref: <例 src/Project.Core>
       interface_contract:               # 公開契約(表面ユニットは特に厚く)
         <key>: <value>
+      display_contract:                 # UI/帳票 surface の場合(30-ebom.yaml display_contracts から転記)
+        refs:
+          - DC-<SCREEN>-001
+        required_elements:
+          - DE-001                      # サムネイル/ファイル名/状態表示など。欠落は仕様 omission として扱う
       invariants:                       # 関係の不変条件。中身はドメイン固有(CHEAT-008)
         - <例 シーク後の音声時刻は絶対時刻基準(seekBase)>
         - <例 booking id は bk_ prefix + 16hex の内容ハッシュ>
@@ -26,13 +39,30 @@ mbom:
         - CP-<NAME>-001
       fmea_refs:
         - FMEA-001
+      depends_on: []
+      routing_refs:
+        - ROUTE-MANUFACTURE-<NAME>-001
+      trace_links:
+        - trace_id: TL-E-M-001
+          from: E-<NAME>-001
+          to: M-<NAME>-001
+          relation: realizes
+          evidence: bomdd/32-mbom.yaml
+          status: active
+      unresolved_questions: []
 
     - id: M-ACCEPTANCE-HARNESS-001     # 治具は製品と同格に管理(Loop2.5,3,5)
+      name: Acceptance harness
+      purpose: Produce and maintain the acceptance fixture used by Control Plan rows.
+      lifecycle_state: draft
       artifact:
         path: <例 test/Project.Acceptance>
         type: <例 dotnet-console-acceptance>
+      planned_output_artifact_ref: <例 test/Project.Acceptance>
       verifies:
         - M-<NAME>-001
+      acceptance_refs:
+        - CP-HARNESS-SELFTEST-001
 
 # 調達部品表(製造業 M-BOM の購入部品に相当 — gap-analysis §B1)
 # ここに無いパッケージを使う判断は ずる報告対象(work order に明示)。
@@ -43,9 +73,11 @@ procurement:
     rationale: <選定理由>
     license: <例 MIT>
     substitutable: false                # 工場が同等品へ代替してよいか
+    kbom_ref: K-<NAME>-001
+    service_bom_ref: SB-<NAME>-001
 
 fmea:
-  - id: FMEA-001
+  - fmea_id: FMEA-001
     unit: M-<NAME>-001
     failure_mode: <故障モード(Phase 1 の反例を種に)>
     effect: <影響>
@@ -55,6 +87,10 @@ fmea:
 # ここでは deferred-to-phase3 は使えない。第1回掃討(20-spec.md §4)の
 # deferred 行を含む全行を specified / exploratory / out-of-scope に解消する
 silence_sweep:
+  - dimension: 表示要素集合・原典表示パリティ
+    decision: specified
+    where: 30-ebom.yaml display_contracts / CP-<NAME>-DISPLAY-001
+    note: <原典の提示要素を全列挙し、対象外は理由付きで記録>
   - dimension: 丸め方式
     decision: specified                 # specified | exploratory | out-of-scope
     where: M-<NAME>-001 invariants
@@ -62,3 +98,9 @@ silence_sweep:
   - dimension: 応答フィールド集合
     decision: exploratory
     note: <例 createdAt の有無は固定しない。probe P-03 で観測>
+
+# PLM-ready checklist:
+#   - 各 manufacturing_unit は ebom_refs / planned_output_artifact_ref / acceptance_refs / routing_refs を持つ
+#   - procurement に無い外部依存は Work Order のずる報告対象
+#   - silence_sweep に deferred-to-phase3 は残さない
+#   - acceptance harness も製品と同格の M-BOM unit として扱う

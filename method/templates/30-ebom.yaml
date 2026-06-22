@@ -5,20 +5,53 @@ bomdd:
 
 # 規律(method-v1 §2):
 #   - 核/表面で型分け。核は requirement_refs 必須、表面は external_source_ref 必須
+#   - 原典ありの UI/帳票 surface は表示要素集合を仕様から受け取り、各要素を部品または受入へトレース
 #   - 木でなくグラフ(woven 部品に owner/consumers)
 #   - 表面の変更は defect でなく知識更新
 
 ebom:
+  ui_sources:                           # UI-IR/UI-BOM を前段に使った場合の trace 入力(candidate)
+    - ui_ir_ref: bomdd/ui/ui-ir.json
+      ui_bom_ref: bomdd/ui/ui-bom.json
+      ui_trace_map_ref: bomdd/ui/ui-trace-map.json
+      extraction_report_ref: bomdd/ui/extraction-report.md
+      design_system_bom_ref: bomdd/35-design-system-bom.yaml
+
+  display_contracts:                   # 原典あり/UI surface の場合に必須(仕様 §2.x 表示契約から転記)
+    - contract_id: DC-<SCREEN>-001
+      original_ref: <原典画面/旧版 build/tag/スクリーンショット>
+      elements:
+        - element_id: DE-001
+          name: <例 サムネイル>
+          source: original              # original | requirement | design-token
+          requirement_refs: [REQ-001]
+          ebom_item_ref: E-<NAME>-001
+          acceptance_ref: CP-<NAME>-DISPLAY-001
+          out_of_scope_reason: ~
+
   items:
     - id: E-<NAME>-001
       name: <部品名>
+      purpose: <この設計部品が存在する理由を1文で>
       classification: core              # core | surface
       rationale_type: requirement       # requirement | defect-class | constraint | external-knowledge | design-token
+      lifecycle_state: draft            # draft | ready-for-plm | manufacturing-ready | superseded | retired
+      lineage:                          # split/supersede の来歴。active 構造参照ではない
+        supersedes: []                  # この item が置き換える旧 E-BOM ID
+        superseded_by: []               # この item を置き換える後継 E-BOM ID
+        split_by: []                    # この item が分割された後継 E-BOM ID 群
+        change_ref: ~                   # ECO/CAPA または change register
+      granularity:
+        level: component                # feature | component | display-contract | data-contract
+        rationale: <独立に検索・分類・トレース・検査できる単位である理由>
       requirement_refs:                 # core は必須
         - REQ-001
       external_source_ref: ~            # surface は必須(K-BOM ID か出所)
       kbom_refs: []                     # 参照する知識部品
+      display_contract_refs: []         # UI/帳票 surface の場合 DC/DE を参照
+      design_system_refs: []            # UI-CAD surface の場合 E-DESIGN-* / K-DESIGN-* を参照
       depends_on: []
+      dependency_rationale: <depends_on がある場合、その理由>
       graph_edges:                      # woven(横断)部品のみ
         owner: ~
         consumers: []
@@ -26,11 +59,64 @@ ebom:
         - <この部品が守る不変条件>
       acceptance_refs:                  # → Control Plan の特性 ID
         - CP-<NAME>-001
+      planned_output_artifact_ref: <例 src/Project.Core/<Name>.cs>
+      trace_links:
+        - trace_id: TL-REQ-E-001
+          from: REQ-001
+          to: E-<NAME>-001
+          relation: satisfies
+          evidence: bomdd/20-spec.md#<section>
+          status: active
+      unresolved_questions: []
+
+    # UI surface の粒度例: HTMLタグではなく、表示契約と操作/状態を持つ単位にする
+    - id: E-CHECKOUT-SUMMARY-001
+      name: Checkout summary surface
+      purpose: Display selected items, totals, error/empty states, and submit readiness.
+      classification: surface
+      rationale_type: design-token
+      lifecycle_state: ready-for-plm
+      lineage:
+        supersedes: []
+        superseded_by: []
+        split_by: []
+        change_ref: ~
+      granularity:
+        level: display-contract
+        rationale: One screen region maps to DC-CHECKOUT-001 and CP-CHECKOUT-DISPLAY-001.
+      requirement_refs: [REQ-UI-001]
+      external_source_ref: K-DESIGN-SYSTEM-001
+      kbom_refs: [K-DESIGN-SYSTEM-001]
+      display_contract_refs: [DC-CHECKOUT-001]
+      design_system_refs: [E-DESIGN-CARD-001, K-DESIGN-SYSTEM-001]
+      depends_on: []
+      dependency_rationale: ~
+      invariants:
+        - All required display elements in DC-CHECKOUT-001 remain visible in normal, empty, and error states.
+      acceptance_refs: [CP-CHECKOUT-DISPLAY-001]
+      planned_output_artifact_ref: src/App/CheckoutSummary.tsx
+      trace_links:
+        - trace_id: TL-DC-E-001
+          from: DC-CHECKOUT-001
+          to: E-CHECKOUT-SUMMARY-001
+          relation: satisfies
+          evidence: bomdd/ui/checkout/ui-trace-map.json
+          status: active
+      unresolved_questions: []
 
 # NFR 目標値(candidate — playbook §4.1 三分割: 目標値=E-BOM / 実現=M-BOM / 検証=Control Plan)
 # 「速い」等の未測定形は置けない(G2' で unmeasurable=仕様未完成)
 nfr_targets:
-  - id: NFR-001
+  - nfr_id: NFR-001
     statement: <測定可能な目標値+条件(例 予約作成 API p95 レイテンシ < 200ms @ 100 req/s)>
     requirement_refs: [REQ-001]
     verified_by: CP-NFR-001             # → Control Plan の NFR 特性行(原則 L3 execution measurement)
+
+# PLM-ready checklist:
+#   - 各 item は id/name/purpose/classification/lifecycle_state/granularity を持つ
+#   - lifecycle_state が superseded / retired の item は active graph から除外される
+#   - superseded / retired ID は lineage や ECO 本文には残してよいが、active depends_on / consumers / M-BOM ebom_refs / Control Plan verifies / Service BOM part_ref へ残さない
+#   - core item は requirement_refs を持つ
+#   - surface item は requirement_refs / display_contract_refs / kbom_refs のいずれかを持つ
+#   - 各 item は acceptance_refs を持つ
+#   - M-BOM へ渡す予定の item は planned_output_artifact_ref または M-BOM unit への TraceLink を持つ

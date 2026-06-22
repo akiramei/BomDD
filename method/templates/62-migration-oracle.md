@@ -1,4 +1,4 @@
-# Migration Oracle — <ECO-ID> データ移行専用オラクル(Phase 7)
+# Migration Oracle — <ECO/CAPA-ID> データ移行専用オラクル(Phase 7)
 
 > データは**コードと違い再鋳造で交換できない**(永続状態が残る。gap-analysis §A3)。スキーマ変更を伴う ECO では、回帰(既存固定オラクル)と別に**移行専用オラクル**を立てる。
 > 工場非開示: **オラクル実装と fixture の期待値(manifest)は工場へ渡さない**。移行要件(REQ)としての仕様は渡す。

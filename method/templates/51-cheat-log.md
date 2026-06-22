@@ -11,5 +11,7 @@
 - 代替した従来技術/判断:
 - 重大度: blocker / friction / minor
 - 差分帰属: unspecified_bom_residue / specified_contract_miss / exploratory_unspecified_surface / observer_*
+- 欠陥帰属(ユーザー指摘・受入失敗時): spec_omission / bom_sync_gap / oracle_gap / manufacturing_miss / harness_bug / n/a
+- 是正経路: 仕様改訂 / BOM同期 / オラクル追加・較正 / fresh再製造 / 治具修正 / 緊急封じ込め(正式是正ではない)
 - 想定される手法的修正(次ループで BOM/工程/検査器をどう直すか):
 - ユーザー裁定(Phase 5): 仕様に昇格 / 探索のまま / 対象外

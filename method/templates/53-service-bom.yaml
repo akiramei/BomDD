@@ -10,24 +10,48 @@ bomdd:
 service_bom:
   items:
     - id: SB-<NAME>-001
+      name: <保守対象名>
+      purpose: <障害・依存更新・AIモデル更新から何を逆引きするか>
+      lifecycle_state: as-built
       part_ref: E-<NAME>-001            # 監視対象の部品(表面が主対象。核は外部知識非依存なら原則巻き込まない)
       classification: surface           # core | surface
       external_deps:                    # 依存する外部知識(劣化イベントはここに紐づく)
         - kbom_ref: K-<NAME>-001
           version: v1
+          change_signal: <例 upstream release / security advisory / design token revision>
       acceptance_depth: L2              # 保証の再確認に必要な検査深さ(unit/L1/L2/L3/G)
       as_built_ref: AB-<ループID>-factory-01   # 現在稼働している build(50-as-built.yaml)
       reinspect_on_change:              # 外部知識の変更時に再実行する検査
         - cp_ref: CP-<NAME>-001
+          depth: L2
           fixture: <治具(受入ハーネス)>
+      reverse_lookup_keys:
+        - <例 error code / package name / UI component / table name>
       ai_model_drift: ~                 # AI モデル更新を劣化イベントとして扱う場合の再製造差分メモ
       replacement_decision_vocabulary: 交換不要 / K-BOM更新のみ(再認証) / 再製造必要
+      trace_links:
+        - trace_id: TL-K-SB-001
+          from: K-<NAME>-001
+          to: SB-<NAME>-001
+          relation: maintains
+          evidence: bomdd/53-service-bom.yaml
+          status: active
+      unresolved_questions: []
 
 # 劣化イベントの記録(発生時に追記)
 degradation_events:
-  - id: DEG-001
+  - event_id: DEG-001
     event: <例 K-HTTP-REST-001 を v2 へ更新(404 の応答形式変更)>
+    detected_at: <YYYY-MM-DD>
+    source_ref: <リリースノート/障害報告/サポート問い合わせ>
     affected:                           # S-BOM 逆引きの結果(依存部品だけ。他は再検査不要)
       - SB-<NAME>-001
     reinspection_result: ~              # 合格→K-BOM更新のみ / 不合格→再製造必要
     decision: ~
+
+# PLM-ready checklist:
+#   - part_ref は E-BOM item を指す
+#   - external_deps.kbom_ref は K-BOM item を指す
+#   - as_built_ref は 50-as-built.yaml の実在 ID を指す
+#   - reinspect_on_change.cp_ref は Control Plan の実在 ID を指す
+#   - 障害時に reverse_lookup_keys から該当 SB item を検索できる

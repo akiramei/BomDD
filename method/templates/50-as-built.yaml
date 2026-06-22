@@ -7,8 +7,11 @@ bomdd:
 
 as_built:
   - id: AB-<ループID>-factory-01
+    lifecycle_state: as-built
+    work_order_ref: bomdd/40-work-order.md@<commit/tag>
     mbom_ref: bomdd/32-mbom.yaml@<commit/tag>
     routing_ref: bomdd/34-routing.yaml@<commit/tag>
+    control_plan_ref: bomdd/33-control-plan.yaml@<commit/tag>
     input_bom_tag: <供与した固定 BOM の tag>
     ai_model: <例 claude-opus-4-8>
     prompt_hash: <投入プロンプト(work order 全文)の sha256>
@@ -20,5 +23,31 @@ as_built:
     inspections:                 # 設計者側オラクルの結果(Phase 5)
       fixed_oracle: <例 0/16 差分(現固定オラクル被覆で未観測差分ゼロ)>
       exploratory: <probe 結果への参照>
+    test_evidence_refs:
+      - evidence_id: TE-<ループID>-001
+        cp_ref: CP-<NAME>-001
+        result: pass              # pass | fail | blocked | not-run
+        evidence_path: bomdd/plm-intake/sync-results/<evidence>.json
+        observed_at: <YYYY-MM-DDTHH:mm:ssZ>
+        notes: <Control Plan の depth/tolerance に照らした判定>
     cheats:                      # 申告されたずるへの参照
       - CHEAT-<ID>
+    trace_links:
+      - trace_id: TL-M-AB-001
+        from: M-<NAME>-001
+        to: AB-<ループID>-factory-01
+        relation: records
+        evidence: bomdd/50-as-built.yaml
+        status: active
+      - trace_id: TL-AB-SB-001
+        from: AB-<ループID>-factory-01
+        to: SB-<NAME>-001
+        relation: maintains
+        evidence: bomdd/53-service-bom.yaml
+        status: proposed
+
+# PLM-ready checklist:
+#   - artifacts_sha256.path は M-BOM output_artifact_ref と対応する
+#   - test_evidence_refs.cp_ref は Control Plan の実在 ID を指す
+#   - self_acceptance が赤のままの場合、納品ではなく manufacturing nonconformance
+#   - As-Built は Service BOM から逆引きできる

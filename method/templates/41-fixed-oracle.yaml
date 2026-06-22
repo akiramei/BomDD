@@ -9,6 +9,8 @@ bomdd:
 #   - プローブ→オラクル昇格は次ループの開始時のみ(study 途中で足さない)
 #   - 等価規則: 契約セマンティクスを比較、付随表現は ignores に明記(検査器自身の L0 回避)
 #   - フォワードでは期待値を仕様から導く。期待値が書けない行=仕様の穴(Phase 2 へ差し戻し)
+#   - 原典あり UI/帳票の表示パリティは、凍結前に仕様化した display_contract を検査する。
+#     凍結後のオラクルが原典を直接見て期待値を補うのは禁止(それは仕様漏れの隠蔽になる)。
 
 fixed_oracle:
   frozen_since: <commit/tag>
@@ -25,5 +27,6 @@ fixed_oracle:
       scenario: <決定的な入力(手順)>
       contract_expectation: <仕様由来の期待(product behavior のみ)>
       spec_ref: <期待値の典拠(仕様の節/REQ)>
+      display_contract_refs: []        # UI/帳票 surface の場合 DC/DE を参照
       equivalence_ref: EQ-001
       depth: L3

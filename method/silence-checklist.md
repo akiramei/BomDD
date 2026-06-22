@@ -14,6 +14,8 @@
 > **未宣言=ずるの温床**。N=3 で、工場間分散は常に BOM が沈黙する場所に正確に集中した。宣言済みの延期(deferred)と未宣言を区別するのが本表の役割。
 >
 > **本表は閉じていない**: 新しいドメイン・新しいループで観測された沈黙次元を追記して育てる(完全性は漸近)。各行に証拠を付すこと。
+>
+> **原典ありの移植・再現案件**: 画面や帳票などの「見えている表面」は、振る舞いとは別に**表示要素集合**を掃討する。原典に存在する表示フィールド・ラベル・画像・状態表示・空/エラー表示は、仕様/E-BOM/Control Plan のいずれかへトレースするか、理由付きで out-of-scope にする。凍結後の工場は原典を見ないため、原典表示パリティは G2/G2' の凍結前ゲートでしか検出できない。
 
 ## 1. 数値・量
 | 次元 | M-BOM に書くべき決定 | 証拠 |
@@ -97,6 +99,9 @@
 ## 11. UI・知覚(GUI 題材)
 | 次元 | M-BOM に書くべき決定 | 証拠 |
 |---|---|---|
+| UI 部品候補の昇格境界 | HTML モックから抽出した UI-IR / UI-BOM の各候補を、E-BOM item / display contract / Control Plan / K-BOM / traceのみ のどれに置くか。装飾 wrapper は nonBom と理由を書く。 | [ui-ir-ui-bom.md](ui-ir-ui-bom.md)(candidate) |
+| デザインシステム部品カバレッジ | Card / CTA / TypeChip / ConditionChip / CandidateValueChip / Badge / IconButton / SectionHeader / HelpBox / DragHandle を E-DESIGN-* と K-DESIGN-* に構築し、各 UI-BOM surface item へ適用する。未構築なら素 panel/text/button に退化する。 | 実プロジェクト visual-gap-tag-tab フィードバック(Design System BOM 欠落) |
+| 表示要素集合・原典表示パリティ | 原典画面/帳票に存在する提示フィールド、ファイル名、サムネイル、ラベル、アイコン、状態表示、空/エラー表示を全列挙し、各要素を仕様/E-BOM/Control Plan へトレースする。移植対象外なら理由付き out-of-scope。 | 2026-06 表示 omission defect escape(仕様に無い表示要素は下流で検出不能) |
 | レイアウト定数 | 寸法・余白・目盛りアルゴリズム(NiceStep 等)は設計知識=K-BOM/design-token | CHEAT-010 |
 | 配色・トークン | デザイントークンとして出所付きで転記(未規定の色は 32.5% 乖離した) | Loop3, CHEAT-011 |
 | 検査方式 | pixel-exact 禁止(既定)。golden+許容差(ΔE/SSIM)+**人間承認者** | CHEAT-006/011 |

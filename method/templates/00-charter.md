@@ -27,3 +27,48 @@
 - 固定オラクル全通過(=現固定オラクル被覆で未観測差分ゼロ)
 - blocker ずるゼロ
 - 納品物: 成果物 + bomdd/ 一式(BOM・オラクル・治具・As-Built・cheat-log)
+
+## 標準成果物パス
+<!-- 新規プロジェクトでは、まずこの一覧を作成予定として PLM に見せる。
+     不要なものは削除せず not-applicable と理由を書く。 -->
+- `bomdd/00-charter.md`
+- `bomdd/10-requirements.yaml`
+- `bomdd/20-spec.md`
+- `bomdd/ui/mock/`
+- `bomdd/ui/**/ui-ir.json`
+- `bomdd/ui/**/ui-bom.json`
+- `bomdd/ui/**/ui-trace-map.json`
+- `bomdd/db/`
+- `bomdd/30-ebom.yaml`
+- `bomdd/31-kbom.yaml`
+- `bomdd/32-mbom.yaml`
+- `bomdd/33-control-plan.yaml`
+- `bomdd/34-routing.yaml`
+- `bomdd/35-design-system-bom.yaml`(UI-CAD 案件のみ必須。非UI案件は not-applicable)
+- `bomdd/40-work-order.md`
+- `bomdd/50-as-built.yaml`
+- `bomdd/53-service-bom.yaml`
+- `bomdd/plm-intake/`
+
+## 実装開始 Gate
+<!-- AI はこの Gate が通るまで実装を始めない。 -->
+| Gate | 判定 | 証跡 |
+|---|---|---|
+| G0 Intake | pass / fail | 人間が最初に配置した資料一覧 |
+| G1 Requirements | pass / fail | `10-requirements.yaml` |
+| G2 Spec | pass / fail | `20-spec.md` |
+| G2' Measurement | pass / fail | `33-control-plan.yaml` |
+| G3 BOM dry run | pass / fail | `bomdd/plm-intake/00-index.md` / `bomdd/plm-intake/{CandidateNo}.md` |
+| PLM Gate | pass / fail | PLM sync result |
+
+## PLM 同期方針
+- 初回同期タイミング: `00/10/20` 作成後
+- 製造前同期タイミング: `30-34/40` 作成後
+- 指摘の修復先: `bomdd/plm-intake/00-index.md` と `bomdd/plm-intake/{CandidateNo}.md`
+- stop finding がある場合: 実装開始しない
+
+## 未解決事項
+<!-- 推測で埋めず、質問として残す。blocker は Gate を止める。 -->
+| ID | Question | Severity | Owner | Target artifact | Status |
+|---|---|---|---|---|---|
+| UQ-001 | <最初に人間へ確認すること> | blocker / non-blocker | human / AI | 10 / 20 / 30 / 31 / 32 / 33 | open |

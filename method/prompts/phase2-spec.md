@@ -6,6 +6,8 @@
 テンプレ `method/templates/20-spec.md` で `bomdd/20-spec.md` を作る。必須:
 - 各節に REQ トレース(双方向: 宙に浮いた節・実現されない REQ をゼロに)
 - **不変条件の節**(識別子採番・座標系/基準系・冪等性・順序)
+- 原典ありの UI/帳票 surface は**表示契約**を書く。原典に見える提示フィールド・ラベル・サムネイル・ファイル名・状態表示・空/エラー表示を全列挙し、移植対象外は理由を書く。
+- HTML モックが入力にある場合は、先に `method/prompts/ui-mock-to-ui-bom.md` で UI-IR / UI-BOM / trace map を作り、表示契約と E-BOM 候補の素材として使う。UI-BOM は候補であり、仕様・E-BOM への昇格前に未解決事項を確認する。
 - `method/silence-checklist.md` の**第1回掃討**: 全行を `specified / exploratory / out-of-scope / deferred-to-phase3` で宣言する(deferred は第1回のみ有効な明示的延期)。無言の先送り禁止。
 
 ## 2. ゲート G2 — マルチリーダー仕様監査
@@ -19,5 +21,8 @@
 - 状態: `adequate / unmeasurable / under-specified-oracle / insufficient-depth / human-approval-required`
 - `unmeasurable` の REQ は**仕様未完成**。知覚系→golden+許容差+承認者を計画 / in-process→観測契約を計画 / それでも測れない→ユーザーと要求を見直す。
 - 結果を仕様書末尾のゲート記録に書く。
+
+## 4. 原典パリティサインオフ(原典ありの場合)
+凍結後の工場は原典を見ないため、原典との比較でしか見つからない欠落はここで止める。表示要素集合を `仕様節 / REQ / E-BOM候補 / Control Plan候補` に仮トレースし、未トレース要素ゼロまたは理由付き out-of-scope を確認してから Phase 3 へ進む。
 
 完了したら Phase 3(`phase3-design.md`)へ。

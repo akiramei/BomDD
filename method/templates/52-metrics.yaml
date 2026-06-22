@@ -18,6 +18,11 @@ metric_runs:
     new_unspecified_diffs: ~       # 補正で新たに露出した未規定次元
     specified_contract_miss: ~     # 明記済み契約の取りこぼし(=工場能力)
     exploratory_variance_count: ~  # 探索層の分散次元数(合否外)
+    visual_gap_s1_count: ~         # UI-CAD vs 実機の S1(欠落/構造) gap 件数
+    visual_gap_s2_count: ~         # UI-CAD vs 実機の S2(設計言語) gap 件数
+    design_system_gap_causes: ~    # design_system_part_missing / design_system_not_applied / display_contract_gap / visual_manufacturing_miss
+    defect_escape_count: ~         # 固定オラクル/探索/自己受入を抜け、ユーザー確認・後工程で見つかった欠陥
+    defect_escape_causes: ~        # spec_omission / bom_sync_gap / oracle_gap / design_system_part_missing / display_contract_gap / manufacturing_miss / harness_bug の内訳
     # フォワード固有(playbook §9)
     g3_dryrun_questions: ~         # G3 ドライランが検出した質問数
     user_rulings: ~                # Phase 5 質問リストの裁定数(昇格/探索/対象外)
