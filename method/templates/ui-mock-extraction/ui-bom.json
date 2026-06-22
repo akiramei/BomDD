@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "0.1-candidate",
+  "artifactType": "UI-BOM",
+  "bomType": "UI-BOM",
+  "status": "candidate",
+  "sourceUiIrRef": "ui-ir.json",
+  "items": [
+    {
+      "bomItemNo": "TMP-UI-SCR-0001",
+      "itemType": "screen",
+      "name": "<画面名>",
+      "sourceUiIds": [
+        "screen.<name>"
+      ],
+      "lifecycle": "candidate",
+      "promotion": {
+        "target": "displayContract",
+        "ebomItemRef": null,
+        "confidence": 0.0,
+        "notes": "<E-BOM display_contract または上位構成候補>"
+      },
+      "children": [
+        {
+          "bomItemNo": "TMP-UI-REG-0001",
+          "quantity": 1,
+          "usage": "main-workspace"
+        }
+      ]
+    },
+    {
+      "bomItemNo": "TMP-UI-REG-0001",
+      "itemType": "region",
+      "name": "<領域名>",
+      "sourceUiIds": [
+        "region.<name>"
+      ],
+      "lifecycle": "candidate",
+      "promotion": {
+        "target": "ebomItem",
+        "ebomItemRef": null,
+        "confidence": 0.0,
+        "notes": "<UI surface 部品または display_contract 候補>"
+      },
+      "children": [
+        {
+          "bomItemNo": "TMP-UI-CMP-0001",
+          "quantity": 1,
+          "usage": "uses"
+        }
+      ]
+    },
+    {
+      "bomItemNo": "TMP-UI-CMP-0001",
+      "itemType": "component",
+      "name": "<再利用部品名>",
+      "sourceUiIds": [
+        "component.<name>.<occurrence>"
+      ],
+      "variants": [],
+      "states": [],
+      "interactions": [
+        "action.<target>.<verb>"
+      ],
+      "domainConcepts": [
+        "domain.<concept>"
+      ],
+      "lifecycle": "candidate",
+      "promotion": {
+        "target": "ebomItem",
+        "ebomItemRef": null,
+        "kbomRefs": [],
+        "controlPlanCandidates": [
+          "CP-<NAME>-DISPLAY-001"
+        ],
+        "serviceBomCandidate": true,
+        "confidence": 0.0,
+        "notes": "<デザインシステムや UI ライブラリ依存があれば K-BOM へ>"
+      }
+    },
+    {
+      "bomItemNo": "TMP-UI-ACT-0001",
+      "itemType": "action",
+      "name": "<操作名>",
+      "sourceUiIds": [
+        "action.<target>.<verb>"
+      ],
+      "domainConcepts": [
+        "domain.<concept>"
+      ],
+      "requiresSpecLink": true,
+      "requiresTest": true,
+      "lifecycle": "candidate",
+      "promotion": {
+        "target": "specAndControlPlan",
+        "ebomItemRef": null,
+        "confidence": 0.0,
+        "notes": "<業務操作なら REQ/仕様/Control Plan へ接続>"
+      }
+    },
+    {
+      "bomItemNo": "TMP-UI-INP-0001",
+      "itemType": "input",
+      "name": "<入力項目名>",
+      "sourceUiIds": [
+        "input.<target>.<field>"
+      ],
+      "domainConcepts": [
+        "domain.<concept>"
+      ],
+      "dataFields": [
+        "<domain.field>"
+      ],
+      "requiresValidationSpec": true,
+      "requiresTest": true,
+      "lifecycle": "candidate",
+      "promotion": {
+        "target": "specAndMbom",
+        "ebomItemRef": null,
+        "confidence": 0.0,
+        "notes": "<データ項目・バリデーション・API 契約へ接続>"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "from": "TMP-UI-SCR-0001",
+      "to": "TMP-UI-REG-0001",
+      "relationType": "contains"
+    },
+    {
+      "from": "TMP-UI-REG-0001",
+      "to": "TMP-UI-CMP-0001",
+      "relationType": "uses"
+    },
+    {
+      "from": "TMP-UI-CMP-0001",
+      "to": "TMP-UI-ACT-0001",
+      "relationType": "supportsAction"
+    }
+  ],
+  "designSystemRequirements": [
+    {
+      "uiBomItemNo": "TMP-UI-CMP-0001",
+      "requiredDesignParts": [
+        "E-DESIGN-CARD-001",
+        "E-DESIGN-TYPE-CHIP-001",
+        "E-DESIGN-CTA-BUTTON-001"
+      ],
+      "kbomDesignKnowledge": [
+        "K-DESIGN-TOKENS-001",
+        "K-DESIGN-CHIP-SEMANTICS-001"
+      ],
+      "coverageStatus": "candidate",
+      "gapIfMissing": "<実機が素の panel/text/button に退化する>",
+      "notes": "<35-design-system-bom.yaml へ転記>"
+    }
+  ],
+  "ebomIntegrationCandidates": [
+    {
+      "uiBomItemNo": "TMP-UI-CMP-0001",
+      "suggestedEbomId": "E-<NAME>-001",
+      "suggestedClassification": "surface",
+      "rationaleType": "design-token",
+      "requirementRefs": [],
+      "displayContractRefs": [],
+      "kbomRefs": [],
+      "controlPlanRefs": [
+        "CP-<NAME>-DISPLAY-001"
+      ],
+      "decision": "candidate",
+      "notes": "<正式昇格前にユーザー確認>"
+    }
+  ]
+}

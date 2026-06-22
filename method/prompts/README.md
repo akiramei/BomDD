@@ -7,6 +7,7 @@
 | [phase0-charter.md](phase0-charter.md) | チャーター(工場構成・予算・役割の固定) | G0 固定項目完備 |
 | [phase1-brainstorm.md](phase1-brainstorm.md) | ブレスト→要求台帳 | G1 根拠精度 |
 | [phase2-spec.md](phase2-spec.md) | 仕様化 | G2 マルチリーダー監査 / G2' 測定可能性 |
+| [ui-mock-to-ui-bom.md](ui-mock-to-ui-bom.md) | UIモック抽出(candidate) | UI-IR / UI-BOM / trace map / 未解決事項 |
 | [phase3-design.md](phase3-design.md) | BOM・工程設計 | G3 ドライラン |
 | [phase4-manufacture.md](phase4-manufacture.md) | 製造(隔離ファクトリ) | 自己受入+ずる報告 |
 | [phase5-accept.md](phase5-accept.md) | 受入・収束 | 未観測差分ゼロ+blocker ずるゼロ |

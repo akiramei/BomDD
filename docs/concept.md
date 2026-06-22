@@ -25,6 +25,8 @@ BomDD(BOM-Driven Development)は、ソフトウェア開発を「人間が都度
 
 - **K-BOM(知識部品表)**: 要求 BOM とは別に、製造装置が参照する「外部ツール/設計の管理知識」(ffmpeg 文法パック、デザイントークン等)を部品化する。暗黙知を管理対象に変える仕組み。
 - **S-BOM は一般的な SBOM(Software Bill of Materials)ではない。** 本研究の S-BOM は **Service BOM / 保守 BOM** であり、OSS 依存一覧はその一部に過ぎない。詳細は [terminology.md](terminology.md#s-bom)。
+- **UI-IR / UI-BOM(candidate)**: HTML モックを DOM タグ一覧としてではなく、画面・領域・UI 部品候補・操作・入力・状態の出現として読み、E-BOM へ昇格できる候補部品表に変換する入口。UI-IR は観測用中間表現、UI-BOM は仮品番付き候補部品表であり、正式な E-BOM を置き換えない。詳細は [method/ui-ir-ui-bom.md](../method/ui-ir-ui-bom.md)。
+- **Design System BOM / Visual Gap(candidate)**: UI-CAD 案件では、Card / CTA / Chip / Badge / IconButton などの設計言語部品を E/K-BOM へ明示し、製造後に CAD と実機を視覚突合する。素の panel/text/button への退化は cosmetic ではなく、BOM 化されていない surface 部品の欠落として扱う。
 
 ## 4. 中核発見 — 核と表面の法則
 

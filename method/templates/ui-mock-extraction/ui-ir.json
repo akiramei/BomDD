@@ -1,0 +1,200 @@
+{
+  "schemaVersion": "0.1-candidate",
+  "artifactType": "UI-IR",
+  "source": {
+    "name": "<mock-name>",
+    "inputType": "html-js-css-text",
+    "generatedAt": "YYYY-MM-DDTHH:mm:ssZ",
+    "sourceRefs": [
+      {
+        "kind": "html",
+        "path": "<path-or-ref>",
+        "sha256": "<optional>"
+      }
+    ]
+  },
+  "extractionPolicy": {
+    "stableIdPriority": [
+      "data-ui-id",
+      "aria-label",
+      "visible-text",
+      "semantic-role",
+      "generated"
+    ],
+    "tempPartNoPrefix": "TMP-UI",
+    "decorativeHandling": "nonBom",
+    "designIntentHandling": "designIntent",
+    "unknownHandling": "unresolvedQuestion"
+  },
+  "screens": [
+    {
+      "uiId": "screen.<name>",
+      "tempPartNo": "TMP-UI-SCR-0001",
+      "name": "<画面名>",
+      "kind": "screen",
+      "description": "<画面の説明>",
+      "regions": [
+        "region.<name>"
+      ],
+      "confidence": 0.0
+    }
+  ],
+  "regions": [
+    {
+      "uiId": "region.<name>",
+      "tempPartNo": "TMP-UI-REG-0001",
+      "name": "<領域名>",
+      "kind": "region",
+      "role": "main-workspace",
+      "contains": [
+        "component.<name>.<occurrence>",
+        "input.<target>.<field>",
+        "action.<target>.<verb>"
+      ],
+      "htmlLocation": {
+        "selector": "<css-selector>",
+        "dataUiId": "<existing-or-generated>"
+      },
+      "confidence": 0.0
+    }
+  ],
+  "componentCandidates": [
+    {
+      "uiId": "componentCandidate.<name>",
+      "tempPartNo": "TMP-UI-CMP-0001",
+      "name": "<部品候補名>",
+      "semanticType": "<Button|Card|Tree|Table|Form|Panel|Custom>",
+      "domainConcepts": [
+        "domain.<concept>"
+      ],
+      "variants": [],
+      "states": [],
+      "interactionRefs": [],
+      "confidence": 0.0
+    }
+  ],
+  "componentOccurrences": [
+    {
+      "uiId": "component.<name>.<occurrence>",
+      "tempPartNo": "TMP-UI-OCC-0001",
+      "componentCandidateNo": "TMP-UI-CMP-0001",
+      "name": "<出現名>",
+      "kind": "componentOccurrence",
+      "semanticType": "<部品種別>",
+      "domainConcept": "domain.<concept>",
+      "variant": "<variant-or-null>",
+      "states": [
+        "default"
+      ],
+      "interactions": [
+        "action.<target>.<verb>"
+      ],
+      "htmlLocation": {
+        "selector": "<css-selector>",
+        "fallbackSelector": "<css-selector>"
+      },
+      "confidence": 0.0
+    }
+  ],
+  "actions": [
+    {
+      "uiId": "action.<target>.<verb>",
+      "tempPartNo": "TMP-UI-ACT-0001",
+      "name": "<操作名>",
+      "kind": "userAction",
+      "triggeredBy": [
+        "button.<target>.<verb>"
+      ],
+      "event": "click",
+      "jsHandler": "<handler-or-null>",
+      "domainConcept": "domain.<concept>",
+      "expectedEffect": "<想定効果>",
+      "requiresConfirmation": false,
+      "confidence": 0.0
+    }
+  ],
+  "inputs": [
+    {
+      "uiId": "input.<target>.<field>",
+      "tempPartNo": "TMP-UI-INP-0001",
+      "name": "<入力項目名>",
+      "kind": "input",
+      "inputType": "text",
+      "domainConcept": "domain.<concept>",
+      "dataField": "<domain.field>",
+      "validation": [],
+      "confidence": 0.0
+    }
+  ],
+  "states": [
+    {
+      "uiId": "state.<target>.<state>",
+      "tempPartNo": "TMP-UI-STA-0001",
+      "name": "<状態名>",
+      "kind": "uiState",
+      "appliesTo": [
+        "TMP-UI-CMP-0001"
+      ],
+      "observableBy": [
+        "dom",
+        "screenshot",
+        "accessibility-tree"
+      ],
+      "confidence": 0.0
+    }
+  ],
+  "domainConcepts": [
+    {
+      "id": "domain.<concept>",
+      "tempPartNo": "TMP-UI-DOM-0001",
+      "name": "<業務概念名>",
+      "description": "<説明>"
+    }
+  ],
+  "designIntentElements": [
+    {
+      "uiId": "designIntent.<name>",
+      "source": [
+        "<mock-ref>"
+      ],
+      "selector": "<DESIGN DIRECTION / principles / token demo selector>",
+      "name": "<設計意図名>",
+      "kind": "designIntent",
+      "intentType": "principle",
+      "statements": [
+        "<ひとつの思想で束ねる>",
+        "<共通の空間モデル>",
+        "<ひとつの部品言語>",
+        "<触れる余白 = row 44px>"
+      ],
+      "tokenRefs": [
+        "COLOR",
+        "TYPE",
+        "ROW",
+        "STATE"
+      ],
+      "promoteTo": [
+        "design-intent.md",
+        "35-design-system-bom.yaml",
+        "30-ebom.yaml",
+        "31-kbom.yaml",
+        "33-control-plan.yaml"
+      ],
+      "confidence": 0.0
+    }
+  ],
+  "unmodeledElements": [
+    {
+      "selector": "<css-selector>",
+      "reason": "decorative layout element",
+      "handling": "nonBom"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "ASM-001",
+      "text": "<推定内容>",
+      "confidence": 0.0
+    }
+  ]
+}

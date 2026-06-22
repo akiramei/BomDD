@@ -13,6 +13,8 @@
 
 🛠 **実用パイプライン(フォワード・モード): [method/bomdd-playbook-v1.md](method/bomdd-playbook-v1.md)** — 原版の無い新規開発(ブレスト→仕様→BOM・工程設計→AI製造→受入・収束)を回すための実践手順。リバースで実証した装置群(固定オラクル・隔離ファクトリ・ずる報告・マルチファクトリ分散)をフォワードへ移植した **prescriptive draft(未実証・forward ループで検証予定)**。付属: [沈黙次元カタログ](method/silence-checklist.md)(BOMが沈黙しがちな次元の掃討表)/ [テンプレ一式](method/templates/) / [フェーズ実行プロンプト](method/prompts/)(**実行手順の正典**。ツール固有の skill/slash command 化は forward-01 検証後に adapter 層として検討)。
 
+🧩 **UIモック入口(candidate): [method/ui-ir-ui-bom.md](method/ui-ir-ui-bom.md)** — HTML/JavaScript/CSSで作った実行可能UIモックを、UI-IR→UI-BOM→E-BOM/Control Plan/S-BOMへ接続するための候補拡張。テンプレートは [method/templates/ui-mock-extraction/](method/templates/ui-mock-extraction/)、抽出AIへの指示は [method/prompts/ui-mock-to-ui-bom.md](method/prompts/ui-mock-to-ui-bom.md)。
+
 > **用語の注意**: 本研究の **S-BOM は一般的な SBOM(Software Bill of Materials)ではなく、Service BOM / 保守部品表**を指す。OSS 依存一覧はその一部に過ぎず、「何が影響し・何を再検査し・交換/再製造が要るか」を導く保守層である。概念は [docs/concept.md](docs/concept.md)、用語の固定は [docs/terminology.md](docs/terminology.md)。
 
 ## 方法 — アクションリサーチのループ
@@ -35,6 +37,7 @@ FINDINGS.md         7ループ最終総括(核/表面の法則)
 method/             手法定義(ループ毎に進化)
   bomdd-method-v1.md  ★正規の方法論(薄い版・実証済み規則のみ)
   bomdd-playbook-v1.md ★実用パイプライン(フォワード・モード/prescriptive draft)
+  ui-ir-ui-bom.md       UIモック→UI-IR/UI-BOM→E-BOM接続(candidate)
   gap-analysis-v1.md  ギャップ分析(仕様→BOM/BOM→製造/検証パターン/運用の課題と優先度)
   silence-checklist.md 沈黙次元カタログ(BOM設計時の掃討表)
   templates/          フォワード成果物テンプレ一式(00〜52)

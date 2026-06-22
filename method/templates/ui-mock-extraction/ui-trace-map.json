@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "0.1-candidate",
+  "artifactType": "UI-Trace-Map",
+  "sourceUiIrRef": "ui-ir.json",
+  "sourceUiBomRef": "ui-bom.json",
+  "mappings": [
+    {
+      "uiId": "component.<name>.<occurrence>",
+      "tempPartNo": "TMP-UI-OCC-0001",
+      "componentCandidateNo": "TMP-UI-CMP-0001",
+      "uiBomItemNo": "TMP-UI-CMP-0001",
+      "ebomItemRef": null,
+      "htmlSelector": "[data-ui-id='component.<name>.<occurrence>']",
+      "fallbackSelector": "<css-selector>",
+      "source": "html",
+      "confidence": 0.0
+    },
+    {
+      "uiId": "action.<target>.<verb>",
+      "tempPartNo": "TMP-UI-ACT-0001",
+      "uiBomItemNo": "TMP-UI-ACT-0001",
+      "ebomItemRef": null,
+      "htmlSelector": "[data-ui-id='action.<target>.<verb>']",
+      "event": "click",
+      "jsHandler": "<handler-or-null>",
+      "source": "html+js",
+      "confidence": 0.0
+    },
+    {
+      "uiId": "decorative.<name>",
+      "tempPartNo": null,
+      "uiBomItemNo": null,
+      "ebomItemRef": null,
+      "htmlSelector": "<css-selector>",
+      "source": "html",
+      "handling": "nonBom",
+      "reason": "decorative layout element",
+      "confidence": 0.0
+    }
+  ],
+  "stableIdDecisions": [
+    {
+      "selector": "<css-selector>",
+      "existingDataUiId": null,
+      "assignedUiId": "component.<name>.<occurrence>",
+      "assignedTempPartNo": "TMP-UI-OCC-0001",
+      "reason": "<visible text / semantic role / feature description>",
+      "confidence": 0.0
+    }
+  ],
+  "ebomPromotionDecisions": [
+    {
+      "uiBomItemNo": "TMP-UI-CMP-0001",
+      "decision": "candidate",
+      "ebomItemRef": null,
+      "reason": "<昇格候補理由>",
+      "blockingQuestions": [
+        "UQ-001"
+      ]
+    }
+  ]
+}
