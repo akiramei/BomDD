@@ -44,13 +44,21 @@
 | CTA |  |  |
 | IconButton |  |  |
 
-## 6. extraction decisions
+## 6. layout invariants（データ分散に対する安定レイアウト契約）
+
+> モック / golden は単一データ1枚しか描かない。データが変わっても保たれるべきレイアウト契約を不変条件として明示する（失敗型 S3 の予防）。K-DESIGN / K-AVALONIA 規律へ昇格する。
+
+| ID | 領域 | 不変条件 | antiPattern（違反例） | 境界状態 / 検証 | K-BOM 反映 |
+|---|---|---|---|---|---|
+| DI-L01 | <region> | <例: 中央クラスタは領域全幅基準で中央・兄弟幅に不変> | <例: DockPanel 残余空間中央 / 可変幅 sibling と中央 sibling の同列混在> | <最大幅（N/N）・空> | K-AVALONIA-LAYOUT-001 |
+
+## 7. extraction decisions
 
 | selector / area | 初期分類 | 訂正分類 | 理由 |
 |---|---|---|---|
 |  | nonBom | designIntent |  |
 
-## 7. open questions
+## 8. open questions
 
 1. <フォント指定は製品全体で固定するか。>
 2. <既存テーマと CAD トークンが衝突する場合、どちらを優先するか。>

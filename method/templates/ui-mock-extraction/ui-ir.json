@@ -89,6 +89,17 @@
       "interactions": [
         "action.<target>.<verb>"
       ],
+      "contentVariance": {
+        "valueDomain": "<レンダ内容の値域。例: 1..total(可変桁) / 任意長ファイル名 / 0..N 件 / 空>",
+        "renderSizeVaries": false,
+        "varyingDimension": "<none|width|height|both>",
+        "criticalStates": [
+          "<最小幅(例 1/9)>",
+          "<最大幅(例 N/N・最長名)>",
+          "<空>"
+        ],
+        "note": "<モックは単一値しか描かない。最大幅・空でレイアウト契約を再検証する観点>"
+      },
       "htmlLocation": {
         "selector": "<css-selector>",
         "fallbackSelector": "<css-selector>"
@@ -179,6 +190,31 @@
         "30-ebom.yaml",
         "31-kbom.yaml",
         "33-control-plan.yaml"
+      ],
+      "confidence": 0.0
+    }
+  ],
+  "layoutInvariants": [
+    {
+      "uiId": "layoutInvariant.<region>.<name>",
+      "tempPartNo": "TMP-UI-LIV-0001",
+      "kind": "layoutInvariant",
+      "appliesTo": "region.<name>",
+      "involves": [
+        "component.<variable-sibling>.<occurrence>",
+        "component.<positioned-target>.<occurrence>"
+      ],
+      "statement": "<データ分散に対して保たれるべきレイアウト契約。例: nav クラスタは region 全幅基準で中央。兄弟(counter)の幅に不変>",
+      "rationale": "<可変幅の兄弟要素が、中央寄せ/固定要素の中心位置を駆動してはならない>",
+      "antiPattern": "<違反になる実装。例: DockPanel の残余空間中央 / 可変幅 sibling と中央 sibling の同列混在>",
+      "verifyBy": [
+        "golden:max-width-state",
+        "golden:empty-state",
+        "review:layout-contract"
+      ],
+      "promoteTo": [
+        "design-intent.md",
+        "31-kbom.yaml"
       ],
       "confidence": 0.0
     }
