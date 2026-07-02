@@ -252,6 +252,9 @@ lint_rules:
     rule: 定義された ID のうち、どこからも参照されないものを報告(削除でなく可視化)
     gate: always
     severity: info
+    note: >-
+      記録系 family(TL/UQ/DEC/CHEAT/GF)は対象外(性質上被参照を持たない)。
+      lineage.* 経由の参照も被参照に数える。(BomDD-Plm オラクル実装時に確定・2026-07-03)
 
   - id: R-010
     name: req-covered-by-ebom
