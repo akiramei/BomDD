@@ -51,4 +51,14 @@
 - [x] observation-schema-candidates.md(C4→MeasurementCapability・harness 候補化・越境1本 を反映済)
 - [x] product-schema-candidates.md(delta 主役・共通項のテンプレバイアス明記)
 - [x] schema-candidates-index.md(本書)
-- [ ] JSON Schema draft(昇格条件 §5 を満たすまで保留)
+- [ ] JSON Schema draft(意味論層 — 昇格条件 §5 を満たすまで保留)
+- [x] **参照層のみ draft 硬化**(§7 addendum・2026-07-03)
+
+## 7. Addendum(2026-07-03) — 参照層(reference layer)の分離と draft 硬化
+
+§5 の保留は**意味論層**(フィールドの意味・語彙・構造)に対するものであり、**参照層**(ID 文法・参照エッジ・整合検査規則)は別物としてここから分離する。参照層は:
+1. **§5 条件1を満たす**: 品番ファミリーと `*_refs` は MoviePad・WebAPI・Saga・LibraryLending・ViewPrism2/UI の N≥5 で同型のまま再出現(テンプレ・バイアスでない)。
+2. **不在の実害が測定された**: IR ロケーション分裂・lineage 手動再帰属(テンプレ64)・UI-IR なし製造(ViewPrismUI ECO-022)・PLM 試作のパーサ地獄。
+3. **意味論を焼き込まない**: 参照層 schema は `additionalProperties: true`・最小 required で、E-BOM に何を書くかを一切固定しない。
+
+成果物: [schemas/draft/](schemas/draft/)(id-grammar / ref-edges / bomdd-ref.draft.schema.json)。命名は §5 の規律どおり `draft` を付し、規格でなく検証対象(卒業条件は schemas/draft/README.md §4)。**意味論層の JSON Schema 化は引き続き §5 のまま保留。**
