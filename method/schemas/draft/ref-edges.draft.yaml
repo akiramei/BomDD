@@ -5,7 +5,22 @@
 #
 # 意味論は縛らない: ここに無いフィールドは自由。ここに有るフィールドも「型と参照先ファミリー」だけを縛る。
 
-edges_version: ref-v0
+edges_version: ref-v0.1
+# ref-v0.1(2026-07-03): BomDD-Plm G3 ドライランで検出された欠陥の補正 —
+#   (a) kind 語彙の凡例を明文化 (b) trace_id の分散定義を distributed_defines へ正規化
+#   (c) 台帳3成果物(51/60-register/65)を artifacts に追加 (d) 60-*.md の散文抽出エッジを廃止
+#   (R-051 は 60-change-register.yaml の構造化フィールドで検査。register 不在= skip/info)
+
+# kind 凡例(参照エッジの種別):
+#   (無指定)   = ID 参照。対象 family の索引で解決
+#   path       = リポ内パス。存在検査
+#   id-or-path = ①ID として解決 → ②パスとして存在 → 両失敗で不解決
+#   path-at-rev= `パス@rev` 形式。パス部のみ存在検査(@rev は無視)
+#   none(severity: none) = 解決検査しない(表示・記録用)
+
+distributed_defines:      # 全成果物に分散して現れる定義サイト
+  - selector: "**.trace_links[].trace_id"
+    family: TL
 
 artifacts:
   - file: bomdd/10-requirements.yaml
@@ -15,9 +30,6 @@ artifacts:
     refs:
       - selector: requirements[].source_refs[]
         kind: path            # リポ内パス。R-004 で存在検査
-      - selector: requirements[].trace_links[].trace_id
-        kind: define
-        family: TL
       - selector: requirements[].trace_links[].(from|to)
         kind: id-or-path      # 任意ファミリー ID または パス#断片
 
@@ -98,7 +110,11 @@ artifacts:
     defines:
       - selector: design_system_bom.ebom_surface_parts[].id
         family: E
-        note: 候補定義。30-ebom への同期で正式化(R-021)
+        candidate: true
+        note: >-
+          候補定義(ref-v0.1 で意味論を明文化): candidate:true の定義サイトは ID 索引に登録せず、
+          R-002 一意性の対象にもしない(30-ebom 側が正)。R-021 が 30 との同期を検査する。
+          BomDD-Plm G3 第2回で「30/35 二重定義が常時 R-002 発火」の欠陥として検出された補正。
     refs:
       - { selector: "design_system_bom.root.ebom_item_ref",  family: E, severity: warn }
       - { selector: "design_system_bom.root.kbom_pack_ref",  family: K, severity: warn }
@@ -149,11 +165,31 @@ artifacts:
     defines:
       - selector: "filename"          # 60-change-order-eco-025.md → ECO-025
         family: [ECO, CAPA]
+    refs: []
+    note: "散文本文からの ID 抽出はしない(ref-v0.1 で散文エッジ廃止 — 誤検出132件の実測+G3 Q4)。影響分析の機械検査(R-051)は 60-change-register.yaml の構造化フィールドで行う。"
+
+  - file: "bomdd/60-change-register.yaml"
+    defines:
+      - selector: "changes[].id"
+        family: [ECO, CAPA]
     refs:
-      - selector: "§2 影響分析テーブル内の ID 群"
-        family: [REQ, E, M, K, CP, S, DC, DE]
-        severity: warn
-        note: ".md 内の ID は散文抽出(正規表現)。60-change-register.yaml がある場合はそちらの構造化フィールドを正とする。"
+      - { selector: "changes[].affected_refs[]", family: [REQ, E, M, K, CP, DC, DE], severity: error, note: "R-051 の検査対象(gate=eco)。register 不在のプロジェクトでは R-051 = skip(info)" }
+      - { selector: "changes[].order_ref",       kind: path, severity: warn, note: "対応する 60-change-order-*.md" }
+
+  - file: "bomdd/51-cheat-log.md"
+    defines:
+      - selector: "headings"          # `#`〜`###` 見出し行の最初の family ID トークン(CHEAT)
+        family: CHEAT
+    refs: []
+    note: "advisory family。見出し抽出のみ(本文は読まない)。台帳ビューの表示ソース。"
+
+  - file: "bomdd/65-decision-register.yaml"
+    defines:
+      - selector: "decisions[].id"
+        family: DEC
+    refs:
+      - { selector: "decisions[].binds[]",         severity: none, note: "記録用(reserved family 運用中につき解決検査しない)" }
+      - { selector: "decisions[].superseded_by",   family: DEC, severity: warn }
 
   # ---- UI-CAD 層(JSON) ----
   - file: "bomdd/ui/**/ui-ir.json"
