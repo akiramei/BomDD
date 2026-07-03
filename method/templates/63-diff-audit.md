@@ -1,10 +1,16 @@
 # Diff Audit — <ECO/CAPA-ID> 不要改変監査(Phase 7)
 
 > **機械化(2026-07-03)**: 本監査は BomDD-Plm(bomdd-lint)の **R-052 eco-diff-within-impact** として機械実行できる。
-> register の対象 ECO に `diff_audit: { baseline: <diff 基準タグ>, allowed_paths: [<影響集合プレフィックス>] }` を
+> register の対象 ECO に `diff_audit: { baseline: <diff 基準タグ>, head: <受入タグ(任意)>, allowed_paths: [<影響集合プレフィックス>] }` を
 > 宣言し `--eco` で実行(bomdd/ は常時許容・はみ出し= 1 ファイル 1 error・git 不能= fail-open)。
 > plm ECO-002 で自己適用により初稼働(手動 63 と同一結論)。本テンプレは細分(format-noise 等)の帰属と
 > 機械化できない判断の記録に引き続き使う。
+>
+> **窓の閉鎖(2026-07-04・ref-v0.8 / plm ECO-005)**: `head` 無し= baseline..HEAD の生きた窓(open ECO 用)。
+> **verified にしたら diff_audit を除去せず `head:` に受入タグを追記して窓を閉じる** — 固定窓 baseline..head は
+> 受入後コミットで遡及的に破れず(stale 恒久修正)、監査が恒久回帰検査として CI に常設できる。
+> 前提: baseline は当該 ECO の真の分岐点であること(タグ窓に ECO 外コミットが介在する過去 ECO への
+> 遡及宣言は不可 — plm ECO-004 の実例)。
 
 > 部分改修の**変更境界はオラクルに映らない**(影響なし箇所を壊さずに書き換えることは可能=回帰緑のまま境界違反が通る)。**diff で測る**。
 > 規律: 「影響分析にある箇所だけを改修せよ。影響なし箇所への変更は禁止。diff を測定する」を work order に**事前宣言**する(「測定されると知っている」ことの規律効果を含む。forward-01.5 では 2 工場とも不要改変 0)。
