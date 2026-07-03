@@ -75,6 +75,7 @@ procurement:
     substitutable: false                # 工場が同等品へ代替してよいか
     kbom_ref: K-<NAME>-001
     service_bom_ref: SB-<NAME>-001
+    retirement_condition: ~             # 恒久でない調達(例: 脆弱性対応の推移的依存上書き)は退役条件を明記(forward-03。Service BOM の watch 項目になる)
 
 fmea:
   - fmea_id: FMEA-001

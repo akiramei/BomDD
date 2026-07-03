@@ -28,7 +28,7 @@ service_bom:
       reverse_lookup_keys:
         - <例 error code / package name / UI component / table name>
       ai_model_drift: ~                 # AI モデル更新を劣化イベントとして扱う場合の再製造差分メモ
-      replacement_decision_vocabulary: 交換不要 / K-BOM更新のみ(再認証) / 再製造必要
+      replacement_decision_vocabulary: 交換不要 / K-BOM更新のみ(再認証) / 部品交換+全再認証 / 再製造必要   # 「部品交換+全再認証」= 調達版のみ交換・コード製造なし(設計者適用+既存オラクル全走行。forward-03)
       trace_links:
         - trace_id: TL-K-SB-001
           from: K-<NAME>-001
@@ -39,15 +39,19 @@ service_bom:
       unresolved_questions: []
 
 # 劣化イベントの記録(発生時に追記)
+# 検出チャネルにずる報告を含める(forward-03): 製造工場の環境ノイズ申告(例 NU1903)は劣化イベントの
+# 受信機を兼ねる — cheat-report の外部依存異常は設計者が確定検査にかけ、ここへ DEG として起票する。
+# 調達部品の劣化では、処置は BOM トレースでなくアドバイザリ本文+依存解決の実測(scratch 交換検証)で
+# 確定する(当初処方が実測で反証されたら再裁定。s-bom-template.md 手順 3)。
 degradation_events:
   - event_id: DEG-001
-    event: <例 K-HTTP-REST-001 を v2 へ更新(404 の応答形式変更)>
+    event: <例 K-HTTP-REST-001 を v2 へ更新(404 の応答形式変更)/ 調達部品の推移的依存に脆弱性アドバイザリ>
     detected_at: <YYYY-MM-DD>
-    source_ref: <リリースノート/障害報告/サポート問い合わせ>
+    source_ref: <リリースノート/障害報告/サポート問い合わせ/工場 cheat-report の環境ノイズ申告→設計者確定>
     affected:                           # S-BOM 逆引きの結果(依存部品だけ。他は再検査不要)
       - SB-<NAME>-001
-    reinspection_result: ~              # 合格→K-BOM更新のみ / 不合格→再製造必要
-    decision: ~
+    reinspection_result: ~              # 合格→K-BOM更新のみ / 交換で解消→部品交換+全再認証 / 不合格→再製造必要
+    decision: ~                         # 恒久でない処置(推移的依存の上書き等)は退役条件を procurement に明記し watch 項目へ
 
 # PLM-ready checklist:
 #   - part_ref は E-BOM item を指す
