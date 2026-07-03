@@ -1,5 +1,11 @@
 # Diff Audit — <ECO/CAPA-ID> 不要改変監査(Phase 7)
 
+> **機械化(2026-07-03)**: 本監査は BomDD-Plm(bomdd-lint)の **R-052 eco-diff-within-impact** として機械実行できる。
+> register の対象 ECO に `diff_audit: { baseline: <diff 基準タグ>, allowed_paths: [<影響集合プレフィックス>] }` を
+> 宣言し `--eco` で実行(bomdd/ は常時許容・はみ出し= 1 ファイル 1 error・git 不能= fail-open)。
+> plm ECO-002 で自己適用により初稼働(手動 63 と同一結論)。本テンプレは細分(format-noise 等)の帰属と
+> 機械化できない判断の記録に引き続き使う。
+
 > 部分改修の**変更境界はオラクルに映らない**(影響なし箇所を壊さずに書き換えることは可能=回帰緑のまま境界違反が通る)。**diff で測る**。
 > 規律: 「影響分析にある箇所だけを改修せよ。影響なし箇所への変更は禁止。diff を測定する」を work order に**事前宣言**する(「測定されると知っている」ことの規律効果を含む。forward-01.5 では 2 工場とも不要改変 0)。
 
