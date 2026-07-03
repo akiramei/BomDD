@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "plm-ledger/1",
+  "ledgers": {
+    "eco": [
+      {
+        "id": "ECO-001",
+        "title": "パス受理形の仕様化(PD-7/PD-8)+R-002 一意性スコープ per-file(ref-v0.4)",
+        "source": "BomDD-Plm/bomdd/60-change-register.yaml",
+        "status": "verified",
+        "affectedCount": 8
+      },
+      {
+        "id": "ECO-002",
+        "title": "v0.5: R-052 diff-audit 機械化(git 連携)+SARIF 2.1.0 追加出力+repo: 不在の skip 一貫化",
+        "source": "BomDD-Plm/bomdd/60-change-register.yaml",
+        "status": "verified",
+        "affectedCount": 11
+      },
+      {
+        "id": "ECO-003",
+        "title": "R-041 ID 形エンドポイントへの CH-3(cross-repo skip)適用是非 — 裁定+仕様/オラクル固定",
+        "source": "BomDD-Plm/bomdd/60-change-register.yaml",
+        "status": "verified",
+        "affectedCount": 4
+      }
+    ],
+    "cheat": [
+      {
+        "id": "CHEAT-ECO-001-D001",
+        "title": "[designer] 41-fixed-oracle 追記行の YAML 記法ミス(self-hosting lint が検出)",
+        "source": "BomDD-Plm/bomdd/51-cheat-log.md"
+      },
+      {
+        "id": "CHEAT-ECO-001-H003",
+        "title": "[harness] S-20 期待プロファイルの severity 断面誤り(較正が凍結前捕捉)",
+        "source": "BomDD-Plm/bomdd/51-cheat-log.md"
+      },
+      {
+        "id": "CHEAT-ECO-002-D002",
+        "title": "[designer] E-CLI-SARIF-031 の external_source_ref に散文値",
+        "source": "BomDD-Plm/bomdd/51-cheat-log.md"
+      },
+      {
+        "id": "CHEAT-ECO-002-H004",
+        "title": "[harness] S-23[1] の fixture 指定ミス(suppress は workspace 経由)",
+        "source": "BomDD-Plm/bomdd/51-cheat-log.md"
+      },
+      {
+        "id": "CHEAT-PLM-V0-H001",
+        "title": "[harness] 採点治具がゲートフィルタを欠いていた",
+        "source": "BomDD-Plm/bomdd/51-cheat-log.md"
+      },
+      {
+        "id": "CHEAT-PLM-V0-H002",
+        "title": "[harness] S-11 ランナーがフラグ値までパス解決していた",
+        "source": "BomDD-Plm/bomdd/51-cheat-log.md"
+      }
+    ],
+    "decision": [
+      {
+        "id": "DEC-0001",
+        "title": "ref-v0 参照スキーマの draft 承認と境界の確定",
+        "source": "BomDD-Plm/bomdd/65-decision-register.yaml",
+        "status": "decided",
+        "binds": [
+          "UQ-001",
+          "UQ-002"
+        ],
+        "approver": "akira"
+      },
+      {
+        "id": "DEC-0002",
+        "title": "技術スタックとパッケージ構成(core / cli / viewer)",
+        "source": "BomDD-Plm/bomdd/65-decision-register.yaml",
+        "status": "decided",
+        "binds": [
+          "UQ-005"
+        ],
+        "approver": "akira"
+      },
+      {
+        "id": "DEC-0003",
+        "title": "viewer は静的生成(自己完結の単一 HTML)とする",
+        "source": "BomDD-Plm/bomdd/65-decision-register.yaml",
+        "status": "decided",
+        "binds": [
+          "UQ-SPEC-002"
+        ],
+        "approver": "akira"
+      },
+      {
+        "id": "DEC-0004",
+        "title": "診断 JSON は独自スキーマ plm-diag/1 を一次とし SARIF は v0 対象外",
+        "source": "BomDD-Plm/bomdd/65-decision-register.yaml",
+        "status": "decided",
+        "binds": [
+          "UQ-SPEC-001"
+        ],
+        "approver": "akira"
+      }
+    ]
+  }
+}

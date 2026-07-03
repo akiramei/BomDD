@@ -1,0 +1,1754 @@
+{
+  "schemaVersion": "plm-diag/1",
+  "refSchema": {
+    "version": "ref-v0"
+  },
+  "run": {
+    "gate": "always",
+    "eco": true
+  },
+  "workspace": {
+    "repos": [
+      {
+        "name": "BomDD-Plm"
+      }
+    ]
+  },
+  "stats": {
+    "files": 19,
+    "ids": 346,
+    "refs": 749
+  },
+  "findings": [
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 7,
+      "targetId": "ROUTING-PLM-V0-001",
+      "message": "ID ROUTING-PLM-V0-001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 12,
+      "targetId": "ROUTE-READ",
+      "message": "ID ROUTE-READ はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 13,
+      "targetId": "ROUTE-M-INGEST",
+      "message": "ID ROUTE-M-INGEST はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 14,
+      "targetId": "ROUTE-M-GRAPH",
+      "message": "ID ROUTE-M-GRAPH はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 15,
+      "targetId": "ROUTE-M-RULES",
+      "message": "ID ROUTE-M-RULES はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 16,
+      "targetId": "ROUTE-M-OUTPUT",
+      "message": "ID ROUTE-M-OUTPUT はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 17,
+      "targetId": "ROUTE-M-CLI",
+      "message": "ID ROUTE-M-CLI はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 18,
+      "targetId": "ROUTE-M-VIEWERGEN",
+      "message": "ID ROUTE-M-VIEWERGEN はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 19,
+      "targetId": "ROUTE-M-VIEWERUI",
+      "message": "ID ROUTE-M-VIEWERUI はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 20,
+      "targetId": "ROUTE-SELF-ACCEPT",
+      "message": "ID ROUTE-SELF-ACCEPT はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/34-routing.yaml",
+      "line": 21,
+      "targetId": "ROUTE-DELIVER",
+      "message": "ID ROUTE-DELIVER はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 18,
+      "targetId": "EQ-BYTE-001",
+      "message": "ID EQ-BYTE-001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 23,
+      "targetId": "EQ-TEXT-002",
+      "message": "ID EQ-TEXT-002 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 30,
+      "targetId": "S-01",
+      "message": "ID S-01 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 31,
+      "targetId": "S-02",
+      "message": "ID S-02 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 32,
+      "targetId": "S-03",
+      "message": "ID S-03 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 33,
+      "targetId": "S-04",
+      "message": "ID S-04 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 34,
+      "targetId": "S-05",
+      "message": "ID S-05 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 35,
+      "targetId": "S-06",
+      "message": "ID S-06 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 36,
+      "targetId": "S-07",
+      "message": "ID S-07 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 37,
+      "targetId": "S-08",
+      "message": "ID S-08 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 38,
+      "targetId": "S-09",
+      "message": "ID S-09 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 39,
+      "targetId": "S-10",
+      "message": "ID S-10 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 40,
+      "targetId": "S-11",
+      "message": "ID S-11 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 41,
+      "targetId": "S-12",
+      "message": "ID S-12 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 42,
+      "targetId": "S-13",
+      "message": "ID S-13 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 43,
+      "targetId": "S-14",
+      "message": "ID S-14 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 44,
+      "targetId": "S-15",
+      "message": "ID S-15 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 45,
+      "targetId": "S-16",
+      "message": "ID S-16 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 46,
+      "targetId": "S-17",
+      "message": "ID S-17 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 47,
+      "targetId": "S-18",
+      "message": "ID S-18 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 48,
+      "targetId": "S-19",
+      "message": "ID S-19 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 50,
+      "targetId": "S-20",
+      "message": "ID S-20 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 51,
+      "targetId": "S-21",
+      "message": "ID S-21 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 53,
+      "targetId": "S-22",
+      "message": "ID S-22 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 54,
+      "targetId": "S-23",
+      "message": "ID S-23 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 55,
+      "targetId": "S-24",
+      "message": "ID S-24 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/41-fixed-oracle.yaml",
+      "line": 57,
+      "targetId": "S-25",
+      "message": "ID S-25 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/42-exploratory-probes.yaml",
+      "line": 7,
+      "targetId": "P-01",
+      "message": "ID P-01 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/42-exploratory-probes.yaml",
+      "line": 12,
+      "targetId": "P-02",
+      "message": "ID P-02 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/42-exploratory-probes.yaml",
+      "line": 17,
+      "targetId": "P-03",
+      "message": "ID P-03 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/42-exploratory-probes.yaml",
+      "line": 22,
+      "targetId": "P-04",
+      "message": "ID P-04 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 7,
+      "targetId": "AB-PLM-V0-factory-01",
+      "message": "ID AB-PLM-V0-factory-01 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 36,
+      "targetId": "AB-PLM-V0-factory-02",
+      "message": "ID AB-PLM-V0-factory-02 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 63,
+      "targetId": "AB-PLM-V0-factory-03",
+      "message": "ID AB-PLM-V0-factory-03 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 78,
+      "targetId": "TE-PLM-001",
+      "message": "ID TE-PLM-001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 79,
+      "targetId": "TE-PLM-002",
+      "message": "ID TE-PLM-002 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 80,
+      "targetId": "TE-PLM-003",
+      "message": "ID TE-PLM-003 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 81,
+      "targetId": "TE-PLM-004",
+      "message": "ID TE-PLM-004 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 82,
+      "targetId": "TE-PLM-005",
+      "message": "ID TE-PLM-005 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 83,
+      "targetId": "TE-PLM-006",
+      "message": "ID TE-PLM-006 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 84,
+      "targetId": "TE-PLM-007",
+      "message": "ID TE-PLM-007 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 85,
+      "targetId": "TE-PLM-008",
+      "message": "ID TE-PLM-008 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 86,
+      "targetId": "TE-PLM-009",
+      "message": "ID TE-PLM-009 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 87,
+      "targetId": "TE-PLM-010",
+      "message": "ID TE-PLM-010 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 88,
+      "targetId": "TE-PLM-011",
+      "message": "ID TE-PLM-011 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 89,
+      "targetId": "TE-PLM-012",
+      "message": "ID TE-PLM-012 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 90,
+      "targetId": "TE-PLM-013",
+      "message": "ID TE-PLM-013 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 91,
+      "targetId": "TE-PLM-014",
+      "message": "ID TE-PLM-014 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 92,
+      "targetId": "TE-PLM-015",
+      "message": "ID TE-PLM-015 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 93,
+      "targetId": "TE-PLM-016",
+      "message": "ID TE-PLM-016 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 94,
+      "targetId": "TE-PLM-017",
+      "message": "ID TE-PLM-017 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 95,
+      "targetId": "TE-PLM-018",
+      "message": "ID TE-PLM-018 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 96,
+      "targetId": "TE-PLM-019",
+      "message": "ID TE-PLM-019 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 98,
+      "targetId": "AB-PLM-ECO-001",
+      "message": "ID AB-PLM-ECO-001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 115,
+      "targetId": "TE-ECO1-001",
+      "message": "ID TE-ECO1-001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 116,
+      "targetId": "TE-ECO1-002",
+      "message": "ID TE-ECO1-002 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 117,
+      "targetId": "TE-ECO1-003",
+      "message": "ID TE-ECO1-003 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 118,
+      "targetId": "TE-ECO1-004",
+      "message": "ID TE-ECO1-004 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 119,
+      "targetId": "TE-ECO1-005",
+      "message": "ID TE-ECO1-005 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 120,
+      "targetId": "TE-ECO1-006",
+      "message": "ID TE-ECO1-006 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 121,
+      "targetId": "TE-ECO1-007",
+      "message": "ID TE-ECO1-007 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 122,
+      "targetId": "TE-ECO1-008",
+      "message": "ID TE-ECO1-008 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 123,
+      "targetId": "TE-ECO1-009",
+      "message": "ID TE-ECO1-009 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 124,
+      "targetId": "TE-ECO1-010",
+      "message": "ID TE-ECO1-010 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 125,
+      "targetId": "TE-ECO1-011",
+      "message": "ID TE-ECO1-011 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 126,
+      "targetId": "TE-ECO1-012",
+      "message": "ID TE-ECO1-012 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 127,
+      "targetId": "TE-ECO1-013",
+      "message": "ID TE-ECO1-013 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 128,
+      "targetId": "TE-ECO1-014",
+      "message": "ID TE-ECO1-014 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 129,
+      "targetId": "TE-ECO1-015",
+      "message": "ID TE-ECO1-015 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 130,
+      "targetId": "TE-ECO1-016",
+      "message": "ID TE-ECO1-016 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 131,
+      "targetId": "TE-ECO1-017",
+      "message": "ID TE-ECO1-017 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 133,
+      "targetId": "AB-PLM-ECO-002",
+      "message": "ID AB-PLM-ECO-002 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 150,
+      "targetId": "TE-ECO2-001",
+      "message": "ID TE-ECO2-001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 151,
+      "targetId": "TE-ECO2-002",
+      "message": "ID TE-ECO2-002 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 152,
+      "targetId": "TE-ECO2-003",
+      "message": "ID TE-ECO2-003 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 153,
+      "targetId": "TE-ECO2-004",
+      "message": "ID TE-ECO2-004 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 154,
+      "targetId": "TE-ECO2-005",
+      "message": "ID TE-ECO2-005 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 155,
+      "targetId": "TE-ECO2-006",
+      "message": "ID TE-ECO2-006 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 156,
+      "targetId": "TE-ECO2-007",
+      "message": "ID TE-ECO2-007 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 157,
+      "targetId": "TE-ECO2-008",
+      "message": "ID TE-ECO2-008 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 158,
+      "targetId": "TE-ECO2-009",
+      "message": "ID TE-ECO2-009 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 159,
+      "targetId": "TE-ECO2-010",
+      "message": "ID TE-ECO2-010 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 160,
+      "targetId": "TE-ECO2-011",
+      "message": "ID TE-ECO2-011 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 161,
+      "targetId": "TE-ECO2-012",
+      "message": "ID TE-ECO2-012 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 162,
+      "targetId": "TE-ECO2-013",
+      "message": "ID TE-ECO2-013 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 163,
+      "targetId": "TE-ECO2-014",
+      "message": "ID TE-ECO2-014 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 164,
+      "targetId": "TE-ECO2-015",
+      "message": "ID TE-ECO2-015 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 165,
+      "targetId": "TE-ECO2-016",
+      "message": "ID TE-ECO2-016 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 166,
+      "targetId": "TE-ECO2-017",
+      "message": "ID TE-ECO2-017 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 167,
+      "targetId": "TE-ECO2-018",
+      "message": "ID TE-ECO2-018 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/50-as-built.yaml",
+      "line": 168,
+      "targetId": "TE-ECO2-019",
+      "message": "ID TE-ECO2-019 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/60-change-register.yaml",
+      "line": 9,
+      "targetId": "ECO-001",
+      "message": "ID ECO-001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/60-change-register.yaml",
+      "line": 25,
+      "targetId": "ECO-002",
+      "message": "ID ECO-002 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/60-change-register.yaml",
+      "line": 47,
+      "targetId": "ECO-003",
+      "message": "ID ECO-003 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 19,
+      "targetId": "screen.findings",
+      "message": "ID screen.findings はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 28,
+      "targetId": "screen.item-graph",
+      "message": "ID screen.item-graph はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 37,
+      "targetId": "screen.trace-matrix",
+      "message": "ID screen.trace-matrix はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 46,
+      "targetId": "screen.ledgers",
+      "message": "ID screen.ledgers はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 57,
+      "targetId": "region.shell-topbar",
+      "message": "ID region.shell-topbar はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 64,
+      "targetId": "region.shell-nav",
+      "message": "ID region.shell-nav はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 70,
+      "targetId": "region.design-direction",
+      "message": "ID region.design-direction はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 76,
+      "targetId": "TMP-UI-REG-0004",
+      "message": "ID TMP-UI-REG-0004 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 77,
+      "targetId": "region.findings-summary",
+      "message": "ID region.findings-summary はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 82,
+      "targetId": "TMP-UI-REG-0005",
+      "message": "ID TMP-UI-REG-0005 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 83,
+      "targetId": "region.findings-filter",
+      "message": "ID region.findings-filter はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 88,
+      "targetId": "TMP-UI-REG-0006",
+      "message": "ID TMP-UI-REG-0006 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 89,
+      "targetId": "region.graph-toolbar",
+      "message": "ID region.graph-toolbar はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 95,
+      "targetId": "region.graph-detail",
+      "message": "ID region.graph-detail はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 100,
+      "targetId": "TMP-UI-REG-0008",
+      "message": "ID TMP-UI-REG-0008 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 101,
+      "targetId": "region.trace-toolbar",
+      "message": "ID region.trace-toolbar はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 106,
+      "targetId": "TMP-UI-REG-0009",
+      "message": "ID TMP-UI-REG-0009 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 107,
+      "targetId": "region.ledger-tabs",
+      "message": "ID region.ledger-tabs はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 113,
+      "targetId": "region.run-meta",
+      "message": "ID region.run-meta はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 121,
+      "targetId": "TMP-UI-CMP-0001",
+      "message": "ID TMP-UI-CMP-0001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 122,
+      "targetId": "component.workspace-chip",
+      "message": "ID component.workspace-chip はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 139,
+      "targetId": "component.summary-card",
+      "message": "ID component.summary-card はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 157,
+      "targetId": "component.findings-table",
+      "message": "ID component.findings-table はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 177,
+      "targetId": "component.finding-row",
+      "message": "ID component.finding-row はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 191,
+      "targetId": "component.severity-chip",
+      "message": "ID component.severity-chip はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 197,
+      "targetId": "component.family-chip",
+      "message": "ID component.family-chip はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 203,
+      "targetId": "component.graph-canvas",
+      "message": "ID component.graph-canvas はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 216,
+      "targetId": "component.graph-node",
+      "message": "ID component.graph-node はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 227,
+      "targetId": "component.violation-callout",
+      "message": "ID component.violation-callout はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 233,
+      "targetId": "component.trace-matrix",
+      "message": "ID component.trace-matrix はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 250,
+      "targetId": "component.trace-cell",
+      "message": "ID component.trace-cell はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 256,
+      "targetId": "component.ledger-table",
+      "message": "ID component.ledger-table はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 261,
+      "targetId": "TMP-UI-CMP-0013",
+      "message": "ID TMP-UI-CMP-0013 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 262,
+      "targetId": "component.scan-stats",
+      "message": "ID component.scan-stats はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 288,
+      "targetId": "TMP-UI-CMP-0015",
+      "message": "ID TMP-UI-CMP-0015 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 289,
+      "targetId": "component.trace-legend",
+      "message": "ID component.trace-legend はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 295,
+      "targetId": "TMP-UI-ACT-0001",
+      "message": "ID TMP-UI-ACT-0001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 296,
+      "targetId": "action.nav.findings",
+      "message": "ID action.nav.findings はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 302,
+      "targetId": "input.shell.gate-select",
+      "message": "ID input.shell.gate-select はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 307,
+      "targetId": "TMP-UI-ACT-0003",
+      "message": "ID TMP-UI-ACT-0003 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 308,
+      "targetId": "action.findings.filter-severity",
+      "message": "ID action.findings.filter-severity はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 312,
+      "targetId": "TMP-UI-ACT-0004",
+      "message": "ID TMP-UI-ACT-0004 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 313,
+      "targetId": "action.graph.filter-family",
+      "message": "ID action.graph.filter-family はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 318,
+      "targetId": "action.graph.select-node",
+      "message": "ID action.graph.select-node はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 323,
+      "targetId": "action.trace.only-uncovered",
+      "message": "ID action.trace.only-uncovered はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 327,
+      "targetId": "TMP-UI-ACT-0007",
+      "message": "ID TMP-UI-ACT-0007 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 328,
+      "targetId": "action.ledgers.tab-eco",
+      "message": "ID action.ledgers.tab-eco はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 335,
+      "targetId": "TMP-UI-INP-0001",
+      "message": "ID TMP-UI-INP-0001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 336,
+      "targetId": "input.findings.rule-filter",
+      "message": "ID input.findings.rule-filter はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 340,
+      "targetId": "TMP-UI-INP-0002",
+      "message": "ID TMP-UI-INP-0002 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 341,
+      "targetId": "input.findings.search",
+      "message": "ID input.findings.search はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 345,
+      "targetId": "TMP-UI-INP-0003",
+      "message": "ID TMP-UI-INP-0003 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 346,
+      "targetId": "input.graph.search",
+      "message": "ID input.graph.search はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 350,
+      "targetId": "TMP-UI-INP-0004",
+      "message": "ID TMP-UI-INP-0004 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 351,
+      "targetId": "input.graph.depth",
+      "message": "ID input.graph.depth はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 358,
+      "targetId": "state.shell.read-only",
+      "message": "ID state.shell.read-only はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 364,
+      "targetId": "state.findings.empty",
+      "message": "ID state.findings.empty はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 369,
+      "targetId": "component.finding-row.suppressed",
+      "message": "ID component.finding-row.suppressed はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 375,
+      "targetId": "state.graph.superseded-node",
+      "message": "ID state.graph.superseded-node はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 381,
+      "targetId": "state.graph.violation-edge",
+      "message": "ID state.graph.violation-edge はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 386,
+      "targetId": "state.trace.uncovered-cell",
+      "message": "ID state.trace.uncovered-cell はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 393,
+      "targetId": "TMP-UI-DOM-0001",
+      "message": "ID TMP-UI-DOM-0001 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 401,
+      "targetId": "TMP-UI-DOM-0002",
+      "message": "ID TMP-UI-DOM-0002 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 409,
+      "targetId": "TMP-UI-DOM-0003",
+      "message": "ID TMP-UI-DOM-0003 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 416,
+      "targetId": "TMP-UI-DOM-0004",
+      "message": "ID TMP-UI-DOM-0004 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 423,
+      "targetId": "TMP-UI-DOM-0005",
+      "message": "ID TMP-UI-DOM-0005 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 431,
+      "targetId": "TMP-UI-DOM-0006",
+      "message": "ID TMP-UI-DOM-0006 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    },
+    {
+      "rule": "R-005",
+      "severity": "info",
+      "gate": "always",
+      "file": "BomDD-Plm/bomdd/ui/viewer/ui-ir.json",
+      "line": 438,
+      "targetId": "TMP-UI-DOM-0007",
+      "message": "ID TMP-UI-DOM-0007 はどこからも参照されていません(孤立定義)",
+      "fixTarget": "参照を張るか、不要なら retire を検討する(削除でなく lineage で)"
+    }
+  ]
+}
