@@ -219,3 +219,18 @@ status 更新: playbook §8 Phase 7 = candidate / **validated ×2**(forward-01.5
 **`tools/impact-retrospective.py` として汎用化**(impacted_bom/affected_refs 両対応 — 影響宣言語彙の分岐は
 ref-v0.9 候補としてツール内に記録・rule of three 待ちで形式化しない)。Plm への予備適用で
 **写像被覆ギャップの2例目**(test/・dist/ の所有 unit 不在)を検出= 同型債務が2リポで再現(Plm 52 に候補記録)。
+
+## 2026-07 scale-02 還元 — god-VM 解体系列(ECO-036 全5段+ECO-037)が出した改善
+
+観測(ViewPrism2・2026-07-04。詳細= 同リポ 60-change-order-eco-036.md §15/51 通知トポロジー節):
+- 教訓の学習効果が定量で出た(設計凍結 under 4→0・golden 所見 2→0 — 消費者一覧+通知トポロジーの
+  事前計数の効果)。切り出し境界の三型・通知トポロジー 3 則・M 層 lineage 初適用・工場の入れ子委譲
+  ループ(工程事故)・挙動保存検証による既存バグ発見(ECO-037)・レイアウト read-across。
+
+適用した改善:
+1. `bomdd-playbook-v1.md` **§8.1 新設**: unit 再編成(挙動保存リファクタ)ECO の規律 —
+   境界三型/移送表の必須列(消費者一覧= tests 含む・通知トポロジー)/通知 3 則(旧版 A/B 判別込み)/
+   M 層 lineage(superseded は artifact を所有しない)/工場隔離規律 3 点/golden 是正の read-across。
+2. `templates/61-impact-analysis.md` §1.2: 参照 grep は **tests/ を含む**(blocker 実測)を明記。
+   §1.4: 複合宣言 unit(多:1)は宣言品目いずれの変更でも予測に入れる。
+3. `FINDINGS.md` §9 追補+`WHITEPAPER.md` §12 同期(プロスペクティブ検証の成績と残課題の更新)。
