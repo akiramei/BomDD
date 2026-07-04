@@ -213,3 +213,9 @@ status 更新: playbook §8 Phase 7 = candidate / **validated ×2**(forward-01.5
 - 規模でのハブ取りこぼしが「毎回の実物点検頼み」から「台帳化された既定点検」になり、
   影響分析のコストが規模に対して定数化する。
 - 「影響分析の遡及採点」が新しい標準健診として利用可能になる(ECO 台帳を持つ全リポに適用可)。
+
+後続(2026-07-04・改善パッケージ 1〜3): WHITEPAPER §12 を forward-04/scale-01 に同期。ViewPrism2 の
+写像被覆ギャップを ECO-035 で解消(M-ORACLE-030/M-INFRA-031 — ハブ台帳 regime 下の初 ECO)。遡及採点治具を
+**`tools/impact-retrospective.py` として汎用化**(impacted_bom/affected_refs 両対応 — 影響宣言語彙の分岐は
+ref-v0.9 候補としてツール内に記録・rule of three 待ちで形式化しない)。Plm への予備適用で
+**写像被覆ギャップの2例目**(test/・dist/ の所有 unit 不在)を検出= 同型債務が2リポで再現(Plm 52 に候補記録)。

@@ -50,7 +50,8 @@
 - [ ] このリポの**ハブ台帳**(過去 ECO で under 実績のある unit のリスト。52-metrics に記録)を確認し、
       載っている unit を影響表に入れるか「影響なし」の根拠を書いたか
 - [ ] ハブ台帳が無い場合: ECO 台帳が数件以上溜まっているなら**遡及採点**(宣言影響集合 vs 実 diff の
-      全 ECO 一括突合。治具 ~100 行 — ViewPrism2 bomdd/studies/scale01-jig.py が先例)で機械的に発見できる
+      全 ECO 一括突合)で機械的に発見できる — 汎用治具: [tools/impact-retrospective.py](../tools/impact-retrospective.py)
+      (impacted_bom / affected_refs 両対応・test-only 分離・ハブ集中度を出力。初出= scale-01)
 
 ## 2. 影響なし予測(反証可能 — 製造前に凍結)
 > 製造後の回帰で当たるかを検証する。外れ=**under-inclusion**(取りこぼし。最危険)。
