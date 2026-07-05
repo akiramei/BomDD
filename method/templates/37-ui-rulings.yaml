@@ -21,7 +21,11 @@ bomdd:
 #      (type: dictionary-promotion / scope-widening)。
 #   3. 裁定には否定側(negative_rulings)と根拠(evidence)を残す。境界の言明が再利用価値を持つ。
 #   4. 裁定を覆すときは上書きせず、新レコードを起こして旧レコードを superseded にする(lineage 温存)。
-#   5. スキーマは candidate。フィールド追加は実案件(MoviePad 実証等)で不足が実測されてから。
+#   5. options は候補であり、回答を拘束しない。選択肢外の回答を記録するときは、記録者の解釈を
+#      ユーザーへ復唱して確認を取ってから ruled 化する(retro-01 の誤解釈訂正より)。
+#   6. ruling の記入と status の更新はセットで行う(片方忘れは GU3/GU4 が検出する)。
+#   7. 実機のある遡及では、実機の挙動・コードを evidence に含めてから裁定にかける(ui-ir-ui-bom.md §13.1)。
+#   8. スキーマは candidate。フィールド追加は実案件で不足が実測されてから。
 
 schema: ui-rulings/0.1-candidate
 

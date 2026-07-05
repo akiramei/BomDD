@@ -307,6 +307,14 @@ E-BOM / M-BOM / Control Plan / S-BOM
 - AI は raw IR に存在しないノードを作ってはならない。final action を確定してはならない。曖昧な意味は未裁定質問として出す。
 - 工程を 1 つのメガプロンプトに混載すると、失敗のたびにプロンプトが太り、職人芸が増える(§14)。
 
+### 12.1 DOM スナップショット治具(runtime 描画モックの入力化)
+
+HTML が実行時に DOM を生成するモック(React+Babel 等)は、静的 HTML に UI が存在しない。この場合:
+
+1. ブラウザでレンダリングし、**computed style の cursor を `data-snap-cursor` 属性として焼き込んで**から DOM を保存する(snapshot)。フレームワークが JS でリスナーを付ける要素は静的属性に痕跡が無く、これをしないと丸ごと X1 になる(実測: MoviePad retro-01 でリスナー駆動要素 15 件が旧判定で全滅。div 製カスタムラジオを含む)。
+2. snapshot は**状態ごと**に撮る(モーダル・選択状態など。モックの初期状態が全てを描いているとは限らない)。
+3. `ui-extract.py` の入力は snapshot ファイルとする。snapshot が source-of-record であり、GU6 の突合対象も snapshot。
+
 ## 13. 裁定台帳と文脈付き辞書
 
 ### 13.1 裁定台帳(37-ui-rulings.yaml)
@@ -314,8 +322,11 @@ E-BOM / M-BOM / Control Plan / S-BOM
 未裁定リストは残タスクだが、裁定台帳は設計資産である。`open` だけでなく `ruled` / `rejected` / `superseded` を保持し、「同じ質問を二度としない」ための来歴を残す。
 
 - **辞書ヒットも台帳の 1 レコード**(`decided_by: dictionary`)として記録する。来歴が台帳に一元化され、ゲートは台帳だけを見れば済む。
-- **裁定には否定側を残す**。「追加」が `AttachTagToItem` で*あり* `CreateTag` では*ない*という境界の言明が、次回以降の AI の迷いを減らす。
+- **裁定には否定側を残す**。「追加」が `AttachTagToItem` で*あり* `CreateTag` では*ない*という境界の言明が、次回以降の AI の迷いを減らす(実測: MoviePad retro-01 で R1 に書いた negative が R2 の「書き出す」を人間への質問なしで解決した)。
 - 裁定を覆すときは上書きせず、新レコードを起こして旧を `superseded` にする(lineage 温存 — 64 と同じ規律)。
+- **options は候補であり、回答を拘束しない**。選択肢外の回答は正当。ただし選択肢外・曖昧な回答を記録するときは、**記録者の解釈をユーザーへ復唱して確認を取ってから ruled 化する**(実測: retro-01 で「区分解除のボタン」を選択解除と誤解釈して ruled 化 → supersede 訂正が必要になった)。
+- **実機のある遡及(as-built 裁定)では、実機の挙動・コードを evidence に含めてから裁定にかける**。実測(retro-01): 実機 evidence 付きで裁定した項目は全て conform、モック+README だけで裁定した項目は 2/2 が実機と矛盾し supersede になった。既存実装は準拠度が低くても実使用で磨かれた判断の蓄積であり、乖離解決の既定は実機優先推定(実機変更は個別裁定+明示承認)。
+- **ruling の記入と status の更新はセット**で行う(ruled 化の作業単位)。片方だけの更新は GU3/GU4 が検出する(retro-01 で 2 回実測 — 記録者ミスの頻発型)。
 
 ### 13.2 文脈付き辞書(36-ui-dictionary.yaml)
 
@@ -337,6 +348,16 @@ E-BOM / M-BOM / Control Plan / S-BOM
 | prompt 追記量 | 失敗知見がプロンプトへ漏れていないかの canary |
 
 この曲線が出ないなら、辞書還流か scope 設計が失敗している。
+
+初回実測(MoviePad ui-cad-retro-01・2026-07-05): R1 = 質問 8 / interactable 40・辞書 0。
+R2 = 質問 3 / interactable 5・**辞書ヒット 2(うち 1 は R1 の negative 由来)・再質問率 0%・未裁定充填 0**。
+prompt 追記量 0(失敗還流は全て治具・台帳側で吸収 — X1 は ui-extract 修正、X3 は negative 追記)。
+
+## 16. 実証からの候補記録(rule of three 待ち — 形式化しない)
+
+- **複数画面パッケージの raw id 名前空間**: `RAW-ACT-*` は snapshot ファイルごとに 0001 から採番されるため、複数 snapshot を持つパッケージでは衝突する。retro-01 では画面別サブディレクトリ(`export-dialog/`)+ゲートの `--rulings ../` 参照で回避した。恒久解(id への source prefix か、サブディレクトリ標準化)は第 3 例で裁定する。
+- **ruled 化補助治具**: 「ruling 記入と status 更新」の片方忘れが retro-01 で 2 回発生し、いずれも GU3/GU4 が検出した。3 回目が出たら `ui-rule.py`(1 コマンドで ruling+status+decided_at を原子的に更新)を起票する。
+- **UI 裁定 → 要求台帳への還流経路**: UI の裁定質問が要求漏れを発見することがある(retro-01 UQ-0004: 未保存終了保護の不在を「表示契約の問題ではなく要求漏れ」と分類)。裁定台帳から 10-requirements への還流を標準経路にするかは次の実例待ち。
 
 ## 14. 抽出工程の失敗型 X1/X2/X3 と還流先
 
