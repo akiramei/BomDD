@@ -189,7 +189,10 @@ def split_numbered(block: str) -> list[tuple[int, str]]:
     return items
 
 
-COST_RE = re.compile(r"(?:【\s*|手戻りコスト[::]?\s*\**\s*)(high|medium|low)")
+# コスト表記は run 間で揺れる(実測: 01=【high — …】/ prospective-01 R2=[high])。
+# 意味的に等価な表記は治具側で受ける(§14: 書式ドリフトはプロンプトでなく治具で吸収)。
+COST_RE = re.compile(
+    r"(?:【\s*|\[\s*|(?:手戻り|放置)?コスト[::]?\s*\**\s*)(high|medium|low)")
 
 
 def check_report(stage: str, text: str, forbidden: list[str]) -> tuple[list[str], list[str]]:
@@ -434,6 +437,12 @@ def selftest() -> int:
         a4c = A(); a4c.dir = str(wd); a4c.stage = "lint"; a4c.report = str(rep3)
         a4c.forbidden = []; a4c.standalone = True
         t("check lint 層4欠落 → fail", cmd_check(a4c) == 1)
+        alt = VALID_LINT.replace("【high — 意味論に波及】", "[high] — 意味論に波及").replace(
+            "【low — 見た目】", " 放置コスト: low — 見た目")
+        repa = wd / "altcost.md"; repa.write_text(alt, encoding="utf-8")
+        a4f = A(); a4f.dir = str(wd); a4f.stage = "lint"; a4f.report = str(repa)
+        a4f.forbidden = []; a4f.standalone = True
+        t("check lint コスト表記ゆれ([high]/放置コスト:)→ pass", cmd_check(a4f) == 0)
         a4d = A(); a4d.dir = str(wd); a4d.stage = "lint"; a4d.report = str(rep)
         a4d.forbidden = [r"ViewModels/"]; a4d.standalone = True
         t("forbidden 不検出 → pass", cmd_check(a4d) == 0)
