@@ -3,7 +3,7 @@
 > **スキャフォールド**: リポ骨格(bomdd/ テンプレ・CLAUDE.md・スキル・CAD リポ)は
 > `python method/tools/bomdd-init.py <Product> --dir <親dir> [--gui]` で生成できる。
 > 人間の協働作法は [working-with-ai.md](working-with-ai.md)、通しの流れの実例は
-> [example-session-log.md](example-session-log.md)(スキャフォールド→Phase 0-5→納品→ECO の模擬ログ)。
+> [example-session-log.md](example-session-log.md)(スキャフォールド→Phase 0-5→納品→ECO の模擬ログ)。UI モックの受入検査→CAD 化は [example-session-log-ui-mock.md](example-session-log-ui-mock.md)。
 
 このチェックリストは、`bomdd/` を作り始める前後に人間と AI が一緒に埋める。未確定項目は空欄にせず、`unknown`、`not-applicable`、`unresolved` のいずれかで明示する。
 
