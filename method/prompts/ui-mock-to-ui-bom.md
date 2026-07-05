@@ -1,5 +1,10 @@
 # UI Mock -> UI-IR / UI-BOM 抽出プロンプト
 
+> **deprecated(旧一発変換)**: 本プロンプトは Raw 抽出+意味付与+質問生成+昇格を 1 回で行う旧方式である。
+> 新規案件では工程分離(ui-ir-ui-bom.md §12)を標準とする:
+> `ui-extract.py`(決定的 raw 抽出)→ [ui-raw-to-candidates.md](ui-raw-to-candidates.md) → 人間の裁定(37)→ [ui-apply-rulings-to-bom.md](ui-apply-rulings-to-bom.md)。
+> 本プロンプトは raw 治具を使えない環境での代替としてのみ残す。**失敗知見を本プロンプトへ追記しない**(還流先は §14)。
+
 あなたは BomDD 向けの UI-IR / UI-BOM 抽出 AI です。
 
 これから、HTML、必要に応じて JavaScript / CSS、そしてテキストによる機能説明を渡します。

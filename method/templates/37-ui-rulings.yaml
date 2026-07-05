@@ -12,11 +12,11 @@ bomdd:
 #   - 最終事実(製造へ流せる意味)になれるのは、本台帳の ruled レコードだけ。
 #     AI 候補の confidence は製造許可ではなく、レビュー優先度にだけ使う(ui-ir-ui-bom.md §12)。
 #   - 辞書(36-ui-dictionary.yaml)ヒットで解決した場合も decided_by: dictionary の 1 レコードを
-#     記録する(来歴の一元化。gate G4 の検査対象が本台帳だけで済む)。
+#     記録する(来歴の一元化。gate GU4 の検査対象が本台帳だけで済む)。
 #   - 設計者資産。設計対話の履歴に近いため、41/42 と同様に製造装置へは渡さない。
 #
 # 規律:
-#   1. blocking: true かつ status: open のレコードが 1 件でもあれば、E-BOM/M-BOM 昇格禁止(gate G3)。
+#   1. blocking: true かつ status: open のレコードが 1 件でもあれば、E-BOM/M-BOM 昇格禁止(gate GU3)。
 #   2. 辞書への還流・scope の拡大は、それ自体を 1 件の裁定として記録する
 #      (type: dictionary-promotion / scope-widening)。
 #   3. 裁定には否定側(negative_rulings)と根拠(evidence)を残す。境界の言明が再利用価値を持つ。
@@ -31,7 +31,7 @@ rulings:
     status: open                     # open | ruled | rejected | superseded
     type: action-semantics           # action-semantics | persistence | timing | deletion-mode |
                                      # variant-boundary | scope-widening | dictionary-promotion | other
-    blocking: true                   # true なら製造昇格を止める(G3)
+    blocking: true                   # true なら製造昇格を止める(GU3)
     target:
       ui_ids: ["action.tag.add"]     # ui-ir.json / ui-bom.json の uiId
       temp_part_no: TMP-UI-ACT-0001

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "0.1-candidate",
+  "artifactType": "UI-IR-RAW",
+  "_comment": "本ファイルは手書きしない。tools/ui-extract.py が HTML モックから決定的に生成する(ui-ir-ui-bom.md §12)。これはスキーマ見本。",
+  "source": {
+    "file": "mock.html",
+    "sha256": "<入力 HTML の sha256>"
+  },
+  "extractor": {
+    "name": "ui-extract.py",
+    "idScheme": "data-ui-id|sha1(domPath|tag)[:8]"
+  },
+  "nodes": [
+    {
+      "nodeId": "UI:region.tag-edit-pane",
+      "tag": "section",
+      "domPath": "html[1]/body[1]/main[1]/section[1]",
+      "text": "タグ編集 風景 夜景 追加 新規タグ",
+      "attrs": {
+        "data-ui-id": "region.tag-edit-pane",
+        "data-ui-part": "TagEditPane"
+      },
+      "roleHint": [],
+      "interactable": false,
+      "parentId": "DOM-xxxxxxxx"
+    },
+    {
+      "nodeId": "DOM-6c8be738",
+      "tag": "button",
+      "domPath": "html[1]/body[1]/main[1]/section[1]/button[1]",
+      "text": "追加",
+      "attrs": {
+        "data-ui-action": "AttachTagToItem"
+      },
+      "roleHint": ["button"],
+      "interactable": true,
+      "parentId": "UI:region.tag-edit-pane"
+    }
+  ],
+  "interactables": [
+    {
+      "rawActionId": "RAW-ACT-0001",
+      "nodeId": "DOM-6c8be738",
+      "surfaceLabel": "追加",
+      "eventHint": "click",
+      "dataUiAction": "AttachTagToItem"
+    }
+  ]
+}

@@ -15,7 +15,7 @@ bomdd:
 #
 # 規律:
 #   1. エントリの新設・scope の拡大は、それ自体が 1 件の裁定であり、裁定台帳の記録を必ず伴う
-#      (source_rulings に UQ-* を記録)。裏付けのないエントリは gate G4 で不合格。
+#      (source_rulings に UQ-* を記録)。裏付けのないエントリは gate GU4 で不合格。
 #   2. scope は instance | screen | product の 3 値。feature / domain 等への細分化は、
 #      誤爆(誤った一般化)が実測されてから裁定する(候補記録 — rule of three 待ち)。
 #   3. 文脈条件の機械照合(applies_when DSL)は導入しない。照合は AI 候補生成+人間裁定が行う。
@@ -38,7 +38,7 @@ actions:
       - canonical: CreateTag
         when_label: ["新規タグ", "タグ作成"]
         why: <タグ定義の新規作成は別操作。混同すると責務境界が崩れる>
-    source_rulings: [UQ-0001]        # 裏付けの裁定 ID(必須。空は G4 不合格)
+    source_rulings: [UQ-0001]        # 裏付けの裁定 ID(必須。空は GU4 不合格)
     notes: <補足>
 
 parts:

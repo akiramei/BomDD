@@ -1,6 +1,7 @@
 {
   "schemaVersion": "0.1-candidate",
   "artifactType": "UI-IR",
+  "sourceRawRef": "ui-ir.raw.json",
   "source": {
     "name": "<mock-name>",
     "inputType": "html-js-css-text",
@@ -113,6 +114,9 @@
       "tempPartNo": "TMP-UI-ACT-0001",
       "name": "<操作名>",
       "kind": "userAction",
+      "rawRefs": [
+        "RAW-ACT-0001"
+      ],
       "triggeredBy": [
         "button.<target>.<verb>"
       ],
@@ -130,6 +134,9 @@
       "tempPartNo": "TMP-UI-INP-0001",
       "name": "<入力項目名>",
       "kind": "input",
+      "rawRefs": [
+        "RAW-ACT-0002"
+      ],
       "inputType": "text",
       "domainConcept": "domain.<concept>",
       "dataField": "<domain.field>",
@@ -222,6 +229,9 @@
   "unmodeledElements": [
     {
       "selector": "<css-selector>",
+      "rawRefs": [
+        "RAW-ACT-0003"
+      ],
       "reason": "decorative layout element",
       "handling": "nonBom"
     }

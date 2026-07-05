@@ -6,7 +6,8 @@ HTML / JavaScript / CSS で作られた実行可能 UI モックから、UI-IR /
 
 | ファイル | 役割 |
 |---|---|
-| [ui-ir.json](ui-ir.json) | UI モックから抽出した観測・追跡用の中間表現 |
+| [ui-ir.raw.json](ui-ir.raw.json) | `tools/ui-extract.py` が HTML から決定的に生成する事実(スキーマ見本。手書き禁止) |
+| [ui-ir.json](ui-ir.json) | UI モックから抽出した観測・追跡用の中間表現(`rawRefs` で raw IR を参照) |
 | [ui-bom.json](ui-bom.json) | UI-IR から BOM 対象だけを昇格した候補部品表 |
 | [ui-trace-map.json](ui-trace-map.json) | HTML selector / UI-IR / UI-BOM / E-BOM 候補の対応 |
 | [design-intent.md](design-intent.md) | DESIGN DIRECTION / 原則 / COLOR・TYPE・ROW 等の設計意図 |
@@ -20,6 +21,7 @@ HTML / JavaScript / CSS で作られた実行可能 UI モックから、UI-IR /
 ```
 bomdd/
   ui/
+    ui-ir.raw.json
     ui-ir.json
     ui-bom.json
     ui-trace-map.json
@@ -29,10 +31,14 @@ bomdd/
     37-ui-rulings.yaml
 ```
 
-E-BOM / M-BOM への昇格前に、裁定ゲートを通すこと:
+標準の流れ(工程分離 — ui-ir-ui-bom.md §12):
 
 ```
-python method/tools/ui-cad-gate.py --ui-dir bomdd/ui
+python method/tools/ui-extract.py mock.html -o bomdd/ui/ui-ir.raw.json   # 1. 決定的抽出
+# 2. prompts/ui-raw-to-candidates.md で意味候補+質問を生成
+# 3. 人間が 37-ui-rulings.yaml で裁定(辞書ヒットも台帳へ記録)
+# 4. prompts/ui-apply-rulings-to-bom.md で ui-bom.json を生成
+python method/tools/ui-cad-gate.py --ui-dir bomdd/ui --mock mock.html    # 5. 裁定ゲート(GU1–GU6)
 ```
 
 関連:

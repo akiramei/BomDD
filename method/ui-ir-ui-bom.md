@@ -119,6 +119,7 @@ modal.<対象>.<用途>
 
 | 成果物 | 役割 |
 |---|---|
+| `ui-ir.raw.json` | `tools/ui-extract.py` が HTML から決定的に抽出した事実(手書き・AI 生成禁止) |
 | `ui-ir.json` | HTML モックから抽出した観測・追跡用中間表現 |
 | `ui-bom.json` | UI-IR から BOM 対象だけを昇格した候補部品表 |
 | `ui-trace-map.json` | HTML selector / UI-IR / UI-BOM / E-BOM 候補の対応表 |
@@ -258,23 +259,23 @@ UI-CAD を使った案件では、Phase 3 と Phase 5 に次を追加する。
 - 可変幅の兄弟要素が中央/固定要素の中心位置を駆動する実装(DockPanel 残余空間中央など)を、`layoutInvariants` で禁止せず放置する。
 - 不明点を未解決事項に出さず埋める。
 - 既存 stable id を理由なく変更する。
-- blocking の open 裁定を残したまま E-BOM / M-BOM へ昇格する(gate G3)。
-- 裁定の裏付け(source_rulings)なしに辞書エントリを作る、または scope を広げる(gate G4)。
+- blocking の open 裁定を残したまま E-BOM / M-BOM へ昇格する(gate GU3)。
+- 裁定の裏付け(source_rulings)なしに辞書エントリを作る、または scope を広げる(gate GU4)。
 - 辞書ヒットを裁定台帳に記録せず final action を確定する(来歴の分散)。
 - 抽出工程の失敗をメガプロンプトへの追記だけで直す(§14 の還流先規律に反する)。
 
 ## 11. AI への指示
 
-実際に AI へ渡すプロンプトは [prompts/ui-mock-to-ui-bom.md](prompts/ui-mock-to-ui-bom.md) を使う。出力は次の順で揃える。
+標準は工程分離(§12)の 2 段プロンプトである。
 
-1. 抽出概要
-2. `ui-ir.json`
-3. `ui-bom.json`
-4. `ui-trace-map.json`
-5. `extraction-report.md`
-6. `unresolved-questions.md`
+| Prompt | 入力 | 出力 |
+|---|---|---|
+| [prompts/ui-raw-to-candidates.md](prompts/ui-raw-to-candidates.md) | `ui-ir.raw.json`+モック表示+機能説明+36 辞書+37 台帳 | `ui-ir.json`(候補)+台帳への質問レコード案 |
+| [prompts/ui-apply-rulings-to-bom.md](prompts/ui-apply-rulings-to-bom.md) | `ui-ir.json`+37(裁定済み)+36+raw IR | `ui-bom.json`+`ui-trace-map.json`+`extraction-report.md` |
 
-> **経過措置**: 本プロンプトは一発変換(Raw 抽出+意味付与+質問生成の混載)であり、§12 の工程分離が完成するまでの経過措置である。raw 抽出治具(`ui-extract.py`)導入後は、決定的抽出を治具に移し、プロンプトは意味候補付与と質問生成に縮小する。失敗知見をこのプロンプトへ無限に追記しない(還流先は §14)。
+質問生成を第1段から独立させる 3 分割は、「候補と質問の混載で質が落ちる」ことが実測されてから行う(候補記録)。
+
+旧一発変換 [prompts/ui-mock-to-ui-bom.md](prompts/ui-mock-to-ui-bom.md) は deprecated。raw 抽出治具を使えない環境での代替としてのみ残し、失敗知見を追記しない(還流先は §14)。
 
 ## 12. 工程分離原則(candidate)
 
@@ -290,13 +291,13 @@ AI が出すのは、意味候補・根拠・未裁定質問である。
 
 ```text
 mock.html
-  ↓ 決定的抽出(ui-extract.py — 未実装。導入までは §11 の一発変換で代替)
-ui-ir.raw.json      … HTML から機械的に確定できる事実(stable id は DOM 由来で決定的に採番)
-  ↓ AI 意味付与
-ui-ir.json          … 意味候補+confidence+根拠。候補であり製造入力ではない
-  ↓ 裁定/辞書解決
+  ↓ 決定的抽出: tools/ui-extract.py(AI 不使用。同一 HTML → 同一 id)
+ui-ir.raw.json      … HTML から機械的に確定できる事実(stable id は data-ui-id または DOM 由来)
+  ↓ AI 意味付与: prompts/ui-raw-to-candidates.md
+ui-ir.json          … 意味候補+confidence+根拠+rawRefs。候補であり製造入力ではない
+  ↓ 裁定/辞書解決(人間+辞書)
 37-ui-rulings.yaml + 36-ui-dictionary.yaml
-  ↓ 昇格(裁定ゲート合格時のみ)
+  ↓ 昇格: prompts/ui-apply-rulings-to-bom.md(裁定ゲート合格時のみ)
 ui-bom.json         … 製造へ流せる確定済み候補部品表
   ↓
 E-BOM / M-BOM / Control Plan / S-BOM
@@ -351,20 +352,23 @@ E-BOM / M-BOM / Control Plan / S-BOM
 
 ## 15. UI-CAD 裁定ゲート
 
-「人間がちゃんと読んだか」ではなく「製造に流してよい条件を満たすか」で止める。不変条件は次の 4 つ(凍結。変更する場合は fork して宣言):
+「人間がちゃんと読んだか」ではなく「製造に流してよい条件を満たすか」で止める。ゲート記号は **GU 系列**とする(playbook のフェーズゲート G0〜G3 / G2' と衝突するため。§14 の S→X 改名と同じ理由)。不変条件は次の 5 つ(凍結。変更する場合は fork して宣言):
 
-1. すべての interactable(raw 抽出治具の導入まで、母集団は `ui-ir.json` の action)は、「ui-bom 採用済み」「理由付き ignore(`rejected` 裁定)」「open question に紐づく」のいずれかでなければならない。
-2. final action は `ruled` 裁定(辞書ヒット由来を含む)を持たなければならない。
-3. `blocking: true` の `open` が 1 件でも残っていれば、E-BOM / M-BOM 昇格禁止。
-4. ui-bom item は raw DOM node への trace を持たなければならない。
+1. raw IR の全 interactable は、`ui-ir.json` の `rawRefs`(actions / inputs / unmodeledElements)または裁定台帳のいずれかに現れなければならない(黙って落とさない)。
+2. `ui-ir.json` の全 action は、「ui-bom 採用済み」「理由付き ignore(`rejected` 裁定)」「open question に紐づく」のいずれかでなければならない。
+3. final action は `ruled` 裁定(辞書ヒット由来を含む)を持たなければならない。
+4. `blocking: true` の `open` が 1 件でも残っていれば、E-BOM / M-BOM 昇格禁止。
+5. ui-bom item は raw DOM node への trace を持たなければならない。
 
-検査治具は [tools/ui-cad-gate.py](tools/ui-cad-gate.py)。
+検査治具は [tools/ui-cad-gate.py](tools/ui-cad-gate.py)(raw 抽出は [tools/ui-extract.py](tools/ui-extract.py))。
 
 | Gate | 検査内容 | 失敗時 |
 |---|---|---|
-| G2 会計 | 全 action が 採用 / ignore / 質問 のいずれかに分類済みか | AI 候補生成または質問追加 |
-| G3 裁定 | blocking の open が残っていないか | 製造停止。裁定してから再実行 |
-| G4 来歴 | final action に ruled 裁定があるか。辞書エントリに source_rulings があるか | 裁定追加または辞書修正 |
-| G5 追跡 | ui-bom item が trace map 経由で HTML selector へ辿れるか | 昇格禁止。trace 補完 |
+| GU1 raw会計 | raw IR の全 interactable が候補層か台帳に現れるか(raw IR なしでは skip) | AI 候補の再生成または unmodeled 追記 |
+| GU2 会計 | 全 action が 採用 / ignore / 質問 のいずれかに分類済みか | AI 候補生成または質問追加 |
+| GU3 裁定 | blocking の open が残っていないか | 製造停止。裁定してから再実行 |
+| GU4 来歴 | final action に ruled 裁定があるか。辞書エントリに source_rulings があるか | 裁定追加または辞書修正 |
+| GU5 追跡 | ui-bom item が trace map 経由で HTML selector へ辿れるか | 昇格禁止。trace 補完 |
+| GU6 id揺れ | `--mock` 指定時、再抽出して stable id の揺れがないか | extractor 修正またはモック改変の diff 追従 |
 
-G1(raw 抽出網羅)と G6(stable id 揺れ)は、`ui-extract.py` 導入後に追加する(決定的抽出が存在して初めて検査可能になるため)。
+raw IR のない旧方式(§11 一発変換)の案件では GU1/GU6 は skip され、GU2 が会計の全責務を負う(経過措置)。
