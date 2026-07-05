@@ -1,0 +1,96 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: UI Rulings Ledger
+
+# UI 裁定台帳(candidate):
+# UI-CAD 前工程で発生する「意味の裁定」を、残タスクではなく設計資産として記録する一次成果物。
+# unresolved-questions.md(残タスクの open ビュー)の発展形であり、open だけでなく
+# ruled / rejected / superseded を保持する。同じ質問を二度としないための来歴がここに残る。
+#
+# 位置づけ:
+#   - 最終事実(製造へ流せる意味)になれるのは、本台帳の ruled レコードだけ。
+#     AI 候補の confidence は製造許可ではなく、レビュー優先度にだけ使う(ui-ir-ui-bom.md §12)。
+#   - 辞書(36-ui-dictionary.yaml)ヒットで解決した場合も decided_by: dictionary の 1 レコードを
+#     記録する(来歴の一元化。gate G4 の検査対象が本台帳だけで済む)。
+#   - 設計者資産。設計対話の履歴に近いため、41/42 と同様に製造装置へは渡さない。
+#
+# 規律:
+#   1. blocking: true かつ status: open のレコードが 1 件でもあれば、E-BOM/M-BOM 昇格禁止(gate G3)。
+#   2. 辞書への還流・scope の拡大は、それ自体を 1 件の裁定として記録する
+#      (type: dictionary-promotion / scope-widening)。
+#   3. 裁定には否定側(negative_rulings)と根拠(evidence)を残す。境界の言明が再利用価値を持つ。
+#   4. 裁定を覆すときは上書きせず、新レコードを起こして旧レコードを superseded にする(lineage 温存)。
+#   5. スキーマは candidate。フィールド追加は実案件(MoviePad 実証等)で不足が実測されてから。
+
+schema: ui-rulings/0.1-candidate
+
+rulings:
+  # 例 1: 未裁定(blocking)— この状態が 1 件でも残れば製造昇格は止まる
+  - id: UQ-0001                      # 既存 ui-trace-map.json の blockingQuestions と同じ UQ-* 系列
+    status: open                     # open | ruled | rejected | superseded
+    type: action-semantics           # action-semantics | persistence | timing | deletion-mode |
+                                     # variant-boundary | scope-widening | dictionary-promotion | other
+    blocking: true                   # true なら製造昇格を止める(G3)
+    target:
+      ui_ids: ["action.tag.add"]     # ui-ir.json / ui-bom.json の uiId
+      temp_part_no: TMP-UI-ACT-0001
+      surface_label: "追加"
+    question: >
+      この「追加」はタグ定義の新規作成か、選択対象への既存タグ付与か。
+    options: [CreateTag, AttachTagToItem]
+    ruling: null                     # ruled 時に確定した正規名・決定内容
+    negative_rulings: []             # 棄却側。例 [{option: CreateTag, why: "別途「新規タグ」ボタンが存在する"}]
+    scope: screen                    # instance | screen | product(この裁定が再利用できる範囲)
+    evidence: []                     # 判断根拠(モック上の配置・併存ボタン・機能説明の引用など)
+    decided_by: null                 # user | dictionary | <designer-AI+承認者>
+    decided_at: null                 # YYYY-MM-DD
+    dictionary_entry: null           # 36 へ還流した場合のエントリ id(還流しないなら null)
+    superseded_by: null              # superseded 時の後継 UQ-*
+
+  # 例 2: 人間が裁定済み+辞書へ還流
+  - id: UQ-0002
+    status: ruled
+    type: action-semantics
+    blocking: true
+    target:
+      ui_ids: ["action.tag.attach"]
+      temp_part_no: TMP-UI-ACT-0002
+      surface_label: "付与"
+    question: >
+      「付与」は AttachTagToItem と同義か。
+    options: [AttachTagToItem, CreateTag]
+    ruling: AttachTagToItem
+    negative_rulings:
+      - option: CreateTag
+        why: <「新規タグ」ボタンが別に存在し、本ボタンは選択アイテムのタグ欄内にある>
+    scope: screen
+    evidence:
+      - <ボタンがアイテム詳細ペイン内のタグ欄に配置されている>
+      - <機能説明に「既存タグを付ける」とある>
+    decided_by: user
+    decided_at: <YYYY-MM-DD>
+    dictionary_entry: attach_tag_to_item
+    superseded_by: null
+
+  # 例 3: 辞書ヒットによる解決(2 画面目以降はこのレコードが増え、人間への質問が減っていくのが正)
+  - id: UQ-0003
+    status: ruled
+    type: action-semantics
+    blocking: false
+    target:
+      ui_ids: ["action.tag.add-from-palette"]
+      temp_part_no: TMP-UI-ACT-0003
+      surface_label: "追加"
+    question: >
+      パレット内の「追加」の正規アクションは何か。
+    options: [AttachTagToItem]
+    ruling: AttachTagToItem
+    negative_rulings: []
+    scope: instance
+    evidence:
+      - <辞書 attach_tag_to_item の alias「追加」に一致。negative(新規タグ/タグ作成)に非該当>
+    decided_by: dictionary
+    decided_at: <YYYY-MM-DD>
+    dictionary_entry: attach_tag_to_item
+    superseded_by: null

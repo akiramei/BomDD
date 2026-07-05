@@ -19,6 +19,8 @@ YAML の語彙は v2 実証リポジトリ([BomDD-WebApi-Sample](https://github.
 | 33 | [33-control-plan.yaml](33-control-plan.yaml) | Phase 3 Control Plan | 製造パッケージ |
 | 34 | [34-routing.yaml](34-routing.yaml) | Phase 3 Routing | 製造パッケージ |
 | 35 | [35-design-system-bom.yaml](35-design-system-bom.yaml) | Phase 3 Design System BOM(candidate) | UI-CAD 案件では**製造パッケージ必須**。非UI案件は not-applicable |
+| 36 | [36-ui-dictionary.yaml](36-ui-dictionary.yaml) | Phase 2–5 UI 用語辞書(candidate) | **設計者のみ**(canonical 名は 20/30 へ反映して渡す) |
+| 37 | [37-ui-rulings.yaml](37-ui-rulings.yaml) | Phase 2–5 UI 裁定台帳(candidate) | **設計者のみ**(設計対話の来歴。41/42 と同様に工場非開示) |
 | 40 | [40-work-order.md](40-work-order.md) | Phase 4 製造指示 | 製造パッケージ(表紙) |
 | 41 | [41-fixed-oracle.yaml](41-fixed-oracle.yaml) | Phase 3–5 固定オラクル | **設計者のみ(工場非開示)** |
 | 42 | [42-exploratory-probes.yaml](42-exploratory-probes.yaml) | Phase 3–5 探索プローブ | **設計者のみ(工場非開示)** |

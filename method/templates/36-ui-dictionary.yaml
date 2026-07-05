@@ -1,0 +1,52 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: UI Dictionary
+
+# UI 用語辞書(candidate):
+# 表示文言の表記揺れと正規名(canonical)の対応を、文脈スコープ付きで管理する再利用資産。
+# 「何であるか」だけでなく「何ではないか」(negative)を持つ。否定側の言明こそが
+# 次回以降の AI の迷い(「追加」= Create か Attach か)を減らす。
+#
+# 位置づけ:
+#   - UI-CAD 前工程(ui-ir-ui-bom.md §13)の一次成果物。裁定台帳(37-ui-rulings.yaml)の
+#     裁定結果から「再利用可能なもの」だけが還流して成長する。
+#   - 設計者資産。製造パッケージには含めない(canonical 名は 20/30 へ反映済みであること)。
+#
+# 規律:
+#   1. エントリの新設・scope の拡大は、それ自体が 1 件の裁定であり、裁定台帳の記録を必ず伴う
+#      (source_rulings に UQ-* を記録)。裏付けのないエントリは gate G4 で不合格。
+#   2. scope は instance | screen | product の 3 値。feature / domain 等への細分化は、
+#      誤爆(誤った一般化)が実測されてから裁定する(候補記録 — rule of three 待ち)。
+#   3. 文脈条件の機械照合(applies_when DSL)は導入しない。照合は AI 候補生成+人間裁定が行う。
+#      実行エンジンのない条件節は死んだ仕様になる。誤爆が実測された時点で機械化を候補として裁定する。
+#   4. 同一ラベルが複数エントリの alias になるのは正常(多義)。解決は文脈と negative を根拠に
+#      裁定台帳で行い、辞書側で無理に一意化しない。
+
+schema: ui-dictionary/0.1-candidate
+
+actions:
+  attach_tag_to_item:
+    canonical: AttachTagToItem
+    kind: command                    # command | query | navigation
+    scope: screen                    # instance | screen | product
+    domain_terms:
+      object: Tag
+      target: Item
+    label_aliases: ["追加", "付与", "タグを追加"]
+    negative:                        # このエントリでは「ない」もの
+      - canonical: CreateTag
+        when_label: ["新規タグ", "タグ作成"]
+        why: <タグ定義の新規作成は別操作。混同すると責務境界が崩れる>
+    source_rulings: [UQ-0001]        # 裏付けの裁定 ID(必須。空は G4 不合格)
+    notes: <補足>
+
+parts:
+  tag_edit_pane:
+    canonical: TagEditPane
+    kind: part
+    scope: screen
+    label_aliases: ["タグ編集", "タグペイン", "タグ管理"]
+    negative: []
+    source_rulings: [UQ-0002]
+    notes: <補足>

@@ -124,7 +124,9 @@ modal.<対象>.<用途>
 | `ui-trace-map.json` | HTML selector / UI-IR / UI-BOM / E-BOM 候補の対応表 |
 | `design-intent.md` | DESIGN DIRECTION / 原則 / COLOR・TYPE・ROW などの設計意図 |
 | `extraction-report.md` | 抽出結果、BOM 対象理由、対象外理由、E-BOM 連携候補 |
-| `unresolved-questions.md` | 仕様・UI 設計・E-BOM 昇格前に確認すべき事項 |
+| `unresolved-questions.md` | 仕様・UI 設計・E-BOM 昇格前に確認すべき事項(裁定台帳の open ビュー) |
+| [templates/37-ui-rulings.yaml](templates/37-ui-rulings.yaml) | 裁定台帳。open / ruled / rejected / superseded を保持する設計資産(§13) |
+| [templates/36-ui-dictionary.yaml](templates/36-ui-dictionary.yaml) | 文脈スコープ付き用語辞書。裁定からのみ成長する再利用資産(§13) |
 
 必要に応じて、HTML に `data-ui-id` / `data-ui-temp-part-no` を付けた annotated HTML を追加してよい。
 
@@ -256,6 +258,10 @@ UI-CAD を使った案件では、Phase 3 と Phase 5 に次を追加する。
 - 可変幅の兄弟要素が中央/固定要素の中心位置を駆動する実装(DockPanel 残余空間中央など)を、`layoutInvariants` で禁止せず放置する。
 - 不明点を未解決事項に出さず埋める。
 - 既存 stable id を理由なく変更する。
+- blocking の open 裁定を残したまま E-BOM / M-BOM へ昇格する(gate G3)。
+- 裁定の裏付け(source_rulings)なしに辞書エントリを作る、または scope を広げる(gate G4)。
+- 辞書ヒットを裁定台帳に記録せず final action を確定する(来歴の分散)。
+- 抽出工程の失敗をメガプロンプトへの追記だけで直す(§14 の還流先規律に反する)。
 
 ## 11. AI への指示
 
@@ -267,3 +273,98 @@ UI-CAD を使った案件では、Phase 3 と Phase 5 に次を追加する。
 4. `ui-trace-map.json`
 5. `extraction-report.md`
 6. `unresolved-questions.md`
+
+> **経過措置**: 本プロンプトは一発変換(Raw 抽出+意味付与+質問生成の混載)であり、§12 の工程分離が完成するまでの経過措置である。raw 抽出治具(`ui-extract.py`)導入後は、決定的抽出を治具に移し、プロンプトは意味候補付与と質問生成に縮小する。失敗知見をこのプロンプトへ無限に追記しない(還流先は §14)。
+
+## 12. 工程分離原則(candidate)
+
+UI-CAD 前工程の設計原則を次の 3 行に固定する。
+
+```text
+機械で決まる事実は、AI に推測させない。
+AI が出すのは、意味候補・根拠・未裁定質問である。
+最終事実になるのは、辞書ヒットまたは裁定済みレコードだけである。
+```
+
+工程と成果物は 5 層に分離する。
+
+```text
+mock.html
+  ↓ 決定的抽出(ui-extract.py — 未実装。導入までは §11 の一発変換で代替)
+ui-ir.raw.json      … HTML から機械的に確定できる事実(stable id は DOM 由来で決定的に採番)
+  ↓ AI 意味付与
+ui-ir.json          … 意味候補+confidence+根拠。候補であり製造入力ではない
+  ↓ 裁定/辞書解決
+37-ui-rulings.yaml + 36-ui-dictionary.yaml
+  ↓ 昇格(裁定ゲート合格時のみ)
+ui-bom.json         … 製造へ流せる確定済み候補部品表
+  ↓
+E-BOM / M-BOM / Control Plan / S-BOM
+```
+
+- `confidence` は製造許可ではなく、レビュー優先度にだけ使う。
+- AI は raw IR に存在しないノードを作ってはならない。final action を確定してはならない。曖昧な意味は未裁定質問として出す。
+- 工程を 1 つのメガプロンプトに混載すると、失敗のたびにプロンプトが太り、職人芸が増える(§14)。
+
+## 13. 裁定台帳と文脈付き辞書
+
+### 13.1 裁定台帳(37-ui-rulings.yaml)
+
+未裁定リストは残タスクだが、裁定台帳は設計資産である。`open` だけでなく `ruled` / `rejected` / `superseded` を保持し、「同じ質問を二度としない」ための来歴を残す。
+
+- **辞書ヒットも台帳の 1 レコード**(`decided_by: dictionary`)として記録する。来歴が台帳に一元化され、ゲートは台帳だけを見れば済む。
+- **裁定には否定側を残す**。「追加」が `AttachTagToItem` で*あり* `CreateTag` では*ない*という境界の言明が、次回以降の AI の迷いを減らす。
+- 裁定を覆すときは上書きせず、新レコードを起こして旧を `superseded` にする(lineage 温存 — 64 と同じ規律)。
+
+### 13.2 文脈付き辞書(36-ui-dictionary.yaml)
+
+表示文言は多義である(「追加」= タグ追加/行追加/条件追加…)。辞書は無条件のグローバル alias 集にしない。
+
+- **scope は `instance` / `screen` / `product` の 3 値**。scope の拡大はそれ自体が 1 件の裁定であり、台帳に記録する。feature / domain 等への細分化は、誤った一般化の誤爆が実測されてから裁定する(rule of three 待ち)。
+- **エントリの新設は裁定の裏付け(`source_rulings`)を必須とする**。裏付けのないエントリはゲート不合格。
+- **文脈条件の機械照合(applies_when DSL)は導入しない**。実行エンジンのない条件節は死んだ仕様になる。照合は AI 候補生成+人間裁定が担い、誤爆が実測された時点で機械化を候補として裁定する。
+
+### 13.3 測定
+
+裁定装置の価値は質問を出す能力ではなく、**同じ質問を二度と出さない能力**で測る。
+
+| 指標 | 期待 |
+|---|---|
+| 再質問率(裁定済みの意味を再度質問した率) | 下がるべき |
+| 辞書ヒット率(人間裁定なしで解決した率) | 画面数に対して上がるべき |
+| 未裁定充填検出数(AI が質問せず埋めた件数) | ずる台帳(51)と直結。ゼロであるべき |
+| prompt 追記量 | 失敗知見がプロンプトへ漏れていないかの canary |
+
+この曲線が出ないなら、辞書還流か scope 設計が失敗している。
+
+## 14. 抽出工程の失敗型 X1/X2/X3 と還流先
+
+§9.1 の S1/S2/S3 は**視覚突合(製造後)**の失敗型である。ここで定義する X1〜X3 は**抽出工程(製造前)**の失敗型であり、別系列として扱う(同一記号の二義使用禁止)。
+
+| 失敗型 | 例 | 還流先 |
+|---|---|---|
+| X1 raw 抽出漏れ | button の見落とし、aria-label 未取得 | パーサ治具の修正+治具テスト追加。**プロンプトで直さない** |
+| X2 構造認識ミス | div 群を Card でなく素の panel と解釈 | AI 候補プロンプトの修正+golden 追加 |
+| X3 意味裁定ミス | 「追加」を CreateTag と誤解 | 裁定台帳+辞書の negative 追加。**プロンプトだけで直さない** |
+
+失敗のたびにメガプロンプトへ知見を追記するのは X1/X3 の誤った還流であり、プロンプト肥大=職人芸の再蓄積である。
+
+## 15. UI-CAD 裁定ゲート
+
+「人間がちゃんと読んだか」ではなく「製造に流してよい条件を満たすか」で止める。不変条件は次の 4 つ(凍結。変更する場合は fork して宣言):
+
+1. すべての interactable(raw 抽出治具の導入まで、母集団は `ui-ir.json` の action)は、「ui-bom 採用済み」「理由付き ignore(`rejected` 裁定)」「open question に紐づく」のいずれかでなければならない。
+2. final action は `ruled` 裁定(辞書ヒット由来を含む)を持たなければならない。
+3. `blocking: true` の `open` が 1 件でも残っていれば、E-BOM / M-BOM 昇格禁止。
+4. ui-bom item は raw DOM node への trace を持たなければならない。
+
+検査治具は [tools/ui-cad-gate.py](tools/ui-cad-gate.py)。
+
+| Gate | 検査内容 | 失敗時 |
+|---|---|---|
+| G2 会計 | 全 action が 採用 / ignore / 質問 のいずれかに分類済みか | AI 候補生成または質問追加 |
+| G3 裁定 | blocking の open が残っていないか | 製造停止。裁定してから再実行 |
+| G4 来歴 | final action に ruled 裁定があるか。辞書エントリに source_rulings があるか | 裁定追加または辞書修正 |
+| G5 追跡 | ui-bom item が trace map 経由で HTML selector へ辿れるか | 昇格禁止。trace 補完 |
+
+G1(raw 抽出網羅)と G6(stable id 揺れ)は、`ui-extract.py` 導入後に追加する(決定的抽出が存在して初めて検査可能になるため)。
