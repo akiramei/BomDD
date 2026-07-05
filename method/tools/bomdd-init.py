@@ -26,7 +26,8 @@ ONBOARDING = METHOD_ROOT / "method" / "onboarding"
 # 製品リポ bomdd/ へコピーするフェーズ成果物テンプレ(単一正本は method/templates/)
 PHASE_TEMPLATE_GLOBS = ["[0-9][0-9]-*.md", "[0-9][0-9]-*.yaml", "README.md"]
 
-SKILLS = ["bomdd-next", "eco-file", "eco-fix", "eco-accept", "sec-advisory"]
+SKILLS = ["bomdd-next", "eco-file", "eco-fix", "eco-accept", "sec-advisory",
+          "bomdd-refmodel", "bomdd-mock-lint", "bomdd-ui-cad"]
 
 
 def render(src: Path, dst: Path, repl: dict[str, str]) -> None:
@@ -96,7 +97,29 @@ def main() -> int:
     gui.add_argument("--no-gui", action="store_true", help="GUI なし(CAD リポを生成しない)")
     ap.add_argument("--cad-name", default=None, help="CAD リポ名(既定: <name>UI)")
     ap.add_argument("--no-git", action="store_true", help="git init/初回コミットを行わない")
+    ap.add_argument("--skills-only", action="store_true",
+                    help="既存の製品リポへ運用スキルのみ設置(scaffold しない。name は既存ディレクトリ)")
+    ap.add_argument("--skills", default=None,
+                    help="--skills-only で設置するスキルをカンマ区切りで限定(既定: 全部)")
     args = ap.parse_args()
+
+    if args.skills_only:
+        root = (Path(args.dir).resolve() / args.name)
+        if not root.is_dir():
+            print(f"エラー: {root} が存在しません(--skills-only は既存リポ向け)", file=sys.stderr)
+            return 1
+        selected = [s.strip() for s in args.skills.split(",")] if args.skills else SKILLS
+        unknown = [s for s in selected if s not in SKILLS]
+        if unknown:
+            print(f"エラー: 未知のスキル: {unknown}(候補: {SKILLS})", file=sys.stderr)
+            return 1
+        repl = {"PRODUCT": args.name, "CAD": args.cad_name or f"{args.name}UI",
+                "METHOD": str(METHOD_ROOT), "DATE": date.today().isoformat()}
+        for skill in selected:
+            render(PROFILE / "skills" / f"{skill}.md",
+                   root / ".claude" / "skills" / skill / "SKILL.md", repl)
+        print(f"[ok] {root} へスキル {len(selected)} 本を設置しました(コミットは手動で)")
+        return 0
 
     if args.gui or args.no_gui:
         is_gui = args.gui
