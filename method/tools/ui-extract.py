@@ -15,7 +15,12 @@
 #     テキスト/属性由来の fingerprint 強化は揺れが実測されてから)。
 #  2. interactable 判定: button/select/textarea/a[href]/input(hidden 除く)/
 #     on{click,change,submit,input} 属性/contenteditable/data-ui-action/
-#     role∈{button,link,menuitem,menuitemcheckbox,tab,checkbox,switch,option,combobox}。
+#     role∈{button,link,menuitem,menuitemcheckbox,tab,checkbox,switch,option,combobox}/
+#     data-snap-cursor∈{pointer,*-resize,grab,grabbing,move,crosshair}。
+#     data-snap-cursor は DOM スナップショット治具が computed style の cursor を焼き込んだもの。
+#     フレームワーク(React 等)が JS でリスナーを付ける要素は静的属性に痕跡が無く、
+#     これが無いと丸ごと漏れる(X1 実例第1号: MoviePad モックの region/bound/trim-h/
+#     カスタムラジオ。2026-07-05)。cursor=text は caret 表示と曖昧なため採用しない。
 #  3. rawActionId は文書順に RAW-ACT-0001 から採番(決定的)。
 #  4. surfaceLabel は textContent → aria-label → placeholder → value → title → name の順。
 #  5. 出力にタイムスタンプを含めない(決定性の保証。時刻が要るなら外側で記録する)。
@@ -45,6 +50,10 @@ INTERACTABLE_ROLES = {"button", "link", "menuitem", "menuitemcheckbox", "tab",
                       "checkbox", "switch", "option", "combobox"}
 EVENT_ATTRS = {"onclick": "click", "onchange": "change",
                "onsubmit": "submit", "oninput": "input"}
+SNAP_CURSOR_INTERACTIVE = {"pointer", "ew-resize", "ns-resize", "col-resize",
+                           "row-resize", "grab", "grabbing", "move", "crosshair"}
+SNAP_CURSOR_DRAG = {"ew-resize", "ns-resize", "col-resize", "row-resize",
+                    "grab", "grabbing", "move"}
 CAPTURED_ATTR_PREFIXES = ("aria-", "data-", "on")
 CAPTURED_ATTRS = {"id", "class", "name", "type", "value", "placeholder", "href",
                   "role", "title", "for", "disabled", "checked", "selected",
@@ -180,6 +189,8 @@ def is_interactable(node):
         return True
     if node.attrs.get("role") in INTERACTABLE_ROLES:
         return True
+    if node.attrs.get("data-snap-cursor") in SNAP_CURSOR_INTERACTIVE:
+        return True
     return False
 
 
@@ -187,6 +198,8 @@ def event_hint(node):
     for k, ev in EVENT_ATTRS.items():
         if k in node.attrs:
             return ev
+    if node.attrs.get("data-snap-cursor") in SNAP_CURSOR_DRAG:
+        return "drag"
     if node.tag in {"button", "a"} or node.attrs.get("role") in INTERACTABLE_ROLES:
         return "click"
     if node.tag == "select":
