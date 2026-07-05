@@ -8,6 +8,7 @@
 | [phase1-brainstorm.md](phase1-brainstorm.md) | ブレスト→要求台帳 | G1 根拠精度 |
 | [phase2-spec.md](phase2-spec.md) | 仕様化 | G2 マルチリーダー監査 / G2' 測定可能性 |
 | [ui-mock-coverage.md](ui-mock-coverage.md) | UIモック受入検査: 三層検査+復唱(candidate・§17。抽出より前・隔離実行) | スコープ十分の裁定(ゲート化は未裁定) |
+| [ui-mock-refmodel.md](ui-mock-refmodel.md) | UIモック受入検査 層2.5: 参照概念モデル差分(candidate・§17.1。外→内・製品につき1回) | ヒアリング=①〜④裁定→台帳 |
 | [ui-raw-to-candidates.md](ui-raw-to-candidates.md) | UIモック抽出 第1段: 意味候補+質問(candidate) | raw 全 interactable の会計(GU1) |
 | [ui-apply-rulings-to-bom.md](ui-apply-rulings-to-bom.md) | UIモック抽出 第2段: 裁定反映→UI-BOM(candidate) | UI-CAD 裁定ゲート GU1–GU6(tools/ui-cad-gate.py) |
 | [ui-mock-to-ui-bom.md](ui-mock-to-ui-bom.md) | UIモック抽出(**deprecated** 旧一発変換) | UI-IR / UI-BOM / trace map / 未解決事項 |
