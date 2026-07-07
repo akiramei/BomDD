@@ -15,7 +15,7 @@
 |---|---|---|
 | 仕様書はあるか | yes / no / partial | `bomdd/plm-intake/` または `bomdd/20-spec.md` |
 | GUI アプリか | yes / no | yes の場合は UI Gate が必須 |
-| UI/UX モックはあるか | yes / no / partial | `bomdd/ui/mock/` |
+| UI/UX モックはあるか | yes / no / partial | `bomdd/ui/mock/`。**no でも開始できる** — Phase 1.5 で作成する(作成は自由創作・検査は必須: /bomdd-refmodel → /bomdd-mock-lint → /bomdd-ui-cad) |
 | DB/永続化はあるか | yes / no / unknown | `bomdd/db/schema-intent.md`、`bomdd/db/ddl/` |
 | 外部依存はあるか | yes / no / unknown | `31-kbom.yaml`、`32-mbom.yaml procurement` |
 | テスト方針はあるか | yes / no / partial | `33-control-plan.yaml` |
@@ -27,7 +27,7 @@
 | 優先度 | ファイル | 標準配置 | 備考 |
 |---|---|---|---|
 | 必須 | 既存仕様、要件メモ、チケット export | `bomdd/plm-intake/` | 正とする資料を明記する |
-| GUI の場合必須 | UI モック、スクリーンショット、Figma export、HTML mock | `bomdd/ui/mock/` | 画面名、状態名、承認者を添える |
+| GUI の場合必須 | UI モック、スクリーンショット、Figma export、HTML mock | `bomdd/ui/mock/` | 画面名、状態名、承認者を添える。**未作成なら配置は不要**(Phase 1.5 で作成) |
 | DB の場合必須 | DDL、ERD、schema メモ、migration 方針 | `bomdd/db/` | 既存データ保持要件を分ける |
 | ある場合 | 既存テスト、受入条件、運用手順 | `bomdd/plm-intake/` | Control Plan の種にする |
 | ある場合 | 外部 API docs、ライブラリ制約、デザインシステム | `bomdd/plm-intake/` | K-BOM の種にする |
@@ -39,7 +39,7 @@
 1. `bomdd/00-charter.md`
 2. `bomdd/10-requirements.yaml`
 3. `bomdd/20-spec.md`
-4. GUI の場合: `bomdd/ui/<screen-or-flow>/ui-ir.json`
+4. GUI の場合: `bomdd/ui/<screen-or-flow>/ui-ir.json`(前段= Phase 1.5: モック作成〔自由創作〕→ /bomdd-refmodel → /bomdd-mock-lint〔blocking 0 まで〕→ /bomdd-ui-cad。ui-ir-ui-bom.md §12.1 の双子出力= DOM snapshot+PNG を保存)
 5. GUI の場合: `bomdd/ui/<screen-or-flow>/ui-bom.json`
 6. GUI の場合: `bomdd/ui/<screen-or-flow>/ui-trace-map.json`
 7. DB の場合: `bomdd/db/schema-intent.md`
