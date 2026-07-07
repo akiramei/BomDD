@@ -53,6 +53,12 @@
 - [ ] ハブ台帳が無い場合: ECO 台帳が数件以上溜まっているなら**遡及採点**(宣言影響集合 vs 実 diff の
       全 ECO 一括突合)で機械的に発見できる — 汎用治具: [tools/impact-retrospective.py](../tools/impact-retrospective.py)
       (impacted_bom / affected_refs 両対応・test-only 分離・ハブ集中度を出力。初出= scale-01)
+- [ ] **ECO 台帳のないリポジトリ(BomDD 未導入)の場合**: stage-0 健診 — 実 diff のみから複数 unit
+      跨ぎ率・層跨ぎ率・ハブ集中を測定でき、導入回収見込みとハブ台帳の初期値を宣言起票前に数字で
+      得られる(初出= ViewGrid 2026-07-07: 跨ぎ 49.8%・治具は scratch・rule of three 待ち)
+- [ ] ハブ台帳の記載根拠は**多重測定の収束**で強化できる — fix 集中・churn・ファイルサイズは独立
+      測定系であり、複数系統が同一 unit へ収束すれば単一の変更実績だけに依存するより頑健
+      (ViewGrid: GridCanvasView が fix/churn/サイズの三冠)
 
 ## 2. 影響なし予測(反証可能 — 製造前に凍結)
 > 製造後の回帰で当たるかを検証する。外れ=**under-inclusion**(取りこぼし。最危険)。
