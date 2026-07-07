@@ -452,3 +452,55 @@ MoviePad 90df557(mock-capture-01 プロト保全)。裁定者= ユーザー・20
   教訓 2= 不可逆観測データの本文化判断が裁定記録つきで再現するか(2 例目)。教訓 3= 新設フェーズ/
   ゲートの完了条件が exit code 紐付けで書かれる率。教訓 4= 次の標準手順改訂で波及監査が工程として
   実施されるか(deprecated 参照 lint は 2 例目で昇格裁定)。
+
+## 2026-07 sbom 還元 — vendor leak 遡及測定 2 例(交換性の較正)が出した教訓 5 件
+
+観測(出典= LibraryLending bomdd/studies/sbom-vendor-leak-01.md(f7bfc24)/
+ViewPrism2 bomdd/studies/sbom-vendor-leak-02.md(b4c91a9)。発端= ユーザー提起
+「S-BOM は OSS の劣化リスク(ライセンス変更・有料化・メンテ放棄・脆弱性)を想定すべきで、
+交換可能性・交換コストは製造工程と密接 — M/S-BOM の関係の現状把握が必要」+外部ヒアリング
+「B 先行(実測)→ A(テンプレ設計)」):
+- **1 例目(LibraryLending・match)**: v0.5 時点の旧部品固有名の層別 grep(product-contract 0・
+  oracle 0・K/M 14・data-format 0・diagnostic 0)が forward-04 の実交換面(K/M/S/台帳のみ改訂・
+  REQ/仕様/E-BOM/オラクル無改訂)を正しく予測。副産物= 部品同定の粒度(naive な sqlite grep は
+  エンジン参照 12 件で「重い交換」と誤予測 — エンジンとプロバイダは別調達品目)・data-format の
+  部品別帰属(DB 形式はエンジン帰属= プロバイダ交換でデータ互換が保たれた構造的理由)・
+  watch の As-Maintained ポインタ追随(交換コスト第 4 因子・微小)。
+- **2 例目(ViewPrism2・4 部品)**: SkiaSharp= contract 11(全て external_source 等の管理された参照)・
+  **oracle 82(期待値が部品挙動の関数= pHash。ECO-054 の実コスト -18 を事前含意= match 2 件目)**/
+  Dapper= 宣言 substitutable: false だが実測は contract 0 の最軽量級/Avalonia= axaml 55 の全層拡散。
+  ViewPrism2 procurement は license:/substitutable: を既に保持(テンプレ拡張の in-repo 前例)。
+
+教訓 5 件(一般形の命題+機械面の対。反映先候補つき):
+1. **部品交換のコストは交換前に測定できる(vendor leak 指標)** — 調達部品の固有識別子の層別出現
+   (製品契約/オラクル/K/M)が改訂面を予測する(match 2 件)。機械面= 層別 grep 手順
+   (2 例とも手作業 grep — 治具化は 3 例目で判定)。反映先候補= s-bom-template(交換判断の事前指標)
+   +FINDINGS 追補(定量)。
+2. **交換クラスは 3 類型** — K/M-contained(軽: 交換は K/M 改訂+部分再製造で閉じる)/
+   **oracle-coupled(再認証つき移行: 期待値が部品挙動の関数のとき。leak は除去不能であり、正応答は
+   「宣言された結合」への変換= 版 exact ピン+世代識別子+仕様固定 — 実在例 P-09 hash_adapter)**/
+   structural(構造材: UI 定義層へ大量拡散= 交換は再製造級)。機械面= 類型別の交換手順(語彙)。
+   反映先候補= s-bom-template(処置語彙の隣)。
+3. **宣言(方針)と実測(コスト)は別軸** — substitutable: false の実態は「ADR で決めたから変えない」
+   であり交換コスト高ではない(Dapper 実測: 最軽量)。混同すると「方針 false だからコスト測定不要」の
+   誤読を生む。機械面= exchange_policy と measured_leak のフィールド分離。反映先候補= 53/32 テンプレ。
+4. **leak 測定の前提 3 つ** — (a) 部品同定は調達部品の固有識別子(部品ファミリ名でない)
+   (b) 識別子希薄部品(拡張メソッド構文)は grep 偽陰性型= 測定可能性の宣言も要る
+   (c) 契約層出現は provenance(external_source 等= 方法論が要求する正常参照)と汚染を区別する。
+   機械面= identifier_set の部品別宣言。反映先候補= s-bom-template 測定手順注記+53 テンプレ。
+5. **非挙動劣化は検査面が原理的に無い** — license/商用条件変更・メンテ放棄(シグナル不在が劣化)は
+   全オラクル緑のまま使用不能化する= 受入の梯子の外。台帳属性+watch が唯一の検査器で、freshness は
+   鮮度閾値で「何も起きないこと」を DEG に変換する装置が要る(陽性対照=検査の生死判定、の依存版)。
+   機械面= 53 テンプレの license/maintenance フィールド+閾値 watch。反映先候補= 53 テンプレ+
+   s-bom-template。
+
+適用した改善(本還元で実施済み):
+1. 本節の記帳+出典レポート 2 本の製品リポ保全(studies/)。
+2. method 本文・テンプレの織り込みは停止点(A= s-bom-template 追補/B= FINDINGS 追補/
+   C= 53+32 テンプレ最小拡張)の承認後。
+
+期待する効果:
+- 教訓 1/2= 次の実部品交換で、事前 leak 測定 → 類型判定 → 交換手順選択、の順路が踏まれるか
+  (3 例目で治具昇格判定)。教訓 3= exchange_policy/measured_leak 分離後、「方針=コスト」誤読の
+  再発ゼロ。教訓 4= 識別子集合宣言のある部品の leak 測定が機械化可能になるか。教訓 5= freshness
+  閾値 watch が「シグナル不在」型の劣化イベントを 1 件でも DEG 化できるか(実イベント待ち)。
