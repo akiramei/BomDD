@@ -102,11 +102,13 @@ commit 1: phase0: charter 確定(BookLog・GUI・1工場・予算3・承認者 a
 commit 2: phase1: 要求台帳 REQ-001〜008(既定順・物理削除は対話で確定)
 ```
 
-## 3. Phase 2 — 仕様+CAD(GUI なので設計原器が先)
+## 3. Phase 1.5 → 2 — UI/UX デザイン(モック原器化)→ 仕様
 
-> **補足**: モック提出から UI-BOM 化までは受入検査コマンド(`/bomdd-refmodel` → `/bomdd-mock-lint`
-> → `/bomdd-ui-cad`)を挟むのが現行の標準手順(ui-ir-ui-bom.md §17)。その通しログは
-> [example-session-log-ui-mock.md](example-session-log-ui-mock.md) を参照(本編では圧縮して進める)。
+> **補足**: モック作成から UI-BOM 化までは `/bomdd-next` の判定表で **Phase 1.5** として独立した
+> フェーズであり、受入検査コマンド(`/bomdd-refmodel` → `/bomdd-mock-lint` → `/bomdd-ui-cad`)を
+> 挟むのが標準手順(ui-ir-ui-bom.md §17)。完了条件は治具の exit code で機械判定する
+> (gate-cad 解錠= blocking 0・GU1–GU6 PASS・§12.1 双子出力= DOM snapshot+PNG の保存)。
+> 通しログは [example-session-log-ui-mock.md](example-session-log-ui-mock.md) を参照(本編では圧縮して進める)。
 
 **🤖 AI:**
 > GUI 題材のため、仕様の前に **CAD(BookLogUI)を原器化**します。

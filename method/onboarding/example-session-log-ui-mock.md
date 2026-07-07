@@ -23,8 +23,9 @@
 
 ## 0. 前提
 
-BookLog(example-session-log.md §3)の続き。モック(一覧+編集モーダル)は `BookLogUI/資料/` にあり、
-§12.1 のスナップショット治具で状態ごとの snapshot 化と `ui-extract.py` の raw IR 抽出が済んでいる。
+BookLog(example-session-log.md §3 = Phase 1.5)の続き。モック(一覧+編集モーダル)は `BookLogUI/資料/` にあり、
+§12.1 のスナップショット治具で状態ごとの snapshot 化(**双子出力**= DOM snapshot+pixel capture PNG。
+PNG は視覚原器であり、以降の検査・抽出の入力には使わない)と `ui-extract.py` の raw IR 抽出が済んでいる。
 
 **👤 akira:**
 ```
@@ -191,7 +192,8 @@ GU1 raw会計 ok / GU2 会計 ok / GU3 裁定 ok / GU4 来歴 ok / GU5 追跡 ok
 exit 0
 ```
 
-> **GU 全 PASS — E-BOM / M-BOM へ昇格可能**です。以降は本編ログの Phase 3(BOM・工程設計)へ続きます。
+> **GU 全 PASS+双子出力(DOM snapshot+PNG)保存済み — Phase 1.5 の完了条件を満たし、
+> E-BOM / M-BOM へ昇格可能**です。以降は本編ログの Phase 3(BOM・工程設計)へ続きます。
 
 ---
 
