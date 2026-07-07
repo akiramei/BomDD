@@ -313,7 +313,8 @@ HTML が実行時に DOM を生成するモック(React+Babel 等)は、静的 H
 
 1. ブラウザでレンダリングし、**computed style の cursor を `data-snap-cursor` 属性として焼き込んで**から DOM を保存する(snapshot)。フレームワークが JS でリスナーを付ける要素は静的属性に痕跡が無く、これをしないと丸ごと X1 になる(実測: MoviePad retro-01 でリスナー駆動要素 15 件が旧判定で全滅。div 製カスタムラジオを含む)。
 2. snapshot は**状態ごと**に撮る(モーダル・選択状態など。モックの初期状態が全てを描いているとは限らない)。
-3. `ui-extract.py` の入力は snapshot ファイルとする。snapshot が source-of-record であり、GU6 の突合対象も snapshot。
+3. snapshot 撮影時は、**同一レンダリングセッションから DOM snapshot と pixel capture(PNG)を双子出力として保存する**。固定条件 pin は §16 の具体設計に従い、参照実装は MoviePad `bomdd/ui/mock-capture-01/` とする。治具昇格およびコマンド化は 2 例目の実測後に判定する。(根拠: DOM snapshot は `<style>`/`<link>` を含まず視覚原器として自己完結でない — 事後の snapshot→画像生成は不可能であり、撮り漏らした外観は遡って回復できない。mock-capture-01 実測)
+4. `ui-extract.py` の入力は snapshot ファイルとする。snapshot が source-of-record であり、GU6 の突合対象も snapshot。pixel capture は構造抽出には使わない(視覚原器 — 用途は §16 の 2 層: headless 物理量突合/並置 golden)。
 
 ## 13. 裁定台帳と文脈付き辞書
 
