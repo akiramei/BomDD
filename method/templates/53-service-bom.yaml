@@ -19,7 +19,10 @@ service_bom:
         - kbom_ref: K-<NAME>-001
           version: v1
           change_signal: <例 upstream release / security advisory / design token revision>
+          license_watch: { id: <SPDX>, commercial_terms: <無料/条件>, checked_at: <YYYY-MM-DD> }   # 非挙動劣化: ライセンス・商用条件は全オラクル緑のまま使用不能化する(検査面が原理的に無い=台帳+watch が唯一の検査器)
+          maintenance: { freshness_basis: release | commit | advisory, threshold_days: <N>, last_seen_at: <YYYY-MM-DD>, status: fresh | watch | stale | unknown }   # メンテ放棄=シグナル不在が劣化。閾値超過で DEG 起票(陽性対照の依存版)
       acceptance_depth: L2              # 保証の再確認に必要な検査深さ(unit/L1/L2/L3/G)
+      measured_leak: ~                  # 交換コストの実測(方針= 32 substitutable と別軸): { class: none|contained|oracle-coupled|structural, measured_at: <日付>, evidence: <studies パス> }。クラス定義と測定手順= ../s-bom-template.md「交換性の事前測定」
       as_built_ref: AB-<ループID>-factory-01   # 現在稼働している build(50-as-built.yaml)
       reinspect_on_change:              # 外部知識の変更時に再実行する検査
         - cp_ref: CP-<NAME>-001
@@ -45,7 +48,7 @@ service_bom:
 # 確定する(当初処方が実測で反証されたら再裁定。s-bom-template.md 手順 3)。
 degradation_events:
   - event_id: DEG-001
-    event: <例 K-HTTP-REST-001 を v2 へ更新(404 の応答形式変更)/ 調達部品の推移的依存に脆弱性アドバイザリ>
+    event: <例 K-HTTP-REST-001 を v2 へ更新(404 の応答形式変更)/ 調達部品の推移的依存に脆弱性アドバイザリ / ライセンス変更(MIT→GPL 等・commercial_terms の変更)/ maintenance freshness 閾値超過(シグナル不在=メンテ放棄の疑い)>
     detected_at: <YYYY-MM-DD>
     source_ref: <リリースノート/障害報告/サポート問い合わせ/工場 cheat-report の環境ノイズ申告→設計者確定>
     affected:                           # S-BOM 逆引きの結果(依存部品だけ。他は再検査不要)

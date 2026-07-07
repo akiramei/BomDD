@@ -71,8 +71,9 @@ procurement:
   - package: <例 Microsoft.Data.Sqlite>
     version: <固定バージョン or 範囲(固定方針を明記)>
     rationale: <選定理由>
-    license: <例 MIT>
-    substitutable: false                # 工場が同等品へ代替してよいか
+    license: <SPDX id(例 MIT)>        # 非挙動劣化の watch 対象 — 53 の license_watch と対
+    substitutable: false                # 方針: 工場が同等品へ代替してよいか(ADR 固定なら false)。交換コストではない — コストの実測は 53 の measured_leak(sbom-vendor-leak-01/02: 宣言 false でも実測最軽量の部品が実在)
+    identifier_set: ["<パッケージ名>", "<名前空間>", "<型 prefix 正規表現>"]   # vendor leak 測定の前提(部品ファミリ名でなく固有識別子 — エンジンとプロバイダは別品目)。構文が部品名を運ばない部品(拡張メソッド等)は not-greppable と宣言し境界 interface を明記
     kbom_ref: K-<NAME>-001
     service_bom_ref: SB-<NAME>-001
     retirement_condition: ~             # 恒久でない調達(例: 脆弱性対応の推移的依存上書き)は退役条件を明記(forward-03。Service BOM の watch 項目になる)
