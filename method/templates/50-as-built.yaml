@@ -30,6 +30,12 @@ as_built:
         evidence_path: bomdd/plm-intake/sync-results/<evidence>.json
         observed_at: <YYYY-MM-DDTHH:mm:ssZ>
         notes: <Control Plan の depth/tolerance に照らした判定>
+    harness_refs:                # 道具の指し先個体(candidate・playbook §4.4「道具の個体参照」— plm ECO-001 / transfer-01 還元)
+      # 検査器・サンプル生成・測定の道具が参照する個体を記録する。個体の昇格・交代時は
+      # points_at の更新を同期対象に含める(旧個体参照の齟齬は緑・無警告のまま潜伏する)
+      - tool: <治具/道具のパス 例 bomdd/jigs/make_sample.py>
+        points_at: <参照する個体(build path / tag / sha256)>
+        verified_at: <個体昇格・交代時に参照先を更新確認した日時>
     cheats:                      # 申告されたずるへの参照
       - CHEAT-<ID>
     trace_links:
