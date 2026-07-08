@@ -81,8 +81,8 @@
 
 実装開始は、次をすべて満たした後に限る。
 
-- G1: 要求の根拠精度が adequate、または未解決が blocker ではない。
+- G1: 要求の根拠精度が ok(`10-requirements.yaml` の `rationale_precision`)、または未解決が blocker ではない。
 - G2: 仕様が一意に読める。UI/DB の入口情報が仕様へ接続済み。
 - G2': 測定できない REQ がない。人間承認が必要なものは承認者がいる。
 - G3: BOM 自己完結性ドライランで blocker 質問がない。
-- PLM: stop 状態がない。warning は `plm-intake/00-index.md` と個別作業票にあり、裁定済み。
+- PLM: stop 状態がない。warning は `plm-intake/00-index.md` と個別作業票にあり、裁定済み。bomdd-lint が無い環境は **PLM-lite**(plm-ready-contract §12.5)で代替し、charter に明記する。

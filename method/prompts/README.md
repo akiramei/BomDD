@@ -15,6 +15,7 @@
 | [phase3-design.md](phase3-design.md) | BOM・工程設計 | G3 ドライラン |
 | [phase4-manufacture.md](phase4-manufacture.md) | 製造(隔離ファクトリ) | 自己受入+ずる報告 |
 | [phase5-accept.md](phase5-accept.md) | 受入・収束 | 未観測差分ゼロ+blocker ずるゼロ |
+| (独立プロンプトなし — playbook §7 が正) | 引き渡し・保守(Phase 6) | G4 Closeout(playbook §7) |
 | [phase7-change-order.md](phase7-change-order.md) | 変更オーダー(納品後の仕様変更・ECO) | 回帰ゼロ+変更受入通過 |
 
-**正典はこの prompts/ である**(運用方針 2026-06-10)。Claude Code の slash command / skill 化は、forward-01 ループで playbook の有効性を検証してから、必要なら **adapter 層**として別途追加する。それまではリポジトリに `.claude/skills` を置かない(各ファイルに frontmatter を付けて `.claude/skills/<name>/SKILL.md` に置けばスキルになる、という変換は機械的に可能)。
+**実行手順の正典はこの prompts/ である**(運用方針 2026-06-10)。ただし規模既定(監査体数・工場数・ゲート要否)は playbook §11 テーラリングが上書きする(権限分離規則)。skill 化は forward-01 検証後の 2026-07 に **adapter 層**として追加済み — `tools/bomdd-init.py` が**製品リポ側**へスキル一式(`templates/product-profile/skills/`)を設置する。方法論リポ自体には `.claude/skills` を置かない(正典と adapter を分離)。

@@ -54,12 +54,12 @@
 <!-- AI はこの Gate が通るまで実装を始めない。 -->
 | Gate | 判定 | 証跡 |
 |---|---|---|
-| G0 Intake | pass / fail | 人間が最初に配置した資料一覧 |
+| G0 Charter | pass / fail | 固定項目完備+完了の定義(phase0-charter.md)。前提として Intake(人間が最初に配置した資料一覧)を含む |
 | G1 Requirements | pass / fail | `10-requirements.yaml` |
 | G2 Spec | pass / fail | `20-spec.md` |
 | G2' Measurement | pass / fail | `33-control-plan.yaml` |
-| G3 BOM dry run | pass / fail | `bomdd/plm-intake/00-index.md` / `bomdd/plm-intake/{CandidateNo}.md` |
-| PLM Gate | pass / fail | PLM sync result |
+| G3 BOM dry run | pass / fail | ドライラン質問リストと補正記録(記録先: `bomdd/plm-intake/00-index.md` 推奨) |
+| PLM Gate | pass / fail | PLM sync result(bomdd-lint が無い環境は **PLM-lite** — plm-ready-contract §12.5 で代替し、その旨をここに明記) |
 
 ## PLM 同期方針
 - 初回同期タイミング: `00/10/20` 作成後

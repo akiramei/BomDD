@@ -1,0 +1,31 @@
+# 60-change-register — ECO/CAPA 台帳(candidate・transfer-01 T0-17 還元: 複数文書が前提とする欠品テンプレの追加)
+#
+# 規律:
+#   - 起票なき src/tests 変更の禁止(change-management R1)。すべての変更は本台帳のエントリが先。
+#   - 逐次採番(末尾で次番号を確認)。ID は ECO-NNN / CAPA-NNN。
+#   - affected_refs は影響分析(61)で凍結した ID リスト(REQ/E/M/K/CP/DC/DE)。
+#     bomdd-lint R-051 の検査対象(register 不在のプロジェクトでは R-051 = skip)。
+#   - diff_audit は R-052(不要改変の機械監査)の opt-in 入力:
+#       baseline = 変更前凍結タグ(git rev)/ allowed_paths = 影響集合のパスプレフィックス /
+#       head(任意)= 受入タグで diff 窓を閉じる(verified 時に設定 — ref-v0.8)。
+#   - status 遷移は change-management §4 のコミット規約に対応:
+#       proposed(起票)→ decided(裁定)→ implemented(是正)→ applied(register 反映)→ verified(golden/受入)
+#       ほか rejected / superseded。
+#   - 影響宣言フィールドの語彙は分岐実測あり(affected_refs / impacted_bom — schemas/draft 参照)。
+#     本テンプレは R-051 検査対象の affected_refs を標準とする。硬化しない(draft スキーマの宣言に従う)。
+
+changes:
+  - id: ECO-001
+    title: <一行要約>
+    date: <YYYY-MM-DD>
+    origin: requirement          # requirement | defect | degradation(Service BOM の DEG イベント) | reorganization
+    status: proposed             # proposed | decided | implemented | applied | verified | rejected | superseded
+    order_ref: bomdd/60-change-order-eco-001.md
+    affected_refs: [REQ-000, E-DOMAIN-000, M-DOMAIN-000, CP-DOMAIN-000]
+    no_impact_prediction: <反証可能な形の「影響なし」予測(例: 「Api 層はファイル単位 diff ゼロ」)。製造前に凍結>
+    diff_audit:
+      baseline: <変更前凍結タグ>
+      allowed_paths: [<影響集合のパスプレフィックス>]
+      # head: <受入タグ — verified 時に設定して窓を閉じる>
+    summary: <何をなぜ変えるか(1〜3 行)>
+    verification: <回帰+変更受入の結果参照(52-metrics の ECO 行 / as-built 追記)>
