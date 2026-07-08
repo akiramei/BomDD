@@ -1,0 +1,277 @@
+{
+  "repo": "C:/Users/akira/source/repos/ViewGrid",
+  "head": "163241381b43456588f4b007e4dceca968d54ae2",
+  "params": {
+    "unit_depth": 2,
+    "strip": [
+      "src"
+    ],
+    "bulk_threshold": 50
+  },
+  "population": {
+    "commits_analyzed": 298,
+    "bulk_commits": 4,
+    "kinds": {
+      "other": 125,
+      "feat": 114,
+      "fix": 56,
+      "revert": 3
+    },
+    "fix_rate": 0.188
+  },
+  "size": {
+    "tracked_files": 661,
+    "text_files": 661,
+    "loc": 107927
+  },
+  "multi_unit": {
+    "rate_excl_bulk": 0.599,
+    "rate_incl_bulk": 0.604,
+    "fix_rate": 0.5,
+    "top_units_in_multi": [
+      [
+        "tests/ViewGrid.Application.Tests",
+        96
+      ],
+      [
+        "ViewGrid.Application/ViewModels",
+        89
+      ],
+      [
+        "ViewGrid.Presentation/Views",
+        81
+      ],
+      [
+        "tests/ViewGrid.Core.Tests",
+        30
+      ],
+      [
+        "ViewGrid.Application/UseCases",
+        29
+      ],
+      [
+        "ViewGrid.Core/Geometry",
+        23
+      ],
+      [
+        "ViewGrid.Presentation/MainWindow.axaml",
+        20
+      ],
+      [
+        "ViewGrid.Core/Entities",
+        18
+      ],
+      [
+        "ViewGrid.Infrastructure/Imaging",
+        18
+      ],
+      [
+        "ViewGrid.Core/Services",
+        17
+      ]
+    ],
+    "top_pairs": [
+      [
+        "ViewGrid.Application/ViewModels <-> tests/ViewGrid.Application.Tests",
+        66
+      ],
+      [
+        "ViewGrid.Application/ViewModels <-> ViewGrid.Presentation/Views",
+        60
+      ],
+      [
+        "ViewGrid.Presentation/Views <-> tests/ViewGrid.Application.Tests",
+        49
+      ],
+      [
+        "ViewGrid.Application/UseCases <-> tests/ViewGrid.Application.Tests",
+        25
+      ],
+      [
+        "ViewGrid.Core/Geometry <-> tests/ViewGrid.Core.Tests",
+        19
+      ],
+      [
+        "ViewGrid.Application/UseCases <-> ViewGrid.Application/ViewModels",
+        18
+      ],
+      [
+        "ViewGrid.Core/Services <-> tests/ViewGrid.Application.Tests",
+        14
+      ],
+      [
+        "ViewGrid.Presentation/MainWindow.axaml <-> ViewGrid.Presentation/Views",
+        14
+      ],
+      [
+        "ViewGrid.Infrastructure/Imaging <-> tests/ViewGrid.Application.Tests",
+        13
+      ],
+      [
+        "ViewGrid.Application/ViewModels <-> ViewGrid.Core/Entities",
+        12
+      ]
+    ]
+  },
+  "hubs": {
+    "top_churn_files": [
+      [
+        "src/ViewGrid.Application/ViewModels/GridWorkspaceViewModel.cs",
+        37
+      ],
+      [
+        "src/ViewGrid.Application/ViewModels/CopyPropertiesViewModel.cs",
+        35
+      ],
+      [
+        "src/ViewGrid.Presentation/Views/GridCanvasView.axaml.cs",
+        33
+      ],
+      [
+        "src/ViewGrid.Presentation/Views/GridWorkspaceView.axaml",
+        33
+      ],
+      [
+        "src/ViewGrid.Presentation/Views/CopyPropertiesView.axaml",
+        30
+      ],
+      [
+        "tests/ViewGrid.Application.Tests/ViewModels/MainWindowViewModelTests.cs",
+        28
+      ],
+      [
+        "tests/ViewGrid.Application.Tests/ViewModels/GridWorkspaceViewModelTests.cs",
+        27
+      ],
+      [
+        "src/ViewGrid.Presentation/MainWindow.axaml",
+        25
+      ],
+      [
+        "tests/ViewGrid.Application.Tests/ViewModels/CopyPropertiesViewModelTests.cs",
+        21
+      ],
+      [
+        "src/ViewGrid.Infrastructure/Imaging/SkiaGridImageRenderer.cs",
+        21
+      ]
+    ],
+    "top_fix_files": [
+      [
+        "src/ViewGrid.Presentation/Views/GridCanvasView.axaml.cs",
+        11
+      ],
+      [
+        "src/ViewGrid.Presentation/Views/CopyPropertiesView.axaml",
+        8
+      ],
+      [
+        "src/ViewGrid.Application/ViewModels/CopyPropertiesViewModel.cs",
+        7
+      ],
+      [
+        "src/ViewGrid.Presentation/Views/GridWorkspaceView.axaml",
+        7
+      ],
+      [
+        "src/ViewGrid.Presentation/Views/CopyPropertiesView.axaml.cs",
+        6
+      ],
+      [
+        "tests/ViewGrid.Application.Tests/ViewModels/GridWorkspaceViewModelTests.cs",
+        6
+      ],
+      [
+        "tests/ViewGrid.Application.Tests/ViewModels/CopyPropertiesViewModelTests.cs",
+        5
+      ],
+      [
+        "src/ViewGrid.Application/ViewModels/GridWorkspaceViewModel.cs",
+        4
+      ],
+      [
+        "src/ViewGrid.Presentation/App.axaml.cs",
+        4
+      ],
+      [
+        "src/ViewGrid.Application/ViewModels/GridCanvasListViewModel.cs",
+        4
+      ]
+    ],
+    "fix_top1pct": {
+      "k_files": 7,
+      "share": 0.357,
+      "total_fix_touches": 140
+    },
+    "top_size_files": [
+      [
+        "src/ViewGrid.Presentation/Views/GridCanvasView.axaml.cs",
+        2498
+      ],
+      [
+        "src/ViewGrid.Application/ViewModels/GridWorkspaceViewModel.cs",
+        1287
+      ],
+      [
+        "src/ViewGrid.Infrastructure/Imaging/SkiaGridImageRenderer.cs",
+        1257
+      ],
+      [
+        "tests/ViewGrid.Application.Tests/ViewModels/GridWorkspaceViewModelTests.cs",
+        1225
+      ],
+      [
+        "tools/CaptureToolkit/Program.cs",
+        1087
+      ],
+      [
+        "src/ViewGrid.Application/ViewModels/CopyPropertiesViewModel.cs",
+        1083
+      ],
+      [
+        "tests/ViewGrid.Application.Tests/Imaging/SkiaGridImageRendererTests.cs",
+        1040
+      ],
+      [
+        "tests/ViewGrid.Application.Tests/ViewModels/CopyPropertiesViewModelTests.cs",
+        977
+      ],
+      [
+        "docs/capability-bom-audit/methodology/05-rule-ledger.md",
+        852
+      ],
+      [
+        "src/ViewGrid.Application/ViewModels/PlacementInspectorViewModel.cs",
+        847
+      ]
+    ],
+    "triple_crown": [
+      "src/ViewGrid.Application/ViewModels/CopyPropertiesViewModel.cs",
+      "src/ViewGrid.Application/ViewModels/GridWorkspaceViewModel.cs",
+      "src/ViewGrid.Presentation/Views/GridCanvasView.axaml.cs",
+      "tests/ViewGrid.Application.Tests/ViewModels/CopyPropertiesViewModelTests.cs",
+      "tests/ViewGrid.Application.Tests/ViewModels/GridWorkspaceViewModelTests.cs"
+    ],
+    "churn_fix_overlap_top": [
+      "src/ViewGrid.Application/ViewModels/CopyPropertiesViewModel.cs",
+      "src/ViewGrid.Application/ViewModels/GridWorkspaceViewModel.cs",
+      "src/ViewGrid.Presentation/Views/CopyPropertiesView.axaml",
+      "src/ViewGrid.Presentation/Views/GridCanvasView.axaml.cs",
+      "src/ViewGrid.Presentation/Views/GridWorkspaceView.axaml",
+      "tests/ViewGrid.Application.Tests/ViewModels/CopyPropertiesViewModelTests.cs",
+      "tests/ViewGrid.Application.Tests/ViewModels/GridWorkspaceViewModelTests.cs"
+    ]
+  },
+  "fix_latency": {
+    "pairs": 125,
+    "p50": 14,
+    "p90": 89,
+    "immediate_le3": 27,
+    "late_gt20": 46,
+    "late_ratio": 0.368
+  },
+  "reverts": {
+    "count": 3,
+    "revert_of_revert": 0
+  }
+}
