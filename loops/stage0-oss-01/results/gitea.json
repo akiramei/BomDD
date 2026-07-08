@@ -1,0 +1,269 @@
+{
+  "repo": "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-BomDD/69b4c1e4-be6c-49ea-a0bc-615ed66448d4/scratchpad/oss/gitea",
+  "head": "545ed923547c19735befc2ed141c812a23e1a29d",
+  "params": {
+    "unit_depth": 2,
+    "strip": [
+      "src"
+    ],
+    "bulk_threshold": 50
+  },
+  "population": {
+    "commits_analyzed": 19923,
+    "bulk_commits": 257,
+    "kinds": {
+      "feat": 2275,
+      "other": 12270,
+      "fix": 5307,
+      "revert": 71
+    },
+    "fix_rate": 0.266
+  },
+  "size": {
+    "tracked_files": 5615,
+    "text_files": 5043,
+    "loc": 774032
+  },
+  "multi_unit": {
+    "rate_excl_bulk": 0.462,
+    "rate_incl_bulk": 0.468,
+    "fix_rate": 0.448,
+    "top_units_in_multi": [
+      [
+        "templates/repo",
+        2233
+      ],
+      [
+        "<root>",
+        1996
+      ],
+      [
+        "routers/web",
+        1566
+      ],
+      [
+        "routers/api",
+        1462
+      ],
+      [
+        "routers/repo",
+        1192
+      ],
+      [
+        "options/locale",
+        1017
+      ],
+      [
+        "web_src/js",
+        959
+      ],
+      [
+        "tests/integration",
+        837
+      ],
+      [
+        "templates/user",
+        834
+      ],
+      [
+        "modules/setting",
+        787
+      ]
+    ],
+    "top_pairs": [
+      [
+        "routers/repo <-> templates/repo",
+        580
+      ],
+      [
+        "options/locale <-> templates/repo",
+        564
+      ],
+      [
+        "templates/repo <-> web_src/js",
+        493
+      ],
+      [
+        "routers/web <-> templates/repo",
+        468
+      ],
+      [
+        "<root> <-> templates/.VERSION",
+        466
+      ],
+      [
+        "routers/api <-> routers/web",
+        465
+      ],
+      [
+        "routers/api <-> templates/swagger",
+        425
+      ],
+      [
+        "routers/web <-> tests/integration",
+        394
+      ],
+      [
+        "options/locale <-> routers/web",
+        366
+      ],
+      [
+        "custom/conf <-> docs/content",
+        364
+      ]
+    ]
+  },
+  "hubs": {
+    "top_churn_files": [
+      [
+        "options/locale/locale_en-US.ini",
+        1056
+      ],
+      [
+        "models/repo.go",
+        777
+      ],
+      [
+        "gogs.go",
+        618
+      ],
+      [
+        "options/locale/locale_ja-JP.ini",
+        610
+      ],
+      [
+        "Makefile",
+        559
+      ],
+      [
+        "README.md",
+        544
+      ],
+      [
+        "options/locale/locale_zh-CN.ini",
+        543
+      ],
+      [
+        "modules/setting/setting.go",
+        508
+      ],
+      [
+        "templates/swagger/v1_json.tmpl",
+        505
+      ],
+      [
+        "go.mod",
+        503
+      ]
+    ],
+    "top_fix_files": [
+      [
+        "models/repo.go",
+        235
+      ],
+      [
+        "gogs.go",
+        231
+      ],
+      [
+        "templates/.VERSION",
+        188
+      ],
+      [
+        "README.md",
+        160
+      ],
+      [
+        "options/locale/locale_en-US.ini",
+        148
+      ],
+      [
+        "models/issue.go",
+        122
+      ],
+      [
+        "cmd/web.go",
+        122
+      ],
+      [
+        "models/user.go",
+        117
+      ],
+      [
+        "routers/repo/issue.go",
+        88
+      ],
+      [
+        "modules/setting/setting.go",
+        85
+      ]
+    ],
+    "fix_top1pct": {
+      "k_files": 57,
+      "share": 0.24,
+      "total_fix_touches": 16463
+    },
+    "top_size_files": [
+      [
+        "templates/swagger/v1_json.tmpl",
+        32065
+      ],
+      [
+        "CHANGELOG.md",
+        5913
+      ],
+      [
+        "options/locale/locale_en-US.json",
+        3929
+      ],
+      [
+        "custom/conf/app.example.ini",
+        3031
+      ],
+      [
+        "web_src/css/repo.css",
+        1935
+      ],
+      [
+        "routers/api/v1/api.go",
+        1860
+      ],
+      [
+        "models/fixtures/repository.yml",
+        1792
+      ],
+      [
+        "routers/web/web.go",
+        1792
+      ],
+      [
+        "services/gitdiff/gitdiff.go",
+        1642
+      ],
+      [
+        "routers/api/v1/repo/pull.go",
+        1626
+      ]
+    ],
+    "triple_crown": [],
+    "churn_fix_overlap_top": [
+      "README.md",
+      "gogs.go",
+      "models/repo.go",
+      "modules/setting/setting.go",
+      "options/locale/locale_en-US.ini"
+    ]
+  },
+  "fix_latency": {
+    "pairs": 11602,
+    "p50": 357,
+    "p90": 3288,
+    "immediate_le3": 238,
+    "late_gt20": 10524,
+    "late_ratio": 0.907
+  },
+  "reverts": {
+    "count": 71,
+    "revert_of_revert": 1
+  }
+}

@@ -1,0 +1,269 @@
+{
+  "repo": "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-BomDD/69b4c1e4-be6c-49ea-a0bc-615ed66448d4/scratchpad/oss/core",
+  "head": "64fc462ab6fca24cfe1bbc3559def1810c735525",
+  "params": {
+    "unit_depth": 2,
+    "strip": [
+      "src"
+    ],
+    "bulk_threshold": 50
+  },
+  "population": {
+    "commits_analyzed": 110424,
+    "bulk_commits": 886,
+    "kinds": {
+      "other": 72913,
+      "fix": 16821,
+      "feat": 20004,
+      "revert": 686
+    },
+    "fix_rate": 0.152
+  },
+  "size": {
+    "tracked_files": 26487,
+    "text_files": 26457,
+    "loc": 5411157
+  },
+  "multi_unit": {
+    "rate_excl_bulk": 0.541,
+    "rate_incl_bulk": 0.54,
+    "fix_rate": 0.39,
+    "top_units_in_multi": [
+      [
+        "homeassistant/components",
+        53668
+      ],
+      [
+        "tests/components",
+        32217
+      ],
+      [
+        "<root>",
+        27971
+      ],
+      [
+        "homeassistant/package_constraints.txt",
+        3755
+      ],
+      [
+        "homeassistant/helpers",
+        3113
+      ],
+      [
+        "tests/helpers",
+        2238
+      ],
+      [
+        "homeassistant/const.py",
+        1308
+      ],
+      [
+        "script/hassfest",
+        1163
+      ],
+      [
+        "homeassistant/util",
+        797
+      ],
+      [
+        "script/gen_requirements_all.py",
+        607
+      ]
+    ],
+    "top_pairs": [
+      [
+        "homeassistant/components <-> tests/components",
+        31351
+      ],
+      [
+        "<root> <-> homeassistant/components",
+        25669
+      ],
+      [
+        "<root> <-> tests/components",
+        5268
+      ],
+      [
+        "<root> <-> homeassistant/package_constraints.txt",
+        3533
+      ],
+      [
+        "homeassistant/components <-> homeassistant/package_constraints.txt",
+        2776
+      ],
+      [
+        "homeassistant/helpers <-> tests/helpers",
+        2001
+      ],
+      [
+        "homeassistant/components <-> homeassistant/helpers",
+        1525
+      ],
+      [
+        "homeassistant/helpers <-> tests/components",
+        1052
+      ],
+      [
+        "homeassistant/components <-> script/hassfest",
+        946
+      ],
+      [
+        "<root> <-> homeassistant/const.py",
+        865
+      ]
+    ]
+  },
+  "hubs": {
+    "top_churn_files": [
+      [
+        "requirements_all.txt",
+        23140
+      ],
+      [
+        "requirements_test_all.txt",
+        18040
+      ],
+      [
+        "homeassistant/package_constraints.txt",
+        3758
+      ],
+      [
+        ".coveragerc",
+        2531
+      ],
+      [
+        "homeassistant/const.py",
+        2350
+      ],
+      [
+        "CODEOWNERS",
+        1966
+      ],
+      [
+        "pyproject.toml",
+        1802
+      ],
+      [
+        "homeassistant/components/frontend/manifest.json",
+        1184
+      ],
+      [
+        "requirements.txt",
+        1037
+      ],
+      [
+        "mypy.ini",
+        924
+      ]
+    ],
+    "top_fix_files": [
+      [
+        "requirements_all.txt",
+        1400
+      ],
+      [
+        "requirements_test_all.txt",
+        939
+      ],
+      [
+        "homeassistant/components/mqtt/__init__.py",
+        99
+      ],
+      [
+        ".coveragerc",
+        76
+      ],
+      [
+        "homeassistant/core.py",
+        68
+      ],
+      [
+        "homeassistant/package_constraints.txt",
+        68
+      ],
+      [
+        "homeassistant/helpers/script.py",
+        65
+      ],
+      [
+        "CODEOWNERS",
+        65
+      ],
+      [
+        "tests/components/mqtt/test_init.py",
+        64
+      ],
+      [
+        "homeassistant/components/shelly/sensor.py",
+        51
+      ]
+    ],
+    "fix_top1pct": {
+      "k_files": 265,
+      "share": 0.243,
+      "total_fix_touches": 37014
+    },
+    "top_size_files": [
+      [
+        "tests/components/smartthings/snapshots/test_sensor.ambr",
+        22362
+      ],
+      [
+        "tests/test_config_entries.py",
+        10676
+      ],
+      [
+        "tests/helpers/test_script.py",
+        7524
+      ],
+      [
+        "tests/components/sensor/test_recorder.py",
+        6926
+      ],
+      [
+        "tests/helpers/test_condition.py",
+        6311
+      ],
+      [
+        "mypy.ini",
+        6304
+      ],
+      [
+        "tests/components/zwave_js/test_api.py",
+        6052
+      ],
+      [
+        "tests/components/alexa/test_smart_home.py",
+        5848
+      ],
+      [
+        "tests/helpers/test_device_registry.py",
+        5757
+      ],
+      [
+        "tests/components/zwave_js/test_config_flow.py",
+        5725
+      ]
+    ],
+    "triple_crown": [],
+    "churn_fix_overlap_top": [
+      ".coveragerc",
+      "CODEOWNERS",
+      "homeassistant/package_constraints.txt",
+      "requirements_all.txt",
+      "requirements_test_all.txt"
+    ]
+  },
+  "fix_latency": {
+    "pairs": 31562,
+    "p50": 1720,
+    "p90": 18782,
+    "immediate_le3": 457,
+    "late_gt20": 29713,
+    "late_ratio": 0.941
+  },
+  "reverts": {
+    "count": 686,
+    "revert_of_revert": 12
+  }
+}

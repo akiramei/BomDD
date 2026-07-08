@@ -1,0 +1,273 @@
+{
+  "repo": "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-BomDD/69b4c1e4-be6c-49ea-a0bc-615ed66448d4/scratchpad/oss/jellyfin",
+  "head": "53aafcd38e1f4558ff18f5258d0d46b3a0565783",
+  "params": {
+    "unit_depth": 2,
+    "strip": [
+      "src"
+    ],
+    "bulk_threshold": 50
+  },
+  "population": {
+    "commits_analyzed": 22415,
+    "bulk_commits": 304,
+    "kinds": {
+      "other": 16284,
+      "feat": 2556,
+      "fix": 3434,
+      "revert": 141
+    },
+    "fix_rate": 0.153
+  },
+  "size": {
+    "tracked_files": 2485,
+    "text_files": 2476,
+    "loc": 360640
+  },
+  "multi_unit": {
+    "rate_excl_bulk": 0.375,
+    "rate_incl_bulk": 0.383,
+    "fix_rate": 0.367,
+    "top_units_in_multi": [
+      [
+        "MediaBrowser.Controller/Entities",
+        1195
+      ],
+      [
+        "<root>",
+        805
+      ],
+      [
+        "Jellyfin.Api/Controllers",
+        653
+      ],
+      [
+        "MediaBrowser.Server.Implementations/Library",
+        617
+      ],
+      [
+        "MediaBrowser.Api/Playback",
+        614
+      ],
+      [
+        "Emby.Server.Implementations/Library",
+        544
+      ],
+      [
+        "Nuget/MediaBrowser.Common.nuspec",
+        517
+      ],
+      [
+        "Nuget/MediaBrowser.Server.Core.nuspec",
+        514
+      ],
+      [
+        "MediaBrowser.Model/Configuration",
+        503
+      ],
+      [
+        "Nuget/MediaBrowser.Common.Internal.nuspec",
+        498
+      ]
+    ],
+    "top_pairs": [
+      [
+        "Nuget/MediaBrowser.Common.nuspec <-> Nuget/MediaBrowser.Server.Core.nuspec",
+        514
+      ],
+      [
+        "Nuget/MediaBrowser.Common.Internal.nuspec <-> Nuget/MediaBrowser.Common.nuspec",
+        476
+      ],
+      [
+        "Nuget/MediaBrowser.Common.Internal.nuspec <-> Nuget/MediaBrowser.Server.Core.nuspec",
+        476
+      ],
+      [
+        "MediaBrowser.Controller/Entities <-> MediaBrowser.Server.Implementations/Library",
+        302
+      ],
+      [
+        "MediaBrowser.WebDashboard/Api <-> MediaBrowser.WebDashboard/MediaBrowser.WebDashboard.csproj",
+        260
+      ],
+      [
+        "MediaBrowser.Controller/Entities <-> MediaBrowser.Controller/Library",
+        193
+      ],
+      [
+        "MediaBrowser.Controller/Entities <-> MediaBrowser.Controller/Providers",
+        189
+      ],
+      [
+        "MediaBrowser.Server.Implementations/MediaBrowser.Server.Implementations.csproj <-> MediaBrowser.Server.Implementations/packages.config",
+        184
+      ],
+      [
+        "MediaBrowser.Controller/Entities <-> MediaBrowser.Providers/Manager",
+        179
+      ],
+      [
+        "MediaBrowser.Api/UserLibrary <-> MediaBrowser.Controller/Entities",
+        172
+      ]
+    ]
+  },
+  "hubs": {
+    "top_churn_files": [
+      [
+        "SharedVersion.cs",
+        1196
+      ],
+      [
+        "MediaBrowser.WebDashboard/MediaBrowser.WebDashboard.csproj",
+        692
+      ],
+      [
+        "Emby.Server.Implementations/ApplicationHost.cs",
+        622
+      ],
+      [
+        "MediaBrowser.Controller/Entities/BaseItem.cs",
+        593
+      ],
+      [
+        "MediaBrowser.Controller/MediaEncoding/EncodingHelper.cs",
+        570
+      ],
+      [
+        "Nuget/MediaBrowser.Common.nuspec",
+        518
+      ],
+      [
+        "MediaBrowser.Api/Playback/BaseStreamingService.cs",
+        516
+      ],
+      [
+        "Nuget/MediaBrowser.Server.Core.nuspec",
+        514
+      ],
+      [
+        "Nuget/MediaBrowser.Common.Internal.nuspec",
+        502
+      ],
+      [
+        "MediaBrowser.Server.Implementations/MediaBrowser.Server.Implementations.csproj",
+        483
+      ]
+    ],
+    "top_fix_files": [
+      [
+        "MediaBrowser.Controller/MediaEncoding/EncodingHelper.cs",
+        151
+      ],
+      [
+        "MediaBrowser.Controller/Entities/BaseItem.cs",
+        118
+      ],
+      [
+        "SharedVersion.cs",
+        95
+      ],
+      [
+        "Emby.Server.Implementations/ApplicationHost.cs",
+        92
+      ],
+      [
+        "MediaBrowser.Controller/Entities/Folder.cs",
+        91
+      ],
+      [
+        "Jellyfin.Server.Implementations/Item/BaseItemRepository.cs",
+        88
+      ],
+      [
+        "MediaBrowser.Api/Playback/BaseStreamingService.cs",
+        80
+      ],
+      [
+        "MediaBrowser.WebDashboard/MediaBrowser.WebDashboard.csproj",
+        78
+      ],
+      [
+        "Emby.Server.Implementations/Library/LibraryManager.cs",
+        76
+      ],
+      [
+        "MediaBrowser.Server.Implementations/Library/LibraryManager.cs",
+        54
+      ]
+    ],
+    "fix_top1pct": {
+      "k_files": 25,
+      "share": 0.142,
+      "total_fix_touches": 10963
+    },
+    "top_size_files": [
+      [
+        "MediaBrowser.Controller/MediaEncoding/EncodingHelper.cs",
+        7987
+      ],
+      [
+        "Emby.Server.Implementations/Library/LibraryManager.cs",
+        3890
+      ],
+      [
+        "MediaBrowser.Controller/Entities/BaseItem.cs",
+        2913
+      ],
+      [
+        "MediaBrowser.Model/Dlna/StreamBuilder.cs",
+        2469
+      ],
+      [
+        "Emby.Server.Implementations/Session/SessionManager.cs",
+        2197
+      ],
+      [
+        "Jellyfin.Api/Controllers/ImageController.cs",
+        2084
+      ],
+      [
+        "Jellyfin.Api/Controllers/DynamicHlsController.cs",
+        2082
+      ],
+      [
+        "MediaBrowser.Controller/Entities/Folder.cs",
+        2031
+      ],
+      [
+        "MediaBrowser.MediaEncoding/Probing/ProbeResultNormalizer.cs",
+        1782
+      ],
+      [
+        "Emby.Server.Implementations/Dto/DtoService.cs",
+        1721
+      ]
+    ],
+    "triple_crown": [
+      "MediaBrowser.Controller/Entities/BaseItem.cs",
+      "MediaBrowser.Controller/MediaEncoding/EncodingHelper.cs"
+    ],
+    "churn_fix_overlap_top": [
+      "Emby.Server.Implementations/ApplicationHost.cs",
+      "MediaBrowser.Api/Playback/BaseStreamingService.cs",
+      "MediaBrowser.Controller/Entities/BaseItem.cs",
+      "MediaBrowser.Controller/MediaEncoding/EncodingHelper.cs",
+      "MediaBrowser.WebDashboard/MediaBrowser.WebDashboard.csproj",
+      "SharedVersion.cs"
+    ]
+  },
+  "fix_latency": {
+    "pairs": 7611,
+    "p50": 347,
+    "p90": 4230,
+    "immediate_le3": 289,
+    "late_gt20": 6566,
+    "late_ratio": 0.863
+  },
+  "reverts": {
+    "count": 141,
+    "revert_of_revert": 1
+  }
+}

@@ -88,8 +88,11 @@ def head_sizes(repo, paths):
 
 
 def tracked_files(repo):
-    out = subprocess.run(["git", "-C", repo, "ls-files"], capture_output=True,
-                         text=True, encoding="utf-8", errors="replace").stdout
+    # ls-files でなく ls-tree(HEAD)を使う — partial clone 等で index が空でも
+    # 追跡集合を正しく返す(index 健全時は同一結果。stage0-oss-01 較正で実測)
+    out = subprocess.run(["git", "-C", repo, "ls-tree", "-r", "HEAD", "--name-only"],
+                         capture_output=True, text=True, encoding="utf-8",
+                         errors="replace").stdout
     return [p for p in out.splitlines() if p and not RE_EXCLUDE.search(p)]
 
 
