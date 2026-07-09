@@ -594,3 +594,39 @@ G3→補正→製造の相似形。
   人間担当者・他ベンダー・規模は未踏(RQ-A 本実験の対象)。
 - 証拠: loops/transfer-01/(protocol・t0-report・t1-report・intervention-ledger)・
   担当者リポ ExpenseDesk(bomdd/ 一式・タグ 5 本)・kit 凍結 tag transfer01-kit-v1。
+
+## 12. stage-0 健診の外部妥当性 — ハブは普遍・三冠は局所(stage0-oss-01)
+
+stage-0 健診(宣言なしリポの変更トポロジー測定)の適用範囲を、ViewGrid(N=1・.NET・108k 行)から
+OSS 3 リポへ拡張した外部妥当性測定。仮説 H1〜H5 は**測定前に事前登録**した(凍結コミットが結果
+コミットに先行 — 影響なし予測の先行凍結と同じ証明形式)。治具は ViewGrid 既知値で較正してから適用
+(fix 集中 1 位が完全一致・定義差 2 件を記録)。
+
+**対象**: jellyfin(C#・361k 行・22.4k コミット)/ gitea(Go+TS・774k 行・19.9k)/
+home-assistant core(Python・**5.41M 行・110k コミット**)+基準点 ViewGrid。
+`--filter=blob:none`+name-status のみで完結 — **百万行級の測定に壁はなかった**。
+
+**観測結果**:
+OSS 3 リポジトリに対する stage-0 遡及測定では、**変更と fix のハブ重なり(churn∩fix overlap)は
+C#/Go+TS/Python の複数言語・36万〜541万行級で再現した**(上位10 の重なり 5〜7・4/4)。fix に限っても
+変更の 37〜45% が unit 境界を跨ぎ、影響宣言の回収余地は全リポで観測された(跨ぎ率 37.5〜54.1%)。
+一方、**fix×churn×size の三冠収束は OSS では再現せず**(0/3・事前登録 H2 不支持)、god-file 型の
+ハブは単独開発または局所的設計負債に依存する可能性が示された。また、**ハブ集中は規模に対して単調
+増加せず**(H5 反証)、最小の ViewGrid が最大の集中(top-1% share 35.7% vs OSS 14.2〜24.3%)を示した。
+
+**帰結(方法論の更新)**: stage-0 健診の中核指標は size ではなく **churn∩fix overlap と cross-unit
+pressure** に置く(size は増幅因子に降格 — 移行パック §7.1 triage score alpha)。**規模の壁は LOC の
+単調関数ではなく、開発体制・アーキテクチャ境界・unit 写像(組織構造と実装重心のずれ)の関数として
+再定式化すべきである**。
+
+- **次仮説**(観測結果と区別する): 集中の強さは LOC・コミット数よりも開発体制(単独 vs 多人数)・
+  所有分散・境界明瞭度に依存する(H6。単独開発の ViewGrid が最大集中であることの説明候補 —
+  次ラウンドの事前登録対象であり、本測定の結論ではない)。
+- 測定規約の既知欠陥(次ラウンドで是正): fix 潜伏の絶対コミット距離は履歴規模で飽和する(OSS で
+  86〜94%)— 探索的(post-hoc)には正規化中央値が OSS 3 本で 1.5〜1.8% に収束。台帳的ファイル
+  (VERSION/locale/manifest)が fix 上位に混入 — 除外でなく層分け(coordination surface)で扱う。
+- 限界: 仮 unit= 深さ2ディレクトリ(裁定境界でない)・件名分類の適合率未検査・有名 OSS 3 本の
+  選定バイアス・相関であって導入効果の証明ではない。
+- 証拠: loops/stage0-oss-01/(protocol=事前登録・calibration・results JSON〔HEAD SHA 記録〕・report)。
+  治具= method/tools/stage0-survey.py。旧 ViewGrid 跨ぎ率 49.8% との差は定義差として較正で管理
+  (report §2.1 互換性ノート)。
