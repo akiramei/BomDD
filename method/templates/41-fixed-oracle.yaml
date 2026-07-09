@@ -6,6 +6,8 @@ bomdd:
 # 規律(method-v1 §5 / observation-schema-candidates §4.2, §6):
 #   - 仕様化済み契約だけを合否に入れる(未規定次元は 42-exploratory-probes へ)
 #   - 製造開始前に凍結(frozen_since に commit/tag)。収束ループ中は不変(同一ヤードスティック)
+#   - 要求改訂で既存行の期待が無効になる場合は、行を書き換えず superseded_by_eco: <ECO-ID> を
+#     当該行に記録して新規行を追加する(回帰の歴史を保つ — transfer-03 還元・candidate)
 #   - プローブ→オラクル昇格は次ループの開始時のみ(study 途中で足さない)
 #   - 等価規則: 契約セマンティクスを比較、付随表現は ignores に明記(検査器自身の L0 回避)
 #   - フォワードでは期待値を仕様から導く。期待値が書けない行=仕様の穴(Phase 2 へ差し戻し)

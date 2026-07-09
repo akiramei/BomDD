@@ -262,7 +262,7 @@ BOM-DD PLM 工具(bomdd-lint)が環境に無い場合、PLM Gate は省略では
 - **記録様式**: 判定表(§13 条件 × 判定 × 根拠)を `bomdd/plm-intake/00-index.md` に残し、charter の PLM Gate 行に「PLM-lite で代替」と明記する。
 - **合格条件**: §13 相当の stop 判定が 0 件。fail が残る場合は実装開始しない(工具版と同じ)。
 - **限界の自覚**: PLM-lite は人間/設計 AI の読解に依存し、工具版の網羅性(Active Graph Integrity の機械検査等)を持たない。工具が導入できた時点で再同期する。
-- **実測**: transfer-01(2 回実施・stop 0・charter に代替明記)/ transfer-02(採用・00-index に判定記録)— モデル・題材の異なる 2 ラウンドで機能し **candidate 解除(N=2・2026-07-09)**。なお実施様式には解釈幅が観測されている(§12.5 の契約照合 vs new-project-checklist §4 表の流用 — いずれも stop 0 到達。様式の統一は 3 例目で判定)。
+- **実測**: transfer-01(2 回実施・stop 0・charter に代替明記)/ transfer-02(採用・00-index に判定記録)/ transfer-03(GPT-5.5/Codex — **本節を明示参照して採用**・stop 0)— 2 ベンダー・3 ラウンドで機能= **N=3・ベンダー横断**(candidate 解除は N=2 時点・2026-07-09)。実施様式は 3 例で分岐したまま(契約照合/checklist §4 表の流用)— 合格条件(stop 0 の判定記録)が共通につき、**様式は複数許容として運用**する(統一しない裁定・2026-07-09)。
 
 ## 13. PLM が実装開始を止めるべき状態
 
