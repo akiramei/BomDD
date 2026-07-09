@@ -253,7 +253,7 @@ test_evidence_refs:
 - K-BOM に version または source が無い。
 - Service BOM が外部依存を逆引きできない。
 
-## 12.5 PLM-lite — 工具不在時の手動縮退(candidate・transfer-01 T0 還元)
+## 12.5 PLM-lite — 工具不在時の手動縮退(実証済み N=2 — transfer-01 T0 還元)
 
 BOM-DD PLM 工具(bomdd-lint)が環境に無い場合、PLM Gate は省略ではなく **PLM-lite**(手動照合)へ縮退する。playbook のゲート実行可能性規則(§13)により、工具も本節の代替手順も使えない場合は方法論欠陥として停止する。
 
@@ -262,7 +262,7 @@ BOM-DD PLM 工具(bomdd-lint)が環境に無い場合、PLM Gate は省略では
 - **記録様式**: 判定表(§13 条件 × 判定 × 根拠)を `bomdd/plm-intake/00-index.md` に残し、charter の PLM Gate 行に「PLM-lite で代替」と明記する。
 - **合格条件**: §13 相当の stop 判定が 0 件。fail が残る場合は実装開始しない(工具版と同じ)。
 - **限界の自覚**: PLM-lite は人間/設計 AI の読解に依存し、工具版の網羅性(Active Graph Integrity の機械検査等)を持たない。工具が導入できた時点で再同期する。
-- **初実測**: transfer-01 T1(2026-07-08〜09)— fresh 担当者が 2 回実施(00/10/20 後+30-34/40 後)・stop 0・charter に代替明記の様式どおり。candidate 解除は N=2〜3 で判定。
+- **実測**: transfer-01(2 回実施・stop 0・charter に代替明記)/ transfer-02(採用・00-index に判定記録)— モデル・題材の異なる 2 ラウンドで機能し **candidate 解除(N=2・2026-07-09)**。なお実施様式には解釈幅が観測されている(§12.5 の契約照合 vs new-project-checklist §4 表の流用 — いずれも stop 0 到達。様式の統一は 3 例目で判定)。
 
 ## 13. PLM が実装開始を止めるべき状態
 
