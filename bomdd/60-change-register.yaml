@@ -128,14 +128,14 @@ changes:
     title: リポ全体の自己適合ゲートの不在(テンプレ構文・初期化後動作・治具異常系・実験結果の一括検証入口がない)
     date: 2026-07-10
     origin: defect
-    status: implemented
+    status: verified
     order_ref: bomdd/60-change-order-eco-006.md
     affected_refs: [method/tools/self-conformance.py, loops/expected-results.yaml, .github/workflows/self-conformance.yml, README.md]
     no_impact_prediction: "既存の method 本文・テンプレ・治具のロジックは diff ゼロ(新設 3 ファイル+README の陳腐化 2 箇所是正+化石ディレクトリ 1 件除去のみ)。loop 実験成果物のコード・テストは不変 — 期待結果 manifest は観測の凍結であって変更でない"
     diff_audit:
       baseline: e170bda
       allowed_paths: [method/tools/self-conformance.py, loops/expected-results.yaml, .github/workflows/, README.md]
-      # head: 受入コミットで窓を閉じる(ref-v0.8)
+      head: "9a17671"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中(CI実証のみpush後)
     summary: >
       レビュー所見6(P2)。ECO-001 の YAML 不正や README の成熟度・スキル本数の陳腐化が
       残っていたのは一括検証の入口がないため。是正: (a) self-conformance.py 新設 —
