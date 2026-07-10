@@ -78,14 +78,14 @@ changes:
     title: bomdd-init が可変な方法論リポへ絶対パスで結合(凍結・来歴・再現性の自己矛盾)
     date: 2026-07-10
     origin: defect
-    status: implemented
+    status: verified
     order_ref: bomdd/60-change-order-eco-004.md
     affected_refs: [method/tools/bomdd-init.py, method/templates/product-profile/]
     no_impact_prediction: "bomdd-init.py と product-profile テンプレ({{METHOD}} 記述 3 ファイル)以外は diff ゼロ。既存製品リポには波及しない(init は生成時のみ・--skills-only は kit 追設のみで既存ファイル不変)"
     diff_audit:
       baseline: 437c78b
       allowed_paths: [method/tools/bomdd-init.py, method/templates/product-profile/]
-      # head: 受入コミットで窓を閉じる(ref-v0.8)
+      head: "8e62c31"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中
     summary: >
       レビュー所見2(P1)。METHOD_ROOT 絶対パスの埋め込みは、別 PC で壊れるだけでなく
       「方法論リポの更新が既存製品の手順を無記録で変える」— 凍結・来歴・再現性という
