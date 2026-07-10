@@ -105,14 +105,14 @@ changes:
     title: ui-cad-gate が理由なし rejected 裁定による action 黙殺を通す(GU4 の来歴穴)
     date: 2026-07-10
     origin: defect
-    status: implemented
+    status: verified
     order_ref: bomdd/60-change-order-eco-005.md
     affected_refs: [method/tools/ui-cad-gate.py]
     no_impact_prediction: "ui-cad-gate.py 以外は diff ゼロ。既存の正規台帳(rejected に根拠あり/rejected なし)は判定不変 — MoviePad retro-01 実台帳(ruled 15+superseded 4)で回帰確認"
     diff_audit:
       baseline: 85de872
       allowed_paths: [method/tools/ui-cad-gate.py]
-      # head: 受入コミットで窓を閉じる(ref-v0.8)
+      head: "9747b33"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中
     summary: >
       レビュー所見5(P2)。GU4 は ruled/superseded しか内容検査せず、rejected は
       active として GU2 の被覆に算入される — status: rejected・根拠なし・決定者なしで
