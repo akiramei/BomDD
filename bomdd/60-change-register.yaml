@@ -151,4 +151,29 @@ changes:
       U+F03A 化石を見逃し→検出強化で捕捉(検出器の欠陥を検出器の検査で発見)。
       是正後 fast 全 PASS(C1〜C8)。C9= 4 スイート実測が manifest と一致
       (14/14・15/15・26/30 期待赤 4 件一致・9/9)+ manifest 改変の変異テストで
-      「リグレッション/実験証拠の破壊」を区別して FAIL することを確認。CI は push 後に実証。
+      「リグレッション/実験証拠の破壊」を区別して FAIL することを確認。CI は push 後に実証
+      → 初回実行 全ジョブ緑(fast 両 OS+dotnet・2026-07-10)。
+
+  - id: ECO-007
+    title: 期待結果 manifest に失敗分類・シグネチャがなく「期待理由と異なる失敗」を検出できない(playbook §13 新規範への治具追随)
+    date: 2026-07-10
+    origin: requirement
+    status: implemented
+    order_ref: bomdd/60-change-order-eco-007.md
+    affected_refs: [loops/expected-results.yaml, method/tools/self-conformance.py]
+    no_impact_prediction: "該当 2 ファイル以外は diff ゼロ。manifest 旧形(文字列リスト)も引き続き受理(後方互換)— 既存 C9 判定(unexpected pass/新規失敗)は不変"
+    diff_audit:
+      baseline: 1faf2c2
+      allowed_paths: [loops/expected-results.yaml, method/tools/self-conformance.py]
+      # head: 受入コミットで窓を閉じる(ref-v0.8)
+    summary: >
+      ECO-006 還元のレビューで playbook §13 の期待結果 manifest 規則が精密化され
+      (失敗分類+判定可能な失敗シグネチャの記録・unexpected pass/期待理由と異なる失敗/
+      未登録失敗の三方向 FAIL)、初版 manifest(テスト識別子のみ)と C9(二方向)が
+      新規範に不足。是正: manifest の expected_failed を test/class/signature の
+      mapping 形へ(signature は同日 trx の実 Message から採取)+ C9 に signature
+      突合(期待理由と異なる失敗の FAIL)を追加。旧形(文字列)も受理。
+    verification: >
+      基線: --dotnet 全 PASS(26/30・期待赤 4 件一致・signature 突合 4 件)。
+      変異テスト: B01 の signature を偽値化 → 「期待理由と異なる失敗(signature 不一致)」
+      として FAIL(exit 1)— 三方向目の検出動作を実証。manifest 復元済み。

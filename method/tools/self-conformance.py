@@ -215,7 +215,15 @@ def c9_dotnet() -> None:
     doc = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
     for suite in doc.get("suites") or []:
         proj = suite["project"]
-        expected_failed = set(suite.get("expected_failed") or [])
+        # 文字列(旧形)と mapping(test/class/signature — playbook §13・ECO-007)の両形を受ける
+        expected_failed, signatures = set(), {}
+        for e in suite.get("expected_failed") or []:
+            if isinstance(e, dict):
+                expected_failed.add(e["test"])
+                if e.get("signature"):
+                    signatures[e["test"]] = e["signature"]
+            else:
+                expected_failed.add(e)
         tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-trx-"))
         try:
             p = run(["dotnet", "test", str(ROOT / proj), "--nologo",
@@ -225,14 +233,21 @@ def c9_dotnet() -> None:
             if not trx.exists():
                 check("C9", False, f"{proj}: trx が生成されない (dotnet exit {p.returncode})")
                 continue
-            ns = {"t": "http://microsoft.com/schemas/VisualStudio/TeamTest/2010"}
+            ns = "{http://microsoft.com/schemas/VisualStudio/TeamTest/2010}"
             root = ET.parse(trx).getroot()
-            results = {}
-            for r in root.iter(f"{{{ns['t']}}}UnitTestResult"):
-                results[r.get("testName")] = r.get("outcome")
+            results, messages = {}, {}
+            for r in root.iter(f"{ns}UnitTestResult"):
+                name = r.get("testName")
+                results[name] = r.get("outcome")
+                msg = r.find(f".//{ns}Message")
+                if msg is not None and msg.text:
+                    messages[name] = msg.text
             failed = {n for n, o in results.items() if o != "Passed"}
             total_ok = len(results) == suite.get("total")
             set_ok = failed == expected_failed
+            # 期待理由と異なる失敗の検査(signature 突合)
+            wrong_reason = [n for n, sig in signatures.items()
+                            if n in failed and sig not in messages.get(n, "")]
             detail = ""
             if not set_ok:
                 healed = expected_failed - failed
@@ -241,9 +256,11 @@ def c9_dotnet() -> None:
                     detail += f" 期待赤が直っている(実験証拠の破壊?): {sorted(healed)}"
                 if regressed:
                     detail += f" リグレッション: {sorted(regressed)}"
-            check("C9", total_ok and set_ok,
+            if wrong_reason:
+                detail += f" 期待理由と異なる失敗(signature 不一致): {sorted(wrong_reason)}"
+            check("C9", total_ok and set_ok and not wrong_reason,
                   f"{proj}: {len(results) - len(failed)}/{len(results)} 合格・"
-                  f"期待赤 {len(expected_failed)} 件一致={set_ok}{detail}")
+                  f"期待赤 {len(expected_failed)} 件一致={set_ok}・signature 突合 {len(signatures)} 件{detail}")
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
