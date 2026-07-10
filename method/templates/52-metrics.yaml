@@ -26,4 +26,30 @@ metric_runs:
     # フォワード固有(playbook §9)
     g3_dryrun_questions: ~         # G3 ドライランが検出した質問数
     user_rulings: ~                # Phase 5 質問リストの裁定数(昇格/探索/対象外)
+    # 時間測定(transfer-02 還元 2026-07-10)。秒単位の整数を正規値とし、表示時に時間・分へ変換する。
+    # ブロック全体に provenance: observed を付ける方式は採らない — タイムスタンプ自体は観測値だが、
+    # 人間待ち・環境処理などへの分類は派生値だからである。
+    timing:
+      wall_clock_s: ~               # セッション開始から終了までの観測経過秒
+
+      union_duration_s:             # 各分類内で重複区間を union した時間
+        human_response_wait: ~
+        machine_active: ~
+        unclassified: ~
+
+      activity_span_sum_s:          # 並列活動を含む延べ時間。wall_clock を超え得る
+        model_inference: ~
+        test_exec: ~
+        env_overhead: ~
+
+      self_reported_s: ~            # 自己申告値が存在する場合のみ記録
+
+      measurement:
+        source_artifact: ~          # 対象トランスクリプトまたは分解記録
+        tool: method/tools/time-decomposition.py
+        tool_revision: ~
+        classification_revision: ~
+        timestamp_provenance: observed
+        component_derivation: classified
+        overlap_policy: union_within_class__cross_class_not_additive
     note: ""
