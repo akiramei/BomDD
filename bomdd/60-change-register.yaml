@@ -123,3 +123,32 @@ changes:
       陽性対照: 理由なし rejected → GU4 FAIL 2 件・昇格禁止(exit 1)。陰性対照:
       根拠+決定者つき rejected → 全ゲート PASS。回帰: MoviePad retro-01 実台帳で
       全ゲート PASS(判定不変)。
+
+  - id: ECO-006
+    title: リポ全体の自己適合ゲートの不在(テンプレ構文・初期化後動作・治具異常系・実験結果の一括検証入口がない)
+    date: 2026-07-10
+    origin: defect
+    status: implemented
+    order_ref: bomdd/60-change-order-eco-006.md
+    affected_refs: [method/tools/self-conformance.py, loops/expected-results.yaml, .github/workflows/self-conformance.yml, README.md]
+    no_impact_prediction: "既存の method 本文・テンプレ・治具のロジックは diff ゼロ(新設 3 ファイル+README の陳腐化 2 箇所是正+化石ディレクトリ 1 件除去のみ)。loop 実験成果物のコード・テストは不変 — 期待結果 manifest は観測の凍結であって変更でない"
+    diff_audit:
+      baseline: e170bda
+      allowed_paths: [method/tools/self-conformance.py, loops/expected-results.yaml, .github/workflows/, README.md]
+      # head: 受入コミットで窓を閉じる(ref-v0.8)
+    summary: >
+      レビュー所見6(P2)。ECO-001 の YAML 不正や README の成熟度・スキル本数の陳腐化が
+      残っていたのは一括検証の入口がないため。是正: (a) self-conformance.py 新設 —
+      C1〜C8(テンプレ構文/台帳規律/scaffold 煙試験/fail-closed 陽性対照/ui-cad-gate
+      対検査/README 乖離/衛生)+ C9(--dotnet: loop スイートを期待結果 manifest と突合 —
+      意図的な赤4件は「失敗すること」がメタテスト= 実験証拠とリグレッションの機械的区別)。
+      (b) loops/expected-results.yaml 新設(レビュー検証結果と一致を較正)。
+      (c) CI ワークフロー新設(fast= 両 OS / dotnet= windows)。
+      (d) 既知の陳腐化を是正: README(スキル 5→8 本・「未実証 draft」→実証済み N=3)+
+      リポ直下のパス破損化石(U+F03A・空ディレクトリ)除去 — C7/C8 が再発防止。
+    verification: >
+      ゲート自身の陽性対照: 是正前状態で C7 が README 乖離(5≠8)を検出・C8 初版が
+      U+F03A 化石を見逃し→検出強化で捕捉(検出器の欠陥を検出器の検査で発見)。
+      是正後 fast 全 PASS(C1〜C8)。C9= 4 スイート実測が manifest と一致
+      (14/14・15/15・26/30 期待赤 4 件一致・9/9)+ manifest 改変の変異テストで
+      「リグレッション/実験証拠の破壊」を区別して FAIL することを確認。CI は push 後に実証。

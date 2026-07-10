@@ -1,0 +1,37 @@
+# self-conformance — リポ全体の自己適合ゲート(harness ECO-006・外部レビュー所見6)
+# fast: テンプレ構文・台帳規律・scaffold煙試験・治具異常系・ゲート対検査・README乖離・衛生
+# dotnet: loop 実験スイートを期待結果 manifest(loops/expected-results.yaml)と突合 —
+#         意図的な赤(実験証拠)はメタテストとして「失敗すること」を検査する
+name: self-conformance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  fast:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - run: python method/tools/self-conformance.py
+
+  dotnet:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - run: pip install pyyaml
+      - run: python method/tools/self-conformance.py --dotnet

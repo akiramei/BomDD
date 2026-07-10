@@ -1,0 +1,32 @@
+# expected-results — loop 実験成果物(.NET スイート)の期待結果 manifest(harness ECO-006)
+#
+# 目的: 「実験結果として意図的に保存された赤」とリグレッションを機械的に区別する。
+# loop-02 の 26/30 は L0 過剰結合の実験証拠(loop-02-report.md「Unit B 25/30 → 修正後 26/30」・
+# 保存された赤 4 件= FilterGraph/FilterArgs 系)であり、失敗すること自体がメタテストの合格条件。
+# 検証器: method/tools/self-conformance.py --dotnet
+#   - expected_failed に列挙されたテストは「失敗しなければならない」(直ると実験証拠が壊れた印)
+#   - それ以外のテストは全合格でなければならない(リグレッション検出)
+# 較正: 2026-07-10 実測(4 スイート・net10.0)— 外部レビュー検証結果(Split 14/14・
+# Split v2 15/15・Timeline 9/9・Export 26/30)と一致。
+
+suites:
+  - project: loops/loop-01-split/build/MoviePad.SplitSlice.Tests
+    total: 14
+    expected_failed: []
+
+  - project: loops/loop-01.5-split/build/MoviePad.SplitSlice.v2.Tests
+    total: 15
+    expected_failed: []
+
+  - project: loops/loop-02-export/build/MoviePad.ExportSlice.Tests
+    total: 30
+    note: "意図的な赤 4 件 = L0 過剰結合(loop-02-report.md)— 実験証拠として保存"
+    expected_failed:
+      - MoviePad.ExportSlice.Tests.ExportSliceTests.B01_FilterGraph_Identity_OmitsScaleAndFps
+      - MoviePad.ExportSlice.Tests.ExportSliceTests.B10_FilterArgs_FrontTrim_AddsInputSeek_AndSecondAudioInput
+      - MoviePad.ExportSlice.Tests.ExportSliceTests.B11_FilterArgs_NoFrontTrim_SingleInput_NoSeek
+      - MoviePad.ExportSlice.Tests.ExportSliceTests.B12_FilterArgs_FrontTrim_NoAudio_SingleSeekedInput
+
+  - project: loops/loop-03-timeline/build/MoviePad.TimelineSlice.Tests
+    total: 9
+    expected_failed: []
