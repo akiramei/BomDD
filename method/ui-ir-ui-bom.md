@@ -398,11 +398,20 @@ prompt 追記量 0(失敗還流は全て治具・台帳側で吸収 — X1 は u
 | GU1 raw会計 | raw IR の全 interactable が候補層か台帳に現れるか(raw IR なしでは skip) | AI 候補の再生成または unmodeled 追記 |
 | GU2 会計 | 全 action が 採用 / ignore / 質問 のいずれかに分類済みか | AI 候補生成または質問追加 |
 | GU3 裁定 | blocking の open が残っていないか | 製造停止。裁定してから再実行 |
-| GU4 来歴 | final action に ruled 裁定があるか。辞書エントリに source_rulings があるか | 裁定追加または辞書修正 |
+| GU4 来歴 | final action に ruled 裁定があるか。辞書エントリに source_rulings があるか。**rejected は evidence または negative_rulings+decided_by を持つか(harness ECO-005)** | 裁定追加または辞書修正 |
 | GU5 追跡 | ui-bom item が trace map 経由で HTML selector へ辿れるか | 昇格禁止。trace 補完 |
 | GU6 id揺れ | `--mock` 指定時、再抽出して stable id の揺れがないか | extractor 修正またはモック改変の diff 追従 |
 
 raw IR のない旧方式(§11 一発変換)の案件では GU1/GU6 は skip され、GU2 が会計の全責務を負う(経過措置)。
+
+GU4 の rejected 規則(harness ECO-005・2026-07-10): `rejected` は、却下根拠として `evidence` または
+`negative_rulings` を持ち、かつ `decided_by` を持たなければならない。**根拠のない黙殺を、有効な被覆として
+扱ってはならない**(是正前は理由なし rejected で action を落として全ゲート合格が成立していた)。
+
+一般規則(被覆と適格性の対): ある status を GU2 の被覆へ算入する場合、その status を有効な被覆として
+認めるための**適格性条件を GU4 側へ同時に定義する**。適格性条件には、根拠、決定主体、期限、承認または
+代替統制など、その status の意味に必要な来歴・内容条件を含める。**被覆規則と適格性規則を別々に拡張して
+はならない**。
 
 ## 17. モック受入検査(candidate)
 
