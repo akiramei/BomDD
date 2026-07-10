@@ -73,3 +73,30 @@ changes:
       decomposition が是正前見出しと完全一致。fail-closed 効果: Plm 見出し 4/5→5/5・
       35→111 files(unmapped 76 = oracle//.github//packages 生成物 — 既知の M-BOM
       被覆ギャップ債務と整合)。scale-01 公表値への波及なし(order 参照)。異常系 exit 2。
+
+  - id: ECO-004
+    title: bomdd-init が可変な方法論リポへ絶対パスで結合(凍結・来歴・再現性の自己矛盾)
+    date: 2026-07-10
+    origin: defect
+    status: implemented
+    order_ref: bomdd/60-change-order-eco-004.md
+    affected_refs: [method/tools/bomdd-init.py, method/templates/product-profile/]
+    no_impact_prediction: "bomdd-init.py と product-profile テンプレ({{METHOD}} 記述 3 ファイル)以外は diff ゼロ。既存製品リポには波及しない(init は生成時のみ・--skills-only は kit 追設のみで既存ファイル不変)"
+    diff_audit:
+      baseline: 437c78b
+      allowed_paths: [method/tools/bomdd-init.py, method/templates/product-profile/]
+      # head: 受入コミットで窓を閉じる(ref-v0.8)
+    summary: >
+      レビュー所見2(P1)。METHOD_ROOT 絶対パスの埋め込みは、別 PC で壊れるだけでなく
+      「方法論リポの更新が既存製品の手順を無記録で変える」— 凍結・来歴・再現性という
+      BomDD 自身の原則との自己矛盾。是正: 方法論(method/ 全体・996K/100 files)を
+      同梱 kit(bomdd-kit/)として凍結コピーし {{METHOD}} を相対パス化。bomdd.lock に
+      出自(method commit・dirty)・kit manifest sha256・adapter(スキル一覧)・
+      runtime を固定。transfer 実験の凍結 kit 方式(kit-v1〜v3 タグ)の製品化。
+    verification: >
+      陽性対照: 是正前 scaffold は生成物 7 ファイルに絶対パス → 是正後 0(唯一の出現は
+      bomdd.lock の origin_path = 設計どおりの来歴フィールド)。可搬性: 生成リポを
+      ディレクトリ移動後も kit 治具が実行可(ui-cad-gate/ui-extract)。lock の
+      method commit = 生成時 HEAD 一致・dirty 正直記録・manifest sha256 再計算一致
+      (改ざん検出可)。--skills-only でも kit+lock 設置・既存 kit は保持(fail-safe)。
+      ECO-002 の fail-closed が kit 経由でも継承(kit 内 stage0-survey = exit 2)。

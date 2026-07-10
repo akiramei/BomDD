@@ -14,7 +14,7 @@
 
 | リポ | 役割 | 変更の入口になるケース |
 |---|---|---|
-| BomDD(`{{METHOD}}`) | 方法論(法規・手順書・テンプレ) | 手順自体の欠陥・教訓の一般形昇格 |
+| BomDD 方法論(同梱 kit: `{{METHOD}}`・正本リポの出自は `bomdd.lock` の origin_path) | 方法論(法規・手順書・テンプレ) | 手順自体の欠陥・教訓の一般形昇格(送り先は正本リポ — kit は凍結写しにつき直接編集しない) |
 | BomDD-Plm | PLM 工具(lint/viewer・DB なし・git が正本) | 準拠 findings → `bomdd/plm-intake/` 修復票(台帳が育ってから) |
 | `{{CAD}}` | **CAD(設計原器)**: mock+screens docs+review_points 裁定 | 設計判断・視覚仕様・未確定事項の裁定 |
 | `{{PRODUCT}}` | 製品: `bomdd/` 台帳+src+tests | ECO の実行と記録(本書の主対象) |

@@ -15,6 +15,7 @@
 | cad/review_points.md | `<cad>/docs/` | 裁定台帳(空の書式) |
 
 プレースホルダ: `{{PRODUCT}}`(製品リポ名) / `{{CAD}}`(CAD リポ名) /
-`{{METHOD}}`(BomDD 方法論リポの絶対パス) / `{{DATE}}`(生成日)。
+`{{METHOD}}`(同梱方法論 kit へのリポ内相対パス= `bomdd-kit` — 版と出自は生成先の
+`bomdd.lock`。方法論リポへの絶対パス結合は harness ECO-004 で廃止) / `{{DATE}}`(生成日)。
 
 出自: ViewPrism2 の実運用プロファイル(ECO-038/039 ケーススタディ)からの一般化(2026-07-04)。

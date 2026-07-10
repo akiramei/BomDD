@@ -2,7 +2,8 @@
 
 BomDD(BOM 駆動開発)で製造するプロダクト。`bomdd/` が設計・受入・変更管理の台帳(git が正本)。
 UI/UX の設計原器(CAD)は別リポ `../{{CAD}}`(乖離時は常に CAD が正 — `../{{CAD}}/docs/02_mock_fidelity_policy.md`)。
-方法論の正典は `{{METHOD}}`(playbook・テンプレ・フェーズ実行プロンプト)。
+方法論の正典は `{{METHOD}}`(playbook・テンプレ・フェーズ実行プロンプト — 本リポに同梱された
+凍結スナップショット。版と出自は `bomdd.lock`。更新は kit の明示的な差し替え+lock 更新で行う)。
 
 ## 現在地と入口
 

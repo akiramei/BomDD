@@ -8,10 +8,18 @@
     python method/tools/bomdd-init.py MyProduct --dir C:/repos [--gui|--no-gui] [--cad-name MyProductUI] [--no-git]
 
 生成後にやることは画面表示とオンボーディング文書(method/onboarding/)を参照。
+
+版固定(harness ECO-004・2026-07-10 外部レビュー所見2):
+    生成物は方法論リポへの絶対パスで結合しない。方法論(method/ 全体)を
+    同梱 kit(bomdd-kit/)として製品リポへ凍結コピーし、{{METHOD}} はその相対パスに
+    置換する。kit の出自(方法論リポの commit・dirty)と内容ハッシュは bomdd.lock に
+    記録する — 方法論リポの更新が既存製品の手順を無記録で変えない(凍結・来歴・再現性)。
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import shutil
 import subprocess
 import sys
@@ -22,6 +30,8 @@ METHOD_ROOT = Path(__file__).resolve().parents[2]  # <BomDD リポ root>
 TEMPLATES = METHOD_ROOT / "method" / "templates"
 PROFILE = TEMPLATES / "product-profile"
 ONBOARDING = METHOD_ROOT / "method" / "onboarding"
+
+KIT_DIRNAME = "bomdd-kit"  # 生成先リポ内の方法論同梱先({{METHOD}} の置換値)
 
 # 製品リポ bomdd/ へコピーするフェーズ成果物テンプレ(単一正本は method/templates/)
 PHASE_TEMPLATE_GLOBS = ["[0-9][0-9]-*.md", "[0-9][0-9]-*.yaml", "README.md"]
@@ -47,6 +57,65 @@ def git(repo: Path, *args: str) -> bool:
         return False
 
 
+def _method_provenance() -> dict[str, object]:
+    """方法論リポの版来歴。git 不在でも止めず not-computed を正直記録(t3 様式)"""
+    def g(*args: str) -> str | None:
+        p = subprocess.run(["git", "-C", str(METHOD_ROOT), *args],
+                           capture_output=True, text=True, encoding="utf-8")
+        return p.stdout.strip() if p.returncode == 0 else None
+    commit = g("rev-parse", "HEAD")
+    if commit is None:
+        return {"commit": "not-computed(method repo is not a git checkout)", "dirty": "unknown"}
+    return {"commit": commit, "dirty": bool(g("status", "--porcelain"))}
+
+
+def install_kit(root: Path, created: str) -> None:
+    """method/ 全体を凍結コピーし、per-file sha256 manifest と bomdd.lock を書く"""
+    kit = root / KIT_DIRNAME
+    if kit.exists():
+        print(f"[kit] {kit} は既存のため保持(方法論の版を更新する場合は {KIT_DIRNAME}/ と bomdd.lock を削除して再実行)")
+        return
+    shutil.copytree(METHOD_ROOT / "method", kit / "method",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    manifest: dict[str, str] = {}
+    for f in sorted(kit.rglob("*")):
+        if f.is_file():
+            manifest[f.relative_to(kit).as_posix()] = hashlib.sha256(f.read_bytes()).hexdigest()
+    prov = _method_provenance()
+    manifest_path = kit / "kit-manifest.json"
+    manifest_path.write_text(
+        json.dumps({"created": created, "method_commit": prov["commit"], "files": manifest},
+                   ensure_ascii=False, indent=1),
+        encoding="utf-8", newline="\n")
+    dirty = prov["dirty"]
+    dirty_yaml = str(dirty).lower() if isinstance(dirty, bool) else f'"{dirty}"'
+    commit = str(prov["commit"])
+    lock = (
+        "# bomdd.lock — 方法論の版固定(harness ECO-004)\n"
+        f"# 実行時に参照する方法論は同梱 kit({KIT_DIRNAME}/)のみ — 方法論リポの更新は本製品に波及しない。\n"
+        "# origin_path は来歴(教訓の一般形昇格の送り先)であって実行時依存ではない。\n"
+        "bomdd_lock:\n"
+        f"  created: \"{created}\"\n"
+        "  method:\n"
+        f"    origin_path: \"{METHOD_ROOT.as_posix()}\"\n"
+        f"    commit: \"{commit}\"\n"
+        f"    dirty: {dirty_yaml}\n"
+        "  kit:\n"
+        f"    root: {KIT_DIRNAME}\n"
+        f"    files: {len(manifest)}\n"
+        f"    manifest: {KIT_DIRNAME}/kit-manifest.json\n"
+        f"    manifest_sha256: \"{hashlib.sha256(manifest_path.read_bytes()).hexdigest()}\"\n"
+        "  adapter:\n"
+        f"    skills: [{', '.join(SKILLS)}]\n"
+        "  runtime:\n"
+        f"    python: \"{sys.version.split()[0]}\"\n"
+    )
+    (root / "bomdd.lock").write_text(lock, encoding="utf-8", newline="\n")
+    if dirty is True:
+        print("[warn] 方法論リポに未コミット変更あり — kit は dirty スナップショット(bomdd.lock に記録済み)")
+    print(f"[kit] 方法論 kit を同梱しました({len(manifest)} files・method commit {commit[:9]})")
+
+
 def scaffold_product(root: Path, repl: dict[str, str]) -> None:
     bomdd = root / "bomdd"
     bomdd.mkdir(parents=True)
@@ -67,6 +136,7 @@ def scaffold_product(root: Path, repl: dict[str, str]) -> None:
     for skill in SKILLS:
         render(PROFILE / "skills" / f"{skill}.md",
                root / ".claude" / "skills" / skill / "SKILL.md", repl)
+    install_kit(root, repl["DATE"])
 
 
 def scaffold_cad(root: Path, repl: dict[str, str]) -> None:
@@ -82,6 +152,7 @@ def scaffold_cad(root: Path, repl: dict[str, str]) -> None:
            docs / "02_mock_fidelity_policy.md", repl)
     render(PROFILE / "cad" / "review_points.md", docs / "review_points.md", repl)
     render(PROFILE / "CLAUDE.cad.md", root / "CLAUDE.md", repl)
+    install_kit(root, repl["DATE"])
 
 
 def main() -> int:
@@ -114,10 +185,11 @@ def main() -> int:
             print(f"エラー: 未知のスキル: {unknown}(候補: {SKILLS})", file=sys.stderr)
             return 1
         repl = {"PRODUCT": args.name, "CAD": args.cad_name or f"{args.name}UI",
-                "METHOD": str(METHOD_ROOT), "DATE": date.today().isoformat()}
+                "METHOD": KIT_DIRNAME, "DATE": date.today().isoformat()}
         for skill in selected:
             render(PROFILE / "skills" / f"{skill}.md",
                    root / ".claude" / "skills" / skill / "SKILL.md", repl)
+        install_kit(root, repl["DATE"])
         print(f"[ok] {root} へスキル {len(selected)} 本を設置しました(コミットは手動で)")
         return 0
 
@@ -144,7 +216,7 @@ def main() -> int:
     repl = {
         "PRODUCT": args.name,
         "CAD": cad_name if is_gui else "(CAD なし — GUI 非対象)",
-        "METHOD": str(METHOD_ROOT),
+        "METHOD": KIT_DIRNAME,
         "DATE": date.today().isoformat(),
     }
 
@@ -177,12 +249,12 @@ def main() -> int:
     w()
     w(" あなたの仕事は 2 つだけ: 裁定(選択肢から選ぶ)と golden(実機確認)。")
     w(" AI への頼み方は「症状・要求を書く。解決策を書かない」。詳細:")
-    w(f"   {ONBOARDING / 'working-with-ai.md'}")
+    w(f"   {product_root / KIT_DIRNAME / 'method' / 'onboarding' / 'working-with-ai.md'}")
     w()
-    w("== 完全な手順 " + "=" * 48)
-    w(f" チェックリスト: {ONBOARDING / 'new-project-checklist.md'}")
-    w(f" フェーズ手順:   {METHOD_ROOT / 'method' / 'prompts'}  (phase0-charter.md 〜 phase7-change-order.md)")
-    w(f" playbook:       {METHOD_ROOT / 'method' / 'bomdd-playbook-v1.md'}")
+    w("== 完全な手順(すべて製品リポ同梱の kit 内 — 版は bomdd.lock)" + "=" * 12)
+    w(f" チェックリスト: {KIT_DIRNAME}/method/onboarding/new-project-checklist.md")
+    w(f" フェーズ手順:   {KIT_DIRNAME}/method/prompts/  (phase0-charter.md 〜 phase7-change-order.md)")
+    w(f" playbook:       {KIT_DIRNAME}/method/bomdd-playbook-v1.md")
     return 0
 
 
