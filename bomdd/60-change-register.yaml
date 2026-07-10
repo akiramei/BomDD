@@ -158,14 +158,14 @@ changes:
     title: 期待結果 manifest に失敗分類・シグネチャがなく「期待理由と異なる失敗」を検出できない(playbook §13 新規範への治具追随)
     date: 2026-07-10
     origin: requirement
-    status: implemented
+    status: verified
     order_ref: bomdd/60-change-order-eco-007.md
     affected_refs: [loops/expected-results.yaml, method/tools/self-conformance.py]
     no_impact_prediction: "該当 2 ファイル以外は diff ゼロ。manifest 旧形(文字列リスト)も引き続き受理(後方互換)— 既存 C9 判定(unexpected pass/新規失敗)は不変"
     diff_audit:
       baseline: 1faf2c2
       allowed_paths: [loops/expected-results.yaml, method/tools/self-conformance.py]
-      # head: 受入コミットで窓を閉じる(ref-v0.8)
+      head: "b18f587"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中
     summary: >
       ECO-006 還元のレビューで playbook §13 の期待結果 manifest 規則が精密化され
       (失敗分類+判定可能な失敗シグネチャの記録・unexpected pass/期待理由と異なる失敗/
