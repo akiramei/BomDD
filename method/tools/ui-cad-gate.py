@@ -145,6 +145,13 @@ def main():
             fail("GU4", f"{rid}: ruled なのに ruling が空")
         if status == "superseded" and not r.get("superseded_by"):
             fail("GU4", f"{rid}: superseded なのに superseded_by が空")
+        # harness ECO-005(外部レビュー所見5): rejected は GU2 の被覆に算入される(=action を
+        # 落とせる)ため、来歴なしの黙殺を通さない — 却下根拠と決定者を必須にする。
+        if status == "rejected":
+            if not (r.get("evidence") or r.get("negative_rulings")):
+                fail("GU4", f"{rid}: rejected なのに却下根拠が空(evidence か negative_rulings に残す — 理由なき黙殺の禁止)")
+            if not r.get("decided_by"):
+                fail("GU4", f"{rid}: rejected なのに decided_by が空(誰が却下したか)")
 
     active_rulings = [r for r in rulings if r.get("status") != "superseded"]
 
