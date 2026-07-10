@@ -23,10 +23,31 @@
 #
 # 血統: impact-retrospective.py(宣言 vs 実 diff の遡及採点)の下位形 —
 #       影響宣言が存在しないリポで、宣言回収の見込みとハブ台帳初期値を出す。
+#
+# fail-closed(harness ECO-002・2026-07-10 外部レビュー所見4):
+#   git の失敗・履歴ゼロ・解析可能ファイルゼロは「問題なし」ではなく「測定不能」。
+#   exit 2 で停止する(測定規約 §2 の測定定義自体は不変 — 変えたのは欠測の扱いのみ)。
 
 import argparse, json, math, re, subprocess, sys
 from collections import Counter, defaultdict
 from pathlib import Path
+
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
+
+def die(msg):
+    print(f"[stage0-survey] 測定不能: {msg}", file=sys.stderr)
+    sys.exit(2)
+
+
+def run_git(repo, *args):
+    p = subprocess.run(["git", "-C", repo, *args], capture_output=True, text=True,
+                       encoding="utf-8", errors="replace")
+    if p.returncode != 0:
+        err = p.stderr.strip().splitlines()
+        die(f"git {args[0]} が失敗 (exit {p.returncode}): {err[0] if err else '(stderr なし)'}")
+    return p.stdout
 
 RE_REVERT = re.compile(r'(?i)\brevert|差し戻')
 RE_FIX    = re.compile(r'(?i)\b(fix|fixes|fixed|bugfix|hotfix)\b|^bug\b|修正|不具合|バグ', re.I)
@@ -58,12 +79,11 @@ def unit_of(path, depth, strips):
 
 
 def iter_commits(repo, max_commits):
-    args = ["git", "-C", repo, "log", "--no-merges", "--reverse",
+    args = ["log", "--no-merges", "--reverse",
             "--pretty=format:\x01%H\x02%s", "--name-only"]
     if max_commits:
-        args.insert(4, f"-{max_commits}")
-    out = subprocess.run(args, capture_output=True, text=True, encoding="utf-8",
-                         errors="replace").stdout
+        args.insert(1, f"-{max_commits}")
+    out = run_git(repo, *args)
     for block in out.split("\x01"):
         if not block.strip():
             continue
@@ -90,9 +110,7 @@ def head_sizes(repo, paths):
 def tracked_files(repo):
     # ls-files でなく ls-tree(HEAD)を使う — partial clone 等で index が空でも
     # 追跡集合を正しく返す(index 健全時は同一結果。stage0-oss-01 較正で実測)
-    out = subprocess.run(["git", "-C", repo, "ls-tree", "-r", "HEAD", "--name-only"],
-                         capture_output=True, text=True, encoding="utf-8",
-                         errors="replace").stdout
+    out = run_git(repo, "ls-tree", "-r", "HEAD", "--name-only")
     return [p for p in out.splitlines() if p and not RE_EXCLUDE.search(p)]
 
 
@@ -127,8 +145,9 @@ def main():
     a = ap.parse_args()
     strips = set(a.strip_prefixes.split(","))
 
-    head_sha = subprocess.run(["git", "-C", a.repo, "rev-parse", "HEAD"],
-                              capture_output=True, text=True).stdout.strip()
+    if not Path(a.repo).is_dir():
+        die(f"リポジトリディレクトリが存在しない: {a.repo}")
+    head_sha = run_git(a.repo, "rev-parse", "HEAD").strip()
 
     n = {"total": 0, "bulk": 0}
     kinds = Counter()
@@ -188,7 +207,11 @@ def main():
             if kind == "feat":
                 last_feat_idx[f] = idx
 
+    if n["total"] == 0:
+        die("解析可能なコミットが 0 件(履歴なし/全件除外)— 欠測は健全データではない")
     files_at_head = tracked_files(a.repo)
+    if not files_at_head:
+        die("HEAD に解析可能な追跡ファイルが 0 件 — 欠測は健全データではない")
     if a.skip_loc:
         loc, counted = None, len(files_at_head)
     else:

@@ -22,7 +22,7 @@ changes:
     status: proposed             # proposed | decided | implemented | applied | verified | rejected | superseded
     order_ref: bomdd/60-change-order-eco-001.md
     affected_refs: [REQ-000, E-DOMAIN-000, M-DOMAIN-000, CP-DOMAIN-000]
-    no_impact_prediction: <反証可能な形の「影響なし」予測(例: 「Api 層はファイル単位 diff ゼロ」)。製造前に凍結>
+    no_impact_prediction: "<反証可能な形の「影響なし」予測(例: 「Api 層はファイル単位 diff ゼロ」)。製造前に凍結>"
     diff_audit:
       baseline: <変更前凍結タグ>
       allowed_paths: [<影響集合のパスプレフィックス>]
