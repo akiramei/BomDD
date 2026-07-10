@@ -48,3 +48,28 @@ changes:
     verification: >
       陽性対照: 存在しないリポ=exit 2・git 外ディレクトリ=exit 2(是正前は exit 0)。
       回帰: 実リポ(--max-commits 100)の出力 JSON が是正前後でバイト同一。詳細は order 参照。
+
+  - id: ECO-003
+    title: impact-retrospective が unmapped を under 見出しから漏らす(fail-open 集計)+影響フィールドの register 一括判定
+    date: 2026-07-10
+    origin: defect
+    status: implemented
+    order_ref: bomdd/60-change-order-eco-003.md
+    affected_refs: [method/tools/impact-retrospective.py]
+    no_impact_prediction: "impact-retrospective.py 以外は diff ゼロ。v1 の測定定義(規約1〜4)は不変 — 既存測定値は summary.decomposition で完全再現されること(反証可能: ViewPrism2/Plm の前後比較)"
+    diff_audit:
+      baseline: b7101de
+      allowed_paths: [method/tools/impact-retrospective.py]
+      # head: 受入コミットで窓を閉じる(ref-v0.8)
+    summary: >
+      レビュー所見3(P1)。unit へ写像できない実変更(unmapped)が見出し
+      (ecos_with_real_under / real_under_files)に含まれず「未知の変更先があるのに
+      under 0」が成立し得た — BomDD-Plm ECO-003(unmapped 3・under 0)で実在を確認。
+      影響宣言フィールドの register 一括判定(混在時に片方が黙って欠測)も ECO 単位へ。
+      採点規約 v2 として宣言(v1 定義は不変・見出し集計と欠測の扱いのみ変更・
+      decomposition で v1 数値を恒久再現)。git/register/M-BOM 読取り失敗は exit 2。
+    verification: >
+      v1 再現: ViewPrism2(12 ECO/65 files/hub 同一)・Plm(4/35/hub 同一)とも
+      decomposition が是正前見出しと完全一致。fail-closed 効果: Plm 見出し 4/5→5/5・
+      35→111 files(unmapped 76 = oracle//.github//packages 生成物 — 既知の M-BOM
+      被覆ギャップ債務と整合)。scale-01 公表値への波及なし(order 参照)。異常系 exit 2。
