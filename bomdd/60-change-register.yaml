@@ -13,14 +13,14 @@ changes:
     title: 配布テンプレ 60-change-register.yaml が YAML として不正(fail-late)
     date: 2026-07-10
     origin: defect
-    status: implemented
+    status: verified
     order_ref: bomdd/60-change-order-eco-001.md
     affected_refs: [method/templates/60-change-register.yaml]
     no_impact_prediction: "templates/60-change-register.yaml の 1 行(25 行目の引用符付加)のみ — 他ファイルは diff ゼロ"
     diff_audit:
       baseline: 4c954f1
       allowed_paths: [method/templates/60-change-register.yaml]
-      # head: 受入コミットで窓を閉じる(ref-v0.8)
+      head: "5174475"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中
     summary: >
       プレースホルダー内の未引用コロン(「(例: 「Api…」)」)で PyYAML が解釈不能
       (レビュー所見1・14/15 合格を再現)。bomdd-init が必ず配布し /eco-file 等が前提
@@ -32,14 +32,14 @@ changes:
     title: stage0-survey が git 失敗を空の健全データとして返す(fail-open)
     date: 2026-07-10
     origin: defect
-    status: implemented
+    status: verified
     order_ref: bomdd/60-change-order-eco-002.md
     affected_refs: [method/tools/stage0-survey.py]
     no_impact_prediction: "stage0-survey.py 以外は diff ゼロ。正常系の出力 JSON はバイト同一(測定定義 protocol §2 は不変 — 変えたのは欠測の扱いのみ)"
     diff_audit:
       baseline: 4c954f1
       allowed_paths: [method/tools/stage0-survey.py]
-      # head: 受入コミットで窓を閉じる(ref-v0.8)
+      head: "5174475"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中
     summary: >
       git の returncode 未確認により、存在しないリポでも head 空・コミット 0 件の
       JSON を exit 0 で返していた(レビュー所見4・再現済み)。健診器の欠測は
