@@ -21,8 +21,9 @@
 ## 2. 非公開分のつなぎ(匿名化集計 — 公開までの暫定)
 
 - **scale-01/02(ViewPrism2)**: 公表値は裁定済み3分解(`ViewPrism2/bomdd/studies/scale-01-impact-retrospective.md`・非公開)。
-  つなぎとして、**ファイルパスを unit ID+パスの sha256 先頭8桁へ置換した匿名化採点個票(ECO単位の宣言影響集合×実diff集計・除外ECO一覧と理由つき)**を
-  `docs/evidence/scale-01-anonymized/` へ順次エクスポートする(治具は公開済みのため、置換規則も同梱し検算可能にする)。
+  つなぎとして、**匿名化採点個票を `docs/evidence/scale-01-anonymized/` へエクスポート済み(2026-07-10)**:
+  `scoring-v2-anonymized.json`(ECO単位の宣言影響集合×実diff・under/unmapped 個票=パスは sha256 先頭8桁)・
+  `excluded-ecos.md`(除外39件の ID と理由)・`masking-rules.md`(置換規則と検算手順)。
 - **UI-CAD(MoviePad)**: 裁定台帳の様式・ゲート判定は method 本文と治具で公開済み。個票は監査応諾で対応。
 - **完全公開の条件**: ViewPrism2 の個人情報・セキュリティ情報の削除完了(作業中)。完了後、本インデックスの該当行を公開リポ参照へ差し替える。
 

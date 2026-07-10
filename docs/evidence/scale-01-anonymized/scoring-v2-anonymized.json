@@ -1,0 +1,808 @@
+{
+ "note": "ViewPrism2(非公開)の影響分析遡及採点・匿名化個票。ファイルパスは sha256 先頭8桁へ置換(置換規則は masking-rules.md)。採点規約 v2(method/tools/impact-retrospective.py 冒頭に凍結)。",
+ "generated": "2026-07-10",
+ "tool": "impact-retrospective.py(scoring convention v2)",
+ "register_note": "register は scale-01(2026-07-04・34 ECO)以降も成長しており、本エクスポートは全履歴の再採点。scale-01 公表値は裁定済み3分解(study 個票)による。",
+ "fields_used": {
+  "impacted_bom": 18
+ },
+ "skipped": {
+  "doc_only": 17,
+  "no_commits": 11,
+  "not_applied": 4,
+  "no_impact_decl": 7
+ },
+ "summary": {
+  "code_ecos": 18,
+  "ecos_with_real_under": 12,
+  "real_under_files": 65,
+  "decomposition": {
+   "ecos_with_mapped_under": 12,
+   "mapped_under_files": 65,
+   "ecos_with_unmapped": 0,
+   "unmapped_files": 0
+  },
+  "hub_concentration": {
+   "M-UI-013": 33,
+   "M-ORACLE-030": 7,
+   "M-CORE-001": 5,
+   "M-VIEWSVC-012": 5,
+   "M-VIEWERCORE-017": 5,
+   "M-DB-007": 3,
+   "M-CRITERIA-024": 2,
+   "M-UI-IMAGETAB-035": 2,
+   "M-INFRA-031": 1,
+   "M-UI-ORGANIZE-034": 1,
+   "M-UI-WORKSPACE-029": 1
+  },
+  "multi_unit_ecos": 17
+ },
+ "scored": [
+  {
+   "eco": "ECO-002",
+   "field": "impacted_bom",
+   "commits": 3,
+   "files": 36,
+   "pred_units": [
+    "M-SET-010",
+    "M-UI-013",
+    "M-UI-014",
+    "M-UI-018",
+    "M-UI-019",
+    "M-UI-IMAGETAB-035"
+   ],
+   "actual_units": [
+    "M-CORE-001",
+    "M-DB-007",
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-014",
+    "M-VIEWSVC-012"
+   ],
+   "under": [
+    [
+     "f_935ec825",
+     "M-CORE-001"
+    ],
+    [
+     "f_ff37887f",
+     "M-CORE-001"
+    ],
+    [
+     "f_233b1b90",
+     "M-VIEWSVC-012"
+    ],
+    [
+     "f_125fd1ae",
+     "M-DB-007"
+    ]
+   ],
+   "test_only": 7,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-SET-010",
+    "M-UI-018",
+    "M-UI-019",
+    "M-UI-IMAGETAB-035"
+   ]
+  },
+  {
+   "eco": "ECO-003",
+   "field": "impacted_bom",
+   "commits": 1,
+   "files": 19,
+   "pred_units": [
+    "M-UI-REPAIR-027"
+   ],
+   "actual_units": [
+    "M-CRITERIA-024",
+    "M-HARNESS-015",
+    "M-ORACLE-030",
+    "M-UI-013",
+    "M-UI-REPAIR-027"
+   ],
+   "under": [
+    [
+     "f_4697b7a6",
+     "M-UI-013"
+    ],
+    [
+     "f_299d7391",
+     "M-UI-013"
+    ],
+    [
+     "f_f1e07b49",
+     "M-UI-013"
+    ],
+    [
+     "f_6852be31",
+     "M-UI-013"
+    ],
+    [
+     "f_144aad3d",
+     "M-UI-013"
+    ],
+    [
+     "f_12899a76",
+     "M-UI-013"
+    ],
+    [
+     "f_5ef0d575",
+     "M-UI-013"
+    ],
+    [
+     "f_e5bdca01",
+     "M-UI-013"
+    ],
+    [
+     "f_e740eef1",
+     "M-UI-013"
+    ],
+    [
+     "f_57f7a527",
+     "M-UI-013"
+    ],
+    [
+     "f_e6fed57d",
+     "M-UI-013"
+    ],
+    [
+     "f_1f7de60c",
+     "M-UI-013"
+    ],
+    [
+     "f_8e33eb7a",
+     "M-UI-013"
+    ],
+    [
+     "f_26d9df6e",
+     "M-CRITERIA-024"
+    ],
+    [
+     "f_38ddafb0",
+     "M-ORACLE-030"
+    ]
+   ],
+   "test_only": 3,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": []
+  },
+  {
+   "eco": "ECO-007",
+   "field": "impacted_bom",
+   "commits": 5,
+   "files": 11,
+   "pred_units": [
+    "M-UI-013",
+    "M-UI-019",
+    "M-UI-IMAGETAB-035"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-VIEWSVC-012"
+   ],
+   "under": [
+    [
+     "f_dabe82ab",
+     "M-VIEWSVC-012"
+    ],
+    [
+     "f_b4427595",
+     "M-VIEWSVC-012"
+    ]
+   ],
+   "test_only": 2,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-UI-019",
+    "M-UI-IMAGETAB-035"
+   ]
+  },
+  {
+   "eco": "ECO-009",
+   "field": "impacted_bom",
+   "commits": 5,
+   "files": 6,
+   "pred_units": [
+    "M-UI-013",
+    "M-UI-019"
+   ],
+   "actual_units": [
+    "M-UI-013"
+   ],
+   "under": [],
+   "test_only": 0,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-UI-019"
+   ]
+  },
+  {
+   "eco": "ECO-013",
+   "field": "impacted_bom",
+   "commits": 4,
+   "files": 8,
+   "pred_units": [
+    "M-UI-013",
+    "M-UI-019",
+    "M-UI-IMAGETAB-035",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035"
+   ],
+   "under": [],
+   "test_only": 2,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-UI-019",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ]
+  },
+  {
+   "eco": "ECO-015",
+   "field": "impacted_bom",
+   "commits": 3,
+   "files": 4,
+   "pred_units": [
+    "M-TRASH-026",
+    "M-UI-IMAGETAB-035",
+    "M-UI-ORGANIZE-034",
+    "M-UI-REPAIR-027",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035"
+   ],
+   "under": [
+    [
+     "f_86b2a43b",
+     "M-UI-013"
+    ],
+    [
+     "f_2bb1e8b3",
+     "M-UI-013"
+    ]
+   ],
+   "test_only": 1,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-TRASH-026",
+    "M-UI-ORGANIZE-034",
+    "M-UI-REPAIR-027",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ]
+  },
+  {
+   "eco": "ECO-017",
+   "field": "impacted_bom",
+   "commits": 1,
+   "files": 4,
+   "pred_units": [
+    "M-UI-013",
+    "M-UI-019",
+    "M-UI-IMAGETAB-035",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035"
+   ],
+   "under": [],
+   "test_only": 1,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-UI-019",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ]
+  },
+  {
+   "eco": "ECO-018",
+   "field": "impacted_bom",
+   "commits": 1,
+   "files": 14,
+   "pred_units": [
+    "M-TRASH-026",
+    "M-UI-013",
+    "M-UI-019",
+    "M-UI-IMAGETAB-035",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ],
+   "actual_units": [
+    "M-CRITERIA-024",
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035"
+   ],
+   "under": [
+    [
+     "f_26d9df6e",
+     "M-CRITERIA-024"
+    ]
+   ],
+   "test_only": 8,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-TRASH-026",
+    "M-UI-019",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ]
+  },
+  {
+   "eco": "ECO-019",
+   "field": "impacted_bom",
+   "commits": 1,
+   "files": 7,
+   "pred_units": [
+    "M-TRASH-026",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035",
+    "M-UI-ORGANIZE-034",
+    "M-UI-REPAIR-027",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035"
+   ],
+   "under": [],
+   "test_only": 2,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-TRASH-026",
+    "M-UI-ORGANIZE-034",
+    "M-UI-REPAIR-027",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ]
+  },
+  {
+   "eco": "ECO-020",
+   "field": "impacted_bom",
+   "commits": 1,
+   "files": 23,
+   "pred_units": [
+    "M-CORE-001",
+    "M-DB-007",
+    "M-SLN-000",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033",
+    "M-UI-WORKSPACE-029"
+   ],
+   "actual_units": [
+    "M-CORE-001",
+    "M-DB-007",
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035",
+    "M-UI-WORKSPACE-029",
+    "M-VIEWSVC-012"
+   ],
+   "under": [
+    [
+     "f_45db9cfe",
+     "M-VIEWSVC-012"
+    ]
+   ],
+   "test_only": 11,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-SLN-000",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ]
+  },
+  {
+   "eco": "ECO-021",
+   "field": "impacted_bom",
+   "commits": 1,
+   "files": 23,
+   "pred_units": [
+    "M-TRASH-026",
+    "M-UI-IMAGETAB-035",
+    "M-UI-REPAIR-027",
+    "M-UI-SIMILARITY-023",
+    "M-UI-WORKSPACE-029"
+   ],
+   "actual_units": [
+    "M-CORE-001",
+    "M-DB-007",
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035",
+    "M-UI-WORKSPACE-029",
+    "M-VIEWSVC-012"
+   ],
+   "under": [
+    [
+     "f_2da37b44",
+     "M-UI-013"
+    ],
+    [
+     "f_5067323d",
+     "M-UI-013"
+    ],
+    [
+     "f_57f7a527",
+     "M-UI-013"
+    ],
+    [
+     "f_b741d820",
+     "M-UI-013"
+    ],
+    [
+     "f_98721022",
+     "M-UI-013"
+    ],
+    [
+     "f_ff37887f",
+     "M-CORE-001"
+    ],
+    [
+     "f_937a9491",
+     "M-CORE-001"
+    ],
+    [
+     "f_45db9cfe",
+     "M-VIEWSVC-012"
+    ],
+    [
+     "f_a3d0e4b5",
+     "M-DB-007"
+    ],
+    [
+     "f_da882077",
+     "M-DB-007"
+    ]
+   ],
+   "test_only": 11,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-TRASH-026",
+    "M-UI-REPAIR-027",
+    "M-UI-SIMILARITY-023"
+   ]
+  },
+  {
+   "eco": "ECO-022",
+   "field": "impacted_bom",
+   "commits": 4,
+   "files": 26,
+   "pred_units": [
+    "M-TAGCTRL-028",
+    "M-UI-014",
+    "M-UI-018"
+   ],
+   "actual_units": [
+    "M-CORE-001",
+    "M-HARNESS-015",
+    "M-ORACLE-030",
+    "M-UI-013",
+    "M-UI-014",
+    "M-UI-IMAGETAB-035",
+    "M-VIEWERCORE-017"
+   ],
+   "under": [
+    [
+     "f_4697b7a6",
+     "M-UI-013"
+    ],
+    [
+     "f_299d7391",
+     "M-UI-013"
+    ],
+    [
+     "f_f1e07b49",
+     "M-UI-013"
+    ],
+    [
+     "f_49500377",
+     "M-UI-IMAGETAB-035"
+    ],
+    [
+     "f_5067323d",
+     "M-UI-013"
+    ],
+    [
+     "f_7ea586b9",
+     "M-UI-013"
+    ],
+    [
+     "f_69008857",
+     "M-UI-013"
+    ],
+    [
+     "f_27663867",
+     "M-UI-013"
+    ],
+    [
+     "f_ff37887f",
+     "M-CORE-001"
+    ],
+    [
+     "f_a2221ceb",
+     "M-VIEWERCORE-017"
+    ],
+    [
+     "f_d23a40aa",
+     "M-VIEWERCORE-017"
+    ],
+    [
+     "f_9adf80ef",
+     "M-VIEWERCORE-017"
+    ],
+    [
+     "f_cf96ddfa",
+     "M-VIEWERCORE-017"
+    ],
+    [
+     "f_f56dafed",
+     "M-VIEWERCORE-017"
+    ],
+    [
+     "f_b9b6a96d",
+     "M-ORACLE-030"
+    ],
+    [
+     "f_f1783fa9",
+     "M-ORACLE-030"
+    ],
+    [
+     "f_308cfbd4",
+     "M-ORACLE-030"
+    ],
+    [
+     "f_c4ab0d30",
+     "M-ORACLE-030"
+    ],
+    [
+     "f_c2e48942",
+     "M-ORACLE-030"
+    ],
+    [
+     "f_e096197f",
+     "M-ORACLE-030"
+    ]
+   ],
+   "test_only": 5,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-TAGCTRL-028",
+    "M-UI-018"
+   ]
+  },
+  {
+   "eco": "ECO-024",
+   "field": "impacted_bom",
+   "commits": 3,
+   "files": 31,
+   "pred_units": [
+    "M-UI-013",
+    "M-UI-016",
+    "M-UI-019",
+    "M-UI-IMAGETAB-035",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-UI-013"
+   ],
+   "under": [],
+   "test_only": 9,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-UI-016",
+    "M-UI-019",
+    "M-UI-IMAGETAB-035",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ]
+  },
+  {
+   "eco": "ECO-025",
+   "field": "impacted_bom",
+   "commits": 23,
+   "files": 31,
+   "pred_units": [
+    "M-DB-007",
+    "M-UI-013",
+    "M-UI-019",
+    "M-UI-IMAGETAB-035",
+    "M-VIEWSVC-012"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035"
+   ],
+   "under": [],
+   "test_only": 14,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-DB-007",
+    "M-UI-019",
+    "M-VIEWSVC-012"
+   ]
+  },
+  {
+   "eco": "ECO-026",
+   "field": "impacted_bom",
+   "commits": 6,
+   "files": 8,
+   "pred_units": [
+    "M-THUMB-008",
+    "M-UI-019",
+    "M-UI-IMAGETAB-035"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-INFRA-031",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035"
+   ],
+   "under": [
+    [
+     "f_81b86149",
+     "M-UI-013"
+    ],
+    [
+     "f_3fa125bd",
+     "M-UI-013"
+    ],
+    [
+     "f_5e9c84da",
+     "M-UI-013"
+    ],
+    [
+     "f_2bb1e8b3",
+     "M-UI-013"
+    ],
+    [
+     "f_a0eecada",
+     "M-INFRA-031"
+    ]
+   ],
+   "test_only": 2,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-THUMB-008",
+    "M-UI-019"
+   ]
+  },
+  {
+   "eco": "ECO-027",
+   "field": "impacted_bom",
+   "commits": 1,
+   "files": 4,
+   "pred_units": [
+    "M-UI-IMAGETAB-035",
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035"
+   ],
+   "under": [
+    [
+     "f_2bb1e8b3",
+     "M-UI-013"
+    ],
+    [
+     "f_d3d5c2a8",
+     "M-UI-013"
+    ]
+   ],
+   "test_only": 1,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-UI-ORGANIZE-034",
+    "M-UI-TRASH-032",
+    "M-UI-WORK-033"
+   ]
+  },
+  {
+   "eco": "ECO-038",
+   "field": "impacted_bom",
+   "commits": 4,
+   "files": 2,
+   "pred_units": [
+    "M-UI-WORKSPACE-029"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-UI-IMAGETAB-035"
+   ],
+   "under": [
+    [
+     "f_49500377",
+     "M-UI-IMAGETAB-035"
+    ]
+   ],
+   "test_only": 1,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": [
+    "M-UI-WORKSPACE-029"
+   ]
+  },
+  {
+   "eco": "ECO-040",
+   "field": "impacted_bom",
+   "commits": 3,
+   "files": 12,
+   "pred_units": [
+    "M-UI-013",
+    "M-UI-IMAGETAB-035"
+   ],
+   "actual_units": [
+    "M-HARNESS-015",
+    "M-UI-013",
+    "M-UI-IMAGETAB-035",
+    "M-UI-ORGANIZE-034",
+    "M-UI-WORKSPACE-029"
+   ],
+   "under": [
+    [
+     "f_c6ff7d22",
+     "M-UI-ORGANIZE-034"
+    ],
+    [
+     "f_3a5e655c",
+     "M-UI-WORKSPACE-029"
+    ]
+   ],
+   "test_only": 5,
+   "unmapped": 0,
+   "unmapped_files": [],
+   "over": []
+  }
+ ]
+}
