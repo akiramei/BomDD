@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -60,19 +61,52 @@ def git(repo: Path, *args: str) -> bool:
 def _method_provenance() -> dict[str, object]:
     """方法論リポの版来歴。git 不在でも止めず not-computed を正直記録(t3 様式)"""
     def g(*args: str) -> str | None:
-        p = subprocess.run(["git", "-C", str(METHOD_ROOT), *args],
-                           capture_output=True, text=True, encoding="utf-8")
+        try:  # ECO-009 #1: git 実行ファイル不在(OSError)も「失敗」= None — 約束どおり止めない
+            p = subprocess.run(["git", "-C", str(METHOD_ROOT), *args],
+                               capture_output=True, text=True, encoding="utf-8")
+        except OSError:
+            return None
         return p.stdout.strip() if p.returncode == 0 else None
     commit = g("rev-parse", "HEAD")
     if commit is None:
-        return {"commit": "not-computed(method repo is not a git checkout)", "dirty": "unknown"}
-    return {"commit": commit, "dirty": bool(g("status", "--porcelain"))}
+        return {"commit": "not-computed(git unavailable or not a git checkout)", "dirty": "unknown"}
+    st = g("status", "--porcelain")
+    # ECO-009 #3: status 失敗(None)は clean(False)と区別して unknown を正直記録
+    return {"commit": commit, "dirty": bool(st) if st is not None else "unknown"}
 
 
-def install_kit(root: Path, created: str) -> None:
+def _kit_integrity_problems(root: Path, kit: Path) -> list[str]:
+    """既存 kit の完全性検査(ECO-009 #2)。問題を列挙(空リスト=健全)"""
+    problems: list[str] = []
+    manifest_path = kit / "kit-manifest.json"
+    lock_path = root / "bomdd.lock"
+    manifest = None
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except OSError:
+        problems.append("kit-manifest.json がない/読めない")
+    except json.JSONDecodeError:
+        problems.append("kit-manifest.json がパース不能")
+    try:
+        m = re.search(r"^\s*files:\s*(\d+)\s*$", lock_path.read_text(encoding="utf-8"), re.M)
+        if not m:
+            problems.append("bomdd.lock に kit files 数がない")
+        elif manifest is not None and int(m.group(1)) != len(manifest.get("files") or {}):
+            problems.append(f"lock の files={m.group(1)} と manifest の実数 {len(manifest.get('files') or {})} が不一致")
+    except OSError:
+        problems.append("bomdd.lock がない/読めない")
+    return problems
+
+
+def install_kit(root: Path, created: str, skills: list[str]) -> None:
     """method/ 全体を凍結コピーし、per-file sha256 manifest と bomdd.lock を書く"""
     kit = root / KIT_DIRNAME
     if kit.exists():
+        # ECO-009 #2: 存在でなく完全性を検査 — 中断の残骸(manifest/lock 欠落)の黙認は fail-open
+        problems = _kit_integrity_problems(root, kit)
+        if problems:
+            sys.exit(f"エラー: 既存の {kit} が不完全({'・'.join(problems)})。"
+                     f"復旧するには {KIT_DIRNAME}/ と bomdd.lock を削除して再実行してください")
         print(f"[kit] {kit} は既存のため保持(方法論の版を更新する場合は {KIT_DIRNAME}/ と bomdd.lock を削除して再実行)")
         return
     shutil.copytree(METHOD_ROOT / "method", kit / "method",
@@ -106,7 +140,7 @@ def install_kit(root: Path, created: str) -> None:
         f"    manifest: {KIT_DIRNAME}/kit-manifest.json\n"
         f"    manifest_sha256: \"{hashlib.sha256(manifest_path.read_bytes()).hexdigest()}\"\n"
         "  adapter:\n"
-        f"    skills: [{', '.join(SKILLS)}]\n"
+        f"    skills: [{', '.join(skills)}]\n"  # ECO-009 #4: 実設置スキル(全 SKILLS 固定は --skills 部分集合・CAD で嘘になる)
         "  runtime:\n"
         f"    python: \"{sys.version.split()[0]}\"\n"
     )
@@ -136,7 +170,7 @@ def scaffold_product(root: Path, repl: dict[str, str]) -> None:
     for skill in SKILLS:
         render(PROFILE / "skills" / f"{skill}.md",
                root / ".claude" / "skills" / skill / "SKILL.md", repl)
-    install_kit(root, repl["DATE"])
+    install_kit(root, repl["DATE"], SKILLS)
 
 
 def scaffold_cad(root: Path, repl: dict[str, str]) -> None:
@@ -152,7 +186,7 @@ def scaffold_cad(root: Path, repl: dict[str, str]) -> None:
            docs / "02_mock_fidelity_policy.md", repl)
     render(PROFILE / "cad" / "review_points.md", docs / "review_points.md", repl)
     render(PROFILE / "CLAUDE.cad.md", root / "CLAUDE.md", repl)
-    install_kit(root, repl["DATE"])
+    install_kit(root, repl["DATE"], [])  # CAD リポにスキルは設置しない — lock も空を正直記録(ECO-009 #4)
 
 
 def main() -> int:
@@ -189,7 +223,7 @@ def main() -> int:
         for skill in selected:
             render(PROFILE / "skills" / f"{skill}.md",
                    root / ".claude" / "skills" / skill / "SKILL.md", repl)
-        install_kit(root, repl["DATE"])
+        install_kit(root, repl["DATE"], selected)
         print(f"[ok] {root} へスキル {len(selected)} 本を設置しました(コミットは手動で)")
         return 0
 
@@ -249,7 +283,7 @@ def main() -> int:
     w()
     w(" あなたの仕事は 2 つだけ: 裁定(選択肢から選ぶ)と golden(実機確認)。")
     w(" AI への頼み方は「症状・要求を書く。解決策を書かない」。詳細:")
-    w(f"   {product_root / KIT_DIRNAME / 'method' / 'onboarding' / 'working-with-ai.md'}")
+    w(f"   {KIT_DIRNAME}/method/onboarding/working-with-ai.md")  # ECO-009 #5: 兄弟行と同じ kit 相対
     w()
     w("== 完全な手順(すべて製品リポ同梱の kit 内 — 版は bomdd.lock)" + "=" * 12)
     w(f" チェックリスト: {KIT_DIRNAME}/method/onboarding/new-project-checklist.md")

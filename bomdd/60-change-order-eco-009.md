@@ -1,7 +1,5 @@
 # ECO-009 — bomdd-init の版来歴の正直記録+kit 完全性(独立検査が検出した5件)
 
-> 状態: **起票のみ(裁定・製造前)**。是正/検証は未着手 — ユーザー裁定で停止中。
-
 ## 起票(2026-07-11)
 
 - 出典: **transfer-04(検査の転移)パイロット N=3**。独立受入検査官(Codex gpt-5.5・
@@ -34,30 +32,45 @@
 
 ## 裁定
 
-- **未(ユーザー承認待ち)**。製造は個別 blocking 裁定+明示承認が前提。
+- ユーザー承認(2026-07-11)「進めて」— ECO-008 と同一裁定・是正順序 2 番。
+- 是正方針: 起票時の草案どおり(1〜5)。kit 完全性の検査は bomdd-init の
+  **PyYAML 非依存を維持**するため lock は regex(`files: N` 行)で読む。
 
-### 是正方針案(製造前・凍結前の草案)
-
-1. `g()` を `except OSError` で守り None を返す(→ not-computed 経路)。または
-   `_method_provenance` 全体を try で包む。git() との対称化。
-2. `kit.exists()` でなく **kit 完全性**(kit-manifest.json と bomdd.lock の存在・files 数一致)を
-   検査。不完全なら明示エラーで停止(無断上書きしない設計は維持)。
-3. `git status` の失敗を `"unknown"` として区別(commit と同じ扱い)。
-4. `install_kit(root, created, selected)` に拡張し、lock に**実設置スキル**を記録。
-5. working-with-ai 参照を `{KIT_DIRNAME}/...` 相対へ。
-
-## 影響分析(製造前予測 — 未凍結)
+## 影響分析(製造前凍結)
 
 - 影響なし予測: `method/tools/bomdd-init.py` 以外 diff ゼロ。正常系(git あり・完全 kit・
   全スキル設置)の生成物は不変。#4 は lock の adapter.skills の値が部分集合時のみ変わる。
 
-## 是正
+## 是正(2026-07-11)
 
-- (未着手)
+1. `g()` を `except OSError` で保護(git 実行ファイル不在も None → not-computed 経路)。
+   not-computed の文言を `git unavailable or not a git checkout` へ(不在も含む正直記載)。
+2. `_kit_integrity_problems()` 新設 — 既存 kit は存在でなく完全性(manifest の存在+パース・
+   lock の存在+files 数一致)を検査し、不完全なら問題列挙つき明示エラーで停止
+   (無断上書きしない設計は維持 — 復旧手順を案内)。
+3. `dirty: bool(st) if st is not None else "unknown"` — status 失敗を clean と区別。
+4. `install_kit(root, created, skills)` へ拡張し実設置スキルを記録。3 経路=
+   scaffold_product→SKILLS / --skills-only→selected / **scaffold_cad→[]**(CAD にスキルは
+   設置しない — 従来は全 8 本を偽記録)。
+5. working-with-ai の画面案内を兄弟行と同じ `bomdd-kit/` 相対へ。
 
-## 検証
+## 検証(2026-07-11・検証治具 13 項目全 PASS)
 
-- (未実施)
+- **V1(正常系回帰)**: scaffold exit 0・lock skills=実設置 8 本・working-with-ai 案内が
+  kit 相対(絶対パスなし)。
+- **V2(#1 陽性対照)**: PATH から git を除去した環境で scaffold → **exit 0**
+  (是正前は FileNotFoundError で copytree 後に中断)・lock `commit: not-computed…`・
+  `dirty: "unknown"` を正直記録。
+- **V3(#2 陽性対照)**: kit-manifest.json 削除後の --skills-only 再実行 → 「既存の kit が
+  不完全」で **exit 1**(是正前は黙認)。lock の files 数改ざん(不一致)も検出し exit 1。
+- **V4(#4 副経路)**: `--skills-only --skills bomdd-next,eco-file` → lock skills=
+  **実設置 2 本のみ**(是正前は全 8 本を偽記録)。
+- **V5(#4 CAD 経路)**: --gui 生成の CAD リポ lock= `skills: []`(正直記録)・製品リポは 8 本。
+- self-conformance fast 全 PASS(C4 scaffold 煙試験の回帰含む)。
+- **影響なし予測: 部分不的中(1 項目・正直記載)** — 予測「#4 は --skills 部分集合時のみ
+  変わる」に対し、実装は **CAD リポの lock も変わる**(全 8 本の偽記録→空の正直記録)。
+  起票時に CAD 経路の #4 同族を見落とした — 是正対象そのものと同じ**副経路の見落とし
+  (silence §16(d))を影響分析自身が再演**した実例。diff ゼロ範囲の予測(bomdd-init.py 以外)は的中。
 
 ## 教訓(還元候補 — lesson-promote 経由・transfer-04 系列)
 
@@ -66,3 +79,6 @@
   **(b) 存在 vs 完全性**(kit.exists() は存在を見て完全性を見ない)・**(c) 副経路の正確性**
   (--skills 部分集合という主経路でない枝で lock が嘘をつく)。独立×別ベンダー検査が
   高精度に突いた(transfer-04)。
+- **影響分析も副経路を見落とす**(本 ECO の製造で追加観測): 「#4 は部分集合時のみ」の凍結予測が
+  CAD 経路(同じ嘘の別経路)を落としていた。影響分析の被覆と欠陥の被覆は同じ盲点を共有する —
+  影響予測を書くときも silence §16 の 4 観点(特に (d))を当てる(1 例目・rule of three 待ち)。

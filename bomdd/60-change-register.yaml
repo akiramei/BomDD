@@ -205,15 +205,15 @@ changes:
     title: bomdd-init の版来歴の正直記録+kit 完全性(独立検査が検出した 5 件)
     date: 2026-07-11
     origin: defect
-    status: filed  # 起票のみ・裁定/製造前(ユーザー承認待ち)
+    status: implemented
     source: transfer-04(検査の転移)独立検査 N=3 — Codex gpt-5.5 read-only 敵対レビュー・当方検証で 5/5 CONFIRMED
     order_ref: bomdd/60-change-order-eco-009.md
     affected_refs: [method/tools/bomdd-init.py]
-    no_impact_prediction: "(製造前)bomdd-init.py 以外 diff ゼロ予測。正常系(git あり・完全 kit・全スキル設置)の生成物は不変。#4 は --skills 部分集合時のみ lock の adapter.skills 値が変わる"
+    no_impact_prediction: "bomdd-init.py 以外 diff ゼロ予測。正常系(git あり・完全 kit・全スキル設置)の生成物は不変。#4 は --skills 部分集合時のみ lock の adapter.skills 値が変わる — 検証で部分不的中(CAD 経路も変わる・order 参照)"
     diff_audit:
-      baseline: 4dd025b
+      baseline: bc27115  # 起票時 4dd025b → 是正窓直前(ECO-008 accept)へ更新 — 窓を是正 diff のみに保つ
       allowed_paths: [method/tools/bomdd-init.py]
-      # head: 製造前(未着手)— 是正後に diff 監査して設定
+      # head: 受入コミットで窓を閉じる(ref-v0.8)
     summary: >
       transfer-04 N=3。独立検査官が bomdd-init.py(ECO-004)に 5 件指摘 → 5/5 CONFIRMED・
       全件現 HEAD 残存。#1[med-high] _method_provenance の内側 g() が subprocess を try 無しで
