@@ -137,13 +137,21 @@ def c4_scaffold() -> None:
         shutil.rmtree(tmp, ignore_errors=True)
 
 
-# --- C5 fail-closed 陽性対照(ECO-002/003) ------------------------------------------
+# --- C5 fail-closed 陽性対照(ECO-002/003・由来検査は ECO-008) -----------------------
 def c5_fail_closed() -> None:
     ghost = str(ROOT / "no-such-repo-selfconf")
     for cid, tool in [("C5a", "stage0-survey.py"), ("C5b", "impact-retrospective.py")]:
-        p = run([sys.executable, str(ROOT / "method" / "tools" / tool), "--repo", ghost])
-        check(cid, p.returncode == 2,
-              f"{tool} 存在しないリポ → exit {p.returncode}(期待 2・測定不能で停止)")
+        tool_path = ROOT / "method" / "tools" / tool
+        # ECO-008: 対象欠落チャレンジ — tool 自体の消失は「測定不能」でなく検査器の前提破綻。
+        # Python の script-not-found も exit 2 を返すため、存在検査なしでは偽 PASS になる。
+        if not tool_path.is_file():
+            check(cid, False, f"{tool} が存在しない(検査対象の消失 — exit code 検査以前の FAIL)")
+            continue
+        p = run([sys.executable, str(tool_path), "--repo", ghost])
+        # ECO-008: exit 2 の由来を die() の stderr マーカーで確認(Python-not-found 等と区別)
+        from_die = "測定不能:" in (p.stderr or "")
+        check(cid, p.returncode == 2 and from_die,
+              f"{tool} 存在しないリポ → exit {p.returncode}・測定不能マーカー={from_die}(期待 2+マーカー)")
 
 
 # --- C6 ui-cad-gate 対検査(ECO-005) ------------------------------------------------
@@ -213,7 +221,12 @@ def c9_dotnet() -> None:
         check("C9", False, f"期待結果 manifest がない: {manifest_path}")
         return
     doc = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
-    for suite in doc.get("suites") or []:
+    suites = (doc or {}).get("suites") or []  # 空ファイル(doc=None)もクラッシュでなく下の FAIL へ
+    # ECO-008: 空/欠落 suites の vacuous pass 遮断 — C9 は対象必須の検査(control-plan「検査の対照3種」)
+    if not suites:
+        check("C9", False, f"manifest に suites がない/空: {manifest_path}(vacuous pass を遮断)")
+        return
+    for suite in suites:
         proj = suite["project"]
         # 文字列(旧形)と mapping(test/class/signature — playbook §13・ECO-007)の両形を受ける
         expected_failed, signatures = set(), {}

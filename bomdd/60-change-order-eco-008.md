@@ -1,7 +1,5 @@
 # ECO-008 — self-conformance ゲート自身の fail-open 2件(C5 exit 2 の由来非検査・C9 空 manifest の無音 PASS)
 
-> 状態: **起票のみ(裁定・製造前)**。是正/検証は未着手 — ユーザー裁定で停止中。
-
 ## 起票(2026-07-11)
 
 - 出典: **transfer-04(検査の転移)パイロット N=2**。別ベンダーの独立受入検査官(Codex gpt-5.5・
@@ -24,28 +22,44 @@
 
 ## 裁定
 
-- **未(ユーザー承認待ち)**。製造(コード変更)は個別 blocking 裁定+明示承認が前提。
+- ユーザー承認(2026-07-11)「進めて」— 還元織り込み(fba7f1b)確定後の製造着手。
+  順序規律: 是正コミットは fba7f1b(観測+対策設計)の後 — 観測→対策が履歴で判別可能。
+- 是正方針: 起票時の草案どおり。
+  - C5: 各 tool の存在を事前検査し、無ければ FAIL(測定不能でなく検査器の前提破綻=
+    対象欠落チャレンジ)。加えて exit 2 の由来を die() の stderr マーカー(「測定不能:」)で
+    確認し、Python-not-found(`can't open file`・同じく exit 2)と区別する。
+  - C9: `suites` が空/None なら FAIL(control-plan「検査の対照3種」の対象欠落チャレンジ。
+    C9 は対象必須の検査 — vacuous pass を遮断)。
 
-### 是正方針案(製造前・凍結前の草案)
-
-- C5: 各 tool の存在を事前検査(`Path.exists()`)し、無ければ FAIL(測定不能でなく
-  検査器の前提破綻)。加えて exit 2 の由来を die() の stderr マーカー(「測定不能:」)で
-  確認し、Python-not-found(`can't open file`)と区別する。
-- C9: `suites` が空/None なら FAIL(C1/C2 と対称の非空ガード)。
-
-## 影響分析(製造前予測 — 未凍結)
+## 影響分析(製造前凍結)
 
 - 影響なし予測: `method/tools/self-conformance.py` 以外 diff ゼロ。既存の C1〜C9 の
-  正常判定は不変(陽性/陰性対照で確認予定)。C9 の非空ガードは現行 manifest(suites 4件)
-  では PASS 不変。
+  正常判定は不変(基線再実行で確認)。C9 の非空ガードは現行 manifest(suites 4件)では
+  PASS 不変。
 
-## 是正
+## 是正(2026-07-11)
 
-- (未着手)
+1. C5: `tool_path.is_file()` 事前検査(欠落= FAIL・exit code 検査以前)+
+   `"測定不能:" in p.stderr` の由来突合を合格条件へ追加。
+2. C9: `suites = (doc or {}).get("suites") or []` を先に評価し、空なら
+   「vacuous pass を遮断」の FAIL で return。
+3. 製造中の追加検出: 初版是正は `doc.get(...)` 直書きで、**空 YAML(doc=None)のとき
+   FAIL でなく AttributeError クラッシュ**した(変異 B2 が検出)。`(doc or {})` で
+   同一 FAIL 経路へ — 是正自身が silence §16(a) の同族穴を持っていた実例。
 
-## 検証
+## 検証(2026-07-11)
 
-- (未実施)
+- 基線(fast): C1〜C8 全 PASS。C5a/C5b は「exit 2・測定不能マーカー=True」で PASS
+  (正常陰性対照)。
+- **変異 A(対象欠落チャレンジ・C5)**: stage0-survey.py を一時退避 → C5a が
+  「検査対象の消失」で **FAIL(exit 1)** — 是正前は偽 PASS だったケース。復元済み。
+- **変異 B(対象欠落チャレンジ・C9)**: manifest を `suites: []` へ改変 →
+  「manifest に suites がない/空(vacuous pass を遮断)」で **FAIL**。復元済み。
+- **変異 B2(空ファイル= doc None)**: 初版是正がクラッシュ → `(doc or {})` 是正後、
+  同じ FAIL 経路で **FAIL**。復元済み。
+- C9 正常基線(--dotnet 実走): 4 スイート全 PASS(14/14・15/15・**26/30 期待赤 4 件
+  一致・signature 突合 4 件**・9/9)— 実験証拠の保存検査は不変。
+- 影響なし予測: 的中(diff は self-conformance.py のみ)。
 
 ## 教訓(還元候補 — lesson-promote 経由・transfer-04 系列)
 
