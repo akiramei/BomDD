@@ -130,8 +130,18 @@ def c4_scaffold() -> None:
         lock = yaml.safe_load((prod / "bomdd.lock").read_text(encoding="utf-8"))["bomdd_lock"]
         manifest = json.loads((prod / lock["kit"]["manifest"]).read_text(encoding="utf-8"))
         count_ok = lock["kit"]["files"] == len(manifest["files"])
-        check("C4", not leaks and count_ok,
-              f"scaffold 煙試験(絶対パス漏れ {len(leaks)} 件・lock/manifest 整合 {count_ok})"
+        # ECO-010: ハーネス中立入口 — AGENTS.md の存在+参照する SKILL.md の全実在
+        agents = prod / "AGENTS.md"
+        agents_ok, agents_msg = False, "AGENTS.md がない"
+        if agents.is_file():
+            text = agents.read_text(encoding="utf-8")
+            refs = re.findall(r"\.claude/skills/([\w-]+)/SKILL\.md", text)
+            missing = [s for s in refs if not (prod / ".claude" / "skills" / s / "SKILL.md").is_file()]
+            agents_ok = bool(refs) and not missing
+            agents_msg = f"AGENTS.md 参照スキル {len(refs)} 件" + (f" — 実在しない: {missing}" if missing
+                         else "" if refs else " — スキル参照ゼロ(ポインタ空)")
+        check("C4", not leaks and count_ok and agents_ok,
+              f"scaffold 煙試験(絶対パス漏れ {len(leaks)} 件・lock/manifest 整合 {count_ok}・{agents_msg})"
               + (f" — 漏れ: {leaks[:3]}" if leaks else ""))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

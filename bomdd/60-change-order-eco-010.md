@@ -1,7 +1,5 @@
 # ECO-010 — bomdd-init がハーネス中立の入口(AGENTS.md)を生成せず、別ハーネスが入口スキルを初手で発見できない
 
-> 状態: **起票のみ(裁定・製造前)**。是正/検証は未着手 — ユーザー裁定で停止中。
-
 ## 起票(2026-07-11)
 
 - 出典: **Codex(GPT)による BomDD 管理リポでの運用ログ観測**(2026-07-11・maintainer 提供)。
@@ -23,9 +21,11 @@
 
 ## 裁定
 
-- **未(ユーザー承認待ち)**。製造(コード変更)は個別 blocking 裁定+明示承認が前提。
+- ユーザー製造指示(2026-07-11)「/eco-fix eco-010」— 当セッションに同名スキルは無いため
+  (それ自体が本 ECO の主題の自己実演)、明示のコマンド起動を製造承認として受理。
+  案 4(CLAUDE.md 相互参照 1 行)は推奨どおり**採用**(可逆な 1 行・乖離債務なし)。
 
-### 是正方針案(製造前・凍結前の草案)
+### 是正方針(裁定済み)
 
 1. `method/templates/product-profile/` に **AGENTS.md テンプレ新設**。内容は**薄いポインタのみ**
    (変更管理正本・入口 SKILL.md への実パス・台帳・validator・human gate の 2 点)。
@@ -43,20 +43,40 @@
 4. CLAUDE.md テンプレへの相互参照 1 行(「非 Claude ハーネスは AGENTS.md 参照」)は
    gate で採否裁定(任意)。
 
-## 影響分析(製造前予測 — 未凍結)
+## 影響分析(製造前凍結)
 
 - 影響なし予測: `method/tools/bomdd-init.py`・`method/templates/product-profile/`(AGENTS
   テンプレ新設+CLAUDE テンプレ 1 行の可能性)・`method/tools/self-conformance.py`(C4 拡張)
   以外は diff ゼロ。既存製品リポには波及しない(init は生成時のみ)。
   正常系 scaffold の既存生成物(CLAUDE.md・skills・kit・lock)は不変 — 追加は AGENTS.md のみ。
 
-## 是正
+## 是正(2026-07-11)
 
-- (未着手)
+1. テンプレ新設: `AGENTS.product.md`(スキル表は `{{SKILLS_TABLE}}` で実設置分を動的生成・
+   用途説明は複製せず「SKILL.md の冒頭に用途」と参照)+ `AGENTS.cad.md`(CAD 用 —
+   実装しない宣言・裁定台帳参照・スキルなし)。human gate 2 点と
+   「自然文の了承を実行へ昇格させない」(ECO-060 再発防止)を両テンプレに明記。
+2. bomdd-init: `_skills_table()`+`install_agents()` 新設。3 経路で生成 —
+   scaffold_product(SKILLS)/ scaffold_cad(CAD 版・skills=[])/ --skills-only(selected=
+   実設置のみ記載・ECO-009 #4 と同族の正直記録)。既存 AGENTS.md は保持(kit と同じ fail-safe)。
+3. CLAUDE.product.md / CLAUDE.cad.md へ相互参照 1 行(案 4 採用)。
+4. self-conformance C4 へ収載: AGENTS.md の存在+参照する SKILL.md の全実在
+   (regex 抽出→実在突合。参照ゼロも FAIL = 空ポインタの vacuous pass 遮断)。
 
-## 検証
+## 検証(2026-07-11・検証治具 10 項目全 PASS)
 
-- (未実施)
+- **V1(正常系)**: scaffold → AGENTS.md 生成・スキル参照 16 件(8 スキル×コマンド列+リンク列)
+  全実在・placeholder 全解決・CLAUDE.md に相互参照。
+- **V2(CAD 経路)**: --gui → CAD リポの AGENTS.md は CAD 用内容(「ここでは実装しません」・
+  スキル表参照なし)+CAD 側 CLAUDE.md にも相互参照 — ECO-009 教訓(§16(d) 副経路)を
+  起票時から影響範囲に含めた経路の実測。
+- **V3(部分集合)**: `--skills-only --skills bomdd-next,eco-file` → 記載も 2 本のみ(正直記録)。
+- **V4(fail-safe)**: 既存 AGENTS.md(SENTINEL)を保持し上書きしない。
+- **V5(変異=対象欠落チャレンジ)**: AGENTS.md 削除 → C4 同一ロジックが FAIL —
+  是正前の scaffold 出力(AGENTS.md 不在)に対して新 C4 が FAIL することの等価証明=陽性対照。
+- **V6(変異=参照切れ)**: SKILL.md を 1 本削除 → missing 検出で FAIL。
+- gate fast 全 PASS(C4 に「AGENTS.md 参照スキル 16 件」が恒久収載)。
+- 影響なし予測: 的中(diff は bomdd-init.py・product-profile/・self-conformance.py のみ)。
 
 ## 関連
 

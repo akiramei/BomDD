@@ -75,6 +75,24 @@ def _method_provenance() -> dict[str, object]:
     return {"commit": commit, "dirty": bool(st) if st is not None else "unknown"}
 
 
+def _skills_table(skills: list[str]) -> str:
+    """AGENTS.md 用のスキル表(実設置分のみ — ECO-009 #4 と同族の正直記録。ECO-010)"""
+    if not skills:
+        return "(このリポに入口スキルは設置されていない)"
+    rows = "\n".join(f"| `/{s}` | [.claude/skills/{s}/SKILL.md](.claude/skills/{s}/SKILL.md) |"
+                     for s in skills)
+    return "| コマンド | 手順書(正本) |\n|---|---|\n" + rows
+
+
+def install_agents(root: Path, template: str, repl: dict[str, str], skills: list[str]) -> None:
+    """ハーネス中立の入口 AGENTS.md を生成(ECO-010)。既存は保持(kit と同じ fail-safe)"""
+    dst = root / "AGENTS.md"
+    if dst.exists():
+        print(f"[agents] {dst} は既存のため保持")
+        return
+    render(PROFILE / template, dst, {**repl, "SKILLS_TABLE": _skills_table(skills)})
+
+
 def _kit_integrity_problems(root: Path, kit: Path) -> list[str]:
     """既存 kit の完全性検査(ECO-009 #2)。問題を列挙(空リスト=健全)"""
     problems: list[str] = []
@@ -170,6 +188,7 @@ def scaffold_product(root: Path, repl: dict[str, str]) -> None:
     for skill in SKILLS:
         render(PROFILE / "skills" / f"{skill}.md",
                root / ".claude" / "skills" / skill / "SKILL.md", repl)
+    install_agents(root, "AGENTS.product.md", repl, SKILLS)
     install_kit(root, repl["DATE"], SKILLS)
 
 
@@ -186,6 +205,7 @@ def scaffold_cad(root: Path, repl: dict[str, str]) -> None:
            docs / "02_mock_fidelity_policy.md", repl)
     render(PROFILE / "cad" / "review_points.md", docs / "review_points.md", repl)
     render(PROFILE / "CLAUDE.cad.md", root / "CLAUDE.md", repl)
+    install_agents(root, "AGENTS.cad.md", repl, [])  # CAD 用内容(スキルなし・裁定台帳参照。ECO-010)
     install_kit(root, repl["DATE"], [])  # CAD リポにスキルは設置しない — lock も空を正直記録(ECO-009 #4)
 
 
@@ -223,6 +243,7 @@ def main() -> int:
         for skill in selected:
             render(PROFILE / "skills" / f"{skill}.md",
                    root / ".claude" / "skills" / skill / "SKILL.md", repl)
+        install_agents(root, "AGENTS.product.md", repl, selected)
         install_kit(root, repl["DATE"], selected)
         print(f"[ok] {root} へスキル {len(selected)} 本を設置しました(コミットは手動で)")
         return 0

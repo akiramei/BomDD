@@ -219,7 +219,7 @@ changes:
     title: bomdd-init がハーネス中立の入口(AGENTS.md)を生成せず、別ハーネスが入口スキルを初手で発見できない
     date: 2026-07-11
     origin: defect
-    status: filed  # 起票のみ・裁定/製造前(ユーザー承認待ち)
+    status: implemented
     source: Codex(GPT)運用ログ観測(2026-07-11) — /eco-file を「利用不可」と初手認識→リポ探索で正本発見・準拠。入口様式の非横断(§11.2/11.3)の発見層版
     order_ref: bomdd/60-change-order-eco-010.md
     affected_refs: [method/tools/bomdd-init.py, method/templates/product-profile/, method/tools/self-conformance.py]
