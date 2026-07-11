@@ -182,7 +182,7 @@ changes:
     title: self-conformance ゲート自身の fail-open(C5 exit 2 の由来非検査・C9 空 manifest 無音 PASS)
     date: 2026-07-11
     origin: defect
-    status: implemented
+    status: verified
     source: transfer-04(検査の転移)独立検査 N=2 — Codex gpt-5.5 read-only 敵対レビュー・当方検証で CONFIRMED
     order_ref: bomdd/60-change-order-eco-008.md
     affected_refs: [method/tools/self-conformance.py]
@@ -190,7 +190,7 @@ changes:
     diff_audit:
       baseline: fba7f1b  # 起票時 4dd025b → 是正窓直前(還元織り込みコミット)へ更新 — 窓を是正 diff のみに保つ
       allowed_paths: [method/tools/self-conformance.py]
-      # head: 受入コミットで窓を閉じる(ref-v0.8)
+      head: "46038e5"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中(変異A/B/B2+--dotnet基線)
     summary: >
       transfer-04 N=2。別ベンダー独立検査官が ECO-006 新設のゲートに 2 件の fail-open を検出
       (自己レビューは ECO-007 でクローズ済み — 独立パスの追加被覆)。C5(fail-closed 陽性対照)は
