@@ -214,6 +214,28 @@ changes:
       baseline: bc27115  # 起票時 4dd025b → 是正窓直前(ECO-008 accept)へ更新 — 窓を是正 diff のみに保つ
       allowed_paths: [method/tools/bomdd-init.py]
       head: "57ccf7e"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測は部分不的中を正直記載(CAD経路)
+
+  - id: ECO-010
+    title: bomdd-init がハーネス中立の入口(AGENTS.md)を生成せず、別ハーネスが入口スキルを初手で発見できない
+    date: 2026-07-11
+    origin: defect
+    status: filed  # 起票のみ・裁定/製造前(ユーザー承認待ち)
+    source: Codex(GPT)運用ログ観測(2026-07-11) — /eco-file を「利用不可」と初手認識→リポ探索で正本発見・準拠。入口様式の非横断(§11.2/11.3)の発見層版
+    order_ref: bomdd/60-change-order-eco-010.md
+    affected_refs: [method/tools/bomdd-init.py, method/templates/product-profile/, method/tools/self-conformance.py]
+    no_impact_prediction: "(製造前)bomdd-init.py+product-profile テンプレ+self-conformance.py(C4拡張)以外 diff ゼロ予測。既存製品リポ非波及(init は生成時のみ)。正常系 scaffold の既存生成物は不変 — 追加は AGENTS.md のみ。CAD 経路の内容差(スキルなし)を起票時点から影響範囲に含む(ECO-009 §16(d) 教訓の適用)"
+    diff_audit:
+      baseline: 746c0a3
+      allowed_paths: [method/tools/bomdd-init.py, method/templates/product-profile/, method/tools/self-conformance.py]
+      # head: 製造前(未着手)— 是正後に diff 監査して設定
+    summary: >
+      Codex は初手で「/eco-file は利用可能スキル一覧にない」と認識し同等手順を自前開始、
+      途中でリポ探索により SKILL.md を発見して正本準拠へ切替えた(結果は健全・初手発見が不能)。
+      根因= scaffold 生成物が CLAUDE.md+.claude/skills(Claude Code 規約)のみで、Codex 等が
+      初手で読む AGENTS.md(リポ直下)が無い。是正案= AGENTS.md テンプレ新設(薄いポインタのみ・
+      スキル本文が単一正本)+3 経路生成(実設置スキル同期・CAD 用内容・既存保持)+C4 収載。
+      製品側の即効修正= ViewPrism2 へ先行配置(R1 スコープ外・maintainer 指示)。
+    verification: "(製造前 — 未実施)"
     summary: >
       transfer-04 N=3。独立検査官が bomdd-init.py(ECO-004)に 5 件指摘 → 5/5 CONFIRMED・
       全件現 HEAD 残存。#1[med-high] _method_provenance の内側 g() が subprocess を try 無しで
