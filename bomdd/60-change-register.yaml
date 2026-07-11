@@ -177,3 +177,49 @@ changes:
       基線: --dotnet 全 PASS(26/30・期待赤 4 件一致・signature 突合 4 件)。
       変異テスト: B01 の signature を偽値化 → 「期待理由と異なる失敗(signature 不一致)」
       として FAIL(exit 1)— 三方向目の検出動作を実証。manifest 復元済み。
+
+  - id: ECO-008
+    title: self-conformance ゲート自身の fail-open(C5 exit 2 の由来非検査・C9 空 manifest 無音 PASS)
+    date: 2026-07-11
+    origin: defect
+    status: filed  # 起票のみ・裁定/製造前(ユーザー承認待ち)
+    source: transfer-04(検査の転移)独立検査 N=2 — Codex gpt-5.5 read-only 敵対レビュー・当方検証で CONFIRMED
+    order_ref: bomdd/60-change-order-eco-008.md
+    affected_refs: [method/tools/self-conformance.py]
+    no_impact_prediction: "(製造前)self-conformance.py 以外 diff ゼロ予測。既存 C1〜C9 の正常判定は不変・C9 の非空ガードは現行 manifest(suites 4件)で PASS 不変"
+    diff_audit:
+      baseline: 4dd025b
+      allowed_paths: [method/tools/self-conformance.py]
+      # head: 製造前(未着手)— 是正後に diff 監査して設定
+    summary: >
+      transfer-04 N=2。別ベンダー独立検査官が ECO-006 新設のゲートに 2 件の fail-open を検出
+      (自己レビューは ECO-007 でクローズ済み — 独立パスの追加被覆)。C5(fail-closed 陽性対照)は
+      検査対象 tool を `python <tool>` で起動し `returncode == 2` のみ合格とするが、
+      `python <存在しないスクリプト>` も exit 2 のため tool 削除/改名を偽 PASS(die の測定不能
+      exit 2 と Python-not-found を非区別)。C9 は manifest がパース成功で suites 空/欠落だと
+      check() が一度も呼ばれず無音 PASS(C1/C2 は空を FAIL にするのに非対称)。いずれもゲート
+      docstring「欠測・実行不能は「問題なし」ではない」への自己違反。現 HEAD 4dd025b に残存。
+    verification: "(製造前 — 未実施)"
+
+  - id: ECO-009
+    title: bomdd-init の版来歴の正直記録+kit 完全性(独立検査が検出した 5 件)
+    date: 2026-07-11
+    origin: defect
+    status: filed  # 起票のみ・裁定/製造前(ユーザー承認待ち)
+    source: transfer-04(検査の転移)独立検査 N=3 — Codex gpt-5.5 read-only 敵対レビュー・当方検証で 5/5 CONFIRMED
+    order_ref: bomdd/60-change-order-eco-009.md
+    affected_refs: [method/tools/bomdd-init.py]
+    no_impact_prediction: "(製造前)bomdd-init.py 以外 diff ゼロ予測。正常系(git あり・完全 kit・全スキル設置)の生成物は不変。#4 は --skills 部分集合時のみ lock の adapter.skills 値が変わる"
+    diff_audit:
+      baseline: 4dd025b
+      allowed_paths: [method/tools/bomdd-init.py]
+      # head: 製造前(未着手)— 是正後に diff 監査して設定
+    summary: >
+      transfer-04 N=3。独立検査官が bomdd-init.py(ECO-004)に 5 件指摘 → 5/5 CONFIRMED・
+      全件現 HEAD 残存。#1[med-high] _method_provenance の内側 g() が subprocess を try 無しで
+      呼び git 不在で中断(docstring「git 不在でも止めず not-computed」を直接反証・上位 git() は
+      OSError 捕捉するのに非対称)。#2[med] install_kit の kit.exists() が manifest/lock 欠落の
+      不完全 kit も成功扱い(fail-safe でなく fail-open・#1 と連鎖)。#3[low-med] git status 失敗を
+      clean と混同。#4[low-med] lock の adapter.skills が常に全 SKILLS で --skills 部分集合と不一致。
+      #5[low] 協働ガイド参照が絶対パス(是正4 の逸脱・画面出力のみ)。
+    verification: "(製造前 — 未実施)"
