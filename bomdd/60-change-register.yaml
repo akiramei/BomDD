@@ -205,7 +205,7 @@ changes:
     title: bomdd-init の版来歴の正直記録+kit 完全性(独立検査が検出した 5 件)
     date: 2026-07-11
     origin: defect
-    status: implemented
+    status: verified
     source: transfer-04(検査の転移)独立検査 N=3 — Codex gpt-5.5 read-only 敵対レビュー・当方検証で 5/5 CONFIRMED
     order_ref: bomdd/60-change-order-eco-009.md
     affected_refs: [method/tools/bomdd-init.py]
@@ -213,7 +213,7 @@ changes:
     diff_audit:
       baseline: bc27115  # 起票時 4dd025b → 是正窓直前(ECO-008 accept)へ更新 — 窓を是正 diff のみに保つ
       allowed_paths: [method/tools/bomdd-init.py]
-      # head: 受入コミットで窓を閉じる(ref-v0.8)
+      head: "57ccf7e"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測は部分不的中を正直記載(CAD経路)
     summary: >
       transfer-04 N=3。独立検査官が bomdd-init.py(ECO-004)に 5 件指摘 → 5/5 CONFIRMED・
       全件現 HEAD 残存。#1[med-high] _method_provenance の内側 g() が subprocess を try 無しで
