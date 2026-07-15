@@ -199,7 +199,10 @@ changes:
       exit 2 と Python-not-found を非区別)。C9 は manifest がパース成功で suites 空/欠落だと
       check() が一度も呼ばれず無音 PASS(C1/C2 は空を FAIL にするのに非対称)。いずれもゲート
       docstring「欠測・実行不能は「問題なし」ではない」への自己違反。現 HEAD 4dd025b に残存。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      変異テスト 3 種で verified — A(tool 退避→ C5a FAIL)/B(空 suites → C9 FAIL)/
+      B2(空 YAML doc=None → FAIL・是正初版のクラッシュを検出)+ --dotnet 基線全 PASS。
+      accept: bc27115(詳細は order 参照)。
 
   - id: ECO-009
     title: bomdd-init の版来歴の正直記録+kit 完全性(独立検査が検出した 5 件)
@@ -214,6 +217,17 @@ changes:
       baseline: bc27115  # 起票時 4dd025b → 是正窓直前(ECO-008 accept)へ更新 — 窓を是正 diff のみに保つ
       allowed_paths: [method/tools/bomdd-init.py]
       head: "57ccf7e"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測は部分不的中を正直記載(CAD経路)
+    summary: >
+      transfer-04 N=3。独立検査官が bomdd-init.py(ECO-004)に 5 件指摘 → 5/5 CONFIRMED・
+      全件現 HEAD 残存。#1[med-high] _method_provenance の内側 g() が subprocess を try 無しで
+      呼び git 不在で中断(docstring「git 不在でも止めず not-computed」を直接反証・上位 git() は
+      OSError 捕捉するのに非対称)。#2[med] install_kit の kit.exists() が manifest/lock 欠落の
+      不完全 kit も成功扱い(fail-safe でなく fail-open・#1 と連鎖)。#3[low-med] git status 失敗を
+      clean と混同。#4[low-med] lock の adapter.skills が常に全 SKILLS で --skills 部分集合と不一致。
+      #5[low] 協働ガイド参照が絶対パス(是正4 の逸脱・画面出力のみ)。
+    verification: >
+      検証治具 13 項目全 PASS(git 不在/不完全 kit/--skills 部分集合/CAD 経路)+
+      影響なし予測の部分不的中(CAD 経路)を正直記載。accept: 588af6d(詳細は order 参照)。
 
   - id: ECO-010
     title: bomdd-init がハーネス中立の入口(AGENTS.md)を生成せず、別ハーネスが入口スキルを初手で発見できない
@@ -235,16 +249,10 @@ changes:
       初手で読む AGENTS.md(リポ直下)が無い。是正案= AGENTS.md テンプレ新設(薄いポインタのみ・
       スキル本文が単一正本)+3 経路生成(実設置スキル同期・CAD 用内容・既存保持)+C4 収載。
       製品側の即効修正= ViewPrism2 へ先行配置(R1 スコープ外・maintainer 指示)。
-    verification: "(製造前 — 未実施)"
-    summary: >
-      transfer-04 N=3。独立検査官が bomdd-init.py(ECO-004)に 5 件指摘 → 5/5 CONFIRMED・
-      全件現 HEAD 残存。#1[med-high] _method_provenance の内側 g() が subprocess を try 無しで
-      呼び git 不在で中断(docstring「git 不在でも止めず not-computed」を直接反証・上位 git() は
-      OSError 捕捉するのに非対称)。#2[med] install_kit の kit.exists() が manifest/lock 欠落の
-      不完全 kit も成功扱い(fail-safe でなく fail-open・#1 と連鎖)。#3[low-med] git status 失敗を
-      clean と混同。#4[low-med] lock の adapter.skills が常に全 SKILLS で --skills 部分集合と不一致。
-      #5[low] 協働ガイド参照が絶対パス(是正4 の逸脱・画面出力のみ)。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      検証治具 10 項目全 PASS(3 経路生成+CAD 版内容+fail-safe+変異 2 種= AGENTS.md 削除→
+      C4 FAIL・SKILL.md 参照切れ→ FAIL)・C4 恒久収載(AGENTS.md 参照スキルの実在検査)。
+      accept: b586cea(詳細は order 参照)。
 
   - id: ECO-011
     title: 台帳の重複キーによる情報損失 — ECO-009 の summary/verification が ECO-010 ブロックへ誤帰属+verified 3 件の verification 欄が製造前文言のまま
@@ -256,7 +264,7 @@ changes:
     affected_refs: [bomdd/60-change-register.yaml]
     no_impact_prediction: "(製造前)60-change-register.yaml 以外 diff ゼロ予測。移動・更新は ECO-008/009/010 の summary/verification フィールドのみ — id/date/status/source/order_ref/affected_refs/diff_audit は不変。safe_load 意味論上の変化= ECO-010.summary が正本(AGENTS.md 根因)へ復元・ECO-009 に summary/verification が出現(現状は欠落)"
     diff_audit:
-      baseline: a36e580  # 起票時 — 是正窓直前へ更新予定(ECO-008 と同運用)
+      baseline: 1016c1c  # 起票時 a36e580 → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-16)
       allowed_paths: [bomdd/60-change-register.yaml]
       # head: 製造前(未着手)— 是正後に diff 監査して設定
     summary: >

@@ -1,6 +1,6 @@
 # ECO-011 — 台帳の重複キーによる情報損失(ECO-009 フィールドの ECO-010 への誤帰属+verified 3 件の verification 欄未更新)
 
-> 状態: **起票のみ(裁定・製造前)**。是正/検証は未着手 — gate(製造承認)で停止中。
+> 状態: **製造承認済み(2026-07-16)— 是正実施**。検証は下記・verified 化は accept コミットで。
 
 ## 起票(2026-07-16)
 
@@ -27,9 +27,21 @@
 
 ## 裁定
 
-- **未(gate 承認待ち)**。以下は証拠に基づく裁定案 — gate で採否。
-- **裁定案(帰属先)**: 239〜247 行の summary/verification は **ECO-009 ブロックへ復帰**
-  (`fba7f1b` の原型どおり)。根拠= git 履歴が一次証拠(上記根因 1)。
+- **製造承認(2026-07-16・maintainer)**。帰属復元の一次証拠(fba7f1b で ECO-009 内に存在/
+  0fbc34a がその直前へ挿入/bc27115・588af6d・b586cea と各 order に実検証記録)を maintainer が
+  独立確認のうえ承認。
+- **裁定(帰属先・確定)**: 孤立した summary/verification は **ECO-009 ブロックへ復帰**
+  (`fba7f1b` の原型どおり)。
+- **承認時の追加条件(3 点)**:
+  1. `diff_audit.baseline` を是正開始直前の **1016c1c** に更新する。
+  2. ECO-012 の天然陽性対照を**再実行可能**にする —
+     `git show 1016c1c:bomdd/60-change-register.yaml`(ハッシュ固定)を対照の正本とし、
+     実施記録だけにしない(order-eco-012 へ収載)。
+  3. 前後比較はテキスト diff に加え **ID 単位の解析結果で許容差分を限定**する。期待される
+     意味差分は次の 4 点のみ: ECO-009 に summary/verification が復帰/ECO-010 の
+     summary/verification が本来値になる/ECO-008/009/010 の verification が実記録になる/
+     その他の ID・状態・参照・diff 窓は不変(ECO-011 自身の diff_audit/status/verification は
+     台帳系 bookkeeping として除外を明示)。
 
 ### 是正方針案(製造前・凍結前の草案)
 
@@ -54,13 +66,56 @@
 - 順序依存: **ECO-012(C1 厳格化)の gate は本 ECO 適用後** — 是正前の台帳が ECO-012 の
   天然の陽性対照(是正前 FAIL/是正後 PASS の等価証明に使える)。
 
-## 是正
+## 是正(2026-07-16)
 
-- (未着手)
+1. 孤立ブロック(旧 239〜247 行= transfer-04 N=3 の summary+verification)を ECO-010 から
+   除去し、summary を ECO-009 ブロック末尾(diff_audit の後)へ復帰(fba7f1b の原文どおり)。
+2. verification 欄の実記録復元(3 件・出典= accept コミット+各 order の検証節):
+   - ECO-008 ← bc27115(変異 A/B/B2+--dotnet 基線)
+   - ECO-009 ← 588af6d(治具 13 項目+予測部分不的中の正直記載)
+   - ECO-010 ← b586cea(治具 10 項目+C4 恒久収載)
+3. ECO-011 の diff_audit.baseline を 1016c1c へ更新(承認条件 1)。
 
-## 検証
+## 検証(2026-07-16)
 
-- (未実施)
+- **V1(ID 単位の許容差分限定 — 承認条件 3)**: 下記スクリプト(再実行可能・対照は
+  `git show 1016c1c:` でハッシュ固定)で、safe_load 意味論の前後比較を全 ID×全フィールドで実施。
+  結果= **許容差分 4 点のみ・許容外差分 0 件**・内容アサーション(ECO-009.summary が
+  transfer-04 文面/ECO-010.summary が AGENTS.md 根因文面)PASS。
+
+  ```python
+  # eco-011-semantic-diff.py — 対照= git show 1016c1c:bomdd/60-change-register.yaml(ハッシュ固定)
+  import subprocess, yaml
+  old = {c["id"]: c for c in yaml.safe_load(subprocess.run(
+      ["git", "show", "1016c1c:bomdd/60-change-register.yaml"],
+      capture_output=True, text=True, encoding="utf-8").stdout)["changes"]}
+  new = {c["id"]: c for c in yaml.safe_load(
+      open("bomdd/60-change-register.yaml", encoding="utf-8").read())["changes"]}
+  assert set(old) == set(new), "ID 集合が不変でない"
+  ALLOWED = {"ECO-008": {"verification"}, "ECO-009": {"summary", "verification"},
+             "ECO-010": {"summary", "verification"},
+             "ECO-011": {"diff_audit", "status", "verification"}}  # 011 自身は台帳系 bookkeeping
+  errs = []
+  for cid in sorted(old):
+      keys = set(old[cid]) | set(new[cid])
+      diff = {k for k in keys if old[cid].get(k) != new[cid].get(k)}
+      extra = diff - ALLOWED.get(cid, set())
+      if extra:
+          errs.append(f"{cid}: 許容外差分 {sorted(extra)}")
+  assert not errs, errs
+  assert new["ECO-009"]["summary"].startswith("transfer-04 N=3"), "ECO-009 復帰文面"
+  assert "AGENTS.md" in new["ECO-010"]["summary"], "ECO-010 正本文面の復元"
+  assert all("(製造前" not in (c.get("verification") or "")
+             for c in new.values() if c.get("status") == "verified"), "プレースホルダ残存"
+  print("PASS: 許容差分のみ・内容アサーション成立")
+  ```
+
+- **V2(同型全数走査 — クローズ条件)**: 重複キー検出つき厳格ローダーで bomdd/+method/ の
+  全 YAML を走査 → **重複キー 0 件**(是正前= 1 件・本件のみ)。
+- **V3(プレースホルダ走査 — クローズ条件)**: `status: verified` 全エントリの verification に
+  「(製造前」を含むもの **0 件**(是正前= 3 件)。filed(ECO-011/012)のプレースホルダは適正。
+- **V4(ゲート回帰)**: self-conformance 全検査 PASS(C1〜C8・C3 台帳パース含む)。
+- 影響なし予測: 的中(diff は 60-change-register.yaml+本 order のみ=台帳系)。
 
 ## 教訓(還元候補 — lesson-promote 経由)
 
