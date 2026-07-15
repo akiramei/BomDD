@@ -1,7 +1,7 @@
 # ECO-014 — 正本↔派生↔テンプレの乖離検出検査(C10 新設 — 参照スキーマの派生同期検査)
 
-> 状態: **起票のみ(裁定・製造前)**。是正/検証は未着手 — gate(製造承認)で停止中。
-> **gate は ECO-013 適用後**(順序依存 — 現乖離が天然陽性対照。ECO-011→012 と同型の対)。
+> 状態: **verified(2026-07-16)**。fix= 下記・検証 V0〜V4 全 PASS・窓は accept で閉鎖。
+> 順序依存は充足済み(ECO-013 verified・1dab13f)。
 > **天然陽性対照(再実行可能・ハッシュ固定)**: `git show 71d6f5f:method/schemas/draft/bomdd-ref.draft.schema.json`
 > = 是正前 Schema(uiId に domain 欠落)。C10 をこの内容に当てて FAIL、ECO-013 適用後に当てて
 > PASS が是正と検査の等価証明になる。
@@ -18,7 +18,8 @@
 
 ## 裁定
 
-- **未(gate 承認待ち)**。
+- **製造承認(2026-07-16・maintainer — 所見2系列「1はa、2はOK」の承認範囲。ECO-013 verified で
+  順序依存充足)**。baseline を是正開始直前 1dab13f へ更新。
 
 ### 是正方針案(製造前・凍結前の草案)
 
@@ -47,13 +48,36 @@ C10(schema-drift)を self-conformance fast tier へ新設:
   窓の分離のため ECO-013 先行とする)。
 - exit code 体系(0/1/2)は不変。
 
-## 是正
+## 是正(2026-07-16)
 
-- (未着手)
+C10(schema-drift)を fast tier へ新設(self-conformance.py):
 
-## 検証
+1. `_c10_id_drifts()` — ID 層の正本↔派生突合(uiId/S/M0 = family_pattern 文字列一致・
+   tmpUiPartNo = TMP-UI 接頭辞集合一致・anyKnownId = 単純 prefix 全被覆・個別 def 被覆)。
+2. `_c10_selector_roots()` + `_c10_structural_drifts()` — 構造層の三者突合
+   (ref-edges セレクタ起点 ↔ Schema properties ↔ テンプレ実在キー)。**二方言の被覆ピン**
+   (components/occurrences/componentCandidates/componentOccurrences・entries/mappings)を
+   固定 — 将来の「掃除」で片方言が落ち検査が再沈黙する回帰を遮断。
+3. 陽性対照の常設: 毎回、ID 層(uiId から domain を落とした偽 ids)と構造層(mappings
+   セレクタを落とした偽 edges)の両方に検出器が反応することを確認してから実突合
+   (環境非依存 — git 履歴に依存しない)。
 
-- (未実施)
+## 検証(2026-07-16)
+
+- **V0(基線)**: fast 全 PASS(C10 込み)。既存 C1〜C9 の判定不変=影響なし予測どおり。
+- **V1(変異 A = Schema uiId から domain 除去)**: **C10 FAIL**(「uiId: 正本 family_pattern と
+  派生 pattern が不一致」)。**正直記載**: 初回実行は置換のエスケープ多重化で変異自体が
+  空振りし C10 PASS(変異未適用の偽陰性を「検出漏れ」と誤読しかけた)→ **変異治具に
+  「置換が適用されたことの assert」を追加**して再実行・FAIL 確認。教訓=変異テストは
+  変異の適用自体を検証する(陽性対照の規律を変異治具自身へ適用)。
+- **V2(変異 B = ref-edges の mappings セレクタを実在しないキーへ)**: **C10 FAIL**
+  (「セレクタ起点に mappings がない(方言被覆の破れ)」+「テンプレのキーがセレクタ空振り」
+  の 2 面検出)。
+- **V3(天然対照 — 再実行可能・ハッシュ固定)**: `git show 71d6f5f:…schema.json`(是正前)の
+  $defs/id を `_c10_id_drifts` へ投入 → **uiId 乖離を検出**。現(ECO-013 適用後)は V0 で PASS —
+  ECO-013 の是正と本検査の等価証明。
+- **V4(復元確認)**: 全変異を git checkout で復元し fast 全 PASS。
+- 影響なし予測: 的中(diff は self-conformance.py+台帳系のみ)。
 
 ## 教訓(還元候補 — lesson-promote 経由)
 

@@ -346,13 +346,13 @@ changes:
     title: 正本↔派生↔テンプレの乖離を検出する検査が無い(C10 新設 — 参照スキーマの派生同期検査)
     date: 2026-07-16
     origin: defect
-    status: filed  # 起票のみ・gate(製造承認)待ち。gate は ECO-013 適用後(順序依存 — 現乖離が天然陽性対照)
+    status: filed  # 製造承認 2026-07-16(所見2裁定「1はa、2はOK」の系列承認)— 製造中。ECO-013 verified 済みで順序依存充足
     source: 保存形式レビュー(2026-07-16)所見2 の同根 — 派生 Schema の手管理が無検査(uiId の domain 欠落が検出されず残存)。ECO-011/012 と同型の対(データ是正→それを検出する検査)
     order_ref: bomdd/60-change-order-eco-014.md
     affected_refs: [method/tools/self-conformance.py]
     no_impact_prediction: "(製造前)self-conformance.py 以外 diff ゼロ予測。既存 C1〜C9 の判定は不変。C10 は ECO-013 適用後の整合状態で PASS(適用前に導入すると uiId 乖離で FAIL=正しい検出)"
     diff_audit:
-      baseline: 71d6f5f  # 起票時 — 是正窓直前へ更新予定
+      baseline: 1dab13f  # 起票時 71d6f5f → 是正開始直前(ECO-013 accept)へ更新(製造承認 2026-07-16)
       allowed_paths: [method/tools/self-conformance.py]
       # head: 製造前(未着手)— 是正後に diff 監査して設定
     summary: >
