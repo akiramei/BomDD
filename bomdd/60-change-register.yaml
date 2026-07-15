@@ -315,13 +315,13 @@ changes:
     title: 参照スキーマの正本/派生乖離 — uiId の domain 欠落+ui-mock-extraction 族の二方言(同名異物)で glob 束縛検査が沈黙
     date: 2026-07-16
     origin: defect
-    status: filed  # 起票のみ・gate(製造承認+方言裁定)待ち
+    status: filed  # 製造承認 2026-07-16(裁定 1=a 両方言宣言・2=domain 追加)— 製造中
     source: 保存形式レビュー(2026-07-16)所見2 — 起票時の全数走査で実相を確定(ID 層の乖離は uiId 1 系統のみ・構造層は二方言が ui-ir/ui-trace-map に系統的)
     order_ref: bomdd/60-change-order-eco-013.md
     affected_refs: [method/schemas/draft/id-grammar.draft.yaml, method/schemas/draft/ref-edges.draft.yaml, method/schemas/draft/bomdd-ref.draft.schema.json, method/schemas/draft/README.md]
     no_impact_prediction: "(製造前)method/schemas/draft/ の 4 ファイル以外 diff ゼロ予測。実物リポ(MoviePad/ViewPrism2)・テンプレ・治具は不変(両対応案のため)。Plm リンタは ref-edges を読むため、次回リント実行から UI-CAD 方言の被覆が効き始め所見が増える可能性を影響として明記(検査が効き始めるための増加=欠陥でなく被覆回復)"
     diff_audit:
-      baseline: 71d6f5f  # 起票時 — 是正窓直前へ更新予定
+      baseline: 35b875a  # 起票時 71d6f5f → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-16)
       allowed_paths: [method/schemas/draft/]
       # head: 製造前(未着手)— 是正後に diff 監査して設定
     summary: >

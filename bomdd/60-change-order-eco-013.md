@@ -1,6 +1,6 @@
 # ECO-013 — 参照スキーマの正本/派生乖離(uiId の domain 欠落+ui-mock-extraction 族の二方言=同名異物)
 
-> 状態: **起票のみ(裁定・製造前)**。是正/検証は未着手 — gate(製造承認+方言裁定)で停止中。
+> 状態: **製造承認済み(2026-07-16)— 是正・検証実施**。verified 化は accept コミットで。
 
 ## 起票(2026-07-16)
 
@@ -37,7 +37,9 @@
 
 ## 裁定
 
-- **未(gate 承認待ち)**。裁定点は 2 つ:
+- **製造承認(2026-07-16・maintainer「1はa、2はOK」)**: 裁定点 1 = **a) 両方言宣言 採用**・
+  裁定点 2 = **domain 追加 承認**。baseline を是正開始直前 35b875a へ更新。
+- 起票時の裁定点(記録):
 - **裁定点 1 — 方言の解決方向(推奨= a)**:
   - **a) 両方言宣言(推奨)**: ref-edges/Schema が両方言を宣言し、型は**判別キー**で機械判別
     (UI-CAD 方言= `schemaVersion`+`artifactType` 封筒を持つ/参照層方言= `meta` または
@@ -72,13 +74,33 @@
   実行から UI-CAD 方言の実物に検査が初めて効き、**新規所見が出る可能性**がある(被覆回復に伴う
   検出増 — 欠陥の増加ではない)。silence §16(d)(副経路)の予防適用として起票時から明記。
 
-## 是正
+## 是正(2026-07-16)
 
-- (未着手)
+1. **Schema `uiId`**: pattern へ `domain` を追加(正本 family_pattern と文字列一致)。
+   来歴の実測: 正本への domain 追加は **ref-v0.3(c)(2026-07-03・ViewPrism2 実 IR の慣行)** —
+   派生は以来 **13 日間未同期**だった(手管理派生の無検査を裏付ける潜伏期間)。
+2. **Schema `uiIrFile`**: `componentCandidates`/`componentOccurrences` を uiIrCollection として
+   追補+$comment に二方言と判別キーを明記。
+3. **Schema `uiTraceMapFile`**: `required: ["entries"]` を `oneOf: [required entries / required
+   mappings]` へ。mappings 形の参照フィールド(uiId/tempPartNo/componentCandidateNo/
+   uiBomItemNo/ebomItemRef= null|scalar|array)を宣言。
+4. **ref-edges(ref-v0.9 版上げ)**: ヘッダへ改訂台帳追記(二方言・判別キー・被覆境界の明示=
+   stableIdDecisions 等は実需要待ちで未宣言)。ui-ir セレクタ起点へ componentCandidates/
+   componentOccurrences 追補。trace-map 節へ mappings[] エッジ 7 本併記(ebomItemRef は
+   ref-v0.6 の配列併記原則どおり単数+配列)。
+5. **id-grammar**: TMP-UI-CMP/OCC の defined_in を両方言形へ+note。
+6. **README**: 改訂列へ ref-v0.9 追記(判別キー規律 1 行+C10 への参照)。
 
-## 検証
+## 検証(2026-07-16)
 
-- (未実施)
+- **V1(全数走査の再実行 — クローズ条件)**: 起票時の機械突合スクリプトを再実行 →
+  **ID 層乖離 0 系統**(是正前= uiId の 1 系統)。
+- **V2(空振り解消 — クローズ条件)**: 実物 4 ファイル(MoviePad ui-ir/ui-trace-map・
+  ViewPrism2 image-tab ui-ir/ui-trace-map)の実在キーが ref-edges セレクタ起点と交差することを
+  機械確認 — 両方言とも被覆(是正前= MoviePad 側 2 ファイルが空振り)。
+- **V3(構文回帰)**: self-conformance fast 全 PASS(C1 厳格パースに schemas/draft の YAML、
+  C2 に JSON Schema が含まれる)。
+- 影響なし予測: 的中(diff は method/schemas/draft/ 4 ファイル+台帳系のみ)。
 
 ## 教訓(還元候補 — lesson-promote 経由)
 
