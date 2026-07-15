@@ -22,6 +22,8 @@ jobs:
           python-version: "3.12"
       - run: pip install pyyaml
       - run: python method/tools/self-conformance.py
+      # worklist は読み取り専用ビュー(台帳はゲートしない)— selftest はツール自身の恒久較正のみ
+      - run: python method/tools/worklist.py --selftest
 
   dotnet:
     runs-on: windows-latest
