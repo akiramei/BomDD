@@ -245,3 +245,51 @@ changes:
       clean と混同。#4[low-med] lock の adapter.skills が常に全 SKILLS で --skills 部分集合と不一致。
       #5[low] 協働ガイド参照が絶対パス(是正4 の逸脱・画面出力のみ)。
     verification: "(製造前 — 未実施)"
+
+  - id: ECO-011
+    title: 台帳の重複キーによる情報損失 — ECO-009 の summary/verification が ECO-010 ブロックへ誤帰属+verified 3 件の verification 欄が製造前文言のまま
+    date: 2026-07-16
+    origin: defect
+    status: filed  # 起票のみ・gate(製造承認)待ち
+    source: 保存形式レビュー(2026-07-16)所見1 — safe_load の後勝ち上書きで全検査 PASS のまま情報損失。根因は当セッションの git 履歴解析で特定(fba7f1b が ECO-009 に付した summary/verification の直前へ 0fbc34a が ECO-010 を挿入)
+    order_ref: bomdd/60-change-order-eco-011.md
+    affected_refs: [bomdd/60-change-register.yaml]
+    no_impact_prediction: "(製造前)60-change-register.yaml 以外 diff ゼロ予測。移動・更新は ECO-008/009/010 の summary/verification フィールドのみ — id/date/status/source/order_ref/affected_refs/diff_audit は不変。safe_load 意味論上の変化= ECO-010.summary が正本(AGENTS.md 根因)へ復元・ECO-009 に summary/verification が出現(現状は欠落)"
+    diff_audit:
+      baseline: a36e580  # 起票時 — 是正窓直前へ更新予定(ECO-008 と同運用)
+      allowed_paths: [bomdd/60-change-register.yaml]
+      # head: 製造前(未着手)— 是正後に diff 監査して設定
+    summary: >
+      ECO-010 のブロックに summary/verification が二重に存在(前者= ECO-010 正本、後者=
+      ECO-009 の transfer-04 記録)。PyYAML safe_load は重複キーをエラーにせず後勝ち上書きするため、
+      機械読み上は ECO-010 の正本 summary が transfer-04 文面で上書き=誤帰属(単なる冗長でなく
+      台帳の意味の破壊)。C1/C3 はパース成功のみ検査のため全 PASS のまま潜伏(2026-07-11 起票〜
+      07-16 発見)。同型全数走査(厳格ローダーで bomdd/+method/ 全 YAML)の結果、重複キーは本 1 件
+      のみ。付随して accept 段が status/diff_audit.head の 2 行のみ書き換える様式だったため、
+      verified 3 件(ECO-008/009/010)の verification 欄が「(製造前 — 未実施)」のまま残存 —
+      実検証記録(bc27115/588af6d/b586cea+各 order)からの復元を本 ECO スコープに含める。
+    verification: "(製造前 — 未実施)"
+
+  - id: ECO-012
+    title: 自己適合ゲートの YAML 検査が構文成功のみで情報保存を検査しない(重複キーの沈黙上書きを PASS・実台帳が C1 の走査対象外)
+    date: 2026-07-16
+    origin: defect
+    status: filed  # 起票のみ・gate(製造承認)待ち。gate は ECO-011 適用後(順序依存 — 現台帳の重複キーが天然の陽性対照)
+    source: 保存形式レビュー(2026-07-16)所見1 の同根 — C1 は method/ のみ+safe_load 寛容性、C3(実台帳)も safe_load。transfer-04 4類型「存在 vs 完全性」(FINDINGS §11.4)の再演 — パース成功の存在で情報保存の完全性を代用していた
+    order_ref: bomdd/60-change-order-eco-012.md
+    affected_refs: [method/tools/self-conformance.py]
+    no_impact_prediction: "(製造前)self-conformance.py 以外 diff ゼロ予測。既存 C1〜C9 の正常判定は不変(ECO-011 適用後の台帳・テンプレは重複キー 0 件を実測済み)。C4 生成 scaffold の厳格パース追加も現テンプレでは PASS 不変"
+    diff_audit:
+      baseline: a36e580  # 起票時 — 是正窓直前へ更新予定
+      allowed_paths: [method/tools/self-conformance.py]
+      # head: 製造前(未着手)— 是正後に diff 監査して設定
+    summary: >
+      C1 は yaml.safe_load のパース成功のみを合格条件とし、PyYAML の既定挙動(重複キーの
+      後勝ち上書き)による情報損失を検出しない。加えて C1 の走査対象は method/ に閉じ、
+      実台帳(bomdd/60-change-register.yaml)は C3 が同じ safe_load で読むのみ・C4 生成
+      scaffold の YAML も構文検査なし — 保存正本のどこでも「構文 PASS」が「情報保存 PASS」を
+      含意しない。実害= ECO-011 の誤帰属が全検査 PASS のまま 5 日潜伏。是正案=重複キー
+      検出つき厳格ローダーの共通化+検査対象を実台帳・生成後 scaffold へ拡張+変異テスト
+      (意図的重複の陽性対照)。verified エントリの verification プレースホルダ検査
+      (C3 拡張)は gate で採否裁定。
+    verification: "(製造前 — 未実施)"
