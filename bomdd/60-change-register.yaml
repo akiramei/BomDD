@@ -286,13 +286,13 @@ changes:
     title: 自己適合ゲートの YAML 検査が構文成功のみで情報保存を検査しない(重複キーの沈黙上書きを PASS・実台帳が C1 の走査対象外)
     date: 2026-07-16
     origin: defect
-    status: filed  # 起票のみ・gate(製造承認)待ち。gate は ECO-011 適用後(順序依存 — 現台帳の重複キーが天然の陽性対照)
+    status: filed  # 製造承認 2026-07-16(案3=verified 状態契約検査も採用)— 製造中
     source: 保存形式レビュー(2026-07-16)所見1 の同根 — C1 は method/ のみ+safe_load 寛容性、C3(実台帳)も safe_load。transfer-04 4類型「存在 vs 完全性」(FINDINGS §11.4)の再演 — パース成功の存在で情報保存の完全性を代用していた
     order_ref: bomdd/60-change-order-eco-012.md
     affected_refs: [method/tools/self-conformance.py]
     no_impact_prediction: "(製造前)self-conformance.py 以外 diff ゼロ予測。既存 C1〜C9 の正常判定は不変(ECO-011 適用後の台帳・テンプレは重複キー 0 件を実測済み)。C4 生成 scaffold の厳格パース追加も現テンプレでは PASS 不変"
     diff_audit:
-      baseline: a36e580  # 起票時 — 是正窓直前へ更新予定
+      baseline: bca04e4  # 起票時 a36e580 → 是正開始直前(gate 資料コミット)へ更新(製造承認 2026-07-16)
       allowed_paths: [method/tools/self-conformance.py]
       # head: 製造前(未着手)— 是正後に diff 監査して設定
     summary: >

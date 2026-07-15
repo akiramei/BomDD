@@ -6,12 +6,15 @@
 所見1〜5 の是正(ECO-001〜005)を恒久回帰として収載する。
 
 検査(fast tier — 既定):
-  C1 yaml-parse     : method/templates/**/*.yaml が PyYAML で全数パース(ECO-001 恒久回帰)
+  C1 yaml-parse     : method/ 全 YAML+bomdd/ 実台帳が厳格パース — 構文成功に加え重複キー
+                      (沈黙上書き=情報損失)を FAIL・陽性対照を常設(ECO-001/012 恒久回帰)
   C2 json-parse     : method/ 配下の *.json が全数パース
-  C3 register       : ハーネス台帳がパースし、verified エントリは diff_audit.head で窓が閉じている
+  C3 register       : ハーネス台帳が厳格パースし、verified エントリは diff_audit.head で窓が
+                      閉じ、verification が実記録(非空・既知プレースホルダでない)(ECO-012 案3)
   C4 scaffold       : bomdd-init が一時ディレクトリへ scaffold でき、生成物に方法論リポの
                       絶対パスが漏れない(bomdd.lock の origin_path=来歴のみ許容)+
-                      lock がパースし kit の files 数が manifest と一致(ECO-004 恒久回帰)
+                      lock がパースし kit の files 数が manifest と一致(ECO-004 恒久回帰)+
+                      生成物 YAML の厳格パース(ECO-012 — 生成物も保存正本)
   C5 fail-closed    : stage0-survey / impact-retrospective が存在しないリポに exit 2(ECO-002/003)
   C6 gate-mutation  : ui-cad-gate が「理由なし rejected」を落とし(exit≠0)、
                       「根拠+決定者つき rejected」を通す(exit 0)— 対検査(ECO-005 恒久回帰)
@@ -63,17 +66,61 @@ def run(args: list[str], **kw) -> subprocess.CompletedProcess:
                           errors="replace", **kw)
 
 
-# --- C1/C2 テンプレ・スキーマの構文 -------------------------------------------------
+# --- 厳格 YAML ローダー(ECO-012) ----------------------------------------------------
+# PyYAML の既定は重複キーを後勝ちで沈黙上書きする — 保存正本の情報損失が「構文 PASS」で
+# 素通りした実害が ECO-011(summary の別 ECO への誤帰属・5 日潜伏)。検査は「パースできる」
+# でなく「情報が保存される」を張る。
+class _DupKeyError(yaml.YAMLError):
+    pass
+
+
+class _StrictLoader(yaml.SafeLoader):
+    pass
+
+
+def _strict_mapping(loader, node, deep=False):
+    seen = set()
+    for key_node, _ in node.value:
+        key = loader.construct_object(key_node, deep=True)
+        if key in seen:
+            raise _DupKeyError(f"重複キー '{key}'(line {key_node.start_mark.line + 1})")
+        seen.add(key)
+    return yaml.SafeLoader.construct_mapping(loader, node, deep)
+
+
+_StrictLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _strict_mapping)
+
+
+def strict_yaml_load(text: str):
+    """重複キーを _DupKeyError にする safe_load(情報損失の遮断)"""
+    return yaml.load(text, Loader=_StrictLoader)
+
+
+# ECO-012 案3: verified の verification 欄が取り得ない既知プレースホルダ(部分一致でなく列挙管理)
+_KNOWN_PLACEHOLDERS = {"(製造前 — 未実施)", "(製造前)", "(未実施)", "(未検証)"}
+
+
+# --- C1/C2 テンプレ・スキーマ・実台帳の構文+情報保存 ---------------------------------
 def c1_yaml() -> None:
-    files = sorted((ROOT / "method").rglob("*.yaml")) + sorted((ROOT / "method").rglob("*.yml"))
+    # 陽性対照(常設): 厳格ローダー自身が重複キーを検出できることを毎回確認してから走査する
+    # (検出器が壊れたまま全 PASS するのを遮断 — control-plan「検査の対照3種」)
+    try:
+        strict_yaml_load("a: 1\na: 2\n")
+        check("C1", False, "陽性対照が失敗 — 厳格ローダーが重複キーを検出しない")
+        return
+    except _DupKeyError:
+        pass
+    files = (sorted((ROOT / "method").rglob("*.yaml")) + sorted((ROOT / "method").rglob("*.yml"))
+             + sorted((ROOT / "bomdd").rglob("*.yaml")))  # ECO-012: 実台帳も保存正本
     bad = []
     for f in files:
         try:
-            yaml.safe_load(f.read_text(encoding="utf-8"))
+            strict_yaml_load(f.read_text(encoding="utf-8"))
         except yaml.YAMLError as e:
             bad.append(f"{f.relative_to(ROOT)}: {str(e).splitlines()[0]}")
     check("C1", bool(files) and not bad,
-          f"YAML {len(files)} 件パース" + (f" — 失敗: {bad}" if bad else ""))
+          f"YAML {len(files)} 件厳格パース(重複キー検出・陽性対照込み)"
+          + (f" — 失敗: {bad}" if bad else ""))
 
 
 def c2_json() -> None:
@@ -95,15 +142,26 @@ def c3_register() -> None:
         check("C3", False, f"ハーネス台帳がない: {reg_path}")
         return
     try:
-        reg = yaml.safe_load(reg_path.read_text(encoding="utf-8"))
+        reg = strict_yaml_load(reg_path.read_text(encoding="utf-8"))
     except yaml.YAMLError as e:
-        check("C3", False, f"台帳がパース不能: {e}")
+        check("C3", False, f"台帳がパース不能/情報損失: {e}")
         return
-    open_windows = [c["id"] for c in reg.get("changes") or []
-                    if c.get("status") == "verified"
-                    and not (c.get("diff_audit") or {}).get("head")]
-    check("C3", not open_windows,
-          "台帳パース+verified の diff 窓" + (f" — head 未設定: {open_windows}" if open_windows else "(全て閉じている)"))
+    problems = []
+    for c in reg.get("changes") or []:
+        if c.get("status") != "verified":
+            continue
+        cid = c.get("id", "?")
+        # ECO-012 案3: verified の明示的な状態契約 — 窓閉鎖・verification 実記録を一体で検査
+        if not (c.get("diff_audit") or {}).get("head"):
+            problems.append(f"{cid}: diff 窓が開いている(head 未設定)")
+        v = (c.get("verification") or "").strip()
+        if not v:
+            problems.append(f"{cid}: verification が空")
+        elif v in _KNOWN_PLACEHOLDERS:
+            problems.append(f"{cid}: verification が製造前プレースホルダのまま")
+    check("C3", not problems,
+          "台帳厳格パース+verified の状態契約(窓閉鎖・verification 実記録)"
+          + (f" — {problems}" if problems else "(全 verified 適合)"))
 
 
 # --- C4 scaffold 煙試験(ECO-004) ---------------------------------------------------
@@ -127,9 +185,16 @@ def c4_scaffold() -> None:
                 continue
             if needle in text:
                 leaks.append(str(f.relative_to(prod)))
-        lock = yaml.safe_load((prod / "bomdd.lock").read_text(encoding="utf-8"))["bomdd_lock"]
+        lock = strict_yaml_load((prod / "bomdd.lock").read_text(encoding="utf-8"))["bomdd_lock"]
         manifest = json.loads((prod / lock["kit"]["manifest"]).read_text(encoding="utf-8"))
         count_ok = lock["kit"]["files"] == len(manifest["files"])
+        # ECO-012: 生成物も保存正本 — scaffold の全 YAML を厳格パース(重複キー=情報損失を遮断)
+        gen_bad = []
+        for f in list(prod.rglob("*.yaml")) + list(prod.rglob("*.yml")):
+            try:
+                strict_yaml_load(f.read_text(encoding="utf-8"))
+            except yaml.YAMLError as e:
+                gen_bad.append(f"{f.relative_to(prod)}: {str(e).splitlines()[0]}")
         # ECO-010: ハーネス中立入口 — AGENTS.md の存在+参照する SKILL.md の全実在
         agents = prod / "AGENTS.md"
         agents_ok, agents_msg = False, "AGENTS.md がない"
@@ -140,8 +205,9 @@ def c4_scaffold() -> None:
             agents_ok = bool(refs) and not missing
             agents_msg = f"AGENTS.md 参照スキル {len(refs)} 件" + (f" — 実在しない: {missing}" if missing
                          else "" if refs else " — スキル参照ゼロ(ポインタ空)")
-        check("C4", not leaks and count_ok and agents_ok,
-              f"scaffold 煙試験(絶対パス漏れ {len(leaks)} 件・lock/manifest 整合 {count_ok}・{agents_msg})"
+        check("C4", not leaks and count_ok and agents_ok and not gen_bad,
+              f"scaffold 煙試験(絶対パス漏れ {len(leaks)} 件・lock/manifest 整合 {count_ok}・{agents_msg}・"
+              f"生成 YAML 厳格パース{'失敗: ' + str(gen_bad[:3]) if gen_bad else ' 全数'})"
               + (f" — 漏れ: {leaks[:3]}" if leaks else ""))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
