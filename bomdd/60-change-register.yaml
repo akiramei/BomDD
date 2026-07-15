@@ -286,7 +286,7 @@ changes:
     title: 自己適合ゲートの YAML 検査が構文成功のみで情報保存を検査しない(重複キーの沈黙上書きを PASS・実台帳が C1 の走査対象外)
     date: 2026-07-16
     origin: defect
-    status: filed  # 製造承認 2026-07-16(案3=verified 状態契約検査も採用)— 製造中
+    status: verified
     source: 保存形式レビュー(2026-07-16)所見1 の同根 — C1 は method/ のみ+safe_load 寛容性、C3(実台帳)も safe_load。transfer-04 4類型「存在 vs 完全性」(FINDINGS §11.4)の再演 — パース成功の存在で情報保存の完全性を代用していた
     order_ref: bomdd/60-change-order-eco-012.md
     affected_refs: [method/tools/self-conformance.py]
@@ -294,7 +294,7 @@ changes:
     diff_audit:
       baseline: bca04e4  # 起票時 a36e580 → 是正開始直前(gate 資料コミット)へ更新(製造承認 2026-07-16)
       allowed_paths: [method/tools/self-conformance.py]
-      # head: 製造前(未着手)— 是正後に diff 監査して設定
+      head: "9c29e16"  # diff監査済み: 窓内は allowed_paths+台帳系(register/本 order)のみ・予測的中
     summary: >
       C1 は yaml.safe_load のパース成功のみを合格条件とし、PyYAML の既定挙動(重複キーの
       後勝ち上書き)による情報損失を検出しない。加えて C1 の走査対象は method/ に閉じ、
@@ -303,5 +303,10 @@ changes:
       含意しない。実害= ECO-011 の誤帰属が全検査 PASS のまま 5 日潜伏。是正案=重複キー
       検出つき厳格ローダーの共通化+検査対象を実台帳・生成後 scaffold へ拡張+変異テスト
       (意図的重複の陽性対照)。verified エントリの verification プレースホルダ検査
-      (C3 拡張)は gate で採否裁定。
-    verification: "(製造前 — 未実施)"
+      (C3 拡張)は gate で採否裁定 → 2026-07-16 gate で案 3 採用。
+    verification: >
+      V0=基線 fast 全 PASS(C1 18 件・既存判定不変)。V1=変異 A(重複キー注入)C1 FAIL。
+      V2=天然対照: git show 1016c1c: の是正前台帳を厳格ロード → 重複キー 'summary' line 239 を
+      検出・現台帳 PASS(ECO-011 是正との等価証明・ハッシュ固定で再実行可能)。V3〜V5=
+      変異 B/B2/B3(プレースホルダ偽装・空・窓開放)で C3 状態契約 3 面とも個別 FAIL。
+      accept: 本コミット(詳細は order 参照)。
