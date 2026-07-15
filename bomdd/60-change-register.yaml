@@ -346,7 +346,7 @@ changes:
     title: 正本↔派生↔テンプレの乖離を検出する検査が無い(C10 新設 — 参照スキーマの派生同期検査)
     date: 2026-07-16
     origin: defect
-    status: filed  # 製造承認 2026-07-16(所見2裁定「1はa、2はOK」の系列承認)— 製造中。ECO-013 verified 済みで順序依存充足
+    status: verified
     source: 保存形式レビュー(2026-07-16)所見2 の同根 — 派生 Schema の手管理が無検査(uiId の domain 欠落が検出されず残存)。ECO-011/012 と同型の対(データ是正→それを検出する検査)
     order_ref: bomdd/60-change-order-eco-014.md
     affected_refs: [method/tools/self-conformance.py]
@@ -354,7 +354,7 @@ changes:
     diff_audit:
       baseline: 1dab13f  # 起票時 71d6f5f → 是正開始直前(ECO-013 accept)へ更新(製造承認 2026-07-16)
       allowed_paths: [method/tools/self-conformance.py]
-      # head: 製造前(未着手)— 是正後に diff 監査して設定
+      head: "ca8da69"  # diff監査済み: 窓内は allowed_paths+台帳系(register/本 order)のみ・予測的中
     summary: >
       README は「id-grammar/ref-edges が正本・JSON Schema は導出」と宣言するが、導出の同期を
       検査する機械がなく、手管理の派生が無記録でズレる(uiId の domain 欠落が実害)。是正案=
@@ -364,4 +364,9 @@ changes:
       起点・Schema required の三者突合(二方言の判別込み)。(iii) 陽性対照の常設(inline の
       意図的乖離を毎回検出確認・環境非依存)。天然対照= git show 71d6f5f: の是正前 Schema
       (domain 欠落)をハッシュ固定で再実行可能に。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      V0=基線 fast 全 PASS(C10 込み・既存判定不変)。V1=変異 A(domain 除去)C10 FAIL —
+      初回は置換空振りの偽陰性を assert 追加で是正(変異テストは変異の適用自体を検証する・
+      order に正直記載)。V2=変異 B(mappings セレクタ潰し)方言被覆+テンプレ空振りの 2 面 FAIL。
+      V3=天然対照(git show 71d6f5f:)で uiId 乖離検出= ECO-013 是正との等価証明。
+      V4=復元後 fast 全 PASS。accept: 本コミット(詳細は order 参照)。
