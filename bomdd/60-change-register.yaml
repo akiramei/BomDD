@@ -258,7 +258,7 @@ changes:
     title: 台帳の重複キーによる情報損失 — ECO-009 の summary/verification が ECO-010 ブロックへ誤帰属+verified 3 件の verification 欄が製造前文言のまま
     date: 2026-07-16
     origin: defect
-    status: filed  # 起票のみ・gate(製造承認)待ち
+    status: verified
     source: 保存形式レビュー(2026-07-16)所見1 — safe_load の後勝ち上書きで全検査 PASS のまま情報損失。根因は当セッションの git 履歴解析で特定(fba7f1b が ECO-009 に付した summary/verification の直前へ 0fbc34a が ECO-010 を挿入)
     order_ref: bomdd/60-change-order-eco-011.md
     affected_refs: [bomdd/60-change-register.yaml]
@@ -266,7 +266,7 @@ changes:
     diff_audit:
       baseline: 1016c1c  # 起票時 a36e580 → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-16)
       allowed_paths: [bomdd/60-change-register.yaml]
-      # head: 製造前(未着手)— 是正後に diff 監査して設定
+      head: "ed5db16"  # diff監査済み: 窓内は allowed_paths+台帳系(本 order)のみ・予測的中
     summary: >
       ECO-010 のブロックに summary/verification が二重に存在(前者= ECO-010 正本、後者=
       ECO-009 の transfer-04 記録)。PyYAML safe_load は重複キーをエラーにせず後勝ち上書きするため、
@@ -276,7 +276,11 @@ changes:
       のみ。付随して accept 段が status/diff_audit.head の 2 行のみ書き換える様式だったため、
       verified 3 件(ECO-008/009/010)の verification 欄が「(製造前 — 未実施)」のまま残存 —
       実検証記録(bc27115/588af6d/b586cea+各 order)からの復元を本 ECO スコープに含める。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      V1= ID 単位の意味差分検査(対照= git show 1016c1c: でハッシュ固定・再実行可能スクリプトは
+      order 収載)で許容差分 4 点のみ・許容外 0 件・内容アサーション PASS。V2=同型全数走査で
+      重複キー 1→0。V3= verified の verification プレースホルダ 3→0。V4= self-conformance
+      全検査 PASS。accept: 本コミット(詳細は order 参照)。
 
   - id: ECO-012
     title: 自己適合ゲートの YAML 検査が構文成功のみで情報保存を検査しない(重複キーの沈黙上書きを PASS・実台帳が C1 の走査対象外)
