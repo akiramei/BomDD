@@ -1233,3 +1233,15 @@ watch 蓄積・ECO verified 後に判断)。
 - [open] EXP-20260716-06 — ECO-014 verified 後、正本↔派生↔テンプレの乖離が発生時点で C10 検出されるか(uiId 型の同期漏れ・空振りセレクタの再発ゼロ/陽性対照常設 FAIL)
   origin: native
   evidence: 本節・order-eco-014 是正方針案
+
+追記(2026-07-16 gate・所見2系列クローズ): 裁定=「1はa、2はOK」(両方言宣言採用+domain 追加
+承認)→ **ECO-013 verified**(ref-v0.9: Schema uiId domain〔ref-v0.3(c) 以来 13 日未同期〕+
+uiIrFile/uiTraceMapFile 両方言対応+ref-edges mappings[] エッジ 7 本+id-grammar 両方言
+defined_in。35b875a → fix 11424ca → accept 1dab13f。V1=乖離 1→0・V2=実物 4 ファイル両方言被覆)
+→ **ECO-014 verified**(C10 新設: ID 層突合+二方言被覆ピン+テンプレ空振り検査+陽性対照常設
+〔ID 層/構造層の両検出器を毎回確認〕。1dab13f → fix ca8da69 → accept b7fd34a。変異 A/B 個別
+FAIL・天然対照= 71d6f5f で uiId 乖離検出=等価証明)。EXP-20260716-06 は推移観測につき open 継続。
+
+- [watch 1/3] OBS-20260716-07 — 変異テストは変異の適用自体を検証する(置換・注入が空振りすると「変異未適用の偽陰性」を「検出漏れなし」と誤読する)— 変異治具に適用 assert を標準装備
+  source: ECO-014
+  evidence: order-eco-014 検証 V1(初回の置換エスケープ多重化で変異が no-op のまま C10 PASS → assert 追加で再実行・FAIL 確認)。陽性対照の規律(検出器自身の生存確認)を変異治具自身へ適用した形
