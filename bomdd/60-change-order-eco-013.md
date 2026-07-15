@@ -1,6 +1,6 @@
 # ECO-013 — 参照スキーマの正本/派生乖離(uiId の domain 欠落+ui-mock-extraction 族の二方言=同名異物)
 
-> 状態: **製造承認済み(2026-07-16)— 是正・検証実施**。verified 化は accept コミットで。
+> 状態: **verified(2026-07-16)**。fix= 11424ca・検証 V1〜V3 全 PASS・窓は accept で閉鎖。
 
 ## 起票(2026-07-16)
 

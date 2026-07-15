@@ -315,7 +315,7 @@ changes:
     title: 参照スキーマの正本/派生乖離 — uiId の domain 欠落+ui-mock-extraction 族の二方言(同名異物)で glob 束縛検査が沈黙
     date: 2026-07-16
     origin: defect
-    status: filed  # 製造承認 2026-07-16(裁定 1=a 両方言宣言・2=domain 追加)— 製造中
+    status: verified
     source: 保存形式レビュー(2026-07-16)所見2 — 起票時の全数走査で実相を確定(ID 層の乖離は uiId 1 系統のみ・構造層は二方言が ui-ir/ui-trace-map に系統的)
     order_ref: bomdd/60-change-order-eco-013.md
     affected_refs: [method/schemas/draft/id-grammar.draft.yaml, method/schemas/draft/ref-edges.draft.yaml, method/schemas/draft/bomdd-ref.draft.schema.json, method/schemas/draft/README.md]
@@ -323,7 +323,7 @@ changes:
     diff_audit:
       baseline: 35b875a  # 起票時 71d6f5f → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-16)
       allowed_paths: [method/schemas/draft/]
-      # head: 製造前(未着手)— 是正後に diff 監査して設定
+      head: "11424ca"  # diff監査済み: 窓内は allowed_paths+台帳系(register/本 order)のみ・予測的中
     summary: >
       全数走査の実測: (1) ID 層 — uiId の family_pattern(正本)は domain.* を許可するが派生
       JSON Schema の pattern に domain が無い(乖離はこの 1 系統のみ。tmpUiPartNo/anyKnownId/
@@ -335,7 +335,12 @@ changes:
       UI-CAD 方言側でセレクタが空振り=仮品番一意性・trace 参照の検査が沈黙(ref-v0.6
       「セレクタが配列をスキップ」と同族の 2 例目)。是正案=両方言宣言(実物が正・実物不変)
       +uiId へ domain 追加+ref-v0.9 版上げ。方言統一・改名分離は v2 域として見送り案。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      V1=全数走査の再実行で ID 層乖離 1→0 系統。V2=実物 4 ファイル(MoviePad ui-ir/trace-map・
+      ViewPrism2 ui-ir/trace-map)の実在キーが ref-edges セレクタ起点と交差=両方言被覆
+      (是正前は MoviePad 側 2 ファイルが空振り)。V3= self-conformance fast 全 PASS。
+      uiId の domain は ref-v0.3(c)(2026-07-03)以来 13 日未同期だった来歴を order に記録。
+      accept: 本コミット(詳細は order 参照)。
 
   - id: ECO-014
     title: 正本↔派生↔テンプレの乖離を検出する検査が無い(C10 新設 — 参照スキーマの派生同期検査)
