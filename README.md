@@ -1,5 +1,7 @@
 # BomDD — BOM-Driven Development 実証研究
 
+> 🧭 **進行中の BomDD プロジェクトに参加する人はまずここ** → [進行中プロジェクトへの参加(操作チェックリスト)](method/onboarding/joining-a-project.md)。協働の作法は [working-with-ai.md](method/onboarding/working-with-ai.md)。以下は研究リポとしての説明。
+
 ソフトウェアの「工業化」(設計BOM→製造BOM→保守BOM を貫く工程としてのソフトウェア開発)が
 成立するかを、既存アプリ [MoviePad](../MoviePad) の **BOM手法による再実装**を通じて検証する研究。
 

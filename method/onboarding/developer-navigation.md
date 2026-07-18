@@ -1,5 +1,8 @@
 # 開発者向けナビゲーション
 
+> **本書で頻出する BOM-DD PLM とは**: 台帳のつながり(仕様↔BOM↔検査↔変更)を機械検査する装置。指摘は `bomdd/plm-intake/` に作業票として届く。
+> **人間は直接操作しない** — 設計者 AI に「PLM で同期して」と依頼し、届いた指摘(CAND-xxx)の裁定だけを行う。
+
 この文書は、人間の開発者が「何をどこに置き、AI に何を渡し、いつ PLM で同期するか」を迷わないためのナビゲーションである。
 
 既存プロジェクトを新しい BomDD 方法論へ移行する場合は、まず [existing-project-migration.md](existing-project-migration.md) と [migration-checklist.md](migration-checklist.md) を使い、実装変更を始める前に棚卸し、source map、PLM 作業票を揃える。
