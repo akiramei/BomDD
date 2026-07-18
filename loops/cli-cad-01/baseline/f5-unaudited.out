@@ -1,0 +1,29 @@
+== worklist(open / watch)==
+native(新書式の新規): open 1 / watch 0 ・ migrated(期首移行残高): open 0 / watch 0
+
+ID                    状態            区分        発生          根拠 / 内容
+EXP-20260716-01       open          native    2026-07-02  20260716 — native の open 項目
+
+== actions due(要処理 — 記帳は正常)==
+(0 件)
+
+== validation warnings(記帳不整合)==
+(0 件)
+
+== legacy coverage ==
+境界の根拠: marker
+audited(棚卸し済み — 状態の正本は移行残高節): 1 節
+unaudited(境界以後に増えた未構造化節 — 逸脱・要棚卸し):
+- L13: 2026-07-03 後置 legacy 節(F5)— 逸脱
+
+== stats ==
+sections_scanned: 3
+structured_sections: 1
+audited_legacy_sections: 1
+unaudited_legacy_sections: 1
+open_items: 1(native 1 / migrated 0)
+watch_items: 0(native 0 / migrated 0)
+actions_due: 0
+closed_items: 0(recovered/withdrawn/superseded)
+validation_warnings: 0
+elapsed_ms: 0
