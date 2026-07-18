@@ -6,7 +6,7 @@
 |---|---|---|---|---|
 | CAD 設計者=観測者(同一人格・交絡は §3 に記帳) | Anthropic / claude-fable-5 | claude-fable-5 | Claude Code(本セッション) | n/a |
 | 独立検査官 | Anthropic / (セッション継承) | claude-fable-5(継承) | Claude Code Agent(general-purpose・fresh 文脈) | 隔離 dir+指示ベース遮断 |
-| 製造工場 | OpenAI / (codex プラグイン既定) | **gpt-5.6-sol**(~/.codex/sessions 2026-07-18 rollout の model フィールド。サーバ側の最終確認は unknown) | Codex CLI(codex:codex-rescue 経由・task-mrpylsw5-b46bg8) | 隔離 dir+指示ベース遮断 |
+| 製造工場 | OpenAI / (codex プラグイン既定) | クライアント/セッション記録上の resolved model = **gpt-5.6-sol**(~/.codex/sessions 2026-07-18 rollout の model フィールド)。**サーバ側最終到達は未確認** | Codex CLI(codex:codex-rescue 経由・task-mrpylsw5-b46bg8) | 隔離 dir+指示ベース遮断 |
 
 隔離の限界(protocol §3): 検査官・工場とも物理遮断ではない(リポ・web への到達可能性は残る)。
 指示+隔離 dir による遮断であり、「合格は弱く不合格は強い」片側検出器として扱う。
