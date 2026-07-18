@@ -1,0 +1,13 @@
+--- orig/f3
++++ repro/f3
+@@ -8,7 +8,9 @@
+ (0 件)
+ 
+ == legacy coverage ==
+-(棚卸し境界なし — 全 legacy 節が未棚卸し)
++境界なし・全 legacy 節が未棚卸し
++audited(棚卸し済み — 状態の正本は移行残高節): 0 節
++unaudited: 0 節
+ 
+ == stats ==
+ sections_scanned: 0

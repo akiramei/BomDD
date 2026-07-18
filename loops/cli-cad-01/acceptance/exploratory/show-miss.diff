@@ -1,0 +1,5 @@
+--- orig/show-miss
++++ repro/show-miss
+@@ -1 +1 @@
+-(not found: EXP-NOPE-99)
++not found: EXP-NOPE-99

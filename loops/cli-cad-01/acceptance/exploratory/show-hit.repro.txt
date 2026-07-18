@@ -1,0 +1,6 @@
+ID: EXP-20260601-01
+status: open
+origin: migrated
+body: 移行残高の open 項目
+section: 2026-07-01 移行残高(F1)
+evidence: 2026-06 節・観測1

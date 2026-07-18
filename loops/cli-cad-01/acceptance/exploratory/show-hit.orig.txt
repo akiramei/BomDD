@@ -1,0 +1,4 @@
+EXP-20260601-01  [open]  origin=migrated
+  L11: 移行残高の open 項目
+  evidence: 2026-06 節・観測1
+  節: 2026-07-01 移行残高(F1)(L9)

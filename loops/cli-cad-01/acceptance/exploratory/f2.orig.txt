@@ -1,0 +1,33 @@
+== worklist(open / watch)==
+native(新書式の新規): open 1 / watch 0 ・ migrated(期首移行残高): open 0 / watch 0
+
+ID                    状態            区分        発生          根拠 / 内容
+EXP-20260710-01       open          native    2026-07-02  20260710 — 正常項目(比較対照)
+
+== actions due(要処理 — 記帳は正常)==
+(0 件)
+
+== validation warnings(記帳不整合)==
+- L8 W4: watch の現在値 N/3 欠落: [watch]
+- L9 W3: recovered の日付または via <証拠> 欠落: [recovered 2026-07-11]
+- L10 W2: 不明な状態値 [pending](語彙: open/watch/recovered/withdrawn/superseded)
+- L11 W5: 状態マーカーのない追跡項目: EXP-20260710-05
+- L12 W6: 本文が「<ID> — <内容>」形式でない: EXP-20260710-06 -- 区切りが em ダッシュでない項目
+- L13 W1: ID 重複: EXP-20260710-01(L7, L13 — 状態遷移は行内書き換え・行の複製禁止)
+
+== legacy coverage ==
+境界の根拠: marker
+audited(棚卸し済み — 状態の正本は移行残高節): 0 節
+unaudited: 0 節
+
+== stats ==
+sections_scanned: 1
+structured_sections: 1
+audited_legacy_sections: 0
+unaudited_legacy_sections: 0
+open_items: 1(native 1 / migrated 0)
+watch_items: 0(native 0 / migrated 0)
+actions_due: 0
+closed_items: 1(recovered/withdrawn/superseded)
+validation_warnings: 6
+elapsed_ms: 0

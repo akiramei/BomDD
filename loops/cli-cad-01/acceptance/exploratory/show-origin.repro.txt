@@ -1,0 +1,5 @@
+ID: EXP-20260702-04
+status: open
+origin: native
+body: 移行節内だが native 上書きの項目
+section: 2026-07-01 移行残高(F1)

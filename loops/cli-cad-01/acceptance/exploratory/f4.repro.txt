@@ -1,0 +1,28 @@
+== worklist(open / watch)==
+native(新書式の新規): open 0 / watch 0 ・ migrated(期首移行残高): open 1 / watch 1
+- EXP-20260615-01 | open | migrated | 2026-07-01 | 20260615 — 移行残高の項目
+- OBS-20260615-02 | watch 1/3 | migrated | 2026-07-01 | 20260615 — 移行残高の watch
+
+== actions due(要処理 — 記帳は正常)==
+(0 件)
+
+== validation warnings(記帳不整合)==
+(0 件)
+
+== legacy coverage ==
+境界の根拠: migration-section(fallback)
+audited(棚卸し済み — 状態の正本は移行残高節): 1 節
+unaudited(未棚卸し — 要確認): 1 節
+- L12: 2026-07-05 旧節B — legacy(移行節のあと)
+
+== stats ==
+sections_scanned: 3
+structured_sections: 1
+audited_legacy_sections: 1
+unaudited_legacy_sections: 1
+open_items: 1(native 0 / migrated 1)
+watch_items: 1(native 0 / migrated 1)
+actions_due: 0
+closed_items: 0(recovered/withdrawn/superseded)
+validation_warnings: 0
+elapsed_ms: 0

@@ -1,0 +1,108 @@
+PASS f1/exit0
+PASS f1/stderr-empty
+PASS f1/headings-order
+FAIL f1/worklist-count-line
+     期待: 冒頭件数行 'native(新書式の新規): open 3 / watch 1 ・ migrated(期首移行残高): open 1 / watch 1'(§5)
+     実測: 'native(新書式の新規): open 4 / watch 1 ・ migrated(期首移行残高): open 1 / watch 1'
+PASS f1/worklist-appearance-order
+PASS f1/item-EXP-20260601-01
+PASS f1/item-OBS-20260601-02
+PASS f1/item-EXP-20260702-04
+PASS f1/item-EXP-20260702-01
+PASS f1/item-OBS-20260702-02
+PASS f1/item-EXP-20260702-06
+PASS f1/item-due-star
+PASS f1/worklist-excludes-closed
+FAIL f1/excluded-regions-not-parsed
+     期待: fence/blockquote/HTML コメント内の例示 ID は解析対象外(§3)
+     実測: 出現 ['EXP-99990101-01']
+PASS f1/actions-due-line
+PASS f1/warnings-zero
+PASS f1/legacy-basis-marker
+PASS f1/legacy-audited-1
+PASS f1/legacy-unaudited-zero
+FAIL f1/stats
+     期待: 10 キーをこの順・正確な書式で(§5。elapsed_ms は非負整数のみ検査=U4)
+     実測: 'open_items: 5(native 4 / migrated 1)' ≠ 期待 'open_items: 4(native 3 / migrated 1)'
+PASS f1full/exit0
+PASS f1full/stderr-empty
+PASS f1full/headings-order
+FAIL f1full/worklist-count-line
+     期待: 冒頭件数行 'native(新書式の新規): open 3 / watch 1 ・ migrated(期首移行残高): open 1 / watch 1'(§5)
+     実測: 'native(新書式の新規): open 4 / watch 1 ・ migrated(期首移行残高): open 1 / watch 1'
+PASS f1full/fulltext-EXP-20260601-01
+PASS f1full/fulltext-OBS-20260601-02
+PASS f1full/fulltext-EXP-20260702-04
+PASS f1full/fulltext-EXP-20260702-01
+PASS f1full/fulltext-OBS-20260702-02
+PASS f1full/fulltext-EXP-20260702-06
+PASS f2/exit0
+PASS f2/stderr-empty
+PASS f2/headings-order
+PASS f2/worklist-count-line
+PASS f2/item-normal-listed
+PASS f2/warned-lines-not-counted
+PASS f2/actions-due-zero
+PASS f2/warning-line-format
+PASS f2/warning-set
+PASS f2/warning-ascending
+PASS f2/legacy-basis-marker
+PASS f2/legacy-audited-0
+PASS f2/legacy-unaudited-zero
+PASS f2/stats
+PASS f3/exit0
+PASS f3/stderr-empty
+PASS f3/headings-order
+PASS f3/worklist-zero
+PASS f3/actions-due-zero
+PASS f3/warnings-zero
+PASS f3/legacy-no-boundary
+PASS f3/stats
+PASS f4/exit0
+PASS f4/stderr-empty
+PASS f4/headings-order
+PASS f4/worklist-count-line
+PASS f4/legacy-basis-fallback
+PASS f4/legacy-audited-1
+PASS f4/legacy-unaudited-enum
+PASS f4/stats
+PASS f5/exit0
+PASS f5/stderr-empty
+PASS f5/headings-order
+PASS f5/worklist-count-line
+PASS f5/legacy-basis-marker
+PASS f5/legacy-audited-1
+PASS f5/legacy-unaudited-enum
+PASS f5/stats
+PASS show-evidence/exit0
+PASS show-evidence/stderr-empty
+PASS show-evidence/content
+PASS show-source/exit0
+PASS show-source/stderr-empty
+PASS show-source/content
+PASS show-origin-override/exit0
+PASS show-origin-override/stderr-empty
+PASS show-origin-override/content
+PASS show-notfound/exit0
+PASS show-notfound/stderr-empty
+PASS show-notfound/content
+PASS show-no-id/exit0
+PASS show-no-id/stderr-empty
+PASS show-no-id/usage-one-line
+PASS missing-file/exit0
+PASS missing-file/stderr-empty
+PASS missing-file/path-in-stdout
+FAIL selftest/exit0
+     期待: exit code 0(§6-§7)
+     実測: exit code 1
+PASS selftest/stderr-empty
+FAIL selftest/pass-line
+     期待: 'selftest: PASS' を含む行(§7)
+     実測: "selftest: FAIL\r\n  open: expect 3 / got 4\r\n  native_active: expect 2 / got 3\r\n   (25, 'W4', 'watch の現在値 N/3 欠落: [watch]')\r\n   (26, 'W3', 'recovered の日付または via <証拠> 欠落: [recovered 2026-07-18]')\r\n   (27,"
+FAIL argparse/first-nonflag-is-path
+     期待: '--full <PATH>' でも PATH が解釈される(§2)
+     実測: rc=0 冒頭行='native(新書式の新規): open 4 / watch 1 ・ migrated(期首移行残高): open 1 / watch 1'
+FAIL path/relative-accepted
+     期待: 相対 PATH(cwd 基準)で同一結果(§8)
+     実測: rc=0 冒頭行='native(新書式の新規): open 4 / watch 1 ・ migrated(期首移行残高): open 1 / watch 1'
+ORACLE: FAIL (83/91)

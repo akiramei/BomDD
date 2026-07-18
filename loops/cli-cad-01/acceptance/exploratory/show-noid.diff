@@ -1,0 +1,5 @@
+--- orig/show-noid
++++ repro/show-noid
+@@ -1 +1 @@
+-usage: worklist.py show <ID> [path]
++usage: worklist.py show <ID> [PATH]

@@ -1,0 +1,25 @@
+== worklist(open / watch)==
+(0 件)
+
+== actions due(要処理 — 記帳は正常)==
+(0 件)
+
+== validation warnings(記帳不整合)==
+(0 件)
+
+== legacy coverage ==
+境界なし・全 legacy 節が未棚卸し
+audited(棚卸し済み — 状態の正本は移行残高節): 0 節
+unaudited: 0 節
+
+== stats ==
+sections_scanned: 0
+structured_sections: 0
+audited_legacy_sections: 0
+unaudited_legacy_sections: 0
+open_items: 0(native 0 / migrated 0)
+watch_items: 0(native 0 / migrated 0)
+actions_due: 0
+closed_items: 0(recovered/withdrawn/superseded)
+validation_warnings: 0
+elapsed_ms: 0

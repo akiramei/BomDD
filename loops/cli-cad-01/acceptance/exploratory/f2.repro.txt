@@ -1,0 +1,31 @@
+== worklist(open / watch)==
+native(新書式の新規): open 1 / watch 0 ・ migrated(期首移行残高): open 0 / watch 0
+- EXP-20260710-01 | open | native | 2026-07-02 | 20260710 — 正常項目(比較対照)
+
+== actions due(要処理 — 記帳は正常)==
+(0 件)
+
+== validation warnings(記帳不整合)==
+- L8 W4: watch state requires a one-digit N/3 value
+- L9 W3: closed state requires YYYY-MM-DD and 'via <evidence>'
+- L10 W2: unknown state value 'pending'
+- L11 W5: tracking item lacks a state marker
+- L12 W6: expected an exact '[state] ID — body' line
+- L13 W1: duplicate ID EXP-20260710-01 (first occurrence L7)
+
+== legacy coverage ==
+境界の根拠: marker
+audited(棚卸し済み — 状態の正本は移行残高節): 0 節
+unaudited: 0 節
+
+== stats ==
+sections_scanned: 1
+structured_sections: 1
+audited_legacy_sections: 0
+unaudited_legacy_sections: 0
+open_items: 1(native 1 / migrated 0)
+watch_items: 0(native 0 / migrated 0)
+actions_due: 0
+closed_items: 1(recovered/withdrawn/superseded)
+validation_warnings: 6
+elapsed_ms: 0

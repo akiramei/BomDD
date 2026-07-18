@@ -1,0 +1,1 @@
+error: input file not found: C:\Users\akira\AppData\Local\Temp\claude\C--Users-akira-source-repos-BomDD\25120b20-e51d-4f07-b946-71be6413bd8a\scratchpad\cli-cad-01\inspector\kit\fixtures\does-not-exist.md
