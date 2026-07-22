@@ -67,6 +67,11 @@ ebom:
           relation: satisfies
           evidence: bomdd/20-spec.md#<section>
           status: active
+      boundary_hypothesis:              # candidate(bdr-01 で効果実測中)— 迷った境界のみ任意記録
+                                        # 対象: 裁定が割れた/分割・結合双方に合理性/明示的な「切らない」判断/裁定時に見直し可能性を認識した境界
+        premise: ~                      # なぜこの責務は独立/同時に変わると判断したか
+        expected_change: ~              # 想定する要求変更と、現境界で受け止める範囲(根拠なき定量化はしない)
+        review_trigger: ~               # どの観測でこの境界判断を疑うか(実 ECO で 61 §3 の 4 値照合)
       unresolved_questions: []
 
     # UI surface の粒度例: HTMLタグではなく、表示契約と操作/状態を持つ単位にする

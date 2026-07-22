@@ -87,3 +87,7 @@
 - under-inclusion(影響なし予測が外れた箇所):
 - over-inclusion(影響ありとしたが変わらなかった箇所):
 - 粒度の観察(絞り込み効果が出たか):
+- BDR 照合(candidate・bdr-01): 変更品目が `boundary_hypothesis`(30-ebom)を持つ場合、実影響を
+  **想定範囲内 / 前提疑義 / 強度超過 / BDR で判定不能** の 4 値で記録する。見直し条件(review_trigger)に
+  該当したら境界再裁定 ECO を起票する(playbook §8.1 / E 層 lineage の既存経路。BDR 自体の採点=
+  照合コストと寄与の観測は loops/bdr-01 プロトコルへ記録):
