@@ -1,0 +1,61 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: Fixed Oracle          # ★設計者のみ。製造装置に渡さない
+
+# 規律(method-v1 §5 / observation-schema-candidates §4.2, §6):
+#   - 仕様化済み契約だけを合否に入れる(未規定次元は 42-exploratory-probes へ)
+#   - 製造開始前に凍結(frozen_since に commit/tag)。収束ループ中は不変(同一ヤードスティック)
+#   - 要求改訂で既存行の期待が無効になる場合は、行を書き換えず superseded_by_eco: <ECO-ID> を
+#     当該行に記録して新規行を追加する(回帰の歴史を保つ — transfer-03 還元・candidate)
+#   - プローブ→オラクル昇格は次ループの開始時のみ(study 途中で足さない)
+#   - 等価規則: 契約セマンティクスを比較、付随表現は ignores に明記(検査器自身の L0 回避)
+#   - フォワードでは期待値を仕様から導く。期待値が書けない行=仕様の穴(Phase 2 へ差し戻し)
+#   - 原典あり UI/帳票の表示パリティは、凍結前に仕様化した display_contract を検査する。
+#     凍結後のオラクルが原典を直接見て期待値を補うのは禁止(それは仕様漏れの隠蔽になる)。
+
+# 実行系の最小契約(candidate・transfer-01 T0 還元):
+#   オラクルの実行系(採点治具)は案件ごとに自作してよいが、次の 6 点を必ず定義する。
+#   実装形(言語・フレームワーク)は自由。手動検査(manual)への縮退は runner に手順を書き、
+#   縮退として charter に記録する(playbook §13「完了条件は治具の exit code で書く」の縮退)。
+#   1. fixture(入力)  2. 期待(契約期待値または不変条件)  3. 実行コマンドまたは手動手順
+#   4. 合否基準(exit code 規約: 0=全PASS / 非0=FAILあり を推奨)  5. 結果の記録先
+#   6. written_before_implementation(オラクル・ファーストの証跡)
+#
+# 記入済みの実例(小型 Web API 題材の 1 行):
+#   runner:
+#     command: python bomdd/jigs/run-oracle.py --cases bomdd/41-fixed-oracle.yaml --base-url http://localhost:8080
+#     pass_criterion: exit code 0(全 case PASS)。FAIL 詳細は結果 JSON に per-case で出力
+#     result_path: bomdd/plm-intake/sync-results/oracle-<loop>-<factory>.json
+#     written_before_implementation: true
+#   cases:
+#     - id: S1
+#       scenario: 承認者IDなしで申請をPOSTする(fixture: fixtures/missing-approver.json)
+#       contract_expectation: 400 + error code VALIDATION_ERROR + フィールド名を含むメッセージ
+#       spec_ref: 20-spec.md §3.2 / REQ-004
+#       equivalence_ref: EQ-001   # メッセージ文言の完全一致は比較しない(L0 回避)
+#       depth: L1
+
+fixed_oracle:
+  frozen_since: <commit/tag>
+  runner:
+    command: <実行コマンド。手動検査へ縮退する場合は手順を書き charter に記録>
+    pass_criterion: <合否基準(exit code 規約)>
+    result_path: <結果の記録先>
+    written_before_implementation: <true/false — オラクル・ファーストの証跡>
+  self_test: <治具セルフテストの方法と実施記録。凍結前に必須(フォワードは原版が無く治具が未検証のまま初回採点になる。forward-01 CHEAT-F01-H001)>
+  equivalence_rules:
+    - id: EQ-001
+      compares: [<契約セマンティクス 例 status code, error code, 状態遷移, 冪等の同一ID性>]
+      ignores: [<付随表現 例 JSON形状 map/array, キー綴り, ID 具体値, 日時の小数秒>]
+      normalization: <比較前の正規化>
+      rationale: <なぜ無視してよいか(契約に未規定/様式差)>
+
+  cases:
+    - id: S1
+      scenario: <決定的な入力(手順)>
+      contract_expectation: <仕様由来の期待(product behavior のみ)>
+      spec_ref: <期待値の典拠(仕様の節/REQ)>
+      display_contract_refs: []        # UI/帳票 surface の場合 DC/DE を参照
+      equivalence_ref: EQ-001
+      depth: L3

@@ -1,0 +1,114 @@
+{
+  "schema": "bomdd-legacy-wpf-ui-evidence/1.0",
+  "source_version": "Traggo v0.8.3 / 6321119c / Windows amd64 official binary",
+  "observation_index": {
+    "path": "bomdd/migration/current-observation-index.md",
+    "sha256": "99556b9171dee7d60308f9518d1700fa20de8cc4cd0463d9aa0ce6df097e1a5a"
+  },
+  "coverage_policy": {
+    "required_states": ["empty", "populated", "alternate-view"],
+    "minimum_width": 1024,
+    "minimum_height": 600
+  },
+  "observations": [
+    {
+      "id": "OBS-CURRENT-001",
+      "states": ["empty"],
+      "evidence": [
+        {
+          "id": "SHOT-001",
+          "kind": "screenshot",
+          "path": "bomdd/migration/evidence/current-ui/OBS-UI-001-timesheet-empty.jpg",
+          "sha256": "027f866840386c7c09f033136df3c653ded7d9bb874ec9c645f073e5e6a8be0e",
+          "media_type": "image/jpeg",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "SEM-001",
+          "kind": "execution-log",
+          "path": "bomdd/migration/evidence/baseline-build.log",
+          "sha256": "0a0195de96013aff05334825634f9880aff53688248c66f54136a9c738b926cf"
+        }
+      ],
+      "claims": [
+        {
+          "text": "empty List view and navigation are visible",
+          "supported_by": ["SHOT-001"]
+        },
+        {
+          "text": "frozen original instance started successfully",
+          "supported_by": ["SEM-001"]
+        }
+      ]
+    },
+    {
+      "id": "OBS-CURRENT-002",
+      "states": ["populated"],
+      "evidence": [
+        {
+          "id": "SHOT-002",
+          "kind": "screenshot",
+          "path": "bomdd/migration/evidence/current-ui/OBS-UI-002-timesheet-list.jpg",
+          "sha256": "3b5df570972bb731dceaf096709ec42b1c0a5bfc43bca37e5ff8a758ba2f5c4d",
+          "media_type": "image/jpeg",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "SEM-002",
+          "kind": "database",
+          "path": "bomdd/migration/evidence/baseline-db-observation.md",
+          "sha256": "fe9e7fe40f76568b8061bff15a4cc3d8793b720d137762c0b10bf081083afca9"
+        }
+      ],
+      "claims": [
+        {
+          "text": "populated List shows project:experiment and six seconds",
+          "supported_by": ["SHOT-002"]
+        },
+        {
+          "text": "matching tag and span rows exist",
+          "supported_by": ["SEM-002"]
+        }
+      ]
+    },
+    {
+      "id": "OBS-CURRENT-003",
+      "states": ["alternate-view"],
+      "evidence": [
+        {
+          "id": "SHOT-003",
+          "kind": "screenshot",
+          "path": "bomdd/migration/evidence/current-ui/OBS-UI-003-timesheet-calendar.jpg",
+          "sha256": "de6eb9f42b7798b5c3d6f19e21c6d663bf2b1754f1c364a87618f80f9d5c63a9",
+          "media_type": "image/jpeg",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "DOM-003",
+          "kind": "dom",
+          "path": "bomdd/migration/evidence/current-ui/OBS-UI-003-calendar-dom.txt",
+          "sha256": "654135a3a3c1089f38f33638fb5026ce23ca698c3dcb3e5af2fcc5ba7ff60c31"
+        },
+        {
+          "id": "DB-003",
+          "kind": "database",
+          "path": "bomdd/migration/evidence/baseline-db-observation.md",
+          "sha256": "fe9e7fe40f76568b8061bff15a4cc3d8793b720d137762c0b10bf081083afca9"
+        }
+      ],
+      "claims": [
+        {
+          "text": "Calendar and week 13-19 Jul 2026 are visible",
+          "supported_by": ["SHOT-003"]
+        },
+        {
+          "text": "project:experiment START exists outside the captured viewport",
+          "supported_by": ["DOM-003", "DB-003"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: M-BOM
+
+# 受入3条件(method-v1 §3):
+#   完全性 = 全数値/全フィールドを規定(丸め・継承・既定値)
+#   無矛盾性 = AC 同士が矛盾しない(識別子ポリシー等)
+#   Control Plan 列 = 各 AC に深さ+許容差+承認者
+# FMEA を M-BOM 確定前に実施し、受入を狙い撃つ(Loop4)
+
+mbom:
+  manufacturing_units:
+    - id: M-<NAME>-001
+      name: <製造単位名>
+      purpose: <この単位で何を製造し、工程管理者が何を把握できるか>
+      lifecycle_state: draft            # draft | ready-for-plm | manufacturing-ready | retired
+      granularity:
+        level: unit
+        rationale: <独立に製造・自己受入・As-Built 記録できる理由>
+      ebom_refs:
+        - E-<NAME>-001
+      kbom_refs: []
+      artifact:
+        path: <例 src/Project.Core>
+        type: <例 dotnet-classlib>
+      planned_output_artifact_ref: <例 src/Project.Core>
+      interface_contract:               # 公開契約(表面ユニットは特に厚く)
+        <key>: <value>
+      display_contract:                 # UI/帳票 surface の場合(30-ebom.yaml display_contracts から転記)
+        refs:
+          - DC-<SCREEN>-001
+        required_elements:
+          - DE-001                      # サムネイル/ファイル名/状態表示など。欠落は仕様 omission として扱う
+      invariants:                       # 関係の不変条件。中身はドメイン固有(CHEAT-008)
+        - <例 シーク後の音声時刻は絶対時刻基準(seekBase)>
+        - <例 booking id は bk_ prefix + 16hex の内容ハッシュ>
+      acceptance_refs:
+        - CP-<NAME>-001
+      fmea_refs:
+        - FMEA-001
+      depends_on: []
+      routing_refs:
+        - ROUTE-MANUFACTURE-<NAME>-001
+      trace_links:
+        - trace_id: TL-E-M-001
+          from: E-<NAME>-001
+          to: M-<NAME>-001
+          relation: realizes
+          evidence: bomdd/32-mbom.yaml
+          status: active
+      unresolved_questions: []
+
+    - id: M-ACCEPTANCE-HARNESS-001     # 治具は製品と同格に管理(Loop2.5,3,5)
+      name: Acceptance harness
+      purpose: Produce and maintain the acceptance fixture used by Control Plan rows.
+      lifecycle_state: draft
+      artifact:
+        path: <例 test/Project.Acceptance>
+        type: <例 dotnet-console-acceptance>
+      planned_output_artifact_ref: <例 test/Project.Acceptance>
+      verifies:
+        - M-<NAME>-001
+      acceptance_refs:
+        - CP-HARNESS-SELFTEST-001
+
+# 調達部品表(製造業 M-BOM の購入部品に相当 — gap-analysis §B1)
+# ここに無いパッケージを使う判断は ずる報告対象(work order に明示)。
+# 本物の SBOM(Software Bill of Materials)・ライセンス管理への輸出元になる
+procurement:
+  - package: <例 Microsoft.Data.Sqlite>
+    version: <固定バージョン or 範囲(固定方針を明記)>
+    rationale: <選定理由>
+    license: <SPDX id(例 MIT)>        # 非挙動劣化の watch 対象 — 53 の license_watch と対
+    substitutable: false                # 方針: 工場が同等品へ代替してよいか(ADR 固定なら false)。交換コストではない — コストの実測は 53 の measured_leak(sbom-vendor-leak-01/02: 宣言 false でも実測最軽量の部品が実在)
+    identifier_set: ["<パッケージ名>", "<名前空間>", "<型 prefix 正規表現>"]   # vendor leak 測定の前提(部品ファミリ名でなく固有識別子 — エンジンとプロバイダは別品目)。構文が部品名を運ばない部品(拡張メソッド等)は not-greppable と宣言し境界 interface を明記
+    kbom_ref: K-<NAME>-001
+    service_bom_ref: SB-<NAME>-001
+    retirement_condition: ~             # 恒久でない調達(例: 脆弱性対応の推移的依存上書き)は退役条件を明記(forward-03。Service BOM の watch 項目になる)
+
+fmea:
+  - fmea_id: FMEA-001
+    unit: M-<NAME>-001
+    failure_mode: <故障モード(Phase 1 の反例を種に)>
+    effect: <影響>
+    targeted_by: CP-<NAME>-001          # この故障を狙い撃つ受入
+
+# 沈黙次元の第2回掃討(silence-checklist 全行。未宣言=ずるの温床)
+# ここでは deferred-to-phase3 は使えない。第1回掃討(20-spec.md §4)の
+# deferred 行を含む全行を specified / exploratory / out-of-scope に解消する
+silence_sweep:
+  - dimension: 表示要素集合・原典表示パリティ
+    decision: specified
+    where: 30-ebom.yaml display_contracts / CP-<NAME>-DISPLAY-001
+    note: <原典の提示要素を全列挙し、対象外は理由付きで記録>
+  - dimension: 丸め方式
+    decision: specified                 # specified | exploratory | out-of-scope
+    where: M-<NAME>-001 invariants
+    note: <例 MidpointRounding.AwayFromZero>
+  - dimension: 応答フィールド集合
+    decision: exploratory
+    note: <例 createdAt の有無は固定しない。probe P-03 で観測>
+
+# PLM-ready checklist:
+#   - 各 manufacturing_unit は ebom_refs / planned_output_artifact_ref / acceptance_refs / routing_refs を持つ
+#   - procurement に無い外部依存は Work Order のずる報告対象
+#   - silence_sweep に deferred-to-phase3 は残さない
+#   - acceptance harness も製品と同格の M-BOM unit として扱う

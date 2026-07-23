@@ -1,0 +1,54 @@
+{
+  "schema": "bomdd-legacy-wpf-gate-result/1.2",
+  "gate": {
+    "id": "MIG-00",
+    "name": "移行開始可能",
+    "result": "pass",
+    "checked_at": "2026-07-19T11:29:55Z"
+  },
+  "checks": [
+    {
+      "id": "ART:ART-CHARTER",
+      "description": "bomdd/00-charter.md",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "ART:ART-PROFILE",
+      "description": "bomdd/migration/migration-profile.json",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "ART:ART-ROLES",
+      "description": "bomdd/migration/responsibility-matrix.md",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "APPROVAL:Migration Owner",
+      "description": "MIG-00 approval by Migration Owner",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "EXCEPTION-SEALS",
+      "description": "exception open/resolution records and evidence retain their recorded contents",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "ACTIVE-BLOCKERS",
+      "description": "active blockers are zero",
+      "result": "pass",
+      "problems": []
+    }
+  ],
+  "decision": {
+    "status": "advance",
+    "remain_at": null,
+    "resume_from": null,
+    "change_candidates": [],
+    "active_change_id": null
+  }
+}

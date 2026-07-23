@@ -1,0 +1,116 @@
+{
+  "schema": "bomdd-legacy-wpf-ui-evidence/1.0",
+  "source_version": "Traggo v0.8.3 / 6321119c / PostgreSQL 16.14",
+  "observation_index": {
+    "path": "bomdd/migration/current-observation-index.md",
+    "sha256": "cff8ad1d3098c39fe46f6ba64a7229755e155992f20634e516e10fd123616eb1"
+  },
+  "coverage_policy": {
+    "required_states": ["empty", "populated", "alternate-view"],
+    "minimum_width": 1024,
+    "minimum_height": 600
+  },
+  "observations": [
+    {
+      "id": "OBS-CURRENT-001",
+      "states": ["empty"],
+      "evidence": [
+        {
+          "id": "SHOT-PG-LOGIN-001",
+          "kind": "screenshot",
+          "path": "bomdd/migration/evidence/current-ui/OBS-PG-LOGIN-001.jpg",
+          "sha256": "8a7395045217b394a768a01f3e3ae9962d2f9e7edc47dcf1006521e514d5110b",
+          "media_type": "image/jpeg",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "SEM-PG-LOGIN-001",
+          "kind": "dom",
+          "path": "bomdd/migration/evidence/current-ui/OBS-PG-LOGIN-001.md",
+          "sha256": "fdd1975ea5695c7423e6d1bdfc24c0f0311141205ec05b3798c2efd01231c39d"
+        }
+      ],
+      "claims": [
+        {
+          "text": "Login form and frozen version boundary are visible",
+          "supported_by": ["SHOT-PG-LOGIN-001", "SEM-PG-LOGIN-001"]
+        }
+      ]
+    },
+    {
+      "id": "OBS-CURRENT-002",
+      "states": ["populated"],
+      "evidence": [
+        {
+          "id": "SHOT-PG-LIST-001",
+          "kind": "screenshot",
+          "path": "bomdd/migration/evidence/current-ui/OBS-PG-LIST-001.jpg",
+          "sha256": "55ba35b19ebebd31f9b459af57d752da310feef4ef90b40fda3687d2472eb0f5",
+          "media_type": "image/jpeg",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "SEM-PG-LIST-001",
+          "kind": "dom",
+          "path": "bomdd/migration/evidence/current-ui/OBS-PG-LIST-001.md",
+          "sha256": "03f7c9bf56425c98a090c01b515811c445ee0f2708e4e4a7096dfa766137124d"
+        },
+        {
+          "id": "DB-PG-LIST-001",
+          "kind": "database",
+          "path": "bomdd/migration/evidence/baseline-db-observation.md",
+          "sha256": "91244b8e2b88ab353671bb5c4e6d862bdcbf1ebdbd1529c8a38c7a455b1344ab"
+        }
+      ],
+      "claims": [
+        {
+          "text": "project:experiment and the completed span are visible",
+          "supported_by": ["SHOT-PG-LIST-001", "SEM-PG-LIST-001"]
+        },
+        {
+          "text": "the visible tag and span have matching restored database rows",
+          "supported_by": ["SEM-PG-LIST-001", "DB-PG-LIST-001"]
+        }
+      ]
+    },
+    {
+      "id": "OBS-CURRENT-003",
+      "states": ["alternate-view"],
+      "evidence": [
+        {
+          "id": "SHOT-PG-CALENDAR-001",
+          "kind": "screenshot",
+          "path": "bomdd/migration/evidence/current-ui/OBS-PG-CALENDAR-001.jpg",
+          "sha256": "de6eb9f42b7798b5c3d6f19e21c6d663bf2b1754f1c364a87618f80f9d5c63a9",
+          "media_type": "image/jpeg",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "SEM-PG-CALENDAR-001",
+          "kind": "dom",
+          "path": "bomdd/migration/evidence/current-ui/OBS-PG-CALENDAR-001.md",
+          "sha256": "04889a2a605a9a41340aa0f437a3f6e83d384699e100b3213132c0f07df7ccd7"
+        },
+        {
+          "id": "DB-PG-CALENDAR-001",
+          "kind": "database",
+          "path": "bomdd/migration/evidence/baseline-db-observation.md",
+          "sha256": "91244b8e2b88ab353671bb5c4e6d862bdcbf1ebdbd1529c8a38c7a455b1344ab"
+        }
+      ],
+      "claims": [
+        {
+          "text": "Calendar alternate view and week 13-19 Jul 2026 are visible",
+          "supported_by": ["SHOT-PG-CALENDAR-001", "SEM-PG-CALENDAR-001"]
+        },
+        {
+          "text": "the recorded event state exists in DOM and restored rows",
+          "supported_by": ["SEM-PG-CALENDAR-001", "DB-PG-CALENDAR-001"]
+        }
+      ]
+    }
+  ]
+}

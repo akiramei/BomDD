@@ -1,0 +1,59 @@
+{
+  "schema": "bomdd-legacy-wpf-baseline-fixture/1.0",
+  "fixture_id": "TRAGGO-BASELINE-001",
+  "engine": "sqlite",
+  "source_snapshot": "2026-07-19T02:46:48Z",
+  "working_copy_policy": "copy-per-test",
+  "fixture": {
+    "path": "fixtures/baseline/traggo.db",
+    "sha256": "308b5feebc0eed2be1ac781698f20bee2fd771fbd61a298e8e5f4e1544237458",
+    "immutable_baseline": true
+  },
+  "restore_copy": {
+    "path": "fixtures/restore-control/traggo.db",
+    "sha256": "308b5feebc0eed2be1ac781698f20bee2fd771fbd61a298e8e5f4e1544237458"
+  },
+  "baseline_document": {
+    "path": "bomdd/migration/db-baseline.md",
+    "sha256": "6db0086e81c69239ec7b2832ad5ee931cb75fa92c03bb8c728c8f5764a09231e"
+  },
+  "schema_evidence": {
+    "path": "bomdd/migration/evidence/baseline-schema.sql",
+    "sha256": "dd5179a4c76f010a8ccc2705233bbedf1439ee471751cd729cad90c820796b73",
+    "normalized_schema_sha256": "b74799d39cabfc458d18beed7c92d1401bc4fafed04267e7701d01bf57d8d804"
+  },
+  "observation_evidence": [
+    {
+      "path": "bomdd/migration/evidence/baseline-db-observation.md",
+      "sha256": "fe9e7fe40f76568b8061bff15a4cc3d8793b720d137762c0b10bf081083afca9"
+    }
+  ],
+  "expected_checks": {
+    "integrity_check": "ok",
+    "foreign_key_violations": 0,
+    "restore_result": "pass",
+    "restored_sha256": "308b5feebc0eed2be1ac781698f20bee2fd771fbd61a298e8e5f4e1544237458"
+  },
+  "canonical_queries": [
+    {
+      "id": "APPLICATION-TABLE-COUNTS",
+      "sql": "SELECT (SELECT COUNT(*) FROM users),(SELECT COUNT(*) FROM tag_definitions),(SELECT COUNT(*) FROM time_spans),(SELECT COUNT(*) FROM time_span_tags),(SELECT COUNT(*) FROM devices),(SELECT COUNT(*) FROM user_settings),(SELECT COUNT(*) FROM dashboards),(SELECT COUNT(*) FROM dashboard_entries),(SELECT COUNT(*) FROM dashboard_ranges),(SELECT COUNT(*) FROM dashboard_tag_filters)",
+      "expected_rows": [[1, 1, 1, 1, 1, 0, 0, 0, 0, 0]]
+    },
+    {
+      "id": "VISIBLE-TAG",
+      "sql": "SELECT key,user_id,color FROM tag_definitions ORDER BY key,user_id",
+      "expected_rows": [["project", 1, "#e6b3b3"]]
+    },
+    {
+      "id": "VISIBLE-SPAN",
+      "sql": "SELECT id,start_utc,end_utc,start_user_time,end_user_time,offset_utc,user_id,note FROM time_spans ORDER BY id",
+      "expected_rows": [[1, "2026-07-19 02:46:42+00:00", "2026-07-19 02:46:48+00:00", "2026-07-19 11:46:42+00:00", "2026-07-19 11:46:48+00:00", 32400, 1, ""]]
+    },
+    {
+      "id": "VISIBLE-TAG-VALUE",
+      "sql": "SELECT time_span_id,key,string_value FROM time_span_tags ORDER BY time_span_id,key",
+      "expected_rows": [[1, "project", "experiment"]]
+    }
+  ]
+}

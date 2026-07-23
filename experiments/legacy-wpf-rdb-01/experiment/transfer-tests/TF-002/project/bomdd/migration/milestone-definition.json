@@ -1,0 +1,234 @@
+{
+  "schema": "bomdd-legacy-wpf-milestones/1.2",
+  "scenario_id": "legacy-wpf-rdb",
+  "decision_sets": [
+    {
+      "id": "DECSET-DB-COMPATIBILITY",
+      "due_milestone": "MIG-30",
+      "artifact_id": "ART-DB-TECH-DECISIONS",
+      "path": "bomdd/migration/decisions/MIG-30-db-technical-decisions.json",
+      "decisions": [
+        {"id": "DEC-DB-SEMANTICS", "owner": "DB Custodian", "topic": "transaction, isolation, timeout, retry, null, collation, time and decimal semantics"}
+      ]
+    },
+    {
+      "id": "DECSET-IMPLEMENTATION",
+      "due_milestone": "MIG-40",
+      "artifact_id": "ART-IMPLEMENTATION-DECISIONS",
+      "path": "bomdd/migration/decisions/MIG-40-implementation-decisions.json",
+      "decisions": [
+        {"id": "DEC-DOTNET", "owner": "WPF Technical Owner", "topic": ".NET line and servicing policy"},
+        {"id": "DEC-WINDOWS", "owner": "WPF Technical Owner", "topic": "supported Windows versions and CPU architecture"},
+        {"id": "DEC-ARCH", "owner": "WPF Technical Owner", "topic": "View/ViewModel/Application/Domain/Persistence responsibility boundaries"},
+        {"id": "DEC-DI", "owner": "WPF Technical Owner", "topic": "dependency injection, configuration, logging and exception handling"},
+        {"id": "DEC-DB-PROVIDER", "owner": "WPF Technical Owner", "topic": "RDB provider and data access style"},
+        {"id": "DEC-TEST", "owner": "Acceptance Owner", "topic": "unit, integration, UI and acceptance test entry points"}
+      ]
+    },
+    {
+      "id": "DECSET-DEPLOYMENT",
+      "due_milestone": "MIG-80",
+      "artifact_id": "ART-DEPLOYMENT-DECISIONS",
+      "path": "bomdd/migration/decisions/MIG-80-deployment-decisions.json",
+      "decisions": [
+        {"id": "DEC-PACKAGING", "owner": "WPF Technical Owner", "topic": "packaging, signing, installation and update"}
+      ]
+    }
+  ],
+  "status_vocabulary": [
+    "missing",
+    "present",
+    "complete",
+    "connected",
+    "verified",
+    "accepted",
+    "not-applicable"
+  ],
+  "milestones": [
+    {
+      "id": "MIG-00",
+      "name": "移行開始可能",
+      "entry_step": "STEP-001",
+      "entry_action": "シナリオを有効化し、移行憲章、移行プロファイル、責任者表を確定する",
+      "next_milestone": "MIG-10",
+      "required_artifacts": [
+        {"id": "ART-CHARTER", "path": "bomdd/00-charter.md"},
+        {"id": "ART-PROFILE", "path": "bomdd/migration/migration-profile.json"},
+        {"id": "ART-ROLES", "path": "bomdd/migration/responsibility-matrix.md"}
+      ],
+      "required_approvals": ["Migration Owner"]
+    },
+    {
+      "id": "MIG-10",
+      "name": "現行基準線確定",
+      "entry_step": "STEP-011",
+      "entry_action": "現行版、再現ビルド、実行環境、DB基準線、現行観測を凍結する",
+      "next_milestone": "MIG-20",
+      "required_artifacts": [
+        {"id": "ART-BASELINE", "path": "bomdd/migration/current-baseline.md"},
+        {"id": "ART-BUILD-LOG", "path": "bomdd/migration/evidence/baseline-build.log"},
+        {
+          "id": "ART-DB-BASELINE",
+          "path": "bomdd/migration/db-baseline.md",
+          "semantic_validation": {
+            "type": "baseline-fixture-manifest",
+            "manifest": "bomdd/migration/evidence/baseline-fixture-manifest.json"
+          }
+        },
+        {
+          "id": "ART-CURRENT-OBS",
+          "path": "bomdd/migration/current-observation-index.md",
+          "semantic_validation": {
+            "type": "ui-evidence-manifest",
+            "manifest": "bomdd/migration/evidence/current-ui-evidence-manifest.json"
+          }
+        }
+      ],
+      "required_approvals": ["Migration Owner", "DB Custodian", "UI Approver"]
+    },
+    {
+      "id": "MIG-20",
+      "name": "棚卸し完了",
+      "entry_step": "STEP-021",
+      "entry_action": "既存成果物、機能、UI、DB object、外部依存を全数化する",
+      "next_milestone": "MIG-30",
+      "required_artifacts": [
+        {"id": "ART-MIGRATION-INVENTORY", "path": "bomdd/plm-intake/migration-inventory.md"},
+        {"id": "ART-SOURCE-MAP", "path": "bomdd/plm-intake/source-map.md"},
+        {"id": "ART-FEATURE-INVENTORY", "path": "bomdd/migration/feature-inventory.md"},
+        {"id": "ART-UI-INVENTORY", "path": "bomdd/migration/ui-inventory.md"},
+        {"id": "ART-DB-OBJECT-INVENTORY", "path": "bomdd/migration/db-object-inventory.md"},
+        {"id": "ART-EXTERNAL-INVENTORY", "path": "bomdd/migration/external-dependency-inventory.md"}
+      ],
+      "required_approvals": ["Migration Owner"]
+    },
+    {
+      "id": "MIG-30",
+      "name": "現行契約復元完了",
+      "entry_step": "STEP-030",
+      "entry_action": "DB観測と棚卸しを入力に、DB互換性の技術判断を責任者が固定する",
+      "next_milestone": "MIG-40",
+      "required_decision_sets": ["DECSET-DB-COMPATIBILITY"],
+      "required_artifacts": [
+        {"id": "ART-DB-TECH-DECISIONS", "path": "bomdd/migration/decisions/MIG-30-db-technical-decisions.json"},
+        {"id": "ART-REQUIREMENTS", "path": "bomdd/10-requirements.yaml"},
+        {"id": "ART-SPEC", "path": "bomdd/20-spec.md"},
+        {"id": "ART-DISPLAY-CONTRACT", "path": "bomdd/migration/display-contract.md"},
+        {"id": "ART-DB-COMPATIBILITY", "path": "bomdd/migration/db-compatibility-contract.md"},
+        {"id": "ART-SPEC-RULINGS", "path": "bomdd/migration/spec-rulings.md"}
+      ],
+      "required_approvals": ["Specification Owner", "DB Custodian", "UI Approver"]
+    },
+    {
+      "id": "MIG-40",
+      "name": "BomDD設計完了",
+      "entry_step": "STEP-040",
+      "entry_action": "仕様復元結果を入力に、WPF実装の技術判断を責任者が固定する",
+      "next_milestone": "MIG-50",
+      "required_decision_sets": ["DECSET-DB-COMPATIBILITY", "DECSET-IMPLEMENTATION"],
+      "required_artifacts": [
+        {"id": "ART-IMPLEMENTATION-DECISIONS", "path": "bomdd/migration/decisions/MIG-40-implementation-decisions.json"},
+        {"id": "ART-EBOM", "path": "bomdd/30-ebom.yaml"},
+        {"id": "ART-KBOM", "path": "bomdd/31-kbom.yaml"},
+        {"id": "ART-MBOM", "path": "bomdd/32-mbom.yaml"},
+        {"id": "ART-CONTROL-PLAN", "path": "bomdd/33-control-plan.yaml"},
+        {"id": "ART-ROUTING", "path": "bomdd/34-routing.yaml"},
+        {"id": "ART-TRACE-AUDIT", "path": "bomdd/migration/evidence/trace-audit.json"}
+      ],
+      "required_approvals": ["WPF Technical Owner", "Acceptance Owner"]
+    },
+    {
+      "id": "MIG-50",
+      "name": "製造準備完了",
+      "entry_step": "STEP-051",
+      "entry_action": "移行スライス、Work Order、固定オラクル、DB保全オラクルを凍結・較正する",
+      "next_milestone": "MIG-60",
+      "required_decision_sets": ["DECSET-DB-COMPATIBILITY", "DECSET-IMPLEMENTATION"],
+      "required_artifacts": [
+        {"id": "ART-WORK-ORDER", "path": "bomdd/40-work-order.md"},
+        {"id": "ART-FIXED-ORACLE", "path": "bomdd/41-fixed-oracle.yaml"},
+        {"id": "ART-DB-ORACLE", "path": "bomdd/migration/db-preservation-oracle.md"},
+        {"id": "ART-CALIBRATION", "path": "bomdd/migration/evidence/oracle-calibration.json"},
+        {"id": "ART-SLICE-BACKLOG", "path": "bomdd/migration/slice-backlog.md"}
+      ],
+      "required_approvals": ["Acceptance Owner", "DB Custodian"]
+    },
+    {
+      "id": "MIG-60",
+      "name": "最小スライス合格",
+      "entry_step": "STEP-061",
+      "entry_action": "WPF walking skeletonから既存DB読取り、一覧表示、新旧比較、As-Builtまで一周する",
+      "next_milestone": "MIG-70",
+      "required_decision_sets": ["DECSET-DB-COMPATIBILITY", "DECSET-IMPLEMENTATION"],
+      "required_artifacts": [
+        {"id": "ART-WALKING-SKELETON", "path": "bomdd/migration/evidence/walking-skeleton-build.log"},
+        {"id": "ART-FIRST-DB-READ", "path": "bomdd/migration/evidence/first-slice-db-read.json"},
+        {"id": "ART-FIRST-UI-COMPARE", "path": "bomdd/migration/evidence/first-slice-ui-comparison.md"},
+        {"id": "ART-FIRST-AS-BUILT", "path": "bomdd/migration/first-slice-as-built.yaml"},
+        {"id": "ART-FIRST-CHEAT", "path": "bomdd/migration/first-slice-cheat-log.md"}
+      ],
+      "required_approvals": ["Acceptance Owner", "UI Approver"]
+    },
+    {
+      "id": "MIG-70",
+      "name": "機能移行完了",
+      "entry_step": "STEP-071",
+      "entry_action": "全スライスをas-builtまで閉じ、統合回帰と差分裁定を完了する",
+      "next_milestone": "MIG-80",
+      "required_decision_sets": ["DECSET-DB-COMPATIBILITY", "DECSET-IMPLEMENTATION"],
+      "required_artifacts": [
+        {"id": "ART-FEATURE-INDEX", "path": "bomdd/migration/feature-migration-index.md"},
+        {"id": "ART-INTEGRATION-RESULT", "path": "bomdd/migration/evidence/integration-acceptance.json"},
+        {"id": "ART-DIFF-REGISTER", "path": "bomdd/migration/difference-register.md"},
+        {"id": "ART-AS-BUILT", "path": "bomdd/50-as-built.yaml"}
+      ],
+      "required_approvals": ["Migration Owner", "Acceptance Owner", "DB Custodian", "UI Approver"]
+    },
+    {
+      "id": "MIG-80",
+      "name": "切替準備完了",
+      "entry_step": "STEP-080",
+      "entry_action": "統合結果を入力に、配布・署名・install・update方式を責任者が固定する",
+      "next_milestone": "MIG-90",
+      "required_decision_sets": ["DECSET-DB-COMPATIBILITY", "DECSET-IMPLEMENTATION", "DECSET-DEPLOYMENT"],
+      "required_artifacts": [
+        {"id": "ART-DEPLOYMENT-DECISIONS", "path": "bomdd/migration/decisions/MIG-80-deployment-decisions.json"},
+        {"id": "ART-CUTOVER-RUNBOOK", "path": "bomdd/migration/cutover-runbook.md"},
+        {"id": "ART-ROLLBACK-RUNBOOK", "path": "bomdd/migration/rollback-runbook.md"},
+        {"id": "ART-REHEARSAL", "path": "bomdd/migration/evidence/cutover-rehearsal.md"},
+        {"id": "ART-RESTORE-TEST", "path": "bomdd/migration/evidence/backup-restore-test.json"}
+      ],
+      "required_approvals": ["Migration Owner", "DB Custodian", "Acceptance Owner"]
+    },
+    {
+      "id": "MIG-90",
+      "name": "本番切替完了",
+      "entry_step": "STEP-091",
+      "entry_action": "承認済みRunbookで本番切替、smoke、DB照合、Go/rollback裁定を行う",
+      "next_milestone": "MIG-100",
+      "required_decision_sets": ["DECSET-DB-COMPATIBILITY", "DECSET-IMPLEMENTATION", "DECSET-DEPLOYMENT"],
+      "required_artifacts": [
+        {"id": "ART-GO-NOGO", "path": "bomdd/migration/evidence/go-no-go.json"},
+        {"id": "ART-PROD-SMOKE", "path": "bomdd/migration/evidence/production-smoke.json"},
+        {"id": "ART-PROD-RECONCILIATION", "path": "bomdd/migration/evidence/production-db-reconciliation.json"},
+        {"id": "ART-CUTOVER-DECISION", "path": "bomdd/migration/evidence/cutover-decision.json"}
+      ],
+      "required_approvals": ["Migration Owner", "DB Custodian", "Acceptance Owner"]
+    },
+    {
+      "id": "MIG-100",
+      "name": "安定運用移管完了",
+      "entry_step": "STEP-101",
+      "entry_action": "安定化観測、Service BOM、運用実演、旧系処置を完了する",
+      "next_milestone": null,
+      "required_decision_sets": ["DECSET-DB-COMPATIBILITY", "DECSET-IMPLEMENTATION", "DECSET-DEPLOYMENT"],
+      "required_artifacts": [
+        {"id": "ART-SERVICE-BOM", "path": "bomdd/53-service-bom.yaml"},
+        {"id": "ART-STABILIZATION", "path": "bomdd/migration/evidence/stabilization-report.md"},
+        {"id": "ART-OPERATIONS-HANDOVER", "path": "bomdd/migration/evidence/operations-handover.md"},
+        {"id": "ART-LEGACY-DISPOSITION", "path": "bomdd/migration/legacy-system-disposition.md"}
+      ],
+      "required_approvals": ["Migration Owner", "DB Custodian", "Acceptance Owner"]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "schema": "bomdd-legacy-wpf-baseline-fixture/1.1",
+  "fixture_id": "TRAGGO-PG-BASELINE-001",
+  "engine": "postgresql",
+  "source_snapshot": "2026-07-19T11:41:19Z",
+  "working_copy_policy": "restore-per-test",
+  "fixture": {
+    "path": "fixtures/baseline/traggo-postgresql.dump",
+    "sha256": "9b18cb620e0748cf7d103e50832f10aec184522b0eff13f563fc3f9ecef744d0",
+    "format": "postgresql-custom",
+    "immutable_baseline": true
+  },
+  "baseline_document": {
+    "path": "bomdd/migration/db-baseline.md",
+    "sha256": "cc555fc32342c7c01ebaff11326df5405f3eb4669fb00d6584dbf0c06589992f"
+  },
+  "schema_evidence": {
+    "path": "bomdd/migration/evidence/baseline-schema-extracted.sql",
+    "sha256": "24654ea7efb475000f295c1a1da2a294fa38db3453d3b689823b720401c6213c",
+    "normalized_schema_sha256": "eeaa4a0a9359c9083371a5e09e0fae7588704dd67cc8b57c186d0b9978e98fe6"
+  },
+  "restore_control": {
+    "database": "traggo_restore_control",
+    "evidence": {
+      "path": "bomdd/migration/evidence/postgresql-restore-observation.md",
+      "sha256": "a9a3459a092e8275ca10732022615f5a0312daaeed600c07e7447834a584b255"
+    }
+  },
+  "observation_evidence": [
+    {
+      "path": "bomdd/migration/evidence/baseline-db-observation.md",
+      "sha256": "91244b8e2b88ab353671bb5c4e6d862bdcbf1ebdbd1529c8a38c7a455b1344ab"
+    }
+  ],
+  "postgresql_client": {
+    "psql_path": "runtime/postgresql-16.14/pgsql/bin/psql.exe",
+    "psql_sha256": "ad41ece3493e7d1099047c4679c40827cc95e311ca81a356d30f1a83cf383013",
+    "pg_dump_path": "runtime/postgresql-16.14/pgsql/bin/pg_dump.exe",
+    "pg_dump_sha256": "c354d7dff443eafc8c2f7141245ff86d40f094857bafee176e44c132a99b7495",
+    "pg_restore_path": "runtime/postgresql-16.14/pgsql/bin/pg_restore.exe",
+    "pg_restore_sha256": "27a51e27253bc3e565127558136400608a62e392ca95b4858cbe7480fdda198c",
+    "credential_env": "BOMDD_POSTGRES_PASSWORD"
+  },
+  "connection": {
+    "host": "127.0.0.1",
+    "port": 55432,
+    "database": "traggo_restore_control",
+    "user": "traggo_validator",
+    "sslmode": "disable",
+    "connect_timeout_seconds": 5
+  },
+  "expected_checks": {
+    "restore_result": "pass",
+    "server_version_major": 16,
+    "default_transaction_read_only": "on",
+    "unvalidated_constraints": 0,
+    "invalid_indexes": 0
+  },
+  "canonical_queries": [
+    {
+      "id": "APPLICATION-TABLE-COUNTS",
+      "sql": "SELECT (SELECT COUNT(*) FROM users),(SELECT COUNT(*) FROM tag_definitions),(SELECT COUNT(*) FROM time_spans),(SELECT COUNT(*) FROM time_span_tags),(SELECT COUNT(*) FROM devices),(SELECT COUNT(*) FROM user_settings),(SELECT COUNT(*) FROM dashboards),(SELECT COUNT(*) FROM dashboard_entries),(SELECT COUNT(*) FROM dashboard_ranges),(SELECT COUNT(*) FROM dashboard_tag_filters)",
+      "expected_rows": [["1", "1", "1", "1", "0", "0", "0", "0", "0", "0"]]
+    },
+    {
+      "id": "VISIBLE-USER",
+      "sql": "SELECT id::text,name,admin::text FROM users ORDER BY id",
+      "expected_rows": [["1", "admin", "true"]]
+    },
+    {
+      "id": "VISIBLE-TAG",
+      "sql": "SELECT key,user_id::text,color FROM tag_definitions ORDER BY key,user_id",
+      "expected_rows": [["project", "1", "#e6b3b3"]]
+    },
+    {
+      "id": "VISIBLE-SPAN",
+      "sql": "SELECT id::text,start_utc::text,end_utc::text,start_user_time::text,end_user_time::text,offset_utc::text,user_id::text,note FROM time_spans ORDER BY id",
+      "expected_rows": [["1", "2026-07-19 20:41:05+09", "2026-07-19 20:41:19+09", "2026-07-20 05:41:05+09", "2026-07-20 05:41:19+09", "32400", "1", ""]]
+    },
+    {
+      "id": "VISIBLE-TAG-VALUE",
+      "sql": "SELECT time_span_id::text,key,string_value FROM time_span_tags ORDER BY time_span_id,key",
+      "expected_rows": [["1", "project", "experiment"]]
+    }
+  ]
+}

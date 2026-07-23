@@ -1,0 +1,17 @@
+Observed URL: http://127.0.0.1:3030/#/timesheet/calendar
+Observed at: 2026-07-19 11:46 JST
+Original: Traggo 0.8.3@6321119c
+
+Accessible DOM extract:
+- heading "Timesheet / Calendar"
+- button "prev"
+- button "next"
+- button "today" [disabled]
+- heading "Jul 13 – 19, 2026"
+- buttons "week", "5 day", "day"
+- calendar column headers: 13 Mon through 19 Sun
+- calendar event on 19 Sun: "project:experiment START"
+
+The fixed-height calendar scroll region placed the 11:46 event below the captured viewport.
+The PNG is retained as layout evidence; this DOM extract is the evidence for event presence.
+

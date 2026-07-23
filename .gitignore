@@ -19,3 +19,10 @@ plm-out/
 # 生成 PDF(source は docx/md を追跡・PDF は再生成物なので追跡しない)
 paper/*.pdf
 output/pdf/
+
+# experiments: 埋め込み移行ツールキットのコピー(正典は method/scenarios/legacy-to-wpf-rdb/)は
+# 追跡しない。各実験の固有証拠(BomDD 台帳・migration-status・evidence・logs・transfer-test 結果)は追跡する。
+experiments/**/migration/tools/
+experiments/**/migration/.templates/
+experiments/**/migration/guide/
+experiments/**/run-a1-kit/migration-runbook.md

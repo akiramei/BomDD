@@ -1,0 +1,19 @@
+{
+  "schema": "bomdd-migration-experiment-source-lock/1.1",
+  "repository": "https://github.com/traggo/server.git",
+  "tag": "v0.8.3",
+  "commit": "6321119c3c2d55f04e2e4967f6492aabd6067b76",
+  "release_asset": "https://github.com/traggo/server/releases/download/v0.8.3/traggo_0.8.3_windows_amd64.zip",
+  "release_asset_sha256": "a7cac6b591cf2a6122ecdebcae01cbfd3731e3afed2f13974dc040893a8cd8b7",
+  "license": "GPL-3.0",
+  "tracked_files": 272,
+  "postgresql": {
+    "version": "16.14",
+    "distribution": "EDB Windows x86-64 binaries",
+    "discovery_page": "https://www.postgresql.org/download/windows/",
+    "asset": "https://get.enterprisedb.com/postgresql/postgresql-16.14-1-windows-x64-binaries.zip",
+    "asset_size": 325739757,
+    "asset_sha256": "98af1417ba6a8dc30543e560e5407833a3b9e7cc7ed20e73b2006f3aa2f04663"
+  },
+  "retrieved_at": "2026-07-19"
+}

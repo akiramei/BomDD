@@ -1,0 +1,32 @@
+{
+  "schema": "bomdd-legacy-wpf-profile/1.1",
+  "product": "Traggo PostgreSQL Second Experiment",
+  "scenario": {
+    "id": "legacy-wpf-rdb",
+    "enabled": true,
+    "activated_at": "2026-07-19",
+    "approval_mode": "experimental-single-operator"
+  },
+  "constraints": {
+    "target_ui": "WPF",
+    "target_language": "C#",
+    "database_policy": "reuse-existing-schema",
+    "database_engine": "PostgreSQL 16.14",
+    "database_scope": "isolated client-server baseline only",
+    "production_database_tests": "forbidden",
+    "gate_database": "restore-control only",
+    "concurrent_writers": "single-writer",
+    "dual_write": "forbidden-unless-separate-approved-design",
+    "schema_migration_from_target": "forbidden",
+    "migration_refactoring": "out-of-scope"
+  },
+  "owners": {
+    "Migration Owner": "Experiment Operator (Codex)",
+    "Specification Owner": "Experiment Operator (Codex)",
+    "DB Custodian": "Experiment Operator (Codex)",
+    "WPF Technical Owner": "Experiment Operator (Codex)",
+    "UI Approver": "Experiment Operator (Codex)",
+    "Acceptance Owner": "Experiment Operator (Codex)",
+    "Migration Worker": "Experiment Operator (Codex)"
+  }
+}

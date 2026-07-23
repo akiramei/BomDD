@@ -1,0 +1,58 @@
+{
+  "schema": "bomdd-legacy-wpf-gate-result/1.0",
+  "gate": {
+    "id": "MIG-10",
+    "name": "現行基準線確定",
+    "result": "pass",
+    "checked_at": "2026-07-19T02:56:22Z"
+  },
+  "checks": [
+    {
+      "id": "ART:ART-BASELINE",
+      "description": "bomdd/migration/current-baseline.md",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "ART:ART-BUILD-LOG",
+      "description": "bomdd/migration/evidence/baseline-build.log",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "ART:ART-DB-BASELINE",
+      "description": "bomdd/migration/db-baseline.md",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "ART:ART-CURRENT-OBS",
+      "description": "bomdd/migration/current-observation-index.md",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "APPROVAL:Migration Owner",
+      "description": "MIG-10 approval by Migration Owner",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "APPROVAL:DB Custodian",
+      "description": "MIG-10 approval by DB Custodian",
+      "result": "pass",
+      "problems": []
+    },
+    {
+      "id": "ACTIVE-BLOCKERS",
+      "description": "active blockers are zero",
+      "result": "pass",
+      "problems": []
+    }
+  ],
+  "decision": {
+    "status": "advance",
+    "remain_at": null,
+    "resume_from": null
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "schema": "bomdd-legacy-wpf-profile/1.0",
+  "product": "Traggo WPF Migration Experiment",
+  "scenario": {
+    "id": "legacy-wpf-rdb",
+    "enabled": true,
+    "activated_at": "2026-07-19",
+    "approval_mode": "experimental-single-operator"
+  },
+  "constraints": {
+    "target_ui": "WPF",
+    "target_language": "C#",
+    "database_policy": "reuse-existing-schema",
+    "database_scope": "SQLite only",
+    "production_database_tests": "forbidden",
+    "concurrent_writers": "single-writer",
+    "dual_write": "forbidden",
+    "schema_migration_from_target": "forbidden",
+    "migration_refactoring": "out-of-scope"
+  },
+  "decisions": [
+    {
+      "id": "DEC-DOTNET",
+      "topic": ".NET line and servicing policy",
+      "value": ".NET 10 LTS; target net10.0-windows; use the latest approved 10.0 patch and review upgrade before 2028-11-14",
+      "owner": "WPF Technical Owner",
+      "decision_status": "decided",
+      "evidence": "https://dotnet.microsoft.com/en-us/platform/support/policy"
+    },
+    {
+      "id": "DEC-WINDOWS",
+      "topic": "supported Windows versions and CPU architecture",
+      "value": "Experiment support is Windows 11 x64 only; production support expansion requires a separate decision and test matrix",
+      "owner": "WPF Technical Owner",
+      "decision_status": "decided",
+      "evidence": "bomdd/migration/evidence/environment-inventory.md"
+    },
+    {
+      "id": "DEC-ARCH",
+      "topic": "View/ViewModel/Application/Domain/Persistence responsibility boundaries",
+      "value": "View(XAML) -> ViewModel -> Application use case -> Domain -> Persistence port; no SQL or domain decisions in View/ViewModel",
+      "owner": "WPF Technical Owner",
+      "decision_status": "decided",
+      "evidence": "bomdd/00-charter.md"
+    },
+    {
+      "id": "DEC-DI",
+      "topic": "dependency injection, configuration, logging, exception handling",
+      "value": "Microsoft.Extensions.DependencyInjection; JSON plus command-line configuration; Microsoft.Extensions.Logging; application-level fatal handler and use-case error mapping",
+      "owner": "WPF Technical Owner",
+      "decision_status": "decided",
+      "evidence": "bomdd/00-charter.md"
+    },
+    {
+      "id": "DEC-DB-PROVIDER",
+      "topic": "RDB provider and data access style",
+      "value": "Microsoft.Data.Sqlite with explicit parameterized SQL and hand-written row mapping; no EF migration and no schema creation",
+      "owner": "WPF Technical Owner",
+      "decision_status": "decided",
+      "evidence": "https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/"
+    },
+    {
+      "id": "DEC-DB-SEMANTICS",
+      "topic": "transaction, isolation, timeout, retry, null, collation, time and decimal semantics",
+      "value": "Single writer; explicit atomic transactions for multi-statement writes; foreign_keys=ON; busy timeout 5000 ms with no blind retry; preserve NULL and SQLite default collation; preserve UTC/user-time/offset columns without normalization",
+      "owner": "DB Custodian",
+      "decision_status": "decided",
+      "evidence": "bomdd/migration/db-baseline.md"
+    },
+    {
+      "id": "DEC-TEST",
+      "topic": "unit, integration, UI and acceptance test entry points",
+      "value": "xUnit domain/unit tests; integration tests against a fresh copy of baseline SQLite; UI smoke plus approved screenshot/interaction evidence; canonical SQL and DB integrity after writes",
+      "owner": "Acceptance Owner",
+      "decision_status": "decided",
+      "evidence": "experiment/experiment-protocol.md"
+    },
+    {
+      "id": "DEC-PACKAGING",
+      "topic": "packaging, signing, installation and update",
+      "value": "Self-contained win-x64 ZIP for the experiment; unsigned; manual replacement update; include GPL-3.0 license, notices, source offer/instructions, and rollback package",
+      "owner": "WPF Technical Owner",
+      "decision_status": "decided",
+      "evidence": "bomdd/00-charter.md"
+    }
+  ],
+  "owners": {
+    "Migration Owner": "Experiment Operator (Codex)",
+    "Specification Owner": "Experiment Operator (Codex)",
+    "DB Custodian": "Experiment Operator (Codex)",
+    "WPF Technical Owner": "Experiment Operator (Codex)",
+    "UI Approver": "Experiment Operator (Codex)",
+    "Acceptance Owner": "Experiment Operator (Codex)",
+    "Migration Worker": "Experiment Operator (Codex)"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "schema": "bomdd-legacy-wpf-technical-decisions/1.0",
+  "decision_set": "DECSET-IMPLEMENTATION",
+  "due_milestone": "MIG-40",
+  "decisions": [
+    {
+      "id": "DEC-DOTNET",
+      "topic": ".NET line and servicing policy",
+      "owner": "WPF Technical Owner",
+      "decision_status": "open",
+      "value": "UNDECIDED",
+      "decider": "UNASSIGNED",
+      "evidence": "",
+      "evidence_sha256": "",
+      "decided_at": "",
+      "legacy_value": ".NET 10 LTS; target net10.0-windows; use the latest approved 10.0 patch and review upgrade before 2028-11-14",
+      "legacy_evidence": "https://dotnet.microsoft.com/en-us/platform/support/policy",
+      "legacy_status": "decided"
+    },
+    {
+      "id": "DEC-WINDOWS",
+      "topic": "supported Windows versions and CPU architecture",
+      "owner": "WPF Technical Owner",
+      "decision_status": "decided",
+      "value": "Experiment support is Windows 11 x64 only; production support expansion requires a separate decision and test matrix",
+      "decider": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/evidence/environment-inventory.md",
+      "evidence_sha256": "b2b66bf1d29adc51e9607d4cc27e0d6d74f80b645228f06252952e1e7ed6bdb8",
+      "decided_at": "2026-07-19T08:07:07Z",
+      "imported_from": "migration-profile.json"
+    },
+    {
+      "id": "DEC-ARCH",
+      "topic": "View/ViewModel/Application/Domain/Persistence responsibility boundaries",
+      "owner": "WPF Technical Owner",
+      "decision_status": "decided",
+      "value": "View(XAML) -> ViewModel -> Application use case -> Domain -> Persistence port; no SQL or domain decisions in View/ViewModel",
+      "decider": "Experiment Operator (Codex)",
+      "evidence": "bomdd/00-charter.md",
+      "evidence_sha256": "f8aca0472e449d996215a71355befbcb7a580cecac43e6a5969829a4f61cf1ae",
+      "decided_at": "2026-07-19T08:07:07Z",
+      "imported_from": "migration-profile.json"
+    },
+    {
+      "id": "DEC-DI",
+      "topic": "dependency injection, configuration, logging and exception handling",
+      "owner": "WPF Technical Owner",
+      "decision_status": "decided",
+      "value": "Microsoft.Extensions.DependencyInjection; JSON plus command-line configuration; Microsoft.Extensions.Logging; application-level fatal handler and use-case error mapping",
+      "decider": "Experiment Operator (Codex)",
+      "evidence": "bomdd/00-charter.md",
+      "evidence_sha256": "f8aca0472e449d996215a71355befbcb7a580cecac43e6a5969829a4f61cf1ae",
+      "decided_at": "2026-07-19T08:07:07Z",
+      "imported_from": "migration-profile.json"
+    },
+    {
+      "id": "DEC-DB-PROVIDER",
+      "topic": "RDB provider and data access style",
+      "owner": "WPF Technical Owner",
+      "decision_status": "open",
+      "value": "UNDECIDED",
+      "decider": "UNASSIGNED",
+      "evidence": "",
+      "evidence_sha256": "",
+      "decided_at": "",
+      "legacy_value": "Microsoft.Data.Sqlite with explicit parameterized SQL and hand-written row mapping; no EF migration and no schema creation",
+      "legacy_evidence": "https://learn.microsoft.com/en-us/dotnet/standard/data/sqlite/",
+      "legacy_status": "decided"
+    },
+    {
+      "id": "DEC-TEST",
+      "topic": "unit, integration, UI and acceptance test entry points",
+      "owner": "Acceptance Owner",
+      "decision_status": "decided",
+      "value": "xUnit domain/unit tests; integration tests against a fresh copy of baseline SQLite; UI smoke plus approved screenshot/interaction evidence; canonical SQL and DB integrity after writes",
+      "decider": "Experiment Operator (Codex)",
+      "evidence": "experiment/experiment-protocol.md",
+      "evidence_sha256": "cad939558df04f54bb1fb56eed39d928a543b690aeec226bf94a6b3edd259448",
+      "decided_at": "2026-07-19T08:07:07Z",
+      "imported_from": "migration-profile.json"
+    }
+  ],
+  "decision_history": [],
+  "layout_adoption": {
+    "reviewer": "Experiment Operator (Codex)",
+    "review_evidence": "bomdd/migration/evidence/IMP-005-decision-layout-upgrade.md",
+    "review_evidence_sha256": "aba89f57ba10900aa52b59fc5cf22e421bbb79d325f8f1b6782eb1c7500869d9",
+    "adopted_at": "2026-07-19T08:07:07Z"
+  }
+}

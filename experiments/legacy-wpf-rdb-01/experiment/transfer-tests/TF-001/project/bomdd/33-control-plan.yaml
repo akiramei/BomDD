@@ -1,0 +1,101 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: Control Plan
+
+# 深さの梯子(method-v1 §5): unit < L1 存在 < L2 メタデータ < L3 content/signal < G golden+承認者
+#   核 = unit(exact, 丸め規定込み)
+#   表面 = 外部ツール≥L2 / 同期・座標系=L3 / 知覚=G(golden+許容差+承認者)
+#   L0 文字列照合・pixel-exact は既定不採用(例外: 仕様化された正規形のみ)
+#   原典ありの UI/帳票 surface = pixel-exact ではなく、表示要素集合の全数存在+意味一致を必ず検査
+# 深い段は FMEA で要注意と判定した特性にのみ割当(コスト)
+
+control_plan:
+  depth_ladder:
+    unit: <この題材での unit 検査の定義>
+    L1: <プロセス起動・成果物存在>
+    L2: <メタデータ検査(例 OpenAPI JSON / ffprobe)>
+    L3: <内容・信号・相互作用(例 HTTP 実打 / 音声相関)>
+    G: <人間承認(知覚・ユーザビリティ)>
+
+  characteristics:
+    - id: CP-<NAME>-001
+      characteristic: <保証する特性(1文)>
+      classification: core              # core | surface
+      verifies:
+        - E-<NAME>-001
+        - M-<NAME>-001
+      requirement_refs:
+        - REQ-001
+      depth: unit                       # unit | L1 | L2 | L3 | G
+      tolerance: exact                  # exact | ±N ms | ΔE<N | required nodes present ...
+      fixture: <治具(受入ハーネスのパス)>
+      oracle: <合否の判定方法(1文)>
+      approver: automated               # automated | <人名/役割>(G は人間必須)
+      evidence_output_ref: bomdd/plm-intake/sync-results/<evidence>.json
+      test_vectors:                     # 完全性が要る特性は必須(CHEAT-005: 中間値ベクタ未整備が
+        - <境界値>                      #   サイレント乖離を通した。「受入の被覆が捕捉を決める」)
+        - <中間値(丸めの分岐点)>
+        - <反例(FMEA の故障モード由来)>
+      trace_links:
+        - trace_id: TL-CP-M-001
+          from: CP-<NAME>-001
+          to: M-<NAME>-001
+          relation: verifies
+          evidence: bomdd/33-control-plan.yaml
+          status: active
+      unresolved_questions: []
+
+    # 原典あり/UI surface の表示パリティ行の例。
+    - id: CP-<NAME>-DISPLAY-001
+      characteristic: <原典表示要素 DC-<SCREEN>-001 の全 required_elements が成果物に存在し、意味が一致する>
+      classification: surface
+      verifies:
+        - E-CHECKOUT-SUMMARY-001
+      requirement_refs:
+        - REQ-UI-001
+      depth: G                          # 自動検出できるなら L1/L2。知覚判断を含むなら G
+      tolerance: required-elements-present
+      fixture: <スクリーンショット/DOM/アクセシビリティツリー/手動確認手順>
+      oracle: <DE 行ごとに存在・表示テキスト/画像・状態を確認。pixel-exact ではなく表示契約に照合>
+      approver: <人名/役割>
+      evidence_output_ref: bomdd/plm-intake/sync-results/<display-evidence>.md
+      test_vectors:
+        - <通常表示>
+        - <空状態>
+        - <エラー状態>
+
+    # UI-CAD / Design System BOM の coverage 行の例。
+    - id: CP-DESIGN-SYSTEM-COVERAGE-001
+      characteristic: <UI-BOM surface item が 35-design-system-bom.yaml の required design parts(Card/CTA/Chip/Badge/IconButton 等)を実機で持つ>
+      classification: surface
+      verifies:
+        - E-CHECKOUT-SUMMARY-001
+      depth: G                          # 自動検出できるなら L2。設計言語判断を含むなら G
+      tolerance: required-design-parts-covered
+      fixture: 43-visual-gap-analysis.md
+      oracle: <CAD と実機を比較し、design parts の presence / variant / state / application を確認。素の Border/Text/Button への退化は S2 以上>
+      approver: <人名/役割>
+      test_vectors:
+        - <通常表示>
+        - <hover/selected/dragging 等の状態>
+        - <空/エラー/候補値欠落時>
+
+    # NFR 特性行の例(candidate — 目標値は E-BOM nfr_targets、実現は M-BOM)
+    - id: CP-NFR-001
+      characteristic: <例 予約作成 p95 < 200ms @ 100 req/s>
+      classification: surface
+      verifies:
+        - E-<NAME>-001
+        - M-<NAME>-001
+      depth: L3                         # NFR は原則 execution measurement
+      tolerance: <例 p95 ≤ 200ms(計測 3 回の中央値)>
+      fixture: <負荷計測スクリプト(治具として repo 管理)>
+      oracle: <計測手順と判定(環境条件込みで再現可能に)>
+      approver: automated
+
+# PLM-ready checklist:
+#   - 各 characteristic は verifies / depth / tolerance / fixture / oracle / approver を持つ
+#   - G depth は人間承認者が必須
+#   - evidence_output_ref は As-Built の test_evidence_refs から参照する
+#   - L0/pixel-exact は仕様化された正規形以外では使わない

@@ -1,0 +1,26 @@
+{
+  "schema": "bomdd-legacy-wpf-technical-decisions/1.0",
+  "decision_set": "DECSET-DB-COMPATIBILITY",
+  "due_milestone": "MIG-30",
+  "decisions": [
+    {
+      "id": "DEC-DB-SEMANTICS",
+      "topic": "transaction, isolation, timeout, retry, null, collation, time and decimal semantics",
+      "owner": "DB Custodian",
+      "decision_status": "decided",
+      "value": "Single writer; explicit atomic transactions for multi-statement writes; foreign_keys=ON; busy timeout 5000 ms with no blind retry; preserve NULL and SQLite default collation; preserve UTC/user-time/offset columns without normalization",
+      "decider": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/db-baseline.md",
+      "evidence_sha256": "4d740f2066d043f02f139a97cc5e1609b67c92806b2073ebfe40c891d8da182e",
+      "decided_at": "2026-07-19T08:07:07Z",
+      "imported_from": "migration-profile.json"
+    }
+  ],
+  "decision_history": [],
+  "layout_adoption": {
+    "reviewer": "Experiment Operator (Codex)",
+    "review_evidence": "bomdd/migration/evidence/IMP-005-decision-layout-upgrade.md",
+    "review_evidence_sha256": "aba89f57ba10900aa52b59fc5cf22e421bbb79d325f8f1b6782eb1c7500869d9",
+    "adopted_at": "2026-07-19T08:07:07Z"
+  }
+}

@@ -1,0 +1,515 @@
+{
+  "schema": "bomdd-legacy-wpf-status/1.3",
+  "product": "TransferFixture",
+  "scenario_id": "legacy-wpf-rdb",
+  "last_passed_milestone": {
+    "id": "MIG-00",
+    "name": "移行開始可能",
+    "passed_at": "2026-07-19T09:39:20Z",
+    "gate_result_ref": "bomdd/migration/gates/MIG-00-result.json"
+  },
+  "current": {
+    "milestone": "MIG-10",
+    "step": "GATE-MIG-10",
+    "work_item": "MIG-10",
+    "action": "MIG-10 Gate を確認する",
+    "owner": "TF-001 Assigned Team",
+    "started_at": "2026-07-19T09:39:20Z"
+  },
+  "next": {
+    "step": "advance",
+    "action": "Gate PASS 後に次のマイルストーンへ進む"
+  },
+  "artifacts": [
+    {
+      "id": "ART-CHARTER",
+      "path": "bomdd/00-charter.md",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/TF-001-MIG-00-preparation-review.md"
+      ],
+      "content_hashes": {
+        "bomdd/00-charter.md": "caa1bb0beb86a6b51a48ba9a6d22ea240a86f64b82a5f948a60f07a9030d51c1",
+        "bomdd/migration/evidence/TF-001-MIG-00-preparation-review.md": "b51981cbc010219274d9be9ecc877e880bd840c368f6a02f14f01b5cedc71b14"
+      },
+      "accepted_at": "2026-07-19T09:39:09Z"
+    },
+    {
+      "id": "ART-PROFILE",
+      "path": "bomdd/migration/migration-profile.json",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/TF-001-MIG-00-preparation-review.md"
+      ],
+      "content_hashes": {
+        "bomdd/migration/migration-profile.json": "d34539ae20bf345d523840db2ed1e2ff7bd81ca2f3ff1bacd93edef5c1b2fc92",
+        "bomdd/migration/evidence/TF-001-MIG-00-preparation-review.md": "b51981cbc010219274d9be9ecc877e880bd840c368f6a02f14f01b5cedc71b14"
+      },
+      "accepted_at": "2026-07-19T09:39:10Z"
+    },
+    {
+      "id": "ART-ROLES",
+      "path": "bomdd/migration/responsibility-matrix.md",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/TF-001-MIG-00-preparation-review.md"
+      ],
+      "content_hashes": {
+        "bomdd/migration/responsibility-matrix.md": "f794a12621c3b07686d6f9a723a0b0a9c1265dfc0ae4f145407dfb14955b1842",
+        "bomdd/migration/evidence/TF-001-MIG-00-preparation-review.md": "b51981cbc010219274d9be9ecc877e880bd840c368f6a02f14f01b5cedc71b14"
+      },
+      "accepted_at": "2026-07-19T09:39:11Z"
+    },
+    {
+      "id": "ART-BASELINE",
+      "path": "bomdd/migration/current-baseline.md",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/TF-001-MIG-10-preparation-review.md"
+      ],
+      "content_hashes": {
+        "bomdd/migration/current-baseline.md": "d26405f4ce8a0178330dcb319a53def010851d83a4c02bb797b00ac34f37caf8",
+        "bomdd/migration/evidence/TF-001-MIG-10-preparation-review.md": "846eb0492ef286ca7a2065b906dd6155680a1479433a229fc77949929be4592e"
+      },
+      "accepted_at": "2026-07-19T09:39:22Z"
+    },
+    {
+      "id": "ART-BUILD-LOG",
+      "path": "bomdd/migration/evidence/baseline-build.log",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/TF-001-MIG-10-preparation-review.md"
+      ],
+      "content_hashes": {
+        "bomdd/migration/evidence/baseline-build.log": "0a0195de96013aff05334825634f9880aff53688248c66f54136a9c738b926cf",
+        "bomdd/migration/evidence/TF-001-MIG-10-preparation-review.md": "846eb0492ef286ca7a2065b906dd6155680a1479433a229fc77949929be4592e"
+      },
+      "accepted_at": "2026-07-19T09:39:23Z"
+    },
+    {
+      "id": "ART-DB-BASELINE",
+      "path": "bomdd/migration/db-baseline.md",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/baseline-fixture-manifest.json"
+      ],
+      "content_hashes": {
+        "bomdd/migration/db-baseline.md": "6db0086e81c69239ec7b2832ad5ee931cb75fa92c03bb8c728c8f5764a09231e",
+        "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72"
+      },
+      "accepted_at": "2026-07-19T09:44:47Z"
+    },
+    {
+      "id": "ART-CURRENT-OBS",
+      "path": "bomdd/migration/current-observation-index.md",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json"
+      ],
+      "content_hashes": {
+        "bomdd/migration/current-observation-index.md": "99556b9171dee7d60308f9518d1700fa20de8cc4cd0463d9aa0ce6df097e1a5a",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json": "b20e4e75142f0dacb58f4301f0981f2ffbb0d13c8c76f719e410513c8bc4a2dd"
+      },
+      "accepted_at": "2026-07-19T09:44:53Z"
+    },
+    {
+      "id": "ART-MIGRATION-INVENTORY",
+      "path": "bomdd/plm-intake/migration-inventory.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-SOURCE-MAP",
+      "path": "bomdd/plm-intake/source-map.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-FEATURE-INVENTORY",
+      "path": "bomdd/migration/feature-inventory.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-UI-INVENTORY",
+      "path": "bomdd/migration/ui-inventory.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DB-OBJECT-INVENTORY",
+      "path": "bomdd/migration/db-object-inventory.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-EXTERNAL-INVENTORY",
+      "path": "bomdd/migration/external-dependency-inventory.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DB-TECH-DECISIONS",
+      "path": "bomdd/migration/decisions/MIG-30-db-technical-decisions.json",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-REQUIREMENTS",
+      "path": "bomdd/10-requirements.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-SPEC",
+      "path": "bomdd/20-spec.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DISPLAY-CONTRACT",
+      "path": "bomdd/migration/display-contract.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DB-COMPATIBILITY",
+      "path": "bomdd/migration/db-compatibility-contract.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-SPEC-RULINGS",
+      "path": "bomdd/migration/spec-rulings.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-IMPLEMENTATION-DECISIONS",
+      "path": "bomdd/migration/decisions/MIG-40-implementation-decisions.json",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-EBOM",
+      "path": "bomdd/30-ebom.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-KBOM",
+      "path": "bomdd/31-kbom.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-MBOM",
+      "path": "bomdd/32-mbom.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-CONTROL-PLAN",
+      "path": "bomdd/33-control-plan.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-ROUTING",
+      "path": "bomdd/34-routing.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-TRACE-AUDIT",
+      "path": "bomdd/migration/evidence/trace-audit.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-WORK-ORDER",
+      "path": "bomdd/40-work-order.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-FIXED-ORACLE",
+      "path": "bomdd/41-fixed-oracle.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DB-ORACLE",
+      "path": "bomdd/migration/db-preservation-oracle.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-CALIBRATION",
+      "path": "bomdd/migration/evidence/oracle-calibration.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-SLICE-BACKLOG",
+      "path": "bomdd/migration/slice-backlog.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-WALKING-SKELETON",
+      "path": "bomdd/migration/evidence/walking-skeleton-build.log",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-FIRST-DB-READ",
+      "path": "bomdd/migration/evidence/first-slice-db-read.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-FIRST-UI-COMPARE",
+      "path": "bomdd/migration/evidence/first-slice-ui-comparison.md",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-FIRST-AS-BUILT",
+      "path": "bomdd/migration/first-slice-as-built.yaml",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-FIRST-CHEAT",
+      "path": "bomdd/migration/first-slice-cheat-log.md",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-FEATURE-INDEX",
+      "path": "bomdd/migration/feature-migration-index.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-INTEGRATION-RESULT",
+      "path": "bomdd/migration/evidence/integration-acceptance.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-DIFF-REGISTER",
+      "path": "bomdd/migration/difference-register.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-AS-BUILT",
+      "path": "bomdd/50-as-built.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DEPLOYMENT-DECISIONS",
+      "path": "bomdd/migration/decisions/MIG-80-deployment-decisions.json",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-CUTOVER-RUNBOOK",
+      "path": "bomdd/migration/cutover-runbook.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-ROLLBACK-RUNBOOK",
+      "path": "bomdd/migration/rollback-runbook.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-REHEARSAL",
+      "path": "bomdd/migration/evidence/cutover-rehearsal.md",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-RESTORE-TEST",
+      "path": "bomdd/migration/evidence/backup-restore-test.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-GO-NOGO",
+      "path": "bomdd/migration/evidence/go-no-go.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-PROD-SMOKE",
+      "path": "bomdd/migration/evidence/production-smoke.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-PROD-RECONCILIATION",
+      "path": "bomdd/migration/evidence/production-db-reconciliation.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-CUTOVER-DECISION",
+      "path": "bomdd/migration/evidence/cutover-decision.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-SERVICE-BOM",
+      "path": "bomdd/53-service-bom.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-STABILIZATION",
+      "path": "bomdd/migration/evidence/stabilization-report.md",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-OPERATIONS-HANDOVER",
+      "path": "bomdd/migration/evidence/operations-handover.md",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-LEGACY-DISPOSITION",
+      "path": "bomdd/migration/legacy-system-disposition.md",
+      "status": "present",
+      "evidence": []
+    }
+  ],
+  "approvals": [
+    {
+      "milestone": "MIG-00",
+      "role": "Migration Owner",
+      "status": "approved",
+      "approver": "TF-001 Assigned Team",
+      "evidence": "bomdd/migration/evidence/TF-001-MIG-00-preparation-approval.md",
+      "evidence_sha256": "43cec398d8abe397eeeed032b532cb86bd3c6bb3baed4341aa43c9a49d2cee63",
+      "approved_at": "2026-07-19T09:39:12Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "Migration Owner",
+      "status": "approved",
+      "approver": "TF-001 Assigned Team",
+      "evidence": "bomdd/migration/evidence/TF-001-MIG-10-migration-owner-approval.md",
+      "evidence_sha256": "a1e84f9a5309464ade5348b883ac33d9543799bf4296d016574346a7c7c1edd8",
+      "approved_at": "2026-07-19T09:45:46Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "DB Custodian",
+      "status": "approved",
+      "approver": "TF-001 Assigned Team",
+      "evidence": "bomdd/migration/evidence/TF-001-MIG-10-db-custodian-approval.md",
+      "evidence_sha256": "e8dbf66ddaa4f88e0caec6c02f2c847cae65fbf22464c6038d9835cff3bd2f25",
+      "approved_at": "2026-07-19T09:45:47Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "UI Approver",
+      "status": "approved",
+      "approver": "TF-001 Assigned Team",
+      "evidence": "bomdd/migration/evidence/TF-001-MIG-10-ui-approver-approval.md",
+      "evidence_sha256": "06ae89c9b62f8f3bb4df7ecb220e8c5c768c0afc85dae8c8c73269a1d3130c6a",
+      "approved_at": "2026-07-19T09:45:47Z"
+    }
+  ],
+  "accepted_change_history": [],
+  "gate_supersessions": [],
+  "exceptions": [],
+  "exception_history": [],
+  "decision_events": [],
+  "scenario_upgrade_history": [],
+  "blockers": [],
+  "non_blockers": [],
+  "defects": [],
+  "alternate_safe_work": [],
+  "updated_at": "2026-07-19T09:45:47Z",
+  "step_history": [
+    {
+      "milestone": "MIG-00",
+      "step": "STEP-001",
+      "action": "移行シナリオを有効化し、移行憲章、移行プロファイル、責任者表を確定する",
+      "completed_at": "2026-07-19T09:39:14Z",
+      "evidence": [
+        "bomdd/migration/evidence/TF-001-MIG-00-preparation-review.md"
+      ]
+    },
+    {
+      "milestone": "MIG-00",
+      "step": "STEP-002",
+      "action": "移行憲章を確定する",
+      "completed_at": "2026-07-19T09:39:15Z",
+      "evidence": [
+        "bomdd/migration/evidence/TF-001-MIG-00-preparation-review.md"
+      ]
+    },
+    {
+      "milestone": "MIG-00",
+      "step": "STEP-003",
+      "action": "移行プロファイルを埋める",
+      "completed_at": "2026-07-19T09:39:16Z",
+      "evidence": [
+        "bomdd/migration/evidence/TF-001-MIG-00-preparation-review.md"
+      ]
+    },
+    {
+      "milestone": "MIG-00",
+      "step": "STEP-004",
+      "action": "Gate を確認する",
+      "completed_at": "2026-07-19T09:39:18Z",
+      "evidence": [
+        "bomdd/migration/evidence/TF-001-MIG-00-preparation-review.md"
+      ]
+    },
+    {
+      "milestone": "MIG-10",
+      "step": "STEP-011",
+      "action": "現行版、再現ビルド、実行環境、DB基準線、現行観測を凍結する",
+      "completed_at": "2026-07-19T09:39:24Z",
+      "evidence": [
+        "bomdd/migration/current-baseline.md"
+      ]
+    },
+    {
+      "milestone": "MIG-10",
+      "step": "STEP-012",
+      "action": "現行ビルドを再現する",
+      "completed_at": "2026-07-19T09:39:26Z",
+      "evidence": [
+        "bomdd/migration/evidence/baseline-build.log"
+      ]
+    },
+    {
+      "milestone": "MIG-10",
+      "step": "STEP-013",
+      "action": "DB 基準線を作る",
+      "completed_at": "2026-07-19T09:42:52Z",
+      "evidence": [
+        "bomdd/migration/evidence/baseline-fixture-manifest.json"
+      ]
+    },
+    {
+      "milestone": "MIG-10",
+      "step": "STEP-014",
+      "action": "現行観測を固定する",
+      "completed_at": "2026-07-19T09:44:25Z",
+      "evidence": [
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json"
+      ]
+    }
+  ]
+}

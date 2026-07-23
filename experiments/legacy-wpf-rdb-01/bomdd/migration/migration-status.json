@@ -1,0 +1,1436 @@
+{
+  "schema": "bomdd-legacy-wpf-status/1.1",
+  "product": "Traggo WPF Migration Experiment",
+  "scenario_id": "legacy-wpf-rdb",
+  "last_passed_milestone": {
+    "id": "MIG-10",
+    "name": "現行基準線確定",
+    "passed_at": "2026-07-19T02:56:22Z",
+    "gate_result_ref": "bomdd/migration/gates/MIG-10-recheck-COR-MIG-10-20260719T092934417658Z.json",
+    "revalidated_at": "2026-07-19T09:30:26Z",
+    "accepted_change_id": "COR-MIG-10-20260719T092934417658Z"
+  },
+  "current": {
+    "milestone": "MIG-20",
+    "step": "STEP-021",
+    "work_item": "MIG-20",
+    "action": "既存成果物、機能、UI、DB object、外部依存を全数化する",
+    "owner": "Experiment Operator (Codex)",
+    "started_at": "2026-07-19T02:56:22Z"
+  },
+  "next": {
+    "step": "STEP-022",
+    "action": "機能台帳を作る"
+  },
+  "artifacts": [
+    {
+      "id": "ART-CHARTER",
+      "path": "bomdd/00-charter.md",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/MIG-00-artifact-review.md",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+      ],
+      "content_hashes": {
+        "bomdd/00-charter.md": "f8aca0472e449d996215a71355befbcb7a580cecac43e6a5969829a4f61cf1ae",
+        "bomdd/migration/evidence/MIG-00-artifact-review.md": "6c6d9c05deeaf6cc0e2d7596a7e31a6aa8d0f6c81feef3e2d5a84108686d894b",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+      },
+      "content_sealed_at": "2026-07-19T04:41:36Z",
+      "content_sealed_by": "Experiment Operator (Codex)"
+    },
+    {
+      "id": "ART-PROFILE",
+      "path": "bomdd/migration/migration-profile.json",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/MIG-00-artifact-review.md",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+      ],
+      "content_hashes": {
+        "bomdd/migration/migration-profile.json": "d360ccc5b6330538c09d3bf8eef9af412b74aaa11a6578922e1336130c9ff029",
+        "bomdd/migration/evidence/MIG-00-artifact-review.md": "6c6d9c05deeaf6cc0e2d7596a7e31a6aa8d0f6c81feef3e2d5a84108686d894b",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+      },
+      "content_sealed_at": "2026-07-19T04:41:36Z",
+      "content_sealed_by": "Experiment Operator (Codex)"
+    },
+    {
+      "id": "ART-ROLES",
+      "path": "bomdd/migration/responsibility-matrix.md",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/MIG-00-artifact-review.md",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+      ],
+      "content_hashes": {
+        "bomdd/migration/responsibility-matrix.md": "7b56cd817fedae5d362e29058159a4920c048bd674a2b3d67b136f270e352f7b",
+        "bomdd/migration/evidence/MIG-00-artifact-review.md": "6c6d9c05deeaf6cc0e2d7596a7e31a6aa8d0f6c81feef3e2d5a84108686d894b",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+      },
+      "content_sealed_at": "2026-07-19T04:41:36Z",
+      "content_sealed_by": "Experiment Operator (Codex)"
+    },
+    {
+      "id": "ART-BASELINE",
+      "path": "bomdd/migration/current-baseline.md",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/MIG-10-artifact-review.md",
+        "bomdd/migration/evidence/MIG-10-correction-001.md",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+        "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+        "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+        "bomdd/migration/evidence/baseline-fixture-manifest.json",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+        "bomdd/migration/evidence/IMP-006-reacceptance-review.md",
+        "bomdd/migration/changes/COR-MIG-10-20260719T092934417658Z.md",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-correction.md",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-reacceptance.md"
+      ],
+      "content_hashes": {
+        "bomdd/migration/current-baseline.md": "d26405f4ce8a0178330dcb319a53def010851d83a4c02bb797b00ac34f37caf8",
+        "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+        "bomdd/migration/evidence/MIG-10-correction-001.md": "129f433ec6e3e9452004bc72401506a9919a2cb1eee2d1dd0d03919a38784e04",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92",
+        "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+        "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+        "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+        "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79",
+        "bomdd/migration/changes/COR-MIG-10-20260719T092934417658Z.md": "2b6cb25ed66daf3c67c3cdd25e0ab5df166378cd5106e9f8279f41a146035621",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-correction.md": "4d7846521ccd73c361dca8eeb9ae11e6d18fbe3d21f2a76794215ee2c3461705",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-reacceptance.md": "c1bbfea472845e0c1a38e332ffff8eddfede1d71131f06dfd7168eb27df54334"
+      },
+      "content_sealed_at": "2026-07-19T04:41:37Z",
+      "content_sealed_by": "Experiment Operator (Codex)",
+      "acceptance_history": [
+        {
+          "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+          "superseded_at": "2026-07-19T09:16:37Z",
+          "acceptance": {
+            "id": "ART-BASELINE",
+            "path": "bomdd/migration/current-baseline.md",
+            "status": "accepted",
+            "evidence": [
+              "bomdd/migration/evidence/MIG-10-artifact-review.md",
+              "bomdd/migration/evidence/MIG-10-correction-001.md",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+            ],
+            "content_hashes": {
+              "bomdd/migration/current-baseline.md": "7cd3b277d899ab7b22f7869362903e3159b5c90b26edba9b0e93515ff64f468c",
+              "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+              "bomdd/migration/evidence/MIG-10-correction-001.md": "9dc744487b2096738f4de46e34f217c3beb25b8cf7dd0259205c212419f00196",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+            },
+            "content_sealed_at": "2026-07-19T04:41:37Z",
+            "content_sealed_by": "Experiment Operator (Codex)"
+          }
+        },
+        {
+          "superseded_by": "COR-MIG-10-20260719T092934417658Z",
+          "superseded_at": "2026-07-19T09:29:34Z",
+          "acceptance": {
+            "id": "ART-BASELINE",
+            "path": "bomdd/migration/current-baseline.md",
+            "status": "accepted",
+            "evidence": [
+              "bomdd/migration/evidence/MIG-10-artifact-review.md",
+              "bomdd/migration/evidence/MIG-10-correction-001.md",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+              "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+              "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+              "bomdd/migration/evidence/baseline-fixture-manifest.json",
+              "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+              "bomdd/migration/evidence/IMP-006-reacceptance-review.md"
+            ],
+            "content_hashes": {
+              "bomdd/migration/current-baseline.md": "d26405f4ce8a0178330dcb319a53def010851d83a4c02bb797b00ac34f37caf8",
+              "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+              "bomdd/migration/evidence/MIG-10-correction-001.md": "129f433ec6e3e9452004bc72401506a9919a2cb1eee2d1dd0d03919a38784e04",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md": "b1aab082da3b1419bb2daa32b9d71ebfe8c107eec902d2e49240cacddb87ac81",
+              "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+              "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+              "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+              "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+              "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79"
+            },
+            "content_sealed_at": "2026-07-19T04:41:37Z",
+            "content_sealed_by": "Experiment Operator (Codex)",
+            "acceptance_history": [
+              {
+                "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+                "superseded_at": "2026-07-19T09:16:37Z",
+                "acceptance": {
+                  "id": "ART-BASELINE",
+                  "path": "bomdd/migration/current-baseline.md",
+                  "status": "accepted",
+                  "evidence": [
+                    "bomdd/migration/evidence/MIG-10-artifact-review.md",
+                    "bomdd/migration/evidence/MIG-10-correction-001.md",
+                    "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+                  ],
+                  "content_hashes": {
+                    "bomdd/migration/current-baseline.md": "7cd3b277d899ab7b22f7869362903e3159b5c90b26edba9b0e93515ff64f468c",
+                    "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+                    "bomdd/migration/evidence/MIG-10-correction-001.md": "9dc744487b2096738f4de46e34f217c3beb25b8cf7dd0259205c212419f00196",
+                    "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+                  },
+                  "content_sealed_at": "2026-07-19T04:41:37Z",
+                  "content_sealed_by": "Experiment Operator (Codex)"
+                }
+              }
+            ],
+            "accepted_at": "2026-07-19T09:27:11Z",
+            "accepted_by": "Experiment Operator (Codex)",
+            "accepted_change_id": "COR-MIG-10-20260719T091637444408Z"
+          }
+        }
+      ],
+      "accepted_at": "2026-07-19T09:30:21Z",
+      "accepted_by": "Experiment Operator (Codex)",
+      "accepted_change_id": "COR-MIG-10-20260719T092934417658Z"
+    },
+    {
+      "id": "ART-BUILD-LOG",
+      "path": "bomdd/migration/evidence/baseline-build.log",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/baseline-build.log",
+        "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+        "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+        "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+        "bomdd/migration/evidence/baseline-fixture-manifest.json",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+        "bomdd/migration/evidence/IMP-006-reacceptance-review.md",
+        "bomdd/migration/changes/COR-MIG-10-20260719T092934417658Z.md",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-correction.md",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-reacceptance.md"
+      ],
+      "content_hashes": {
+        "bomdd/migration/evidence/baseline-build.log": "0a0195de96013aff05334825634f9880aff53688248c66f54136a9c738b926cf",
+        "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md": "9adc1b7272ca56d6382b965ba085081a4b6c2cd8de33cd108fae81e9b56b96fb",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92",
+        "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+        "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+        "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+        "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79",
+        "bomdd/migration/changes/COR-MIG-10-20260719T092934417658Z.md": "2b6cb25ed66daf3c67c3cdd25e0ab5df166378cd5106e9f8279f41a146035621",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-correction.md": "4d7846521ccd73c361dca8eeb9ae11e6d18fbe3d21f2a76794215ee2c3461705",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-reacceptance.md": "c1bbfea472845e0c1a38e332ffff8eddfede1d71131f06dfd7168eb27df54334"
+      },
+      "content_sealed_at": "2026-07-19T04:41:37Z",
+      "content_sealed_by": "Experiment Operator (Codex)",
+      "acceptance_history": [
+        {
+          "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+          "superseded_at": "2026-07-19T09:16:37Z",
+          "acceptance": {
+            "id": "ART-BUILD-LOG",
+            "path": "bomdd/migration/evidence/baseline-build.log",
+            "status": "accepted",
+            "evidence": [
+              "bomdd/migration/evidence/baseline-build.log",
+              "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+            ],
+            "content_hashes": {
+              "bomdd/migration/evidence/baseline-build.log": "0a0195de96013aff05334825634f9880aff53688248c66f54136a9c738b926cf",
+              "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md": "9adc1b7272ca56d6382b965ba085081a4b6c2cd8de33cd108fae81e9b56b96fb",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+            },
+            "content_sealed_at": "2026-07-19T04:41:37Z",
+            "content_sealed_by": "Experiment Operator (Codex)"
+          }
+        },
+        {
+          "superseded_by": "COR-MIG-10-20260719T092934417658Z",
+          "superseded_at": "2026-07-19T09:29:34Z",
+          "acceptance": {
+            "id": "ART-BUILD-LOG",
+            "path": "bomdd/migration/evidence/baseline-build.log",
+            "status": "accepted",
+            "evidence": [
+              "bomdd/migration/evidence/baseline-build.log",
+              "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+              "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+              "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+              "bomdd/migration/evidence/baseline-fixture-manifest.json",
+              "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+              "bomdd/migration/evidence/IMP-006-reacceptance-review.md"
+            ],
+            "content_hashes": {
+              "bomdd/migration/evidence/baseline-build.log": "0a0195de96013aff05334825634f9880aff53688248c66f54136a9c738b926cf",
+              "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md": "9adc1b7272ca56d6382b965ba085081a4b6c2cd8de33cd108fae81e9b56b96fb",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md": "b1aab082da3b1419bb2daa32b9d71ebfe8c107eec902d2e49240cacddb87ac81",
+              "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+              "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+              "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+              "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+              "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79"
+            },
+            "content_sealed_at": "2026-07-19T04:41:37Z",
+            "content_sealed_by": "Experiment Operator (Codex)",
+            "acceptance_history": [
+              {
+                "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+                "superseded_at": "2026-07-19T09:16:37Z",
+                "acceptance": {
+                  "id": "ART-BUILD-LOG",
+                  "path": "bomdd/migration/evidence/baseline-build.log",
+                  "status": "accepted",
+                  "evidence": [
+                    "bomdd/migration/evidence/baseline-build.log",
+                    "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md",
+                    "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+                  ],
+                  "content_hashes": {
+                    "bomdd/migration/evidence/baseline-build.log": "0a0195de96013aff05334825634f9880aff53688248c66f54136a9c738b926cf",
+                    "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md": "9adc1b7272ca56d6382b965ba085081a4b6c2cd8de33cd108fae81e9b56b96fb",
+                    "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+                  },
+                  "content_sealed_at": "2026-07-19T04:41:37Z",
+                  "content_sealed_by": "Experiment Operator (Codex)"
+                }
+              }
+            ],
+            "accepted_at": "2026-07-19T09:27:11Z",
+            "accepted_by": "Experiment Operator (Codex)",
+            "accepted_change_id": "COR-MIG-10-20260719T091637444408Z"
+          }
+        }
+      ],
+      "accepted_at": "2026-07-19T09:30:21Z",
+      "accepted_by": "Experiment Operator (Codex)",
+      "accepted_change_id": "COR-MIG-10-20260719T092934417658Z"
+    },
+    {
+      "id": "ART-DB-BASELINE",
+      "path": "bomdd/migration/db-baseline.md",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/baseline-db-observation.md",
+        "bomdd/migration/evidence/baseline-schema.sql",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+        "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+        "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+        "bomdd/migration/evidence/baseline-fixture-manifest.json",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+        "bomdd/migration/evidence/IMP-006-reacceptance-review.md",
+        "bomdd/migration/changes/COR-MIG-10-20260719T092934417658Z.md",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-correction.md",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-reacceptance.md"
+      ],
+      "content_hashes": {
+        "bomdd/migration/db-baseline.md": "6db0086e81c69239ec7b2832ad5ee931cb75fa92c03bb8c728c8f5764a09231e",
+        "bomdd/migration/evidence/baseline-db-observation.md": "fe9e7fe40f76568b8061bff15a4cc3d8793b720d137762c0b10bf081083afca9",
+        "bomdd/migration/evidence/baseline-schema.sql": "dd5179a4c76f010a8ccc2705233bbedf1439ee471751cd729cad90c820796b73",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92",
+        "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+        "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+        "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+        "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79",
+        "bomdd/migration/changes/COR-MIG-10-20260719T092934417658Z.md": "2b6cb25ed66daf3c67c3cdd25e0ab5df166378cd5106e9f8279f41a146035621",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-correction.md": "4d7846521ccd73c361dca8eeb9ae11e6d18fbe3d21f2a76794215ee2c3461705",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-reacceptance.md": "c1bbfea472845e0c1a38e332ffff8eddfede1d71131f06dfd7168eb27df54334"
+      },
+      "content_sealed_at": "2026-07-19T04:41:37Z",
+      "content_sealed_by": "Experiment Operator (Codex)",
+      "acceptance_history": [
+        {
+          "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+          "superseded_at": "2026-07-19T09:16:37Z",
+          "acceptance": {
+            "id": "ART-DB-BASELINE",
+            "path": "bomdd/migration/db-baseline.md",
+            "status": "accepted",
+            "evidence": [
+              "bomdd/migration/evidence/baseline-db-observation.md",
+              "bomdd/migration/evidence/baseline-schema.sql",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+            ],
+            "content_hashes": {
+              "bomdd/migration/db-baseline.md": "4d740f2066d043f02f139a97cc5e1609b67c92806b2073ebfe40c891d8da182e",
+              "bomdd/migration/evidence/baseline-db-observation.md": "099bc690bbac369209956cd06a31835e28116ae902bc84d77dfa28ff01632410",
+              "bomdd/migration/evidence/baseline-schema.sql": "dd5179a4c76f010a8ccc2705233bbedf1439ee471751cd729cad90c820796b73",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+            },
+            "content_sealed_at": "2026-07-19T04:41:37Z",
+            "content_sealed_by": "Experiment Operator (Codex)"
+          }
+        },
+        {
+          "superseded_by": "COR-MIG-10-20260719T092934417658Z",
+          "superseded_at": "2026-07-19T09:29:34Z",
+          "acceptance": {
+            "id": "ART-DB-BASELINE",
+            "path": "bomdd/migration/db-baseline.md",
+            "status": "accepted",
+            "evidence": [
+              "bomdd/migration/evidence/baseline-db-observation.md",
+              "bomdd/migration/evidence/baseline-schema.sql",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+              "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+              "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+              "bomdd/migration/evidence/baseline-fixture-manifest.json",
+              "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+              "bomdd/migration/evidence/IMP-006-reacceptance-review.md"
+            ],
+            "content_hashes": {
+              "bomdd/migration/db-baseline.md": "6db0086e81c69239ec7b2832ad5ee931cb75fa92c03bb8c728c8f5764a09231e",
+              "bomdd/migration/evidence/baseline-db-observation.md": "fe9e7fe40f76568b8061bff15a4cc3d8793b720d137762c0b10bf081083afca9",
+              "bomdd/migration/evidence/baseline-schema.sql": "dd5179a4c76f010a8ccc2705233bbedf1439ee471751cd729cad90c820796b73",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md": "b1aab082da3b1419bb2daa32b9d71ebfe8c107eec902d2e49240cacddb87ac81",
+              "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+              "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+              "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+              "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+              "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79"
+            },
+            "content_sealed_at": "2026-07-19T04:41:37Z",
+            "content_sealed_by": "Experiment Operator (Codex)",
+            "acceptance_history": [
+              {
+                "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+                "superseded_at": "2026-07-19T09:16:37Z",
+                "acceptance": {
+                  "id": "ART-DB-BASELINE",
+                  "path": "bomdd/migration/db-baseline.md",
+                  "status": "accepted",
+                  "evidence": [
+                    "bomdd/migration/evidence/baseline-db-observation.md",
+                    "bomdd/migration/evidence/baseline-schema.sql",
+                    "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+                  ],
+                  "content_hashes": {
+                    "bomdd/migration/db-baseline.md": "4d740f2066d043f02f139a97cc5e1609b67c92806b2073ebfe40c891d8da182e",
+                    "bomdd/migration/evidence/baseline-db-observation.md": "099bc690bbac369209956cd06a31835e28116ae902bc84d77dfa28ff01632410",
+                    "bomdd/migration/evidence/baseline-schema.sql": "dd5179a4c76f010a8ccc2705233bbedf1439ee471751cd729cad90c820796b73",
+                    "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+                  },
+                  "content_sealed_at": "2026-07-19T04:41:37Z",
+                  "content_sealed_by": "Experiment Operator (Codex)"
+                }
+              }
+            ],
+            "accepted_at": "2026-07-19T09:27:11Z",
+            "accepted_by": "Experiment Operator (Codex)",
+            "accepted_change_id": "COR-MIG-10-20260719T091637444408Z"
+          }
+        }
+      ],
+      "accepted_at": "2026-07-19T09:30:21Z",
+      "accepted_by": "Experiment Operator (Codex)",
+      "accepted_change_id": "COR-MIG-10-20260719T092934417658Z"
+    },
+    {
+      "id": "ART-CURRENT-OBS",
+      "path": "bomdd/migration/current-observation-index.md",
+      "status": "accepted",
+      "evidence": [
+        "bomdd/migration/evidence/MIG-10-artifact-review.md",
+        "bomdd/migration/evidence/MIG-10-correction-001.md",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+        "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+        "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+        "bomdd/migration/evidence/baseline-fixture-manifest.json",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+        "bomdd/migration/evidence/IMP-006-reacceptance-review.md",
+        "bomdd/migration/changes/COR-MIG-10-20260719T092934417658Z.md",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-correction.md",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-reacceptance.md"
+      ],
+      "content_hashes": {
+        "bomdd/migration/current-observation-index.md": "99556b9171dee7d60308f9518d1700fa20de8cc4cd0463d9aa0ce6df097e1a5a",
+        "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+        "bomdd/migration/evidence/MIG-10-correction-001.md": "129f433ec6e3e9452004bc72401506a9919a2cb1eee2d1dd0d03919a38784e04",
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92",
+        "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+        "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+        "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+        "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79",
+        "bomdd/migration/changes/COR-MIG-10-20260719T092934417658Z.md": "2b6cb25ed66daf3c67c3cdd25e0ab5df166378cd5106e9f8279f41a146035621",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-correction.md": "4d7846521ccd73c361dca8eeb9ae11e6d18fbe3d21f2a76794215ee2c3461705",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-reacceptance.md": "c1bbfea472845e0c1a38e332ffff8eddfede1d71131f06dfd7168eb27df54334"
+      },
+      "content_sealed_at": "2026-07-19T04:41:37Z",
+      "content_sealed_by": "Experiment Operator (Codex)",
+      "acceptance_history": [
+        {
+          "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+          "superseded_at": "2026-07-19T09:16:37Z",
+          "acceptance": {
+            "id": "ART-CURRENT-OBS",
+            "path": "bomdd/migration/current-observation-index.md",
+            "status": "accepted",
+            "evidence": [
+              "bomdd/migration/evidence/MIG-10-artifact-review.md",
+              "bomdd/migration/evidence/MIG-10-correction-001.md",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+            ],
+            "content_hashes": {
+              "bomdd/migration/current-observation-index.md": "46a07a32d37986b5e52338203c30d74b96dfd7f9b3431259eec5b2feb1d28a34",
+              "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+              "bomdd/migration/evidence/MIG-10-correction-001.md": "9dc744487b2096738f4de46e34f217c3beb25b8cf7dd0259205c212419f00196",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+            },
+            "content_sealed_at": "2026-07-19T04:41:37Z",
+            "content_sealed_by": "Experiment Operator (Codex)"
+          }
+        },
+        {
+          "superseded_by": "COR-MIG-10-20260719T092934417658Z",
+          "superseded_at": "2026-07-19T09:29:34Z",
+          "acceptance": {
+            "id": "ART-CURRENT-OBS",
+            "path": "bomdd/migration/current-observation-index.md",
+            "status": "accepted",
+            "evidence": [
+              "bomdd/migration/evidence/MIG-10-artifact-review.md",
+              "bomdd/migration/evidence/MIG-10-correction-001.md",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+              "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+              "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+              "bomdd/migration/evidence/baseline-fixture-manifest.json",
+              "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+              "bomdd/migration/evidence/IMP-006-reacceptance-review.md"
+            ],
+            "content_hashes": {
+              "bomdd/migration/current-observation-index.md": "99556b9171dee7d60308f9518d1700fa20de8cc4cd0463d9aa0ce6df097e1a5a",
+              "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+              "bomdd/migration/evidence/MIG-10-correction-001.md": "129f433ec6e3e9452004bc72401506a9919a2cb1eee2d1dd0d03919a38784e04",
+              "bomdd/migration/evidence/IMP-002-existing-content-review.md": "b1aab082da3b1419bb2daa32b9d71ebfe8c107eec902d2e49240cacddb87ac81",
+              "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+              "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+              "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+              "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+              "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79"
+            },
+            "content_sealed_at": "2026-07-19T04:41:37Z",
+            "content_sealed_by": "Experiment Operator (Codex)",
+            "acceptance_history": [
+              {
+                "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+                "superseded_at": "2026-07-19T09:16:37Z",
+                "acceptance": {
+                  "id": "ART-CURRENT-OBS",
+                  "path": "bomdd/migration/current-observation-index.md",
+                  "status": "accepted",
+                  "evidence": [
+                    "bomdd/migration/evidence/MIG-10-artifact-review.md",
+                    "bomdd/migration/evidence/MIG-10-correction-001.md",
+                    "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+                  ],
+                  "content_hashes": {
+                    "bomdd/migration/current-observation-index.md": "46a07a32d37986b5e52338203c30d74b96dfd7f9b3431259eec5b2feb1d28a34",
+                    "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+                    "bomdd/migration/evidence/MIG-10-correction-001.md": "9dc744487b2096738f4de46e34f217c3beb25b8cf7dd0259205c212419f00196",
+                    "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+                  },
+                  "content_sealed_at": "2026-07-19T04:41:37Z",
+                  "content_sealed_by": "Experiment Operator (Codex)"
+                }
+              }
+            ],
+            "accepted_at": "2026-07-19T09:27:11Z",
+            "accepted_by": "Experiment Operator (Codex)",
+            "accepted_change_id": "COR-MIG-10-20260719T091637444408Z"
+          }
+        }
+      ],
+      "accepted_at": "2026-07-19T09:30:21Z",
+      "accepted_by": "Experiment Operator (Codex)",
+      "accepted_change_id": "COR-MIG-10-20260719T092934417658Z"
+    },
+    {
+      "id": "ART-MIGRATION-INVENTORY",
+      "path": "bomdd/plm-intake/migration-inventory.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-SOURCE-MAP",
+      "path": "bomdd/plm-intake/source-map.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-FEATURE-INVENTORY",
+      "path": "bomdd/migration/feature-inventory.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-UI-INVENTORY",
+      "path": "bomdd/migration/ui-inventory.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DB-OBJECT-INVENTORY",
+      "path": "bomdd/migration/db-object-inventory.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-EXTERNAL-INVENTORY",
+      "path": "bomdd/migration/external-dependency-inventory.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-REQUIREMENTS",
+      "path": "bomdd/10-requirements.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-SPEC",
+      "path": "bomdd/20-spec.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DISPLAY-CONTRACT",
+      "path": "bomdd/migration/display-contract.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DB-COMPATIBILITY",
+      "path": "bomdd/migration/db-compatibility-contract.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-SPEC-RULINGS",
+      "path": "bomdd/migration/spec-rulings.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-EBOM",
+      "path": "bomdd/30-ebom.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-KBOM",
+      "path": "bomdd/31-kbom.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-MBOM",
+      "path": "bomdd/32-mbom.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-CONTROL-PLAN",
+      "path": "bomdd/33-control-plan.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-ROUTING",
+      "path": "bomdd/34-routing.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-TRACE-AUDIT",
+      "path": "bomdd/migration/evidence/trace-audit.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-WORK-ORDER",
+      "path": "bomdd/40-work-order.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-FIXED-ORACLE",
+      "path": "bomdd/41-fixed-oracle.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DB-ORACLE",
+      "path": "bomdd/migration/db-preservation-oracle.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-CALIBRATION",
+      "path": "bomdd/migration/evidence/oracle-calibration.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-SLICE-BACKLOG",
+      "path": "bomdd/migration/slice-backlog.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-WALKING-SKELETON",
+      "path": "bomdd/migration/evidence/walking-skeleton-build.log",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-FIRST-DB-READ",
+      "path": "bomdd/migration/evidence/first-slice-db-read.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-FIRST-UI-COMPARE",
+      "path": "bomdd/migration/evidence/first-slice-ui-comparison.md",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-FIRST-AS-BUILT",
+      "path": "bomdd/migration/first-slice-as-built.yaml",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-FIRST-CHEAT",
+      "path": "bomdd/migration/first-slice-cheat-log.md",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-FEATURE-INDEX",
+      "path": "bomdd/migration/feature-migration-index.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-INTEGRATION-RESULT",
+      "path": "bomdd/migration/evidence/integration-acceptance.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-DIFF-REGISTER",
+      "path": "bomdd/migration/difference-register.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-AS-BUILT",
+      "path": "bomdd/50-as-built.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-CUTOVER-RUNBOOK",
+      "path": "bomdd/migration/cutover-runbook.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-ROLLBACK-RUNBOOK",
+      "path": "bomdd/migration/rollback-runbook.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-REHEARSAL",
+      "path": "bomdd/migration/evidence/cutover-rehearsal.md",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-RESTORE-TEST",
+      "path": "bomdd/migration/evidence/backup-restore-test.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-GO-NOGO",
+      "path": "bomdd/migration/evidence/go-no-go.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-PROD-SMOKE",
+      "path": "bomdd/migration/evidence/production-smoke.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-PROD-RECONCILIATION",
+      "path": "bomdd/migration/evidence/production-db-reconciliation.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-CUTOVER-DECISION",
+      "path": "bomdd/migration/evidence/cutover-decision.json",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-SERVICE-BOM",
+      "path": "bomdd/53-service-bom.yaml",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-STABILIZATION",
+      "path": "bomdd/migration/evidence/stabilization-report.md",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-OPERATIONS-HANDOVER",
+      "path": "bomdd/migration/evidence/operations-handover.md",
+      "status": "missing",
+      "evidence": []
+    },
+    {
+      "id": "ART-LEGACY-DISPOSITION",
+      "path": "bomdd/migration/legacy-system-disposition.md",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DB-TECH-DECISIONS",
+      "path": "bomdd/migration/decisions/MIG-30-db-technical-decisions.json",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-IMPLEMENTATION-DECISIONS",
+      "path": "bomdd/migration/decisions/MIG-40-implementation-decisions.json",
+      "status": "present",
+      "evidence": []
+    },
+    {
+      "id": "ART-DEPLOYMENT-DECISIONS",
+      "path": "bomdd/migration/decisions/MIG-80-deployment-decisions.json",
+      "status": "present",
+      "evidence": []
+    }
+  ],
+  "approvals": [
+    {
+      "milestone": "MIG-00",
+      "role": "Migration Owner",
+      "status": "approved",
+      "approver": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/evidence/MIG-00-approval.md",
+      "evidence_sha256": "d4d0dd4048b5622c43d4f8d8ee9c10d8c63e1351343e758b8225c3d249d5ed6f"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "Migration Owner",
+      "status": "superseded",
+      "approver": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/evidence/MIG-10-approval.md",
+      "evidence_sha256": "5fdc4f1450637622aaedb67dd181c04a0c9140febfe86cd31ae10cb851bbe2e0",
+      "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+      "superseded_at": "2026-07-19T09:16:37Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "DB Custodian",
+      "status": "superseded",
+      "approver": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/evidence/MIG-10-approval.md",
+      "evidence_sha256": "5fdc4f1450637622aaedb67dd181c04a0c9140febfe86cd31ae10cb851bbe2e0",
+      "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+      "superseded_at": "2026-07-19T09:16:37Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "Migration Owner",
+      "status": "superseded",
+      "approver": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/evidence/IMP-006-migration-owner-approval.md",
+      "evidence_sha256": "9e5ae3ca57e9c0ec0b4c9e352be0cb123206f9c6eba647df5777fa17f1b66d2b",
+      "approved_at": "2026-07-19T09:27:12Z",
+      "change_id": "COR-MIG-10-20260719T091637444408Z",
+      "superseded_by": "COR-MIG-10-20260719T092934417658Z",
+      "superseded_at": "2026-07-19T09:29:34Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "DB Custodian",
+      "status": "superseded",
+      "approver": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/evidence/IMP-006-db-custodian-approval.md",
+      "evidence_sha256": "ca3f2f4cc1c169185b51955c3da94b0b0384899dc9fa74a6be3d7ef71b625d6b",
+      "approved_at": "2026-07-19T09:27:14Z",
+      "change_id": "COR-MIG-10-20260719T091637444408Z",
+      "superseded_by": "COR-MIG-10-20260719T092934417658Z",
+      "superseded_at": "2026-07-19T09:29:34Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "UI Approver",
+      "status": "superseded",
+      "approver": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/evidence/IMP-006-ui-approver-approval.md",
+      "evidence_sha256": "da8d2e2b1894435f4a02528fb84dedf5bd48cd4daf0c426d7aedb6c3f31a959f",
+      "approved_at": "2026-07-19T09:27:15Z",
+      "change_id": "COR-MIG-10-20260719T091637444408Z",
+      "superseded_by": "COR-MIG-10-20260719T092934417658Z",
+      "superseded_at": "2026-07-19T09:29:34Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "Migration Owner",
+      "status": "approved",
+      "approver": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/evidence/IMP-006-correction-migration-owner-approval.md",
+      "evidence_sha256": "fb8b8f665fb70256385d53c33321a559ee5274cac8156038bc44cc5e93a255a8",
+      "approved_at": "2026-07-19T09:30:22Z",
+      "change_id": "COR-MIG-10-20260719T092934417658Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "DB Custodian",
+      "status": "approved",
+      "approver": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/evidence/IMP-006-correction-db-custodian-approval.md",
+      "evidence_sha256": "715221fd0635384a03d02544ad8ad91ab3830e422a61002ca3ad6bbc5c90cc70",
+      "approved_at": "2026-07-19T09:30:23Z",
+      "change_id": "COR-MIG-10-20260719T092934417658Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "role": "UI Approver",
+      "status": "approved",
+      "approver": "Experiment Operator (Codex)",
+      "evidence": "bomdd/migration/evidence/IMP-006-correction-ui-approver-approval.md",
+      "evidence_sha256": "44fd3c1afcb227e5ca4ba4eaf4d9fc0354203fac0febec604f860efdd675e7e8",
+      "approved_at": "2026-07-19T09:30:25Z",
+      "change_id": "COR-MIG-10-20260719T092934417658Z"
+    }
+  ],
+  "blockers": [],
+  "non_blockers": [],
+  "alternate_safe_work": [],
+  "updated_at": "2026-07-19T09:30:26Z",
+  "content_seal_history": [
+    {
+      "milestone": "MIG-00",
+      "reviewer": "Experiment Operator (Codex)",
+      "review_evidence": "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+      "review_evidence_sha256": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92",
+      "sealed_at": "2026-07-19T04:41:36Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "reviewer": "Experiment Operator (Codex)",
+      "review_evidence": "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+      "review_evidence_sha256": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92",
+      "sealed_at": "2026-07-19T04:41:37Z"
+    }
+  ],
+  "scenario_upgrade_history": [
+    {
+      "id": "decision-layout/1.0",
+      "reviewer": "Experiment Operator (Codex)",
+      "review_evidence": "bomdd/migration/evidence/IMP-005-decision-layout-upgrade.md",
+      "review_evidence_sha256": "aba89f57ba10900aa52b59fc5cf22e421bbb79d325f8f1b6782eb1c7500869d9",
+      "imported_decisions": [
+        "DEC-DB-SEMANTICS",
+        "DEC-WINDOWS",
+        "DEC-ARCH",
+        "DEC-DI",
+        "DEC-TEST",
+        "DEC-PACKAGING"
+      ],
+      "requires_reaffirmation": [
+        "DEC-DOTNET",
+        "DEC-DB-PROVIDER"
+      ],
+      "adopted_at": "2026-07-19T08:07:07Z"
+    }
+  ],
+  "gate_supersessions": [
+    {
+      "milestone": "MIG-10",
+      "change_id": "COR-MIG-10-20260719T091637444408Z",
+      "superseded_gate_ref": "bomdd/migration/gates/MIG-10-result.json",
+      "replacement_gate_ref": "bomdd/migration/gates/MIG-10-recheck-COR-MIG-10-20260719T091637444408Z.json",
+      "status": "replaced",
+      "opened_at": "2026-07-19T09:16:37Z",
+      "closed_at": "2026-07-19T09:27:17Z"
+    },
+    {
+      "milestone": "MIG-10",
+      "change_id": "COR-MIG-10-20260719T092934417658Z",
+      "superseded_gate_ref": "bomdd/migration/gates/MIG-10-recheck-COR-MIG-10-20260719T091637444408Z.json",
+      "replacement_gate_ref": "bomdd/migration/gates/MIG-10-recheck-COR-MIG-10-20260719T092934417658Z.json",
+      "status": "replaced",
+      "opened_at": "2026-07-19T09:29:34Z",
+      "closed_at": "2026-07-19T09:30:26Z"
+    }
+  ],
+  "accepted_change_history": [
+    {
+      "id": "COR-MIG-10-20260719T091637444408Z",
+      "state": "closed",
+      "milestone": "MIG-10",
+      "changed_file": "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+      "reason": "fixture実体とUI証跡実体のhash・形式・意味条件をGateで検査し、誤った画像拡張子を訂正する",
+      "owner": "Experiment Operator (Codex)",
+      "opened_at": "2026-07-19T09:16:37Z",
+      "change_record": "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+      "change_record_sha256": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+      "affected_artifacts": [
+        "ART-BASELINE",
+        "ART-BUILD-LOG",
+        "ART-CURRENT-OBS",
+        "ART-DB-BASELINE"
+      ],
+      "affected_approval_evidence_roles": [],
+      "previous_acceptances": {
+        "ART-CURRENT-OBS": {
+          "id": "ART-CURRENT-OBS",
+          "path": "bomdd/migration/current-observation-index.md",
+          "status": "accepted",
+          "evidence": [
+            "bomdd/migration/evidence/MIG-10-artifact-review.md",
+            "bomdd/migration/evidence/MIG-10-correction-001.md",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+          ],
+          "content_hashes": {
+            "bomdd/migration/current-observation-index.md": "46a07a32d37986b5e52338203c30d74b96dfd7f9b3431259eec5b2feb1d28a34",
+            "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+            "bomdd/migration/evidence/MIG-10-correction-001.md": "9dc744487b2096738f4de46e34f217c3beb25b8cf7dd0259205c212419f00196",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+          },
+          "content_sealed_at": "2026-07-19T04:41:37Z",
+          "content_sealed_by": "Experiment Operator (Codex)"
+        },
+        "ART-BASELINE": {
+          "id": "ART-BASELINE",
+          "path": "bomdd/migration/current-baseline.md",
+          "status": "accepted",
+          "evidence": [
+            "bomdd/migration/evidence/MIG-10-artifact-review.md",
+            "bomdd/migration/evidence/MIG-10-correction-001.md",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+          ],
+          "content_hashes": {
+            "bomdd/migration/current-baseline.md": "7cd3b277d899ab7b22f7869362903e3159b5c90b26edba9b0e93515ff64f468c",
+            "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+            "bomdd/migration/evidence/MIG-10-correction-001.md": "9dc744487b2096738f4de46e34f217c3beb25b8cf7dd0259205c212419f00196",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+          },
+          "content_sealed_at": "2026-07-19T04:41:37Z",
+          "content_sealed_by": "Experiment Operator (Codex)"
+        },
+        "ART-BUILD-LOG": {
+          "id": "ART-BUILD-LOG",
+          "path": "bomdd/migration/evidence/baseline-build.log",
+          "status": "accepted",
+          "evidence": [
+            "bomdd/migration/evidence/baseline-build.log",
+            "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+          ],
+          "content_hashes": {
+            "bomdd/migration/evidence/baseline-build.log": "0a0195de96013aff05334825634f9880aff53688248c66f54136a9c738b926cf",
+            "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md": "9adc1b7272ca56d6382b965ba085081a4b6c2cd8de33cd108fae81e9b56b96fb",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+          },
+          "content_sealed_at": "2026-07-19T04:41:37Z",
+          "content_sealed_by": "Experiment Operator (Codex)"
+        },
+        "ART-DB-BASELINE": {
+          "id": "ART-DB-BASELINE",
+          "path": "bomdd/migration/db-baseline.md",
+          "status": "accepted",
+          "evidence": [
+            "bomdd/migration/evidence/baseline-db-observation.md",
+            "bomdd/migration/evidence/baseline-schema.sql",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+          ],
+          "content_hashes": {
+            "bomdd/migration/db-baseline.md": "4d740f2066d043f02f139a97cc5e1609b67c92806b2073ebfe40c891d8da182e",
+            "bomdd/migration/evidence/baseline-db-observation.md": "099bc690bbac369209956cd06a31835e28116ae902bc84d77dfa28ff01632410",
+            "bomdd/migration/evidence/baseline-schema.sql": "dd5179a4c76f010a8ccc2705233bbedf1439ee471751cd729cad90c820796b73",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+          },
+          "content_sealed_at": "2026-07-19T04:41:37Z",
+          "content_sealed_by": "Experiment Operator (Codex)"
+        }
+      },
+      "previous_approvals": [
+        {
+          "milestone": "MIG-10",
+          "role": "Migration Owner",
+          "status": "approved",
+          "approver": "Experiment Operator (Codex)",
+          "evidence": "bomdd/migration/evidence/MIG-10-approval.md",
+          "evidence_sha256": "5fdc4f1450637622aaedb67dd181c04a0c9140febfe86cd31ae10cb851bbe2e0"
+        },
+        {
+          "milestone": "MIG-10",
+          "role": "DB Custodian",
+          "status": "approved",
+          "approver": "Experiment Operator (Codex)",
+          "evidence": "bomdd/migration/evidence/MIG-10-approval.md",
+          "evidence_sha256": "5fdc4f1450637622aaedb67dd181c04a0c9140febfe86cd31ae10cb851bbe2e0"
+        }
+      ],
+      "superseded_gate_ref": "bomdd/migration/gates/MIG-10-result.json",
+      "resume_current": {
+        "milestone": "MIG-20",
+        "step": "STEP-021",
+        "work_item": "MIG-20",
+        "action": "既存成果物、機能、UI、DB object、外部依存を全数化する",
+        "owner": "Experiment Operator (Codex)",
+        "started_at": "2026-07-19T02:56:22Z"
+      },
+      "resume_next": {
+        "step": "STEP-022",
+        "action": "機能台帳を作る"
+      },
+      "retest_evidence": [
+        "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md"
+      ],
+      "retest_evidence_hashes": {
+        "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb"
+      },
+      "retested_at": "2026-07-19T09:27:09Z",
+      "reacceptance_reviewer": "Experiment Operator (Codex)",
+      "reacceptance_evidence": [
+        "bomdd/migration/evidence/baseline-fixture-manifest.json",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+        "bomdd/migration/evidence/IMP-006-reacceptance-review.md"
+      ],
+      "reacceptance_evidence_hashes": {
+        "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+        "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79"
+      },
+      "reaccepted_at": "2026-07-19T09:27:11Z",
+      "closed_at": "2026-07-19T09:27:17Z",
+      "replacement_gate_ref": "bomdd/migration/gates/MIG-10-recheck-COR-MIG-10-20260719T091637444408Z.json"
+    },
+    {
+      "id": "COR-MIG-10-20260719T092934417658Z",
+      "state": "closed",
+      "milestone": "MIG-10",
+      "changed_file": "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+      "changed_files": [
+        "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+      ],
+      "reason": "IMP-006の説明追記がMIG-00との共有sealを不要に変更したため、共有証跡を元のaccepted bytesへ復元する",
+      "owner": "Experiment Operator (Codex)",
+      "opened_at": "2026-07-19T09:29:34Z",
+      "change_record": "bomdd/migration/changes/COR-MIG-10-20260719T092934417658Z.md",
+      "change_record_sha256": "2b6cb25ed66daf3c67c3cdd25e0ab5df166378cd5106e9f8279f41a146035621",
+      "affected_artifacts": [
+        "ART-BASELINE",
+        "ART-BUILD-LOG",
+        "ART-CURRENT-OBS",
+        "ART-DB-BASELINE"
+      ],
+      "affected_approval_evidence_roles": [],
+      "previous_acceptances": {
+        "ART-CURRENT-OBS": {
+          "id": "ART-CURRENT-OBS",
+          "path": "bomdd/migration/current-observation-index.md",
+          "status": "accepted",
+          "evidence": [
+            "bomdd/migration/evidence/MIG-10-artifact-review.md",
+            "bomdd/migration/evidence/MIG-10-correction-001.md",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+            "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+            "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+            "bomdd/migration/evidence/baseline-fixture-manifest.json",
+            "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+            "bomdd/migration/evidence/IMP-006-reacceptance-review.md"
+          ],
+          "content_hashes": {
+            "bomdd/migration/current-observation-index.md": "99556b9171dee7d60308f9518d1700fa20de8cc4cd0463d9aa0ce6df097e1a5a",
+            "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+            "bomdd/migration/evidence/MIG-10-correction-001.md": "129f433ec6e3e9452004bc72401506a9919a2cb1eee2d1dd0d03919a38784e04",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md": "b1aab082da3b1419bb2daa32b9d71ebfe8c107eec902d2e49240cacddb87ac81",
+            "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+            "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+            "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+            "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+            "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79"
+          },
+          "content_sealed_at": "2026-07-19T04:41:37Z",
+          "content_sealed_by": "Experiment Operator (Codex)",
+          "acceptance_history": [
+            {
+              "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+              "superseded_at": "2026-07-19T09:16:37Z",
+              "acceptance": {
+                "id": "ART-CURRENT-OBS",
+                "path": "bomdd/migration/current-observation-index.md",
+                "status": "accepted",
+                "evidence": [
+                  "bomdd/migration/evidence/MIG-10-artifact-review.md",
+                  "bomdd/migration/evidence/MIG-10-correction-001.md",
+                  "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+                ],
+                "content_hashes": {
+                  "bomdd/migration/current-observation-index.md": "46a07a32d37986b5e52338203c30d74b96dfd7f9b3431259eec5b2feb1d28a34",
+                  "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+                  "bomdd/migration/evidence/MIG-10-correction-001.md": "9dc744487b2096738f4de46e34f217c3beb25b8cf7dd0259205c212419f00196",
+                  "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+                },
+                "content_sealed_at": "2026-07-19T04:41:37Z",
+                "content_sealed_by": "Experiment Operator (Codex)"
+              }
+            }
+          ],
+          "accepted_at": "2026-07-19T09:27:11Z",
+          "accepted_by": "Experiment Operator (Codex)",
+          "accepted_change_id": "COR-MIG-10-20260719T091637444408Z"
+        },
+        "ART-DB-BASELINE": {
+          "id": "ART-DB-BASELINE",
+          "path": "bomdd/migration/db-baseline.md",
+          "status": "accepted",
+          "evidence": [
+            "bomdd/migration/evidence/baseline-db-observation.md",
+            "bomdd/migration/evidence/baseline-schema.sql",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+            "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+            "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+            "bomdd/migration/evidence/baseline-fixture-manifest.json",
+            "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+            "bomdd/migration/evidence/IMP-006-reacceptance-review.md"
+          ],
+          "content_hashes": {
+            "bomdd/migration/db-baseline.md": "6db0086e81c69239ec7b2832ad5ee931cb75fa92c03bb8c728c8f5764a09231e",
+            "bomdd/migration/evidence/baseline-db-observation.md": "fe9e7fe40f76568b8061bff15a4cc3d8793b720d137762c0b10bf081083afca9",
+            "bomdd/migration/evidence/baseline-schema.sql": "dd5179a4c76f010a8ccc2705233bbedf1439ee471751cd729cad90c820796b73",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md": "b1aab082da3b1419bb2daa32b9d71ebfe8c107eec902d2e49240cacddb87ac81",
+            "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+            "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+            "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+            "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+            "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79"
+          },
+          "content_sealed_at": "2026-07-19T04:41:37Z",
+          "content_sealed_by": "Experiment Operator (Codex)",
+          "acceptance_history": [
+            {
+              "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+              "superseded_at": "2026-07-19T09:16:37Z",
+              "acceptance": {
+                "id": "ART-DB-BASELINE",
+                "path": "bomdd/migration/db-baseline.md",
+                "status": "accepted",
+                "evidence": [
+                  "bomdd/migration/evidence/baseline-db-observation.md",
+                  "bomdd/migration/evidence/baseline-schema.sql",
+                  "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+                ],
+                "content_hashes": {
+                  "bomdd/migration/db-baseline.md": "4d740f2066d043f02f139a97cc5e1609b67c92806b2073ebfe40c891d8da182e",
+                  "bomdd/migration/evidence/baseline-db-observation.md": "099bc690bbac369209956cd06a31835e28116ae902bc84d77dfa28ff01632410",
+                  "bomdd/migration/evidence/baseline-schema.sql": "dd5179a4c76f010a8ccc2705233bbedf1439ee471751cd729cad90c820796b73",
+                  "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+                },
+                "content_sealed_at": "2026-07-19T04:41:37Z",
+                "content_sealed_by": "Experiment Operator (Codex)"
+              }
+            }
+          ],
+          "accepted_at": "2026-07-19T09:27:11Z",
+          "accepted_by": "Experiment Operator (Codex)",
+          "accepted_change_id": "COR-MIG-10-20260719T091637444408Z"
+        },
+        "ART-BASELINE": {
+          "id": "ART-BASELINE",
+          "path": "bomdd/migration/current-baseline.md",
+          "status": "accepted",
+          "evidence": [
+            "bomdd/migration/evidence/MIG-10-artifact-review.md",
+            "bomdd/migration/evidence/MIG-10-correction-001.md",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+            "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+            "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+            "bomdd/migration/evidence/baseline-fixture-manifest.json",
+            "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+            "bomdd/migration/evidence/IMP-006-reacceptance-review.md"
+          ],
+          "content_hashes": {
+            "bomdd/migration/current-baseline.md": "d26405f4ce8a0178330dcb319a53def010851d83a4c02bb797b00ac34f37caf8",
+            "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+            "bomdd/migration/evidence/MIG-10-correction-001.md": "129f433ec6e3e9452004bc72401506a9919a2cb1eee2d1dd0d03919a38784e04",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md": "b1aab082da3b1419bb2daa32b9d71ebfe8c107eec902d2e49240cacddb87ac81",
+            "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+            "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+            "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+            "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+            "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79"
+          },
+          "content_sealed_at": "2026-07-19T04:41:37Z",
+          "content_sealed_by": "Experiment Operator (Codex)",
+          "acceptance_history": [
+            {
+              "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+              "superseded_at": "2026-07-19T09:16:37Z",
+              "acceptance": {
+                "id": "ART-BASELINE",
+                "path": "bomdd/migration/current-baseline.md",
+                "status": "accepted",
+                "evidence": [
+                  "bomdd/migration/evidence/MIG-10-artifact-review.md",
+                  "bomdd/migration/evidence/MIG-10-correction-001.md",
+                  "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+                ],
+                "content_hashes": {
+                  "bomdd/migration/current-baseline.md": "7cd3b277d899ab7b22f7869362903e3159b5c90b26edba9b0e93515ff64f468c",
+                  "bomdd/migration/evidence/MIG-10-artifact-review.md": "04e64e7e0cdafba634b5de8c79e78694b24b9212648181b4739dea56276d7891",
+                  "bomdd/migration/evidence/MIG-10-correction-001.md": "9dc744487b2096738f4de46e34f217c3beb25b8cf7dd0259205c212419f00196",
+                  "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+                },
+                "content_sealed_at": "2026-07-19T04:41:37Z",
+                "content_sealed_by": "Experiment Operator (Codex)"
+              }
+            }
+          ],
+          "accepted_at": "2026-07-19T09:27:11Z",
+          "accepted_by": "Experiment Operator (Codex)",
+          "accepted_change_id": "COR-MIG-10-20260719T091637444408Z"
+        },
+        "ART-BUILD-LOG": {
+          "id": "ART-BUILD-LOG",
+          "path": "bomdd/migration/evidence/baseline-build.log",
+          "status": "accepted",
+          "evidence": [
+            "bomdd/migration/evidence/baseline-build.log",
+            "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md",
+            "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md",
+            "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md",
+            "bomdd/migration/evidence/baseline-fixture-manifest.json",
+            "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+            "bomdd/migration/evidence/IMP-006-reacceptance-review.md"
+          ],
+          "content_hashes": {
+            "bomdd/migration/evidence/baseline-build.log": "0a0195de96013aff05334825634f9880aff53688248c66f54136a9c738b926cf",
+            "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md": "9adc1b7272ca56d6382b965ba085081a4b6c2cd8de33cd108fae81e9b56b96fb",
+            "bomdd/migration/evidence/IMP-002-existing-content-review.md": "b1aab082da3b1419bb2daa32b9d71ebfe8c107eec902d2e49240cacddb87ac81",
+            "bomdd/migration/changes/COR-MIG-10-20260719T091637444408Z.md": "dca069cb5f1da5ce1a7aa8f4b32e6ebfba5b66b70d1ddf701ef427c053c0c428",
+            "bomdd/migration/evidence/IMP-006-fixture-ui-validation.md": "3738231ae4953c9978916787aec4ee95139929057013b0eeac0334ba808b70cb",
+            "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+            "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+            "bomdd/migration/evidence/IMP-006-reacceptance-review.md": "e881283675b14066085b0b81d06c1612e03a5153c9ef27a5f05439833eae5a79"
+          },
+          "content_sealed_at": "2026-07-19T04:41:37Z",
+          "content_sealed_by": "Experiment Operator (Codex)",
+          "acceptance_history": [
+            {
+              "superseded_by": "COR-MIG-10-20260719T091637444408Z",
+              "superseded_at": "2026-07-19T09:16:37Z",
+              "acceptance": {
+                "id": "ART-BUILD-LOG",
+                "path": "bomdd/migration/evidence/baseline-build.log",
+                "status": "accepted",
+                "evidence": [
+                  "bomdd/migration/evidence/baseline-build.log",
+                  "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md",
+                  "bomdd/migration/evidence/IMP-002-existing-content-review.md"
+                ],
+                "content_hashes": {
+                  "bomdd/migration/evidence/baseline-build.log": "0a0195de96013aff05334825634f9880aff53688248c66f54136a9c738b926cf",
+                  "bomdd/migration/exceptions/EX-BASELINE-001-20260719.md": "9adc1b7272ca56d6382b965ba085081a4b6c2cd8de33cd108fae81e9b56b96fb",
+                  "bomdd/migration/evidence/IMP-002-existing-content-review.md": "6e11478689350a16f9ca8dece8e7030308f68cf6d3c7d582d31c2955c2a4fe92"
+                },
+                "content_sealed_at": "2026-07-19T04:41:37Z",
+                "content_sealed_by": "Experiment Operator (Codex)"
+              }
+            }
+          ],
+          "accepted_at": "2026-07-19T09:27:11Z",
+          "accepted_by": "Experiment Operator (Codex)",
+          "accepted_change_id": "COR-MIG-10-20260719T091637444408Z"
+        }
+      },
+      "previous_approvals": [
+        {
+          "milestone": "MIG-10",
+          "role": "Migration Owner",
+          "status": "approved",
+          "approver": "Experiment Operator (Codex)",
+          "evidence": "bomdd/migration/evidence/IMP-006-migration-owner-approval.md",
+          "evidence_sha256": "9e5ae3ca57e9c0ec0b4c9e352be0cb123206f9c6eba647df5777fa17f1b66d2b",
+          "approved_at": "2026-07-19T09:27:12Z",
+          "change_id": "COR-MIG-10-20260719T091637444408Z"
+        },
+        {
+          "milestone": "MIG-10",
+          "role": "DB Custodian",
+          "status": "approved",
+          "approver": "Experiment Operator (Codex)",
+          "evidence": "bomdd/migration/evidence/IMP-006-db-custodian-approval.md",
+          "evidence_sha256": "ca3f2f4cc1c169185b51955c3da94b0b0384899dc9fa74a6be3d7ef71b625d6b",
+          "approved_at": "2026-07-19T09:27:14Z",
+          "change_id": "COR-MIG-10-20260719T091637444408Z"
+        },
+        {
+          "milestone": "MIG-10",
+          "role": "UI Approver",
+          "status": "approved",
+          "approver": "Experiment Operator (Codex)",
+          "evidence": "bomdd/migration/evidence/IMP-006-ui-approver-approval.md",
+          "evidence_sha256": "da8d2e2b1894435f4a02528fb84dedf5bd48cd4daf0c426d7aedb6c3f31a959f",
+          "approved_at": "2026-07-19T09:27:15Z",
+          "change_id": "COR-MIG-10-20260719T091637444408Z"
+        }
+      ],
+      "superseded_gate_ref": "bomdd/migration/gates/MIG-10-recheck-COR-MIG-10-20260719T091637444408Z.json",
+      "resume_current": {
+        "milestone": "MIG-20",
+        "step": "STEP-021",
+        "work_item": "MIG-20",
+        "action": "既存成果物、機能、UI、DB object、外部依存を全数化する",
+        "owner": "Experiment Operator (Codex)",
+        "started_at": "2026-07-19T02:56:22Z"
+      },
+      "resume_next": {
+        "step": "STEP-022",
+        "action": "機能台帳を作る"
+      },
+      "retest_evidence": [
+        "bomdd/migration/evidence/IMP-006-shared-evidence-correction.md"
+      ],
+      "retest_evidence_hashes": {
+        "bomdd/migration/evidence/IMP-006-shared-evidence-correction.md": "4d7846521ccd73c361dca8eeb9ae11e6d18fbe3d21f2a76794215ee2c3461705"
+      },
+      "retested_at": "2026-07-19T09:30:19Z",
+      "reacceptance_reviewer": "Experiment Operator (Codex)",
+      "reacceptance_evidence": [
+        "bomdd/migration/evidence/baseline-fixture-manifest.json",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-reacceptance.md"
+      ],
+      "reacceptance_evidence_hashes": {
+        "bomdd/migration/evidence/baseline-fixture-manifest.json": "3d20136dade5eed3c01622899fc7ca8b91cb9b71de529a14ed8dbe8a3a4faf72",
+        "bomdd/migration/evidence/current-ui-evidence-manifest.json": "39415fe6e6a2f509acb2c707a753a00ba199e2df8fcfbef3d2842c43144126c3",
+        "bomdd/migration/evidence/IMP-006-shared-evidence-reacceptance.md": "c1bbfea472845e0c1a38e332ffff8eddfede1d71131f06dfd7168eb27df54334"
+      },
+      "reaccepted_at": "2026-07-19T09:30:21Z",
+      "closed_at": "2026-07-19T09:30:26Z",
+      "replacement_gate_ref": "bomdd/migration/gates/MIG-10-recheck-COR-MIG-10-20260719T092934417658Z.json"
+    }
+  ]
+}

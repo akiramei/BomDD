@@ -1,0 +1,59 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: As-Built
+
+# 製造来歴(SLSA provenance の AI 製造拡張)。1工場の1製造 = 1エントリ
+
+as_built:
+  - id: AB-<ループID>-factory-01
+    lifecycle_state: as-built
+    work_order_ref: bomdd/40-work-order.md@<commit/tag>
+    mbom_ref: bomdd/32-mbom.yaml@<commit/tag>
+    routing_ref: bomdd/34-routing.yaml@<commit/tag>
+    control_plan_ref: bomdd/33-control-plan.yaml@<commit/tag>
+    input_bom_tag: <供与した固定 BOM の tag>
+    ai_model: <例 claude-opus-4-8>
+    prompt_hash: <投入プロンプト(work order 全文)の sha256>
+    isolation: clean             # 設計対話・オラクル・前工場成果の非開示を確認
+    artifacts_sha256:
+      - path: <成果物>
+        sha256: <hash>
+    self_acceptance: <例 26/26 green>
+    inspections:                 # 設計者側オラクルの結果(Phase 5)
+      fixed_oracle: <例 0/16 差分(現固定オラクル被覆で未観測差分ゼロ)>
+      exploratory: <probe 結果への参照>
+    test_evidence_refs:
+      - evidence_id: TE-<ループID>-001
+        cp_ref: CP-<NAME>-001
+        result: pass              # pass | fail | blocked | not-run
+        evidence_path: bomdd/plm-intake/sync-results/<evidence>.json
+        observed_at: <YYYY-MM-DDTHH:mm:ssZ>
+        notes: <Control Plan の depth/tolerance に照らした判定>
+    harness_refs:                # 道具の指し先個体(candidate・playbook §4.4「道具の個体参照」— plm ECO-001 / transfer-01 還元)
+      # 検査器・サンプル生成・測定の道具が参照する個体を記録する。個体の昇格・交代時は
+      # points_at の更新を同期対象に含める(旧個体参照の齟齬は緑・無警告のまま潜伏する)
+      - tool: <治具/道具のパス 例 bomdd/jigs/make_sample.py>
+        points_at: <参照する個体(build path / tag / sha256)>
+        verified_at: <個体昇格・交代時に参照先を更新確認した日時>
+    cheats:                      # 申告されたずるへの参照
+      - CHEAT-<ID>
+    trace_links:
+      - trace_id: TL-M-AB-001
+        from: M-<NAME>-001
+        to: AB-<ループID>-factory-01
+        relation: records
+        evidence: bomdd/50-as-built.yaml
+        status: active
+      - trace_id: TL-AB-SB-001
+        from: AB-<ループID>-factory-01
+        to: SB-<NAME>-001
+        relation: maintains
+        evidence: bomdd/53-service-bom.yaml
+        status: proposed
+
+# PLM-ready checklist:
+#   - artifacts_sha256.path は M-BOM output_artifact_ref と対応する
+#   - test_evidence_refs.cp_ref は Control Plan の実在 ID を指す
+#   - self_acceptance が赤のままの場合、納品ではなく manufacturing nonconformance
+#   - As-Built は Service BOM から逆引きできる

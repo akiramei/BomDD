@@ -1,0 +1,68 @@
+bomdd:
+  product: <プロジェクト名>
+  experiment: <ループID>
+  layer: K-BOM
+
+# K-BOM 調達(playbook §4.3 — フォワードでは製造前に抽出):
+#   表面部品ごとに設計AIへ「この領域を BOM 記載なしで実装するとき、
+#   あなたが慣習で埋めるであろう判断をすべて列挙せよ」と問い、
+#   1件ずつ 固定(ここへ) / exploratory / out-of-scope に裁定する。
+# 「K-BOM に無い判断は CHEAT として記録」(method-v1 §2)
+
+kbom:
+  items:
+    - id: K-<NAME>-001
+      name: <知識パック名 例 HTTP/REST status conventions>
+      purpose: <AI が暗黙に補いそうな判断を明示管理する理由>
+      knowledge_kind: tool-grammar      # tool-grammar | design-system | domain-convention | dependency-version | policy
+      lifecycle_state: draft            # draft | ready-for-plm | manufacturing-ready | retired
+      version: v1                       # S-BOM が劣化逆引きに使う
+      source: <出所(仕様URL / デザインシステム / 規約)>
+      source_retrieved_at: <YYYY-MM-DD or unknown>
+      managed_knowledge:                # 製造装置が従うべき判断を箇条書きで固定
+        - <例 全ての検証エラーは HTTP 400 + code=invalid_request(validation_error は使わない)>
+        - <例 idempotency fingerprint は roomId, customerId, startUtc, endUtc(key は含めない)>
+      risk_if_implicit: <暗黙のままだと工場ごとに何が分岐するか>
+      consumers:                        # この知識を参照する表面部品
+        - E-<NAME>-001
+      depends_on: []
+      acceptance_refs:
+        - CP-<NAME>-KNOWLEDGE-001
+      trace_links:
+        - trace_id: TL-K-E-001
+          from: K-<NAME>-001
+          to: E-<NAME>-001
+          relation: depends-on
+          evidence: bomdd/30-ebom.yaml
+          status: active
+      unresolved_questions: []
+
+    - id: K-DATETIME-UTC-001
+      name: UTC timestamp storage convention
+      purpose: Prevent factories from mixing local time, epoch numbers, and provider defaults.
+      knowledge_kind: domain-convention
+      lifecycle_state: ready-for-plm
+      version: v1
+      source: bomdd/plm-intake/datetime-policy.md
+      source_retrieved_at: unknown
+      managed_knowledge:
+        - Persist timestamps as ISO-8601 literal-Z UTC text.
+        - Reject non-Z input at the API boundary.
+      risk_if_implicit: Factories may choose incompatible timestamp formats, breaking DB migration and acceptance fixtures.
+      consumers: [E-PERSISTENCE-001, M-PERSISTENCE-001]
+      depends_on: []
+      acceptance_refs: [CP-DATETIME-001]
+      trace_links:
+        - trace_id: TL-K-CP-001
+          from: K-DATETIME-UTC-001
+          to: CP-DATETIME-001
+          relation: verifies
+          evidence: bomdd/33-control-plan.yaml
+          status: active
+      unresolved_questions: []
+
+# PLM-ready checklist:
+#   - version/source/source_retrieved_at を持つ
+#   - consumers が E-BOM または M-BOM の実在 ID を指す
+#   - risk_if_implicit が空でない
+#   - 版更新時に 53-service-bom.yaml から逆引きできる

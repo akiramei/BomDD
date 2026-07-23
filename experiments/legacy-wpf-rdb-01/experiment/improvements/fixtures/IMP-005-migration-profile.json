@@ -1,0 +1,27 @@
+{
+  "schema": "bomdd-legacy-wpf-profile/1.1",
+  "product": "IMP-005 isolated test",
+  "scenario": {
+    "id": "legacy-wpf-rdb",
+    "enabled": true,
+    "activated_at": "2026-07-19"
+  },
+  "constraints": {
+    "target_ui": "WPF",
+    "target_language": "C#",
+    "database_policy": "reuse-existing-schema",
+    "production_database_tests": "forbidden",
+    "concurrent_writers": "single-writer",
+    "dual_write": "forbidden-unless-separate-approved-design",
+    "migration_refactoring": "out-of-scope"
+  },
+  "owners": {
+    "Migration Owner": "IMP-005 Test Owner",
+    "Specification Owner": "IMP-005 Test Owner",
+    "DB Custodian": "IMP-005 Test Owner",
+    "WPF Technical Owner": "IMP-005 Test Owner",
+    "UI Approver": "IMP-005 Test Owner",
+    "Acceptance Owner": "IMP-005 Test Owner",
+    "Migration Worker": "IMP-005 Test Owner"
+  }
+}

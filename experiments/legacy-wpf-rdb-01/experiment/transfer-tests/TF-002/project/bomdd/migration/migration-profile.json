@@ -1,0 +1,27 @@
+{
+  "schema": "bomdd-legacy-wpf-profile/1.1",
+  "product": "TransferFixture",
+  "scenario": {
+    "id": "legacy-wpf-rdb",
+    "enabled": true,
+    "activated_at": "2026-07-19"
+  },
+  "constraints": {
+    "target_ui": "WPF",
+    "target_language": "C#",
+    "database_policy": "reuse-existing-schema",
+    "production_database_tests": "forbidden",
+    "concurrent_writers": "single-writer",
+    "dual_write": "forbidden-unless-separate-approved-design",
+    "migration_refactoring": "out-of-scope"
+  },
+  "owners": {
+    "Migration Owner": "TF-001 Assigned Team",
+    "Specification Owner": "TF-001 Assigned Team",
+    "DB Custodian": "TF-001 Assigned Team",
+    "WPF Technical Owner": "TF-001 Assigned Team",
+    "UI Approver": "TF-001 Assigned Team",
+    "Acceptance Owner": "TF-001 Assigned Team",
+    "Migration Worker": "TF-001 Assigned Team"
+  }
+}
