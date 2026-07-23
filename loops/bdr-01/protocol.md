@@ -1,7 +1,20 @@
 # bdr-01 — 迷った E-BOM 境界の最小 BDR: 有効性の実測(protocol 骨子)
 
-status: filed(凍結トリガー待ち — 下記「実題材」参照)
+status: frozen(active・2026-07-23 — トリガー=ViewPrism2 ECO-139。当該 ECO の /eco-fix(影響分析・E-BOM 設計)前に凍結)
 origin: 2026-07-23 外部提案裁定(method/improvements.md 同日節・EXP-20260723-01)
+
+## 凍結(2026-07-23 — 凍結証明=本コミット)
+
+- **トリガー ECO**: ViewPrism2 **ECO-139**(未裁定 PendingReview の高信頼同一候補を一括自動裁定)。
+  gate①=案A(hash 厳格)・初版 new+candidate 限定で裁定済み・**/eco-fix 前**(=影響分析前)。
+- **迷う境界(対象 4 条件の該当)**: 高信頼バッチ自動裁定+選別ロジックの**部品境界** — 「PendingReview
+  クラスタ(Service+VM)の拡張(結合案)」か「独立の同一性判定部品(分割案)」か。**条件②(分割案と結合案の
+  双方に合理性)+条件④(見直し可能性の認識= reappeared 対応 PEND-005 で scan 結合が要る)**に該当。
+- **BDR の記録先**: ViewPrism2 `bomdd/60-change-order-eco-139.md` §8(予測凍結)。/eco-fix で E-BOM に
+  部品が成立した時点で `bomdd/30-ebom.yaml` の `boundary_hypothesis` へ転記する(予測は本凍結時点で固定)。
+- **較正 §3 の様式の穴を規約化(凍結裁定)**: `boundary_hypothesis` が多:1 複合 unit に宿る場合の記録先=
+  **案(a)採用**「複合 unit の **owner 品目 1 件**に記録し、他品目からは参照」(案b M 層/案c 全品目複製は不採用=
+  二重定義回避)。ECO-139 初版は単一クラスタ拡張のため owner=PendingReview の surface owner 品目。
 
 ## 実題材(2026-07-23 裁定で確定)
 
