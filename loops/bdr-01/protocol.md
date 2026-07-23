@@ -10,7 +10,7 @@ origin: 2026-07-23 外部提案裁定(method/improvements.md 同日節・EXP-202
 - **迷う境界(対象 4 条件の該当)**: 高信頼バッチ自動裁定+選別ロジックの**部品境界** — 「PendingReview
   クラスタ(Service+VM)の拡張(結合案)」か「独立の同一性判定部品(分割案)」か。**条件②(分割案と結合案の
   双方に合理性)+条件④(見直し可能性の認識= reappeared 対応 PEND-005 で scan 結合が要る)**に該当。
-- **BDR の記録先**: ViewPrism2 `bomdd/60-change-order-eco-139.md` §8(予測凍結)。/eco-fix で E-BOM に
+- **BDR の記録先**: ViewPrism2 `bomdd/60-change-order-eco-139.md` §7(予測凍結・commit 8113092)。/eco-fix で E-BOM に
   部品が成立した時点で `bomdd/30-ebom.yaml` の `boundary_hypothesis` へ転記する(予測は本凍結時点で固定)。
 - **較正 §3 の様式の穴を規約化(凍結裁定)**: `boundary_hypothesis` が多:1 複合 unit に宿る場合の記録先=
   **案(a)採用**「複合 unit の **owner 品目 1 件**に記録し、他品目からは参照」(案b M 層/案c 全品目複製は不採用=
