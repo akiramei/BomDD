@@ -1,6 +1,8 @@
 # bdr-01 — 迷った E-BOM 境界の最小 BDR: 有効性の実測(protocol 骨子)
 
-status: frozen(active・2026-07-23 — トリガー=ViewPrism2 ECO-139。当該 ECO の /eco-fix(影響分析・E-BOM 設計)前に凍結)
+status: open(1 系列目測定済み・2026-07-24 — ECO-139 系列の測定 3 点は [measurements.md](measurements.md)。
+クローズ判定=「効果≒コスト/判定不能」→ **candidate 維持**。次の照合機会= PEND-005 発火
+〔review_trigger・弁別力検証の予約済み機会〕または次の境界を迷う ECO で 2 本目 BDR を影響分析前凍結)
 origin: 2026-07-23 外部提案裁定(method/improvements.md 同日節・EXP-20260723-01)
 
 ## 凍結(2026-07-23 — 凍結証明=本コミット)
