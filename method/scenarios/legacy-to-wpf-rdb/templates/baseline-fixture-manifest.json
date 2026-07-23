@@ -1,0 +1,44 @@
+{
+  "schema": "bomdd-legacy-wpf-baseline-fixture/1.0",
+  "fixture_id": "REPLACE-FIXTURE-ID",
+  "engine": "sqlite",
+  "source_snapshot": "REPLACE-UTC-TIMESTAMP",
+  "working_copy_policy": "copy-per-test",
+  "fixture": {
+    "path": "fixtures/baseline/REPLACE.db",
+    "sha256": "REPLACE-SHA256",
+    "immutable_baseline": true
+  },
+  "restore_copy": {
+    "path": "fixtures/restore-control/REPLACE.db",
+    "sha256": "REPLACE-SHA256"
+  },
+  "baseline_document": {
+    "path": "bomdd/migration/db-baseline.md",
+    "sha256": "REPLACE-SHA256"
+  },
+  "schema_evidence": {
+    "path": "bomdd/migration/evidence/baseline-schema.sql",
+    "sha256": "REPLACE-SHA256",
+    "normalized_schema_sha256": "REPLACE-SHA256"
+  },
+  "observation_evidence": [
+    {
+      "path": "bomdd/migration/evidence/baseline-db-observation.md",
+      "sha256": "REPLACE-SHA256"
+    }
+  ],
+  "expected_checks": {
+    "integrity_check": "ok",
+    "foreign_key_violations": 0,
+    "restore_result": "pass",
+    "restored_sha256": "REPLACE-SHA256"
+  },
+  "canonical_queries": [
+    {
+      "id": "REPLACE-QUERY-ID",
+      "sql": "SELECT COUNT(*) FROM REPLACE_TABLE",
+      "expected_rows": [[0]]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "bomdd-javafx-wpf-code-inventory/2.0",
+  "source_commit": "REPLACE",
+  "inventory_rule": "REPLACE-command-or-rule",
+  "totals": {"files": 0, "loc": 0, "modules": 0},
+  "categories": [
+    {"id": "production-java", "files": 0, "loc": 0, "disposition": "migrate"},
+    {"id": "test-java", "files": 0, "loc": 0, "disposition": "replace-or-retain"},
+    {"id": "fxml", "files": 0, "loc": 0, "disposition": "map-to-xaml"},
+    {"id": "css", "files": 0, "loc": 0, "disposition": "map-to-wpf-resources"},
+    {"id": "resources-i18n", "files": 0, "loc": 0, "disposition": "migrate"},
+    {"id": "generated", "files": 0, "loc": 0, "disposition": "regenerate-or-freeze"},
+    {"id": "native", "files": 0, "loc": 0, "disposition": "replace-or-wrap"},
+    {"id": "build-deploy", "files": 0, "loc": 0, "disposition": "replace"}
+  ],
+  "modules": [{"id": "MOD-REPLACE", "path": "REPLACE", "files": 0, "loc": 0, "owner": "UNASSIGNED", "disposition": "open"}],
+  "unclassified_files": 0,
+  "unclassified_loc": 0,
+  "evidence": []
+}

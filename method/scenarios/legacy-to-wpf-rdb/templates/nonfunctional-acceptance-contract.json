@@ -1,0 +1,12 @@
+{
+  "schema": "bomdd-javafx-wpf-nfr-contract/2.0",
+  "baseline_ref": "bomdd/migration/nonfunctional-baseline.json",
+  "metrics": [
+    {"id": "NFR-START-COLD", "limit_operator": "<=", "limit": 0, "unit": "ms", "workload": "REPLACE", "dataset": "REPLACE", "evidence_required": "REPLACE", "owner": "Acceptance Owner"},
+    {"id": "NFR-UI-INPUT", "limit_operator": "<=", "limit": 0, "unit": "ms", "workload": "REPLACE", "dataset": "REPLACE", "evidence_required": "REPLACE", "owner": "UI Approver"},
+    {"id": "NFR-DB-ROUNDTRIP", "limit_operator": "<=", "limit": 0, "unit": "ms", "workload": "REPLACE", "dataset": "REPLACE", "evidence_required": "REPLACE", "owner": "DB Custodian"},
+    {"id": "NFR-MEMORY-SOAK", "limit_operator": "<=", "limit": 0, "unit": "MiB", "workload": "REPLACE", "dataset": "REPLACE", "evidence_required": "REPLACE", "owner": "Acceptance Owner"},
+    {"id": "NFR-BATCH", "limit_operator": "<=", "limit": 0, "unit": "ms", "workload": "REPLACE", "dataset": "REPLACE", "evidence_required": "REPLACE", "owner": "Acceptance Owner"}
+  ],
+  "required_checks": ["cold-start", "warm-start", "ui-responsiveness", "load", "soak", "memory-leak", "db-roundtrip", "offline-or-network-failure", "recovery"]
+}

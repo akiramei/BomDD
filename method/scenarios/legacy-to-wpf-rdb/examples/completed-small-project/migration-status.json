@@ -1,0 +1,55 @@
+{
+  "schema": "bomdd-legacy-wpf-status/1.0",
+  "product": "OrderDesk",
+  "scenario_id": "legacy-wpf-rdb",
+  "last_passed_milestone": {
+    "id": "MIG-50",
+    "name": "製造準備完了",
+    "passed_at": "2026-07-18T08:00:00Z",
+    "gate_result_ref": "bomdd/migration/gates/MIG-50-result.json"
+  },
+  "current": {
+    "milestone": "MIG-60",
+    "step": "STEP-064",
+    "work_item": "SLICE-READ-ORDER-001",
+    "action": "現行画面とWPF画面の必須表示要素を比較する",
+    "owner": "migration-worker-a",
+    "started_at": "2026-07-19T01:00:00Z"
+  },
+  "next": {
+    "step": "STEP-065",
+    "action": "観測差分を原因層へ帰属する"
+  },
+  "artifacts": [
+    {
+      "id": "ART-WALKING-SKELETON",
+      "path": "bomdd/migration/evidence/walking-skeleton-build.log",
+      "status": "accepted",
+      "evidence": ["bomdd/migration/evidence/walking-skeleton-build.log"]
+    },
+    {
+      "id": "ART-FIRST-DB-READ",
+      "path": "bomdd/migration/evidence/first-slice-db-read.json",
+      "status": "accepted",
+      "evidence": ["bomdd/migration/evidence/first-slice-db-read.json"]
+    },
+    {
+      "id": "ART-FIRST-UI-COMPARE",
+      "path": "bomdd/migration/evidence/first-slice-ui-comparison.md",
+      "status": "missing",
+      "evidence": []
+    }
+  ],
+  "approvals": [],
+  "blockers": [],
+  "non_blockers": [
+    {
+      "id": "UQ-UI-012",
+      "summary": "一覧の初期ソート条件が資料にない",
+      "default_action": "現行観測を暫定採用し仕様裁定票へ記録"
+    }
+  ],
+  "alternate_safe_work": [],
+  "updated_at": "2026-07-19T02:30:00Z"
+}
+

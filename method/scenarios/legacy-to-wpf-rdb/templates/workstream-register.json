@@ -1,0 +1,21 @@
+{
+  "schema": "bomdd-javafx-wpf-workstream-register/2.0",
+  "program": "{{PRODUCT}}",
+  "interface_change_policy": "producer-and-all-consumers-approve",
+  "workstreams": [
+    {
+      "id": "WS-REPLACE",
+      "name": "REPLACE",
+      "lead": "UNASSIGNED",
+      "reviewer": "UNASSIGNED",
+      "acceptance_delegate": "UNASSIGNED",
+      "scope_refs": ["FUNC-REPLACE"],
+      "depends_on": [],
+      "interfaces_produced": [],
+      "interfaces_consumed": [],
+      "slices": [
+        {"id": "SLICE-REPLACE", "risk_classes": ["REPLACE"], "refs": ["FUNC-REPLACE"], "estimated_person_days": 0, "state": "planned"}
+      ]
+    }
+  ]
+}

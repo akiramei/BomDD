@@ -1,0 +1,11 @@
+{
+  "schema": "bomdd-legacy-wpf-technical-decisions/2.0",
+  "decision_set": "DECSET-DEPLOYMENT",
+  "due_milestone": "MIG-80",
+  "decisions": [
+    {"id": "DEC-PACKAGING", "topic": "packaging, signing, installation and update", "owner": "Release Owner", "decision_status": "open", "value": "UNDECIDED", "decider": "UNASSIGNED", "evidence": "", "evidence_sha256": "", "decided_at": ""},
+    {"id": "DEC-ROLLOUT", "topic": "customer cohort order, monitoring window, stop and rollback policy", "owner": "Migration Owner", "decision_status": "open", "value": "UNDECIDED", "decider": "UNASSIGNED", "evidence": "", "evidence_sha256": "", "decided_at": ""},
+    {"id": "DEC-SUPPORT", "topic": "hypercare, severity, staffing and legacy fallback period", "owner": "Operations Owner", "decision_status": "open", "value": "UNDECIDED", "decider": "UNASSIGNED", "evidence": "", "evidence_sha256": "", "decided_at": ""}
+  ],
+  "decision_history": []
+}

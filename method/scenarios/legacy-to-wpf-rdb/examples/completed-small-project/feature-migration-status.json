@@ -1,0 +1,25 @@
+{
+  "schema": "bomdd-legacy-wpf-feature-status/1.0",
+  "feature_id": "FUNC-ORDER-LIST-001",
+  "name": "注文一覧を検索して表示する",
+  "state": "self-accepted",
+  "current_step": "STEP-064",
+  "next_step": "STEP-065",
+  "refs": {
+    "requirements": ["REQ-ORDER-001"],
+    "spec": ["20-spec.md#order-list"],
+    "ebom": ["E-ORDER-QUERY-001", "E-ORDER-LIST-UI-001"],
+    "mbom": ["M-ORDER-QUERY-001", "M-ORDER-LIST-WPF-001"],
+    "control_plan": ["CP-ORDER-QUERY-001", "CP-ORDER-LIST-UI-001"],
+    "db_entities": ["DB-ENT-ORDER-001"],
+    "ui_contracts": ["DC-ORDER-LIST-001"]
+  },
+  "evidence": [
+    "bomdd/migration/evidence/walking-skeleton-build.log",
+    "bomdd/migration/evidence/first-slice-db-read.json"
+  ],
+  "differences": [],
+  "blockers": [],
+  "approvals": []
+}
+

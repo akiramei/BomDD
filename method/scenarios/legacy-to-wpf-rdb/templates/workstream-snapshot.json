@@ -1,0 +1,10 @@
+{
+  "schema": "bomdd-javafx-wpf-workstream-snapshot/2.0",
+  "created_at": "REPLACE-UTC",
+  "register": {"path": "bomdd/migration/workstream-register.json", "sha256": "REPLACE"},
+  "workstreams": [
+    {"id": "WS-REPLACE", "status_path": "bomdd/migration/workstreams/WS-REPLACE/status.json", "sha256": "REPLACE", "slice_count": 0, "as_built_count": 0, "blocker_count": 0}
+  ],
+  "totals": {"workstreams": 0, "slices": 0, "as_built": 0, "blockers": 0},
+  "result": "open"
+}

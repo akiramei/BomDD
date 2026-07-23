@@ -1,0 +1,27 @@
+{
+  "schema": "bomdd-javafx-wpf-workstream-status/2.0",
+  "workstream_id": "WS-REPLACE",
+  "owner": "UNASSIGNED",
+  "reviewer": "UNASSIGNED",
+  "acceptance_delegate": "UNASSIGNED",
+  "register_sha256": "REPLACE",
+  "slices": [
+    {
+      "id": "SLICE-REPLACE",
+      "state": "planned",
+      "allowed_states": ["planned", "ready", "claimed", "manufacturing", "self-accepted", "integrated", "compared", "accepted", "as-built"],
+      "claimed_by": null,
+      "claim_evidence": null,
+      "claim_evidence_sha256": null,
+      "refs": [],
+      "risk_classes": [],
+      "interface_versions": {},
+      "evidence": [],
+      "evidence_hashes": {},
+      "blockers": [],
+      "reviewer": null,
+      "accepted_at": null,
+      "updated_at": null
+    }
+  ]
+}

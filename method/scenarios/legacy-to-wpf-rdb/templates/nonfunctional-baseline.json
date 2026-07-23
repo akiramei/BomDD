@@ -1,0 +1,15 @@
+{
+  "schema": "bomdd-javafx-wpf-nfr-baseline/2.0",
+  "captured_at": "REPLACE-UTC",
+  "source_version": "REPLACE",
+  "environment_id": "REPLACE",
+  "datasets": [{"id": "DATA-REPLACE", "description": "REPLACE", "row_counts": {}}],
+  "workloads": [{"id": "LOAD-REPLACE", "users": 1, "duration_seconds": 0, "description": "REPLACE"}],
+  "metrics": [
+    {"id": "NFR-START-COLD", "unit": "ms", "sample_count": 0, "p50": 0, "p95": 0, "max": 0, "evidence": "REPLACE"},
+    {"id": "NFR-UI-INPUT", "unit": "ms", "sample_count": 0, "p50": 0, "p95": 0, "max": 0, "evidence": "REPLACE"},
+    {"id": "NFR-DB-ROUNDTRIP", "unit": "ms", "sample_count": 0, "p50": 0, "p95": 0, "max": 0, "evidence": "REPLACE"},
+    {"id": "NFR-MEMORY-SOAK", "unit": "MiB", "sample_count": 0, "p50": 0, "p95": 0, "max": 0, "evidence": "REPLACE"},
+    {"id": "NFR-BATCH", "unit": "ms", "sample_count": 0, "p50": 0, "p95": 0, "max": 0, "evidence": "REPLACE"}
+  ]
+}

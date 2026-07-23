@@ -225,3 +225,11 @@ Create Control Plan characteristics and link test evidence from As-Built.
 - unresolved question は blocker / non-blocker に分類されている。
 - 既存実装の As-Built seed がある。
 - 次の実装変更は Phase 7 の変更/是正オーダーとして開始できる。
+
+## 12. シナリオ専用の後続手順
+
+本書は既存成果物を BomDD / PLM-ready へ載せるところまでを扱う。技術の異なる実装へ再製造し、本番切替まで行う場合は、対象シナリオに一致する専用手順を明示的に選ぶ。
+
+- **C#/.NET + WPF へ再実装し、既存 RDB を継続利用する場合**: [legacy-to-wpf-rdb](../scenarios/legacy-to-wpf-rdb/README.md)
+
+専用手順は通常の新規開発へ設置しない。対象プロジェクトでシナリオ初期化コマンドを実行した場合だけ有効になる。

@@ -1,0 +1,12 @@
+{
+  "schema": "bomdd-javafx-wpf-cohort-ledger/2.0",
+  "release_id": "REPLACE",
+  "rollout_plan_sha256": "REPLACE",
+  "cohorts": [
+    {"id": "COHORT-CANARY", "customer_count": 0, "device_count": 0, "state": "planned", "allowed_states": ["planned", "authorized", "deploying", "observing", "accepted", "rolled-back", "deferred"], "release_sha256": "REPLACE", "go_no_go_evidence": "REPLACE", "smoke_evidence": "REPLACE", "db_reconciliation_evidence": "REPLACE", "telemetry_evidence": "REPLACE", "customer_acceptance_evidence": "REPLACE", "blockers": []}
+  ],
+  "in_scope_customer_count": 0,
+  "accepted_customer_count": 0,
+  "formally_deferred_customer_count": 0,
+  "aggregate_result": "open"
+}

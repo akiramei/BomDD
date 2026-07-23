@@ -1,0 +1,17 @@
+{
+  "schema": "bomdd-javafx-wpf-rc-acceptance/2.0",
+  "release_id": "REPLACE",
+  "release_manifest_path": "bomdd/migration/evidence/release-candidate-manifest.json",
+  "release_manifest_sha256": "REPLACE",
+  "checks": [
+    {"id": "RC-FUNCTIONAL", "result": "open", "evidence": "REPLACE", "approver_role": "Acceptance Owner"},
+    {"id": "RC-NFR", "result": "open", "evidence": "REPLACE", "approver_role": "Acceptance Owner"},
+    {"id": "RC-SECURITY", "result": "open", "evidence": "REPLACE", "approver_role": "Security Owner"},
+    {"id": "RC-UAT", "result": "open", "evidence": "REPLACE", "approver_role": "Customer Acceptance Owner"},
+    {"id": "RC-INSTALL-UPGRADE", "result": "open", "evidence": "REPLACE", "approver_role": "Release Owner"},
+    {"id": "RC-OPERATIONS", "result": "open", "evidence": "REPLACE", "approver_role": "Operations Owner"},
+    {"id": "RC-ACCESSIBILITY", "result": "open", "evidence": "REPLACE", "approver_role": "UI Approver"}
+  ],
+  "accepted_result": "pass",
+  "aggregate_result": "open"
+}

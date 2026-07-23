@@ -1,0 +1,42 @@
+{
+  "schema": "bomdd-legacy-wpf-ui-evidence/1.0",
+  "source_version": "REPLACE-SOURCE-VERSION",
+  "observation_index": {
+    "path": "bomdd/migration/current-observation-index.md",
+    "sha256": "REPLACE-SHA256"
+  },
+  "coverage_policy": {
+    "required_states": ["empty", "populated", "alternate-view"],
+    "minimum_width": 1024,
+    "minimum_height": 600
+  },
+  "observations": [
+    {
+      "id": "OBS-CURRENT-001",
+      "states": ["empty"],
+      "evidence": [
+        {
+          "id": "SHOT-001",
+          "kind": "screenshot",
+          "path": "bomdd/migration/evidence/current-ui/REPLACE.jpg",
+          "sha256": "REPLACE-SHA256",
+          "media_type": "image/jpeg",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "SEM-001",
+          "kind": "execution-log",
+          "path": "bomdd/migration/evidence/REPLACE.log",
+          "sha256": "REPLACE-SHA256"
+        }
+      ],
+      "claims": [
+        {
+          "text": "REPLACE-OBSERVED-CLAIM",
+          "supported_by": ["SHOT-001", "SEM-001"]
+        }
+      ]
+    }
+  ]
+}

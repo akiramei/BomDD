@@ -1,0 +1,10 @@
+{
+  "schema": "bomdd-javafx-wpf-pilot-portfolio/2.0",
+  "release_candidate": "REPLACE",
+  "required_risk_classes": ["startup-config", "javafx-complex-ui", "db-read", "db-write-transaction", "external-integration", "performance-memory", "install-update", "security-identity", "operations-observability"],
+  "items": [
+    {"risk_class": "REPLACE", "slice_id": "SLICE-REPLACE", "workstream_id": "WS-REPLACE", "status": "open", "evidence": [], "approver": "UNASSIGNED"}
+  ],
+  "clean_install_evidence": "REPLACE",
+  "aggregate_result": "open"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "bomdd-javafx-wpf-interface-register/2.0",
+  "interfaces": [
+    {
+      "id": "IF-REPLACE",
+      "version": "1",
+      "producer_workstream": "WS-REPLACE",
+      "consumer_workstreams": [],
+      "contract_path": "REPLACE",
+      "contract_sha256": "REPLACE",
+      "compatibility": "backward-compatible-until-approved-cut",
+      "contract_tests": [],
+      "owner": "UNASSIGNED",
+      "status": "open"
+    }
+  ]
+}

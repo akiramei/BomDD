@@ -1,0 +1,16 @@
+{
+  "schema": "bomdd-javafx-wpf-feasibility/2.0",
+  "source_version": "REPLACE",
+  "target_toolchain_candidate": "REPLACE",
+  "items": [
+    {"id": "FEAS-UI-HARD", "risk_class": "javafx-ui", "representative_ref": "REPLACE", "result": "open", "evidence": [], "owner": "WPF Technical Owner", "fallback": "REPLACE"},
+    {"id": "FEAS-DB-RW", "risk_class": "rdb-read-write", "representative_ref": "REPLACE", "result": "open", "evidence": [], "owner": "DB Custodian", "fallback": "REPLACE"},
+    {"id": "FEAS-INTEGRATION", "risk_class": "external-integration", "representative_ref": "REPLACE", "result": "open", "evidence": [], "owner": "Integration Owner", "fallback": "REPLACE"},
+    {"id": "FEAS-NFR", "risk_class": "performance-memory", "representative_ref": "REPLACE", "result": "open", "evidence": [], "owner": "Acceptance Owner", "fallback": "REPLACE"},
+    {"id": "FEAS-INSTALL", "risk_class": "install-update", "representative_ref": "REPLACE", "result": "open", "evidence": [], "owner": "Release Owner", "fallback": "REPLACE"},
+    {"id": "FEAS-SECURITY", "risk_class": "security-identity", "representative_ref": "REPLACE", "result": "open", "evidence": [], "owner": "Security Owner", "fallback": "REPLACE"},
+    {"id": "FEAS-THIRD-PARTY", "risk_class": "third-party-replacement", "representative_ref": "REPLACE", "result": "open", "evidence": [], "owner": "WPF Technical Owner", "fallback": "REPLACE"}
+  ],
+  "accepted_results": ["pass", "accepted-risk"],
+  "go_no_go": "open"
+}

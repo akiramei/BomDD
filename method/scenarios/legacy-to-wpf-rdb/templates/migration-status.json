@@ -1,0 +1,31 @@
+{
+  "schema": "bomdd-legacy-wpf-status/2.0",
+  "product": "{{PRODUCT}}",
+  "scenario_id": "legacy-wpf-rdb",
+  "last_passed_milestone": null,
+  "current": {
+    "milestone": "MIG-00",
+    "step": "STEP-001",
+    "work_item": "MIGRATION-SETUP",
+    "action": "移行シナリオを有効化し、顧客保護境界、規模、RACI、Program統制を確定する",
+    "owner": "UNASSIGNED",
+    "started_at": "{{DATE}}"
+  },
+  "next": {
+    "step": "STEP-002",
+    "action": "移行憲章を確定する"
+  },
+  "artifacts": [],
+  "approvals": [],
+  "accepted_change_history": [],
+  "gate_supersessions": [],
+  "exceptions": [],
+  "exception_history": [],
+  "decision_events": [],
+  "scenario_upgrade_history": [],
+  "blockers": [],
+  "non_blockers": [],
+  "defects": [],
+  "alternate_safe_work": [],
+  "updated_at": "{{DATE}}"
+}

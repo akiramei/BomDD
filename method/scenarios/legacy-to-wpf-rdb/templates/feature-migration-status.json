@@ -1,0 +1,32 @@
+{
+  "schema": "bomdd-legacy-wpf-feature-status/1.0",
+  "feature_id": "FUNC-XXX",
+  "name": "",
+  "state": "inventoried",
+  "allowed_states": [
+    "inventoried",
+    "specified",
+    "bom-ready",
+    "manufacturing",
+    "self-accepted",
+    "compared",
+    "accepted",
+    "as-built"
+  ],
+  "current_step": "",
+  "next_step": "",
+  "refs": {
+    "requirements": [],
+    "spec": [],
+    "ebom": [],
+    "mbom": [],
+    "control_plan": [],
+    "db_entities": [],
+    "ui_contracts": []
+  },
+  "evidence": [],
+  "differences": [],
+  "blockers": [],
+  "approvals": []
+}
+

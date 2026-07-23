@@ -1,0 +1,23 @@
+{
+  "schema": "bomdd-legacy-wpf-gate-result/1.0",
+  "gate": {
+    "id": "MIG-50",
+    "name": "製造準備完了",
+    "result": "pass",
+    "checked_at": "2026-07-18T08:00:00Z"
+  },
+  "checks": [
+    {"id": "ART:ART-WORK-ORDER", "result": "pass", "problems": []},
+    {"id": "ART:ART-FIXED-ORACLE", "result": "pass", "problems": []},
+    {"id": "ART:ART-DB-ORACLE", "result": "pass", "problems": []},
+    {"id": "ART:ART-CALIBRATION", "result": "pass", "problems": []},
+    {"id": "ART:ART-SLICE-BACKLOG", "result": "pass", "problems": []},
+    {"id": "ACTIVE-BLOCKERS", "result": "pass", "problems": []}
+  ],
+  "decision": {
+    "status": "advance",
+    "remain_at": null,
+    "resume_from": null
+  }
+}
+

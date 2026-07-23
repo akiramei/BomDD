@@ -1,0 +1,15 @@
+{
+  "schema": "bomdd-legacy-wpf-gate-result/1.1",
+  "gate": {
+    "id": "MIG-XX",
+    "name": "",
+    "result": "fail",
+    "checked_at": "YYYY-MM-DDTHH:MM:SSZ"
+  },
+  "checks": [],
+  "decision": {
+    "status": "stay",
+    "remain_at": "MIG-XX",
+    "resume_from": "STEP-XXX"
+  }
+}

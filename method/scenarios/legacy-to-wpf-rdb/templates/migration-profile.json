@@ -1,0 +1,65 @@
+{
+  "schema": "bomdd-legacy-wpf-profile/2.0",
+  "product": "{{PRODUCT}}",
+  "scenario": {
+    "id": "legacy-wpf-rdb",
+    "enabled": true,
+    "activated_at": "{{DATE}}",
+    "mode": "enterprise-javafx"
+  },
+  "source": {
+    "language": "Java",
+    "ui_framework": "JavaFX",
+    "jdk_line": "REPLACE",
+    "javafx_line": "REPLACE",
+    "build_systems": ["REPLACE-maven-or-gradle"],
+    "estimated_loc": 0,
+    "repository_count": 0,
+    "module_count": 0,
+    "screen_count": 0,
+    "customer_count": 0,
+    "active_user_count": 0
+  },
+  "target": {
+    "language": "C#",
+    "ui_framework": "WPF",
+    "dotnet_line": "UNDECIDED-until-MIG-40",
+    "supported_windows": "UNDECIDED-until-MIG-40"
+  },
+  "constraints": {
+    "database_policy": "reuse-existing-schema",
+    "database_engine": "REPLACE",
+    "production_database_tests": "forbidden",
+    "concurrent_writers": "single-writer",
+    "dual_write": "forbidden-unless-separate-approved-design",
+    "schema_migration_from_target": "forbidden",
+    "migration_refactoring": "out-of-scope",
+    "new_features_during_migration": "separate-change-control",
+    "customer_outage_budget": "REPLACE",
+    "rollout_strategy": "phased-cohort",
+    "approval_separation": "required"
+  },
+  "scale_control": {
+    "maximum_slice_person_days": 10,
+    "maximum_work_in_progress_per_worker": 1,
+    "interface_change_requires_owner_approval": true,
+    "workstream_claim_required": true,
+    "program_gate_aggregates_workstreams": true
+  },
+  "owners": {
+    "Migration Owner": "UNASSIGNED",
+    "Program Manager": "UNASSIGNED",
+    "Specification Owner": "UNASSIGNED",
+    "Java Technical Owner": "UNASSIGNED",
+    "WPF Technical Owner": "UNASSIGNED",
+    "DB Custodian": "UNASSIGNED",
+    "Integration Owner": "UNASSIGNED",
+    "UI Approver": "UNASSIGNED",
+    "Acceptance Owner": "UNASSIGNED",
+    "Security Owner": "UNASSIGNED",
+    "Release Owner": "UNASSIGNED",
+    "Operations Owner": "UNASSIGNED",
+    "Customer Acceptance Owner": "UNASSIGNED",
+    "Migration Worker": "UNASSIGNED"
+  }
+}

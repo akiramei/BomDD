@@ -1,0 +1,66 @@
+{
+  "schema": "bomdd-legacy-wpf-baseline-fixture/1.1",
+  "fixture_id": "REPLACE-FIXTURE-ID",
+  "engine": "postgresql",
+  "source_snapshot": "REPLACE-UTC-TIMESTAMP",
+  "working_copy_policy": "restore-per-test",
+  "fixture": {
+    "path": "fixtures/baseline/REPLACE.dump",
+    "sha256": "REPLACE-SHA256",
+    "format": "postgresql-custom",
+    "immutable_baseline": true
+  },
+  "baseline_document": {
+    "path": "bomdd/migration/db-baseline.md",
+    "sha256": "REPLACE-SHA256"
+  },
+  "schema_evidence": {
+    "path": "bomdd/migration/evidence/baseline-schema.sql",
+    "sha256": "REPLACE-SHA256",
+    "normalized_schema_sha256": "REPLACE-SHA256"
+  },
+  "restore_control": {
+    "database": "REPLACE-RESTORE-CONTROL-DATABASE",
+    "evidence": {
+      "path": "bomdd/migration/evidence/postgresql-restore-observation.md",
+      "sha256": "REPLACE-SHA256"
+    }
+  },
+  "observation_evidence": [
+    {
+      "path": "bomdd/migration/evidence/baseline-db-observation.md",
+      "sha256": "REPLACE-SHA256"
+    }
+  ],
+  "postgresql_client": {
+    "psql_path": "REPLACE-PROJECT-RELATIVE-PSQL-PATH",
+    "psql_sha256": "REPLACE-SHA256",
+    "pg_dump_path": "REPLACE-PROJECT-RELATIVE-PG-DUMP-PATH",
+    "pg_dump_sha256": "REPLACE-SHA256",
+    "pg_restore_path": "REPLACE-PROJECT-RELATIVE-PG-RESTORE-PATH",
+    "pg_restore_sha256": "REPLACE-SHA256",
+    "credential_env": "BOMDD_REPLACE_POSTGRES_PASSWORD"
+  },
+  "connection": {
+    "host": "REPLACE-RESTORE-CONTROL-HOST",
+    "port": 5432,
+    "database": "REPLACE-RESTORE-CONTROL-DATABASE",
+    "user": "REPLACE-READ-ONLY-VALIDATOR",
+    "sslmode": "REPLACE-disable-or-verify-full",
+    "connect_timeout_seconds": 5
+  },
+  "expected_checks": {
+    "restore_result": "pass",
+    "server_version_major": 16,
+    "default_transaction_read_only": "on",
+    "unvalidated_constraints": 0,
+    "invalid_indexes": 0
+  },
+  "canonical_queries": [
+    {
+      "id": "REPLACE-QUERY-ID",
+      "sql": "SELECT COUNT(*)::text FROM REPLACE_TABLE",
+      "expected_rows": [["0"]]
+    }
+  ]
+}

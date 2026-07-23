@@ -1,0 +1,14 @@
+{
+  "schema": "bomdd-javafx-wpf-ci-readiness/2.0",
+  "clean_agent_id": "REPLACE",
+  "checks": [
+    {"id": "CI-RESTORE", "command": "REPLACE", "result": "open", "evidence": "REPLACE"},
+    {"id": "CI-BUILD", "command": "REPLACE", "result": "open", "evidence": "REPLACE"},
+    {"id": "CI-TEST", "command": "REPLACE", "result": "open", "evidence": "REPLACE"},
+    {"id": "CI-PUBLISH", "command": "REPLACE", "result": "open", "evidence": "REPLACE"},
+    {"id": "CI-INSTALL-SMOKE", "command": "REPLACE", "result": "open", "evidence": "REPLACE"},
+    {"id": "CI-SBOM", "command": "REPLACE", "result": "open", "evidence": "REPLACE"},
+    {"id": "CI-SIGN-VERIFY-DRYRUN", "command": "REPLACE", "result": "open", "evidence": "REPLACE"}
+  ],
+  "accepted_result": "pass"
+}

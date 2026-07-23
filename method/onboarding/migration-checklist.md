@@ -80,3 +80,7 @@
 - 影響分析 `61-impact-analysis.md` がある。
 - 変更用 Control Plan が先に更新されている。
 - 製造 AI へ渡す Work Order が移行作業ではなく変更/是正作業として明記されている。
+
+## 7. 技術移行シナリオを続行する場合
+
+BomDD 導入移行の完了後、C#/.NET + WPF へ再実装し既存 RDB を継続利用する場合だけ、[legacy-to-wpf-rdb 専用キット](../scenarios/legacy-to-wpf-rdb/README.md)を明示的に有効化する。通常の新規開発では有効化しない。

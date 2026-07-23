@@ -1,0 +1,12 @@
+{
+  "schema": "bomdd-javafx-wpf-signed-release/2.0",
+  "release_id": "REPLACE",
+  "version": "REPLACE",
+  "source_commit": "REPLACE",
+  "artifacts": [{"path": "REPLACE", "sha256": "REPLACE", "size": 0, "signature": "REPLACE", "signature_verified": false}],
+  "sbom": {"path": "REPLACE", "sha256": "REPLACE"},
+  "certificate": {"subject": "REPLACE", "thumbprint": "REPLACE", "valid_from": "REPLACE", "valid_to": "REPLACE"},
+  "build_evidence": "REPLACE",
+  "promoted_from_release_candidate_sha256": "REPLACE",
+  "approved_at": "REPLACE-UTC"
+}
