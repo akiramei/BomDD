@@ -15,3 +15,7 @@
 *.suo
 *.DotSettings.user
 plm-out/
+
+# 生成 PDF(source は docx/md を追跡・PDF は再生成物なので追跡しない)
+paper/*.pdf
+output/pdf/
