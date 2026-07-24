@@ -3,6 +3,18 @@
 status: open(1 系列目測定済み・2026-07-24 — ECO-139 系列の測定 3 点は [measurements.md](measurements.md)。
 クローズ判定=「効果≒コスト/判定不能」→ **candidate 維持**。次の照合機会= PEND-005 発火
 〔review_trigger・弁別力検証の予約済み機会〕または次の境界を迷う ECO で 2 本目 BDR を影響分析前凍結)
+
+## 2 系列目凍結(2026-07-24)
+
+- **トリガー ECO**: ViewPrism2 **ECO-140**(修復と未裁定裁定の役割重複 — 事象中心の統合再設計・
+  PEND-005 束ね)= **ECO-139 BDR の review_trigger(PEND-005 到来)の正式発火**。1 系列目 BDR は
+  予約どおり照合機会を提供した(review_trigger の弁別力検証の実データ 1 点目)。
+- **迷う境界(対象条件②+④)**: relink 選別+確定の一本化先 — gate① 裁定③(2026-07-24)で
+  **E-RELINK-007 へ一本化(切り出し)**を裁定。2 サービス並存(ECO-139 の結合案の帰結)にも合理性が
+  あったため条件②該当。review_trigger 3 点(第 3 消費者/hash 再計算のスキャン時化/同一性判定の拡張)を
+  条件④として認識。
+- **BDR の記録先**: ViewPrism2 `bomdd/60-change-order-eco-140.md` §7(**凍結証明= VP2 commit `44ede11`**・
+  /eco-fix 影響分析前)。owner 品目= E-RELINK-007(案a 規約)・30-ebom 転記は /eco-fix の E-BOM 設計時。
 origin: 2026-07-23 外部提案裁定(method/improvements.md 同日節・EXP-20260723-01)
 
 ## 凍結(2026-07-23 — 凍結証明=本コミット)
