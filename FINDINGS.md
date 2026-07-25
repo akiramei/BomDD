@@ -794,10 +794,20 @@ donor の登録は工程を運ばない。方法論側の既存装置との関�
 両パック派生開発節・silence §16/§18)。
 
 **限界**: N=1・自然発生対照(統制なし)。製造時の担当モデル・ハーネス・kit 不使用の経緯は未記録
-(事後観測)。CAPA-VT-002 は独立検査+ユーザークローズ未了(OPEN)のため、確定値は自動適格 PASS
-まで。証拠: ViewTube bomdd/process/mature-process-bootstrap-guide.md(一般化手引き)・
+(事後観測)。証拠: ViewTube bomdd/process/mature-process-bootstrap-guide.md(一般化手引き)・
 bomdd/capa/CAPA-VT-001.md・CAPA-VT-002.md・CAPA-VT-002-automated-qualification-report.md・
 bomdd/process/process-{donor-intake,reuse-map,bom}.yaml。
+
+**追補(クローズ・2026-07-26)**: CAPA-VT-002 は独立検査を経てユーザー明示承認(named closure
+instruction)で **CLOSED**。経過: 独立検査の初回が所見 4 件(II-001〜004)を検出 → 是正 2 巡+
+再検査 2 巡で PASS(clean checkout を `core.autocrlf` 両設定で 2 回実行し qualification 結果が
+byte-identical・in-scope 未処置 0)。**自動適格 PASS がそのまま独立検査を通らなかった**こと自体が
+「自動適格は独立検査を代替しない」(§11.4 検査の転移・独立検査の追加被覆)の再演データ。クローズ
+範囲は工程移植と line qualification のみ(製品 UI 適合・CAPA-VT-001・release 承認は含まない —
+境界明示・歴史的 FAIL 報告の非消去も明記)。これで本節の対照観測は「是正の全周
+(調達→適格性確認→独立検査→クローズ権限)が機械+独立検査+人間承認で完結した」まで確定。
+証拠: ViewTube bomdd/capa/CAPA-VT-002-closure.md・CAPA-VT-002-independent-reinspection-02.md・
+ViewTube commit 054fabb。
 
 ## 12. stage-0 健診の外部妥当性 — ハブは普遍・三冠は局所(stage0-oss-01)
 
