@@ -772,6 +772,34 @@ read-only 敵対レビュー)を、BomDD 自己適用台帳の verified 済み E
 N=1 であり、外的妥当性の確立ではない**(検査転移の再現でもない — 検査官・情報遮断・突合の設計なし)。
 証拠: bomdd/60-change-order-eco-011.md(台帳是正・verified)・012.md(C1 厳格化・filed)。
 
+**追補(検査転移のプロスペクティブ実運用 — 別題材 N=2・2026-07-26)**: ViewTube CAPA-VT-002 の
+独立検査系列(§11.5 の是正の一部)は、検査転移の**初の実運用例**である。本節までの N=1〜3 は
+verified 済み ECO への**回顧突合実験**(記録済み裁定が正解集合)だったのに対し、本件は
+**プロスペクティブ受入検査** — 未知欠陥の発見が任務で、検査が実際に line を 2 度停止させ
+(候補 fa1b7ed→8c2d76a→220e4af)、是正 2 巡を駆動して PASS に至った。
+
+- **成績**: 提起 4 件(II-001〜004・全 Major・全 in-scope)・**4/4 CONFIRMED・誤検出 0**
+  (回顧突合の 90% に対し実運用でも精度維持)。独立性の操作化は本節より強い —
+  read-only+**bundle 隔離 detached checkout**(後続コミット・未コミット作業を構造的に排除)+
+  再検査は clean checkout を `core.autocrlf` 両設定で二重実行。介入の記録なし。
+- **4類型への写像(類型の再利用可能性・設計外再観測の 2 例目)**: II-001(可変チェックアウトの
+  CRLF ハッシュを固定版来歴として受理)= (c)存在 vs 完全性 / **II-002(負例 hook_inactive が
+  定数式で合成され、検査が一度も実行されていない)= (a)meta-failure の実運用検出** /
+  II-003(ファイル存在・ハッシュ・寸法は一致するが画面同一性が偽= Tags が Videos を表示)= (c) /
+  II-004(hash 支配資産の行末表現が非正準で clean checkout から適格性を再現できない)= (c) 系。
+- **自動適格の盲点を独立検査が突いた**: 自動適格 PASS(負例 16/16・byte-identical)の裏で、
+  II-002 は「16 負例のうち 1 つは観測でなく合成」を、II-004 は「byte-identical は manufacturer の
+  歴史的 mixed-EOL 作業ツリーでのみ成立(決定性は再現性を含意しない)」を暴いた —
+  §8.3 陽性対照の欠如の変種(**負例対照の合成**)を含む、自動適格 ≠ 独立検査の機序の実データ。
+- **限界の更新**: 本節冒頭の限界のうち **N=1 コードベースは解消(N=2: harness/ViewTube・
+  回顧/実運用の 2 レジーム)**。**N=1 ベンダーは残存**(検査官は Codex = GPT 系のみ —
+  解消条件は非 GPT 系検査官での再現= EXP-20260726-01)。検査官モデルは gpt-5.6(**申告値** —
+  報告書 3 本の記録は「Codex fresh-context independent inspector」のみでモデル名なし。
+  実行ごとのモデル記録は EXP-20260711-08 の宿題が別リポで再演)。真正判定は是正の受理・再検査
+  PASS という運用結果に依拠(transfer-04 のような突合設計ではない)。
+- 証拠: ViewTube bomdd/capa/CAPA-VT-002-independent-inspection.md・-reinspection-01.md・
+  -reinspection-02.md・-closure.md(054fabb)。
+
 ### 11.5 追補: 転移の対照観測 — 工程資産を調達しない派生は工程が greenfield 化する(ViewTube・N=1)
 
 transfer 系列(§11〜11.2)は「凍結 kit あり・fresh 一周」で介入ゼロ N=3 を測定した。本節はその
