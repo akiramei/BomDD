@@ -14,12 +14,19 @@
     同梱 kit(bomdd-kit/)として製品リポへ凍結コピーし、{{METHOD}} はその相対パスに
     置換する。kit の出自(方法論リポの commit・dirty)と内容ハッシュは bomdd.lock に
     記録する — 方法論リポの更新が既存製品の手順を無記録で変えない(凍結・来歴・再現性)。
+
+工程設備(harness ECO-015):
+    process-core(pre-commit/commit-msg hook+汎用 lifecycle validator+qualification
+    runner)を製品リポへ設置し、git 有効時は core.hooksPath を設定のうえ初回 IQ/OQ を
+    自動実行する(line readiness — 不合格なら製造開始を案内しない)。CAD リポは製造リポ
+    でないため設置しない(gate ① 裁定 2)。
 """
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -30,6 +37,7 @@ from pathlib import Path
 METHOD_ROOT = Path(__file__).resolve().parents[2]  # <BomDD リポ root>
 TEMPLATES = METHOD_ROOT / "method" / "templates"
 PROFILE = TEMPLATES / "product-profile"
+PROCESS_CORE = TEMPLATES / "process-core"
 ONBOARDING = METHOD_ROOT / "method" / "onboarding"
 
 KIT_DIRNAME = "bomdd-kit"  # 生成先リポ内の方法論同梱先({{METHOD}} の置換値)
@@ -51,8 +59,8 @@ def render(src: Path, dst: Path, repl: dict[str, str]) -> None:
 
 def git(repo: Path, *args: str) -> bool:
     try:
-        subprocess.run(["git", *args], cwd=repo, check=True,
-                       capture_output=True, text=True)
+        subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True,
+                       text=True, encoding="utf-8", errors="replace")  # hook の UTF-8 出力を cp932 で落とさない(ECO-015)
         return True
     except (OSError, subprocess.CalledProcessError):
         return False
@@ -168,6 +176,48 @@ def install_kit(root: Path, created: str, skills: list[str]) -> None:
     print(f"[kit] 方法論 kit を同梱しました({len(manifest)} files・method commit {commit[:9]})")
 
 
+def _copy_lf(src: Path, dst: Path, mode: int | None = None) -> None:
+    """LF 正規化コピー(sh hook は CRLF で壊れる — Windows の autocrlf 交絡を遮断)"""
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
+    if mode is not None and os.name == "posix":
+        os.chmod(dst, mode)
+
+
+def install_process_core(root: Path, repl: dict[str, str]) -> bool:
+    """工程設備の設置(ECO-015)。既存の hooks/profile は保持(kit と同じ fail-safe)"""
+    profile_dst = root / "bomdd" / "process-profile.yaml"
+    hooks_dst = root / "bomdd" / "hooks"
+    if profile_dst.exists() or hooks_dst.exists():
+        print("[process-core] 既存の bomdd/hooks または process-profile.yaml を検出 — 保持"
+              "(動いている工程設備を上書きしない。更新は手動で)")
+        return False
+    render(PROCESS_CORE / "process-profile.yaml", profile_dst, repl)
+    for h in ["pre-commit", "commit-msg"]:
+        _copy_lf(PROCESS_CORE / "hooks" / h, hooks_dst / h, mode=0o755)
+    for t in ["process-validator.py", "process-qualification.py"]:
+        _copy_lf(PROCESS_CORE / "tools" / t, root / "bomdd" / "tools" / t)
+    register = root / "bomdd" / "60-change-register.yaml"
+    if not register.exists():  # --skills-only の既存リポ: 設備の操作対象(台帳)が無ければ追設
+        _copy_lf(TEMPLATES / "60-change-register.yaml", register)
+        print("[process-core] 変更台帳テンプレを追設しました(60-change-register.yaml — 不在時のみ)")
+    print("[process-core] 工程設備を設置しました(hooks×2+validator+qualification runner)")
+    return True
+
+
+def run_qualification(root: Path) -> bool:
+    """初回 IQ/OQ(line readiness)。不合格なら製造開始を案内しない(fail-closed)"""
+    runner = root / "bomdd" / "tools" / "process-qualification.py"
+    p = subprocess.run([sys.executable, str(runner), "--root", str(root)],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+    for line in (p.stdout or "").splitlines():
+        print(f"  {line}")
+    if p.returncode != 0:
+        for line in (p.stderr or "").splitlines():
+            print(f"  {line}", file=sys.stderr)
+    return p.returncode == 0
+
+
 def scaffold_product(root: Path, repl: dict[str, str]) -> None:
     bomdd = root / "bomdd"
     bomdd.mkdir(parents=True)
@@ -189,6 +239,7 @@ def scaffold_product(root: Path, repl: dict[str, str]) -> None:
         render(PROFILE / "skills" / f"{skill}.md",
                root / ".claude" / "skills" / skill / "SKILL.md", repl)
     install_agents(root, "AGENTS.product.md", repl, SKILLS)
+    install_process_core(root, repl)
     install_kit(root, repl["DATE"], SKILLS)
 
 
@@ -222,6 +273,8 @@ def main() -> int:
     gui.add_argument("--no-gui", action="store_true", help="GUI なし(CAD リポを生成しない)")
     ap.add_argument("--cad-name", default=None, help="CAD リポ名(既定: <name>UI)")
     ap.add_argument("--no-git", action="store_true", help="git init/初回コミットを行わない")
+    ap.add_argument("--no-qualify", action="store_true",
+                    help="初回 IQ/OQ(line readiness)を実行しない(検査は後で手動実行できる)")
     ap.add_argument("--skills-only", action="store_true",
                     help="既存の製品リポへ運用スキルのみ設置(scaffold しない。name は既存ディレクトリ)")
     ap.add_argument("--skills", default=None,
@@ -244,7 +297,18 @@ def main() -> int:
             render(PROFILE / "skills" / f"{skill}.md",
                    root / ".claude" / "skills" / skill / "SKILL.md", repl)
         install_agents(root, "AGENTS.product.md", repl, selected)
+        fresh_core = install_process_core(root, repl)
         install_kit(root, repl["DATE"], selected)
+        if fresh_core and (root / ".git").exists():
+            if not git(root, "config", "--get", "core.hooksPath"):
+                git(root, "config", "core.hooksPath", "bomdd/hooks")
+                print("[process-core] core.hooksPath=bomdd/hooks を設定しました")
+            if not args.no_qualify:
+                print("[process-core] 初回 IQ/OQ を実行します …")
+                if not run_qualification(root):
+                    print("エラー: line readiness 不合格 — 上記 FAIL を解消するまで製造を開始しない",
+                          file=sys.stderr)
+                    return 1
         print(f"[ok] {root} へスキル {len(selected)} 本を設置しました(コミットは手動で)")
         return 0
 
@@ -282,17 +346,38 @@ def main() -> int:
     committed = []
     if not args.no_git:
         for repo in [product_root] + ([cad_root] if is_gui else []):
-            ok = git(repo, "init") and git(repo, "add", "-A") and git(
+            ok = git(repo, "init")
+            if ok and repo == product_root:
+                # 初回 commit から hook を有効化(有効化はファイル存在でなく hooksPath の実測 — ECO-015)
+                ok = git(repo, "config", "core.hooksPath", "bomdd/hooks")
+            ok = ok and git(repo, "add", "-A") and git(
                 repo, "commit", "-m", f"bomdd-init: scaffold ({date.today().isoformat()})")
             committed.append((repo.name, ok))
 
+    qualified: bool | None = None
+    if not args.no_git and not args.no_qualify:
+        print()
+        print("[process-core] 初回 IQ/OQ(line readiness)を実行します …")
+        qualified = run_qualification(product_root)
+        if not qualified:
+            print()
+            print(f"エラー: line readiness 不合格 — {product_root} の上記 FAIL を解消するまで"
+                  "製造を開始しない(fail-closed)。再検査:", file=sys.stderr)
+            print(f"  python bomdd/tools/process-qualification.py --root .", file=sys.stderr)
+            return 1
+
     w = print
     w()
-    w(f"[ok] {product_root} を生成しました(bomdd/ テンプレ+運用プロファイル+スキル {len(SKILLS)} 本)")
+    w(f"[ok] {product_root} を生成しました(bomdd/ テンプレ+運用プロファイル+スキル {len(SKILLS)} 本+工程設備)")
     if is_gui:
         w(f"[ok] {cad_root} を生成しました(CAD: 権威宣言+裁定台帳+資料置き場)")
     for name, ok in committed:
         w(f"[git] {name}: {'初回コミット済み' if ok else 'git 初期化に失敗(手動で git init してください)'}")
+    if qualified is True:
+        w("[process-core] line readiness: PASS(IQ/OQ+決定性 — hook は初回 commit から有効)")
+    elif args.no_git or args.no_qualify:
+        w("[process-core] 適格性確認は未実施 — 製造開始前に実行:"
+          " python bomdd/tools/process-qualification.py --root .")
     w()
     w("== 次にやること(人間) " + "=" * 40)
     w(f" 1. 仕様の種(既存メモ・チケット・議事録)を {product_root / 'bomdd' / 'plm-intake'} へ")

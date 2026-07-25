@@ -1,0 +1,18 @@
+#!/bin/sh
+# BomDD process-core commit-msg(harness ECO-015)— fail-closed
+# 台帳の状態遷移コミットに lifecycle trailer(BomDD-ECO-Fix / BomDD-ECO-Accept)を要求する。
+root=$(git rev-parse --show-toplevel) || exit 1
+profile="$root/bomdd/process-profile.yaml"
+[ -f "$profile" ] || exit 0
+v="$root/bomdd/tools/process-validator.py"
+py=""
+for c in python3 python; do
+  if command -v "$c" >/dev/null 2>&1 && "$c" -c "import yaml" >/dev/null 2>&1; then
+    py="$c"; break
+  fi
+done
+if [ ! -f "$v" ] || [ -z "$py" ]; then
+  echo "process-core: validator または実行可能な python が見つからない — fail-closed で commit を遮断します" >&2
+  exit 1
+fi
+exec "$py" "$v" --mode commit-msg --msg-file "$1"

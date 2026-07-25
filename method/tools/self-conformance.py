@@ -22,6 +22,8 @@
   C8 root-hygiene   : リポ直下にパス破損の化石(名前に ':' を含む等)がない
   C10 schema-drift  : 参照スキーマの派生同期 — 正本(id-grammar/ref-edges)と派生(JSON Schema)
                       の ID 層機械突合+二方言被覆+テンプレ空振り検査・陽性対照常設(ECO-014)
+  C11 process-core  : scaffold 上で工程設備(hooks+validator+qualification runner)が稼働する —
+                      IQ/OQ 合格+変異(hooksPath 無効化)を IQ-03 が検出(ECO-015。git 必須)
 
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
@@ -212,6 +214,37 @@ def c4_scaffold() -> None:
               f"scaffold 煙試験(絶対パス漏れ {len(leaks)} 件・lock/manifest 整合 {count_ok}・{agents_msg}・"
               f"生成 YAML 厳格パース{'失敗: ' + str(gen_bad[:3]) if gen_bad else ' 全数'})"
               + (f" — 漏れ: {leaks[:3]}" if leaks else ""))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+# --- C11 process-core 適格性(ECO-015) -----------------------------------------------
+def c11_process_core() -> None:
+    probe = run(["git", "--version"])
+    if probe.returncode != 0:
+        check("C11", False, "git が実行できない(工程設備の検査対象が実行不能 — 欠測は FAIL)")
+        return
+    tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-c11-"))
+    try:
+        p = run([sys.executable, str(ROOT / "method" / "tools" / "bomdd-init.py"),
+                 "ProcCoreSmoke", "--dir", str(tmp), "--no-gui", "--no-qualify"])
+        prod = tmp / "ProcCoreSmoke"
+        if p.returncode != 0:
+            check("C11", False, f"bomdd-init が失敗 (exit {p.returncode}): {p.stderr.strip()[:120]}")
+            return
+        runner = prod / "bomdd" / "tools" / "process-qualification.py"
+        # scaffold の初回 commit が hook 有効のまま成立していること(bomdd-init 経路の実測)
+        head_ok = run(["git", "-C", str(prod), "rev-parse", "HEAD"]).returncode == 0
+        q = run([sys.executable, str(runner), "--root", str(prod), "--runs", "1"])
+        ok1 = q.returncode == 0
+        # 変異: hooksPath 無効化 → IQ-03 が検出(ファイル存在を有効化の証拠にしない)
+        run(["git", "-C", str(prod), "config", "--unset", "core.hooksPath"])
+        q2 = run([sys.executable, str(runner), "--root", str(prod), "--mode", "iq", "--runs", "1"])
+        ok2 = q2.returncode != 0 and "IQ-03" in (q2.stdout + q2.stderr)
+        check("C11", head_ok and ok1 and ok2,
+              f"process-core 適格性(初回 commit hook 有効={head_ok}・IQ/OQ PASS={ok1}・"
+              f"変異〔hooksPath 無効〕IQ-03 検出={ok2})"
+              + ("" if ok1 else f" — {q.stdout.strip().splitlines()[-1:] or q.stderr.strip()[:120]}"))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -482,6 +515,7 @@ def main() -> int:
     c7_readme()
     c8_hygiene()
     c10_schema_drift()
+    c11_process_core()
     if a.dotnet:
         c9_dotnet()
 

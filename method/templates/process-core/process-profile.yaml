@@ -1,0 +1,36 @@
+# bomdd/process-profile.yaml — process-core 運用プロファイル(harness ECO-015)
+#
+# 本ファイルの存在が「このリポは process-core(hooks+lifecycle validator)の管理下」の宣言。
+# 撤去すれば無効化される(pre-commit は profile 不在なら素通し — 脱出経路の明示)。
+# 差分(パス・語彙・trailer 名)はここで注入し、不変条件は validator のコードに固定する
+# (adapt を自由な再設計にしない — process reuse map の規律。出典= ViewPrism2 E14〜E19 /
+#  ViewTube PR-LIFECYCLE-VALIDATOR・FINDINGS §11.5)。
+bomdd:
+  layer: ProcessProfile
+  product: "{{PRODUCT}}"
+  installed: "{{DATE}}"
+  source: "BomDD harness ECO-015(process-core 汎用核)"
+
+# 保護パス: この配下の変更は open 状態の ECO を要求(E01)
+protected_paths: [src/, test/, tests/]
+
+# 変更台帳(60-change-register テンプレの実体)
+register: bomdd/60-change-register.yaml
+
+# 状態語彙(states の順序どおりの前進のみ許可 — 飛び越し/後退/削除は E03)
+# 既定は kit 同梱スキルの実挙動に合わせた 2 状態(eco-file= staged / eco-accept= applied)。
+# ViewTube 型 3 状態にするには states を [staged, implemented, applied] とする —
+# implemented 遷移で trailers.fix が強制される(E04)。
+states: [staged, applied]
+initial: staged
+open_states: [staged]                    # 保護パス変更を許可する状態(E01 の判定)
+terminal_extra: [rejected, superseded]   # どの状態からも遷移可・以後の遷移は E03
+
+# commit trailer(状態遷移コミットの本文末尾に要求)
+#   implemented 遷移 → 「BomDD-ECO-Fix: <id>」(E04・3 状態語彙のときのみ)
+#   applied 遷移     → 「BomDD-ECO-Accept: <id>」(E05)
+# applied エントリは履歴に accept trailer commit が実在しなければならない(E06)—
+# 自然文の了承・会話記録は承認証拠にならない。
+trailers:
+  fix: BomDD-ECO-Fix
+  accept: BomDD-ECO-Accept
