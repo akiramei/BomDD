@@ -1,6 +1,22 @@
 # ECO-016 — process-validator の証拠意味論・台帳解析の fail-closed 強化(独立検査 REV 8 件の是正)
 
-> 状態: **filed(2026-07-26)**。製造前 — gate ①(製造承認)待ち。
+> 状態: **implemented(2026-07-26)**。gate ①(製造承認)通過 → 製造中。
+
+## 裁定(gate ① — 2026-07-26)
+
+- **製造承認(2026-07-26・maintainer — 「製造承認します。ECO-016 は案a で」)**。
+  baseline を起票コミット d5f2493(是正開始直前)へ更新。
+- **裁定点= 案a 採択**: 脱出経路「profile 撤去で無効化」を **ECO 経由**へ改訂 —
+  設備の武装解除も変更管理の対象。gate ① 裁定 5(ECO-015)の当該部分を supersede する。
+- **スコープ裁定(製造承認時・理由記録)**: allowed_paths へ
+  `method/templates/process-core/hooks/` を追加。理由= 案a の帰結 — profile が作業ツリーから
+  削除された状態では hook が `[ -f profile ] || exit 0` で validator 起動前に素通しするため、
+  「HEAD に profile が実在するなら削除中でも validator を起動する」結線は hook 層にしか置けない
+  (REV-01 の再現経路そのもの)。起票時 affected_refs の欠落として正直記録。
+- 設計確定: 新 reason code 2 件 — **E08** equipment-change-without-open-eco(設備自己保護・
+  HEAD に profile が実在する場合のみ発火= scaffold/設置の初回 commit を誤遮断しない)/
+  **E09** evidence-state-divergence(逆行乖離+fix→accept 順序= ViewPrism2 E17 相当)。
+  placeholder sentinel= `<一行要約>` 完全一致。
 > 出典: ECO-015 後追い独立受入検査(transfer-04 様式・Codex gpt-5.6-sol・REJECT)—
 > bomdd/reports/independent-inspection-eco-015.md(真正判定 13/13 CONFIRMED・誤検出 0)。
 > 本 ECO は validator 系 8 件(REV-01 部分/02/03/04/08/09/10/13)を是正する。

@@ -426,11 +426,11 @@ changes:
       同族の系譜: REV-04 は ECO-011/012(後勝ち情報損失)の 1 段上の同型・REV-03 逆行乖離は
       ECO-015 対応表の宣言済み未移植(E17)の解消
     order_ref: bomdd/60-change-order-eco-016.md
-    affected_refs: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/process-profile.yaml]
-    no_impact_prediction: "(製造前)上記 2 参照以外 diff ゼロ予測。正常系判定(2 状態 lifecycle・起票先行 commit の正常運用)は不変 — 変わるのは異常系の遮断方向と placeholder sentinel のみ。既存製品リポへは kit 再設置まで非波及"
+    affected_refs: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/process-profile.yaml, method/templates/process-core/hooks/]
+    no_impact_prediction: "(製造前)上記 3 参照以外 diff ゼロ予測(hooks は gate ① スコープ裁定で追加 — 案a の削除検出は hook 層でしか結線できない)。正常系判定(2 状態 lifecycle・起票先行 commit の正常運用)は不変 — 変わるのは異常系の遮断方向と placeholder sentinel のみ。既存製品リポへは kit 再設置まで非波及"
     diff_audit:
-      baseline: ede85b8  # 起票時 HEAD(製造承認時に是正窓直前へ更新する)
-      allowed_paths: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/process-profile.yaml]
+      baseline: d5f2493  # 起票時 ede85b8 → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-26・案a 採択)
+      allowed_paths: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/process-profile.yaml, method/templates/process-core/hooks/]
     summary: >
       独立検査が validator に 8 件の回避経路を実証: profile 部分変異(trailers.accept 削除)で
       E05/E06 無音無効化・設備自己保護の欠如(REV-01 部分)/trailer が git 意味論(最終ブロック)
