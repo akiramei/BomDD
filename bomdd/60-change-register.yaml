@@ -375,7 +375,7 @@ changes:
     title: kit に工程設備の汎用核が無い — hooks/lifecycle validator/qualification runner を 2 実装(ViewPrism2/ViewTube)から抽出し bomdd-init 標準装備へ
     date: 2026-07-25
     origin: requirement
-    status: filed
+    status: verified
     source: >
       ViewTube mature-process-bootstrap 還元(FINDINGS §11.5 — 工程資産を調達しない派生は工程
       greenfield 化)+ maintainer 裁定(2026-07-25 — 「丸ごと運ぶ」でなく共通核抽出の切り口)。
@@ -388,6 +388,7 @@ changes:
     diff_audit:
       baseline: ce6e105  # 起票時 2ae81e4 → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-26)
       allowed_paths: [method/tools/bomdd-init.py, method/templates/process-core/, method/tools/self-conformance.py]
+      head: "933d181"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中(hook exec bit 記録は accept に同梱)
     summary: >
       bomdd-init は方法論(kit+lock)・入口(AGENTS.md)・スキル(③)を設置するが、④の
       工程設備(hooks・lifecycle validator)と適格性確認装置を同梱しない — 新規プロジェクトは
@@ -398,4 +399,12 @@ changes:
       自動実行し line readiness を報告(fail-closed)。受入基準は order に事前登録済み
       (陽性対照+負例 6 種+決定性+回帰+2 実装との不変条件対応表)。スコープ外= 製品依存設備
       (capture 等)・工程様式の標準化(OBS-20260725-01 watch 継続)・既存リポの置換。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      V0= validator selftest 23 項目(E01〜E07 変異+陽性対照)。V1= OQ 陽性対照(合成 ECO 全経路
+      通過)。V2= 負例 N1〜N6 全て登録理由で拒否(E04 は selftest が合成 3 状態 profile で被覆)。
+      V3= 決定性(2 回実行の判定・理由集合一致)。V4= 実リポ直接プローブ(E01 遮断+validator
+      喪失時の全 commit 遮断)。V5= --skills-only 追設 line ready+再実行の既存保持。V6= CAD
+      非設置。V7= self-conformance 全 PASS(C11 込み・回帰不変)。V8= 製造中検出欠陥 3 件
+      (POS 判定恒真・hook python 選定・git() cp932)を正直記載のうえ是正・再実測。
+      E07(ViewPrism2 E18 移植)を製造中に追加・未移植項目は order の対応表に明示。
+      accept: 本コミット(詳細は order 参照)。

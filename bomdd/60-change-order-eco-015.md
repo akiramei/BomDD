@@ -1,6 +1,6 @@
 # ECO-015 — kit に工程設備の汎用核が無い(hooks/lifecycle validator/qualification runner を 2 実装から抽出し bomdd-init 標準装備へ)
 
-> 状態: **implemented(2026-07-26)**。gate ①(製造承認)通過 → 製造中。
+> 状態: **verified(2026-07-26)**。fix= 933d181・検証 V0〜V8 全 PASS・窓は accept で閉鎖。
 > 発端: ViewTube mature-process-bootstrap 還元(FINDINGS §11.5)+ maintainer 裁定
 > (2026-07-25 会話 — 「2 実装から共通核を抽出して kit の標準装備にする」切り口で起票)。
 
@@ -96,6 +96,69 @@
 - process donor intake / reuse map / process BOM の**様式標準化**(OBS-20260725-01・2 例目待ち)
 - 既存リポ(ViewPrism2/ViewTube)の汎用核への**置換**(動いている④を触らない — 対応表で
   同等性のみ記録)
+
+## 是正(2026-07-26・fix= 933d181)
+
+1. **`method/templates/process-core/` 新設**: process-profile.yaml(config 注入面)+
+   hooks/pre-commit・commit-msg(sh・fail-closed・python は「PyYAML を import できる個体」を
+   実行検査で選定 — Windows ストアスタブ/yaml なし python を弾く)+
+   tools/process-validator.py(E01〜E07・selftest 23 項目内蔵・trailer 解釈は
+   parse_trailers() 単一実装= commit-msg 検査と履歴証拠検査が共有〔ECO-078 教訓〕)+
+   tools/process-qualification.py(IQ 6 項目+OQ sandbox 7 対照+決定性 --runs)
+2. **E07 追加(製造中の裁定)**: 対応表作成時に ViewPrism2 E18(trailer 参照先の台帳実在)の
+   取りこぼしを検出 → 数行で移植可能と判断し追加(E17 の順序検査は既定 2 状態で発火し得ない
+   ため見送り — 対応表に正直記載)
+3. **bomdd-init 統合**: install_process_core(既存 hooks/profile は保持= fail-safe・
+   register 不在なら台帳テンプレ追設〔--skills-only の既存リポで IQ-06 FAIL を実測して追加〕)+
+   git init 直後・初回 commit 前に core.hooksPath 設定(hook は commit #1 から有効)+
+   初回 IQ/OQ 自動実行(不合格なら exit 1・製造開始を案内しない)+ --no-qualify。
+   CAD リポは非設置(裁定 2)。既存 git() の encoding 未指定(cp932)が hook の UTF-8 出力で
+   落ちる潜在欠陥を検出し是正(utf-8/replace)
+4. **self-conformance C11 新設**: scaffold 上で IQ/OQ PASS+初回 commit hook 有効+
+   変異(hooksPath 無効化)の IQ-03 検出
+
+## 検証(2026-07-26・受入基準=起票時凍結分)
+
+- **V0(selftest)**: validator 純関数 23 項目全 PASS(E01〜E07 各変異+陽性対照+placeholder
+  skip+厳格ローダー対照+trailer 解釈対照)
+- **V1(陽性対照)**: OQ POS — 合成 ECO が起票→保護パス変更→accept trailer→validate を通過
+- **V2(負例)**: OQ N1〜N6 全て登録理由で拒否(E01/E02/E03/E05/E06/IQ-03。E04 は既定 2 状態で
+  遷移が存在しないため selftest が合成 3 状態 profile で被覆 — 裁定 3 の設計どおり)。
+  N6 は検出だけでなく「hook 無効時に違反 commit が素通りする」バイパスの実在も観測
+- **V3(決定性)**: スイート 2 回実行の判定・理由集合一致(DET PASS・既定 --runs 2)
+- **V4(実リポ直接プローブ)**: 生成リポの実 commit 経路で①ECO なし src/ 変更→ E01 遮断
+  ②validator 退避→全 commit 遮断(裁定 5 の fail-closed)を実測・復元済み
+- **V5(--skills-only)**: 既存 git リポへの追設で line ready PASS(register 追設込み)。
+  再実行で既存保持(fail-safe)を確認
+- **V6(CAD 経路)**: --gui の CAD リポに process-core 非設置・製品リポに設置を確認(裁定 2)
+- **V7(回帰)**: self-conformance 全 PASS(C1〜C8/C10/C11 — C4 scaffold 形状・ECO-004/009/010
+  検証項目とも不変)。所要 +C11 で全体 26s
+- **V8(製造中に検出・是正した欠陥 — 正直記載)**: (a) OQ POS 判定の `or not list.append`
+  恒真バグ(セルフレビューで検出)(b) hook の python 選定が PyYAML なし個体を掴み全 commit
+  誤遮断(初回 end-to-end で fail-closed が正しく発火して検出)(c) bomdd-init git() の
+  cp932 デコード落ち(同)— いずれも是正後に全経路再実測
+
+## 不変条件対応表(受入基準 5 — 取りこぼしの明示)
+
+| process-core | ViewPrism2(validate_bom E14〜E19) | ViewTube(AC-PORT-011 負例) | 備考 |
+|---|---|---|---|
+| E01 | (hook 相当) | 1・2(ECO なし保護パス変更) | ✓ |
+| E02 | E19(非 staged 登場) | 3(新規 implemented 登録) | ✓ |
+| E03 | E19(飛び越し・逆行) | 4(staged→applied skip) | ✓+削除・terminal・未知状態 |
+| E04 | E15(前提) | 5(fix trailer 欠落) | 3 状態 profile 時のみ発火 |
+| E05 | E16(前提) | 6(accept trailer 欠落) | ✓ |
+| E06 | E15/E16(履歴実在) | 13(自然文了承の承認登録) | 既定 2 状態は accept 証拠のみ・3 状態で fix も要求 |
+| E07 | E18(参照先実在) | — | 製造中に移植 |
+| IQ-03 | — | 14(hook 無効) | +N6 でバイパス実在を観測 |
+| **未移植** | E14(lifecycle_evidence 宣言・shallow 検査)・E17(fix→accept の祖先順序・逆行乖離) | 7(ECO body)・8(impacted files)・9〜11(視覚 golden)・12(役割分離)・15(hash)・16(known-bad) | E17 は既定 2 状態で発火不能のため見送り。7・8 は台帳スキーマ依存、9〜12・15・16 はスコープ外宣言どおり(製品依存設備・様式標準化は OBS-20260725-01 watch) |
+
+## 教訓(還元候補 — lesson-promote 経由)
+
+- **設備の受入検査は設備の操作対象(台帳)込みで通す** — --skills-only の IQ-06 FAIL は
+  「設備はあるが操作対象が無い」構成を機械が正しく検出した例。設置 = 装置+操作対象+結線。
+- **fail-closed は開発中の自分に最初に牙をむく(そしてそれが価値)** — hook の python 選定
+  欠陥は、fail-closed 設計だったから初回実行で顕在化した(fail-open なら無音で素通りし
+  「動いている」と誤認したまま出荷された)。
 
 ## 効果測定(宿題)
 
