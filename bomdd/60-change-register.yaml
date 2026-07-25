@@ -408,3 +408,63 @@ changes:
       (POS 判定恒真・hook python 選定・git() cp932)を正直記載のうえ是正・再実測。
       E07(ViewPrism2 E18 移植)を製造中に追加・未移植項目は order の対応表に明示。
       accept: 本コミット(詳細は order 参照)。
+      追記(2026-07-26): 後追い独立受入検査(transfer-04 様式・Codex gpt-5.6-sol・実測記録)=
+      REJECT・所見 13 件・真正判定 13/13 CONFIRMED 誤検出 0 — bomdd/reports/
+      independent-inspection-eco-015.md。verified は起票時凍結の受入基準に対する判定として維持
+      (歴史的 FAIL 報告の非消去)。是正= ECO-016(validator 系 8 件)/ECO-017(runner・init・
+      C11 系 5 件)。
+
+  - id: ECO-016
+    title: process-validator の証拠意味論・台帳解析の fail-closed 強化(独立検査 REV-01 部分/02/03/04/08/09/10/13 の是正)
+    date: 2026-07-26
+    origin: defect
+    status: filed
+    source: >
+      ECO-015 後追い独立受入検査(transfer-04 様式・検査官= Codex 実応答モデル gpt-5.6-sol・
+      セッション 019f9b81-bc1b-78d0-9870-40eb15e7a252・read-only・情報遮断)= REJECT。
+      真正判定 13/13 CONFIRMED・誤検出 0(bomdd/reports/independent-inspection-eco-015.md)。
+      同族の系譜: REV-04 は ECO-011/012(後勝ち情報損失)の 1 段上の同型・REV-03 逆行乖離は
+      ECO-015 対応表の宣言済み未移植(E17)の解消
+    order_ref: bomdd/60-change-order-eco-016.md
+    affected_refs: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/process-profile.yaml]
+    no_impact_prediction: "(製造前)上記 2 参照以外 diff ゼロ予測。正常系判定(2 状態 lifecycle・起票先行 commit の正常運用)は不変 — 変わるのは異常系の遮断方向と placeholder sentinel のみ。既存製品リポへは kit 再設置まで非波及"
+    diff_audit:
+      baseline: ede85b8  # 起票時 HEAD(製造承認時に是正窓直前へ更新する)
+      allowed_paths: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/process-profile.yaml]
+    summary: >
+      独立検査が validator に 8 件の回避経路を実証: profile 部分変異(trailers.accept 削除)で
+      E05/E06 無音無効化・設備自己保護の欠如(REV-01 部分)/trailer が git 意味論(最終ブロック)
+      と乖離し中間段落を証拠認定(REV-02)/証拠を SHA・遷移紐付けなし ID 集合へ縮約し事前植込みと
+      逆行乖離を見逃す(REV-03)/台帳の重複 ID 後勝ち・非 mapping 無音 skip(REV-04)/git 障害を
+      証拠ゼロへ変換し exit 2 契約に違反(REV-08)/未知旧状態の terminal 洗浄(REV-09)/
+      E01 が index 側判定で起票先行を強制しない(REV-10)/merge 複数親の非考慮で正規 merge を
+      誤 FAIL(REV-13)。是正= profile スキーマ厳格化+設備自己保護のコード固定+最終 trailer
+      ブロック解析+SHA・遷移紐付け照合+E17 移植+台帳厳格化+HEAD 側 E01+複数親合算。
+      裁定点= 脱出経路(profile 撤去)の ECO 経由化(案a 推奨)。受入基準は order に事前登録済み。
+    verification: "(製造前 — 未実施)"
+
+  - id: ECO-017
+    title: qualification runner・bomdd-init・C11 の隔離と判定精度(独立検査 REV-05/06/07/11/12 の是正)
+    date: 2026-07-26
+    origin: defect
+    status: filed
+    source: >
+      ECO-016 と同一出典(ECO-015 独立受入検査 REJECT・真正判定 13/13 CONFIRMED)。
+      同族の系譜: REV-07 は ECO-009 #2(kit 完全性検査)の水平展開漏れ=是正済み様式が隣の
+      新設装置へ未適用(transfer-04 4類型の再演)
+    order_ref: bomdd/60-change-order-eco-017.md
+    affected_refs: [method/templates/process-core/tools/process-qualification.py, method/tools/bomdd-init.py, method/tools/self-conformance.py]
+    no_impact_prediction: "(製造前)上記 3 参照以外 diff ゼロ予測。正常系 scaffold 生成物は不変(判定の厳格化のみ)。意図的挙動変更 1 点= git 設定なし環境の bomdd-init が exit 非 0 へ(--no-git/--no-qualify の明示経路を案内)。C11 所要は 2 回決定性で微増"
+    diff_audit:
+      baseline: ede85b8  # 起票時 HEAD(製造承認時に是正窓直前へ更新する。順序依存= ECO-016 verified 後に製造)
+      allowed_paths: [method/templates/process-core/tools/process-qualification.py, method/tools/bomdd-init.py, method/tools/self-conformance.py]
+    summary: >
+      独立検査が runner・init・C11 に 5 件を実証: IQ-03 の endswith 判定が外部 hooks を PASS・
+      IQ-02 の substring 判定(REV-05)/初回 commit 失敗が exit へ反映されず「[git] 失敗のまま
+      line ready PASS」(REV-06)/--skills-only が不完全既存設備(空 hooks/ 等)を保持扱いで
+      素通し(REV-07)/--runs 0 の 1 回丸めで DET PASS 偽装・C11 の文字列一致判定・E04/E07 の
+      実経路負例欠落(REV-11)/OQ sandbox が GIT_DIR 等を継承し隔離が破れうる(REV-12)。
+      是正= hooksPath 正準比較+hash/実行 probe+git 経路失敗の致命化+IQ へ HEAD/clean 検査+
+      三状態判定(不完全= FAIL)+--runs>=2 強制+C11 構造化判定+実 Git 負例 2 種追加+
+      git 環境 allowlist+隔離実測。受入基準は order に事前登録済み。
+    verification: "(製造前 — 未実施)"
