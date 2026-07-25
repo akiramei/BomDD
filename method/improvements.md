@@ -943,7 +943,7 @@ note: 移行残高= 77 件。これに本節発の新規 1 件(EXP-20260715-12�
   evidence: 2026-07-11 ECO-060 還元・教訓1
 - [watch 2/3] OBS-20260711-02 — 継続運用レジームの逸脱(自然文昇格)記録の蓄積(N=2 で FINDINGS 限界節更新)
   source: ECO-060, ViewTube CAPA-VT-001
-  evidence: 同・教訓3 / 2026-07-25 ViewTube 還元(root cause 4=自然文の「OK」+機能確認を release 受入へ昇格・是正= negative control 13「conversational acknowledgement used as approval」で機械封じ込め。レジーム差留保: 工程未設置下の昇格であり継続運用中の逸脱ではない — 同一命題「自然文了承は named gate 承認に昇格しない」の別レジーム 2 例目として計数。N=2 到達につき FINDINGS §11.3 限界節更新=織り込み案B)
+  evidence: 同・教訓3 / 2026-07-25 ViewTube 還元(root cause 4=自然文の「OK」+機能確認を release 受入へ昇格・是正= negative control 13「conversational acknowledgement used as approval」で機械封じ込め。レジーム差留保: 工程未設置下の昇格であり継続運用中の逸脱ではない — 同一命題「自然文了承は named gate 承認に昇格しない」の別レジーム 2 例目として計数。N=2 到達につき FINDINGS §11.3 限界節更新=**実施済み 2026-07-25**〔§11.3 追補・レビュー承認=案B 採択〕。3 例目で一般則昇格判定)
 - [watch 2/3] OBS-20260711-03 — 台帳の ID 単位変更は適用後に ID 帰属を機械検証する(治具候補)
   source: ECO-011
   evidence: 同・観測。2 例目= BomDD harness ECO-011(2026-07-16 節 — エントリ挿入位置の誤りで既存 ECO のフィールドが別 ID ブロックへ帰属変化)。3 例目の昇格判定で独立性(ID 単位変更 vs エントリ挿入の同型性)を検査
@@ -988,7 +988,7 @@ note: 移行残高= 77 件。これに本節発の新規 1 件(EXP-20260715-12�
 - [superseded 2026-07-17 via 2026-07-17 レビュー採択D(silence §12 状態×操作マトリクスの谷間掃射へ吸収)] OBS-20260713-07 — 整合性ガードは永続状態(DB)と作業中状態(未保存編集)の両面で閉じる
   source: ECO-045, ECO-102
   evidence: 2026-07-13 ViewPrism2 積み残し回収(ECO-045) / 2026-07-17 ECO-099〜108 還元(ECO-102=同じ dirty 谷間の裏面「ガードが閉じすぎる」— 保護対象の分解宣言。昇格候補3〔状態×操作マトリクス〕へ吸収候補=承認時 superseded)
-- [watch 3/3] OBS-20260713-08 — 健全な sibling はマスキング要因になる(1 面の健全は他面の健全を含意しない・2 例目で昇格判定)
+- [recovered 2026-07-25 via silence §18 新設(レビュー承認: 2026-07-25 織り込み案G 採択・3 例の独立性= 別製品×別面で確認)] OBS-20260713-08 — 健全な sibling はマスキング要因になる(1 面の健全は他面の健全を含意しない・2 例目で昇格判定)
   source: ECO-079, ECO-108, ViewTube CAPA-VT-001
   evidence: 2026-07-13 ECO-079 還元・教訓3 / 2026-07-17 ECO-099〜108 還元(ECO-108 面間非対称=WorkTab の言語追随が健全でも同構造の ImageTab は非追随。判定=昇格候補2(c) の read-across 系譜へ証拠合流・独立昇格は次の 1 例まで保留)/ 2026-07-25 ViewTube 還元(root cause 3「evidence semantics gap」=機能試験合格+lifecycle 正常が UI-CAD 視覚適合の証拠へ昇格し V1.0.1 不適合が流出 — sibling が「部品」でなく「証拠クラス」の例。3 例は別製品×別面〔i18n/言語追随/機能vs視覚〕で 3 例目は別リポ別チーム=独立性最強。昇格判定=織り込み案G)
 - [open] EXP-20260713-09 — 次の横断的関心の新設(ログ・a11y・テーマ等)で 3 層(宣言+参照導線+機械ゲート)が起票時から設計されるか
@@ -1895,3 +1895,13 @@ validation_warnings 0):
 - [open] EXP-20260725-03 — 次の派生プロジェクト(成熟 donor リポを参照する新規/派生開発)の開始時: 製品 donor と工程 donor が分離登録され、最小 line readiness(入口から到達可能+lifecycle validator 稼働+hook 有効化の実測)を確認してから製品製造に入るか(工程 greenfield 化の再発ゼロ・織り込み案C/D の効果測定)
   origin: native
   evidence: 本節・裁定表 #1/#2/#4
+
+追記(2026-07-25 レビュー裁定+織り込み実施): **A〜E・G 採択/F 見送り**(cheat-taxonomy へは
+混入させない — 提案どおり)。織り込み済み= 案A: FINDINGS §11.5 新設(転移の対照観測・N=1)/
+案B: FINDINGS §11.3 追補(自然文昇格 N=2・別レジーム)/ 案C: ai-onboarding-pack §11 新設
+(派生開発の工程調達+line readiness 3 点)+質問 11 追加・移行パック §3 質問 11 追加 /
+案D: playbook §1 Phase 0 に line bootstrap 段落(ViewTube「Phase 0 Process Bootstrap」は命名衝突
+回避のため line bootstrap として編入)+§13 運用規則 2 項(②散文は停止しない別リポ実証・
+compliance vs capability 別判定)/ 案E: silence §16 追記(存在≠有効化の別リポ実測)/
+案G: **silence §18 新設**(健全 sibling・健全証拠クラスのマスキング — OBS-20260713-08 を
+3 例で昇格・recovered 遷移済み)。

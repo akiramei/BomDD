@@ -34,6 +34,7 @@
 8. 移行中に絶対に変更してはいけない実装ファイルや生成物はありますか。
 9. 移行完了の判定者は誰ですか。
 10. PLM 指摘の `rejected` / `not-exported` を裁定できる人は誰ですか。
+11. このリポが参照する成熟 donor プロジェクトはありますか。その工程資産(入口・ECO 手順・hooks・validator・検査治具・負例)を revision+hash 固定で調達し、本リポで再適格性確認しますか(「参照可」の許可だけでは調達にならない — [ai-onboarding-pack.md](ai-onboarding-pack.md) §11・FINDINGS §11.5)。
 
 ## 4. 移行先の標準構造
 

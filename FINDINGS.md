@@ -710,6 +710,16 @@ bomdd/reports/incident-eco060-lifecycle-2026-07-11.md(自己分析報告原本+m
 機械面のみ恒久化(ハーネス中立入口 AGENTS.md の scaffold 生成+self-conformance C4)。
 一般則化は 3 例目待ち。証拠: bomdd/60-change-order-eco-010.md(verified・治具 10 項目)。
 
+**追補(自然文昇格の 2 例目・別レジーム・2026-07-25)**: ViewTube CAPA-VT-001 — 工程未設置の
+派生リポ(§11.5)で、自然文の「OK」と機能確認の完了が release 受入へ昇格し、視覚 golden の
+hold point が pending のまま不適合 V1.0.1 が流出(root cause 4「management gate failure」)。
+本節初観測(継続運用中の逸脱)とはレジームが異なる(工程未設置下の昇格)が、命題「自然文了承は
+named gate 承認に昇格しない」としては N=2。是正が両例とも機械面である点も一致 — ViewPrism2=
+validator E14〜E19+trailer 強制(ECO-061)/ ViewTube= 負例 13「conversational acknowledgement
+used as approval」の fail-closed 拒否(OQ で検出実証)。散文でなく④で塞ぐ処方の再現。一般則
+昇格は 3 例目で判定(OBS-20260711-02)。証拠: ViewTube bomdd/capa/CAPA-VT-001.md §2・
+CAPA-VT-002-automated-qualification-report.md §3。
+
 ### 11.4 追補: 検査の転移 — 情報遮断した異系統受入検査は自己レビューに追加被覆を与えた(transfer-04)
 
 転移系列(§11〜11.3)は**製造**の方法論転移を測ってきた。第 4 軸は**検査の転移** — 独立受入検査
@@ -761,6 +771,33 @@ read-only 敵対レビュー)を、BomDD 自己適用台帳の verified 済み E
 潜伏していた(2026-07-11〜16)。**分類の再利用可能性を支持する追加 1 例だが、同一コードベース内の
 N=1 であり、外的妥当性の確立ではない**(検査転移の再現でもない — 検査官・情報遮断・突合の設計なし)。
 証拠: bomdd/60-change-order-eco-011.md(台帳是正・verified)・012.md(C1 厳格化・filed)。
+
+### 11.5 追補: 転移の対照観測 — 工程資産を調達しない派生は工程が greenfield 化する(ViewTube・N=1)
+
+transfer 系列(§11〜11.2)は「凍結 kit あり・fresh 一周」で介入ゼロ N=3 を測定した。本節はその
+**自然発生対照**: 方法論の理解+製品 donor の参照だけで、工程資産を調達せずに製造を開始した派生
+プロジェクト(ViewTube・donor= ViewPrism2)の観測である(N=1・統制実験でない)。
+
+**観測**: 製品は派生開発(ドメインモデル・UI パターンを donor 登録)なのに、工程資産(入口・ECO
+lifecycle・hooks・validator・独立レビュー・capture harness・負例 fixture)は登録されず、**工程だけ
+greenfield** という非対称が生じた。帰結: 散文の hold point(「golden 承認が必要」)は実行を停止せず、
+機能試験合格が UI-CAD 視覚適合の証拠へ昇格して不適合 V1.0.1 が流出 — 検出は下流のユーザーレビュー
+のみ。是正は製品修正でなく**工程の調達**として実施された: process donor intake(donor revision+
+SHA-256 固定・13 資産)→ process reuse map(direct 1 / adapt 6 / reject 1 / new 1)→ process BOM
+(17 target)→ IQ/OQ/PQ(事前登録負例 16/16 検出・known-bad V1.0.1 拒否・2 回実行 byte-identical)。
+自動適格 PASS(2026-07-25)。
+
+**中心的観測**: 方法論は法規であり工場設備ではない — **工程は製品と独立の調達対象**であり、製品
+donor の登録は工程を運ばない。方法論側の既存装置との関係: kit+bomdd.lock(harness ECO-004)は
+**方法論**を運ぶ装置であり、姉妹製品リポで成熟した**工程設備**を運ぶ経路は method に未装備だった
+(被覆ギャップ — 還元: improvements.md 2026-07-25 節の裁定表 8 件・playbook §1/§13・onboarding
+両パック派生開発節・silence §16/§18)。
+
+**限界**: N=1・自然発生対照(統制なし)。製造時の担当モデル・ハーネス・kit 不使用の経緯は未記録
+(事後観測)。CAPA-VT-002 は独立検査+ユーザークローズ未了(OPEN)のため、確定値は自動適格 PASS
+まで。証拠: ViewTube bomdd/process/mature-process-bootstrap-guide.md(一般化手引き)・
+bomdd/capa/CAPA-VT-001.md・CAPA-VT-002.md・CAPA-VT-002-automated-qualification-report.md・
+bomdd/process/process-{donor-intake,reuse-map,bom}.yaml。
 
 ## 12. stage-0 健診の外部妥当性 — ハブは普遍・三冠は局所(stage0-oss-01)
 

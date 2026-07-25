@@ -37,6 +37,8 @@ Phase 7  変更/是正オーダー(ECO/CAPA) … 仕様変更・欠陥修正→�
 
 Phase 0(チャーター)では、**後から動かすとループ測定が濁る項目**(工場構成・収束ループ予算・役割と承認者・黒箱境界の種別)をこの時点で固定する。題材・スコープは `(仮)` 付きで仮置きしてよく、Phase 1 終了時(G1)に確定する。手順は [prompts/phase0-charter.md](prompts/phase0-charter.md)。
 
+**派生開発の line bootstrap**(ViewTube 還元・2026-07-25): 成熟 donor リポを参照する派生開発では、Phase 0 で製品 donor と**工程 donor**を分離登録し、最小 line readiness(入口から workflow へ到達可能・lifecycle validator 稼働・hook 有効化の実測)を確認してから Phase 1 へ進む。方法論の理解と kit は工程の移植ではない — 工程資産の非調達は「製品は派生・工程は greenfield」の非対称を生み、散文の hold point は流出を止めない(FINDINGS §11.5)。手順・完全様式は [onboarding/ai-onboarding-pack.md](onboarding/ai-onboarding-pack.md) §11(knowledge 参照= ViewTube 実物一式)。
+
 成果物の置き場所(推奨): 対象プロジェクトのリポジトリ直下に `bomdd/` を作り、[templates/](templates/) の番号体系(00=チャーター, 10=要求, 20=仕様, 30番台=BOM, 40番台=製造, 50番台=記録, 60番台=変更オーダー)で置く。規模が小さい場合の省略規約は §11 テーラリング。
 
 ## 2. Phase 1 — ブレインストーミング → 要求台帳
@@ -664,3 +666,16 @@ Work Order(40-work-order.md)     … 製造対象・必須受入・ずる報告�
   手順だけでなく規約にも適用される)。処方の型= 規約を機械検査器(lint)またはチェックリスト行・
   手順ゲートへ変換する(実例: 縦整列規約→ axaml 静的 lint 候補= i18n lint と同型の解。効果測定=
   EXP-20260717-09)。
+
+運用規則(ViewTube mature-process-bootstrap 還元・2026-07-25):
+- **「②散文は停止しない」の別リポ実証**: 方法論文書と散文規則だけで製造を開始した派生リポで、
+  散文の hold point(「golden 承認が必要」「証拠が揃うまで出荷しない」)が package/release を停止
+  せず、不適合が流出した(FINDINGS §11.5 — ②滞留の帰結の、方法論リポ外での自然発生例。是正は
+  ④の release interlock= 機械読取り evidence manifest+fail-closed gate)。重要な不変条件は
+  散文に留めず、出荷経路の実入口で強制される④へ昇格させる。
+- **method compliance と operational capability は別判定**: 文書様式が BomDD に準拠していることは、
+  工程が不適合を検出・封じ込めできることを証明しない。工程能力の証明は「正常品を通す・不良品を
+  止める・検査器自身の故障を検出する・同一入力に同一判定・自己承認を拒否する・実入口で強制される」
+  の観測による(harness 自己適用の technical PASS ≠ closure と同型)。完了状態は「ほぼ完了」
+  「技術的に OK」でなく `installed-awaiting-qualification` 等の具体状態で表し、release 可能状態へ
+  黙って昇格させない。

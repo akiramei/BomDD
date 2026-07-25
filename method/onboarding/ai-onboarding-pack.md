@@ -191,6 +191,7 @@ AI は開始時に、最低限次を確認する。
 8. 最初に人間が配置できるファイルは何ですか。
 9. 実装開始を止めるべき条件は何ですか。
 10. PLM 同期後の指摘を誰が裁定しますか。
+11. 参考にする成熟プロジェクト(donor リポ)はありますか。ある場合、製品資産(実装・契約・UI パターン)だけでなく**工程資産**(入口・ECO 手順・hooks・validator・検査治具・負例 fixture)も調達しますか(下記「派生開発」参照)。
 
 ## 10. 新規プロジェクト開始時の標準フロー
 
@@ -208,3 +209,21 @@ AI は開始時に、最低限次を確認する。
 12. G1、G2、G2'、G3 を通す。未解決事項が blocker なら実装開始しない。
 13. `40-work-order.md` を作り、製造パッケージだけを fresh factory へ渡す。UI-CAD 案件では `35-design-system-bom.yaml` も製造パッケージに含める。
 14. 製造後に `50-as-built.yaml`、テスト証跡、cheat-log、`53-service-bom.yaml` を更新する。
+
+## 11. 派生開発 — 成熟 donor リポを参照するとき(ViewTube 還元・2026-07-25)
+
+製品 donor と**工程 donor は別に登録する**。方法論の理解(本パック・kit)は工程の移植ではない —
+donor リポで成熟した工程設備(入口・ECO lifecycle・hooks・validator・独立レビュー・capture・
+負例 fixture)は、revision+hash を固定した調達(process donor intake)と対象リポでの再適格性
+確認を経て初めて移る。「参照してよい」という許可だけでは調達にならない。
+
+最低限、製品製造の開始前に **line readiness** を実測する:
+
+1. 入口(AGENTS 等)から全 workflow へ到達可能
+2. lifecycle validator が稼働する(self-test 含む — 0 件表示は稼働の証拠ではない)
+3. hook が実際の commit 経路で起動する(ファイルの存在でなく `core.hooksPath` と負例の実測)
+
+完全様式(process reuse map / process BOM / IQ・OQ・PQ / First Article)は knowledge 参照:
+ViewTube `bomdd/process/mature-process-bootstrap-guide.md`(実物一式・2026-07-25)。標準成果物化は
+2 例目で判定する(improvements.md OBS-20260725-01)。初出: 方法論のみで製造を開始した派生で工程が
+greenfield 化し、機能合格が視覚適合へ昇格して不適合が流出(FINDINGS §11.5)。
