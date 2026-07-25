@@ -217,11 +217,16 @@ donor リポで成熟した工程設備(入口・ECO lifecycle・hooks・validat
 負例 fixture)は、revision+hash を固定した調達(process donor intake)と対象リポでの再適格性
 確認を経て初めて移る。「参照してよい」という許可だけでは調達にならない。
 
-最低限、製品製造の開始前に **line readiness** を実測する:
+最低限、製品製造の開始前に **line readiness** を実測する(bomdd-init が process-core を設置し
+初回 IQ/OQ を自動実行する — harness ECO-015。手動再検査は
+`python bomdd/tools/process-qualification.py --root .`):
 
 1. 入口(AGENTS 等)から全 workflow へ到達可能
 2. lifecycle validator が稼働する(self-test 含む — 0 件表示は稼働の証拠ではない)
 3. hook が実際の commit 経路で起動する(ファイルの存在でなく `core.hooksPath` と負例の実測)
+4. 変更台帳(register)が存在し validator が厳格に読める — **装置だけでは設置未完了**。
+   設置の合格判定は〈装置・操作対象(台帳)・結線(入口/hooksPath)〉の三点(ECO-015 IQ-06 の実測:
+   既存リポへの追設で台帳不在のまま「設置済み」になる構成を IQ が正しく止めた)
 
 完全様式(process reuse map / process BOM / IQ・OQ・PQ / First Article)は knowledge 参照:
 ViewTube `bomdd/process/mature-process-bootstrap-guide.md`(実物一式・2026-07-25)。標準成果物化は
