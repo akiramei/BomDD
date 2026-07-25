@@ -1,8 +1,31 @@
 # ECO-015 — kit に工程設備の汎用核が無い(hooks/lifecycle validator/qualification runner を 2 実装から抽出し bomdd-init 標準装備へ)
 
-> 状態: **filed(2026-07-25)**。製造前 — gate ①(製造承認)待ち。
+> 状態: **implemented(2026-07-26)**。gate ①(製造承認)通過 → 製造中。
 > 発端: ViewTube mature-process-bootstrap 還元(FINDINGS §11.5)+ maintainer 裁定
 > (2026-07-25 会話 — 「2 実装から共通核を抽出して kit の標準装備にする」切り口で起票)。
+
+## 裁定(gate ① — 2026-07-26)
+
+- **製造承認(2026-07-26・maintainer — 「製造承認します。gate ① を通して製造に入ってください」)**。
+  baseline を起票コミット ce6e105(是正開始直前)へ更新。
+- 起票時に gate 裁定へ委ねた 2 点は、order 記載の案どおり採択:
+  1. **self-conformance は C11 新設**(C4/C5 の拡張でなく — C4 は scaffold の形状検査・C11 は
+     工程設備の稼働検査で関心が別)
+  2. **CAD リポには process-core を設置しない**(CAD は製造リポでない — 裁定台帳のみ。
+     ECO-010 の AGENTS.cad と同じ「内容の非対称は正直記録」)
+- 追加裁定(製造中の設計確定 — スキル整合の実測に基づく):
+  3. **既定プロファイルの状態語彙は `[staged, applied]`**(2 状態)。根拠= kit 同梱スキルの
+     実挙動(eco-file が `status: staged`・eco-accept が `status: applied`・eco-fix は状態を
+     変えない)。3 状態(staged→implemented→applied= ViewTube AC-PORT-003)は profile 設定で
+     有効化できる(fix trailer 強制は 3 状態時のみ発火 — E04 の機械は validator selftest が
+     合成 3 状態 profile で常時検査)。スキルテンプレの語彙改訂は本 ECO の allowed_paths 外 —
+     手を出さない(観測として記録: templates/60-change-register.yaml のコメント語彙
+     〔proposed→…→verified〕とスキル実挙動〔staged→applied〕の不一致は既存債務)
+  4. **テンプレ placeholder エントリ(title が `<` で始まる)は検査対象外**として skip
+     (scaffold 直後の台帳が placeholder で FAIL しないため — skip は警告表示で正直記録)
+  5. **validator 不在+profile 存在時の pre-commit は全 commit 遮断**(保護パス限定でなく)。
+     profile の存在が「本リポは process-core 管理下」の宣言であり、設備喪失は停止が正
+     (fail-closed)。profile ごと撤去すれば無効化できる(脱出経路の明示)
 
 ## 起票(2026-07-25)
 
