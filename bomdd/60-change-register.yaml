@@ -370,3 +370,32 @@ changes:
       order に正直記載)。V2=変異 B(mappings セレクタ潰し)方言被覆+テンプレ空振りの 2 面 FAIL。
       V3=天然対照(git show 71d6f5f:)で uiId 乖離検出= ECO-013 是正との等価証明。
       V4=復元後 fast 全 PASS。accept: 本コミット(詳細は order 参照)。
+
+  - id: ECO-015
+    title: kit に工程設備の汎用核が無い — hooks/lifecycle validator/qualification runner を 2 実装(ViewPrism2/ViewTube)から抽出し bomdd-init 標準装備へ
+    date: 2026-07-25
+    origin: requirement
+    status: filed
+    source: >
+      ViewTube mature-process-bootstrap 還元(FINDINGS §11.5 — 工程資産を調達しない派生は工程
+      greenfield 化)+ maintainer 裁定(2026-07-25 — 「丸ごと運ぶ」でなく共通核抽出の切り口)。
+      実装材料 2 つが既存: ViewPrism2(hooks+validate E14〜E19・変異 5 種収載)/
+      ViewTube(PR-HOOKS/PR-LIFECYCLE-VALIDATOR adapt 品+qualification runner 負例 16 種・
+      byte-identical)。差分は config 注入可能な範囲(保護パス・register スキーマ・trailer 規約)に限られる
+    order_ref: bomdd/60-change-order-eco-015.md
+    affected_refs: [method/tools/bomdd-init.py, method/templates/process-core/, method/tools/self-conformance.py]
+    no_impact_prediction: "(製造前)上記 3 参照以外 diff ゼロ予測。既存製品リポ非波及(init は生成時のみ・--skills-only は既存 hook 保持)。正常系 scaffold の既存生成物は不変 — 追加は process-core 一式+process-profile.yaml+git config。bomdd.lock は process-core 分の件数・hash 変化(来歴フィールドの設計どおりの変化)。CAD/--skills-only 経路の生成差を起票時点から影響範囲に含む(ECO-009 §16(d) 適用)"
+    diff_audit:
+      baseline: 2ae81e4  # 起票時 HEAD(製造承認時に是正窓直前へ更新する — ECO-008 以降の様式)
+      allowed_paths: [method/tools/bomdd-init.py, method/templates/process-core/, method/tools/self-conformance.py]
+    summary: >
+      bomdd-init は方法論(kit+lock)・入口(AGENTS.md)・スキル(③)を設置するが、④の
+      工程設備(hooks・lifecycle validator)と適格性確認装置を同梱しない — 新規プロジェクトは
+      「起票なしに保護パスへ入らない」が②③止まりのまま製造に入れる(ECO-060 遵守逆転の実測
+      から、これは既知の無音面)。是正案= process-core(pre-commit/commit-msg hook+汎用
+      lifecycle validator+IQ/OQ qualification runner)を新設し、差分を process-profile.yaml で
+      注入(不変条件はコード固定・adapt を自由再設計にしない)。bomdd-init が設置+初回 IQ/OQ を
+      自動実行し line readiness を報告(fail-closed)。受入基準は order に事前登録済み
+      (陽性対照+負例 6 種+決定性+回帰+2 実装との不変条件対応表)。スコープ外= 製品依存設備
+      (capture 等)・工程様式の標準化(OBS-20260725-01 watch 継続)・既存リポの置換。
+    verification: "(製造前 — 未実施)"
