@@ -941,8 +941,9 @@ note: 移行残高= 77 件。これに本節発の新規 1 件(EXP-20260715-12�
 
 - [open] EXP-20260711-01 — 次の外部モデル運用ラウンドで入口スキル省略が④層(validator)で停止するか
   evidence: 2026-07-11 ECO-060 還元・教訓1
-- [watch 1/3] OBS-20260711-02 — 継続運用レジームの逸脱(自然文昇格)記録の蓄積(N=2 で FINDINGS 限界節更新)
-  evidence: 同・教訓3
+- [watch 2/3] OBS-20260711-02 — 継続運用レジームの逸脱(自然文昇格)記録の蓄積(N=2 で FINDINGS 限界節更新)
+  source: ECO-060, ViewTube CAPA-VT-001
+  evidence: 同・教訓3 / 2026-07-25 ViewTube 還元(root cause 4=自然文の「OK」+機能確認を release 受入へ昇格・是正= negative control 13「conversational acknowledgement used as approval」で機械封じ込め。レジーム差留保: 工程未設置下の昇格であり継続運用中の逸脱ではない — 同一命題「自然文了承は named gate 承認に昇格しない」の別レジーム 2 例目として計数。N=2 到達につき FINDINGS §11.3 限界節更新=織り込み案B)
 - [watch 2/3] OBS-20260711-03 — 台帳の ID 単位変更は適用後に ID 帰属を機械検証する(治具候補)
   source: ECO-011
   evidence: 同・観測。2 例目= BomDD harness ECO-011(2026-07-16 節 — エントリ挿入位置の誤りで既存 ECO のフィールドが別 ID ブロックへ帰属変化)。3 例目の昇格判定で独立性(ID 単位変更 vs エントリ挿入の同型性)を検査
@@ -987,9 +988,9 @@ note: 移行残高= 77 件。これに本節発の新規 1 件(EXP-20260715-12�
 - [superseded 2026-07-17 via 2026-07-17 レビュー採択D(silence §12 状態×操作マトリクスの谷間掃射へ吸収)] OBS-20260713-07 — 整合性ガードは永続状態(DB)と作業中状態(未保存編集)の両面で閉じる
   source: ECO-045, ECO-102
   evidence: 2026-07-13 ViewPrism2 積み残し回収(ECO-045) / 2026-07-17 ECO-099〜108 還元(ECO-102=同じ dirty 谷間の裏面「ガードが閉じすぎる」— 保護対象の分解宣言。昇格候補3〔状態×操作マトリクス〕へ吸収候補=承認時 superseded)
-- [watch 2/3] OBS-20260713-08 — 健全な sibling はマスキング要因になる(1 面の健全は他面の健全を含意しない・2 例目で昇格判定)
-  source: ECO-079, ECO-108
-  evidence: 2026-07-13 ECO-079 還元・教訓3 / 2026-07-17 ECO-099〜108 還元(ECO-108 面間非対称=WorkTab の言語追随が健全でも同構造の ImageTab は非追随。判定=昇格候補2(c) の read-across 系譜へ証拠合流・独立昇格は次の 1 例まで保留)
+- [watch 3/3] OBS-20260713-08 — 健全な sibling はマスキング要因になる(1 面の健全は他面の健全を含意しない・2 例目で昇格判定)
+  source: ECO-079, ECO-108, ViewTube CAPA-VT-001
+  evidence: 2026-07-13 ECO-079 還元・教訓3 / 2026-07-17 ECO-099〜108 還元(ECO-108 面間非対称=WorkTab の言語追随が健全でも同構造の ImageTab は非追随。判定=昇格候補2(c) の read-across 系譜へ証拠合流・独立昇格は次の 1 例まで保留)/ 2026-07-25 ViewTube 還元(root cause 3「evidence semantics gap」=機能試験合格+lifecycle 正常が UI-CAD 視覚適合の証拠へ昇格し V1.0.1 不適合が流出 — sibling が「部品」でなく「証拠クラス」の例。3 例は別製品×別面〔i18n/言語追随/機能vs視覚〕で 3 例目は別リポ別チーム=独立性最強。昇格判定=織り込み案G)
 - [open] EXP-20260713-09 — 次の横断的関心の新設(ログ・a11y・テーマ等)で 3 層(宣言+参照導線+機械ゲート)が起票時から設計されるか
   evidence: 2026-07-13 ECO-080 還元・教訓1
 
@@ -1828,3 +1829,69 @@ PEND-005 の再裁定タイミングを事前指定。反実仮想は検証不�
 判定不能」→ candidate 維持・open 継続**。形骸化支配は明確に否定(欄撤去経路は取らない)。
 2 系列目=既設 review_trigger(PEND-005)の発火が最良の弁別力検証機会+次の迷う境界 ECO で
 2 本目 BDR。
+
+## 2026-07-25 ViewTube 還元 — 成熟工程の非調達(方法論のみの派生は工程が greenfield 化する)— 昇格候補の裁定 8 件+観測 2 件+効果回収 3 件
+
+観測(出典: ViewTube `bomdd/process/mature-process-bootstrap-guide.md`〔一般化済み手引き・§14 に
+昇格候補 8 件〕+ CAPA-VT-001/002 + process-donor-intake/reuse-map/process-bom.yaml +
+CAPA-VT-002-automated-qualification-report.md〔2026-07-25・自動適格 PASS・byte-identical 決定性・
+独立検査とユーザークローズは未了= CAPA OPEN〕):
+
+**観測1(中心 — 転移の自然発生対照・N=1)**: 方法論の理解+製品 donor の登録だけでは工程成熟度は
+移らない。ViewTube は ViewPrism2 を実装・契約 donor として参照しながら**工程資産**(入口・ECO
+lifecycle・hooks・validator・独立レビュー・capture harness・負例 fixture)を調達せず、製品は派生
+開発なのに**工程は greenfield** という非対称が生じた。帰結: 散文規則(「golden 承認が必要」)は
+実行を停止せず、機能試験合格が UI-CAD 視覚適合へ昇格して V1.0.1 不適合が流出(検出=ユーザー
+レビューのみ)。是正は製品修正でなく**工程の調達**として実施され(process donor intake
+〔revision+SHA-256 固定・13 資産〕→ reuse map〔direct 1/adapt 6/reject 1/new 1〕→ process BOM
+〔17 target〕→ IQ/OQ/PQ〔負例 16/16 検出・known-bad V1.0.1 拒否・2 回実行 byte-identical〕)、
+自動適格 PASS に至った。transfer 系列(FINDINGS §11〜11.2: 凍結 kit ありで介入ゼロ N=3)の
+**対偶**にあたる: kit/工程調達なしの派生は転移が成立しない、の初観測。既存装置との関係=
+bomdd-init+kit+bomdd.lock(harness ECO-004)は**方法論**を運ぶ装置であり、姉妹製品リポで成熟した
+**工程設備**を運ぶ経路は現状の method に存在しない(被覆ギャップ)。
+
+**観測2(証拠意味論の昇格 5 様式 — 既存観点の別リポ実測)**: ViewTube guide §2.2 の 5 様式
+(機能合格→視覚適合/自然文 OK→gate 承認/mock 存在→突合済み/hook 存在→有効化済み/
+validator 0 件→稼働証拠)は、silence §16(a)(c)(vacuous PASS・存在≠完全性)と §12 台帳状態機械・
+FINDINGS §8.3(陽性対照の欠如)の同型が**方法論リポの外で自然発生**した実測。新規の型ではなく
+既存観点の外部妥当性データとして扱う(織り込み案E)。
+
+**ViewTube guide §14 昇格候補 8 件の裁定**(本節が裁定正本・織り込みは停止点の後):
+
+| # | 候補 | 裁定 |
+|---|---|---|
+| 1 | 製品/工程 Donor Intake の必須分離 | **採択**(規律 1 段落を onboarding+playbook へ・案C/D) |
+| 2 | 製品 Phase 1 前の Process Bootstrap 段 | **採択・命名調整**(playbook Phase 0=チャーターと衝突。「line bootstrap(工程立ち上げ)」として派生分岐に置く・案D) |
+| 3 | Process Reuse Map / Process BOM の標準成果物化 | **watch**(N=1 での様式標準化は早すぎる形式化。knowledge 参照〔ViewTube 実物〕で運び 2 例目で様式昇格= OBS-20260725-01) |
+| 4 | IQ/OQ/PQ+First Article の line readiness gate 化 | **watch**(同上。最小形〔入口到達+validator 稼働+hook 有効化実測〕のみ規律行として採択・案C/D) |
+| 5 | 正常/negative/known-bad control の工程設備受入要求 | **一部既存**(陽性対照= FINDINGS §8.3・変異テスト= harness ECO-002/061 で既装備)。新規分=「実在不適合品を known-bad control として保持」は watch(OBS-20260725-02) |
+| 6 | method compliance と operational capability の別判定 | **採択**(harness 自己適用は既に実践〔technical PASS ≠ closure〕— playbook へ完了判定語彙 1 行で明文化・案D) |
+| 7 | human gate の named artifact instance 記録 | **既存系譜へ合流**(ECO-060 系列= silence §12・OBS-20260711-02 の 2 例目として計数済み。FINDINGS §11.3 限界節更新=案B) |
+| 8 | 教訓の方法論還元経路の常設 | **既存充足**(improvements.md+/lesson-promote+rule of three。本節自体が経路の稼働証拠。処置=工程調達資産リスト例に還元経路の案内を含める・案C 行内) |
+
+効果回収(手順 4: worklist 起点・native open 11/watch 21+migrated open 39/watch 31 を走査・
+validation_warnings 0):
+
+- **OBS-20260713-08(健全 sibling マスキング)= 3 例目到達 → watch 3/3**(行内更新済み)。
+  ViewTube root cause 3 が「証拠クラス」面での 3 例目。昇格判定はレビュー(織り込み案G)。
+- **OBS-20260711-02(自然文昇格)= 2 例目到達 → watch 2/3**(行内更新済み・レジーム差留保つき)。
+  項目の事前登録トリガー「N=2 で FINDINGS 限界節更新」が発火 — 織り込み案B。
+- **EXP-20260715-12(棚卸しの機械起点化)= 適用実測・open 維持**: 本還元で worklist 起点の走査が
+  3 例目候補 1 件+2 例目候補 1 件を検出(目視走査では migrated 残高 70 件からの検出は困難だった
+  見込み)・warnings 0。回収は「推移」の複数回実測後に判定。
+- 機会なし(主な境界例のみ記録): EXP-20260710-09(kit 鮮度 — ViewTube は kit 不使用のため鮮度の
+  試験機会でない)/ EXP-20260711-01(④層停止 — ViewTube には④層が未設置であり試験機会でない。
+  ただし「②散文は停止しない」の別リポ傍証として案Dの証拠行に使用)/ OBS-20260713-02(入口様式の
+  非横断 — ViewTube の失敗は様式でなく調達の欠落。3 例目に計数しない)。
+
+期待する効果と観測:
+
+- [watch 1/3] OBS-20260725-01 — 方法論の移植と工程の移植は別物 — 派生開発では製品 donor と工程 donor を分離調達しないと工程成熟度が greenfield へ戻る(工程調達の完全様式= donor intake / reuse map / process BOM / IQ-OQ-PQ / First Article の標準成果物化は 2 例目まで knowledge 参照〔ViewTube 実物一式〕に留める — 早すぎる形式化の回避)
+  source: ViewTube CAPA-VT-002
+  evidence: 本節・観測1 / ViewTube bomdd/process/mature-process-bootstrap-guide.md §14-1〜4
+- [watch 1/3] OBS-20260725-02 — 実在する不適合品(出荷済み/流出済みの実物)を known-bad control として保持し工程設備の受入に使う — 合成 fixture の負例だけでは「実際の失敗を封じ込める」性能(PQ)を証明しない。制御対象の実物を検査合格化のために改変しない規律とセット
+  source: ViewTube CAPA-VT-001
+  evidence: 本節・観測1 / CAPA-VT-001 AC-PROC-004(V1.0.1 保持・改変禁止)・CAPA-VT-002 AC-PORT-014(known-bad 拒否+正常通過の両観測要求)
+- [open] EXP-20260725-03 — 次の派生プロジェクト(成熟 donor リポを参照する新規/派生開発)の開始時: 製品 donor と工程 donor が分離登録され、最小 line readiness(入口から到達可能+lifecycle validator 稼働+hook 有効化の実測)を確認してから製品製造に入るか(工程 greenfield 化の再発ゼロ・織り込み案C/D の効果測定)
+  origin: native
+  evidence: 本節・裁定表 #1/#2/#4
