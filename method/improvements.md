@@ -955,10 +955,11 @@ note: 移行残高= 77 件。これに本節発の新規 1 件(EXP-20260715-12�
   evidence: 2026-07-11 transfer-04 還元・教訓1 / 2026-07-26 ViewTube 還元(実測詳細は同節)
 - [open] EXP-20260711-07 — 次にクローズ宣言する治具系列で独立受入検査を 1 度通す規律が踏まれるか
   evidence: 同・教訓2 / **再演**(2026-07-26: harness ECO-015= process-core 治具系列を自己検証 V0〜V8 のみで verified 化 — 独立受入検査を通さずクローズ・規律未踏の 2 例目。対処裁定= 2026-07-26 BomDD(harness)還元節の裁定J)
-- [open] EXP-20260711-08 — 検査官モデルの実行ごと記録(5.6-sol 到達可否のプラグイン更新追跡)
-  evidence: 同・教訓5 / **再演**(2026-07-26 ViewTube CAPA-VT-002: 報告書 3 本とも「Codex fresh-context」のみ記録・モデル名なし — gpt-5.6 は maintainer 申告値。記録欄の宿題が別リポで再演= 2026-07-26 ViewTube 還元節)
-- [watch 1/3] OBS-20260711-09 — 検査官の到達可能モデルは CLI 版でなく統合層のクライアント識別ゲートで決まりうる
-  evidence: 同・観測
+- [recovered 2026-07-26 via harness ECO-015 独立検査(検査指示に実応答モデルの記載を必須化 → gpt-5.6-sol+セッション 019f9b81… が報告書に記録・5.6-sol 到達追跡も完了= プラグイン 1.0.6 で到達)] EXP-20260711-08 — 検査官モデルの実行ごと記録(5.6-sol 到達可否のプラグイン更新追跡)
+  evidence: 同・教訓5 / **再演**(2026-07-26 ViewTube CAPA-VT-002: 報告書 3 本とも「Codex fresh-context」のみ記録・モデル名なし — gpt-5.6 は maintainer 申告値。記録欄の宿題が別リポで再演= 2026-07-26 ViewTube 還元節)/ 回収実測= bomdd/reports/independent-inspection-eco-015.md(様式= 検査ブリーフへの記載必須指示が機能 — 記録欄でなく指示で運ぶ)
+- [watch 2/3] OBS-20260711-09 — 検査官の到達可能モデルは CLI 版でなく統合層のクライアント識別ゲートで決まりうる
+  source: transfer-04, harness ECO-015 独立検査
+  evidence: 同・観測 / 2026-07-26 harness ECO-015 独立検査(transfer-04 時に到達不可だった gpt-5.6-sol がプラグイン 1.0.6 で到達 — 統合層の更新が到達集合を変えた順方向の 2 例目。CLI 本体でなくプラグイン層の版が決定因)
 - [watch 1/3] OBS-20260711-10 — 提起数は対象コード面積に比例しうる(未検証)
   evidence: 同・観測
 - [open] EXP-20260711-11 — 次の surface 置換・共有機能再利用 ECO で接続 probe が受入計画に最初から載るか
@@ -1996,3 +1997,13 @@ IQ-01〜06 として実装済み — 本文(onboarding §11 line readiness「3 �
 - [watch 1/3] OBS-20260726-03 — 遮断方向の選定基準は「誤りがどちら側に倒れ、いつ誰に見えるか」— fail-closed の誤遮断は設置者の眼前(是正コスト最小点)・fail-open の誤通過は利用者の下流(最大点)で顕在化する(2 例目=次の fail-closed 誤遮断が開発中に検出された実例で判定)
   source: harness ECO-015
   evidence: 本節・観測2 / ECO-015 V8(b)
+
+追記(2026-07-26 裁定J(a) 実施 — ECO-015 の後追い独立受入検査): transfer-04 様式(read-only・
+情報遮断〔order 検証節の読取り禁止を検査官が遵守宣言〕・敵対プローブ)で Codex へ委譲。結果=
+**REJECT・所見 13 件(high 9/med 4)・真正判定 13/13 CONFIRMED・誤検出 0**(部分留保 3: profile
+全撤去= 裁定 5 の設計境界 / 逆行乖離= 対応表宣言済み未移植 / 初回 commit 非致命= 未文書化の設計
+判断)。**自己検証 V0〜V8 全 PASS の verified が独立検査で REJECT** — ViewTube CAPA-VT-002
+(自動適格 PASS→II-001〜004)の harness 自身での再演= §11.4 の帰結の 3 例目。同族穴の再演も実測:
+REV-07= ECO-009 #2(完全性検査)の水平展開漏れ・REV-04= ECO-011/012(後勝ち情報損失)の 1 段上の
+同型。検査官= **gpt-5.6-sol(実測記録・セッション ID つき)**。原本+真正判定=
+bomdd/reports/independent-inspection-eco-015.md(f9434ff)。是正 ECO の起票は裁定待ち。
