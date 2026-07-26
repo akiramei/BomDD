@@ -466,6 +466,7 @@ changes:
     diff_audit:
       baseline: c9ecfe7  # 起票時 ede85b8 → 是正開始直前(ECO-016 accept)へ更新(製造承認 2026-07-26・順序依存充足)
       allowed_paths: [method/templates/process-core/tools/process-qualification.py, method/tools/bomdd-init.py, method/tools/self-conformance.py]
+      head: "d8bfbea"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中(gate 記録 bb92208/fix d8bfbea)
     summary: >
       独立検査が runner・init・C11 に 5 件を実証: IQ-03 の endswith 判定が外部 hooks を PASS・
       IQ-02 の substring 判定(REV-05)/初回 commit 失敗が exit へ反映されず「[git] 失敗のまま
@@ -475,4 +476,10 @@ changes:
       是正= hooksPath 正準比較+hash/実行 probe+git 経路失敗の致命化+IQ へ HEAD/clean 検査+
       三状態判定(不完全= FAIL)+--runs>=2 強制+C11 構造化判定+実 Git 負例 2 種追加+
       git 環境 allowlist+隔離実測。受入基準は order に事前登録済み。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      V1= fresh scaffold の full qualification 17 項目 PASS(IQ-01〜07・POS・N1〜N8・DET 2 回一致)。
+      V2= 負例 6 種(--runs 拒否/外部 hooksPath IQ-03/コメントアウト IQ-02/不完全設備 exit 1/
+      git user なし exit 1/GIT_DIR 汚染下 17 PASS+外部リポ不変)。V3= self-conformance 全 PASS
+      (C11 構造化判定+2 回決定性・79s)。正直記載= 製造中検出 2 件(IQ-02 初版の変数経由起動
+      不整合= fail-closed 誤りの即顕在化 / REV-12 第二面= validator 子プロセスの env 継承を
+      (f) プローブが検出→ runner 起動時の環境浄化で是正)。accept: 本コミット(詳細は order 参照)。

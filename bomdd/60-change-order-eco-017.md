@@ -1,7 +1,6 @@
 # ECO-017 — qualification runner・bomdd-init・C11 の隔離と判定精度(独立検査 REV 5 件の是正)
 
-> 状態: **implemented(2026-07-26)**。gate ①(製造承認 2026-07-26・ECO-016 と同時承認・
-> 順序依存充足= ECO-016 verified c9ecfe7)→ 製造中。
+> 状態: **verified(2026-07-26)**。fix= d8bfbea・検証 V1〜V3 全 PASS・窓は accept で閉鎖。
 
 ## 裁定(gate ① — 2026-07-26)
 
@@ -72,6 +71,37 @@
 
 - validator 本体の意味論(ECO-016)
 - capture 等の製品依存設備・工程様式の標準化(OBS-20260725-01 watch 継続)
+
+## 検証(2026-07-26・受入基準=起票時凍結分)
+
+- **V1(陽性対照・回帰)**: fresh scaffold の full qualification 全 17 項目 PASS(IQ-01〜07・
+  POS・N1〜**N8**・DET 2 回一致)— 既存 7 対照は改修後も判定不変・新負例 N7(E04 実 Git)・
+  N8(E07 実 Git)追加。
+- **V2(負例 6 種)**: (a) --runs 1 で full → argparse 拒否・--runs 0 → 拒否 /
+  (b) 外部 `…/bomdd/hooks` へ hooksPath(絶対パス)→ **IQ-03 FAIL**(正準比較)/
+  (c) hook の起動行コメントアウト → **IQ-02 FAIL**(非コメント行の構造検査)/
+  (d) 不完全既存設備(profile のみ残存)+--skills-only → **exit 1**+欠落列挙・復旧手順 /
+  (e) git user なし環境の scaffold → **bomdd-init exit 1**(REV-06 の致命化)/
+  (f) GIT_DIR/GIT_WORK_TREE を外部リポへ向けた full qualification → **17 PASS・外部リポ
+  HEAD/worktree 完全不変**(隔離実測)。
+- **V3(回帰)**: self-conformance 全 PASS — C11 は構造化 JSON 判定(IQ-03 pass==false)+
+  2 回決定性の回帰固定へ更新(所要 79s — 受入どおりの増分・CI 許容と判断)。
+- **正直記載(製造中に検出・是正した欠陥 2 件)**: (a) IQ-02 初版の構造検査が実 hook の変数経由
+  起動(`v=…` と `exec … --mode …` が別行)に不整合で scaffold を誤 FAIL — 2 トークン検査へ是正
+  (fail-closed 側の誤りが初回実行で即顕在化= OBS-20260726-03 の 2 例目)。
+  (b) **REV-12 の第二面**: sandbox git の隔離だけでは不足 — validator 子プロセスが汚染 env を
+  継承し、外部リポの履歴で E06/E07 を判定(POS FAIL・N8 素通りとして (f) プローブが検出)→
+  runner 起動時に自プロセス環境から GIT_* リダイレクト系を除去(hook 文脈は対象外の理由を
+  コード注記)。検証手順側の学びとして、installed copy は凍結コピーであり template 修正は
+  再設置まで波及しない(ECO-004 設計どおり)ことを再確認 — (f) 初回の偽 FAIL は stale runner。
+- 影響なし予測: 的中(diff は 3 参照+台帳系のみ)。意図的挙動変更(git なし環境 exit 1)は
+  (e) で実測どおり。
+
+## 教訓(還元候補 — lesson-promote 経由)
+
+- **隔離は「自分が起動する全子プロセス」まで閉じて初めて隔離** — sandbox の git だけ環境を
+  浄化しても、検査器(validator)の subprocess が汚染 env を継承すれば判定が外部状態に依存する。
+  隔離の受入は「汚染 env 下での全経路実測」で行う(V2(f) が第二面を実際に検出した)。
 
 ## 効果測定(宿題)
 
