@@ -551,6 +551,7 @@ changes:
     diff_audit:
       baseline: f8cab0b  # 起票時 81a95c4 → 是正開始直前(教訓還元の織り込み)へ更新(製造承認 2026-07-27・裁定 4 点は推奨採択)
       allowed_paths: [method/templates/process-core/]
+      head: "f6a840c"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中
     summary: >
       再々独立検査の在庫可能分 4 件を是正する: (1) IA-05= 同一走査内の基準不一致 — 再演は親合算・
       証拠採用は第 1 親(sha^)のため、遷移していない merge が accept 証拠として採用される
@@ -566,4 +567,12 @@ changes:
       (CI/branch protection/外部固定の規則版)。order とテンプレへ限界を明記し完了判定に残す
       (無音ではなく監査可能だが阻止はできない、の非対称性も記録)。受入基準 N15〜N18+POS3/POS4 を
       事前登録。裁定 4 点(要求単位・採用範囲・E11 新設・保護パス走査)は gate ① へ。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      V0= selftest 56 項目。V1= fresh scaffold の full qualification **30 対照全 PASS**
+      (IQ-01〜07・POS・POS2・POS3・POS4・N1〜N18・DET 2 回一致・所要 161s)— 既存 24 対照は判定不変。
+      V2= 再々検査の再現条件を直接プローブし **3 件とも閉鎖を実測**(hook 置換→E11+後続保護パス
+      変更→[E01] history / merge 第 1 親トリック→E06 / legacy の導入後遷移→E06)。V3= self-conformance
+      全 PASS(119s→136s= 受入基準の +30s 以内)。V4= POS3/POS4 で誤 FAIL 方向の確認(免除を
+      消しすぎない・正規 merge が通る)。**IA-02/IA-03 は未是正のまま**であり process-profile.yaml の
+      「既知の限界」節へ明記(次検査では宣言済み境界として申告 — EXP-20260727-06)。
+      accept: 本コミット(詳細は order 参照)。"
