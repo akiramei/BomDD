@@ -483,3 +483,37 @@ changes:
       (C11 構造化判定+2 回決定性・79s)。正直記載= 製造中検出 2 件(IQ-02 初版の変数経由起動
       不整合= fail-closed 誤りの即顕在化 / REV-12 第二面= validator 子プロセスの env 継承を
       (f) プローブが検出→ runner 起動時の環境浄化で是正)。accept: 本コミット(詳細は order 参照)。
+      追記(2026-07-26): ECO-016 と合同の再独立検査(同一様式・Codex gpt-5.6-sol)= REJECT —
+      原 13 件中 8 件 CLOSED・5 件は同型残存・新規 7 件(真正判定 7/7 CONFIRMED・通算 20/20)。
+      bomdd/reports/independent-reinspection-eco-016-017.md。verified は起票時凍結の受入基準に
+      対する判定として維持(歴史的 FAIL の非消去)。high 3 件の是正= ECO-018・medium 4 件は据え置き。
+
+  - id: ECO-018
+    title: 強制層の自己保護と履歴合法性の二層化(再独立検査 NEW-01/02/03 の是正 — hook 単層では閉じない構造穴)
+    date: 2026-07-26
+    origin: defect
+    status: filed
+    source: >
+      ECO-016/017 合同再独立検査(transfer-04 様式・検査官= Codex 実応答モデル gpt-5.6-sol・
+      セッション 019f9c8f-c6d5-7002-b20f-3a8e4f3797ac・read-only・情報遮断・fresh 起動+resume 完了)
+      = REJECT。真正判定 7/7 CONFIRMED・誤検出 0(実プローブ 3 件で commit 成立/validate OK を実測)。
+      bomdd/reports/independent-reinspection-eco-016-017.md
+    order_ref: bomdd/60-change-order-eco-018.md
+    affected_refs: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/hooks/commit-msg, method/templates/process-core/tools/process-qualification.py, method/templates/process-core/process-profile.yaml]
+    no_impact_prediction: "(製造前)上記 4 参照以外 diff ゼロ予測。正規経路(起票→是正→accept)の第 1 層判定は不変 — 変わるのは (i) profile 変更が次 commit から効く(同一 commit 自己適用の禁止)(ii) validate 所要が台帳変更 commit 数に比例(実測を受入に含む)。既存製品リポへは kit 再設置まで非波及。本リポ自身は process-core 未設置のため自己適用の影響なし"
+    diff_audit:
+      baseline: 1bb1b39  # 起票時 HEAD(製造承認時に是正窓直前へ更新する)
+      allowed_paths: [method/templates/process-core/]
+    summary: >
+      再独立検査が high 3 件を実証(いずれも実プローブで再現): (1) enforcer hook 自身の削除で
+      E08 が発動しない — pre-commit が消えれば pre-commit は走らず、commit-msg は equipment を
+      検査しない(NEW-01)(2) 同一 commit で profile の open_states を書換えると enforcement が
+      index 側を読むため改竄 profile が自身の通過条件を定義できる(NEW-02)(3) --no-verify の
+      born-applied+同 commit trailer を validate が通す — linked evidence は遷移の発生のみ照合し
+      合法性を照合しない(NEW-03)。3 件は「強制層は自分自身を守れない」の系。是正方針=
+      防止の完全化でなく**二層化**: 第 1 層(hook)= 即時遮断 / 第 2 層(validate)= 履歴合法性の
+      再演(台帳変更 commit ごとに check_transitions を再計算・合法遷移のみを E06 証拠に採用)+
+      設備完全性検査(E10)+ enforcement profile の HEAD 優先 + commit-msg の検査範囲拡大。
+      到達目標は「改竄が機械検出可能であること」— 残余の限界(両 hook 削除かつ validate 未実行)は
+      order に明記。裁定 4 点(replay の cutoff・reason code・commit-msg 範囲・性能)は gate ① で。
+    verification: "(製造前 — 未実施)"
