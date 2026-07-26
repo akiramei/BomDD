@@ -24,6 +24,9 @@
                                           (ViewPrism2 E17 相当の移植。REV-03)
   E10 equipment-missing-or-incomplete   : HEAD に profile が実在するのに設備一式が現存しない
                                           (両 hook 削除等。ECO-018 NEW-01b — 第 2 層)
+  E11 equipment-neutralized             : hook は存在するが validator を起動しない(pass-through
+                                          stub への置換= 無力化。ECO-019 IA-01 — 存在は有効性を
+                                          含意しない)
 
 二層化(ECO-018 — 強制層は自分自身を守れない):
   第 1 層 pre-commit/commit-msg hook   … 即時遮断(作業者の眼前)。実体を消されれば起動しない。
@@ -76,6 +79,7 @@ REASONS = {
     "E08": "equipment-change-without-open-eco",
     "E09": "evidence-state-divergence",
     "E10": "equipment-missing-or-incomplete",
+    "E11": "equipment-neutralized",
 }
 
 # 状態 → 要求 trailer キー。states に含まれる状態のみ発火。
@@ -375,15 +379,17 @@ def scan_history(root: Path, prof: dict) -> dict:
       linked     : {(key,cid): [sha]} — **合法遷移のみ**を証拠に採用(違法遷移で植えた trailer は
                    承認証拠にならない)。
       raw        : {trailer_name: {cid}} — 出現した全 trailer(E07 用)。
-      scoped     : 証拠要求(E06/E09)の対象 cid。None= 全件(導入点不明時)。導入点より前から
-                   台帳にあった ECO は trailer 規約が存在しなかったため対象外(gate ① 設計確定)。
+      required   : 証拠要求(E06)の対象 **遷移** {(cid, to_state)}。None= 全件(導入点不明時)。
+                   **単位は ECO でなく遷移**(ECO-019 IA-04)— 導入前から台帳にある ECO でも
+                   導入後に発生した遷移には証拠が要る。免除されるのは「cutoff 時点で到達済みの
+                   状態」だけ。
       note       : 走査範囲の説明(何をどこまで機械が保証したかを常に表示する)。
     git 障害は die(履歴ゼロ= HEAD 不在とは区別 — REV-08)。解析不能な歴史台帳は再演・証拠採用の
     対象外にして warn(履歴は不変のため die しない)。"""
     ensure_git_repo(root)
     raw: dict[str, set[str]] = {n: set() for n in prof["trailers"].values()}
     linked: dict[tuple[str, str], list[str]] = {}
-    out: dict = {"violations": [], "linked": linked, "raw": raw, "scoped": None, "note": ""}
+    out: dict = {"violations": [], "linked": linked, "raw": raw, "required": None, "note": ""}
     if not head_exists(root):
         out["note"] = "履歴なし(HEAD 不在)"
         return out
@@ -402,6 +408,7 @@ def scan_history(root: Path, prof: dict) -> dict:
 
     # --- 履歴再演(裁定 1= 導入点以降・裁定 2= E02/E03 再利用・裁定 4= 台帳変更 commit 限定)---
     illegal: dict[str, set[str]] = {}
+    base_at: dict[str, dict] = {}  # sha → 合算親状態(ECO-019 IA-05: 証拠採用も同じ base で判定)
     cutoff = replay_cutoff(root, prof)
     if cutoff is None:
         out["note"] = ("再演スキップ: profile が履歴に存在せず導入点を決定できない"
@@ -409,11 +416,13 @@ def scan_history(root: Path, prof: dict) -> dict:
     else:
         has_parent = run_git(root, "rev-parse", "--verify", "-q", f"{cutoff}^").returncode == 0
         rng = f"{cutoff}^..HEAD" if has_parent else "HEAD"
-        p = run_git(root, "rev-list", "--reverse", rng, "--", reg)
+        # --full-history: 既定の履歴簡略化は「片親と TREESAME な merge」を省くため、merge が
+        # 親合算に対して持ち込む後退を取りこぼす(ECO-019 設計確定 1・fail-closed 方向)
+        p = run_git(root, "rev-list", "--reverse", "--full-history", rng, "--", reg)
         if p.returncode != 0:
             die(f"rev-list が失敗(履歴再演が測定不能): {p.stderr.strip()}")
         shas = [s for s in p.stdout.split() if s]
-        scoped: set[str] = set()
+        required: set[tuple[str, str]] = set()
         for sha in shas:
             cur = reg_at(sha)
             if cur is None:
@@ -422,13 +431,37 @@ def scan_history(root: Path, prof: dict) -> dict:
             parents = [x for x in pp.stdout.split() if x] if pp.returncode == 0 else []
             pregs = [r for r in (reg_at(x) for x in parents) if r is not None]
             base = combine_parents(pregs, prof) if pregs else {}
+            base_at[sha] = base
             for code, cid, msg in transition_issues(base, cur, prof):
                 out["violations"].append(f"[{code}] {REASONS[code]}: history:{sha[:9]} {msg}")
                 illegal.setdefault(sha, set()).add(cid)
-            scoped |= {cid for cid in cur if cid not in base}  # 導入点以降に初出した ECO
-        out["scoped"] = scoped
+            # ECO-019 IA-04: 免除の単位は「ECO」でなく「遷移」— 導入後に発生した遷移は
+            # legacy ECO でも証拠要求の対象(cutoff 時点で到達済みの状態だけが免除)
+            for cid, e in cur.items():
+                st = e.get("status")
+                if base.get(cid, {}).get("status") != st:
+                    required.add((cid, st))
+        out["required"] = required
         out["note"] = (f"再演: 導入点 {cutoff[:9]} 以降の台帳変更 {len(shas)} commit・"
-                       f"証拠要求の対象 {len(scoped)} 件(導入前からの ECO は対象外)")
+                       f"証拠要求の対象 {len(required)} 遷移(導入点で到達済みの状態は対象外)")
+        # --- 保護パス変更の履歴検査(ECO-019・E01 の履歴版)---
+        # 範囲は cutoff を含まない(導入 commit が既存 src/ を含む場合の誤 FAIL 回避・設計確定 2)
+        pp = run_git(root, "rev-list", "--reverse", "--full-history", f"{cutoff}..HEAD",
+                     "--", *prof["protected_paths"])
+        if pp.returncode == 0:
+            for sha in [s for s in pp.stdout.split() if s]:
+                if sha in base_at:
+                    base = base_at[sha]
+                else:
+                    q = run_git(root, "log", "-1", "--format=%P", sha)
+                    pr = [x for x in q.stdout.split() if x] if q.returncode == 0 else []
+                    regs = [r for r in (reg_at(x) for x in pr) if r is not None]
+                    base = combine_parents(regs, prof) if regs else {}
+                if not any(e.get("status") in prof["open_states"] for e in base.values()):
+                    out["violations"].append(
+                        f"[E01] {REASONS['E01']}: history:{sha[:9]} 保護パス変更の時点で"
+                        f"open 状態({prof['open_states']})の ECO がない(第 1 層を回避した"
+                        f"保護パス変更を第 2 層が検出)")
 
     # --- trailer 走査(E07 の raw + 合法遷移のみの証拠採用)---
     p = run_git(root, "log", "--format=%H%x01%B%x02")
@@ -447,10 +480,15 @@ def scan_history(root: Path, prof: dict) -> dict:
         hit = {name_key[n]: ids for n, ids in tr.items() if n in name_key}
         if not hit:
             continue
+        # ECO-019 IA-05: 証拠採用は replay 範囲に限り、**再演と同じ合算 base** で遷移を判定する
+        # (旧実装は `sha^`= 第 1 親比較 — 同一走査内で基準が 2 つに分岐し、遷移していない merge を
+        #  accept 証拠として採用していた。silence §16(e))
+        if sha not in base_at:
+            continue
         new_e = reg_at(sha)
         if new_e is None:
             continue
-        old_e = reg_at(f"{sha}^") or {}
+        old_e = base_at[sha]
         for key, ids in hit.items():
             st = TRAILER_STATE[key]
             for cid in ids:
@@ -547,6 +585,37 @@ def check_equipment_complete(root: Path, equipped: bool) -> list[str]:
             f"(= 本リポは process-core 管理下)のに設備が現存しない。撤去は ECO 経由(案a)"]
 
 
+def hook_invokes_validator(path: Path, mode: str) -> bool:
+    """hook が validator を該当モードで起動する構造を持つか(**単一の解釈実装** — validate の
+    E11 と qualification の IQ-02 が共有する。契約の判定基準を 2 箇所に置かない= silence §16(e))。
+    実 hook は変数経由起動(`v=…/process-validator.py` → `exec "$py" "$v" --mode …`)のため、
+    非コメント行の集合に「validator 参照」と「--mode <mode> 起動」の両方があることを見る。"""
+    try:
+        lines = [l.strip() for l in path.read_text(encoding="utf-8", errors="replace").splitlines()
+                 if l.strip() and not l.strip().startswith("#")]
+    except OSError:
+        return False
+    return (any("process-validator.py" in l for l in lines)
+            and any(f"--mode {mode}" in l for l in lines))
+
+
+def check_hooks_effective(root: Path, equipped: bool) -> list[str]:
+    """E11(ECO-019 IA-01)— 設備の**無力化**(存在するが検査を起動しない)を検出する。
+    E10 は存在のみを見るため、hook を pass-through stub へ置換する攻撃を通していた
+    (= silence §16(c)「存在確認を完全性検査の代用にしない」の自己違反)。"""
+    if not equipped:
+        return []
+    bad = []
+    for h, mode in [("pre-commit", "pre-commit"), ("commit-msg", "commit-msg")]:
+        p = root / "bomdd" / "hooks" / h
+        if p.is_file() and not hook_invokes_validator(p, mode):
+            bad.append(h)
+    if not bad:
+        return []
+    return [f"[E11] {REASONS['E11']}: hook が存在するが validator を起動しない {bad} — "
+            f"設備の無力化(存在は有効性を含意しない)。変更は ECO 経由(E08)"]
+
+
 def check_commit_msg(old: dict[str, dict], new: dict[str, dict], msg: str, prof: dict) -> list[str]:
     trailers = parse_trailers(msg)
     v: list[str] = []
@@ -567,8 +636,11 @@ def check_commit_msg(old: dict[str, dict], new: dict[str, dict], msg: str, prof:
 
 
 def check_history_evidence(entries: dict[str, dict], prof: dict,
-                           linked: dict[tuple[str, str], list[str]]) -> list[str]:
-    """E06 — 状態が要求する遷移紐付き証拠の実在(事前植込みは linked に入らない)"""
+                           linked: dict[tuple[str, str], list[str]],
+                           required: set[tuple[str, str]] | None = None) -> list[str]:
+    """E06 — 状態が要求する遷移紐付き証拠の実在(事前植込みは linked に入らない)。
+    required(ECO-019 IA-04)= 証拠要求の対象**遷移** {(cid, to_state)}。None= 全遷移が対象。
+    導入点で到達済みの状態は要求しないが、導入後に発生した遷移は legacy ECO でも要求する。"""
     states = prof["states"]
     v: list[str] = []
     for cid, e in entries.items():
@@ -577,7 +649,11 @@ def check_history_evidence(entries: dict[str, dict], prof: dict,
             continue
         for reached in states[: states.index(st) + 1]:
             key = STATE_TRAILER.get(reached)
-            if key and not linked.get((key, cid)):
+            if not key:
+                continue
+            if required is not None and (cid, reached) not in required:
+                continue  # 導入点で到達済み= trailer 規約が存在しなかった時期の状態
+            if not linked.get((key, cid)):
                 v.append(f"[E06] {REASONS['E06']}: {cid}({st})— 「{prof['trailers'][key]}: {cid}」"
                          f"trailer を持ち、かつその commit で '{reached}' 遷移が発生した証拠が履歴にない"
                          f" — 自然文の了承・事前植込み trailer は承認証拠にならない")
@@ -676,27 +752,27 @@ def main() -> int:
     except (yaml.YAMLError, ValueError) as e:
         die(f"台帳がパース不能/構造不正: {e}")
     hist = scan_history(root, prof)
-    linked, raw, scoped = hist["linked"], hist["raw"], hist["scoped"]
+    linked, raw, required = hist["linked"], hist["raw"], hist["required"]
     if hist["note"]:
         print(f"process-validator: [scope] {hist['note']}")
     known = set(prof["states"]) | set(prof["terminal_extra"])
     vio = [f"[E03] {REASONS['E03']}: {cid} が未知の状態 '{e.get('status')}'"
            for cid, e in entries.items() if e.get("status") not in known]
-    vio += hist["violations"]                      # 履歴上の違法遷移(第 2 層の核)
-    vio += check_equipment_complete(root, equipped)  # E10
-    # 証拠要求は導入点以降に初出した ECO のみ(gate ① 設計確定)
-    target = entries if scoped is None else {c: e for c, e in entries.items() if c in scoped}
-    vio += check_history_evidence(target, prof, linked)
+    vio += hist["violations"]                       # 履歴の違法遷移+保護パス(第 2 層の核)
+    vio += check_equipment_complete(root, equipped)  # E10(欠落)
+    vio += check_hooks_effective(root, equipped)     # E11(存在するが無力)
+    # 証拠要求の単位は「遷移」(ECO-019 IA-04 — legacy ECO でも導入後の遷移は対象)
+    vio += check_history_evidence(entries, prof, linked, required)
     for name, ids in raw.items():
         for cid in sorted(ids - set(entries)):
             vio.append(f"[E07] {REASONS['E07']}: 履歴の trailer 「{name}: {cid}」が台帳に実在しない ECO を参照")
     def is_ancestor(a_sha: str, b_sha: str) -> bool:
         return run_git(root, "merge-base", "--is-ancestor", a_sha, b_sha).returncode == 0
-    vio += check_divergence(target, prof, linked, is_ancestor)
+    vio += check_divergence(entries, prof, linked, is_ancestor)
     rc = report(vio)
     if rc == 0:
         print(f"process-validator: validate OK({len(entries)} entries・"
-              f"証拠要求 {len(target)} 件)")
+              f"証拠要求 {'全遷移' if required is None else str(len(required)) + ' 遷移'})")
     return rc
 
 
@@ -848,6 +924,24 @@ def selftest() -> int:
             (_p / a).parent.mkdir(parents=True, exist_ok=True)
             (_p / a).write_text("x", encoding="utf-8")
         tb("陽性: 設備一式が揃えば E10 なし", check_equipment_complete(_p, True) == [])
+        # ECO-019 IA-01: 存在するが無力(E11)
+        tb("E11: pass-through stub を無力化として検出", bool(check_hooks_effective(_p, True)))
+        for h, m in [("pre-commit", "pre-commit"), ("commit-msg", "commit-msg")]:
+            (_p / "bomdd" / "hooks" / h).write_text(
+                f'#!/bin/sh\nv="$root/bomdd/tools/process-validator.py"\n'
+                f'exec "$py" "$v" --mode {m}\n', encoding="utf-8")
+        tb("陽性: validator を起動する hook は E11 なし", check_hooks_effective(_p, True) == [])
+        tb("E11: コメントアウトされた起動行は無効",
+           not hook_invokes_validator(_p / "bomdd" / "hooks" / "pre-commit", "commit-msg"))
+        tb("陽性: 未設置(equipped=False)は E11 対象外", check_hooks_effective(_p, False) == [])
+
+    # ECO-019 IA-04: 証拠要求の単位は遷移(legacy ECO でも導入後の遷移は対象)
+    t("IA-04: 導入後の遷移は legacy ECO でも E06 対象",
+      check_history_evidence({"ECO-L": e("applied")}, prof2, {}, {("ECO-L", "applied")}), "E06")
+    t("陽性: 導入点で到達済みの状態は免除",
+      check_history_evidence({"ECO-L": e("applied")}, prof2, {}, set()), None)
+    t("陽性: required=None は全遷移対象(導入点不明時の従来挙動)",
+      check_history_evidence({"ECO-L": e("applied")}, prof2, {("accept", "ECO-L"): ["x"]}, None), None)
 
     # merge 合算(REV-13)
     combined = combine_parents([{"ECO-1": e("staged")}, {"ECO-1": e("applied")}], prof2)

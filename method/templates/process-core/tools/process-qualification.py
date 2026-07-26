@@ -92,25 +92,11 @@ def result(name: str, expected: str, ok: bool, detail: str) -> dict:
 
 
 # --- IQ ------------------------------------------------------------------------------
-def _hook_invokes_validator(path: Path, mode: str) -> bool:
-    """非コメント行に validator 参照と該当 --mode 起動行の両方があるか(構造検査 — REV-05。
-    実 hook は変数経由起動〔v=…/process-validator.py → exec "$py" "$v" --mode …〕のため
-    2 トークンを非コメント行集合で検査する。コメントアウトのみの参照は両方とも不成立)"""
-    try:
-        lines = [l.strip() for l in path.read_text(encoding="utf-8", errors="replace").splitlines()
-                 if l.strip() and not l.strip().startswith("#")]
-    except OSError:
-        return False
-    has_ref = any("process-validator.py" in l for l in lines)
-    has_invoke = any(f"--mode {mode}" in l for l in lines)
-    return has_ref and has_invoke
-
-
 def run_iq(root: Path) -> list[dict]:
     res: list[dict] = []
     vpath = root / "bomdd" / "tools" / "process-validator.py"
 
-    prof_ok, prof_msg = False, ""
+    prof_ok, prof_msg, mod = False, "", None
     try:
         import importlib.util
         spec = importlib.util.spec_from_file_location("pv_iq", vpath)
@@ -123,16 +109,22 @@ def run_iq(root: Path) -> list[dict]:
         prof_msg = f"{type(e).__name__}: {e}"
     res.append(result("IQ-01", "profile 妥当", prof_ok, prof_msg))
 
+    # ECO-019 設計確定 3: hook 起動の判定は validator 側の**単一実装**を共有する
+    # (契約の判定基準を 2 箇所に置かない= silence §16(e) の自己適用)
     hooks_ok, hooks_msg = True, []
-    for h, mode in [("pre-commit", "pre-commit"), ("commit-msg", "commit-msg")]:
-        p = root / "bomdd" / "hooks" / h
-        if not p.is_file():
-            hooks_ok = False
-            hooks_msg.append(f"{h} がない")
-        elif not _hook_invokes_validator(p, mode):
-            hooks_ok = False
-            hooks_msg.append(f"{h} が validator を非コメント行で起動しない(--mode {mode})")
-    res.append(result("IQ-02", "hooks 設置+validator 起動(構造検査)", hooks_ok,
+    if mod is None:
+        hooks_ok = False
+        hooks_msg.append("validator をロードできず hook 判定が実行不能(欠測は FAIL)")
+    else:
+        for h, mode in [("pre-commit", "pre-commit"), ("commit-msg", "commit-msg")]:
+            p = root / "bomdd" / "hooks" / h
+            if not p.is_file():
+                hooks_ok = False
+                hooks_msg.append(f"{h} がない")
+            elif not mod.hook_invokes_validator(p, mode):
+                hooks_ok = False
+                hooks_msg.append(f"{h} が validator を非コメント行で起動しない(--mode {mode})")
+    res.append(result("IQ-02", "hooks 設置+validator 起動(validator と共有の単一実装)", hooks_ok,
                       "・".join(hooks_msg) or "pre-commit/commit-msg とも起動行あり"))
 
     p = git(root, "config", "core.hooksPath")
@@ -443,6 +435,92 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     res.append(result("POS2", "導入前履歴を違法にしない(誤 FAIL 方向)", ok,
                       "導入点以降のみ再演・証拠要求も導入点で区切り"
                       if ok else f"想定外の FAIL: {((v.stderr or '') + (v.stdout or '')).strip()[:140]}"))
+
+    # --- ECO-019: 基準統一・証拠要求単位・設備無力化・保護パス履歴 ---
+    # N15(IA-04): 導入前から staged の legacy ECO を導入後に applied(trailer なし)→ E06
+    s = Sandbox(root, base, "n15", defer_equipment=True)
+    s.write(REGISTER, _reg_text("staged"))
+    s.commit("legacy: staged before adoption")
+    s.install_equipment()
+    s.write(REGISTER, _reg_text("applied"))
+    p = s.commit("sneak: legacy applied without trailer", no_verify=True)
+    if p.returncode != 0:
+        res.append(result("N15", "E06(legacy の導入後遷移)", False, f"バイパス commit 失敗: {p.stderr.strip()[:80]}"))
+    else:
+        ok, d = _blocked_with(s.validate(), "E06")
+        res.append(result("N15", "E06(導入後の遷移は legacy ECO でも証拠要求)", ok, d))
+
+    # N16(IA-05): 第 1 親 staged・第 2 親 applied(trailer なし)・merge に accept trailer → E06
+    s = Sandbox(root, base, "n16")
+    s.write(REGISTER, _reg_text("staged"))
+    s.commit("eco: file ECO-900")
+    git(s.root, "checkout", "-q", "-b", "feature", env=s.env)
+    s.write(REGISTER, _reg_text("applied"))
+    s.commit("sneak: applied without trailer", no_verify=True)
+    main = "main"
+    for cand in ("main", "master"):
+        if git(s.root, "rev-parse", "--verify", "-q", cand, env=s.env).returncode == 0:
+            main = cand
+            break
+    git(s.root, "checkout", "-q", main, env=s.env)
+    m = git(s.root, "merge", "--no-ff", "-q", "feature", "-m", "merge feature",
+            "-m", "BomDD-ECO-Accept: ECO-900", env=s.env)
+    if m.returncode != 0:
+        res.append(result("N16", "E06(merge の偽証拠)", False, f"merge 失敗: {m.stderr.strip()[:80]}"))
+    else:
+        ok, d = _blocked_with(s.validate(), "E06")
+        res.append(result("N16", "E06(遷移していない merge を証拠に採用しない)", ok, d))
+
+    # N17(IA-01): 両 hook を pass-through stub へ置換 → validate が E11
+    s = Sandbox(root, base, "n17")
+    for h in ["pre-commit", "commit-msg"]:
+        (s.root / "bomdd" / "hooks" / h).write_text("#!/bin/sh\nexit 0\n",
+                                                    encoding="utf-8", newline="\n")
+    p = s.commit("attack: neuter hooks (replace, not delete)")
+    if p.returncode != 0:
+        res.append(result("N17", "E11(設備の無力化)", False, f"置換 commit 失敗: {p.stderr.strip()[:80]}"))
+        res.append(result("N18", "E01(保護パス履歴)", False, "N17 が実行できず未測定"))
+    else:
+        ok, d = _blocked_with(s.validate(), "E11")
+        res.append(result("N17", "E11(存在するが validator を起動しない)", ok, d))
+        # N18: 無力化後の ECO なし保護パス変更 → 第 2 層(保護パス履歴検査)が E01
+        s.write("src/evil.py", "x\n")
+        p2 = s.commit("feat: no eco, hooks neutered")
+        if p2.returncode != 0:
+            res.append(result("N18", "E01(保護パス履歴)", False, f"バイパス commit 失敗: {p2.stderr.strip()[:80]}"))
+        else:
+            ok2, d2 = _blocked_with(s.validate(), "E01")
+            res.append(result("N18", "E01(第 1 層回避後の保護パス変更を第 2 層が検出)", ok2, d2))
+
+    # POS3(誤 FAIL 方向): 導入前に到達済みの状態は証拠を要求されない(IA-04 が免除を消しすぎない)
+    s = Sandbox(root, base, "pos3", defer_equipment=True)
+    s.write(REGISTER, _reg_text("applied"))
+    s.commit("legacy: already applied before adoption")
+    s.install_equipment()
+    v = s.validate()
+    res.append(result("POS3", "導入点で到達済みの状態は証拠不要(誤 FAIL 方向)", v.returncode == 0,
+                      "免除の単位は遷移 — 到達済み状態は対象外" if v.returncode == 0
+                      else f"想定外の FAIL: {((v.stderr or '') + (v.stdout or '')).strip()[:140]}"))
+
+    # POS4(誤 FAIL 方向): 正規 merge(両親とも合法・accept trailer つき)が通る
+    s = Sandbox(root, base, "pos4")
+    s.write(REGISTER, _reg_text("staged"))
+    s.commit("eco: file ECO-900")
+    git(s.root, "checkout", "-q", "-b", "feature", env=s.env)
+    s.write(REGISTER, _reg_text("applied"))
+    s.commit("eco: accept ECO-900", "BomDD-ECO-Accept: ECO-900")
+    main = "main"
+    for cand in ("main", "master"):
+        if git(s.root, "rev-parse", "--verify", "-q", cand, env=s.env).returncode == 0:
+            main = cand
+            break
+    git(s.root, "checkout", "-q", main, env=s.env)
+    m = git(s.root, "merge", "--no-ff", "-q", "feature", "-m", "merge feature", env=s.env)
+    v = s.validate()
+    ok = m.returncode == 0 and v.returncode == 0
+    res.append(result("POS4", "正規 merge が誤 FAIL しない(誤 FAIL 方向)", ok,
+                      "合法遷移+accept 証拠が merge 後も保持される" if ok
+                      else f"想定外: merge={m.returncode} validate={((v.stderr or '') + (v.stdout or '')).strip()[:120]}"))
     return res
 
 
