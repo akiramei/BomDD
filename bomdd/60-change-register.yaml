@@ -528,3 +528,42 @@ changes:
       (b) 検査対象集合の二重定義(ASSETS と CORE_EQUIPMENT)を実装中に発見し是正。
       残余の限界(両 hook 削除かつ validate 未実行)は order の完了判定に明記。
       accept: 本コミット(詳細は order 参照)。
+      追記(2026-07-27): 再々独立検査(同一様式・Codex gpt-5.6-sol・fresh)= REJECT —
+      NEW-02 CLOSED / NEW-01・NEW-03 STILL-OPEN + 新規 high 5 件(真正判定 全件 CONFIRMED・
+      実プローブ 4・通算 25/25)。bomdd/reports/independent-reinspection-eco-018.md。
+      verified は起票時凍結の受入基準に対する判定として維持(歴史的 FAIL の非消去)。
+      在庫可能分の是正= ECO-019 / IA-02・IA-03 は境界として文書化(是正しない裁定)。
+
+  - id: ECO-019
+    title: 第 2 層の基準統一・証拠要求単位の是正・設備無力化と保護パスの履歴検査(再々独立検査の在庫可能分)
+    date: 2026-07-27
+    origin: defect
+    status: filed
+    source: >
+      ECO-018 再々独立検査(transfer-04 様式・検査官= Codex 実応答モデル gpt-5.6-sol・
+      セッション 019f9ee7-ad8c-7f01-b503-d5fa4b954936・read-only・情報遮断・fresh)= REJECT。
+      真正判定 全件 CONFIRMED・誤検出 0(実プローブ 4 件= P-A2 設備無力化+保護パス素通り/
+      P-B merge 偽証拠/P-C legacy 遷移の免除過大/P-A 台帳面は機能)。
+      bomdd/reports/independent-reinspection-eco-018.md
+    order_ref: bomdd/60-change-order-eco-019.md
+    affected_refs: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/tools/process-qualification.py, method/templates/process-core/process-profile.yaml]
+    no_impact_prediction: "(製造前)上記 3 参照以外 diff ゼロ予測。新規 scaffold の判定は不変(全遷移が cutoff 以降のため要求単位の変更が効かない)。意図的変更 3 点= (i) 後から導入したリポで導入後の遷移に証拠が要る (ii) merge の証拠採用が厳格化(正規 merge の誤 FAIL なしを POS4 で確認) (iii) validate 所要増(保護パス走査)。既存製品リポへは kit 再設置まで非波及"
+    diff_audit:
+      baseline: 81a95c4  # 起票時 HEAD(製造承認時に是正窓直前へ更新する)
+      allowed_paths: [method/templates/process-core/]
+    summary: >
+      再々独立検査の在庫可能分 4 件を是正する: (1) IA-05= 同一走査内の基準不一致 — 再演は親合算・
+      証拠採用は第 1 親(sha^)のため、遷移していない merge が accept 証拠として採用される
+      → 合算 base を sha ごとにキャッシュし証拠採用も同一 base で判定・採用範囲も replay 範囲へ
+      限定 (2) IA-04= 証拠要求の免除単位が「ECO の初出」のため legacy ECO の導入後の遷移まで
+      免除される → 免除単位を「cutoff 時点で到達済みの状態」へ変え、cutoff 以降に発生した遷移
+      (cid, to_state)に対して E06/E09 を要求 (3) IA-01= E10 が存在のみ検査するため hook を
+      pass-through へ**置換**すると第 1 層が自分の無力化を見ず第 2 層も無音 PASS → hook 内容検査
+      (新 E11・解釈関数は qualification と共有=二重定義の回避) (4) 保護パス変更の履歴検査が
+      不在で hook 無力化後の ECO なし変更が validate でも検出されない → E01 の履歴版を追加。
+      **是正しない裁定**: IA-02(cutoff 前送り)・IA-03(HEAD profile の遡及適用)は「検査規則が
+      被検査物の中にある」ことの系であり、リポ内では閉じない — 閉鎖経路はリポ外の信頼アンカー
+      (CI/branch protection/外部固定の規則版)。order とテンプレへ限界を明記し完了判定に残す
+      (無音ではなく監査可能だが阻止はできない、の非対称性も記録)。受入基準 N15〜N18+POS3/POS4 を
+      事前登録。裁定 4 点(要求単位・採用範囲・E11 新設・保護パス走査)は gate ① へ。
+    verification: "(製造前 — 未実施)"
