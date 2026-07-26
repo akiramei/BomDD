@@ -22,6 +22,17 @@
   E09 evidence-state-divergence         : 遷移証拠と現在状態の乖離(applied 証拠があるのに
                                           staged 等)+ fix→accept の祖先順序違反
                                           (ViewPrism2 E17 相当の移植。REV-03)
+  E10 equipment-missing-or-incomplete   : HEAD に profile が実在するのに設備一式が現存しない
+                                          (両 hook 削除等。ECO-018 NEW-01b — 第 2 層)
+
+二層化(ECO-018 — 強制層は自分自身を守れない):
+  第 1 層 pre-commit/commit-msg hook   … 即時遮断(作業者の眼前)。実体を消されれば起動しない。
+  第 2 層 validate(CI・qualification)… **履歴合法性の再演**(台帳変更 commit ごとに遷移を
+                                          再計算し、--no-verify で回避された違法遷移を検出)+
+                                          設備完全性(E10)。到達目標は防止の完全化ではなく
+                                          「**改竄が機械検出可能であること**」。
+  enforcement に使う profile は **HEAD 版が正**(index 版は提案であって現行規則でない)—
+  同一 commit で規則を書き換えて自身を通す経路を遮断する。
 
 台帳解析は fail-closed(REV-04): 非 mapping エントリ・id/status 欠落・**id 重複**(後勝ち情報
 損失= ECO-011/012 の 1 段上の同型)・changes 非 list は測定不能 exit 2。placeholder は明示
@@ -64,6 +75,7 @@ REASONS = {
     "E07": "trailer-references-unknown-eco",
     "E08": "equipment-change-without-open-eco",
     "E09": "evidence-state-divergence",
+    "E10": "equipment-missing-or-incomplete",
 }
 
 # 状態 → 要求 trailer キー。states に含まれる状態のみ発火。
@@ -72,6 +84,11 @@ TRAILER_STATE = {"fix": "implemented", "accept": "applied"}
 
 # 設備の自己保護パス(コード固定 — profile の protected_paths に依存しない。ECO-016 REV-01)
 CORE_PROTECTED = ["bomdd/process-profile.yaml", "bomdd/hooks/",
+                  "bomdd/tools/process-validator.py", "bomdd/tools/process-qualification.py"]
+
+# 設備完全性(E10・ECO-018 NEW-01b)— HEAD に profile が実在するのに欠けていれば第 2 層が検出する。
+# core.hooksPath は含めない(未版数の local config — fresh clone で誤 FAIL する。有効化は IQ-03 の職掌)
+CORE_EQUIPMENT = ["bomdd/process-profile.yaml", "bomdd/hooks/pre-commit", "bomdd/hooks/commit-msg",
                   "bomdd/tools/process-validator.py", "bomdd/tools/process-qualification.py"]
 
 # placeholder sentinel(完全一致のみ skip — 先頭文字判定の廃止。ECO-016 REV-04)
@@ -154,20 +171,31 @@ def validate_profile(prof) -> list[str]:
     return errs
 
 
-def load_profile(root: Path, head_fallback: bool = False) -> dict:
-    """profile を読む。head_fallback= 作業ツリーに無ければ HEAD 版を使う(案a: 削除中も検査を継続)"""
+def load_profile(root: Path, head_preferred: bool = False) -> dict:
+    """profile を読む。
+
+    head_preferred(ECO-018 NEW-02): **HEAD 版を正**とする。index/作業ツリー版は「これから提案
+    される設定」であって現行の規則ではない — 同一 commit で規則を書き換えて自身を通す経路
+    (改竄 profile による自己再定義)を遮断する。profile の変更は E08(open ECO 必須)を通って
+    commit された次から効く。HEAD に profile が無い場合(初回設置・案a の撤去中)は作業ツリー版。
+    """
     path = root / PROFILE_REL
     text: str | None = None
-    if path.is_file():
+    if head_preferred:
+        p = run_git(root, "show", f"HEAD:{PROFILE_REL}")
+        if p.returncode == 0:
+            text = p.stdout
+            if path.is_file() and path.read_text(encoding="utf-8", errors="replace") != text:
+                print("process-validator: [note] profile は HEAD 版で判定(作業ツリー版の変更は"
+                      "commit 後の次回から有効 — 規則の自己適用を禁止)")
+            elif not path.is_file():
+                print("process-validator: [note] profile は作業ツリーに無いが HEAD に実在 — "
+                      "HEAD 版で検査継続(撤去は ECO 経由・案a)")
+    if text is None and path.is_file():
         try:
             text = path.read_text(encoding="utf-8")
         except OSError as e:
             die(f"process-profile.yaml が読めない: {e}")
-    elif head_fallback:
-        p = run_git(root, "show", f"HEAD:{PROFILE_REL}")
-        if p.returncode == 0:
-            text = p.stdout
-            print("process-validator: [note] profile は作業ツリーに無いが HEAD に実在 — HEAD 版で検査継続(撤去は ECO 経由・案a)")
     if text is None:
         return {}
     try:
@@ -326,47 +354,114 @@ def parse_trailers(msg: str) -> dict[str, list[str]]:
 
 
 # --- 履歴証拠(REV-03: SHA・遷移紐付け) ----------------------------------------------
-def gather_history(root: Path, prof: dict) -> tuple[dict, dict]:
-    """履歴を走査し (linked, raw) を返す。
-    linked: {(key,id): [sha,...]} — trailer を持つ commit で当該遷移が実際に発生したもののみ。
-    raw:    {trailer_name: {id,...}} — 出現した全 trailer(E07 用)。
-    git 障害は die(履歴ゼロ= HEAD なしは空 — REV-08)。歴史上の台帳が不正な commit は
-    証拠として不採用(warn のみ — 履歴は不変のため die しない・fail-closed 方向)。"""
+def replay_cutoff(root: Path, prof: dict) -> str | None:
+    """履歴再演の起点(ECO-018 裁定 1)= profile を最初に追加した commit。
+    profile の history_replay_since で上書き可。導入前の履歴を違法として止めないための境界。"""
+    since = prof.get("history_replay_since")
+    if since:
+        p = run_git(root, "rev-parse", "--verify", "-q", f"{since}^{{commit}}")
+        if p.returncode != 0:
+            die(f"history_replay_since '{since}' が解決できない(境界は実在する commit で宣言する)")
+        return p.stdout.strip()
+    p = run_git(root, "log", "--diff-filter=A", "--format=%H", "--", PROFILE_REL)
+    shas = [s for s in p.stdout.split() if s]
+    return shas[-1] if shas else None  # 最古 = 導入点
+
+
+def scan_history(root: Path, prof: dict) -> dict:
+    """履歴の単一走査(ECO-018 — 第 2 層の核)。返す dict:
+      violations : 履歴上の違法遷移(E02/E03・history:<sha> 文脈つき)。hook を --no-verify で
+                   回避しても、記録に残った違法遷移が後から必ず検出される。
+      linked     : {(key,cid): [sha]} — **合法遷移のみ**を証拠に採用(違法遷移で植えた trailer は
+                   承認証拠にならない)。
+      raw        : {trailer_name: {cid}} — 出現した全 trailer(E07 用)。
+      scoped     : 証拠要求(E06/E09)の対象 cid。None= 全件(導入点不明時)。導入点より前から
+                   台帳にあった ECO は trailer 規約が存在しなかったため対象外(gate ① 設計確定)。
+      note       : 走査範囲の説明(何をどこまで機械が保証したかを常に表示する)。
+    git 障害は die(履歴ゼロ= HEAD 不在とは区別 — REV-08)。解析不能な歴史台帳は再演・証拠採用の
+    対象外にして warn(履歴は不変のため die しない)。"""
     ensure_git_repo(root)
     raw: dict[str, set[str]] = {n: set() for n in prof["trailers"].values()}
     linked: dict[tuple[str, str], list[str]] = {}
+    out: dict = {"violations": [], "linked": linked, "raw": raw, "scoped": None, "note": ""}
     if not head_exists(root):
-        return linked, raw
+        out["note"] = "履歴なし(HEAD 不在)"
+        return out
+    reg = prof["register"]
+    cache: dict[str, dict | None] = {}
+
+    def reg_at(ref: str) -> dict | None:
+        if ref not in cache:
+            try:
+                cache[ref] = parse_register(register_text_at(root, reg, ref))
+            except (yaml.YAMLError, ValueError):
+                print(f"process-validator: [warn] {ref[:9]} の台帳が解析不能 — "
+                      f"再演・証拠採用の対象外")
+                cache[ref] = None
+        return cache[ref]
+
+    # --- 履歴再演(裁定 1= 導入点以降・裁定 2= E02/E03 再利用・裁定 4= 台帳変更 commit 限定)---
+    illegal: dict[str, set[str]] = {}
+    cutoff = replay_cutoff(root, prof)
+    if cutoff is None:
+        out["note"] = ("再演スキップ: profile が履歴に存在せず導入点を決定できない"
+                       "(証拠要求は全エントリへ適用)")
+    else:
+        has_parent = run_git(root, "rev-parse", "--verify", "-q", f"{cutoff}^").returncode == 0
+        rng = f"{cutoff}^..HEAD" if has_parent else "HEAD"
+        p = run_git(root, "rev-list", "--reverse", rng, "--", reg)
+        if p.returncode != 0:
+            die(f"rev-list が失敗(履歴再演が測定不能): {p.stderr.strip()}")
+        shas = [s for s in p.stdout.split() if s]
+        scoped: set[str] = set()
+        for sha in shas:
+            cur = reg_at(sha)
+            if cur is None:
+                continue
+            pp = run_git(root, "log", "-1", "--format=%P", sha)
+            parents = [x for x in pp.stdout.split() if x] if pp.returncode == 0 else []
+            pregs = [r for r in (reg_at(x) for x in parents) if r is not None]
+            base = combine_parents(pregs, prof) if pregs else {}
+            for code, cid, msg in transition_issues(base, cur, prof):
+                out["violations"].append(f"[{code}] {REASONS[code]}: history:{sha[:9]} {msg}")
+                illegal.setdefault(sha, set()).add(cid)
+            scoped |= {cid for cid in cur if cid not in base}  # 導入点以降に初出した ECO
+        out["scoped"] = scoped
+        out["note"] = (f"再演: 導入点 {cutoff[:9]} 以降の台帳変更 {len(shas)} commit・"
+                       f"証拠要求の対象 {len(scoped)} 件(導入前からの ECO は対象外)")
+
+    # --- trailer 走査(E07 の raw + 合法遷移のみの証拠採用)---
     p = run_git(root, "log", "--format=%H%x01%B%x02")
     if p.returncode != 0:
         die(f"git log が失敗(証拠ゼロと区別する — REV-08): {p.stderr.strip()}")
     name_key = {prof["trailers"]["fix"]: "fix", prof["trailers"]["accept"]: "accept"}
-    reg = prof["register"]
     for chunk in p.stdout.split("\x02"):
         if "\x01" not in chunk:
             continue
         sha, body = chunk.split("\x01", 1)
         sha = sha.strip()
         tr = parse_trailers(body)
-        hit = {name_key[n]: ids for n, ids in tr.items() if n in name_key}
-        if not hit:
-            continue
         for n, ids in tr.items():
             if n in raw:
                 raw[n] |= set(ids)
-        try:
-            new_e = parse_register(register_text_at(root, reg, sha))
-            old_e = parse_register(register_text_at(root, reg, f"{sha}^"))
-        except (yaml.YAMLError, ValueError):
-            print(f"process-validator: [warn] {sha[:9]} の台帳が解析不能 — この commit は証拠に採用しない")
+        hit = {name_key[n]: ids for n, ids in tr.items() if n in name_key}
+        if not hit:
             continue
+        new_e = reg_at(sha)
+        if new_e is None:
+            continue
+        old_e = reg_at(f"{sha}^") or {}
         for key, ids in hit.items():
             st = TRAILER_STATE[key]
             for cid in ids:
+                if cid in illegal.get(sha, set()):
+                    print(f"process-validator: [note] {sha[:9]} の {cid} は違法遷移 — "
+                          f"この trailer は証拠に採用しない(ECO-018)")
+                    continue
                 if (new_e.get(cid, {}).get("status") == st
                         and old_e.get(cid, {}).get("status") != st):
                     linked.setdefault((key, cid), []).append(sha)
-    return linked, raw
+    return out
 
 
 # --- 検査(純関数 — selftest から直接叩く) -----------------------------------------
@@ -397,40 +492,59 @@ def check_equipment(paths: list[str], head_entries: dict[str, dict], prof: dict,
             f" — 設備(profile/hooks/validator)の武装解除・改変も変更管理の対象(案a)"]
 
 
-def check_transitions(old: dict[str, dict], new: dict[str, dict], prof: dict) -> list[str]:
+def transition_issues(old: dict[str, dict], new: dict[str, dict],
+                      prof: dict) -> list[tuple[str, str, str]]:
+    """遷移検査の構造化結果 [(code, cid, msg), ...](ECO-018: 履歴再演が cid 単位で違法性を
+    参照するため文字列でなく構造で返す。check_transitions は本関数の薄い整形ラッパ)"""
     states, extra = prof["states"], prof["terminal_extra"]
     known = set(states) | set(extra)
-    v: list[str] = []
+    v: list[tuple[str, str, str]] = []
     for cid, e in new.items():
         st = e.get("status")
         if st not in known:
-            v.append(f"[E03] {REASONS['E03']}: {cid} が未知の状態 '{st}'(語彙: {states}+{extra})")
+            v.append(("E03", cid, f"{cid} が未知の状態 '{st}'(語彙: {states}+{extra})"))
             continue
         if cid not in old:
             if st != prof["initial"]:
-                v.append(f"[E02] {REASONS['E02']}: 新規 {cid} が '{st}' で登録"
-                         f"(新規は '{prof['initial']}' で始まる)")
+                v.append(("E02", cid, f"新規 {cid} が '{st}' で登録"
+                                      f"(新規は '{prof['initial']}' で始まる)"))
             continue
         old_st = old[cid].get("status")
         if old_st not in known:  # REV-09: 旧状態の未知検証を terminal 判定より先に
-            v.append(f"[E03] {REASONS['E03']}: {cid} の旧状態 '{old_st}' が未知(terminal への遷移でも洗浄しない)")
+            v.append(("E03", cid, f"{cid} の旧状態 '{old_st}' が未知(terminal への遷移でも洗浄しない)"))
             continue
         if old_st == st:
             continue
         if old_st in extra:
-            v.append(f"[E03] {REASONS['E03']}: {cid} が terminal '{old_st}' から '{st}' へ遷移")
+            v.append(("E03", cid, f"{cid} が terminal '{old_st}' から '{st}' へ遷移"))
         elif st in extra:
             pass  # known な状態からの rejected/superseded は可
         else:
             step = states.index(st) - states.index(old_st)
             if step != 1:
                 kind = "飛び越し" if step > 1 else "後退"
-                v.append(f"[E03] {REASONS['E03']}: {cid} の {kind} '{old_st}' → '{st}'"
-                         f"(順序: {states})")
+                v.append(("E03", cid, f"{cid} の {kind} '{old_st}' → '{st}'(順序: {states})"))
     for cid in old:
         if cid not in new:
-            v.append(f"[E03] {REASONS['E03']}: {cid} が台帳から削除された(ID は再利用・削除しない)")
+            v.append(("E03", cid, f"{cid} が台帳から削除された(ID は再利用・削除しない)"))
     return v
+
+
+def check_transitions(old: dict[str, dict], new: dict[str, dict], prof: dict) -> list[str]:
+    return [f"[{code}] {REASONS[code]}: {msg}"
+            for code, _cid, msg in transition_issues(old, new, prof)]
+
+
+def check_equipment_complete(root: Path, equipped: bool) -> list[str]:
+    """E10(ECO-018 NEW-01b)— HEAD に profile が実在するなら設備一式が現存しなければならない。
+    第 1 層(hook)を両方削除して回避しても、第 2 層(validate/CI)が記録の不整合として検出する。"""
+    if not equipped:
+        return []
+    missing = [a for a in CORE_EQUIPMENT if not (root / a).exists()]
+    if not missing:
+        return []
+    return [f"[E10] {REASONS['E10']}: 工程設備が欠落 {missing} — HEAD に profile が実在する"
+            f"(= 本リポは process-core 管理下)のに設備が現存しない。撤去は ECO 経由(案a)"]
 
 
 def check_commit_msg(old: dict[str, dict], new: dict[str, dict], msg: str, prof: dict) -> list[str]:
@@ -528,30 +642,32 @@ def main() -> int:
 
     root = Path(a.root).resolve() if a.root else repo_root()
     ensure_git_repo(root)
-    prof = load_profile(root, head_fallback=(a.mode in ("pre-commit", "commit-msg")))
+    # ECO-018 NEW-02: 全モードで HEAD 版 profile を正とする(規則の自己適用を禁止)
+    prof = load_profile(root, head_preferred=True)
     if not prof:
         print("process-validator: profile なし(bomdd/process-profile.yaml)— 管理下でないため素通し")
         return 0
+    equipped = head_has_profile(root)
 
-    if a.mode == "pre-commit":
+    if a.mode in ("pre-commit", "commit-msg"):
         old, new = _load_pair(root, prof)
         paths = staged_paths(root)
-        return report(check_protected(paths, old, prof)
-                      + check_equipment(paths, old, prof, head_has_profile(root))
-                      + check_transitions(old, new, prof))
+        # ECO-018 NEW-01a(裁定 3): commit-msg も equipment/protected を検査する —
+        # 片方の hook を削除しても、もう片方が E08 を発動する(防御の重複は意図的)
+        vio = (check_protected(paths, old, prof)
+               + check_equipment(paths, old, prof, equipped)
+               + check_transitions(old, new, prof))
+        if a.mode == "commit-msg":
+            if not a.msg_file:
+                die("--msg-file が必要")
+            try:
+                msg = Path(a.msg_file).read_text(encoding="utf-8", errors="replace")
+            except OSError as e:
+                die(f"メッセージファイルが読めない: {e}")
+            vio += check_commit_msg(old, new, msg, prof)
+        return report(vio)
 
-    if a.mode == "commit-msg":
-        if not a.msg_file:
-            die("--msg-file が必要")
-        try:
-            msg = Path(a.msg_file).read_text(encoding="utf-8", errors="replace")
-        except OSError as e:
-            die(f"メッセージファイルが読めない: {e}")
-        old, new = _load_pair(root, prof)
-        return report(check_transitions(old, new, prof)
-                      + check_commit_msg(old, new, msg, prof))
-
-    # validate: 作業ツリーの台帳 + 履歴証拠(E06/E07/E09)
+    # validate(第 2 層): 作業ツリーの台帳 + 履歴の合法性再演 + 設備完全性
     reg_file = root / prof["register"]
     if not reg_file.is_file():
         die(f"台帳がない: {reg_file}")
@@ -559,20 +675,28 @@ def main() -> int:
         entries = parse_register(reg_file.read_text(encoding="utf-8"), warn=True)
     except (yaml.YAMLError, ValueError) as e:
         die(f"台帳がパース不能/構造不正: {e}")
-    linked, raw = gather_history(root, prof)
+    hist = scan_history(root, prof)
+    linked, raw, scoped = hist["linked"], hist["raw"], hist["scoped"]
+    if hist["note"]:
+        print(f"process-validator: [scope] {hist['note']}")
     known = set(prof["states"]) | set(prof["terminal_extra"])
     vio = [f"[E03] {REASONS['E03']}: {cid} が未知の状態 '{e.get('status')}'"
            for cid, e in entries.items() if e.get("status") not in known]
-    vio += check_history_evidence(entries, prof, linked)
+    vio += hist["violations"]                      # 履歴上の違法遷移(第 2 層の核)
+    vio += check_equipment_complete(root, equipped)  # E10
+    # 証拠要求は導入点以降に初出した ECO のみ(gate ① 設計確定)
+    target = entries if scoped is None else {c: e for c, e in entries.items() if c in scoped}
+    vio += check_history_evidence(target, prof, linked)
     for name, ids in raw.items():
         for cid in sorted(ids - set(entries)):
             vio.append(f"[E07] {REASONS['E07']}: 履歴の trailer 「{name}: {cid}」が台帳に実在しない ECO を参照")
     def is_ancestor(a_sha: str, b_sha: str) -> bool:
         return run_git(root, "merge-base", "--is-ancestor", a_sha, b_sha).returncode == 0
-    vio += check_divergence(entries, prof, linked, is_ancestor)
+    vio += check_divergence(target, prof, linked, is_ancestor)
     rc = report(vio)
     if rc == 0:
-        print(f"process-validator: validate OK({len(entries)} entries)")
+        print(f"process-validator: validate OK({len(entries)} entries・"
+              f"証拠要求 {len(target)} 件)")
     return rc
 
 
@@ -708,6 +832,22 @@ def selftest() -> int:
       check_divergence({"ECO-1": e("applied")}, prof3,
                        {("fix", "ECO-1"): ["f1"], ("accept", "ECO-1"): ["a1"]},
                        is_ancestor=lambda a, b: True), None)
+
+    # ECO-018: 構造化遷移検査・設備完全性(E10)
+    issues = transition_issues({}, {"ECO-1": e("applied")}, prof2)
+    tb("ECO-018: transition_issues が (code, cid, msg) を返す",
+       issues == [("E02", "ECO-1", issues[0][2])] if issues else False,
+       f"{issues}")
+    import tempfile as _tf
+    with _tf.TemporaryDirectory() as _d:
+        _p = Path(_d)
+        tb("E10: 設備欠落を検出(equipped)", bool(check_equipment_complete(_p, True)))
+        tb("陽性: 未設置(equipped=False)は E10 対象外",
+           check_equipment_complete(_p, False) == [])
+        for a in CORE_EQUIPMENT:
+            (_p / a).parent.mkdir(parents=True, exist_ok=True)
+            (_p / a).write_text("x", encoding="utf-8")
+        tb("陽性: 設備一式が揃えば E10 なし", check_equipment_complete(_p, True) == [])
 
     # merge 合算(REV-13)
     combined = combine_parents([{"ECO-1": e("staged")}, {"ECO-1": e("applied")}], prof2)

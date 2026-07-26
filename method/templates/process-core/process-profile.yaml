@@ -38,3 +38,9 @@ terminal_extra: [rejected, superseded]   # どの状態からも遷移可・以�
 trailers:
   fix: BomDD-ECO-Fix
   accept: BomDD-ECO-Accept
+
+# 履歴合法性の再演(第 2 層・ECO-018)の起点。既定は「本ファイルを最初に追加した commit」の
+# 自動検出 — process-core を後から導入したリポの導入前履歴を違法として止めないための境界。
+# 導入点を明示したい場合のみ commit-ish を宣言する(証拠要求 E06/E09 の対象範囲も同じ境界で
+# 決まる: 導入点より前から台帳にあった ECO は trailer 証拠を要求されない)。
+# history_replay_since: <commit-ish>

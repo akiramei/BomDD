@@ -56,7 +56,7 @@ except ImportError:
     sys.exit(2)
 
 ASSETS = ["bomdd/process-profile.yaml", "bomdd/hooks/pre-commit", "bomdd/hooks/commit-msg",
-          "bomdd/tools/process-validator.py"]
+          "bomdd/tools/process-validator.py", "bomdd/tools/process-qualification.py"]
 REGISTER = "bomdd/60-change-register.yaml"  # sandbox 用(対象リポの profile とは独立の既定)
 
 # REV-12: sandbox git から除去する環境変数(前方一致 — repo/index/object/config リダイレクト系)
@@ -193,21 +193,15 @@ def _reg_text(status: str) -> str:
 
 class Sandbox:
     def __init__(self, source_root: Path, base: Path, name: str,
-                 profile_override: dict | None = None):
+                 profile_override: dict | None = None, defer_equipment: bool = False):
+        """defer_equipment(ECO-018): 設備を後から設置する — process-core を後から導入した
+        リポ(導入前に台帳履歴がある)を再現し、履歴再演が導入前を違法にしないことを測る"""
         self.root = base / name
-        for rel in ASSETS:
-            src = source_root / rel
-            if not src.is_file():
-                die(f"設置済み資産がない: {src}(qualification は installed assets を対象とする)")
-            dst = self.root / rel
-            dst.parent.mkdir(parents=True, exist_ok=True)
-            dst.write_bytes(src.read_bytes())
-        if profile_override:
-            prof_path = self.root / "bomdd" / "process-profile.yaml"
-            prof = yaml.safe_load(prof_path.read_text(encoding="utf-8"))
-            prof.update(profile_override)
-            prof_path.write_text(yaml.safe_dump(prof, allow_unicode=True, sort_keys=False),
-                                 encoding="utf-8", newline="\n")
+        self.source_root = source_root
+        self.profile_override = profile_override
+        if not defer_equipment:
+            self._copy_assets()
+        (self.root / REGISTER).parent.mkdir(parents=True, exist_ok=True)
         (self.root / REGISTER).write_text("changes: []\n", encoding="utf-8", newline="\n")
         self.gcfg = base / f"{name}.gitconfig"
         self.gcfg.write_text("", encoding="utf-8")
@@ -231,12 +225,38 @@ class Sandbox:
         if not (top.returncode == 0 and gdir.returncode == 0 and top_ok and gd_ok):
             die(f"sandbox 隔離の破れ — toplevel/git-dir が sandbox 外を指す"
                 f"(GIT_DIR 等の環境継承を確認): top={top.stdout.strip()!r} gitdir={gdir.stdout.strip()!r}")
-        if os.name == "posix":
-            for h in ["pre-commit", "commit-msg"]:
-                os.chmod(self.root / "bomdd" / "hooks" / h, 0o755)
+        self._chmod_hooks()
         p = self.commit("oq: init")
         if p.returncode != 0:
             die(f"sandbox 初期 commit 失敗(hook 環境を確認): {p.stderr.strip()}{p.stdout.strip()}")
+
+    def _copy_assets(self) -> None:
+        for rel in ASSETS:
+            src = self.source_root / rel
+            if not src.is_file():
+                die(f"設置済み資産がない: {src}(qualification は installed assets を対象とする)")
+            dst = self.root / rel
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            dst.write_bytes(src.read_bytes())
+        if self.profile_override:
+            prof_path = self.root / "bomdd" / "process-profile.yaml"
+            prof = yaml.safe_load(prof_path.read_text(encoding="utf-8"))
+            prof.update(self.profile_override)
+            prof_path.write_text(yaml.safe_dump(prof, allow_unicode=True, sort_keys=False),
+                                 encoding="utf-8", newline="\n")
+
+    def _chmod_hooks(self) -> None:
+        if os.name == "posix":
+            for h in ["pre-commit", "commit-msg"]:
+                p = self.root / "bomdd" / "hooks" / h
+                if p.is_file():
+                    os.chmod(p, 0o755)
+
+    def install_equipment(self, msg: str = "chore: install process-core") -> subprocess.CompletedProcess:
+        """設備を後から設置する(defer_equipment の相方 — 導入点をこの commit にする)"""
+        self._copy_assets()
+        self._chmod_hooks()
+        return self.commit(msg)
 
     def write(self, rel: str, text: str) -> None:
         p = self.root / rel
@@ -352,6 +372,77 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     else:
         ok, d = _blocked_with(s.validate(), "E07")
         res.append(result("N8", "E07(未知 ECO への trailer)", ok, d))
+
+    # --- ECO-018: 第 2 層(履歴合法性・設備完全性)と自己保護の負例 ---
+    # N9/N14: --no-verify で born-applied+同 commit trailer → 履歴再演が E02・証拠は不採用で E06
+    s = Sandbox(root, base, "n9")
+    s.write(REGISTER, _reg_text("applied"))
+    p = s.commit("illegal: born applied", "BomDD-ECO-Accept: ECO-900", no_verify=True)
+    if p.returncode != 0:
+        res.append(result("N9", "E02(履歴再演)", False, f"バイパス commit 自体が失敗: {p.stderr.strip()[:80]}"))
+        res.append(result("N14", "E06(違法遷移の trailer は証拠でない)", False, "N9 が実行できず未測定"))
+    else:
+        v = s.validate()
+        ok9, d9 = _blocked_with(v, "E02")
+        ok14, d14 = _blocked_with(v, "E06")
+        res.append(result("N9", "E02(履歴再演 — hook 回避を第 2 層が検出)", ok9, d9))
+        res.append(result("N14", "E06(違法遷移で植えた trailer は証拠に採用しない)", ok14, d14))
+
+    # N10: --no-verify の遷移飛び越し(3 状態 staged→applied)→ 履歴再演が E03
+    s = Sandbox(root, base, "n10", profile_override={
+        "states": ["staged", "implemented", "applied"],
+        "open_states": ["staged", "implemented"]})
+    s.write(REGISTER, _reg_text("staged"))
+    s.commit("eco: file ECO-900")
+    s.write(REGISTER, _reg_text("applied"))
+    p = s.commit("illegal: jump", "BomDD-ECO-Accept: ECO-900", no_verify=True)
+    if p.returncode != 0:
+        res.append(result("N10", "E03(履歴再演)", False, f"バイパス commit 自体が失敗: {p.stderr.strip()[:80]}"))
+    else:
+        ok, d = _blocked_with(s.validate(), "E03")
+        res.append(result("N10", "E03(履歴再演 — 飛び越し)", ok, d))
+
+    # N11: 同一 commit で open_states を書換え+保護パス変更 → HEAD profile 優先で E01
+    s = Sandbox(root, base, "n11")
+    s.write(REGISTER, _reg_text("staged"))
+    s.commit("eco: file ECO-900")
+    s.write(REGISTER, _reg_text("applied"))
+    s.commit("eco: accept ECO-900", "BomDD-ECO-Accept: ECO-900")
+    prof_path = s.root / "bomdd" / "process-profile.yaml"
+    prof_path.write_text(prof_path.read_text(encoding="utf-8")
+                         .replace("open_states: [staged]", "open_states: [applied]"),
+                         encoding="utf-8", newline="\n")
+    s.write("src/a.txt", "x\n")
+    ok, d = _blocked_with(s.commit("attack: self-redefine open_states"), "E01")
+    res.append(result("N11", "E01(profile 自己再定義の遮断)", ok, d))
+
+    # N12: pre-commit だけ削除 → 生き残った commit-msg が E08 を発動(冗長性)
+    s = Sandbox(root, base, "n12")
+    os.remove(s.root / "bomdd" / "hooks" / "pre-commit")
+    ok, d = _blocked_with(s.commit("attack: remove enforcer hook"), "E08")
+    res.append(result("N12", "E08(単一 hook 削除を他方が遮断)", ok, d))
+
+    # N13: 両 hook を削除 → 第 1 層は無効・第 2 層(validate)が E10 で検出
+    s = Sandbox(root, base, "n13")
+    for h in ["pre-commit", "commit-msg"]:
+        os.remove(s.root / "bomdd" / "hooks" / h)
+    p = s.commit("attack: remove both hooks", no_verify=True)
+    if p.returncode != 0:
+        res.append(result("N13", "E10", False, f"削除 commit 自体が失敗: {p.stderr.strip()[:80]}"))
+    else:
+        ok, d = _blocked_with(s.validate(), "E10")
+        res.append(result("N13", "E10(両 hook 削除を第 2 層が検出)", ok, d))
+
+    # POS2(誤 FAIL 方向の陽性対照): 導入前の履歴を持つリポで再演・証拠要求が発火しない
+    s = Sandbox(root, base, "pos2", defer_equipment=True)
+    s.write(REGISTER, _reg_text("applied"))  # 導入前 = trailer 規約が存在しなかった時期の記録
+    p1 = s.commit("legacy: register state before adoption")
+    p2 = s.install_equipment()
+    v = s.validate()
+    ok = p1.returncode == 0 and p2.returncode == 0 and v.returncode == 0
+    res.append(result("POS2", "導入前履歴を違法にしない(誤 FAIL 方向)", ok,
+                      "導入点以降のみ再演・証拠要求も導入点で区切り"
+                      if ok else f"想定外の FAIL: {((v.stderr or '') + (v.stdout or '')).strip()[:140]}"))
     return res
 
 
