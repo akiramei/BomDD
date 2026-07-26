@@ -464,7 +464,7 @@ changes:
     affected_refs: [method/templates/process-core/tools/process-qualification.py, method/tools/bomdd-init.py, method/tools/self-conformance.py]
     no_impact_prediction: "(製造前)上記 3 参照以外 diff ゼロ予測。正常系 scaffold 生成物は不変(判定の厳格化のみ)。意図的挙動変更 1 点= git 設定なし環境の bomdd-init が exit 非 0 へ(--no-git/--no-qualify の明示経路を案内)。C11 所要は 2 回決定性で微増"
     diff_audit:
-      baseline: ede85b8  # 起票時 HEAD(製造承認時に是正窓直前へ更新する。順序依存= ECO-016 verified 後に製造)
+      baseline: c9ecfe7  # 起票時 ede85b8 → 是正開始直前(ECO-016 accept)へ更新(製造承認 2026-07-26・順序依存充足)
       allowed_paths: [method/templates/process-core/tools/process-qualification.py, method/tools/bomdd-init.py, method/tools/self-conformance.py]
     summary: >
       独立検査が runner・init・C11 に 5 件を実証: IQ-03 の endswith 判定が外部 hooks を PASS・

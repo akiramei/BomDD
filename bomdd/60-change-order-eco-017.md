@@ -1,6 +1,20 @@
 # ECO-017 — qualification runner・bomdd-init・C11 の隔離と判定精度(独立検査 REV 5 件の是正)
 
-> 状態: **filed(2026-07-26)**。製造前 — gate ①(製造承認)待ち。
+> 状態: **implemented(2026-07-26)**。gate ①(製造承認 2026-07-26・ECO-016 と同時承認・
+> 順序依存充足= ECO-016 verified c9ecfe7)→ 製造中。
+
+## 裁定(gate ① — 2026-07-26)
+
+- 製造承認(2026-07-26・maintainer — 016/017 一括承認・017 は 016 verified 後に着手)。
+  baseline を ECO-016 accept(c9ecfe7・是正開始直前)へ更新。
+- 設計確定 3 点:
+  1. **IQ-07 新設**= HEAD 実在(git 文脈で FAIL)。**worktree/index の clean は FAIL にせず観測
+     記録**に留める — --skills-only の適格性確認は設置直後(未コミット)に走る正当経路があるため
+     (是正方針の「clean index/worktree を追加」からの意図的縮小・理由記録)。
+  2. E07 の実 Git 負例= 「登録なし ECO への trailer を持つ commit → validate が E07」。
+     E04 の実 Git 負例= 3 状態 profile の sandbox(yaml 再構成)で fix trailer なし遷移。
+  3. 決定性表示= runs=1 のとき「DET SKIP(未検証)」(PASS 偽装の排除)。full は --runs>=2 を
+     argparse 強制。
 > 出典: ECO-015 後追い独立受入検査(transfer-04 様式・Codex gpt-5.6-sol・REJECT)—
 > bomdd/reports/independent-inspection-eco-015.md(真正判定 13/13 CONFIRMED・誤検出 0)。
 > 本 ECO は runner・init・C11 系 5 件(REV-05/06/07/11/12)を是正する。validator 系 8 件は ECO-016。
