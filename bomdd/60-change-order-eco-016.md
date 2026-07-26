@@ -1,6 +1,7 @@
 # ECO-016 — process-validator の証拠意味論・台帳解析の fail-closed 強化(独立検査 REV 8 件の是正)
 
-> 状態: **implemented(2026-07-26)**。gate ①(製造承認)通過 → 製造中。
+> 状態: **verified(2026-07-26)**。fix= 5d4a266(+衛生追補 b525d01)・検証 V0〜V3 全 PASS・
+> 窓は accept で閉鎖。
 
 ## 裁定(gate ① — 2026-07-26)
 
@@ -86,6 +87,39 @@
 
 - REV-05/06/07/11/12(runner・bomdd-init・C11)= ECO-017
 - ECO-015 対応表で宣言済みの他の未移植(E14 lifecycle_evidence 宣言・ViewTube 7/8/9〜16)は据え置き
+
+## 検証(2026-07-26・受入基準=起票時凍結分)
+
+- **V0(selftest)**: 45 項目全 PASS — REV 対応の変異を恒久収載(profile 変異 5 種・trailer 意味論
+  4 種・台帳構造 5 種・E08 4 種・E09 4 種・REV-09/10/13 各対照)。
+- **V1(回帰)**: fresh scaffold の初回 IQ/OQ 全 PASS(IQ-01〜06・POS・N1〜N6・DET byte 一致)—
+  既存 7 対照は新 validator でも判定不変。self-conformance 全 PASS(C1〜C11)。
+- **V2(実 commit 経路の新負例 9 プローブ)**: P1 profile 部分変異(trailers.accept 削除)→
+  exit 2 遮断 / P2 profile 削除・open ECO なし → **E08 遮断** / P3 profile 削除・open ECO あり →
+  通過(**案a の監査つき撤去**・HEAD 版 profile で検査継続の note 出力)/ P4 同一 commit 起票+
+  保護変更 → E01 / P5 中間段落 trailer → E05 / P6 事前植込み trailer+--no-verify → validate E06 /
+  P7 重複 ID → 測定不能遮断 / P8 正規 applied 後の --no-verify 逆行 → validate **E09** /
+  P9 merge 陽性対照(branch で正規 applied → main へ merge)→ 誤 FAIL なし+validate OK。
+- **V3(決定性)**: qualification --runs 2 の判定・理由集合一致(V1 内 DET)。
+- **正直記載**: (a) V2 初回実施でプローブ衛生の失敗 2 回 — P1 の復元不備(checkout が変異済み
+  index から復元)で P2 が汚染され、さらに P2(再)は前プローブの残存 open ECO により「監査つき
+  撤去」として正しく通過 → 以降のプローブが非管理状態で空振り(P8 の「profile なし素通し」が
+  検出)。fresh scaffold+BASE 固定 reset で全数再実施した。**「E08 は open ECO があれば通す」
+  仕様が検証治具自身の穴になった**教訓(検証環境の状態管理は fixture 再生成が正)。
+  (b) 検証プローブの importlib 副産物(__pycache__)が fix commit に混入 → b525d01 で除去。
+- 影響なし予測: 的中(diff は process-core 3 面+台帳系のみ・正常系judgment不変は V1 で確認)。
+
+## 不変条件対応表の更新(ECO-015 対応表への追補)
+
+- **E17(fix→accept 祖先順序・逆行乖離)= E09 として移植済み**(本 ECO)。
+- E14(lifecycle_evidence 宣言・shallow 検査)= 引き続き未移植(据え置き)。
+- 追加: E08(設備自己保護 — ViewPrism2/ViewTube に直接対応物なし・独立検査 REV-01 由来の新規)。
+
+## 教訓(還元候補 — lesson-promote 経由)
+
+- **検証プローブの状態復元は「差分の巻き戻し」でなく「fixture の再生成」で行う** — 検査対象が
+  fail-closed/状態依存であるほど、汚染された状態からの「正しい挙動」が偽の PASS/FAIL を作る
+  (本 ECO V2 で 2 回実測)。
 
 ## 効果測定(宿題)
 

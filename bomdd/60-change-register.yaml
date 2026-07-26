@@ -431,6 +431,7 @@ changes:
     diff_audit:
       baseline: d5f2493  # 起票時 ede85b8 → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-26・案a 採択)
       allowed_paths: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/process-profile.yaml, method/templates/process-core/hooks/]
+      head: "b525d01"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測的中(gate 記録 f278df7/fix 5d4a266/衛生 b525d01)
     summary: >
       独立検査が validator に 8 件の回避経路を実証: profile 部分変異(trailers.accept 削除)で
       E05/E06 無音無効化・設備自己保護の欠如(REV-01 部分)/trailer が git 意味論(最終ブロック)
@@ -441,7 +442,14 @@ changes:
       誤 FAIL(REV-13)。是正= profile スキーマ厳格化+設備自己保護のコード固定+最終 trailer
       ブロック解析+SHA・遷移紐付け照合+E17 移植+台帳厳格化+HEAD 側 E01+複数親合算。
       裁定点= 脱出経路(profile 撤去)の ECO 経由化(案a 推奨)。受入基準は order に事前登録済み。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      V0= selftest 45 項目(REV 対応変異を恒久収載)。V1= 回帰(fresh scaffold IQ/OQ 全 PASS・
+      既存 7 対照判定不変・self-conformance C1〜C11 全 PASS)。V2= 実 commit 経路の新負例
+      9 プローブ(部分変異 exit 2/E08 遮断/案a 監査つき撤去/同一 commit E01/中間段落 E05/
+      事前植込み E06/重複 ID 遮断/逆行 E09/merge 陽性対照)。V3= 決定性(--runs 2 一致)。
+      正直記載= プローブ衛生の失敗 2 回(fixture 再生成で全数再実施・order 参照)+__pycache__
+      混入除去(b525d01)。E17 は E09 として移植済み(ECO-015 対応表へ追補)。
+      accept: 本コミット(詳細は order 参照)。
 
   - id: ECO-017
     title: qualification runner・bomdd-init・C11 の隔離と判定精度(独立検査 REV-05/06/07/11/12 の是正)
