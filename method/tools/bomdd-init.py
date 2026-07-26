@@ -184,17 +184,26 @@ def _copy_lf(src: Path, dst: Path, mode: int | None = None) -> None:
         os.chmod(dst, mode)
 
 
-def install_process_core(root: Path, repl: dict[str, str]) -> bool:
-    """工程設備の設置(ECO-015)。既存の hooks/profile は保持(kit と同じ fail-safe)"""
+CORE_ASSETS = ["bomdd/process-profile.yaml", "bomdd/hooks/pre-commit", "bomdd/hooks/commit-msg",
+               "bomdd/tools/process-validator.py", "bomdd/tools/process-qualification.py"]
+
+
+def install_process_core(root: Path, repl: dict[str, str]) -> str:
+    """工程設備の設置(ECO-015)。三状態判定(ECO-017 REV-07 — ECO-009 #2 の水平展開):
+    新規(全欠落→設置)/ 完全な既存(保持)/ 不完全な既存(FAIL — 黙認は fail-open)"""
+    present = [a for a in CORE_ASSETS if (root / a).exists()]
+    if present and len(present) < len(CORE_ASSETS):
+        missing = [a for a in CORE_ASSETS if a not in present]
+        sys.exit(f"エラー: 工程設備が不完全(存在: {present} / 欠落: {missing})。"
+                 f"復旧するには残骸を削除して再実行するか、欠落分を復元してください"
+                 f"(不完全な設備の黙認は fail-open — ECO-017 REV-07)")
+    if present:
+        print("[process-core] 完全な既存設備を検出 — 保持(動いている工程設備を上書きしない。更新は手動で)")
+        return "complete"
     profile_dst = root / "bomdd" / "process-profile.yaml"
-    hooks_dst = root / "bomdd" / "hooks"
-    if profile_dst.exists() or hooks_dst.exists():
-        print("[process-core] 既存の bomdd/hooks または process-profile.yaml を検出 — 保持"
-              "(動いている工程設備を上書きしない。更新は手動で)")
-        return False
     render(PROCESS_CORE / "process-profile.yaml", profile_dst, repl)
     for h in ["pre-commit", "commit-msg"]:
-        _copy_lf(PROCESS_CORE / "hooks" / h, hooks_dst / h, mode=0o755)
+        _copy_lf(PROCESS_CORE / "hooks" / h, root / "bomdd" / "hooks" / h, mode=0o755)
     for t in ["process-validator.py", "process-qualification.py"]:
         _copy_lf(PROCESS_CORE / "tools" / t, root / "bomdd" / "tools" / t)
     register = root / "bomdd" / "60-change-register.yaml"
@@ -202,7 +211,7 @@ def install_process_core(root: Path, repl: dict[str, str]) -> bool:
         _copy_lf(TEMPLATES / "60-change-register.yaml", register)
         print("[process-core] 変更台帳テンプレを追設しました(60-change-register.yaml — 不在時のみ)")
     print("[process-core] 工程設備を設置しました(hooks×2+validator+qualification runner)")
-    return True
+    return "fresh"
 
 
 def run_qualification(root: Path) -> bool:
@@ -297,14 +306,16 @@ def main() -> int:
             render(PROFILE / "skills" / f"{skill}.md",
                    root / ".claude" / "skills" / skill / "SKILL.md", repl)
         install_agents(root, "AGENTS.product.md", repl, selected)
-        fresh_core = install_process_core(root, repl)
+        install_process_core(root, repl)  # 不完全な既存設備は内部で FAIL(ECO-017 REV-07)
         install_kit(root, repl["DATE"], selected)
-        if fresh_core and (root / ".git").exists():
+        if (root / ".git").exists():
+            # fresh/既存を問わず hooksPath 未設定なら設定し、qualification を実行する
+            # (既存設備の現在の健全性も測る — ECO-017 REV-07)
             if not git(root, "config", "--get", "core.hooksPath"):
                 git(root, "config", "core.hooksPath", "bomdd/hooks")
                 print("[process-core] core.hooksPath=bomdd/hooks を設定しました")
             if not args.no_qualify:
-                print("[process-core] 初回 IQ/OQ を実行します …")
+                print("[process-core] IQ/OQ を実行します …")
                 if not run_qualification(root):
                     print("エラー: line readiness 不合格 — 上記 FAIL を解消するまで製造を開始しない",
                           file=sys.stderr)
@@ -353,6 +364,13 @@ def main() -> int:
             ok = ok and git(repo, "add", "-A") and git(
                 repo, "commit", "-m", f"bomdd-init: scaffold ({date.today().isoformat()})")
             committed.append((repo.name, ok))
+            if repo == product_root and not ok:
+                # ECO-017 REV-06: 製品リポの git 経路失敗は致命 — 「[git] 失敗のまま line ready
+                # PASS・exit 0」の不整合を作らない。git なし環境は --no-git を明示する
+                print(f"エラー: {repo.name} の git init/config/add/初回 commit に失敗しました。"
+                      "git 設定(user.name/user.email 等)を確認するか、--no-git を明示してください"
+                      "(fail-closed — ECO-017 REV-06)", file=sys.stderr)
+                return 1
 
     qualified: bool | None = None
     if not args.no_git and not args.no_qualify:

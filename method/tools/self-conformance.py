@@ -235,15 +235,30 @@ def c11_process_core() -> None:
         runner = prod / "bomdd" / "tools" / "process-qualification.py"
         # scaffold の初回 commit が hook 有効のまま成立していること(bomdd-init 経路の実測)
         head_ok = run(["git", "-C", str(prod), "rev-parse", "HEAD"]).returncode == 0
-        q = run([sys.executable, str(runner), "--root", str(prod), "--runs", "1"])
-        ok1 = q.returncode == 0
-        # 変異: hooksPath 無効化 → IQ-03 が検出(ファイル存在を有効化の証拠にしない)
+        # ECO-017 REV-11: 2 回決定性を C11 でも回帰固定(--runs 既定 2)+構造化 JSON 判定
+        j1 = tmp / "q1.json"
+        q = run([sys.executable, str(runner), "--root", str(prod), "--json", str(j1)])
+        ok1, det_ok = q.returncode == 0, False
+        try:
+            r1 = json.loads(j1.read_text(encoding="utf-8"))
+            det_ok = r1.get("runs_identical") is True and r1.get("disposition") == "PASS"
+        except (OSError, json.JSONDecodeError):
+            ok1 = False
+        # 変異: hooksPath 無効化 → 構造化結果で IQ-03 自身の pass==false を確認(文字列一致の廃止)
         run(["git", "-C", str(prod), "config", "--unset", "core.hooksPath"])
-        q2 = run([sys.executable, str(runner), "--root", str(prod), "--mode", "iq", "--runs", "1"])
-        ok2 = q2.returncode != 0 and "IQ-03" in (q2.stdout + q2.stderr)
-        check("C11", head_ok and ok1 and ok2,
+        j2 = tmp / "q2.json"
+        q2 = run([sys.executable, str(runner), "--root", str(prod), "--mode", "iq", "--runs", "1",
+                  "--json", str(j2)])
+        ok2 = False
+        try:
+            r2 = json.loads(j2.read_text(encoding="utf-8"))
+            iq3 = [r for r in r2.get("iq", []) if r.get("control") == "IQ-03"]
+            ok2 = q2.returncode != 0 and bool(iq3) and iq3[0].get("pass") is False
+        except (OSError, json.JSONDecodeError):
+            pass
+        check("C11", head_ok and ok1 and det_ok and ok2,
               f"process-core 適格性(初回 commit hook 有効={head_ok}・IQ/OQ PASS={ok1}・"
-              f"変異〔hooksPath 無効〕IQ-03 検出={ok2})"
+              f"2 回決定性={det_ok}・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定={ok2})"
               + ("" if ok1 else f" — {q.stdout.strip().splitlines()[-1:] or q.stderr.strip()[:120]}"))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
