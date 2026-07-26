@@ -3,7 +3,10 @@
 # 台帳の状態遷移コミットに lifecycle trailer(BomDD-ECO-Fix / BomDD-ECO-Accept)を要求する。
 root=$(git rev-parse --show-toplevel) || exit 1
 profile="$root/bomdd/process-profile.yaml"
-[ -f "$profile" ] || exit 0
+if [ ! -f "$profile" ]; then
+  # ECO-016 案a: HEAD に profile が実在するなら削除中も検査を継続(撤去も ECO 経由)
+  git cat-file -e HEAD:bomdd/process-profile.yaml 2>/dev/null || exit 0
+fi
 v="$root/bomdd/tools/process-validator.py"
 py=""
 for c in python3 python; do

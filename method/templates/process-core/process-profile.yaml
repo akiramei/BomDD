@@ -1,10 +1,14 @@
-# bomdd/process-profile.yaml — process-core 運用プロファイル(harness ECO-015)
+# bomdd/process-profile.yaml — process-core 運用プロファイル(harness ECO-015・ECO-016)
 #
 # 本ファイルの存在が「このリポは process-core(hooks+lifecycle validator)の管理下」の宣言。
-# 撤去すれば無効化される(pre-commit は profile 不在なら素通し — 脱出経路の明示)。
+# 撤去(無効化)も **ECO 経由**で行う(ECO-016 案a — HEAD に本ファイルが実在する限り、
+# 削除・改変は open ECO を要求する E08 自己保護の対象。武装解除も変更管理の対象)。
+# 本ファイル・bomdd/hooks/・bomdd/tools/process-validator.py 等は profile の設定に依存しない
+# **コード固定の自己保護パス**(部分変異による無音無効化は validator が exit 2 で遮断)。
 # 差分(パス・語彙・trailer 名)はここで注入し、不変条件は validator のコードに固定する
 # (adapt を自由な再設計にしない — process reuse map の規律。出典= ViewPrism2 E14〜E19 /
-#  ViewTube PR-LIFECYCLE-VALIDATOR・FINDINGS §11.5)。
+#  ViewTube PR-LIFECYCLE-VALIDATOR・FINDINGS §11.5・独立検査 REV-01〜13)。
+# 台帳の placeholder は title「<一行要約>」完全一致のみ検査対象外(sentinel)。
 bomdd:
   layer: ProcessProfile
   product: "{{PRODUCT}}"

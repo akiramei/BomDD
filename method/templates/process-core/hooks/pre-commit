@@ -5,7 +5,11 @@
 # (設備喪失は停止が正。無効化するには bomdd/process-profile.yaml を撤去する)。
 root=$(git rev-parse --show-toplevel) || exit 1
 profile="$root/bomdd/process-profile.yaml"
-[ -f "$profile" ] || exit 0
+if [ ! -f "$profile" ]; then
+  # ECO-016 案a: profile が作業ツリーに無くても HEAD に実在するなら検査を継続する
+  # (削除 commit 自身を素通しさせない — 撤去も ECO 経由。HEAD にも無ければ管理外)
+  git cat-file -e HEAD:bomdd/process-profile.yaml 2>/dev/null || exit 0
+fi
 v="$root/bomdd/tools/process-validator.py"
 # python3 → python の順で「実際に実行できる」個体を選ぶ(Windows のストアスタブ
 # python3.exe は command -v に載るが実行できない — 実行検査で弾く)
