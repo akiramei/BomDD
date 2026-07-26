@@ -504,6 +504,7 @@ changes:
     diff_audit:
       baseline: b671571  # 起票時 1bb1b39 → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-26・裁定 4 点は推奨採択)
       allowed_paths: [method/templates/process-core/]
+      head: "6a33d62"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測は粒度差を正直記載(commit-msg は変更不要だった)
     summary: >
       再独立検査が high 3 件を実証(いずれも実プローブで再現): (1) enforcer hook 自身の削除で
       E08 が発動しない — pre-commit が消えれば pre-commit は走らず、commit-msg は equipment を
@@ -516,4 +517,14 @@ changes:
       設備完全性検査(E10)+ enforcement profile の HEAD 優先 + commit-msg の検査範囲拡大。
       到達目標は「改竄が機械検出可能であること」— 残余の限界(両 hook 削除かつ validate 未実行)は
       order に明記。裁定 4 点(replay の cutoff・reason code・commit-msg 範囲・性能)は gate ① で。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      V0= selftest 49 項目(既存 45+ECO-018 の 4)。V1= fresh scaffold の full qualification
+      **24 対照全 PASS**(IQ-01〜07・POS・POS2・N1〜N14・DET 2 回一致・所要 89s)— 既存 16 対照の
+      判定は不変。V2= 再検査の再現条件を直接プローブし **NEW-01/02/03 とも閉鎖を実測**
+      (hook 削除→E08 遮断 / 両 hook 削除→validate が E10 / 自己再定義→E01+E08 遮断 /
+      born-applied バイパス→history:<sha> つき E02+E06)。V3= self-conformance 全 PASS
+      (79s→119s の増分を実測記録)。V4= POS2 で導入前履歴の誤 FAIL なし。正直記載=
+      (a) hooks/commit-msg は affected_refs に挙げたが変更不要だった(影響予測の粒度が粗かった)
+      (b) 検査対象集合の二重定義(ASSETS と CORE_EQUIPMENT)を実装中に発見し是正。
+      残余の限界(両 hook 削除かつ validate 未実行)は order の完了判定に明記。
+      accept: 本コミット(詳細は order 参照)。

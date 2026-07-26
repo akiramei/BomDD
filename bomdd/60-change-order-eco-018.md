@@ -1,6 +1,6 @@
 # ECO-018 — 強制層の自己保護と履歴合法性の二層化(再独立検査 NEW high 3 件の是正)
 
-> 状態: **implemented(2026-07-26)**。gate ①(製造承認)通過 → 製造中。
+> 状態: **verified(2026-07-26)**。fix= 6a33d62・検証 V0〜V4 全 PASS・窓は accept で閉鎖。
 
 ## 裁定(gate ① — 2026-07-26)
 
@@ -127,7 +127,66 @@
   次 ECO または rule of three 待ち(NEW-06 は誤 FAIL 方向のため優先度は medium 内で最上位と記録)。
 - 本リポ(BomDD harness)自身への process-core 自己適用
 
+## 是正(2026-07-26・fix= 6a33d62)
+
+1. **第 2 層の核= 履歴合法性の再演**(`scan_history`): 導入点(cutoff)以降の**台帳変更 commit
+   限定**で `transition_issues(親合算, 当該 commit)` を再計算し、違法遷移を
+   `[E02]/[E03] … history:<sha>` として報告。**合法遷移のみを E06 証拠に採用**(違法遷移で植えた
+   trailer は不採用・note を表示)。走査は単一パス+台帳キャッシュ(親・trailer 走査と共有)。
+2. **cutoff**(裁定 1): profile を最初に追加した commit を自動検出・profile の
+   `history_replay_since` で上書き可。**証拠要求(E06/E09)の適用範囲も同じ境界**で、replay 範囲内で
+   初出した cid のみ対象(gate ① 設計確定)。走査範囲は `[scope]` 行で毎回表示する。
+3. **profile の HEAD 優先**(NEW-02): 全モードで HEAD 版を正とし、作業ツリー版と差異があれば
+   note を出す。HEAD に profile が無い場合のみ作業ツリー版(初回設置・案a の撤去中)。
+4. **commit-msg の検査範囲拡大**(裁定 3・NEW-01a): pre-commit と同じ protected/equipment 検査を
+   commit-msg でも実行(片方の hook 削除に対する冗長性)。
+5. **E10 設備完全性**(NEW-01b): HEAD に profile が実在するのに CORE_EQUIPMENT が欠落していれば
+   validate が FAIL。`core.hooksPath` は含めない(未版数の local config — fresh clone で誤 FAIL
+   するため。有効化の判定は IQ-03 の職掌 — 理由をコードに注記)。
+6. 負例 **N9〜N14**+誤 FAIL 方向の **POS2** を qualification へ恒久収載(Sandbox に
+   `defer_equipment`/`install_equipment` を追加し「後から導入したリポ」を再現可能に)。
+
+## 検証(2026-07-26・受入基準=起票時凍結分)
+
+- **V0(selftest)**: 49 項目全 PASS(既存 45+ECO-018 の 4= transition_issues の構造・E10 の
+  検出/未設置対象外/一式充足)。
+- **V1(陽性対照・負例・決定性)**: fresh scaffold の full qualification **24 対照すべて PASS**
+  — IQ-01〜07・POS・**POS2**・N1〜N14・DET(2 回一致)。所要 89s(--runs 2)。
+  既存 16 対照の判定は不変(回帰)。
+- **V2(再検査の再現条件を直接プローブ)**: NEW-01=`git rm bomdd/hooks/pre-commit` →
+  **E08 で遮断**(commit_rc=1)/ NEW-01b= 両 hook 削除+--no-verify → **validate が E10 検出**
+  (欠落 2 件を列挙)/ NEW-02= 同一 commit で `open_states` 書換え+保護変更 →
+  **E01+E08 で遮断** / NEW-03= --no-verify born-applied+同 commit trailer →
+  **`[E02] … history:5e82b9e95` と `[E06]` を検出**(validate_rc=1)。**3 件とも閉鎖**。
+- **V3(回帰)**: self-conformance 全 PASS(C1〜C11)。所要 79s → **119s**(+40s — 負例 8 件増と
+  履歴再演の分。受入どおり実測を記録・CI 許容と判断)。
+- **V4(誤 FAIL 方向)**: POS2 — 導入前に台帳へ born-applied を記録したリポへ後から設備を設置 →
+  validate PASS(再演も証拠要求も導入点で区切られる)。裁定 1 と設計確定の効果を実測。
+- **正直記載**: (a) `hooks/commit-msg` は affected_refs に挙げたが**変更不要だった** — 検査範囲の
+  拡大は validator 側の分岐で実現し、hook スクリプトは既に `--mode commit-msg` を渡していた
+  (影響予測の粒度が実際より粗かった・diff は 3 ファイル)。(b) `ASSETS` に
+  process-qualification.py を追加 — E10 の CORE_EQUIPMENT に含めた結果、sandbox が不完全設備
+  扱いになる不整合を実装中に発見し是正(検査対象の集合定義が 2 箇所にあった)。
+
+## 残余の限界(完了判定に残す — 意図的)
+
+両 hook を削除し、かつ validate/CI を一度も実行しない運用では即時検出されない。これは信頼境界の
+外(意図的な内部者)であり、本 ECO の到達目標は「**改竄が機械検出可能な記録として残ること**」まで。
+第 2 層を実際に走らせる責任は運用側(CI 常設・release gate)にある。
+
+## 教訓(還元候補 — lesson-promote 経由)
+
+- **強制層は自分自身を守れない — 防止の完全化でなく検出可能性の二層化で解く**: worktree 実体に
+  依存する enforcement(hook・設定ファイル)は実体を消されれば起動しない。第 2 層(履歴の
+  再演・設備完全性)を置くと、回避は「成功」ではなく「機械検出可能な記録」に変わる。
+- **規則を読む地点は「規則が確定した地点」に固定する**: enforcement が index/worktree の規則を
+  読むと、同一 commit で規則を書き換えて自身を通せる(自己再定義)。HEAD 側=既に合意された
+  規則で判定する(E01 の HEAD 側判定と同型 — 対象が台帳から規則へ広がった)。
+- **後から導入する工程設備は「導入点」を機械が持つ**: 遡及適用すると導入前の履歴が全件違反に
+  なり誤 FAIL で運用不能になる。導入点は自動検出+明示宣言の二経路、かつ**検査の適用範囲
+  (再演だけでなく証拠要求も)を同じ境界で切る**。
+
 ## 効果測定(宿題)
 
 - 再独立検査で NEW-01/02/03 が CLOSED になるか(通算 20 提起の閉鎖率)
-- 「hook 回避は第 2 層で検出可能」の命題が実測で成立するか(N9/N13 が主証拠)
+- 「hook 回避は第 2 層で検出可能」の命題が実測で成立するか(N9/N13 が主証拠 — V1/V2 で初回実測)
