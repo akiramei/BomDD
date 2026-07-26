@@ -549,7 +549,7 @@ changes:
     affected_refs: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/tools/process-qualification.py, method/templates/process-core/process-profile.yaml]
     no_impact_prediction: "(製造前)上記 3 参照以外 diff ゼロ予測。新規 scaffold の判定は不変(全遷移が cutoff 以降のため要求単位の変更が効かない)。意図的変更 3 点= (i) 後から導入したリポで導入後の遷移に証拠が要る (ii) merge の証拠採用が厳格化(正規 merge の誤 FAIL なしを POS4 で確認) (iii) validate 所要増(保護パス走査)。既存製品リポへは kit 再設置まで非波及"
     diff_audit:
-      baseline: 81a95c4  # 起票時 HEAD(製造承認時に是正窓直前へ更新する)
+      baseline: f8cab0b  # 起票時 81a95c4 → 是正開始直前(教訓還元の織り込み)へ更新(製造承認 2026-07-27・裁定 4 点は推奨採択)
       allowed_paths: [method/templates/process-core/]
     summary: >
       再々独立検査の在庫可能分 4 件を是正する: (1) IA-05= 同一走査内の基準不一致 — 再演は親合算・

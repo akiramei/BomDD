@@ -1,6 +1,23 @@
 # ECO-019 — 第 2 層の基準統一・証拠要求単位の是正・設備無力化と保護パスの履歴検査(再々独立検査の在庫可能分)
 
-> 状態: **filed(2026-07-27)**。製造前 — gate ①(製造承認+設計裁定 4 点)待ち。
+> 状態: **implemented(2026-07-27)**。gate ①(製造承認)通過 → 製造中。
+
+## 裁定(gate ① — 2026-07-27)
+
+- **製造承認(2026-07-27・maintainer — 「ECO-019 の製造に入って」= 推奨 4 点の一括採択)**。
+  baseline を是正開始直前 f8cab0b(教訓還元の織り込みコミット)へ更新。
+- 裁定 4 点は**すべて推奨案を採択**: ①E06/E09 の要求単位を「cutoff 以降に発生した遷移」へ
+  ②証拠採用を replay 範囲に限定 ③hook 内容検査は **E11 新設** ④保護パス履歴検査は E01 再利用+
+  `history:<sha>`・rev-list で絞る。
+- **製造中の設計確定(理由記録)**:
+  1. **replay の列挙に `--full-history` を使う** — 既定の履歴簡略化は「片親と TREESAME な merge」を
+     省略するため、**merge が親合算に対して持ち込む後退**を再演が取りこぼす。fail-closed 方向へ
+     倒す(所要増は受入で実測)。
+  2. **保護パス履歴検査の範囲は `cutoff..HEAD`(cutoff を含まない)** — 導入 commit 自体が既存
+     `src/` を含む場合に誤 FAIL しないため(台帳再演は `cutoff^..HEAD` で cutoff を含む — 新規
+     scaffold では cutoff が台帳を新設するため必要。**面ごとに境界の端点が違う理由を記録する**)。
+  3. **hook 判定の単一実装は validator 側に置く** — qualification は importlib で validator を
+     ロード済みのため、その関数を参照する(契約の二重定義を作らない= silence §16(e) の自己適用)。
 > 出典: ECO-018 再々独立検査(transfer-04 様式・Codex gpt-5.6-sol・REJECT)—
 > bomdd/reports/independent-reinspection-eco-018.md(真正判定 全件 CONFIRMED・実プローブ 4)。
 > 本 ECO は**在庫可能な機械的欠陥**を是正する。IA-02/IA-03 は是正せず**境界として文書化**する
