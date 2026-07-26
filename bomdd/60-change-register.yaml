@@ -502,7 +502,7 @@ changes:
     affected_refs: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/hooks/commit-msg, method/templates/process-core/tools/process-qualification.py, method/templates/process-core/process-profile.yaml]
     no_impact_prediction: "(製造前)上記 4 参照以外 diff ゼロ予測。正規経路(起票→是正→accept)の第 1 層判定は不変 — 変わるのは (i) profile 変更が次 commit から効く(同一 commit 自己適用の禁止)(ii) validate 所要が台帳変更 commit 数に比例(実測を受入に含む)。既存製品リポへは kit 再設置まで非波及。本リポ自身は process-core 未設置のため自己適用の影響なし"
     diff_audit:
-      baseline: 1bb1b39  # 起票時 HEAD(製造承認時に是正窓直前へ更新する)
+      baseline: b671571  # 起票時 1bb1b39 → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-26・裁定 4 点は推奨採択)
       allowed_paths: [method/templates/process-core/]
     summary: >
       再独立検査が high 3 件を実証(いずれも実プローブで再現): (1) enforcer hook 自身の削除で

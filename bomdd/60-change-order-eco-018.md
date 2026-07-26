@@ -1,6 +1,24 @@
 # ECO-018 — 強制層の自己保護と履歴合法性の二層化(再独立検査 NEW high 3 件の是正)
 
-> 状態: **filed(2026-07-26)**。製造前 — gate ①(製造承認+設計裁定 4 点)待ち。
+> 状態: **implemented(2026-07-26)**。gate ①(製造承認)通過 → 製造中。
+
+## 裁定(gate ① — 2026-07-26)
+
+- **製造承認(2026-07-26・maintainer — 「OK. 製造に入って」= 推奨 4 点の一括採択)**。
+  baseline を起票コミット b671571(是正開始直前)へ更新。
+- 裁定 4 点は**すべて推奨案を採択**:
+  1. replay の cutoff= **profile 追加 commit の自動検出**+ profile の `history_replay_since` で
+     上書き可(導入前履歴を違法にしない)
+  2. 履歴違反の reason code= **既存 E02/E03 を再利用**し `history:<sha>` を文脈に付す
+  3. commit-msg の検査範囲= **equipment+protected の両方**(単一 hook 削除への冗長性)
+  4. 性能= 台帳変更 commit 限定・上限なし(所要を受入で実測)
+- **製造中の設計確定(裁定 1 の帰結として必要になった追加規則・理由記録)**:
+  **証拠要求(E06/E09)の適用範囲も導入点で区切る** — 導入点より前から台帳に存在した ECO は
+  trailer 証拠を要求しない(導入前の履歴には trailer 規約が存在しなかったため)。判定は
+  「replay 範囲内で初出した cid か」で機械決定する。これがないと、process-core を後から導入した
+  リポの既存 applied エントリが全件 E06 で誤 FAIL する(裁定 1「導入前履歴を止めない」と同じ
+  趣旨の、証拠面への適用)。新規 scaffold では cutoff= root commit のため全エントリが対象
+  (既存挙動は不変)。
 > 出典: ECO-016/017 合同再独立検査(transfer-04 様式・Codex gpt-5.6-sol・REJECT)—
 > bomdd/reports/independent-reinspection-eco-016-017.md(真正判定 7/7 CONFIRMED・実プローブ 3)。
 > 本 ECO は high 3 件(NEW-ECO01617-01/02/03)を是正する。medium 4 件はスコープ外(後述)。
