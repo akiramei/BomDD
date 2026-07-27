@@ -24,4 +24,20 @@
 
 ---
 
-(以下、実セッションを追記)
+## 2026-07-27-01(初回オープン — 設置確認・実機)
+
+- 目的: vault として開けるか+開いた直後に Obsidian が何を書き換えるかの確認(README 規則 3 の初回実測)
+- 経路: ファイルツリーのみ(探索セッションではない)
+- 到達: 該当なし(設置確認)。ツリーにフォルダ+ルート md 4 件を表示。tmp/ output/ plm-out/ は
+  エクスプローラには出る(`userIgnoreFilters` が効くのは検索・グラフのみ — 仕様どおり・許容)
+- 不足: なし(未探索)
+- 逸脱: **正本への書き換え 0 件**。書き換えは `.obsidian/` 内 2 ファイルのみ —
+  ①追跡 2 ファイルの末尾改行を除去(Obsidian の書式) ②`core-plugins.json` へ既定キー 4 件を
+  マージ(footnotes / slash-command / webviewer = false、**bases = true**)。
+  `appearance.json` / `workspace.json` が生成されたが .gitignore どおり未追跡
+- 対応(規則 5: 設定変更の diff+理由): **`bases` を false へ変更** — bases は .base ファイルを
+  生成する read-model 機能(性格は Dataview と同じ)で、既定 on のままだと測定③
+  (read-model への欲求を記録で取る)が濁る。生成系 core plugin off の方針とも整合。
+  欲しくなったらその欲求を本ログへ記録する(規則 4 と同じ扱い)。
+  末尾改行なしは Obsidian の正規形として受け入れ、追跡ファイルはその書式で固定
+  (逆らうと開くたびに diff ノイズが出る)。**設定を反映するには Obsidian の再起動が必要**
