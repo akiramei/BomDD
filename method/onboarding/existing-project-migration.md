@@ -225,6 +225,8 @@ Create Control Plan characteristics and link test evidence from As-Built.
 - stop finding が 0。
 - unresolved question は blocker / non-blocker に分類されている。
 - 既存実装の As-Built seed がある。
+- 工程設備について、`ai-onboarding-pack.md` §11 の **line readiness** 判定が実測で完了している
+  こと(装置・操作対象・起動経路・結果観測経路)。存在確認だけでは合格としない。
 - 次の実装変更は Phase 7 の変更/是正オーダーとして開始できる。
 
 ## 12. シナリオ専用の後続手順

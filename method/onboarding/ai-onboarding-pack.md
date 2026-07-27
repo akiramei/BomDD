@@ -224,9 +224,18 @@ donor リポで成熟した工程設備(入口・ECO lifecycle・hooks・validat
 1. 入口(AGENTS 等)から全 workflow へ到達可能
 2. lifecycle validator が稼働する(self-test 含む — 0 件表示は稼働の証拠ではない)
 3. hook が実際の commit 経路で起動する(ファイルの存在でなく `core.hooksPath` と負例の実測)
-4. 変更台帳(register)が存在し validator が厳格に読める — **装置だけでは設置未完了**。
-   設置の合格判定は〈装置・操作対象(台帳)・結線(入口/hooksPath)〉の三点(ECO-015 IQ-06 の実測:
-   既存リポへの追設で台帳不在のまま「設置済み」になる構成を IQ が正しく止めた)
+4. 変更台帳(register)が存在し validator が厳格に読める — **装置だけでは設置未完了**
+5. **結果を確認する経路がある** — 非同期・遠隔で動く検査(CI 等)は、結果が生成されるだけでなく、
+   判定を閉じる前に判断者が結論を取得・確認する手順まで決まっていること。**実行されていることは、
+   観測されていることを意味しない**
+
+設置の合格判定は、概念上は〈装置・操作対象・結線〉の三要素で構成される。ただし結線には、**起動**
+(装置が実際に実行される経路)と**帰還/結果観測**(結果が判定前に判断者の入力となる経路)の
+二方向がある。検査上は〈装置・操作対象・起動経路・結果観測経路〉の四条件を実測し、存在確認だけでは
+「設置済み」としない。
+
+実測根拠: improvements.md OBS-20260726-02(ViewTube guide §6・harness ECO-015・harness ECO-020)。
+詳細は FINDINGS.md §11.6 を参照。
 
 完全様式(process reuse map / process BOM / IQ・OQ・PQ / First Article)は knowledge 参照:
 ViewTube `bomdd/process/mature-process-bootstrap-guide.md`(実物一式・2026-07-25)。標準成果物化は
