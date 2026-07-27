@@ -20,7 +20,8 @@
 | `{{PRODUCT}}` | 製品: `bomdd/` 台帳+src+tests | ECO の実行と記録(本書の主対象) |
 
 原則は一方向: **裁定・設計は CAD へ、実行・記録は製品へ、手順の改善は方法論へ**。
-乖離時の権威は常に CAD(`../{{CAD}}/docs/02_mock_fidelity_policy.md`)。
+乖離時の権威: **製品の裁定台帳の個別裁定が最優先**(裁定は既定に優先する — ECO-023)。
+未裁定の面は fidelity policy(`../{{CAD}}/docs/02_mock_fidelity_policy.md`)の既定に従う。
 
 ## 2. 共通規律(全シナリオ共通・違反は cheat 扱い)
 

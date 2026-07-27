@@ -1,7 +1,48 @@
 # ECO-023 — --skills-only 設置経路が空ポインタ入口を作る(参照と被参照の設置単位分離+参照実在の検査ゼロ面)
 
-> 状態: **filed(2026-07-27)**。gate ①(製造承認+裁定 3 点)待ち。
+> 状態: **製造完了・検証済み(2026-07-27)**。gate ① 承認(裁定 3 点は推奨採択)・
+> baseline= 起票コミット 540d59e。
 > 発見経緯: MoviePad 初製造 ECO-001(R3 送付 — 製品側は是正済み・本 ECO は harness 側の根治)。
+
+## 裁定(gate ① — 2026-07-27)
+
+**製造承認(maintainer — 「製造承認します、裁定 3 点は推奨どおりで」)**: ①不在正本は
+**設置**(不在時のみ・既存保持)②**IQ-08 追加**(受入で既定/adapt 両 profile の全対照回帰を
+再実行)③MoviePad への**遡及不要**(IQ-08 適用の再適格性確認のみ — 正本治具の直接実行で行い、
+設置物は書き換えない)。
+
+## 是正(2026-07-27)
+
+1. **不在正本の設置**: --skills-only が `CLAUDE.md`・`bomdd/change-management.md` を
+   **不在時のみ** render(既存テンプレ流用 — 新規テンプレ作成は不要だった。既存は保持)。
+2. **CAD 参照の実在検査**: `cad_ref()` を新設 — CAD リポが実在すれば md リンク+裁定優先の
+   方針文・実在しなければ「**未登録** — 設置後に記入」の明示プレースホルダ+設置ログ警告
+   (既定名 `<name>UI` を実在確認なしに書かない)。scaffold 経路も同関数を共有
+   (`{{CAD_REF}}` 変数化 — 単一解釈関数)。
+3. **権威方針の中立化(6 テンプレ)**: 「乖離時は常に CAD が正」の断定を
+   「**製品の裁定台帳の個別裁定が最優先** — 未裁定の面は fidelity policy の既定に従う」へ
+   (AGENTS.product / CLAUDE.product / change-management / AGENTS.cad / CLAUDE.cad /
+   02_mock_fidelity_policy §P2)。スコープ注記: skills 内(eco-file の診断分岐等)の CAD 前提
+   記述は入口でないため今回対象外 — 観測として還元へ。
+4. **IQ-08 新設**: 入口(AGENTS.md)の相対 markdown リンク全数の実在検査。AGENTS.md 不在も
+   FAIL。対象は機械判定可能な md リンクのみ(散文中のパス文字列は契約にしない)。
+
+## 検証(2026-07-27・受入基準=起票時凍結分)
+
+- **V1(陽性対照)**: CAD・CLAUDE.md・change-management.md を持たない既存リポへ
+  --skills-only 設置 → 警告発火+不在時設置 2 件+CAD 参照は「未登録」プレースホルダ
+  (空ポインタ 0)+**IQ-08 PASS(相対リンク 11 件すべて実在)**+line ready。
+- **V2(負例)**: 設置後に `bomdd/change-management.md` を削除 → **IQ-08 FAIL
+  (参照不在 1 件を明示)・「製造を開始しない」**(無音 PASS しない)。
+- **V3(回帰・scaffold)**: fresh GUI scaffold(CAD リポ同時生成)→ IQ-08 相対リンク 12 件
+  すべて実在・qualification 全 PASS。
+- **V4(既存保持)**: 再実行で AGENTS.md/CLAUDE.md/change-management.md/設備/kit の
+  5 面すべて「既存のため保持」。
+- **MoviePad 再適格(裁定 3)**: 正本治具の直接実行(設置物は不変)で IQ-08 = 相対リンク
+  15 件すべて実在・OQ-00 probe=Controls/・**PASS — line ready**(adapt profile の全対照回帰を
+  兼ねる)。
+- self-conformance 全 PASS(C4= scaffold 参照実在の回帰・C11= IQ-08 を含む scaffold 適格性)。
+- CI 緑は push 後に実測(accept 節へ記録)。
 
 ## 起票(2026-07-27)
 

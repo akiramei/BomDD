@@ -12,6 +12,8 @@ IQ(Installation Qualification)— 対象リポの実測:
   IQ-06 台帳が厳格パースする
   IQ-07 HEAD が実在する(REV-06。worktree の clean は観測記録のみ — 設置直後の適格性確認は
         未コミットで走る正当経路がある: gate ① 裁定 1)
+  IQ-08 入口(AGENTS.md)の相対 markdown リンク全数が実在する(ECO-023 — 空ポインタ入口は
+        line ready でない。AGENTS.md 不在も FAIL)
 
 OQ(Operational Qualification)— 使い捨て sandbox リポで実 commit 経路を実測:
   OQ-00    保護パスプローブを installed profile から導出(ECO-021 — 既定値のハードコード禁止。
@@ -174,6 +176,23 @@ def run_iq(root: Path) -> list[dict]:
                       f"HEAD={'あり' if head_ok else 'なし'}・worktree="
                       + ("dirty(観測記録 — 設置直後の適格性確認は正当経路のため FAIL にしない)"
                          if dirty else "clean")))
+
+    # IQ-08(ECO-023): 入口(AGENTS.md)の相対参照 全数の実在 — 「入口から到達可能」は
+    # 参照実在を含む(空ポインタ入口は line ready でない)。markdown リンクのみを対象にする
+    # (機械判定可能な形の参照だけを契約とする — 散文中のパス文字列は対象外)。
+    agents = root / "AGENTS.md"
+    if not agents.is_file():
+        res.append(result("IQ-08", "入口参照の実在(AGENTS.md)", False,
+                          "AGENTS.md がない(入口不在 — 設置検査の対象)"))
+    else:
+        import re as _re
+        links = _re.findall(r"\]\(([^)]+)\)", agents.read_text(encoding="utf-8"))
+        rels = [l.split("#")[0] for l in links
+                if not l.startswith(("http://", "https://", "#")) and l.split("#")[0]]
+        missing = sorted({l for l in rels if not (root / l).exists()})
+        res.append(result("IQ-08", "入口参照の実在(AGENTS.md)", not missing,
+                          f"相対リンク {len(rels)} 件すべて実在" if not missing
+                          else f"参照不在 {len(missing)} 件: {missing[:5]}"))
     return res
 
 

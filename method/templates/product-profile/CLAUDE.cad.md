@@ -6,7 +6,8 @@
 ## 役割と規律
 
 - **権威**: 製品 UI の適合はモック+本リポの screens 文書を基準に測る。実装と乖離したら
-  **常に CAD が正**([docs/02_mock_fidelity_policy.md](docs/02_mock_fidelity_policy.md))。
+  CAD が正([docs/02_mock_fidelity_policy.md](docs/02_mock_fidelity_policy.md))—
+  **ただし製品の裁定台帳の個別裁定が優先**(ECO-023)。
   CAD 側を直す(意図的 mock 是正)場合は必ず裁定記録を残す。
 - **裁定台帳**: 未確定事項と決定は [docs/review_points.md](docs/review_points.md)。
   複数選択肢の比較が要る裁定は `docs/decisions/` に裁定資料(事実表+選択肢+diff 規模+推奨)を

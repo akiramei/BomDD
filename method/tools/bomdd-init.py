@@ -49,6 +49,20 @@ SKILLS = ["bomdd-next", "eco-file", "eco-fix", "eco-accept", "sec-advisory",
           "bomdd-refmodel", "bomdd-mock-lint", "bomdd-ui-cad"]
 
 
+def cad_ref(cad_name: str, cad_exists: bool, is_gui: bool = True) -> str:
+    """入口文書の CAD 参照文(ECO-023)。実在しない既定名を仮定して書かない。
+    権威方針は断定でなく裁定優先(製品の裁定台帳の個別裁定 > fidelity policy の既定)。"""
+    if not is_gui:
+        return "UI/UX 設計原器(CAD): なし(GUI 非対象)"
+    if cad_exists:
+        return (f"UI/UX 設計原器(CAD): [`../{cad_name}`](../{cad_name}/) — 乖離解決は"
+                f"**製品の裁定台帳の個別裁定が最優先**。未裁定の面は fidelity policy"
+                f"(`../{cad_name}/docs/02_mock_fidelity_policy.md`)の既定に従う")
+    return ("UI/UX 設計原器(CAD): **未登録** — 正典の所在(リポ内 `bomdd/ui/` または別リポ)を"
+            "設置後に記入する(bomdd-init は実在しない既定名を仮定しない — ECO-023)。"
+            "乖離解決の優先方針は製品の裁定台帳に従う")
+
+
 def render(src: Path, dst: Path, repl: dict[str, str]) -> None:
     text = src.read_text(encoding="utf-8")
     for key, val in repl.items():
@@ -300,12 +314,28 @@ def main() -> int:
         if unknown:
             print(f"エラー: 未知のスキル: {unknown}(候補: {SKILLS})", file=sys.stderr)
             return 1
-        repl = {"PRODUCT": args.name, "CAD": args.cad_name or f"{args.name}UI",
+        so_cad = args.cad_name or f"{args.name}UI"
+        so_cad_exists = (root.parent / so_cad).is_dir()
+        repl = {"PRODUCT": args.name, "CAD": so_cad,
+                "CAD_REF": cad_ref(so_cad, so_cad_exists),
                 "METHOD": KIT_DIRNAME, "DATE": date.today().isoformat()}
+        if not so_cad_exists:
+            print(f"[agents] 警告: CAD リポ ../{so_cad} が実在しない — 入口の CAD 参照は"
+                  f"「未登録(設置後に記入)」で設置します(ECO-023)")
         for skill in selected:
             render(PROFILE / "skills" / f"{skill}.md",
                    root / ".claude" / "skills" / skill / "SKILL.md", repl)
         install_agents(root, "AGENTS.product.md", repl, selected)
+        # ECO-023: 入口が参照する正本を不在時のみ設置(参照と被参照の設置単位を一致させる。
+        # register 追設と同じ様式 — 既存は保持)
+        for tmpl, dst, label in [("CLAUDE.product.md", root / "CLAUDE.md", "CLAUDE.md"),
+                                 ("change-management.md", root / "bomdd" / "change-management.md",
+                                  "bomdd/change-management.md")]:
+            if dst.exists():
+                print(f"[agents] {label} は既存のため保持")
+            else:
+                render(PROFILE / tmpl, dst, repl)
+                print(f"[agents] {label} を設置しました(不在時のみ — ECO-023)")
         install_process_core(root, repl)  # 不完全な既存設備は内部で FAIL(ECO-017 REV-07)
         install_kit(root, repl["DATE"], selected)
         if (root / ".git").exists():
@@ -346,6 +376,7 @@ def main() -> int:
     repl = {
         "PRODUCT": args.name,
         "CAD": cad_name if is_gui else "(CAD なし — GUI 非対象)",
+        "CAD_REF": cad_ref(cad_name, True, is_gui),  # scaffold は --gui なら CAD リポも生成する
         "METHOD": KIT_DIRNAME,
         "DATE": date.today().isoformat(),
     }

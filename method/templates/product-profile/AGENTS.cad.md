@@ -8,7 +8,8 @@
 - 運用宣言の全体: [CLAUDE.md](CLAUDE.md)(Claude Code 向けアダプタ — 本ファイルと
   同じ正本群を指す)
 - 権威の規律: [docs/02_mock_fidelity_policy.md](docs/02_mock_fidelity_policy.md)
-  (実装と乖離したら**常に CAD が正**。CAD 側を直す場合は必ず裁定記録を残す)
+  (実装と乖離したら CAD が正 — **ただし製品の裁定台帳に個別裁定があればそれが優先**。
+  CAD 側を直す場合は必ず裁定記録を残す)
 
 ## 裁定と記録(このリポに入口スキルはない)
 
