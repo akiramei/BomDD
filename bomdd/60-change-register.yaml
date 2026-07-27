@@ -575,4 +575,37 @@ changes:
       全 PASS(119s→136s= 受入基準の +30s 以内)。V4= POS3/POS4 で誤 FAIL 方向の確認(免除を
       消しすぎない・正規 merge が通る)。**IA-02/IA-03 は未是正のまま**であり process-profile.yaml の
       「既知の限界」節へ明記(次検査では宣言済み境界として申告 — EXP-20260727-06)。
-      accept: 本コミット(詳細は order 参照)。"
+      accept: 本コミット(詳細は order 参照)。
+
+  - id: ECO-020
+    title: C11 の環境依存(git identity)除去+CI 結果確認の未結線 — 2 日 11 コミット 5 ECO を跨ぐ赤の潜伏
+    date: 2026-07-27
+    origin: defect
+    status: filed
+    source: >
+      GitHub Actions run 30227817530(2026-07-27・main 47af227)— 3 ジョブすべてで
+      [C11] FAIL の 1 件のみ。実測で赤化起点を特定: 最後の緑 9c255c7(07-24)→ 赤化 ba9f325
+      (ECO-015 accept・C11 導入時点)→ 11 コミット・約 2 日・ECO-015/016/017/018/019 を跨いで
+      赤のまま。各 ECO ではローカル self-conformance 全 PASS のみを確認し CI 結果を見ていなかった
+    order_ref: bomdd/60-change-order-eco-020.md
+    affected_refs: [method/tools/self-conformance.py]
+    no_impact_prediction: "(製造前)self-conformance.py + 裁定 1 で決まる運用規律の反映先(CLAUDE.md または method/bomdd-playbook-v1.md のいずれか)以外 diff ゼロ予測。**製品挙動(bomdd-init・process-core)は不変** — 変えるのは検査側の前提充足のみ。C11 の判定ロジック・他検査(C1〜C10)・所要も不変"
+    diff_audit:
+      baseline: 47af227  # 起票時 HEAD(製造承認時に是正窓直前へ更新する)
+      allowed_paths: [method/tools/self-conformance.py]
+    summary: >
+      C11 は bomdd-init を --no-qualify のみで呼ぶため git 経路を通り、CI ランナーに
+      user.name/user.email が無いと初回 commit が失敗する(C4 は --no-git で無事)。
+      **検査が「git identity が存在する」前提を暗黙に持ち、その充足を環境へ委ねていた**。
+      失敗の現れ方は途中で変化(ECO-015〜016= head_ok False / ECO-017 の REV-06 致命化以降=
+      bomdd-init 自体が exit 1)だが根因は同一で、**ECO-017 の是正が原因ではない**。
+      見逃しの構造 3 点: (1) CI を常設したが**結果を観測する経路が未結線**(装置・操作対象は
+      あり結線のみ欠落= OBS-20260726-02 の 3 例目候補)(2) ECO-017 の受入は新挙動の発火は
+      確認したが**既存呼出し元(C11)への影響**を見ず、影響分析に「CI 利用者は --no-git を明示」と
+      書きながら自分がその CI 利用者だと気づいていない(silence §16(d)・OBS-20260713-01)
+      (3) 独立検査 3 ラウンドも未指摘 — 検査官は read-only でリポ内を見るため**リポ外の観測面
+      (CI 結果)は視野に入らない**(FINDINGS §11.6 の裏面)。是正案= C11 が subprocess env へ
+      GIT_AUTHOR_*/GIT_COMMITTER_* を与える(検査は自分の前提を自分で満たす)+ CI 結果確認の
+      規律を①暗黙知から②③へ引き上げ。受入基準に**identity 不在環境の再現**と**CI 緑の実測**を
+      事前登録(ローカル緑だけでクローズしない)。裁定 2 点は gate ① へ。
+    verification: "(製造前 — 未実施)"
