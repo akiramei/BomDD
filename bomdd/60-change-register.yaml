@@ -720,3 +720,25 @@ changes:
       MoviePad 再適格(裁定 3・正本治具直接実行・設置物遡及なし)= IQ-08 15 件 PASS・line ready
       (adapt profile 回帰を兼ねる)。self-conformance 全 PASS(C4/C11 回帰)。CI 緑は push 後
       実測し order accept 節へ記録(accept: 本コミット)。
+
+  - id: ECO-024
+    title: 第 4R 独立検査の在庫可能分 5 件(台帳洗浄・dirty worktree 隠蔽・fail-open 残り・qualification の profile 非追随・同名衝突)
+    date: 2026-07-27
+    origin: defect
+    status: filed
+    source: >
+      ECO-019 是正後の第 4 ラウンド独立検査(EXP-20260727-06 測定を兼ねる・Codex fresh・
+      read-only・情報遮断・報告 bomdd/reports/independent-reinspection-eco-019.md)。
+      任務A= ECO-019 是正 5 件すべて CLOSED。任務B= 境界外新規 5 件(high 2/medium 2/low 1)
+      — 当方実プローブで全件 CONFIRMED・誤検出 0(通算 30 提起 30 CONFIRMED)。
+      宣言済み境界(IA-02/03・NEW-03)は BOUNDARY-DUP 4 分類として正しく受理され再提起 0
+      (境界受理の初測定成立)。IA-04 は ECO-021 同族(OBS-20260727-16 の 2 例目)
+    order_ref: bomdd/60-change-order-eco-024.md
+    affected_refs: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/tools/process-qualification.py, method/tools/bomdd-init.py, method/templates/process-core/process-profile.yaml]
+    no_impact_prediction: "(製造前)validator の replay 例外経路+validate 突合先・qualification の sandbox 導出化+対照追加・bomdd-init の同名事前拒否・profile 限界節 1 行のみ。既定 profile の scaffold 判定は不変予測"
+    summary: >
+      是正案= (1) replay 範囲の台帳解析不能は die(洗浄不成立)(2) validate 突合先を HEAD へ
+      (3) 履歴判定の git 失敗を exit 2 へ統一 (4) sandbox の台帳パス・初期状態・trailer を
+      installed profile から導出+非既定構成対照 (5) product/CAD 同名の生成前拒否
+      (6) E11 到達目標の境界明文化。受入= N19〜N22+同名拒否+全対照回帰+CI 緑。
+      裁定 4 点(die 範囲/突合先/E11 追記/対照規模)は gate ① へ。
