@@ -16,8 +16,16 @@ IQ(Installation Qualification)— 対象リポの実測:
         line ready でない。AGENTS.md 不在も FAIL)
 
 OQ(Operational Qualification)— 使い捨て sandbox リポで実 commit 経路を実測:
-  OQ-00    保護パスプローブを installed profile から導出(ECO-021 — 既定値のハードコード禁止。
-           protected_paths が空/不在なら明示 FAIL し以降の OQ を実行しない)
+  OQ-00    対照仕様(保護パスプローブ・台帳パス・状態名・trailer 名)を installed profile から
+           導出(ECO-021 → ECO-024 で全面適用 — 既定値のハードコード禁止。導出不能なら明示
+           FAIL し以降の OQ を実行しない)
+  N19      台帳の不正化→復旧による ID 削除の洗浄を測定不能(exit 2)で止める(ECO-024 IA-01)
+  N20/N20b 未コミット/index の書き戻しで HEAD の証拠欠落(E06)を隠せない(ECO-024 IA-02)
+  N21      履歴走査の git 失敗を無言省略でなく測定不能(exit 2)にする(ECO-024 IA-03)
+
+  **版の対**: OQ は sandbox へ**対象リポの installed assets** を複写して実測する。したがって
+  新しい runner を古い設置 validator へ当てると新規負例が FAIL する(欠陥ではなく**版ずれ**)。
+  設備更新の手順は設置物の update_note を参照(kit 再配布は既存を保持する — ECO-021)。
   POS      正常系: 起票→保護パス変更→accept trailer 付きクローズ→validate が全通過
   N1(E01)  ECO なし保護パス変更が遮断される
   N2(E02)  新規エントリの非 initial 登録が遮断される
@@ -61,7 +69,7 @@ except ImportError:
 
 ASSETS = ["bomdd/process-profile.yaml", "bomdd/hooks/pre-commit", "bomdd/hooks/commit-msg",
           "bomdd/tools/process-validator.py", "bomdd/tools/process-qualification.py"]
-REGISTER = "bomdd/60-change-register.yaml"  # sandbox 用(対象リポの profile とは独立の既定)
+REGISTER_FALLBACK = "bomdd/60-change-register.yaml"  # profile 導出不能時の表示用のみ(検査には使わない)
 
 # REV-12: sandbox git から除去する環境変数(前方一致 — repo/index/object/config リダイレクト系)
 GIT_ENV_STRIP = ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
@@ -161,8 +169,12 @@ def run_iq(root: Path) -> list[dict]:
     res.append(result("IQ-05", "validator selftest 合格", p.returncode == 0,
                       (p.stdout.strip().splitlines() or ["(出力なし)"])[-1]))
 
-    reg = root / REGISTER
-    reg_ok, reg_msg = False, f"{REGISTER} がない"
+    # ECO-024 IA-04: 検査対象の台帳パスも installed profile から導出する(既定のハードコードは
+    # adapt 済み設備を「台帳がない」と誤 FAIL させていた)
+    _spec = installed_spec(root)
+    reg_rel = _spec["register"] if _spec else REGISTER_FALLBACK
+    reg = root / reg_rel
+    reg_ok, reg_msg = False, f"{reg_rel} がない"
     if reg.is_file():
         p = subprocess.run([sys.executable, str(vpath), "--mode", "validate", "--root", str(root)],
                            capture_output=True, text=True, encoding="utf-8", errors="replace")
@@ -197,6 +209,11 @@ def run_iq(root: Path) -> list[dict]:
 
 
 # --- OQ sandbox ----------------------------------------------------------------------
+# ECO-024 IA-04: OQ 対照が触れる台帳パス・状態名・trailer 名の**単一入力**。run_oq 入口で
+# installed profile から一度だけ導出する(対照ごとに既定値を書かない — 導出化の全面適用)。
+SPEC: dict = {}
+
+
 def _reg_text(status: str) -> str:
     return ("changes:\n"
             "  - id: ECO-900\n"
@@ -214,8 +231,8 @@ class Sandbox:
         self.profile_override = profile_override
         if not defer_equipment:
             self._copy_assets()
-        (self.root / REGISTER).parent.mkdir(parents=True, exist_ok=True)
-        (self.root / REGISTER).write_text("changes: []\n", encoding="utf-8", newline="\n")
+        (self.root / SPEC["register"]).parent.mkdir(parents=True, exist_ok=True)
+        (self.root / SPEC["register"]).write_text("changes: []\n", encoding="utf-8", newline="\n")
         self.gcfg = base / f"{name}.gitconfig"
         self.gcfg.write_text("", encoding="utf-8")
         self.env = _env(self.gcfg)
@@ -289,6 +306,34 @@ class Sandbox:
                               capture_output=True, text=True, encoding="utf-8", errors="replace")
 
 
+def installed_spec(root: Path) -> dict | None:
+    """**installed profile の単一入力**(ECO-024 IA-04 裁定 4)— OQ 対照が操作する台帳パス・
+    状態名・trailer 名をすべてここから導出する。ECO-021 は同じ規律を保護パスプローブにだけ
+    適用したため、register / initial / trailers が既定のまま残り、正当に adapt した設備を
+    qualification が全面誤 FAIL していた(導出化の**部分適用**)。
+    返す dict: register / states / initial / final / mid / trailers / probe。
+    導出不能(profile 不読・必須キー欠落・protected_paths 空)は None — 呼び出し側が明示 FAIL。"""
+    try:
+        prof = yaml.safe_load((root / "bomdd" / "process-profile.yaml").read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001 — profile 不読は IQ-01 が FAIL 済み。ここは導出不能として扱う
+        return None
+    if not isinstance(prof, dict):
+        return None
+    reg = prof.get("register")
+    states = [s for s in prof.get("states") or [] if isinstance(s, str)]
+    initial = prof.get("initial")
+    trailers = prof.get("trailers") or {}
+    probe = _probe_rel(root)
+    if not (isinstance(reg, str) and reg.strip() and states and initial in states
+            and isinstance(trailers, dict) and trailers.get("fix") and trailers.get("accept")
+            and probe):
+        return None
+    return {"register": reg, "states": states, "initial": initial, "final": states[-1],
+            # 3 状態対照用の中間状態: validator の STATE_TRAILER は状態名 'implemented'/'applied'
+            # に fix/accept 意味論を固定している(profile の差分注入点ではない — 実装不変条件)
+            "mid": "implemented", "trailers": dict(trailers), "probe": probe}
+
+
 def _probe_rel(root: Path) -> str | None:
     """保護パスプローブの導出(ECO-021 裁定 1)— installed profile から導出する単一関数。
     OQ の保護パス対照(POS/N1/N6/N11/N18)はすべてこの結果を共有する(silence §16(e) —
@@ -320,14 +365,22 @@ def _blocked_with(p: subprocess.CompletedProcess, code: str) -> tuple[bool, str]
 def run_oq(root: Path, base: Path) -> list[dict]:
     res: list[dict] = []
 
-    # ECO-021: 保護パスプローブは installed profile から導出(既定値のハードコード禁止)。
-    # 導出不能(protected_paths 空/不在)は明示 FAIL — 保護対象ゼロの line を ready と判定しない。
-    probe = _probe_rel(root)
-    if probe is None:
-        res.append(result("OQ-00", "保護パスプローブ導出(installed profile)", False,
-                          "protected_paths が空/不在 — 保護対象ゼロの line を ready と判定しない(ECO-021)"))
+    # ECO-021 → ECO-024 IA-04: 対照が触れる**全項目**(保護パスプローブ・台帳パス・状態名・
+    # trailer 名)を installed profile から導出する。導出不能(protected_paths 空/不在・
+    # 必須キー欠落)は明示 FAIL — 保護対象ゼロ/解釈不能な line を ready と判定しない。
+    global SPEC
+    spec = installed_spec(root)
+    if spec is None:
+        res.append(result("OQ-00", "対照仕様の導出(installed profile)", False,
+                          "protected_paths 空/不在・または register/states/initial/trailers が"
+                          "導出不能 — 解釈できない line を ready と判定しない(ECO-021/ECO-024)"))
         return res
-    res.append(result("OQ-00", "保護パスプローブ導出(installed profile)", True, f"probe={probe}"))
+    SPEC = spec
+    probe = SPEC["probe"]
+    res.append(result("OQ-00", "対照仕様の導出(installed profile)", True,
+                      f"probe={probe}・register={SPEC['register']}・"
+                      f"states={SPEC['initial']}→{SPEC['final']}・"
+                      f"accept={SPEC['trailers']['accept']}"))
 
     s = Sandbox(root, base, "pos")
     ok_steps, detail = True, []
@@ -338,12 +391,12 @@ def run_oq(root: Path, base: Path) -> list[dict]:
             ok_steps = False
             detail.append(f"{label} 失敗: {((p.stderr or '') + (p.stdout or '')).strip()[:100]}")
 
-    s.write(REGISTER, _reg_text("staged"))
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     step(s.commit("eco: file ECO-900"), "起票 commit")
     s.write(probe, "hello\n")
     step(s.commit("feat: protected change under ECO-900"), "保護パス commit")
-    s.write(REGISTER, _reg_text("applied"))
-    step(s.commit("eco: accept ECO-900", "BomDD-ECO-Accept: ECO-900"), "accept commit")
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
+    step(s.commit("eco: accept ECO-900", f"{SPEC['trailers']['accept']}: ECO-900"), "accept commit")
     step(s.validate(), "validate")
     res.append(result("POS", "正常 ECO が全経路を通過", ok_steps, "・".join(detail) or "起票→保護変更→accept→validate"))
 
@@ -353,30 +406,30 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     res.append(result("N1", "E01", ok, d))
 
     s = Sandbox(root, base, "n2")
-    s.write(REGISTER, _reg_text("applied"))
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
     ok, d = _blocked_with(s.commit("eco: born applied"), "E02")
     res.append(result("N2", "E02", ok, d))
 
     s = Sandbox(root, base, "n3")
-    s.write(REGISTER, _reg_text("staged"))
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     s.commit("eco: file ECO-900")
-    s.write(REGISTER, _reg_text("applied"))
-    s.commit("eco: accept ECO-900", "BomDD-ECO-Accept: ECO-900")
-    s.write(REGISTER, _reg_text("staged"))
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
+    s.commit("eco: accept ECO-900", f"{SPEC['trailers']['accept']}: ECO-900")
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     ok, d = _blocked_with(s.commit("eco: regress"), "E03")
     res.append(result("N3", "E03", ok, d))
 
     s = Sandbox(root, base, "n4")
-    s.write(REGISTER, _reg_text("staged"))
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     s.commit("eco: file ECO-900")
-    s.write(REGISTER, _reg_text("applied"))
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
     ok, d = _blocked_with(s.commit("eco: accept without trailer"), "E05")
     res.append(result("N4", "E05", ok, d))
 
     s = Sandbox(root, base, "n5")
-    s.write(REGISTER, _reg_text("staged"))
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     s.commit("eco: file ECO-900")
-    s.write(REGISTER, _reg_text("applied"))
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
     p = s.commit("eco: bypass applied(conversational OK)", no_verify=True)
     if p.returncode != 0:
         res.append(result("N5", "E06", False, f"バイパス commit 自体が失敗: {p.stderr.strip()[:80]}"))
@@ -395,20 +448,20 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
     # N7(E04): 3 状態 profile の実 Git 経路 — fix trailer なしの implemented 遷移(REV-11)
     s = Sandbox(root, base, "n7", profile_override={
-        "states": ["staged", "implemented", "applied"],
-        "open_states": ["staged", "implemented"]})
-    s.write(REGISTER, _reg_text("staged"))
+        "states": [SPEC["initial"], SPEC["mid"], SPEC["final"]],
+        "open_states": [SPEC["initial"], SPEC["mid"]]})
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     s.commit("eco: file ECO-900")
-    s.write(REGISTER, _reg_text("implemented"))
+    s.write(SPEC["register"], _reg_text(SPEC["mid"]))
     ok, d = _blocked_with(s.commit("eco: fix without trailer"), "E04")
     res.append(result("N7", "E04(3 状態・実 Git 経路)", ok, d))
 
     # N8(E07): 台帳に実在しない ECO への trailer(REV-11)
     s = Sandbox(root, base, "n8")
-    s.write(REGISTER, _reg_text("staged"))
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     s.commit("eco: file ECO-900")
     p = git(s.root, "commit", "-q", "--allow-empty",
-            "-m", "chore: note", "-m", "BomDD-ECO-Accept: ECO-999", env=s.env)
+            "-m", "chore: note", "-m", f"{SPEC['trailers']['accept']}: ECO-999", env=s.env)
     if p.returncode != 0:
         res.append(result("N8", "E07", False, f"trailer commit 自体が失敗: {p.stderr.strip()[:80]}"))
     else:
@@ -418,8 +471,8 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     # --- ECO-018: 第 2 層(履歴合法性・設備完全性)と自己保護の負例 ---
     # N9/N14: --no-verify で born-applied+同 commit trailer → 履歴再演が E02・証拠は不採用で E06
     s = Sandbox(root, base, "n9")
-    s.write(REGISTER, _reg_text("applied"))
-    p = s.commit("illegal: born applied", "BomDD-ECO-Accept: ECO-900", no_verify=True)
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
+    p = s.commit("illegal: born applied", f"{SPEC['trailers']['accept']}: ECO-900", no_verify=True)
     if p.returncode != 0:
         res.append(result("N9", "E02(履歴再演)", False, f"バイパス commit 自体が失敗: {p.stderr.strip()[:80]}"))
         res.append(result("N14", "E06(違法遷移の trailer は証拠でない)", False, "N9 が実行できず未測定"))
@@ -432,12 +485,12 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
     # N10: --no-verify の遷移飛び越し(3 状態 staged→applied)→ 履歴再演が E03
     s = Sandbox(root, base, "n10", profile_override={
-        "states": ["staged", "implemented", "applied"],
-        "open_states": ["staged", "implemented"]})
-    s.write(REGISTER, _reg_text("staged"))
+        "states": [SPEC["initial"], SPEC["mid"], SPEC["final"]],
+        "open_states": [SPEC["initial"], SPEC["mid"]]})
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     s.commit("eco: file ECO-900")
-    s.write(REGISTER, _reg_text("applied"))
-    p = s.commit("illegal: jump", "BomDD-ECO-Accept: ECO-900", no_verify=True)
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
+    p = s.commit("illegal: jump", f"{SPEC['trailers']['accept']}: ECO-900", no_verify=True)
     if p.returncode != 0:
         res.append(result("N10", "E03(履歴再演)", False, f"バイパス commit 自体が失敗: {p.stderr.strip()[:80]}"))
     else:
@@ -446,10 +499,10 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
     # N11: 同一 commit で open_states を書換え+保護パス変更 → HEAD profile 優先で E01
     s = Sandbox(root, base, "n11")
-    s.write(REGISTER, _reg_text("staged"))
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     s.commit("eco: file ECO-900")
-    s.write(REGISTER, _reg_text("applied"))
-    s.commit("eco: accept ECO-900", "BomDD-ECO-Accept: ECO-900")
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
+    s.commit("eco: accept ECO-900", f"{SPEC['trailers']['accept']}: ECO-900")
     prof_path = s.root / "bomdd" / "process-profile.yaml"
     prof_path.write_text(prof_path.read_text(encoding="utf-8")
                          .replace("open_states: [staged]", "open_states: [applied]"),
@@ -477,7 +530,7 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
     # POS2(誤 FAIL 方向の陽性対照): 導入前の履歴を持つリポで再演・証拠要求が発火しない
     s = Sandbox(root, base, "pos2", defer_equipment=True)
-    s.write(REGISTER, _reg_text("applied"))  # 導入前 = trailer 規約が存在しなかった時期の記録
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))  # 導入前 = trailer 規約が存在しなかった時期の記録
     p1 = s.commit("legacy: register state before adoption")
     p2 = s.install_equipment()
     v = s.validate()
@@ -489,10 +542,10 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     # --- ECO-019: 基準統一・証拠要求単位・設備無力化・保護パス履歴 ---
     # N15(IA-04): 導入前から staged の legacy ECO を導入後に applied(trailer なし)→ E06
     s = Sandbox(root, base, "n15", defer_equipment=True)
-    s.write(REGISTER, _reg_text("staged"))
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     s.commit("legacy: staged before adoption")
     s.install_equipment()
-    s.write(REGISTER, _reg_text("applied"))
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
     p = s.commit("sneak: legacy applied without trailer", no_verify=True)
     if p.returncode != 0:
         res.append(result("N15", "E06(legacy の導入後遷移)", False, f"バイパス commit 失敗: {p.stderr.strip()[:80]}"))
@@ -502,10 +555,10 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
     # N16(IA-05): 第 1 親 staged・第 2 親 applied(trailer なし)・merge に accept trailer → E06
     s = Sandbox(root, base, "n16")
-    s.write(REGISTER, _reg_text("staged"))
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     s.commit("eco: file ECO-900")
     git(s.root, "checkout", "-q", "-b", "feature", env=s.env)
-    s.write(REGISTER, _reg_text("applied"))
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
     s.commit("sneak: applied without trailer", no_verify=True)
     main = "main"
     for cand in ("main", "master"):
@@ -514,7 +567,7 @@ def run_oq(root: Path, base: Path) -> list[dict]:
             break
     git(s.root, "checkout", "-q", main, env=s.env)
     m = git(s.root, "merge", "--no-ff", "-q", "feature", "-m", "merge feature",
-            "-m", "BomDD-ECO-Accept: ECO-900", env=s.env)
+            "-m", f"{SPEC['trailers']['accept']}: ECO-900", env=s.env)
     if m.returncode != 0:
         res.append(result("N16", "E06(merge の偽証拠)", False, f"merge 失敗: {m.stderr.strip()[:80]}"))
     else:
@@ -544,7 +597,7 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
     # POS3(誤 FAIL 方向): 導入前に到達済みの状態は証拠を要求されない(IA-04 が免除を消しすぎない)
     s = Sandbox(root, base, "pos3", defer_equipment=True)
-    s.write(REGISTER, _reg_text("applied"))
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
     s.commit("legacy: already applied before adoption")
     s.install_equipment()
     v = s.validate()
@@ -554,11 +607,11 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
     # POS4(誤 FAIL 方向): 正規 merge(両親とも合法・accept trailer つき)が通る
     s = Sandbox(root, base, "pos4")
-    s.write(REGISTER, _reg_text("staged"))
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
     s.commit("eco: file ECO-900")
     git(s.root, "checkout", "-q", "-b", "feature", env=s.env)
-    s.write(REGISTER, _reg_text("applied"))
-    s.commit("eco: accept ECO-900", "BomDD-ECO-Accept: ECO-900")
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
+    s.commit("eco: accept ECO-900", f"{SPEC['trailers']['accept']}: ECO-900")
     main = "main"
     for cand in ("main", "master"):
         if git(s.root, "rev-parse", "--verify", "-q", cand, env=s.env).returncode == 0:
@@ -571,6 +624,55 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     res.append(result("POS4", "正規 merge が誤 FAIL しない(誤 FAIL 方向)", ok,
                       "合法遷移+accept 証拠が merge 後も保持される" if ok
                       else f"想定外: merge={m.returncode} validate={((v.stderr or '') + (v.stdout or '')).strip()[:120]}"))
+
+    # --- ECO-024: 第 4R 独立検査の在庫可能分 ---
+    # N19(IA-01): 台帳の不正化 → 復旧で ID 削除を洗浄できない(解析不能は測定不能 exit 2)
+    s = Sandbox(root, base, "n19")
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
+    s.commit("eco: file ECO-900")
+    s.write(SPEC["register"], "changes: [\n")            # 不正 YAML
+    s.commit("corrupt: unparseable register", no_verify=True)
+    s.write(SPEC["register"], "changes: []\n")           # 復旧(ECO-900 は消えている)
+    p = s.commit("restore: empty register", no_verify=True)
+    if p.returncode != 0:
+        res.append(result("N19", "exit 2(台帳洗浄)", False, f"バイパス commit 失敗: {p.stderr.strip()[:80]}"))
+    else:
+        v = s.validate()
+        out = ((v.stderr or "") + (v.stdout or "")).strip()
+        marked = "解析不能" in out
+        ok = v.returncode == 2 and marked
+        # detail に sha を入れない(DET は判定・理由集合の一致を見る — 実行ごとに変わる値を
+        # 混ぜると失敗時に決定性判定まで巻き添えで崩れる)
+        res.append(result("N19", "exit 2(不正化→復旧による ID 削除の洗浄を測定不能で止める)", ok,
+                          "解析不能な履歴台帳を測定不能として遮断" if ok
+                          else f"想定外(exit {v.returncode}・解析不能マーカー={marked})"))
+
+    # N20(IA-02): HEAD に trailer なし applied・worktree を initial へ書き戻し → E06 を維持
+    s = Sandbox(root, base, "n20")
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
+    s.commit("eco: file ECO-900")
+    s.write(SPEC["register"], _reg_text(SPEC["final"]))
+    p = s.commit("sneak: applied without trailer", no_verify=True)
+    if p.returncode != 0:
+        res.append(result("N20", "E06(dirty worktree 隠蔽)", False, f"バイパス commit 失敗: {p.stderr.strip()[:80]}"))
+    else:
+        s.write(SPEC["register"], _reg_text(SPEC["initial"]))  # commit せず書き戻す(隠蔽の試み)
+        ok, d = _blocked_with(s.validate(), "E06")
+        res.append(result("N20", "E06(未コミットの書き戻しで HEAD の証拠欠落を隠せない)", ok, d))
+        git(s.root, "add", "-A", env=s.env)                    # index へ stage しても同じ
+        ok2, d2 = _blocked_with(s.validate(), "E06")
+        res.append(result("N20b", "E06(index へ stage しても隠蔽できない)", ok2, d2))
+
+    # N21(IA-03): 履歴走査の git 失敗を注入 → 無言省略でなく測定不能(exit 2)
+    s = Sandbox(root, base, "n21")
+    s.write(SPEC["register"], _reg_text(SPEC["initial"]))
+    s.commit("eco: file ECO-900")
+    shutil.rmtree(s.root / ".git" / "refs", ignore_errors=True)   # 履歴走査を失敗させる
+    (s.root / ".git" / "HEAD").write_text("ref: refs/heads/broken\n", encoding="utf-8", newline="\n")
+    v = s.validate()
+    res.append(result("N21", "exit 2(履歴走査の git 失敗を fail-open にしない)", v.returncode == 2,
+                      "測定不能として停止" if v.returncode == 2
+                      else f"想定外(exit {v.returncode}): {((v.stderr or '') + (v.stdout or '')).strip()[:140]}"))
     return res
 
 

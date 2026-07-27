@@ -277,8 +277,66 @@ def c11_process_core() -> None:
               f"process-core 適格性(初回 commit hook 有効={head_ok}・IQ/OQ PASS={ok1}・"
               f"2 回決定性={det_ok}・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定={ok2})"
               + ("" if ok1 else f" — {q.stdout.strip().splitlines()[-1:] or q.stderr.strip()[:120]}"))
+        c11b_adapted_profile(tmp, runner)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def c11b_adapted_profile(tmp: Path, runner: Path) -> None:
+    """C11b(ECO-024 IA-04・裁定 4)— **非既定構成の対照 1 本**。
+    差分注入点(register パス・initial 状態名・trailer 名・保護パス)をすべて既定と変えた
+    profile で全対照が PASS するか。既定一致構成だけの検査は、adapt された実運用リポで
+    初めて誤 FAIL/素通りを起こす(ECO-021 は保護パスのみ導出化し、他の可変点が残った)。"""
+    p = run([sys.executable, str(ROOT / "method" / "tools" / "bomdd-init.py"),
+             "AdaptSmoke", "--dir", str(tmp), "--no-gui", "--no-qualify"], env=_c11_env())
+    prod = tmp / "AdaptSmoke"
+    if p.returncode != 0:
+        check("C11b", False, f"bomdd-init が失敗 (exit {p.returncode}): {p.stderr.strip()[:120]}")
+        return
+    prof_path = prod / "bomdd" / "process-profile.yaml"
+    try:
+        prof = yaml.safe_load(prof_path.read_text(encoding="utf-8"))
+        old_reg = prof["register"]
+        prof["register"] = "meta/custom-register.yaml"
+        prof["initial"] = "queued"
+        prof["states"] = ["queued", "applied"]
+        prof["open_states"] = ["queued"]
+        prof["trailers"] = dict(prof["trailers"], fix="X-Fix", accept="X-Accept")
+        prof["protected_paths"] = ["app/"]
+        prof_path.write_text(yaml.safe_dump(prof, allow_unicode=True, sort_keys=False),
+                             encoding="utf-8", newline="\n")
+        (prod / "meta").mkdir(parents=True, exist_ok=True)
+        (prod / "meta" / "custom-register.yaml").write_text("changes: []\n",
+                                                            encoding="utf-8", newline="\n")
+        (prod / old_reg).unlink(missing_ok=True)
+        # 入口の参照も adapt に追随させる(IQ-08 は移動後の空ポインタを正しく FAIL にする —
+        # ここは「台帳を動かすなら入口も直す」という実運用の手当てを fixture で再現している)
+        agents = prod / "AGENTS.md"
+        if agents.is_file():
+            agents.write_text(agents.read_text(encoding="utf-8").replace(old_reg, prof["register"]),
+                              encoding="utf-8", newline="\n")
+        (prod / "app").mkdir(parents=True, exist_ok=True)
+        (prod / "app" / ".keep").write_text("", encoding="utf-8", newline="\n")
+    except (OSError, KeyError, yaml.YAMLError) as e:
+        check("C11b", False, f"adapt profile を構成できない: {type(e).__name__}: {e}")
+        return
+    for args in (["add", "-A"], ["commit", "-q", "--no-verify", "-m", "adapt: non-default profile"]):
+        r = run(["git", "-C", str(prod), *args], env=_c11_env())
+        if r.returncode != 0:
+            check("C11b", False, f"adapt commit が失敗: {r.stderr.strip()[:120]}")
+            return
+    j = tmp / "q-adapt.json"
+    q = run([sys.executable, str(runner), "--root", str(prod), "--json", str(j)])
+    ok, det, failed = q.returncode == 0, False, []
+    try:
+        r = json.loads(j.read_text(encoding="utf-8"))
+        det = r.get("runs_identical") is True and r.get("disposition") == "PASS"
+        failed = [c.get("control") for c in r.get("iq", []) + r.get("oq", []) if not c.get("pass")]
+    except (OSError, json.JSONDecodeError):
+        ok = False
+    check("C11b", ok and det and not failed,
+          f"非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— "
+          f"PASS={ok}・2 回決定性={det}" + (f"・不合格 {failed}" if failed else ""))
 
 
 # --- C5 fail-closed 陽性対照(ECO-002/003・由来検査は ECO-008) -----------------------

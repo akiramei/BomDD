@@ -368,6 +368,8 @@ def replay_cutoff(root: Path, prof: dict) -> str | None:
             die(f"history_replay_since '{since}' が解決できない(境界は実在する commit で宣言する)")
         return p.stdout.strip()
     p = run_git(root, "log", "--diff-filter=A", "--format=%H", "--", PROFILE_REL)
+    if p.returncode != 0:  # ECO-024 IA-03: 導入点の決定不能を「導入点なし」へ縮退させない
+        die(f"導入点の検出が失敗(履歴再演が測定不能): {p.stderr.strip()}")
     shas = [s for s in p.stdout.split() if s]
     return shas[-1] if shas else None  # 最古 = 導入点
 
@@ -406,6 +408,16 @@ def scan_history(root: Path, prof: dict) -> dict:
                 cache[ref] = None
         return cache[ref]
 
+    def reg_at_strict(ref: str) -> dict:
+        """再演範囲内の台帳は解析不能を許さない(ECO-024 IA-01・裁定 1)。
+        「読めない台帳」は違反の有無を判定できない**測定不能**であり、warn して続行すると
+        〈不正化 → 復旧〉で親比較チェーンが切れ、ID 削除(E03)を洗浄できる。"""
+        r = reg_at(ref)
+        if r is None:
+            die(f"再演範囲の台帳が解析不能: {ref[:9]}(履歴の合法性を判定できない — "
+                f"復旧は履歴の書換えでなく前進 commit での宣言で行う)")
+        return r
+
     # --- 履歴再演(裁定 1= 導入点以降・裁定 2= E02/E03 再利用・裁定 4= 台帳変更 commit 限定)---
     illegal: dict[str, set[str]] = {}
     base_at: dict[str, dict] = {}  # sha → 合算親状態(ECO-019 IA-05: 証拠採用も同じ base で判定)
@@ -424,11 +436,11 @@ def scan_history(root: Path, prof: dict) -> dict:
         shas = [s for s in p.stdout.split() if s]
         required: set[tuple[str, str]] = set()
         for sha in shas:
-            cur = reg_at(sha)
-            if cur is None:
-                continue
+            cur = reg_at_strict(sha)  # ECO-024 IA-01: 範囲内の解析不能は exit 2
             pp = run_git(root, "log", "-1", "--format=%P", sha)
-            parents = [x for x in pp.stdout.split() if x] if pp.returncode == 0 else []
+            if pp.returncode != 0:
+                die(f"親 commit を取得できない: {sha[:9]}(履歴再演が測定不能)")
+            parents = [x for x in pp.stdout.split() if x]
             pregs = [r for r in (reg_at(x) for x in parents) if r is not None]
             base = combine_parents(pregs, prof) if pregs else {}
             base_at[sha] = base
@@ -448,20 +460,25 @@ def scan_history(root: Path, prof: dict) -> dict:
         # 範囲は cutoff を含まない(導入 commit が既存 src/ を含む場合の誤 FAIL 回避・設計確定 2)
         pp = run_git(root, "rev-list", "--reverse", "--full-history", f"{cutoff}..HEAD",
                      "--", *prof["protected_paths"])
-        if pp.returncode == 0:
-            for sha in [s for s in pp.stdout.split() if s]:
-                if sha in base_at:
-                    base = base_at[sha]
-                else:
-                    q = run_git(root, "log", "-1", "--format=%P", sha)
-                    pr = [x for x in q.stdout.split() if x] if q.returncode == 0 else []
-                    regs = [r for r in (reg_at(x) for x in pr) if r is not None]
-                    base = combine_parents(regs, prof) if regs else {}
-                if not any(e.get("status") in prof["open_states"] for e in base.values()):
-                    out["violations"].append(
-                        f"[E01] {REASONS['E01']}: history:{sha[:9]} 保護パス変更の時点で"
-                        f"open 状態({prof['open_states']})の ECO がない(第 1 層を回避した"
-                        f"保護パス変更を第 2 層が検出)")
+        # ECO-024 IA-03(裁定 3 系): 履歴判定に使う git の失敗は **測定不能(exit 2)** へ倒す。
+        # 「空結果」と「実行失敗」を区別しない縮退は、その検査面だけを無言で省略する fail-open。
+        if pp.returncode != 0:
+            die(f"保護パス履歴の走査が失敗(検査面が測定不能): {pp.stderr.strip()}")
+        for sha in [s for s in pp.stdout.split() if s]:
+            if sha in base_at:
+                base = base_at[sha]
+            else:
+                q = run_git(root, "log", "-1", "--format=%P", sha)
+                if q.returncode != 0:
+                    die(f"親 commit を取得できない: {sha[:9]}(保護パス履歴検査が測定不能)")
+                pr = [x for x in q.stdout.split() if x]
+                regs = [r for r in (reg_at(x) for x in pr) if r is not None]
+                base = combine_parents(regs, prof) if regs else {}
+            if not any(e.get("status") in prof["open_states"] for e in base.values()):
+                out["violations"].append(
+                    f"[E01] {REASONS['E01']}: history:{sha[:9]} 保護パス変更の時点で"
+                    f"open 状態({prof['open_states']})の ECO がない(第 1 層を回避した"
+                    f"保護パス変更を第 2 層が検出)")
 
     # --- trailer 走査(E07 の raw + 合法遷移のみの証拠採用)---
     p = run_git(root, "log", "--format=%H%x01%B%x02")
@@ -696,6 +713,40 @@ def _load_pair(root: Path, prof: dict) -> tuple[dict, dict]:
     return old, new
 
 
+def _validate_entries(root: Path, prof: dict) -> dict[str, dict]:
+    """validate モードの現在台帳(ECO-024 IA-02・裁定 2)= **HEAD が正本**。
+    履歴再演は HEAD 世界を走査して証拠要求(required)を算出するのに、突合先を worktree から
+    読むと、**未コミットの書き戻しだけで HEAD の証拠欠落(E06)を消せる**(単一走査内で入力源が
+    2 つの世界に分裂していた)。validate の意味論は「履歴と現在の合法性」であり、未コミットの
+    編集で結論が変わってはならない。pre-commit/commit-msg は index のまま(commit 対象の検査)。
+    設置直後(台帳が履歴に一度も現れない)だけは worktree へ縮退する — 明示注記つき。"""
+    reg = prof["register"]
+    reg_file = root / reg
+
+    def _parse(text: str | None, src: str) -> dict[str, dict]:
+        try:
+            return parse_register(text, warn=True)
+        except (yaml.YAMLError, ValueError) as e:
+            die(f"台帳({src})がパース不能/構造不正: {e}")
+
+    if head_exists(root):
+        head_text = register_text_at(root, reg, "HEAD")
+        if head_text is not None:
+            if reg_file.is_file() and reg_file.read_text(encoding="utf-8") != head_text:
+                print(f"process-validator: [scope] 台帳の作業ツリー版が HEAD と異なる — "
+                      f"判定は HEAD 基準(未コミットの編集で結論は変わらない)")
+            return _parse(head_text, "HEAD")
+        p = run_git(root, "rev-list", "--max-count=1", "HEAD", "--", reg)
+        if p.returncode != 0:
+            die(f"台帳の履歴を走査できない: {p.stderr.strip()}")
+        if p.stdout.strip():  # 履歴にはあるのに HEAD にない = 削除(洗浄を許さない)
+            die(f"台帳が HEAD に存在しない(履歴にはある — 削除された): {reg}")
+    if not reg_file.is_file():
+        die(f"台帳がない: {reg_file}")
+    print("process-validator: [scope] 台帳が履歴に未収載 — 設置直後として作業ツリー版で判定")
+    return _parse(reg_file.read_text(encoding="utf-8"), "worktree")
+
+
 def report(violations: list[str]) -> int:
     for line in violations:
         print(line, file=sys.stderr)
@@ -743,14 +794,8 @@ def main() -> int:
             vio += check_commit_msg(old, new, msg, prof)
         return report(vio)
 
-    # validate(第 2 層): 作業ツリーの台帳 + 履歴の合法性再演 + 設備完全性
-    reg_file = root / prof["register"]
-    if not reg_file.is_file():
-        die(f"台帳がない: {reg_file}")
-    try:
-        entries = parse_register(reg_file.read_text(encoding="utf-8"), warn=True)
-    except (yaml.YAMLError, ValueError) as e:
-        die(f"台帳がパース不能/構造不正: {e}")
+    # validate(第 2 層): **HEAD の台帳** + 履歴の合法性再演 + 設備完全性
+    entries = _validate_entries(root, prof)
     hist = scan_history(root, prof)
     linked, raw, required = hist["linked"], hist["raw"], hist["required"]
     if hist["note"]:

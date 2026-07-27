@@ -725,7 +725,7 @@ changes:
     title: 第 4R 独立検査の在庫可能分 5 件(台帳洗浄・dirty worktree 隠蔽・fail-open 残り・qualification の profile 非追随・同名衝突)
     date: 2026-07-27
     origin: defect
-    status: filed
+    status: verified
     source: >
       ECO-019 是正後の第 4 ラウンド独立検査(EXP-20260727-06 測定を兼ねる・Codex fresh・
       read-only・情報遮断・報告 bomdd/reports/independent-reinspection-eco-019.md)。
@@ -742,3 +742,15 @@ changes:
       installed profile から導出+非既定構成対照 (5) product/CAD 同名の生成前拒否
       (6) E11 到達目標の境界明文化。受入= N19〜N22+同名拒否+全対照回帰+CI 緑。
       裁定 4 点(die 範囲/突合先/E11 追記/対照規模)は gate ① へ。
+    diff_audit:
+      baseline: "90b1f63"  # 起票コミット=是正開始直前(gate ① 承認 2026-07-27・裁定 4 点は推奨採択)
+      allowed_paths: [method/templates/process-core/, method/tools/bomdd-init.py, method/tools/self-conformance.py]
+    verification: >
+      V1 全対照= fresh scaffold で 34 対照 PASS(既存 30+N19/N20/N20b/N21)・DET 一致・line ready。
+      V2 第 4R 再現条件= P1 洗浄 exit 2 / P2 dirty 隠蔽で E06 維持(index 版も)/ P5 同名は生成前
+      拒否(生成物 0)— 3 件とも閉鎖。V3 非既定構成= C11b PASS(register/initial/trailers/protected
+      を既定と変更した adapt profile で全対照 PASS+2 回決定性)。V4 回帰= self-conformance 全 PASS
+      (C1〜C11+C11b)・validator selftest 全 PASS。V5 MoviePad 再適格= N19/N20/N20b FAIL だが原因は
+      設置済み validator が本 ECO 以前である**版ずれ**(MoviePad 自身の line 判定は ready 継続・
+      設備更新はスコープ外= EXP-20260727-19 の発火データ)。影響なし予測は**部分不的中**(self-
+      conformance.py が予測外 — C11b の置き場を製造中に決定)。CI 緑は push 後に実測し accept 節へ記録。

@@ -1,10 +1,76 @@
 # ECO-024 — 第 4R 独立検査の在庫可能分 5 件(台帳洗浄・dirty worktree 隠蔽・fail-open 残り・qualification の profile 非追随・同名衝突)
 
-> 状態: **filed(2026-07-27・gate ① 待ち)**。
+> 状態: **製造完了・検証済み(2026-07-27)**。gate ① 承認(裁定 4 点は推奨採択)・
+> baseline= 起票コミット 90b1f63。
 > 発見経緯: ECO-019 是正後の第 4 ラウンド独立検査(EXP-20260727-06 の測定を兼ねる・
 > Codex fresh・read-only・情報遮断)。報告= bomdd/reports/independent-reinspection-eco-019.md。
 > 検査官提起 5 件は当方実プローブで**全件 CONFIRMED・誤検出 0**(通算 30 提起 30 CONFIRMED)。
 > 任務A(ECO-019 の是正 5 件)は **5/5 CLOSED** — 本 ECO は新規所見のみを扱う。
+
+## 裁定(gate ① — 2026-07-27)
+
+**製造承認(maintainer — 「製造承認します、裁定 4 点は推奨どおりで」)**: ①replay 範囲の台帳
+解析不能は**即 exit 2**(部分継続で洗浄面を残さない)②validate の突合先は **HEAD 正本**
+(pre-commit/commit-msg は index のまま — commit 対象の検査)③E11 は**境界 1 行追記のみ**
+(到達可能性検査は追加しない — 軍拡競争に入らない)④IA-04 は**導出関数化+非既定構成対照 1 本**
+(直積対照は作らない)。baseline= 起票コミット 90b1f63(是正開始直前)。
+
+## 是正(2026-07-27)
+
+1. **IA-01(台帳洗浄)**: `reg_at_strict()` を新設 — 再演範囲の台帳変更 commit が解析不能なら
+   **die(exit 2・測定不能)**。「warn して続行」は親比較チェーンを切り、〈不正化 → 復旧〉で
+   ID 削除(E03)を洗浄できていた。復旧は履歴書換えでなく前進 commit での宣言を要求する。
+2. **IA-02(dirty 隠蔽)**: validate モードの現在台帳を `_validate_entries()` へ分離し
+   **HEAD を正本**にした(再演と同一世界)。worktree/index が HEAD と異なる場合は scope 注記を
+   出す(判定は HEAD 基準)。**履歴にはあるが HEAD にない**= 削除として die。台帳が履歴に
+   一度も現れない場合(設置直後)だけ worktree へ縮退 — 明示注記つき。pre-commit/commit-msg は
+   index のまま(commit 対象の検査 — 裁定 2)。
+3. **IA-03(fail-open)**: 履歴判定に使う git 呼び出しの非 0 をすべて die(exit 2)へ統一 —
+   保護パス走査 `rev-list`・親取得 `log -1`(再演内・保護パス内の両方)・導入点検出 `log
+   --diff-filter=A`。空結果と実行失敗を構造分離した。
+4. **IA-04(profile 非追随)**: `installed_spec()` を新設し、OQ が触れる**全項目**
+   (register/states/initial/final/mid/trailers/probe)を installed profile から導出。
+   OQ-00 を「対照仕様の導出」へ拡張(導出不能は明示 FAIL)。IQ-06 の台帳パスも導出化
+   (既定ハードコードが adapt 済み設備を「台帳がない」と誤 FAIL させていた)。
+   `REGISTER` 定数は `REGISTER_FALLBACK`(表示用)へ降格。
+5. **IA-05(同名衝突)**: bomdd-init が product/CAD の正規化パス同一を**生成前に**拒否
+   (残骸ゼロ)。
+6. **境界の明文化**: process-profile.yaml「既知の限界」節へ E11 の到達目標(素朴な無力化まで・
+   decoy は同じ境界)を追記(裁定 3)。
+7. **恒久収載**: N19/N20/N20b/N21 を qualification へ・**C11b**(非既定構成 profile の全対照)を
+   self-conformance へ(裁定 4 の「対照 1 本」)。
+
+**製造中の設計確定(理由記録)**:
+
+1. **DET 用の detail に実行ごとに変わる値(sha)を入れない** — N19 の失敗詳細に生の validator
+   出力(sha 入り)を載せたところ、**失敗時に DET(2 回一致)まで巻き添えで崩れた**。判定・理由
+   集合を比較する検査では、詳細も正規化する(exit code+マーカー有無へ)。
+2. **C11b の fixture は入口参照も adapt に追随させる** — register を移動した初版 fixture が
+   IQ-08 で FAIL した(AGENTS.md の参照が空ポインタ化)。**検査は正しく反応しており**、
+   fixture 側を実運用の手当て(入口も直す)へ合わせた — 検査を緩めていない。
+
+## 検証(2026-07-27・受入基準=起票時凍結分)
+
+- **V1(全対照)**: fresh scaffold で full qualification **34 対照すべて PASS**(既存 30 +
+  **N19/N20/N20b/N21**)・DET 2 回一致・`PASS — line ready`。既存対照の判定は不変(回帰)。
+- **V2(第 4R 再現条件の直接プローブ)**: P1(不正化→復旧)= **exit 2**(洗浄不成立)/
+  P2(HEAD applied・worktree 書き戻し)= **E06 維持**(index stage 版も同じ・scope 注記つき)/
+  P5(同名指定)= **exit 1・生成物 0 件**(生成前拒否)。**3 件とも閉鎖**。
+- **V3(非既定構成)**: self-conformance **C11b PASS** — register=`meta/custom-register.yaml`・
+  initial=`queued`・states=`[queued, applied]`・trailers=`X-Fix/X-Accept`・protected=`app/` の
+  adapt profile で**全対照 PASS**+2 回決定性一致(IA-04 の誤 FAIL 解消を実測)。
+- **V4(回帰)**: self-conformance **全 PASS**(C1〜C11・C11b)。validator selftest 全 PASS。
+- **V5(MoviePad 再適格 — 版ずれの実測・正直記載)**: 正本 runner を MoviePad へ当てると
+  **N19/N20/N20b が FAIL**。原因は MoviePad の**設置済み validator が ECO-024 以前**であること
+  (OQ は対象リポの installed assets を sandbox へ複写して実測するため)。MoviePad 自身の
+  設置 runner には新規負例が無く、**MoviePad の line 判定は従来どおり ready**(欠陥ではなく
+  版ずれ)。設備更新はスコープ外(手動 3 手順 — ECO-021 記録済み)・**EXP-20260727-19 の
+  発火データ**として還元へ。runner 側 docstring に「版の対」を明記した。
+- **影響なし予測の検証**: **部分不的中(正直記載)** — 予測に `method/tools/self-conformance.py`
+  が入っていなかった。裁定 4 の「非既定構成対照 1 本」を C11b として self-conformance へ置いた
+  ため(製造中の置き場決定)。それ以外は予測どおり(validator/qualification/bomdd-init/
+  process-profile.yaml+台帳系のみ・scaffold 経路の生成物は文言以外不変)。
+- CI 緑は push 後に実測(accept 節へ記録)。
 
 ## 起票(2026-07-27)
 

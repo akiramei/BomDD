@@ -365,6 +365,13 @@ def main() -> int:
     cad_name = args.cad_name or f"{args.name}UI"
     cad_root = parent / cad_name
 
+    # ECO-024 IA-05: product と CAD が同一ディレクトリへ解決される指定を**生成前に**拒否する。
+    # 存在検査は同じ未作成パスを 2 回見て通過するため、後段(git init)まで失敗が遅れ、
+    # 途中まで重ねた生成残骸が残っていた(fail-closed の位置が遅すぎた)。
+    if is_gui and os.path.normcase(str(product_root)) == os.path.normcase(str(cad_root)):
+        print(f"エラー: 製品リポと CAD リポが同一パスへ解決されます({product_root})— "
+              f"--cad-name に別名を指定してください(生成前に停止・残骸なし)", file=sys.stderr)
+        return 1
     for target in [product_root] + ([cad_root] if is_gui else []):
         if target.exists():
             print(f"エラー: {target} は既に存在します(上書きしません)", file=sys.stderr)
