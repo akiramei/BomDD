@@ -581,7 +581,7 @@ changes:
     title: C11 の環境依存(git identity)除去+CI 結果確認の未結線 — 2 日 11 コミット 5 ECO を跨ぐ赤の潜伏
     date: 2026-07-27
     origin: defect
-    status: filed
+    status: verified
     source: >
       GitHub Actions run 30227817530(2026-07-27・main 47af227)— 3 ジョブすべてで
       [C11] FAIL の 1 件のみ。実測で赤化起点を特定: 最後の緑 9c255c7(07-24)→ 赤化 ba9f325
@@ -593,6 +593,7 @@ changes:
     diff_audit:
       baseline: 7068ad5  # 起票時 47af227 → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-27・裁定 2 点は推奨採択)
       allowed_paths: [method/tools/self-conformance.py, CLAUDE.md, .claude/skills/lesson-promote/]
+      head: "1bfce1b"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測は部分不的中を正直記載(CLAUDE.md は更新でなく新設)
     summary: >
       C11 は bomdd-init を --no-qualify のみで呼ぶため git 経路を通り、CI ランナーに
       user.name/user.email が無いと初回 commit が失敗する(C4 は --no-git で無事)。
@@ -608,4 +609,13 @@ changes:
       GIT_AUTHOR_*/GIT_COMMITTER_* を与える(検査は自分の前提を自分で満たす)+ CI 結果確認の
       規律を①暗黙知から②③へ引き上げ。受入基準に**identity 不在環境の再現**と**CI 緑の実測**を
       事前登録(ローカル緑だけでクローズしない)。裁定 2 点は gate ① へ。
-    verification: "(製造前 — 未実施)"
+    verification: >
+      V1= 陽性対照(CI 環境の再現: identity 不在環境で self-conformance 全 PASS)。
+      V1b= **天然対照**(是正前 c68795f を同一環境で実行 → C11 FAIL・CI と同一メッセージ=
+      是正と検査の等価証明)。V2= 通常環境の回帰(判定不変)。**V3= CI 実測(クローズ条件)**:
+      push 1bfce1b の run 30229673836 が success・**3 ジョブすべて緑**(赤化 ba9f325 から
+      11 コミットぶり)。V4= 運用規律の反映(CLAUDE.md ②+lesson-promote 手順 8 ③)。
+      影響なし予測は**部分不的中を正直記載**(本リポに CLAUDE.md が存在せず更新でなく新設 —
+      予測が「既存ファイルの更新」を暗黙に想定)。製造中の発見= 方法論リポ自身に
+      ハーネス中立入口(AGENTS.md)が無い(ECO-010 は製品リポのみ対象)— スコープ外・別途裁定。
+      accept: 本コミット(詳細は order 参照)。
