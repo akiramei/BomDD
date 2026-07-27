@@ -754,4 +754,7 @@ changes:
       (C1〜C11+C11b)・validator selftest 全 PASS。V5 MoviePad 再適格= N19/N20/N20b FAIL だが原因は
       設置済み validator が本 ECO 以前である**版ずれ**(MoviePad 自身の line 判定は ready 継続・
       設備更新はスコープ外= EXP-20260727-19 の発火データ)。影響なし予測は**部分不的中**(self-
-      conformance.py が予測外 — C11b の置き場を製造中に決定)。CI 緑は push 後に実測し accept 節へ記録。
+      conformance.py が予測外 — C11b の置き場を製造中に決定)。CI 実測= fix dc97786 は**赤**
+      (C3 窓未閉鎖 1 件のみ・ローカル検出済みと同一)→ accept 1535b5a で**緑**(潜伏 1 コミット・
+      約 9 分・同一 ECO 内)。手順逸脱 2 件(検査 exit を echo で潰した chain・台帳の CRLF 化)は
+      order へ正直記載・是正済み。
