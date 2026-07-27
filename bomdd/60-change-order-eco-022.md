@@ -1,7 +1,9 @@
 # ECO-022 — 工程 donor intake 雛形の標準装備(OBS-20260725-01 の 2 例目判定= intake のみ昇格)
 
-> 状態: **filed → 製造中(2026-07-27)**。gate ① 承認済み(還元レビューで採択 —
-> 「A・C とも採択で。…C は ECO-022 起票から進めてください」)。
+> 状態: **verified(2026-07-27)**。gate ① 承認(還元レビューで採択)・fix= 8fd9c77・
+> V1〜V3 PASS・self-conformance 全 PASS(C1= 20 件)・窓閉鎖 baseline 9452936 → head 8fd9c77。
+> CI 緑は push 後に実測(accept 後の還元 push と同一 run で確認 — 結果は register 系列の
+> push 記録参照)。
 
 ## 起票(2026-07-27)
 
