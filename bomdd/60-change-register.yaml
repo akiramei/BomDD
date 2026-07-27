@@ -693,7 +693,7 @@ changes:
     title: --skills-only 設置経路が空ポインタ入口を作る(参照と被参照の設置単位分離+参照実在の検査ゼロ面)
     date: 2026-07-27
     origin: defect
-    status: filed
+    status: verified
     source: >
       MoviePad 初製造 ECO-001 からの R3 送付(2026-07-27)。--skills-only 設置の AGENTS.md に
       空ポインタ 3 件(既定 CAD 名の無条件仮定・change-management.md/CLAUDE.md は設置されないのに
@@ -702,6 +702,10 @@ changes:
       検査ゼロ面。製品側は MoviePad ECO-001 で是正済み(155adbd→3efd9a6→b9732f4)
     order_ref: bomdd/60-change-order-eco-023.md
     affected_refs: [method/tools/bomdd-init.py, method/templates/product-profile/, method/templates/process-core/tools/process-qualification.py]
+    diff_audit:
+      baseline: "540d59e"  # 起票コミット=是正開始直前(gate ① 承認 2026-07-27・裁定 3 点は推奨採択)
+      allowed_paths: [method/tools/bomdd-init.py, method/templates/product-profile/, method/templates/process-core/tools/process-qualification.py]
+      head: "be45738"  # diff監査済み: 窓内は allowed_paths+台帳系のみ・予測どおり(テンプレ新設は不要だった=既存流用)
     no_impact_prediction: "(製造前)bomdd-init の skills-only 設置系+AGENTS テンプレ文言+最小テンプレ追加+IQ-08 のみ。scaffold 経路の生成物は文言変更を除き不変(C4 回帰)。C11 は対照数のみ変化・判定構造不変の予測"
     summary: >
       是正案= (1) 不在正本(CLAUDE.md/change-management 最小正本)を不在時のみ設置
@@ -709,3 +713,10 @@ changes:
       (3) 権威方針文言の中立化(裁定台帳に従う)(4) IQ-08= 入口相対参照全数の実在検査。
       受入= 空ポインタ 0 の陽性対照+参照削除の負例 FAIL+scaffold/adapt 両回帰+MoviePad 再適格+CI 緑。
       裁定 3 点(不在正本の扱い/IQ-08 可否/遡及不要)は gate ① へ。
+    verification: >
+      V1 陽性対照= CAD/正本なし既存リポへの設置で空ポインタ 0(警告+不在時設置 2+未登録
+      プレースホルダ)・IQ-08 11 件 PASS・line ready。V2 負例= 参照 1 件削除で IQ-08 明示 FAIL・
+      製造停止。V3 scaffold 回帰= GUI scaffold で 12 件 PASS・全対照 PASS。V4 既存保持 5 面。
+      MoviePad 再適格(裁定 3・正本治具直接実行・設置物遡及なし)= IQ-08 15 件 PASS・line ready
+      (adapt profile 回帰を兼ねる)。self-conformance 全 PASS(C4/C11 回帰)。CI 緑は push 後
+      実測し order accept 節へ記録(accept: 本コミット)。
