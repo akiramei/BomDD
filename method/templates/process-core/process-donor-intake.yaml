@@ -1,0 +1,83 @@
+# process-donor-intake — 工程 donor と製品 donor の分離登録(雛形)
+#
+# 位置付け(harness ECO-022・2026-07-27): 派生開発の工程調達で「装置が書けない裁定と由来」を
+# 記録する唯一の手書き成果物。調達・版固定(bomdd.lock)・設置・初回 IQ/OQ は bomdd-init が
+# 自動化する — 本書に書くのは〈誰から・どの版を・どんな権威範囲で・何を差分注入し・
+# どう適格性を確認したか〉だけでよい。
+# 様式出典: ViewTube bomdd/process/process-donor-intake.yaml(1 例目・手動移植)→
+# MoviePad(2 例目・kit 標準経路)で収斂した部分のみ雛形化。完全様式(reuse map / process BOM /
+# First Article ほか)は 3 例目まで knowledge 参照(ViewTube 実物一式)。
+# 記入指針: 値の <> は置換必須。該当なしの節は削除せず理由を書く(空欄と「無い」を区別する)。
+
+bomdd:
+  product: "<製品名>"
+  layer: ProcessDonorIntake
+  lifecycle_state: installed
+  exp_ref: "<関連する実験/CAPA 参照(例: BomDD improvements.md EXP-…)>"
+
+# ── 工程 donor(工程設備・規律の供給元)──────────────────────────────────
+process_donor:
+  id: "PROCESS-DONOR-<略称>"
+  product: "<donor リポ名(方法論ハーネス or 成熟製品リポ)>"
+  repository: "<donor リポの場所>"
+  revision: "<固定した commit(bomdd.lock の method commit と一致させる)>"
+  role: method-authority-and-process-kit-donor
+  procurement_path: >
+    <調達経路。kit 標準経路なら: bomdd-init --skills-only(調達・版固定・設置・初回 IQ/OQ を
+    装置が自動実行。版固定の機械形= bomdd.lock)。手動移植なら移植手順と資産一覧の参照先>
+  authority_limit: >
+    <donor の権威が及ぶ範囲と及ばない範囲。例: donor は方法論と工程設備の正本だが、
+    本製品の要求・UI 正典・実機挙動の権威ではない。設備の差分(adapt)は deltas に記録し、
+    対象リポでの再適格性確認を経て有効化する>
+  update_note: >
+    <設備更新の経路。kit 標準経路の実測(2026-07-27): bomdd-init は完全な既存設備を保持する
+    仕様(更新は手動)— 更新は〈正本から byte-identical 複写 → kit/lock 再生成 →
+    再適格性確認〉の手動手順で行い、実施したらここへ追記する>
+
+# ── 製品 donor(製品内容・実機挙動の権威)────────────────────────────────
+product_donor:
+  id: "PRODUCT-DONOR-<略称>"
+  product: "<製品 donor(参照する成熟製品リポ、または既存実装の as-built= 自己 donor)>"
+  revision: "<参照時点の commit>"
+  role: as-built-product-authority
+  authority_limit: >
+    <製品 donor の権威範囲。例: 乖離解決の優先順位(実機優先か仕様優先か)・
+    donor 側コードへの変更可否と承認経路・既存資産の保全方針>
+
+# ── 差分(adapt — 差分注入は記録+負対照が必須)────────────────────────────
+deltas:
+  - id: DL-01
+    target: "<変更した設備ファイル(例: bomdd/process-profile.yaml)>"
+    change: >
+      <何を既定からどう変えたか(例: protected_paths を実レイアウトへ差し替え)>
+    approved: "<承認座標(gate 裁定・レビュー日付・承認者)>"
+    negative_control: >
+      <この差分が効いていることの負対照(例: 再適格性確認で該当対照が実パスを通過・
+      実パスへの違反 commit が遮断される実測)>
+    note: "<補足(例: 既定のままでは何が問題だったか)>"
+
+# ── line readiness(実測記録 — 存在確認を合格条件にしない)─────────────────
+line_readiness:
+  gate: "<適格性ゲートの結論(例: process-qualification: PASS — line ready)>"
+  conditions:
+    - "1. 入口: <入口文書から全 workflow へ到達可能か(設置スキル本数等)>"
+    - "2. validator 稼働: <selftest 結果 — 0 件表示は稼働の証拠ではない>"
+    - "3. hook 起動: <hooksPath の正準解決+実 commit 経路の負例実測>"
+    - "4. 台帳: <変更台帳の実在+厳格パース>"
+    - "5. 結果観測経路: <検査結果が判定前に判断者へ届く経路。ローカル同期実行なら exit code。
+       非同期・遠隔の検査(CI 等)があるなら、結論確認までを完了条件とする規律をここに宣言>"
+
+intake_checks:
+  donor_revision_pinned: true          # bomdd.lock 等で revision 固定済みか
+  asset_hashes_pinned: true            # 資産ハッシュ(kit manifest 等)固定済みか
+  donor_process_is_automatically_target_qualified: false  # donor で適格でも対象リポでは未適格
+  target_qualification: "<対象リポでの適格性確認の結論と日付>"
+  target_deltas_require_recording: true
+  target_deltas_require_negative_controls: true
+  product_work_permitted_during_transplant: false
+
+# ── verification(設置後の実測 — sandbox でなく本リポの実経路)──────────────
+verification:
+  e01_real_path_probe: >
+    <武装済み line での実パス負例の実測(例: 保護パス配下への ECO なし commit を試行 →
+    第 1 層が遮断した実ログ。プローブの後始末まで記録)>

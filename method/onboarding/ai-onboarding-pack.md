@@ -237,7 +237,12 @@ donor リポで成熟した工程設備(入口・ECO lifecycle・hooks・validat
 実測根拠: improvements.md OBS-20260726-02(ViewTube guide §6・harness ECO-015・harness ECO-020)。
 詳細は FINDINGS.md §11.6 を参照。
 
-完全様式(process reuse map / process BOM / IQ・OQ・PQ / First Article)は knowledge 参照:
-ViewTube `bomdd/process/mature-process-bootstrap-guide.md`(実物一式・2026-07-25)。標準成果物化は
-2 例目で判定する(improvements.md OBS-20260725-01)。初出: 方法論のみで製造を開始した派生で工程が
-greenfield 化し、機能合格が視覚適合へ昇格して不適合が流出(FINDINGS §11.5)。
+donor の分離登録・差分(adapt)・readiness の記録は標準雛形
+`method/templates/process-core/process-donor-intake.yaml` を使う(harness ECO-022 —
+装置が書けない「裁定と由来」だけを手で書く。調達・版固定・設置・初回 IQ/OQ は bomdd-init が
+自動化する)。**判定記録(2026-07-27・2 例目= MoviePad)**: 完全様式のうち標準化したのは
+intake のみ — reuse map / process BOM / First Article は kit 標準経路が不要化したため
+knowledge 参照のまま(3 例目で再判定。improvements.md OBS-20260725-01)。完全様式の実物一式:
+ViewTube `bomdd/process/mature-process-bootstrap-guide.md`(2026-07-25)。初出: 方法論のみで
+製造を開始した派生で工程が greenfield 化し、機能合格が視覚適合へ昇格して不適合が流出
+(FINDINGS §11.5)。
