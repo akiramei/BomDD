@@ -619,3 +619,26 @@ changes:
       予測が「既存ファイルの更新」を暗黙に想定)。製造中の発見= 方法論リポ自身に
       ハーネス中立入口(AGENTS.md)が無い(ECO-010 は製品リポのみ対象)— スコープ外・別途裁定。
       accept: 本コミット(詳細は order 参照)。
+  - id: ECO-021
+    title: process-qualification のプローブパスが既定 profile を暗黙前提(adapt 初適用で 3 FAIL+2 無音弱化)
+    date: 2026-07-27
+    origin: defect
+    status: filed
+    source: >
+      MoviePad 実運用初回(EXP-20260725-03)の設置中に実測。bomdd-init --skills-only 設置直後の
+      初回 IQ/OQ は既定 profile で全 PASS。MoviePad の実装がルート直下配置(src/ 不在)のため
+      protected_paths を実レイアウトへ adapt(実運用初の差分注入)→ 再適格性確認で
+      N1(素通り)/N11・N18(理由不一致)FAIL+POS・N6 の無音弱化。ゲートは
+      「FAIL — 製造を開始しない」で正しく停止(fail-closed の勝ち)
+    order_ref: bomdd/60-change-order-eco-021.md
+    affected_refs: [method/templates/process-core/tools/process-qualification.py]
+    no_impact_prediction: "(製造前)process-qualification.py の 1 ファイルのみ(+MoviePad への kit 再配布同期)。validator・hooks・profile スキーマ・bomdd-init の製品挙動は不変。C11 は既定 profile scaffold を使うため判定不変の予測"
+    summary: >
+      治具は installed assets(対象リポの実 profile)を検査対象とする設計なのに、プローブの
+      パス 5 箇所(POS/N1/N6/N11/N18)が src/ をハードコードし既定 profile を暗黙前提。
+      profile を「差分注入の場」と宣言しながら、差分が入った状態の対照が無く、adapt 分岐は
+      最初の実運用で初めて踏まれた(silence §16(b) の型。POS の弱化は §16(c) 存在 vs 完全性)。
+      是正案= プローブパスを installed profile から導出する単一関数を 5 箇所が共有
+      (silence §16(e))+ protected_paths 空なら適格性 FAIL(vacuous 化の遮断)。
+      受入= 既定 profile 回帰+adapt profile 陽性対照(MoviePad 実物)+空 profile 負例+DET。
+      クローズ条件= kit 再配布後 MoviePad 再適格 PASS+self-conformance 全 PASS+CI 緑実測。
