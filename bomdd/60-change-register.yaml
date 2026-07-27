@@ -745,6 +745,7 @@ changes:
     diff_audit:
       baseline: "90b1f63"  # 起票コミット=是正開始直前(gate ① 承認 2026-07-27・裁定 4 点は推奨採択)
       allowed_paths: [method/templates/process-core/, method/tools/bomdd-init.py, method/tools/self-conformance.py]
+      head: "dc97786"  # diff監査済み: 窓内は allowed_paths+台帳系のみ。self-conformance.py は予測外だが裁定 4(C11b)の実装先(order 検証節に正直記載)
     verification: >
       V1 全対照= fresh scaffold で 34 対照 PASS(既存 30+N19/N20/N20b/N21)・DET 一致・line ready。
       V2 第 4R 再現条件= P1 洗浄 exit 2 / P2 dirty 隠蔽で E06 維持(index 版も)/ P5 同名は生成前
