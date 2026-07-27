@@ -16,6 +16,12 @@
 *.DotSettings.user
 plm-out/
 
+# Obsidian workbench stage 0(experiments/obsidian-stage0/README.md)—
+# 共有するのは保守的設定 2 ファイルのみ。実行時状態(workspace 等)は追跡しない
+.obsidian/*
+!.obsidian/app.json
+!.obsidian/core-plugins.json
+
 # 生成 PDF(source は docx/md を追跡・PDF は再生成物なので追跡しない)
 paper/*.pdf
 output/pdf/

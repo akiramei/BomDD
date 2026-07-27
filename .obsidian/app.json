@@ -1,0 +1,20 @@
+{
+  "alwaysUpdateLinks": false,
+  "useMarkdownLinks": true,
+  "newLinkFormat": "relative",
+  "attachmentFolderPath": "experiments/obsidian-stage0/attachments",
+  "showUnsupportedFiles": true,
+  "strictLineBreaks": true,
+  "readableLineLength": true,
+  "defaultViewMode": "preview",
+  "livePreview": false,
+  "propertiesInDocument": "source",
+  "spellcheck": false,
+  "trashOption": "system",
+  "promptDelete": true,
+  "userIgnoreFilters": [
+    "tmp/",
+    "output/",
+    "plm-out/"
+  ]
+}

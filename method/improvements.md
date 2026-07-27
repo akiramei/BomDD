@@ -2286,3 +2286,52 @@ legacy 37 audited 節を目視走査〔unaudited L1719「標準部品台帳」�
 - [open] EXP-20260727-14 — 次に**環境依存を持つ検査を新設する**とき、「検査は自分の前提を自分で満たす」が**初回設計**に載るか(製造後の是正でなく)。併せて受入基準に**前提不在環境の陽性対照**が事前登録されるか
   origin: native
   evidence: 本節・観測1 / ECO-020 効果測定(宿題)2 項目め
+
+## 2026-07-27 外部提案裁定 — Obsidian workbench(Git 正本のフロントエンド)— 限定採択+stage 0 起票
+
+観測(出典: BomDD-Plm の活用状況に関する問題提起+「Obsidian を操作画面・Git/スキーマ/CI/CLI を
+PLM エンジンとする」構成提案〔外部・2026-07-27〕と現行 method の突合裁定):
+
+- 提案の骨格(操作画面とエンジンの分離・Git 正本・Dataview は read model)は妥当。ただし提案の
+  「CLI・CI 検査」列(状態遷移拒否・ECO なし正本変更拒否・未承認 golden 化拒否・参照整合性)は
+  **process-core 系列でほぼ既設**(lifecycle validator E01〜E19+hook / trailer 承認 /
+  self-conformance C1〜C11 / bomdd-lint R-052)。よって本提案の実体は「PLM を作るか」ではなく
+  **「既存の Git 正本+検査エンジンに、探索・閲覧・起案の面を Obsidian で足すか」**。
+- **修正 3 点を付して限定採択**: ①変更 CLI(`bomdd approve` 等)は**第二の書き込み経路**になる —
+  承認の判定はすでに hook+validator が持ち、CLI が独自に前提検査を実装すると silence §16(e)
+  (同一契約の判定基準の分岐)へ抵触する。置くなら既存 validator を呼ぶ便利ラッパに限定し、
+  当面は作らない。②正本を Obsidian 可読形式(.md frontmatter)へ寄せる判断は**保存形式の変更**で
+  あり、保留中の三層化提案(2026-07-16 レビュー)と**合同で裁定**する(別々に決めると二重改訂)。
+  代替= 派生 vault 生成(正本不変・C10 同期検査の対象)。③SQLite/MCP 索引は**必要の実測が先**
+  (④不採用・B3 見送り・worklist validator 化保留と同じ基準。grep は百万行級まで実測済み=
+  stage0-oss)。索引を作るなら設置三要素(装置・操作対象・結線〔起動+結果観測〕— onboarding §11)
+  を満たす設計が要る。
+- BomDD-Plm の扱いは**全面置換でなく分解**: 工程へ編入済みの検査(R-052 diff 監査= playbook §8)は
+  残し、未活用だった閲覧・探索・グラフ表示の作り込み計画を止めて Obsidian へ委譲する。
+- 型付き関係(`authorized_by` 等)の schema 追加・wikilink の型付き関係からの生成は stage 1 以降の
+  裁定事項として保留(正本形式の裁定と不可分のため)。
+
+適用した改善(stage 0 — 観測のみ・正本不変・ハーネス対象パス外のため ECO 起票なし):
+
+1. **vault 設定の保守的固定**: `.obsidian/app.json` + `core-plugins.json` の 2 ファイルのみ追跡
+   (.gitignore で実行時状態を除外)。正本汚染経路を設定で遮断 — rename 時リンク書き換え off・
+   Properties UI の YAML 正規化回避(source 表示)・既定を閲覧モード・新規リンクは GitHub 互換
+   相対 markdown・添付は実験フォルダへ隔離・ファイル生成系 core plugin off。内訳と理由は
+   `experiments/obsidian-stage0/README.md` の表が正本。
+2. **stage 0 プロトコル**: `experiments/obsidian-stage0/README.md`(運用規則 5 条 — 正本編集禁止・
+   起案は実験フォルダ内・逸脱は git status で検出し記録・community plugin は欲求自体を記録・
+   設定変更は diff+理由)+ `observation-log.md`(1 セッション 1 エントリ様式: 目的/経路/到達/
+   不足/逸脱 — 「なし」も記入し未記入と区別する)。
+3. stage 1 判定点の事前指定: 実セッション 5 回 or 実プロジェクト立ち上げ(EXP-20260725-03)完了の
+   早い方。実プロジェクトを Obsidian で閲覧しながら回せば process-core 実運用データと workbench
+   要否データが同時に取れる(実験の重畳・相互汚染なし)。
+
+効果回収(手順 4: worklist 起点): 該当 0 件 — 本出典は外部提案の裁定+観測装置の設置であり、
+実行トリガーを持つ open 項目に適用機会なし(EXP-20260725-03 は派生立ち上げ実案件でないため
+機会なし。ただし stage 1 判定点として連結した)。
+
+期待する効果と観測:
+
+- [open] EXP-20260727-15 — Obsidian stage 0 の実測: ①探索セッションで Obsidian 経路(検索/バックリンク/グラフ)が grep/エディタ脱出なしに目的へ到達するか(脱出の時点と理由を記録)②正本書き換えの逸脱 0 で推移するか(git status 検出)③不足として記録された機能は何か(= stage 1 起票の根拠。Dataview/索引への欲求も記録)。判定点= 実セッション 5 回 or EXP-20260725-03 完了の早い方で、stage 1(派生 vault 生成 or 正本形式変更=三層化と合同裁定)の要否を裁定
+  origin: native
+  evidence: 本節・experiments/obsidian-stage0/README.md
