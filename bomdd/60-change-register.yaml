@@ -660,3 +660,22 @@ changes:
       bomdd-init は完全な既存設備を保持する仕様(「更新は手動で」)のため設備は自動同期されない —
       手動同期経路(正本から byte-identical 複写+kit/lock 再生成+再適格)を intake update_note に
       記録。設備更新の装置化の要否は観測として還元へ(accept: 本コミット)。
+
+  - id: ECO-022
+    title: 工程 donor intake 雛形の標準装備(OBS-20260725-01 の 2 例目判定= intake のみ昇格)
+    date: 2026-07-27
+    origin: requirement
+    status: filed
+    source: >
+      OBS-20260725-01 の事前指定「標準成果物化は 2 例目で判定」が MoviePad 実運用初回(2 例目)で
+      到達。kit 標準経路が調達・版固定・設置・IQ/OQ を装置化し、手書きが残ったのは donor intake
+      1 ファイル(裁定と由来)のみ — レビュー裁定(2026-07-27)= intake 雛形のみ昇格・完全セットは
+      3 例目まで knowledge 参照
+    order_ref: bomdd/60-change-order-eco-022.md
+    affected_refs: [method/templates/process-core/process-donor-intake.yaml, method/onboarding/ai-onboarding-pack.md]
+    no_impact_prediction: "(製造前)新設 1 ファイル+onboarding §11 文言更新のみ。既存テンプレ・治具・bomdd-init の挙動は不変(雛形は kit 同梱物として配布されるのみ・特別扱いしない)。C1 件数 19→20(pin なしのため判定不変)"
+    summary: >
+      MoviePad 実物 intake を placeholder 化した雛形を method/templates/process-core/ へ新設し、
+      onboarding §11 の判定文言を更新(雛形参照+完全セットは 3 例目で再判定)。スコープ外=
+      bomdd-init による自動設置(intake は装置が書けない裁定文書)・完全セットのテンプレ化・
+      既存実物の遡及書き換え。受入= C1 厳格パース+実物キー被覆+参照実在+CI 緑。
