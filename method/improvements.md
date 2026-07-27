@@ -1887,7 +1887,7 @@ validation_warnings 0):
 
 期待する効果と観測:
 
-- [watch 2/3] OBS-20260725-01 — 方法論の移植と工程の移植は別物 — 派生開発では製品 donor と工程 donor を分離調達しないと工程成熟度が greenfield へ戻る(工程調達の完全様式= donor intake / reuse map / process BOM / IQ-OQ-PQ / First Article の標準成果物化は 2 例目まで knowledge 参照〔ViewTube 実物一式〕に留める — 早すぎる形式化の回避)。**2 例目(2026-07-27・MoviePad 実運用初回)+事前指定の「2 例目で判定」到達**: kit 標準経路(bomdd-init)が完全様式のうち調達・版固定(bomdd.lock)・設置・IQ/OQ を**装置で自動化**し、手で書いたのは donor intake 1 ファイル(分離登録・delta・readiness 記録)のみ — reuse map / process BOM / First Article は不要だった。標準成果物化の判定はレビュー(織り込み案 C= intake 雛形のみ昇格・完全セット見送り)
+- [recovered 2026-07-27 via レビュー裁定(案 C)→ ECO-022(intake 雛形のみ templates 昇格・完全セットは 3 例目まで knowledge 参照)] OBS-20260725-01 — 方法論の移植と工程の移植は別物 — 分離調達の命題自体は onboarding §11 に本文化済み(2026-07-25 還元)。本項が追跡していた**事前指定の「標準成果物化は 2 例目で判定」**が到達し判定完了: 2 例目(MoviePad)で kit 標準経路が調達・版固定・設置・IQ/OQ を装置化し、手書きが残ったのは donor intake 1 ファイル(装置が書けない裁定と由来)のみ — よって **intake 雛形のみ昇格**(ECO-022)・reuse map / process BOM / First Article は装置が不要化したため knowledge 参照のまま(3 例目で再判定)
   source: ViewTube CAPA-VT-002, MoviePad process-donor-intake
   evidence: 本節・観測1 / ViewTube bomdd/process/mature-process-bootstrap-guide.md §14-1〜4 / MoviePad bomdd/process/process-donor-intake.yaml(33e416e)・2026-07-27 ECO-021 還元節・観測3
 - [watch 1/3] OBS-20260725-02 — 実在する不適合品(出荷済み/流出済みの実物)を known-bad control として保持し工程設備の受入に使う — 合成 fixture の負例だけでは「実際の失敗を封じ込める」性能(PQ)を証明しない。制御対象の実物を検査合格化のために改変しない規律とセット
@@ -1994,7 +1994,7 @@ IQ-01〜06 として実装済み — 本文(onboarding §11 line readiness「3 �
 - [recovered 2026-07-27 via レビュー裁定(案 A/A2 修正採択)→ ai-onboarding-pack §11 + existing-project-migration §11] OBS-20260726-02 — **工程設備は存在するだけでは設置済みではない — 装置・操作対象・有効な結線が実測されて初めて設置済みとなる**。独立実測 **3/3**: ViewTube guide §6(validator はあるが commit-msg から呼ばれない=**起動**の欠落)/ harness ECO-015 IQ-06(既存リポへの追設で台帳不在=**操作対象**の欠落)/ harness ECO-020(CI は常設・実行済みだが結論を見る手順が無い=**結果観測**の欠落)。**3/3 で昇格したのはこの親命題であり、「結線に 2 方向ある」ではない** — 後者は ECO-020 単独の**境界反例(N=1)**であり、新規一般則の昇格ではなく**既存定義の修正**として処置した(結線= 起動+結果観測の二方向 / 検査上は四条件)。実証詳細は本文へ持ち込まず FINDINGS §11.6 へ集約(規則と実測記録の重複回避)
   source: ViewTube CAPA-VT-001, harness ECO-015, harness ECO-020
   evidence: 2026-07-26 還元節・観測1 / ViewTube guide §6・ECO-015 V5(IQ-06 FAIL 実測)/ 2026-07-27 ECO-020 還元節・観測2 / 実証詳細= FINDINGS §11.6「裏面」
-- [watch 3/3] OBS-20260726-03 — 遮断方向の選定基準は「誤りがどちら側に倒れ、いつ誰に見えるか」— fail-closed の誤遮断は設置者の眼前(是正コスト最小点)・fail-open の誤通過は利用者の下流(最大点)で顕在化する。**3 例目到達(2026-07-27・harness ECO-021 — 事前指定トリガー「fail-closed 誤遮断が開発中に検出された実例」に一致)**: MoviePad 実運用初回の profile adapt で適格性スイートの既定値前提が破れ、誤 FAIL(N11/N18 理由不一致)+素通り表示(N1)が**設置者の眼前で即顕在化**し、ゲートが「FAIL — 製造を開始しない」で流出を止めた。fail-open 設計(緩い期待判定)なら弱化した対照は無音 PASS のまま実運用に入っていた。昇格審査はレビュー
+- [recovered 2026-07-27 via レビュー裁定(3/3 承認)→ playbook §13 運用規則] OBS-20260726-03 — 遮断方向の選定基準は「誤りがどちら側に倒れ、いつ誰に見えるか」— fail-closed の誤遮断は設置者の眼前(是正コスト最小点)・fail-open の誤通過は利用者の下流(最大点)で顕在化する。3 例= ECO-015 V8(b)(hook 実行環境欠陥の初回 end-to-end 顕在化)/ ECO-017 V8(a)(IQ-02 初版誤 FAIL の即是正)/ ECO-021(適格性スイートの既定値前提が実運用初 adapt で誤 FAIL+素通り表示として顕在化・ゲートが製造開始を停止)。留保(本文にも明記)= 3 例とも harness 系列 — 他リポでの fail-closed 側実測は今後の追跡対象
   source: harness ECO-015, harness ECO-017, harness ECO-021
   evidence: 本節・観測2 / ECO-015 V8(b) / 2026-07-27 harness 還元節(2 例目= ECO-017 V8(a): IQ-02 初版の構造検査が実 hook の変数経由起動と不整合で scaffold を誤 FAIL → 初回 end-to-end で即顕在化し是正。fail-open 設計なら「検査したつもりの素通し」として潜伏していた)/ ECO-021 起票「見逃しの構造」3・2026-07-27 ECO-021 還元節・観測2
 
@@ -2407,6 +2407,19 @@ legacy 37 audited 節は目視 — unaudited L1719 は無関係):
    ECO でない)/ **OBS-20260727-08**(外部ツール既定の省略 — 該当事象なし)/
    **OBS-20260713-01**(影響予測の部分不的中はあるが同一系列連続 ECO のため N 据え置き —
    観測4 に記録)。
+
+適用した改善(2026-07-27 レビュー裁定 — A・C 採択):
+
+- **案 A**: `bomdd-playbook-v1.md` §13 へ運用規則「遮断方向は『誤りがどちら側に倒れ、いつ誰に
+  見えるか』で選ぶ」を追記(OBS-20260726-03 の 3/3 昇格 — レビューが独立性を承認)。実測 3 例と
+  fail-open 対照を根拠として収載し、**留保(3 例とも harness 系列)を本文にも明記** — 他リポでの
+  fail-closed 側実測は追跡継続。
+- **案 C**: **ECO-022 起票** — process-donor-intake 雛形を `method/templates/process-core/` へ
+  標準装備+onboarding §11 の「標準成果物化は 2 例目で判定する」文言を判定結果へ更新。
+  判定内容= intake のみ昇格(装置が書けない裁定と由来の記録)・完全セットは見送り(kit が
+  不要化・3 例目で再判定)。
+- **見送り(watch 1/3 維持)**: OBS-20260727-16(非既定構成対照の control-plan 追記)/
+  OBS-20260727-17(更新経路明記の onboarding 追記)— ECO-021 単発が根拠のため台帳保持。
 
 期待する効果と観測:
 
