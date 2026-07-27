@@ -38,6 +38,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -218,7 +219,22 @@ def c4_scaffold() -> None:
         shutil.rmtree(tmp, ignore_errors=True)
 
 
-# --- C11 process-core 適格性(ECO-015) -----------------------------------------------
+# --- C11 process-core 適格性(ECO-015・環境依存の除去は ECO-020) ----------------------
+def _c11_env() -> dict:
+    """検査は自分の前提を自分で満たす(ECO-020)。
+
+    C11 は bomdd-init の git 経路(init/config/add/初回 commit)を通すため、実行環境に
+    git の identity が必要になる。これを ambient な設定へ委ねると、**開発機では緑・CI では赤**
+    という環境差が生まれる(実測: C11 導入〔ECO-015〕から 11 コミット・約 2 日・5 ECO を跨いで
+    CI が赤のまま潜伏 — ローカル self-conformance の全 PASS だけを見ていたため)。
+    identity を検査側の固定値で与え、前提を検査に内在させる。
+    """
+    env = dict(os.environ)
+    env.setdefault("GIT_AUTHOR_NAME", "bomdd-selfconf")
+    env.setdefault("GIT_AUTHOR_EMAIL", "selfconf@bomdd.invalid")
+    env.setdefault("GIT_COMMITTER_NAME", "bomdd-selfconf")
+    env.setdefault("GIT_COMMITTER_EMAIL", "selfconf@bomdd.invalid")
+    return env
 def c11_process_core() -> None:
     probe = run(["git", "--version"])
     if probe.returncode != 0:
@@ -227,7 +243,8 @@ def c11_process_core() -> None:
     tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-c11-"))
     try:
         p = run([sys.executable, str(ROOT / "method" / "tools" / "bomdd-init.py"),
-                 "ProcCoreSmoke", "--dir", str(tmp), "--no-gui", "--no-qualify"])
+                 "ProcCoreSmoke", "--dir", str(tmp), "--no-gui", "--no-qualify"],
+                env=_c11_env())
         prod = tmp / "ProcCoreSmoke"
         if p.returncode != 0:
             check("C11", False, f"bomdd-init が失敗 (exit {p.returncode}): {p.stderr.strip()[:120]}")

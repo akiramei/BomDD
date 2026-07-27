@@ -62,6 +62,11 @@ description: 製品リポの ECO 教訓を方法論(method/)へ還元する入�
    承認された節から織り込みコミットする(節単位で採否可)。
 7. **コミット**: `method(<product>): <出典範囲> 還元 — <要約>`。improvements.md 記帳と
    tools/skills の追加は本スキル内で実施してよい(本文織り込みは停止点の後)。
+8. **push したら CI 結論まで見る**(ECO-020・完了条件): push で終わりにせず
+   `gh run list --repo akiramei/BomDD --limit 3` で結論を確認する。**ローカルの
+   self-conformance 全 PASS はクローズ条件ではない**(実測: CI が 11 コミット・約 2 日・
+   5 ECO を跨いで赤のまま潜伏。ローカル緑だけを見ていた)。赤なら次の作業へ進む前に
+   是正または起票する。詳細は [CLAUDE.md](../../../CLAUDE.md)。
 
 ## 追跡項目の記帳スキーマ(v1 — 2026-07-15 レビュー採択)
 
