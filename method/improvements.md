@@ -1887,15 +1887,15 @@ validation_warnings 0):
 
 期待する効果と観測:
 
-- [watch 1/3] OBS-20260725-01 — 方法論の移植と工程の移植は別物 — 派生開発では製品 donor と工程 donor を分離調達しないと工程成熟度が greenfield へ戻る(工程調達の完全様式= donor intake / reuse map / process BOM / IQ-OQ-PQ / First Article の標準成果物化は 2 例目まで knowledge 参照〔ViewTube 実物一式〕に留める — 早すぎる形式化の回避)
-  source: ViewTube CAPA-VT-002
-  evidence: 本節・観測1 / ViewTube bomdd/process/mature-process-bootstrap-guide.md §14-1〜4
+- [watch 2/3] OBS-20260725-01 — 方法論の移植と工程の移植は別物 — 派生開発では製品 donor と工程 donor を分離調達しないと工程成熟度が greenfield へ戻る(工程調達の完全様式= donor intake / reuse map / process BOM / IQ-OQ-PQ / First Article の標準成果物化は 2 例目まで knowledge 参照〔ViewTube 実物一式〕に留める — 早すぎる形式化の回避)。**2 例目(2026-07-27・MoviePad 実運用初回)+事前指定の「2 例目で判定」到達**: kit 標準経路(bomdd-init)が完全様式のうち調達・版固定(bomdd.lock)・設置・IQ/OQ を**装置で自動化**し、手で書いたのは donor intake 1 ファイル(分離登録・delta・readiness 記録)のみ — reuse map / process BOM / First Article は不要だった。標準成果物化の判定はレビュー(織り込み案 C= intake 雛形のみ昇格・完全セット見送り)
+  source: ViewTube CAPA-VT-002, MoviePad process-donor-intake
+  evidence: 本節・観測1 / ViewTube bomdd/process/mature-process-bootstrap-guide.md §14-1〜4 / MoviePad bomdd/process/process-donor-intake.yaml(33e416e)・2026-07-27 ECO-021 還元節・観測3
 - [watch 1/3] OBS-20260725-02 — 実在する不適合品(出荷済み/流出済みの実物)を known-bad control として保持し工程設備の受入に使う — 合成 fixture の負例だけでは「実際の失敗を封じ込める」性能(PQ)を証明しない。制御対象の実物を検査合格化のために改変しない規律とセット
   source: ViewTube CAPA-VT-001
   evidence: 本節・観測1 / CAPA-VT-001 AC-PROC-004(V1.0.1 保持・改変禁止)・CAPA-VT-002 AC-PORT-014(known-bad 拒否+正常通過の両観測要求)
-- [open] EXP-20260725-03 — 次の派生プロジェクト(成熟 donor リポを参照する新規/派生開発)の開始時: 製品 donor と工程 donor が分離登録され、最小 line readiness(入口から到達可能+lifecycle validator 稼働+hook 有効化の実測)を確認してから製品製造に入るか(工程 greenfield 化の再発ゼロ・織り込み案C/D の効果測定)
+- [open] EXP-20260725-03 — 次の派生プロジェクト(成熟 donor リポを参照する新規/派生開発)の開始時: 製品 donor と工程 donor が分離登録され、最小 line readiness(入口から到達可能+lifecycle validator 稼働+hook 有効化の実測)を確認してから製品製造に入るか(工程 greenfield 化の再発ゼロ・織り込み案C/D の効果測定)。**前段成立の実測(2026-07-27・MoviePad 実運用初回)**: 分離登録(intake)+line readiness 実測が製品製造の**前に**踏まれた — 規律でなく**装置が強制**(bomdd-init が IQ/OQ を fail-closed 自動実行・FAIL 中は製造開始を案内しない= 織り込み案C/D の効果発現)。後段(製品製造 ECO で greenfield 化の再発ゼロ)は MoviePad 初製造 ECO で判定 — それまで open 維持
   origin: native
-  evidence: 本節・裁定表 #1/#2/#4
+  evidence: 本節・裁定表 #1/#2/#4 / MoviePad process-donor-intake.yaml(33e416e)・2026-07-27 ECO-021 還元節・観測5
 
 追記(2026-07-25 レビュー裁定+織り込み実施): **A〜E・G 採択/F 見送り**(cheat-taxonomy へは
 混入させない — 提案どおり)。織り込み済み= 案A: FINDINGS §11.5 新設(転移の対照観測・N=1)/
@@ -1994,9 +1994,9 @@ IQ-01〜06 として実装済み — 本文(onboarding §11 line readiness「3 �
 - [recovered 2026-07-27 via レビュー裁定(案 A/A2 修正採択)→ ai-onboarding-pack §11 + existing-project-migration §11] OBS-20260726-02 — **工程設備は存在するだけでは設置済みではない — 装置・操作対象・有効な結線が実測されて初めて設置済みとなる**。独立実測 **3/3**: ViewTube guide §6(validator はあるが commit-msg から呼ばれない=**起動**の欠落)/ harness ECO-015 IQ-06(既存リポへの追設で台帳不在=**操作対象**の欠落)/ harness ECO-020(CI は常設・実行済みだが結論を見る手順が無い=**結果観測**の欠落)。**3/3 で昇格したのはこの親命題であり、「結線に 2 方向ある」ではない** — 後者は ECO-020 単独の**境界反例(N=1)**であり、新規一般則の昇格ではなく**既存定義の修正**として処置した(結線= 起動+結果観測の二方向 / 検査上は四条件)。実証詳細は本文へ持ち込まず FINDINGS §11.6 へ集約(規則と実測記録の重複回避)
   source: ViewTube CAPA-VT-001, harness ECO-015, harness ECO-020
   evidence: 2026-07-26 還元節・観測1 / ViewTube guide §6・ECO-015 V5(IQ-06 FAIL 実測)/ 2026-07-27 ECO-020 還元節・観測2 / 実証詳細= FINDINGS §11.6「裏面」
-- [watch 2/3] OBS-20260726-03 — 遮断方向の選定基準は「誤りがどちら側に倒れ、いつ誰に見えるか」— fail-closed の誤遮断は設置者の眼前(是正コスト最小点)・fail-open の誤通過は利用者の下流(最大点)で顕在化する(2 例目=次の fail-closed 誤遮断が開発中に検出された実例で判定)
-  source: harness ECO-015, harness ECO-017
-  evidence: 本節・観測2 / ECO-015 V8(b) / 2026-07-27 harness 還元節(2 例目= ECO-017 V8(a): IQ-02 初版の構造検査が実 hook の変数経由起動と不整合で scaffold を誤 FAIL → 初回 end-to-end で即顕在化し是正。fail-open 設計なら「検査したつもりの素通し」として潜伏していた)
+- [watch 3/3] OBS-20260726-03 — 遮断方向の選定基準は「誤りがどちら側に倒れ、いつ誰に見えるか」— fail-closed の誤遮断は設置者の眼前(是正コスト最小点)・fail-open の誤通過は利用者の下流(最大点)で顕在化する。**3 例目到達(2026-07-27・harness ECO-021 — 事前指定トリガー「fail-closed 誤遮断が開発中に検出された実例」に一致)**: MoviePad 実運用初回の profile adapt で適格性スイートの既定値前提が破れ、誤 FAIL(N11/N18 理由不一致)+素通り表示(N1)が**設置者の眼前で即顕在化**し、ゲートが「FAIL — 製造を開始しない」で流出を止めた。fail-open 設計(緩い期待判定)なら弱化した対照は無音 PASS のまま実運用に入っていた。昇格審査はレビュー
+  source: harness ECO-015, harness ECO-017, harness ECO-021
+  evidence: 本節・観測2 / ECO-015 V8(b) / 2026-07-27 harness 還元節(2 例目= ECO-017 V8(a): IQ-02 初版の構造検査が実 hook の変数経由起動と不整合で scaffold を誤 FAIL → 初回 end-to-end で即顕在化し是正。fail-open 設計なら「検査したつもりの素通し」として潜伏していた)/ ECO-021 起票「見逃しの構造」3・2026-07-27 ECO-021 還元節・観測2
 
 追記(2026-07-26 裁定J(a) 実施 — ECO-015 の後追い独立受入検査): transfer-04 様式(read-only・
 情報遮断〔order 検証節の読取り禁止を検査官が遵守宣言〕・敵対プローブ)で Codex へ委譲。結果=
@@ -2280,7 +2280,7 @@ legacy 37 audited 節を目視走査〔unaudited L1719「標準部品台帳」�
 - [watch 1/3] OBS-20260727-12 — **生成器・kit が配る設備を生成器自身のリポは持たないことがある** — 適用対象を「製品リポ」と定義した瞬間に自リポが対象外になり、自己適用の穴が**対象定義の中に隠れる**(既存の穴と違い、検査を追加しても見えない — 対象集合の外だから)
   source: harness ECO-020
   evidence: 本節・観測4 / ECO-010(製品リポのみ対象)・ECO-020 製造中の発見
-- [open] EXP-20260727-13 — ECO-020 後、**CI 赤の潜伏日数が 0 で推移する**か(push ごとに結論が確認され、赤が次の作業へ持ち越されないか)。測定= 赤化 commit から検出 commit までの距離(今回の基準線= 11 コミット・約 2 日・5 ECO)
+- [open] EXP-20260727-13 — ECO-020 後、**CI 赤の潜伏日数が 0 で推移する**か(push ごとに結論が確認され、赤が次の作業へ持ち越されないか)。測定= 赤化 commit から検出 commit までの距離(今回の基準線= 11 コミット・約 2 日・5 ECO)。**実測(2026-07-27・ECO-021 系列)**: 同日の push 6 回すべてで結論を確認・全緑(潜伏 0 継続)
   origin: native
   evidence: 本節・観測2 / ECO-020 効果測定(宿題)1 項目め
 - [open] EXP-20260727-14 — 次に**環境依存を持つ検査を新設する**とき、「検査は自分の前提を自分で満たす」が**初回設計**に載るか(製造後の是正でなく)。併せて受入基準に**前提不在環境の陽性対照**が事前登録されるか
@@ -2335,3 +2335,90 @@ PLM エンジンとする」構成提案〔外部・2026-07-27〕と現行 metho
 - [open] EXP-20260727-15 — Obsidian stage 0 の実測: ①探索セッションで Obsidian 経路(検索/バックリンク/グラフ)が grep/エディタ脱出なしに目的へ到達するか(脱出の時点と理由を記録)②正本書き換えの逸脱 0 で推移するか(git status 検出)③不足として記録された機能は何か(= stage 1 起票の根拠。Dataview/索引への欲求も記録)。判定点= 実セッション 5 回 or EXP-20260725-03 完了の早い方で、stage 1(派生 vault 生成 or 正本形式変更=三層化と合同裁定)の要否を裁定
   origin: native
   evidence: 本節・experiments/obsidian-stage0/README.md
+
+## 2026-07-27 BomDD(harness)還元 — ECO-021+MoviePad 実運用初回立ち上げ(3/3 到達 1・2 例目判定 1・効果回収 4)
+
+観測(出典: bomdd/60-change-order-eco-021.md〔verified・fix=742be89・accept=90b7bdc・CI 緑
+run 30244546377/30245846810〕+ MoviePad bomdd/process/process-donor-intake.yaml〔line ready・
+33e416e push 済み〕。**process-core の実運用初回(EXP-20260725-03 トリガー)が、初日に治具の
+潜在欠陥を検出し即日 verified まで通した系列**):
+
+**観測1(差分注入点を宣言したら、検査は差分が入った状態を対照に含める — ECO-021 本体)**:
+profile を「差分はここで注入し、不変条件はコードに固定する」と宣言した設備で、適格性スイートの
+プローブパス 5 箇所(POS/N1/N6/N11/N18)が既定 profile の値(src/)をハードコードしていた。
+既定と一致する構成(scaffold・self-conformance C11)でしか実行されたことがなく、**adapt という
+主要分岐は実運用初回の最初の差分注入で初めて踏まれた** — silence §16(b)(説明が約束する全分岐を
+通るテストがあるか)の設備構成版。発現の内訳が三態そろった点が重要: 誤 FAIL(N11/N18 理由不一致=
+fail-closed 方向)・素通り表示(N1= fail-open 方向の表示)・**無音の弱化**(POS の保護変更脚が
+保護外パスを書き E01 経路を検査せず PASS = §16(c) 存在 vs 完全性)。是正= プローブパスを
+installed profile から導出する単一関数 `_probe_rel()` を 5 対照が共有(§16(e) の予防適用)+
+OQ-00 新設(protected_paths 空/不在は明示 FAIL — 保護対象ゼロの line を ready と言わない)。
+受入で **V2b(ファイル型 fallback 分岐の実測)を凍結外で追加** — 「約束した分岐を未実測のまま
+出荷しない」を是正自身に適用した。影響分析は導出関数が新たに持つ暗黙前提(protected_paths の
+並び順)を**製造前に列挙**(EXP-20260727-09 命題の予防適用 — トリガー厳密不一致のため N は
+進めない)。
+
+**観測2(fail-closed 適格性ゲートは治具自身の欠陥も表面化させる — OBS-20260726-03 の 3 例目)**:
+治具の前提が崩れたとき、「期待した遮断が起きない/理由が違う」を FAIL に倒す設計だったため、
+欠陥は**設置者の眼前・是正コスト最小点**で顕在化し、ゲートが製造開始を止めた(流出ゼロ)。
+緩い期待判定(遮断されれば理由不問等)なら、弱化した対照は無音 PASS のまま実運用に入っていた。
+3 例の独立性: 別設備面(hook 実行環境の欠陥 / IQ 構造検査の初版誤 FAIL / OQ プローブの既定値
+前提)・別の発現形(全 commit 遮断 / scaffold 誤 FAIL / 理由不一致+素通り表示)で、同一事象の
+再記述ではない。留保= 3 例とも harness 系列(単一リポ)— 独立性はレビューで判断。
+
+**観測3(kit 標準経路は工程調達様式の大半を装置化する — OBS-20260725-01 の 2 例目)**: ViewTube
+(1 例目)は成熟製品リポからの手動移植で完全様式 9 ファイル(intake/reuse map/process BOM/
+IQ-OQ-PQ/First Article ほか)を要した。MoviePad(2 例目)は kit 標準経路(bomdd-init)が
+調達・版固定(bomdd.lock= revision+manifest sha256)・設置・初回 IQ/OQ を自動化し、**手で書いた
+のは donor intake 1 ファイルのみ**(工程/製品 donor の分離登録・delta 記録・readiness 記録 —
+装置が書けない「裁定と由来」だけが残った)。事前指定(onboarding §11「標準成果物化は 2 例目で
+判定」)の判定データ: 様式の収斂は intake のみ・他 8 種は装置が不要化。
+
+**観測4(kit 再配布は既存設備を同期しない — 仕様の実測)**: bomdd-init は完全な既存設備を検出
+すると保持する(「動いている工程設備を上書きしない。更新は手動で」)。ECO-021 の影響予測
+「kit 再配布で MoviePad 同期」は**部分不的中(正直記載)** — 実際の更新経路は〈正本から
+byte-identical 複写 → kit/lock 削除・再生成 → 再適格性確認〉の手動 3 手順(MoviePad intake
+update_note に記録)。設備更新の装置化(--update 等)は**必要の実測 1 例のみ** — rule of three
+前に装置を作らない(観測記帳)。同一系列の連続 ECO のため OBS-20260713-01(影響分析の盲点)の
+N は進めない(ECO-019/020 還元で適用した基準と同じ)。
+
+**観測5(前段成立 — 装置が規律を強制した)**: EXP-20260725-03 の前段(分離登録+line readiness
+を製品製造の前に実測)が成立。ViewTube(規律未整備で greenfield 化)との対照は、**人が規律を
+覚えていたからでなく、装置が fail-closed で強制したから**成立した(bomdd-init は qualification
+FAIL 中に製造開始を案内しない)。手順の成熟度ラダーの⑤(自動化)が①〜②(暗黙知・散文)を
+不要化した実例。実パス E01 負例(武装済み line の本リポ実 commit 経路)も PASS。
+
+効果回収(手順 4: worklist 起点・validation_warnings 0・native open 19/watch 36 全走査+
+legacy 37 audited 節は目視 — unaudited L1719 は無関係):
+
+1. **OBS-20260726-03(遮断方向の選定基準)= 3 例目到達 → watch 3/3**(行内遷移済み・
+   PROMOTION DUE)。事前指定トリガー「fail-closed 誤遮断が開発中に検出された実例」に一致。
+   昇格審査はレビュー(織り込み案 A)。
+2. **OBS-20260725-01(工程 donor 分離)= 2 例目 → watch 2/3**(行内遷移済み)+事前指定の
+   「標準成果物化は 2 例目で判定」到達 — 判定はレビュー(織り込み案 C)。
+3. **EXP-20260725-03(実運用初回の規律)= 前段成立の実測・open 維持**(行内追記済み)。
+   後段(初製造 ECO で greenfield 再発ゼロ)の判定まで回収しない。
+4. **EXP-20260727-13(CI 赤の潜伏 0 推移)= 実測記録・open 維持**(行内追記済み)。同日
+   push 6 回すべて結論確認・全緑。
+5. 機会なし(境界例の記録): **EXP-20260727-14**(環境依存検査の新設 — ECO-021 は環境前提で
+   なく構成既定値の欠陥)/ **EXP-20260727-09**(「既存依存の新しい使い方」— 自前治具は依存で
+   ない。ただし影響分析の並び順列挙を予防適用として観測1 に記録)/ **EXP-202607-09**(新設
+   フェーズ/ゲートなし — 既設 qualification の実運用)/ **EXP-20260714-04**(依存導入/更新
+   ECO でない)/ **OBS-20260727-08**(外部ツール既定の省略 — 該当事象なし)/
+   **OBS-20260713-01**(影響予測の部分不的中はあるが同一系列連続 ECO のため N 据え置き —
+   観測4 に記録)。
+
+期待する効果と観測:
+
+- [watch 1/3] OBS-20260727-16 — **差分注入点(config で可変と宣言した点)を持つ検査設備は、既定値と異なる構成を対照に含める** — 既定一致構成だけの検査は、可変点の分岐を最初の実運用 adapt まで未実測のまま残す(発現は誤 FAIL・素通り・無音弱化の三態)。機械面= 可変点から導出する単一プローブ関数+非既定構成の陽性対照
+  source: harness ECO-021
+  evidence: 本節・観測1 / ECO-021 V2(MoviePad 実物)・V2b(fallback 分岐)
+- [watch 1/3] OBS-20260727-17 — **kit/設備の配布は「初回設置」と「更新」が別経路** — 初回を装置化しても更新は手動のままになりうる(既存保持は上書き事故を防ぐ正しい既定だが、更新経路の宣言がないと「再配布すれば同期される」と誤解される)。設置物には更新経路を明記する(実測= intake update_note の手動 3 手順)
+  source: harness ECO-021
+  evidence: 本節・観測4 / ECO-021 製造中の発見・MoviePad intake update_note
+- [open] EXP-20260727-18 — MoviePad **初の製品製造 ECO** で: ①line(E01〜・trailer・履歴再演)が製造フローを実際に統制するか ②greenfield 化(その場しのぎの工程再発明)の再発ゼロか(= EXP-20260725-03 後段の判定データ)③実機変更の blocking 裁定+明示承認(UQ-0016)が line と両立するか
+  origin: native
+  evidence: 本節・観測5 / MoviePad process-donor-intake.yaml
+- [open] EXP-20260727-19 — 次に kit 設置済みリポへ**設備更新**が必要になったとき: 手動 3 手順(正本複写→kit/lock 再生成→再適格)が踏まれるか・誤り(複写漏れ・lock 不整合・再適格スキップ)が出るか(= 更新経路装置化の rule of three データ)
+  origin: native
+  evidence: 本節・観測4
