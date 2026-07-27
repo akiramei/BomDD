@@ -591,8 +591,8 @@ changes:
     affected_refs: [method/tools/self-conformance.py]
     no_impact_prediction: "(製造前)self-conformance.py + 裁定 1 で決まる運用規律の反映先(CLAUDE.md または method/bomdd-playbook-v1.md のいずれか)以外 diff ゼロ予測。**製品挙動(bomdd-init・process-core)は不変** — 変えるのは検査側の前提充足のみ。C11 の判定ロジック・他検査(C1〜C10)・所要も不変"
     diff_audit:
-      baseline: 47af227  # 起票時 HEAD(製造承認時に是正窓直前へ更新する)
-      allowed_paths: [method/tools/self-conformance.py]
+      baseline: 7068ad5  # 起票時 47af227 → 是正開始直前(起票コミット)へ更新(製造承認 2026-07-27・裁定 2 点は推奨採択)
+      allowed_paths: [method/tools/self-conformance.py, CLAUDE.md, .claude/skills/lesson-promote/]
     summary: >
       C11 は bomdd-init を --no-qualify のみで呼ぶため git 経路を通り、CI ランナーに
       user.name/user.email が無いと初回 commit が失敗する(C4 は --no-git で無事)。
