@@ -14,6 +14,8 @@ IQ(Installation Qualification)— 対象リポの実測:
         未コミットで走る正当経路がある: gate ① 裁定 1)
 
 OQ(Operational Qualification)— 使い捨て sandbox リポで実 commit 経路を実測:
+  OQ-00    保護パスプローブを installed profile から導出(ECO-021 — 既定値のハードコード禁止。
+           protected_paths が空/不在なら明示 FAIL し以降の OQ を実行しない)
   POS      正常系: 起票→保護パス変更→accept trailer 付きクローズ→validate が全通過
   N1(E01)  ECO なし保護パス変更が遮断される
   N2(E02)  新規エントリの非 initial 登録が遮断される
@@ -268,6 +270,26 @@ class Sandbox:
                               capture_output=True, text=True, encoding="utf-8", errors="replace")
 
 
+def _probe_rel(root: Path) -> str | None:
+    """保護パスプローブの導出(ECO-021 裁定 1)— installed profile から導出する単一関数。
+    OQ の保護パス対照(POS/N1/N6/N11/N18)はすべてこの結果を共有する(silence §16(e) —
+    「保護パスとは何か」の解釈を 2 箇所に置かない)。既定 profile の値をハードコードすると
+    adapt(差分注入)されたリポで対照が既定前提のまま空振りする(ECO-021 の欠陥)。
+    規則: 先頭のディレクトリ型エントリ(末尾 /)配下にプローブファイルを合成。ディレクトリ型が
+    無ければ先頭エントリ(ファイル型)をそのまま使用。**並び順が導出結果を決める(仕様)**。
+    空/不在なら None(呼び出し側が明示 FAIL にする — 保護対象ゼロの line を ready と言わない)。"""
+    try:
+        prof = yaml.safe_load((root / "bomdd" / "process-profile.yaml").read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001 — profile 不読は IQ-01 が FAIL 済み。ここは導出不能として扱う
+        return None
+    paths = [p for p in (prof or {}).get("protected_paths") or []
+             if isinstance(p, str) and p.strip()]
+    dirs = [p for p in paths if p.endswith("/")]
+    if dirs:
+        return dirs[0] + "oq-probe.txt"
+    return paths[0] if paths else None
+
+
 def _blocked_with(p: subprocess.CompletedProcess, code: str) -> tuple[bool, str]:
     out = (p.stderr or "") + (p.stdout or "")
     if p.returncode == 0:
@@ -278,6 +300,15 @@ def _blocked_with(p: subprocess.CompletedProcess, code: str) -> tuple[bool, str]
 
 def run_oq(root: Path, base: Path) -> list[dict]:
     res: list[dict] = []
+
+    # ECO-021: 保護パスプローブは installed profile から導出(既定値のハードコード禁止)。
+    # 導出不能(protected_paths 空/不在)は明示 FAIL — 保護対象ゼロの line を ready と判定しない。
+    probe = _probe_rel(root)
+    if probe is None:
+        res.append(result("OQ-00", "保護パスプローブ導出(installed profile)", False,
+                          "protected_paths が空/不在 — 保護対象ゼロの line を ready と判定しない(ECO-021)"))
+        return res
+    res.append(result("OQ-00", "保護パスプローブ導出(installed profile)", True, f"probe={probe}"))
 
     s = Sandbox(root, base, "pos")
     ok_steps, detail = True, []
@@ -290,7 +321,7 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
     s.write(REGISTER, _reg_text("staged"))
     step(s.commit("eco: file ECO-900"), "起票 commit")
-    s.write("src/a.txt", "hello\n")
+    s.write(probe, "hello\n")
     step(s.commit("feat: protected change under ECO-900"), "保護パス commit")
     s.write(REGISTER, _reg_text("applied"))
     step(s.commit("eco: accept ECO-900", "BomDD-ECO-Accept: ECO-900"), "accept commit")
@@ -298,7 +329,7 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     res.append(result("POS", "正常 ECO が全経路を通過", ok_steps, "・".join(detail) or "起票→保護変更→accept→validate"))
 
     s = Sandbox(root, base, "n1")
-    s.write("src/a.txt", "x\n")
+    s.write(probe, "x\n")
     ok, d = _blocked_with(s.commit("feat: no eco"), "E01")
     res.append(result("N1", "E01", ok, d))
 
@@ -338,7 +369,7 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     git(s.root, "config", "--unset", "core.hooksPath", env=s.env)
     iq3 = [r for r in run_iq(s.root) if r["control"] == "IQ-03"][0]
     detected = not iq3["pass"]
-    s.write("src/a.txt", "x\n")
+    s.write(probe, "x\n")
     slipped = s.commit("feat: no eco, hooks inactive").returncode == 0
     res.append(result("N6", "IQ-03(hook 無効の検出)", detected and slipped,
                       f"IQ-03 検出={detected}・無効時に違反 commit が素通り={slipped}(実測)"))
@@ -404,7 +435,7 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     prof_path.write_text(prof_path.read_text(encoding="utf-8")
                          .replace("open_states: [staged]", "open_states: [applied]"),
                          encoding="utf-8", newline="\n")
-    s.write("src/a.txt", "x\n")
+    s.write(probe, "x\n")
     ok, d = _blocked_with(s.commit("attack: self-redefine open_states"), "E01")
     res.append(result("N11", "E01(profile 自己再定義の遮断)", ok, d))
 
@@ -484,7 +515,7 @@ def run_oq(root: Path, base: Path) -> list[dict]:
         ok, d = _blocked_with(s.validate(), "E11")
         res.append(result("N17", "E11(存在するが validator を起動しない)", ok, d))
         # N18: 無力化後の ECO なし保護パス変更 → 第 2 層(保護パス履歴検査)が E01
-        s.write("src/evil.py", "x\n")
+        s.write(probe, "x\n")
         p2 = s.commit("feat: no eco, hooks neutered")
         if p2.returncode != 0:
             res.append(result("N18", "E01(保護パス履歴)", False, f"バイパス commit 失敗: {p2.stderr.strip()[:80]}"))

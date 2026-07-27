@@ -1,6 +1,15 @@
 # ECO-021 — process-qualification のプローブパスが既定 profile を暗黙前提(adapt 初適用で 3 FAIL+2 無音弱化)
 
-> 状態: **filed(2026-07-27)**。gate ①(製造承認+裁定 2 点)待ち。
+> 状態: **filed → 製造中(2026-07-27)**。gate ① 承認済み。
+
+## 裁定(gate ① — 2026-07-27)
+
+- **製造承認(2026-07-27・maintainer — 「製造承認します、裁定 2 点は推奨どおりで」)**。
+  baseline を起票コミット bdb6391 とする。
+- 裁定 2 点は**推奨案を採択**:
+  1. 導出規則= 先頭ディレクトリ型エントリ配下に合成・無ければ先頭エントリ(ファイル型)・
+     空/不在なら明示 FAIL。単一関数 `_probe_rel()` を 5 対照が共有。
+  2. MoviePad DL-01(protected_paths 15 エントリ・states 既定 2 状態)承認。
 
 ## 起票(2026-07-27)
 
@@ -91,6 +100,30 @@ L293 POS / L301 N1 / L341 N6 / L407 N11 / L487 N18)。installed profile(src/ 非
 - MoviePad 側 bomdd/tools/process-qualification.py の直接パッチ(kit 再配布で同期する —
   設置物の手直しは正本と派生の乖離を作る)。
 - profile スキーマへの「レイアウト自動検出」等の機能追加(必要が実測されてから)。
+
+## 是正(2026-07-27)
+
+1. `_probe_rel(root)` を新設(installed profile から導出・裁定 1 の規則・並び順依存を仕様として
+   docstring に明記)。**OQ-00** を新設し導出結果を記録 — 導出不能(空/不在)は明示 FAIL で
+   以降の OQ を実行しない。
+2. 5 対照(POS/N1/N6/N11/N18)の `src/` ハードコードを `probe` 共有へ置換。ヘッダ対照表へ
+   OQ-00 を追記。変更は process-qualification.py の 1 ファイルのみ(影響予測どおり)。
+
+## 検証(2026-07-27・受入基準=起票時凍結分)
+
+- **V1(回帰・既定 profile)**: fresh scaffold(bomdd-init 経由=実配布経路)で全対照 PASS・
+  probe=`src/oq-probe.txt`・line ready。
+- **V2(陽性対照・今回の見逃しを直接塞ぐ)**: MoviePad 実機(adapt 済み 15 エントリ)で
+  全対照 PASS・probe=`Controls/oq-probe.txt`・**line ready**。N1 が E01 遮断・POS 保護変更脚が
+  実保護パスを書くことを含む。
+- **V2b(§16(b) 予防適用 — 凍結外・追加)**: ファイル型のみの protected_paths(`[Program.cs]`)で
+  全対照 PASS・probe=`Program.cs` — 導出関数が約束する fallback 分岐を実測(約束した分岐を
+  未実測のまま出荷しない — 本 ECO の欠陥型を是正自身に適用)。
+- **V3(負例)**: `protected_paths: []` で **OQ-00 明示 FAIL・exit 1・「製造を開始しない」**
+  (無音 PASS しない)。
+- **V4(DET)**: 決定性 PASS(V1/V2/V2b 各実行に含む)。
+- self-conformance 全 PASS(C4 scaffold 煙試験+C11 が新治具経由)。
+- クローズ条件(kit 再配布 → MoviePad 再適格 PASS・CI 緑)は accept 節に記録する。
 
 ## 教訓(還元候補 — クローズ後に lesson-promote 経由)
 
