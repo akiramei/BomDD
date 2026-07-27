@@ -918,6 +918,46 @@ ViewTube CAPA-VT-002〔§11.5 追補〕と合わせ**別リポ 2 系列**で再�
 証拠: bomdd/reports/independent-inspection-eco-015.md・independent-reinspection-eco-016-017.md・
 independent-reinspection-eco-018.md(各報告に真正判定注記つき)・bomdd/60-change-order-eco-015〜019.md。
 
+### 11.7 追補: 実運用初回 — line は設置初日に自らの欠陥を 2 件検出し、初の製品 ECO を統制した(MoviePad ECO-001 / harness ECO-021・ECO-023)
+
+§11.5 は工程資産を調達しない派生が greenfield 化する対照を、§11.6 は独立検査の被覆とリポ外
+アンカーの観測境界を記録した。本節は **kit 標準経路で武装した line の実運用初回**(MoviePad・
+2026-07-27)を記録する — 設置から初製造 ECO 完走までが同日に収まった。
+
+**実測(時系列)**:
+
+1. **設置**: bomdd-init --skills-only が process-core を設置(93ca904)→ 初回 IQ/OQ を
+   fail-closed 自動実行 → line ready。E01 実パス負例(武装済み line で ECO なし commit の遮断)を
+   実測(33e416e)。
+2. **実運用初日に harness 欠陥 2 件を検出**: OQ プローブの既定値前提(harness ECO-021 —
+   adapt 構成の最初の差分注入で誤 FAIL・素通り・無音弱化の三態が発現)と、入口 AGENTS.md の
+   空ポインタ 3 件+権威方針の裁定矛盾(MoviePad ECO-001 → harness ECO-023 へ R3 送付・
+   --skills-only 設置経路の根治)。双方**即日 verified**。
+3. **初製造 ECO-001 完走**: 起票 155adbd(staged)→ fix 3efd9a6 → accept b9732f4(applied・
+   trailer+E 検査経由)。R5 プローブ先行(是正前 FAIL 6 の実測裏取り → 全消込)・保護パス
+   diff ゼロ(影響なし予測的中)・qualification PASS・golden 承認(maintainer)。
+
+**中心的観測 2 点**:
+
+- **装置の強制は規律の記憶を不要化した**(EXP-20260725-03 全段成立): 分離登録(donor intake)+
+  line readiness が製品製造の**前に**踏まれたのは、人が規律を覚えていたからでなく、bomdd-init が
+  qualification FAIL 中に製造開始を案内しないから(前段)。初製造 ECO は工程の再発明(greenfield
+  化)ゼロで installed profile+skills の手順どおり完走した(後段)。ViewTube(§11.5・規律未整備で
+  greenfield 化)との対照であり、手順の成熟度ラダーの⑤(自動化)が①〜②(暗黙知・散文)を
+  不要化した実例。
+- **実運用は検査面の最良の検出器だった**: 独立検査 3 ラウンド(§11.6・通算 25 提起)の後も
+  残っていた欠陥 2 件(既定値前提の対照未実測・設置経路の参照実在)を、実運用初日が検出した。
+  いずれも「既定と一致する構成でしか検査されたことがない面」— read-only の独立検査では踏めない
+  実 adapt 構成・実設置経路を、実運用が初めて踏んだ。
+
+**限界**: N=1 製品リポ(MoviePad)。初製造 ECO は入口文書欠陥の是正であり、UI/機能の製品製造では
+ない。実機変更なしのため実機優先裁定(UQ-0016 blocking)と line の両立は未測定。担当者は方法論
+設計者と同一系列の AI+同一 maintainer — 転移条件(§11 本体)は本節の範囲外。
+
+証拠: MoviePad bomdd/60-change-order-eco-001.md・bomdd/process/process-donor-intake.yaml・
+harness bomdd/60-change-order-eco-021.md / eco-023.md・method/improvements.md 2026-07-27 還元節
+(ECO-021 / ECO-023+ECO-001)。
+
 ## 12. stage-0 健診の外部妥当性 — ハブは普遍・三冠は局所(stage0-oss-01)
 
 stage-0 健診(宣言なしリポの変更トポロジー測定)の適用範囲を、ViewGrid(N=1・.NET・108k 行)から
