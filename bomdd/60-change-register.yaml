@@ -623,7 +623,7 @@ changes:
     title: process-qualification のプローブパスが既定 profile を暗黙前提(adapt 初適用で 3 FAIL+2 無音弱化)
     date: 2026-07-27
     origin: defect
-    status: filed
+    status: verified
     source: >
       MoviePad 実運用初回(EXP-20260725-03)の設置中に実測。bomdd-init --skills-only 設置直後の
       初回 IQ/OQ は既定 profile で全 PASS。MoviePad の実装がルート直下配置(src/ 不在)のため
@@ -633,6 +633,10 @@ changes:
     order_ref: bomdd/60-change-order-eco-021.md
     affected_refs: [method/templates/process-core/tools/process-qualification.py]
     no_impact_prediction: "(製造前)process-qualification.py の 1 ファイルのみ(+MoviePad への kit 再配布同期)。validator・hooks・profile スキーマ・bomdd-init の製品挙動は不変。C11 は既定 profile scaffold を使うため判定不変の予測"
+    diff_audit:
+      baseline: bdb6391  # 起票コミット=是正開始直前(製造承認 2026-07-27・裁定 2 点は推奨採択)
+      allowed_paths: [method/templates/process-core/tools/process-qualification.py]
+      head: "742be89"  # diff監査済み: 窓内は allowed_paths+台帳系(order 裁定/検証節)のみ
     summary: >
       治具は installed assets(対象リポの実 profile)を検査対象とする設計なのに、プローブの
       パス 5 箇所(POS/N1/N6/N11/N18)が src/ をハードコードし既定 profile を暗黙前提。
@@ -642,3 +646,17 @@ changes:
       (silence §16(e))+ protected_paths 空なら適格性 FAIL(vacuous 化の遮断)。
       受入= 既定 profile 回帰+adapt profile 陽性対照(MoviePad 実物)+空 profile 負例+DET。
       クローズ条件= kit 再配布後 MoviePad 再適格 PASS+self-conformance 全 PASS+CI 緑実測。
+    verification: >
+      V1= 回帰(既定 profile の fresh scaffold・実配布経路= bomdd-init)全対照 PASS・
+      probe=src/oq-probe.txt。V2= 陽性対照(MoviePad 実機・adapt 済み 15 エントリ)全対照 PASS・
+      probe=Controls/oq-probe.txt・line ready。V2b= fallback 分岐(ファイル型のみ)PASS・
+      probe=Program.cs(§16(b) 予防適用 — 約束した分岐を未実測のまま出荷しない)。
+      V3= 負例(protected_paths 空)= OQ-00 明示 FAIL・exit 1。V4= DET PASS。
+      self-conformance 全 PASS・CI 緑実測(742be89 = run 30244546377)。
+      クローズ実測: kit 再配布+設備手動同期 → MoviePad 再適格 PASS = line ready
+      (lock=742be89 dirty:false)・設置 commit 93ca904(導入点)・実パス E01 負例 PASS
+      (Views/ への ECO なし commit を第 1 層が遮断)・push 済み 33e416e。
+      影響なし予測は**部分不的中を正直記載**: 「kit 再配布で MoviePad 同期」と予測したが、
+      bomdd-init は完全な既存設備を保持する仕様(「更新は手動で」)のため設備は自動同期されない —
+      手動同期経路(正本から byte-identical 複写+kit/lock 再生成+再適格)を intake update_note に
+      記録。設備更新の装置化の要否は観測として還元へ(accept: 本コミット)。

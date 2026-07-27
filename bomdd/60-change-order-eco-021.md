@@ -1,6 +1,18 @@
 # ECO-021 — process-qualification のプローブパスが既定 profile を暗黙前提(adapt 初適用で 3 FAIL+2 無音弱化)
 
-> 状態: **filed → 製造中(2026-07-27)**。gate ① 承認済み。
+> 状態: **verified(2026-07-27)**。fix= 742be89(CI 緑 run 30244546377)・クローズ実測=
+> MoviePad 再適格 PASS(line ready・設置 93ca904・実パス E01 負例 PASS・push 33e416e)。
+> 窓は accept で閉鎖(baseline bdb6391 → head 742be89)。
+
+## 製造中の発見(観測 — 本 ECO では是正しない)
+
+**kit 再配布は既存設備を同期しない(仕様)**: bomdd-init は完全な既存設備を検出すると保持する
+(「動いている工程設備を上書きしない。更新は手動で」— ECO-017 REV-07 の不完全設備 FAIL と対の
+設計)。影響予測の「kit 再配布で同期」は**部分不的中(正直記載)** — 実際の更新経路は
+〈正本から byte-identical 複写 → kit/lock 削除・再生成 → 再適格性確認〉の手動 3 手順で、
+MoviePad intake の update_note に記録した。**設備更新の装置化**(bomdd-init --update 等)の要否は
+観測として還元へ送る — 手動経路の実測 1 例(手数・誤りやすさ)を得たが、rule of three 前に
+装置を作らない。
 
 ## 裁定(gate ① — 2026-07-27)
 
