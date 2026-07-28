@@ -758,3 +758,24 @@ changes:
       (C3 窓未閉鎖 1 件のみ・ローカル検出済みと同一)→ accept 1535b5a で**緑**(潜伏 1 コミット・
       約 9 分・同一 ECO 内)。手順逸脱 2 件(検査 exit を echo で潰した chain・台帳の CRLF 化)は
       order へ正直記載・是正済み。
+  - id: ECO-025
+    title: 方法論リポにハーネス中立入口(AGENTS.md)が無い(生成器が自リポを対象定義の外へ置いた穴)
+    date: 2026-07-27
+    origin: defect
+    status: filed
+    source: >
+      OBS-20260727-12(harness ECO-020 製造中の観測)+ 2026-07-27 外部レビュー裁定 4。
+      bomdd-init は製品リポへ AGENTS.md を配るが自リポは不在(実測)・CLAUDE.md は自ら
+      「入口ではない」と宣言しており宣言と実態が矛盾。実害= ①他ベンダー AI(Codex 独立検査
+      4 ラウンド実施済み)へ規範を渡す経路がない ②「必須検査が非 0 なら push しない」
+      「exit code を後続コマンドで上書きしない」が未明文化(ECO-024 の赤 push の背景)
+    order_ref: bomdd/60-change-order-eco-025.md
+    affected_refs: [AGENTS.md, CLAUDE.md, method/tools/self-conformance.py]
+    no_impact_prediction: "(製造前)method/templates/・method/tools/bomdd-init.py・製品リポ生成物は diff ゼロ。変更は自リポの入口 2 文書+(裁定点 2 採用時のみ)入口参照実在の新検査"
+    summary: >
+      是正案= (1) 最小 AGENTS.md 新設(作業規律 6 項目・製品テンプレの丸ごと複写はしない)
+      (2) CLAUDE.md を補助入口化(Claude 固有の補足のみ)(3) process-core の自己適用は
+      **不採用**(台帳語彙の全面移行+二重統治のコスト)(4) 入口参照実在検査の自リポ適用は裁定点。
+      受入= 参照全数実在+運用手順との文言突合+CI 緑+**効果の限界の事前登録**
+      (「AGENTS.md により再発防止済み」とは書かない — 機械的強制は未導入・残余リスクとして保持)。
+      裁定 3 点(粒度/参照実在検査の自リポ適用/CLAUDE.md の扱い)は gate ① へ。
