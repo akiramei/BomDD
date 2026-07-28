@@ -1,22 +1,20 @@
-# CLAUDE.md — 本リポ(BomDD 方法論リポ)の運用規律
+# CLAUDE.md — Claude 固有の補足(入口は AGENTS.md)
 
-方法論の内容は `method/` が正本。本ファイルは**このリポで作業するときの運用規律**だけを置く
-(方法論の一般則は書かない — 一般則は `method/bomdd-playbook-v1.md` へ)。
+> **作業入口は [AGENTS.md](AGENTS.md)** — 作業規律 6 項目と正本の所在はそちらが正本。
+> 本ファイルには **Claude 固有の補足**(ハーネス依存の運用・実測の背景)だけを置く。
+> 方法論の一般則は書かない — 一般則は `method/bomdd-playbook-v1.md` へ。
 
-## 変更管理(自己適用)
+## 変更管理(自己適用)— AGENTS.md 規律 1 の補足
 
 - ハーネス(`method/tools/` `method/templates/` `.github/`)の変更は
   **起票なしに行わない** — `bomdd/60-change-register.yaml` + `bomdd/60-change-order-eco-NNN.md`。
 - 検証は `python method/tools/self-conformance.py`(`--dotnet` で C9 も)。
+- 還元(教訓の method 反映)は `/lesson-promote` が入口 — 記帳と本文織り込みは二段分離
+  (本文改訂はレビュー承認後)。
 
-## push したら CI 結論を確認する(ECO-020)
+## push したら CI 結論を確認する(ECO-020)— AGENTS.md 規律 5/6 の背景
 
-**ローカルの self-conformance 全 PASS はクローズ条件ではない。** push 後に GitHub Actions の
-結論を確認し、赤なら次の作業へ進む前に是正または起票する。
-
-```bash
-gh run list --repo akiramei/BomDD --limit 3
-```
+規律そのものは AGENTS.md 5・6 に置いた。ここには**そう決めた実測の背景**を残す。
 
 理由(実測): C11 導入(ECO-015)から **11 コミット・約 2 日・5 ECO を跨いで CI が赤のまま
 潜伏**した。各 ECO でローカル全 PASS は確認していたが、**CI の結果を一度も見ていなかった** —
@@ -29,8 +27,12 @@ ECO-006 で CI を常設した目的(一括検証の入口)が、結果を観測
   リポ外状態へ依存させると、測定不能(API 不達・未実行・権限不足)の扱いを誤って新たな
   fail-open / 誤 FAIL を生むため。必要が実測されてから判断する。
 
-## 未整備(観測 — 本ファイルは入口ではない)
+## 実測の背景: ゲート不在で赤を push した事例(ECO-024)
 
-本リポには製品リポ向けに `bomdd-init` が生成する **ハーネス中立入口(AGENTS.md)が無い**
-(ECO-010 は製品リポ側のみを対象とした)。本ファイルは運用規律の置き場であって入口ではない。
-入口整備の要否は別途裁定する。
+AGENTS.md 規律 3・4 の由来。検査と commit/push を**条件で結ばずに同一の実行要求へ並べた**ため、
+検査結果(`exit=1`・`FAILED`)は正しく出力されていたのに、**観測される前に後続操作が実行**され、
+不適合のまま push された(CI が赤・潜伏 1 コミット/約 9 分・同一 ECO 内で是正)。
+詳細は [ECO-024 order](bomdd/60-change-order-eco-024.md)「製造中の手順逸脱」1。
+
+**この規律は明文化であって強制ではない** — 現状ローカルに強制層はなく、押し戻すのは CI である
+(AGENTS.md「限界」節)。

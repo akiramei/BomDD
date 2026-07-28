@@ -24,6 +24,10 @@
                       の ID 層機械突合+二方言被覆+テンプレ空振り検査・陽性対照常設(ECO-014)
   C11 process-core  : scaffold 上で工程設備(hooks+validator+qualification runner)が稼働する —
                       IQ/OQ 合格+変異(hooksPath 無効化)を IQ-03 が検出(ECO-015。git 必須)
+                      C11b= 非既定構成 profile(register/initial/trailers/protected を既定と変更)
+                      でも全対照 PASS(ECO-024 — 導出化の全面適用を測る)
+  C12 entry-refs    : **自リポ入口**(AGENTS.md)の相対 markdown リンク全数が実在(ECO-025 —
+                      製品リポ側は IQ-08 が担うが生成器自身は対象定義の外だった。不在も FAIL)
 
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
@@ -416,6 +420,29 @@ def c8_hygiene() -> None:
     check("C8", not fossils, "リポ直下にパス破損の化石なし" + (f" — {fossils}" if fossils else ""))
 
 
+# --- C12 自リポ入口の参照実在(ECO-025) ----------------------------------------------
+def c12_entry_refs() -> None:
+    """本リポ自身の入口(AGENTS.md)の相対 markdown リンク全数が実在するか。
+
+    ECO-023 は製品リポ側の同じ穴を IQ-08 で塞いだが、**生成器自身のリポは対象定義の外**に
+    あったため被覆されていなかった(OBS-20260727-12: 適用対象を「製品リポ」と定義した瞬間、
+    自リポが対象外になり、穴が対象集合の中でなく**定義の中**に隠れる)。C4(scaffold 煙試験)は
+    bomdd-init の生成物を見る検査であり、自リポの入口は生成物ではないため別検査として置く。
+    AGENTS.md 不在も FAIL(入口の欠落そのものが本 ECO の症状)。
+    """
+    entry = ROOT / "AGENTS.md"
+    if not entry.is_file():
+        check("C12", False, "AGENTS.md がない(自リポの入口不在 — ECO-025 の症状)")
+        return
+    links = re.findall(r"\]\(([^)]+)\)", entry.read_text(encoding="utf-8"))
+    rels = [l.split("#")[0] for l in links
+            if not l.startswith(("http://", "https://", "#")) and l.split("#")[0]]
+    missing = sorted({l for l in rels if not (ROOT / l).exists()})
+    check("C12", not missing,
+          f"自リポ入口(AGENTS.md)の相対リンク {len(rels)} 件すべて実在" if not missing
+          else f"参照不在 {len(missing)} 件: {missing[:5]}")
+
+
 # --- C10 参照スキーマの派生同期(ECO-014) --------------------------------------------
 # README §2「id-grammar/ref-edges が正本・JSON Schema は導出」の宣言を機械検査で裏付ける。
 # 実害= uiId の domain が正本追加(ref-v0.3(c))から 13 日未同期でも検出されなかった(ECO-013)。
@@ -606,6 +633,7 @@ def main() -> int:
     c8_hygiene()
     c10_schema_drift()
     c11_process_core()
+    c12_entry_refs()
     if a.dotnet:
         c9_dotnet()
 
