@@ -44,7 +44,14 @@ baseline= 03eda4c(是正開始直前)。
 - **手順の自己適用**: 本 ECO では ECO-024 の逸脱を踏まえ、**fix コミットで status を `filed` の
   まま**にし(verified + 窓未閉鎖の状態を作らない)、accept コミットで `verified` + `head` を
   同時に設定した。検査は毎回 exit code を直接ゲートに使い、結果を観測してから次の操作を投入した。
-- CI 緑は push 後に実測(accept 節へ記録)。
+- **CI 実測(2026-07-28)**: accept `a604783` = **緑**(run 2026-07-28T05:30Z・両 OS)。
+  **正確な記載**: fix `188f014` は**単独では push しておらず**(fix commit → accept commit →
+  1 回 push)、**当該 revision の CI run は存在しない**。したがって 188f014 の結論は
+  4 値判定で `UNKNOWN`(未実行)であって `PASS` ではない — AGENTS.md 規律 6 に照らし、
+  「未実行を成功として扱わない」。現 HEAD `a604783` は 188f014 の全内容を含み緑であるため、
+  **対象 revision(HEAD)については緑を実測済み**。中間 commit の個別結論を主張しない。
+  (副次: 今回の運用は playbook §13「4 値判定」の小さな適用例になった — 中間= UNKNOWN・
+  HEAD= PASS を区別して記録した。)
 
 ### スコープ外観測(還元候補)
 

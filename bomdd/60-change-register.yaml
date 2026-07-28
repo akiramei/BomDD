@@ -790,4 +790,4 @@ changes:
       V4 回帰= self-conformance 全 PASS(C1〜C12)。**効果の限界(事前登録どおりの記載)**:
       本 ECO は作業入口と停止規則の明文化を完了したが、**ローカル検査結果の機械的強制は未導入で
       あり、残余リスクとして保持する**(AGENTS.md 限界節へも明記)。スコープ外観測= lesson-promote
-      手順 8 の参照先は CLAUDE.md のまま(矛盾はない・張り替えは還元で扱う)。CI 緑は accept 節へ記録。
+      手順 8 の参照先は CLAUDE.md のまま(矛盾はない・張り替えは還元で扱う)。CI 実測= accept a604783 は緑。fix 188f014 は単独 push していないため run 不在= UNKNOWN(未実行を成功として扱わない)— 対象 revision(HEAD)については緑を実測済み。
