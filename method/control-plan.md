@@ -83,7 +83,17 @@ Bounds 中心比較は Stretch されたコンテンツを素通りする(TextBl
 3 レイヤーで全数拾う — 装飾レイヤーが暗黙になりやすい(GF-103-01/02= ハロー欠落+文字ボックス内
 整列が checklist の暗黙面)。
 
-## 検査の対照3種と空集合の扱い(transfer-04 還元・2026-07)
+**golden は「承認済み CAD revision へ拘束された比較契約」**(ViewTube ECO-VT-029 還元・2026-08・
+実測 1 例= watch): 視覚受入は CAD と実機を同一 fixture・同一データ件数・同一状態で比較し、
+各セル(比較単位)を**承認済み CAD revision+manifest hash+承認証跡へ束縛**する。実測された
+false-PASS 2 種: ①state identity と散文観察が whole-screen CAD/actual オラクルを代替し、レガシー面
+混入の捕捉が PASS・独立レビュー所見 0 のまま通過(検出はユーザー目視のみ)。②合成 positive の
+CAD revision を未承認値へ置換しても exit 0・`releasable: true`(**対の整合は approved-CAD 来歴では
+ない**)。**代用にならないものの列挙**(棄却裁定の転記): UI-BOM 行数の存在=在庫の存在・機能試験
+合格・決定的 capture(「同じ誤ったレイアウトを 2 回再現できる」)・レビュー散文。bounded-region の
+合格を whole-screen golden へ**昇格しない**。未承認 CAD への置換は known-bad として拒否を実測し、
+qualification 生成物を tree identity 計算へ循環参照させない(証拠の非自己参照)。決定性≠正しさは
+CAPA-VT-002 II-004 に続く 2 例目。
 検査器は次の3種の対照を分けて設計する。「対象を不在にして FAIL を見る」試験は、検査器にとっては
 **既知違反を与える陽性対照**であって「陰性対照」ではない — 名称を混同しない。
 1. **違反陽性対照**: 検出対象となる違反を注入し、FAIL することを確認する。
@@ -118,6 +128,21 @@ i18n 未配線が全 golden を素通り)。
 切れず(協調キャンセル)、活動監視型の強制終了(HangDump)は 45 秒で発火+診断採取。人工故障の
 陽性対照を**手段候補すべて**に当ててから正本化する。対照 3 種が「対象」、暗黙前提が「検査自身の
 前提」の軸なのに対し、これは「検査・防護の手段」の軸 — 較正はゲートの動作確認だけでなく手段選定を裁く。
+
+## 基準側入力(オラクル・fixture)の健全性 — 検査の第 4 軸(ViewTube ECO-VT-047 還元・2026-08・実測 1 例= watch)
+
+検査器が **fixture・オラクル・CAD 宣言を trusted input として扱う**と、基準自体の内部矛盾が
+検査を素通りして human gate へ到達する。実測: 承認済み CAD fixture が `result_count: 7` を宣言
+しながら可視 identity 8 個を列挙する矛盾のまま validator PASS(findings 0)— validator は転写・
+再現性の失敗(cross-document equality・rendered identity・repeat hash)を検出する設計で、
+**宣言同士の整合は誰も検査していなかった**。repeat hash 一致は fixture 妥当性を証明しない
+(「同じ矛盾を 2 回再現できる」だけ)。
+処方: 基準側入力に**宣言間の相互拘束**(宣言件数×列挙 identity×ドメイン制約〔単一値タグ・
+親子件数関係・表示/選択/件数の相互拘束等〕)の独立検査を置き、違反は安定 reason code で
+fail-closed にする。導入時は **reject-all 実装を防ぐ coherent positive control**(整合した基準が
+通ること)を対で置く(対照 3 種の適用)。矛盾が見つかった基準は「有効化するために改変」せず、
+known-bad として恒久保持し新 revision の承認を待つ(実在不適合品の known-bad 保持 —
+OBS-20260725-02 系譜)。既存 3 軸(対象/検査自身の前提/手段)に対する**第 4 の軸=基準側入力**。
 
 ## 検査ハーネスの時間上限は被呼び出し側の契約(ViewPrism2 ECO-081 gate② 裁定・2026-07)
 
@@ -196,6 +221,16 @@ boundary** を別契約・別検査行として扱う。`Task` 返却・`Task.Ru
 track され 2 回目 NRE)。(c) 調査の粗スキャン結論は検出器の**全数調査で再検証**してから確定する —
 道具の出力上限(grep head_limit 等)は「結論の根拠」に使う前に外す(ECO-107= 上限切り捨てが
 「動的構築キー不在」の誤認 1 件を生成・誤認のまま削除なら実害〔ビューア文言の生キー化〕)。
+(d) **強制規則・ゲートの導入は「導入後最初の正常後続取引」を First Article に含める**
+(ViewTube ECO-VT-054→055 還元・2026-08・別リポ 1 例= watch): negative/mutation 中心の資格
+(実測: mutation 12 種+59 controls PASS)は、**新規取引が既存台帳を前提とする自己循環**
+(新 ECO の manifest が必要 → manifest は HEAD 上の登録済み ECO が必要 → 新 ECO は HEAD に
+存在しない)を検出せず、導入直後の最初の正常起票が false rejection になった。資格試験に
+`install → first compliant use → first transition → first acceptance` の一巡を含める。
+必要になる bootstrap 免除は identity・path・状態で**完全限定**し、「既存台帳行の変更・削除を
+同じ免除に紛れ込ませられない」ことまで検査する(免除の逆穴 — OBS-20260727-04/-05 系譜。
+初版免除の穴 2 件を独立レビューが検出した実測つき)。(a)〜(c) が「使われる形」の**空間軸**
+(経路・入力・全数)なのに対し、(d) は**時間軸**(導入直後の最初の一巡)。
 
 **検査器の既知限界は「見えない領域の実在」— 宣言に掃射手段を紐づける**(ECO-107/108):
 静的検査器は走査軸(代入検出・リテラル・表示層)の外に構造的盲点を持つ。①既知限界を宣言したら、

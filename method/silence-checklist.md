@@ -114,6 +114,8 @@
 | 機能等価な過剰実行 | 通知・再計算・再構築の回数と範囲(正しい結果を出し続けるため機能検査に映らず、ちらつき/性能の体験でのみ顕在化)。回数 pin で封止 | viewprism2 ECO-056(タブ切替→全再構築) |
 | 操作の起点(ジェスチャ) | どの要素がドラッグ/ホバー/キーボード経路を受けるかを視覚契約に明示行として持つ。**静的並置(スクリーンショット/headless レンダリング)は原理的に検査できない次元** — 実ポインタ注入 probe へ割り付ける。原器のドラッグハンドル等は意匠でなく操作起点の宣言と読む | viewprism2 ECO-087(面全体並置で転写漏れ 0 → golden 残所見はジェスチャ= GF-087-01。未選択行でドラッグ開始不能の半死が長期潜伏) |
 | 代替導線のマスク | 同一操作に複数導線がある面では、各導線が**単独で**動くことを検査する(冗長導線は主経路の欠陥を実用上マスクする)。導線を減らす変更は残る経路の動作実測を probe/golden 基準へ載せる | viewprism2 ECO-087(↑↓ボタン撤去で D&D の潜伏欠陥が顕在化。playbook §8.2「撤去はマスクの棚卸しも伴う」) |
+| 実現 control の同一性(代理 control・無効刺激) | CAD 宣言の可視 action は**その実現 control 自身**の操作で受け入れる — action identity・accessible name・束縛コマンド・事後条件・**非効果**(隣接する禁止効果の不発)まで。同一 use case へ到達する別 control は代理証拠にならない。無効刺激(ViewModel コマンド直呼び・reflective 呼出・合成キーイベント・capture の事前状態構成)を**明示列挙**して排除する | ViewTube ECO-VT-045(可視ボタンが別コマンドへ束縛・レガシー control の smoke が use case を「証明」・誤 accessible name を陽性 assert)・ECO-VT-052(可視境界の下からの刺激注入で実 pointer 経路の欠陥 2 件が流出)— ECO-087 系譜の別リポ 2 例目+新次元 |
+| governed 部品の幾何(renderer variance の受理条件) | renderer variance を認める前に、部品境界・寸法・形状・包含・中心位置を**構造化・画像束縛**で観測する(自由記述の layout PASS は幾何逸脱を受理する)。functional positive と geometry control を分離し、control 件数(inventory N/N)を幾何の証拠にしない | ViewTube ECO-VT-053(円形インジケータ・境界食い込みが `renderer_rasterization` の散文分類で受理・inventory 37/37 では原理的に検出不能 → `governed_component_geometry` を variance 受理の前提条件に) |
 
 ## 12. 状態機械
 | 次元 | M-BOM に書くべき決定 | 証拠 |

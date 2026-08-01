@@ -854,6 +854,19 @@ byte-identical・in-scope 未処置 0)。**自動適格 PASS がそのまま独�
 証拠: ViewTube bomdd/capa/CAPA-VT-002-closure.md・CAPA-VT-002-independent-reinspection-02.md・
 ViewTube commit 054fabb。
 
+**追補(継続運用の経過観測・2026-08-01)**: 調達された工程ラインはその後 ECO-VT-025〜055 の
+30+ ECO 系列を lifecycle 統制下で処理した — 工程設備自身の欠陥(検査器の Git 隔離破れ
+〔ECO-VT-027: 呼出元リポへ意図しない commit 2 件〕・fixture 内部矛盾の素通り〔ECO-VT-047〕・
+強制規則導入直後の first-filing 循環〔ECO-VT-055〕・視覚検査の false-PASS〔ECO-VT-029〕)が
+**ユーザー目視または工程内で発見され、いずれも RED/GREEN 資格つきの ECO として是正**された
+(工程の greenfield 化〔本節の初観測〕との対照: 発見が場当たりの修正でなく統制された変更として
+処理される状態へ遷移した)。同系列内で **read-across 不発 1 件**を実測: ECO-VT-027 の教訓
+(repo-local 環境変数の全除去)が 4 日後の新装置(ECO-VT-054 change-impact 検査)へ届かず
+hook 環境継承で 3 段再発 — 「規約は検査器で運ぶ」(§10.6)の別リポ・別モデル実測。証拠層別:
+lifecycle は implemented 5 件(027/029/039/047/052)・applied 5 件(045/048/053/054/055)—
+implemented 群は未クローズ。担当モデル(GPT-5.6 Sol)は maintainer 申告のみ(ECO 本文にモデル名
+記録なし)。詳細と裁定は improvements.md 2026-08-01 ViewTube 還元節。
+
 ### 11.6 追補: 自己適用の限界 — 検査規則が被検査物の中にある限り、検査は自己完結しない(harness ECO-015〜019・独立検査 3 ラウンド)
 
 §11.4 は「独立検査は自己レビューに追加被覆を与える」を示した。本節はその**極限データ**である:

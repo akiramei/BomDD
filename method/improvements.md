@@ -2869,3 +2869,13 @@ validation_warnings 0):
 - [open] EXP-20260801-08 — ViewTube で global ECO 採番 authority+完了報告様式が process ECO として正式化(RED/GREEN 資格)されたら: (a) 裁定表 #10/#11 の昇格を再判定する (b) GPT/Codex adapter(Core/Adapter 分離の実行アダプタ)の設計判断を行う — ECO-010/025 の既存ハーネス中立入口を正本とし、モデル別文書への工程本文複製ゼロ(ECO 状態遷移・golden 意味論・protected path・evidence schema・reason code・validator 判定・独立性要件・release authority は Core のみ)を維持する
   origin: native
   evidence: 本節・裁定表 #9〜#11 / ECO-VT-056.md:55-58・:410-414(番号再利用の実測)
+
+追記(2026-08-01 レビュー裁定+織り込み実施): **A〜F 全採択**。織り込み済み= 案A: control-plan
+新節「基準側入力(オラクル・fixture)の健全性 — 検査の第 4 軸」(watch 1 例明記)/ 案B:
+control-plan「正本化前検査」へ (d) 追加(強制規則の First Article は最初の正常後続取引を含む —
+空間軸 (a)〜(c) に対する時間軸)/ 案C: silence §11 へ 2 行(実現 control の同一性・governed 部品
+幾何)/ 案D: control-plan golden プローブ節へ追補(承認済み CAD revision へ拘束された比較契約・
+代用不能の列挙・bounded→whole 昇格禁止)/ 案E: playbook §8.2 閉包系譜へ consumer 処置台帳の
+knowledge 参照 1 項(様式昇格は ECO-VT-054 自己制限に従い保留)/ 案F: FINDINGS §11.5 へ継続運用の
+経過観測追補(read-across 不発 1 件= §10.6 別リポ実測・証拠層別つき)。Git 隔離系(裁定表 #4)は
+織り込みなし(watch 2/3 追跡継続)。

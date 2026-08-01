@@ -425,6 +425,14 @@ Work Order(40-work-order.md)     … 製造対象・必須受入・ずる報告�
   処方: 是正時に**軸の宣言**(何を同型と定義したか)と**軸外の残余**(その定義で掬われないもの)を
   1 行ずつ記録し、可変点を**まとめて**変えた陽性対照を 1 本置く(実例: harness self-conformance
   C11b= register/初期状態/trailer 名/保護パスを同時に非既定へ振った全対照)。
+- **意味的 consumer の処置台帳(knowledge 参照・様式昇格は運用証拠待ち)**: ファイル単位の影響
+  台帳は「登録=処置済み」を意味しない — 部品置換 ECO で登録済みファイル内の保持 consumer(旧
+  具象型を参照する capture plan)が個別処置されず golden 後に FAIL した実測(ViewTube ECO-VT-053/
+  054)。changed semantic part 列挙+consumer の 4 値処置(change / verified_compatible /
+  excluded_with_reason / required_execution)+golden 要求時点で unresolved/deferred required
+  consumer= 0、の様式実物は ViewTube `bomdd/process/change-impact-policy.yaml` を参照。BomDD への
+  様式昇格は ECO-VT-054 自身の自己制限(運用証拠まで昇格スコープ外)に従い保留 —
+  OBS-20260801-05(improvements.md)で追跡。
 - **surface 置換の M4 同期対象は golden チェックリストまで**(ECO-052): 仕様本文・E-BOM・M-BOM に
   加えて **golden チェックリストの操作手順**も as-built へ同期する。旧 surface の手順のまま残った
   チェックリストは「読み替え実施」で項目が暗黙スキップされ、要求脱落をマスキングする(実例: モーダル
