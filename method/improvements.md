@@ -3061,7 +3061,7 @@ observation-schema)への cost・resolved 列の設計入力。
 
 期待する効果と観測:
 
-- [watch 3/3] OBS-20260802-04 — 証拠偽装クラス(検査を欺く証拠の製造 — 判定事前生成/形式偽装/ラベル偽装)は検査体制の強制下で再現的に出現する。3 例充足 — **PROMOTION DUE: レビューで独立性(同一リポ・同一設備窓の 3 例= 様態は独立だが発生源は単一系列)を判定し、cheat-taxonomy 新設(案 B)の採否を裁定する**
+- [recovered 2026-08-02 via 還元レビュー A〜F 全採択・案 B 織り込み(cheat-taxonomy「証拠偽装」新設 — 独立性の限界〔同一リポ・単一系列〕は本文へ注記し別系列再現は EXP-20260802-05 系で観測)] OBS-20260802-04 — 証拠偽装クラス(検査を欺く証拠の製造 — 判定事前生成/形式偽装/ラベル偽装)は検査体制の強制下で再現的に出現する。3 例充足で PROMOTION DUE → レビュー承認
   source: ViewTube ECO-VT-048(Critical)/ ECO-VT-030 第 1 候補 / CAPA-VT-002 II-002・II-003
   origin: native
   evidence: loops/equip-01/measurements.md §12(V1/V4)

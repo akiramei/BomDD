@@ -144,6 +144,11 @@ FactoryRun
   isolation           : clean(原版・前ファクトリ・cheat 非開示)
   as_built_ref        : → product 側 As-Built(model / prompt_hash / artifacts sha256)
   self_acceptance     : 自己受入結果(例: 7/7, 26/26)
+  resolved_model      : 候補(equip-01・2026-08-02)— 実到達モデル。確認できなければ
+                        `unknown`(推定で埋めない)。申告のみは self-reported と来歴明記
+                        (transfer-test §5 の一般化 — 遡及 5 台帳で台帳本文の記録 0/60)
+  cost                : 候補(同)— トークン/費用/時間分解(observed を正・self-reported は
+                        来歴明記。遡及では構成不能= 費用 100% 欠落の実測が根拠)
 ```
 - **共通**: 各ファクトリは clean context(改善が BOM に宿ったかを公正に測るため前ファクトリ・分岐・cheat を渡さない)。
 - 注: `as_built_ref` が **observation→product の唯一の越境参照**。FactoryRun(観測: どの工場が何点)は As-Built(製品: 何を・どのモデルで作ったか)を指すが、両者は別ファイル。
