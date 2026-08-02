@@ -1,7 +1,8 @@
 # equip-01 — AI 設備の工程別能力の遡及採点(protocol)
 
-status: open(起票・凍結 2026-08-02〔853c1a6〕→ **測定中** — 台帳 #1= harness ECO-001〜027 採点済み
-〔[measurements.md](measurements.md)・2026-08-02〕。次= 台帳 #2 ViewTube。分類表・予測は凍結どおり不変更)
+status: open(起票・凍結 2026-08-02〔853c1a6〕→ **測定中** — 台帳 #1= harness ECO-001〜027・
+台帳 #2= ViewTube VT-025〜055+CAPA×2 採点済み〔[measurements.md](measurements.md)・2026-08-02〕。
+残= 台帳 #3 MoviePad/#4 transfer/#5 Plm(副)+全台帳合算のクローズ判定。分類表・予測は凍結どおり不変更)
 origin: 2026-08-02 AI モデル資格制度の外部議論の突合裁定(method/improvements.md 同日節・EXP-20260802-02)
 
 ## 目的
