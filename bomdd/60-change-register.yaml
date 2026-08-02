@@ -805,10 +805,10 @@ changes:
     order_ref: bomdd/60-change-order-eco-026.md
     affected_refs: [method/tools/self-conformance.py, method/tools/kit-freshness.py,
                     method/templates/51-cheat-log.md, method/templates/61-impact-analysis.md,
-                    method/templates/README.md]
+                    method/templates/README.md, method/scenarios/legacy-to-wpf-rdb/README.md]
     diff_audit:
       baseline: "6056499"  # 起票 commit(gate ① 承認済みで起票)
-      head: "162668e"      # diff監査済み: 窓内は affected_refs+台帳系のみ
+      head: "c265e7a"      # diff監査済み: 窓内は affected_refs+台帳系のみ(fix2= CI 赤是正で窓を延伸)
     no_impact_prediction: "(製造前)method/templates/・bomdd-init.py・製品リポ生成物の内容は diff ゼロ(kit への新 tool 同梱は既存 copytree の通常動作)。C1〜C12 の判定は不変。README スキル本数(C7)に影響なし"
     summary: >
       是正= (1) method/tools/kit-freshness.py 新設(4 値判定 FRESH/STALE/TAMPERED/UNKNOWN+
@@ -818,14 +818,19 @@ changes:
       (3) C14 kit-freshness の対照実測(4 値全分岐)。First Article に「最初の正常後続取引」を含める
       (control-plan 正本化前検査 (d) の初適用)。受入= V1〜V5(order 凍結分)。
     verification: >
-      V1= C13 PASS(リポ文脈 105 files/193 links・設置先文脈 24 files/70 links・不在 0)。
+      V1= C13 PASS(リポ文脈 105 files/191 links・設置先文脈 24 files/70 links・不在 0)。
       V2= 陽性対照 3 実測(壊れリンク注入 FAIL・復元 PASS・空 corpus fail-closed〔発火点は
       scaffold 段= 正直記載〕)。V3= C14 7/7(FRESH/STALE/UNKNOWN/TAMPERED/余剰/入力不正/
       実 scaffold 一巡)。V4= self-conformance C1〜C14 全 PASS。**影響なし予測は部分不的中**
       (first-run が method/templates/ の死リンク 15 件を検出 — kit 同梱化以降すべての設置先で
       死んでいた実欠陥。affected_refs へ 3 テンプレを追加し是正)。製造中の欠陥 1 件
       (kit-freshness の cp932 UnicodeEncodeError — C14 が検出・OBS-20260727-10 の再演)は
-      即是正。V5(CI)= push 後に order へ追記。
+      即是正。**V5(CI)= accept a41bd61 は赤(両 OS)** — C13 初版が ambient worktree を
+      存在判定に使い、ローカルの未追跡生成物・隣接リポで局所 PASS/CI FAIL(潜伏 1 push・
+      同一 ECO 内で是正= fix2 c265e7a: 追跡集合 ls-files 基準へ変更+リポ外リンク対象外宣言+
+      生成物リンク非リンク化・scenarios README を affected_refs へ追加。
+      OBS-20260727-04 の 3 例目として記帳・PROMOTION DUE はレビューへ)。
+      fix2 以降の CI 結論は order へ追記。
   - id: ECO-027
     title: deprecated 参照の掃討 lint(T0-15 昇格裁定の実装)
     date: 2026-08-02
