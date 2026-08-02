@@ -934,8 +934,8 @@ note: 移行残高= 77 件。これに本節発の新規 1 件(EXP-20260715-12�
   evidence: 同・教訓8
 - [watch 1/3] OBS-20260710-08 — 治具の生成物除外パターンの言語生態系差(.map/.tsbuildinfo)
   evidence: 同・教訓8
-- [open] EXP-20260710-09 — kit 鮮度検査・リンク切れ検査の実装(ECO-004/006 の残宿題)。**起票(2026-08-02)**: ECO-026 として起票 — recovered は verified 時
-  evidence: 同・教訓8 / 2026-08-02 台帳棚卸し工程節
+- [recovered 2026-08-02 via ECO-026(verified・fix 162668e — kit-freshness 4 値治具+C13 二文脈リンク検査+C14 対照実測 7/7。first-run がテンプレ死リンク 15 件〔kit 同梱化以降全設置先で死んでいた実欠陥〕を検出・是正)] EXP-20260710-09 — kit 鮮度検査・リンク切れ検査の実装(ECO-004/006 の残宿題)
+  evidence: 同・教訓8 / 2026-08-02 台帳棚卸し工程節 / bomdd/60-change-order-eco-026.md
 
 ### 2026-07-11(ECO-060 / transfer-04 / ECO-062〜064)
 
