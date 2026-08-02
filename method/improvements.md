@@ -2095,9 +2095,9 @@ protection・外部で固定した規則版と内容ハッシュ)。非対称性
 - [watch 1/3] OBS-20260727-03 — 実体依存の強制層は自分自身を守れない — 防止の完全化でなく**二層化**(即時遮断+履歴再演)で「改竄が機械検出可能な記録として残る」ところまでを到達目標にする
   source: harness ECO-018
   evidence: 本節・観測3 / ECO-018 検証節 V1/V2
-- [watch 2/3] OBS-20260727-04 — 規則は「既に合意された地点」(HEAD)で読む — enforcement が index/worktree の規則を読むと同一 commit の自己再定義で自身を通せる。**2 例目(2026-08-01・別リポ ViewTube)**: 強制規則の bootstrap 免除の初版が「HEAD の既存 register entry の削除・`impacted_files` 改変を同一 commit へ紛れ込ませても免除が無効化されない」穴を持ち、独立レビューが RED(是正= HEAD 既存 entry の**構造的完全一致**要求+prospective 集合の完全限定)— 同一 commit 内の自己再定義を HEAD 照合で塞ぐ同型
-  source: harness ECO-018 / ViewTube ECO-VT-055
-  evidence: 本節・観測4 / 独立検査 NEW-02 = CLOSED 判定 / ECO-VT-055.md:180-196(独立レビュー RED 4 件中 1・2)・:150-153 / 2026-08-01 ViewTube 還元節・観測2
+- [watch 3/3] OBS-20260727-04 — 規則は「既に合意された地点」(HEAD)で読む — enforcement が index/worktree の規則を読むと同一 commit の自己再定義で自身を通せる。**2 例目(2026-08-01・別リポ ViewTube)**: 強制規則の bootstrap 免除の初版が「HEAD の既存 register entry の削除・`impacted_files` 改変を同一 commit へ紛れ込ませても免除が無効化されない」穴を持ち、独立レビューが RED(是正= HEAD 既存 entry の**構造的完全一致**要求+prospective 集合の完全限定)— 同一 commit 内の自己再定義を HEAD 照合で塞ぐ同型。**3 例目(2026-08-02・harness ECO-026 の検査版)**: リンク実在検査 C13 の初版が **ambient worktree を存在判定の入力**にし、ローカルの未追跡生成物・隣接リポが「存在」を成立させて**ローカル PASS / CI FAIL**(accept a41bd61 赤・両 OS)。是正= 存在判定を git 追跡集合(ls-files)基準へ — enforcement(例1)・台帳強制(例2)に続き**検査の存在判定**でも「合意された内容を読む」が破れた 3 面目。独立性= 別リポ×別担当×別機構(index 規則読取り/HEAD entry 改変/worktree 存在判定)— 昇格判定はレビュー
+  source: harness ECO-018 / ViewTube ECO-VT-055 / harness ECO-026
+  evidence: 本節・観測4 / 独立検査 NEW-02 = CLOSED 判定 / ECO-VT-055.md:180-196(独立レビュー RED 4 件中 1・2)・:150-153 / 2026-08-01 ViewTube 還元節・観測2 / bomdd/60-change-order-eco-026.md V5(CI 赤の実測と是正)
 - [watch 2/3] OBS-20260727-05 — 後から導入する検査設備は**導入点を機械が持ち、全検査面を同じ境界で切る**(再演も証拠要求も)。境界の切り方を誤ると逆穴になる(免除単位を ID にすると導入後の遷移まで免除される)。**精密化(2026-07-27・ECO-019 — 同一系列のため N は据え置き)**: 共通なのは境界の**値**であって端点ではない — 端点の開閉(inclusive/exclusive)は面ごとに変わりうるため、値と併せて**面ごとの端点と選択理由**を記録する。**2 例目(2026-08-01・別リポ ViewTube)**: 導入直後の最初の正常起票が循環ゲートで false rejection(ECO-VT-055)→ bootstrap 免除を 9 条件(新規 ID ちょうど 1 件・番号下限・状態・path 完全一致・HEAD 既存行不変・下流 path へ ownership を与えない等)で**完全限定**して導入点を機械化。初版免除の逆穴 2 件(既存行の削除・改変の紛れ込み)を独立レビューが検出 — 「免除単位の誤りが逆穴」の独立再現
   source: harness ECO-018 / ViewTube ECO-VT-055
   evidence: 本節・観測5 / POS2 実測・IA-04(ECO-019 で是正)/ 2026-07-27 ECO-019 還元節・観測1(端点差の実測)/ ECO-VT-055.md:132-154・:180-196 / 2026-08-01 ViewTube 還元節・観測2

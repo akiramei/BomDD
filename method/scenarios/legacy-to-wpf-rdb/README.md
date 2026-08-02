@@ -97,6 +97,6 @@ handoffは現在milestoneの未受入・未承認とfuture artifactを別節に�
 
 ## PDF
 
-配布版: [legacy-to-wpf-rdb-migration-runbook.pdf](../../../output/pdf/legacy-to-wpf-rdb-migration-runbook.pdf)
+配布版(生成物・リポ非追跡): `output/pdf/legacy-to-wpf-rdb-migration-runbook.pdf`(手元で生成する — 追跡ファイルへのリンクにしない: クリーン checkout には存在しない)
 
 正本はMarkdown Version 2.0である。配布PDFは2026-07-20生成、A4・48ページで、Part 1にオンボーディング全文、Part 2に規範手順を収録する。全ページをPNG化し、表・コード枠・Part境界・最終ページを検査済みである。案件の現在位置はPDFではなく、案件内の`bomdd/migration/migration-status.json`と`bomdd/migration/workstreams/*/status.json`で確認する。

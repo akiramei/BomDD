@@ -451,10 +451,16 @@ def c12_entry_refs() -> None:
 
 
 # --- C13 リンク実在の二文脈検査(ECO-026) --------------------------------------------
-def _md_links_missing(files: list[Path], base: Path) -> tuple[int, list[str]]:
+def _md_links_missing(files: list[Path], base: Path,
+                      tracked: set[str] | None = None) -> tuple[int, list[str]]:
     """相対 markdown リンクを各ファイルの所在文脈で解決し、(総数, 不在リスト) を返す。
 
     除外: http(s)/mailto/アンカーのみ/`{{` プレースホルダ(render 前のテンプレ変数)。
+    tracked を渡すと存在判定は **git 追跡集合**(合意された内容)に対して行う —
+    ambient worktree を判定入力にすると、未追跡の生成物・隣接リポの存在で
+    **ローカル PASS / クリーン checkout FAIL** の環境差が生まれる(ECO-026 CI 赤の実測。
+    「規則は合意された地点で読む」OBS-20260727-04 の検査版)。base の外へ解決される
+    リンク(隣接リポ等)は検証不能につき対象外(総数にも数えない — 宣言済み限界)。
     """
     total, missing = 0, []
     for p in files:
@@ -469,8 +475,17 @@ def _md_links_missing(files: list[Path], base: Path) -> tuple[int, list[str]]:
             target = t.split("#")[0]
             if not target:
                 continue
+            resolved = (p.parent / target).resolve()
+            try:
+                rel = resolved.relative_to(base.resolve()).as_posix()
+            except ValueError:
+                continue  # base 外(隣接リポ等)= 検証不能・対象外(宣言済み限界)
             total += 1
-            if not (p.parent / target).exists():
+            if tracked is not None:
+                ok = rel in tracked or any(x.startswith(rel + "/") for x in tracked)
+            else:
+                ok = resolved.exists()
+            if not ok:
                 missing.append(f"{p.relative_to(base).as_posix()}: {t}")
     return total, missing
 
@@ -492,7 +507,13 @@ def c13_link_integrity() -> None:
     templates = ROOT / "method" / "templates"
     repo_files = sorted(ROOT.glob("*.md")) + \
         [p for p in sorted((ROOT / "method").rglob("*.md")) if templates not in p.parents]
-    total_a, miss_a = _md_links_missing(repo_files, ROOT)
+    # リポ文脈の存在判定は追跡集合(git ls-files)— worktree の未追跡生成物で局所 PASS しない
+    ls = run(["git", "-C", str(ROOT), "ls-files"])
+    if ls.returncode != 0:
+        check("C13", False, "git ls-files が実行できない(追跡集合が取得不能 — 欠測は FAIL)")
+        return
+    tracked = set(ls.stdout.split())
+    total_a, miss_a = _md_links_missing(repo_files, ROOT, tracked=tracked)
     tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-c13-"))
     try:
         # 陽性対照: 壊れリンクを検出できることを毎回実測(検出器の生死判定)
