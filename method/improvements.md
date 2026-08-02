@@ -2981,3 +2981,41 @@ ViewTube ECO-VT-025〜055 / MoviePad / transfer-01〜04 /(副)Plm 多工場。�
 - [open] EXP-20260802-02 — equip-01(AI 設備の工程別能力の遡及採点)で: ①工程クラス×設備構成マトリクスに弁別力が観測されるか(予測 H1 非一様差・H2 重大不良は範囲外行動型が支配的)②設備構成識別と原価の欠落率が定量化され、52-metrics cost 列の設計と EXP-20260726-01(別ベンダー検査軸)の記録仕様へ接続するか(予測 H3 欠落は外部モデル台帳に集中・H4 原価欠落 >80%)。クローズ 3 値裁定は protocol 参照
   origin: native
   evidence: 本節・loops/equip-01/protocol.md(凍結=本 commit)
+
+## 2026-08-02 equip-01 測定完了 — 台帳 #1〜#5 全数採点・暫定能力表 alpha(observation)
+
+観測(出典: [loops/equip-01/measurements.md](../loops/equip-01/measurements.md) — 台帳 #1= harness
+ECO-001〜027〔27 件〕/#2= ViewTube VT-025〜055+CAPA×2〔33 件〕/#3= MoviePad line+ECO-001/
+#4= transfer-01〜03/#5(副)= Plm 多工場。抽出= read-only サブエージェント 7 体・分類/採点=
+主観察者一元・載荷事実は git/grep 直接再実測。凍結どおり分類表 v0・予測 H1〜H4 不変更):
+
+- **クローズ判定= 弁別力あり(部分)**: 工程クラス軸(#2 で差戻率のクラス勾配 P2 40%→P3 75%→P5 88%)
+  と設備軸(Plm P2: haiku 3/16 miss〔webapi〕vs 0〔saga〕= ドメイン非一様・parse=sonnet/family=opus の
+  能力逆転)の双方に弁別力の実データ。副帰結= **識別・原価軸は遡及不能が部分成立**。
+- **H1 部分支持/H2 支持**(全台帳の重大 12 件で能力不足型 0・支配型は様式違反/プロセス穴/検査の破れ。
+  **予測外の新型= 証拠偽装クラス** — 独立判定の製造側事前生成〔VT-048 Critical〕・JPEG 偽装 PNG
+  〔VT-030〕・偽ラベル capture〔CAPA-VT-002〕。いずれも検査網が検出し流出なし)。
+- **H3 部分反証(予測の構造が粗すぎた)**: 台帳本文のモデル記録は**全台帳 100% 欠落**で「外部に集中」は
+  不成立。痕跡層は #1/#3(trailer にモデル名 — **設備交代 fable→opus→fable が trailer でのみ可視**)>
+  #2(役割名義のみ)。第 3 の様態= **汚染**(fixture identity が本番 commit author に混入・CAPA-VT-002 は
+  全 commit が人間 identity)。**最終帰属: 識別の成否は台帳の内外でなく「記録を要求する様式の有無」に
+  従う** — transfer 台帳(transfer-test §5 様式あり)だけが識別機能= 対照証拠。
+- **H4 支持**: 費用・トークン= 全台帳 100% 欠落。時間= t2 の一次分解 1 系列+ViewTube VT-054 が
+  elapsed 記録を工程義務化(プロスペクティブ記録の必要という H4 帰結の独立傍証)。
+- 追加観測: ①人間 golden ゲートが独立検査 PASS 後の欠陥を 5 件検出(#2 — 最終検出器としての人間)
+  ②検査体制(Control Plan)の差が台帳間の初回通過率を比較不能にする — 「認定は検査条件込み」を
+  測定自身が再確認 ③範囲外行動の実測は #2 のみ 3 件(#1/#3 は 0)④分類困難 8 件(v1 候補= 二軸分離・
+  全周複合・CAD 製造クラス・CAPA 様式 — **v0 は凍結维持・改訂は別途裁定**)。
+- スコープ外所見(起票済み/記録のみ): BomDD register の filed 残存 4 件+ECO-027 状態行(タスク
+  チップ発行済み)/ViewTube 側の同族不整合 2 件(VT-040/046 — 記録のみ)。
+
+裁定(protocol 凍結の採らない裁定どおり): 暫定能力表 alpha(measurements §21)は **observation であり
+規則昇格しない**。ルーティング・認定制度は導出しない。帰結は次の 2 点に限定 —
+EXP-20260726-01 への記録欄織り込み(仕様= measurements §23)+記帳スキーマ(52-metrics/
+observation-schema)への cost・resolved 列の設計入力。
+
+期待する効果と観測:
+
+- [open] EXP-20260802-03 — 次の実験ラウンド(EXP-20260726-01 の別ベンダー検査軸を第一候補)で、equip-01 の記録欄仕様(工程分類 v0+分類困難欄/requested・resolved・harness・prompt bundle/時間分解の来歴つき記録+可能なら費用/差戻・介入・範囲外の 3 カウンタ)が protocol へ最初から入り、識別・原価の欠落率が遡及値(100%/97%)から実測で下がるか
+  origin: native
+  evidence: 本節・loops/equip-01/measurements.md §22〜23
