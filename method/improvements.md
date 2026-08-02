@@ -3018,7 +3018,7 @@ observation-schema)への cost・resolved 列の設計入力。
 
 - [open] EXP-20260802-03 — 次の実験ラウンド(EXP-20260726-01 の別ベンダー検査軸を第一候補)で、equip-01 の記録欄仕様(工程分類 v0+分類困難欄/requested・resolved・harness・prompt bundle/時間分解の来歴つき記録+可能なら費用/差戻・介入・範囲外の 3 カウンタ)が protocol へ最初から入り、識別・原価の欠落率が遡及値(100%/97%)から実測で下がるか
   origin: native
-  evidence: 本節・loops/equip-01/measurements.md §22〜23・適用実測 1 回目= loops/equip-02(2026-08-02 プロスペクティブ P2 ラウンド — 記録欄仕様を protocol へ最初から全適用・識別/時間の欠落 0〔遡及値 100%/97% から改善実測〕・費用〔通貨〕のみ unknown= ハーネス非露出。open 維持 — 2 回目は EXP-20260726-01 の別ベンダー検査軸で)
+  evidence: 本節・loops/equip-01/measurements.md §22〜23・適用実測 1 回目= loops/equip-02(2026-08-02 プロスペクティブ P2 ラウンド — 記録欄仕様を protocol へ最初から全適用・識別/時間の欠落 0〔遡及値 100%/97% から改善実測〕・費用〔通貨〕のみ unknown= ハーネス非露出)・適用実測 2 回目= loops/equip-03(2026-08-02 ECO 適用製造ラウンド — 3 カウンタが実データで稼働〔介入 0・**差戻 3**・範囲外 1〕・時間分解 4 区間・工場トークン累積+内訳・検査官も unknown 規律を自己適用。2 回連続で識別/時間の欠落 0= 様式は機能。open 維持 — クローズ判定は外部モデル運用ラウンド〔EXP-20260802-05 系〕での再現後)
 
 ## 2026-08-02 equip-01 還元 — AI 設備能力測定の教訓(識別=様式帰属・証拠偽装クラス・検査条件込み比較)
 
@@ -3089,9 +3089,9 @@ abfd667(書き換え前)とタグ現指示先 4eed25f(書き換え後)が乖離�
   fail-closed(測定を開始しない)とする様式が機能するか(実例 1 例目= webapi-02 履歴書き換え。
   equip-02 は供与ファイル sha256 記録で内容同一性を救済済み= 部分適合)
   origin: external(equip-02 外部レビュー)
-  evidence: loops/equip-02/review-2026-08-02.md 裁定 1・2
+  evidence: loops/equip-02/review-2026-08-02.md 裁定 1・2・適用実測 1 回目= loops/equip-03(2026-08-02 protocol 凍結時に tag+expected_commit+input_tree_hash+採点器 sha256 を宣言・開始時 fail-closed 検査 PASS。**副効果の実測**: 起票前の題材実在検証が「凍結題材は ECO-002 で解消済み〔記帳漏れ〕」を検出し製造前に停止= fail-closed 系が入力の同一性だけでなく**題材の存在**にも効いた 1 例。open 維持 — 2 回目で様式の安定を確認)
 - [open] OBS-20260802-07 — 設備測定の二車線分離(必須製造車線/自主改善車線 — 自主拡張は必須
   不合格を救済しない・別評価・BOM/Control Plan 変更は人間承認)が以後のラウンドでも有効な様式か。
   equip-02 の自主拡張(planned 2 件の実測昇格+変異検査)は別枠観測として記録済み= 1 例目
   origin: external(equip-02 外部レビュー)
-  evidence: loops/equip-02/measurements.md §7 観測 3・review-2026-08-02.md 裁定 7
+  evidence: loops/equip-02/measurements.md §7 観測 3・review-2026-08-02.md 裁定 7・2 例目= loops/equip-03(2026-08-02 — 必須車線〔凍結受入 V1〜V5〕とは別枠で自主改善〔閉性検査の自作・張らない側の検算記録・設計者側債務の指摘 F010〕を記録・救済不使用の運用が成立。3 例目で PROMOTION 判定へ)
