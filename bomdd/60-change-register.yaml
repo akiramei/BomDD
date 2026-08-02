@@ -887,3 +887,24 @@ changes:
       V1= PASS(欄の存在+unknown 規律+来歴区別+交絡実例+途中交代規則を実測確認)。
       V2= PASS(self-conformance C1〜C15 全 PASS・C4 scaffold 煙試験込み)。
       V3(CI)= push 後に order へ実測追記(4 値判定・ECO-020 規律)。
+
+  - id: ECO-029
+    title: ref-edges に as-built 文書方言の宣言がなく検査が空振り(同名異物 3 例目 — ViewPrism2 ECO-065 残面の是正先・ref-v0.10)
+    date: 2026-08-03
+    origin: defect
+    status: filed
+    source: >
+      ViewPrism2 ECO-065 再検証(2026-08-03)— gate ①= maintainer 裁定「b(bomdd-lint 側)で承認。
+      製造に進んでください」。実測= ViewPrism2 の as-built は文書方言(mapping)で全セレクタ空振り・
+      cp_id 改竄が素通り。副発見= Plm スナップショットが ref-v0.8 のまま(正本 0.9 と 18 日未同期)。
+    order_ref: bomdd/60-change-order-eco-029.md
+    affected_refs: [method/schemas/draft/ref-edges.draft.yaml]
+    no_impact_prediction: "(製造前)ref-edges.draft.yaml 1 ファイル+台帳系のみ。C10 判定不変・既存リスト方言(Plm)の判定不変・製品リポ非波及(同期は各製品 ECO)"
+    diff_audit:
+      baseline: "f0fb9d3"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/schemas/draft/]
+    summary: >
+      50-as-built の artifacts エントリへ文書方言の構造化サブセット(golden_approvals[].cp_id ほか
+      5 ref+GF 定義 1)を両方言併記で追加(ref-v0.5/0.9「実物が正」前例)。散文面・presence 面は
+      宣言済み境界として order に明文化(閉鎖には記録構造化 or lint 規則新設の別 ECO)。
+    verification: "(製造前 — 未実施)"

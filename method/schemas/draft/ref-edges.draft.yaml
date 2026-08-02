@@ -5,7 +5,15 @@
 #
 # 意味論は縛らない: ここに無いフィールドは自由。ここに有るフィールドも「型と参照先ファミリー」だけを縛る。
 
-edges_version: ref-v0.9
+edges_version: ref-v0.10
+# ref-v0.10(2026-08-03・BomDD harness ECO-029): 50-as-built の文書方言(実物が正 7 例目) —
+#   as_built がリスト([]・Plm 実物= AB エントリ形)の宣言しか無く、ViewPrism2 実物の文書形
+#   (as_built: mapping — golden_approvals[]/golden_approved[]/golden_findings[]/eco[] 等)で
+#   全セレクタが空振りし as-built の意味検査が無音で消えていた(同名異物・宣言外方言の 3 例目 —
+#   ref-v0.6 配列/ref-v0.9 ui 二方言と同族。動的実証= cp_id 改竄が素通り)。構造化サブセット
+#   (cp_id 系 5 ref+GF 定義+eco[].id 整合)を両方言併記で追加。散文面(golden_2026_* 日付キー・
+#   register からの散文引用・golden_findings_v4 の mapping 形)と presence(キー消失)は
+#   宣言済み境界 — ref-v0.1 散文裁定とセレクタ機構の範囲外(閉鎖には記録構造化 or lint 規則新設)。
 # ref-v0.9(2026-07-16・BomDD harness ECO-013): ui-mock-extraction 族の二方言両対応(同名異物の解消) —
 #   同一ファイル名(ui-ir.json / ui-trace-map.json)に 2 つの成果物型が写像されている実態を両宣言:
 #   参照層方言(components/occurrences・entries[]・判別キー: meta — ViewPrism2 実物)と
@@ -207,12 +215,25 @@ artifacts:
         family: AB
       - selector: as_built[].test_evidence_refs[].evidence_id
         family: TE
+      # ref-v0.10: 文書方言(as_built: mapping — ViewPrism2 実物)。リスト方言とはトップレベルの型で判別
+      # (as_built が list なら上記・mapping なら下記が実体にマッチ。空振り側は skip= 両方言併記の原則)
+      - selector: as_built.golden_findings[].id
+        family: GF
     refs:
       - { selector: "as_built[].(work_order_ref|mbom_ref|routing_ref|control_plan_ref)", kind: path-at-rev, severity: warn }
       - { selector: "as_built[].test_evidence_refs[].cp_ref",       family: CP,    severity: error }
       - { selector: "as_built[].test_evidence_refs[].evidence_path", kind: path,   severity: warn }
       - { selector: "as_built[].cheats[]",                          family: CHEAT, severity: warn }
       - { selector: "as_built[].artifacts_sha256[].path",           kind: path,    severity: warn }
+      # ref-v0.10: 文書方言の構造化サブセット(golden 承認記録の参照整合 — ViewPrism2 ECO-065 残面の是正)。
+      # 実物は世代別トップレベルキー(as_built / as_built_v2 / as_built_v4 — 実測 2026-08-03)。
+      # 将来世代(as_built_v5 等)は実物追随で追補する(宣言外世代はセレクタ空振り= 検査対象外、の保守注意)。
+      - { selector: "as_built.golden_approvals[].cp_id",                family: CP, severity: error, note: "ref-v0.10: 承認記録の CP 実在突合(retired でも定義が残る限り解決= 歴史記録に優しい)" }
+      - { selector: "as_built.golden_approvals[].superseded_by",        family: [ECO, CAPA], severity: warn }
+      - { selector: "as_built_v2.golden_approvals_v2.results_round2[].cp_id", family: CP, severity: error }
+      - { selector: "as_built_v2.golden_approvals_v3.target",           family: CP, severity: error }
+      - { selector: "as_built_v4.golden_approved[]",                    family: CP, severity: error }
+      - { selector: "as_built.eco[].id",                                family: [ECO, CAPA], severity: warn, note: "ref-v0.10: as-built 上の ECO 記録は register 正本と整合していること(定義でなく参照 — 二重定義を作らない)" }
 
   - file: bomdd/53-service-bom.yaml
     defines:
