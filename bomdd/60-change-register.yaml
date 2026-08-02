@@ -791,3 +791,23 @@ changes:
       本 ECO は作業入口と停止規則の明文化を完了したが、**ローカル検査結果の機械的強制は未導入で
       あり、残余リスクとして保持する**(AGENTS.md 限界節へも明記)。スコープ外観測= lesson-promote
       手順 8 の参照先は CLAUDE.md のまま(矛盾はない・張り替えは還元で扱う)。CI 実測= accept a604783 は緑。fix 188f014 は単独 push していないため run 不在= UNKNOWN(未実行を成功として扱わない)— 対象 revision(HEAD)については緑を実測済み。
+  - id: ECO-026
+    title: kit 鮮度検査・リンク切れ検査の実装(ECO-004/006 残宿題の消化)
+    date: 2026-08-02
+    origin: improvement
+    status: filed
+    source: >
+      EXP-20260710-09(2026-07-10 harness 還元・教訓 8= ECO-004 scope-out「kit 鮮度の自己検査」+
+      ECO-006 残宿題「リンク切れ検査」)。gate ① 承認= 2026-08-02 maintainer 採択
+      「本文は触らない・台帳の棚卸しと裁定済み残宿題を消化する」(2026-08-02 台帳棚卸し工程節)。
+      起票時予備測定= リポ文脈相対リンク 276 件中解決不能 15 件は全て product-profile テンプレ
+      (設置先文脈)= 二文脈設計の根拠。
+    order_ref: bomdd/60-change-order-eco-026.md
+    affected_refs: [method/tools/self-conformance.py, method/tools/kit-freshness.py]
+    no_impact_prediction: "(製造前)method/templates/・bomdd-init.py・製品リポ生成物の内容は diff ゼロ(kit への新 tool 同梱は既存 copytree の通常動作)。C1〜C12 の判定は不変。README スキル本数(C7)に影響なし"
+    summary: >
+      是正= (1) method/tools/kit-freshness.py 新設(4 値判定 FRESH/STALE/TAMPERED/UNKNOWN+
+      理由コード・exit 契約 0/1/2/3 の意味写像明示・鮮度は advisory / 改変は defect)
+      (2) C13 リンク実在の二文脈検査(リポ文脈= product-profile 除外+設置先文脈= scaffold 内解決)
+      (3) C14 kit-freshness の対照実測(4 値全分岐)。First Article に「最初の正常後続取引」を含める
+      (control-plan 正本化前検査 (d) の初適用)。受入= V1〜V5(order 凍結分)。
