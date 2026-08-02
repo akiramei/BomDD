@@ -1,6 +1,18 @@
 # ECO-028 — ECO 記録様式に AI 設備構成の記録欄がない(担当設備の系統的無記録)
 
-状態: **起票(2026-08-02)** → gate ① 通過(同日・下記裁定)→ 製造。
+状態: **verified(2026-08-02)**。fix= 122ea7e・検証 V1〜V2 実測済み(下記)・窓は accept で閉鎖。
+V3(CI)は push 後に実測し本 order へ追記(4 値判定)。
+
+## 製造・検証記録(2026-08-02)
+
+- V1= **PASS**: テンプレに担当設備欄が存在。unknown 規律(「確認できなければ `unknown` — 推定で
+  埋めない」)・来歴区別(observed / self-reported)・交絡実例(transfer-04 の統合層ゲート)・
+  途中交代の追記規則を含む。検査官併記あり。
+- V2= **PASS**: self-conformance C1〜C15 全 PASS(C4 scaffold 煙試験= 生成 kit にテンプレ同梱・
+  YAML 厳格パース不変)。
+- 影響なし予測の検証: **的中** — diff は method/templates/60-change-order.md+台帳系のみ
+  (fix 122ea7e = 2 files)。
+- V3(CI)= push 後に追記。
 
 ## gate ① 裁定(2026-08-02 maintainer「gate ① 承認します。ECO-028 の製造に入ってください」)
 

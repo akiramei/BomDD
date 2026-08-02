@@ -865,17 +865,25 @@ changes:
     title: ECO 記録様式に AI 設備構成の記録欄がない(担当設備の系統的無記録)
     date: 2026-08-02
     origin: improvement
-    status: filed
+    status: verified
     source: >
       equip-01 遡及採点(FINDINGS §13)= 台帳本文の設備記録 0/60・設備交代 2 回無記録・
       汚染 3 系統。EXP-20260711-05 の再演 3 回(系統的欠落と確定)。還元レビュー
       (2026-08-02 maintainer)の織り込み案 D 採択 — テンプレ変更のため ECO 経由
-      (ECO-022 前例)。gate ①(裁定点 3: register 欄/機械強制/遡及記入)待ち。
+      (ECO-022 前例)。gate ① 承認= 2026-08-02 maintainer「gate ① 承認します」
+      (裁定 3 点= register 欄見送り/機械強制見送り/遡及記入なし)。
     order_ref: bomdd/60-change-order-eco-028.md
     affected_refs: [method/templates/60-change-order.md]
-    no_impact_prediction: "(製造前)diff はテンプレ 1 ファイル+台帳系のみ。既存製品リポ非波及(kit 再設置まで)。C1〜C15 判定不変"
+    no_impact_prediction: "(製造前)diff はテンプレ 1 ファイル+台帳系のみ。既存製品リポ非波及(kit 再設置まで)。C1〜C15 判定不変 → 検証で的中(fix 122ea7e = テンプレ+台帳系のみ)"
     summary: >
-      是正方針= 60-change-order テンプレへ「担当設備」欄(requested / resolved〔unknown
-      規律・推定禁止〕/ ハーネス / 来歴〔observed|self-reported〕・検査官併記)を追加
-      (transfer-test §5 の継続運用への一般化)。受入= V1(欄+unknown 規律+交絡実例)/
-      V2(self-conformance 全 PASS)/ V3(CI 緑実測)。
+      是正= 60-change-order テンプレへ「担当設備」欄(requested / resolved〔unknown
+      規律・推定禁止〕/ ハーネス / 来歴〔observed|self-reported〕・検査官併記・交絡実例・
+      途中交代の追記規則)を追加(transfer-test §5 の継続運用への一般化)。本 ECO 自身へ
+      新欄を自己適用(resolved= self-reported と正直記載)。
+    diff_audit:
+      baseline: "3c1731d"  # 是正開始直前(起票 commit)
+      head: "122ea7e"      # diff監査済み: 窓内は affected_refs+台帳系のみ・影響なし予測的中
+    verification: >
+      V1= PASS(欄の存在+unknown 規律+来歴区別+交絡実例+途中交代規則を実測確認)。
+      V2= PASS(self-conformance C1〜C15 全 PASS・C4 scaffold 煙試験込み)。
+      V3(CI)= push 後に order へ実測追記(4 値判定・ECO-020 規律)。
