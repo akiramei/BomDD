@@ -51,11 +51,11 @@
       載っている unit を影響表に入れるか「影響なし」の根拠を書いたか(**複合宣言 unit**(多:1)は
       宣言品目のいずれの変更でも予測に入れる — scale-02 第5段)
 - [ ] ハブ台帳が無い場合: ECO 台帳が数件以上溜まっているなら**遡及採点**(宣言影響集合 vs 実 diff の
-      全 ECO 一括突合)で機械的に発見できる — 汎用治具: [tools/impact-retrospective.py](../tools/impact-retrospective.py)
+      全 ECO 一括突合)で機械的に発見できる — 汎用治具: [tools/impact-retrospective.py](../bomdd-kit/method/tools/impact-retrospective.py)
       (impacted_bom / affected_refs 両対応・test-only 分離・ハブ集中度を出力。初出= scale-01)
 - [ ] **ECO 台帳のないリポジトリ(BomDD 未導入)の場合**: stage-0 健診 — 実 diff のみから複数 unit
       跨ぎ率・ハブ集中・fix 潜伏を測定でき、導入回収見込みとハブ台帳の初期値を宣言起票前に数字で
-      得られる(初出= ViewGrid 2026-07-07。**治具は正式化済み= [tools/stage0-survey.py](../tools/stage0-survey.py)**・
+      得られる(初出= ViewGrid 2026-07-07。**治具は正式化済み= [tools/stage0-survey.py](../bomdd-kit/method/tools/stage0-survey.py)**・
       較正 N=4〔stage0-oss-01: C#/Go+TS/Python・36万〜541万行〕・triage score は移行パック §7.1)
 - [ ] ハブ台帳の記載根拠は**多重測定の収束**で強化できる — fix 集中と churn は独立測定系であり、
       複数系統の収束は単一の変更実績より頑健(**主信号= churn∩fix overlap**。サイズとの三冠は

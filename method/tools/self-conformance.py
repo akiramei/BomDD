@@ -28,6 +28,13 @@
                       でも全対照 PASS(ECO-024 — 導出化の全面適用を測る)
   C12 entry-refs    : **自リポ入口**(AGENTS.md)の相対 markdown リンク全数が実在(ECO-025 —
                       製品リポ側は IQ-08 が担うが生成器自身は対象定義の外だった。不在も FAIL)
+  C13 link-integrity: method corpus のリンク実在 — 二文脈検査(ECO-026)。(a) リポ文脈=
+                      リポ直下 *.md+method/**/*.md(templates/ 除外— 参照文脈が設置先のため)
+                      (b) 設置先文脈= scaffold した一時製品リポの全 md(bomdd-kit/ 除く)。
+                      対象欠落チャレンジ+壊れリンク陽性対照を毎回実測
+  C14 kit-freshness : kit-freshness 治具の対照実測(ECO-026)— 合成 origin+合成 kit で
+                      FRESH/STALE/TAMPERED/UNKNOWN/入力不正の全分岐を発動実測し、
+                      実 scaffold での最初の正常後続取引(FRESH)を一巡(git 必須)
 
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
@@ -443,6 +450,160 @@ def c12_entry_refs() -> None:
           else f"参照不在 {len(missing)} 件: {missing[:5]}")
 
 
+# --- C13 リンク実在の二文脈検査(ECO-026) --------------------------------------------
+def _md_links_missing(files: list[Path], base: Path) -> tuple[int, list[str]]:
+    """相対 markdown リンクを各ファイルの所在文脈で解決し、(総数, 不在リスト) を返す。
+
+    除外: http(s)/mailto/アンカーのみ/`{{` プレースホルダ(render 前のテンプレ変数)。
+    """
+    total, missing = 0, []
+    for p in files:
+        try:
+            text = p.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        for m in re.finditer(r"\]\(([^)\s]+)\)", text):
+            t = m.group(1)
+            if t.startswith(("http://", "https://", "mailto:", "#")) or "{{" in t:
+                continue
+            target = t.split("#")[0]
+            if not target:
+                continue
+            total += 1
+            if not (p.parent / target).exists():
+                missing.append(f"{p.relative_to(base).as_posix()}: {t}")
+    return total, missing
+
+
+def c13_link_integrity() -> None:
+    """method corpus のリンク実在 — 二文脈検査(ECO-026)。
+
+    境界の裁定(OBS-20260727-05: 値と併せて面ごとの端点と選択理由を記録する):
+    (a) リポ文脈: リポ直下 *.md + method/**/*.md。**method/templates/ は全体を除外** —
+        テンプレの参照文脈は設置先(製品リポ)であり、リポ文脈で解決すると誤検出になる
+        (起票時実測: product-profile 15 件)。除外分の設置形は (b) が全数検証する。
+    (b) 設置先文脈: bomdd-init で scaffold した一時製品リポ内の全 .md(bomdd-kit/ を除く)を
+        設置先で解決 — IQ-08(入口 AGENTS.md のみ)の全 md への拡張。
+    既知限界(宣言+掃射手段の紐づけ): ①bomdd-kit/ 内部は method/ の凍結写しで非規範
+    (検査対象にしない)②scaffold が設置しないテンプレ(ui-mock-extraction/ 等)のリンクは
+    自動検査外 — 設置経路へ載った時点で (b) が自動被覆する。
+    対照: 対象欠落チャレンジ(列挙 0・リンク 0 → FAIL)+壊れリンク陽性対照を毎回実測。
+    """
+    templates = ROOT / "method" / "templates"
+    repo_files = sorted(ROOT.glob("*.md")) + \
+        [p for p in sorted((ROOT / "method").rglob("*.md")) if templates not in p.parents]
+    total_a, miss_a = _md_links_missing(repo_files, ROOT)
+    tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-c13-"))
+    try:
+        # 陽性対照: 壊れリンクを検出できることを毎回実測(検出器の生死判定)
+        pos = tmp / "pos.md"
+        pos.write_text("[x](no-such-file.md)", encoding="utf-8")
+        _, pos_miss = _md_links_missing([pos], tmp)
+        pos_ok = len(pos_miss) == 1
+        p = run([sys.executable, str(ROOT / "method" / "tools" / "bomdd-init.py"),
+                 "LinkCtxSmoke", "--dir", str(tmp), "--no-gui", "--no-git"])
+        if p.returncode != 0:
+            check("C13", False, f"bomdd-init が失敗 (exit {p.returncode}): {p.stderr.strip()[:120]}")
+            return
+        prod = tmp / "LinkCtxSmoke"
+        inst_files = [f for f in sorted(prod.rglob("*.md")) if "bomdd-kit" not in f.parts]
+        total_b, miss_b = _md_links_missing(inst_files, prod)
+        ok = (bool(repo_files) and total_a > 0 and not miss_a and pos_ok
+              and bool(inst_files) and total_b > 0 and not miss_b)
+        check("C13", ok,
+              f"リンク実在の二文脈検査(リポ文脈 {len(repo_files)} files/{total_a} links 不在 "
+              f"{len(miss_a)}・設置先文脈 {len(inst_files)} files/{total_b} links 不在 "
+              f"{len(miss_b)}・陽性対照 {pos_ok})"
+              + (f" — リポ文脈: {miss_a[:5]}" if miss_a else "")
+              + (f" — 設置先: {miss_b[:5]}" if miss_b else ""))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+# --- C14 kit-freshness 治具の対照実測(ECO-026) ---------------------------------------
+def c14_kit_freshness() -> None:
+    """kit-freshness の 4 値+入力不正の全分岐を発動実測してから正本とする(ECO-026)。
+
+    control-plan「安全装置の較正は真の故障モードでの発動実測」+「正本化前検査 (d):
+    強制規則・ゲートの導入は最初の正常後続取引を First Article に含める」の適用 —
+    合成 origin(2 commit)+合成 kit で全分岐を実測し、実 scaffold(bomdd-init)での
+    最初の正常後続取引(FRESH)も一巡する。
+    """
+    if run(["git", "--version"]).returncode != 0:
+        check("C14", False, "git が実行できない(工程設備の検査対象が実行不能 — 欠測は FAIL)")
+        return
+    tool = ROOT / "method" / "tools" / "kit-freshness.py"
+    tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-c14-"))
+    try:
+        env = _c11_env()
+        origin = tmp / "origin"
+        origin.mkdir()
+        run(["git", "-C", str(origin), "init", "-q"], env=env)
+        (origin / "a.txt").write_text("v1", encoding="utf-8")
+        run(["git", "-C", str(origin), "add", "-A"], env=env)
+        run(["git", "-C", str(origin), "commit", "-qm", "c1"], env=env)
+        c1 = run(["git", "-C", str(origin), "rev-parse", "HEAD"], env=env).stdout.strip()
+        (origin / "a.txt").write_text("v2", encoding="utf-8")
+        run(["git", "-C", str(origin), "add", "-A"], env=env)
+        run(["git", "-C", str(origin), "commit", "-qm", "c2"], env=env)
+        c2 = run(["git", "-C", str(origin), "rev-parse", "HEAD"], env=env).stdout.strip()
+
+        import hashlib as _h
+        prod = tmp / "prod"
+        kit = prod / "bomdd-kit"
+        kit.mkdir(parents=True)
+        (kit / "f.md").write_text("kit file", encoding="utf-8")
+        manifest = {"files": {"f.md": _h.sha256(b"kit file").hexdigest()}}
+        mpath = kit / "kit-manifest.json"
+        mpath.write_text(json.dumps(manifest), encoding="utf-8", newline="\n")
+        msha = _h.sha256(mpath.read_bytes()).hexdigest()
+
+        def write_lock(commit: str, origin_path: str) -> None:
+            (prod / "bomdd.lock").write_text(
+                "bomdd_lock:\n  method:\n"
+                f"    origin_path: \"{origin_path}\"\n    commit: \"{commit}\"\n"
+                "  kit:\n    root: bomdd-kit\n    manifest: bomdd-kit/kit-manifest.json\n"
+                f"    manifest_sha256: \"{msha}\"\n", encoding="utf-8", newline="\n")
+
+        def fresh() -> subprocess.CompletedProcess:
+            return run([sys.executable, str(tool), "--root", str(prod)])
+
+        results: list[tuple[str, bool]] = []
+        write_lock(c2, origin.as_posix())
+        p = fresh()
+        results.append(("FRESH", p.returncode == 0 and "FRESH" in p.stdout))
+        write_lock(c1, origin.as_posix())
+        p = fresh()
+        results.append(("STALE", p.returncode == 0 and "STALE" in p.stdout
+                        and "behind=1" in p.stdout))
+        write_lock(c2, (tmp / "nowhere").as_posix())
+        p = fresh()
+        results.append(("UNKNOWN", p.returncode == 3 and "ORIGIN_MISSING" in p.stdout))
+        write_lock(c2, origin.as_posix())
+        (kit / "f.md").write_text("hacked", encoding="utf-8")
+        p = fresh()
+        results.append(("TAMPERED", p.returncode == 1 and "TAMPERED" in p.stdout))
+        (kit / "f.md").write_text("kit file", encoding="utf-8")
+        (kit / "extra.md").write_text("x", encoding="utf-8")
+        p = fresh()
+        results.append(("EXTRA", p.returncode == 1 and "extra:extra.md" in p.stdout))
+        (kit / "extra.md").unlink()
+        (prod / "bomdd.lock").unlink()
+        p = fresh()
+        results.append(("INPUT", p.returncode == 2 and "LOCK_MISSING" in p.stdout))
+        # 最初の正常後続取引: 実 scaffold へ実行して FRESH/STALE(判定成功)を一巡
+        pr = run([sys.executable, str(ROOT / "method" / "tools" / "bomdd-init.py"),
+                  "FreshSmoke", "--dir", str(tmp), "--no-gui", "--no-git"])
+        p = run([sys.executable, str(tool), "--root", str(tmp / "FreshSmoke")])
+        results.append(("REAL", pr.returncode == 0 and p.returncode == 0))
+        bad = [name for name, ok in results if not ok]
+        check("C14", not bad,
+              "kit-freshness 対照実測(FRESH/STALE/UNKNOWN/TAMPERED/余剰/入力不正/実 scaffold "
+              f"= {len(results) - len(bad)}/{len(results)})" + (f" — 失敗: {bad}" if bad else ""))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 # --- C10 参照スキーマの派生同期(ECO-014) --------------------------------------------
 # README §2「id-grammar/ref-edges が正本・JSON Schema は導出」の宣言を機械検査で裏付ける。
 # 実害= uiId の domain が正本追加(ref-v0.3(c))から 13 日未同期でも検出されなかった(ECO-013)。
@@ -634,6 +795,8 @@ def main() -> int:
     c10_schema_drift()
     c11_process_core()
     c12_entry_refs()
+    c13_link_integrity()
+    c14_kit_freshness()
     if a.dotnet:
         c9_dotnet()
 

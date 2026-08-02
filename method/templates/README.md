@@ -1,7 +1,7 @@
 # BomDD テンプレ一式(フォワード・モード)
 
-[bomdd-playbook-v1.md](../bomdd-playbook-v1.md) の各フェーズ成果物のテンプレ。
-YAML の語彙は v2 実証リポジトリ([BomDD-WebApi-Sample](https://github.com/akiramei/BomDD-WebApi-Sample) `bomdd/`、[BomDD-DistributedSaga-Sample](https://github.com/akiramei/BomDD-DistributedSaga-Sample))で実運用した形式をミラーしている。**JSON Schema ではない**(硬化は [schema-candidates-index.md](../schema-candidates-index.md) §5 の昇格条件を満たすまでしない)。
+[bomdd-playbook-v1.md](../bomdd-kit/method/bomdd-playbook-v1.md) の各フェーズ成果物のテンプレ。
+YAML の語彙は v2 実証リポジトリ([BomDD-WebApi-Sample](https://github.com/akiramei/BomDD-WebApi-Sample) `bomdd/`、[BomDD-DistributedSaga-Sample](https://github.com/akiramei/BomDD-DistributedSaga-Sample))で実運用した形式をミラーしている。**JSON Schema ではない**(硬化は [schema-candidates-index.md](../bomdd-kit/method/schema-candidates-index.md) §5 の昇格条件を満たすまでしない)。
 
 対象プロジェクトのリポジトリ直下に `bomdd/` を作り、コピーして埋める。
 
@@ -10,7 +10,7 @@ YAML の語彙は v2 実証リポジトリ([BomDD-WebApi-Sample](https://github.
 | 00 | [00-charter.md](00-charter.md) | Phase 0 チャーター | 設計者 |
 | 10 | [10-requirements.yaml](10-requirements.yaml) | Phase 1 要求台帳 | 設計者 |
 | 20 | [20-spec.md](20-spec.md) | Phase 2 仕様書 | 設計者→**製造パッケージに含む** |
-| UI | [ui-mock-extraction/](ui-mock-extraction/) | Phase 2–3 UIモック抽出(candidate) | 設計者(E-BOM 前段。工場へ渡す場合は20/30–34へ昇格後) |
+| UI | [ui-mock-extraction/](../bomdd-kit/method/templates/ui-mock-extraction/) | Phase 2–3 UIモック抽出(candidate) | 設計者(E-BOM 前段。工場へ渡す場合は20/30–34へ昇格後) |
 | UI | [ui/README.md](ui/README.md) | Phase 2–3 UI標準配置 | 設計者(`bomdd/ui/` の入口) |
 | DB | [db/schema-intent.md](db/schema-intent.md) | Phase 2–3 DB/永続化意図 | 設計者(E-BOM/M-BOM/Control Plan 前段) |
 | 30 | [30-ebom.yaml](30-ebom.yaml) | Phase 3 E-BOM | 製造パッケージ |
@@ -28,7 +28,7 @@ YAML の語彙は v2 実証リポジトリ([BomDD-WebApi-Sample](https://github.
 | 50 | [50-as-built.yaml](50-as-built.yaml) | Phase 5–6 製造来歴 | 記録 |
 | 51 | [51-cheat-log.md](51-cheat-log.md) | 全期間 ずる台帳 | 記録 |
 | 52 | [52-metrics.yaml](52-metrics.yaml) | Phase 5 測定 | 記録 |
-| 53 | [53-service-bom.yaml](53-service-bom.yaml) | Phase 6 保守部品表(概念は [s-bom-template.md](../s-bom-template.md)) | 納品物 |
+| 53 | [53-service-bom.yaml](53-service-bom.yaml) | Phase 6 保守部品表(概念は [s-bom-template.md](../bomdd-kit/method/s-bom-template.md)) | 納品物 |
 | 60 | [60-change-order.md](60-change-order.md) | Phase 7 変更/是正オーダー(ECO/CAPA: 影響分析→部分再製造→回帰) | 設計者(改訂 BOM+ECO/CAPA を工場へ) |
 | 61 | [61-impact-analysis.md](61-impact-analysis.md) | Phase 7 影響分析(影響なし予測の先行凍結) | 製造パッケージ(ECO/CAPA 時) |
 | 62 | [62-migration-oracle.md](62-migration-oracle.md) | Phase 7 データ移行オラクル+fixture | **設計者のみ(実装・fixture 期待値は工場非開示)** |
@@ -39,14 +39,14 @@ YAML の語彙は v2 実証リポジトリ([BomDD-WebApi-Sample](https://github.
 
 ## 新規プロジェクト開始時の入口
 
-- AI に最初に渡す文書: [../onboarding/ai-onboarding-pack.md](../onboarding/ai-onboarding-pack.md)
-- 人間と AI の開始チェック: [../onboarding/new-project-checklist.md](../onboarding/new-project-checklist.md)
-- 開発者の配置ナビ: [../onboarding/developer-navigation.md](../onboarding/developer-navigation.md)
-- 既存プロジェクト移行パック: [../onboarding/existing-project-migration.md](../onboarding/existing-project-migration.md)
-- 既存プロジェクト移行チェック: [../onboarding/migration-checklist.md](../onboarding/migration-checklist.md)
-- PLM-ready の必須契約: [../contracts/plm-ready-contract.md](../contracts/plm-ready-contract.md)
-- BOM 粒度判断: [../contracts/bom-granularity-guide.md](../contracts/bom-granularity-guide.md)
-- TraceLink 規則: [../contracts/traceability-rules.md](../contracts/traceability-rules.md)
+- AI に最初に渡す文書: [../bomdd-kit/method/onboarding/ai-onboarding-pack.md](../bomdd-kit/method/onboarding/ai-onboarding-pack.md)
+- 人間と AI の開始チェック: [../bomdd-kit/method/onboarding/new-project-checklist.md](../bomdd-kit/method/onboarding/new-project-checklist.md)
+- 開発者の配置ナビ: [../bomdd-kit/method/onboarding/developer-navigation.md](../bomdd-kit/method/onboarding/developer-navigation.md)
+- 既存プロジェクト移行パック: [../bomdd-kit/method/onboarding/existing-project-migration.md](../bomdd-kit/method/onboarding/existing-project-migration.md)
+- 既存プロジェクト移行チェック: [../bomdd-kit/method/onboarding/migration-checklist.md](../bomdd-kit/method/onboarding/migration-checklist.md)
+- PLM-ready の必須契約: [../bomdd-kit/method/contracts/plm-ready-contract.md](../bomdd-kit/method/contracts/plm-ready-contract.md)
+- BOM 粒度判断: [../bomdd-kit/method/contracts/bom-granularity-guide.md](../bomdd-kit/method/contracts/bom-granularity-guide.md)
+- TraceLink 規則: [../bomdd-kit/method/contracts/traceability-rules.md](../bomdd-kit/method/contracts/traceability-rules.md)
 
 新規対象プロジェクトでは、まず `bomdd/` に本テンプレートをコピーし、`00/10/20` を作成してから PLM に初回同期する。実装は `30-34/40`、UI-CAD 案件では `35`、および PLM Gate が通るまで開始しない。
 
