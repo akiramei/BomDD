@@ -202,6 +202,23 @@
   採用〔証拠判定面〕— 独立検査が実プローブで再現)/ automation= 契約ごとの解釈関数の一意性は
   ドメイン判断のため validator へは昇格しない(control-plan の設計時チェックとして運用)。
   初出の型は ECO-078、最も内側の形は IA-05(**別ファイルでなく同一関数内でも分岐する**)。
+- **(f) 判定・存在の入力を「合意された地点」から取っているか**(rule of three 充足で昇格・
+  2026-08-02): 強制・台帳・検査が **index / worktree / ambient な現在状態**を判定入力にすると、
+  ①同一 commit 内の自己再定義で enforcement 自身を通せる ②合意済み台帳行の改変を免除に
+  紛れ込ませられる ③ローカルにだけ在る未追跡物・隣接リポが「存在」を成立させ、
+  **ローカル PASS / クリーン checkout FAIL** の環境差を作る。規則・台帳・存在の判定入力は
+  HEAD・追跡集合(`git ls-files`)等の**合意済み内容**から取り、worktree を読む必要がある
+  検査(prospective 検証等)は「何を worktree から読むか」を明示宣言して残余を閉じる。
+  昇格記録: decision= promoted / target= silence §16(f) / basis= 独立 3 例
+  (**harness ECO-018**= enforcement が index/worktree の規則を読むと同一 commit の
+  自己再定義で自身を通せる〔独立検査 NEW-02 → HEAD 読取りへ〕/ **ViewTube ECO-VT-055**=
+  bootstrap 免除の初版が HEAD 既存 register entry の削除・改変の紛れ込みを排除せず独立
+  レビュー RED〔是正= HEAD entry の構造的完全一致要求〕/ **harness ECO-026**= リンク存在
+  検査 C13 の初版が ambient worktree を存在判定に使い、未追跡生成物・隣接リポでローカル
+  PASS・CI FAIL〔accept a41bd61 赤 → 追跡集合基準へ〕)— 別リポ×別担当×別機構
+  (規則読取り/台帳強制/存在判定)で独立。automation= 一般 validator 化はしない
+  (入力選択はドメイン判断 — 検査・強制の設計時チェックとして運用。個別実装は
+  ViewPrism2 hook 系・ECO-VT-055 filing-bootstrap・ECO-026 C13 で機械化済み)。
 
 ## 17. 境界接続・性能・データ経路 — 実測 3 連鎖(ViewPrism2 ECO-062〜064 還元)
 
