@@ -826,3 +826,24 @@ changes:
       死んでいた実欠陥。affected_refs へ 3 テンプレを追加し是正)。製造中の欠陥 1 件
       (kit-freshness の cp932 UnicodeEncodeError — C14 が検出・OBS-20260727-10 の再演)は
       即是正。V5(CI)= push 後に order へ追記。
+  - id: ECO-027
+    title: deprecated 参照の掃討 lint(T0-15 昇格裁定の実装)
+    date: 2026-08-02
+    origin: improvement
+    status: filed
+    source: >
+      EXP-202607-10(昇格裁定= 2026-07-08 T0 還元・改善 7「T0-15 が 2 例目 — 実装は次の機会・
+      3 例目を待たない」)。gate ① 承認= 2026-08-02 maintainer 採択「裁定済み残宿題を消化する」。
+      起票時予備測定= 同欠陥クラスの現存 2 件を先取り検出(README.md L21 が deprecated の
+      旧一発変換を現役誘導/ui-mock-extraction README L47 が deprecated 明示なしで参照)。
+    order_ref: bomdd/60-change-order-eco-027.md
+    affected_refs: [method/tools/self-conformance.py, README.md,
+                    method/templates/ui-mock-extraction/README.md]
+    no_impact_prediction: "(製造前)上記以外の md・bomdd-init.py・テンプレ設置機構は diff ゼロ。C1〜C14 の判定は不変。README のスキル本数表記(C7)に触れない"
+    summary: >
+      是正= (1) C15 新設: in-file マーカー `> **deprecated` を宣言正本とし(実在標本の様式を
+      規約化)、basename を含む行が同一行に deprecated 語を持たなければ現役誘導として FAIL。
+      証拠台帳(improvements/FINDINGS)は除外(履歴記述の誤検出防止 — 根拠 docstring 宣言)。
+      宣言 0 件= 明示記録つき PASS・corpus 列挙 0= FAIL・陽性対照を毎回実測。
+      (2) 予備測定 2 件の是正(README 誘導を Phase 1.5 二段プロンプトへ差し替え+経過措置
+      参照へ deprecated 明示)。受入= V1〜V5(order 凍結分・V3= 是正前の赤の実測)。
