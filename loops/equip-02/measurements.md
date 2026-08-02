@@ -79,6 +79,10 @@ work-order= 7830AEB640A5(tag `webapi-02-input-bom` = commit 4eed25f から抽出
 1. **タグ記録の不一致(既存記録側)**: 現タグ `webapi-02-input-bom` の指示先= 4eed25f(git 実測)
    に対し、既存 as-built.yaml / report.md は `abfd667` と記載。本ラウンドはタグ現指示先を正と
    した。歴史記録は改竄しない(要因は未特定 — 観測のみ)。
+   **追記(同日・外部レビュー処置)**: 由来確定 — abfd667 は noreply 化履歴書き換え前の双子
+   (tree 68bb4042 完全同一)。**過去測定への影響なしを機械証明**。errata は evidence リポ
+   (BomDD-WebApi-Sample loops/webapi-02/errata-input-commit.md・9a3ff67)。裁定全体は
+   [review-2026-08-02.md](review-2026-08-02.md)。
 2. **同一ベンダー系列でも探索層署名は版で変わる**: opus 4.8 と opus 5 は固定オラクル層では
    同値(0/16)だが、ID 一意性が content-only(衝突あり)→ 非衝突へ変化。「探索層の署名」は
    設備識別の傍証になりうる一方、版間で不変とは限らない、の実測 1 例。

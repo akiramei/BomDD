@@ -3068,3 +3068,30 @@ observation-schema)への cost・resolved 列の設計入力。
 - [open] EXP-20260802-05 — 織り込み案 A〜F のうちレビュー採択分が反映された後、次の外部モデル運用ラウンドで①設備記録欄が起票時から埋まる(EXP-20260711-05 の解消)②「率の比較」に検査体制が併記される、の 2 点が実測されるか
   origin: native
   evidence: 本節・織り込み案 A〜F
+
+## 2026-08-02 equip-02 外部レビュー裁定 — 入力固定の強化・二車線評価(記帳のみ)
+
+観測(出典: [loops/equip-02/review-2026-08-02.md](../loops/equip-02/review-2026-08-02.md) — 9 論点
+全件突合・裁定): 最重要の実測= equip-02 で発見したタグ記録不一致の由来確定 —
+BomDD-WebApi-Sample の noreply 化履歴書き換えで commit ハッシュが再計算され、as-built 記録値
+abfd667(書き換え前)とタグ現指示先 4eed25f(書き換え後)が乖離。**tree 完全同一(68bb4042)で
+入力内容への影響なしを機械証明**し、errata を evidence リポへ append-only 収載(9a3ff67)。
+教訓= commit ハッシュ・タグ名は履歴書き換えで非不変 — **内容のアンカーは tree hash**。
+資格制度・routing 基準の制定は凍結済み採らない裁定のトリガー待ちを再確認(設計入力は裁定記録
+へ保管)。
+
+適用した改善(本節で実施): 記帳のみ(errata は evidence リポ側・method 本文は不変)。
+
+期待する効果と観測:
+
+- [open] EXP-20260802-06 — 次の測定ラウンドの protocol 凍結時に、入力固定を tag 名+
+  expected_commit+**input_tree_hash**+採点器成果物 hash で宣言し、開始時解決値との不一致を
+  fail-closed(測定を開始しない)とする様式が機能するか(実例 1 例目= webapi-02 履歴書き換え。
+  equip-02 は供与ファイル sha256 記録で内容同一性を救済済み= 部分適合)
+  origin: external(equip-02 外部レビュー)
+  evidence: loops/equip-02/review-2026-08-02.md 裁定 1・2
+- [open] OBS-20260802-07 — 設備測定の二車線分離(必須製造車線/自主改善車線 — 自主拡張は必須
+  不合格を救済しない・別評価・BOM/Control Plan 変更は人間承認)が以後のラウンドでも有効な様式か。
+  equip-02 の自主拡張(planned 2 件の実測昇格+変異検査)は別枠観測として記録済み= 1 例目
+  origin: external(equip-02 外部レビュー)
+  evidence: loops/equip-02/measurements.md §7 観測 3・review-2026-08-02.md 裁定 7
