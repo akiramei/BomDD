@@ -82,7 +82,8 @@ maintainer 採択「裁定済み残宿題を消化する」を製造承認とす
   常設対照。宣言 0 件時の明示記録 PASS は合成 corpus の分岐設計で担保・実 corpus は宣言 1 件)。
 - **V4= self-conformance C1〜C15 全 PASS**(exit 0・C13 は README の新リンク 2 本込みで
   192 links 不在 0)。
-- V5(CI)= push 後に追記。
+- **V5(CI)= accept c0abb32 緑**(self-conformance: success・2026-08-02)。fix 0bc5623 は
+  単独 push なし= run 不在= UNKNOWN・対象 revision(HEAD)は緑実測(4 値記載)。
 
 ### 併記(ECO-026 の CI 追記)
 
