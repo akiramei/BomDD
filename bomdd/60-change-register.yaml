@@ -835,7 +835,7 @@ changes:
     title: deprecated 参照の掃討 lint(T0-15 昇格裁定の実装)
     date: 2026-08-02
     origin: improvement
-    status: filed
+    status: verified
     source: >
       EXP-202607-10(昇格裁定= 2026-07-08 T0 還元・改善 7「T0-15 が 2 例目 — 実装は次の機会・
       3 例目を待たない」)。gate ① 承認= 2026-08-02 maintainer 採択「裁定済み残宿題を消化する」。
@@ -852,3 +852,12 @@ changes:
       宣言 0 件= 明示記録つき PASS・corpus 列挙 0= FAIL・陽性対照を毎回実測。
       (2) 予備測定 2 件の是正(README 誘導を Phase 1.5 二段プロンプトへ差し替え+経過措置
       参照へ deprecated 明示)。受入= V1〜V5(order 凍結分・V3= 是正前の赤の実測)。
+    diff_audit:
+      baseline: "d21b0a9"  # 是正開始直前(ECO-026 クローズ後 — 起票 cd81e88 とは分離・窓重複なし)
+      head: "0bc5623"      # diff監査済み: 窓内は affected_refs+台帳系のみ
+    verification: >
+      V3(赤の実測)= 是正前 corpus で C15 FAIL・naive 2 件は起票時予備測定と完全一致
+      (README.md:21 / ui-mock-extraction README:47)・陽性対照 True。V1= 是正後 C15 PASS
+      (宣言 1・naive 0)。V2= 合成 corpus の両方向対照(naive 検出の厳密一致+knowing 許容)を
+      検査内に常設・毎回実測。V4= self-conformance C1〜C15 全 PASS(C13 は新リンク 2 本込みで
+      不在 0)。V5(CI)= push 後に order へ追記。
