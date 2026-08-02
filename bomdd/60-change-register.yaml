@@ -861,3 +861,21 @@ changes:
       (宣言 1・naive 0)。V2= 合成 corpus の両方向対照(naive 検出の厳密一致+knowing 許容)を
       検査内に常設・毎回実測。V4= self-conformance C1〜C15 全 PASS(C13 は新リンク 2 本込みで
       不在 0)。V5(CI)= push 後に order へ追記。
+  - id: ECO-028
+    title: ECO 記録様式に AI 設備構成の記録欄がない(担当設備の系統的無記録)
+    date: 2026-08-02
+    origin: improvement
+    status: filed
+    source: >
+      equip-01 遡及採点(FINDINGS §13)= 台帳本文の設備記録 0/60・設備交代 2 回無記録・
+      汚染 3 系統。EXP-20260711-05 の再演 3 回(系統的欠落と確定)。還元レビュー
+      (2026-08-02 maintainer)の織り込み案 D 採択 — テンプレ変更のため ECO 経由
+      (ECO-022 前例)。gate ①(裁定点 3: register 欄/機械強制/遡及記入)待ち。
+    order_ref: bomdd/60-change-order-eco-028.md
+    affected_refs: [method/templates/60-change-order.md]
+    no_impact_prediction: "(製造前)diff はテンプレ 1 ファイル+台帳系のみ。既存製品リポ非波及(kit 再設置まで)。C1〜C15 判定不変"
+    summary: >
+      是正方針= 60-change-order テンプレへ「担当設備」欄(requested / resolved〔unknown
+      規律・推定禁止〕/ ハーネス / 来歴〔observed|self-reported〕・検査官併記)を追加
+      (transfer-test §5 の継続運用への一般化)。受入= V1(欄+unknown 規律+交絡実例)/
+      V2(self-conformance 全 PASS)/ V3(CI 緑実測)。
