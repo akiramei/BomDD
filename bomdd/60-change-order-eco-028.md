@@ -1,6 +1,20 @@
 # ECO-028 — ECO 記録様式に AI 設備構成の記録欄がない(担当設備の系統的無記録)
 
-状態: **起票(2026-08-02)**。gate ①(裁定)待ち。
+状態: **起票(2026-08-02)** → gate ① 通過(同日・下記裁定)→ 製造。
+
+## gate ① 裁定(2026-08-02 maintainer「gate ① 承認します。ECO-028 の製造に入ってください」)
+
+- 裁定 1: register 側スキーマへの equipment 欄追加= **見送り採択**(order のみ。register への昇格は
+  EXP-20260802-05 の運用実測後)。
+- 裁定 2: 欄の機械強制(validator / self-conformance)= **見送り採択**(記録が先・強制は基準線実測後)。
+- 裁定 3: 既存 ECO への遡及記入なし(歴史的記録の非改竄)= **確認**。
+
+## 担当設備(本 ECO — 新欄の自己適用)
+
+- 製造: requested= claude-fable-5(セッション既定)/ resolved= claude-fable-5
+  (**ハーネス自己申告= self-reported** — 外部検証なし)/ ハーネス= Claude Code(desktop)/
+  来歴= self-reported(ハーネス表示)。
+- 検査官: 独立検査なし(機械受入のみ — V1〜V3)。
 
 ## 出典
 

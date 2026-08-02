@@ -5,6 +5,19 @@
 > 欠陥是正の規律: 直接ソース修正から始めない。まず Phase 5 の帰属調査で `spec_omission / bom_sync_gap / oracle_gap / manufacturing_miss / harness_bug` を決め、原因が仕様/BOM/検査器なら上流成果物を改訂・同期してから再製造する。
 > 詳細ワークシート: 影響分析=[61-impact-analysis.md](61-impact-analysis.md) / データ移行=[62-migration-oracle.md](62-migration-oracle.md) / 不要改変監査=[63-diff-audit.md](63-diff-audit.md) / 部品分割・置換=[64-part-lineage-reattribution.md](64-part-lineage-reattribution.md)。
 
+## 担当設備(equipment — 起票時から記録・ECO 途中の交代も追記)
+
+> 由来: equip-01 遡及採点(2026-08-02・BomDD ECO-028)— 遡及 5 台帳で台帳本文の設備記録 0/60・
+> 設備交代 2 回が無記録(commit trailer でのみ可視)。識別の成否は「記録を要求する様式の有無」に従う。
+
+- 製造(設計者/工場ごとに 1 行):
+  - requested: <要求したモデル・alias(例: claude-fable-5 / gpt-5.6-sol)>
+  - resolved: <実到達モデル。**確認できなければ `unknown` — 推定で埋めない**>
+  - ハーネス: <CLI・統合層とその版(例: Claude Code vX / Codex CLI vY)>
+  - 来歴: observed(機械記録: as-built・セッションログ・API 応答)/ self-reported(申告・ハーネス表示)の別を明記
+- 検査官(独立検査併用時): 同 4 項+read-only の強制方法・セッション分離の有無
+- 注意: requested と resolved は**乖離しうる**(実測: `gpt-5.6-sol` 要求が統合層のクライアント識別ゲートで `gpt-5.5` へ到達 — transfer-04)。commit trailer は自己申告であり resolved の証明にならない。設備構成(モデル・ハーネス・prompt)が ECO 途中で変わったら、変更点と時点を本欄へ追記する(**交代の無記録が最危険**)
+
 ## 0. 変更前 baseline の凍結
 - As-Maintained 個体: <どの工場のどのビルドを改修するか(tag/commit)>
 - データ fixture(永続データを持つ題材): <実データ DB+期待値 manifest(62 §1)>
