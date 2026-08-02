@@ -28,3 +28,30 @@ fail-closed の正常動作。工場起動・介入・製造は一切発生し�
 
 = **src 変更を伴う実在の未起票 ECO 候補は現在ゼロ**。gate ① 再裁定へ(選択肢: Plm M-BOM
 ギャップの単独昇格/ViewGrid 初 ECO/実需発生待ち)。
+
+## 0.2 gate ① 再裁定(2026-08-02 maintainer)
+
+**題材= Plm M-BOM 被覆ギャップの単独昇格で確定**(推奨案採択)。既存判断「単独 ECO は過剰」は
+①測定価値 ②在庫ゼロの新事実 により更新。protocol 凍結文の題材条項(§ gate ① 裁定 1)は本再裁定で
+差し替え — その他の凍結条項(工場スコープ/独立検査/入力固定/二車線/採らないもの)は不変。
+比較セルの正直記載: eco_001/002 は src 変更 ECO・本 ECO は宣言 ECO のため**同格比較は成立しない**
+(工程指標の参考併記に格下げ)。測定 4 次元のうち直接測定できるのは ①影響抽出 ③BOM 同期
+④証拠クローズ+回帰非破壊(②の対象実体変更は無い)。
+
+## 1. 起票・入力固定(EXP-20260802-06 初適用・2026-08-02)
+
+- 起票: Plm ECO-006(order= bomdd/60-change-order-eco-006.md・register open・c6f9d2d push 済み)。
+  起票時の self-hosting lint= exit 0(error/warn 0・info のみ)。
+- **入力固定(凍結)**:
+  - tag: `eco-006-input` / expected_commit: `c6f9d2d75301bb1fc664c9877917a18343b377d6`
+  - **input_tree_hash**: `cc91fe5ec2aa2bbef6ace7adcdebdf3ae366269b`
+  - 採点器: BomDD method/tools/impact-retrospective.py
+    sha256= `614AB9ABFB1F12789613550C0EA6363ACC8BF317F4C551027098EE7FECF17526`
+    (BomDD commit 941941a 時点・workspace へ凍結複写して工場に供与)
+  - prompt bundle: [prompt-bundle.md](prompt-bundle.md)(sha256 は §2 で記録)
+- **fail-closed 検査 PASS**: workspace clone の HEAD・tree・tag 解決値が期待値と全一致
+  (不一致なら開始しない — 実測で一致)。
+- **較正(V2・変更前個体の赤)**: 入力 commit c6f9d2d で
+  `unmapped_files = 76`・`real_under_files = 111` を実測(受入 V1= unmapped 0 かつ
+  real_under 111 不変、が現状不成立であることの凍結)。
+
