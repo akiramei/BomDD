@@ -44,7 +44,7 @@ python method/tools/ui-cad-gate.py --ui-dir bomdd/ui --mock mock.html    # 5. �
 関連:
 
 - 方法論: [../../ui-ir-ui-bom.md](../../ui-ir-ui-bom.md)(工程分離原則は §12、裁定ゲートは §15)
-- AI 抽出プロンプト: [../../prompts/ui-mock-to-ui-bom.md](../../prompts/ui-mock-to-ui-bom.md)(経過措置 — §11 注記)
+- AI 抽出プロンプト: [../../prompts/ui-mock-to-ui-bom.md](../../prompts/ui-mock-to-ui-bom.md)(**deprecated** の旧一発変換 — raw 抽出治具を使えない環境の経過措置・§11 注記)
 - 裁定ゲート治具: [../../tools/ui-cad-gate.py](../../tools/ui-cad-gate.py)
 - E-BOM テンプレート: [../30-ebom.yaml](../30-ebom.yaml)
 - Design System BOM テンプレート: [../35-design-system-bom.yaml](../35-design-system-bom.yaml)

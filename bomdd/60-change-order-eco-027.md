@@ -64,3 +64,28 @@ maintainer 採択「裁定済み残宿題を消化する」を製造承認とす
 - V3: 是正前の実 corpus で C15 が README.md L21 を検出する(赤の実測 — 是正ゲートの較正)。
 - V4: 回帰= self-conformance C1〜C14 全 PASS(C15 込みで全緑)。
 - V5: CI 緑(対象 revision・push 後に結論確認)。
+
+## 製造・検証記録(2026-08-02)
+
+- baseline の訂正: 起票時記載 a41bd61 の後に ECO-026 の CI 赤是正(fix2 c265e7a・窓更新
+  d21b0a9)が挟まったため、**是正開始直前= d21b0a9** を diff 窓の baseline とする(ECO-026 の
+  窓との重複を作らない)。
+- **V3(赤の実測)= 予測完全一致**: 是正前 corpus で C15 FAIL — naive 参照 2 件
+  (`README.md:21` / `method/templates/ui-mock-extraction/README.md:47`)・陽性対照 True。
+  起票時予備測定と同一集合(新規検出 0・取りこぼし 0)。
+- 是正: ①README.md L21 の誘導を二段プロンプト(ui-raw-to-candidates →
+  ui-apply-rulings-to-bom)へ差し替え+旧一発変換の deprecated 明示(リンク 2 本は C13 の
+  追跡集合検査を通過)②ui-mock-extraction/README.md L47 へ **deprecated** 明示を追加
+  (経過措置の位置づけは維持)。
+- **V1= C15 PASS**(宣言 1 件・naive 0 件・陽性対照 True)。**V2= 陽性対照 実測**
+  (合成 naive の検出〔`naive.md:1` を厳密一致で〕+合成 knowing の許容 — 毎回実行される
+  常設対照。宣言 0 件時の明示記録 PASS は合成 corpus の分岐設計で担保・実 corpus は宣言 1 件)。
+- **V4= self-conformance C1〜C15 全 PASS**(exit 0・C13 は README の新リンク 2 本込みで
+  192 links 不在 0)。
+- V5(CI)= push 後に追記。
+
+### 併記(ECO-026 の CI 追記)
+
+fix2 以降の CI 結論= **d21b0a9 緑**(self-conformance: success・2026-08-02)。ECO-026 の
+V5 はこれでクローズ(中間 commit c265e7a/cd81e88 は単独 push なし= run 不在= UNKNOWN・
+対象 revision は緑実測 — ECO-025 と同じ 4 値記載)。

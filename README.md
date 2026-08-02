@@ -18,7 +18,7 @@ BomDD の核は BOM 概念そのものではなく、**隔離 AI 工場、固定
 
 🛠 **実用パイプライン(フォワード・モード): [method/bomdd-playbook-v1.md](method/bomdd-playbook-v1.md)** — 原版の無い新規開発(ブレスト→仕様→BOM・工程設計→AI製造→受入・収束)を回すための実践手順。リバースで実証した装置群(固定オラクル・隔離ファクトリ・ずる報告・マルチファクトリ分散)をフォワードへ移植し、**forward-01〜04・scale-01・transfer-01〜03(N=3・ベンダー横断・説明介入ゼロ)で実証済み**(FINDINGS §7/9/11)。付属: [沈黙次元カタログ](method/silence-checklist.md)(BOMが沈黙しがちな次元の掃討表)/ [テンプレ一式](method/templates/) / [フェーズ実行プロンプト](method/prompts/)(**実行手順の正典**。ツール固有 adapter 層= [product-profile テンプレ](method/templates/product-profile/)+スキル 8 本 — 2026-07 に ViewPrism2 実運用から 5 本を一般化・後に UI-CAD 系 3 本を追加)。**新規開始は `python method/tools/bomdd-init.py <Product> --gui`**(プロダクト+CAD リポを生成・[人間向け協働ガイド](method/onboarding/working-with-ai.md)つき)。
 
-🧩 **UIモック入口(candidate): [method/ui-ir-ui-bom.md](method/ui-ir-ui-bom.md)** — HTML/JavaScript/CSSで作った実行可能UIモックを、UI-IR→UI-BOM→E-BOM/Control Plan/S-BOMへ接続するための候補拡張。テンプレートは [method/templates/ui-mock-extraction/](method/templates/ui-mock-extraction/)、抽出AIへの指示は [method/prompts/ui-mock-to-ui-bom.md](method/prompts/ui-mock-to-ui-bom.md)。
+🧩 **UIモック入口(candidate): [method/ui-ir-ui-bom.md](method/ui-ir-ui-bom.md)** — HTML/JavaScript/CSSで作った実行可能UIモックを、UI-IR→UI-BOM→E-BOM/Control Plan/S-BOMへ接続するための候補拡張。テンプレートは [method/templates/ui-mock-extraction/](method/templates/ui-mock-extraction/)、抽出AIへの指示は二段プロンプト [method/prompts/ui-raw-to-candidates.md](method/prompts/ui-raw-to-candidates.md) → [method/prompts/ui-apply-rulings-to-bom.md](method/prompts/ui-apply-rulings-to-bom.md)(旧一発変換は deprecated)。
 
 > **用語の注意**: 本研究の **S-BOM は一般的な SBOM(Software Bill of Materials)ではなく、Service BOM / 保守部品表**を指す。OSS 依存一覧はその一部に過ぎず、「何が影響し・何を再検査し・交換/再製造が要るか」を導く保守層である。概念は [docs/concept.md](docs/concept.md)、用語の固定は [docs/terminology.md](docs/terminology.md)。
 

@@ -35,6 +35,9 @@
   C14 kit-freshness : kit-freshness 治具の対照実測(ECO-026)— 合成 origin+合成 kit で
                       FRESH/STALE/TAMPERED/UNKNOWN/入力不正の全分岐を発動実測し、
                       実 scaffold での最初の正常後続取引(FRESH)を一巡(git 必須)
+  C15 deprecated-refs: deprecated 参照の掃討 lint(ECO-027)— `> **deprecated` を宣言正本とし、
+                      basename を含む行が同一行に deprecated 語を持たなければ現役誘導として
+                      FAIL。証拠台帳(improvements/FINDINGS)は除外・陽性対照を毎回実測
 
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
@@ -625,6 +628,74 @@ def c14_kit_freshness() -> None:
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+# --- C15 deprecated 参照の掃討 lint(ECO-027) -----------------------------------------
+_DEP_MARKER_RE = re.compile(r"^>\s*\*\*deprecated", re.M)
+
+
+def _dep_naive_refs(files: list[Path], base: Path,
+                    deprecated: list[Path]) -> list[str]:
+    """deprecated ファイルの basename を含む行のうち、同一行に deprecated 語が無いもの
+    (=現役誘導とみなす)を列挙する。宣言ファイル自身は除外。"""
+    names = {d.name: d for d in deprecated}
+    naive = []
+    for p in files:
+        if p in names.values():
+            continue
+        try:
+            lines = p.read_text(encoding="utf-8").splitlines()
+        except (UnicodeDecodeError, OSError):
+            continue
+        for i, line in enumerate(lines, 1):
+            for name in names:
+                if name in line and "deprecated" not in line.lower():
+                    naive.append(f"{p.relative_to(base).as_posix()}:{i}: {name}")
+    return naive
+
+
+def c15_deprecated_refs() -> None:
+    """「正典を差し替えても誘導が旧を指し続ける」の機械掃討(ECO-027・T0-15 昇格裁定)。
+
+    宣言正本= 当該ファイル自身の行 `> **deprecated`(実在標本 method/prompts/
+    ui-mock-to-ui-bom.md:3 の既存様式をそのまま規約化 — 実在標本較正・ECO-006 教訓 6)。
+    判定= deprecated ファイルの basename を含む行は、同一行に `deprecated` の語を含む場合のみ
+    「承知の参照」として許容。含まない行は現役誘導として FAIL。
+    境界(値と端点の記録 — OBS-20260727-05): 走査対象= リポ直下 *.md+method/**/*.md。
+    **証拠台帳(method/improvements.md・FINDINGS.md)は除外** — 過去状態の記述が本文の
+    証拠正本であり、履歴記述を現役誘導と誤検出するため。bomdd/ 台帳(同じく履歴)・
+    .claude/skills(ハーネス面 — 必要が実測されてから拡張)も対象外。
+    既知限界: basename の行内一致のため同名別ファイルで誤検出しうる(現状 deprecated 1 件・
+    衝突なし)。宣言 0 件= 適用対象なしの明示記録つき PASS(任意対象)・corpus 列挙 0= FAIL。
+    陽性対照(毎回実測)= 合成 corpus で naive 検出+knowing 許容の両方向。
+    """
+    ledgers = {ROOT / "method" / "improvements.md", ROOT / "FINDINGS.md"}
+    files = [p for p in sorted(ROOT.glob("*.md")) + sorted((ROOT / "method").rglob("*.md"))
+             if p not in ledgers]
+    if not files:
+        check("C15", False, "md corpus の列挙が 0 件(対象欠落 — FAIL)")
+        return
+    deprecated = [p for p in files
+                  if _DEP_MARKER_RE.search(p.read_text(encoding="utf-8", errors="replace"))]
+    naive = _dep_naive_refs(files, ROOT, deprecated) if deprecated else []
+    # 陽性対照: 合成 corpus で「naive を検出する/knowing を許容する」の両方向を毎回実測
+    tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-c15-"))
+    try:
+        dep = tmp / "old-thing.md"
+        dep.write_text("> **deprecated**: 旧方式\n", encoding="utf-8")
+        (tmp / "naive.md").write_text("手順は old-thing.md を使う\n", encoding="utf-8")
+        (tmp / "knowing.md").write_text("old-thing.md は deprecated(参照回避)\n",
+                                        encoding="utf-8")
+        syn = _dep_naive_refs([tmp / "naive.md", tmp / "knowing.md"], tmp, [dep])
+        pos_ok = syn == ["naive.md:1: old-thing.md"]
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    ok = pos_ok and not naive
+    label = (f"deprecated 宣言 {len(deprecated)} 件" if deprecated
+             else "deprecated 宣言 0 件(適用対象なし — 明示記録)")
+    check("C15", ok,
+          f"deprecated 参照の掃討({label}・naive 参照 {len(naive)} 件・陽性対照 {pos_ok})"
+          + (f" — 現役誘導: {naive[:5]}" if naive else ""))
+
+
 # --- C10 参照スキーマの派生同期(ECO-014) --------------------------------------------
 # README §2「id-grammar/ref-edges が正本・JSON Schema は導出」の宣言を機械検査で裏付ける。
 # 実害= uiId の domain が正本追加(ref-v0.3(c))から 13 日未同期でも検出されなかった(ECO-013)。
@@ -818,6 +889,7 @@ def main() -> int:
     c12_entry_refs()
     c13_link_integrity()
     c14_kit_freshness()
+    c15_deprecated_refs()
     if a.dotnet:
         c9_dotnet()
 
