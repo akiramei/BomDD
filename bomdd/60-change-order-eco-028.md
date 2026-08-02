@@ -12,7 +12,9 @@ V3(CI)は push 後に実測し本 order へ追記(4 値判定)。
   YAML 厳格パース不変)。
 - 影響なし予測の検証: **的中** — diff は method/templates/60-change-order.md+台帳系のみ
   (fix 122ea7e = 2 files)。
-- V3(CI)= push 後に追記。
+- **V3(CI 実測・2026-08-02)= accept a567159 緑**(self-conformance run 30736554032・success・
+  5m32s)。fix 122ea7e は単独 push なし= run 不在= **UNKNOWN**(4 値記載 — PASS と主張しない)。
+  対象 revision(HEAD= accept)の緑実測により V3 クローズ。
 
 ## gate ① 裁定(2026-08-02 maintainer「gate ① 承認します。ECO-028 の製造に入ってください」)
 
