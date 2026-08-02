@@ -191,13 +191,21 @@ M-CI-012/M-SCHEMA-013)。裁定 1= 生成物専用 unit(帰属規則「生成物
 - **拘束(再掲)**: 本セルは webapi-02 P2 とも Plm eco_001/002(src ECO)とも直接比較不能
   (クラス・検査体制が異なる)。率の統計判定・routing への使用禁止。n=1。
 
-## 11. 残(maintainer 裁定待ち)
+## 11. クローズ(2026-08-02 — maintainer 裁定)
 
-- **verified 裁定+golden**(maintainer)→ verified 時: diff_audit へ head:(受入タグ)追記で
-  窓閉鎖・52-metrics 記帳(eco_006 節+候補行解消マーカー)・as-built 追記。
-- 還元候補(lesson-promote 入口・裁定後): 段階混在クラス(3 例)/F010(test_vectors の
-  機械可読化)/証拠等級 A/B・妥当性条件 (C) の一般化可能性/題材消滅を fail-closed が検出した
-  実例(EXP-20260802-06 の初適用実測)。
+- **maintainer: verified 承認+golden 確認**(「verified 裁定を承認します。golden も確認しました。
+  クローズしてください」)→ クローズ処置完了:
+  - register= verified/closed・**diff_audit 窓閉鎖 head: v0.5-eco-006-accepted**(除去せず閉じる)。
+  - タグ付与後の self-hosting --eco で **R-052 固定窓監査 clean・X-GIT 0** を実測(ECO-005 運用の再現)。
+  - 52-metrics= eco_006 節新設+候補行解消マーカー/50-as-built= **AB-PLM-ECO-006**
+    (**Plm 台帳初の担当設備明記エントリ** — ai_model: claude-opus-5[1m] self-reported)。
+  - accept= 52f3428(CI **緑**)+CI 記録 5c2965b。**本 ECO の全 push 連続緑**。
+- **equip-03 ラウンド完了**。equip 表への行(検査体制込み・n=1): claude-opus-5 ×
+  ECO 適用製造(宣言 ECO)= 機械受入一発・独立検査差戻 3(単調収束・全所見受諾+一段先の
+  一般化)・介入 0・ずる 10 高粒度。
+- 還元候補(lesson-promote 入口 — 次の一手): 段階混在クラス(3 例= PROMOTION 判定対象)/
+  F010(test_vectors の機械可読化= Plm 側 ECO 候補としても記帳済み)/証拠等級 A/B・
+  妥当性条件 (C) の一般化可能性/題材消滅を fail-closed が検出した実例(EXP-20260802-06)。
 
 - 残件の単調減少: 5 → 2 → 1。検査官は前進を PARTIAL として認めつつ**工場自身の基準の自己適用**で
   残件を特定 — 検査 3 ラウンドの提起は通算 7・**7/7 CONFIRMED・誤検出 0**。
