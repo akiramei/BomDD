@@ -1,0 +1,99 @@
+bomdd:
+  product: BomDD Reservation API Sample
+  experiment: webapi-01
+  layer: Control Plan
+
+control_plan:
+  depth_ladder:
+    unit: domain rule inspection without HTTP process
+    L1: process starts and health endpoint responds
+    L2: API contract metadata inspection through OpenAPI JSON
+    L3: interaction behavior, replay, conflict, and concurrency checks through HTTP
+    G: human review of API usability and documentation clarity
+
+  characteristics:
+    - id: CP-CORE-OVERLAP-001
+      characteristic: 同一roomIdの時間帯重複を拒否する
+      classification: core
+      depth: unit
+      tolerance: exact
+      fixture: test/BomDD.WebApiSample.Acceptance
+      oracle: service.Create returns slot_unavailable for overlap
+      approver: automated
+
+    - id: CP-CORE-IDEMPOTENCY-001
+      characteristic: 同一冪等keyと同一payloadは同じ予約を返す
+      classification: core
+      depth: unit
+      tolerance: exact booking id match
+      fixture: test/BomDD.WebApiSample.Acceptance
+      oracle: repeated service.Create returns same Id
+      approver: automated
+
+    - id: CP-CORE-CANCEL-001
+      characteristic: 開始24時間前を過ぎたキャンセルを拒否する
+      classification: core
+      depth: unit
+      tolerance: exact
+      fixture: test/BomDD.WebApiSample.Acceptance
+      oracle: service.Cancel returns cancellation_window_closed
+      approver: automated
+
+    - id: CP-OPENAPI-SURFACE-001
+      characteristic: OpenAPI契約が必要なpath/schema/securityを持つ
+      classification: surface
+      depth: L2
+      tolerance: required nodes present
+      fixture: test/BomDD.WebApiSample.Acceptance
+      oracle: System.Text.Json inspection of openapi/openapi.json
+      approver: automated
+
+    - id: CP-AUTH-SURFACE-001
+      characteristic: API key認証のheader名と401形式
+      classification: surface
+      depth: L3
+      tolerance: exact header name and ErrorResponse code
+      fixture: planned HTTP smoke/concurrency harness
+      oracle: unauthorized request returns 401 + code=unauthorized
+      approver: automated
+      status: planned
+
+    - id: CP-CONCURRENCY-SURFACE-001
+      characteristic: 並列POSTで同一roomIdの重複予約を作らない
+      classification: surface
+      depth: L3
+      tolerance: exactly one success for overlapping concurrent creates
+      fixture: planned HTTP concurrency harness
+      oracle: one 201 and remaining 409 responses
+      approver: automated
+      status: planned
+
+    - id: CP-IDEMPOTENCY-FIELDS-001
+      characteristic: 同一key+同room/time+顧客違いは異内容として 409 idempotency_conflict
+      classification: core
+      depth: L3
+      tolerance: exact (409 idempotency_conflict)
+      fixture: loops/webapi-01/blackbox-oracle.ps1 (S7)
+      oracle: same idempotencyKey + same room/time + different customerId => 409 idempotency_conflict
+      approver: automated
+      rationale: Loop webapi-01 で fingerprint が時刻差分しか検査されず customerId 欠落を見逃した(CHEAT-WEBAPI-01-001)。被覆を上げる。
+
+    - id: CP-VALIDATION-CODE-001
+      characteristic: すべての入力バリデーション失敗は 400 + code=invalid_request
+      classification: surface
+      depth: L3
+      tolerance: exact (400 invalid_request)
+      fixture: loops/webapi-01/blackbox-oracle.ps1 (S9/S10)
+      oracle: short/long duration => 400 invalid_request (validation_error は不可)
+      approver: automated
+      rationale: Loop webapi-01.5 で factory-02 が validation_error を選び分岐(CHEAT-WEBAPI-01-004)。
+
+    - id: CP-OFFSET-Z-001
+      characteristic: 非Zオフセットの日時入力は 400 invalid_request
+      classification: surface
+      depth: L3
+      tolerance: exact (400 invalid_request)
+      fixture: loops/webapi-01/blackbox-oracle.ps1 (S11)
+      oracle: startUtc/endUtc with +09:00 => 400 invalid_request
+      approver: automated
+      rationale: Loop webapi-01.5 で factory-02 が非Zを201換算受理し分岐(CHEAT-WEBAPI-01-003)。format date-time だけでは曖昧。

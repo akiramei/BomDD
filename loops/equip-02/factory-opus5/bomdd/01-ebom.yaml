@@ -1,0 +1,104 @@
+bomdd:
+  product: BomDD Reservation API Sample
+  experiment: webapi-01
+  layer: E-BOM
+
+requirements:
+  - id: REQ-001
+    text: 同一会議室で時間帯が重なる確定予約を二重に作成しない。
+  - id: REQ-002
+    text: 同一の冪等キーと同一リクエストの再送は、元の予約を返す。
+  - id: REQ-003
+    text: 同一の冪等キーで異なる内容のリクエストを送った場合は競合として拒否する。
+  - id: REQ-004
+    text: 予約は開始24時間前までキャンセルできる。
+  - id: REQ-005
+    text: API利用者はHTTP APIとして予約の作成、取得、一覧、キャンセルを行える。
+
+ebom:
+  items:
+    - id: E-BOOKING-INTERVAL-001
+      name: 予約時間帯
+      classification: core
+      rationale_type: requirement
+      requirement_refs:
+        - REQ-001
+      invariants:
+        - startUtc/endUtc は literal Z オフセット(UTC)のみ受理し、非Zオフセット(例 +09:00)は invalid_request とする
+        - 時間帯は半開区間 [startUtc, endUtc) とする
+        - duration は30分以上4時間以下とし、範囲外は invalid_request とする
+
+    - id: E-AVAILABILITY-001
+      name: 予約可否判定
+      classification: core
+      rationale_type: requirement
+      requirement_refs:
+        - REQ-001
+      depends_on:
+        - E-BOOKING-INTERVAL-001
+      invariants:
+        - 同一 roomId かつ status=confirmed の予約だけを重複判定対象にする
+        - end == start の隣接予約は重複ではない
+
+    - id: E-IDEMPOTENCY-001
+      name: 予約作成の冪等性
+      classification: core
+      rationale_type: requirement
+      requirement_refs:
+        - REQ-002
+        - REQ-003
+      kbom_refs:
+        - K-IDEMPOTENCY-HTTP-001
+      invariants:
+        - canonical fingerprint は roomId, customerId, startUtc, endUtc を正規化して連結する(idempotencyKey は含めない)
+        - idempotencyKey はリクエスト本文の正規化fingerprintに紐づく
+        - 同一key + 同一fingerprintは既存予約を返す
+        - 同一key + 異なるfingerprintは idempotency_conflict
+
+    - id: E-CANCELLATION-001
+      name: キャンセル期限
+      classification: core
+      rationale_type: requirement
+      requirement_refs:
+        - REQ-004
+      invariants:
+        - UtcNow <= startUtc - 24h の場合だけキャンセル可能
+        - すでにcancelledの予約へのキャンセルは同じ結果を返す
+
+    - id: E-HTTP-CONTRACT-001
+      name: HTTP API契約
+      classification: surface
+      rationale_type: external-knowledge
+      requirement_refs:
+        - REQ-005
+      kbom_refs:
+        - K-HTTP-REST-001
+        - K-OPENAPI-3-1-001
+      surface_contract:
+        paths:
+          - POST /v1/bookings
+          - GET /v1/bookings
+          - GET /v1/bookings/{id}
+          - DELETE /v1/bookings/{id}
+
+    - id: E-AUTH-APIKEY-001
+      name: API key認証
+      classification: surface
+      rationale_type: external-knowledge
+      requirement_refs:
+        - REQ-005
+      kbom_refs:
+        - K-APIKEY-HEADER-001
+      invariants:
+        - X-Api-Key header がない、または不正な場合は 401
+
+    - id: E-ERROR-SCHEMA-001
+      name: JSONエラースキーマ
+      classification: surface
+      rationale_type: external-knowledge
+      requirement_refs:
+        - REQ-005
+      kbom_refs:
+        - K-HTTP-REST-001
+      invariants:
+        - エラーは code と message を持つ application/json とする

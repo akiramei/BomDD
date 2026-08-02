@@ -3018,7 +3018,7 @@ observation-schema)への cost・resolved 列の設計入力。
 
 - [open] EXP-20260802-03 — 次の実験ラウンド(EXP-20260726-01 の別ベンダー検査軸を第一候補)で、equip-01 の記録欄仕様(工程分類 v0+分類困難欄/requested・resolved・harness・prompt bundle/時間分解の来歴つき記録+可能なら費用/差戻・介入・範囲外の 3 カウンタ)が protocol へ最初から入り、識別・原価の欠落率が遡及値(100%/97%)から実測で下がるか
   origin: native
-  evidence: 本節・loops/equip-01/measurements.md §22〜23
+  evidence: 本節・loops/equip-01/measurements.md §22〜23・適用実測 1 回目= loops/equip-02(2026-08-02 プロスペクティブ P2 ラウンド — 記録欄仕様を protocol へ最初から全適用・識別/時間の欠落 0〔遡及値 100%/97% から改善実測〕・費用〔通貨〕のみ unknown= ハーネス非露出。open 維持 — 2 回目は EXP-20260726-01 の別ベンダー検査軸で)
 
 ## 2026-08-02 equip-01 還元 — AI 設備能力測定の教訓(識別=様式帰属・証拠偽装クラス・検査条件込み比較)
 

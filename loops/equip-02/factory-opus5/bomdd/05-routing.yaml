@@ -1,0 +1,76 @@
+bomdd:
+  product: BomDD Reservation API Sample
+  experiment: webapi-01
+  layer: Routing
+
+routing:
+  id: ROUTING-WEBAPI-BOOKING-001
+  purpose: Web/API領域でBomDDの核/表面/K-BOM/Control Plan/S-BOMを検証する
+  steps:
+    - order: 1
+      id: ROUTE-EBOM
+      name: 設計BOMを読む
+      input:
+        - bomdd/01-ebom.yaml
+      output:
+        - implementation plan
+
+    - order: 2
+      id: ROUTE-KBOM
+      name: Web/API外部知識を読む
+      input:
+        - bomdd/02-kbom.yaml
+      output:
+        - status code policy
+        - auth header policy
+        - OpenAPI contract policy
+
+    - order: 3
+      id: ROUTE-MANUFACTURE-CORE
+      name: 核ロジックを製造する
+      input:
+        - M-CORE-BOOKING-SERVICE-001
+      output:
+        - src/BomDD.WebApiSample.Core
+
+    - order: 4
+      id: ROUTE-MANUFACTURE-SURFACE
+      name: HTTP/API表面を製造する
+      input:
+        - M-API-ENDPOINTS-001
+        - M-OPENAPI-DOCUMENT-001
+      output:
+        - src/BomDD.WebApiSample.Api
+        - openapi/openapi.json
+
+    - order: 5
+      id: ROUTE-ACCEPTANCE
+      name: 受入を実行する
+      input:
+        - bomdd/04-control-plan.yaml
+      command:
+        - dotnet build
+        - dotnet run --project test/BomDD.WebApiSample.Acceptance
+      output:
+        - acceptance log
+
+    - order: 6
+      id: ROUTE-ASBUILT
+      name: As-Built BOMを記録する
+      input:
+        - accepted artifacts
+      output:
+        - bomdd/06-as-built.yaml
+
+    - order: 7
+      id: ROUTE-SERVICE-BOM
+      name: Service BOMへ保守トレースを登録する
+      input:
+        - K-BOM dependencies
+        - Control Plan depths
+      output:
+        - bomdd/07-service-bom.yaml
+
+  isolation_rule:
+    formal_experiment: 製造装置には bomdd/*.yaml と bomdd/work-order-webapi-01.md のみを渡し、src/ と openapi/ を見せない
+    cheat_reporting: BOMにないREST慣習、status code、日時、認証、エラー形式の補完は cheat-log.md に記録する

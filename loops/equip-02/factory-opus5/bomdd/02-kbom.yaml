@@ -1,0 +1,58 @@
+bomdd:
+  product: BomDD Reservation API Sample
+  experiment: webapi-01
+  layer: K-BOM
+
+kbom:
+  items:
+    - id: K-HTTP-REST-001
+      name: HTTP/REST status and resource conventions
+      version: v1
+      source: common REST API practice
+      managed_knowledge:
+        - POST creates resources and returns 201 when accepted
+        - 400 represents validation errors
+        - all input validation failures use HTTP 400 with error code invalid_request (validation_error は使わない)
+        - 401 represents missing or invalid credentials
+        - 404 represents missing resources
+        - 409 represents state conflicts
+      risk_if_implicit: AI製造装置がstatus codeやエラー形式を慣習で補う
+
+    - id: K-OPENAPI-3-1-001
+      name: OpenAPI 3.1 contract document
+      version: 3.1.0
+      source: OpenAPI Specification 3.1
+      managed_knowledge:
+        - paths, operations, components.schemas, components.securitySchemes を契約として扱う
+        - JSON Schema互換のschemaを使う
+      risk_if_implicit: 契約未定義のままAPI実装だけが進む
+
+    - id: K-APIKEY-HEADER-001
+      name: API key header authentication
+      version: v1
+      source: API gateway and HTTP authentication convention
+      managed_knowledge:
+        - header name is X-Api-Key
+        - invalid or missing key returns 401 with ErrorResponse
+      risk_if_implicit: 認証方式、header名、失敗時形式が製造装置ごとに分岐する
+
+    - id: K-UTC-ISO8601-001
+      name: UTC ISO-8601 timestamp convention
+      version: v1
+      source: ISO-8601 / RFC 3339 style API timestamp practice
+      managed_knowledge:
+        - request timestamps must be UTC with a literal Z offset; non-Z offsets (e.g. +09:00) are invalid_request
+        - OpenAPI の format date-time だけでは +09:00 を許してしまうため、literal Z 必須を契約に明記する
+        - response timestamps are serialized as date-time strings
+      risk_if_implicit: local time, offset許容、丸めが工場ごとに分岐する
+
+    - id: K-IDEMPOTENCY-HTTP-001
+      name: HTTP create idempotency
+      version: v1
+      source: payment and reservation API practice
+      managed_knowledge:
+        - idempotency key is bound to a canonical request fingerprint
+        - canonical fingerprint covers roomId, customerId, startUtc, endUtc (idempotencyKey excluded)
+        - replay of same key and same payload returns the original resource with HTTP 201 Created (original-compatible)
+        - same key with different payload is a conflict (HTTP 409 idempotency_conflict)
+      risk_if_implicit: 再送時に二重予約が発生する、または異なるpayloadを誤って受理する

@@ -1,0 +1,418 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "BomDD Reservation API Sample",
+    "version": "1.0.0",
+    "description": "Meeting room reservation API. Manufactured from bomdd/01-ebom.yaml, 02-kbom.yaml, 03-mbom.yaml, 04-control-plan.yaml and 05-routing.yaml (experiment webapi-01).\n\nAll request timestamps must be UTC with a literal Z offset. `format: date-time` alone would also accept offsets such as +09:00, so the literal-Z requirement is stated explicitly by `pattern` (K-UTC-ISO8601-001)."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:5210",
+      "description": "Local acceptance instance"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "bookings",
+      "description": "Meeting room bookings"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Liveness probe",
+        "description": "Control Plan depth L1: the process starts and the health endpoint responds. No API key required.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "The process is running.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "const": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/bookings": {
+      "post": {
+        "operationId": "createBooking",
+        "summary": "Create a booking",
+        "description": "Creates a confirmed booking. Sending the same `idempotencyKey` with the same canonical payload (roomId, customerId, startUtc, endUtc) returns the original booking, again with 201. Sending the same `idempotencyKey` with a different payload is a 409 idempotency_conflict.",
+        "tags": [
+          "bookings"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The booking was created, or an identical idempotent replay returned the original booking.",
+            "headers": {
+              "Location": {
+                "description": "Relative URL of the created booking.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "description": "State conflict: the room is already booked for an overlapping range (slot_unavailable), or the idempotency key was reused with a different payload (idempotency_conflict).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "slotUnavailable": {
+                    "value": {
+                      "code": "slot_unavailable",
+                      "message": "The room is already booked for an overlapping time range."
+                    }
+                  },
+                  "idempotencyConflict": {
+                    "value": {
+                      "code": "idempotency_conflict",
+                      "message": "The idempotency key was already used with a different request payload."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listBookings",
+        "summary": "List bookings",
+        "description": "Returns every booking, confirmed and cancelled, in creation order.",
+        "tags": [
+          "bookings"
+        ],
+        "responses": {
+          "200": {
+            "description": "The bookings known to the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/bookings/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Booking identifier, for example bk_3f1a2b....",
+          "schema": {
+            "type": "string",
+            "pattern": "^bk_[0-9a-f]+$"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getBooking",
+        "summary": "Get a booking",
+        "tags": [
+          "bookings"
+        ],
+        "responses": {
+          "200": {
+            "description": "The booking.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "cancelBooking",
+        "summary": "Cancel a booking",
+        "description": "Cancels a booking. Only allowed while UtcNow is at or before startUtc minus 24 hours. Cancelling an already cancelled booking repeats the same result.",
+        "tags": [
+          "bookings"
+        ],
+        "responses": {
+          "200": {
+            "description": "The booking after cancellation (status = cancelled).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "description": "The 24 hour cancellation window has closed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "cancellationWindowClosed": {
+                    "value": {
+                      "code": "cancellation_window_closed",
+                      "message": "A booking can only be cancelled up to 24 hours before it starts."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Api-Key",
+        "description": "A missing or invalid key returns 401 with an ErrorResponse whose code is unauthorized."
+      }
+    },
+    "responses": {
+      "InvalidRequest": {
+        "description": "Input validation failed. Every validation failure uses code invalid_request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "invalidRequest": {
+                "value": {
+                  "code": "invalid_request",
+                  "message": "startUtc must be an ISO-8601 timestamp in UTC with a literal Z offset (for example 2026-08-03T10:00:00Z)."
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "The X-Api-Key header is missing or invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "unauthorized": {
+                "value": {
+                  "code": "unauthorized",
+                  "message": "A valid X-Api-Key header is required."
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The booking does not exist.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "notFound": {
+                "value": {
+                  "code": "not_found",
+                  "message": "The booking was not found."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "UtcTimestamp": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?Z$",
+        "description": "ISO-8601 timestamp in UTC with a literal Z offset. Non-Z offsets such as +09:00 are rejected with 400 invalid_request.",
+        "examples": [
+          "2026-08-03T10:00:00Z"
+        ]
+      },
+      "CreateBookingRequest": {
+        "type": "object",
+        "required": [
+          "roomId",
+          "customerId",
+          "startUtc",
+          "endUtc"
+        ],
+        "properties": {
+          "roomId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Room identifier. Compared case-insensitively (normalized to uppercase).",
+            "examples": [
+              "room-a"
+            ]
+          },
+          "customerId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Customer identifier. Part of the idempotency fingerprint.",
+            "examples": [
+              "cust-1"
+            ]
+          },
+          "startUtc": {
+            "$ref": "#/components/schemas/UtcTimestamp"
+          },
+          "endUtc": {
+            "$ref": "#/components/schemas/UtcTimestamp",
+            "description": "Exclusive end of the half-open interval [startUtc, endUtc). The duration must be between 30 minutes and 4 hours."
+          },
+          "idempotencyKey": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Optional. Bound to the canonical fingerprint of roomId, customerId, startUtc and endUtc."
+          }
+        }
+      },
+      "BookingResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "roomId",
+          "customerId",
+          "startUtc",
+          "endUtc",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^bk_[0-9a-f]+$",
+            "description": "Deterministic booking identifier with the prefix bk_.",
+            "examples": [
+              "bk_0a1b2c3d4e5f60718293a4b5"
+            ]
+          },
+          "roomId": {
+            "type": "string",
+            "description": "The normalized (uppercase) room identifier."
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "startUtc": {
+            "$ref": "#/components/schemas/UtcTimestamp"
+          },
+          "endUtc": {
+            "$ref": "#/components/schemas/UtcTimestamp"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "confirmed",
+              "cancelled"
+            ]
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "invalid_request",
+              "unauthorized",
+              "not_found",
+              "slot_unavailable",
+              "idempotency_conflict",
+              "cancellation_window_closed"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "description": "Human readable explanation. Not intended for programmatic branching."
+          }
+        }
+      }
+    }
+  }
+}

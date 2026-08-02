@@ -1,0 +1,61 @@
+bomdd:
+  product: BomDD Reservation API Sample
+  experiment: webapi-01
+  layer: M-BOM
+
+mbom:
+  manufacturing_units:
+    - id: M-CORE-BOOKING-SERVICE-001
+      ebom_refs:
+        - E-BOOKING-INTERVAL-001
+        - E-AVAILABILITY-001
+        - E-IDEMPOTENCY-001
+        - E-CANCELLATION-001
+      artifact:
+        path: src/BomDD.WebApiSample.Core
+        type: dotnet-classlib
+      acceptance_refs:
+        - CP-CORE-OVERLAP-001
+        - CP-CORE-IDEMPOTENCY-001
+        - CP-CORE-CANCEL-001
+      invariants:
+        - roomId is normalized to uppercase before overlap comparison
+        - booking id is deterministic hash with prefix bk_
+        - confirmed bookings only are overlap candidates
+
+    - id: M-API-ENDPOINTS-001
+      ebom_refs:
+        - E-HTTP-CONTRACT-001
+        - E-AUTH-APIKEY-001
+        - E-ERROR-SCHEMA-001
+      artifact:
+        path: src/BomDD.WebApiSample.Api
+        type: aspnetcore-minimal-api
+      acceptance_refs:
+        - CP-OPENAPI-SURFACE-001
+        - CP-AUTH-SURFACE-001
+      interface_contract:
+        base_path: /v1
+        auth_header: X-Api-Key
+        default_demo_key: demo-key
+        error_schema: ErrorResponse
+        validation_error_code: invalid_request
+        datetime_input: literal-Z UTC only (non-Z offset => 400 invalid_request)
+
+    - id: M-OPENAPI-DOCUMENT-001
+      ebom_refs:
+        - E-HTTP-CONTRACT-001
+        - E-ERROR-SCHEMA-001
+      artifact:
+        path: openapi/openapi.json
+        type: openapi-3.1-json
+      acceptance_refs:
+        - CP-OPENAPI-SURFACE-001
+
+    - id: M-ACCEPTANCE-HARNESS-001
+      artifact:
+        path: test/BomDD.WebApiSample.Acceptance
+        type: dotnet-console-acceptance
+      verifies:
+        - M-CORE-BOOKING-SERVICE-001
+        - M-OPENAPI-DOCUMENT-001
