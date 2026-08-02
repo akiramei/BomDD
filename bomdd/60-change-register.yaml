@@ -892,7 +892,7 @@ changes:
     title: ref-edges に as-built 文書方言の宣言がなく検査が空振り(同名異物 3 例目 — ViewPrism2 ECO-065 残面の是正先・ref-v0.10)
     date: 2026-08-03
     origin: defect
-    status: filed
+    status: verified   # 2026-08-03 受入= V1 検出転化 4/4 個別発火・V2 誤検出 0(孤立 4 解消のみ)・V3 self-conformance 全 PASS。V4(CI)= push 後 order へ追記
     source: >
       ViewPrism2 ECO-065 再検証(2026-08-03)— gate ①= maintainer 裁定「b(bomdd-lint 側)で承認。
       製造に進んでください」。実測= ViewPrism2 の as-built は文書方言(mapping)で全セレクタ空振り・
@@ -902,9 +902,10 @@ changes:
     no_impact_prediction: "(製造前)ref-edges.draft.yaml 1 ファイル+台帳系のみ。C10 判定不変・既存リスト方言(Plm)の判定不変・製品リポ非波及(同期は各製品 ECO)"
     diff_audit:
       baseline: "f0fb9d3"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "262e1d6"           # fix commit(受入時に窓閉鎖)
       allowed_paths: [method/schemas/draft/]
     summary: >
       50-as-built の artifacts エントリへ文書方言の構造化サブセット(golden_approvals[].cp_id ほか
       5 ref+GF 定義 1)を両方言併記で追加(ref-v0.5/0.9「実物が正」前例)。散文面・presence 面は
       宣言済み境界として order に明文化(閉鎖には記録構造化 or lint 規則新設の別 ECO)。
-    verification: "(製造前 — 未実施)"
+    verification: "V1= 改竄 4 種(世代キー別)が R-003 で個別発火・旧スキーマ素通りとの対照成立。V2= 正常台帳 error/warn 基線同値・info -4= 新エッジ参照先の孤立解消のみ(JSON diff で新規 0)。V3= self-conformance 全 PASS。V4= CI は order §4 に実測追記。詳細= order 参照"
