@@ -3218,3 +3218,26 @@ ViewTube AI との合意: 客観的契約違反の機械停止は維持し、意
   source: ViewPrism2 R7 vs ViewTube R7 の実物比較(本セッション)
   origin: native
   evidence: 本節・BomDD method/bomdd-playbook-v1.md §8.3 vs ViewTube change-management.md R7
+
+## 2026-08-03 モックの責務軸宣言 — maintainer 提案の設計入力(記帳のみ)
+
+観測(出典: maintainer 提案 2026-08-03 — 部分モックの映り込み陳腐化問題〔ViewPrism2 実運用〕と
+ViewTube 裁定権逆転事案の帰結として): モックに役割/責務軸を宣言させる — 機能詳細モック
+(責務= 要素の存在・導線・状態・表示内容/レイアウト・配色は責務外= NG 理由にしない)と
+見栄え・レイアウトモック(責務= 情報階層・余白・整列・配色体系)の分離。比較契約は
+**宣言責務軸内のみ NG 候補**とし、責務外差分は既定で参考情報または既存乖離候補へ。
+既存部品との接続= 視覚契約 3 レイヤー(OBS-20260717-06 の消費先)・design-system BOM
+(全体見栄えの正本= 委譲先)・per-cell 承認 CAD rev 拘束(OBS-20260801-01)。効果= 事後の
+3 分類裁定を事前契約化し pending_human_disposition キューを構造的に細らせる。
+
+適用した改善(本節で実施): 記帳のみ(実装は次の実 UI ECO・様式は UI-CAD スキーマ側)。
+
+期待する効果と観測:
+
+- [watch 1/3] OBS-20260803-04 — モックは責務軸(面×レイヤー)を機械可読メタデータで宣言し、
+  比較器は宣言軸内のみを NG 候補にする。責務外は「無検査」でなく**委譲宣言**(design-system 層
+  または別モック)とし、面×レイヤーの被覆閉包を検査する(第三の沈黙領域の予防)。
+  役割はファイル名でなく判別キーで宣言(同名異物の教訓)・未宣言モックは fail-closed で報告
+  source: maintainer 提案(2026-08-03)・ViewPrism2 部分モック実運用・ViewTube ECO-VT-056〜057
+  origin: external(maintainer)
+  evidence: 本節・OBS-20260717-06(3 レイヤー)・OBS-20260718-04(権威境界)・OBS-20260803-01(4 状態処置)
