@@ -3180,3 +3180,41 @@ OBS-20260802-08 は昇格につき recovered へ遷移(独立性の限界は両�
   source: harness ECO-024(第 4R・BOUNDARY-DUP 4 件)/ Plm ECO-006(tsbuildinfo・Codex fresh)
   origin: native
   evidence: loops/equip-03/independent-reinspection-eco-006.md(境界受理)・bomdd/60-change-order-eco-024.md
+
+## 2026-08-03 ViewTube 裁定権逆転事案 — クロスライン突合の記帳(一般化は保留・5 段階順序へ事前拘束)
+
+観測(出典: ViewTube ECO-VT-056〜057 実物・本セッション突合 — R7/eco-fix/validate_process.py:509/
+ui-golden-policy.yaml/release_gate.py:264/ef0dfc7 の 6 引用全て実物一致で CONFIRMED):
+UI 差分検査で「transfer omission= 0 が golden 依頼の機械的前提」+「omission 分類権限が AI」の
+構成により、AI が差異を omission と分類した時点で**人間 golden への到達が封鎖**され、修正・
+再検査ループが人間裁定に到達しない工程逸脱が発生。是正 ef0dfc7(approved_deviation)は
+ECO-VT-057/local-only へハードコードされた個別脱出口であり一般統制ではない。
+**本件は「BomDD が防止した事例」ではなく「BomDD 装備下で発生した裁定権逆転」**(FINDINGS §11.5
+〔工程資産の非転移〕の工程規範レベルでの再演)。同名 R7 が ViewPrism2(3 分類全列挙で人間
+golden へ運ぶ)と ViewTube(omission 0 まで golden へ行けない)で**意味論逆転**していた。
+ViewTube AI との合意: 客観的契約違反の機械停止は維持し、意味上の差異の許容可否を AI が最終
+裁定できる点だけを塞ぐ。**method への一般化は 5 段階順序(①ViewTube 事実凍結 ②権限明文化
+③ViewTube 実装検証 ④ViewPrism2 実物比較 ⑤両ライン成立分のみ昇格)の ⑤ でのみ行う**(事前拘束)。
+
+適用した改善(本節で実施): 記帳のみ。手順 ①〜③= ViewTube 側管轄・④= 比較資料の用意は当方支援可。
+
+期待する効果と観測:
+
+- [watch 1/3] OBS-20260803-01 — 差異処置は 4 状態(contract_violation= 客観的契約違反・機械停止可/
+  **pending_human_disposition**= 未裁定・修正ループへ戻らず人間へ提出/approved_deviation= 人間が
+  範囲・条件・対象を指定して許容/rejected_deviation= 人間不適合裁定・ここで初めて修正工程へ)に
+  分離し、fail-closed ゲートの分類権限を AI に置かない — 置くと裁定権逆転が機械強制される
+  source: ViewTube ECO-VT-056〜057
+  origin: external(ViewTube AI との合同分析)
+  evidence: 本節・ViewTube bomdd/process/(R7・ui-golden-policy)・release_gate.py の実物突合
+- [watch 1/3] OBS-20260803-02 — エスカレーション上限(回数/時間)の**行先は失敗・新 ECO でなく
+  pending_human_disposition 固定**(上限到達= 工程停止でなく人間裁定待ちへの遷移)
+  source: ViewTube ECO-VT-056(24h 発散の実測)
+  origin: external(ViewTube AI 提案)
+  evidence: 本節
+- [watch 1/3] OBS-20260803-03 — 工程資産の方言分岐(同名規律の意味論逆転)は現行どの検査層にも
+  掛からない — 成果物方言の統制(ref-v0.9/0.10 の両方言宣言+判別キー)の工程規範版が候補
+  (R7 の 2 方言= 運ぶ/封鎖する、が実測 1 例目)
+  source: ViewPrism2 R7 vs ViewTube R7 の実物比較(本セッション)
+  origin: native
+  evidence: 本節・BomDD method/bomdd-playbook-v1.md §8.3 vs ViewTube change-management.md R7
