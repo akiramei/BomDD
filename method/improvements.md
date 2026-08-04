@@ -949,7 +949,7 @@ note: 移行残高= 77 件。これに本節発の新規 1 件(EXP-20260715-12�
   evidence: 同・観測。2 例目= BomDD harness ECO-011(2026-07-16 節 — エントリ挿入位置の誤りで既存 ECO のフィールドが別 ID ブロックへ帰属変化)。3 例目の昇格判定で独立性(ID 単位変更 vs エントリ挿入の同型性)を検査
 - [watch 1/3] OBS-20260711-04 — 逸脱同士の打ち消し合いによる偶然復旧を安全性の証拠にしない
   evidence: 同・観測
-- [open] EXP-20260711-05 — 継続運用ラウンドでも担当者モデル+ハーネスが記録されるか(記録欄の宿題)。**再演(2026-08-01・ViewTube ECO-VT-025〜055 継続運用)**: 検査官 identity は記録される(例: `Codex Independent Inspector <eco-vt-039-recheck@viewtube.local>`)がモデル名の記録は確認されず、製造担当モデル(GPT-5.6 Sol)は maintainer 申告のみ — 2026-07-26 節 EXP-20260711-08 再演と同型・open 維持。**再演 3 回目(2026-08-02・equip-01 全数遡及)**: 台帳本文のモデル記録 0/60+設備交代 2 回無記録+誤記録(汚染)3 系統 — 散発でなく系統的欠落と確定。対策は「記録欄の宿題」から様式の織り込みへ(equip-01 還元節・案 D)・open 維持。**適用実測(2026-08-02・equip-03/Plm ECO-006)**: 様式化(ECO-028)後の初の実 ECO で担当設備が台帳へ記録された — order 製造設備欄+as-built AB-PLM-ECO-006(ai_model: claude-opus-5[1m]・self-reported と来歴明記)= **Plm 台帳初の設備明記エントリ**。継続運用ラウンドでの自然定着は未測定・open 維持
+- [open] EXP-20260711-05 — 継続運用ラウンドでも担当者モデル+ハーネスが記録されるか(記録欄の宿題)。**再演(2026-08-01・ViewTube ECO-VT-025〜055 継続運用)**: 検査官 identity は記録される(例: `Codex Independent Inspector <eco-vt-039-recheck@viewtube.local>`)がモデル名の記録は確認されず、製造担当モデル(GPT-5.6 Sol)は maintainer 申告のみ — 2026-07-26 節 EXP-20260711-08 再演と同型・open 維持。**再演 3 回目(2026-08-02・equip-01 全数遡及)**: 台帳本文のモデル記録 0/60+設備交代 2 回無記録+誤記録(汚染)3 系統 — 散発でなく系統的欠落と確定。対策は「記録欄の宿題」から様式の織り込みへ(equip-01 還元節・案 D)・open 維持。**適用実測(2026-08-02・equip-03/Plm ECO-006)**: 様式化(ECO-028)後の初の実 ECO で担当設備が台帳へ記録された — order 製造設備欄+as-built AB-PLM-ECO-006(ai_model: claude-opus-5[1m]・self-reported と来歴明記)= **Plm 台帳初の設備明記エントリ**。継続運用ラウンドでの自然定着は未測定・open 維持。**再演 4 回目(2026-08-05・ViewTube ECO-VT-068)**: 台帳に設備・モデル記録欄なし — 担当設備(GTP-5.6 Sol)はユーザー申告のみ・open 維持
   evidence: 同・5 / ECO-VT-039.md:127-138 / 2026-08-01 ViewTube 還元節・証拠層別 / loops/equip-01/measurements.md §1・§10 / BomDD-Plm bomdd/50-as-built.yaml AB-PLM-ECO-006
 - [recovered 2026-07-26 via ViewTube CAPA-VT-002 独立検査系列(検査 3 巡・提起 4/4 CONFIRMED・誤検出 0・介入記録なし — 別題材軸の回収。別ベンダー軸は EXP-20260726-01 へ分離)] EXP-20260711-06 — 別題材/別ベンダーでの検査転移の再現(精度と介入ゼロの維持)
   evidence: 2026-07-11 transfer-04 還元・教訓1 / 2026-07-26 ViewTube 還元(実測詳細は同節)
@@ -3207,11 +3207,12 @@ ViewTube AI との合意: 客観的契約違反の機械停止は維持し、意
   source: ViewTube ECO-VT-056〜057
   origin: external(ViewTube AI との合同分析)
   evidence: 本節・ViewTube bomdd/process/(R7・ui-golden-policy)・release_gate.py の実物突合
-- [watch 1/3] OBS-20260803-02 — エスカレーション上限(回数/時間)の**行先は失敗・新 ECO でなく
+- [watch 2/3] OBS-20260803-02 — エスカレーション上限(回数/時間)の**行先は失敗・新 ECO でなく
   pending_human_disposition 固定**(上限到達= 工程停止でなく人間裁定待ちへの遷移)
-  source: ViewTube ECO-VT-056(24h 発散の実測)
+  source: ViewTube ECO-VT-056(24h 発散の実測), ECO-VT-068(上限不在下 77 分・59% 増殖 —
+  適切な収束点は人間への状態報告だった。同一リポ・別様態〔封鎖 vs 増殖〕— 独立性は 3 例目で判定)
   origin: external(ViewTube AI 提案)
-  evidence: 本節
+  evidence: 本節・2026-08-05 ViewTube 還元節
 - [watch 1/3] OBS-20260803-03 — 工程資産の方言分岐(同名規律の意味論逆転)は現行どの検査層にも
   掛からない — 成果物方言の統制(ref-v0.9/0.10 の両方言宣言+判別キー)の工程規範版が候補
   (R7 の 2 方言= 運ぶ/封鎖する、が実測 1 例目)
@@ -3241,3 +3242,68 @@ ViewTube 裁定権逆転事案の帰結として): モックに役割/責務軸�
   source: maintainer 提案(2026-08-03)・ViewPrism2 部分モック実運用・ViewTube ECO-VT-056〜057
   origin: external(maintainer)
   evidence: 本節・OBS-20260717-06(3 レイヤー)・OBS-20260718-04(権威境界)・OBS-20260803-01(4 状態処置)
+
+## 2026-08-05 ViewTube 還元 — ECO-VT-068 報告生成障害の状態不確定への誤昇格と回復工程の自律増殖
+
+観測(出典: ViewTube ECO-VT-068.md §10〜11・test-results/eco-vt-068-worktree-retirement/
+〔apply-report-failure.json・human-process-deviation-decision.json・retirement-report.json〕・
+ユーザー提供の遅延レポート+分析文。担当設備= GTP-5.6 Sol〔ユーザー申告のみ・台帳記録なし〕):
+worktree 閉鎖(保管 517 件・非強制削除・post-condition 確認)は 07:23:37 までに成功
+(記録上 42.2 秒)。07:24:00、**完了済み結果を JSON 報告へ変換する段**で PowerShell boolean
+`true`(正= `$true`)により exit 1(apply-retirement.ps1:320 — 制御操作でなく表現処理の欠陥)。
+直後の read-only 再確認(4.4 秒)で物理パス/Git 登録なし・保管 hash mismatch 0・ブランチ保持・
+main clean を確認済みだったにもかかわらず、AI は**報告生成失敗を操作結果の不確実性へ昇格**し、
+規則のない fail-closed を独自適用 — 確認済み安全性の再審査・独立レビュー再実施・
+`PASS_WITH_REPORT_ONLY_FAILURE` 分類新設・A/B 裁定要求・**scope exclusions 宣言済み境界の外**にある
+qualify_process_transplant.py 起動(73 秒後停止・証拠から除外)・529 ファイル commit・
+process golden まで工程を自律増殖させ、08:09:31 accept。総 77 分 31 秒のうち 07:24 以降の
+約 45 分 30 秒(約 59%)は成果物の安全性に寄与していない。技術的完了(07:24)の
+ユーザーへの先行報告は行われなかった。付随して証拠時刻の来歴不整合(read-only 検証
+07:25:26–31 vs retirement-report observedAt 07:57:46)により 07:24〜07:57 の作業時間配分が
+証拠から復元不能。ユーザー裁定 A= read-only 回復証拠を採用・境界外試行は非資格/非救済証拠
+(human-process-deviation-decision.json)。**証拠(報告書)は対象状態の表現物=二次成果物であり、
+その生成失敗は外部観測で確定済みの現実を未確定へ戻さない** — 証拠主義の主従逆転が根本判断誤り。
+「判断対象の取り違え」(playbook harness ECO-024 還元 — 第 1 様態= 測定不能→作業停止)の
+**第 2 様態= 表現障害→確定済み状態の不確定化**。独立性の限界: 単一リポ・単一事案・単一設備。
+
+適用した改善(本節で実施): 記帳のみ(本文織り込み案 A/B はレビュー停止点へ提示)。
+
+効果回収(棚卸し — worklist 走査): 該当 2 件・機会なし多数。
+- 蓄積 2 例目= `OBS-20260803-02`(エスカレーション上限の行先= pending_human_disposition 固定):
+  ECO-VT-056(24h 発散)に続き本件(上限不在下で 77 分・うち 59% が増殖)。本件でも適切だった
+  収束点は「07:24 直後に人間へ状態報告」= 行先命題と整合。行内 1/3→2/3 へ更新(元節)。
+  独立性注記: 同一リポ・別 ECO・別様態(封鎖 vs 増殖)— 3 例目レビューで独立性を判定。
+- 再演 4 回目= `EXP-20260711-05`(担当者モデル+ハーネスの記録): ECO-VT-068 台帳に設備・
+  モデル記録欄なし。担当設備 GTP-5.6 Sol はユーザー申告のみ。行内追記(元節)・open 維持。
+- 据え置き= `OBS-20260803-01`(差異処置 4 状態・分類権限)は隣接だが別現象(裁定権逆転=人間裁定
+  への封鎖 vs 本件=過大昇格による増殖。本件の A/B 裁定要求自体は人間裁定へ到達)— 1/3 のまま。
+
+期待する効果と観測:
+
+- [watch 1/3] OBS-20260805-01 — **不可逆操作の完了判定は〈操作結果/post-condition 外部観測/
+  報告生成〉の 3 判定に分離し、外部観測で確定済みの post-condition を報告(表現物)の生成失敗で
+  未確定へ戻さない**。報告のみ失敗の処置= 生ログ+失敗記録+保存済み観測からの read-only 再構成
+  (最小代替報告)で終了。機械面: 操作スクリプトは operate→verify→report の三段分離+報告段は
+  保存済み観測データからの再実行可能な純変換+不可逆操作前に同一入力で報告構築をドライラン。
+  「判断対象の取り違え」の第 2 様態(第 1= 測定不能→作業停止・第 2= 表現障害→状態不確定化)
+  source: ViewTube ECO-VT-068
+  origin: external(ViewTube 事案+ユーザー分析)
+  evidence: 本節・apply-report-failure.json(immediateReadOnlyRecoveryCheck 全項確定)
+- [watch 1/3] OBS-20260805-02 — **回復工程の変更境界: 障害回復は「保存済み観測からの状態確認と
+  記録」に限定し、回復中に新規の資格試験・独立レビュー拡張・工程分類新設・工程制度変更を開始
+  しない** — 境界外の必要は現 ECO を延長せず別起票または明示裁定へ送る(「境界は発見事項の
+  処理先を切り替える線」〔playbook harness ECO-024 還元・N=1〕の回復工程・作業主体側への適用形。
+  検査官でなく製造 AI 自身が境界を自己拡張した点が新規)。機械面: ECO の scope exclusions を
+  回復手順の参照必須入力にする(checklist 行)
+  source: ViewTube ECO-VT-068(qualify_process_transplant 起動→73 秒停止・証拠除外)
+  origin: external(ViewTube 事案+ユーザー分析)
+  evidence: 本節・ECO-VT-068.md §10
+- [watch 1/3] OBS-20260805-03 — **技術的 post-condition 確定の時点で人間へ状態を先行報告する**
+  (証拠整理・正式報告の完成を待たない — 完了報告の遅延は人間の管理判断〔停止・裁定・容認〕の
+  機会を奪う)。完了状態は具体状態(例: `retired-report-pending`)で表す — 「黙って昇格させない」
+  (playbook mature-process-bootstrap 還元)の対偶= **黙って未完了に留め置かない**。機械面:
+  報告様式に〈確定時刻/報告時刻〉の 2 時刻を持たせ乖離を記帳可能にする(本件は時刻来歴不整合で
+  45 分の内訳が復元不能だった)
+  source: ViewTube ECO-VT-068
+  origin: external(ViewTube 事案+ユーザー分析)
+  evidence: 本節・§6 時刻不整合(07:25:26–31 vs observedAt 07:57:46)
