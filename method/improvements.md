@@ -1420,7 +1420,7 @@ lint〔CpI18n010AssetLintTests〕+死キー 640 件削除+M-CAPTURE-HARNESS-052)
 - [open] EXP-20260717-11 — 次の検査器新設で「既知限界の宣言+掃射手段の紐づけ+根拠つき fail-closed 双方向 allowlist」が初回設計に載るか(限界領域からの後日顕在化ゼロ)
   origin: native
   evidence: 本節・昇格候補5(ECO-107/108)
-- [open] EXP-20260717-12 — 次の工具 track/golden 基準新設/棚卸し削除で「使われる形で一巡実行」検収が踏まれるか(到達不能基準・再実行不能工具・上限切り捨て結論の正本化ゼロ)。**部分再演(2026-08-01・別リポ ViewTube)**: 新設の change-impact validator は mutation 12 種+59 controls で資格したが「導入後**最初の正常後続取引**(first compliant filing)」を一巡に含めず、初適用の起票が循環ゲートで false rejection(ECO-VT-054→055)。「使われる形」には**時間軸の最初の一巡**(install → first compliant use → first transition → first acceptance)が含まれる — 命題の未被覆次元が実測で確定(OBS-20260801-04 として分離記帳・open 維持)
+- [open] EXP-20260717-12 — 次の工具 track/golden 基準新設/棚卸し削除で「使われる形で一巡実行」検収が踏まれるか(到達不能基準・再実行不能工具・上限切り捨て結論の正本化ゼロ)。**部分再演(2026-08-01・別リポ ViewTube)**: 新設の change-impact validator は mutation 12 種+59 controls で資格したが「導入後**最初の正常後続取引**(first compliant filing)」を一巡に含めず、初適用の起票が循環ゲートで false rejection(ECO-VT-054→055)。「使われる形」には**時間軸の最初の一巡**(install → first compliant use → first transition → first acceptance)が含まれる — 命題の未被覆次元が実測で確定(OBS-20260801-04 として分離記帳・open 維持)。**適用実測(2026-08-06・ViewTube ECO-VT-070)**: 起票宣言集合のメモリ上 preflight・移転 preflight・結線 rehearsal と、正本化前の一巡実行が標準運用化(2026-08-06 還元節)— BomDD 側リポでの実測は未・open 維持
   origin: native
   evidence: 本節・昇格候補6(ECO-104/105/107)/ ECO-VT-055.md:62-64・:80-81 / 2026-08-01 ViewTube 還元節・観測2
 
@@ -2281,9 +2281,9 @@ legacy 37 audited 節を目視走査〔unaudited L1719「標準部品台帳」�
 
 期待する効果と観測:
 
-- [watch 1/3] OBS-20260727-10 — **検査は自分の前提を自分で満たす** — 検査治具の環境前提(identity・ロケール・TZ・ネットワーク・PATH)の充足を ambient 環境へ委ねると実行環境ごとに判定が変わる。前提は検査側が固定値で供給し、受入は**前提不在環境の陽性対照**+**天然対照(是正前コードの同一環境 FAIL)による等価証明**で行う。**製品側の fallback で解かない**(ユーザーの設定を勝手に決めることになる)
-  source: harness ECO-020
-  evidence: 本節・観測1 / ECO-020 検証節 V1・V1b・是正方針案 1(代案 c 却下)
+- [watch 2/3] OBS-20260727-10 — **検査は自分の前提を自分で満たす** — 検査治具の環境前提(identity・ロケール・TZ・ネットワーク・PATH)の充足を ambient 環境へ委ねると実行環境ごとに判定が変わる。前提は検査側が固定値で供給し、受入は**前提不在環境の陽性対照**+**天然対照(是正前コードの同一環境 FAIL)による等価証明**で行う。**製品側の fallback で解かない**(ユーザーの設定を勝手に決めることになる)。**2 例目(2026-08-06・ViewTube ECO-VT-070)= 逆向きの環境軸**: 検証(rehearsal・直接実行)が操作者環境(PYTHONIOENCODING=utf-8)を継承して符号化欠陥をマスク — 実起動で顕在化。処方= 検証側は操作者 env を中和し実測 codec を証拠に記録
+  source: harness ECO-020 / ViewTube ECO-VT-070
+  evidence: 本節・観測1 / ECO-020 検証節 V1・V1b・是正方針案 1(代案 c 却下)/ 2026-08-06 ECO-VT-070 還元節・観測 4
 - [watch 1/3] OBS-20260727-11 — **リポ外アンカーの状態は、リポ内成果物だけを入力とする検査からは観測できない** — 提起経路が構造的に存在しないため、**検査官の見落としではなく検査入力の境界**として扱う(再発防止先は人でなく設備)。信頼アンカーの設計には、アンカー自体だけでなく**その状態を次の判断点へ入力する観測経路**の設計が含まれ、ゲートを閉じる前にリポ外状態を確認する手順を併設する(FINDINGS §11.6 の裏面)
   source: harness ECO-020
   evidence: 本節・観測3 / 独立検査 3 ラウンド 25 提起中 CI 赤の指摘 0 件 / FINDINGS §11.6「裏面」
@@ -2632,9 +2632,10 @@ legacy 37 audited 節は目視 — unaudited L1719 は無関係):
 - [recovered 2026-07-27 via ai-onboarding-pack §11 第 5 項の精密化] OBS-20260727-23 — **検査結論の「観測経路」と「強制経路」は別物** — 結果が見えていても、ゲートへ繋ぐ結線(exit code による分岐)が壊れれば不適合はそのまま通過する。機械面= 判定コマンドの exit code を**直接**条件分岐へ渡し、**結果の観測が後続操作より前に来る**ようにする(検査と後続操作を条件で結ばず同一実行要求へ並べない)+ 最後の砦としての CI(今回は CI が赤を出して捕捉)
   source: harness ECO-024
   evidence: 本節・観測3 / ECO-024「製造中の手順逸脱」1 / CI run 30291145716(赤)→ 30291806295(緑)
-- [watch 2/3] OBS-20260727-24 — **正本ファイルの機械書き換えは表現(改行・エンコーディング)を保存する** — 内容 1 行の変更が全行差分になると diff 監査・窓監査・レビューが同時に無効化される(可逆だが監査可能性は失われる)。機械面= バイト I/O または `newline` 明示+ `.gitattributes`+ diff 行数の異常検出。**2 例目(2026-08-05・別リポ ViewTube ECO-VT-069)= 読み側系譜**: CRLF blob をテキスト復号してハッシュした検証計器が digest 相違の偽 FAIL(Python 改行正規化が CR を除去)→ バイト列取得で是正。書き側→読み側で軸は同一(表現の取り扱いが工程を汚す)— 様態差の扱いは 3 例目で判定
-  source: harness ECO-024 / ViewTube ECO-VT-069
-  evidence: 本節・観測4 / ECO-024「製造中の手順逸脱」2(756 行 CRLF 化 → LF 復元)/ 2026-08-05 ECO-VT-069 還元節・観測 3
+- [watch 3/3] OBS-20260727-24 — **正本ファイルの機械書き換えは表現(改行・エンコーディング)を保存する** — 内容 1 行の変更が全行差分になると diff 監査・窓監査・レビューが同時に無効化される(可逆だが監査可能性は失われる)。機械面= バイト I/O または `newline` 明示+ `.gitattributes`+ diff 行数の異常検出。**2 例目(2026-08-05・別リポ ViewTube ECO-VT-069)= 読み側系譜**: CRLF blob をテキスト復号してハッシュした検証計器が digest 相違の偽 FAIL(Python 改行正規化が CR を除去)→ バイト列取得で是正。書き側→読み側で軸は同一(表現の取り扱いが工程を汚す)— 様態差の扱いは 3 例目で判定
+  source: harness ECO-024 / ViewTube ECO-VT-069 / ViewTube ECO-VT-070(第 3 様態= 実体化/出力 —
+  クローン 1,397/4,615 バイト相違〔autocrlf 継承〕+cp932 出力 UnicodeEncodeError)
+  evidence: 本節・観測4 / ECO-024「製造中の手順逸脱」2(756 行 CRLF 化 → LF 復元)/ 2026-08-05 ECO-VT-069 還元節・観測 3 / 2026-08-06 ECO-VT-070 還元節・観測 4
 - [watch 2/3] OBS-20260727-25 — **検査治具と被検査設置物は「版の対」** — 新しい治具を古い設置物へ当てた FAIL は欠陥でなく版ずれ。判定文・docstring に版の対であることと更新経路を明記する(赤の意味を取り違えると、健全な設置物を欠陥として扱う/逆に治具の欠陥を版のせいにする)。**2 例目(2026-08-01・別リポ ViewTube)**: commit-msg 側の旧版(2.0.0)UI-golden ハーネスが新設の change-impact 装置より古く、登録済み sentinel mutation でなく**装置欠落**として棄却(FAIL の意味が版ずれで変質)→ 両 hook で 2.0.1 bridge を必須化して版の対を回復(ECO-VT-054 是正中の発見)
   source: harness ECO-024 / ViewTube ECO-VT-054
   evidence: 本節・観測5 / ECO-024 V5(MoviePad 再適格)・qualification docstring「版の対」/ ECO-VT-054.md:343-348 / 2026-08-01 ViewTube 還元節・観測1
@@ -2861,15 +2862,15 @@ validation_warnings 0):
 - [watch 1/3] OBS-20260801-02 — 可視 UI 部品の受入は**部品境界の上**で行う — (i) 実現 control の同一性(action identity・accessible name・束縛コマンド・事後条件・**非効果**。同一 use case へ到達する別 control は代理証拠にならない)(ii) 可視経路の実刺激(直接コマンド・reflective 呼出・合成イベント・capture 事前状態構成は**無効刺激**として明示列挙)(iii) renderer variance の受理は構造化・画像束縛の部品幾何観測(境界・寸法・形状・包含・中心)を前提条件にする。viewprism2 ECO-087(ジェスチャ)の別リポ 2 例目+新次元
   origin: native
   evidence: 本節・観測3 / ECO-VT-045.md:48-66・:265-277 / ECO-VT-052.md:52-64・:188-200 / ECO-VT-053.md:41-49・:203-206
-- [watch 1/3] OBS-20260801-03 — **検査の第 4 軸「基準側入力(オラクル・fixture)の健全性」** — validator が fixture を trusted input として扱うと、内部矛盾した基準が human gate へ到達する。宣言件数×列挙 identity×ドメイン制約の相互拘束を独立検査し(安定 reason code)、reject-all 実装を防ぐ coherent positive control とセットにする。repeat hash 一致は fixture 妥当性を証明しない
+- [watch 2/3] OBS-20260801-03 — **検査の第 4 軸「基準側入力(オラクル・fixture)の健全性」** — validator が fixture を trusted input として扱うと、内部矛盾した基準が human gate へ到達する。宣言件数×列挙 identity×ドメイン制約の相互拘束を独立検査し(安定 reason code)、reject-all 実装を防ぐ coherent positive control とセットにする。repeat hash 一致は fixture 妥当性を証明しない
   origin: native
-  evidence: 本節・観測4 / ECO-VT-047.md:36-62・:98-123・:140-170
-- [watch 1/3] OBS-20260801-04 — **強制規則・ゲートの First Article は「導入後最初の正常後続取引」を含む**(install → first compliant use → first transition → first acceptance)— negative/mutation 中心の資格は自己循環(新規取引が既存台帳を前提とする構造)を検出しない。bootstrap 免除は identity・path・状態で完全限定し、既存台帳行の変更・削除を紛れ込ませられないことまで検査する
+  evidence: 本節・観測4 / ECO-VT-047.md:36-62・:98-123・:140-170 / 2026-08-06 ECO-VT-070 還元節・観測 3(2 例目= 実 policy+合成 register 混成 fixture)
+- [watch 2/3] OBS-20260801-04 — **強制規則・ゲートの First Article は「導入後最初の正常後続取引」を含む**(install → first compliant use → first transition → first acceptance)— negative/mutation 中心の資格は自己循環(新規取引が既存台帳を前提とする構造)を検出しない。bootstrap 免除は identity・path・状態で完全限定し、既存台帳行の変更・削除を紛れ込ませられないことまで検査する
   origin: native
-  evidence: 本節・観測2 / ECO-VT-055.md:22-26・:62-64・:80-81・:132-154
-- [watch 1/3] OBS-20260801-05 — ファイル単位の影響台帳から**意味的 consumer の処置台帳**へ — changed semantic part の列挙+direct/dependent consumer の 4 値処置(change/verified_compatible/excluded_with_reason/required_execution)+golden 要求時点で unresolved/deferred required consumer= 0。ファイルの登録は consumer の処置を意味しない(存在 vs 完全性の影響分析版)。**様式の BomDD 昇格は ViewTube 運用証拠待ち**(ECO-VT-054 原文の自己制限)— 測定点= ECO-VT-056(unresolved 43 → golden 時 0)
+  evidence: 本節・観測2 / ECO-VT-055.md:22-26・:62-64・:80-81・:132-154 / 2026-08-06 ECO-VT-070 還元節・観測 2(2 例目= 三すくみ+内容ハッシュ束縛の自己失効 bootstrap・新 control の手動 red/green 腕)
+- [watch 2/3] OBS-20260801-05 — ファイル単位の影響台帳から**意味的 consumer の処置台帳**へ — changed semantic part の列挙+direct/dependent consumer の 4 値処置(change/verified_compatible/excluded_with_reason/required_execution)+golden 要求時点で unresolved/deferred required consumer= 0。ファイルの登録は consumer の処置を意味しない(存在 vs 完全性の影響分析版)。**様式の BomDD 昇格は ViewTube 運用証拠待ち**(ECO-VT-054 原文の自己制限)— 測定点= ECO-VT-056(unresolved 43 → golden 時 0)
   origin: native
-  evidence: 本節・観測6 / ECO-VT-054.md:43-52・:107-112 / ECO-VT-053.md:253-266
+  evidence: 本節・観測6 / ECO-VT-054.md:43-52・:107-112 / ECO-VT-053.md:253-266 / 2026-08-06 ECO-VT-070 還元節・観測 1(2 例目= 全遮断層が読者未列挙)
 - [watch 1/3] OBS-20260801-06 — **検査は精度でなくリスクと総費用で層別する**(Tier A: 変更部品+直接 consumer= 必須/B: blast radius= 該当時必須/C: 広域高精度= 理由記録つき条件付き)+各 group の時間・結果・Tier-C 判断理由を記帳する。一律 pixel 検査・一律時間制限を方法論にしない。昇格対象は**測定スキーマと判断構造のみ** — 費用削減・見逃し率の主張は運用データ蓄積後
   origin: native
   evidence: 本節・観測6 / ECO-VT-054.md:57-60・:120-130・:244-269(Tier 別時間の初回実測)
@@ -3200,11 +3201,13 @@ ViewTube AI との合意: 客観的契約違反の機械停止は維持し、意
 
 期待する効果と観測:
 
-- [watch 1/3] OBS-20260803-01 — 差異処置は 4 状態(contract_violation= 客観的契約違反・機械停止可/
+- [watch 2/3] OBS-20260803-01 — 差異処置は 4 状態(contract_violation= 客観的契約違反・機械停止可/
   **pending_human_disposition**= 未裁定・修正ループへ戻らず人間へ提出/approved_deviation= 人間が
   範囲・条件・対象を指定して許容/rejected_deviation= 人間不適合裁定・ここで初めて修正工程へ)に
-  分離し、fail-closed ゲートの分類権限を AI に置かない — 置くと裁定権逆転が機械強制される
-  source: ViewTube ECO-VT-056〜057
+  分離し、fail-closed ゲートの分類権限を AI に置かない — 置くと裁定権逆転が機械強制される。
+  **2 例目(2026-08-06・ECO-VT-070)= 検査計器側**: 遮断クラスを fallback にした調査計器が未知
+  ファイル型を違反として量産 → 未知の既定値は遮断でも通過でもなく人間裁定行き+処置のデータ記録
+  source: ViewTube ECO-VT-056〜057, ECO-VT-070(読者調査の再設計)
   origin: external(ViewTube AI との合同分析)
   evidence: 本節・ViewTube bomdd/process/(R7・ui-golden-policy)・release_gate.py の実物突合
 - [recovered 2026-08-05 via レビュー承認(3/3・様態 3 種= 封鎖/増殖/正常適用)→ playbook 運用規則(ViewTube ECO-VT-056/068/069 還元・単一リポ留保付き収載。5 段階事前拘束は R7 意味論が対象で本命題は対象外と裁定)] OBS-20260803-02 — エスカレーション上限(回数/時間)の**行先は失敗・新 ECO でなく
@@ -3384,23 +3387,25 @@ playbook へ運用規則(ViewTube ECO-VT-056/068/069 還元)を新設し recover
 
 期待する効果と観測:
 
-- [watch 1/3] OBS-20260805-04 — **同一事実を述べる複数記録の相互一致は独立の検査行を持つ** —
+- [watch 2/3] OBS-20260805-04 — **同一事実を述べる複数記録の相互一致は独立の検査行を持つ** —
   ファイル内スキーマ・件数検査は記録間矛盾を構造的に素通しし、複数ファイルの手作業編集は
   記録間検査なしでは収束しない(6 回・コミット到達 3 回・修復のたび再発)。機械面: 記録間
   突合ゲート(検査対象は「意味を運ぶ assertion」— 比較しやすいフィールドに限定しない)。
   検査の第 4 軸(OBS-20260801-03)の記録間版・C10 派生同期の工程記録版
-  source: ViewTube ECO-VT-069
+  source: ViewTube ECO-VT-069, ECO-VT-070(常設化の設計〜資格〜結線完了・実在捕捉 5 件・
+  正常作業起因 3 件の基礎レート・記録↔証拠成果物の整合軸)
   origin: external(ViewTube 事案)
-  evidence: 本節・観測 1 / CHEAT-D10-002
-- [watch 1/3] OBS-20260805-05 — **自作検査計器の資格は「構成的な見逃し実測」で行う** — 回帰対照
+  evidence: 本節・観測 1 / CHEAT-D10-002 / 2026-08-06 ECO-VT-070 還元節・観測 3
+- [watch 2/3] OBS-20260805-05 — **自作検査計器の資格は「構成的な見逃し実測」で行う** — 回帰対照
   として有意(既知欠陥の再現)と「一致/健全の証拠」として有意は別判定で、後者は**独立者が構成した
   食い違いへの検出実測**を要する。通過した見逃し例は known-bad 陰性対照集合として後継ゲートの
   資格前棄却要求へ引き継ぐ。検査文はコードが測る以上を主張しない・偽陽性修正は「精密化」と
   「縮小」を区別して記録する。OBS-20260725-02(known-bad 保持)の計器版・「対照 3 種」の
   違反陽性対照を独立検査官が構成する形
-  source: ViewTube ECO-VT-069
+  source: ViewTube ECO-VT-069, ECO-VT-070(未結線候補下 PASS≠十分性・near-miss 較正の自己捕捉・
+  NF-10 チャレンジ 3 検出)
   origin: external(ViewTube 独立レビュー)
-  evidence: 本節・観測 2 / CHEAT-D10-003・NF-10
+  evidence: 本節・観測 2 / CHEAT-D10-003・NF-10 / 2026-08-06 ECO-VT-070 還元節・観測 3
 - [watch 1/3] OBS-20260805-06 — **機械編集・自動適用は効果 assertion(読み戻し+parse・差分確認)を
   持つ** — 置換の空振りは成功として報告され、assertion を欠いた 1 件だけがコミットへ到達した。
   OBS-20260716-07(変異適用の検証)の同族・層違い(変異治具→一般の記録編集)
@@ -3413,3 +3418,95 @@ playbook へ運用規則(ViewTube ECO-VT-056/068/069 還元)を新設し recover
   source: ViewTube ECO-VT-069(ラウンド 3 差し戻し依頼文)
   origin: external(ユーザー+ViewTube AI の設計)
   evidence: 本節・観測 4
+
+## 2026-08-06 ViewTube 還元 — ECO-VT-070 項目 4+items 1-2(結線資格〜常設記録間検査の設置)— watch 増分 8+新規 watch 3
+
+観測(出典: ViewTube ECO-VT-070 系 — 51-cheat-log CHEAT-D10-004〜010・
+test-results/eco-vt-070-process-equipment-installation/(資格記録・red/green 証拠・HANDOFF.md)・
+commits 92d198a〜60cff04〔項目 4= a3bd59a 結線・263b418 First Article・feee4ac de-wiring/
+items 1-2= 978fc6c 資格・d7129eb 結線・8d706e7 First Article・60cff04 資格完結〕。
+担当設備= GTP-5.6 Sol・全裁定= ユーザー(本セッション経由)。ECO は staged 継続中 —
+本節は完了済み 2 項目の還元であり ECO クローズ還元ではない):
+
+1. **結線(強制の導入)は 5 回の適用試行を要し、全 5 回が拒否を記録してから是正・迂回ゼロ**
+   (項目 4)。遮断層は毎回「変更した契約の読者が 1 つずつ未列挙」— 静的 survey(読者調査)は
+   fallback 分類欠陥で偽陽性 2 クラスを生み、**積極同定+残余は人間裁定行き+処置のデータ記録**へ
+   再設計。手書きの層列挙も 2 度破れ(rehearsal 計器の単一フック実行・§12 の層記述)、
+   **フックディレクトリからの導出**へ再設計(較正= 実際に受けた拒否の再現を赤アームに)。
+2. **三すくみデッドロック 2 種を自己失効 bootstrap で通過**: 守衛/追随/結線の循環(G/UG'/W)を
+   **資格済みハーネスの内容ハッシュへ束縛した一回性分岐**(発火印字+適用後 UNREACHABLE 実測)で
+   解決。2 本目のフック(commit-msg)の装備資格**二重実装**が第 4 適用を拒否(D10-008 —
+   片方のみ更新で分岐・D10-004〔protected_paths vs hook 正規表現・緩い側が縮退時に支配〕と対)。
+3. **常設記録間検査(items 1-2)**: 記録クラスごとの構造所有者から assertion を導出(本文のみ
+   所有者不在= D10-003 の 6 例中 4 例素通りの直接原因)・4 状態処置(分類の最終権限は計器外)・
+   資格= 合成 6 例棄却+整合陽性+対象欠落を同一実行、NF-10 チャレンジが**資格前に 3 欠陥検出**
+   (片方向比較・一致不一致を区別しない「通知」検査の削除・設計が名指した case E の検査不存在)。
+   **実在捕捉 5 件**(基準線 3+gate 内 2)、うち 4 件が本 ECO 自身の記録・**3 件は誤りでなく
+   正常作業(処置・取得)の進行自体から発生** — 「宣言は作業が進むだけで導出からずれる」の
+   基礎レート初測定。case A(両鏡同値)は第 3 comparand で実記録捕捉。
+4. **表現(改行・符号化)の第 3 様態= 実体化/出力**: フレッシュクローンで 1,397/4,615 ファイルが
+   バイト相違(system core.autocrlf=true 継承・D10-006 — validator が作業ツリーで通りクローンで
+   落ちる)+新設備の cp932 コンソールへの JSON 出力が UnicodeEncodeError → **自前の縮退規律が
+   自分のインストールを遮断**(コミット前)。直接実行 PASS は操作者の PYTHONIOENCODING=utf-8 が
+   マスク — **rehearsal は操作者環境を継承する**。是正= 報告経路の UTF-8 明示化+rehearsal の
+   操作者 env 中和+実測 codec 記録(red_arm_reachable: true の対つき)。
+5. **是正機構そのものの規律化**: 受益者自身が実行する記録変更(annulment 2 件)の権威を
+   `authority: user`+authority_evidence に固定(standard_form_note)/未 push 欠陥コミット
+   (83377a6= 持ち越し編集を裁定済み設計と突合せず staged)の唯一の出口として **reset 4 条件**
+   (未 push 列挙確認・自己所有・前進経路不在の測定〔revert も測る〕・事前の経緯記録)を明文化/
+   docstring 警告済み誤用(baseline なし preflight)の再演 → **docstring は制御ではない** —
+   機械拒否(exit 2)+non-preservable 刻印へ昇格/handoff 全件列挙(2→0)が「最初の 1 件で
+   止めると片付いたように見える」を 2 度防止。
+独立性の限界: 単一リポ・単一 ECO・単一設備(ただし裁定・設計入力は BomDD 側規則の適用)。
+
+適用した改善(本節で実施): 記帳+watch 増分 8 件(行内)+新規 watch 3 件。OBS-20260727-24 は
+3/3 到達 — 昇格審査(レビュー停止点)へ。本文織り込み案も停止点へ提示。
+
+効果回収(棚卸し — worklist 走査): 該当= 下記増分 8 件+EXP-20260717-12 適用実測(行内追記)。
+- 3/3 到達= `OBS-20260727-24`(表現の保存): 第 3 様態= 実体化/出力(観測 4)。書く/読む/
+  実体化・出力の 3 様態・2 リポ。昇格審査へ。
+- 2 例目= `OBS-20260801-03`(第 4 軸): 実 policy+合成 register の混成 fixture →
+  synthetic-coherent 化+「整合で通る/起動せず通る」判別対照(観測 2 の同型・第 2 追随)。
+- 2 例目= `OBS-20260801-04`(First Article/bootstrap 免除): 三すくみ+内容ハッシュ束縛の
+  自己失効 bootstrap(観測 2)+「新 control は必ず手動 red/green 腕付きで着地」(資格審査は
+  HEAD の harness で走るため自分の新規 control を実行できない)。
+- 2 例目= `OBS-20260801-05`(意味的 consumer 閉包): 全遮断層が読者未列挙(観測 1)。
+  静的全数+動的 rehearsal の二段構え。
+- 2 例目= `OBS-20260803-01`(4 状態処置): 調査計器の fallback 遮断分類 → 未知の既定値は
+  人間裁定行き(観測 1)— 検査計器側への適用形。
+- 2 例目= `OBS-20260805-04`(記録間検査): 常設化の設計〜資格〜結線が完了・実在捕捉 5 件+
+  正常作業起因 3 件の基礎レート(観測 3)。記録↔証拠成果物の整合軸(SAFE 主張 vs UNSAFE
+  成果物)を D10-002 設計入力へ追加済み。
+- 2 例目= `OBS-20260805-05`(計器資格の構成的見逃し): 未結線候補下の PASS ≠ 十分性・
+  近傍ミス較正が較正自身の欠陥を保全前に捕捉・NF-10 チャレンジ 3 検出(観測 3)。
+- 2 例目= `OBS-20260727-10`(検査は自分の前提を自分で満たす): 環境変数軸 — rehearsal の
+  操作者環境継承マスク+中和・実測 codec 記録(観測 4)。
+- 適用実測= `EXP-20260717-12`(使われる形で一巡実行): 起票宣言集合のメモリ上 preflight・
+  移転 preflight・結線 rehearsal と、正本化前の一巡実行が標準運用化(open 維持 —
+  BomDD 側リポでの実測は未)。
+
+期待する効果と観測:
+
+- [watch 1/3] OBS-20260806-01 — **完全性の主張は列挙でなく導出で裏付ける** — 手書き列挙
+  (読者リスト・検査層リスト・証拠クラスリスト・持ち越し編集の適用対象)は書いた時点の知識に
+  凍結され、破れは走らせるまで見えない。処方= ①列挙の出所を構造の所有者(ディレクトリ・
+  スキーマ・validator の要求)への問い合わせに置換 ②導出できない残余は明示リスト+処置記録
+  ③動的 rehearsal(実行による事前検証)を最終網として併設 ④受理側(裁定者)も完全性主張の
+  出所を問う — 列挙者と受理者の双方で破れた実測あり
+  source: ViewTube ECO-VT-070(同一 ECO 内 4 実測: 読者 fallback・層リスト・証拠クラス・
+  持ち越し編集= D10-010)
+  origin: external(ViewTube 事案+裁定側の受理)
+  evidence: 本節・観測 1・観測 5
+- [watch 1/3] OBS-20260806-02 — **受益者自身が実行する記録変更の権威は受益者の外に置く**
+  (`authority: user`+authority_evidence)— annulment・免除・意味論変更など、それによって
+  自分が通れるようになる変更を自分の権威で記録すると自己付与になる。機械面= authority trail
+  の必須フィールド化+standard_form_note(ViewTube policy に固定済み)
+  source: ViewTube ECO-VT-070(annulment 2 件・守衛裁定)
+  origin: external(ViewTube AI の自発提起+裁定)
+  evidence: 本節・観測 5
+- [watch 1/3] OBS-20260806-03 — **未 push 欠陥コミットの reset は 4 条件ゲート**(①未 push を
+  列挙で確認 ②自己所有 ③前進経路の不在を測定〔revert も実測〕④reset 前に経緯を所見記録)—
+  既定は revert であり reset は整頓の道具ではない。push 済みなら前進是正のみ
+  source: ViewTube ECO-VT-070(83377a6 の三すくみ実測)
+  origin: external(ViewTube 事案+裁定)
+  evidence: 本節・観測 5
