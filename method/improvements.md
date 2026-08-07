@@ -2865,7 +2865,7 @@ validation_warnings 0):
 - [watch 2/3] OBS-20260801-03 — **検査の第 4 軸「基準側入力(オラクル・fixture)の健全性」** — validator が fixture を trusted input として扱うと、内部矛盾した基準が human gate へ到達する。宣言件数×列挙 identity×ドメイン制約の相互拘束を独立検査し(安定 reason code)、reject-all 実装を防ぐ coherent positive control とセットにする。repeat hash 一致は fixture 妥当性を証明しない
   origin: native
   evidence: 本節・観測4 / ECO-VT-047.md:36-62・:98-123・:140-170 / 2026-08-06 ECO-VT-070 還元節・観測 3(2 例目= 実 policy+合成 register 混成 fixture)
-- [watch 3/3] OBS-20260801-04 — **強制規則・ゲートの First Article は「導入後最初の正常後続取引」を含む**(install → first compliant use → first transition → first acceptance)— negative/mutation 中心の資格は自己循環(新規取引が既存台帳を前提とする構造)を検出しない。bootstrap 免除は identity・path・状態で完全限定し、既存台帳行の変更・削除を紛れ込ませられないことまで検査する
+- [recovered 2026-08-08 via レビュー採択(案 E)・playbook §13 織り込み] OBS-20260801-04 — **強制規則・ゲートの First Article は「導入後最初の正常後続取引」を含む**(install → first compliant use → first transition → first acceptance)— negative/mutation 中心の資格は自己循環(新規取引が既存台帳を前提とする構造)を検出しない。bootstrap 免除は identity・path・状態で完全限定し、既存台帳行の変更・削除を紛れ込ませられないことまで検査する
   origin: native
   evidence: 本節・観測2 / ECO-VT-055.md:22-26・:62-64・:80-81・:132-154 / 2026-08-06 ECO-VT-070 還元節・観測 2(2 例目= 三すくみ+内容ハッシュ束縛の自己失効 bootstrap・新 control の手動 red/green 腕)/ 2026-08-08 還元節・効果回収(3 例目= X1 受入時 replay の本番初回を FA として実測〔890d573 REPLAY_CLEAN・17 リビジョン/3c876f1 空区間を結果として記録〕+リハーサルは遷移コミットを構造的に行使不能〔trailer 供給経路なし= 新統制はそれを載せるコミットで走れない、の受入版〕)
 - [watch 2/3] OBS-20260801-05 — ファイル単位の影響台帳から**意味的 consumer の処置台帳**へ — changed semantic part の列挙+direct/dependent consumer の 4 値処置(change/verified_compatible/excluded_with_reason/required_execution)+golden 要求時点で unresolved/deferred required consumer= 0。ファイルの登録は consumer の処置を意味しない(存在 vs 完全性の影響分析版)。**様式の BomDD 昇格は ViewTube 運用証拠待ち**(ECO-VT-054 原文の自己制限)— 測定点= ECO-VT-056(unresolved 43 → golden 時 0)
@@ -3551,7 +3551,9 @@ ViewTube 側セッション〔設備記録は ViewTube register が正本〕):
 (権威ある設計入力であり実測ではない — 織り込みは観測 1〜4 の実測を根拠に付す)。
 
 適用した改善(本節で実施): 記帳+watch 増分 5(行内)+新規 watch 1。本文織り込みは停止点 —
-案 A〜E+議題 F/G をレビューへ提示。
+案 A〜E+議題 F/G をレビューへ提示。**レビュー採択(2026-08-08・A〜E 全採択/議題 F・G は
+レビューへ存置)を受け織り込み実施**: §9(裁定・統制の配置原則)・§8.5 新設(境界統制の
+最小形)・§13(記録の経済+記録規約第 1 層+First Article 昇格= OBS-20260801-04 recovered)。
 
 効果回収(棚卸し — worklist 起点・validation_warnings 0・actions_due 0):
 - 3/3 到達= OBS-20260801-04(First Article は導入後最初の正常後続取引を含む): X1 replay の
