@@ -3387,7 +3387,7 @@ playbook へ運用規則(ViewTube ECO-VT-056/068/069 還元)を新設し recover
 
 期待する効果と観測:
 
-- [watch 3/3] OBS-20260805-04 — **同一事実を述べる複数記録の相互一致は独立の検査行を持つ** —
+- [recovered 2026-08-16 via playbook §8.3 織り込み(レビュー採択・案 2)] OBS-20260805-04 — **同一事実を述べる複数記録の相互一致は独立の検査行を持つ** —
   ファイル内スキーマ・件数検査は記録間矛盾を構造的に素通しし、複数ファイルの手作業編集は
   記録間検査なしでは収束しない(6 回・コミット到達 3 回・修復のたび再発)。機械面: 記録間
   突合ゲート(検査対象は「意味を運ぶ assertion」— 比較しやすいフィールドに限定しない)。
@@ -3859,8 +3859,13 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
 - 製品側(実施済み・出典リポ): 提示層主張の receipt 逆引き検査+blind bundle の surface 対称
   要求を TimetableAdv `SIT-CP-HUMAN-001` へ固定。是正報告の主張は grep/diff で機械裏取り
   (R4: 旧表現残存 0 件を機械確認してからクローズ)。
-- method 側: 本節記帳まで。本文織り込み(playbook §4.4 / §8 / FINDINGS §13)は
-  レビュー停止点の後(織り込み案は還元セッションの提示リストを参照)。
+- method 側(レビュー裁定 2026-08-16: 案 1・2・4 採択/案 3 保留/案 5 見送り):
+  案 1= playbook §4.4 へ「生成提示層の receipt 逆引き」を規則昇格(OBS-20260816-01 → recovered)。
+  案 2= playbook §8.3 へ「是正完了報告の機械裏取り+記録間一致検査」を規則昇格
+  (OBS-20260805-04 → recovered)。案 4= playbook §4.4 へ「較正期待表の三点様式」を
+  candidate(N=2)として織り込み(OBS-20260816-03 は watch 2/3 のまま 3 例目を追跡)。
+  案 3(FINDINGS §13 の投影軸追加)は N=1 のため保留 — OBS-20260816-02 で継続追跡。
+  案 5(EXP-20260816-04 の本文化)は実測待ちで見送り。
 
 効果回収(棚卸し — 起点= worklist 出力、native open 30+migrated open 33 を走査):
 
@@ -3874,7 +3879,7 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
 
 期待する効果と観測:
 
-- [watch 3/3] OBS-20260816-01 — **生成提示層(回想・要約・報告)の主張は canonical receipt へ
+- [recovered 2026-08-16 via playbook §4.4 織り込み(レビュー採択・案 1)] OBS-20260816-01 — **生成提示層(回想・要約・報告)の主張は canonical receipt へ
   逆引き可能でなければならない** — 提示層は canonical data の上の生成物であり、作話(過剰)と
   未裏付け主張は trace が健全でも発生する。転写値禁止(値の複製)・因果閉包(trace 内部)と直交する
   第三の検査面。機械面: 提示層主張→receipt の逆引き検査(負対照= 作話 fixture)+是正報告の
