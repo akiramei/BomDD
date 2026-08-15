@@ -1591,7 +1591,7 @@ CLI 用 example-session-log は新設しない(cli-cad-01 実物一式が実セ�
 
 期待する効果と観測:
 
-- [watch 1/3] OBS-20260718-06 — 媒体の知覚依存度が人間裁定の位置を決める(知覚裁定は受入段に残り、非知覚媒体では裁定が上流の契約確定へ移動して受入が機械化される)。UI/CLI 対比は同一方法論内の対照のため 1 例と数える — 2 例目= 別の非知覚媒体(API/観測契約)での上流移動の再現、または別の知覚媒体での受入段残留。**追補(onboarding-t0-01・2026-07-18)**: 裁定位置の上流移動は**翻訳需要(方法論語→顧客語)と共同承認境界の上流移動を伴う** — 上流で人間に裁定を求める地点には、人間が判断可能な表示面と**判断しない権利(差し戻し)**の両方を用意する(一般則昇格は次の独立事例まで保留)
+- [watch 2/3] OBS-20260718-06 — 媒体の知覚依存度が人間裁定の位置を決める(知覚裁定は受入段に残り、非知覚媒体では裁定が上流の契約確定へ移動して受入が機械化される)。UI/CLI 対比は同一方法論内の対照のため 1 例と数える — 2 例目= 別の非知覚媒体(API/観測契約)での上流移動の再現、または別の知覚媒体での受入段残留。**追補(onboarding-t0-01・2026-07-18)**: 裁定位置の上流移動は**翻訳需要(方法論語→顧客語)と共同承認境界の上流移動を伴う** — 上流で人間に裁定を求める地点には、人間が判断可能な表示面と**判断しない権利(差し戻し)**の両方を用意する(一般則昇格は次の独立事例まで保留)。**2 例目(2026-08-16・TimetableAdv ECO-011〜013)**: 事前宣言済みの 2 例目基準「別の知覚媒体での受入段残留」に一致 — ゲーム体験(fun)は human core fun gate として受入段に残り、上流は evaluation contract・CAD の機械検査へ移動した(2026-08-16 TimetableAdv 還元節)
   source: cli-cad-01(UI-CAD 系列との対照)、onboarding-t0-01(追補の根拠)
   evidence: loops/cli-cad-01/report.md・intervention-ledger.md(受入段の人間裁定 0)・FINDINGS §10(UI 側対照)・loops/onboarding-t0-01/reader-b-report.md(A-1/A-2)
 - [open] EXP-20260718-07 — 次の非知覚媒体案件(CLI/API)の開始時: §2.5 の導線どおり人間レビューが凍結前に予定され、凍結後の契約是正 0 で推移するか(裁定位置の事前案内が凍結後手戻りを防ぐか)
@@ -3387,7 +3387,7 @@ playbook へ運用規則(ViewTube ECO-VT-056/068/069 還元)を新設し recover
 
 期待する効果と観測:
 
-- [watch 2/3] OBS-20260805-04 — **同一事実を述べる複数記録の相互一致は独立の検査行を持つ** —
+- [watch 3/3] OBS-20260805-04 — **同一事実を述べる複数記録の相互一致は独立の検査行を持つ** —
   ファイル内スキーマ・件数検査は記録間矛盾を構造的に素通しし、複数ファイルの手作業編集は
   記録間検査なしでは収束しない(6 回・コミット到達 3 回・修復のたび再発)。機械面: 記録間
   突合ゲート(検査対象は「意味を運ぶ assertion」— 比較しやすいフィールドに限定しない)。
@@ -3396,6 +3396,11 @@ playbook へ運用規則(ViewTube ECO-VT-056/068/069 還元)を新設し recover
   正常作業起因 3 件の基礎レート・記録↔証拠成果物の整合軸)
   origin: external(ViewTube 事案)
   evidence: 本節・観測 1 / CHEAT-D10-002 / 2026-08-06 ECO-VT-070 還元節・観測 3
+  source 追記(3 例目・2026-08-16): TimetableAdv ECO-013 R3 — 是正完了報告の主張(「撤去」)と
+  成果物の実態(言い換え)の不一致が、記録間検査なしで human gate 直前まで到達し、裁定前検査
+  (人間+第三者 AI の実物突合)で捕捉された(ECO-013 §13 で正式訂正)。独立性: 別リポ・
+  別記録対(是正報告↔blind 成果物)。ただし OBS-20260816-01 の 3 例目と同一事象を共有 —
+  PROMOTION 判定時に二重計上へ注意
 - [watch 2/3] OBS-20260805-05 — **自作検査計器の資格は「構成的な見逃し実測」で行う** — 回帰対照
   として有意(既知欠陥の再現)と「一致/健全の証拠」として有意は別判定で、後者は**独立者が構成した
   食い違いへの検出実測**を要する。通過した見逃し例は known-bad 陰性対照集合として後継ゲートの
@@ -3809,3 +3814,92 @@ open であり続ける構造で、在庫の単調増加の主因はこちら。
   という読みを記録自身が拒まないと、宣言は時間とともに免罪符へ変質する
   source: ViewTube ECO-VT-075 `lifecycle_ruling`(製造側が先例に無いフィールドとして自発的に導入)
   evidence: 本節・観測 4
+
+## 2026-08-16 TimetableAdv 還元 — Situation proof 系列(ECO-011〜013)— 提示層の逆引き・比較の投影等化・較正期待表・Human-Gate 実測
+
+出典: TimetableAdv `bomdd/60-change-order-eco-013.md`(§11〜§13)・`60-change-order-eco-012.md`・
+`artifacts/acceptance/eco-013/situation-proof/`(approval.json / blind 3 対 6 replay)・
+TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.yaml`・
+`docs/decisions/CORE-FUN-*`。題材= 恋愛 SLG×ローグライク(最終 oracle が人間に残る製品クラスの
+初系列)。人間 Core Fun 承認= 2026-08-16(`3ef395d`)。製品側の再発防止は TimetableAdv
+`33-control-plan.yaml` `SIT-CP-HUMAN-001` に固定済み。
+
+観測(製品名を落としても成立する形で記す):
+
+1. **生成提示層(回想・要約・帰結文言)は canonical data に無い主張を作る** — 同一製品内で 3 型:
+   ①蓄積の作話(資源獲得行動 0 の Run の Ending が「資金を作る選択も積み上げた」と語り、
+   enabled-final-method の帰属が解決 receipt 自身への自己参照)②未裏付けの代償主張
+   (「明日の選択肢を狭めた」— 実測 receipt は slack -6・reputation -1 のみで、後続
+   candidate-set-mutated は 0 件。probe 先行で期待 FAIL 1/1 を確認してから実資源代償の文言へ是正)
+   ③是正完了報告の作話(「撤去した」と報告された文言が実物では言い換え — 裁定前検査で捕捉、
+   ECO §13 で正式訂正)。③は方法論自身の記録層に同型が出ることの実証。
+2. **同一症状に製造・検査・投影の三層欠陥が同時に寄与しうる** — Situation 統合が
+   (a) trace に決定・候補変化が無い〔製造〕(b) 注記・hash 一致だけで検査 PASS〔検査〕
+   (c) 最終決定と因果寄与が本文・Ending へ回収されない〔投影〕の複合で、blind 封緘まで到達した。
+   是正は帰属確定 → probe 先行(期待決定 2 件・実測 0 件の FAIL を固定)→ 最小再製造の順。
+3. **人間判定の一因子比較は、入力・計器に加えて投影(提示 surface)の等化で初めて成立する** —
+   R1 の blind 対は片側=物語ダイジェスト・片側=完全ログ+ヘッダ欠落のまま封緘に到達し、
+   「語り直し価値」の答えが投影形式へ帰属する状態だった。blind seal は hash 同一性を検査したが
+   surface 対称性は検査していなかった。新奇性交絡(内容は盲検化不能)は除去でなく記録で扱い、
+   立証範囲を「この個体 対 この対照」へ明示限定した(approval.json `known_limitation` /
+   `scope_exclusions`)。
+4. **物差し改訂時の較正は「行別期待表の事前凍結」で様式化できる** — 新検査 16 行全数へ
+   PASS 9 / FAIL 7 を理由付きで事前宣言し、interpretation(expected FAIL は既存製品の欠陥認定では
+   なく negative control の弁別点/negative control の適格性を推論で昇格することの禁止)と
+   manufacture_sequence(凍結 → 封緘旧個体へ実行 → 16/16 完全一致 → 不一致は計器を疑う →
+   一致後に新個体へ)を同一ファイルで固定。実測 16/16 一致。ECO-012(口頭指示レベル)→
+   ECO-013(様式化)の 2 例目。
+5. **Human-Gate Compression の初の実測はベースライン(未達)** — approval.json の消費者実測は
+   duration 未計測・artifacts_opened は記録・主要 3 観点すべてが complete replay 再読を要した
+   (routed evidence だけでは判定できなかった)。圧縮効果はまだ出ていないが、測定の導線
+   (3 行様式)が human gate 記録に組み込まれた。
+
+適用した改善(反映先つき):
+
+- 製品側(実施済み・出典リポ): 提示層主張の receipt 逆引き検査+blind bundle の surface 対称
+  要求を TimetableAdv `SIT-CP-HUMAN-001` へ固定。是正報告の主張は grep/diff で機械裏取り
+  (R4: 旧表現残存 0 件を機械確認してからクローズ)。
+- method 側: 本節記帳まで。本文織り込み(playbook §4.4 / §8 / FINDINGS §13)は
+  レビュー停止点の後(織り込み案は還元セッションの提示リストを参照)。
+
+効果回収(棚卸し — 起点= worklist 出力、native open 30+migrated open 33 を走査):
+
+- 一致(watch 増分)2 件: ①OBS-20260718-06 → 2/3(事前宣言済み 2 例目基準「別の知覚媒体での
+  受入段残留」に一致 — 観測 5 の題材クラス)②OBS-20260805-04 → 3/3(観測 1-③ = 記録間不一致の
+  3 例目。**OBS-20260816-01 と同一事象を共有 — PROMOTION 判定で二重計上に注意**)。
+  いずれも行内遷移済み。
+- open EXP の一致: 0 件(近傍検討 2 件 — EXP-202607-16〔標準部品台帳の次ドメイン初期装備〕は
+  本出典から採否を判定できず機会なし扱い/EXP-20260710-01〔工数分解記録〕は工場ラウンド外で
+  機会なし)。
+
+期待する効果と観測:
+
+- [watch 3/3] OBS-20260816-01 — **生成提示層(回想・要約・報告)の主張は canonical receipt へ
+  逆引き可能でなければならない** — 提示層は canonical data の上の生成物であり、作話(過剰)と
+  未裏付け主張は trace が健全でも発生する。転写値禁止(値の複製)・因果閉包(trace 内部)と直交する
+  第三の検査面。機械面: 提示層主張→receipt の逆引き検査(負対照= 作話 fixture)+是正報告の
+  「撤去/追加」型主張の diff/grep 裏取り。**3 例は同一製品内反復(統計的独立反復ではない —
+  ViewPrism2 ECO-058 系の昇格前例と同条件)。3 例目は OBS-20260805-04 と同一事象**
+  source: TimetableAdv ECO-011 V5(EXPLOIT recap)/ ECO-013 R3(未裏付け代償)/
+  ECO-013 R3(是正報告乖離)
+  evidence: 本節・観測 1
+- [watch 1/3] OBS-20260816-02 — **人間判定の一因子比較は投影の等化を含む** — 入力・計器の統制
+  (FINDINGS §13)だけでは足りず、判定者へ届く提示 surface(形式・密度・ヘッダ・節集合)を
+  等化しないと差分が投影へ帰属する。内容の盲検化が不能な比較では、新奇性交絡を除去でなく
+  記録し立証範囲を明示限定する。機械面: blind bundle の surface 対称 lint(節集合・ヘッダ・
+  密度段の一致)+承認記録の `known_limitation`/`scope_exclusions` 必須欄
+  source: TimetableAdv ECO-013 R1(投影非対等)/ approval.json(交絡の記録様式)
+  evidence: 本節・観測 3
+- [watch 2/3] OBS-20260816-03 — **物差し改訂の較正は行別期待表(expected+reason)+interpretation+
+  manufacture_sequence の三点様式で凍結する** — 「旧個体= 全行 PASS」でも「全行 FAIL」でもない
+  非対称な期待(弁別行は FAIL・共通行は PASS)を理由付きで事前宣言し、完全一致で計器を検証、
+  不一致時は先に計器を疑う。expected FAIL を既存製品の欠陥認定と誤読させない interpretation 節を
+  様式自身が持つ。3 例目= 次の物差し改訂 ECO(BomDD 側 validator 改訂を含む)で様式が再利用されるか
+  source: TimetableAdv ECO-012(口頭指示)/ ECO-013 `baseline-calibration-expected.yaml`
+  (PASS 9 / FAIL 7・実測 16/16 一致)
+  evidence: 本節・観測 4
+- [open] EXP-20260816-04 — **Human-Gate Compression の系列測定**: 次の human gate
+  (ECO-011 の 8 軸裁定または次 ECO の Core Fun 比較)で ①消費者実測 3 行が完全記録されるか
+  (特に wall-clock — ECO-013 は未計測)②complete replay 再読を要した観点数が減るか
+  (ECO-013 基準線= 主要 3 観点すべて再読。routed evidence の圧縮効果はここで測る)
+  evidence: 本節・観測 5 / approval.json `consumer_measurement`
