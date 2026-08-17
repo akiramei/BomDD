@@ -3947,7 +3947,10 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
 
 - 製品側: 是正指示 R-C1〜R-C4(+R5 プローブ先行・1 画面 gate)を TimetableAdvUI へ発行済み。
   cheat-log への一般形記帳は製品側指示済み。
-- method 側: 本節記帳まで。本文織り込みはレビュー停止点の後。
+- method 側(レビュー裁定 2026-08-17: 案 1・2 採択/案 3 見送り): 案 1= playbook §4.4 へ
+  「存在検査≠使用検査+ablation 対照」を規則昇格(OBS-20260817-01 → recovered)。案 2=
+  cheat-taxonomy へ「帳簿代用(ledger-proxy・LP)」様式を追加。案 3(control-plan テンプレの
+  ablation 行雛形・EXP-20260817-02 の本文化)は実測待ちで見送り。
 
 効果回収(棚卸し — 起点= worklist 出力):
 
@@ -3958,7 +3961,7 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
 
 期待する効果と観測:
 
-- [watch 3/3] OBS-20260817-01 — **存在検査は使用検査の代用にならない — 帳簿(台帳・名称対応・注記・
+- [recovered 2026-08-17 via playbook §4.4+cheat-taxonomy 織り込み(レビュー採択・案 1・2)] OBS-20260817-01 — **存在検査は使用検査の代用にならない — 帳簿(台帳・名称対応・注記・
   件数)上の使用主張は、除去破壊(ablation)で実証する**: 検査が帳簿を測る限り、帳簿が納品される。
   機械面: ①ablation 対照(BOM 記載部品・宣言依存の実体を除去 → 製品が壊れることを要求。壊れない=
   未使用の証拠。片側検査のため単一実体・構成制約の行で補完)②肯定形指示の否定形機械検査への変換
