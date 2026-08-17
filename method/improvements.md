@@ -1417,7 +1417,7 @@ lint〔CpI18n010AssetLintTests〕+死キー 640 件削除+M-CAPTURE-HARNESS-052)
 - [open] EXP-20260717-10 — 次の状態保持 UI ECO で状態×操作マトリクスが検査面設計(CP/probe/golden 基準)に現れるか(交差セル型潜伏の GF/レビュー所見ゼロ)
   origin: native
   evidence: 本節・昇格候補3(ECO-046/102/104)
-- [open] EXP-20260717-11 — 次の検査器新設で「既知限界の宣言+掃射手段の紐づけ+根拠つき fail-closed 双方向 allowlist」が初回設計に載るか(限界領域からの後日顕在化ゼロ)
+- [open] EXP-20260717-11 — 次の検査器新設で「既知限界の宣言+掃射手段の紐づけ+根拠つき fail-closed 双方向 allowlist」が初回設計に載るか(限界領域からの後日顕在化ゼロ)。**再演(2026-08-17・TimetableAdvUI mock lint)**: 新設 lint が「帳簿上の名称対応のみを測る」という限界を未宣言のまま稼働し、限界領域(実使用)から顕在化 — 部品未使用の画面が「部品使用済み」で緑(2026-08-17 還元節)
   origin: native
   evidence: 本節・昇格候補5(ECO-107/108)
 - [open] EXP-20260717-12 — 次の工具 track/golden 基準新設/棚卸し削除で「使われる形で一巡実行」検収が踏まれるか(到達不能基準・再実行不能工具・上限切り捨て結論の正本化ゼロ)。**部分再演(2026-08-01・別リポ ViewTube)**: 新設の change-impact validator は mutation 12 種+59 controls で資格したが「導入後**最初の正常後続取引**(first compliant filing)」を一巡に含めず、初適用の起票が循環ゲートで false rejection(ECO-VT-054→055)。「使われる形」には**時間軸の最初の一巡**(install → first compliant use → first transition → first acceptance)が含まれる — 命題の未被覆次元が実測で確定(OBS-20260801-04 として分離記帳・open 維持)。**適用実測(2026-08-06・ViewTube ECO-VT-070)**: 起票宣言集合のメモリ上 preflight・移転 preflight・結線 rehearsal と、正本化前の一巡実行が標準運用化(2026-08-06 還元節)— BomDD 側リポでの実測は未・open 維持
@@ -3908,3 +3908,66 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
   (特に wall-clock — ECO-013 は未計測)②complete replay 再読を要した観点数が減るか
   (ECO-013 基準線= 主要 3 観点すべて再読。routed evidence の圧縮効果はここで測る)
   evidence: 本節・観測 5 / approval.json `consumer_measurement`
+
+## 2026-08-17 TimetableAdv/TimetableAdvUI 還元 — 存在検査は使用検査の代用にならない(帳簿代用の三例目)
+
+出典: TimetableAdv `bomdd/60-change-order-eco-006.md` §11〜12・`60-change-order-eco-013.md`
+§12〜13(検査欠陥の帰属)・TimetableAdvUI 認識シーン mock 製造セッション(2026-08-17・
+是正指示 R-C1〜R-C4 発行済み。製品側 cheat-log への一般形記帳は製品側へ指示済み)。
+
+観測(製品名を落としても成立する形で記す):
+
+1. **検査が「帳簿上の存在・対応」を測って緑になり、実体(因果・使用)が欠けたまま通過する型が、
+   媒体を変えて 3 回再発した**:
+   - ECO-006(受入オラクル/UI feedback): 機械受入・self-golden を通過した個体で、承認 CAD の
+     ack channel(shape/motion/sound)が汎用「選択を受け付けました」トーストへ退化
+     (GF-ECO-006-006)、Message Deck 内部が枠外押し出し(GF-ECO-006-005)。オラクルは外枠の
+     固定値と要素の存在を測り、操作対象へ帰属する因果連鎖を測っていなかった。human golden で
+     捕捉され `A2-CP-UI-GOLDEN-001` へ「機械受入/self-golden を通過しながら人間 golden 不合格」の
+     潜伏実績つきで追記済み。
+   - ECO-013(Situation 統合検査): 注記・hash 一致だけで Situation 統合が PASS し、trace に
+     決定・候補変化が存在しないまま blind 封緘へ到達(probe 先行の再検査で期待決定 2 件・
+     実測 0 件の FAIL を固定してから是正)。
+   - TimetableAdvUI mock lint(2026-08-17): lint が C01〜C08 の名称対応(契約・DOM・BOM・Trace)を
+     数えて緑 — シーン固有実装のままの画面が「部品使用済み」判定に。製造 AI の自己申告:
+     「検査していたのは帳簿上の対応であり、画面が実際に汎用部品だけで構築されていることでは
+     なかった」。検査が帳簿を測る限り、帳簿が納品される。
+2. **是正は指示の言い換えでなく、指示の不合格条件化+破壊対照**: 発行済み指示= ①肯定形
+   (〜を使って作れ)を否定形の機械検査(〜なら FAIL)へ変換 ②R5 プローブ先行(現行個体が全規則で
+   不合格になることを先に実測 — 不合格にならない規則は検査力なしとして書き直し)③**ablation
+   (除去破壊)**: 部品実体を除去して描画し、1 画面でも成立したまま表示されたら FAIL(名称対応では
+   偽装不能)④寸法実測(getBoundingClientRect と台帳値の突合)⑤human gate の細分化(1 画面承認
+   まで次画面着手禁止)。規則集は各規則が別の回避経路を塞ぐ非冗長構成(ablation 単独は
+   「壊れる=部品だけで構成」を言えないため、単一実体・構成制約の行が補完)。
+3. 既存正本との位置: playbook §8.2「『機能は既にある』は動作の証拠にならない」(保持導線版)・
+   §4.4 提示層逆引き(主張→receipt)と同族で、本件はその**帳簿→実体**版。三部作(提示層の主張/
+   是正報告/帳簿上の使用)で「帳簿が実体の代用にされる」族が揃う。
+
+適用した改善(反映先つき):
+
+- 製品側: 是正指示 R-C1〜R-C4(+R5 プローブ先行・1 画面 gate)を TimetableAdvUI へ発行済み。
+  cheat-log への一般形記帳は製品側指示済み。
+- method 側: 本節記帳まで。本文織り込みはレビュー停止点の後。
+
+効果回収(棚卸し — 起点= worklist 出力):
+
+- **再演 1 件**: EXP-20260717-11(次の検査器新設で既知限界の宣言が初回設計に載るか)— mock lint は
+  新設検査器でありながら「帳簿対応のみを測る」限界を宣言せず、限界領域(実使用)から後日顕在化。
+  元 bullet へ再演注記を追記(open 維持)。
+- open EXP のその他一致: 0 件(OBS-20260716-07〔変異適用検証〕は変異治具不在のため機会なし)。
+
+期待する効果と観測:
+
+- [watch 3/3] OBS-20260817-01 — **存在検査は使用検査の代用にならない — 帳簿(台帳・名称対応・注記・
+  件数)上の使用主張は、除去破壊(ablation)で実証する**: 検査が帳簿を測る限り、帳簿が納品される。
+  機械面: ①ablation 対照(BOM 記載部品・宣言依存の実体を除去 → 製品が壊れることを要求。壊れない=
+  未使用の証拠。片側検査のため単一実体・構成制約の行で補完)②肯定形指示の否定形機械検査への変換
+  ③新設検査器の既知限界宣言(EXP-20260717-11 の運用)。**3 例は同一製品系列内(TimetableAdv 2+
+  TimetableAdvUI 1)・媒体横断(受入オラクル/統合検査/UI lint)— 統計的独立反復ではない**
+  source: TimetableAdv ECO-006(§11〜12)/ ECO-013(§12〜13 検査欠陥)/
+  TimetableAdvUI mock lint(2026-08-17)
+  evidence: 本節・観測 1
+- [open] EXP-20260817-02 — 次に「使用」主張を持つ検査(BOM 部品の使用・依存ライブラリ・K-BOM 知識の
+  適用)を新設するとき、ablation 対照が初回設計に載るか(帳簿代用の 4 例目が出ないか — 次の媒体候補=
+  音・アセット解決)
+  evidence: 本節・観測 2
