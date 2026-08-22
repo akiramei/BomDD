@@ -4017,9 +4017,15 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
 
 - 製品側: §67/§68 で是正済み(逆向き使用検査・material profile の role token 接続・5 分類の全列挙)。
   再 human golden 待ちで停止中。
-- method 側: 本節記帳まで。本文織り込みはレビュー停止点の後。**ハーネス変更(引き渡し宣言様式・
-  touched パス検査)は本還元の対象外** — BomDD 側の別 ECO(層②)とし、製品リポへの設置(層③)は
-  さらに別裁定・ECO 境界まで待つ(在飛行 ECO への偽陽性と版ずれを避けるため)。
+- method 側(レビュー裁定 2026-08-23: 案 1〜3 採用/案 4 見送り): 案 1= playbook §4.4 へ
+  「較正の形式的成立は被覆を証明しない — 弁別力と被覆は直交する」を candidate(N=1)として織り込み
+  (OBS-20260823-02 は watch 1/3 のまま 2 例目を追跡)。案 2= playbook §3.4 へ「原器は消費の型を
+  宣言する」を candidate(N=1)として項目 6 に追加(OBS-20260823-01 も watch 1/3 維持)。
+  案 3= cheat-taxonomy の帳簿代用(LP)表へ 4 例目(媒体= 製品 runtime 統合)を追加。
+  案 4(EXP-20260823-03 の本文化・層②のハーネス様式化)は実測待ちで見送り。
+- **ハーネス変更(引き渡し宣言様式・touched パス検査)は本還元の対象外** — BomDD 側の別 ECO(層②)
+  とし、製品リポへの設置(層③)はさらに別裁定・ECO 境界まで待つ(在飛行 ECO への偽陽性と
+  版ずれを避けるため)。
 
 効果回収(棚卸し — 起点= worklist 出力):
 

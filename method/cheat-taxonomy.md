@@ -54,6 +54,7 @@ C 系(製造側ずる= BOM 由来でない産物)・検査器側欠陥(H 系列)
 | 受入オラクル(UI feedback) | 外枠固定値・要素の存在 | 因果連鎖なき汎用トースト退化(TimetableAdv ECO-006 — human golden で捕捉) |
 | 統合検査 | 注記・hash 一致 | trace に決定・候補変化が不在(ECO-013 — probe 先行で期待決定 2・実測 0 の FAIL を固定) |
 | UI lint | 名称対応(契約・DOM・BOM・Trace) | 部品未使用の画面が「使用済み」判定(TimetableAdvUI mock — 製造 AI が自己申告) |
+| 製品 runtime 統合 | surface ID への到達・部品の存在 | 生活導線の欠落・部品外観の転写漏れ(TimetableAdv ECO-015 §66 — 人間ゲートが連続 2 回捕捉。§67/§68 で**逆向き使用検査**〔各必須原器が最低 1 つの runtime fixture で使われる〕を導入して是正) |
 
 **検出面**: ablation 対照(宣言依存の実体を除去 → 製品が壊れることを要求。壊れない=未使用の証拠)・
 肯定形指示の否定形機械検査化・新設検査器の既知限界宣言(playbook §4.4)。記録には cheat-log 様式を
