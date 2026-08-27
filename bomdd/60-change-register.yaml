@@ -937,6 +937,33 @@ changes:
       裁定対象(b)= kit への .gitattributes 同梱の要否 — 製品リポは BomDD 側の宣言を受け取らず
       設置先で同じ system autocrlf 継承が起きる(ECO-VT-070 は製品リポ側の事象)。ただし
       設置先の既存 .gitattributes との衝突規則と bomdd-init の冪等性設計が要る。
-      gate ① で「同 ECO 内 / 別 ECO / 見送り」を裁定する。
+      **gate ① 承認 2026-08-28 maintainer**「gate ① 承認。b-2 で別 ECO に切る。push して
+      製造に進んで」— (b) は ECO-031 へ分離し、本 ECO の製造対象は (a) のみ。
       スコープ外= loops/ の取得物 63 件(-text で保存・不可逆観測データ)/ 既設製品リポの
       kit 更新(各製品リポの裁定)/ self-conformance への存在検査追加(§8.5 に従い実測後)。
+
+  - id: ECO-031
+    title: 配布 kit へ表現規約(.gitattributes)を同梱するか — bomdd-init の配布仕様
+    date: 2026-08-28
+    origin: defect
+    status: filed
+    source: >
+      ECO-030 gate ①(2026-08-28 maintainer)の裁定 b-2 により分離。分離理由= ECO-030(a)は
+      内容差ゼロの機械的正規化で受入が明快だが、本件は bomdd-init の冪等性(既存 kit を保持する
+      ECO-004 の凍結思想)と設置先の既存 .gitattributes との衝突規則という設計判断を含み、
+      受入の性質が異なる。混ぜると ECO-030 の diff 監査の窓が「表現正規化のみ」と言えなくなる。
+      実測= bomdd-init は method/ 配下のみを copytree で配布し、リポ直下の .gitattributes は
+      配布対象外。したがって設置先リポでは system core.autocrlf の継承が防がれていない
+      (ViewTube ECO-VT-070 の 1,397/4,615 バイト相違はまさに製品リポ側の事象)。
+    order_ref: bomdd/60-change-order-eco-031.md
+    affected_refs: [method/tools/bomdd-init.py]
+    no_impact_prediction: "(未凍結)本 ECO は方式が未決のため、影響なし予測は gate ① で方式が確定してから凍結する — 未決のまま予測を書くと反証不能になるため(予測は方式に対して立てるもの)"
+    summary: >
+      決めるべき論点 4 点= ①設置先(目的から言えばリポ直下でなければ core.autocrlf 継承は
+      防げない)②既存 .gitattributes との衝突規則(bomdd-init の「既存は保持」思想と、
+      継承遮断という目的が矛盾する — これが本 ECO の核心)③内容(製品リポの証拠クラスは
+      BomDD と同一でない。最小既定のみ配って -text は設置先の裁定にするか)④既設リポへの遡及。
+      推奨方式(たたき台・gate ① で採否)= リポ直下に最小既定のみ設置/既存があれば触れず
+      警告して続行(設置は開発着手であって昇格ではない — §13「止めるのは作業でなく信頼済み
+      状態への昇格」)/設置有無を来歴へ記録(installed|preexisting|skipped — 沈黙と健全を
+      区別する)。較正・受入は方式確定後に凍結。
