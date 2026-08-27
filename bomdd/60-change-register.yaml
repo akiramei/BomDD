@@ -979,3 +979,40 @@ changes:
       警告して続行(設置は開発着手であって昇格ではない — §13「止めるのは作業でなく信頼済み
       状態への昇格」)/設置有無を来歴へ記録(installed|preexisting|skipped — 沈黙と健全を
       区別する)。較正・受入は方式確定後に凍結。
+
+  - id: ECO-032
+    title: /converge を配布スキルへ昇格し、正本を BomDD へ移す(TimetableAdv 実績を経ての昇格)
+    date: 2026-08-28
+    origin: enhancement
+    status: filed
+    source: >
+      user 裁定 2026-08-28「convergeスキルは私が観測した限り役立っています」「現在、十分実績が
+      あると私は判断しています」「正本を BomDD へ移す前提で ECO-032 を起票して」。経緯=
+      TimetableAdv を BomDD で開発する中で「検討不足や推測が事実で否定されて後戻りする」問題への
+      対策として作成され、実際に使用し実績を積んでから BomDD へ入れる方針で保留されていた。
+      現正本= TimetableAdv ECO-023(filed 2026-08-24 / applied 2026-08-25)。BomDD 側に実体は
+      なく(git ls-files 0 件)、配布リスト SKILLS 8 本にも入っていないため bomdd-init で作った
+      新規プロジェクトへは配布されない。BomDD 側で適用できていたのは TimetableAdv の原文を
+      読みに行っていたためで、BomDD 単体にその参照経路は存在しない。
+    order_ref: bomdd/60-change-order-eco-032.md
+    affected_refs: [method/templates/product-profile/skills/converge.md, method/tools/bomdd-init.py, README.md]
+    no_impact_prediction: "(製造前)diff は affected_refs 3 件+台帳系のみ(論点 d の裁定次第で .claude/skills/converge/SKILL.md が加わる)、他は diff ゼロ。**C7 は README を直さなければ FAIL する** — c7_readme() が bomdd-init の SKILLS 実数と README の「スキル N 本」全一致を検査するため、8→9 本化には README.md:19 の更新が必須(製造に含める)。C4 は判定不変(参照スキル数は表示のみで固定本数の assertion なし・検査は参照の非空と参照先の実在)。C13 も判定不変(converge SKILL.md の markdown リンクは 0 件)。既存 8 スキルの内容・挙動は不変。既設製品リポへは kit 再設置まで非波及。適用範囲の二重化は起きない(SKILL 本文が「機械受入がある是正実施には使わない — /eco-fix がその収束機構」と宣言済み・TimetableAdv で実証)"
+    diff_audit:
+      baseline: "4804566"  # 起票時 HEAD。是正開始直前(gate ① 記録コミット)へ承認後に更新する
+      allowed_paths: [method/templates/product-profile/skills/, method/tools/bomdd-init.py, README.md]
+    summary: >
+      製造対象(a)= product-profile/skills/converge.md を新設し BomDD を正本とする。
+      (b)= bomdd-init.py の SKILLS へ converge を追加(8→9 本)+ README のスキル本数表記を更新。
+      裁定対象(c)= 失敗型カタログのテーラリング方式 — 配布後は SKILL の学習ループが各製品リポで
+      発火するため、丸ごと配るとカタログ自体が二正本問題を再生産する。候補 A-1(推奨・汎用型は
+      BomDD 正本/実例と追記領域は製品側が所有・汎用化して戻すのは /lesson-promote の仕事)/
+      A-2(実例ごと配る)/ A-3(実例を全削除)。現行 SKILL には製品固有 ID が 6 件
+      (ECO-013/021/022/023×2/FO-SIT-FIX-003)埋まっている。
+      裁定対象(d)= BomDD 自身への設置の要否 — BomDD は bomdd-init の配布先ではないため正本を
+      置いても .claude/skills/ には入らない。D-1(推奨・写しを置き正本を明記)/ D-2(置かない)。
+      較正は予防ゲートとして陽性対照で行う(ECO-030 で予防面の対照を設計し損ねた反省の適用=
+      OBS-20260828-05)— CAL-1= README を 8 本のままにすると C7 が FAIL することの実測、
+      CAL-2= SKILL.md 不在で C4 が FAIL することの実測。
+      スコープ外= TimetableAdv 側の正本降格・同期(別リポ ECO)/ 既設製品リポへの遡及設置
+      (各リポの裁定・2026-08-11 の「ViewTube には入れない」は既設への後付けの話として生きている)/
+      self-conformance への converge 固有検査の追加(§8.5 に従い実測後)。
