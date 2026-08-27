@@ -984,7 +984,7 @@ changes:
     title: /converge を配布スキルへ昇格し、正本を BomDD へ移す(TimetableAdv 実績を経ての昇格)
     date: 2026-08-28
     origin: enhancement
-    status: filed
+    status: verified   # 2026-08-28 受入= V1(実 scaffold で実在+参照)・V2(製品固有 ID 残存なし)・V3(全 17 検査 PASS)・V5(窓内は affected_refs+D-1 分+台帳系)・V4(CI success @b3503f4)。較正 CAL-1/CAL-2 成立
     source: >
       user 裁定 2026-08-28「convergeスキルは私が観測した限り役立っています」「現在、十分実績が
       あると私は判断しています」「正本を BomDD へ移す前提で ECO-032 を起票して」。経緯=
@@ -998,8 +998,9 @@ changes:
     affected_refs: [method/templates/product-profile/skills/converge.md, method/tools/bomdd-init.py, README.md]
     no_impact_prediction: "(製造前)diff は affected_refs 3 件+台帳系のみ(論点 d の裁定次第で .claude/skills/converge/SKILL.md が加わる)、他は diff ゼロ。**C7 は README を直さなければ FAIL する** — c7_readme() が bomdd-init の SKILLS 実数と README の「スキル N 本」全一致を検査するため、8→9 本化には README.md:19 の更新が必須(製造に含める)。C4 は判定不変(参照スキル数は表示のみで固定本数の assertion なし・検査は参照の非空と参照先の実在)。C13 も判定不変(converge SKILL.md の markdown リンクは 0 件)。既存 8 スキルの内容・挙動は不変。既設製品リポへは kit 再設置まで非波及。適用範囲の二重化は起きない(SKILL 本文が「機械受入がある是正実施には使わない — /eco-fix がその収束機構」と宣言済み・TimetableAdv で実証)"
     diff_audit:
-      baseline: "4804566"  # 起票時 HEAD。是正開始直前(gate ① 記録コミット)へ承認後に更新する
-      allowed_paths: [method/templates/product-profile/skills/, method/tools/bomdd-init.py, README.md]
+      baseline: "731d9fb"  # 起票時 4804566 → 是正開始直前(gate ① 記録コミット)へ更新
+      head: "b3503f4"      # diff監査済み: 窓内は affected_refs+D-1 分(.claude/skills/converge/)+台帳系のみ・予測的中
+      allowed_paths: [method/templates/product-profile/skills/, method/tools/bomdd-init.py, README.md, .claude/skills/converge/]
     summary: >
       製造対象(a)= product-profile/skills/converge.md を新設し BomDD を正本とする。
       (b)= bomdd-init.py の SKILLS へ converge を追加(8→9 本)+ README のスキル本数表記を更新。
@@ -1018,3 +1019,17 @@ changes:
       self-conformance への converge 固有検査の追加(§8.5 に従い実測後)。
       **gate ① 承認 2026-08-28 maintainer**「gate ① 承認。A-1 + D-1 で製造に進んで」—
       (c)= A-1 採択・(d)= D-1 採択。
+    verification: >
+      V1= PASS(bomdd-init の実 scaffold で .claude/skills/converge/SKILL.md が実在し AGENTS.md
+      から参照〔参照 18 件・missing なし〕。BomDD 側の写しもハーネスのスキル一覧に出現)。
+      V2= PASS(配布物に製品固有 ID〔FO-SIT-FIX-003・ECO-013/021/022〕の残存なし・表 B の
+      追記領域あり・プレースホルダー置換済み)。V3= PASS(self-conformance 全 17 検査 PASS・
+      FAIL 0・[C7] [9] = SKILLS 実数 9 で復帰)。V5= PASS(窓 731d9fb→b3503f4 内は
+      affected_refs+D-1 分+台帳系のみ)。V4= PASS(CI run 33120966741・conclusion success・
+      headSha b3503f4 がローカル HEAD と一致。取得時に「別 commit の結果しかない」状態を一度
+      経由し headSha 照合で回避)。
+      較正(予防ゲート・陽性対照)= CAL-1 成立(SKILLS 9/README 8 で [C7] FAIL が発火し、
+      落ちたのは C7 の 1 件のみ・同実行の C4/C13 は判定不変)/ CAL-2 成立(実 scaffold へ C4 と
+      同一判定を適用し SKILL.md 削除で PASS→FAIL へ転化・missing=['converge']・巻き添えなし)。
+      ECO-030 で予防面の対照を落とした反省の適用であり EXP-20260828-06 の第 1 回観測。
+      詳細は order §4〜§6。

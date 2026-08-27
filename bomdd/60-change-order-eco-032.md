@@ -227,9 +227,31 @@ playbook §4.4 の対応表では**予防側**にあたる。赤プローブは�
 漏れていた)。assert がなければプレースホルダーの露出した写しがそのまま入っていた。
 **fail-closed が設置者の眼前で作動した実測**(§13 遮断方向の規則)。
 
-## 5. CI 実測(V4・push 後に追記)
+## 5. CI 実測(V4)
 
-- 対象 revision:
-- run 識別子:
-- 結論(PASS / FAIL / UNKNOWN / OVERRIDDEN):
-- 観測日時 / 観測主体:
+- 対象 revision: `b3503f4135655ba3f23cffe74e241049f915f641`(**ローカル HEAD と一致を確認**)
+- 規則版: workflow `self-conformance`(リポ内定義= 測定器)
+- run 識別子: 33120966741 — https://github.com/akiramei/BomDD/actions/runs/33120966741
+- 結論: **PASS**(`status: completed` / `conclusion: success`)
+- 観測日時 / 観測主体: 2026-08-28 / 本 ECO の担当設備(§担当設備)
+- UNKNOWN の理由コード: 該当なし。**ただし取得時に「別 commit の結果しかない」状態を一度経由した**
+  — `gh run list --limit 1` は push 直後で前回 push の run(33117916712 / `c987e34`)を返しており、
+  `headSha` で照合せずに使えば前回の緑を本 ECO の結論として記録していた。**照合を経て正しい run
+  を特定**した(§13 の 4 値判定・理由コード「別 commit の結果しかない」の実発生と回避)。
+
+## 6. クローズ
+
+- diff 監査の窓: baseline `731d9fb` → head `b3503f4`(**窓閉鎖**)。窓内は
+  `README.md` / `method/tools/bomdd-init.py` / `method/templates/product-profile/skills/converge.md`(新設)/
+  `.claude/skills/converge/SKILL.md`(新設・裁定 D-1 分)+ 台帳系のみ — 影響なし予測が的中。
+- 受入: V1 / V2 / V3 / V4 / V5 すべて PASS。較正 CAL-1 / CAL-2 いずれも成立。
+- **恒久回帰**: C7(README のスキル本数 = SKILLS 実数)と C4(AGENTS.md 参照スキルの実在)が
+  本変更クラスの再発を遮断する。**両者が実際に作動することの陽性対照を製造中に実測済み**
+  (CAL-1 / CAL-2・§4)。§13「恒久回帰と、その検出器が実際に作動することを示す陽性対照を
+  自己適合ゲートへ収載してからクローズする」を充足。
+  **ECO-030 との差**: あちらは予防面の対照を設計せず偶発の実発生に依存した。本 ECO は
+  起票時に設計して製造中に発火させた = **EXP-20260828-06 の第 1 回観測**。
+- 残(いずれも本 ECO のスコープ外・宣言済み境界):
+  - **TimetableAdv 側の正本降格・同期** — 移管先が実在したため起票可能な状態になった。別リポ ECO。
+  - 既設製品リポへの遡及設置 — 各リポの裁定。
+  - `self-conformance` への converge 固有検査の追加 — §8.5 に従い実測後。
