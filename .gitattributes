@@ -1,0 +1,27 @@
+# 表現の規約 — playbook §13「記録規約 第 1 層(座標同一性)」③ の自己適用
+#
+# 由来(実測 2026-08-28): 本リポは system core.autocrlf=true を local core.autocrlf=false
+# だけで打ち消していた。local 設定はクローンへ引き継がれないため、フレッシュクローンは
+# system 既定を継承する — ViewTube ECO-VT-070 で 1,397/4,615 ファイルがバイト相違し、
+# validator が作業ツリーで通りクローンで落ちた事象と同じ構成。宣言をリポ側へ移す。
+#
+# 関連規則: playbook §13「表現(改行・エンコーディング)はバイト精度で扱う」
+#           — 機械書き換えの I/O 規律(バイト I/O・newline 明示)は本ファイルの担当外。
+#           本ファイルは checkout/add 経路のみを固定し、残余は関門検査が担う。
+
+# --- 既定 ---
+# テキストはリポ内 LF、作業ツリーも LF。core.autocrlf / core.eol の環境差を上書きする。
+* text=auto eol=lf
+
+# --- 証拠クラス: 取得時のバイト列を保存する(再正規化しない)---
+# 実測(2026-08-28): loops/ 配下に CRLF のまま保存された取得物が 63 件ある
+# (実行ログ・diff・orig/repro 対)。改行は観測データの一部であり、正規化は事後復元
+# 不可能 — playbook §13「不可逆観測データの保存義務は rule of three を待たない」。
+loops/**            -text
+
+# --- バイナリ(text=auto の自動判定に頼らず明示する)---
+*.jpg               binary
+*.png               binary
+*.db                binary
+*.docx              binary
+*.dump              binary
