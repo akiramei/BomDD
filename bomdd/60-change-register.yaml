@@ -926,7 +926,7 @@ changes:
     affected_refs: [method/tools/ui-cad-gate.py, method/tools/ui-extract.py, method/templates/36-ui-dictionary.yaml, method/templates/37-ui-rulings.yaml, method/prompts/ui-apply-rulings-to-bom.md, method/prompts/ui-raw-to-candidates.md]
     no_impact_prediction: "(製造前)diff は affected_refs 6 件+台帳系のみ、他ファイルは diff ゼロ。6 件は内容差ゼロ(EOL のみ)で全行差分になるが挙動不変(Python 字句解析・PyYAML・Markdown いずれも改行非依存)。C1〜C15 判定不変 — 特に C4 は scaffold 時に manifest を再生成するためソース側バイト変更でも整合が保たれる。既設製品リポへは kit 再設置まで非波及(kit-freshness の STALE は commit 距離で測り内容ハッシュでは測らないため TAMPERED にならない)"
     diff_audit:
-      baseline: "54e1209"  # 起票時 HEAD。是正開始直前(起票コミット)へ gate ① 承認後に更新する
+      baseline: "b8ad483"  # 起票時 54e1209 → 是正開始直前(gate ① 記録コミット)へ更新
       allowed_paths: [method/tools/, method/templates/, method/prompts/]
     summary: >
       是正(a)= 6 件を LF へ正規化。バイト I/O で行い内容不変を assert(改行除去後のバイト列

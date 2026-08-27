@@ -121,7 +121,51 @@ diff 監査・窓監査を同時に無効化した失敗を、正規化する側
   - **V5**: 是正コミットが**表現正規化のみ**であることを diff 監査で確認
     (窓内が affected_refs + 台帳系のみ・内容行の変更ゼロ)。
 
-## 4. CI 実測(push 後に追記)
+## 4. 製造と受入実測(2026-08-28)
+
+### 製造
+
+- diff 監査の窓: baseline `b8ad483`(gate ① 記録コミット= 是正開始直前)→ head は本節末に追記。
+- 方式: バイト I/O(`read_bytes` → `replace(b"
+", b"
+")` → `write_bytes`)。
+  書き換え前に ①作業ツリーと `HEAD:` blob のバイト一致 ②lone CR ゼロ を assert し、
+  いずれかが崩れたら中止する形で実行した。
+
+| ファイル | CRLF | bytes 前 → 後 | 差 = CRLF 数 |
+|---|---:|---|---|
+| `method/tools/ui-cad-gate.py` | 293 | 13402 → 13109 | ✔ |
+| `method/tools/ui-extract.py` | 323 | 12817 → 12494 | ✔ |
+| `method/templates/36-ui-dictionary.yaml` | 52 | 2704 → 2652 | ✔ |
+| `method/templates/37-ui-rulings.yaml` | 100 | 5634 → 5534 | ✔ |
+| `method/prompts/ui-apply-rulings-to-bom.md` | 34 | 2154 → 2120 | ✔ |
+| `method/prompts/ui-raw-to-candidates.md` | 41 | 3088 → 3047 | ✔ |
+
+**バイト差が全件 CRLF 数と厳密一致** — 差が改行のみであることの機械的裏づけ。
+
+### 受入
+
+- **V1 PASS**: `method/` 配下で CR を含むファイル **0 件**(較正の赤 6 件 → 0 件)。
+- **V2 PASS**: 全 6 件が `git ls-files --eol` で `i/lf w/lf`。内容不変は上表の
+  バイト差一致 + 書き換え時の assert(改行除去後のバイト列一致)で確認。
+- **V3 PASS**: `self-conformance` 全 17 検査 PASS・FAIL 0 件・exit 0。
+  影響なし予測どおり **C4 は不変**:
+  `[C4] PASS scaffold 煙試験(絶対パス漏れ 0 件・lock/manifest 整合 True・AGENTS.md 参照スキル 16 件・生成 YAML 厳格パース 全数)`
+  — scaffold 時に manifest を再生成するため、ソース側バイトが変わっても整合が保たれることの実測。
+- **V5 PASS**: 変更ファイルは affected_refs 6 件のみ、他は diff ゼロ
+  (影響なし予測「他ファイルは diff ゼロ」が的中)。全行差分だが内容行の変更はゼロ。
+- **V4**: 下記。
+
+### 計器の運用欠陥(本 ECO 内で自己検出・記録)
+
+受入証拠を取る実行を `| tail -8` でパイプしたため、**出力ファイルに C4 の行が残らなかった**
+(集約判定 exit 0 は残ったが、order に「C4 込み」と書く根拠となる行単位の証拠が欠けた)。
+全文キャプチャで再実行して取得。**同型が本セッション内で 2 度目** — `gh run watch` を
+`tail` へ繋いで `$?` が tail の終了コードになり、CI の結論の証拠にならなかった件と同じ
+(そちらは `gh run view --json conclusion` で取り直し)。
+**証拠を取る実行はパイプしない**(切り詰めと終了コードの両方を失う)。
+
+## 5. CI 実測(V4・push 後に追記)
 
 - 対象 revision:
 - run 識別子:
