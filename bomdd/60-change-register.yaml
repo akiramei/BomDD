@@ -909,3 +909,34 @@ changes:
       5 ref+GF 定義 1)を両方言併記で追加(ref-v0.5/0.9「実物が正」前例)。散文面・presence 面は
       宣言済み境界として order に明文化(閉鎖には記録構造化 or lint 規則新設の別 ECO)。
     verification: "V1= 改竄 4 種(世代キー別)が R-003 で個別発火・旧スキーマ素通りとの対照成立。V2= 正常台帳 error/warn 基線同値・info -4= 新エッジ参照先の孤立解消のみ(JSON diff で新規 0)。V3= self-conformance 全 PASS。V4= CI は order §4 に実測追記。詳細= order 参照"
+  - id: ECO-030
+    title: kit へバイトコピーで配布される 6 ファイルが FULL-CRLF(playbook §13 表現規則の配布面未適用)
+    date: 2026-08-28
+    origin: defect
+    status: filed
+    source: >
+      playbook §13「記録規約 第 1 層」③(表現の規約は .gitattributes で宣言する)の自己適用点検
+      (2026-08-28)。本リポに .gitattributes が存在せず、system core.autocrlf=true を
+      local core.autocrlf=false だけで打ち消していた(local はクローンへ引き継がれない)。
+      .gitattributes 新設(4191538)と docs/terminology.md の是正(54e1209)で 7 件中 1 件は
+      解消したが、残 6 件は method/ 配下にあり kit copytree でバイトコピー配布されるため
+      ハーネスにあたる。起票前の仮説「render() の newline 明示を通るので CRLF は落ちる」は
+      実測で反証(copytree/copy2 のバイトコピーであり render は通らない)。
+    order_ref: bomdd/60-change-order-eco-030.md
+    affected_refs: [method/tools/ui-cad-gate.py, method/tools/ui-extract.py, method/templates/36-ui-dictionary.yaml, method/templates/37-ui-rulings.yaml, method/prompts/ui-apply-rulings-to-bom.md, method/prompts/ui-raw-to-candidates.md]
+    no_impact_prediction: "(製造前)diff は affected_refs 6 件+台帳系のみ、他ファイルは diff ゼロ。6 件は内容差ゼロ(EOL のみ)で全行差分になるが挙動不変(Python 字句解析・PyYAML・Markdown いずれも改行非依存)。C1〜C15 判定不変 — 特に C4 は scaffold 時に manifest を再生成するためソース側バイト変更でも整合が保たれる。既設製品リポへは kit 再設置まで非波及(kit-freshness の STALE は commit 距離で測り内容ハッシュでは測らないため TAMPERED にならない)"
+    diff_audit:
+      baseline: "54e1209"  # 起票時 HEAD。是正開始直前(起票コミット)へ gate ① 承認後に更新する
+      allowed_paths: [method/tools/, method/templates/, method/prompts/]
+    summary: >
+      是正(a)= 6 件を LF へ正規化。バイト I/O で行い内容不変を assert(改行除去後のバイト列
+      一致・lone CR ゼロ)。--renormalize に委ねず明示的に書き換えるのは作業ツリーと index の
+      両方を一致させるため(副次実測で loops/metrics*.csv に index=LF/作業ツリー=CRLF の乖離が
+      stat キャッシュに隠れていた)。全行差分は意図した表現正規化であり内容変更と同一コミットに
+      混ぜない(ECO-024 の 756 行 CRLF 化を正規化側で繰り返さない)。
+      裁定対象(b)= kit への .gitattributes 同梱の要否 — 製品リポは BomDD 側の宣言を受け取らず
+      設置先で同じ system autocrlf 継承が起きる(ECO-VT-070 は製品リポ側の事象)。ただし
+      設置先の既存 .gitattributes との衝突規則と bomdd-init の冪等性設計が要る。
+      gate ① で「同 ECO 内 / 別 ECO / 見送り」を裁定する。
+      スコープ外= loops/ の取得物 63 件(-text で保存・不可逆観測データ)/ 既設製品リポの
+      kit 更新(各製品リポの裁定)/ self-conformance への存在検査追加(§8.5 に従い実測後)。
