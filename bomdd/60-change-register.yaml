@@ -1016,3 +1016,5 @@ changes:
       スコープ外= TimetableAdv 側の正本降格・同期(別リポ ECO)/ 既設製品リポへの遡及設置
       (各リポの裁定・2026-08-11 の「ViewTube には入れない」は既設への後付けの話として生きている)/
       self-conformance への converge 固有検査の追加(§8.5 に従い実測後)。
+      **gate ① 承認 2026-08-28 maintainer**「gate ① 承認。A-1 + D-1 で製造に進んで」—
+      (c)= A-1 採択・(d)= D-1 採択。
