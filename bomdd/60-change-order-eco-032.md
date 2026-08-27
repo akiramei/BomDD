@@ -163,7 +163,71 @@ playbook §4.4 の対応表では**予防側**にあたる。赤プローブは�
   - **V4**: push 後 CI 緑(4 値判定)。
   - **V5**: diff が影響なし予測の窓内(3 ファイル + 台帳系 +(d)裁定分)に収まる。
 
-## 4. CI 実測(V4・push 後に追記)
+## 4. 製造と較正の実測(2026-08-28)
+
+### 製造
+
+- diff 監査の窓: baseline `731d9fb`(gate ① 記録コミット= 是正開始直前)→ head は本節末に追記。
+- (a) `method/templates/product-profile/skills/converge.md` を新設(111 行)。**A-1 テーラリング**:
+  失敗型カタログを〈**表 A= 汎用型**(方法論側の正本・型の記述から製品固有の記述を除去し初出の
+  来歴のみ残す)〉と〈**表 B= 本リポ固有**(製品リポが所有する空の追記領域)〉へ分離。
+  学習ループの追記先を表 B に固定し、汎用化して表 A へ戻すのは `/lesson-promote` の仕事だと本文へ明記。
+- (b) `bomdd-init.py` の `SKILLS` へ `converge` を追加(8 → 9 本)+ README のスキル本数表記を更新。
+- (d) D-1: `.claude/skills/converge/SKILL.md`(117 行)を写しとして設置。冒頭に正本の所在と
+  同期規則(変更は正本側へ入れる・本ファイルだけを直接編集しない)を明記。
+- 元 SKILL からの実質的追加 3 点(本セッションまでの実測の反映): 失敗型 **⑦ 選択肢集合の欠落**
+  (初出= BomDD 2026-08-28・EXP-20260811-01 の測定対象)/ 手順 3 へ「**効果の予測は本手順では
+  裏取れない**」の明記 / 自発起動契約へ「散文の規定は起動を保証しない・**起動したこと自体を
+  成果物に残す**」の注記(OBS-20260828-02)。
+
+### 較正(予防ゲート — 陽性対照。**下記の赤は期待された赤であり不適合ではない**)
+
+- **CAL-1 成立**: `SKILLS` を 9 本にし README を 8 本のままにした状態で `self-conformance` を実行:
+
+  ```
+  [C7] FAIL README のスキル本数表記 [8] = SKILLS 実数 9
+  self-conformance FAILED — 1 件の不適合   (exit 1)
+  ```
+
+  **落ちたのは C7 の 1 件のみ**で、同実行の `[C4] PASS`(参照スキル 18 件)・
+  `[C13] PASS`(設置先文脈 25 files/71 links)は判定不変 — **その規則固有の理由で赤くなり、
+  他検査の巻き添えや schema 不足で覆い隠されていない**ことの実測(DoD 条件)。
+- **CAL-2 成立**: `bomdd-init` で実 scaffold を生成し、`self-conformance.py:223-226` と同一の
+  判定ロジック(AGENTS.md の参照抽出 → 参照先 SKILL.md の実在確認)を適用:
+
+  ```
+  [CAL-2 前] 判定= PASS / 参照 18 件(ユニーク 9 スキル・各 2 回参照)
+  [CAL-2 後] 判定= FAIL / missing= ['converge']
+  [CAL-2] 陽性対照= 成立(PASS→FAIL へ転化・巻き添えなし)
+  ```
+
+  converge の SKILL.md を削除すると PASS → FAIL へ転化し、他スキルへの巻き添えはゼロ。
+- **由来**: ECO-030 は予防面の陽性対照を設計せず偶発の実発生に依存した(OBS-20260828-05)。
+  本 ECO はその反省を起票時に適用した最初の事例であり、**EXP-20260828-06 の第 1 回観測**にあたる。
+
+### 受入
+
+- **V1 PASS**: 実 scaffold で `.claude/skills/converge/SKILL.md` が実在し、AGENTS.md から
+  参照されている(判定 PASS・missing なし)。加えて **BomDD 側の写しはハーネスのスキル一覧へ
+  実際に現れた**(D-1 の実地確認)。
+- **V2 PASS**(A-1 採択のため「製品固有 ID が残っていない」で判定): 配布された SKILL.md に
+  `FO-SIT-FIX-003` `ECO-013` `ECO-021` `ECO-022` の残存**なし**。表 B(製品固有の追記領域)が
+  存在し、プレースホルダーは置換済み。
+- **V3 PASS**: `self-conformance` 全 17 検査 PASS・FAIL 0・exit 0。
+  `[C7] PASS README のスキル本数表記 [9] = SKILLS 実数 9` で復帰。
+- **V5 PASS**: 変更は `README.md` / `method/tools/bomdd-init.py` /
+  `method/templates/product-profile/skills/converge.md`(新設)/ `.claude/skills/converge/`(新設・
+  裁定 D-1 分)+ 台帳系のみ — **影響なし予測の窓内**。
+- **V4**: 下記。
+
+### 製造中の計器の所見(記録)
+
+写しを生成する処理に置いた `assert '{{' not in body` が、**未置換のプレースホルダー 1 件を
+捕捉した**(「表 A は方法論側の正本(`{{METHOD}}` 配下)」— `/method/` が続かないため単純置換から
+漏れていた)。assert がなければプレースホルダーの露出した写しがそのまま入っていた。
+**fail-closed が設置者の眼前で作動した実測**(§13 遮断方向の規則)。
+
+## 5. CI 実測(V4・push 後に追記)
 
 - 対象 revision:
 - run 識別子:
