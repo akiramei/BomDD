@@ -913,7 +913,7 @@ changes:
     title: kit へバイトコピーで配布される 6 ファイルが FULL-CRLF(playbook §13 表現規則の配布面未適用)
     date: 2026-08-28
     origin: defect
-    status: filed
+    status: verified   # 2026-08-28 受入= V1 (CR 6→0)・V2 (全件 i/lf w/lf・バイト差=CRLF 数)・V3 (全 17 検査 PASS)・V5 (窓内は affected_refs+台帳系のみ)・V4 (CI success @4235be4)
     source: >
       playbook §13「記録規約 第 1 層」③(表現の規約は .gitattributes で宣言する)の自己適用点検
       (2026-08-28)。本リポに .gitattributes が存在せず、system core.autocrlf=true を
@@ -927,6 +927,7 @@ changes:
     no_impact_prediction: "(製造前)diff は affected_refs 6 件+台帳系のみ、他ファイルは diff ゼロ。6 件は内容差ゼロ(EOL のみ)で全行差分になるが挙動不変(Python 字句解析・PyYAML・Markdown いずれも改行非依存)。C1〜C15 判定不変 — 特に C4 は scaffold 時に manifest を再生成するためソース側バイト変更でも整合が保たれる。既設製品リポへは kit 再設置まで非波及(kit-freshness の STALE は commit 距離で測り内容ハッシュでは測らないため TAMPERED にならない)"
     diff_audit:
       baseline: "b8ad483"  # 起票時 54e1209 → 是正開始直前(gate ① 記録コミット)へ更新
+      head: "4235be4"      # diff監査済み: 窓内は affected_refs 6 件+台帳系のみ・影響なし予測的中
       allowed_paths: [method/tools/, method/templates/, method/prompts/]
     summary: >
       是正(a)= 6 件を LF へ正規化。バイト I/O で行い内容不変を assert(改行除去後のバイト列
@@ -939,6 +940,17 @@ changes:
       設置先の既存 .gitattributes との衝突規則と bomdd-init の冪等性設計が要る。
       **gate ① 承認 2026-08-28 maintainer**「gate ① 承認。b-2 で別 ECO に切る。push して
       製造に進んで」— (b) は ECO-031 へ分離し、本 ECO の製造対象は (a) のみ。
+    verification: >
+      V1= PASS(method/ 配下の CR を含むファイルが較正の赤 6 件 → 0 件)。V2= PASS(全 6 件が
+      git ls-files --eol で i/lf w/lf。内容不変は「バイト差 = CRLF 数」の厳密一致
+      〔293/323/52/100/34/41〕と書き換え時 assert で確認)。V3= PASS(self-conformance
+      全 17 検査 PASS・FAIL 0・exit 0。影響なし予測どおり C4 は lock/manifest 整合 True で不変
+      — scaffold 時に manifest を再生成するためソース側バイト変更でも整合が保たれる)。
+      V5= PASS(窓 b8ad483→4235be4 内は affected_refs 6 件+台帳系のみ・内容行の変更ゼロ)。
+      V4= PASS(CI run 33110813052・conclusion success・headSha 4235be4 がローカル HEAD と一致)。
+      製造中の記録層欠陥 1 件(order の方式行に実バイトの CR/LF を書き正規化で 3 行に割れた)を
+      同 ECO 内で是正 — 検出は新設 .gitattributes による git add の警告で、恒久回帰の陽性対照を
+      兼ねる。詳細は order §4・§6。
       スコープ外= loops/ の取得物 63 件(-text で保存・不可逆観測データ)/ 既設製品リポの
       kit 更新(各製品リポの裁定)/ self-conformance への存在検査追加(§8.5 に従い実測後)。
 

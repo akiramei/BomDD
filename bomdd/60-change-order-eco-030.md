@@ -174,9 +174,26 @@ diff 監査・窓監査を同時に無効化した失敗を、正規化する側
 置かない)。本セッション内の同型 3 例(パイプ 2 件+本件)は、いずれも「計器・記録の側」で
 起きており製造対象には及んでいない。
 
-## 5. CI 実測(V4・push 後に追記)
+## 5. CI 実測(V4)
 
-- 対象 revision:
-- run 識別子:
-- 結論(PASS / FAIL / UNKNOWN / OVERRIDDEN):
-- 観測日時 / 観測主体:
+- 対象 revision: `4235be4c2c7c2398b910a57a948a077a4c6b0cd9`(**ローカル HEAD と一致を確認**)
+- 規則版: workflow `self-conformance`(リポ内定義= 測定器。FINDINGS §11.6 の訂正どおり
+  信頼アンカーではない)
+- run 識別子: 33110813052 — https://github.com/akiramei/BomDD/actions/runs/33110813052
+- 結論: **PASS**(`status: completed` / `conclusion: success`)
+- 観測日時 / 観測主体: 2026-08-28 / 本 ECO の担当設備(§担当設備)
+- UNKNOWN の理由コード: 該当なし(別 commit の結果でない・規則版一致・結果は当該 push のもの)
+
+## 6. クローズ
+
+- diff 監査の窓: baseline `b8ad483` → head `4235be4`(**窓閉鎖**)。
+  窓内は affected_refs 6 件 + 台帳系(本 order・register)のみ — 影響なし予測が的中。
+- 受入: V1 / V2 / V3 / V4 / V5 すべて PASS。
+- **恒久回帰**: `.gitattributes` の `* text=auto eol=lf`(4191538)が本欠陥クラスの再発を
+  checkout/add 経路で遮断する。本 ECO 内で**その遮断が実際に作動した実測**を得た
+  (§4「計器の運用欠陥」3 例目 — 新設した宣言が order 自身の混入 CR を `git add` の
+  警告として捕捉)。§13「ECO による是正は恒久回帰と、その検出器が実際に作動することを
+  示す陽性対照を収載してからクローズする」の充足はこの実測をもって行う。
+  **なお `self-conformance` への存在検査(④)追加は採らない**(§8.5 — 様式化・validator
+  強制は実測後に判断。宣言済み境界のとおり)。
+- 残: kit への `.gitattributes` 同梱は **ECO-031**(filed・方式未決)。
