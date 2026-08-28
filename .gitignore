@@ -32,3 +32,9 @@ experiments/**/migration/tools/
 experiments/**/migration/.templates/
 experiments/**/migration/guide/
 experiments/**/run-a1-kit/migration-runbook.md
+
+# Python バイトコード(method/tools/ の治具を import・実行すると生成される再生成物)。
+# bomdd-init は kit 配布時に既に ignore_patterns("__pycache__", "*.pyc") で除外しており、
+# 自リポ側の水平展開漏れだった — 実測 3 回発生(2026-07-26 は fix commit へ混入し b525d01 で除去)。
+__pycache__/
+*.pyc
