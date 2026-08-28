@@ -958,7 +958,7 @@ changes:
     title: 配布 kit へ表現規約(.gitattributes)を同梱するか — bomdd-init の配布仕様
     date: 2026-08-28
     origin: defect
-    status: filed
+    status: verified   # 2026-08-28 受入= V1(3 分岐 6 fixture)・V2(lock へ 3 値記録)・V3(全 17 検査 PASS・C4/C7/C13 判定不変)・V5(窓内は bomdd-init.py+台帳系)・V4(CI success @4ac167e)。較正 CAL-0+CAL-1〜3c 成立
     source: >
       ECO-030 gate ①(2026-08-28 maintainer)の裁定 b-2 により分離。分離理由= ECO-030(a)は
       内容差ゼロの機械的正規化で受入が明快だが、本件は bomdd-init の冪等性(既存 kit を保持する
@@ -972,6 +972,7 @@ changes:
     no_impact_prediction: "(製造前・gate ① で方式確定のため凍結)diff は method/tools/bomdd-init.py + 台帳系のみ、他ファイルは diff ゼロ(設置内容は生成器が書き出すためテンプレを新設しない)。C4 は判定不変(絶対パス漏れ・lock/manifest 整合・AGENTS.md 参照スキルの実在・生成 YAML 厳格パースのいずれにも触れない。manifest 件数は増えるが整合判定は不変)。C7 判定不変(SKILLS 実数に触れない)。C13 判定不変(設置ファイルに markdown リンクを置かない)。既存スキル・テンプレの内容は不変。既設製品リポへは非波及(bomdd-init.py:144-150 で既存 kit は保持して return)。既存 .gitattributes を持つ設置先を破壊しない"
     diff_audit:
       baseline: "bd688bc"  # 起票時未定 → 是正開始直前(gate ① 記録コミット)へ更新
+      head: "4ac167e"      # diff監査済み: 窓内は bomdd-init.py+台帳系のみ・影響なし予測的中
       allowed_paths: [method/tools/bomdd-init.py]
     summary: >
       決めるべき論点 4 点= ①設置先(目的から言えばリポ直下でなければ core.autocrlf 継承は
@@ -997,6 +998,20 @@ changes:
       較正= CAL-0(赤プローブ: 現行生成物に .gitattributes 不在)+ CAL-1/2/3(衝突規則の
       3 分岐がそれぞれ固有の理由で発火。**CAL-3 が preexisting になったら判定が存在判定へ
       退化している**= 追補実測②の再発検出)。
+    verification: >
+      V1= PASS(衝突規則の 3 分岐を 6 fixture で実測。fixture は実在リポの形をそのまま使用
+      〔TimetableAdv `* -text` / BomDD `* text=auto eol=lf` / MoviePad eol 未指定 /
+      ViewTube `*` 行なし / コメントのみ / 既存なし〕。全分岐で既存はバイト単位保持され、
+      CAL-3a/3b が preexisting にならないことで判定が存在判定へ退化していないことを確認)。
+      V2= PASS(設置判定が bomdd.lock の adapter.gitattributes へ記録される — end-to-end で
+      installed を確認)。V3= PASS(self-conformance 全 17 検査 PASS・影響なし予測どおり
+      C4〔参照スキル 18 件・lock/manifest 整合 True〕・C7・C13 は判定不変)。
+      V5= PASS(窓 bd688bc→4ac167e 内は method/tools/bomdd-init.py 1 ファイル+台帳系のみ。
+      較正の副産物 __pycache__ は commit 前に除去)。V4= PASS(CI run 33140450374・
+      conclusion success・headSha 4ac167e がローカル HEAD と一致)。
+      製造で carve-out は入れていない — bomdd-init が作る非 kit ディレクトリにバイト厳密な
+      取得物を置く面が実在しないため(凍結方式の集合が空という適用結果・逸脱ではない)。
+      詳細は order §4〜§6。
 
   - id: ECO-032
     title: /converge を配布スキルへ昇格し、正本を BomDD へ移す(TimetableAdv 実績を経ての昇格)

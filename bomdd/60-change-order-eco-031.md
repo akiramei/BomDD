@@ -231,9 +231,29 @@ adapter 節へ記録する。**沈黙と健全を区別する**ため。
 **改行を扱うコードを書くときに改行で壊れる**型であり、ECO-030 の order 破損(§4)と同型。
 成果物には及んでいない(構文検査が設置者の眼前で捕捉)。
 
-## 5. CI 実測(V4・push 後に追記)
+## 5. CI 実測(V4)
 
-- 対象 revision:
-- run 識別子:
-- 結論(PASS / FAIL / UNKNOWN / OVERRIDDEN):
-- 観測日時 / 観測主体:
+- 対象 revision: `4ac167e6492d438137b34b316bf815dbd887e604`(**ローカル HEAD と一致を確認**)
+- 規則版: workflow `self-conformance`(リポ内定義= 測定器)
+- run 識別子: 33140450374 — https://github.com/akiramei/BomDD/actions/runs/33140450374
+- 結論: **PASS**(`status: completed` / `conclusion: success`)
+- 観測日時 / 観測主体: 2026-08-28 / 本 ECO の担当設備(§担当設備)
+- UNKNOWN の理由コード: 該当なし(run は headSha で照合して特定した)
+
+## 6. クローズ
+
+- diff 監査の窓: baseline `bd688bc` → head `4ac167e`(**窓閉鎖**)。窓内は
+  `method/tools/bomdd-init.py` + 台帳系のみ — 影響なし予測が的中。
+- 受入: V1 / V2 / V3 / V4 / V5 すべて PASS。較正 CAL-0 および CAL-1〜3c(6 分岐)すべて成立。
+- **恒久回帰**: `install_gitattributes` 自身が、以後の全 scaffold で表現規約の宣言状態を
+  3 値判定して出力・記録する(沈黙と健全を区別する)。**その判定が実際に分岐することの
+  陽性対照を製造中に実測済み**(CAL-1〜3c・§4)。§13「恒久回帰と、その検出器が実際に作動する
+  ことを示す陽性対照を収載してからクローズする」を充足。
+  **`self-conformance` への設置検査(④)追加は採らない** — 起票時の宣言済み境界どおり、
+  §8.5 に従い必要が実測されてから判断する。
+- 残(宣言済み境界):
+  - **既設製品リポへの遡及** — 各リポの裁定。判断材料として §0 追補実測③の表
+    (BomDD 系 10 リポ中 保護 3 / 不完全 2 / 無宣言 5+)を本 order に残す。
+    `bomdd-init` は既存 kit を保持して return するため(`bomdd-init.py:144-150`)、
+    本変更は既設リポへ届かない。
+  - `self-conformance` への converge/gitattributes 固有検査の追加 — §8.5 に従い実測後。
