@@ -418,7 +418,7 @@ changes:
     title: process-validator の証拠意味論・台帳解析の fail-closed 強化(独立検査 REV-01 部分/02/03/04/08/09/10/13 の是正)
     date: 2026-07-26
     origin: defect
-    status: filed
+    status: verified   # 2026-07-26 受入= accept c9ecfe7(selftest 45/実プローブ 9/回帰/決定性)。窓閉鎖 head=b525d01。**status 遷移が漏れていた — 2026-08-29 に遷移(是正済み・実体変更なし)**
     source: >
       ECO-015 後追い独立受入検査(transfer-04 様式・検査官= Codex 実応答モデル gpt-5.6-sol・
       セッション 019f9b81-bc1b-78d0-9870-40eb15e7a252・read-only・情報遮断)= REJECT。
@@ -455,7 +455,7 @@ changes:
     title: qualification runner・bomdd-init・C11 の隔離と判定精度(独立検査 REV-05/06/07/11/12 の是正)
     date: 2026-07-26
     origin: defect
-    status: filed
+    status: verified   # 2026-07-26 受入= accept 9e5fa49(17 項目 qualification・負例 6 種・GIT_* 汚染下の隔離実測)。窓閉鎖 head=d8bfbea。**status 遷移が漏れていた — 2026-08-29 に遷移**
     source: >
       ECO-016 と同一出典(ECO-015 独立受入検査 REJECT・真正判定 13/13 CONFIRMED)。
       同族の系譜: REV-07 は ECO-009 #2(kit 完全性検査)の水平展開漏れ=是正済み様式が隣の
@@ -492,7 +492,7 @@ changes:
     title: 強制層の自己保護と履歴合法性の二層化(再独立検査 NEW-01/02/03 の是正 — hook 単層では閉じない構造穴)
     date: 2026-07-26
     origin: defect
-    status: filed
+    status: verified   # 2026-07-26 受入= accept 506d8d9(24 対照全 PASS・NEW-01/02/03 を直接プローブで閉鎖・POS2 誤 FAIL なし)。窓閉鎖 head=6a33d62。**status 遷移が漏れていた — 2026-08-29 に遷移**
     source: >
       ECO-016/017 合同再独立検査(transfer-04 様式・検査官= Codex 実応答モデル gpt-5.6-sol・
       セッション 019f9c8f-c6d5-7002-b20f-3a8e4f3797ac・read-only・情報遮断・fresh 起動+resume 完了)
@@ -538,7 +538,7 @@ changes:
     title: 第 2 層の基準統一・証拠要求単位の是正・設備無力化と保護パスの履歴検査(再々独立検査の在庫可能分)
     date: 2026-07-27
     origin: defect
-    status: filed
+    status: verified   # 2026-07-27 受入= accept 74f64b7(30 対照全 PASS・再々検査の再現条件 3 件を閉鎖・POS3/POS4 誤 FAIL なし・IA-02/03 は宣言済み境界)。窓閉鎖 head=f6a840c。**status 遷移が漏れていた — 2026-08-29 に遷移**
     source: >
       ECO-018 再々独立検査(transfer-04 様式・検査官= Codex 実応答モデル gpt-5.6-sol・
       セッション 019f9ee7-ad8c-7f01-b503-d5fa4b954936・read-only・情報遮断・fresh)= REJECT。
