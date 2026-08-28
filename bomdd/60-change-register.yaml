@@ -969,7 +969,10 @@ changes:
       (ViewTube ECO-VT-070 の 1,397/4,615 バイト相違はまさに製品リポ側の事象)。
     order_ref: bomdd/60-change-order-eco-031.md
     affected_refs: [method/tools/bomdd-init.py]
-    no_impact_prediction: "(未凍結)本 ECO は方式が未決のため、影響なし予測は gate ① で方式が確定してから凍結する — 未決のまま予測を書くと反証不能になるため(予測は方式に対して立てるもの)"
+    no_impact_prediction: "(製造前・gate ① で方式確定のため凍結)diff は method/tools/bomdd-init.py + 台帳系のみ、他ファイルは diff ゼロ(設置内容は生成器が書き出すためテンプレを新設しない)。C4 は判定不変(絶対パス漏れ・lock/manifest 整合・AGENTS.md 参照スキルの実在・生成 YAML 厳格パースのいずれにも触れない。manifest 件数は増えるが整合判定は不変)。C7 判定不変(SKILLS 実数に触れない)。C13 判定不変(設置ファイルに markdown リンクを置かない)。既存スキル・テンプレの内容は不変。既設製品リポへは非波及(bomdd-init.py:144-150 で既存 kit は保持して return)。既存 .gitattributes を持つ設置先を破壊しない"
+    diff_audit:
+      baseline: "PENDING"  # 是正開始直前(gate ① 記録コミット)へ更新する
+      allowed_paths: [method/tools/bomdd-init.py]
     summary: >
       決めるべき論点 4 点= ①設置先(目的から言えばリポ直下でなければ core.autocrlf 継承は
       防げない)②既存 .gitattributes との衝突規則(bomdd-init の「既存は保持」思想と、
@@ -979,6 +982,21 @@ changes:
       警告して続行(設置は開発着手であって昇格ではない — §13「止めるのは作業でなく信頼済み
       状態への昇格」)/設置有無を来歴へ記録(installed|preexisting|skipped — 沈黙と健全を
       区別する)。較正・受入は方式確定後に凍結。
+      **gate ① 承認 2026-08-28 maintainer**「推奨で進めて。gate ① 承認、order へ反映して」—
+      §1.1 の推奨方式を採択。**gate ① 前の追補実測で起票時の前提 3 件が崩れた**:
+      ①製品リポに .gitattributes が無いは誤り(TimetableAdv は `* -text whitespace=cr-at-eol` を
+      ECO-002 で導入済み・CR 152 blob は全件保護され壊れていない → 上書きは意図的方針の破壊)
+      ②宣言があれば継承は止まるは誤り(ViewTube は ECO-VT-070 後に導入済みだが `*` の既定行が
+      なく大半が text/eol unspecified → 判定条件は存在ではなく `*` 行の有無)
+      ③遡及の必要は小さいは誤り(BomDD 系 10 リポ中 保護 3・不完全 2・無宣言 5+)。
+      確定方式= 論点1 リポ直下 / 論点2 既存は触れず判定を installed|preexisting|incomplete の
+      3 値にし incomplete は警告(存在判定では MoviePad・ViewTube が素通りする)/
+      論点3 `* text=auto eol=lf`+既知バイナリ+工程証拠パスの carve-out+**逃げ道の明記**
+      (バイト厳密成果物なら `* -text` へ切替・切替は早いほど安い= 既定の誤りを不可逆にしない出口)/
+      論点4 遡及は各リポ裁定・実測表を判断材料として order に残す。
+      較正= CAL-0(赤プローブ: 現行生成物に .gitattributes 不在)+ CAL-1/2/3(衝突規則の
+      3 分岐がそれぞれ固有の理由で発火。**CAL-3 が preexisting になったら判定が存在判定へ
+      退化している**= 追補実測②の再発検出)。
 
   - id: ECO-032
     title: /converge を配布スキルへ昇格し、正本を BomDD へ移す(TimetableAdv 実績を経ての昇格)
