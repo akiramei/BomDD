@@ -140,6 +140,14 @@ def _kit_integrity_problems(root: Path, kit: Path) -> list[str]:
 
 def install_kit(root: Path, created: str, skills: list[str]) -> None:
     """method/ 全体を凍結コピーし、per-file sha256 manifest と bomdd.lock を書く"""
+    # ECO-031: 表現規約は kit 同梱でなくリポ直下へ設置する(bomdd/ 配下では `*` が全体に効かない)。
+    # 早期 return の前に置く — 再実行・--skills-only でも宣言だけは行き渡らせる。
+    gitattributes = install_gitattributes(root)
+    if gitattributes == "incomplete":
+        print(f"[warn] {root / '.gitattributes'} の表現規約が不完全 — "
+              "`*` の既定行(eol= または -text)を確認してください(ECO-031)")
+    else:
+        print(f"[attr] .gitattributes: {gitattributes}")
     kit = root / KIT_DIRNAME
     if kit.exists():
         # ECO-009 #2: 存在でなく完全性を検査 — 中断の残骸(manifest/lock 欠落)の黙認は fail-open
@@ -181,6 +189,7 @@ def install_kit(root: Path, created: str, skills: list[str]) -> None:
         f"    manifest_sha256: \"{hashlib.sha256(manifest_path.read_bytes()).hexdigest()}\"\n"
         "  adapter:\n"
         f"    skills: [{', '.join(skills)}]\n"  # ECO-009 #4: 実設置スキル(全 SKILLS 固定は --skills 部分集合・CAD で嘘になる)
+        f"    gitattributes: {gitattributes}\n"  # ECO-031: installed|preexisting|incomplete — 沈黙と健全を区別する
         "  runtime:\n"
         f"    python: \"{sys.version.split()[0]}\"\n"
     )
@@ -188,6 +197,56 @@ def install_kit(root: Path, created: str, skills: list[str]) -> None:
     if dirty is True:
         print("[warn] 方法論リポに未コミット変更あり — kit は dirty スナップショット(bomdd.lock に記録済み)")
     print(f"[kit] 方法論 kit を同梱しました({len(manifest)} files・method commit {commit[:9]})")
+
+
+GITATTRIBUTES = """# 表現の規約 — BomDD playbook §13「記録規約 第 1 層」③(ECO-031)
+#
+# 既定は source 型: リポ内 LF・作業ツリーも LF。core.autocrlf / core.eol の環境差を
+# 上書きし、フレッシュクローンのバイト相違を防ぐ。
+#
+# 逃げ道: このリポの成果物が**バイト厳密**(取得ログ・在庫 manifest・capture の対など、
+# 改行が観測データの一部になるもの)なら `* -text` へ切り替える。
+# 切り替えは早いほど安い — いったん正規化されたバイトは戻せない。
+* text=auto eol=lf
+
+# バイナリ(text=auto の自動判定に頼らず明示する)
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.pdf   binary
+*.zip   binary
+*.woff  binary
+*.woff2 binary
+"""
+
+
+def install_gitattributes(root: Path) -> str:
+    """表現規約を設置し 3 値で判定を返す(ECO-031)。
+
+    installed   — 既存なし。既定を設置した。
+    preexisting — 既存に `*` の既定行があり eol または -text が定まっている。触れない。
+    incomplete  — 既存はあるが `*` の既定行がない、または eol/-text が未指定。触れず警告。
+
+    判定は「ファイルの存在」ではなく **`*` の既定行の有無**で行う — 存在判定にすると
+    `*` 行のない宣言や eol 未指定の宣言を健全と誤認する(ECO-031 追補実測②・実在 2 例)。
+    既存は上書きしない(意図的な byte-exact 方針を壊さない・実在 1 例)。
+    """
+    path = root / ".gitattributes"
+    if not path.exists():
+        path.write_text(GITATTRIBUTES, encoding="utf-8", newline="\n")
+        return "installed"
+    for raw in path.read_text(encoding="utf-8", errors="replace").splitlines():
+        line = raw.split("#", 1)[0].strip()
+        if not line:
+            continue
+        parts = line.split()
+        if parts[0] != "*":
+            continue
+        if "-text" in parts[1:] or any(a.startswith("eol=") for a in parts[1:]):
+            return "preexisting"
+    return "incomplete"
 
 
 def _copy_lf(src: Path, dst: Path, mode: int | None = None) -> None:

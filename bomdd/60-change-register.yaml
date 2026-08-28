@@ -971,7 +971,7 @@ changes:
     affected_refs: [method/tools/bomdd-init.py]
     no_impact_prediction: "(製造前・gate ① で方式確定のため凍結)diff は method/tools/bomdd-init.py + 台帳系のみ、他ファイルは diff ゼロ(設置内容は生成器が書き出すためテンプレを新設しない)。C4 は判定不変(絶対パス漏れ・lock/manifest 整合・AGENTS.md 参照スキルの実在・生成 YAML 厳格パースのいずれにも触れない。manifest 件数は増えるが整合判定は不変)。C7 判定不変(SKILLS 実数に触れない)。C13 判定不変(設置ファイルに markdown リンクを置かない)。既存スキル・テンプレの内容は不変。既設製品リポへは非波及(bomdd-init.py:144-150 で既存 kit は保持して return)。既存 .gitattributes を持つ設置先を破壊しない"
     diff_audit:
-      baseline: "PENDING"  # 是正開始直前(gate ① 記録コミット)へ更新する
+      baseline: "bd688bc"  # 起票時未定 → 是正開始直前(gate ① 記録コミット)へ更新
       allowed_paths: [method/tools/bomdd-init.py]
     summary: >
       決めるべき論点 4 点= ①設置先(目的から言えばリポ直下でなければ core.autocrlf 継承は

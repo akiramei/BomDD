@@ -172,7 +172,66 @@ adapter 節へ記録する。**沈黙と健全を区別する**ため。
   - **V4**: push 後 CI 緑(4 値判定・対象 revision を照合する)。
   - **V5**: diff が影響なし予測の窓内。
 
-## 4. CI 実測(push 後に追記)
+## 4. 製造と較正の実測(2026-08-28)
+
+### 製造
+
+- diff 監査の窓: baseline `bd688bc`(gate ① 記録コミット= 是正開始直前)→ head は本節末に追記。
+- 実装は `method/tools/bomdd-init.py` の 1 ファイル: 定数 `GITATTRIBUTES` と
+  `install_gitattributes(root) -> str` を追加し、`install_kit` の**早期 return より前**で呼ぶ。
+  早期 return の前に置いたのは、再実行・`--skills-only` でも宣言だけは行き渡らせるため。
+  判定結果は標準出力へ報告し、lock を書く経路では `adapter.gitattributes` へ記録する。
+- **carve-out は入れていない — 対象が実在しないため**。`bomdd-init` が作る非 kit ディレクトリは
+  `.claude/skills/*` と `bomdd/{db,hooks,plm-intake,reports,tools,ui,ui/mock}` のみで、
+  バイト厳密な取得物を置く面がない(実測)。凍結方式は carve-out を「`bomdd-init` 自身が作る
+  工程証拠パスに限る」と定めており、**その集合が空**という適用結果であって方式からの逸脱ではない。
+  列挙は腐る(§13 原則⑥)ため空集合を無理に埋めない。代わりに**逃げ道のコメント**を
+  設置ファイル冒頭へ入れた(バイト厳密成果物なら `* -text` へ切替・切替は早いほど安い)。
+
+### 較正(赤プローブ+分岐ごとの陽性対照)
+
+- **CAL-0 成立(赤プローブ)**: 是正前の `bomdd-init` で scaffold した製品リポに
+  `.gitattributes` は**存在しなかった**。
+- **CAL-1〜3 成立(6 分岐)**: fixture は**実在リポの形をそのまま使用**した。
+
+  | 分岐 | fixture の出所 | 期待 | 実測 | 既存保持 |
+  |---|---|---|---|---|
+  | CAL-1 | 既存なし | `installed` | ✔ | — |
+  | CAL-2 | TimetableAdv 型 `* -text whitespace=cr-at-eol` | `preexisting` | ✔ | ✔ |
+  | CAL-2b | BomDD 型 `* text=auto eol=lf` | `preexisting` | ✔ | ✔ |
+  | CAL-3a | MoviePad 型 `* text=auto`(eol 未指定) | `incomplete` | ✔ | ✔ |
+  | CAL-3b | ViewTube 型(`*` 行なし) | `incomplete` | ✔ | ✔ |
+  | CAL-3c | コメントのみ | `incomplete` | ✔ | ✔ |
+
+  **CAL-3a/3b が `preexisting` にならなかったことが、判定が存在判定へ退化していない証拠**
+  (追補実測②の再発検出)。既存ファイルは全分岐で**バイト単位で保持**された。
+- CAL-1 は end-to-end でも成立(実 scaffold で設置され、`bomdd.lock` に
+  `gitattributes: installed` が記録された)。CAL-2/CAL-3 は `bomdd-init` が既存ディレクトリを
+  拒否するため判定関数を直接呼ぶ形で実施した — **書き込み主体はこの関数のみ**であり、
+  「既存を上書きしない」の証明としては同等。
+
+### 受入
+
+- **V1 PASS**: 3 分岐(6 fixture)がすべて宣言どおりに動いた。
+- **V2 PASS**: 設置判定が `bomdd.lock` の `adapter.gitattributes` へ記録される
+  (end-to-end で `installed` を確認)。
+- **V3 PASS**: `self-conformance` 全 17 検査 PASS・FAIL 0・exit 0。影響なし予測どおり
+  **C4 / C7 / C13 は判定不変**(C4= 参照スキル 18 件・lock/manifest 整合 True)。
+- **V5 PASS**: 変更は `method/tools/bomdd-init.py` **1 ファイルのみ** + 台帳系 —
+  影響なし予測が的中。較正の副産物 `method/tools/__pycache__/` は commit 前に除去。
+- **V4**: 下記。
+
+### 製造中の計器の所見(記録)
+
+編集スクリプトで**バックスラッシュが 1 段消費され、生成コードの 2 行が壊れた**
+(`newline="
+"` と lock 行の `
+` が実改行になり文字列リテラルが未終端)。
+いずれも `ast.parse` で即検出し修復。以後は `chr(92)` で組み立てた。
+**改行を扱うコードを書くときに改行で壊れる**型であり、ECO-030 の order 破損(§4)と同型。
+成果物には及んでいない(構文検査が設置者の眼前で捕捉)。
+
+## 5. CI 実測(V4・push 後に追記)
 
 - 対象 revision:
 - run 識別子:
