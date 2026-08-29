@@ -1429,7 +1429,9 @@ lint〔CpI18n010AssetLintTests〕+死キー 640 件削除+M-CAPTURE-HARNESS-052)
 - [open] EXP-20260717-10 — 次の状態保持 UI ECO で状態×操作マトリクスが検査面設計(CP/probe/golden 基準)に現れるか(交差セル型潜伏の GF/レビュー所見ゼロ)
   origin: native
   evidence: 本節・昇格候補3(ECO-046/102/104)
-- [open] EXP-20260717-11 — 次の検査器新設で「既知限界の宣言+掃射手段の紐づけ+根拠つき fail-closed 双方向 allowlist」が初回設計に載るか(限界領域からの後日顕在化ゼロ)。**再演(2026-08-17・TimetableAdvUI mock lint)**: 新設 lint が「帳簿上の名称対応のみを測る」という限界を未宣言のまま稼働し、限界領域(実使用)から顕在化 — 部品未使用の画面が「部品使用済み」で緑(2026-08-17 還元節)
+- [open] EXP-20260717-11 — 次の検査器新設で「既知限界の宣言+掃射手段の紐づけ+根拠つき fail-closed 双方向 allowlist」が初回設計に載るか(限界領域からの後日顕在化ゼロ)。**再演(2026-08-17・TimetableAdvUI mock lint)**: 新設 lint が「帳簿上の名称対応のみを測る」という限界を未宣言のまま稼働し、限界領域(実使用)から顕在化 — 部品未使用の画面が「部品使用済み」で緑(2026-08-17 還元節)。**第 3 回再演(2026-08-30・TimetableAdv ECO-034)**: 新設 5 統制行の限界宣言が
+  「意図的に製造しなかったもの」= **未製造リスト**であり、検出力の限界(実施した検査が測っていない
+  次元)ではなかった(2026-08-30 還元節・効果回収 2)
   origin: native
   evidence: 本節・昇格候補5(ECO-107/108)
 - [open] EXP-20260717-12 — 次の工具 track/golden 基準新設/棚卸し削除で「使われる形で一巡実行」検収が踏まれるか(到達不能基準・再実行不能工具・上限切り捨て結論の正本化ゼロ)。**部分再演(2026-08-01・別リポ ViewTube)**: 新設の change-impact validator は mutation 12 種+59 controls で資格したが「導入後**最初の正常後続取引**(first compliant filing)」を一巡に含めず、初適用の起票が循環ゲートで false rejection(ECO-VT-054→055)。「使われる形」には**時間軸の最初の一巡**(install → first compliant use → first transition → first acceptance)が含まれる — 命題の未被覆次元が実測で確定(OBS-20260801-04 として分離記帳・open 維持)。**適用実測(2026-08-06・ViewTube ECO-VT-070)**: 起票宣言集合のメモリ上 preflight・移転 preflight・結線 rehearsal と、正本化前の一巡実行が標準運用化(2026-08-06 還元節)— BomDD 側リポでの実測は未・open 維持
@@ -3898,7 +3900,11 @@ open であり続ける構造で、在庫の単調増加の主因はこちら。
   案 1/2/3+却下 1 を提示したが、**「既に完了している」という最も基本的な選択肢を挙げなかった**
   (実際は同リポ ECO-030 でクローズ済み)。検出は基準線と同じく外部信号(ユーザーの指摘)で、
   測定の非対称は解消していない
-  evidence: 本節・観測 1/2 / 2026-08-28 節・観測 3・観測 4 / 2026-08-28(第 2 弾)節・効果回収
+  **第 4 回観測(2026-08-30・TimetableAdv ECO-034)**: **欠落の検出なし**。option-1/2/3 に加え
+  round 1 で前提命題(「解決 CAD が全く存在しない」)を棄却して選択肢の土台を修正し、round 2/3 は
+  新規指摘 0、差し戻しなしで裁定。**検出手段は自己申告**であり測定の非対称は第 2 回と同条件
+  evidence: 本節・観測 1/2 / 2026-08-28 節・観測 3・観測 4 / 2026-08-28(第 2 弾)節・効果回収 /
+  2026-08-30 TimetableAdv 還元(ECO-034)節・効果回収 4
 - [watch 1/3] OBS-20260811-01 — **制約を書くとき、その制約が及ばない範囲を書かないと、
   受け手は保守的に読み、コストは沈黙する** — 「CAD は要求から起こす。実装からではない」と書き、
   ViewTube 実装だけが対象なのかドナーも含むのかを書かなかった。受け手はドナーを材料に使わず、
@@ -4006,7 +4012,13 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
   (ECO-011 の 8 軸裁定または次 ECO の Core Fun 比較)で ①消費者実測 3 行が完全記録されるか
   (特に wall-clock — ECO-013 は未計測)②complete replay 再読を要した観点数が減るか
   (ECO-013 基準線= 主要 3 観点すべて再読。routed evidence の圧縮効果はここで測る)
-  evidence: 本節・観測 5 / approval.json `consumer_measurement`
+  **第 2 回観測(2026-08-30・TimetableAdv ECO-034 headless golden)**: **部分**。①wall-clock は gate
+  記録の offered_at 00:02:29 → resolved_at 00:09:55 = **7 分 26 秒**として導出可能になったが、消費者実測
+  3 行様式としては未記録(artifacts_opened・再読を要した観点数なし)。②圧縮は**別経路**で現れた —
+  `human_play_required: false` / `review_scope` 宣言で **gate の判定対象そのものを縮小**した。
+  **測定観点に「範囲縮小」軸を追加する**(2026-08-30 還元節・効果回収 5)
+  evidence: 本節・観測 5 / approval.json `consumer_measurement` /
+  2026-08-30 TimetableAdv 還元(ECO-034)節・効果回収 5
 
 ## 2026-08-17 TimetableAdv/TimetableAdvUI 還元 — 存在検査は使用検査の代用にならない(帳簿代用の三例目)
 
@@ -4077,6 +4089,11 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
   surface 到達と部品存在のみ)、人間ゲートの差戻し後に是正で採用された(§67「逆向きに各必須原器が
   最低 1 つの runtime fixture で使われることを検査」)。媒体予測(音・アセット解決)は外れ、実際は
   製品 runtime 統合 — **族は再現・媒体は外れ**。open 維持(2026-08-23 還元節)
+  **第 3 回観測(2026-08-30・TimetableAdv ECO-034)**: 帳簿代用の **4 例目**が出た(ECO-031〜033 の
+  統制が cue の存在・件数で効果を測り、状態更新 0 のまま全緑)。予測媒体(音・アセット解決)は再び
+  外れ、実際は **producer/consumer 境界**。ablation 型は初回設計に載らず、人間ゲート差戻し後の
+  ECO-034 で **consumer 除去(headless 化)**として採用 — 第 2 回と同じ「差戻し後に採用」の反復。
+  open 維持(2026-08-30 還元節・効果回収 3)
 
 ## 2026-08-23 TimetableAdv 還元 — 統合工程の検査空白(原器の消費型と較正の空虚な成立)
 
@@ -4146,7 +4163,7 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
   その型と整合するかを照合する(§4.7 契約×適用面マトリクスの入力側)
   source: TimetableAdv ECO-015 §66(誤消費)/ §67(真因の名指しと反転)
   evidence: 本節・観測 1
-- [watch 2/3] OBS-20260823-02 — **較正の形式的成立は被覆を証明しない — 弁別力と被覆は直交する** —
+- [watch 3/3] OBS-20260823-02 — **較正の形式的成立は被覆を証明しない — 弁別力と被覆は直交する** —
   「旧個体で赤・新個体で緑」は検査が変化を捉えることしか示さず、契約の各項を測っていることは
   示さない。R5 の要求は「旧個体が落ちる」でなく「**契約の各項が独立に落ちる**」とする。併せて
   限界宣言は未了項目リストでなく**検出力の限界**(実施した検査が測っていない次元)を含む
@@ -4157,7 +4174,13 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
   弁別力(旧個体で赤・新個体で緑)は成立していたが被覆が無い — 本命題の直接例。
   OBS-20260805-05 と**同一事象を共有**するが、二重計上を避けて本項のみへ算入した
   (あちらは source が既に ViewTube のためリポ多様性が増えない)
-  evidence: 本節・観測 2 / 2026-08-29 ViewTube 還元(097-1)節・観測 1
+  **3 例目(2026-08-30・TimetableAdv ECO-034)= 3 弧目**: 新設 headless 意味核の R5 は probe 1 件を
+  先行実行し「型が存在しない」ことで 0 pass / 1 expected fail、after は acceptance 7/7 green。
+  弁別力の形式は成立するが、**7 本の契約項が独立に落ちることは一度も示されていない** —
+  「新機能では旧個体が構造的に到達不能なため粗い到達検査で形式が満たされる」の再現。
+  **独立性の注記**: source 1(ECO-015)と同一リポだが別弧・別媒体。昇格審査で判定する
+  evidence: 本節・観測 2 / 2026-08-29 ViewTube 還元(097-1)節・観測 1 /
+  2026-08-30 TimetableAdv 還元(ECO-034)節・効果回収 1
 - [open] EXP-20260823-03 — 次の**媒体横断転写**(承認済み原器 → 別媒体の実装。UI 原器→製品 GUI、
   仕様→別言語移植等)で、初回設計に ①原器の消費型宣言 ②逆向き使用検査(各必須原器が最低 1 つの
   実装 fixture で使われる)③引き渡し宣言(満たす/満たさない/未検査の契約 ID)が載るか。
@@ -4457,7 +4480,10 @@ TimetableAdv ECO-030〔commits d1c3d1b・299b640〕の実測 / commits bd688bc�
   ③影響先の列挙 を書くとき、出所が「記憶・その場の推定」でなく実測(別リポの register・
   実在物の走査・構造の所有者への問い合わせ)になっているか。**基準線= 本セッションで 2 面とも
   記憶由来だった**(観測 1)
-  evidence: 本節・観測 1
+  **第 1 回観測(2026-08-30・TimetableAdv ECO-034)= 定着側**: 候補外 worktree preflight で git 可視
+  455 path(modified 404 / untracked 51)を全件走査・分類し未分類 0 を inventory JSON へ記録 —
+  出所は構造への問い合わせ。**別リポ(製品側)での観測**であり基準線とは文脈が異なる
+  evidence: 本節・観測 1 / 2026-08-30 TimetableAdv 還元(ECO-034)節・効果回収 6
 
 ## 2026-08-29 ViewTube 還元(097-1)— 既存項目への増分のみ(新規命題なし)
 
@@ -4507,3 +4533,129 @@ TimetableAdv ECO-030〔commits d1c3d1b・299b640〕の実測 / commits bd688bc�
 系列・次の媒体横断転写)のいずれにも一致しない。**棚卸しは実施した**(未実施と区別するため記録)。
 
 期待する効果と観測: 新規起票なし(既存項目への増分のみ)。
+
+## 2026-08-30 TimetableAdv 還元 — ECO-034: consumer 出力は producer 状態更新の証拠にならない(片側統制の穴)
+
+出典: TimetableAdv `bomdd/60-change-order-eco-034.md`(§1 事実・§2 工程診断・§8 製造記録・
+§9 クローズ)・`bomdd/33-control-plan.yaml` `RSC-CP-CLOSURE-001`(L1147-1168)+ ECO-033 側の統制行
+`PV-CP-PROVENANCE-001` / `PV-CP-DETERMINISM-001` / `PV-CP-NO-REACTION-001` /
+`PV2-CP-PERSISTENT-RESIDUE-001`(L1124-1139)・`60-change-register.yaml` の
+`GF-ECO033-GOLDEN-005`(L5300-5310)。commits: 起票 `19ddcb4`(2026-08-29 23:11)/
+fix `f585db6`(23:58)/ accept `5377fb7`(2026-08-30 01:26)。題材= 会話解決系の意味核(producer)と
+表示投影(consumer)。**TimetableAdv は読み取り専用の出典として扱った**(製品側の是正・記帳はしない)。
+
+観測(製品名を落としても成立する形で記す):
+
+1. **consumer の出力がもっともらしいことは、producer が意味状態を更新した証拠にならない** —
+   確定操作は表示用の反応文と焦点 ID 由来の固定 cue を生成したが、typed な人物・課題状態の更新は
+   0 だった。producer 側の契約は `Kind / ParticipantId / Text` しか持たず、before/after・typed
+   effect・observation・outcome を**表現できない**(工程診断= producer/consumer 断線+代理指標欠陥)。
+   潜伏は 3 ECO(031→032→033)を跨ぎ、**機械受入は全 green のまま**、検出は人間の再実行だった。
+2. **不変性の統制は、変化の統制と対で置かないと「変化が 0 でも緑」の穴になる**(本弧の核) —
+   consumer 側には「表示は writer ではない」という**正しい**規律が張られ、tolerance は
+   `source model mutation 0` / `source cue diff 0` / `missing source-ref 0` / `silent no-op 0` の形に
+   なった。この 4 行はいずれも**「0 であること」または「存在すること」**を測る片側統制であり、
+   **producer が誰にも更新されていない状態**と**producer が producer 側で正しく更新されている状態**を
+   区別しない。片側統制は「対になる非 0 側の行が別工程に存在する」ことを暗黙の前提にしており、
+   **その前提自体はどの検査にも載っていなかった**。
+3. **provenance(出所)検査は「出所が意味状態であること」を保証しない** — `missing source-ref 0` は
+   緑だった。source-ref は実在したが、指す先が焦点 ID(提示の入力)であって意味状態ではなかった。
+   §4.4 の既存規則「生成提示層の主張は canonical receipt へ逆引きする」(2026-08-16 昇格)は
+   **逆引き先の型を要求していない** — 逆引きが成立しても、指す先が別の提示物なら閉包は成立しない。
+   既存 3 規則(逆引き・帳簿代用 LP・§8.2「機能は既にある≠動作」)は consumer 側の検査を強める
+   処方であり、本件はそれらを**全て通過した**。
+4. **是正の型は「検査を強める」でなく「工程順序を固定する」だった** — ECO-034 は producer を
+   consumer から切り離した非グラフィカルな意味核として独立に受入した(GUI 依存 0・golden 0・
+   canonical write 0)。**consumer の除去そのものが ablation 対照**として機能している(§4.4 帳簿代用
+   LP の除去破壊を、部品でなく**工程の下流側**へ適用した形)。恒久統制 `RSC-CP-CLOSURE-001` は
+   tolerance に `presentation-proxy-only pass 0` を持ち、`GF-ECO033-GOLDEN-005` の潜伏実績を
+   `characteristic` へ固定した(潜伏実績を統制行本文へ刻む様式は `A2-CP-UI-GOLDEN-001` 以来の踏襲)。
+
+適用した改善(反映先つき):
+
+- 製品側: 実施なし(**読み取り専用の出典**)。再発防止は出典リポ内で `RSC-CP-CLOSURE-001` として固定済み。
+- method 側: **本文改訂なし(停止点で保留)**。観測 1・2 はいずれも **N=1** であり rule of three 待ちとして
+  下記 OBS へ記帳する。例外条項(不可逆観測データの保存義務は 1 例で本文化可)の適用可否を検査した結果
+  **非該当** — 本件で回復不能だったのは**製品の意味状態**であって method の観測記録ではなく、潜伏は
+  同一系列内の人間ゲートで検出され証拠(golden-return receipt)は保存されている。判断基準
+  「遡って回復できるか」は満たされている。
+- 観測 3 は既存規則(§4.4 逆引き)の**限界の実測**であり、新規命題を立てず**織り込み案 A**(1 行追補)
+  として停止点へ出す。観測 4 の処方は OBS-20260830-01 に含めた。
+
+効果回収(棚卸し — 起点= `worklist.py` 出力: native open 38 / migrated open 33 / watch 106。
+legacy 節は目視走査):
+
+- **一致 6 件**(いずれも元 bullet へ行内追記済み):
+  1. `OBS-20260823-02`(較正の形式的成立は被覆を証明しない)→ **3 例目・watch 2/3 → 3/3(PROMOTION DUE)**。
+     ECO-034 の R5 は probe **1 件**を先行実行し `ResolutionFrame` 型不存在で 0 pass / 1 expected fail、
+     after は acceptance 7/7 green。**弁別力の形式(旧個体で赤・新個体で緑)は成立しているが、7 本の
+     契約項が独立に落ちることは一度も示されていない** — 新機能で旧個体が構造的に到達不能なため
+     粗い到達検査(型の不存在)で形式が満たされる、という命題の直接例。**独立性の注記**: source 1
+     (ECO-015)と同一リポだが別弧・別媒体(統合工程 / 差分計器 / headless 意味核)。昇格審査の材料。
+  2. `EXP-20260717-11`(新設検査器の既知限界宣言が初回設計に載るか)→ **第 3 回再演**。新設した
+     RSC-CP-* 5 行に対する限界宣言は「意図的に製造しなかったもの」= **未製造リスト**(GUI・
+     Projection V3・human play・canonical persistence…)であって、「実施した検査が測っていない次元」
+     (検出力の限界)ではない。OBS-20260823-02 の後段命題と同一形。open 維持。
+  3. `EXP-20260817-02`(ablation 対照が初回設計に載るか・帳簿代用の 4 例目)→ **第 3 回観測・
+     族は再現/媒体は再び外れ**。4 例目は出た(ECO-031〜033 の統制が cue の存在・件数で効果を測った)。
+     予測媒体(音・アセット解決)は外れ、実際は **producer/consumer 境界**。ablation 型は初回設計には
+     載らず、人間ゲート差戻し後の ECO-034 で **consumer 除去(headless 化)**として採用された —
+     第 2 回観測(2026-08-23)と同じ「差戻し後に採用」パターンの反復。open 維持。
+  4. `EXP-20260811-01`(converge 採用後の選択肢集合の欠落)→ **第 4 回観測: 欠落の検出なし**。
+     option-1/2/3 に加え round 1 で「解決 CAD 不存在」を**棄却**して前提を修正、round 2/3 は新規指摘 0、
+     user は差し戻しなしで option-1 を裁定。ただし**検出手段は自己申告**であり、第 2 回観測と同じく
+     測定の非対称(基準線= 外部信号 / 以後= 自己申告)は解消していない。open 維持。
+  5. `EXP-20260816-04`(Human-Gate Compression の系列測定)→ **第 2 回観測: 部分**。①wall-clock は
+     gate 記録の `offered_at` 00:02:29 → `resolved_at` 00:09:55 = **7 分 26 秒**として**導出可能**に
+     なった(ECO-013 は未計測)が、消費者実測 3 行様式としては未記録(`artifacts_opened`・再読を要した
+     観点数なし。`artifacts/acceptance/eco-034/` に human 節なし)。②圧縮効果は**別経路**で現れた —
+     `human_play_required: false` / `review_scope: headless-evidence-and-prohibited-boundary-only` と、
+     gate の**判定対象そのものを縮小**した(消費量を減らすのでなく範囲を絞る)。**測定観点に「範囲縮小」
+     軸を足す必要がある**。open 維持。
+  6. `EXP-20260828-09`(列挙の出所を構造への問い合わせへ置換する処方が定着するか)→ **第 1 回観測:
+     定着側**。候補外 worktree preflight で git 可視 455 path(modified 404 / untracked 51)を**全件走査・
+     分類**し未分類 0・candidate 混入 0 を inventory JSON へ記録 — 記憶・その場の推定でなく構造への
+     問い合わせ。**別リポ(製品側)での観測**であり基準線(BomDD 自己適用)とは文脈が異なる。open 維持。
+- **機会なし**(トリガー条件に一致せず記帳不要): `EXP-20260717-10`(状態×操作マトリクス — 本出典は
+  headless で UI ECO でない)/ `EXP-20260823-03`(媒体横断転写でない)/ `OBS-20260816-02`(投影の等化 —
+  一因子比較判定ではない)/ `EXP-20260808-02`・`EXP-20260808-03`・`EXP-20260809-01`(委任系列・自己適用
+  ROI — 本出典は製品リポ単独の ECO)。
+- **legacy(未構造化)節の目視走査**: 該当 0 件。なお `worklist.py` は境界以後の未棚卸し節 1 件
+  (L4462 の 2026-08-29 ViewTube 還元節)を逸脱として列挙し続けている — 同節は「既存項目への増分のみ・
+  新規命題なし」で構造化 bullet を持たないための表示であり、**本還元では触れない**(棚卸し工程側の
+  処置対象として残す)。
+
+期待する効果と観測:
+
+- [watch 1/3] OBS-20260830-01 — **consumer の出力がもっともらしいことを producer の意味状態更新の
+  証拠に使わない — producer 側の typed causal closure を consumer 非依存で独立受入してから consumer へ
+  接続する**: 表示文・焦点 identity・固定 cue のような presentation proxy は、producer が状態を
+  持たなくても生成できる。producer 側で ①before → typed effect → after の状態遷移 ②source-linked
+  observation ③time ④outcome が**型として閉じている**ことを、consumer(GUI・表示・報告)への依存 0 で
+  先に証明する。機械面: ①producer 受入を headless(consumer 依存 0)で張る ②tolerance へ
+  `presentation-proxy-only pass 0`(提示代理だけで通る経路 0)を書く ③no-effect 経路の負対照(状態差分 0 の
+  入力で consumer が「効いたように見える」出力を出さない)④閉包の充足を**件数でなく型の全数**で測る
+  ⑤consumer の除去(headless 化)を工程下流側の ablation 対照として使う。**既存 §4.4 の逆引き・帳簿代用 LP は
+  consumer 側の検査を強める処方であり、本件は全て通過した** — 本命題は検査面でなく**工程順序(Routing)**の
+  規律である点で独立。2 例目= 別系列で producer/consumer 断線が consumer 側統制の全緑を通過する事例
+  source: TimetableAdv ECO-034
+  evidence: 本節・観測 1・4 / ECO-034 §1 事実・§2 工程診断・§8 / `RSC-CP-CLOSURE-001`
+- [watch 1/3] OBS-20260830-02 — **不変性の統制は変化の統制と対で置く — 「X が 0」を要求する行は
+  「X が非 0」を要求する行の所在を宣言しないと、機能不在と正常動作を区別できない**: 下流に「上流を
+  書き換えるな」という正しい制約を張ると tolerance が `mutation 0` / `diff 0` / `missing ref 0` の片側形に
+  なり、**上流が誰にも更新されていない**状態でも緑になる。片側統制は「対になる非 0 側の行が別工程に
+  存在する」ことを暗黙の前提にしており、その前提はどの検査にも載らない(実測: 4 行の片側統制が全緑の
+  まま状態更新 0 が 3 ECO 潜伏)。機械面: Control Plan 行の tolerance が `0` 型の要求だけで構成される
+  とき、**同一特性の非 0 側を測る行 ID(別工程可)の宣言を必須欄にする** — 宣言できない特性は
+  「誰も測っていない」として起票する。2 例目= 別の片側統制(禁止・不変・非依存を測る行)で対になる
+  存在側が不在だった事例
+  source: TimetableAdv ECO-034
+  evidence: 本節・観測 2 / ECO-033 `PV-CP-PROVENANCE-001`・`PV-CP-DETERMINISM-001`・
+  `PV-CP-NO-REACTION-001`・`PV2-CP-PERSISTENT-RESIDUE-001` の tolerance 実文
+- [open] EXP-20260830-03 — 次に **producer/consumer 境界をまたぐ工程**(意味核と表示、ドメインと API、
+  計算とレポート、バッチと通知)を設計するとき: ①producer の受入が consumer 依存 0 で先行するか
+  ②consumer 側 CP 行の `0` 型 tolerance に対して非 0 側の行 ID が宣言されるか
+  ③`presentation-proxy-only pass 0` 相当が tolerance に入るか。**基準線= 本出典で 3 つとも不成立**
+  (潜伏 3 ECO・検出は人間の再実行)。②が独立に観測できれば OBS-20260830-02 の機械化(層③以上)の
+  起票根拠とする
+  evidence: 本節・観測 2・4
