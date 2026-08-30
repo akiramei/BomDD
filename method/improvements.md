@@ -4009,16 +4009,28 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
   (PASS 9 / FAIL 7・実測 16/16 一致)
   evidence: 本節・観測 4
 - [open] EXP-20260816-04 — **Human-Gate Compression の系列測定**: 次の human gate
-  (ECO-011 の 8 軸裁定または次 ECO の Core Fun 比較)で ①消費者実測 3 行が完全記録されるか
-  (特に wall-clock — ECO-013 は未計測)②complete replay 再読を要した観点数が減るか
-  (ECO-013 基準線= 主要 3 観点すべて再読。routed evidence の圧縮効果はここで測る)
+  (gate 種別を問わない — 8 軸裁定・Core Fun 比較・headless golden いずれも対象)で
+  ①消費者実測 3 行が完全記録されるか(特に wall-clock — ECO-013 は未計測)
+  ②complete replay 再読を要した観点数が減るか(ECO-013 基準線= 主要 3 観点すべて再読。
+  routed evidence の圧縮効果はここで測る)③**〔範囲縮小軸・2026-08-30 追加〕gate の判定対象範囲が
+  宣言されるか**(`review_scope` 相当の対象宣言+対象外の明示。`human_play_required` 等の
+  必要工程の可否宣言を含む)。
+  **3 軸は分離して測る** — ①②は「1 件あたりの消費量」、③は「判定する件数・種別そのもの」であり、
+  **混ぜると範囲縮小が routed evidence の圧縮効果に見える**(gate が対象を絞れば ①の wall-clock も
+  ②の再読観点数も下がるが、routed evidence は何も改善していない)。①②は③で宣言された範囲で
+  **正規化してから**系列比較する。範囲を宣言しない gate は ①②の測定値を系列へ算入しない
+  (測定不能であって改善ではない)。同型の分離失敗= `EXP-20260811-01`(非起動と検出力不足を
+  混ぜると非起動が検出力不足に見える)— **測定対象の分離は同じ構造の処方**。
   **第 2 回観測(2026-08-30・TimetableAdv ECO-034 headless golden)**: **部分**。①wall-clock は gate
   記録の offered_at 00:02:29 → resolved_at 00:09:55 = **7 分 26 秒**として導出可能になったが、消費者実測
   3 行様式としては未記録(artifacts_opened・再読を要した観点数なし)。②圧縮は**別経路**で現れた —
-  `human_play_required: false` / `review_scope` 宣言で **gate の判定対象そのものを縮小**した。
-  **測定観点に「範囲縮小」軸を追加する**(2026-08-30 還元節・効果回収 5)
+  `human_play_required: false` / `review_scope: headless-evidence-and-prohibited-boundary-only` 宣言で
+  **gate の判定対象そのものを縮小**した。③の基準線はこの ECO-034 で成立(範囲宣言あり)—
+  **③が満たされた初回**であり、①②は範囲が異なるため ECO-013 とは直接比較しない。
+  (2026-08-30 還元節・効果回収 5 / 同日 EXP 改訂)
   evidence: 本節・観測 5 / approval.json `consumer_measurement` /
-  2026-08-30 TimetableAdv 還元(ECO-034)節・効果回収 5
+  2026-08-30 TimetableAdv 還元(ECO-034)節・効果回収 5 /
+  TimetableAdv `60-change-register.yaml` ECO-034 gate 記録(`review_scope`・`human_play_required`)
 
 ## 2026-08-17 TimetableAdv/TimetableAdvUI 還元 — 存在検査は使用検査の代用にならない(帳簿代用の三例目)
 
@@ -4619,8 +4631,11 @@ legacy 節は目視走査):
      なった(ECO-013 は未計測)が、消費者実測 3 行様式としては未記録(`artifacts_opened`・再読を要した
      観点数なし。`artifacts/acceptance/eco-034/` に human 節なし)。②圧縮効果は**別経路**で現れた —
      `human_play_required: false` / `review_scope: headless-evidence-and-prohibited-boundary-only` と、
-     gate の**判定対象そのものを縮小**した(消費量を減らすのでなく範囲を絞る)。**測定観点に「範囲縮小」
-     軸を足す必要がある**。open 維持。
+     gate の**判定対象そのものを縮小**した(消費量を減らすのでなく範囲を絞る)。**処置(2026-08-30・
+     ユーザー指示)**: 同項目へ **③範囲縮小軸**(gate の判定対象範囲が宣言されるか)を追加し、
+     ①②(1 件あたりの消費量)と③(判定する件数・種別)を**分離して測る**規定と、①②を③で
+     **正規化してから系列比較する**規定、範囲未宣言の gate は測定値を系列へ算入しない規定を明記。
+     `EXP-20260811-01`(非起動と検出力不足の混同)と同じ構造の処方。open 維持。
   6. `EXP-20260828-09`(列挙の出所を構造への問い合わせへ置換する処方が定着するか)→ **第 1 回観測:
      定着側**。候補外 worktree preflight で git 可視 455 path(modified 404 / untracked 51)を**全件走査・
      分類**し未分類 0・candidate 混入 0 を inventory JSON へ記録 — 記憶・その場の推定でなく構造への
