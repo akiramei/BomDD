@@ -306,3 +306,19 @@ staged は同じ判定を早く返すローカル最適化に格下げする。�
 2. hard-positive は高精度・低再現。マーカーを一切使わない裁定候補は自動 required にならず、
    その被覆は書き手の `converge: required` 宣言に依存する(**残余の fail-open**)。
 3. **artifact に落ちない提示**(チャットのみで終わる裁定)は原理的に被覆外 — Phase 2 の対象。
+
+### 8.7 受入結果(確定)
+
+| 項目 | 結果 |
+|---|---|
+| V1 予防面較正(fixture) | **PASS** — 5/5 が期待と一致 |
+| V2 是正面較正(実在 known-bad) | **PASS** — 19 件同定・19/19 発火。被覆(`gate ①` 取りこぼし)0 件・誤除外 0 件 |
+| V3 全検査 | **PASS** — self-conformance 全 16 検査 PASS。既存 15 検査は判定不変 |
+| V4 CI | **PASS** — run 33294106881・conclusion success・headSha `6f33631` がローカル HEAD と一致 |
+| V5 diff 窓 | **PASS** — `78af21b`→`6f33631` の窓内は `allowed_paths` のみ(予測的中) |
+
+ECO-033(Phase 1)を `verified` へ閉じる。
+
+**このクローズが支持しないもの**: 提示前の防止(Phase 2)/ artifact に落ちない裁定の被覆 /
+receipt の内容的な真正性(構造的存在のみ)/ 製品リポへの設置 / receipt schema の拡張。
+いずれも別 ECO・別裁定である。

@@ -1070,7 +1070,7 @@ changes:
     title: converge 非起動を commit gate で観測可能にする(Phase 1)
     date: 2026-08-30
     origin: corrective
-    status: applied   # 2026-08-30 製造完了= V1(fixture 5/5)・V2(実在 known-bad 19/19 発火)・V3(全 16 検査 PASS)。V4(CI)・V5(diff 窓)は push 後に確定
+    status: verified   # 2026-08-30 受入= V1(fixture 5/5)・V2(実在 known-bad 19/19 発火)・V3(全 16 検査 PASS・既存 15 は判定不変)・V5(窓 78af21b->6f33631 は allowed_paths のみ・予測的中)・V4(CI run 33294106881 success @6f33631)
     source: >
       maintainer 提言 2026-08-30「converge 自発起動を『認識』から工程 Gate へ移す」+ 同日裁定
       (推奨②採択・本 ECO は Phase 1 のみ・Phase 2 は別 ECO・ECO-020 差分裁定は Phase 2 で必須・
@@ -1082,7 +1082,7 @@ changes:
     affected_refs: [method/tools/self-conformance.py]
     diff_audit:
       baseline: "78af21b"   # 起票コミット(gate 1 前)
-      head: "TBD"           # push 後に diff 監査して確定
+      head: "6f33631"       # diff 監査済み: 窓内は self-conformance.py+台帳系のみ・予測的中
       allowed_paths: [method/tools/self-conformance.py, bomdd/]
     no_impact_prediction: "(gate ① 前・製造前)predicate 確定後に確定する。現時点の予測= self-conformance へ検査 1 本追加(C16 想定)・既存 15 検査は判定不変。converge SKILL 本文は変更しない(自発起動契約の書き換えは Phase 2 の裁定に依存・散文強化は主対策にならない)。配布物を変更しないため製品リポ・kit へは非波及。C7(README のスキル本数)は SKILLS 実数を変えないため判定不変"
     summary: >
@@ -1138,3 +1138,21 @@ changes:
       宣言した検出力の限界(コード docstring へ恒久記載)= (1) receipt の構造的存在しか測らない
       (2) マーカー不使用の裁定候補は宣言依存(残余の fail-open)(3) artifact に落ちない提示は
       原理的に被覆外(Phase 2 の対象)。
+    verification: >
+      V1(予防面較正)= PASS。fixture 5 種(F1 required+receipt なし->FAIL / F2 required+receipt
+      あり->PASS / F3 not-required->PASS / F4 mixed-task 陽性->FAIL / F5 hard-positive 実在かつ
+      not-required 宣言->FAIL)が 5/5 で期待と一致。C16 は fixture 較正が不成立なら本走査を
+      行わず「計器を先に疑う」FAIL を返す。
+      V2(是正面較正・実在 known-bad)= PASS。履歴の全 33 order を分類し required 20 / not-required
+      13、うち required かつ receipt なしの **19 件を同定して 19/19 の発火を実測**(合成でなく
+      実在する不適合品)。発火例= ECO-013(recommended-option)・ECO-015/016/017
+      (adjudication-gate)。精度= not-required 13 件は ECO-001〜012/014 でいずれも gate 1 規約
+      以前の機械受入つき是正 ECO(適用範囲の除外どおり・誤除外なし)。被覆= gate 1 を含みながら
+      required にならない order は 0 件。
+      V3(全検査)= PASS。self-conformance 全 16 検査 PASS・FAIL 0。既存 15 検査は判定不変
+      (C7 [9]・C4 参照 18 件・C13 105 files/198 links いずれも変化なし)。
+      V4(CI)= PASS。run 33294106881・conclusion success・headSha 6f33631 がローカル HEAD と一致。
+      V5(diff 窓)= PASS。78af21b->6f33631 の窓内は method/tools/self-conformance.py と bomdd/
+      (order・register)のみ= allowed_paths と一致し、no_impact_prediction どおり。
+      適用範囲内(cutoff 2026-08-30 以降)の実測対象は 2 件(ECO-033 order・improvements.md
+      2026-08-30 節)でいずれも PASS。詳細は order §8。
