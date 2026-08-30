@@ -1070,7 +1070,7 @@ changes:
     title: converge 非起動を commit gate で観測可能にする(Phase 1)
     date: 2026-08-30
     origin: corrective
-    status: filed
+    status: applied   # 2026-08-30 製造完了= V1(fixture 5/5)・V2(実在 known-bad 19/19 発火)・V3(全 16 検査 PASS)。V4(CI)・V5(diff 窓)は push 後に確定
     source: >
       maintainer 提言 2026-08-30「converge 自発起動を『認識』から工程 Gate へ移す」+ 同日裁定
       (推奨②採択・本 ECO は Phase 1 のみ・Phase 2 は別 ECO・ECO-020 差分裁定は Phase 2 で必須・
@@ -1080,6 +1080,10 @@ changes:
       (§8.5 に従い実測後)」の、実測後の実施にあたる。
     order_ref: bomdd/60-change-order-eco-033.md
     affected_refs: [method/tools/self-conformance.py]
+    diff_audit:
+      baseline: "78af21b"   # 起票コミット(gate 1 前)
+      head: "TBD"           # push 後に diff 監査して確定
+      allowed_paths: [method/tools/self-conformance.py, bomdd/]
     no_impact_prediction: "(gate ① 前・製造前)predicate 確定後に確定する。現時点の予測= self-conformance へ検査 1 本追加(C16 想定)・既存 15 検査は判定不変。converge SKILL 本文は変更しない(自発起動契約の書き換えは Phase 2 の裁定に依存・散文強化は主対策にならない)。配布物を変更しないため製品リポ・kit へは非波及。C7(README のスキル本数)は SKILLS 実数を変えないため判定不変"
     summary: >
       目的(裁定で確定)= converge 未実施の対象 artifact が正典化されることを阻止し、非起動を
@@ -1113,3 +1117,24 @@ changes:
       order §7 に /converge receipt を埋め込んだ(round 1 = 3 件・round 2 = 2 件・round 3 = 1 件・
       2 周連続ゼロ未到達のため収束は主張しない。未収束= 提示物が artifact に落ちないケースの被覆は
       Phase 1 の被覆外)。
+      **gate 1 承認 2026-08-30 maintainer**「gate 1 承認。A-1 + B-1 + C-1 で製造に進んで」。
+      その後、**C-1 の前提が CI で成立しない**ことを実測して差し戻した(.github の checkout は
+      fetch-depth 未指定= shallow・depth 1 のためステージングも履歴も無く staged 差分を計算できない。
+      CI が権威的ゲートである以上、CI で常に測定不能になる検査は規律 6 に照らして fail-open)。
+      **追加裁定= C-1c 採択・cutoff 2026-08-30**(staged を意味論から外し判定の正本を cutoff 以降の
+      全数走査へ置く — ローカルと CI で結論が食い違う経路が構造的に消える)。
+      製造= self-conformance へ C16 を追加。hard-positive 5 種(裁定要求 / gate 1 / 裁定対象 /
+      残ゲート / 推奨)+ HTML コメント宣言 + B-1 非対称設計(required 引き上げは常に有効・
+      not-required 引き下げは hard-positive 実在時に却下し FAIL)。
+      **R5 probe で計器の欠陥を 2 件検出し配線前に是正した**: (1) 部分文字列ゲート — 初版の選択肢
+      列挙マーカーが ID 断片(ECO-034 -> O-034 等)を拾い実節で 36 中 29 件が誤検出
+      (ViewTube NF-10 R9 と同型・本日 §4.4 へ織り込んだ規則の自リポ実例)-> 選択肢列挙を
+      hard-positive から削除 (2) 被覆欠落 — 残ゲートのみでは gate 1 を持つ 14 件を取り逃がし、
+      弁別力はあるが被覆が無い状態(§4.4「較正の形式的成立は被覆を証明しない」の自リポ実例)
+      -> gate 1 / 裁定対象 を追加し取りこぼし 0 を実測。
+      較正= 予防面 fixture 5/5・是正面は**実在する known-bad 19 件を同定して 19/19 の発火を実測**
+      (合成でなく実物 — OBS-20260725-02 の趣旨)。精度= not-required 13 件は ECO-001〜012/014 で
+      いずれも gate 1 規約以前の機械受入つき是正 ECO(適用範囲の除外どおり・誤除外なし)。
+      宣言した検出力の限界(コード docstring へ恒久記載)= (1) receipt の構造的存在しか測らない
+      (2) マーカー不使用の裁定候補は宣言依存(残余の fail-open)(3) artifact に落ちない提示は
+      原理的に被覆外(Phase 2 の対象)。

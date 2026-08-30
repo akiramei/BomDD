@@ -38,6 +38,15 @@
   C15 deprecated-refs: deprecated 参照の掃討 lint(ECO-027)— `> **deprecated` を宣言正本とし、
                       basename を含む行が同一行に deprecated 語を持たなければ現役誘導として
                       FAIL。証拠台帳(improvements/FINDINGS)は除外・陽性対照を毎回実測
+  C16 converge-receipt: converge 未実施の裁定候補 artifact が正典化されるのを阻止する
+                      (ECO-033 Phase 1)。対象= cutoff 以降の ECO order+improvements.md 節
+                      (A-1)。判定= 構造マーカー 5 種(裁定要求・gate 1・裁定対象・
+                      よる自動 required ∪ 明示宣言、ただし
+                      **宣言は緩める方向に使えない**(not-required 宣言は hard-positive 実在時に
+                      却下=FAIL。B-1 の非対称設計)。境界= cutoff 全数走査(C-1c — staged 差分は
+                      CI で計算不能〔shallow clone〕なため意味論から外し判定の正本を全数走査へ)。
+                      fixture 5 種を毎回実測(F2 正常系を含む — 無いと「常に FAIL する Gate」と
+                      弁別できない)
 
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
@@ -869,6 +878,170 @@ def c9_dotnet() -> None:
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+# --- C16 converge receipt ゲート(ECO-033 Phase 1) -------------------------------------
+# 目的: **converge 未実施の対象 artifact が正典化されるのを阻止し、非起動を観測可能にする**。
+# 「人間への未収束提示を防ぐ」ことは目的ではない(それは Phase 2 = presentation Gate)。
+#
+# 検出力の限界(宣言 — 未了項目リストではなく「実施した検査が測っていない次元」):
+#   (1) receipt の**構造的存在**しか測らない。「本当に敵対自問したか」「実測で裏取りしたか」は
+#       測っていない。目的は converge 工程が**完全に素通りする故障**の検出に限定する。
+#   (2) hard-positive は高精度・低再現で設計してある。マーカーを一切使わない裁定候補は自動
+#       required にならない — その被覆は書き手の `converge: required` 宣言に依存する
+#       (残余の fail-open)。
+#   (3) artifact に落ちない提示(チャットのみで終わる裁定)は原理的に被覆外(Phase 2 の対象)。
+CONVERGE_CUTOFF = "2026-08-30"   # ECO-033 gate 1 裁定(C-1c)。これ以前の節・order は対象外
+
+# 明示宣言(HTML コメント — 描画に出ず機械可読。前例= worklist-legacy-audit-cutoff)
+CONVERGE_DECL_RE = re.compile(r"<!--\s*converge:\s*(required|not-required)\s*-->")
+
+# hard-positive= 「人間へ未解決の選択を出している」ことの高精度マーカー
+# 語彙は**実リポの実測**で決めた(製造時 R5 probe — ECO-033 §8)。`残ゲート` だけでは
+# `gate 1`(本リポで 18/32 order が使う確立した裁定要求マーカー)を持つ 14 件を取り逃がした
+# = 弁別力はあるが被覆が無い状態(playbook §4.4)。
+CONVERGE_HARD_POSITIVES = (
+    ("adjudication-request", re.compile(r"裁定を(お願い|求め)")),
+    ("adjudication-gate",    re.compile(r"gate\s*\u2460")),
+    ("adjudication-target",  re.compile(r"裁定対象")),
+    ("open-gate",            re.compile(r"残ゲート")),
+    ("recommended-option",   re.compile(r"[(\uff08]推奨[)\uff09]|推奨[:\uff1a]")),
+)
+# 選択肢の列挙は hard-positive から**外した**(製造時 R5 probe の実測 — ECO-033 §8)。
+# 素の `[A-Z]-\d+` は ID の部分文字列(ECO-034 -> O-034 / RSC-CP-CLOSURE-001 -> E-001)を
+# 拾い、実リポで 36 ラベル中 29 件が誤検出だった(部分文字列ゲートで意味を測る欠陥 —
+# ViewTube NF-10 R9 と同型。playbook §4.4「検査文はコードが測る以上を主張しない」)。
+# 加えて候補ラベルは「提案」と「完了裁定の記録」の双方に現れ、両者を弁別できない —
+# 本ゲートの対象は**未解決の選択を人間へ出している** artifact であり、過去の裁定の記録では
+# ない。再現力の低下は書き手の `converge: required` 宣言で補う(下記 限界宣言 (2))。
+
+# receipt= 現行契約の 3 項(周回数と各周の新規指摘件数 / 検証した主張と実測結果 / 未収束事項)
+CONVERGE_RECEIPT_RE = re.compile(r"(収束\s*receipt|/?converge\s*receipt)", re.I)
+CONVERGE_ROUNDS_RE = re.compile(r"周回|round\s*\d")
+CONVERGE_UNRESOLVED_RE = re.compile(r"未収束")
+
+
+def converge_classify(text: str) -> dict:
+    """1 artifact を分類する。返り値= required / reasons / declared / conflict / receipt。"""
+    reasons = []
+    for name, rx in CONVERGE_HARD_POSITIVES:
+        if rx.search(text):
+            reasons.append(name)
+    dm = CONVERGE_DECL_RE.search(text)
+    declared = dm.group(1) if dm else None
+
+    # B-1 非対称設計: required への引き上げは常に有効 / not-required への引き下げは
+    # hard-positive が 1 つでも実在するなら却下する(宣言で検査を弱められない)
+    conflict = bool(declared == "not-required" and reasons)
+    required = bool(reasons) or declared == "required"
+
+    receipt = bool(CONVERGE_RECEIPT_RE.search(text)
+                   and CONVERGE_ROUNDS_RE.search(text)
+                   and CONVERGE_UNRESOLVED_RE.search(text))
+    return {"required": required, "reasons": reasons, "declared": declared,
+            "conflict": conflict, "receipt": receipt}
+
+
+def converge_verdict(text: str) -> tuple[bool, str]:
+    """(ok, 理由)。conflict は receipt の有無によらず FAIL(宣言による引き下げの却下)。"""
+    c = converge_classify(text)
+    if c["conflict"]:
+        return False, f"not-required 宣言だが hard-positive 実在: {','.join(c['reasons'])}"
+    if c["required"] and not c["receipt"]:
+        why = ",".join(c["reasons"]) or "declared:required"
+        return False, f"converge-required({why})だが収束 receipt がない"
+    return True, "ok"
+
+
+_CONVERGE_FIXTURES = (
+    # (id, 期待 ok, 説明, 本文)
+    ("F1", False, "required + receipt なし",
+     "## 残ゲート\n人間は候補 A-1 か候補 A-2 を指定する。\n"),
+    ("F2", True, "required + receipt あり(正常系)",
+     "## 残ゲート\n候補 A-1 / 候補 A-2 から選ぶ。\n"
+     "## /converge receipt\n- 周回: round 1 = 2 件 / round 2 = 0 件\n- 未収束事項: なし\n"),
+    ("F3", True, "not-required + receipt なし",
+     "## 記録\n台帳の status を filed から applied へ遷移させた。差分は 1 行。\n"),
+    ("F4", False, "mixed-task 陽性(事実照会で始まり裁定候補を生成)",
+     "## 出典の確認\n3 例の出典を読み、内容を突き合わせた。\n"
+     "## 判定\n案 A(推奨)/ 案 B / 案 C のいずれかで裁定をお願いします。\n"),
+    ("F5", False, "hard-positive 実在 かつ not-required 宣言",
+     "<!-- converge: not-required -->\n## 残ゲート\n候補 B-1(推奨)/ 候補 B-2。\n"),
+)
+
+
+def c16_converge_receipt() -> None:
+    # (1) 較正 — fixture 5 種を毎回実測(予防ゲートの陽性対照。OBS-20260828-05)
+    fx_bad = []
+    for fid, want_ok, desc, body in _CONVERGE_FIXTURES:
+        got_ok, why = converge_verdict(body)
+        if got_ok != want_ok:
+            fx_bad.append(f"{fid}({desc}) 期待={'PASS' if want_ok else 'FAIL'}"
+                          f" 実測={'PASS' if got_ok else 'FAIL'} [{why}]")
+    if fx_bad:
+        check("C16", False, "fixture 較正が不成立(計器を先に疑う): " + " / ".join(fx_bad))
+        return
+
+    # (2) 対象集合 — A-1 x C-1c(cutoff 以降の全数走査。staged は使わない)
+    reg = ROOT / "bomdd" / "60-change-register.yaml"
+    if not reg.is_file():
+        check("C16", False, "台帳が見つからない(対象集合が決定不能 — 欠測は FAIL)")
+        return
+    try:
+        data = strict_yaml_load(reg.read_text(encoding="utf-8"))
+    except Exception as e:                                     # noqa: BLE001
+        check("C16", False, f"台帳がパースできない(対象集合が決定不能): {e}")
+        return
+
+    targets = []
+    for ent in (data or {}).get("changes", []) or []:
+        if str(ent.get("date", "")) < CONVERGE_CUTOFF:
+            continue
+        ref = ent.get("order_ref")
+        if not ref:
+            check("C16", False,
+                  f"{ent.get('id')}: cutoff 以降だが order_ref がない(検査対象が特定不能)")
+            return
+        po = ROOT / ref
+        if not po.is_file():
+            check("C16", False, f"{ent.get('id')}: order_ref の実体がない({ref} — 欠測は FAIL)")
+            return
+        targets.append((str(ent.get("id")), po))
+
+    imp = ROOT / "method" / "improvements.md"
+    if not imp.is_file():
+        check("C16", False, "method/improvements.md が見つからない(欠測は FAIL)")
+        return
+    sec_id, sec_buf, sections = None, [], []
+    for line in imp.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^##\s+(\d{4}-\d{2}-\d{2})\s+(.*)$", line)
+        if m:
+            if sec_id:
+                sections.append((sec_id, "\n".join(sec_buf)))
+            sec_id, sec_buf = f"improvements.md #{m.group(1)} {m.group(2)[:36]}", []
+            if m.group(1) < CONVERGE_CUTOFF:
+                sec_id = None
+            continue
+        if sec_id is not None:
+            sec_buf.append(line)
+    if sec_id:
+        sections.append((sec_id, "\n".join(sec_buf)))
+
+    problems = []
+    for name, po in targets:
+        ok, why = converge_verdict(po.read_text(encoding="utf-8"))
+        if not ok:
+            problems.append(f"{name}: {why}")
+    for name, body in sections:
+        ok, why = converge_verdict(body)
+        if not ok:
+            problems.append(f"{name}: {why}")
+
+    n = len(targets) + len(sections)
+    check("C16", not problems,
+          f"converge receipt ゲート(cutoff {CONVERGE_CUTOFF} 以降 {n} 件"
+          f"・fixture 5/5 較正成立)"
+          + (" — " + " / ".join(problems) if problems else ""))
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="BomDD リポ全体の自己適合ゲート")
     ap.add_argument("--dotnet", action="store_true",
@@ -890,6 +1063,7 @@ def main() -> int:
     c13_link_integrity()
     c14_kit_freshness()
     c15_deprecated_refs()
+    c16_converge_receipt()
     if a.dotnet:
         c9_dotnet()
 
