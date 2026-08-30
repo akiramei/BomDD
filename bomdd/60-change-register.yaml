@@ -1066,3 +1066,50 @@ changes:
       同一判定を適用し SKILL.md 削除で PASS→FAIL へ転化・missing=['converge']・巻き添えなし)。
       ECO-030 で予防面の対照を落とした反省の適用であり EXP-20260828-06 の第 1 回観測。
       詳細は order §4〜§6。
+  - id: ECO-033
+    title: converge 非起動を commit gate で観測可能にする(Phase 1)
+    date: 2026-08-30
+    origin: corrective
+    status: filed
+    source: >
+      maintainer 提言 2026-08-30「converge 自発起動を『認識』から工程 Gate へ移す」+ 同日裁定
+      (推奨②採択・本 ECO は Phase 1 のみ・Phase 2 は別 ECO・ECO-020 差分裁定は Phase 2 で必須・
+      receipt schema 拡張は分離)。契機= 同日の converge 非起動の再発(OBS-20260828-02 の 2 例目)。
+      検出したのは受入でも receipt でもなく人間の質問であり、非起動を観測する経路が存在しない
+      ことが確定した。ECO-032 のスコープ外宣言「self-conformance への converge 固有検査の追加
+      (§8.5 に従い実測後)」の、実測後の実施にあたる。
+    order_ref: bomdd/60-change-order-eco-033.md
+    affected_refs: [method/tools/self-conformance.py]
+    no_impact_prediction: "(gate ① 前・製造前)predicate 確定後に確定する。現時点の予測= self-conformance へ検査 1 本追加(C16 想定)・既存 15 検査は判定不変。converge SKILL 本文は変更しない(自発起動契約の書き換えは Phase 2 の裁定に依存・散文強化は主対策にならない)。配布物を変更しないため製品リポ・kit へは非波及。C7(README のスキル本数)は SKILLS 実数を変えないため判定不変"
+    summary: >
+      目的(裁定で確定)= converge 未実施の対象 artifact が正典化されることを阻止し、非起動を
+      観測可能にする。「人間への未収束提示を防ぐこと」は本 ECO の目的ではない(Phase 2 の目的)。
+      実測の要点= 既存 Gate は例外なく git イベントへ張られている(process-core hooks・ViewTube
+      hooks)/ .claude/settings.json は不在でハーネス層フックは存在しない / 現行 receipt 契約は
+      既に「提示物の中の一節として埋め込む(decision 文書内・ECO 本文内)」であり artifact へ
+      落ちる / 2026-08-30 の非起動事例は improvements.md へコミットされており commit 時点の
+      検出機会は実在した。
+      gate ① 裁定対象= 論点 A(対象 artifact 集合。A-1 推奨= ECO order + improvements.md 新設節 /
+      A-2 order のみ / A-3 + method 本文)・論点 B(判定 predicate。B-1 推奨= 構造マーカーによる
+      自動 required ∪ 明示宣言かつ宣言は緩める方向に使えない非対称設計 / B-2 マーカーのみ /
+      B-3 宣言のみ / B-4 パス単独)・論点 C(遡及境界。C-1 推奨= staged 限定 / C-2 cutoff マーカー
+      併用 / C-3 全数遡及)。
+      A-2 を推奨しない実測根拠= 2026-08-30 の非起動事例の対象は ECO order でなく improvements.md
+      の節であり、A-2 では裁定 4 が要求する mixed-task fixture が書けない。B-1 以外は fixture 集合
+      と両立しない(F5 が宣言機構を要求)— 選択肢は形式的に 4 つだが実効は 1 つであることを
+      order §3 に明記した。
+      較正= fixture 5 種(F1 required+receipt なし→FAIL / F2 required+receipt あり→PASS /
+      F3 not-required+receipt なし→PASS / F4 mixed-task 陽性→FAIL / F5 hard-positive 実在かつ
+      not-required 宣言→FAIL)。F2 が無いと「常に FAIL する Gate」と弁別できない。F4 は
+      2026-08-30 事例の再現。known-bad control(履歴中の receipt なし裁定候補 artifact)の同定を
+      製造初手に置く(該当 0 件なら 0 件と記録)。
+      スコープ外= Phase 2(presentation Gate。ECO-020 との差分裁定を必須とし、比較対象に
+      (i) presentation Gate を repository 側の権威的 Gate にする案 と
+      (ii) repository commit gate を authoritative のまま維持し harness 側を非権威的な
+      early-preflight とする案 の両方を含める)/ receipt schema の scope・downgraded 追加(別裁定。
+      現行契約は 3 項であり提言 §9 の 6 フィールドは拡張)/ 製品リポ process-validator 側への設置
+      (実装先が 2 系統に分かれるため BomDD 側の実測後に別裁定。BomDD は process-core を設置しない
+      = ECO-025)/ 既存 32 order と improvements.md 既存節への遡及。
+      order §7 に /converge receipt を埋め込んだ(round 1 = 3 件・round 2 = 2 件・round 3 = 1 件・
+      2 周連続ゼロ未到達のため収束は主張しない。未収束= 提示物が artifact に落ちないケースの被覆は
+      Phase 1 の被覆外)。
