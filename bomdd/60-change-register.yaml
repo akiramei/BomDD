@@ -1160,7 +1160,7 @@ changes:
     title: C16 の偽陽性に出口を作る(根拠つき not-required 宣言の受理)
     date: 2026-08-30
     origin: corrective
-    status: applied   # 2026-08-30 製造完了= V1(fixture 8/8)・V2(実在不適合の赤->緑)・V3(全 16 検査 PASS)。V4(CI)・V5(diff 窓)は push 後に確定
+    status: verified   # 2026-08-30 受入= V1(fixture 9/9)・V2(実在不適合の赤->緑を同一個体で実測)・V3(全 16 検査 PASS・既存 15 は判定不変)・V5(窓 9ec716e->44d2904 は allowed_paths のみ・予測的中)・V4(CI run 33308191831 success @44d2904)
     source: >
       ECO-033(verified)で新設した C16 が、初回の実運用で**出口のない偽陽性**を起こした。
       ECO-033 弧の還元節(記帳のみ・裁定候補なし)が `gate 1` と `残ゲート` の**言及**によって
@@ -1173,7 +1173,7 @@ changes:
     affected_refs: [method/tools/self-conformance.py, method/improvements.md]
     diff_audit:
       baseline: "9ec716e"   # ECO-033 受入コミット
-      head: "TBD"           # push 後に diff 監査して確定
+      head: "44d2904"       # diff 監査済み: 窓内は self-conformance.py+improvements.md+台帳系のみ・予測的中
       allowed_paths: [method/tools/self-conformance.py, method/improvements.md, bomdd/]
     no_impact_prediction: "C16 の宣言パーサと conflict 判定のみ改修。hard-positive 語彙・対象集合(A-1)・cutoff(C-1c)は変更しない。既存 15 検査と fixture F1〜F5 は判定不変の予測。配布物を変更しないため製品リポ・kit へは非波及。C7 は SKILLS 実数を変えないため判定不変"
     summary: >
@@ -1215,3 +1215,20 @@ changes:
       **出口の初回使用**= フェンス修正後、本 order は言及により正当に required となって FAIL し、
       根拠つき宣言で受理させた。新設機構の初回使用者が新設者自身であり赤->緑を実個体で通した。
       有効な免除は現在 2 件でいずれも判定行に宣言者つきで表示される。
+    verification: >
+      V1(予防面較正)= PASS。fixture 9 種が 9/9 で期待と一致。F1〜F5 は ECO-033 から判定不変
+      (回帰なし)。新規= F6(reason のみ・decided-by 欠落 -> FAIL)/ F7(reason+decided-by ->
+      PASS)/ F8(空の reason -> FAIL。欄の存在でなく中身を測る対照)/ F9(コードフェンス内の
+      宣言は免除を与えない。構文を説明する文書の自己免除を防ぐ)。
+      V2(是正面較正)= PASS。**本 ECO の症状そのもの**(合成でなく実在する不適合)を対照とし、
+      根拠つき宣言の前後で FAIL -> PASS の赤->緑を**同一個体**で実測。落ちたのは C16 の 1 件のみで
+      他 15 検査は両実行で判定不変。加えてフェンス欠陥については、免除の可視化(4.1)自体が
+      過剰免除 1 件を検出した実測がある。
+      V3(全検査)= PASS。self-conformance 全 16 検査 PASS・FAIL 0。既存 15 検査は判定不変
+      (C7 [9]・C4 参照 18 件・C13 105 files/198 links いずれも変化なし)。
+      V4(CI)= PASS。run 33308191831・conclusion success・headSha 44d2904 がローカル HEAD と一致。
+      V5(diff 窓)= PASS。9ec716e->44d2904 の窓内は method/tools/self-conformance.py・
+      method/improvements.md・bomdd/(order・register)のみ= allowed_paths と一致し
+      no_impact_prediction どおり。
+      適用範囲内(cutoff 2026-08-30 以降)の実測対象は 4 件で、うち 2 件が根拠つき免除
+      (いずれも判定行に宣言者つきで表示)。詳細は order 8 節。
