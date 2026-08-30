@@ -46,7 +46,9 @@
                       却下=FAIL。B-1 の非対称設計)。境界= cutoff 全数走査(C-1c — staged 差分は
                       CI で計算不能〔shallow clone〕なため意味論から外し判定の正本を全数走査へ)。
                       fixture 5 種を毎回実測(F2 正常系を含む — 無いと「常に FAIL する Gate」と
-                      弁別できない)
+                      弁別できない)。ECO-034= `not-required` は**根拠つき**
+                      (reason+decided-by)なら受理し、根拠なしは却下。有効な免除の
+                      件数と宣言者を判定行へ出す(沈黙する免除を作らない)
 
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
@@ -892,7 +894,14 @@ def c9_dotnet() -> None:
 CONVERGE_CUTOFF = "2026-08-30"   # ECO-033 gate 1 裁定(C-1c)。これ以前の節・order は対象外
 
 # 明示宣言(HTML コメント — 描画に出ず機械可読。前例= worklist-legacy-audit-cutoff)
-CONVERGE_DECL_RE = re.compile(r"<!--\s*converge:\s*(required|not-required)\s*-->")
+# ECO-034: `not-required` は**根拠つきなら受理**する。根拠= reason と decided-by の 2 点で、
+# 片方でも空なら却下(FAIL)。前例= ui-cad-gate GU4(ECO-005)「rejected は却下根拠と決定者を
+# 必須にする — 来歴なしの黙殺を通さない」。B-1 の非対称性は「宣言で緩められない」から
+# 「**根拠なしには緩められない**」へ精密化される(`required` への引き上げは無条件で有効)。
+CONVERGE_DECL_RE = re.compile(
+    r"<!--\s*converge:\s*(required|not-required)"
+    r"(?:[\s;|]+reason:\s*(.*?))?"
+    r"(?:[\s;|]+decided-by:\s*(.*?))?\s*-->", re.S)
 
 # hard-positive= 「人間へ未解決の選択を出している」ことの高精度マーカー
 # 語彙は**実リポの実測**で決めた(製造時 R5 probe — ECO-033 §8)。`残ゲート` だけでは
@@ -919,32 +928,53 @@ CONVERGE_ROUNDS_RE = re.compile(r"周回|round\s*\d")
 CONVERGE_UNRESOLVED_RE = re.compile(r"未収束")
 
 
+# ECO-034 製造中の実測: 宣言構文を**説明する**文書(本 ECO の order 自身)の
+# コードフェンス内テンプレートが実際の宣言として解釈され、`by <誰が宣言したか>` という
+# プレースホルダで自己免除が成立した。**免除を granting する文はフェンス内では読まない**。
+# hard-positive は逆に**フェンス内でも読む**(非対称) — 過剰検出は出口があるので安全側だが、
+# 過剰免除は fail-open で出口を要さないため。倒れる方向を揃えている。
+_FENCE_RE = re.compile(r"^[ \t]*(?:```|~~~).*?^[ \t]*(?:```|~~~)", re.S | re.M)
+
+
+def _strip_fences(text: str) -> str:
+    return _FENCE_RE.sub("", text)
+
+
 def converge_classify(text: str) -> dict:
     """1 artifact を分類する。返り値= required / reasons / declared / conflict / receipt。"""
     reasons = []
     for name, rx in CONVERGE_HARD_POSITIVES:
         if rx.search(text):
             reasons.append(name)
-    dm = CONVERGE_DECL_RE.search(text)
+    dm = CONVERGE_DECL_RE.search(_strip_fences(text))
     declared = dm.group(1) if dm else None
+    decl_reason = (dm.group(2) or "").strip() if dm else ""
+    decl_by = (dm.group(3) or "").strip() if dm else ""
+    grounded = bool(decl_reason and decl_by)
 
-    # B-1 非対称設計: required への引き上げは常に有効 / not-required への引き下げは
-    # hard-positive が 1 つでも実在するなら却下する(宣言で検査を弱められない)
-    conflict = bool(declared == "not-required" and reasons)
-    required = bool(reasons) or declared == "required"
+    # B-1 非対称設計(ECO-034 で精密化): required への引き上げは無条件で有効。
+    # not-required への引き下げは **根拠(reason + decided-by)が揃うときだけ**受理し、
+    # 根拠なしなら hard-positive 実在時に却下する。
+    conflict = bool(declared == "not-required" and reasons and not grounded)
+    exempted = bool(declared == "not-required" and reasons and grounded)
+    required = (bool(reasons) and not exempted) or declared == "required"
 
     receipt = bool(CONVERGE_RECEIPT_RE.search(text)
                    and CONVERGE_ROUNDS_RE.search(text)
                    and CONVERGE_UNRESOLVED_RE.search(text))
     return {"required": required, "reasons": reasons, "declared": declared,
-            "conflict": conflict, "receipt": receipt}
+            "conflict": conflict, "receipt": receipt, "exempted": exempted,
+            "decl_reason": decl_reason, "decl_by": decl_by}
 
 
 def converge_verdict(text: str) -> tuple[bool, str]:
     """(ok, 理由)。conflict は receipt の有無によらず FAIL(宣言による引き下げの却下)。"""
     c = converge_classify(text)
     if c["conflict"]:
-        return False, f"not-required 宣言だが hard-positive 実在: {','.join(c['reasons'])}"
+        miss = " / ".join(x for x, v in (("reason", c["decl_reason"]),
+                                         ("decided-by", c["decl_by"])) if not v)
+        return False, (f"根拠なき not-required 宣言(欠落: {miss})だが hard-positive 実在: "
+                       f"{','.join(c['reasons'])}")
     if c["required"] and not c["receipt"]:
         why = ",".join(c["reasons"]) or "declared:required"
         return False, f"converge-required({why})だが収束 receipt がない"
@@ -963,8 +993,21 @@ _CONVERGE_FIXTURES = (
     ("F4", False, "mixed-task 陽性(事実照会で始まり裁定候補を生成)",
      "## 出典の確認\n3 例の出典を読み、内容を突き合わせた。\n"
      "## 判定\n案 A(推奨)/ 案 B / 案 C のいずれかで裁定をお願いします。\n"),
-    ("F5", False, "hard-positive 実在 かつ not-required 宣言",
+    ("F5", False, "hard-positive 実在 かつ 根拠なし not-required 宣言",
      "<!-- converge: not-required -->\n## 残ゲート\n候補 B-1(推奨)/ 候補 B-2。\n"),
+    # ECO-034: 根拠つき not-required の受理と、根拠の欠落・空欄の却下
+    ("F6", False, "not-required + reason のみ(decided-by なし)",
+     "<!-- converge: not-required reason: 記帳のみ -->\n## 残ゲート\n候補 B-1(推奨)。\n"),
+    ("F7", True, "not-required + reason + decided-by(根拠つき受理)",
+     "<!-- converge: not-required reason: 記帳のみ・裁定候補なし decided-by: maintainer -->\n"
+     "## 残ゲート\n候補 B-1(推奨)/ 候補 B-2。\n"),
+    ("F8", False, "not-required + 空の reason(欄の存在でなく中身を測る)",
+     "<!-- converge: not-required reason:  decided-by: maintainer -->\n"
+     "## 残ゲート\n候補 B-1(推奨)。\n"),
+    ("F9", False, "コードフェンス内の宣言は免除を与えない(構文を説明する文書の自己免除を防ぐ)",
+     "宣言の書式は次のとおり。\n\n```\n"
+     "<!-- converge: not-required reason: <なぜ対象外か> decided-by: <誰が宣言したか> -->\n"
+     "```\n\n## 残ゲート\n候補 B-1(推奨)。\n"),
 )
 
 
@@ -1025,20 +1068,24 @@ def c16_converge_receipt() -> None:
     if sec_id:
         sections.append((sec_id, "\n".join(sec_buf)))
 
-    problems = []
-    for name, po in targets:
-        ok, why = converge_verdict(po.read_text(encoding="utf-8"))
-        if not ok:
-            problems.append(f"{name}: {why}")
-    for name, body in sections:
+    problems, exempt = [], []
+    for name, body in ([(n_, po.read_text(encoding="utf-8")) for n_, po in targets]
+                       + sections):
+        c = converge_classify(body)
+        if c["exempted"]:
+            exempt.append(f"{name}(by {c['decl_by']})")
         ok, why = converge_verdict(body)
         if not ok:
             problems.append(f"{name}: {why}")
 
+    # ECO-034: **沈黙する免除を作らない** — 根拠つき not-required は fail-open を再導入しうる
+    # ため、有効な免除の件数と宣言者を毎回の判定行へ出す(増加が観測できる形にする)。
     n = len(targets) + len(sections)
     check("C16", not problems,
           f"converge receipt ゲート(cutoff {CONVERGE_CUTOFF} 以降 {n} 件"
-          f"・fixture 5/5 較正成立)"
+          f"・fixture {len(_CONVERGE_FIXTURES)}/{len(_CONVERGE_FIXTURES)} 較正成立"
+          f"・根拠つき免除 {len(exempt)} 件"
+          + ("[" + " / ".join(exempt) + "]" if exempt else "") + ")"
           + (" — " + " / ".join(problems) if problems else ""))
 
 

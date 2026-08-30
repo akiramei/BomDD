@@ -1156,3 +1156,62 @@ changes:
       (order・register)のみ= allowed_paths と一致し、no_impact_prediction どおり。
       適用範囲内(cutoff 2026-08-30 以降)の実測対象は 2 件(ECO-033 order・improvements.md
       2026-08-30 節)でいずれも PASS。詳細は order §8。
+  - id: ECO-034
+    title: C16 の偽陽性に出口を作る(根拠つき not-required 宣言の受理)
+    date: 2026-08-30
+    origin: corrective
+    status: applied   # 2026-08-30 製造完了= V1(fixture 8/8)・V2(実在不適合の赤->緑)・V3(全 16 検査 PASS)。V4(CI)・V5(diff 窓)は push 後に確定
+    source: >
+      ECO-033(verified)で新設した C16 が、初回の実運用で**出口のない偽陽性**を起こした。
+      ECO-033 弧の還元節(記帳のみ・裁定候補なし)が `gate 1` と `残ゲート` の**言及**によって
+      converge-required と判定され FAIL。B-1 の非対称設計は偽陽性に逃げ道を持たず、
+      (a) not-required 宣言は hard-positive 実在時に却下 (b) 収束 receipt を書くのは
+      「やっていないことを書く」で playbook 4.4 に反する (c) 検査を黙って緩めるのは ECO 違反、
+      の三方塞がりで正当な作業がデッドロックした。是正方針は user 裁定 2026-08-30
+      「O-2 採択。新規 ECO で起票して製造まで進めて」。
+    order_ref: bomdd/60-change-order-eco-034.md
+    affected_refs: [method/tools/self-conformance.py, method/improvements.md]
+    diff_audit:
+      baseline: "9ec716e"   # ECO-033 受入コミット
+      head: "TBD"           # push 後に diff 監査して確定
+      allowed_paths: [method/tools/self-conformance.py, method/improvements.md, bomdd/]
+    no_impact_prediction: "C16 の宣言パーサと conflict 判定のみ改修。hard-positive 語彙・対象集合(A-1)・cutoff(C-1c)は変更しない。既存 15 検査と fixture F1〜F5 は判定不変の予測。配布物を変更しないため製品リポ・kit へは非波及。C7 は SKILLS 実数を変えないため判定不変"
+    summary: >
+      症状= use/mention の混同。`gate 1 で承認された選択肢…`(過去の承認の叙述)と
+      「`残ゲート` だけでは…」(**検査器そのものを論じる**文中の引用)が hard-positive として
+      発火した。ECO-033 8.3 で是正した部分文字列ゲート欠陥と同じクラス。
+      真の問題は精度ではなく**出口の不在** — 予防ゲートが偽陽性を持つのは避けられないが、
+      出口を持たない設計は偽陽性の頻度がゼロでない限り必ず作業を止める。頻度の実測=
+      cutoff 以降の対象 3 件中 1 件(33%)が「検査を論じる文書」クラス。
+      ECO-033 の受入(fixture 5/5・実在 known-bad 19/19・実コーパス全数分類)は**このクラスを
+      一度も試しておらず**、8.6 で宣言した限界 3 点にも入っていなかった —
+      **宣言した限界が不完全だった**。OBS-20260830-08 の同一弧内での再発。
+      是正= `not-required` 宣言に **reason と decided-by の 2 点**を必須とし、両方揃えば受理・
+      片方でも欠ければ FAIL。前例= ui-cad-gate GU4(ECO-005)「rejected は却下根拠と決定者を
+      必須にする — 来歴なしの黙殺を通さない」。B-1 の非対称性は「宣言で緩められない」から
+      「**根拠なしには緩められない**」へ精密化(required への引き上げは無条件で有効・不変)。
+      追加設計(裁定 3 の懸念への応答)= **免除は数えて表示する**。有効な not-required 宣言の
+      件数と宣言者を毎回の判定行へ出力する — 沈黙する免除が fail-open を作るため、
+      増加が観測できる形にする。
+      較正= 予防面 fixture 8 種(F1〜F5 判定不変・F6 decided-by 欠落 -> FAIL・F7 根拠つき受理 ->
+      PASS・F8 空の reason -> FAIL〔欄の存在でなく中身を測る対照〕)が 8/8。是正面= **本 ECO の
+      症状そのもの**を対照とし、宣言前 FAIL -> 宣言後 PASS の赤->緑を同一個体で実測(合成でなく
+      実在する不適合)。落ちたのは C16 の 1 件のみで他 15 検査は両実行で判定不変。
+      宣言した限界(ECO-033 8.6 への追補)= (4) use/mention を区別しない — 本 ECO は精度改善では
+      なく**出口**で解いた。精度側の是正(O-1)は実害の実測後に別 ECO (5) 根拠の**質**は
+      測らない(非空のみ)。緩和は防止でなく**観測可能化**であり、自己宣言も許す代わりに
+      全免除を監査面へ出す。
+      スコープ外= O-1(use/mention 弁別)・O-3(improvements.md を対象外に。却下済み)・
+      Phase 2(presentation Gate)・receipt schema 拡張・製品リポへの設置。
+      **製造中の第 2 の欠陥(過剰免除)**= O-2 実装直後、本 ECO の order 自身が
+      `by <誰が宣言したか>` というプレースホルダで不正な免除を得ていた。原因は order 4 節の
+      コードフェンス内に置いた**宣言構文のテンプレート** — 宣言の書式を説明する文書が、その説明に
+      よって自分を免除していた(use/mention の第 2 の現れ。今度は過剰検出でなく**過剰免除**=
+      fail-open)。**検出したのは 4.1 で追加した免除の可視化そのもの**で、件数だけでなく
+      **宣言者**を出していたためプレースホルダが目に入った(件数のみなら通過した可能性が高い)。
+      是正= **免除を与える文はコードフェンス内では読まない / hard-positive はフェンス内でも読む**
+      の非対称(過剰検出は出口があるので安全側・過剰免除は fail-open で出口を要さない —
+      倒れる方向を揃えた)。fixture F9 を追加し F1〜F8 判定不変で 9/9。
+      **出口の初回使用**= フェンス修正後、本 order は言及により正当に required となって FAIL し、
+      根拠つき宣言で受理させた。新設機構の初回使用者が新設者自身であり赤->緑を実個体で通した。
+      有効な免除は現在 2 件でいずれも判定行に宣言者つきで表示される。
