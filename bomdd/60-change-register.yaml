@@ -1428,7 +1428,7 @@ changes:
     title: C9 measurement capability — signature 弁別力・母集団責務・限界宣言(calibrate 較正掃引の所見)
     date: 2026-08-31
     origin: corrective
-    status: filed   # gate ① 承認待ち — 製造は order 提示で停止(裁定対象= 製造承認+(a) 方式 4 案+(b) 二択)
+    status: applied   # 2026-08-31 gate ① 承認(6 点裁定: a-3+b-2 採択・C3 捕捉は control-effectiveness 実例扱い・EXP 三分割集計)→ 製造中。V 系は fix/accept で確定
     source: >
       /calibrate 較正掃引(user 裁定 2026-08-31「まず、①を回してみましょう」— 題材= C9+
       期待結果 manifest)。EXP-20260831-04 第 1 回観測。対照条件が強い: C9 は CI 毎 push 実行・
@@ -1443,8 +1443,8 @@ changes:
     affected_refs: [method/tools/self-conformance.py, loops/expected-results.yaml]
     no_impact_prediction: "(起票時・製造前)diff は self-conformance.py+expected-results.yaml((a) 裁定が manifest 拡張を含む場合)+台帳系のみの予測。loops/ のコード・テスト・観測データは変更しない。既存 C1〜C8・C10〜C16 判定不変・C9 の現行 4 スイート正常判定も不変(弁別の追加であり現行赤の受理を変えない)。C16 は本 order を required と判定する見込み — /converge receipt を order へ埋め込み済み"
     diff_audit:
-      baseline: "5c0f5dc"  # 起票直前 HEAD(gate ① 承認後、是正開始直前へ更新)
-      allowed_paths: [method/tools/self-conformance.py, loops/expected-results.yaml]
+      baseline: "a201226"  # 起票時 5c0f5dc → 是正開始直前(起票コミット)へ更新(gate ① 承認 2026-08-31)
+      allowed_paths: [method/tools/self-conformance.py, loops/expected-results.yaml, method/improvements.md]  # improvements は gate 裁定 6 の記帳(EXP 三分割集計・C3 捕捉の非算入)
     summary: >
       変更要求= (a) F2 signature 弁別力【方式 4 案の裁定】: a-1 substring 延長(書式結合↑・
       局所修理)/ a-2 テスト側 marker(棄却推奨 — 凍結 loop コードの改変= 不可逆観測データの

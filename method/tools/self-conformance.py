@@ -53,7 +53,12 @@
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
                       expected_failed は「失敗しなければならない」(実験証拠の保存検査)・
-                      それ以外は全合格(リグレッション検出)
+                      それ以外は全合格(リグレッション検出)。ECO-039: failure identity
+                      (kind/expected/actual)の構造化突合を主判定に(substring は補助・
+                      parse 不能は FAIL で fallback しない)+母集団の双方向突合
+                      (Test SDK 参照 csproj ⇔ manifest)+陽性対照 5 腕を毎回実測。
+                      限界宣言は c9 コード先頭(Exe harness 母集団外・意味論同一性の
+                      非証明・SDK/環境差の再現性未測定)
 
 欠測・実行不能は「問題なし」ではない: 検査対象が見つからない/実行できない場合も FAIL。
 exit 0 = 全検査合格 / exit 1 = 不適合あり / exit 2 = ゲート自身が実行不能。
@@ -817,6 +822,89 @@ def c10_schema_drift() -> None:
 
 
 # --- C9 loop スイート vs 期待結果 manifest(--dotnet) --------------------------------
+# ECO-039: signature(substring)の弁別力欠陥の是正 — failure identity の構造化突合(a-3)+
+# 母集団の双方向突合(b-2)+検出力の限界宣言(ECO-033 様式の遡及)。
+#
+# 検出力の限界(宣言 — 実施した検査が測っていない次元):
+#   (1) Exe 型 acceptance harness(loop-02.5 / loop-05 / equip-02)は母集団外 — loops/ は
+#       不可逆観測データであり実行環境依存(ffmpeg・API 起動)の意図的境界。
+#   (2) failure identity は trx Message 表層の構造化(kind+Expected/Actual)であり、失敗理由の
+#       意味論的同一性の完全な証明ではない(同 kind・同値で意味の異なる失敗は弁別外)。
+#   (3) SDK/環境差の再現性(別環境・別実行主体での判定安定性)は測っていない。SDK 個体は
+#       結果に刻印されない(環境ドリフトは identity 不一致= FAIL 側に倒れることのみ保証)。
+
+def _c9_parse_failure(msg: str):
+    """trx Message から failure identity(kind/expected/actual)を構造化する。
+    識別できない形式は None — 呼び出し側で FAIL(旧 substring への silent fallback はしない)。"""
+    lines = [ln.strip() for ln in (msg or "").splitlines() if ln.strip()]
+    if not lines:
+        return None
+    ident = {"kind": lines[0], "expected": None, "actual": None}
+    for ln in lines[1:]:
+        if ln.startswith("Expected:"):
+            ident["expected"] = ln[len("Expected:"):].strip()
+        elif ln.startswith("Actual:"):
+            ident["actual"] = ln[len("Actual:"):].strip()
+        elif ln.startswith("Not found:"):
+            ident["expected"] = ln[len("Not found:"):].strip().strip('"')
+    if ident["expected"] is None:  # kind だけでは identity にならない(曖昧形式は不成立)
+        return None
+    return ident
+
+
+def _c9_identity_match(want: dict, got) -> tuple[bool, str]:
+    """manifest 宣言(want)と実測(got)の identity 突合。want の actual: null は
+    kind 固有の不在の明示宣言(Assert.Contains 型 — Message に Actual が存在しない)。"""
+    if got is None:
+        return False, "識別不能な失敗形式(構造化 parse 不能 — substring へ fallback しない)"
+    for k in ("kind", "expected", "actual"):
+        wv = want.get(k)
+        if wv is None:
+            continue
+        if str(wv) != str(got.get(k) or ""):
+            return False, f"{k} 不一致(期待 {wv!r} / 実測 {got.get(k)!r})"
+    return True, ""
+
+
+def _c9_selftest() -> list[str]:
+    """計器の陽性対照(合成・毎回実測)。known-bad= 旧 substring なら一致するが
+    identity が異なる別理由失敗(ECO-039 gate 裁定 2)。不成立なら本走査を行わない。"""
+    bad = []
+    want_eq = {"kind": "Assert.Equal() Failure: Values differ", "expected": "1", "actual": "0"}
+    m_true = "Assert.Equal() Failure: Values differ\nExpected: 1\nActual:   0"
+    m_other = "Assert.Equal() Failure: Values differ\nExpected: 1\nActual:   3"
+    m_junk = "System.InvalidOperationException: boom"
+    ok, _ = _c9_identity_match(want_eq, _c9_parse_failure(m_true))
+    if not ok:
+        bad.append("正腕: 真の期待赤を受理できない")
+    if "Expected: 1" not in m_other:
+        bad.append("known-bad の前提不成立(旧 substring が一致する合成になっていない)")
+    ok, _ = _c9_identity_match(want_eq, _c9_parse_failure(m_other))
+    if ok:
+        bad.append("known-bad: 別理由失敗(Actual 相違)を受理 — 旧 substring と弁別できていない")
+    ok, _ = _c9_identity_match(want_eq, _c9_parse_failure(m_junk))
+    if ok:
+        bad.append("parse 不能形式を受理した(silent fallback)")
+    want_ct = {"kind": "Assert.Contains() Failure: Sub-string not found",
+               "expected": "[cv]null[vout]", "actual": None}
+    m_ct = 'Assert.Contains() Failure: Sub-string not found\nString:    "xx"\nNot found: "[cv]null[vout]"'
+    ok, _ = _c9_identity_match(want_ct, _c9_parse_failure(m_ct))
+    if not ok:
+        bad.append("正腕: Contains 型の期待赤を受理できない")
+    return bad
+
+
+def _c9_population() -> set[str]:
+    """loops/ 配下の dotnet test 対象(Test SDK/xunit 参照 csproj)の機械列挙(ECO-039 b-2)。
+    Exe 型 console harness は参照述語により自然に母集団外(限界宣言 (1))。"""
+    found = set()
+    for csp in sorted((ROOT / "loops").rglob("*.csproj")):
+        text = csp.read_text(encoding="utf-8", errors="replace")
+        if "Microsoft.NET.Test.Sdk" in text or "xunit" in text.lower():
+            found.add(csp.parent.relative_to(ROOT).as_posix())
+    return found
+
+
 def c9_dotnet() -> None:
     manifest_path = ROOT / "loops" / "expected-results.yaml"
     if not manifest_path.exists():
@@ -828,15 +916,32 @@ def c9_dotnet() -> None:
     if not suites:
         check("C9", False, f"manifest に suites がない/空: {manifest_path}(vacuous pass を遮断)")
         return
+    # ECO-039: 計器較正(陽性対照)が不成立なら本走査を行わない — 計器を先に疑う
+    st = _c9_selftest()
+    if st:
+        check("C9", False, f"計器較正不成立(陽性対照): {st}")
+        return
+    check("C9", True, "計器較正(陽性対照 5 腕: 正腕 2・known-bad〔substring 一致×identity 相違〕・parse 不能・前提検査)")
+    # ECO-039 b-2: 母集団の双方向突合 — 未記載 project と不存在/対象外化 entry の双方を FAIL
+    found = _c9_population()
+    declared = {s["project"] for s in suites}
+    unlisted = sorted(found - declared)
+    ghost = sorted(declared - found)
+    pop_ok = not unlisted and not ghost
+    pop_detail = (f" manifest 未記載の test project: {unlisted}" if unlisted else "") + \
+                 (f" 不存在/対象外化した manifest entry: {ghost}" if ghost else "")
+    check("C9", pop_ok, f"母集団突合(Test SDK/xunit 参照 csproj {len(found)} 件 ⇔ manifest {len(declared)} 件・双方向){pop_detail}")
     for suite in suites:
         proj = suite["project"]
-        # 文字列(旧形)と mapping(test/class/signature — playbook §13・ECO-007)の両形を受ける
-        expected_failed, signatures = set(), {}
+        # 文字列(旧形)/ mapping+signature(ECO-007)/ +identity(構造化 — ECO-039)の三形を受ける
+        expected_failed, signatures, identities = set(), {}, {}
         for e in suite.get("expected_failed") or []:
             if isinstance(e, dict):
                 expected_failed.add(e["test"])
                 if e.get("signature"):
                     signatures[e["test"]] = e["signature"]
+                if e.get("identity"):
+                    identities[e["test"]] = e["identity"]
             else:
                 expected_failed.add(e)
         tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-trx-"))
@@ -860,9 +965,15 @@ def c9_dotnet() -> None:
             failed = {n for n, o in results.items() if o != "Passed"}
             total_ok = len(results) == suite.get("total")
             set_ok = failed == expected_failed
-            # 期待理由と異なる失敗の検査(signature 突合)
-            wrong_reason = [n for n, sig in signatures.items()
-                            if n in failed and sig not in messages.get(n, "")]
+            # 期待理由と異なる失敗の検査 — identity(構造化・主判定)+ signature(補助 substring)
+            wrong_reason = []
+            for n, want in identities.items():
+                if n in failed:
+                    ok_id, why = _c9_identity_match(want, _c9_parse_failure(messages.get(n, "")))
+                    if not ok_id:
+                        wrong_reason.append(f"{n}: {why}")
+            wrong_reason += [f"{n}: signature 不一致" for n, sig in signatures.items()
+                             if n in failed and sig not in messages.get(n, "")]
             detail = ""
             if not set_ok:
                 healed = expected_failed - failed
@@ -872,10 +983,11 @@ def c9_dotnet() -> None:
                 if regressed:
                     detail += f" リグレッション: {sorted(regressed)}"
             if wrong_reason:
-                detail += f" 期待理由と異なる失敗(signature 不一致): {sorted(wrong_reason)}"
+                detail += f" 期待理由と異なる失敗: {sorted(wrong_reason)}"
             check("C9", total_ok and set_ok and not wrong_reason,
                   f"{proj}: {len(results) - len(failed)}/{len(results)} 合格・"
-                  f"期待赤 {len(expected_failed)} 件一致={set_ok}・signature 突合 {len(signatures)} 件{detail}")
+                  f"期待赤 {len(expected_failed)} 件一致={set_ok}・"
+                  f"identity 突合 {len(identities)} 件・signature 補助 {len(signatures)} 件{detail}")
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 

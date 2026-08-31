@@ -10,6 +10,10 @@
 #   - それ以外のテストは全合格でなければならない(リグレッション検出)
 # 較正: 2026-07-10 実測(4 スイート・net10.0)— 外部レビュー検証結果(Split 14/14・
 # Split v2 15/15・Timeline 9/9・Export 26/30)と一致。signature は同日 trx の実 Message から採取。
+# ECO-039(2026-08-31): failure identity(kind/expected/actual)を追加 — signature(substring)は
+# 補助へ降格し identity を主判定とする(「Expected: 1」型の汎用 substring は別理由失敗を受理しうる
+# ことが較正掃引で実測されたため)。identity の値は 2026-08-31 trx の実 Message から構造化採取。
+# actual: null は kind 固有の不在の明示宣言(Assert.Contains 型は Message に Actual を持たない)。
 
 suites:
   - project: loops/loop-01-split/build/MoviePad.SplitSlice.Tests
@@ -27,15 +31,31 @@ suites:
       - test: MoviePad.ExportSlice.Tests.ExportSliceTests.B01_FilterGraph_Identity_OmitsScaleAndFps
         class: assertion-failure/L0-overcoupling
         signature: "[cv]null[vout]"
+        identity:
+          kind: "Assert.Contains() Failure: Sub-string not found"
+          expected: "[cv]null[vout]"
+          actual: null   # Contains 型は Message に Actual を持たない — 不在の明示宣言(ECO-039)
       - test: MoviePad.ExportSlice.Tests.ExportSliceTests.B10_FilterArgs_FrontTrim_AddsInputSeek_AndSecondAudioInput
         class: assertion-failure/L0-overcoupling
         signature: "Expected: 2"
+        identity:
+          kind: "Assert.Equal() Failure: Values differ"
+          expected: "2"
+          actual: "0"
       - test: MoviePad.ExportSlice.Tests.ExportSliceTests.B11_FilterArgs_NoFrontTrim_SingleInput_NoSeek
         class: assertion-failure/L0-overcoupling
         signature: "Expected: 1"
+        identity:
+          kind: "Assert.Equal() Failure: Values differ"
+          expected: "1"
+          actual: "0"
       - test: MoviePad.ExportSlice.Tests.ExportSliceTests.B12_FilterArgs_FrontTrim_NoAudio_SingleSeekedInput
         class: assertion-failure/L0-overcoupling
         signature: "Expected: 1"
+        identity:
+          kind: "Assert.Equal() Failure: Values differ"
+          expected: "1"
+          actual: "0"
 
   - project: loops/loop-03-timeline/build/MoviePad.TimelineSlice.Tests
     total: 9

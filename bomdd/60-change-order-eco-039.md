@@ -86,8 +86,28 @@ C9 docstring へ検出力の限界を恒久記載(ECO-033 様式の遡及)。内
 
 ## gate ①(製造承認)
 
-**承認待ち。** 裁定対象= ①製造承認 ②(a) 方式(a-1〜a-4・推奨 a-3・a-2 棄却推奨)
-③(b) 二択(推奨 b-2)。
+**承認 2026-08-31 maintainer** — 6 点裁定:
+
+1. 製造承認。
+2. **(a)= a-3 採択(構造化突合)**: 凍結された loops/ 側は変更しない / failure identity は
+   少なくとも test identity・failure/parse kind・Expected・Actual を用いて構成 /
+   parse 不能・曖昧な形式を旧 substring 判定へ **silent fallback して PASS させない** /
+   受入に「旧 substring なら一致するが構造化 identity が異なる別理由失敗」を known-bad として
+   含める / 現行 4 件の期待赤が通る正常腕も維持。
+3. **(b)= b-2 採択(母集団突合)**: Test SDK 参照 project の機械列挙と manifest を**双方向**に
+   突合 — 未記載 project・不存在/対象外化した manifest entry の**双方を FAIL** / 自動追記は
+   行わない / console harness 群は C9 の母集団外として境界を明記。
+4. (c) 限界宣言は (a)(b) の製造結果を反映して確定。**SDK/環境差の再現性を今回測定していない
+   ことも限界として残す**。
+5. register 誤帰属は新規 CAPA とせず、**ECO-011 型の再発を既存 C3 が commit 前に捕捉した
+   control-effectiveness 実例**として扱う。
+6. EXP-20260831-04 では F2/F1/F3 を capability defect / boundary finding / declaration
+   deficiency と分けて集計し、**C3 による記録層事故の捕捉を calibrate の効果へ算入しない**。
+
+担当設備の適用解釈(裁定の文言内・order へ記録): (i) Contains 型(B01)の Message には
+Actual が存在しない(String 欄は xunit が `···` で省略)ため、identity は kind 固有に
+`actual: null` を**明示宣言**する — 沈黙の省略ではなく宣言された不在。(ii) 既存 `signature`
+欄は補助検査として残し identity を主判定とする(identity の parse 不能は FAIL)。
 
 ## スコープ外(宣言済み境界)
 
@@ -123,3 +143,56 @@ C9 docstring へ検出力の限界を恒久記載(ECO-033 様式の遡及)。内
   ECO-007 verification 実読 / CI dotnet job の毎 push 実行= run 33391355774 の jobs 実測 /
   C9 コードの fail-closed 面(trx 不在・空 manifest・total pin)= `self-conformance.py:819-880` 実読。
 - 未収束事項: なし。
+
+## 4. 製造と受入の実測(2026-08-31)
+
+- diff 監査の窓: baseline `a201226`(起票コミット= 是正開始直前へ更新)→ head は受入時に確定。
+- **(a) a-3 製造**: `_c9_parse_failure`(trx Message → kind/expected/actual の構造化・識別不能は
+  None)+ `_c9_identity_match`(want の `actual: null` は kind 固有の不在の明示宣言)+
+  manifest の 4 entry へ identity 追加(2026-08-31 trx の実 Message から構造化採取・signature は
+  補助へ降格)。parse 不能は FAIL(silent fallback なし)。loops/ のコード・テストは無変更。
+- **(b) b-2 製造**: `_c9_population`(Test SDK/xunit 参照 csproj の機械列挙)+双方向突合
+  (未記載 project と 不存在/対象外化 entry の双方を個別理由で FAIL・自動追記なし)。
+  述語の実在検証= 13 csproj 中ちょうど manifest の 4 件が該当(Exe harness 3 件は自然に母集団外)。
+- **(c) 製造**: c9 コード先頭へ限界宣言 3 点(Exe harness 母集団外 / identity は Message 表層の
+  構造化で意味論同一性の完全な証明ではない / SDK・環境差の再現性未測定+SDK 個体非刻印)。
+  docstring の C9 項も同期。
+- **陽性対照(常設・毎回実測)**: 5 腕を c9 起動時に実行し、不成立なら本走査を行わない
+  (計器を先に疑う)— 正腕 2(Equal 型・Contains 型の真の期待赤を受理)/ **known-bad**
+  (`Expected: 1` は含むが Actual= 3 の別理由失敗 — 旧 substring は一致・identity は却下。
+  gate 裁定 2 の要求そのもの)/ parse 不能却下 / known-bad の前提検査(substring が一致する
+  合成であることの assert — 変異の適用自体を検証・OBS-20260716-07)。
+- **V1(受理側 known-bad)PASS**: 上記 5 腕が常設化され毎回実測(初回実行で成立確認)。
+- **V2(緑腕)PASS**: クリーン実測で 4 スイート全 PASS・期待赤 4 件一致・identity 突合 4 件。
+- **V3(母集団変異)PASS**: 合成 test csproj(cal-probe-tmp)+ghost entry の同時変異で
+  母集団突合が**双方向とも個別理由で FAIL**(`未記載: ['loops/cal-probe-tmp']` /
+  `不存在: ['loops/ghost-probe/...']`)。実スイート 4 本は変異下でも PASS(巻き添えなし)。
+  ghost entry のスイート実行も trx 不在で FAIL(既存 fail-closed の継承)。変異は完全復元
+  (git status で identity 追加分のみの差分を確認)。
+- **V4(全検査)PASS**: `--dotnet` クリーン実行で全検査合格・exit 0(既存 15 検査判定不変)。
+- V5(diff 窓)・CI は §5〜§6 で確定。
+
+### V6 — 較正 receipt(/calibrate 自己適用・トリガー③: 検査器の変更直後。二軸)
+
+- 査定した主張と判定(測定成立性×証拠資格):
+  1. 「C9 は期待理由と異なる失敗を検出できる」— **observed / 適格へ昇格**(F2 是正後:
+     known-bad〔substring 一致×identity 相違〕の却下を常設 5 腕で毎回実測。掃引時の
+     「条件付き適格」から回復)。
+  2. 「manifest は loops の test 母集団を被覆している」— **observed / 適格**(双方向突合が
+     常設化・変異 2 種で発火実測)。
+  3. 「identity は失敗理由の意味論的同一性を証明する」— **observed / 条件付き適格**
+     〔測っていない次元: 同 kind・同 Expected/Actual で意味の異なる失敗は弁別外 —
+     限界宣言 (2) に恒久記載〕。
+  4. 「別環境・別 SDK でも判定は安定する」— **unknown(理由コード: 未実行 — 本弧は単一環境。
+     ドリフトは FAIL 側に倒れる設計のみ保証)**。資格判定なし・昇格根拠に使用不可。
+- 検出した計器欠陥と帰属: なし(本弧のプローブ・ゲートとも所見なし。V3 の FAIL は期待された赤)。
+- 検出力の限界: c9 コード先頭の宣言 3 点+「陽性対照は合成 Message であり実 trx の書式変化は
+  実スイートの期待赤 4 件が継続較正する」。
+
+## 5. CI 実測
+
+(push 後に追記)
+
+## 6. クローズ
+
+(受入後に追記)

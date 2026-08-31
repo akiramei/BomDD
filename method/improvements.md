@@ -5244,7 +5244,9 @@ user 裁定つき。一次記録は各 order(§0/§4〜§6・receipt)と registe
   将来増分の検出は非搭載)/ **declaration defect 1**(F3 — 限界未宣言・ECO-033 様式の
   未遡及)。偽陽性 0。/calibrate なしでは緑をそのまま採用していた蓋然性が高い(検出は
   battery Q2/Q11 の受理側の問いによる)。起票= ECO-039。二軸判定が実題材で機能した初回証拠
-  (「ダメだった」でも「緑だから問題なし」でもなく主張別に分解)。**以後の観測は〈新規所見数 /
+  (「ダメだった」でも「緑だから問題なし」でもなく主張別に分解)。同弧の register 誤帰属を
+  C3 が commit 前に捕捉した件は **control-effectiveness 実例であり calibrate の効果へ
+  算入しない**(ECO-039 gate 裁定 6 — 効果の過大計数を防ぐ)。**以後の観測は〈新規所見数 /
   capability defect / boundary / declaration / 偽陽性 / 通常レビューで発見可能だったか /
   緑をそのまま採用していたか〉へ分解して記録する**
   evidence: 本節・観測 1 / ECO-035 order §6 / ECO-039 order §0
