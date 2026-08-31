@@ -1232,3 +1232,44 @@ changes:
       no_impact_prediction どおり。
       適用範囲内(cutoff 2026-08-30 以降)の実測対象は 4 件で、うち 2 件が根拠つき免除
       (いずれも判定行に宣言者つきで表示)。詳細は order 8 節。
+  - id: ECO-035
+    title: 測定系較正スキル /calibrate の新設 — 証拠品質+検査器検査の工程入口を配布スキル化
+    date: 2026-08-31
+    origin: enhancement
+    status: applied   # 2026-08-31 製造完了= CAL-1/CAL-2・V1〜V3・V6。V4(CI)・V5(diff 窓)は push 後に確定
+    source: >
+      user 裁定 2026-08-31「測定系較正(証拠品質+検査器検査の統合)について作成してください。
+      もし、調査や設計が必要ならそれもおもなってください」— 調査・設計・作成の一括委任
+      (ECO-034 の「起票して製造まで進めて」と同型)。背景= 計器欠陥が製品欠陥と独立に反復する
+      実測(ECO-020 CI 赤 11 コミット潜伏 / ECO-024 観測前 push / ECO-033→034 新設ゲートの
+      偽陽性と過剰免除 / TimetableAdv ECO-037→038 宣言 fixture 非実入力・2026-08-31 還元済み)。
+      査定の教義は playbook §4.4 に正本があるが、それを判定時に起動する工程入口スキルは
+      存在しない(SKILLS 9 本のいずれも証拠の資格査定を入口としない・/converge は適用外を明示
+      宣言)。様式は ECO-032(converge 昇格)の前例に従う(A-1 テーラリング・D-1 写し)。
+    order_ref: bomdd/60-change-order-eco-035.md
+    affected_refs: [method/templates/product-profile/skills/calibrate.md, method/tools/bomdd-init.py, README.md]
+    no_impact_prediction: "(製造前)diff は affected_refs 3 件+写し(.claude/skills/calibrate/)+台帳系のみ、他は diff ゼロ。C7 は README を 10 本へ更新しなければ FAIL(未更新状態を CAL-1 の陽性対照に使う)。C4 は判定不変(参照の非空+実在検査のみ・固定本数 assertion なし)。C13 は判定不変(新設 SKILL の markdown リンクは写し冒頭の正本参照 1 件のみ・実在パス)。C16 は本 order を required と判定する見込み(hard-positive 語彙を含む)— /converge receipt を order へ埋め込む。既存 9 スキルの内容・挙動は不変。既設製品リポへは kit 再設置まで非波及"
+    diff_audit:
+      baseline: "47cea59"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/templates/product-profile/skills/, method/tools/bomdd-init.py, README.md, .claude/skills/calibrate/]
+    summary: >
+      製造対象(a)= product-profile/skills/calibrate.md を新設し BomDD を正本とする。内容=
+      測定系較正ループ: 自発起動契約(受入節の執筆・緑の引用・検査器の新設変更直後・検査器
+      インシデント後 — 必ず起きるイベントへアンカー)/ 検査 battery Q1〜Q10(各行に §4.4・
+      AGENTS.md 規律・cheat-taxonomy の正本アンカー — 教義を複製せず参照)/ 較正 receipt
+      (3 値判定+計器欠陥と帰属+検出力の限界。成果物へ埋め込み)/ 失敗型カタログ表 A
+      (汎用 10 型・全行実測起源)+表 B(製品側追記領域)。(b)= SKILLS 9→10 本+README 表記
+      更新。(c)= A-1 前例踏襲(汎用型は BomDD 正本・追記は製品側・汎用化は /lesson-promote)。
+      (d)= D-1 前例踏襲(BomDD へ写し・正本と同期規則を明記)。(e)= 名称 calibrate 採択
+      (候補 gauge/msa 不採・§4.4「較正」との二義は SKILL 用語節で解消)。選択肢集合=
+      converge 統合(適用宣言が排他で破壊される)・機械検査化(§8.5 — 非起動の実測後)・
+      playbook のみ(教義はあるのに事故が反復した= 工程入口の欠落が空白)をいずれも不採で明記。
+      隣接機構との境界= converge(設計合成)/ calibrate(証拠査定)/ eco-fix(是正実施)/
+      eco-accept(クローズ事務)の排他を SKILL 本文で宣言。スコープ外= 非起動の機械観測
+      (C16 同型の calibrate 版・§8.5 実測後)・既設リポ遡及・効果測定 EXP 記帳・§4.4 本文変更。
+      gate ①= user の作成指示を製造承認として扱い、細目(A-1/D-1 踏襲・名称)は担当設備採択で
+      maintainer の差し戻しに服する旨を order へ明記。order には /converge receipt を埋め込み
+      (round 1=3 / 2=2 / 3=1・2 周連続ゼロ未到達のため収束は主張しない)。
+    verification: >
+      (製造中間・push 前)CAL-1/CAL-2・V1〜V3・V6 の実測は order §4 に記録。
+      V4(CI)・V5(diff 窓閉鎖)は push 後に確定し、accept で本欄を最終化する。
