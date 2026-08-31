@@ -1521,3 +1521,31 @@ changes:
       self-conformance.py / improvements.md+台帳系のみ)。V6= 較正 receipt(二軸)を order §6 に
       埋め込み — unknown 2 件は理由コードを区別して保持(観測手段なし= 沈黙的ドリフト /
       未較正= 版間判定同値性〔B1・修理しない〕)。詳細は order §4〜§6。
+  - id: ECO-041
+    title: 独立検査の判定語意味論・報告様式・集計引用規則の明文化(calibrate 掃引 ③ 第 3 回の所見)
+    date: 2026-09-01
+    origin: corrective
+    status: applied   # 2026-09-01 gate ① 承認(D1+D3+R1 一括・6 条件)→ 製造完了。V 系は push 後に確定
+    source: >
+      /calibrate 第 3 回較正掃引(題材= 独立検査官〔AI judge〕・EXP-20260831-04 第 3 回観測)の
+      declaration deficiency 2 件+reference-truth deficiency 1 件。gate 裁定(user 2026-09-01)=
+      ①REJECT は製品不良の全称証明でなく process decision と明文化・報告標準様式に検出力の
+      限界と遵守申告・真正判定の集計引用は evidence class と留保件数を併記(単一精度指標へ
+      圧縮しない)②前向き適用のみ(歴史的記録は書き換えない)③clean known-good 特異度・
+      同一対象再測定・他ベンダー比較は次回検査機会の測定候補 ④calibrate battery は変更しない
+      (既存 battery で検出できており新規 Q の追加根拠としない)⑤EXP 第 3 回は 5 分類の分離記録
+      ⑥「30/30 CONFIRMED・誤検出 0」の evidence class 圧縮引用は不適格という自己捕捉を
+      主要観測として残す。
+    order_ref: bomdd/60-change-order-eco-041.md
+    affected_refs: [method/bomdd-playbook-v1.md]
+    no_impact_prediction: "(製造前)diff は bomdd-playbook-v1.md の §4.4 追補(append のみ・既存文無変更)+台帳系のみ。過去レポート・register の歴史的記録は無変更。C13 判定不変(追補にリンクなし)。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
+    diff_audit:
+      baseline: "3d55fcd"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/bomdd-playbook-v1.md]
+    summary: >
+      §4.4「高リスク検査治具の異系統独立受入検査」段落へ追補 1 節 — REJECT= 現在の工程契約上の
+      凍結・続行・受入不可を示す process decision(所見単位の欠陥実在は真正判定で別途確定・
+      verified 維持と両立する理由の説明つき)/ 報告に検出力の限界と遵守申告を含める /
+      真正判定の集計引用は evidence class(実プローブ/コード読解)と留保・限定件数を併記し
+      「N/N CONFIRMED・誤検出 0」の単独引用を精度一般の根拠として不適格とする / 前向き適用の
+      明文(過去の検査記録・判定を再解釈しない)。
