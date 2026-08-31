@@ -1284,6 +1284,10 @@ changes:
       ローカル HEAD と一致)。V5= PASS(窓 47cea59->7707a59 内は allowed_paths+台帳系のみ)。
       V6= 初回自己適用の較正 receipt を order §4 に埋め込み(主張 4 件の 3 値判定・計器欠陥
       プローブ側 1 件・検出力の限界 3 点 — 効果は未証明と明記)。詳細は order §4〜§6。
+      追記(2026-08-31): user 裁定による /converge ループ延長(ECO-036 手順 5「延長は人間裁定
+      のみ」の初適用)で round 4=2 / 5=0 / 6=0 — 2 周連続ゼロで収束成立(通算 3→2→1→2→0→0)。
+      round 4 の指摘 2 件(3 値判定「証明していない」の帰結未規定 / battery の入力クラス被覆行
+      欠落)は ECO-037 へ起票(gate ① 待ち)。既存記録は append-only(order 追記節参照)。
   - id: ECO-036
     title: converge 未収束の停止点 — 収束失敗の裁定点化・自動延長の禁止・自発起動の判断待ち停止
     date: 2026-08-31
@@ -1329,3 +1333,34 @@ changes:
       事前裁定を打ち切り採用として扱い、起動経路= 自発を記録)。限界(較正 receipt で宣言)=
       報告文統制と判断待ち停止は機械検査されない / 起動経路は self-reported / 再発防止効果は
       未証明(運用実測で測る)。詳細は order §4〜§6。
+  - id: ECO-037
+    title: calibrate の判定帰結と入力クラス被覆 — ECO-035 延長収束レビューの指摘 2 件
+    date: 2026-08-31
+    origin: corrective
+    status: filed   # gate ① 承認待ち — 製造は order 提示で停止(裁定対象= 製造承認+Q11 追加の採否)
+    source: >
+      user 裁定 2026-08-31「延長として実行して」— ECO-035 /converge ループの延長
+      (ECO-036 手順 5「延長は人間裁定のみ」の初適用・上限 +3 周)。実測= round 4=2 /
+      5=0 / 6=0 で 2 周連続ゼロ成立・収束(通算 3→2→1→2→0→0)。round 4 の指摘:
+      (1) calibrate 手順 4 の 3 値判定「証明していない」に帰結が未規定 — 判定を receipt に
+      書けば証明していない証拠での昇格が素通りする(ECO-036 で是正した「帰結のない宣言」=
+      converge 表 A ⑧ の calibrate 版・是正翌日に同型を新設スキルへ埋めていた)
+      (2) 検査 battery に「入力の意味クラス別に測ったか」の行がない — §4.4 同等性受入
+      (系統誤差は特定の入力クラスだけを静かに劣化させる・playbook:143-149)が index
+      されていない。副次実測= §6.4 harness_bug 引用は実文一致・表 A 全 10 行の初出来歴は
+      一次記録と全行一致(指摘ではない)。
+    order_ref: bomdd/60-change-order-eco-037.md
+    affected_refs: [method/templates/product-profile/skills/calibrate.md]
+    no_impact_prediction: "(起票時・製造前)diff は calibrate 正本+写し(.claude/skills/calibrate/)+台帳系のみの予測。C4/C7/C13 判定不変(プレースホルダー・SKILLS 実数・markdown リンクいずれも増減なし)。C16 は本 order を required と判定する見込み — /converge receipt(延長・新様式)を order へ埋め込み済み。既設製品リポへは kit 再設置まで非波及"
+    diff_audit:
+      baseline: "ba1928f"  # 起票直前 HEAD(gate ① 承認後、是正開始直前へ更新)
+      allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/]
+    summary: >
+      変更要求= (a) 手順 4 へ「証明していない証拠は昇格の根拠に使わない — 証拠を補う /
+      主張を弱めて記録する / 裁定に上げる」の帰結を追加【製造対象】(b) battery へ Q11
+      「入力の意味クラス別に測ったか — 集計・順位の緑はクラス別の系統誤差を吸収して隠す」
+      を追加【裁定対象・推奨= 採択】(c) 較正 receipt への起動経路フィールドは不採
+      (calibrate は判断待ち停止機構を持たず消費者がいない — §8.5 必要の実測後)。
+      受入案= V1 正本⇔写し同期突合(ECO-036 プローブ再用)/ V2 全検査 PASS / V3 CI /
+      V4 diff 窓。較正= 散文規則につき機械対照なし(ECO-036 と同じ正直宣言)。
+      gate ① 承認待ち。
