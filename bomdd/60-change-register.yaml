@@ -1558,3 +1558,39 @@ changes:
       (正直宣言)— 遵守は次回の独立検査報告・集計引用の実運用で観測。前向き適用(裁定 2)・
       battery 無変更(裁定 4)・unknown 3 件は次回測定候補(裁定 3)を order §6 に記録。
       詳細は order §4〜§6。
+  - id: ECO-042
+    title: /preflight — 作業開始条件の再認証スキルの新設(Task Contract + Revalidation・Phase 1)
+    date: 2026-09-01
+    origin: enhancement
+    status: filed   # gate ① 承認待ち — 製造は order 提示で停止(裁定対象= 打ち切り採用の範囲+初期 task class 集合+採用条件 4 点の文言+名称)
+    source: >
+      外部設計案(Task Contract + Revalidation・/converge 適用済み — round 軌跡 3→3→0=
+      ECO-036 規則では収束失敗につき打ち切り採用の裁定として扱う・未収束= 契約具体表)+
+      当方評価 2026-09-01(採択推奨・採用条件 4 点)。user 裁定「起票して」。起票根拠の実測=
+      前提誤りは専用測定項目があるほど反復(EXP-20260809-01 / OBS-20260809-04)・converge
+      導入日の適用 1 回で開始時前提 5 件が反証(ECO-032 §0)・ECO-031 でも起票前提 3 件が崩落・
+      「既に完了」の未確認で選択肢を落とした実測(EXP-20260811-01 第 3 回)。空白= 前提検査は
+      converge が走るときだけ起き、converge のトリガーは設計合成のみ — 実装・continuation は
+      前提検査なしで開始される。8/31 の当方裁定「前提再認証は converge へ吸収」はトリガー相違に
+      より誤りと認定(本案は当時の第 2 位〔引き継ぎ可能性〕+第 5 位〔前提再認証〕の統合)。
+    order_ref: bomdd/60-change-order-eco-042.md
+    affected_refs: [method/templates/product-profile/skills/preflight.md, method/tools/bomdd-init.py, README.md]
+    no_impact_prediction: "(起票時・製造前)diff は skill 正本(新設)+bomdd-init.py(SKILLS 1 行)+README+写し(.claude/skills/preflight/)+台帳系のみの予測。C7 は README 11 本化が必須(CAL-1 対照)。C4 判定不変。C16 は本 order を required と判定する見込み — receipt 埋め込み済み。既存 10 スキル不変・既設リポへは kit 再設置まで非波及"
+    diff_audit:
+      baseline: "82cff1b"  # 起票直前 HEAD(gate ① 承認後、是正開始直前へ更新)
+      allowed_paths: [method/templates/product-profile/skills/, method/tools/bomdd-init.py, README.md, .claude/skills/preflight/]
+    summary: >
+      変更要求= (a) /preflight 骨格【打ち切り採用】: task classification(分類と根拠を receipt に
+      必須記録)→ minimum contract → repo 固有前提 → discovered prerequisites(最小契約と区別)→
+      5 状態判定(confirmed/missing/stale/contradicted/unknown — missing と unknown を分離)→
+      開始判定(PROCEED/PROCEED_WITH_LIMITS/HOLD/STOP — STOP は工程判定限定)→ receipt。
+      HOLD/STOP には根拠つき出口(reason+decided-by・件数と宣言者を表示)。Phase 1= entry
+      trigger のみ。検出力の限界を恒久宣言(required-known-information absence detector であり
+      unknown-unknown detector ではない)。(b) 契約最小表【裁定対象】: 初期 2 クラス推奨=
+      continuation / bug-fix・handoff は available-or-reconstructable・行の追加は実測出典 or
+      裁定経由のみ(過剰 gate への漸進退化防止)・A-1 構造(最小契約= 正本/製品側追記領域)。
+      (c) SKILLS 10→11+README+D-1 写し。(d) 効果測定の事前登録: 検出率と偽停止率の EXP。
+      工程線= preflight(入力状態の資格)→ converge(採用の収束)→ 製造 → calibrate(証拠の
+      資格)。境界= E01・eco-fix 前提確認節・bomdd-next を置換せず上に載る(排他宣言を本文へ)。
+      スコープ外= Phase 2(invalidation trigger)・C16 同型 gate・全クラス契約表・既設リポ遡及。
+      gate ① 承認待ち。
