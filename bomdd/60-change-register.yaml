@@ -1384,7 +1384,7 @@ changes:
     title: calibrate 改訂 — 証拠資格の二軸判定モデル・reference 較正の index 穴・責務境界とトリガー分類
     date: 2026-08-31
     origin: enhancement
-    status: applied   # 2026-08-31 gate ① 承認「(a)〜(d) すべて採択・見送り 4 点も確定」→ 製造完了= V1(同期・残差 0)・V5(二軸 receipt 初回使用)。V2 は commit 前に実測・V3(CI)・V4(diff 窓)は push 後に確定
+    status: verified   # 2026-08-31 受入= V1(正本⇔写し同期・残差 0)・V2(全 16 検査 PASS)・V3(CI run 33389596077 success @e44687d)・V4(窓 9613f44->e44687d は allowed_paths+台帳系のみ)・V5(二軸様式の初回実使用)
     source: >
       外部レビュー 2 往復(2026-08-31・user 経由)。user 統制=「無条件に受け入れる必要はない・
       トレードオフの結果の可能性がある」。担当設備の裁定= 採択 3(R2 判定語彙は査定の実能力
@@ -1400,6 +1400,7 @@ changes:
     no_impact_prediction: "(起票時・製造前)diff は calibrate 正本+写し(.claude/skills/calibrate/)+台帳系のみの予測。C4/C7/C13 判定不変(プレースホルダー・SKILLS 実数・markdown リンク増減なし)。C16 は本 order を required と判定する見込み — /converge receipt を order へ埋め込み済み。ECO-037 gate 裁定(帰結 3 肢・主張単位で閉じる)は不適格へ無変更継承。既設製品リポへは kit 再設置まで非波及"
     diff_audit:
       baseline: "9613f44"  # 起票時 dc539ae → 是正開始直前(起票コミット)へ更新(gate ① 承認 2026-08-31)
+      head: "e44687d"      # diff監査済み: 窓内は calibrate 正本/写し+台帳系のみ・影響なし予測的中
       allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/]
     summary: >
       変更要求= (a) 手順 4 を二軸判定へ: 測定成立性(observed / unknown〔理由コード必須・
@@ -1411,4 +1412,15 @@ changes:
       昇格主張側は手順 4 — §4.4 凍結裁定は維持)。(d) 自発起動契約へトリガー分類注記
       (1・3= hard trigger 候補 / 2・4= semantic。gate 化は本スキルの非起動の実測後)。
       受入= V1 同期突合 / V2 全検査 / V3 CI / V4 diff 窓 / V5 新判定モデルの初回実使用
-      (fix 時の較正 receipt を二軸様式で書く)。gate ① 承認待ち。
+      (fix 時の較正 receipt を二軸様式で書く)。
+      **gate ① 承認 2026-08-31 maintainer**「(a)〜(d) すべて採択・見送り 4 点も確定で製造に
+      進めて」— 文言は起票案どおり凍結。
+    verification: >
+      V1= PASS(正本⇔写しの機械突合 — 正規化後の残差 0 行)。V2= PASS(self-conformance
+      全 16 検査 PASS・既存判定不変)。V3= PASS(CI run 33389596077・conclusion success・
+      headSha e44687d がローカル HEAD と一致)。V4= PASS(窓 9613f44->e44687d 内は
+      calibrate 正本/写し+台帳系のみ)。V5= PASS(二軸様式の初回実使用 — order §4 の
+      較正 receipt で主張 3 が unknown〔理由コード: 未実行〕となり、旧 3 値では「反証された」と
+      読み分け不能だったことを新様式自身が実演)。限界(V5 で宣言)= 二軸の遵守・理由コードの
+      記入は散文契約で機械観測されない / 理由コード語彙は例示で閉集合でない / 同期は一回性
+      プローブ。スキル効果は EXP-20260831-04 が追跡継続。詳細は order §4〜§6。
