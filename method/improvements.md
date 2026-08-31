@@ -5257,7 +5257,28 @@ user 裁定つき。一次記録は各 order(§0/§4〜§6・receipt)と registe
   非発生)は別種。①(静的 validator)と別クラスの測定系(環境・実行経路)でも降格・
   切り分けが機能した= 過適合でないことの第 1 の反証。起票= ECO-040(X+Y+Z 採択)。
   成功条件は「全部適格」でなく「緑から言える範囲と言えない範囲の正しい切り分け」
-  (gate 裁定の明文)。**以後の観測は〈新規所見数 /
+  (gate 裁定の明文)。
+  **第 3 回観測(2026-09-01・独立検査官〔AI judge〕の較正掃引)**: 非コード計器(確率的
+  human/AI procedural judge — transfer-04 様式の独立検査・4 ラウンド・bomdd/reports/ 全 4 本)
+  への初適用。battery は**凍結のまま**(過適合防止の測定条件)。主張 4 本を二軸査定 —
+  S1(CONFIRMED の適格性)= observed/条件付き適格〔実プローブ裏取り 17/30 は適格・読解確認
+  13/30 は機械接地なし〕/ S2(所見なしの弁別)= observed/条件付き適格〔部分未実施の宣言様式と
+  per-finding CLOSED 13 件の相互裏取りは実績あり・成果物全体の所見ゼロは一度も未観測〕/
+  S3(誤検出 0 の射程)= observed/条件付き適格〔提起精度の証拠にはなるが known-good 成果物への
+  特異度へは外挿不可〕/ S4(REJECT の意味論)= observed/適格〔実記録は一貫して工程判定 —
+  「製造前凍結不可」「line-ready 未達」であり製品不良の全称証明ではない。register の
+  verified 維持と両立してきた実運用と一致〕。**capability defect= 0**。分類(統合しない)=
+  boundary 2(成果物レベル known-good の較正が一度もない / 情報遮断・モデル名が self-reported)
+  / declaration 3(REJECT 意味論の明文定義なし / 検査入力〔プロンプト・付与語彙〕の非記録 /
+  限界節の様式が第 4 ラウンドのみ)/ **reference-truth deficiency 1**(CONFIRMED ラベルは
+  製造者側検証で確定 — 第三者再判定未実施は第 4 ラウンド限界節に宣言済み・集計「30 提起・
+  30 CONFIRMED・誤検出 0」は留保 3+限定 2 と evidence class を圧縮)/ unknown 3(理由コード=
+  いずれも未実行: 成果物レベル特異度・同一対象への再測定安定性・他ベンダー系統)。偽陽性 0。
+  副次(Q1 の自己捕捉): 査定者自身が本日「通算 25/25・誤検出 0」を内訳なしで精度の証拠として
+  引用していた — 正しい通算は 30/30(第 4 ラウンド 5 件の脱落)で、以後この集計は evidence
+  class 併記でのみ引く。3 クラス(deterministic validator / CI・環境 / probabilistic judge)で
+  査定原理が成立 — 欠陥を捏造せず資格の射程だけを制限できた 3 例目。
+  **以後の観測は〈新規所見数 /
   capability defect / boundary / declaration / 偽陽性 / 通常レビューで発見可能だったか /
   緑をそのまま採用していたか〉へ分解して記録する**
   evidence: 本節・観測 1 / ECO-035 order §6 / ECO-039 order §0
