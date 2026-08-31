@@ -2,6 +2,15 @@
 # fast: テンプレ構文・台帳規律・scaffold煙試験・治具異常系・ゲート対検査・README乖離・衛生
 # dotnet: loop 実験スイートを期待結果 manifest(loops/expected-results.yaml)と突合 —
 #         意図的な赤(実験証拠)はメタテストとして「失敗すること」を検査する
+#
+# 境界の宣言(ECO-040 X — 較正掃引 ③ の還元):
+# - dotnet job は windows のみ。構成は ECO-006 裁定 (c) で確定済みだが、**原裁定に
+#   windows-only の理由は記録されていない**(推測で補完しない — 事実の記録・gate 裁定 1)。
+#   ubuntu での C9 は ECO-040 Z で 1 回実測(当該 revision・当該 runner 個体に限り有効 —
+#   結果は ECO-040 order §5)。常設化は実測結果を見た後の別裁定。
+# - checkout は fetch-depth 未指定= shallow(depth 1)。履歴・ステージングに依存する検査は
+#   ここでは実行できない(実測: ECO-033 C-1→C-1c)。履歴依存の検査を追加する場合は
+#   fetch-depth の裁定を先に行うこと。
 name: self-conformance
 
 on:
@@ -26,7 +35,11 @@ jobs:
       - run: python method/tools/worklist.py --selftest
 
   dotnet:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        # ECO-040 Z: ubuntu は 1 回実測のための一時変異 — accept コミットで windows のみへ戻す
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

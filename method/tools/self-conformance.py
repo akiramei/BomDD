@@ -62,6 +62,17 @@
 
 欠測・実行不能は「問題なし」ではない: 検査対象が見つからない/実行できない場合も FAIL。
 exit 0 = 全検査合格 / exit 1 = 不適合あり / exit 2 = ゲート自身が実行不能。
+
+環境前提の宣言(ECO-040 較正掃引 ③ の還元):
+  - 検査は自分の前提を自分で満たす(git identity は内在化 — ECO-020・_git_env)。
+  - CI の checkout は shallow(depth 1)であり、履歴・ステージングに依存する検査は
+    ここには置けない(実測: ECO-033 C-1→C-1c)。履歴依存の検査を追加する場合は
+    fetch-depth の裁定を先に行うこと。
+  - ローカルと CI の Python/PyYAML/SDK 版の一致は前提としない — 現在両環境緑の観測は
+    あるが、版間の判定同値性は**未較正**(ECO-040 B1・修理しない裁定 4)。
+  - 環境個体(python/PyYAML/os/runner/dotnet-sdk)は [env] 行へ刻印する — 目的は
+    ドリフトの防止でなく観測可能化(pin はしない)。沈黙的ドリフトの非発生は unknown
+    (理由コード= 観測手段なし。刻印により事後突合のみ可能)。
 """
 from __future__ import annotations
 
@@ -1201,6 +1212,27 @@ def c16_converge_receipt() -> None:
           + (" — " + " / ".join(problems) if problems else ""))
 
 
+# --- 環境個体の刻印(ECO-040 Y) ------------------------------------------------------
+def env_imprint(dotnet: bool) -> str:
+    """今回の判定に関係する環境個体を証拠へ刻印する(ECO-040 Y・§4.4 道具の個体参照)。
+    目的はドリフトの**防止**ではなく**観測可能化** — pin はしない(gate 裁定 2)。
+    沈黙的ドリフトの非発生は依然 unknown(観測手段= 本刻印の事後突合のみ)。"""
+    import platform
+    parts = [f"python {platform.python_version()}",
+             f"PyYAML {yaml.__version__}",
+             f"os {platform.system()}-{platform.release()}"]
+    image_os, image_ver = os.environ.get("ImageOS"), os.environ.get("ImageVersion")
+    parts.append(f"runner {image_os}/{image_ver}" if image_os else "runner local")
+    if dotnet:
+        try:
+            p = run(["dotnet", "--version"])
+            parts.append(f"dotnet-sdk {p.stdout.strip()}" if p.returncode == 0
+                         else "dotnet-sdk 測定不能")
+        except OSError:
+            parts.append("dotnet-sdk 測定不能")
+    return "・".join(parts)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="BomDD リポ全体の自己適合ゲート")
     ap.add_argument("--dotnet", action="store_true",
@@ -1208,6 +1240,7 @@ def main() -> int:
     a = ap.parse_args()
 
     print(f"self-conformance: {ROOT}")
+    print(f"[env] {env_imprint(a.dotnet)}")
     c1_yaml()
     c2_json()
     c3_register()

@@ -1477,3 +1477,33 @@ changes:
       (二軸)を order §4 に埋め込み — F2 の主張は条件付き適格→適格へ回復・「別環境・別 SDK
       でも判定は安定」は unknown(理由コード: 未実行)で昇格根拠に使用不可と正直判定。
       詳細は order §4〜§6。
+  - id: ECO-040
+    title: CI/ローカル環境前提の宣言・環境個体の刻印・ubuntu C9 の 1 回実測(calibrate 掃引 ③ の所見)
+    date: 2026-09-01
+    origin: corrective
+    status: applied   # 2026-09-01 gate ① 承認(X+Y+Z・6 条件)→ 製造中。V 系は fix push の CI 観測と accept(matrix 復帰)で確定
+    source: >
+      /calibrate 第 2 回較正掃引(user 裁定 2026-09-01・題材 ③= CI/ローカル環境前提の対称性。
+      主張を宣言面・実行面・OS 間再現性・将来ドリフトへ分解)。所見= capability defect 0 /
+      boundary 2(B1 版非対称・B2 刻印なし)/ declaration 2(D1 dotnet=windows は ECO-006
+      order:23 に構成宣言あり・原裁定の理由未記録 / D2 shallow 前提の一般則未宣言)/
+      unknown 3(理由コード区別: C9 非 windows= 未実行 / 沈黙的ドリフト= 観測手段なし /
+      OS・版間弁別= 未較正)。gate 裁定「X+Y+Z を採択」6 条件= 理由の推測補完禁止 /
+      pin でなく刻印(観測可能化)/ Z は 1 回の緑を一般証明へ昇格させない / B1 修理しない /
+      EXP は capability 0 のまま統合しない / unknown の理由コード区別を保持。
+    order_ref: bomdd/60-change-order-eco-040.md
+    affected_refs: [.github/workflows/self-conformance.yml, method/tools/self-conformance.py, method/improvements.md]
+    no_impact_prediction: "(製造前)diff は workflow+self-conformance.py+improvements.md(裁定 5・6 の記帳)+台帳系のみ。全 16 検査+C9 の判定ロジック不変(追加は [env] 出力行と宣言のみ)。fix push の CI は一時 4 job(dotnet matrix 変異)— ubuntu dotnet の結論は未知で、緑/赤とも当該 revision の実測として記録し accept で windows のみへ復帰。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
+    diff_audit:
+      baseline: "a4e9322"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [.github/workflows/, method/tools/self-conformance.py, method/improvements.md]
+    summary: >
+      (X) workflow 冒頭へ境界宣言 — D1= dotnet job は windows のみ・構成は ECO-006 裁定 (c) で
+      確定済みだが原裁定に理由の記録がない(推測で補完しない)/ D2= checkout は shallow・
+      履歴依存の検査は fetch-depth 裁定を先に。self-conformance docstring へ「環境前提の宣言」節
+      (identity 内在化・shallow・版一致を前提としない+B1 併記・刻印の目的)。
+      (Y) env_imprint() 新設 — [env] 行へ python/PyYAML/os/runner(ImageOS/ImageVersion・
+      ローカルは local)/dotnet-sdk を毎回刻印(pin はしない — ドリフトの観測可能化)。
+      (Z) dotnet job を一時 matrix(windows+ubuntu)へ変異し fix push の CI で ubuntu C9 を
+      1 回実測(runner 個体は Y の刻印が証拠)— accept で windows のみへ復帰・常設化は別裁定。
+      EXP-20260831-04 第 2 回観測を記帳(capability 0 のまま・unknown 理由コード区別)。
