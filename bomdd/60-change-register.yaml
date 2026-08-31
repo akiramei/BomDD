@@ -1384,7 +1384,7 @@ changes:
     title: calibrate 改訂 — 証拠資格の二軸判定モデル・reference 較正の index 穴・責務境界とトリガー分類
     date: 2026-08-31
     origin: enhancement
-    status: filed   # gate ① 承認待ち — 製造は order 提示で停止(裁定対象= 製造承認+(a)〜(d) の文言・見送り 4 点の確定)
+    status: applied   # 2026-08-31 gate ① 承認「(a)〜(d) すべて採択・見送り 4 点も確定」→ 製造完了= V1(同期・残差 0)・V5(二軸 receipt 初回使用)。V2 は commit 前に実測・V3(CI)・V4(diff 窓)は push 後に確定
     source: >
       外部レビュー 2 往復(2026-08-31・user 経由)。user 統制=「無条件に受け入れる必要はない・
       トレードオフの結果の可能性がある」。担当設備の裁定= 採択 3(R2 判定語彙は査定の実能力
@@ -1399,7 +1399,7 @@ changes:
     affected_refs: [method/templates/product-profile/skills/calibrate.md]
     no_impact_prediction: "(起票時・製造前)diff は calibrate 正本+写し(.claude/skills/calibrate/)+台帳系のみの予測。C4/C7/C13 判定不変(プレースホルダー・SKILLS 実数・markdown リンク増減なし)。C16 は本 order を required と判定する見込み — /converge receipt を order へ埋め込み済み。ECO-037 gate 裁定(帰結 3 肢・主張単位で閉じる)は不適格へ無変更継承。既設製品リポへは kit 再設置まで非波及"
     diff_audit:
-      baseline: "dc539ae"  # 起票直前 HEAD(gate ① 承認後、是正開始直前へ更新)
+      baseline: "9613f44"  # 起票時 dc539ae → 是正開始直前(起票コミット)へ更新(gate ① 承認 2026-08-31)
       allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/]
     summary: >
       変更要求= (a) 手順 4 を二軸判定へ: 測定成立性(observed / unknown〔理由コード必須・
