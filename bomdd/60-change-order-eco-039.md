@@ -191,8 +191,28 @@ Actual が存在しない(String 欄は xunit が `···` で省略)ため、id
 
 ## 5. CI 実測
 
-(push 後に追記)
+- 対象 revision: `4ddc9c3`(**ローカル HEAD と一致を確認**)
+- run 識別子: 33401687017 — https://github.com/akiramei/BomDD/actions/runs/33401687017
+- 結論: **PASS** — 全 3 job success(fast ubuntu / fast windows / **dotnet**)。
+  dotnet job で新設の identity 突合・母集団突合・陽性対照 5 腕が **CI の別マシン環境で初走行し
+  成立**(V6 主張 4〔別環境安定性〕は unknown のままだが、runner 1 環境での成立を副次観測
+  として記録 — 再現性の測定には足りない)
+- 観測日時 / 観測主体: 2026-08-31 / 本 ECO の担当設備(§担当設備)
+- UNKNOWN の理由コード: 該当なし(headSha 照合・job 別結論まで観測)
 
 ## 6. クローズ
 
-(受入後に追記)
+- diff 監査の窓: baseline `a201226` → head `4ddc9c3`(**窓閉鎖**)。窓内は
+  `method/tools/self-conformance.py` / `loops/expected-results.yaml` /
+  `method/improvements.md`(gate 裁定 6 の記帳)+台帳系のみ — 影響なし予測が的中。
+- 受入: V1(陽性対照 5 腕・常設)/ V2(緑腕 4 スイート)/ V3(母集団変異 2 種の双方向 FAIL・
+  巻き添えなし)/ V4(--dotnet 全検査 PASS)/ V5(diff 窓)/ CI(3 job 緑)すべて成立。
+  V6 較正 receipt(二軸)は §4。
+- **掃引所見の最終処置**: F2= 是正済み(「期待理由と異なる失敗の弁別」は条件付き適格→適格へ
+  回復)/ F1= b-2 で常設化(将来増分の fail-open を閉鎖)/ F3= 限界宣言 3 点を恒久記載。
+- gate 裁定 5 の記録: register 誤帰属(起票時)は新規 CAPA とせず、ECO-011 型の再発を既存 C3 が
+  commit 前に捕捉した **control-effectiveness 実例**として扱う(calibrate の効果へ非算入 —
+  裁定 6・improvements.md EXP-20260831-04 に明記)。
+- このクローズが支持しないもの: 失敗理由の意味論的同一性の完全な証明(identity は Message
+  表層の構造化 — 限界宣言 (2))/ 別環境・別 SDK での再現性(unknown・理由コード= 未実行)/
+  Exe 型 acceptance harness の常設計器化(意図的境界)。

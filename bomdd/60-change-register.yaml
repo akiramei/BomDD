@@ -1428,7 +1428,7 @@ changes:
     title: C9 measurement capability — signature 弁別力・母集団責務・限界宣言(calibrate 較正掃引の所見)
     date: 2026-08-31
     origin: corrective
-    status: applied   # 2026-08-31 gate ① 承認(6 点裁定: a-3+b-2 採択・C3 捕捉は control-effectiveness 実例扱い・EXP 三分割集計)→ 製造中。V 系は fix/accept で確定
+    status: verified   # 2026-08-31 受入= V1(陽性対照 5 腕常設)・V2(緑腕 4 スイート・identity 突合 4)・V3(母集団変異 2 種の双方向 FAIL・巻き添えなし)・V4(--dotnet 全検査 PASS)・V5(窓 a201226->4ddc9c3 は allowed_paths+台帳系のみ)・CI(run 33401687017 全 3 job success @4ddc9c3)
     source: >
       /calibrate 較正掃引(user 裁定 2026-08-31「まず、①を回してみましょう」— 題材= C9+
       期待結果 manifest)。EXP-20260831-04 第 1 回観測。対照条件が強い: C9 は CI 毎 push 実行・
@@ -1444,6 +1444,7 @@ changes:
     no_impact_prediction: "(起票時・製造前)diff は self-conformance.py+expected-results.yaml((a) 裁定が manifest 拡張を含む場合)+台帳系のみの予測。loops/ のコード・テスト・観測データは変更しない。既存 C1〜C8・C10〜C16 判定不変・C9 の現行 4 スイート正常判定も不変(弁別の追加であり現行赤の受理を変えない)。C16 は本 order を required と判定する見込み — /converge receipt を order へ埋め込み済み"
     diff_audit:
       baseline: "a201226"  # 起票時 5c0f5dc → 是正開始直前(起票コミット)へ更新(gate ① 承認 2026-08-31)
+      head: "4ddc9c3"      # diff監査済み: 窓内は allowed_paths+台帳系のみ・影響なし予測的中
       allowed_paths: [method/tools/self-conformance.py, loops/expected-results.yaml, method/improvements.md]  # improvements は gate 裁定 6 の記帳(EXP 三分割集計・C3 捕捉の非算入)
     summary: >
       変更要求= (a) F2 signature 弁別力【方式 4 案の裁定】: a-1 substring 延長(書式結合↑・
@@ -1455,4 +1456,24 @@ changes:
       母集団突合の追加(Test SDK 参照 csproj の機械列挙 vs manifest・差分 FAIL・自動追記なし)。
       (c) F3: C9 docstring へ限界宣言(ECO-033 様式の遡及・文言は (a)(b) 裁定後確定)。
       スコープ外= Exe harness の常設計器化(実行環境依存の意図的境界)・SDK 刻印(宣言のみ)・
-      他計器への掃引展開。gate ① 承認待ち。
+      他計器への掃引展開。
+      **gate ① 承認 2026-08-31 maintainer(6 点裁定)**= ①製造承認 ②a-3 採択(loops 無変更・
+      identity= test/kind/Expected/Actual・parse 不能の silent fallback 禁止・known-bad=
+      substring 一致×identity 相違・正常腕維持)③b-2 採択(双方向突合・未記載/ghost の双方
+      FAIL・自動追記なし・console harness は母集団外と明記)④限界宣言は製造結果反映+SDK/環境差
+      再現性の未測定を含める ⑤register 誤帰属は新規 CAPA とせず C3 の control-effectiveness
+      実例扱い ⑥EXP は capability/boundary/declaration 三分割集計・C3 捕捉は calibrate 効果へ
+      非算入。
+    verification: >
+      V1= PASS(陽性対照 5 腕を常設・毎回実測 — 正腕 2 / known-bad〔旧 substring 一致×
+      identity 相違の別理由失敗を却下 — gate 裁定 2 の要求そのもの〕/ parse 不能却下 /
+      known-bad 前提検査。不成立なら本走査せず計器を先に疑う)。V2= PASS(緑腕 — クリーン
+      実測で 4 スイート全 PASS・期待赤 4 件一致・identity 突合 4 件)。V3= PASS(母集団変異
+      2 種同時〔合成 test csproj+ghost entry〕で双方向とも個別理由 FAIL・実スイートは変異下
+      でも PASS= 巻き添えなし・変異は完全復元)。V4= PASS(--dotnet 全検査合格・既存 15 検査
+      判定不変)。V5= PASS(窓 a201226->4ddc9c3 内は allowed_paths+台帳系のみ)。CI= PASS
+      (run 33401687017・全 3 job success・headSha 照合済み。新設検査群が CI 別マシンで初走行
+      成立 — 別環境再現性の測定には足りない副次観測として order §5 に記録)。V6= 較正 receipt
+      (二軸)を order §4 に埋め込み — F2 の主張は条件付き適格→適格へ回復・「別環境・別 SDK
+      でも判定は安定」は unknown(理由コード: 未実行)で昇格根拠に使用不可と正直判定。
+      詳細は order §4〜§6。
