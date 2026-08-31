@@ -1236,7 +1236,7 @@ changes:
     title: 測定系較正スキル /calibrate の新設 — 証拠品質+検査器検査の工程入口を配布スキル化
     date: 2026-08-31
     origin: enhancement
-    status: applied   # 2026-08-31 製造完了= CAL-1/CAL-2・V1〜V3・V6。V4(CI)・V5(diff 窓)は push 後に確定
+    status: verified   # 2026-08-31 受入= CAL-1(C7 単独 FAIL)・CAL-2(除去で FAIL 転化)・V1〜V3・V6(初回自己適用 receipt)・V4(CI run 33358795224 success @7707a59)・V5(窓 47cea59->7707a59 は allowed_paths+台帳系のみ)
     source: >
       user 裁定 2026-08-31「測定系較正(証拠品質+検査器検査の統合)について作成してください。
       もし、調査や設計が必要ならそれもおもなってください」— 調査・設計・作成の一括委任
@@ -1251,6 +1251,7 @@ changes:
     no_impact_prediction: "(製造前)diff は affected_refs 3 件+写し(.claude/skills/calibrate/)+台帳系のみ、他は diff ゼロ。C7 は README を 10 本へ更新しなければ FAIL(未更新状態を CAL-1 の陽性対照に使う)。C4 は判定不変(参照の非空+実在検査のみ・固定本数 assertion なし)。C13 は判定不変(新設 SKILL の markdown リンクは写し冒頭の正本参照 1 件のみ・実在パス)。C16 は本 order を required と判定する見込み(hard-positive 語彙を含む)— /converge receipt を order へ埋め込む。既存 9 スキルの内容・挙動は不変。既設製品リポへは kit 再設置まで非波及"
     diff_audit:
       baseline: "47cea59"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "7707a59"      # diff監査済み: 窓内は allowed_paths+台帳系のみ・影響なし予測的中
       allowed_paths: [method/templates/product-profile/skills/, method/tools/bomdd-init.py, README.md, .claude/skills/calibrate/]
     summary: >
       製造対象(a)= product-profile/skills/calibrate.md を新設し BomDD を正本とする。内容=
@@ -1271,5 +1272,15 @@ changes:
       maintainer の差し戻しに服する旨を order へ明記。order には /converge receipt を埋め込み
       (round 1=3 / 2=2 / 3=1・2 周連続ゼロ未到達のため収束は主張しない)。
     verification: >
-      (製造中間・push 前)CAL-1/CAL-2・V1〜V3・V6 の実測は order §4 に記録。
-      V4(CI)・V5(diff 窓閉鎖)は push 後に確定し、accept で本欄を最終化する。
+      CAL-1= 成立(SKILLS 10/README 9 で [C7] FAIL が単独発火・同実行の C4/C13/C16 は PASS —
+      その規則固有の理由で赤くなり巻き添えなし)。CAL-2= 成立(実 scaffold へ C4 と同一判定を
+      適用し calibrate SKILL.md 除去で PASS→FAIL へ転化・missing のユニーク集合= {calibrate}
+      のみ。プローブ初版の期待値が missing の重複保持を織り込んでいなかった点はプローブ帰属で
+      正直記載)。V1= PASS(実 scaffold で実在+AGENTS.md 参照 20 件・ユニーク 10 スキル・
+      BomDD 写しはスキル一覧へ実出現)。V2= PASS(未置換プレースホルダー 0・リポ名修飾なしの
+      製品固有 ID 0 行)。V3= PASS(self-conformance 全 16 検査 PASS・CAL-1 実行との比較で
+      転化は C7 のみ= 既存 15 検査判定不変。C16 は本 order を required と判定し receipt 検出・
+      免除は増えず 2 件)。V4= PASS(CI run 33358795224・conclusion success・headSha 7707a59 が
+      ローカル HEAD と一致)。V5= PASS(窓 47cea59->7707a59 内は allowed_paths+台帳系のみ)。
+      V6= 初回自己適用の較正 receipt を order §4 に埋め込み(主張 4 件の 3 値判定・計器欠陥
+      プローブ側 1 件・検出力の限界 3 点 — 効果は未証明と明記)。詳細は order §4〜§6。

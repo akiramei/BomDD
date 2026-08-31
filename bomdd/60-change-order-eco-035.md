@@ -226,8 +226,26 @@ ECO-032 gate ① の D-1 裁定を踏襲し、`.claude/skills/calibrate/SKILL.md
 
 ## 5. CI 実測(V4)
 
-(push 後に追記)
+- 対象 revision: `7707a59fea787315b329567465165c361cd5620b`(**ローカル HEAD と一致を確認**)
+- 規則版: workflow `self-conformance`(リポ内定義= 測定器)
+- run 識別子: 33358795224 — https://github.com/akiramei/BomDD/actions/runs/33358795224
+- 結論: **PASS**(`status: completed` / `conclusion: success`)
+- 観測日時 / 観測主体: 2026-08-31 / 本 ECO の担当設備(§担当設備)
+- UNKNOWN の理由コード: 該当なし(headSha 照合を経て当該 run を特定 — §13 の 4 値判定)
 
 ## 6. クローズ
 
-(受入後に追記)
+- diff 監査の窓: baseline `47cea59` → head `7707a59`(**窓閉鎖**)。窓内は
+  `method/templates/product-profile/skills/calibrate.md`(新設)/ `method/tools/bomdd-init.py` /
+  `README.md` / `.claude/skills/calibrate/SKILL.md`(新設・D-1 分)+ 台帳系
+  (register・本 order)のみ — 影響なし予測が的中(`git diff --name-only 47cea59..7707a59` で機械確認)。
+- 受入: V1 / V2 / V3 / V4 / V5 すべて PASS。較正 CAL-1 / CAL-2 いずれも成立。
+  V6(初回自己適用)の較正 receipt は §4 に埋め込み済み。
+- **恒久回帰**: C7(README のスキル本数 = SKILLS 実数)と C4(AGENTS.md 参照スキルの実在)が
+  本変更クラスの再発を遮断し、両者が実際に作動することの陽性対照を製造中に実測済み
+  (CAL-1 / CAL-2・§4)。
+- このクローズが支持しないもの(V6 で宣言した限界の再掲): 本スキルの**効果**
+  (計器欠陥の受入前検出率の向上)は未証明 — 適用実績で測る。`/calibrate` 自身の非起動は
+  機械観測されない(C16 同型ゲートは §8.5 に従い実測後)。写し⇔正本の同期逸脱は恒久検査されない。
+- 残(いずれもスコープ外・宣言済み境界): 非起動の機械観測 / 既設製品リポ・TimetableAdv への
+  遡及設置(各リポの裁定)/ 効果測定の EXP 記帳(適用実績後に `/lesson-promote` 経路)。
