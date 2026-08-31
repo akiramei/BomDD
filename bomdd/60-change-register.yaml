@@ -1288,7 +1288,7 @@ changes:
     title: converge 未収束の停止点 — 収束失敗の裁定点化・自動延長の禁止・自発起動の判断待ち停止
     date: 2026-08-31
     origin: corrective
-    status: applied   # 2026-08-31 製造完了= V1(正本⇔写し同期・残差 0)・V5(新様式 receipt の初回使用)。V2 は commit 前に実測・V3(CI)・V4(diff 窓)は push 後に確定
+    status: verified   # 2026-08-31 受入= V1(正本⇔写し同期・残差 0)・V2(全 16 検査 PASS)・V3(CI run 33364803073 success @79bcc60)・V4(窓 31eaefe->79bcc60 は allowed_paths+台帳系のみ)・V5(新様式 receipt の初回使用)
     source: >
       user 裁定 2026-08-31「収束した、と言い切るのは誠実ではないかもしれません。3 回以内に
       収束しなかった。ここで打ち切るか、もう 3 回追加するか?などの方が良さそうです。ただし、
@@ -1303,6 +1303,7 @@ changes:
     no_impact_prediction: "(製造前)diff は converge 正本+写し(.claude/skills/converge/)+台帳系のみ、他は diff ゼロ。C4 判定不変(render 対象プレースホルダーは {{METHOD}} のみで増減なし)。C7 判定不変(SKILLS 実数 10 のまま)。C13 判定不変(markdown リンクは写し冒頭の正本参照 1 件のみで増減なし)。C16 は本 order を required と判定する見込み — receipt を埋め込む。既設製品リポへは kit 再設置まで非波及"
     diff_audit:
       baseline: "31eaefe"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "79bcc60"      # diff監査済み: 窓内は converge 正本/写し+台帳系のみ・影響なし予測的中
       allowed_paths: [method/templates/product-profile/skills/converge.md, .claude/skills/converge/]
     summary: >
       製造対象= converge 正本と写しの同一改訂 4 点。(a) 手順 5: 上限 3 周で 2 周連続ゼロ
@@ -1318,7 +1319,13 @@ changes:
       同期・過去 receipt への遡及。order の receipt は新様式の初回使用で、判定= 未収束
       (round 軌跡 2→1→0)を冒頭宣言し、user の事前裁定を打ち切り採用として扱った。
     verification: >
-      (製造中間・push 前)V1= PASS(正本⇔写しの機械突合 — プレースホルダー解決+写しヘッダー
-      除去の正規化後、残差 0 行。プローブ初版の cp932 出力欠陥はプローブ帰属で正直記載)。
-      V5= PASS(本 order の receipt が新様式に従う初回使用)。V2 は commit 前に実測し、
-      V3(CI)・V4(diff 窓閉鎖)は push 後に確定して accept で本欄を最終化する。
+      V1= PASS(正本⇔写しの機械突合 — プレースホルダー解決+写しヘッダー除去の正規化後、
+      残差 0 行。プローブ初版の cp932 出力欠陥はプローブ帰属で正直記載)。V2= PASS
+      (self-conformance 全 16 検査 PASS・C16 は本 order を含む 7 件で receipt 検出・免除は
+      増えず 2 件・C4/C7/C13 判定不変の予測どおり)。V3= PASS(CI run 33364803073・
+      conclusion success・headSha 79bcc60 がローカル HEAD と一致)。V4= PASS
+      (窓 31eaefe->79bcc60 内は converge 正本/写し+台帳系のみ)。V5= PASS(本 order の
+      receipt が新様式の初回使用 — 判定「未収束(round 軌跡 2→1→0)」を冒頭宣言し、user の
+      事前裁定を打ち切り採用として扱い、起動経路= 自発を記録)。限界(較正 receipt で宣言)=
+      報告文統制と判断待ち停止は機械検査されない / 起動経路は self-reported / 再発防止効果は
+      未証明(運用実測で測る)。詳細は order §4〜§6。

@@ -124,8 +124,22 @@
 
 ## 5. CI 実測(V3)
 
-(push 後に追記)
+- 対象 revision: `79bcc60`(**ローカル HEAD と一致を確認**)
+- 規則版: workflow `self-conformance`(リポ内定義= 測定器)
+- run 識別子: 33364803073 — https://github.com/akiramei/BomDD/actions/runs/33364803073
+- 結論: **PASS**(`status: completed` / `conclusion: success`)
+- 観測日時 / 観測主体: 2026-08-31 / 本 ECO の担当設備(§担当設備)
+- UNKNOWN の理由コード: 該当なし(headSha 照合を経て当該 run を特定 — §13 の 4 値判定)
 
 ## 6. クローズ
 
-(受入後に追記)
+- diff 監査の窓: baseline `31eaefe` → head `79bcc60`(**窓閉鎖**)。窓内は converge 正本 /
+  写し+台帳系(register・本 order)のみ — 影響なし予測が的中
+  (`git diff --name-only 31eaefe..79bcc60` で機械確認)。
+- 受入: V1(同期突合・残差 0)/ V2(全 16 検査 PASS)/ V3(CI 緑)/ V4(diff 窓)/
+  V5(新様式 receipt の初回使用 — 本 order 自身)すべて PASS。
+- このクローズが支持しないもの(較正 receipt で宣言した限界の再掲): 報告文統制と判断待ち
+  停止は**機械検査されない**(C16 は receipt の存在のみ)/ 起動経路の申告は self-reported /
+  「新規則が未収束の無帰結化の再発を防ぐ」は**未証明**(運用実測で測る)。
+- 残(スコープ外・宣言済み境界): C16 拡張(未収束判定の機械検査 — (c) の判定フィールドが
+  足場・§8.5 実測後)/ TimetableAdv 側の写し同期(別リポ ECO)/ 過去 receipt への遡及なし。
