@@ -1436,7 +1436,14 @@ lint〔CpI18n010AssetLintTests〕+死キー 640 件削除+M-CAPTURE-HARNESS-052)
   測らない / マーカー不使用の裁定候補は宣言依存の残余 fail-open / artifact に落ちない提示は
   原理的に被覆外)— **未了項目リストではなく「実施した検査が測っていない次元」**として書かれ、
   第 3 回で指摘した型の誤りを是正した形。ただし宣言は製造終盤で**起票時の order にはなく**、
-  「初回設計に載るか」の充足判定は次回へ持ち越す(2026-08-30 ECO-033 弧 還元節・効果回収 3)
+  「初回設計に載るか」の充足判定は次回へ持ち越す(2026-08-30 ECO-033 弧 還元節・効果回収 3)。
+  **第 5 回観測(2026-08-31・TimetableAdv ECO-038 / SCB-CP・FO-SCB 9 行)= 型が再び誤り**:
+  `SCB-CP-GOLDEN-001` の `characteristic:` は**潜伏履歴**(挙動回帰では宣言 content が runtime source で
+  ないことを見られない)を恒久記載し、`SCB-CP-BOUNDARY-001` は**スコープ境界**(embedded event 1・
+  Composer 等 0)を測るが、**検出力の限界**(本検査は 1 event のみで一般化を測らない・compiler 自身の
+  意味論は自己参照で測れない)は未宣言 — 第 3 回で指摘した「未製造リスト」型の誤りが、今回は
+  「潜伏史・スコープ境界」型として**別形で再現**。第 4 回の positive は BomDD 自リポ(自己適用)のみで、
+  製品リポでは未定着。open 維持(2026-08-31 還元節・効果回収 4)
   origin: native
   evidence: 本節・昇格候補5(ECO-107/108)
 - [open] EXP-20260717-12 — 次の工具 track/golden 基準新設/棚卸し削除で「使われる形で一巡実行」検収が踏まれるか(到達不能基準・再実行不能工具・上限切り捨て結論の正本化ゼロ)。**部分再演(2026-08-01・別リポ ViewTube)**: 新設の change-impact validator は mutation 12 種+59 controls で資格したが「導入後**最初の正常後続取引**(first compliant filing)」を一巡に含めず、初適用の起票が循環ゲートで false rejection(ECO-VT-054→055)。「使われる形」には**時間軸の最初の一巡**(install → first compliant use → first transition → first acceptance)が含まれる — 命題の未被覆次元が実測で確定(OBS-20260801-04 として分離記帳・open 維持)。**適用実測(2026-08-06・ViewTube ECO-VT-070)**: 起票宣言集合のメモリ上 preflight・移転 preflight・結線 rehearsal と、正本化前の一巡実行が標準運用化(2026-08-06 還元節)— BomDD 側リポでの実測は未・open 維持
@@ -4051,6 +4058,14 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
   **gate の判定対象そのものを縮小**した。③の基準線はこの ECO-034 で成立(範囲宣言あり)—
   **③が満たされた初回**であり、①②は範囲が異なるため ECO-013 とは直接比較しない。
   (2026-08-30 還元節・効果回収 5 / 同日 EXP 改訂)
+  **第 3 回観測(2026-08-31・TimetableAdv ECO-038 headless golden)**: ①wall-clock は
+  `offered_at 04:27:43` → `resolved_at 05:49:11` = **81 分 28 秒**として導出可能。消費者実測 3 行は
+  **2 回連続で未記録**(`artifacts/acceptance/eco-038/human/golden-pass-ga001-*.json` に該当欄なし)。
+  ②圧縮効果は**系列へ算入しない** — ③の宣言範囲が ECO-034 と ECO-038 で異なり、本項の規定どおり
+  正規化できず**測定不能**(81 分 > 7 分 26 秒 を退化と読まない)。③範囲宣言は `review_scope:
+  headless-fixed-subtitle-semantic-equivalence` + `human_play_required: false` で **2 回連続成立**。
+  ①の様式が 2 回連続未記録である以上、①②は**系列比較の基準線をまだ持たない**。
+  open 維持(2026-08-31 還元節・効果回収 3)
   evidence: 本節・観測 5 / approval.json `consumer_measurement` /
   2026-08-30 TimetableAdv 還元(ECO-034)節・効果回収 5 /
   TimetableAdv `60-change-register.yaml` ECO-034 gate 記録(`review_scope`・`human_play_required`)
@@ -4129,6 +4144,12 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
   外れ、実際は **producer/consumer 境界**。ablation 型は初回設計に載らず、人間ゲート差戻し後の
   ECO-034 で **consumer 除去(headless 化)**として採用 — 第 2 回と同じ「差戻し後に採用」の反復。
   open 維持(2026-08-30 還元節・効果回収 3)
+  **第 4 回観測(2026-08-31・TimetableAdv ECO-038)**: 帳簿代用の **6 例目**(ECO-037 の CP 8 行が
+  `fixture:` で宣言した YAML への `src/` 参照が 0 件・全行緑+human golden 合格)。予測媒体
+  (音・アセット解決)は **4 回連続で外れ**、実際は**受入計器の宣言入力/ content authoring source**。
+  第 2・3 回と異なり検出は人間ゲート差戻しでなく**設計レビュー**、是正 ECO-038 の初回設計には
+  実体検査が載った(起票 §5 に「authoring resource → EventPlan → runtime → receipt の来歴」)が、
+  **型は ablation ではなく来歴閉包+negative control**。open 維持(2026-08-31 還元節・効果回収 1)
 
 ## 2026-08-23 TimetableAdv 還元 — 統合工程の検査空白(原器の消費型と較正の空虚な成立)
 
@@ -4807,6 +4828,10 @@ candidate(N=1)として織り込んだ。内容は ①**方向の裁定**(検査
   ⑤consumer の除去(headless 化)を工程下流側の ablation 対照として使う。**既存 §4.4 の逆引き・帳簿代用 LP は
   consumer 側の検査を強める処方であり、本件は全て通過した** — 本命題は検査面でなく**工程順序(Routing)**の
   規律である点で独立。2 例目= 別系列で producer/consumer 断線が consumer 側統制の全緑を通過する事例
+  **同型事例 1 件・非算入(2026-08-31・TimetableAdv ECO-038)**: 宣言 content resource が runtime
+  source でないまま CP 8 行+human golden を通過した(下流の正しさが上流の権威を証明しない同型)が、
+  ECO-034 と**同一製品の連続 ECO** であり事前登録した「別系列」条件を満たさないため **1/3 のまま**。
+  昇格審査で 3 例目を数えるときに二重計上しない(2026-08-31 還元節・効果回収)
   source: TimetableAdv ECO-034
   evidence: 本節・観測 1・4 / ECO-034 §1 事実・§2 工程診断・§8 / `RSC-CP-CLOSURE-001`
 - [watch 1/3] OBS-20260830-02 — **不変性の統制は変化の統制と対で置く — 「X が 0」を要求する行は
@@ -4840,6 +4865,13 @@ candidate(N=1)として織り込んだ。内容は ①**方向の裁定**(検査
   ③`presentation-proxy-only pass 0` 相当が tolerance に入るか。**基準線= 本出典で 3 つとも不成立**
   (潜伏 3 ECO・検出は人間の再実行)。②が独立に観測できれば OBS-20260830-02 の機械化(層③以上)の
   起票根拠とする
+  **第 1 回観測(2026-08-31・TimetableAdv ECO-038 — content authoring → runtime 境界)**: ①**成立**
+  (headless semantic equivalence golden・`human_play_required: false`・UI source diff 0 で producer 側が
+  consumer 依存 0 で先行)②**機能充足・様式未採用** — 非 0 側は別行 ID の宣言ではなく同一行内へ併記
+  (`runtime events 1` / `beats 7; trajectories 2; offers 7` / `pre-fix failed 1; post-fix passed 1`)。
+  ②の**独立観測は未成立**のため OBS-20260830-02 の機械化起票根拠には至らない ③`presentation-proxy-only
+  pass 0` 相当は**明示なし**(graph/receipt の headless 先行で構造上は通らないが宣言されていない)。
+  基準線(ECO-034 で 3 つとも不成立)から改善。open 維持(2026-08-31 還元節・効果回収 2)
   evidence: 本節・観測 2・4
 
 ## 2026-08-30 BomDD 自己適用還元 — ECO-033 弧: 裁定の選択肢は主張である/合成 fixture の全通過は実コーパスを証明しない
@@ -4954,3 +4986,153 @@ legacy 節は目視走査):
   source: BomDD ECO-033(C16 の R5 probe で計器欠陥 2 件)
   origin: internal(自己適用)
   evidence: 本節・観測 2 / `bomdd/60-change-order-eco-033.md` §8.3・§8.4
+
+## 2026-08-31 TimetableAdv 還元 — ECO-038: 宣言された fixture が実入力である保証はない(帳簿代用の 6 例目・測定系自身への拡張)
+
+出典: TimetableAdv ECO-038「固定字幕 Plan の ContentBundle 化と意味等価性証明」(起票 `575a917` /
+fix `7a6fdb6` / accept `4c35a6e`・applied)。**TimetableAdv は読み取り専用の出典として扱った**
+(製品側の是正・記帳・便乗適用はしない)。証拠の限界: 本 ECO の `formal disposition` は
+`INCOMPLETE`・`product_adoption: false` — 工程記録としては閉じているが**製品採用の証拠ではない**。
+
+観測:
+
+1. **受入計器が宣言する入力は、それ自体が帳簿である**(実測): ECO-037 時点の Control Plan 8 行
+   (`SF-CP-CARDINALITY-001` ほか)は `fixture: bomdd/cad/resolution-scenario-frontier-v1/fresh-event.yaml`
+   を宣言していたが、**`src/` からその資源への参照は 0 件**
+   (`git grep -ln "fresh-event" 552cce0 -- src/` = 空)。実際の runtime source は C# の
+   `ScenarioFrontierFreshFixture.Plan()` で、authoring resource と手書き Plan の**二重表現**だった。
+   全 CP 行が緑・human golden(`ECO-037-...-FORMATIVE-GOLDEN-V1-001`)も合格しており、
+   **挙動基準の受入は原理的にこの断線を見られない**。潜伏 = ECO-037 fix(`1961ba7` 2026-08-30 12:46)
+   → ECO-038 起票(`575a917` 2026-08-31 03:01)の **約 14 時間 15 分・受入 1 回+human golden 1 回を通過**。
+   検出は機械検査でも golden でもなく **post-ECO-037 の設計レビュー**。
+2. **既存規則で検出可能だった** — `playbook §4.4`「存在検査は使用検査の代用にならない」+
+   `cheat-taxonomy` 帳簿代用(LP)を ECO-037 の受入へ当てていれば、`fresh-event.yaml` の除去で
+   CP 8 行が緑のまま(= 未使用の証拠)になり検出できた。**新原則の不足ではなく、既存規則の
+   適用範囲に測定系自身が入っていなかった**ことが空白。LP 既存 5 例はいずれも「検査器が測る
+   **製品側**の帳簿」で、「検査器が**自分の入力**について宣言する帳簿」の例はなかった
+   (`cheat-taxonomy.md:49-58` 実文突合)。
+3. **是正の型は ablation ではなく来歴閉包+否定対照だった**: ECO-038 は authoring resource →
+   loader → compiler → canonical Plan hash → 正規化 graph → semantic receipt → public projection を
+   **同一 candidate へ封緘**し、旧 Plan を凍結 oracle として 5 系列 15 step を比較(差分 0)、
+   invalid content 7 種を全拒否、embedded event 数 1・UI 変更 0 を境界として測った。
+   これは §4.4 が既に要求している「ablation は片側検査ゆえ**単一実体・構成制約の行で補完する**」の
+   補完側の具体形にあたる(N=1)。
+4. **移行等価性の比較投影が設計対象になった**: 来歴項目(ContentRevision・CompilerVersion・SourcePath)は
+   データ化で必ず変わるため、バイト列一致では比較できない。ECO-038 は
+   `tolerance: "sequence diff 0; step diff 0; provenance ignored only"`(`SCB-CP-RECEIPT-EQUIVALENCE-001`)
+   として**除外集合を tolerance 実文へ明示**し、投影定義を
+   `bomdd/cad/scenario-content-bundle-v1/semantic-projection.md` に置いた。既存本文には
+   移行専用オラクル(playbook:387・`templates/62-migration-oracle.md`)はあるが、
+   **何を等化し・どの来歴軸を明示除外するかを事前定義する規定はない**(62 の見出し §1〜§5 実測)。
+
+判定(一般化検査): 観測 1・2 は製品名を落として成立する — **「検査計器が宣言する入力が実際の入力で
+あること」「宣言された authoring source が runtime authority であること」は、検査の緑では証明されない**。
+ただし LP の定義(帳簿を実体の代理として測る)の**内側**であり、新様式ではなく **6 例目+媒体拡張**と
+判定する。6 例目も同一製品系列内であり、統計的独立反復ではない(既存注記の更新のみで規則強度は
+上がらない)。観測 3・4 は N=1 のため下記 OBS へ記帳し、本文昇格は rule of three 待ちとする。
+例外条項(不可逆観測データの保存義務は 1 例で本文化可)の適用可否を検査した結果**非該当** —
+本件で失われかけたのは製品の来歴であって method の観測記録ではなく、証拠は出典リポに保存されている。
+
+効果回収(棚卸し — 起点= `worklist.py` 出力: native open 41 / migrated open 33 / watch 111):
+
+- **一致(観測を追記・open 維持)4 件**:
+  1. `EXP-20260817-02`(「使用」主張を持つ検査の新設で ablation 対照が初回設計に載るか)→
+     **第 4 回観測**。帳簿代用の **6 例目**が出た。予測媒体(音・アセット解決)は **4 回連続で外れ**、
+     実際は**受入計器の宣言入力(CP の `fixture:` 欄)/ content authoring source**。是正 ECO-038 の
+     初回設計には実体検査が載った(§5 影響 BOM に「authoring resource から EventPlan、runtime、
+     receipt までの来歴」を起票時点で明記)が、**型は ablation ではなく来歴閉包+negative control** —
+     「差戻し後に採用」(第 2・3 回)とは異なり設計レビュー起点。open 維持。
+  2. `EXP-20260830-03`(producer/consumer 境界をまたぐ工程の 3 条件)→ **第 1 回観測**。
+     ①producer 受入が consumer 依存 0 で先行 = **成立**(headless semantic equivalence golden・
+     `human_play_required: false`・UI source diff 0)②`0` 型 tolerance に対する非 0 側 = **機能充足・
+     様式未採用**(別行 ID の宣言ではなく、`runtime events 1` / `beats 7; trajectories 2; offers 7` /
+     `pre-fix failed 1; post-fix passed 1` と**同一行内へ併記**)③`presentation-proxy-only pass 0` 相当の
+     行は**明示なし**(graph/receipt が headless 先行のため構造上 proxy-only では通らないが、
+     宣言はされていない)。基準線(ECO-034 で 3 つとも不成立)から改善。open 維持。
+  3. `EXP-20260816-04`(Human-Gate Compression の系列測定)→ **第 3 回観測**。①wall-clock は
+     `offered_at 04:27:43` → `resolved_at 05:49:11` = **81 分 28 秒**として導出可能だが、
+     消費者実測 3 行(`artifacts_opened`・再読を要した観点数)は **2 回連続で未記録**
+     (`artifacts/acceptance/eco-038/human/golden-pass-ga001-*.json` に該当欄なし)。
+     ②圧縮効果は**系列へ算入しない** — ③の宣言範囲が ECO-034(`headless-evidence-and-prohibited-
+     boundary-only`)と ECO-038(`headless-fixed-subtitle-semantic-equivalence`)で異なり、
+     同項目の規定どおり**正規化できないため測定不能**(81 分 > 7 分 26 秒 を退化と読まない)。
+     ③範囲宣言は `review_scope` + `human_play_required` で **2 回連続成立**。open 維持。
+  4. `EXP-20260717-11`(新設検査器の既知限界宣言が初回設計に載るか)→ **第 5 回観測・型は再び誤り**。
+     新設 9 行(SCB-CP/FO-SCB)のうち `SCB-CP-GOLDEN-001` は `characteristic:` へ**潜伏履歴**
+     (「behavior-only regression could not reveal that the declared content was not the runtime source」)を
+     恒久記載し、`SCB-CP-BOUNDARY-001` は**スコープ境界**(embedded event 1・Composer 等 0)を測る。
+     しかし**検出力の限界**(実施した検査が測っていない次元 — 例: 本検査は 1 event のみで
+     一般化を測らない・compiler 自体の意味論は自己参照で測れない)は未宣言で、第 3 回で指摘した
+     「未製造リスト/潜伏史であって限界ではない」型の誤りが**別形で再現**。open 維持。
+- **同型だが件数繰り上げなし 1 件**: `OBS-20260830-01`(consumer 出力を producer 状態更新の証拠に
+  使わない)は本件と**同型**(下流の正しさは上流の権威を証明しない)だが、事前登録した 2 例目条件は
+  「**別系列**で〜」であり、ECO-034 と ECO-038 は同一製品の連続 ECO。2026-08-30 節の
+  `OBS-20260805-05` 二重計上取り下げの前例に従い **watch は 1/3 のまま**とし、本節を参照注記に留める。
+- **機会なし**(トリガー条件に一致せず記帳不要): `EXP-20260823-03`(媒体横断転写 — 本件は
+  データ→データの同一媒体内移行で、承認済み原器の別媒体実装ではない)/ `EXP-20260811-01`
+  (converge 採用後の選択肢欠落 — 製品側で converge が起動した証跡がなく、観測条件を満たさない)/
+  `EXP-20260830-05`(昇格審査の再審コスト — 本弧に PROMOTION DUE はない)。
+- **legacy(未構造化)節の目視走査**: 該当 0 件。
+
+期待する効果と観測:
+
+- [watch 1/3] OBS-20260831-01 — **受入計器が宣言する入力は帳簿である — 宣言された fixture /
+  test_vector が実際にその検査の入力であり、宣言された authoring source が runtime authority で
+  あることは、検査の緑では証明されない**: Control Plan の `fixture:` 欄・oracle の `test_vectors` は
+  「この資源で測った」という主張だが、**その主張自体を測る行がどこにもない**。資源の内容が実装と
+  一致していても(本件は後から意味等価と証明された)、**内容の偶然の一致は来歴を測っていたことの
+  証拠にならない**。実測: CP 8 行が宣言した YAML への `src/` からの参照 0 件・全行緑・human golden
+  合格・潜伏 14 時間 15 分。機械面: ①宣言 fixture の**実在**と**被参照**(製造物・検査コードから
+  到達するか)を検査行にする ②ablation の適用対象に**測定系自身の宣言入力**を含める(宣言資源を
+  除去して当該検査行が赤くなることを要求する。緑のままなら未使用の証拠)③データ駆動を主張する
+  部品は authoring source → loader → compiler → 正規化表現 → receipt → public projection を
+  同一 candidate へ封緘する。`playbook §4.4` 帳簿代用(LP)の **6 例目**であり、既存 5 例の
+  「製品側の帳簿」に対し**測定系自身の帳簿**という層の拡張。2 例目= **別系列**で、検査計器の
+  宣言入力が実入力でないまま統制が全緑を通過した事例
+  source: TimetableAdv ECO-038
+  evidence: 本節・観測 1・2 / `TimetableAdv 552cce0:bomdd/33-control-plan.yaml:1214-1222` /
+  ECO-038 §3 切り分け済みの事実・§15 クローズ
+- [watch 1/3] OBS-20260831-02 — **来歴が変わる移行の等価性は、事前定義した semantic projection で
+  比較し、変化を許す来歴軸を明示除外する** — 除外集合は tolerance 実文と投影定義文書に置き、
+  比較の後から決めない: データ化・外部定義化では revision・compiler version・source path など
+  来歴項目が必ず変わるため、バイト列一致は原理的に成立しない。除外を**比較後に**決めると、
+  差分が出た軸を事後的に「来歴だから」と落とせてしまう(等価性主張が反証不能になる)。実測:
+  `tolerance: "sequence diff 0; step diff 0; provenance ignored only"` と投影定義文書
+  (`semantic-projection.md`)を凍結 oracle 側へ先に置き、5 系列 15 step の graph / receipt /
+  public projection を差分 0 で比較。既存の移行専用オラクル(`playbook:387`・
+  `templates/62-migration-oracle.md` §1〜§5)は fixture と較正は要求するが、**比較投影の設計
+  (何を等化し・何を除外するか)を事前定義する規定を持たない**。`OBS-20260816-02`(人間判定の
+  一因子比較は投影の等化を含む)の**機械比較版**にあたるが、あちらは提示 surface の等化、
+  本項は比較次元の**明示除外集合の凍結**であり対象が異なる。2 例目= 別の移行/データ化 ECO で、
+  来歴軸を含む等価性比較が行われた事例
+  source: TimetableAdv ECO-038
+  evidence: 本節・観測 4 / `TimetableAdv bomdd/33-control-plan.yaml:1232` /
+  `method/templates/62-migration-oracle.md`(投影設計欄の不在)
+- [open] EXP-20260831-03 — 次に**データ駆動化・外部定義化(source authority の移行)を主張する ECO**で、
+  受入の初回設計に ①authoring source → runtime authority の来歴閉包 ②旧経路が runtime authority として
+  残っていないことの検査 ③invalid content 拒否(閉じた語彙・未解決参照・重複・循環・hash 不一致)
+  ④読み込まれた資源数と scope 境界 が載るか。**基準線= 本出典の直前(ECO-037)で 4 つとも不成立**
+  (宣言 resource は runtime source でなく、CP 8 行は挙動のみを測った)。ECO-038 自身は是正側のため
+  基準線に算入しない
+  evidence: 本節・観測 1・3
+
+収束 receipt(本還元の行き先判定・織り込み案について `/converge` を自発起動した):
+
+- **周回数と新規指摘件数**: round 1 = 3 件(①案 F〔self-conformance へ CP fixture 実在検査 C17〕は
+  **自リポに `bomdd/33-control-plan.yaml` が存在せず適用対象なし**= 実行不能のため選択肢から除外
+  ②案 C〔`templates/33-control-plan.yaml` への規約追記〕は**ハーネス変更のため ECO 起票必須**
+  〔CLAUDE.md〕と判明 ③`templates/62-migration-oracle.md` に比較投影の設計欄が無いことを確認)/
+  round 2 = 2 件(④出典 ECO の `formal disposition: INCOMPLETE` を証拠の限界として明記する必要
+  ⑤潜伏期間が未実測 → コミット時刻から 14 時間 15 分と確定)/ round 3 = 0 件。**2 周連続ゼロ**に
+  至らないまま上限に達したのではなく、round 3 で DoD 7 項すべてに ✔ が付き新規指摘 0 で収束。
+- **検証した主張と実測**: (1)「宣言 fixture への製品コード参照が 0」→ `git grep -ln "fresh-event"
+  552cce0 -- src/` = 空 (2)「CP 8 行が当該 fixture を宣言」→ `552cce0:bomdd/33-control-plan.yaml:1214-1222`
+  (3)「LP 既存 5 例に測定系自身の帳簿はない」→ `cheat-taxonomy.md:49-58` 実文突合 (4)「playbook に
+  fixture の実在・被参照を要求する規定はない」→ `bomdd-playbook-v1.md:173`(治具の precondition 検査)は
+  前提不成立の検査であって宣言の真偽検査ではない (5)「62 テンプレに投影設計の規定なし」→ 見出し
+  §1〜§5 実測 (6)「BomDD 自リポに CP は存在しない」→ `bomdd/` 配下は `60-change-register.yaml` のみ
+  (7)潜伏実測 → `1961ba7`(08-30 12:46)→ `575a917`(08-31 03:01)。
+- **未収束事項**: 観測 3 の「来歴閉包が ablation の代替として一般に十分か」は **N=1 で未収束** —
+  ablation(除去して壊れることを要求)と来歴閉包(source→runtime を同一 candidate へ封緘)は
+  検出できる欠陥集合が同一とは限らず、本出典だけでは前者の代替可能性を判定できない。
+  `OBS-20260831-01` の機械面②③として両方を併記し、2 例目の観測に委ねる。
