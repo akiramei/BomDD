@@ -1424,3 +1424,35 @@ changes:
       読み分け不能だったことを新様式自身が実演)。限界(V5 で宣言)= 二軸の遵守・理由コードの
       記入は散文契約で機械観測されない / 理由コード語彙は例示で閉集合でない / 同期は一回性
       プローブ。スキル効果は EXP-20260831-04 が追跡継続。詳細は order §4〜§6。
+  - id: ECO-039
+    title: C9 measurement capability — signature 弁別力・母集団責務・限界宣言(calibrate 較正掃引の所見)
+    date: 2026-08-31
+    origin: corrective
+    status: filed   # gate ① 承認待ち — 製造は order 提示で停止(裁定対象= 製造承認+(a) 方式 4 案+(b) 二択)
+    source: >
+      /calibrate 較正掃引(user 裁定 2026-08-31「まず、①を回してみましょう」— 題材= C9+
+      期待結果 manifest)。EXP-20260831-04 第 1 回観測。対照条件が強い: C9 は CI 毎 push 実行・
+      再実測でも 4 スイート完全一致(通常レビューでは問題なし)の状態から、battery Q2/Q11 の
+      受理側の問いが検出。外部レビュー同意+追補(所見を capability defect / boundary /
+      declaration に三分割して一括計数しない・F2 修理方式を「文字列を長くする」で固定せず
+      比較する)。F2= signature 4 件中 3 件が xunit 定型文の汎用 substring(実 Message 採取で
+      確認)・受理側 known-bad 較正は ECO-007 以来一度もなし・C16 部分文字列ゲート(ECO-033
+      R5)と同族。F1= 現在被覆は csproj 全 13 件実測で完全(残 3 件は Exe harness)・将来増分の
+      検出は非搭載。F3= 検出力の限界が未宣言(ECO-033 様式の未遡及)。
+    order_ref: bomdd/60-change-order-eco-039.md
+    affected_refs: [method/tools/self-conformance.py, loops/expected-results.yaml]
+    no_impact_prediction: "(起票時・製造前)diff は self-conformance.py+expected-results.yaml((a) 裁定が manifest 拡張を含む場合)+台帳系のみの予測。loops/ のコード・テスト・観測データは変更しない。既存 C1〜C8・C10〜C16 判定不変・C9 の現行 4 スイート正常判定も不変(弁別の追加であり現行赤の受理を変えない)。C16 は本 order を required と判定する見込み — /converge receipt を order へ埋め込み済み"
+    diff_audit:
+      baseline: "5c0f5dc"  # 起票直前 HEAD(gate ① 承認後、是正開始直前へ更新)
+      allowed_paths: [method/tools/self-conformance.py, loops/expected-results.yaml]
+    summary: >
+      変更要求= (a) F2 signature 弁別力【方式 4 案の裁定】: a-1 substring 延長(書式結合↑・
+      局所修理)/ a-2 テスト側 marker(棄却推奨 — 凍結 loop コードの改変= 不可逆観測データの
+      書き換え)/ a-3 構造化突合(推奨 — trx Message を Expected/Actual 対で照合・manifest を
+      構造化フィールドへ後方互換拡張・loops 無変更・パーサに陽性対照)/ a-4 正規化ハッシュ
+      (最強 identity・診断性低)。いずれも受入に受理側 known-bad(別理由失敗の合成 trx →
+      FAIL)+緑腕(現行 4 赤 → PASS)の両腕。(b) F1【二択】: b-1 境界宣言のみ / b-2(推奨)
+      母集団突合の追加(Test SDK 参照 csproj の機械列挙 vs manifest・差分 FAIL・自動追記なし)。
+      (c) F3: C9 docstring へ限界宣言(ECO-033 様式の遡及・文言は (a)(b) 裁定後確定)。
+      スコープ外= Exe harness の常設計器化(実行環境依存の意図的境界)・SDK 刻印(宣言のみ)・
+      他計器への掃引展開。gate ① 承認待ち。
