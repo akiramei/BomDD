@@ -1481,7 +1481,7 @@ changes:
     title: CI/ローカル環境前提の宣言・環境個体の刻印・ubuntu C9 の 1 回実測(calibrate 掃引 ③ の所見)
     date: 2026-09-01
     origin: corrective
-    status: applied   # 2026-09-01 gate ① 承認(X+Y+Z・6 条件)→ 製造中。V 系は fix push の CI 観測と accept(matrix 復帰)で確定
+    status: verified   # 2026-09-01 受入= V1(刻印・両環境)・V2(fast 全 PASS)・V3(Z: ubuntu C9 全行 PASS — 範囲は revision b56dbd6・runner ubuntu24/20260823.283.1・SDK 10.0.400 に限定〔裁定 3〕)・V4(復帰後 run 33415086488 全緑)・V5(窓 a4e9322->c7ac101 は allowed_paths+台帳系のみ)
     source: >
       /calibrate 第 2 回較正掃引(user 裁定 2026-09-01・題材 ③= CI/ローカル環境前提の対称性。
       主張を宣言面・実行面・OS 間再現性・将来ドリフトへ分解)。所見= capability defect 0 /
@@ -1496,6 +1496,7 @@ changes:
     no_impact_prediction: "(製造前)diff は workflow+self-conformance.py+improvements.md(裁定 5・6 の記帳)+台帳系のみ。全 16 検査+C9 の判定ロジック不変(追加は [env] 出力行と宣言のみ)。fix push の CI は一時 4 job(dotnet matrix 変異)— ubuntu dotnet の結論は未知で、緑/赤とも当該 revision の実測として記録し accept で windows のみへ復帰。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
     diff_audit:
       baseline: "a4e9322"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "c7ac101"      # diff監査済み: 窓内は allowed_paths+台帳系のみ(Z の一時変異と復帰を含む)・予測的中
       allowed_paths: [.github/workflows/, method/tools/self-conformance.py, method/improvements.md]
     summary: >
       (X) workflow 冒頭へ境界宣言 — D1= dotnet job は windows のみ・構成は ECO-006 裁定 (c) で
@@ -1507,3 +1508,16 @@ changes:
       (Z) dotnet job を一時 matrix(windows+ubuntu)へ変異し fix push の CI で ubuntu C9 を
       1 回実測(runner 個体は Y の刻印が証拠)— accept で windows のみへ復帰・常設化は別裁定。
       EXP-20260831-04 第 2 回観測を記帳(capability 0 のまま・unknown 理由コード区別)。
+    verification: >
+      V1= PASS(環境個体の刻印 — ローカル「python 3.13.1・PyYAML 6.0.3・os Windows-11・
+      runner local」/ CI ubuntu dotnet「python 3.12.14・PyYAML 6.0.3・os Linux-6.17.0-1022-azure・
+      runner ubuntu24/20260823.283.1・dotnet-sdk 10.0.400」— 実版が証拠から追跡可能)。
+      V2= PASS(fast 全検査・両 OS+ローカル・既存判定不変)。V3= PASS(Z: run 33413482874
+      全 4 job success・ubuntu C9 全行 PASS〔計器較正 5 腕・母集団 4⇔4・期待赤 4 件一致・
+      identity 突合 4 件 — xunit 失敗 Message は Linux でも同一 identity〕。有効範囲は当該
+      revision・当該 runner 個体のみ — 1 回の緑を一般証明へ昇格させない〔裁定 3〕。掃引 ③ の
+      unknown「C9 非 windows= 未実行」は observed/条件付き適格へ遷移)。V4= PASS(matrix 復帰後
+      run 33415086488 = 3 job 構成で全緑・headSha 照合済み)。V5= PASS(窓内は workflow /
+      self-conformance.py / improvements.md+台帳系のみ)。V6= 較正 receipt(二軸)を order §6 に
+      埋め込み — unknown 2 件は理由コードを区別して保持(観測手段なし= 沈黙的ドリフト /
+      未較正= 版間判定同値性〔B1・修理しない〕)。詳細は order §4〜§6。
