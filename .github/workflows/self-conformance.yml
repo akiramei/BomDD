@@ -35,11 +35,7 @@ jobs:
       - run: python method/tools/worklist.py --selftest
 
   dotnet:
-    strategy:
-      matrix:
-        # ECO-040 Z: ubuntu は 1 回実測のための一時変異 — accept コミットで windows のみへ戻す
-        os: [windows-latest, ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

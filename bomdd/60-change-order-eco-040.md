@@ -102,7 +102,22 @@ unknown 3(C9 非 windows= 未実行・沈黙的ドリフト= 観測手段なし�
 
 ## 5. CI 実測(V1〜V4)
 
-(push 後に追記)
+- fix push 対象 revision: `b56dbd6`(**ローカル HEAD と一致を確認**)
+- run 識別子: 33413482874 — **全 4 job success**(fast ubuntu / fast windows /
+  dotnet windows / **dotnet ubuntu**)
+- **V1 PASS(刻印)**: ローカル= `[env] python 3.13.1・PyYAML 6.0.3・os Windows-11・
+  runner local` / CI ubuntu dotnet= `[env] python 3.12.14・PyYAML 6.0.3・
+  os Linux-6.17.0-1022-azure・runner ubuntu24/20260823.283.1・dotnet-sdk 10.0.400` —
+  判定に関係する実版が証拠(CI ログ・ローカル出力)から追跡可能。
+- **V3 PASS(Z の 1 回実測)**: ubuntu の C9 = **全行 PASS**(計器較正 5 腕成立・
+  母集団突合 4⇔4・4 スイート全て manifest 一致・期待赤 4 件一致・**identity 突合 4 件** —
+  xunit の失敗 Message は Linux でも同一 identity に構造化された)。
+  **本結果の有効範囲(gate 裁定 3)**: revision `b56dbd6`・runner 個体
+  `ubuntu24/20260823.283.1`・SDK 10.0.400 についてのみ。**1 回の緑を OS 横断再現性の
+  一般証明へ昇格させない**。掃引 ③ の unknown「C9 の非 windows 再現性(未実行)」は
+  observed / **条件付き適格**〔範囲= 当該 revision・当該個体〕へ遷移。
+- **V2 PASS**: fast 全検査は両 OS・ローカルとも PASS・既存判定不変。
+- V4(復帰後 CI)は §6 で確定。
 
 ## 6. クローズ
 
