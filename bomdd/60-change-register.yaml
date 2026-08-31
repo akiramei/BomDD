@@ -1337,7 +1337,7 @@ changes:
     title: calibrate の判定帰結と入力クラス被覆 — ECO-035 延長収束レビューの指摘 2 件
     date: 2026-08-31
     origin: corrective
-    status: filed   # gate ① 承認待ち — 製造は order 提示で停止(裁定対象= 製造承認+Q11 追加の採否)
+    status: applied   # 2026-08-31 gate ① 承認(3 点裁定)→ 製造完了= V1(同期・残差 0)。V2 は commit 前に実測・V3(CI)・V4(diff 窓)は push 後に確定
     source: >
       user 裁定 2026-08-31「延長として実行して」— ECO-035 /converge ループの延長
       (ECO-036 手順 5「延長は人間裁定のみ」の初適用・上限 +3 周)。実測= round 4=2 /
@@ -1353,7 +1353,7 @@ changes:
     affected_refs: [method/templates/product-profile/skills/calibrate.md]
     no_impact_prediction: "(起票時・製造前)diff は calibrate 正本+写し(.claude/skills/calibrate/)+台帳系のみの予測。C4/C7/C13 判定不変(プレースホルダー・SKILLS 実数・markdown リンクいずれも増減なし)。C16 は本 order を required と判定する見込み — /converge receipt(延長・新様式)を order へ埋め込み済み。既設製品リポへは kit 再設置まで非波及"
     diff_audit:
-      baseline: "ba1928f"  # 起票直前 HEAD(gate ① 承認後、是正開始直前へ更新)
+      baseline: "52e600d"  # 起票時 ba1928f → 是正開始直前(起票コミット)へ更新(gate ① 承認 2026-08-31)
       allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/]
     summary: >
       変更要求= (a) 手順 4 へ「証明していない証拠は昇格の根拠に使わない — 証拠を補う /
@@ -1363,4 +1363,10 @@ changes:
       (calibrate は判断待ち停止機構を持たず消費者がいない — §8.5 必要の実測後)。
       受入案= V1 正本⇔写し同期突合(ECO-036 プローブ再用)/ V2 全検査 PASS / V3 CI /
       V4 diff 窓。較正= 散文規則につき機械対照なし(ECO-036 と同じ正直宣言)。
-      gate ① 承認待ち。
+      **gate ① 承認 2026-08-31 maintainer(3 点裁定)**= ①F4-1 approve — 帰結 3 肢
+      (証拠追加 / 主張縮小 / 必要時の裁定上申)を採択し「証明していない」自体は全体 FAIL と
+      しない(主張単位で閉じる)②Q11 approve — 対象を「測定器の系統誤差に関係する意味的に
+      異なる入力クラスの被覆確認」に限定し、use/mention 等の既知実例を最低 1 件アンカーとして
+      行内に持つ ③起動経路フィールドは不採維持(必要の実測時に再起票)。製造= 裁定文言
+      どおり正本+写しへ同一適用(手順 4 帰結+Q11 行〔アンカー= §4.4 同等性受入・
+      BomDD ECO-034 use/mention クラス〕)。
