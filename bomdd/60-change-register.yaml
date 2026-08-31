@@ -1337,7 +1337,7 @@ changes:
     title: calibrate の判定帰結と入力クラス被覆 — ECO-035 延長収束レビューの指摘 2 件
     date: 2026-08-31
     origin: corrective
-    status: applied   # 2026-08-31 gate ① 承認(3 点裁定)→ 製造完了= V1(同期・残差 0)。V2 は commit 前に実測・V3(CI)・V4(diff 窓)は push 後に確定
+    status: verified   # 2026-08-31 受入= V1(正本⇔写し同期・残差 0)・V2(全 16 検査 PASS)・V3(CI run 33378244694 success @0db4685)・V4(窓 52e600d->0db4685 は allowed_paths+台帳系のみ)。ECO-035 の収束債務完済
     source: >
       user 裁定 2026-08-31「延長として実行して」— ECO-035 /converge ループの延長
       (ECO-036 手順 5「延長は人間裁定のみ」の初適用・上限 +3 周)。実測= round 4=2 /
@@ -1354,6 +1354,7 @@ changes:
     no_impact_prediction: "(起票時・製造前)diff は calibrate 正本+写し(.claude/skills/calibrate/)+台帳系のみの予測。C4/C7/C13 判定不変(プレースホルダー・SKILLS 実数・markdown リンクいずれも増減なし)。C16 は本 order を required と判定する見込み — /converge receipt(延長・新様式)を order へ埋め込み済み。既設製品リポへは kit 再設置まで非波及"
     diff_audit:
       baseline: "52e600d"  # 起票時 ba1928f → 是正開始直前(起票コミット)へ更新(gate ① 承認 2026-08-31)
+      head: "0db4685"      # diff監査済み: 窓内は calibrate 正本/写し+台帳系のみ・影響なし予測的中
       allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/]
     summary: >
       変更要求= (a) 手順 4 へ「証明していない証拠は昇格の根拠に使わない — 証拠を補う /
@@ -1370,3 +1371,12 @@ changes:
       行内に持つ ③起動経路フィールドは不採維持(必要の実測時に再起票)。製造= 裁定文言
       どおり正本+写しへ同一適用(手順 4 帰結+Q11 行〔アンカー= §4.4 同等性受入・
       BomDD ECO-034 use/mention クラス〕)。
+    verification: >
+      V1= PASS(正本⇔写しの機械突合 — ECO-036 プローブと同一の正規化で残差 0 行)。
+      V2= PASS(self-conformance 全 16 検査 PASS・既存判定不変)。V3= PASS
+      (CI run 33378244694・conclusion success・headSha 0db4685 がローカル HEAD と一致)。
+      V4= PASS(窓 52e600d->0db4685 内は calibrate 正本/写し+台帳系のみ)。
+      較正 receipt(/calibrate 自己適用・トリガー③)を order §4 に埋め込み — 主張 4 件の
+      3 値判定(うち「帰結 3 肢は F4-1 を閉じる」は部分的= 遵守の機械観測なし)・計器欠陥
+      なし・検出力の限界 3 点を宣言。本 ECO で ECO-035 の収束債務は完済(設計は収束+
+      是正適用済み)。詳細は order §4〜§6。

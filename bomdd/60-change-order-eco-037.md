@@ -143,8 +143,25 @@ converge は ECO-036 で起動経路を receipt へ追加したが、calibrate �
 
 ## 5. CI 実測(V3)
 
-(push 後に追記)
+- 対象 revision: `0db4685`(**ローカル HEAD と一致を確認**)
+- 規則版: workflow `self-conformance`(リポ内定義= 測定器)
+- run 識別子: 33378244694 — https://github.com/akiramei/BomDD/actions/runs/33378244694
+- 結論: **PASS**(`status: completed` / `conclusion: success`)
+- 観測日時 / 観測主体: 2026-08-31 / 本 ECO の担当設備(§担当設備)
+- UNKNOWN の理由コード: 該当なし(headSha 照合を経て当該 run を特定 — §13 の 4 値判定)
 
 ## 6. クローズ
 
-(受入後に追記)
+- diff 監査の窓: baseline `52e600d` → head `0db4685`(**窓閉鎖**)。窓内は calibrate 正本 /
+  写し+台帳系(register・本 order)のみ — 影響なし予測が的中
+  (`git diff --name-only 52e600d..0db4685` で機械確認)。
+- 受入: V1(同期突合・残差 0)/ V2(全 16 検査 PASS)/ V3(CI 緑)/ V4(diff 窓)すべて PASS。
+  較正 receipt(/calibrate 自己適用)は §4 に埋め込み済み。
+- **本 ECO で ECO-035 の収束債務は完済**: 延長ループの指摘 2 件(F4-1/F4-2)がいずれも
+  gate 裁定を経て織り込まれ、calibrate の設計は収束状態(通算軌跡 3→2→1→2→0→0)と
+  是正適用済みの両方を満たした。
+- このクローズが支持しないもの(§4 較正 receipt の限界の再掲): 帰結 3 肢の遵守は散文契約で
+  機械観測されない / Q11 の適用判断(どのクラスが系統誤差に関係するか)は査定者の裁量に
+  残る(既知実例アンカーは較正点であり網羅ではない)/ スキルの効果は依然未証明(運用実測)。
+- 残(スコープ外): 起動経路フィールド(必要の実測時に再起票 — gate 裁定 3)/
+  既設リポ・TimetableAdv への遡及設置 / 効果測定の EXP 記帳。
