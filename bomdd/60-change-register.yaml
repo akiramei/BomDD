@@ -1284,3 +1284,41 @@ changes:
       ローカル HEAD と一致)。V5= PASS(窓 47cea59->7707a59 内は allowed_paths+台帳系のみ)。
       V6= 初回自己適用の較正 receipt を order §4 に埋め込み(主張 4 件の 3 値判定・計器欠陥
       プローブ側 1 件・検出力の限界 3 点 — 効果は未証明と明記)。詳細は order §4〜§6。
+  - id: ECO-036
+    title: converge 未収束の停止点 — 収束失敗の裁定点化・自動延長の禁止・自発起動の判断待ち停止
+    date: 2026-08-31
+    origin: corrective
+    status: applied   # 2026-08-31 製造完了= V1(正本⇔写し同期・残差 0)・V5(新様式 receipt の初回使用)。V2 は commit 前に実測・V3(CI)・V4(diff 窓)は push 後に確定
+    source: >
+      user 裁定 2026-08-31「収束した、と言い切るのは誠実ではないかもしれません。3 回以内に
+      収束しなかった。ここで打ち切るか、もう 3 回追加するか?などの方が良さそうです。ただし、
+      自動発動のケースなら、判断待ちとして停止でよいかもしれません」+「ECO-036 として起票して
+      製造まで進めてください」。契機= ECO-035 の完了報告が未収束(round 3=2=1)なのに収束と
+      読める形だった(C16 は receipt の存在しか測らない)うえ、未収束宣言が帰結を持たず
+      自発起動+一括委任の弧でそのまま製造・正典化まで進んだ — ECO-034「出口のないゲート」の
+      鏡像=「帰結のない未収束宣言」。構造的にも上限 3 周では round 1 に指摘が出た時点で
+      収束(2 周連続ゼロ)はほぼ到達不能で、実績 2/2(ECO-033/035)が未収束提示だった。
+    order_ref: bomdd/60-change-order-eco-036.md
+    affected_refs: [method/templates/product-profile/skills/converge.md]
+    no_impact_prediction: "(製造前)diff は converge 正本+写し(.claude/skills/converge/)+台帳系のみ、他は diff ゼロ。C4 判定不変(render 対象プレースホルダーは {{METHOD}} のみで増減なし)。C7 判定不変(SKILLS 実数 10 のまま)。C13 判定不変(markdown リンクは写し冒頭の正本参照 1 件のみで増減なし)。C16 は本 order を required と判定する見込み — receipt を埋め込む。既設製品リポへは kit 再設置まで非波及"
+    diff_audit:
+      baseline: "31eaefe"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/templates/product-profile/skills/converge.md, .claude/skills/converge/]
+    summary: >
+      製造対象= converge 正本と写しの同一改訂 4 点。(a) 手順 5: 上限 3 周で 2 周連続ゼロ
+      未到達は「収束失敗」— 収束したかのように扱わず、打ち切り採用(全部か一部かは裁定で
+      指定)/ 延長 / 差し戻しを round 軌跡を材料に人間へ問う。延長は人間裁定のみ(自動延長は
+      上限の目的を消す)。(b) 手順 6: 未収束提示は receipt 冒頭に判定を置き、報告文で収束と
+      読める表現を使わない。自発起動の弧では未収束の設計を裁定まで製造・正典化へ進めない
+      (判断待ち停止 — 未収束宣言に帰結を持たせる)。(c) receipt 様式へ判定(収束/未収束+
+      裁定質問)と起動経路(人間呼び出し/自発)を追加(既存 3 項は不変・後方互換)。
+      (d) 失敗型 表 A ⑧「未収束の無帰結化」追加(初出= BomDD ECO-035)。選択肢集合=
+      C16 拡張による機械化(§8.5 — 運用実測後。(c) の判定フィールドが機械可読の足場)と
+      上限撤廃(抱え込み防止が消える)を不採で明記。スコープ外= C16 拡張・TimetableAdv 側
+      同期・過去 receipt への遡及。order の receipt は新様式の初回使用で、判定= 未収束
+      (round 軌跡 2→1→0)を冒頭宣言し、user の事前裁定を打ち切り採用として扱った。
+    verification: >
+      (製造中間・push 前)V1= PASS(正本⇔写しの機械突合 — プレースホルダー解決+写しヘッダー
+      除去の正規化後、残差 0 行。プローブ初版の cp932 出力欠陥はプローブ帰属で正直記載)。
+      V5= PASS(本 order の receipt が新様式に従う初回使用)。V2 は commit 前に実測し、
+      V3(CI)・V4(diff 窓閉鎖)は push 後に確定して accept で本欄を最終化する。
