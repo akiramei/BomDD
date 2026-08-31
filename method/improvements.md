@@ -5033,6 +5033,24 @@ fix `7a6fdb6` / accept `4c35a6e`・applied)。**TimetableAdv は読み取り専�
 例外条項(不可逆観測データの保存義務は 1 例で本文化可)の適用可否を検査した結果**非該当** —
 本件で失われかけたのは製品の来歴であって method の観測記録ではなく、証拠は出典リポに保存されている。
 
+適用した改善(2026-08-31 レビュー採択・本還元で織り込み済み):
+
+- **案 A**(採択): `cheat-taxonomy.md` 帳簿代用(LP)表へ **6 例目**(媒体= 受入計器の宣言入力)を追加。
+  見出しの実測件数 5 → **6 例**、注記の媒体予測 2 → **4 回連続で外れ**へ更新。検出面へ 2 文追加 —
+  「**検査行が `fixture:` / `test_vectors` で宣言する入力も ablation の対象**」「ablation と lineage 閉包は
+  **相補的な検査面**であり一方が他方を代替しない」。
+- **案 B**(採択・**レビューで弱められた**): `playbook §4.4` の LP 段落へ追補。提示時の
+  「宣言 source が **runtime authority** であること」は、裁定により「宣言された authoring source から
+  **effective behavior までの因果的 lineage が閉じている**こと」へ弱めて織り込んだ — 「authority」は
+  実装上の唯一性まで含意しうるのに対し、検査が実際に測れるのは**因果連鎖の閉じ**だからである。
+- **案 C**(見送り): `templates/33-control-plan.yaml` への `fixture:` 実在・被参照の規約化は
+  **機械判定規則が未成熟**のため見送り(裁定)。ハーネス変更のため採る場合は BomDD 側の ECO 起票が
+  必要。④化の条件は `EXP-20260831-03` に事前登録済み。
+- **案 D**(処置変更): playbook §8 への比較投影規定の織り込みは保留のまま、**未収束事項の決着**として
+  ablation と lineage 閉包を代替候補として扱わず相補的検査面と裁定し、`OBS-20260831-01` を修正した。
+- **案 E**(§8.x 新設)**不採**(N=1)/ **案 F**(self-conformance C17)**不採** — 自リポに
+  `bomdd/33-control-plan.yaml` が存在せず適用対象がない(収束ループ round 1 で実行不能と実測)。
+
 効果回収(棚卸し — 起点= `worklist.py` 出力: native open 41 / migrated open 33 / watch 111):
 
 - **一致(観測を追記・open 維持)4 件**:
@@ -5076,9 +5094,9 @@ fix `7a6fdb6` / accept `4c35a6e`・applied)。**TimetableAdv は読み取り専�
 
 期待する効果と観測:
 
-- [watch 1/3] OBS-20260831-01 — **受入計器が宣言する入力は帳簿である — 宣言された fixture /
-  test_vector が実際にその検査の入力であり、宣言された authoring source が runtime authority で
-  あることは、検査の緑では証明されない**: Control Plan の `fixture:` 欄・oracle の `test_vectors` は
+- [recovered 2026-08-31 via cheat-taxonomy LP 6 例目+playbook §4.4 追補(レビュー採択・案 A・B)] OBS-20260831-01 — **受入計器が宣言する入力は帳簿である — 宣言された fixture /
+  test_vector が実際にその検査の入力であり、宣言された authoring source から effective behavior まで
+  因果的 lineage が閉じていることは、検査の緑では証明されない**: Control Plan の `fixture:` 欄・oracle の `test_vectors` は
   「この資源で測った」という主張だが、**その主張自体を測る行がどこにもない**。資源の内容が実装と
   一致していても(本件は後から意味等価と証明された)、**内容の偶然の一致は来歴を測っていたことの
   証拠にならない**。実測: CP 8 行が宣言した YAML への `src/` からの参照 0 件・全行緑・human golden
@@ -5086,9 +5104,13 @@ fix `7a6fdb6` / accept `4c35a6e`・applied)。**TimetableAdv は読み取り専�
   到達するか)を検査行にする ②ablation の適用対象に**測定系自身の宣言入力**を含める(宣言資源を
   除去して当該検査行が赤くなることを要求する。緑のままなら未使用の証拠)③データ駆動を主張する
   部品は authoring source → loader → compiler → 正規化表現 → receipt → public projection を
-  同一 candidate へ封緘する。`playbook §4.4` 帳簿代用(LP)の **6 例目**であり、既存 5 例の
-  「製品側の帳簿」に対し**測定系自身の帳簿**という層の拡張。2 例目= **別系列**で、検査計器の
-  宣言入力が実入力でないまま統制が全緑を通過した事例
+  同一 candidate へ封緘する(**lineage 閉包**)。`playbook §4.4` 帳簿代用(LP)の **6 例目**であり、
+  既存 5 例の「製品側の帳簿」に対し**測定系自身の帳簿**という層の拡張。
+  **②と③は相補的な検査面であり、一方が他方を代替しない**(2026-08-31 レビュー裁定・案 D)—
+  ②は「使われていない」を、③は「使われている経路が宣言どおりである」を測る。代替候補として
+  比較せず、データ駆動を主張する受入では**両方**を設計する。
+  **回収の根拠**: 命題は本文へ織り込み済み(cheat-taxonomy LP 表 6 例目+検出面の相補性 1 文/
+  playbook §4.4 追補)。**別系列での再現追跡は `EXP-20260817-02` へ委譲**し、本項では重複追跡しない
   source: TimetableAdv ECO-038
   evidence: 本節・観測 1・2 / `TimetableAdv 552cce0:bomdd/33-control-plan.yaml:1214-1222` /
   ECO-038 §3 切り分け済みの事実・§15 クローズ
@@ -5136,3 +5158,7 @@ fix `7a6fdb6` / accept `4c35a6e`・applied)。**TimetableAdv は読み取り専�
   ablation(除去して壊れることを要求)と来歴閉包(source→runtime を同一 candidate へ封緘)は
   検出できる欠陥集合が同一とは限らず、本出典だけでは前者の代替可能性を判定できない。
   `OBS-20260831-01` の機械面②③として両方を併記し、2 例目の観測に委ねる。
+  **裁定による決着(2026-08-31・レビュー案 D・append-only 追記)**: 2 例目へ委ねるのではなく、
+  **両者を代替候補として扱わない**ことが決まった — ablation と lineage 閉包は**相補的な検査面**として
+  本文(cheat-taxonomy 検出面・playbook §4.4)へ併記され、「一方が他方の代替として十分か」という
+  問い自体が棄却された。本未収束事項は**閉じた**(receipt 本体の記述は証拠正本として書き換えない)。
