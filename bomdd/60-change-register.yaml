@@ -1525,7 +1525,7 @@ changes:
     title: 独立検査の判定語意味論・報告様式・集計引用規則の明文化(calibrate 掃引 ③ 第 3 回の所見)
     date: 2026-09-01
     origin: corrective
-    status: applied   # 2026-09-01 gate ① 承認(D1+D3+R1 一括・6 条件)→ 製造完了。V 系は push 後に確定
+    status: verified   # 2026-09-01 受入= V1(append のみ・挿入 10/削除 0)・V2(全検査 PASS)・V3(CI run 33421974126 success @5bb71b9)・V4(窓 3d55fcd->5bb71b9 は playbook+台帳系のみ)
     source: >
       /calibrate 第 3 回較正掃引(題材= 独立検査官〔AI judge〕・EXP-20260831-04 第 3 回観測)の
       declaration deficiency 2 件+reference-truth deficiency 1 件。gate 裁定(user 2026-09-01)=
@@ -1541,6 +1541,7 @@ changes:
     no_impact_prediction: "(製造前)diff は bomdd-playbook-v1.md の §4.4 追補(append のみ・既存文無変更)+台帳系のみ。過去レポート・register の歴史的記録は無変更。C13 判定不変(追補にリンクなし)。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
     diff_audit:
       baseline: "3d55fcd"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "5bb71b9"      # diff監査済み: 窓内は playbook §4.4 追補+台帳系のみ・影響なし予測的中
       allowed_paths: [method/bomdd-playbook-v1.md]
     summary: >
       §4.4「高リスク検査治具の異系統独立受入検査」段落へ追補 1 節 — REJECT= 現在の工程契約上の
@@ -1549,3 +1550,11 @@ changes:
       真正判定の集計引用は evidence class(実プローブ/コード読解)と留保・限定件数を併記し
       「N/N CONFIRMED・誤検出 0」の単独引用を精度一般の根拠として不適格とする / 前向き適用の
       明文(過去の検査記録・判定を再解釈しない)。
+    verification: >
+      V1= PASS(追補は append のみ — playbook diff 挿入 10 行/削除 0 行・既存文無変更)。
+      V2= PASS(self-conformance 全 16 検査 PASS・既存判定不変)。V3= PASS(CI run
+      33421974126・completed/success・headSha 5bb71b9 がローカル HEAD と一致)。V4= PASS
+      (窓 3d55fcd->5bb71b9 内は playbook+台帳系のみ)。較正= 散文規則につき機械対照なし
+      (正直宣言)— 遵守は次回の独立検査報告・集計引用の実運用で観測。前向き適用(裁定 2)・
+      battery 無変更(裁定 4)・unknown 3 件は次回測定候補(裁定 3)を order §6 に記録。
+      詳細は order §4〜§6。
