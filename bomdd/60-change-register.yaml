@@ -1380,3 +1380,35 @@ changes:
       3 値判定(うち「帰結 3 肢は F4-1 を閉じる」は部分的= 遵守の機械観測なし)・計器欠陥
       なし・検出力の限界 3 点を宣言。本 ECO で ECO-035 の収束債務は完済(設計は収束+
       是正適用済み)。詳細は order §4〜§6。
+  - id: ECO-038
+    title: calibrate 改訂 — 証拠資格の二軸判定モデル・reference 較正の index 穴・責務境界とトリガー分類
+    date: 2026-08-31
+    origin: enhancement
+    status: filed   # gate ① 承認待ち — 製造は order 提示で停止(裁定対象= 製造承認+(a)〜(d) の文言・見送り 4 点の確定)
+    source: >
+      外部レビュー 2 往復(2026-08-31・user 経由)。user 統制=「無条件に受け入れる必要はない・
+      トレードオフの結果の可能性がある」。担当設備の裁定= 採択 3(R2 判定語彙は査定の実能力
+      〔証拠の資格〕を超える+UNKNOWN 別軸化は §13 4 値判定との整合回復 / R3 known-good は
+      教義に既存で Q2 の index 穴・C16 F2 が実測起源 / R4 reference 独立性は R3 に従属する
+      成立条件)・限定採択 2(R1 は Q1〔検査文・§4.4 凍結裁定維持〕と手順 4〔昇格主張〕の
+      レイヤー区別をスコープ注記で明文化 / R5 はトリガー分類注記のみ — 先回り gate の代償は
+      ECO-033→034 で実測済み)・見送り 4(R6 は §4.4 との二正本乖離を拒否 / R7〜R9 次版)。
+      第 2 往復でレビュア同意+追補(二軸は直積でない — unknown に資格を付けない関係の固定)、
+      担当設備の追加= unknown への理由コード必須化(§13 同型)。
+    order_ref: bomdd/60-change-order-eco-038.md
+    affected_refs: [method/templates/product-profile/skills/calibrate.md]
+    no_impact_prediction: "(起票時・製造前)diff は calibrate 正本+写し(.claude/skills/calibrate/)+台帳系のみの予測。C4/C7/C13 判定不変(プレースホルダー・SKILLS 実数・markdown リンク増減なし)。C16 は本 order を required と判定する見込み — /converge receipt を order へ埋め込み済み。ECO-037 gate 裁定(帰結 3 肢・主張単位で閉じる)は不適格へ無変更継承。既設製品リポへは kit 再設置まで非波及"
+    diff_audit:
+      baseline: "dc539ae"  # 起票直前 HEAD(gate ① 承認後、是正開始直前へ更新)
+      allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/]
+    summary: >
+      変更要求= (a) 手順 4 を二軸判定へ: 測定成立性(observed / unknown〔理由コード必須・
+      資格判定を付けず根拠使用不可 — 測定不能は合格ではない〕)×証拠資格(observed のときだけ
+      適格 / 条件付き適格 / 不適格。判定対象は命題の真偽でなく証拠の資格)。帰結は ECO-037
+      裁定を不適格へ継承。(b) Q2 を reference 較正へ拡張: known-bad 赤+known-good 緑の対
+      (「常に赤」との弁別)+ラベルの被較正計器からの独立(植込み食い違い・凍結要求・
+      人間 golden・別系統 oracle・既知の過去故障)。(c) Q1 へスコープ注記(対象は検査文・
+      昇格主張側は手順 4 — §4.4 凍結裁定は維持)。(d) 自発起動契約へトリガー分類注記
+      (1・3= hard trigger 候補 / 2・4= semantic。gate 化は本スキルの非起動の実測後)。
+      受入= V1 同期突合 / V2 全検査 / V3 CI / V4 diff 窓 / V5 新判定モデルの初回実使用
+      (fix 時の較正 receipt を二軸様式で書く)。gate ① 承認待ち。
