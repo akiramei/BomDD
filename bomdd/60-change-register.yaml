@@ -1689,7 +1689,7 @@ changes:
     title: ui-cad-gate — 昇格判定の分離・NA 宣言様式・方言診断・限界宣言(フル掃引の是正)
     date: 2026-09-01
     origin: corrective
-    status: applied   # 2026-09-01 修正採択 6 点が gate ① を兼ねる → 製造完了= fixture 9/9。V2 後半〜V4 は push 後に確定
+    status: verified   # 2026-09-01 受入= V1(fixture 9/9)・V2(C6a/b 是正後 PASS・全検査)・V3(fix2 run 33481848066 success @ae16e2d — 赤 push 17b3182/run 33481079755 failure は逸脱記録)・V4(窓 — allowed_paths 追記つき)・V5(較正 receipt)。製造中逸脱 3 件を正直記載(観測前 push= EXP-20260727-13 反証 2 例目 / 予測不的中 / 窓外の消費者追随)
     source: >
       ui-cad-gate フル較正掃引(第 4 掃引・calibrate battery 凍結)の所見への user 修正採択
       6 点(2026-09-01): (a) 実行済みゲートの合否と全体昇格判定を分離・未実行があれば無条件に
@@ -1708,7 +1708,8 @@ changes:
     no_impact_prediction: "(製造前)diff は ui-cad-gate.py+台帳系のみ。GU1〜GU6 の検査ロジック(発火条件)は不変 — 変わるのは報告・昇格判定・NA 様式・GU5 の方言診断文。C6a/b 判定不変の予測。意図的挙動変更 2 点= 宣言なき skip 構成が exit 1(保留)へ / 辞書なし vacuous PASS 廃止。§15 経過措置構成(raw なし+mock なし)は built-in NA で従来どおり緑。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
     diff_audit:
       baseline: "9d8b8c1"  # 起票直前 HEAD(起票+製造は同一窓)
-      allowed_paths: [method/tools/ui-cad-gate.py]
+      head: "ae16e2d"      # diff監査済み: 窓内は ui-cad-gate.py+self-conformance.py(fix2 の消費者追随 — 予測不的中の正直記載つき)+台帳系
+      allowed_paths: [method/tools/ui-cad-gate.py, method/tools/self-conformance.py]  # self-conformance は fix2(C6 fixture の消費者追随)— 起票時予測「C6a/b 判定不変」の不的中による追加
     summary: >
       (a) 出力を〈実行済みゲートの合否〉と〈全体昇格判定〉へ分離 — 失敗= 昇格禁止 / 宣言なき
       skip・縮退= 昇格判定保留(宣言不足・不適合ではないと診断文で区別・exit 1)/ 全実行または
@@ -1721,6 +1722,11 @@ changes:
       回帰 / F9 実欠陥は昇格禁止 — 保留との弁別)。正直記載= F8 は mock+ui-extract 連携を
       要する真の全実行ではなく NA 宣言下の回帰(GU6 弁別力の unknown と同根・裁定 6 の維持)。
     verification: >
-      (製造中間・push 前)V1= PASS(fixture 9/9 — 昇格禁止/保留/昇格可の三値が文言・exit・
-      理由で弁別)。V2 前半= C6a/b 判定不変・全検査は commit 前に実測。V3(CI)・V4(diff 窓)は
-      push 後に確定し accept で最終化。較正 receipt(二軸)は order §4。
+      V1= PASS(fixture 9/9 — 昇格禁止/保留/昇格可の三値が文言・exit・理由で弁別・
+      掃引 P1〜P3 の known-bad 含む)。V2= PASS(C6 fixture へ空辞書追加後 C6a/b とも PASS・
+      全検査合格 — 起票時予測「判定不変」は不的中で、新仕様の消費者影響の実測第 1 例として
+      正直記載)。V3= PASS(fix2 run 33481848066 success @ae16e2d。赤 push 17b3182 =
+      run 33481079755 failure は逸脱記録 — 観測前 push・ECO-024 型再演・潜伏 1 push・
+      EXP-20260727-13 反証 2 例目)。V4= PASS(窓は ui-cad-gate+self-conformance〔消費者
+      追随〕+台帳系)。V5= 較正 receipt(二軸・unknown 2 件は裁定 6 どおり維持)は order §4。
+      詳細は order §4〜§6。
