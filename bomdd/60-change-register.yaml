@@ -1612,7 +1612,7 @@ changes:
     title: calibrate 非起動 gate — verified 昇格時の較正 receipt 検査(trigger ① 限定・C17)
     date: 2026-09-01
     origin: corrective
-    status: applied   # 2026-09-01 gate ① 承認「A-1 採択」→ 製造完了= fixture 6/6・天然対照(d611221 blob の赤→現況の緑・計器から実測)。V3〜V5 は push 後に確定
+    status: verified   # 2026-09-01 受入= V1(fixture 6/6)・V2(天然対照: d611221 blob の赤→現況の緑・実個体)・V3(全検査 PASS・[C17] PASS 適用 2 件)・V4(CI run 33468654970 success @4e88e4d — shallow CI で C17 初走行成立)・V5(窓は self-conformance.py+台帳系のみ)
     source: >
       calibrate 非起動の初実測(EXP-20260831-04 第 4 回観測: 2 ECO 弧 / 3 trigger opportunity /
       2 trigger class・機械検出 0・発見は人間の質問 — converge 非起動と同一機序)への
@@ -1628,6 +1628,7 @@ changes:
     no_impact_prediction: "(起票時・製造前)diff は self-conformance.py+台帳系のみの予測。既存 C1〜C16 判定不変。適用範囲内の現況(ECO-041/042)は債務返済済みにつき導入時 FAIL 0 の見込み — 天然対照は返済前 blob のハッシュ固定実測。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
     diff_audit:
       baseline: "6aecae9"  # 起票時 d611221 → 是正開始直前(起票コミット)へ更新(gate ① 承認 2026-09-01・A-1)
+      head: "4e88e4d"      # diff監査済み: 窓内は self-conformance.py+台帳系のみ・影響なし予測的中
       allowed_paths: [method/tools/self-conformance.py]
     summary: >
       (a) C17 新設: register の verified エントリ(適用範囲内)ごとに order_ref 実文へ
@@ -1640,3 +1641,14 @@ changes:
       classifier なし。較正案= fixture 6 種(verified+receipt/なし・filed 非対象・根拠つき
       免除・フェンス無効・空 reason)+天然対照(返済前 blob の赤→現況の緑を実個体で)。
       gate ① 承認待ち。
+    verification: >
+      V1= PASS(fixture 6/6 — F1 verified+receipt 受理 / F2 なし FAIL / F3 filed 非対象 /
+      F4 根拠つき免除の受理+宣言者表示 / F5 フェンス内宣言の無効化 / F6 空 reason 却下)。
+      V2= PASS(天然対照 — 返済前 blob〔ハッシュ固定 d611221〕を計器の c17_verdict から呼び、
+      ECO-041/042 とも FAIL→現況 PASS の赤→緑を実個体で実測)。V3= PASS(全検査合格・
+      既存 C1〜C16 判定不変・[C17] PASS 適用 ECO-041 以降 2 件・免除 0)。V4= PASS
+      (CI run 33468654970・success・headSha 4e88e4d 一致 — shallow CI で C17 初走行成立=
+      天然対照を常設化しない設計判断〔限界 (4)〕の検証)。V5= PASS(窓 6aecae9->4e88e4d は
+      self-conformance.py+台帳系のみ)。043 order 自身へ較正 receipt を埋め込み(C17 の
+      適用範囲に自分自身が入る — 新設者= 初回使用者)。限界= receipt の構造的存在のみ /
+      trigger ②③④ 被覆外(③= OBS-20260901-04 watch)。詳細は order §4〜§6。

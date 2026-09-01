@@ -123,3 +123,24 @@
 - 検出した計器欠陥と帰属: なし。
 - 検出力の限界: コード恒久宣言の 4 点+「fixture ラベルは設計者自己接地(ECO-042 事後査定と
   同型の弱さ)— 独立接地は運用実測で得る」。
+
+## 5. CI 実測(V4)
+
+- 対象 revision: `4e88e4d`(**ローカル HEAD と一致を確認**)
+- run 識別子: 33468654970 — 結論: **PASS**(completed/success・headSha 照合済み)。
+  C17 が CI 環境(shallow clone)で初走行し成立 — 天然対照を常設化しなかった設計判断
+  (限界 (4))が CI で検証された形。
+- 観測日時 / 観測主体: 2026-09-01 / 本 ECO の担当設備
+
+## 6. クローズ
+
+- diff 監査の窓: baseline `6aecae9` → head `4e88e4d`(**窓閉鎖**)。窓内は
+  `method/tools/self-conformance.py`+台帳系のみ — 影響なし予測が的中。
+- 受入: V1(fixture 6/6)/ V2(天然対照 — 返済前 blob の赤→現況の緑・実個体・ハッシュ固定
+  d611221)/ V3(全検査 PASS・既存 C1〜C16 判定不変・[C17] PASS 適用 2 件)/ V4(CI 緑)/
+  V5(diff 窓)すべて成立。較正 receipt は §4(trigger ①+③ の自己適用)。
+- **これで非起動ゲートが converge(C16)と calibrate(C17・trigger ①)の両輪になった** —
+  いずれも「人間の質問が検出器」という実測 2 例ずつを経てから機械化した(先回りしない路線の維持)。
+- このクローズが支持しないもの: calibrate 実施の品質(receipt の構造的存在のみ — EXP-20260831-04
+  が観測系列で測る)/ trigger ②③④ の非起動(③= OBS-20260901-04 watch)/ preflight receipt の
+  同型 gate(V6 初回実使用が先)。
