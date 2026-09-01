@@ -5284,6 +5284,18 @@ user 裁定つき。一次記録は各 order(§0/§4〜§6・receipt)と registe
   引用していた — 正しい通算は 30/30(第 4 ラウンド 5 件の脱落)で、以後この集計は evidence
   class 併記でのみ引く。3 クラス(deterministic validator / CI・環境 / probabilistic judge)で
   査定原理が成立 — 欠陥を捏造せず資格の射程だけを制限できた 3 例目。
+  **第 4 回観測(2026-09-01・通常作業への復帰後 — 起動率③の負の初観測)**: /calibrate の
+  **非起動**を実測 — **2 ECO 弧(ECO-041/042)/ 3 trigger opportunity(041 受入節= trigger ① /
+  042 受入節= trigger ① / 042 の新計器 /preflight 新設= trigger ③)/ 2 trigger class(①・③)**。
+  **機械検出 0・発見は人間の質問**(converge 非起動 2 回と同一の検出器 — OBS-20260828-02 の
+  機序)。対照条件が強い: 較正掃引 3 回(題材指定= 人間裁定起動)では 3/3 起動・receipt あり
+  だったが、自発起動が要る通常作業へ戻った最初の 2 弧で 0/3 — **起動率は起動経路に強く依存
+  する**。処置(2026-09-01 レビュー裁定)= ①missed-trigger debt repayment(041/042 order へ
+  事後較正 receipt を追記 — 当時実施済みだったようには書かない。事後査定の実利= CAL-3 の
+  1 主体性という資格制限 1 件を追加できた)②trigger ① gate の設計 ECO 起票(ECO-043 —
+  アンカーは「受入節を書くこと」でなく「**verified へ昇格させる状態遷移**」)③trigger ③ は
+  機械 classifier を作らず watch(OBS-20260901-04)・trigger ① gate を最後の防波堤にする
+  ④calibrate 本文・battery は無変更(**査定能力の欠陥ではなく工程投入の欠陥**として扱う)。
   **以後の観測は〈新規所見数 /
   capability defect / boundary / declaration / 偽陽性 / 通常レビューで発見可能だったか /
   緑をそのまま採用していたか〉へ分解して記録する**
@@ -5445,3 +5457,11 @@ bomdd/reports/ 4 本。③固有の教訓(REJECT 意味論・報告様式・集�
   への昇格条件= Phase 1 の運用実測**。unknown 判定は理由コード(未実行 / 観測手段なし /
   未較正)を保持する
   evidence: ECO-042 order §1(d)・§3
+- [watch 1/3] OBS-20260901-04 — **検査器の新設・変更直後(calibrate trigger ③)の非起動は
+  機械 classifier で守らず、trigger ① gate(verified 昇格時の receipt 検査)を最後の防波堤に
+  する** — trigger ③ の機械判定は「何が検査器か」の分類問題を含み、先回りの classifier は
+  偽陽性デッドロックの轍(C16 の実測)を踏みやすい。実測 1 件= /preflight 新設時(ECO-042)の
+  非起動 — 検出は人間の質問・事後 battery 査定で reference-truth の弱さ 1 件を追加検出
+  source: ECO-042(2026-09-01 レビュー裁定 5)
+  origin: internal(自己適用)
+  evidence: EXP-20260831-04 第 4 回観測 / ECO-042 order 追記(debt repayment)

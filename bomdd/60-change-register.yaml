@@ -1608,3 +1608,35 @@ changes:
       V6(初回実使用)= 未実施を明示してクローズ(起票時凍結どおり次の既存状態依存タスクで
       実施 — EXP-20260901-03 起動率測定の第 1 個体)。限界= スキルの効果(検出率・偽停止率)は
       未証明(EXP が基準線ゼロから測定)・Phase 2 は別 ECO。詳細は order §4〜§6。
+  - id: ECO-043
+    title: calibrate 非起動 gate — verified 昇格時の較正 receipt 検査(trigger ① 限定・C17)
+    date: 2026-09-01
+    origin: corrective
+    status: filed   # gate ① 承認待ち — 製造は order 提示で停止(裁定対象= 製造承認+適用範囲+免除様式・限界宣言の文言)
+    source: >
+      calibrate 非起動の初実測(EXP-20260831-04 第 4 回観測: 2 ECO 弧 / 3 trigger opportunity /
+      2 trigger class・機械検出 0・発見は人間の質問 — converge 非起動と同一機序)への
+      user 6 点裁定 2026-09-01: ①EXP へ分類記帳 ②ECO-041/042 の missed-trigger debt repayment
+      (事後較正 receipt を「当時実施済みだったようには書かず」追記 — 本弧で実施済み)
+      ③gate 設計 ECO の起票可・初期 scope は trigger ① のみ ④アンカーは「verification 節を
+      書くこと」でなく「verified へ昇格させる状態遷移」⑤trigger ③ の機械 classifier は作らず
+      watch(OBS-20260901-04)・trigger ① gate を最後の防波堤に ⑥calibrate 本文・battery は
+      無変更(査定能力でなく工程投入の欠陥)。ECO-035 スコープ外宣言「非起動の機械観測は
+      実測後」の実施(converge の ECO-032→033 と同じ道の calibrate 版)。
+    order_ref: bomdd/60-change-order-eco-043.md
+    affected_refs: [method/tools/self-conformance.py]
+    no_impact_prediction: "(起票時・製造前)diff は self-conformance.py+台帳系のみの予測。既存 C1〜C16 判定不変。適用範囲内の現況(ECO-041/042)は債務返済済みにつき導入時 FAIL 0 の見込み — 天然対照は返済前 blob のハッシュ固定実測。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
+    diff_audit:
+      baseline: "d611221"  # 起票直前 HEAD(gate ① 承認後、是正開始直前へ更新)
+      allowed_paths: [method/tools/self-conformance.py]
+    summary: >
+      (a) C17 新設: register の verified エントリ(適用範囲内)ごとに order_ref 実文へ
+      較正 receipt マーカーまたは根拠つき免除(reason+decided-by・フェンス内無効・件数と
+      宣言者を毎回表示)を要求 — どちらも無ければ FAIL。アンカー= verified 昇格の状態遷移
+      (accept commit で検査+CI が結線済み)。限界宣言= receipt の構造的存在のみ /
+      trigger ②③④ は被覆外(① gate が最後の防波堤)/ artifact 外の査定は被覆外。
+      (b) 適用範囲【裁定対象】= A-1 推奨: ECO-041 以降(債務返済済み 2 件が最初の適用個体+
+      返済前 blob が天然 known-bad)。(c) 凍結= calibrate 本文・battery 無変更・trigger ③
+      classifier なし。較正案= fixture 6 種(verified+receipt/なし・filed 非対象・根拠つき
+      免除・フェンス無効・空 reason)+天然対照(返済前 blob の赤→現況の緑を実個体で)。
+      gate ① 承認待ち。

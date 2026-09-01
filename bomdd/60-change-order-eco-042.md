@@ -192,3 +192,29 @@ eco-fix・eco-accept の前提確認節 / bomdd-next(次作業の選定入口)�
   追加は欠落事故の実測 or 裁定経由)/ 非起動の機械観測。
 - 原案(外部設計)の未収束事項「task class ごとの契約具体表」は本 ECO の (b) 最小 2 クラス+
   行追加統制で処置 — 打ち切り採用として記録済み(gate ① ①)。
+
+## 追記(2026-09-01): missed-trigger debt repayment — 事後較正 receipt(trigger ①+③)
+
+本 receipt は**事後適用**である — 受入節の執筆(trigger ①)と新計器 /preflight の新設直後
+(trigger ③)の両方で /calibrate は非起動だった。検出は人間の質問(EXP-20260831-04
+第 4 回観測)。**当時実施済みだったようには主張しない**。
+
+- trigger ①(受入証拠の査定・測定成立性×証拠資格):
+  1. 「配布結線の欠落は機械検出される」— **observed / 適格**(CAL-1 単独 FAIL・CAL-2 の
+     ユニーク missing= {preflight})。
+  2. 「5 状態判定は弁別する」— **observed / 条件付き適格**〔測っていない次元: CAL-3 の
+     walkthrough は**査定者 1 主体の判定**であり、fresh context の別主体が同一 fixture から
+     同一判定へ至る再現性は未測定 — **事後査定が新たに付けた資格制限**(当時の受入は
+     無条件の「成立」と記した)〕。
+  3. 「V6 未実施の明示で初回実使用は担保される」— **unknown(理由コード: 未実行・所有者=
+     次の既存状態依存タスク)**。
+- trigger ③(/preflight を計器として battery 査定):
+  - Q1(検査文の過大主張): description・本文とも実測範囲を超える主張なし(fresh context の
+    再現は「要求」であり「保証」と書いていない・限界 3 で再現非保証を宣言済み)— 適格。
+  - Q2/R4(reference 独立性): **CAL-3 fixture のラベルは被較正手順の設計者自身が付与** —
+    reference の第三者接地がない(掃引 ③ の reference-truth deficiency と同型・severity 低)。
+    是正は要求しない — 初回較正の既知の弱さとして宣言し、独立接地は別主体適用の運用実測で得る。
+  - Q7/Q10: 常設対照なしは散文スキルの宣言済み境界・限界 3 点は本文へ恒久宣言済み — 適格。
+- 分類: capability defect 0 / reference-truth(弱)1 / unknown 2。
+- 検出力の限界: 反実仮想は測れない。事後査定の実利= 資格制限 1 件(CAL-3 の 1 主体性)を
+  受入記録へ追加できたこと。
