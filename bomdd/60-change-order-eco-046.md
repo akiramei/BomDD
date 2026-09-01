@@ -93,6 +93,38 @@ push しない環境につき `GITHUB_ACTIONS` で **NA 宣言** — ECO-045 の
   弁別する known-good」(calibrate Q2)の実利の実測。
 - 是正後: 全検査緑・witness は LF で再生成(od 実測)。W1〜W4 の再実測は §5 に記録。
 
-## 5. CI 実測 / 6. クローズ
+## 5. CI 実測(V4)+W 再実測(V1 後半)
 
-(push 後に追記)
+- **W 再実測(fix2 後)= 4/4 成立**: W1(不在遮断)/ W3(tree 偽値遮断)/ W4(FAIL 化遮断)
+  各 1 件の固有発火・**W2(正常)= 成功**(main+同送タグが push され偽遮断解消)。
+- **V3= origin への本 push が hook の初回実運用を通過**(d9603fa — witness 一致・遮断なし。
+  新設機構の初回実使用者= 新設者)。
+- CI: run 33487446674 — **PASS**(completed/success・headSha d9603fa 照合済み)。
+  **C18 の NA 経路が CI 環境で初走行し成立**(GITHUB_ACTIONS 下で NA 宣言 PASS)。
+
+## 6. クローズ
+
+- diff 監査の窓: baseline `c2c2448` → head `d9603fa`(**窓閉鎖**)。窓内は
+  self-conformance.py / bomdd/hooks/pre-push(新設)/ improvements(EXP-20260727-26
+  第 2 回観測)+台帳系のみ — 影響なし予測が的中。
+- 受入: V1(C18 3 腕+W 4 腕 — fix2 後 4/4)/ V2(全検査緑・witness LF 生成)/
+  V3(本 push 通過)/ V4(CI 緑・NA 経路)/ V5(窓)/ V6(較正 receipt・下記)成立。
+- **これで「規則を知っているのに今適用することが保証されない」故障型への機械層が 3 本目**:
+  C16(converge 非起動)・C17(calibrate 非起動)・C18+hook(観測前 push)— いずれも
+  実測 2 件 → 機械化の同一経路。
+- このクローズが支持しないもの: 意図的回避の防止(witness 改竄・hook 除去・hooksPath 解除 —
+  信頼境界外・最終層は CI)/ タグ単独 push の被覆 / 製品リポへの展開(process-core の領分・
+  別裁定)。
+
+### V6 — 較正 receipt(/calibrate 自己適用 — trigger ③: 新計器。二軸)
+
+- 査定した主張と判定:
+  1. 「hook は観測前 push(うっかり型)を遮断する」— **observed / 適格**(W1/W3/W4 の
+     固有遮断+本 push の正常通過 — 両腕成立)。
+  2. 「known-good 緑腕は『常に赤』と弁別し、偽遮断を検出する」— **observed / 適格**
+     (W2 が CRLF・同送タグの 2 欠陥を本番前に捕捉 — Q2 対設計の実利を自ら実証)。
+  3. 「本機構で観測前 push の再演率が下がる」— **unknown(理由コード: 未実行 —
+     EXP-20260727-13 の系列観測が測る)**。
+- 検出した計器欠陥と帰属: 2 件(CRLF・同送タグ — いずれも W2 緑腕が捕捉・同弧内是正)。
+- 検出力の限界: コード恒久宣言の 5 点+「W 対照は witness 側変異であり『検査後の worktree
+  改変』の直接再現ではない(同一判定式の等価プローブ)」。

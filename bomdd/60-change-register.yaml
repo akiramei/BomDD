@@ -1734,7 +1734,7 @@ changes:
     title: 観測前 push の機械遮断 — self-conformance witness+pre-push hook(C18)
     date: 2026-09-01
     origin: corrective
-    status: applied   # 2026-09-01 user 指示が gate ① を兼ねる(裁定点 3 点は予告済み推奨を採択)→ 製造中。V 系は probe・push 後に確定
+    status: verified   # 2026-09-01 受入= V1(C18 3 腕+W 4 腕・fix2 後 4/4)・V2(全検査緑・witness LF)・V3(本 push が hook 初回実運用を通過)・V4(CI run 33487446674 success @d9603fa・NA 経路成立)・V5(窓)。W2 緑腕が計器欠陥 2 件(CRLF・同送タグ)を本番前に捕捉し同弧内是正
     source: >
       観測前 push の昇格審査(converge・延長 1 周で正規収束 3→1→0→0)の収束採用 —
       user 裁定「ECO-046 を起票して製造まで進めて」。根拠= 同一設備・同一規則の 2 再演
@@ -1748,6 +1748,7 @@ changes:
     no_impact_prediction: "(製造前)diff は self-conformance.py+bomdd/hooks/pre-push(新設)+台帳系+improvements(EXP-20260727-26 第 1 回観測の記帳)。既存 C1〜C17 判定不変。配布物は diff ゼロ(BomDD 自リポの結線 — 製品リポの同面は process-core が担う)。意図的挙動変更= ローカル push が witness 突合を通る。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
     diff_audit:
       baseline: "c2c2448"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "d9603fa"      # diff監査済み: 窓内は self-conformance.py+bomdd/hooks/pre-push+improvements+台帳系のみ・予測的中
       allowed_paths: [method/tools/self-conformance.py, bomdd/hooks/, method/improvements.md]
     summary: >
       witness writer(全検査 PASS 時に検査対象 tree〔一時 index への add -A+write-tree〕を
@@ -1760,3 +1761,13 @@ changes:
       CI= ECO-018 残余の限界と同じ整理)/ 未追跡の非 ignore 残存はミスマッチ(意図された
       厳密さ)。較正= C18 3 腕(未設定 FAIL/設置 PASS/CI NA)+hook 4 腕(W1 不在遮断/
       W2 緑腕/W3 tree 偽値遮断/W4 FAIL 化遮断 — scratch bare remote への実 push)。
+    verification: >
+      V1= PASS(C18 対照 3 腕〔未設定 FAIL/設置 PASS/CI NA〕+hook 対照 4 腕〔W1 不在遮断/
+      W3 tree 偽値遮断/W4 FAIL 化遮断/W2 正常成功〕— fix2 後 4/4)。V2= PASS(全検査緑・
+      witness が LF で生成される実測)。V3= PASS(origin への本 push が hook の初回実運用を
+      通過 — 新設者= 初回使用者)。V4= PASS(CI run 33487446674・success・headSha 照合済み・
+      C18 の NA 経路が CI で初走行成立)。V5= PASS(窓は予測どおり)。V6= 較正 receipt
+      (二軸)を order §6 へ — **W2 緑腕が計器欠陥 2 件(witness の CRLF 混入・push.followTags
+      同送タグの偽遮断)を本番 push 前に捕捉**し同弧内で是正(calibrate Q2 の known-good 対
+      設計の実利を新設計器自身が実証)。限界= うっかり型の遮断まで・タグ単独 push 被覆外・
+      再演率の低下は EXP-20260727-13 系列で測る。詳細は order §4〜§6。
