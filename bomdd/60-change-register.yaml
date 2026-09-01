@@ -1873,7 +1873,7 @@ changes:
     title: calibrate 自身の検出力限界宣言 — 第 6 掃引からの確定(案 B)
     date: 2026-09-02
     origin: corrective
-    status: in-progress
+    status: verified   # 2026-09-02 受入= V1(挿入のみ 44 行・削除 0・全項が第 6 掃引へトレース可)・V2(正本と写しの差分は既知 2 点のみ)・V3(全検査緑)・V4(CI run 33532148596 success @97dbbed)・V5(窓は calibrate 正本+写し+台帳系のみ)
     source: >
       calibrate 自己較正(第 6 掃引)の declaration 所見(a)。calibrate.md に自身の
       「検出力の限界」節がなく、Q10 で他計器に課している要求を自分は満たしていない —
@@ -1885,6 +1885,7 @@ changes:
     no_impact_prediction: "(製造前)diff は calibrate.md 正本+写し+台帳系。節の追加のみで既存行の削除・改変なし。新規リンクを作らないため C13 二文脈検査の判定不変。正本と写しの差分は既知 2 点のまま。self-conformance 全検査の判定不変。C16/C17 は本 order を required と判定する見込み — receipt 埋め込み済み"
     diff_audit:
       baseline: "eb13bf3"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "97dbbed"      # diff監査済み: 窓内は calibrate 正本+写し+台帳系のみ・予測的中
       allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/SKILL.md]
     summary: >
       正本へ「## 検出力の限界(宣言)」節を追加し写しへ同期(D-1)。配置は preflight.md と
@@ -1894,3 +1895,14 @@ changes:
       外的妥当性未検証)④receipt は問うた battery 行を記録しない(Q4/Q5 未発火の実測)
       ⑤起動の機械化は trigger ① のみ(正本は C17 側・要約参照)。**battery(Q1〜Q11)・手順・
       判定様式・receipt 要件は不変** — 凍結の実質(測定条件)は維持。
+    verification: >
+      V1= PASS(正本+写しで挿入のみ 44 行・削除 0 行〔git diff -U0 実測〕— battery Q1〜Q11・
+      手順・判定様式・receipt 要件に差分なし。5 項の各トレース先= 第 6 掃引の二軸判定 /
+      boundary〔陽性対照の不在〕+ ECO-049 の偽陰性実測 / reference-truth deficiency /
+      declaration(b)+Q4・Q5 未発火の grep 実測 / C17 docstring 限界(2))。
+      V2= PASS(正本と写しの差分ブロック 2 = 写し header・表 A 注記のプレースホルダー解決の
+      既知 2 点のみ — D-1 同期成立)。V3= PASS(self-conformance 全 PASS を独立観測後に
+      commit・C13 判定不変)。V4= PASS(CI run 33532148596・success・headSha 97dbbed 一致)。
+      V5= PASS(窓は calibrate 正本+写し+台帳系のみ)。較正 receipt(trigger ③・二軸)は
+      order §4 — 「宣言の実効到達」は unknown(未実行)と正直判定。**本 ECO は限界の宣言で
+      あって解消ではない**(Q2 不成立・陽性対照の不在・Q4/Q5 の弁別力は宣言のみで未解消)。
