@@ -1910,7 +1910,7 @@ changes:
     title: C17 修理の完全化 — 盲検感度試験の独立所見から(案 A)
     date: 2026-09-02
     origin: corrective
-    status: in-progress
+    status: verified   # 2026-09-02 受入= V1(変種+空集合系 10/10 遮断・known-good 4 本・実 order 11 件通過)・V2(fixture 18/18・集約 guard 4 腕 FAIL・対照 PASS)・V3(全検査緑)・V4(CI run 33569493872 success @51756e5)・V5(窓は self-conformance.py+台帳系のみ)
     source: >
       盲検感度試験 第 1 回(bomdd/reports/calibrate-blind-sensitivity-01.md)で独立検査官
       (Codex・検体 S4/S5)が ECO-049 修理後 revision の通過を実測した 6 変種(チルダ fence /
@@ -1922,6 +1922,7 @@ changes:
     no_impact_prediction: "(製造前)diff は self-conformance.py の C17 ブロック+台帳系。既存 verified 10 件は旧 scope 規則(見出しのみ)で全通過を維持(scratch 隔離検証で実測済み)。本 order は新 scope 規則の最初の適用個体で receipt に 4 ラベルを備える。他検査の判定不変"
     diff_audit:
       baseline: "a0366a5"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "51756e5"      # diff監査済み: 窓内は self-conformance.py+台帳系のみ・予測的中
       allowed_paths: [method/tools/self-conformance.py]
     summary: >
       ①見出し規則の厳密化(# 2〜6+空白必須・receipt 語境界)②fence 除去を ``` と ~~~ 両方・
@@ -1930,3 +1931,12 @@ changes:
       歴史は書き換えない)⑤verified 厳密一致 ⑥集約 guard= 対象 0 件・fixture 0 本・register
       欠落/型異常を構造化 FAIL ⑦独立検査官の変種を fixture F10〜F18 へ恒久化 ⑧限界 (1)(5)(6)。
       採らない= 本体の意味検査・病的 receipt の弁別・集約 guard の恒久 fixture・trigger ②③④。
+    verification: >
+      V1= PASS(独立検査官の変種 6+空集合系 4 = 10/10 遮断へ反転・known-good 4 本〔見出し+4 ラベル /
+      行頭免除 / 旧 scope 見出しのみ / verifiedness 非対象〕通過・実 order 041〜051 の 11 件通過)。
+      V2= PASS(fixture 18/18 較正成立・集約 guard〔対象 0 件 / fixture 0 本 / register 欠落 /
+      changes 非 list〕4 腕 FAIL・対照 PASS)。V3= PASS(self-conformance 全 PASS を独立観測後に
+      commit)。V4= PASS(CI run 33569493872・success・headSha 51756e5 一致)。V5= PASS(窓は
+      self-conformance.py+台帳系のみ)。較正 receipt(trigger ③+④・二軸・行別 asked/NA つき)は
+      order §4 — 「本修理は当方設計の変種以外にも効く」は unknown(未実行)と正直判定し、
+      第 2 回盲検試験まで主張しない(ECO-049 の過大判定を繰り返さない)。

@@ -117,8 +117,19 @@ receipt に 4 ラベルを備えることで通過する見込み。他検査の
 
 ## 5. CI 実測(V4)
 
-- (push 後に記入)
+- 対象 revision: `51756e5`(**ローカル HEAD と一致を確認**)
+- run 識別子: 33569493872 — 結論: **PASS**(completed/success・headSha 照合済み)
+- V3 = self-conformance 全 PASS を**独立観測してから** commit(C17: 適用 10 件・本体ラベル要求=
+  051 以降・fixture 18/18・免除 0)。
 
 ## 6. クローズ
 
-- (受入時に記入)
+- diff 監査の窓: baseline `a0366a5` → head `51756e5`(**窓閉鎖**)。窓内は self-conformance.py+
+  台帳系のみ — 影響なし予測が的中。
+- 受入: V1(10/10 遮断・known-good 4 本・実 order 11 件)/ V2(fixture 18/18・集約 guard 4 腕
+  FAIL・対照 PASS)/ V3(全検査緑)/ V4(CI 緑)/ V5(窓)成立。較正 receipt は §4。
+- 本 order が **新 scope 規則(4 ラベル+行別 asked)の最初の適用個体** — verified 昇格時の accept 前
+  検査で C17 が本 order を新規則で検査する。
+- このクローズが支持しないもの: **未知の変種への検出力**(fixture は独立検査官が既に見つけた変種
+  だけ — 主張 3 は unknown・第 2 回盲検試験まで主張しない)/ receipt 本体の意味検査 / 病的 receipt
+  (否定見出し+4 ラベル)の弁別(限界 (5))/ 集約 guard の恒久 fixture(限界 (6))/ trigger ②③④。
