@@ -1652,3 +1652,33 @@ changes:
       self-conformance.py+台帳系のみ)。043 order 自身へ較正 receipt を埋め込み(C17 の
       適用範囲に自分自身が入る — 新設者= 初回使用者)。限界= receipt の構造的存在のみ /
       trigger ②③④ 被覆外(③= OBS-20260901-04 watch)。詳細は order §4〜§6。
+  - id: ECO-044
+    title: process-core 治具の検出力限界 — 一次記録への参照面の追加(Q10 掃引・案 X 限定採択)
+    date: 2026-09-01
+    origin: corrective
+    status: applied   # 2026-09-01 裁定 2 が gate ① を兼ねる(案 X 限定採択)→ 製造完了= 挿入のみ 18 行・py_compile 両成立。V3〜V5 は push 後に確定
+    source: >
+      Q10 横断ミニ掃引(EXP-20260831-04 第 5 回・母集団 27 単位へ再集計済み)の所見への
+      user 7 点裁定(2026-09-01)の 2 =「案 X 限定採択: 既に限界が一次記録へ実在する計器に
+      ついて、コード/docstring からその記録へ辿れる参照面を追加してよい。process-validator は
+      分散している既存限界を新しく作り直さず参照・要約で到達可能に。未確定の旧計器へ Q10 単問
+      掃引だけから限界を推測して書かない」。同裁定 3/5/6= ui-cad-gate・worklist・self-conformance
+      旧検査の新規宣言はフル掃引時(案 Y 順序)・旧検査群の一括遡及なし・較正単位は後続裁定。
+    order_ref: bomdd/60-change-order-eco-044.md
+    affected_refs: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/tools/process-qualification.py]
+    no_impact_prediction: "(製造前)diff は process-core tools 2 ファイルの挿入のみ(削除 0)+台帳系。コメント行のみで判定ロジック・selftest・出力は不変(py_compile+C11 判定不変で確認)。配布物につき既設リポへは kit 再設置まで非波及。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
+    diff_audit:
+      baseline: "5b92aec"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/templates/process-core/tools/]
+    summary: >
+      process-validator.py へ「検出力の限界(一次記録からの集約参照)」3 項(①両 hook 削除+
+      validate/CI 不実行の運用は即時検出外= ECO-018 §残余の限界 ②IA-02/03 は是正しない
+      宣言済み境界・真の閉鎖はリポ外アンカーの責務= ECO-019 §是正しない範囲 ③実行体 hook は
+      commit 権限者が書き換え可能・E11 は素朴な無力化まで= BOUNDARY-DUP-04 帰着裁定)。
+      process-qualification.py へ 2 項(IQ-04 POSIX 限定= ECO-017 / 据え置き所見の来歴=
+      register ECO-017 追記)。いずれも転記・要約+座標のみで新規限界の創作なし。
+      判定ロジック無変更(挿入のみ 18 行)。
+    verification: >
+      (製造中間・push 前)V1= PASS(全 5 項に一次記録座標・実文突合済み・新規限界なし)。
+      V2= PASS(挿入のみ・削除 0・py_compile 両成立)。V3(全検査・C11 判定不変)・V4(CI)・
+      V5(diff 窓)は push 後に確定し accept で最終化。較正 receipt(trigger ③)は order §4。

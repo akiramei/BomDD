@@ -50,6 +50,17 @@ trailer の解釈は git 意味論に整合する**最終 trailer ブロック�
 
 exit: 0=適合 / 1=違反(各行 [Exx]) / 2=測定不能(git・profile・台帳構造の障害 — hook 文脈では遮断)
 """
+
+# 検出力の限界(宣言 — ECO-044: 一次記録からの集約参照。新しい限界の創作ではなく、既存の
+# 一次記録へコード側から到達可能にするための参照面):
+#   (1) 両 hook を削除し、かつ validate/CI を一度も実行しない運用では即時検出されない —
+#       到達目標は「改竄が機械検出可能な記録として残ること」まで。第 2 層を実際に走らせる
+#       責任は運用側(BomDD ECO-018 order §残余の限界)。
+#   (2) cutoff の前送り(IA-02)・HEAD profile の遡及適用(IA-03)は是正しない宣言済み境界 —
+#       「検査規則が被検査物の中にある」系であり、真の閉鎖はリポ外の信頼アンカー(CI 設定・
+#       branch protection)の責務。監査可能だが阻止不能(BomDD ECO-019 order §是正しない範囲)。
+#   (3) 実行体 hook は commit 権限者が書き換え可能 — E11 の到達目標は素朴な無力化の検出まで
+#       (BomDD ECO-019 独立検査 BOUNDARY-DUP-04 の帰着裁定)。
 from __future__ import annotations
 
 import argparse

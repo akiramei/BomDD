@@ -46,6 +46,13 @@ REV-11)。想定外の通過(負例が止まらない)は 1 件で FAIL。
 
 exit: 0=適格 / 1=不適格 / 2=測定不能(git 不在・隔離破れ等)
 """
+
+# 検出力の限界(宣言 — ECO-044: 一次記録からの集約参照):
+#   (1) IQ-04(hooks 実行可能)は POSIX のみ判定 — Windows は git が sh 経由で実行するため
+#       判定対象外とし、残余リスクは OQ が担保(BomDD ECO-017 order・報告へ明示)。
+#   (2) sandbox 隔離の環境変数統制は既知集合に対する allowlist/除去 — 据え置き所見
+#       (GIT_TRACE 系 side channel 等)は BomDD ECO-016/017 再独立検査 NEW-05・
+#       register ECO-017 追記「medium 4 件は据え置き」を参照。
 from __future__ import annotations
 
 import argparse
