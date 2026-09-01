@@ -49,6 +49,13 @@
                       弁別できない)。ECO-034= `not-required` は**根拠つき**
                       (reason+decided-by)なら受理し、根拠なしは却下。有効な免除の
                       件数と宣言者を判定行へ出す(沈黙する免除を作らない)
+  C17 calibrate-receipt: calibrate 未実施(trigger ①)の ECO の正典化を阻止(ECO-043)。
+                      アンカー= register の verified 昇格(受入節の執筆でなく状態遷移)。
+                      適用= ECO-041 以降(A-1)。verified エントリの order に較正 receipt
+                      または根拠つき免除(reason+decided-by・フェンス内無効・件数と宣言者を
+                      表示)を要求。限界= receipt の構造的存在のみ / trigger ②③④ は被覆外
+                      (① gate が最後の防波堤)/ 天然対照は shallow CI で実行不能につき
+                      常設化しない(受入時ローカル実測)
 
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
@@ -1212,6 +1219,95 @@ def c16_converge_receipt() -> None:
           + (" — " + " / ".join(problems) if problems else ""))
 
 
+# --- C17 calibrate receipt ゲート(ECO-043) -------------------------------------------
+# 目的: **calibrate 未実施(trigger ①)の ECO が正典化されるのを阻止し、非起動を観測可能に
+# する**。アンカーは「受入節を書くこと」でなく「register 上で status: verified へ昇格した
+# 状態遷移」(gate 裁定 4)。適用範囲= ECO-041 以降(gate 裁定 A-1 — missed-trigger debt
+# repayment 済みの 2 件が最初の適用個体)。
+#
+# 検出力の限界(宣言 — 実施した検査が測っていない次元):
+#   (1) 較正 receipt の**構造的存在**しか測らない(battery を本当に当てたかは測らない)。
+#   (2) trigger ②(緑の引用)・③(検査器新設 — OBS-20260901-04 watch)・④(インシデント後)は
+#       被覆外 — 本 gate は trigger ① の**最後の防波堤**(gate 裁定 5)。
+#   (3) artifact に落ちない査定は被覆外。
+#   (4) 天然対照(返済前 blob)は shallow clone の CI で実行不能のため**常設化しない** —
+#       受入時のローカル実測のみ(環境前提の宣言= 履歴依存を常設検査に置かない)。
+
+C17_SCOPE_MIN = 41  # ECO-041 以降(A-1)
+C17_RECEIPT_RE = re.compile(r"(較正\s*receipt|calibrate\s*receipt)", re.I)
+C17_DECL_RE = re.compile(
+    r"<!--\s*calibrate:\s*not-required\s+reason:\s*(?P<reason>[^>]*?)\s+decided-by:\s*(?P<by>[^>]*?)\s*-->")
+_C17_FENCE_RE = re.compile(r"```.*?```", re.S)
+
+
+def c17_verdict(status: str, text: str):
+    """(ok, 理由, exempt_by)。verified のみ対象。免除はフェンス外の根拠つき宣言のみ受理
+    (reason+decided-by の 2 点必須 — ECO-034 様式。過剰免除= fail-open を作らない)。"""
+    if not str(status).strip().startswith("verified"):
+        return True, "", None
+    if C17_RECEIPT_RE.search(text):
+        return True, "", None
+    unfenced = _C17_FENCE_RE.sub("", text)
+    m = C17_DECL_RE.search(unfenced)
+    if m and m.group("reason").strip() and m.group("by").strip():
+        return True, "", m.group("by").strip()
+    if m:
+        miss = [k for k in ("reason", "by") if not m.group(k).strip()]
+        return False, f"免除宣言の根拠欠落({miss})", None
+    return False, "verified だが較正 receipt がない(calibrate trigger ① 非起動)", None
+
+
+_C17_FIXTURES = [
+    ("F1", True, "verified + receipt",
+     "verified", "## 追記: 事後較正 receipt\n- 査定した主張と判定…\n"),
+    ("F2", False, "verified + receipt なし",
+     "verified", "## 受入\n- V1 PASS\n"),
+    ("F3", True, "filed + なし(verified のみ対象)",
+     "filed", "## 受入\n- 検討中\n"),
+    ("F4", True, "verified + 根拠つき免除(宣言者表示)",
+     "verified", "<!-- calibrate: not-required reason: 事務的クローズのみ decided-by: maintainer -->\n"),
+    ("F5", False, "フェンス内の免除宣言は無効(過剰免除の遮断)",
+     "verified", "```\n<!-- calibrate: not-required reason: x decided-by: y -->\n```\n"),
+    ("F6", False, "空の reason は却下(欄の存在でなく中身)",
+     "verified", "<!-- calibrate: not-required reason:  decided-by: maintainer -->\n"),
+]
+
+
+def c17_calibrate_receipt() -> None:
+    bad = []
+    for name, want_ok, desc, st, txt in _C17_FIXTURES:
+        ok, _, _ = c17_verdict(st, txt)
+        if ok != want_ok:
+            bad.append(f"{name}({desc})")
+    if bad:
+        check("C17", False, f"fixture 較正不成立(計器を先に疑う): {bad}")
+        return
+    reg = strict_yaml_load((ROOT / "bomdd" / "60-change-register.yaml").read_text(encoding="utf-8"))
+    problems, exempt, n = [], [], 0
+    for ent in reg.get("changes") or []:
+        m = re.match(r"ECO-(\d+)$", str(ent.get("id") or ""))
+        if not m or int(m.group(1)) < C17_SCOPE_MIN:
+            continue
+        if not str(ent.get("status") or "").strip().startswith("verified"):
+            continue
+        n += 1
+        ref = ent.get("order_ref")
+        po = ROOT / str(ref) if ref else None
+        if not po or not po.is_file():
+            problems.append(f"{ent.get('id')}: order_ref の実体がない({ref} — 欠測は FAIL)")
+            continue
+        ok, why, by = c17_verdict("verified", po.read_text(encoding="utf-8"))
+        if by:
+            exempt.append(f"{ent.get('id')}(by {by})")
+        if not ok:
+            problems.append(f"{ent.get('id')}: {why}")
+    check("C17", not problems,
+          f"calibrate receipt ゲート(trigger ①= verified 昇格・適用 ECO-0{C17_SCOPE_MIN} 以降 {n} 件"
+          f"・fixture {len(_C17_FIXTURES)}/{len(_C17_FIXTURES)} 較正成立・根拠つき免除 {len(exempt)} 件"
+          + ("[" + " / ".join(exempt) + "]" if exempt else "") + ")"
+          + (" — " + " / ".join(problems) if problems else ""))
+
+
 # --- 環境個体の刻印(ECO-040 Y) ------------------------------------------------------
 def env_imprint(dotnet: bool) -> str:
     """今回の判定に関係する環境個体を証拠へ刻印する(ECO-040 Y・§4.4 道具の個体参照)。
@@ -1256,6 +1352,7 @@ def main() -> int:
     c14_kit_freshness()
     c15_deprecated_refs()
     c16_converge_receipt()
+    c17_calibrate_receipt()
     if a.dotnet:
         c9_dotnet()
 

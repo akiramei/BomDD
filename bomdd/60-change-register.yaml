@@ -1612,7 +1612,7 @@ changes:
     title: calibrate 非起動 gate — verified 昇格時の較正 receipt 検査(trigger ① 限定・C17)
     date: 2026-09-01
     origin: corrective
-    status: filed   # gate ① 承認待ち — 製造は order 提示で停止(裁定対象= 製造承認+適用範囲+免除様式・限界宣言の文言)
+    status: applied   # 2026-09-01 gate ① 承認「A-1 採択」→ 製造完了= fixture 6/6・天然対照(d611221 blob の赤→現況の緑・計器から実測)。V3〜V5 は push 後に確定
     source: >
       calibrate 非起動の初実測(EXP-20260831-04 第 4 回観測: 2 ECO 弧 / 3 trigger opportunity /
       2 trigger class・機械検出 0・発見は人間の質問 — converge 非起動と同一機序)への
@@ -1627,7 +1627,7 @@ changes:
     affected_refs: [method/tools/self-conformance.py]
     no_impact_prediction: "(起票時・製造前)diff は self-conformance.py+台帳系のみの予測。既存 C1〜C16 判定不変。適用範囲内の現況(ECO-041/042)は債務返済済みにつき導入時 FAIL 0 の見込み — 天然対照は返済前 blob のハッシュ固定実測。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
     diff_audit:
-      baseline: "d611221"  # 起票直前 HEAD(gate ① 承認後、是正開始直前へ更新)
+      baseline: "6aecae9"  # 起票時 d611221 → 是正開始直前(起票コミット)へ更新(gate ① 承認 2026-09-01・A-1)
       allowed_paths: [method/tools/self-conformance.py]
     summary: >
       (a) C17 新設: register の verified エントリ(適用範囲内)ごとに order_ref 実文へ
