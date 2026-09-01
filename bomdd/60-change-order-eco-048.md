@@ -94,8 +94,15 @@ receipt 埋め込み済み。
 
 ## 5. CI 実測(V3)
 
-- (push 後に記入)
+- 対象 revision: `cd6ab2f`(**ローカル HEAD と一致を確認**)
+- run 識別子: 33506881548 — 結論: **PASS**(completed/success・headSha 照合済み)
 
 ## 6. クローズ
 
-- (受入時に記入)
+- diff 監査の窓: baseline `fc41ee2` → head `cd6ab2f`(**窓閉鎖**)。窓内は
+  AGENTS.md・CLAUDE.md+台帳系のみ — 影響なし予測が的中。
+- 受入: V1(A/B/C 全修正が実測へトレース可・過大主張なし)/ V2(self-conformance 全検査緑 —
+  独立観測後に commit)/ V3(CI 緑)/ V4(窓)成立。較正 receipt は §4。
+- このクローズが支持しないもの: 入口文書改訂の実効到達(読み手の行動変化 — unknown・未実行)/
+  スキル自発起動契約の非 Claude ハーネスでの実起動(結線は作ったが起動実測は未実施)/
+  commit 段階・規律 3 チェーンの機械強制(意図的に対象外 — hook の宣言済み限界)。

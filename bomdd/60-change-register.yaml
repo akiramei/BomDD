@@ -1805,7 +1805,7 @@ changes:
     title: 入口文書のドリフト是正 — AGENTS.md/CLAUDE.md 査定所見 A〜C
     date: 2026-09-01
     origin: corrective
-    status: in-progress
+    status: verified   # 2026-09-01 受入= V1(A/B/C 全修正が実測へトレース可・過大主張なし)・V2(self-conformance 全検査緑・独立観測後に commit)・V3(CI run 33506881548 success @cd6ab2f)・V4(窓は AGENTS.md・CLAUDE.md+台帳系のみ)
     source: >
       入口文書査定(user 依頼 2026-09-01: モデルバージョン依存・分量過多・内容の適切性)の
       所見 3 件。A= 「ローカルに強制層はない」が ECO-046(pre-push hook + witness)で陳腐化
@@ -1817,6 +1817,7 @@ changes:
     no_impact_prediction: "(製造前)diff は AGENTS.md・CLAUDE.md+台帳系のみ。self-conformance に両ファイル本文の検査は無く全検査の判定不変。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
     diff_audit:
       baseline: "fc41ee2"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "cd6ab2f"      # diff監査済み: 窓内は AGENTS.md・CLAUDE.md+台帳系のみ・予測的中
       allowed_paths: [AGENTS.md, CLAUDE.md]
     summary: >
       A= 限界節/ECO-024 節末尾を現状へ更新(機械強制は規律 4 の push 経路のみ・うっかり型
@@ -1824,3 +1825,10 @@ changes:
       過大主張を作らない)。B= AGENTS.md へ作業スキル節+表 1 行(preflight/converge/calibrate
       の正本パスと契約適用宣言のみ・契約本文は複製しない)。C= 逐語再掲を削除
       (--dotnet・/lesson-promote は保持)。
+    verification: >
+      V1= PASS(A= hook 実文/ECO-046 転記・限定列挙で過大主張なし / B= 契約 3 スキルの
+      所在参照のみ・契約本文の複製なし / C= 削除は逐語再掲のみ・固有情報 2 点残存)。
+      V2= PASS(self-conformance 全検査緑 — バックグラウンド実行を独立観測してから commit)。
+      V3= PASS(CI run 33506881548・success・headSha cd6ab2f 一致)。V4= PASS(窓は
+      AGENTS.md・CLAUDE.md+台帳系のみ)。較正 receipt(二軸)は order §4 —
+      「実効到達」は unknown(未実行)と正直判定。
