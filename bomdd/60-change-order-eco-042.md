@@ -218,3 +218,10 @@ eco-fix・eco-accept の前提確認節 / bomdd-next(次作業の選定入口)�
 - 分類: capability defect 0 / reference-truth(弱)1 / unknown 2。
 - 検出力の限界: 反実仮想は測れない。事後査定の実利= 資格制限 1 件(CAL-3 の 1 主体性)を
   受入記録へ追加できたこと。
+
+## 追記(2026-09-01): V6(初回実使用)完了
+
+クローズ時に未実施と明示した V6 を実施 — Q10 横断ミニ掃引(user 採択)の開始時に /preflight を
+初回適用した。分類= 既裁定の適用実装(契約 2 クラス外 → 厳しい側= continuation 契約)・
+全行 confirmed・PROCEED・override 0。receipt は EXP-20260901-03 第 1 回観測に記録
+(起動率の第 1 個体= 1/1)。

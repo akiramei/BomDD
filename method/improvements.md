@@ -5296,6 +5296,15 @@ user 裁定つき。一次記録は各 order(§0/§4〜§6・receipt)と registe
   アンカーは「受入節を書くこと」でなく「**verified へ昇格させる状態遷移**」)③trigger ③ は
   機械 classifier を作らず watch(OBS-20260901-04)・trigger ① gate を最後の防波堤にする
   ④calibrate 本文・battery は無変更(**査定能力の欠陥ではなく工程投入の欠陥**として扱う)。
+  **第 5 回観測(2026-09-01・Q10 横断ミニ掃引 — campaign・人間裁定起動)**: user 採択の三段案
+  (棚卸し → Q10 横断 → リスク順の個別掃引)の第 1〜2 歩。BomDD の instrument 13 系統を棚卸しし
+  **Q10(検出力の限界宣言)のみ**を横断適用。所見= **declaration 9 系統**(限界宣言を持つのは
+  ECO-033 以降に触られた計器のみ〔C9/C16/C17/CI workflow/独立検査プロトコル〕— それ以前の建造
+  計器はコード上の宣言なし: self-conformance 旧 14 検査・process-validator/qualification・
+  ui-cad-gate・ui-extract・stage0-survey/impact-retrospective・worklist・bomdd-init。
+  process-validator の限界は order 群〔ECO-015 残余の限界・ECO-018 宣言済み境界〕に実在するが
+  コードから辿れない= 証拠は在るが参照面がない弱形)。**capability は未測定** — Q10 単問掃引の
+  被覆外と明記(欠陥件数へ混ぜない)。偽陽性 0。起動経路= 人間裁定(自発起動の系列と分離計上)。
   **以後の観測は〈新規所見数 /
   capability defect / boundary / declaration / 偽陽性 / 通常レビューで発見可能だったか /
   緑をそのまま採用していたか〉へ分解して記録する**
@@ -5456,7 +5465,13 @@ bomdd/reports/ 4 本。③固有の教訓(REJECT 意味論・報告様式・集�
   存在率(receipt 不在= 非起動)。基準線ゼロから系列測定。**Phase 2(invalidation trigger)
   への昇格条件= Phase 1 の運用実測**。unknown 判定は理由コード(未実行 / 観測手段なし /
   未較正)を保持する
-  evidence: ECO-042 order §1(d)・§3
+  **第 1 回観測(2026-09-01・初回実使用= ECO-042 V6 の完了)**: Q10 横断掃引の開始時に
+  /preflight を自発適用 — 分類= 既裁定の適用実装(契約 2 クラス外につき厳しい側=
+  continuation 契約を適用・根拠を receipt に記録)・全行 confirmed・**PROCEED**・override 0・
+  receipt あり(**起動 1/1**)。副次観測: 契約クラス外タスク(campaign/analysis 型)への
+  初適用で「クラス不足」の実データ 1 件 — ただし行・クラス追加は欠落事故の実測を要件とする
+  ため(採用条件 1)、1 件の不便では起票しない(欠落による実害が出たら出典になる)
+  evidence: ECO-042 order §1(d)・§3 / 本観測の receipt= 掃引開始時の提示メッセージ+本節
 - [watch 1/3] OBS-20260901-04 — **検査器の新設・変更直後(calibrate trigger ③)の非起動は
   機械 classifier で守らず、trigger ① gate(verified 昇格時の receipt 検査)を最後の防波堤に
   する** — trigger ③ の機械判定は「何が検査器か」の分類問題を含み、先回りの classifier は
