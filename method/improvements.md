@@ -5305,6 +5305,18 @@ user 裁定つき。一次記録は各 order(§0/§4〜§6・receipt)と registe
   process-validator の限界は order 群〔ECO-015 残余の限界・ECO-018 宣言済み境界〕に実在するが
   コードから辿れない= 証拠は在るが参照面がない弱形)。**capability は未測定** — Q10 単問掃引の
   被覆外と明記(欠陥件数へ混ぜない)。偽陽性 0。起動経路= 人間裁定(自発起動の系列と分離計上)。
+  **訂正(2026-09-01 裁定 1 — 母集団単位の固定)**: instrument= 独立した品質判断能力を持つ
+  測定単位。集計規則を宣言する — self-conformance は**検査 ID 単位**(C1〜C17 の 17。C5a/b・
+  C6a/b・C11/C11b の腕は同一 ID へ束ね)/ standalone 治具 8(process-validator〔hooks 込み〕・
+  process-qualification・ui-cad-gate・ui-extract・stage0-survey・impact-retrospective・
+  worklist・bomdd-init line-readiness)/ プロトコル・環境 2(CI workflow・独立検査プロトコル)
+  = **総数 27 単位**。expected-results manifest は C9 の構成要素(fixture/reference 側)として
+  C9 へ束ねる。Q10 再集計(再現可能形): **宣言あり 5 単位**(C9・C16・C17・CI workflow・
+  独立検査プロトコル)/ **未宣言 22 単位**。前回の「declaration 9 系統」は**束数**であり
+  単位数ではなかった(旧検査群 14 単位を 1 束と数えていた — 束ね規則の未宣言が原因。
+  22 単位= 9 束で両数値は整合)。弱形の内訳: process-validator= 一次記録あり・参照面なし /
+  qualification・ui-extract= 局所記述のみ(検出力限界節ではない)— いずれも未宣言側に計上。
+  ECO-040 の環境前提節はハーネス級宣言であり個別検査の検出力限界に数えない。
   **以後の観測は〈新規所見数 /
   capability defect / boundary / declaration / 偽陽性 / 通常レビューで発見可能だったか /
   緑をそのまま採用していたか〉へ分解して記録する**
