@@ -97,8 +97,18 @@ C16 は本 order を required と判定する見込み — receipt 埋め込み�
 
 ## 5. CI 実測(V3)
 
-- (push 後に記入)
+- 対象 revision: `c691fa2`(**ローカル HEAD と一致を確認**)
+- run 識別子: 33515905548 — 結論: **PASS**(completed/success・headSha 照合済み)
+- 全検査 PASS を**独立観測してから** commit(C17 は fixture 9/9・適用 8 件・免除 0)。
 
 ## 6. クローズ
 
-- (受入時に記入)
+- diff 監査の窓: baseline `5f2c7da` → head `c691fa2`(**窓閉鎖**)。窓内は
+  self-conformance.py+台帳系のみ — 影響なし予測が的中。
+- 受入: V1(対照つき 7/7 期待一致 — P1〜P3 反転・P4/R3 維持)/ V2(適用 8 件不通過 0・
+  fixture 9/9・全検査緑)/ V3(CI 緑)/ V4(窓)成立。較正 receipt は §4。
+- このクローズが支持しないもの: **較正 receipt の中身の実質**(見出しの存在までを厳密化した
+  だけ — 案 C 領分)/ trigger ②③④ の被覆(限界 (2) 維持)/ 見出しを使わない将来様式への
+  偽陽性(unknown・未実行 — 出口= 根拠つき免除)/ **第 6 掃引の他所見**(calibrate 自身の
+  限界節不在= 案 B 見送り / Q2 不成立= reference-truth / 陽性対照の不在 / 各 battery 行の
+  弁別力 unknown — いずれも本 ECO は解消しない)。

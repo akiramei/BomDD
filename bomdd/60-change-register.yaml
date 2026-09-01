@@ -1836,7 +1836,7 @@ changes:
     title: C17 の use/mention 弁別 — 第 6 掃引(calibrate 自己較正)からの確定
     date: 2026-09-01
     origin: corrective
-    status: in-progress
+    status: verified   # 2026-09-01 受入= V1(対照つき 7/7 期待一致・P1〜P3 反転・P4/R3 維持で過剰厳格化なし)・V2(C17 適用 8 件不通過 0・fixture 9/9・全検査緑)・V3(CI run 33515905548 success @c691fa2)・V4(窓は self-conformance.py+台帳系のみ)
     source: >
       calibrate 自身を題材とした第 6 掃引(battery 凍結)。対照つきプローブで C17 の
       use/mention 非弁別を実測 — フェンス内の例示・平文の言及・「receipt は省略した」という
@@ -1851,6 +1851,7 @@ changes:
     no_impact_prediction: "(製造前)diff は self-conformance.py の C17 節+台帳系。C17 適用 8 件は全て通過を維持(見出し正規表現で製造前に 8/8 実測)。既存 fixture F1〜F6 の期待値は不変。他検査の判定は不変。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
     diff_audit:
       baseline: "5f2c7da"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "c691fa2"      # diff監査済み: 窓内は self-conformance.py+台帳系のみ・予測的中
       allowed_paths: [method/tools/self-conformance.py]
     summary: >
       ①receipt 検出をフェンス除去後へ移動(免除経路と前処理を揃え非対称を解消)②receipt を
@@ -1858,3 +1859,13 @@ changes:
       ③known-bad/known-good 腕を fixture へ追加(F7 フェンス内見出し=FAIL / F8 平文言及=FAIL /
       F9 見出しあり=PASS — 修理に reference 較正を付ける)④FAIL メッセージを行動可能化
       ⑤限界宣言 (1) を改訂。採らない= 中身の実質検査(案 C)・trigger ②③④ の被覆。
+    verification: >
+      V1= PASS(掃引プローブの再実測・対照つき 7/7 — P1 フェンス内例示 / P2「receipt は
+      省略した」/ P3 否定文が遮断へ反転・P4〔見出しのみ〕と R3〔根拠つき免除〕は通過を維持=
+      宣言済み境界を広げていない)。V2= PASS(C17 適用 8 件・不通過 0・件数不変 / fixture
+      9/9 = F1〜F6 期待値不変+F7・F8 known-bad 赤+F9 known-good 緑 / self-conformance
+      全 PASS を独立観測後に commit)。V3= PASS(CI run 33515905548・success・headSha
+      c691fa2 一致)。V4= PASS(窓は self-conformance.py+台帳系のみ)。較正 receipt
+      (trigger ③・二軸)は order §4 — 「見出しを使わない将来様式への偽陽性」は unknown
+      (未実行)と正直判定。第 6 掃引の他所見(案 B 見送り・Q2 不成立・陽性対照の不在・
+      各 battery 行の弁別力)は本 ECO では解消しない。
