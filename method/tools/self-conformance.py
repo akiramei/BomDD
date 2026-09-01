@@ -1227,43 +1227,81 @@ def c16_converge_receipt() -> None:
           + (" — " + " / ".join(problems) if problems else ""))
 
 
-# --- C17 calibrate receipt ゲート(ECO-043) -------------------------------------------
+# --- C17 calibrate receipt ゲート(ECO-043・ECO-049・ECO-051) ---------------------------
 # 目的: **calibrate 未実施(trigger ①)の ECO が正典化されるのを阻止し、非起動を観測可能に
 # する**。アンカーは「受入節を書くこと」でなく「register 上で status: verified へ昇格した
 # 状態遷移」(gate 裁定 4)。適用範囲= ECO-041 以降(gate 裁定 A-1 — missed-trigger debt
 # repayment 済みの 2 件が最初の適用個体)。
 #
 # 検出力の限界(宣言 — 実施した検査が測っていない次元):
-#   (1) 較正 receipt の「**見出しとしての構造的存在**」しか測らない(見出しがあれば中身が空でも
-#       PASS — battery を本当に当てたかは測らない)。ECO-049 で use/mention を弁別するよう
-#       厳密化した(フェンス内の例示・平文の言及・「receipt は省略した」という否定文は receipt と
-#       数えない)— 型⑧の実測に基づく。**中身の実質検査は依然として被覆外**。
+#   (1) 較正 receipt の**構造的存在**しか測らない — ECO-041〜050 は「見出し」、ECO-051 以降は
+#       「見出し+本体の必須項目ラベル(主張と判定 / 計器欠陥 / 検出力の限界 / battery 行別記録
+#       asked)」の存在まで。**ラベルが存在することと battery を本当に当てたことは別**であり、
+#       中身の実質(判定の正しさ・行別記録の真正さ)は依然として被覆外。
+#       経緯: ECO-049 で use/mention を弁別(backtick fence・見出し語句)。**盲検感度試験
+#       (bomdd/reports/calibrate-blind-sensitivity-01.md)で独立検査官が 6 変種の通過を実測**
+#       (チルダ fence・インデントコード例・見出し内の否定・空白なし・`#` 過多・receiptless)→
+#       ECO-051 で見出し規則の厳密化+本体ラベル要求+対象/fixture 空集合の FAIL 化+`verified`
+#       厳密一致+register 欠落の構造化 FAIL。**修理は当方の設計した変種にしか効かない**という
+#       第 6 掃引の教訓を、独立検査官の変種を fixture へ恒久化することで補う。
 #   (2) trigger ②(緑の引用)・③(検査器新設 — OBS-20260901-04 watch)・④(インシデント後)は
 #       被覆外 — 本 gate は trigger ① の**最後の防波堤**(gate 裁定 5)。
 #   (3) artifact に落ちない査定は被覆外。
 #   (4) 天然対照(返済前 blob)は shallow clone の CI で実行不能のため**常設化しない** —
 #       受入時のローカル実測のみ(環境前提の宣言= 履歴依存を常設検査に置かない)。
+#   (5) 見出し内の否定文に本体ラベルまで揃えた病的 receipt(「## 較正 receipt は省略した」+
+#       4 項目)は構造的には receipt であり通過する — 意味は測らない(型⑧の残余・宣言)。
+#   (6) 集約レベルの guard(対象 0 件・fixture 0 本・register 欠落)は受入時のプローブで較正し、
+#       恒久 fixture は verdict レベル(F1〜F18)のみ。
 
 C17_SCOPE_MIN = 41  # ECO-041 以降(A-1)
-# ECO-049: 部分文字列ではなく**見出し行**を要求する。生テキストへの substring 検索は
-# use/mention を弁別せず、「較正 receipt は省略した」という否定文まで通過させていた(型⑧)。
-C17_RECEIPT_RE = re.compile(r"^[ \t]{0,3}#{2,6}[^\n]*(較正\s*receipt|calibrate\s*receipt)",
-                            re.I | re.M)
+C17_BODY_MIN = 51   # ECO-051 以降: 見出しに加え receipt 本体の必須項目ラベル+行別記録を要求
+# ECO-051: 見出し行は「3 空白以内・# 2〜6 個+空白必須・receipt は語境界」— 「##較正」「#######」
+# 「receiptless」を排除(独立検査官の実測変種)。
+C17_RECEIPT_RE = re.compile(
+    r"^[ \t]{0,3}(#{2,6})[ \t]+([^\n]*?(?:較正\s*receipt|calibrate\s*receipt)\b[^\n]*)$", re.I | re.M)
+# ECO-051: 免除宣言は**行頭**でのみ有効 — 4 空白のコード例・引用内の宣言を実宣言と数えない。
 C17_DECL_RE = re.compile(
-    r"<!--\s*calibrate:\s*not-required\s+reason:\s*(?P<reason>[^>]*?)\s+decided-by:\s*(?P<by>[^>]*?)\s*-->")
-_C17_FENCE_RE = re.compile(r"```.*?```", re.S)
+    r"^<!--\s*calibrate:\s*not-required\s+reason:\s*(?P<reason>[^>]*?)\s+decided-by:\s*(?P<by>[^>]*?)\s*-->",
+    re.M)
+# ECO-051: ``` と ~~~ の両方・未閉鎖 fence は EOF まで除去(ECO-049 は backtick のみだった)。
+_C17_FENCE_RE = re.compile(r"^[ \t]{0,3}(```|~~~)[^\n]*\n.*?(?:^[ \t]{0,3}\1[ \t]*$|\Z)", re.S | re.M)
+# ECO-051: receipt 本体の必須項目(calibrate.md「較正 receipt」節の 3 項目+ECO-052 の行別記録)。
+_C17_LABELS = (
+    ("主張と判定", re.compile(r"査定した主張|主張と判定")),
+    ("計器欠陥", re.compile(r"計器欠陥")),
+    ("検出力の限界", re.compile(r"検出力の限界|限界")),
+    ("行別記録(asked)", re.compile(r"\basked\b", re.I)),
+)
 
 
-def c17_verdict(status: str, text: str):
-    """(ok, 理由, exempt_by)。verified のみ対象。免除はフェンス外の根拠つき宣言のみ受理
-    (reason+decided-by の 2 点必須 — ECO-034 様式。過剰免除= fail-open を作らない)。"""
-    if not str(status).strip().startswith("verified"):
+def _c17_receipt_bodies(unfenced: str):
+    """receipt 見出しの直後から同レベル以上の次見出しまでを本体として返す(該当見出しごと)。"""
+    out = []
+    for m in C17_RECEIPT_RE.finditer(unfenced):
+        lvl = len(m.group(1))
+        nxt = re.compile(rf"^[ \t]{{0,3}}#{{2,{lvl}}}[ \t]", re.M).search(unfenced, m.end())
+        out.append(unfenced[m.end(): nxt.start() if nxt else len(unfenced)])
+    return out
+
+
+def c17_verdict(status: str, text: str, eco_no: int = 0):
+    """(ok, 理由, exempt_by)。status が厳密に verified のもののみ対象。免除はフェンス外・行頭の
+    根拠つき宣言のみ受理(reason+decided-by の 2 点必須 — ECO-034 様式)。eco_no >= C17_BODY_MIN
+    は receipt 本体の必須項目ラベルまで要求する(ECO-051)。"""
+    if str(status).strip() != "verified":
         return True, "", None
-    # ECO-049: receipt 検出も免除検出と同じくフェンス除去後に行う(前処理の非対称を解消 —
-    # フェンス内の様式例が receipt として通過していた)。
     unfenced = _C17_FENCE_RE.sub("", text)
-    if C17_RECEIPT_RE.search(unfenced):
-        return True, "", None
+    bodies = _c17_receipt_bodies(unfenced)
+    if bodies:
+        if eco_no < C17_BODY_MIN:
+            return True, "", None
+        for b in bodies:
+            if all(rx.search(b) for _, rx in _C17_LABELS):
+                return True, "", None
+        missing = [k for k, rx in _C17_LABELS if not any(rx.search(b) for b in bodies)]
+        return False, (f"較正 receipt の見出しはあるが本体の必須項目が欠落({missing})"
+                       " — 見出しだけの receipt は receipt ではない"), None
     m = C17_DECL_RE.search(unfenced)
     if m and m.group("reason").strip() and m.group("by").strip():
         return True, "", m.group("by").strip()
@@ -1271,50 +1309,88 @@ def c17_verdict(status: str, text: str):
         miss = [k for k in ("reason", "by") if not m.group(k).strip()]
         return False, f"免除宣言の根拠欠落({miss})", None
     return False, ("verified だが較正 receipt の**見出し**がない(calibrate trigger ① 非起動)"
-                   " — 平文の言及・フェンス内の様式例は receipt ではない。"
-                   "`### 較正 receipt` 節を書くか、根拠つき免除を宣言する"), None
+                   " — 平文の言及・フェンス内の様式例・インデントされたコード例は receipt ではない。"
+                   "`### 較正 receipt` 節(本体: 主張と判定 / 計器欠陥 / 検出力の限界 / 行別 asked)を"
+                   "書くか、行頭で根拠つき免除を宣言する"), None
 
 
 _C17_FIXTURES = [
-    ("F1", True, "verified + receipt",
-     "verified", "## 追記: 事後較正 receipt\n- 査定した主張と判定…\n"),
+    # (name, want_ok, desc, status, text, eco_no)
+    ("F1", True, "verified + receipt(旧 scope)",
+     "verified", "## 追記: 事後較正 receipt\n- 査定した主張と判定…\n", 41),
     ("F2", False, "verified + receipt なし",
-     "verified", "## 受入\n- V1 PASS\n"),
+     "verified", "## 受入\n- V1 PASS\n", 41),
     ("F3", True, "filed + なし(verified のみ対象)",
-     "filed", "## 受入\n- 検討中\n"),
+     "filed", "## 受入\n- 検討中\n", 41),
     ("F4", True, "verified + 根拠つき免除(宣言者表示)",
-     "verified", "<!-- calibrate: not-required reason: 事務的クローズのみ decided-by: maintainer -->\n"),
+     "verified", "<!-- calibrate: not-required reason: 事務的クローズのみ decided-by: maintainer -->\n", 41),
     ("F5", False, "フェンス内の免除宣言は無効(過剰免除の遮断)",
-     "verified", "```\n<!-- calibrate: not-required reason: x decided-by: y -->\n```\n"),
+     "verified", "```\n<!-- calibrate: not-required reason: x decided-by: y -->\n```\n", 41),
     ("F6", False, "空の reason は却下(欄の存在でなく中身)",
-     "verified", "<!-- calibrate: not-required reason:  decided-by: maintainer -->\n"),
-    # ECO-049 追加 — use/mention 弁別の known-bad / known-good 腕(Q2: 修理に reference 較正を
-    # 付ける。ラベルの根拠= 第 6 掃引の対照つきプローブ実測 P1/P2 と受入 8 件の実形式)。
-    ("F7", False, "フェンス内の様式例は receipt ではない(known-bad)",
-     "verified", "```\n### 較正 receipt(様式の例)\n- 査定した主張と判定…\n```\n"),
+     "verified", "<!-- calibrate: not-required reason:  decided-by: maintainer -->\n", 41),
+    # ECO-049 追加 — use/mention 弁別の known-bad / known-good 腕。
+    ("F7", False, "backtick フェンス内の様式例は receipt ではない(known-bad)",
+     "verified", "```\n### 較正 receipt(様式の例)\n- 査定した主張と判定…\n```\n", 41),
     ("F8", False, "平文の言及・否定文は receipt ではない(known-bad)",
-     "verified", "## 受入\n- V1 PASS\n\n較正 receipt は今回省略した。\n"),
-    ("F9", True, "見出しとして存在する receipt(known-good)",
-     "verified", "### 較正 receipt(trigger ①)\n- 査定した主張と判定…\n"),
+     "verified", "## 受入\n- V1 PASS\n\n較正 receipt は今回省略した。\n", 41),
+    ("F9", True, "見出しとして存在する receipt(known-good・旧 scope)",
+     "verified", "### 較正 receipt(trigger ①)\n- 査定した主張と判定…\n", 41),
+    # ECO-051 追加 — 盲検感度試験で**独立検査官(Codex・検体 S4/S5)が実測した変種**を known-bad 腕へ
+    # 恒久化(ラベルの根拠= 修理前 revision で通過・当方 HEAD で 6/6 再現)。当方設計の変種だけを
+    # 測っていた ECO-049 の Q3 型過大判定への対処。
+    ("F10", False, "チルダ fence 内の見出しは receipt ではない(独立検査官 S4-1)",
+     "verified", "~~~\n### 較正 receipt\n- 査定した主張と判定 / 計器欠陥 / 検出力の限界 / asked\n~~~\n", 51),
+    ("F11", False, "インデントされたコード例内の免除宣言は無効(独立検査官 S4-2)",
+     "verified", "    <!-- calibrate: not-required reason: example decided-by: nobody -->\n", 51),
+    ("F12", False, "見出し内の否定+本体なし(独立検査官 S4-3a)",
+     "verified", "## 較正 receipt は省略した\n", 51),
+    ("F13", False, "`##較正`(空白なし)は見出しではない(独立検査官 S4-3b)",
+     "verified", "##較正 receipt\n- 査定した主張と判定 / 計器欠陥 / 検出力の限界 / asked\n", 51),
+    ("F14", False, "`#` 7 個は見出しではない(独立検査官 S4-3c)",
+     "verified", "####### calibrate receipt\n- 査定した主張と判定 / 計器欠陥 / 検出力の限界 / asked\n", 51),
+    ("F15", False, "receiptless は receipt ではない(独立検査官 S4-3d)",
+     "verified", "## calibrate receiptless notes\n- 査定した主張と判定 / 計器欠陥 / 検出力の限界 / asked\n", 51),
+    ("F16", False, "見出しのみ・本体空は新 scope では receipt ではない(旧 P4 境界の縮小)",
+     "verified", "### 較正 receipt\n\n## 次の節\n", 51),
+    ("F17", True, "見出し+本体 4 項目(known-good・新 scope)",
+     "verified", "### 較正 receipt(trigger ①)\n- 査定した主張と判定: …\n- 検出した計器欠陥: なし\n"
+                 "- 検出力の限界: …\n| Q1 | asked | … |\n", 51),
+    ("F18", True, "status 'verifiedness' は対象外(厳密一致 — 独立検査官 S4-4 の偽陽性)",
+     "verifiedness", "## 受入\n", 51),
 ]
 
 
 def c17_calibrate_receipt() -> None:
+    if not _C17_FIXTURES:
+        check("C17", False, "fixture 0 本 — 陽性対照の空集合は較正成立ではない(測定不能は合格ではない)")
+        return
     bad = []
-    for name, want_ok, desc, st, txt in _C17_FIXTURES:
-        ok, _, _ = c17_verdict(st, txt)
+    for name, want_ok, desc, st, txt, eco in _C17_FIXTURES:
+        ok, _, _ = c17_verdict(st, txt, eco)
         if ok != want_ok:
             bad.append(f"{name}({desc})")
     if bad:
         check("C17", False, f"fixture 較正不成立(計器を先に疑う): {bad}")
         return
-    reg = strict_yaml_load((ROOT / "bomdd" / "60-change-register.yaml").read_text(encoding="utf-8"))
+    reg_path = ROOT / "bomdd" / "60-change-register.yaml"
+    try:
+        reg = strict_yaml_load(reg_path.read_text(encoding="utf-8"))
+    except Exception as e:  # ECO-051: 欠落・解析不能は例外でなく構造化 FAIL
+        check("C17", False, f"register を読めない({type(e).__name__}: {str(e)[:80]}) — 測定不能は合格ではない")
+        return
+    changes = reg.get("changes") if isinstance(reg, dict) else None
+    if not isinstance(changes, list):
+        check("C17", False, "register の changes が list でない — 測定不能は合格ではない")
+        return
     problems, exempt, n = [], [], 0
-    for ent in reg.get("changes") or []:
+    for ent in changes:
+        if not isinstance(ent, dict):
+            problems.append(f"changes に mapping でない要素({type(ent).__name__})")
+            continue
         m = re.match(r"ECO-(\d+)$", str(ent.get("id") or ""))
         if not m or int(m.group(1)) < C17_SCOPE_MIN:
             continue
-        if not str(ent.get("status") or "").strip().startswith("verified"):
+        if str(ent.get("status") or "").strip() != "verified":
             continue
         n += 1
         ref = ent.get("order_ref")
@@ -1322,14 +1398,17 @@ def c17_calibrate_receipt() -> None:
         if not po or not po.is_file():
             problems.append(f"{ent.get('id')}: order_ref の実体がない({ref} — 欠測は FAIL)")
             continue
-        ok, why, by = c17_verdict("verified", po.read_text(encoding="utf-8"))
+        ok, why, by = c17_verdict("verified", po.read_text(encoding="utf-8"), int(m.group(1)))
         if by:
             exempt.append(f"{ent.get('id')}(by {by})")
         if not ok:
             problems.append(f"{ent.get('id')}: {why}")
+    if n == 0:  # ECO-051: 対象 0 件は PASS ではない(空集合の合格化= 型④)
+        problems.append(f"適用対象 0 件(ECO-0{C17_SCOPE_MIN} 以降の verified が無い — 空集合は合格ではない)")
     check("C17", not problems,
           f"calibrate receipt ゲート(trigger ①= verified 昇格・適用 ECO-0{C17_SCOPE_MIN} 以降 {n} 件"
-          f"・fixture {len(_C17_FIXTURES)}/{len(_C17_FIXTURES)} 較正成立・根拠つき免除 {len(exempt)} 件"
+          f"〔本体ラベル要求= ECO-0{C17_BODY_MIN} 以降〕・fixture {len(_C17_FIXTURES)}/{len(_C17_FIXTURES)} 較正成立"
+          f"・根拠つき免除 {len(exempt)} 件"
           + ("[" + " / ".join(exempt) + "]" if exempt else "") + ")"
           + (" — " + " / ".join(problems) if problems else ""))
 
