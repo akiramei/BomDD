@@ -1869,3 +1869,28 @@ changes:
       (trigger ③・二軸)は order §4 — 「見出しを使わない将来様式への偽陽性」は unknown
       (未実行)と正直判定。第 6 掃引の他所見(案 B 見送り・Q2 不成立・陽性対照の不在・
       各 battery 行の弁別力)は本 ECO では解消しない。
+  - id: ECO-050
+    title: calibrate 自身の検出力限界宣言 — 第 6 掃引からの確定(案 B)
+    date: 2026-09-02
+    origin: corrective
+    status: in-progress
+    source: >
+      calibrate 自己較正(第 6 掃引)の declaration 所見(a)。calibrate.md に自身の
+      「検出力の限界」節がなく、Q10 で他計器に課している要求を自分は満たしていない —
+      grep 実測で出現 2 箇所はいずれも「Q10 の問い」と「receipt の記載要件」= 他者への要求。
+      対照= preflight.md / worklist.py / ui-cad-gate.py / process-validator.py は自前の
+      限界節を持つ。案 A は ECO-049 で実施済み・案 C(問うた battery 行の記録)は見送り継続。
+    order_ref: bomdd/60-change-order-eco-050.md
+    affected_refs: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/SKILL.md]
+    no_impact_prediction: "(製造前)diff は calibrate.md 正本+写し+台帳系。節の追加のみで既存行の削除・改変なし。新規リンクを作らないため C13 二文脈検査の判定不変。正本と写しの差分は既知 2 点のまま。self-conformance 全検査の判定不変。C16/C17 は本 order を required と判定する見込み — receipt 埋め込み済み"
+    diff_audit:
+      baseline: "eb13bf3"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/SKILL.md]
+    summary: >
+      正本へ「## 検出力の限界(宣言)」節を追加し写しへ同期(D-1)。配置は preflight.md と
+      同じく「学習ループ」の直前。内容は第 6 掃引の実測からの転記のみ — ①検出力は査定者の
+      プローブ設計に依存(battery 単独の寄与は未分離)②陽性対照のない「所見なし」は健全性の
+      証拠ではない(偽陰性の実測つき)③Q2 は本スキル自身に対して不成立(単一査定者・内部実証・
+      外的妥当性未検証)④receipt は問うた battery 行を記録しない(Q4/Q5 未発火の実測)
+      ⑤起動の機械化は trigger ① のみ(正本は C17 側・要約参照)。**battery(Q1〜Q11)・手順・
+      判定様式・receipt 要件は不変** — 凍結の実質(測定条件)は維持。
