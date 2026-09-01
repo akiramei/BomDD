@@ -409,6 +409,9 @@ _FIXTURE_COMMON = {
     "ui-ir.json": '{"actions": [{"uiId": "action.selfconf.one"}], "inputs": []}',
     "ui-bom.json": '{"items": []}',
     "ui-trace-map.json": '{"mappings": []}',
+    # ECO-045: 辞書なしは「昇格判定保留」へ挙動変更されたため空辞書を明示 — C6 の測定目的
+    # (rejected の根拠検査)を保留ノイズから分離する(検査意図の保存)
+    "36-ui-dictionary.yaml": "actions: {}\n",
 }
 _REJECTED_BARE = """rulings:
   - id: UQ-SELFCONF-1
