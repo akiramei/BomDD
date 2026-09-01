@@ -1562,7 +1562,7 @@ changes:
     title: /preflight — 作業開始条件の再認証スキルの新設(Task Contract + Revalidation・Phase 1)
     date: 2026-09-01
     origin: enhancement
-    status: applied   # 2026-09-01 gate ① 承認「推奨どおり①〜④採択」→ 製造完了= CAL-1/2/3・V1/V2・同期突合。V3〜V5 は push 後に確定・V6(初回実使用)はクローズ後の次タスク
+    status: verified   # 2026-09-01 受入= CAL-1(C7 単独 FAIL)・CAL-2(除去で missing={preflight})・CAL-3(5 状態+PROCEED の 6 fixture)・V1〜V3・V4(CI run 33456882804 success @9f19de3)・V5(窓は allowed_paths+台帳系のみ)。V6(初回実使用)= クローズ後の次の既存状態依存タスクで実施(未実施を明示・EXP-20260901-03 第 1 個体)
     source: >
       外部設計案(Task Contract + Revalidation・/converge 適用済み — round 軌跡 3→3→0=
       ECO-036 規則では収束失敗につき打ち切り採用の裁定として扱う・未収束= 契約具体表)+
@@ -1578,6 +1578,7 @@ changes:
     no_impact_prediction: "(起票時・製造前)diff は skill 正本(新設)+bomdd-init.py(SKILLS 1 行)+README+写し(.claude/skills/preflight/)+台帳系のみの予測。C7 は README 11 本化が必須(CAL-1 対照)。C4 判定不変。C16 は本 order を required と判定する見込み — receipt 埋め込み済み。既存 10 スキル不変・既設リポへは kit 再設置まで非波及"
     diff_audit:
       baseline: "a56f504"  # 起票時 82cff1b → 是正開始直前(起票コミット)へ更新(gate ① 承認 2026-09-01)
+      head: "9f19de3"      # diff監査済み: 窓内は allowed_paths+台帳系のみ・影響なし予測的中
       allowed_paths: [method/templates/product-profile/skills/, method/tools/bomdd-init.py, README.md, .claude/skills/preflight/, method/improvements.md]  # improvements は採用条件 4(効果測定の事前登録= EXP-20260901-03)
     summary: >
       変更要求= (a) /preflight 骨格【打ち切り採用】: task classification(分類と根拠を receipt に
@@ -1594,3 +1595,16 @@ changes:
       資格)。境界= E01・eco-fix 前提確認節・bomdd-next を置換せず上に載る(排他宣言を本文へ)。
       スコープ外= Phase 2(invalidation trigger)・C16 同型 gate・全クラス契約表・既設リポ遡及。
       gate ① 承認待ち。
+    verification: >
+      CAL-1= 成立(SKILLS 11/README 10 で [C7] FAIL 単独発火・同実行 C4 は参照 22 件 PASS —
+      巻き添えなし)。CAL-2= 成立(実 scaffold から SKILL.md 除去で C4 同一判定が PASS→FAIL・
+      missing のユニーク集合= {preflight} のみ)。CAL-3= 成立(5 状態+PROCEED の 6 fixture —
+      各 fixture が別の契約行・固有理由で判定され重ならない。散文スキルにつき文書化された
+      判定 walkthrough・order §4 の表)。V1= PASS(scaffold 実在+AGENTS 参照 22 件/11 スキル・
+      BomDD 写しはスキル一覧へ実出現)。V2= PASS(未置換 0・固有 ID は来歴のみ)。V3= PASS
+      (全 16 検査 PASS・CAL-1 との比較で転化は C7 のみ)。V4= PASS(CI run 33456882804・
+      success・headSha 9f19de3 一致)。V5= PASS(窓 a56f504->9f19de3 は skill 正本/写し/
+      bomdd-init/README/improvements+台帳系のみ)。正本⇔写しの機械突合= 残差 0 行。
+      V6(初回実使用)= 未実施を明示してクローズ(起票時凍結どおり次の既存状態依存タスクで
+      実施 — EXP-20260901-03 起動率測定の第 1 個体)。限界= スキルの効果(検出率・偽停止率)は
+      未証明(EXP が基準線ゼロから測定)・Phase 2 は別 ECO。詳細は order §4〜§6。
