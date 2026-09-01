@@ -5431,3 +5431,17 @@ bomdd/reports/ 4 本。③固有の教訓(REJECT 意味論・報告様式・集�
   織り込み済み範囲= playbook §4.4 diff(重複還元の回避)/ OBS-20260831-09 の B' 条件=
   昇格審査記録の実文 / ID 採番= 20260901 系は未使用(worklist 実測)。
 - 未収束事項: なし。
+
+## 2026-09-01 BomDD 自己適用 — ECO-042 /preflight 新設(Phase 1 の効果測定登録)
+
+記帳のみ(採用条件 4= 効果測定の事前登録)。設計・採用経緯の正本= ECO-042 order。
+
+期待する効果と観測:
+
+- [open] EXP-20260901-03 — **/preflight Phase 1 の効果測定**: ①検出率= missing / stale /
+  contradicted の実検出件数(系列)②**偽停止率**= HOLD/STOP が override された率(reason+
+  decided-by つき override のみ有効)③起動率= 既存状態依存タスクの開始に対する receipt の
+  存在率(receipt 不在= 非起動)。基準線ゼロから系列測定。**Phase 2(invalidation trigger)
+  への昇格条件= Phase 1 の運用実測**。unknown 判定は理由コード(未実行 / 観測手段なし /
+  未較正)を保持する
+  evidence: ECO-042 order §1(d)・§3

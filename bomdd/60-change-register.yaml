@@ -1562,7 +1562,7 @@ changes:
     title: /preflight — 作業開始条件の再認証スキルの新設(Task Contract + Revalidation・Phase 1)
     date: 2026-09-01
     origin: enhancement
-    status: filed   # gate ① 承認待ち — 製造は order 提示で停止(裁定対象= 打ち切り採用の範囲+初期 task class 集合+採用条件 4 点の文言+名称)
+    status: applied   # 2026-09-01 gate ① 承認「推奨どおり①〜④採択」→ 製造完了= CAL-1/2/3・V1/V2・同期突合。V3〜V5 は push 後に確定・V6(初回実使用)はクローズ後の次タスク
     source: >
       外部設計案(Task Contract + Revalidation・/converge 適用済み — round 軌跡 3→3→0=
       ECO-036 規則では収束失敗につき打ち切り採用の裁定として扱う・未収束= 契約具体表)+
@@ -1577,8 +1577,8 @@ changes:
     affected_refs: [method/templates/product-profile/skills/preflight.md, method/tools/bomdd-init.py, README.md]
     no_impact_prediction: "(起票時・製造前)diff は skill 正本(新設)+bomdd-init.py(SKILLS 1 行)+README+写し(.claude/skills/preflight/)+台帳系のみの予測。C7 は README 11 本化が必須(CAL-1 対照)。C4 判定不変。C16 は本 order を required と判定する見込み — receipt 埋め込み済み。既存 10 スキル不変・既設リポへは kit 再設置まで非波及"
     diff_audit:
-      baseline: "82cff1b"  # 起票直前 HEAD(gate ① 承認後、是正開始直前へ更新)
-      allowed_paths: [method/templates/product-profile/skills/, method/tools/bomdd-init.py, README.md, .claude/skills/preflight/]
+      baseline: "a56f504"  # 起票時 82cff1b → 是正開始直前(起票コミット)へ更新(gate ① 承認 2026-09-01)
+      allowed_paths: [method/templates/product-profile/skills/, method/tools/bomdd-init.py, README.md, .claude/skills/preflight/, method/improvements.md]  # improvements は採用条件 4(効果測定の事前登録= EXP-20260901-03)
     summary: >
       変更要求= (a) /preflight 骨格【打ち切り採用】: task classification(分類と根拠を receipt に
       必須記録)→ minimum contract → repo 固有前提 → discovered prerequisites(最小契約と区別)→

@@ -84,10 +84,9 @@ eco-fix・eco-accept の前提確認節 / bomdd-next(次作業の選定入口)�
 
 ## gate ①(製造承認)
 
-**承認待ち。** 裁定対象= ①**打ち切り採用の範囲**(骨格= (a) を採用・契約具体表は (b) の
-最小 2 クラスのみ本 ECO で製造)②**初期 task class 集合**(推奨= continuation / bug-fix)
-③**採用条件 4 点の文言**(contract 行の実測出典・分類の可観測化・根拠つき出口・段階導入+
-効果測定)④名称(推奨= `/preflight`)。
+**承認 2026-09-01 maintainer**「gate ① 承認。推奨どおり①〜④採択で製造に進めて」—
+①打ち切り採用(骨格= (a)・契約具体表は最小 2 クラスのみ)②continuation / bug-fix
+③採用条件 4 点は起票文言どおり ④名称= `/preflight`。
 
 ## スコープ外(宣言済み境界)
 
@@ -128,9 +127,48 @@ eco-fix・eco-accept の前提確認節 / bomdd-next(次作業の選定入口)�
   register 末尾= ECO-041(次番 042)。
 - 未収束事項: なし(原案由来の未収束= 契約具体表は gate 裁定対象 ② として提示)。
 
-## 4. 製造と受入の実測
+## 4. 製造と受入の実測(2026-09-01)
 
-(gate ① 承認後に記入)
+- diff 監査の窓: baseline `a56f504`(起票コミット= 是正開始直前へ更新)→ head は受入時に確定。
+- 正本 `method/templates/product-profile/skills/preflight.md` を新設(採用条件 4 点を本文へ
+  内蔵: 行の追加統制 / 分類と根拠の receipt 必須記録+曖昧時は厳しい側 / HOLD・STOP の
+  reason+decided-by 出口と免除の件数表示 / Phase 1= entry のみの明文)。検出力の限界 3 点を
+  恒久宣言(unknown-unknown detector ではない / invalidation 非検出 / discovered の再現非保証)。
+- 写しを機械生成(プレースホルダー解決+D-1 ヘッダー・未置換 assert つき)— **正本⇔写しの
+  機械突合= 正規化後の残差 0 行**。設置直後、ハーネスのスキル一覧へ `/preflight` が実出現
+  (D-1 実地確認)。SKILLS 10→11+README 11 本表記。
+- EXP-20260901-03(検出率・偽停止率・起動率)を improvements.md へ記帳(採用条件 4)。
+
+### 較正(陽性対照 — **下記の赤は期待された赤であり不適合ではない**)
+
+- **CAL-1 成立**: SKILLS 11・README 10 のまま実行 → `[C7] FAIL README のスキル本数表記 [10] =
+  SKILLS 実数 11` の**単独 FAIL**(同実行の C4 は参照 22 件で PASS — 巻き添え・覆い隠しなし)。
+- **CAL-2 成立**: 実 scaffold(参照 22 件・ユニーク 11 スキル)から preflight の SKILL.md を
+  除去 → C4 同一判定が PASS→FAIL へ転化・missing のユニーク集合= {preflight} のみ
+  (巻き添えなし。ECO-035 プローブの重複計数の粗さはユニーク集合判定で是正済み)。
+- **CAL-3 成立(5 状態+PROCEED の弁別 — 各 fixture が固有の契約行・固有の理由で判定される)**:
+
+  | # | 合成シナリオ(クラス) | 発火行 | 判定 | 開始判定 |
+  |---|---|---|---|---|
+  | F1 | register= verified・order に現況/残課題・受入基準凍結・baseline 記録あり(continuation) | 全行 | **confirmed** | **PROCEED**(「常に HOLD」との弁別= C16 F2 の教訓) |
+  | F2 | register に entry なし・order なし・git 履歴に作業痕跡なし(continuation) | current-work-state | **missing**(再構成不能) | HOLD(不足前提を名指し) |
+  | F3 | handoff は存在するが以後 baseline が進み受入基準が改訂済み(continuation) | acceptance-target | **stale** | PROCEED_WITH_LIMITS(旧基準非依存の範囲のみ)または HOLD |
+  | F4 | order は「製造中」・register は verified(continuation) | current-work-state | **contradicted** | HOLD(矛盾解消= 裁定が先) |
+  | F5 | unresolved-items が外部トラッカー参照のみでアクセス手段なし(continuation) | unresolved-items | **unknown**(missing と区別 — 確認手段の不在) | PROCEED_WITH_LIMITS(外部項目非依存の範囲)+ unknown を理由コードつき保持 |
+  | F6 | failing-behavior 未提供・target-specimen 不明(bug-fix) | failing-behavior / target-specimen | **missing** ×2 | HOLD |
+
+  5 状態すべてが 1 回以上・各 fixture は**別の契約行**から発火し、判定は重ならない。
+  散文スキルにつき本較正は文書化された判定 walkthrough である(機械 fixture 化は
+  非起動・効果の実測後 — スコープ外宣言どおり)。
+
+### 受入
+
+- **V1 PASS**: 実 scaffold に SKILL.md 実在+AGENTS.md 参照(22 件・ユニーク 11)。
+- **V2 PASS**: 未置換プレースホルダー 0 件・製品固有 ID は出自の来歴(リポ名修飾つき)のみ。
+- **V3〜V5**: §5 で確定。
+- **V6(初回実使用)**: 起票時凍結どおり**本 ECO クローズ後の次の既存状態依存タスク**で
+  /preflight を初回適用し receipt を実個体で残す — クローズ時点では**未実施**として §6 に
+  記録(EXP-20260901-03 の起動率測定の第 1 個体を兼ねる)。
 
 ## 5. CI 実測
 
