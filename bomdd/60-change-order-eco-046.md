@@ -74,9 +74,24 @@ push しない環境につき `GITHUB_ACTIONS` で **NA 宣言** — ECO-045 の
   未設定・.git/hooks 空)= git config 実測。
 - 未収束事項: なし。
 
-## 4. 製造と受入の実測
+## 4. 製造と受入の実測(2026-09-01)
 
-(製造後に記入)
+- diff 監査の窓: baseline `c2c2448`(起票直前 HEAD・起票+製造は同一窓)→ head は受入時に確定。
+- witness writer・pre-push hook・C18 を §1 のとおり製造。C18 対照 3 腕を計器から実測
+  (A= hooksPath 未設定 → FAIL・固有理由+処方 / B= 設置後 → PASS / C= GITHUB_ACTIONS 下 →
+  NA 宣言 PASS)。設置(`core.hooksPath=bomdd/hooks`)実施。
+- **W 対照(scratch bare remote への実 push)**: W1= witness 不在 → 遮断(処方つき)/
+  W3= tree 偽値 → 遮断(両 hash を表示)/ W4= FAIL 化 → 遮断 — 3 腕とも固有理由で成立。
+- **W2(緑腕)が計器欠陥 2 件を本 push 前に捕捉(較正の実効)**:
+  1. **CRLF**: witness writer が `write_text` の改行変換で CRLF を書き、hook の `sed` 取得値に
+     `\r` が混入(正常 push が偽遮断される)。是正= `newline="\n"` 明示+hook 側 `tr -d '\r'`
+     の二重防御。
+  2. **同送タグの偽遮断**: hook が push される全 ref を突合し、`push.followTags` で同送される
+     歴史タグ(旧 commit の tree)が遮断された。是正= 突合対象を `refs/heads/*` に限定し、
+     タグは限界 (5) として宣言(当時の検査対象であり witness は現 tree のみを覆う)。
+  **緑腕なしなら両欠陥は本 push(初回実運用)で発覚し工程停止だった** — 「常に赤の計器と
+  弁別する known-good」(calibrate Q2)の実利の実測。
+- 是正後: 全検査緑・witness は LF で再生成(od 実測)。W1〜W4 の再実測は §5 に記録。
 
 ## 5. CI 実測 / 6. クローズ
 

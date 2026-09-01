@@ -14,8 +14,9 @@ if [ ! -f "$witness" ]; then
   echo "  python method/tools/self-conformance.py" >&2
   exit 1
 fi
-wtree=$(sed -n 1p "$witness")
-wres=$(sed -n 2p "$witness")
+# tr -d '\r' — witness が CRLF で書かれた場合の防御(二重化・ECO-046 §4)
+wtree=$(sed -n 1p "$witness" | tr -d '\r')
+wres=$(sed -n 2p "$witness" | tr -d '\r')
 if [ "$wres" != "PASS" ]; then
   echo "[pre-push] witness が PASS でない($wres)— 検査を再実行してから push" >&2
   exit 1
@@ -25,6 +26,11 @@ while read -r local_ref local_sha remote_ref remote_sha; do
   case "$local_sha" in
     *[!0]*) ;;
     *) continue ;;   # 削除 push(全ゼロ sha)は対象外
+  esac
+  case "$local_ref" in
+    refs/heads/*) ;;
+    *) continue ;;   # branch のみ対象 — 歴史タグ等は当時の検査対象であり witness は現 tree のみを
+                     # 覆う(push.followTags の同送タグが偽遮断される欠陥を W2 緑腕が捕捉・ECO-046 §4)
   esac
   tree=$(git rev-parse "$local_sha^{tree}" 2>/dev/null) || {
     echo "[pre-push] $local_sha の tree を解決できない(測定不能は合格ではない)" >&2

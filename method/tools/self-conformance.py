@@ -1333,6 +1333,8 @@ def c17_calibrate_receipt() -> None:
 #       (意図された厳密さ: 検査していない内容の push を通さない)。
 #   (4) CI(GITHUB_ACTIONS)は push しない環境のため適用対象外= NA を宣言して PASS
 #       (ECO-045 の NA 思想 — SKIP と PASS を同義にしない)。
+#   (5) 突合対象は refs/heads/* のみ — 歴史タグ等(push.followTags の同送を含む)は当時の
+#       検査対象であり witness は現 tree のみを覆うため対象外(タグ単独 push は被覆外)。
 
 def _write_selfconf_witness() -> None:
     """全検査 PASS 時に検査対象 tree の witness を書く(ECO-046)。防御用であり検査結果に
@@ -1356,7 +1358,10 @@ def _write_selfconf_witness() -> None:
             if wt.returncode != 0:
                 return
             tree = wt.stdout.strip()
-        (git_dir / "bomdd-selfconf-witness").write_text(f"{tree}\nPASS\n", encoding="ascii")
+        # newline="\n" 明示 — Windows の改行変換で CRLF になると hook 側の比較に \r が混入する
+        # (W2 緑腕の較正が本 push 前に捕捉した欠陥・ECO-046 §4)
+        (git_dir / "bomdd-selfconf-witness").write_text(
+            f"{tree}\nPASS\n", encoding="ascii", newline="\n")
     except OSError:
         pass
 
