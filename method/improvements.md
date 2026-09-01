@@ -5300,6 +5300,21 @@ user 裁定つき。一次記録は各 order(§0/§4〜§6・receipt)と registe
   アンカーは「受入節を書くこと」でなく「**verified へ昇格させる状態遷移**」)③trigger ③ は
   機械 classifier を作らず watch(OBS-20260901-04)・trigger ① gate を最後の防波堤にする
   ④calibrate 本文・battery は無変更(**査定能力の欠陥ではなく工程投入の欠陥**として扱う)。
+  **補遺(系列計上の是正)**: 第 4 掃引(ui-cad-gate フル掃引・2026-09-01)の本系列への計上が
+  漏れていた — 遡及計上: capability 1(SKIP 非弁別の無条件昇格可)/ boundary 1(entries[]
+  方言)/ declaration 2 / unknown 2・偽陽性 0・是正= ECO-045(evidence: 同 order §0/§4)。
+  **第 6 回観測(2026-09-01・worklist.py フル掃引 — 人間裁定起動・battery 凍結)**:
+  **capability defect= 0**。強い常設対照を確認(--selftest が W1〜W6 全種+PROMOTION DUE+
+  除外領域を恒久 fixture で被覆・DUE は実運用 2 件〔OBS-20260831-05/09〕で接地済み)。
+  境界プローブ 5 本の実測: 連番 3 桁(-100)と watch の 2 桁 N は**警告つき非計上へ縮退**
+  (W6/W4 — 沈黙しない・ただし診断文が真因〔桁上限〕を名指さない)/ blockquote 内の実記帳は
+  沈黙するが**宣言済み境界**(docstring 原則 3)/ watch 5/3 は DUE 発火 / 正常系は計上。
+  分類= boundary 2(連番 2 桁・N 単桁の上限 — 現運用では遠い)/ declaration 2(境界診断文の
+  真因非名指し / Q10 様式の限界宣言なし — **ただし第 5 回の「宣言なし」判定をここで訂正**:
+  docstring 解析原則 6 項が部分宣言に相当する弱形あり)/ reference-truth 0 / unknown 0。
+  S3(warnings 0= 記帳整合)は**条件付き適格**〔W 系が測るのはマーカー行の形式整合のみ —
+  意味整合(evidence 座標・source の実在・回収妥当性)は対象外設計。既知の片側性=
+  EXP-20260830-04 と同族〕。偽陽性 0。
   **第 5 回観測(2026-09-01・Q10 横断ミニ掃引 — campaign・人間裁定起動)**: user 採択の三段案
   (棚卸し → Q10 横断 → リスク順の個別掃引)の第 1〜2 歩。BomDD の instrument 13 系統を棚卸しし
   **Q10(検出力の限界宣言)のみ**を横断適用。所見= **declaration 9 系統**(限界宣言を持つのは
