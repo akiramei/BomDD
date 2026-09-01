@@ -56,6 +56,11 @@
                       表示)を要求。限界= receipt の構造的存在のみ / trigger ②③④ は被覆外
                       (① gate が最後の防波堤)/ 天然対照は shallow CI で実行不能につき
                       常設化しない(受入時ローカル実測)
+  C18 pre-push-witness: 観測前 push の機械遮断(ECO-046)— 全検査 PASS 時に検査対象 tree の
+                      witness を .git 配下へ記録し、bomdd/hooks/pre-push が push 対象 tree と
+                      突合。C18 は設置検収(hooksPath+hook 実在)。CI は push しない環境に
+                      つき NA 宣言。限界= うっかり型の遮断まで(意図的回避は信頼境界外・
+                      最終層は CI)
 
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
@@ -1311,6 +1316,65 @@ def c17_calibrate_receipt() -> None:
           + (" — " + " / ".join(problems) if problems else ""))
 
 
+# --- C18 pre-push witness(ECO-046) ---------------------------------------------------
+# 目的: **観測前 push(検査結果を観測せず push する強制経路の故障)を機械遮断する** —
+# AGENTS 規律 4「非 0 なら push しない」の機械化。由来= 同一設備・同一規則の 2 再演
+# (ECO-024 / ECO-045)+ ECO-025 §7 が予約した「機械的強制の要否は測定で判断」の発火。
+#
+# 構成: 全検査 PASS 時に検査対象 tree の witness を .git 配下へ記録(_write_selfconf_witness)。
+# bomdd/hooks/pre-push が push 対象 commit の tree と突合し、不一致・witness 不在を遮断する。
+#
+# 検出力の限界(宣言):
+#   (1) 到達目標は「うっかり型の素通り遮断」まで — witness 改竄・hook 除去・hooksPath 解除の
+#       意図的回避は信頼境界外(ECO-018 残余の限界と同じ整理)。押し戻しの最終層は CI。
+#   (2) witness は fast tier の PASS に束縛(規律 2 の単一入口)— --dotnet 層は CI が毎 push 担保。
+#   (3) witness の tree は「追跡対象+追加可能ファイルの worktree 内容」(一時 index への add -A)
+#       — 未追跡の非 ignore ファイルが残っていると commit tree と不一致になり遮断される
+#       (意図された厳密さ: 検査していない内容の push を通さない)。
+#   (4) CI(GITHUB_ACTIONS)は push しない環境のため適用対象外= NA を宣言して PASS
+#       (ECO-045 の NA 思想 — SKIP と PASS を同義にしない)。
+
+def _write_selfconf_witness() -> None:
+    """全検査 PASS 時に検査対象 tree の witness を書く(ECO-046)。防御用であり検査結果に
+    影響させない — git 外・書込不能なら黙って省略(pre-push 側が witness 不在を遮断する)。"""
+    try:
+        gd = run(["git", "-C", str(ROOT), "rev-parse", "--git-dir"])
+        if gd.returncode != 0:
+            return
+        git_dir = Path(gd.stdout.strip())
+        if not git_dir.is_absolute():
+            git_dir = ROOT / git_dir
+        with tempfile.TemporaryDirectory() as td:
+            tmp_index = Path(td) / "index"
+            src_index = git_dir / "index"
+            if src_index.exists():
+                shutil.copy2(src_index, tmp_index)
+            env = os.environ.copy()
+            env["GIT_INDEX_FILE"] = str(tmp_index)
+            run(["git", "-C", str(ROOT), "add", "-A"], env=env)
+            wt = run(["git", "-C", str(ROOT), "write-tree"], env=env)
+            if wt.returncode != 0:
+                return
+            tree = wt.stdout.strip()
+        (git_dir / "bomdd-selfconf-witness").write_text(f"{tree}\nPASS\n", encoding="ascii")
+    except OSError:
+        pass
+
+
+def c18_prepush_witness() -> None:
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        check("C18", True, "pre-push witness(NA — CI は push しない環境・適用対象外の宣言)")
+        return
+    hp = run(["git", "-C", str(ROOT), "config", "core.hooksPath"])
+    got = (hp.stdout or "").strip()
+    ok_path = hp.returncode == 0 and got == "bomdd/hooks"
+    hook = ROOT / "bomdd" / "hooks" / "pre-push"
+    ok_hook = hook.is_file() and "bomdd-selfconf-witness" in hook.read_text(encoding="utf-8")
+    check("C18", ok_path and ok_hook,
+          f"pre-push witness 設置(hooksPath={got or '未設定'}・hook 実在+witness 突合={ok_hook})"
+          + ("" if ok_path and ok_hook else " — `git config core.hooksPath bomdd/hooks` で設置(ECO-046)"))
+
+
 # --- 環境個体の刻印(ECO-040 Y) ------------------------------------------------------
 def env_imprint(dotnet: bool) -> str:
     """今回の判定に関係する環境個体を証拠へ刻印する(ECO-040 Y・§4.4 道具の個体参照)。
@@ -1356,6 +1420,7 @@ def main() -> int:
     c15_deprecated_refs()
     c16_converge_receipt()
     c17_calibrate_receipt()
+    c18_prepush_witness()
     if a.dotnet:
         c9_dotnet()
 
@@ -1363,6 +1428,7 @@ def main() -> int:
     if FAILURES:
         print(f"self-conformance FAILED — {len(FAILURES)} 件の不適合")
         return 1
+    _write_selfconf_witness()  # ECO-046: PASS の観測可能な証跡 — pre-push が突合する
     print("self-conformance passed — 全検査合格")
     return 0
 

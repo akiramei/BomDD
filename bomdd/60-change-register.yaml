@@ -1730,3 +1730,33 @@ changes:
       EXP-20260727-13 反証 2 例目)。V4= PASS(窓は ui-cad-gate+self-conformance〔消費者
       追随〕+台帳系)。V5= 較正 receipt(二軸・unknown 2 件は裁定 6 どおり維持)は order §4。
       詳細は order §4〜§6。
+  - id: ECO-046
+    title: 観測前 push の機械遮断 — self-conformance witness+pre-push hook(C18)
+    date: 2026-09-01
+    origin: corrective
+    status: applied   # 2026-09-01 user 指示が gate ① を兼ねる(裁定点 3 点は予告済み推奨を採択)→ 製造中。V 系は probe・push 後に確定
+    source: >
+      観測前 push の昇格審査(converge・延長 1 周で正規収束 3→1→0→0)の収束採用 —
+      user 裁定「ECO-046 を起票して製造まで進めて」。根拠= 同一設備・同一規則の 2 再演
+      (ECO-024/ECO-045・いずれも強制経路の故障)/ 統制の非対称 upstream 0/2・downstream
+      (CI)2/2 / C16・C17 と同じ実測 2 件の機械化閾値 / **ECO-025 §7 が予約した「機械的強制
+      (pre-push hook 等)の要否は測定で判断」の発火**(禁止でなく予約 — 二重統治の不採用は
+      process-core についてであり、本件は既存計器 self-conformance の結線)。防御点=
+      AGENTS 規律 4「非 0 なら push しない」の機械化として pre-push が正確なアンカー。
+    order_ref: bomdd/60-change-order-eco-046.md
+    affected_refs: [method/tools/self-conformance.py, bomdd/hooks/pre-push]
+    no_impact_prediction: "(製造前)diff は self-conformance.py+bomdd/hooks/pre-push(新設)+台帳系+improvements(EXP-20260727-26 第 1 回観測の記帳)。既存 C1〜C17 判定不変。配布物は diff ゼロ(BomDD 自リポの結線 — 製品リポの同面は process-core が担う)。意図的挙動変更= ローカル push が witness 突合を通る。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
+    diff_audit:
+      baseline: "c2c2448"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/tools/self-conformance.py, bomdd/hooks/, method/improvements.md]
+    summary: >
+      witness writer(全検査 PASS 時に検査対象 tree〔一時 index への add -A+write-tree〕を
+      .git/bomdd-selfconf-witness へ記録 — 防御用・検査結果へ非影響)+ bomdd/hooks/pre-push
+      (push 対象 tip の ^{tree} を witness と突合 — 不在・非 PASS・不一致を遮断・削除 push は
+      対象外・exit 直結= EXP-20260727-26 の処方)+ C18 設置検収(hooksPath+hook 実在。
+      CI は GITHUB_ACTIONS で NA 宣言= ECO-045 の NA 思想)。witness は fast tier の PASS に
+      束縛(規律 2 の単一入口・dotnet は CI が毎 push 担保)。限界(コード恒久宣言)=
+      うっかり型の素通り遮断まで(witness 改竄・hook 除去の意図的回避は信頼境界外・最終層は
+      CI= ECO-018 残余の限界と同じ整理)/ 未追跡の非 ignore 残存はミスマッチ(意図された
+      厳密さ)。較正= C18 3 腕(未設定 FAIL/設置 PASS/CI NA)+hook 4 腕(W1 不在遮断/
+      W2 緑腕/W3 tree 偽値遮断/W4 FAIL 化遮断 — scratch bare remote への実 push)。

@@ -1,0 +1,41 @@
+#!/bin/sh
+# bomdd pre-push — self-conformance PASS witness の突合(ECO-046)
+#
+# AGENTS 規律 4「必須検査が非 0 終了または実行不能なら push しない」の機械化。
+# 由来: 観測前 push の 2 再演(ECO-024 / ECO-045 — 同一設備・同一規則・強制経路の故障)。
+# ECO-025 §7 が予約した「機械的強制の要否は測定で判断」の、測定成立後の実施。
+#
+# 到達目標は「うっかり型の素通り遮断」まで — witness/hook の除去(意図的回避)は
+# 信頼境界外(ECO-018 残余の限界と同じ整理)。押し戻しの最終層は従来どおり CI。
+git_dir=$(git rev-parse --git-dir) || exit 1
+witness="$git_dir/bomdd-selfconf-witness"
+if [ ! -f "$witness" ]; then
+  echo "[pre-push] self-conformance の PASS witness がない — push 前に必須検査を実行する(AGENTS 規律 2/4):" >&2
+  echo "  python method/tools/self-conformance.py" >&2
+  exit 1
+fi
+wtree=$(sed -n 1p "$witness")
+wres=$(sed -n 2p "$witness")
+if [ "$wres" != "PASS" ]; then
+  echo "[pre-push] witness が PASS でない($wres)— 検査を再実行してから push" >&2
+  exit 1
+fi
+status=0
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$local_sha" in
+    *[!0]*) ;;
+    *) continue ;;   # 削除 push(全ゼロ sha)は対象外
+  esac
+  tree=$(git rev-parse "$local_sha^{tree}" 2>/dev/null) || {
+    echo "[pre-push] $local_sha の tree を解決できない(測定不能は合格ではない)" >&2
+    status=1
+    continue
+  }
+  if [ "$tree" != "$wtree" ]; then
+    echo "[pre-push] 遮断: $local_ref の tree が検査済み witness と一致しない" >&2
+    echo "  push 対象= $tree / witness= $wtree" >&2
+    echo "  検査後の変更が未検査か、検査を経ていない commit — 必須検査を再実行してから push(ECO-046)" >&2
+    status=1
+  fi
+done
+exit $status
