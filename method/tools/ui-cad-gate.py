@@ -25,7 +25,24 @@
 #   GU6 id揺れ : --mock 指定時、ui-extract.py --verify で raw IR と再抽出の id 揺れを検査
 #              (--mock なしでは skip)。
 #
-# 終了コード: 0 = 全ゲート合格 / 1 = 不合格あり / 2 = 入力エラー
+# 終了コード: 0 = 実行ゲート全合格かつ昇格可 / 1 = 不合格あり または 昇格判定保留 / 2 = 入力エラー
+#
+# 昇格判定の分離(ECO-045): 「実行済みゲートの合否」と「全体の昇格判定」は別物。
+# 未実行ゲート・縮退(辞書なし)がある場合、無条件に「昇格可」とはしない — 全体昇格を認めるのは
+# 未実行が契約上明示的に not-applicable の場合のみ:
+#   (i) §15 経過措置(raw IR のない旧方式案件では GU1/GU6 は skip — built-in NA)
+#   (ii) 呼出側の明示宣言 --na "<対象>: <理由>"(理由必須・有効な NA は件数と理由つきで毎回表示)
+# 宣言なき skip・縮退は「昇格判定保留(宣言不足)」= exit 1(fail-closed — 不適合とは診断文で区別)。
+#
+# 検出力の限界(宣言 — ECO-045 フル較正掃引からの確定):
+#   (1) 合格が資格を与えるのは**実行済みゲートの範囲**のみ — 未実行ゲートを含む全体昇格までは
+#       自動的に証明しない(NA 宣言の妥当性は宣言者の責任)。
+#   (2) GU5 は trace 帳簿の存在検査 — selector が実装へ実際に解決するかは GU6+実機の担当。
+#   (3) trace-map は mappings 方言のみ対応(entries[] 等は方言不一致として診断 — 両方言対応は
+#       製品リポで実害が実測されるまで見送り・BomDD ECO-013/045)。
+#   (4) 対象台帳の個体(revision)は結果に刻印されない。
+#   (5) 常設 known-bad は GU4 の 2 腕(self-conformance C6a/b)のみ — GU1/2/3/5/6 の弁別力は
+#       建造時較正。GU6 の弁別力・実コーパス適用は unknown(BomDD ECO-045 掃引 receipt)。
 
 import argparse
 import json
@@ -85,7 +102,19 @@ def main():
     ap.add_argument("--rulings", default=None)
     ap.add_argument("--dictionary", default=None)
     ap.add_argument("--mock", default=None, help="HTML モック。指定時 GU6(id 揺れ)を実行")
+    ap.add_argument("--na", action="append", default=[], metavar="対象: 理由",
+                    help='未実行ゲート/縮退の not-applicable 宣言(例: --na "GU6: id 揺れは CI で別途検査")。理由必須')
     args = ap.parse_args()
+
+    # ECO-045: NA 宣言の解析(理由必須 — 空理由は入力エラー。沈黙する免除を作らない)
+    na_decl = {}
+    for raw_na in args.na:
+        key, _, reason = raw_na.partition(":")
+        key, reason = key.strip(), reason.strip()
+        if not key or not reason:
+            print(f"[input] --na は「対象: 理由」形式で理由必須です: {raw_na!r}")
+            sys.exit(2)
+        na_decl[key] = reason
 
     ui_dir = Path(args.ui_dir)
     paths = {
@@ -110,11 +139,13 @@ def main():
     trace_map = load_json(paths["trace-map"])
     raw_ir = load_json(paths["raw"]) if paths["raw"].exists() else None
     rulings_doc = load_yaml(paths["rulings"])
-    if paths["dictionary"].exists():
+    dict_missing = not paths["dictionary"].exists()
+    if not dict_missing:
         dictionary_doc = load_yaml(paths["dictionary"])
     else:
         dictionary_doc = {}
-        print(f"[warn] 辞書がありません({paths['dictionary']})。空辞書として検査します。")
+        # ECO-045: 0 件検査の vacuous PASS を廃止 — 辞書腕は SKIP として昇格判定へ伝播する
+        print(f"[warn] 辞書がありません({paths['dictionary']})。GU4 の辞書腕は SKIP(縮退)です。")
 
     rulings = rulings_doc.get("rulings") or []
     dict_entries = {}
@@ -226,21 +257,27 @@ def main():
             fail("GU4", f"{r.get('id')}: dictionary_entry '{entry_ref}' が辞書に存在しない")
 
     # --- GU5 追跡: ui-bom item が trace map 経由で HTML selector へ辿れるか ---
-    traced_ui_ids = set()
-    for m in trace_map.get("mappings") or []:
-        selector = m.get("htmlSelector") or m.get("fallbackSelector")
-        if m.get("uiId") and selector:
-            traced_ui_ids.add(m["uiId"])
+    # ECO-045(b-1): mappings 方言のみ対応 — 未対応方言は「対応がない」でなく方言不一致を診断する
+    if not (trace_map.get("mappings")) and trace_map.get("entries"):
+        fail("GU5", "trace map は entries[] 方言 — 本ゲートは mappings 方言のみ対応"
+                    "(宣言済み境界・BomDD ECO-013/045)。mappings 形へ変換するか、"
+                    "両方言対応の裁定(実害の実測が前提)を仰ぐ")
+    else:
+        traced_ui_ids = set()
+        for m in trace_map.get("mappings") or []:
+            selector = m.get("htmlSelector") or m.get("fallbackSelector")
+            if m.get("uiId") and selector:
+                traced_ui_ids.add(m["uiId"])
 
-    for item in ui_bom.get("items") or []:
-        item_no = item.get("bomItemNo")
-        item_type = item.get("itemType")
-        source_ids = set(item.get("sourceUiIds") or [])
-        if not source_ids & traced_ui_ids:
-            if item_type in TRACE_REQUIRED_TYPES:
-                fail("GU5", f"{item_no}({item_type}): trace map に HTML selector 付きの対応がない")
-            elif item_type == "screen":
-                warnings.append(f"[warn][GU5] {item_no}(screen): trace なし(screen は warning のみ)")
+        for item in ui_bom.get("items") or []:
+            item_no = item.get("bomItemNo")
+            item_type = item.get("itemType")
+            source_ids = set(item.get("sourceUiIds") or [])
+            if not source_ids & traced_ui_ids:
+                if item_type in TRACE_REQUIRED_TYPES:
+                    fail("GU5", f"{item_no}({item_type}): trace map に HTML selector 付きの対応がない")
+                elif item_type == "screen":
+                    warnings.append(f"[warn][GU5] {item_no}(screen): trace なし(screen は warning のみ)")
 
     # --- GU6 id 揺れ: --mock 指定時に ui-extract.py --verify で再抽出突合 ---
     g6_skipped = not args.mock
@@ -257,7 +294,7 @@ def main():
                 for l in lines[1:] or ["ui-extract.py --verify が失敗した"]:
                     fail("GU6", l.lstrip("- "))
 
-    # --- 出力 ---
+    # --- 出力(ECO-045: 実行済みゲートの合否と全体昇格判定を分離)---
     print(f"ui-cad-gate: {ui_dir}")
     for w in warnings:
         print(w)
@@ -270,23 +307,54 @@ def main():
         ("GU5", "追跡(raw trace)", False, ""),
         ("GU6", "id揺れ(stable id)", g6_skipped, "--mock 未指定"),
     ]
-    exit_code = 0
+    any_fail = False
+    executed = 0
     for gate, label, skipped, skip_reason in all_gates:
         msgs = failures.get(gate, [])
         if msgs:
-            exit_code = 1
+            any_fail = True
+            executed += 1
             print(f"[{gate}] FAIL {label} — {len(msgs)} 件")
             for m in msgs:
                 print(f"    - {m}")
         elif skipped:
             print(f"[{gate}] SKIP {label} — {skip_reason}")
+        elif gate == "GU4" and dict_missing:
+            executed += 1
+            print(f"[{gate}] PASS {label}(辞書腕: SKIP — 辞書なし・台帳腕のみ実行)")
         else:
+            executed += 1
             print(f"[{gate}] PASS {label}")
-    if exit_code == 0:
-        print("all gates passed — E-BOM/M-BOM 昇格可")
-    else:
-        print("gate failed — 昇格禁止(裁定・辞書・trace を補ってから再実行)")
-    sys.exit(exit_code)
+
+    # 昇格判定: 未実行・縮退の契約帰属を判定する
+    #   built-in NA(§15 経過措置)= raw 不在により GU1/GU6 が同時 skip する構成。
+    #   raw ありで mock なしの GU6 skip は §15 文言外 — 明示 --na が要る。
+    legacy_na = g1_skipped and g6_skipped
+    na_applied, undeclared = [], []
+    if legacy_na:
+        na_applied.append("GU1+GU6(§15 経過措置: raw IR のない旧方式)")
+    elif g6_skipped:
+        if "GU6" in na_decl:
+            na_applied.append(f"GU6({na_decl['GU6']})")
+        else:
+            undeclared.append("GU6(--mock 未指定 — raw はあるのに id 揺れを測っていない)")
+    if dict_missing:
+        if "dict" in na_decl:
+            na_applied.append(f"GU4 辞書腕({na_decl['dict']})")
+        else:
+            undeclared.append("GU4 辞書腕(辞書なし — 辞書由来の来歴検査が未実行)")
+
+    na_note = f"・NA {len(na_applied)} 件[{' / '.join(na_applied)}]" if na_applied else ""
+    if any_fail:
+        print(f"executed gates: 不合格あり — 昇格禁止(裁定・辞書・trace を補ってから再実行){na_note}")
+        sys.exit(1)
+    if undeclared:
+        print(f"executed gates passed({executed}/6)— **昇格判定保留(宣言不足・不適合ではない)**: "
+              f"{' / '.join(undeclared)} — 入力を供給して再実行するか、"
+              f"契約上 not-applicable なら --na \"<対象>: <理由>\" で宣言する{na_note}")
+        sys.exit(1)
+    print(f"all executed gates passed — E-BOM/M-BOM 昇格可(実行 {executed}/6{na_note})")
+    sys.exit(0)
 
 
 if __name__ == "__main__":

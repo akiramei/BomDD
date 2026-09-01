@@ -1685,3 +1685,42 @@ changes:
       18 行・削除 0・py_compile 両成立)。V3= PASS(全検査合格・C11 判定不変)。V4= PASS
       (CI run 33478208325・success・headSha 3a383e0 一致)。V5= PASS。較正 receipt
       (trigger ③・二軸)は order §4 — 「参照面の実効到達」は unknown(未実行)と正直判定。
+  - id: ECO-045
+    title: ui-cad-gate — 昇格判定の分離・NA 宣言様式・方言診断・限界宣言(フル掃引の是正)
+    date: 2026-09-01
+    origin: corrective
+    status: applied   # 2026-09-01 修正採択 6 点が gate ① を兼ねる → 製造完了= fixture 9/9。V2 後半〜V4 は push 後に確定
+    source: >
+      ui-cad-gate フル較正掃引(第 4 掃引・calibrate battery 凍結)の所見への user 修正採択
+      6 点(2026-09-01): (a) 実行済みゲートの合否と全体昇格判定を分離・未実行があれば無条件に
+      昇格可としない(全体昇格は契約上明示的に not-applicable の場合のみ)・辞書なし GU4 の
+      0 件検査 PASS 廃止(SKIP と PASS を同義にしない)(b) Q10 限界宣言 5 点の恒久記載
+      (合格の資格は実行済みゲートの範囲と明記)(c) b-1= mappings のみ対応を宣言し未対応方言は
+      方言不一致を診断(b-2 両方言対応は製品リポで実害実測まで見送り)・GU6 弁別力と実コーパス
+      適用の unknown は解消せず receipt の限界として維持。適用解釈 2 点(order gate ① 補記)=
+      ①NA の判定材料は §15 経過措置(built-in)+明示 --na 宣言(理由必須)の 2 経路 —
+      raw ありで mock なしの GU6 skip は §15 文言外につき宣言必須 ②宣言なき skip の帰結は
+      昇格判定保留・exit 1 側(fail-closed — exit 0 では消費側で昇格可と同義になり裁定 2 が
+      骨抜きになる)。掃引所見= capability 1(SKIP 非弁別の無条件昇格可・P1/P3 実測)・
+      boundary 1(entries[] 方言の誤 FAIL・P2 実測)・declaration 2・unknown 2。
+    order_ref: bomdd/60-change-order-eco-045.md
+    affected_refs: [method/tools/ui-cad-gate.py]
+    no_impact_prediction: "(製造前)diff は ui-cad-gate.py+台帳系のみ。GU1〜GU6 の検査ロジック(発火条件)は不変 — 変わるのは報告・昇格判定・NA 様式・GU5 の方言診断文。C6a/b 判定不変の予測。意図的挙動変更 2 点= 宣言なき skip 構成が exit 1(保留)へ / 辞書なし vacuous PASS 廃止。§15 経過措置構成(raw なし+mock なし)は built-in NA で従来どおり緑。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
+    diff_audit:
+      baseline: "9d8b8c1"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/tools/ui-cad-gate.py]
+    summary: >
+      (a) 出力を〈実行済みゲートの合否〉と〈全体昇格判定〉へ分離 — 失敗= 昇格禁止 / 宣言なき
+      skip・縮退= 昇格判定保留(宣言不足・不適合ではないと診断文で区別・exit 1)/ 全実行または
+      NA 宣言済み= 昇格可(NA の件数と理由を毎回表示 — 沈黙する免除を作らない)。--na
+      「対象: 理由」様式(理由必須・空は exit 2)。辞書なしは GU4 辞書腕の SKIP として伝播。
+      (b) 検出力の限界 5 点を docstring へ恒久記載(フル掃引からの確定 — 先書きでない)。
+      (c) trace-map に mappings が無く entries があれば GU5 は方言不一致を 1 件で名指し診断。
+      較正= fixture 9/9(F1 §15 built-in NA 昇格可 / F2 宣言なき GU6 skip 保留 / F3 --na 受理+
+      表示 / F4 空理由 exit 2 / F5 辞書なし保留 / F6 --na dict 受理 / F7 方言診断 / F8 NA 下
+      回帰 / F9 実欠陥は昇格禁止 — 保留との弁別)。正直記載= F8 は mock+ui-extract 連携を
+      要する真の全実行ではなく NA 宣言下の回帰(GU6 弁別力の unknown と同根・裁定 6 の維持)。
+    verification: >
+      (製造中間・push 前)V1= PASS(fixture 9/9 — 昇格禁止/保留/昇格可の三値が文言・exit・
+      理由で弁別)。V2 前半= C6a/b 判定不変・全検査は commit 前に実測。V3(CI)・V4(diff 窓)は
+      push 後に確定し accept で最終化。較正 receipt(二軸)は order §4。
