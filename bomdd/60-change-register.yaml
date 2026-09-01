@@ -1801,3 +1801,26 @@ changes:
       V3= PASS(CI run 33501536752・success・headSha 55c04bb 一致)。V4= PASS(窓は
       worklist.py+台帳系のみ)。較正 receipt(trigger ③・二軸)は order §4 —
       「宣言の実効到達」は unknown(未実行)と正直判定。
+  - id: ECO-048
+    title: 入口文書のドリフト是正 — AGENTS.md/CLAUDE.md 査定所見 A〜C
+    date: 2026-09-01
+    origin: corrective
+    status: in-progress
+    source: >
+      入口文書査定(user 依頼 2026-09-01: モデルバージョン依存・分量過多・内容の適切性)の
+      所見 3 件。A= 「ローカルに強制層はない」が ECO-046(pre-push hook + witness)で陳腐化
+      (両ファイル)。B= converge.md が主張する「AGENTS.md 経由の到達」の結線が AGENTS.md 側に
+      不在(ECO-020 と同型)。C= CLAUDE.md 変更管理節の規律 1 逐語再掲(正本二重化リスク)。
+      他 2 観点(モデル依存・分量)は所見なし。
+    order_ref: bomdd/60-change-order-eco-048.md
+    affected_refs: [AGENTS.md, CLAUDE.md]
+    no_impact_prediction: "(製造前)diff は AGENTS.md・CLAUDE.md+台帳系のみ。self-conformance に両ファイル本文の検査は無く全検査の判定不変。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
+    diff_audit:
+      baseline: "fc41ee2"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [AGENTS.md, CLAUDE.md]
+    summary: >
+      A= 限界節/ECO-024 節末尾を現状へ更新(機械強制は規律 4 の push 経路のみ・うっかり型
+      まで・branch のみ・意図的回避は信頼境界外・最終層 CI — hook 実文からの転記で逆方向の
+      過大主張を作らない)。B= AGENTS.md へ作業スキル節+表 1 行(preflight/converge/calibrate
+      の正本パスと契約適用宣言のみ・契約本文は複製しない)。C= 逐語再掲を削除
+      (--dotnet・/lesson-promote は保持)。

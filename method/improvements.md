@@ -5503,6 +5503,11 @@ bomdd/reports/ 4 本。③固有の教訓(REJECT 意味論・報告様式・集�
   初適用で「クラス不足」の実データ 1 件 — ただし行・クラス追加は欠落事故の実測を要件とする
   ため(採用条件 1)、1 件の不便では起票しない(欠落による実害が出たら出典になる)
   evidence: ECO-042 order §1(d)・§3 / 本観測の receipt= 掃引開始時の提示メッセージ+本節
+  **第 2 回観測(2026-09-01・ECO-048)**: 入口文書ドリフト是正(既存状態依存の是正タスク=
+  bug-fix 類)の開始時に自発適用 — 全行 confirmed・**PROCEED**・override 0・receipt あり
+  (**起動 2/2**)。検出 0 は「状態が全て同一セッション内で実測済み」の帰結であり、
+  検出力(missing/stale の捕捉能力)の証拠ではない
+  evidence: ECO-048 order /preflight receipt
 - [watch 1/3] OBS-20260901-04 — **検査器の新設・変更直後(calibrate trigger ③)の非起動は
   機械 classifier で守らず、trigger ① gate(verified 昇格時の receipt 検査)を最後の防波堤に
   する** — trigger ③ の機械判定は「何が検査器か」の分類問題を含み、先回りの classifier は

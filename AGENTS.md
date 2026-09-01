@@ -34,11 +34,21 @@
 6. **CI 未実行・到達不能・権限不足を成功として扱わない。** これらは `UNKNOWN` であって
    `PASS` ではない(例外的に先へ進める場合は、その旨を ECO かレジスタへ記録して残す)。
 
+## 作業スキル(ハーネス非依存の契約)
+
+`/preflight`(開始条件再認証)・`/converge`(設計収束)・`/calibrate`(証拠資格査定)の正本は
+[method/templates/product-profile/skills/](method/templates/product-profile/skills/)
+(Claude 用写し: `.claude/skills/`)。各ファイル冒頭の**自発起動契約は本リポで作業する
+全ハーネスに適用される** — Claude 以外のハーネスもここから正本を読む。散文契約だけでは
+起動が保証されない(実測あり)ため、非起動の一部は機械ゲートが捕捉する
+(C16= order の converge receipt / C17= verified ECO の calibrate receipt)。
+
 ## 正本の所在
 
 | 対象 | 正本 |
 |---|---|
 | 方法論の内容 | [method/](method/) — playbook・checklist・control-plan・onboarding ほか |
+| 作業スキル(自発起動契約) | [method/templates/product-profile/skills/](method/templates/product-profile/skills/)(写し: `.claude/skills/`) |
 | 実証データ | [FINDINGS.md](FINDINGS.md) |
 | 改善の追跡(EXP/OBS) | [method/improvements.md](method/improvements.md)(一覧は `python method/tools/worklist.py`) |
 | 変更状態 | [bomdd/60-change-register.yaml](bomdd/60-change-register.yaml) + 各 ECO order |
@@ -47,6 +57,9 @@
 
 ## 限界(この文書が担保しないこと)
 
-本ファイルは**規範と入口**を与えるが、**規律を機械的に強制しない**。3・4 の違反は
-現状ローカルでは自動検出されず、押し戻すのは CI(第 2 層)である。強制層の要否は
-`method/improvements.md` の追跡項目で判断する。
+本ファイルは**規範と入口**を与えるが、全規律を機械的に強制するわけではない。
+規律 4 の **push 経路のみ** pre-push hook + PASS witness
+([bomdd/hooks/pre-push](bomdd/hooks/pre-push)・ECO-046・設置検収= C18)が機械強制する —
+到達目標は「うっかり型の素通り遮断」までで、対象は branch(`refs/heads/*`)のみ。
+witness/hook の除去(意図的回避)は信頼境界外。規律 3 のチェーン自体と commit 段階は
+明文化のまま自動検出されない。押し戻しの最終層は従来どおり CI(第 2 層)である。

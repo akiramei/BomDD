@@ -4,10 +4,9 @@
 > 本ファイルには **Claude 固有の補足**(ハーネス依存の運用・実測の背景)だけを置く。
 > 方法論の一般則は書かない — 一般則は `method/bomdd-playbook-v1.md` へ。
 
-## 変更管理(自己適用)— AGENTS.md 規律 1 の補足
+## 変更管理(自己適用)— AGENTS.md 規律 1/2 の補足
 
-- ハーネス(`method/tools/` `method/templates/` `.github/`)の変更は
-  **起票なしに行わない** — `bomdd/60-change-register.yaml` + `bomdd/60-change-order-eco-NNN.md`。
+- 起票規律の正本は AGENTS.md 規律 1(ここに再掲しない)。
 - 検証は `python method/tools/self-conformance.py`(`--dotnet` で C9 も)。
 - 還元(教訓の method 反映)は `/lesson-promote` が入口 — 記帳と本文織り込みは二段分離
   (本文改訂はレビュー承認後)。
@@ -34,5 +33,6 @@ AGENTS.md 規律 3・4 の由来。検査と commit/push を**条件で結ばず
 不適合のまま push された(CI が赤・潜伏 1 コミット/約 9 分・同一 ECO 内で是正)。
 詳細は [ECO-024 order](bomdd/60-change-order-eco-024.md)「製造中の手順逸脱」1。
 
-**この規律は明文化であって強制ではない** — 現状ローカルに強制層はなく、押し戻すのは CI である
-(AGENTS.md「限界」節)。
+**push 経路は ECO-046 で機械化された** — pre-push hook + PASS witness(設置検収= C18)が
+観測前 push を遮断する(うっかり型まで・branch のみ)。commit 段階と規律 3 のチェーン自体は
+明文化のまま強制層がなく、押し戻しの最終層は CI である(AGENTS.md「限界」節)。
