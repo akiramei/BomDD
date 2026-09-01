@@ -1832,3 +1832,29 @@ changes:
       V3= PASS(CI run 33506881548・success・headSha cd6ab2f 一致)。V4= PASS(窓は
       AGENTS.md・CLAUDE.md+台帳系のみ)。較正 receipt(二軸)は order §4 —
       「実効到達」は unknown(未実行)と正直判定。
+  - id: ECO-049
+    title: C17 の use/mention 弁別 — 第 6 掃引(calibrate 自己較正)からの確定
+    date: 2026-09-01
+    origin: corrective
+    status: in-progress
+    source: >
+      calibrate 自身を題材とした第 6 掃引(battery 凍結)。対照つきプローブで C17 の
+      use/mention 非弁別を実測 — フェンス内の例示・平文の言及・「receipt は省略した」という
+      否定文がいずれも verified ゲートを通過(対照 R1/R2 は正しく遮断)。免除経路にはフェンス
+      防御(F5)があるのに receipt 経路は生テキストの部分文字列検索という非対称。型= 失敗型表
+      ⑧ use/mention の混同(出典 ECO-033/034)。実害 0(適用 8 件は全て実見出しを保持)。
+      本欠陥は C17 を新設した ECO-043 の較正 receipt で検出されておらず、第 6 掃引で得た
+      偽陰性の実測 1 件(capability=0 は健全の証拠ではないことの実証)。案 B(skill 本文の
+      解凍)・案 C(問うた battery 行の記録)は見送り。
+    order_ref: bomdd/60-change-order-eco-049.md
+    affected_refs: [method/tools/self-conformance.py]
+    no_impact_prediction: "(製造前)diff は self-conformance.py の C17 節+台帳系。C17 適用 8 件は全て通過を維持(見出し正規表現で製造前に 8/8 実測)。既存 fixture F1〜F6 の期待値は不変。他検査の判定は不変。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
+    diff_audit:
+      baseline: "5f2c7da"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/tools/self-conformance.py]
+    summary: >
+      ①receipt 検出をフェンス除去後へ移動(免除経路と前処理を揃え非対称を解消)②receipt を
+      見出しとして要求(宣言済み限界 (1)「構造的存在」の厳密化 — 中身の質は依然非測定)
+      ③known-bad/known-good 腕を fixture へ追加(F7 フェンス内見出し=FAIL / F8 平文言及=FAIL /
+      F9 見出しあり=PASS — 修理に reference 較正を付ける)④FAIL メッセージを行動可能化
+      ⑤限界宣言 (1) を改訂。採らない= 中身の実質検査(案 C)・trigger ②③④ の被覆。

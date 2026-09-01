@@ -1234,7 +1234,10 @@ def c16_converge_receipt() -> None:
 # repayment 済みの 2 件が最初の適用個体)。
 #
 # 検出力の限界(宣言 — 実施した検査が測っていない次元):
-#   (1) 較正 receipt の**構造的存在**しか測らない(battery を本当に当てたかは測らない)。
+#   (1) 較正 receipt の「**見出しとしての構造的存在**」しか測らない(見出しがあれば中身が空でも
+#       PASS — battery を本当に当てたかは測らない)。ECO-049 で use/mention を弁別するよう
+#       厳密化した(フェンス内の例示・平文の言及・「receipt は省略した」という否定文は receipt と
+#       数えない)— 型⑧の実測に基づく。**中身の実質検査は依然として被覆外**。
 #   (2) trigger ②(緑の引用)・③(検査器新設 — OBS-20260901-04 watch)・④(インシデント後)は
 #       被覆外 — 本 gate は trigger ① の**最後の防波堤**(gate 裁定 5)。
 #   (3) artifact に落ちない査定は被覆外。
@@ -1242,7 +1245,10 @@ def c16_converge_receipt() -> None:
 #       受入時のローカル実測のみ(環境前提の宣言= 履歴依存を常設検査に置かない)。
 
 C17_SCOPE_MIN = 41  # ECO-041 以降(A-1)
-C17_RECEIPT_RE = re.compile(r"(較正\s*receipt|calibrate\s*receipt)", re.I)
+# ECO-049: 部分文字列ではなく**見出し行**を要求する。生テキストへの substring 検索は
+# use/mention を弁別せず、「較正 receipt は省略した」という否定文まで通過させていた(型⑧)。
+C17_RECEIPT_RE = re.compile(r"^[ \t]{0,3}#{2,6}[^\n]*(較正\s*receipt|calibrate\s*receipt)",
+                            re.I | re.M)
 C17_DECL_RE = re.compile(
     r"<!--\s*calibrate:\s*not-required\s+reason:\s*(?P<reason>[^>]*?)\s+decided-by:\s*(?P<by>[^>]*?)\s*-->")
 _C17_FENCE_RE = re.compile(r"```.*?```", re.S)
@@ -1253,16 +1259,20 @@ def c17_verdict(status: str, text: str):
     (reason+decided-by の 2 点必須 — ECO-034 様式。過剰免除= fail-open を作らない)。"""
     if not str(status).strip().startswith("verified"):
         return True, "", None
-    if C17_RECEIPT_RE.search(text):
-        return True, "", None
+    # ECO-049: receipt 検出も免除検出と同じくフェンス除去後に行う(前処理の非対称を解消 —
+    # フェンス内の様式例が receipt として通過していた)。
     unfenced = _C17_FENCE_RE.sub("", text)
+    if C17_RECEIPT_RE.search(unfenced):
+        return True, "", None
     m = C17_DECL_RE.search(unfenced)
     if m and m.group("reason").strip() and m.group("by").strip():
         return True, "", m.group("by").strip()
     if m:
         miss = [k for k in ("reason", "by") if not m.group(k).strip()]
         return False, f"免除宣言の根拠欠落({miss})", None
-    return False, "verified だが較正 receipt がない(calibrate trigger ① 非起動)", None
+    return False, ("verified だが較正 receipt の**見出し**がない(calibrate trigger ① 非起動)"
+                   " — 平文の言及・フェンス内の様式例は receipt ではない。"
+                   "`### 較正 receipt` 節を書くか、根拠つき免除を宣言する"), None
 
 
 _C17_FIXTURES = [
@@ -1278,6 +1288,14 @@ _C17_FIXTURES = [
      "verified", "```\n<!-- calibrate: not-required reason: x decided-by: y -->\n```\n"),
     ("F6", False, "空の reason は却下(欄の存在でなく中身)",
      "verified", "<!-- calibrate: not-required reason:  decided-by: maintainer -->\n"),
+    # ECO-049 追加 — use/mention 弁別の known-bad / known-good 腕(Q2: 修理に reference 較正を
+    # 付ける。ラベルの根拠= 第 6 掃引の対照つきプローブ実測 P1/P2 と受入 8 件の実形式)。
+    ("F7", False, "フェンス内の様式例は receipt ではない(known-bad)",
+     "verified", "```\n### 較正 receipt(様式の例)\n- 査定した主張と判定…\n```\n"),
+    ("F8", False, "平文の言及・否定文は receipt ではない(known-bad)",
+     "verified", "## 受入\n- V1 PASS\n\n較正 receipt は今回省略した。\n"),
+    ("F9", True, "見出しとして存在する receipt(known-good)",
+     "verified", "### 較正 receipt(trigger ①)\n- 査定した主張と判定…\n"),
 ]
 
 
