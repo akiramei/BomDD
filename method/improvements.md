@@ -5465,3 +5465,33 @@ bomdd/reports/ 4 本。③固有の教訓(REJECT 意味論・報告様式・集�
   source: ECO-042(2026-09-01 レビュー裁定 5)
   origin: internal(自己適用)
   evidence: EXP-20260831-04 第 4 回観測 / ECO-042 order 追記(debt repayment)
+
+## 2026-09-01 BomDD 設計判断の記帳 — Instrument Registry は今作らない(実装トリガーの watch 化)
+
+外部議論(/converge 適用済み・round 4→0→0 = 2 周連続ゼロで収束)+当方評価 2026-09-01。
+結論= 検査器台帳(Instrument Registry)・qualification lifecycle は**今は作らない** —
+実測済みの故障は calibrate の非起動であり(C17= ECO-043 で処置済み)、較正済み個体の
+識別失敗ではない。将来必要になる場合の構造だけを固定: **instrument identity +
+immutable calibration receipt + derived qualification index**(mutable 台帳を正本にしない —
+帳簿代用の防止)。index の導出元は新設せず、**register+order 群からの read-only projection**
+を第一候補とする(検査器変更はすべて ECO で較正 receipt・revision〔diff_audit〕を既に持つ=
+de-facto qualification history・worklist.py 同型)。instrument 単位= **独立した品質判断能力を
+持つ測定系**(test suite/validator/CI gate/guard-rule family/AI judge+protocol)— 個々の
+テストケースは fixture/reference 側(loops/expected-results.yaml の既存実践と一致)。
+qualification identity の構成入力(code/oracle/fixture/runner/依存)は instrument 種別依存に
+つき一般化しない(実例待ち — 実測根拠: C9 はコード不変でも SDK ドリフトで signature の意味が
+変わりうる〔ECO-039〕/ 宣言 fixture の失効は test hash では捕まらない〔TimetableAdv
+ECO-037→038〕)。
+
+期待する効果と観測:
+
+- [watch 1/3] OBS-20260901-05 — **qualification index の実装トリガー**: 「前回の較正が現在の
+  instrument 個体へ有効か判断できず、工程が困った」という実測が 1 件出たら、qualification
+  index(既存 register/order 群からの導出 projection・/calibrate 非所有・immutable receipt が
+  正本)の設計 ECO を起こす。**それまでは作らない**。関連の既存部分実装= ECO-040 の環境刻印
+  (identity の runner・依存成分)/ C16 の qualified→suspect→qualified 一周(ECO-033→034 —
+  registry なしで ECO 台帳が担った実例)。本 watch 自体が「作らない判断を認識依存で運ばない」
+  ための器(非起動系の故障がすべて人間の質問で発見されてきた実測への処方)
+  source: 外部議論 2026-09-01(converge 済み)+当方評価
+  origin: internal(自己適用)
+  evidence: 本節
