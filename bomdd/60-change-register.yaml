@@ -1771,3 +1771,30 @@ changes:
       同送タグの偽遮断)を本番 push 前に捕捉**し同弧内で是正(calibrate Q2 の known-good 対
       設計の実利を新設計器自身が実証)。限界= うっかり型の遮断まで・タグ単独 push 被覆外・
       再演率の低下は EXP-20260727-13 系列で測る。詳細は order §4〜§6。
+  - id: ECO-047
+    title: worklist.py の検出力限界宣言 — 第 5 掃引からの確定(案 a)
+    date: 2026-09-01
+    origin: corrective
+    status: applied   # 2026-09-01 user 裁定「案 a を採択して製造まで進めて」が gate ① を兼ねる → 製造完了。V2 後半〜V4 は push 後に確定
+    source: >
+      worklist.py フル較正掃引(第 5 掃引・EXP-20260831-04 第 6 回観測・battery 凍結)の
+      起票範囲裁定。所見= capability 0(--selftest が W1〜W6 全種+PROMOTION DUE+除外領域を
+      恒久被覆・DUE 実運用 2 件で接地)/ boundary 2(連番 2 桁・watch N 単桁の縮退境界)/
+      declaration 2(縮退診断文の真因非名指し・Q10 様式未適用)。案 a= 限界宣言の様式化のみ
+      採択・案 b(診断文精緻化・桁上限拡張)は実害未実測につき見送り(§8.5 整合)。
+    order_ref: bomdd/60-change-order-eco-047.md
+    affected_refs: [method/tools/worklist.py]
+    no_impact_prediction: "(製造前)diff は worklist.py の docstring 追記(挿入のみ)+台帳系。解析ロジック・selftest・出力は不変(--selftest と全検査の判定不変で確認)。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
+    diff_audit:
+      baseline: "bb4a239"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/tools/worklist.py]
+    summary: >
+      docstring へ「検出力の限界」4 項を追記(掃引実測からの転記のみ・新規限界の創作なし —
+      ECO-045 と同じ「掃引後確定」の運び): ①W1〜W6 は形式整合のみ・意味整合は対象外
+      (structured 片側= EXP-20260830-04)②縮退境界= 連番 2 桁・N 単桁(警告つき非計上・
+      真因非名指し)③除外領域(fence/blockquote/コメント)の実記帳は沈黙(宣言済み境界の
+      再掲)④常設対照の所在(--selftest)と DUE の実運用接地。
+    verification: >
+      (製造中間・push 前)V1= PASS(全 4 項が第 6 回観測・境界プローブ・EXP-20260830-04 へ
+      トレース可能)。V2 前半・V3・V4 は push 後に確定し accept で最終化。較正 receipt
+      (trigger ③・二軸)は order §4 — 「宣言の実効到達」は unknown(未実行)と正直判定。
