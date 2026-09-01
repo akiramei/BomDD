@@ -1940,3 +1940,26 @@ changes:
       self-conformance.py+台帳系のみ)。較正 receipt(trigger ③+④・二軸・行別 asked/NA つき)は
       order §4 — 「本修理は当方設計の変種以外にも効く」は unknown(未実行)と正直判定し、
       第 2 回盲検試験まで主張しない(ECO-049 の過大判定を繰り返さない)。
+  - id: ECO-052
+    title: 盲検感度試験の恒久化 — 陽性対照台帳+receipt 行別記録の要件化(案 E)
+    date: 2026-09-02
+    origin: corrective
+    status: in-progress
+    source: >
+      盲検感度試験 第 1 回(bomdd/reports/calibrate-blind-sensitivity-01.md)— 修理 ECO を根拠と
+      する独立ラベル・別査定者・rubric 事前封印で感度 3/3・偽陽性 0 を実測。独立検査官が当方の
+      6 掃引で未発火の Q5 を 3 計器で発火させ、限界④(receipt が問うた行を記録しない)の直接実証を
+      得た。試験の設計は scratchpad にしか残っておらず再現可能な形でリポにない。
+    order_ref: bomdd/60-change-order-eco-052.md
+    affected_refs: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/SKILL.md, bomdd/calibrate-known-bad.yaml]
+    no_impact_prediction: "(製造前)diff は calibrate 正本+写し・known-bad 台帳(新規)+台帳系。skill は節の追加と限界 2 項の改訂のみで battery/手順/判定様式は不変(dry-run 確認)。C13 判定不変(新規リンクなし)。C1 は新規 yaml を走査するため strict parse 可能が条件。正本と写しの差分は既知 2 点のまま"
+    diff_audit:
+      baseline: "5646517"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/SKILL.md, bomdd/calibrate-known-bad.yaml]
+    summary: >
+      ①bomdd/calibrate-known-bad.yaml 新設(KB-01 C9 / KB-02 ui-cad / KB-03 C17 — 修理前後
+      revision・欠陥・失敗型・修理 ECO・検出判定 rubric・第 1 回結果)②calibrate.md 正本+写し:
+      較正 receipt へ 4 項目目「battery 行別記録 asked/NA」・「陽性対照(掃引ごとの known-bad 腕)」
+      節の新設・限界②③の改訂(部分解消の範囲= 単一ベンダー・N=3 を明記)③機械検査には組み込まない
+      (履歴依存は shallow CI で測定不能 — ECO-043 限界 (4))。receipt 行別記録の受理側要求は
+      ECO-051 の C17 が先行実装済み(順序の逆転を正直記載)。battery Q1〜Q11 は不変。

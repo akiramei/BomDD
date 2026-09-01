@@ -1,0 +1,47 @@
+# calibrate の常設陽性対照 — known-bad 台帳(ECO-052・盲検感度試験の恒久化)
+#
+# 目的: /calibrate の掃引に「既知の欠陥を持つ計器」の対照腕を常設し、「所見なし」を「健全」と
+# 誤読しないための reference を提供する(calibrate.md 限界②③の部分解消)。
+# ラベルの根拠: 各欠陥は修理 ECO(fixture・CI 緑)で確定しており、査定者の判定から独立(Q2)。
+# 使い方: 掃引の設計時に本台帳から 1 件以上を選び、修理前 revision を検体として battery を当てる
+# (可能なら別査定者へ盲検で渡し、検出判定 rubric を結果受領前に封印する)。
+# 運用規則の正本: method/templates/product-profile/skills/calibrate.md「陽性対照」節。
+#
+# 限界: 本台帳は歴史 revision に依存するため CI(shallow clone)では実体を確認できない —
+# 機械検査には組み込まない(ECO-043 限界 (4) と同じ整理)。腐敗の検出は掃引時のローカル実測。
+
+version: 1
+protocol_ref: bomdd/reports/calibrate-blind-sensitivity-01.md  # 第 1 回の設計・採点・限界
+specimens:
+  - id: KB-01
+    instrument: C9(self-conformance.py)
+    defect: signature が xunit 定型文の汎用 substring で失敗を同定・受理側の known-bad 較正なし
+    failure_type: 表A ① 弁別力と被覆の混同
+    pre_fix_rev: a201226
+    post_fix_rev: 4ddc9c3
+    fixed_by: ECO-039
+    detection_rubric: >
+      signature の弁別力不足(汎用 substring)または受理側の known-bad 較正不在を、計器欠陥
+      または条件付き適格の理由として名指す
+    blind_result: 第 1 回= 検出(部分 — rubric 第 2 項のみ・検体 S3)
+  - id: KB-02
+    instrument: ui-cad-gate.py
+    defect: 未実行ゲート(SKIP)を PASS と同値に扱い全体の昇格可を出す
+    failure_type: 表A ④ 測定不能の合格化
+    pre_fix_rev: 9d8b8c1
+    post_fix_rev: 17b3182
+    fixed_by: ECO-045
+    detection_rubric: >
+      未実行ゲート(SKIP/未評価)を PASS と同値に扱い、全体の昇格可を出しうることを名指す
+    blind_result: 第 1 回= 検出(検体 S6)
+  - id: KB-03
+    instrument: C17(self-conformance.py)
+    defect: receipt 検出が平文の言及・フェンス内の例示・否定文を receipt として通す(use/mention)
+    failure_type: 表A ⑧ use/mention の混同
+    pre_fix_rev: 5f2c7da
+    post_fix_rev: c691fa2   # ECO-049 — 盲検試験で修理不完全と判明・ECO-051 で完全化
+    fixed_by: ECO-049, ECO-051
+    detection_rubric: >
+      receipt 検出が平文の言及・フェンス内の例示・否定文を receipt として通す(use/mention
+      非弁別)ことを名指す
+    blind_result: 第 1 回= 検出(検体 S5)・post 腕 S4 が残存 6 変種を検出(修理不完全の実測)
