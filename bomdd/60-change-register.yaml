@@ -1775,7 +1775,7 @@ changes:
     title: worklist.py の検出力限界宣言 — 第 5 掃引からの確定(案 a)
     date: 2026-09-01
     origin: corrective
-    status: applied   # 2026-09-01 user 裁定「案 a を採択して製造まで進めて」が gate ① を兼ねる → 製造完了。V2 後半〜V4 は push 後に確定
+    status: verified   # 2026-09-01 受入= V1(転記のみ・全項トレース可)・V2(挿入のみ・--selftest PASS・全検査緑)・V3(CI run 33501536752 success @55c04bb)・V4(窓は worklist.py+台帳系のみ)
     source: >
       worklist.py フル較正掃引(第 5 掃引・EXP-20260831-04 第 6 回観測・battery 凍結)の
       起票範囲裁定。所見= capability 0(--selftest が W1〜W6 全種+PROMOTION DUE+除外領域を
@@ -1787,6 +1787,7 @@ changes:
     no_impact_prediction: "(製造前)diff は worklist.py の docstring 追記(挿入のみ)+台帳系。解析ロジック・selftest・出力は不変(--selftest と全検査の判定不変で確認)。C16 は本 order を required と判定する見込み — receipt 埋め込み済み"
     diff_audit:
       baseline: "bb4a239"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "55c04bb"      # diff監査済み: 窓内は worklist.py+台帳系のみ・予測的中
       allowed_paths: [method/tools/worklist.py]
     summary: >
       docstring へ「検出力の限界」4 項を追記(掃引実測からの転記のみ・新規限界の創作なし —
@@ -1795,6 +1796,8 @@ changes:
       真因非名指し)③除外領域(fence/blockquote/コメント)の実記帳は沈黙(宣言済み境界の
       再掲)④常設対照の所在(--selftest)と DUE の実運用接地。
     verification: >
-      (製造中間・push 前)V1= PASS(全 4 項が第 6 回観測・境界プローブ・EXP-20260830-04 へ
-      トレース可能)。V2 前半・V3・V4 は push 後に確定し accept で最終化。較正 receipt
-      (trigger ③・二軸)は order §4 — 「宣言の実効到達」は unknown(未実行)と正直判定。
+      V1= PASS(全 4 項が第 6 回観測・境界プローブ・EXP-20260830-04 へトレース可能・
+      新規限界の創作なし)。V2= PASS(挿入のみ・--selftest PASS・self-conformance 全検査緑)。
+      V3= PASS(CI run 33501536752・success・headSha 55c04bb 一致)。V4= PASS(窓は
+      worklist.py+台帳系のみ)。較正 receipt(trigger ③・二軸)は order §4 —
+      「宣言の実効到達」は unknown(未実行)と正直判定。
