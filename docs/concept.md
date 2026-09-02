@@ -1,6 +1,6 @@
 # BomDD 構想の全体像 (concept)
 
-> このドキュメントは、以前 README が「セッションメモリ参照」としていた**構想の全体像**を、外部読者だけで完結して読めるよう公開ドキュメント化したものである。実証記録は [WHITEPAPER.md](../WHITEPAPER.md) / [FINDINGS.md](../FINDINGS.md)、正規手法は [method/bomdd-method-v1.md](../method/bomdd-method-v1.md)、用語の固定は [terminology.md](terminology.md) を参照。
+> このドキュメントは、以前 README が「セッションメモリ参照」としていた**構想の全体像**を、外部読者だけで完結して読めるよう公開ドキュメント化したものである。実証記録は [WHITEPAPER.md](../WHITEPAPER.md) / [FINDINGS.md](../FINDINGS.md)、現行の方法論の正本は [method/bomdd-playbook-v1.md](../method/bomdd-playbook-v1.md)(v1 時点の凍結スナップショットは [method/bomdd-method-v1.md](../method/bomdd-method-v1.md))、用語の固定は [terminology.md](terminology.md) を参照。
 
 ## 1. これは何か
 
@@ -69,6 +69,6 @@ BomDD の測定器は「ずる」である。AI が BOM/工程から導けず、
 3. [WHITEPAPER.md](../WHITEPAPER.md)(公開版・強い主張/未検証の分離)
 4. [FINDINGS.md](../FINDINGS.md)(7 ループの詳細記録・ずる台帳 12 件)
 5. [method/bomdd-playbook-v1.md](../method/bomdd-playbook-v1.md)(フォワード・モードの実践手順 — 実際に回すならここ。§9 に裁定・統制の配置原則)
-6. [method/](../method/)(正規手法・Control Plan・K-BOM・S-BOM テンプレート・ずる分類・onboarding)
+6. [method/](../method/)(Control Plan・K-BOM・S-BOM テンプレート・ずる分類・onboarding。method-v1 は v1 時点の凍結版)
 7. [loops/](../loops/) / [loops/metrics.csv](../loops/metrics.csv)(各ループの生成物と測定値)
 8. 本リポで作業する場合は [AGENTS.md](../AGENTS.md)(作業規律 6 項目・正本の所在)

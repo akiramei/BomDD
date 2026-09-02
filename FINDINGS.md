@@ -120,7 +120,7 @@
 
 ## 5. 到達点と「研究の外周」(将来課題)
 **中核は閉じた**: 入口(リバース, Loop7)→ E-BOM(設計)→ M-BOM+工程(製造)→ S-BOM(保守)が一周。ずる12件すべてに手法的対策。
-正規方法論は [method/bomdd-method-v1.md]、外部公開版は [WHITEPAPER.md](WHITEPAPER.md)(強い主張/未検証の分離を含む)。
+v1 時点の方法論は [method/bomdd-method-v1.md](2026-09-02 に凍結スナップショットへ格下げ — 現行の正本は [method/bomdd-playbook-v1.md](method/bomdd-playbook-v1.md))、外部公開版は [WHITEPAPER.md](WHITEPAPER.md)(強い主張/未検証の分離を含む)。
 
 残るのは構想の外周(BomDD v2 research program):
 - **別題材での再現性**(最優先): Web/分散/組込・リアルタイムで核/表面法則が再現するか。

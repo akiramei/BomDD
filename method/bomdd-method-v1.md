@@ -1,6 +1,12 @@
-# BomDD Method v1 — ソフトウェア工業化の方法(薄い正規版)
+# BomDD Method v1 — ソフトウェア工業化の方法(v1 実証時点の凍結スナップショット)
 
-MoviePad 再実装の**7ループ**([../FINDINGS.md](../FINDINGS.md))で実証した規則だけを束ねた、最小の正規方法論。
+> **⚠️ 本書は v1 実証時点(MoviePad 7 ループ+v1.1〜v1.3 追補・最終改訂 2026-06-23)の方法論スナップショットであり、現行規範ではない。**
+> 現在の正本(canonical operational method)は [bomdd-playbook-v1.md](bomdd-playbook-v1.md) に一本化されている
+> (裁定 2026-09-02: 二重正本の解消 — 還元経路〔/lesson-promote〕は playbook にのみ接続されており、本書は 2026-07 以降の
+> 還元を一度も受けていない)。本書は playbook の**由来・参考**として凍結保存する。本書と playbook が食い違う場合は playbook が正。
+> 本書は改訂しない(歴史的記録) — 規則の追加・修正は playbook へ。
+
+MoviePad 再実装の**7ループ**([../FINDINGS.md](../FINDINGS.md))で実証した規則だけを束ねた、v1 時点の最小方法論。
 各規則に**根拠(ループ番号)**を付す。詳細な物語は FINDINGS、公開版は [../WHITEPAPER.md](../WHITEPAPER.md)、運用表は method/ 各ファイル。
 > **v1.1 addendum (v2 Web/API)** — 本書 §0–§7 の規則は **MoviePad 7ループ(v1)**で実証したもの。§5「受入の2層分離」と §6「差分帰属の3分類」は、**v2 Web/API(公開リポジトリ [BomDD-WebApi-Sample](https://github.com/akiramei/BomDD-WebApi-Sample)、webapi-01〜02)で追加された v1.1 規律**であり、本文中で「(v1.1, webapi-02)」と明示する。読者は v1(MoviePad)と v1.1(Web/API 追補)を区別されたい。根拠ループは `webapi-*`。
 > **v1.2 addendum (v2 分散Saga, N=3)** — 3題材目 [BomDD-DistributedSaga-Sample](https://github.com/akiramei/BomDD-DistributedSaga-Sample)(非同期イベント駆動、saga-01〜02)で2つの規律を追加。**(a) 観測契約**: HTTP のようなワイヤ境界が無い in-process 題材では、内部 C# 名に結合しない**観測契約**(固定シナリオを流し正規化イベントログ/dispatch trace を emit する I/F)を設計者側に置き、それで黒箱 2-way diff する。**(b) 検査器側の L0 回避**: 「オラクルは原版/慣習の付随表現(JSON 形状・キー綴り)でなく**契約セマンティクス**を見る」(§A の L0 過剰結合回避)は製造品だけでなく**検査器・観測契約の設計自身**に課す——saga で2度再発し補正した(events.json map/array、dispatch キー snake/camel)。C2(共有暗黙知)は製品だけでなく測定ハーネスの表現にも現れる。根拠ループは `saga-*`。

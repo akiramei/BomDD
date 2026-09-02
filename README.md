@@ -13,7 +13,7 @@ BomDD の核は BOM 概念そのものではなく、**隔離 AI 工場、固定
 
 📕 **公開版ホワイトペーパー: [WHITEPAPER.md](WHITEPAPER.md)** — 「BOM-Driven Development: AIをソフトウェア製造装置とみなす工業化手法の実証研究」(7ループ・10章・強い主張/未検証の分離)。
 📄 **詳細総括は [FINDINGS.md](FINDINGS.md)** — 7ループの実験記録・ずる台帳12件・三層BOM構想へのフィードバック。
-📘 **正規の方法論は [method/bomdd-method-v1.md](method/bomdd-method-v1.md)** — 実証済みの規則だけを束ねた薄い手順(E/M-BOM・K-BOM・Control Plan・FMEA・マルチファクトリ・受入の梯子・品質二軸)。
+📘 **現行の方法論の正本は [method/bomdd-playbook-v1.md](method/bomdd-playbook-v1.md) に一本化**(2026-09-02 裁定)。[method/bomdd-method-v1.md](method/bomdd-method-v1.md) は v1 実証時点(MoviePad 7 ループ)の**凍結スナップショット**で、E/M-BOM・K-BOM・Control Plan・FMEA・マルチファクトリ・受入の梯子・品質二軸の由来を示す参考資料。現行規範ではない。
 🔬 **v2 — 別ドメインでも再現済み(N=3)**: 題材は MoviePad だけではない。**Web/API**(会議室予約)で BOM 補正により原版との差分が **2→3→0** に収束・多工場で **0/1/3**。**分散Saga**(非同期イベント駆動)で多工場(opus/sonnet/haiku)の**挙動契約が 0/0/0**=仕様面は全ティアへ転移し未規定面のみ分散。証拠リポ [BomDD-WebApi-Sample](https://github.com/akiramei/BomDD-WebApi-Sample)・[BomDD-DistributedSaga-Sample](https://github.com/akiramei/BomDD-DistributedSaga-Sample) / まとめ [FINDINGS.md §6](FINDINGS.md) / **自分の手で追う [reproduce-webapi-v2](docs/reproduce-webapi-v2.md)・[reproduce-saga-v2](docs/reproduce-saga-v2.md)**。
 
 🛠 **実用パイプライン(フォワード・モード): [method/bomdd-playbook-v1.md](method/bomdd-playbook-v1.md)** — 原版の無い新規開発(ブレスト→仕様→BOM・工程設計→AI製造→受入・収束)を回すための実践手順。リバースで実証した装置群(固定オラクル・隔離ファクトリ・ずる報告・マルチファクトリ分散)をフォワードへ移植し、**forward-01〜04・scale-01・transfer-01〜03(N=3・ベンダー横断・説明介入ゼロ)で実証済み**(FINDINGS §7/9/11)。付属: [沈黙次元カタログ](method/silence-checklist.md)(BOMが沈黙しがちな次元の掃討表)/ [テンプレ一式](method/templates/) / [フェーズ実行プロンプト](method/prompts/)(**実行手順の正典**。ツール固有 adapter 層= [product-profile テンプレ](method/templates/product-profile/)+スキル 11 本 — 2026-07 に ViewPrism2 実運用から 5 本を一般化・後に UI-CAD 系 3 本を追加・2026-08 に TimetableAdv 実績から `/converge`(設計収束ループ)を昇格・2026-08-31 に `/calibrate`(測定系較正ループ)・2026-09-01 に `/preflight`(作業開始条件の再認証)を新設)。**新規開始は `python method/tools/bomdd-init.py <Product> --gui`**(プロダクト+CAD リポを生成・[人間向け協働ガイド](method/onboarding/working-with-ai.md)つき)。
@@ -45,7 +45,7 @@ docs/               公開ドキュメント
   evidence-index.md   論文主張と公開証拠の対応
   reproduce-*.md      第三者再現ガイド(webapi-v2 / saga-v2 / forward-01)
 method/             手法定義(ループ毎に進化)
-  bomdd-method-v1.md  正規の方法論(薄い版・v1〜v1.3 の実証済み規則のみ)
+  bomdd-method-v1.md  v1 実証時点の凍結スナップショット(参考・由来。現行規範ではない)
   bomdd-playbook-v1.md ★実用パイプライン(フォワード・モード。§8 ECO 規律・§9 裁定配置・§13 工具化ラダー)
   ui-ir-ui-bom.md       UIモック→UI-IR/UI-BOM→E-BOM接続(candidate)
   gap-analysis-v1.md  ギャップ分析(仕様→BOM/BOM→製造/検証パターン/運用の課題と優先度)
