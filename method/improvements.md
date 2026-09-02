@@ -5923,3 +5923,29 @@ specified_contract_miss の消費先(§6.4 帰属・BOM 非改訂)と「工場�
 思想層の再認証判定(手順 3b): [x] operational rule(§5.2/§11)[ ] control/probe [x] template(52)[ ] terminology
 [x] method/concept claim — 命題「ミスは製造能力として記録する」の読み出し側= **supported へ更新**(消費先は §6.4 帰属・
 判断は BOM 非改訂。工場選定への入力は「単軸では行わない」が実測に基づく規則として確定)。
+
+## 2026-09-03 BomDD 自己適用 — ECO-055 の異系統独立検査(Codex)= REJECT・所見 8/8 CONFIRMED
+
+**観測(出典= [bomdd/reports/independent-inspection-eco-055.md](../bomdd/reports/independent-inspection-eco-055.md))**:
+templates+playbook のみを変更した ECO に対する初の異系統 read-only 独立検査(Codex・情報遮断・パケット開示)。
+結果= **REJECT**(process decision)・提起 8(high 4 / medium 3 / low 1)・受理側真正判定 **8/8 CONFIRMED**
+(evidence class: grep・コード読解 6・一次記録読解 1・意味論読解 1 / 留保 1= IA-04 / 誤検出 0)。当方の起票根拠の
+誤り 4(user_rulings 0 リポ・stage0 の読取列・§9/§13 本文化済み・§4.7 注記)・部分的 3。verified は起票時凍結基準の
+判定として維持(ECO-041)、是正は別 ECO。
+**受理側で検出できなかった機序**: ①名称参照を consumer と数える帳簿代用(order §2 影響なし予測)②自分の grep 出力の
+誤読(TimetableAdv に user_rulings 非 0 があるのに「0 リポ」と記述)③既存正典(phase7 prompt:20・register テンプレ :31 が
+52 の ECO 行を要求)の見落としで「52 へ集約しない」という二重正本を新設。**較正 receipt(asked 4/4・NA 0)はいずれも
+検出せず** — 製造者自身の較正は製造者の前提誤りに盲目(OBS-20260902-02 の 2 例目)。
+
+- [watch 2/3] OBS-20260902-02 — asked/NA の記録は弁別力の証明ではない(2 例目= ECO-055: 較正 receipt asked 4/4 が
+  当方主張の誤り 4 件を 1 件も検出せず、異系統検査官が全件検出)
+  source: 盲検感度試験 第 1 回・ECO-055 独立検査
+  evidence: 本節・independent-inspection-eco-055.md §5
+- [watch 1/3] OBS-20260903-03 — **templates/playbook のみの ECO でも異系統独立検査は高密度で所見を出す**(治具変更なし・
+  受入が「非破壊」しか測れない ECO は製造者較正の盲点が最大 — 8 所見中 7 が当方の記述誤り/正典見落とし)。
+  3 例目で「templates/playbook 変更 ECO は verified 前に独立検査を通す」規則の要否を判断
+  source: ECO-055
+  evidence: 本節
+- [recovered 2026-09-03 via ECO-055 独立検査(検査官= Codex・GPT 系・別題材= 方法論テンプレ/playbook)] EXP-20260726-01 の**別題材軸**— ただし
+  **別ベンダー軸(非 GPT 系)は未回収のまま**(検査官は引き続き Codex)。本行は EXP の分離継続であり、元 ID の状態は変更しない(open 維持)
+  evidence: 本節
