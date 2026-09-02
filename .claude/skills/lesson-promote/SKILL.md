@@ -31,12 +31,31 @@ description: 製品リポの ECO 教訓を方法論(method/)へ還元する入�
 2. **一般化検査**: 各教訓を「製品名を含まない命題」+「検出/防止の機械面(検査・hook・pin テスト・
    スキル)」の対で書けるか検査。対にならない教訓は「観測のみ(様式候補・rule of three 待ち)」と明示。
 3. **行き先判定**(複数可):
-   - `bomdd-playbook-v1.md` — 工程規律(ECO 規律は §8 系・受入設計は §4.4 等)
+   - `bomdd-playbook-v1.md` — 工程規律(ECO 規律は §8 系・受入設計は §4.4 等)。**現行方法論の唯一の正本**
+     (`bomdd-method-v1.md` は v1 凍結スナップショット — 行き先にしない。2026-09-02 裁定)
    - `silence-checklist.md` — 沈黙次元の掃討観点
    - `control-plan.md`・オラクル系テンプレ — 検査設計(深さの梯子・較正・陽性対照)
    - `cheat-taxonomy.md` — ずる/欠陥様式の分類
    - `FINDINGS.md` — 実証データ(定量・N・限界の明示)
    - `templates/` — 台帳雛形への織り込み
+   - `docs/concept.md`・`docs/terminology.md`・`WHITEPAPER.md` の主張境界 — **思想層**(下記 3b)
+
+3b. **思想層の再認証判定(毎回必須・省略不可)** — 教訓が次のどれを変更するかを判定し、
+   記帳(手順 5)に判定結果を 1 行残す(「none」も明記 — 実施の証跡):
+   ```
+   この教訓は以下を変更するか?
+   [ ] operational rule(playbook)   [ ] control / probe   [ ] template
+   [ ] terminology                  [ ] method/concept claim(思想命題)   [ ] none
+   ```
+   `method/concept claim` に印が付いたら、該当する思想命題(concept.md の節・terminology の項・
+   WHITEPAPER の強い主張)ごとに**実証状態**を 4 値で判定する:
+   `supported`(現在の実測が支持)/ `contradicted`(実測と矛盾 — 命題の改訂または限界の明示が要る)/
+   `superseded`(より精密な命題に置換済み — 旧文言の除去が要る)/ `untested`(実測なし — 信条のまま)。
+   思想文書を毎回更新する必要はない。**必ず起きるイベント**として「思想層に影響するか」の判定が
+   還元のたびに発生することが目的である(由来: 2026-09-02 実測 — 還元経路が思想層を対象外にして
+   いたため、concept/method-v1 は 2026-07 以降の 54 件の playbook 還元から一度も更新されず、
+   「As-Built 予定」「次段 v2」等の陳腐化が 3 か月潜伏。散文契約は順守の証拠にならない〔§9〕の
+   原則が思想文書自身に当てはまった)。思想は信条ではなく**実証状態を持つ仮説**として扱う。
 4. **期待効果の棚卸し(回収)**: improvements.md の既存節の「期待する効果」を走査し、今回の出典
    (ECO 種別・触れた面)が測定観点のトリガー条件に一致する **open 項目**(`→ 回収` 未記入)を
    列挙し、一致した各項目へ裁定を出す:
@@ -55,7 +74,8 @@ description: 製品リポの ECO 教訓を方法論(method/)へ還元する入�
    > 2026-07-13 裁定で③(本ステップ=毎回強制)へ。④(validator 強制)への昇格条件=回収漏れの
    > 実害 1 例の実測(improvements.md 2026-07-13 節に事前登録)。
 5. **improvements.md へ記帳**: `## YYYY-MM <product> 還元 — <title>` 節を既存書式
-   (観測=出典つき / 適用した改善=反映先つき / 期待する効果)で追記。手順 4 の回収・再演は
+   (観測=出典つき / 適用した改善=反映先つき / 期待する効果)で追記。手順 3b の再認証判定
+   (チェック結果と、`method/concept claim` の場合は命題ごとの 4 値)を同節に 1 行以上残す。手順 4 の回収・再演は
    同節の「効果回収」項として含める。**期待する効果と rule of three 蓄積中の観測は、
    「追跡項目の記帳スキーマ」(下記)の箇条書きで書く**(散文の段落へ流し込まない)。
 6. **本文織り込み案の提示** — **停止点: レビュー**。行き先ごとの diff 案(節番号+追補文)を提示し、
@@ -123,5 +143,5 @@ description: 製品リポの ECO 教訓を方法論(method/)へ還元する入�
 
 ## 停止点
 
-method 本文(playbook / checklist / taxonomy / FINDINGS / templates)の改訂はレビュー承認後に
-節ごと適用。improvements.md 記帳までで一旦停止し、織り込み案を節単位の採否リストで提示する。
+method 本文(playbook / checklist / taxonomy / FINDINGS / templates)と思想層(concept / terminology /
+WHITEPAPER 主張境界)の改訂はレビュー承認後に節ごと適用。improvements.md 記帳までで一旦停止し、織り込み案を節単位の採否リストで提示する。
