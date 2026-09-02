@@ -5904,3 +5904,22 @@ artifact-core 0 で、論文表 22 へは反映済みだが concept.md・termino
   対象イベントに「査読対応・論文改訂」を含めるかは 2 例目で判断
   source: cheat-reclassification-01(2026-07-11)→ concept.md 未反映(2026-09-03 検出)
   evidence: 本節・報告 §2 所見 1
+
+## 2026-09-03 BomDD 自己適用 — ECO-055 製造(52-metrics の計器/ログ整理)
+
+**適用した改善(ECO-055・order §1)**: 52 テンプレ= user_rulings 削除(転写値)・raw_match を分解 3 列の検算用に限定・
+specified_contract_miss の消費先(§6.4 帰属・BOM 非改訂)と「工場選定の単軸根拠にしない」を注記・冒頭に Phase 5 計器の
+範囲宣言(ECO 指標は 61/63/register が正本・集約しない)。playbook= §5.2 に単軸選定禁止の段落・§11 に 52 timing の
+規模別行。効果測定は EXP-20260902-05(棚卸し裁定点の templates/charter 到達)が本 ECO で回収対象。
+
+- [recovered 2026-09-03 via ECO-055(裁定点 4 件すべて裁定・1-A/2-A/4-A が 52 テンプレへ・2-A/3-A が playbook §5.2/§11 へ到達)] EXP-20260902-05 — 52-metrics 棚卸しの裁定点 4 件が裁定され、少なくとも 1 件が templates または charter に到達するか
+  evidence: bomdd/60-change-order-eco-055.md §1・§4
+- [watch 2/3] OBS-20260903-02 — **製品リポが 52-metrics に独立に同じ ECO レジーム指標を追加する**(change_miss /
+  impact_prediction / unnecessary_modification / regression)。正本は 61/63/register にあり 52 へは集約しない(ECO-055 4-A)。
+  3 例目で「52 に ECO 要約欄(転写でなく参照)を置くか」を判断
+  source: ViewPrism2 bomdd/52-metrics.yaml, BomDD-LibraryLending-Sample bomdd/52-metrics.yaml
+  evidence: bomdd/reports/52-metrics-inventory-2026-09-02.md §3 所見 4・ECO-055 order §0
+
+思想層の再認証判定(手順 3b): [x] operational rule(§5.2/§11)[ ] control/probe [x] template(52)[ ] terminology
+[x] method/concept claim — 命題「ミスは製造能力として記録する」の読み出し側= **supported へ更新**(消費先は §6.4 帰属・
+判断は BOM 非改訂。工場選定への入力は「単軸では行わない」が実測に基づく規則として確定)。

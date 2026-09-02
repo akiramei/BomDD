@@ -2050,7 +2050,7 @@ changes:
     title: 52-metrics 棚卸しの帰結 — 計器/ログの整理(1-A/2-A/3-A/4-A の束)
     date: 2026-09-03
     origin: improvement
-    status: filed   # 起票のみ承認(user 2026-09-03「推奨案 1-A・2-A・3-A・4-A を採択、1 ECO に束ねて起票」)— 製造着手は別途裁定
+    status: in-progress   # 2026-09-03 user「ECO-055 の製造まで進めて」で着手(起票時は filed)— fix 済み・V4(CI)待ち
     source: >
       52-metrics 全列棚卸し(bomdd/reports/52-metrics-inventory-2026-09-02.md・修正なしの独立単位)の
       裁定点 4 件を /converge(自発・round 4→1→0・未収束→打ち切り採用)で整理した帰結。round 1 で

@@ -67,7 +67,7 @@
 - V5: 較正 receipt(C17・trigger ①= verified 昇格): 「V1 の緑は本 ECO の変更に対して感度があるか」を問う — 変更列が
   治具の読取列外である以上、V1 は**変更の正しさを証明せず、壊していないことだけを示す**。正しさは V2/V3 の目視と
   本 order §0 の実文逆引きが根拠(限界として明示)。
-- verified 後: improvements の OBS(4 キー N=2)を watch 1/3 で登録。
+- verified 後: improvements の OBS(4 キー N=2)を watch 2/3 で登録(2 例=ViewPrism2・LibraryLending)。
 
 ## /preflight receipt(起動経路: 自発 — 既裁定の適用実装〔起票〕)
 
@@ -91,3 +91,41 @@
   (FINDINGS §11 t2)/ time-decomposition 使用 3 ループ(loops grep)/ 61:87 under-inclusion・63:1 不要改変・register:25
   no_impact_prediction / stage0-survey の読取列(tools grep)。
 - 未収束事項: なし(残存 1 件は 4-B の棄却で解消)。
+
+## 4. 製造と受入の実測(2026-09-03・user「ECO-055 の製造まで進めて」)
+
+- preflight 再確認: baseline `a82fc2a`(起票 commit 後の HEAD・作業ツリー clean 0 件)→ **PROCEED**。
+- diff 監査の窓: baseline `a82fc2a` → head は fix commit で確定。窓内= 52-metrics.yaml / playbook / improvements.md のみ
+  (allowed_paths と一致)。
+- **V1 self-conformance= PASS**(全検査合格・C13 二文脈・C14 7/7・C16/C17 fixture 成立を含む)。
+- **V2 52 テンプレ diff= PASS**: 1 ファイル・+16/−7(差分行 23)。内容は 4 項目のみ — ①冒頭コメントに Phase 5 計器の
+  範囲宣言 ②raw_match を分解 3 列の検算用に限定(+分解 3 列と g3 の consumer 注記)③specified_contract_miss の消費先
+  (§6.4 帰属・BOM 非改訂・単軸選定禁止)④user_rulings 削除(削除理由をコメントで残す)。
+- **V3 playbook diff= PASS**: hunk 2 箇所のみ — `@@ -370,0 +371,2` = §5.2 表直後の追記(単軸選定禁止の段落)/
+  `@@ -784,0 +787` = §11 表の 52 timing 行。他節 diff ゼロ。
+- 影響なし予測の照合: stage0-survey の読取列は `stage0_topology_health_check` のみ(変更列外・grep で確認)— V1 で
+  全検査緑・予測どおり。**stage0-survey 単体の selftest は本 ECO では未実行**(`--repo` 必須の CLI で self-conformance の
+  対象外 — 影響なし予測 §2 の「selftest が緑のまま」は grep による読取列確認に置き換えて判定。限界として明示)。C13 は 52 内の参照に依存していなかった(FAIL なし)。**under-inclusion 0**。
+- V4(CI)= fix commit の push 後に §5 で実測。V5= 下記較正 receipt。
+- 記帳: improvements に EXP-20260902-05 の回収(裁定点 4 件が templates/playbook へ到達)と OBS-20260903-02
+  (製品側 4 キー N=2・watch 2/3)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格の前。二軸)
+
+- 査定した主張と判定:
+  1. 「52 テンプレの変更は治具の判定を壊さない」— **observed / 適格**(V1 全検査緑・stage0-survey の読取列は変更列外を
+     grep で確認)。**ただし V1 の緑は変更の正しさを証明しない** — 変更列を読む検査が存在しないため、緑は非破壊のみを示す。
+     asked: 「この緑は本 ECO の変更に感度があるか」→ **ない**(変更列に consumer 治具なし)。正しさの根拠は V2/V3 の
+     目視と order §0 の実文逆引きに移る。
+  2. 「playbook の追記は §5.2/§11 に限局している」— **observed / 適格**(hunk 2 箇所・行番号一致)。asked: 「追記文の
+     事実主張は実測に基づくか」→ 単軸否定の根拠 3 件は playbook §4.7 注記・§5.2 追補・FINDINGS §11 t2 の既存実文。
+  3. 「user_rulings は導出可能な転写値である」— **observed / 適格**(裁定は §6.2 で 10/20/K-BOM へ書き戻される規律・
+     製品 3 リポで記入 0)。asked: 「削除で失う情報はあるか」→ 件数のみ。件数が要る場合は台帳から再導出可能。
+  4. 「製品リポの既存記録・kit に影響しない」— **observed / 適格**(bomdd.lock 凍結・C14 kit-freshness 7/7 不変)。
+     asked: 「次回 scaffold で列が消えることの影響」→ 新規製品のみ・既存製品は STALE advisory(設計 ECO-004)。
+- 検出した計器欠陥: なし。副次: 棚卸し報告の判定 1 件(specified_contract_miss= 入力)は converge round 1 で訂正済み
+  (計器欠陥でなく棚卸し者の判定誤り — 報告 §1 の該当行は本 ECO の記録で上書きせず、order §0 に訂正を残す)。
+- 検出力の限界: 52 の各列に対する consumer の実在は**実文の逆引き**で確認しており、実運用で判断が変わった観測(decision
+  changed の実測)は forward/webapi の収束ループ(blocker_diffs / new_unspecified_diffs)と §6.4 帰属(specified_contract_miss)
+  以外は持たない。visual_gap / design_system_gap_causes / defect_escape の decision は playbook 規則の存在で判定した
+  (実測は ViewPrism2 側・本リポ未転記)。行別: 1 asked / 2 asked / 3 asked / 4 asked — NA なし。
