@@ -5881,3 +5881,26 @@ ECO 起票なし(tools/templates/.github に変更なし — AGENTS.md 規律 1 
 [ ] template [x] terminology(「正本」の一意化)[x] method/concept claim — 命題「BOM が真実」= supported
 (フォワード)/ 保守レジームでは superseded(変更統制の正本として保たれ、製造の正本は新規製造時のみ — 本日の
 評価で明文化)。命題「ミスは製造能力として記録する」= supported(書き込み側)/ untested(読み出し側 — 欠損辺②)。
+
+## 2026-09-03 BomDD 自己適用 — concept.md 全命題の初回再認証(4 値・基準線)
+
+**観測(出典= [bomdd/reports/concept-recertification-2026-09-03.md](../bomdd/reports/concept-recertification-2026-09-03.md))**:
+concept.md の 24 命題を supported / contradicted / superseded / untested で判定。結果= supported 17・superseded 6・
+contradicted 0・untested 0。最重要は**中核発見「12 件のずるはすべて表面側」が superseded**: 盲検第二評価者再分類
+(2026-07-11・loops/cheat-reclassification-01)の確定分布は artifact-surface 4・oracle 5・process 1・bom-metamodel 2・
+artifact-core 0 で、論文表 22 へは反映済みだが concept.md・terminology.md には 7 週間届いていなかった(欠損辺①の最重例)。
+他の superseded= 保守レジームの製造形態(#1)・研究/運用の二レジーム(#2)・題材(#3)・candidate ラベルの文書間不一致
+(#13/#14)・ずる分類の拡張(#21)。untested 0 は concept が実証済み範囲に絞って書かれてきた証拠 — 劣化は誤りでなく更新の不達。
+改訂案 A〜F は報告 §3(レビュー停止点・未適用)。
+
+思想層の再認証判定(手順 3b): [ ] operational rule [ ] control/probe [ ] template [x] terminology(「表面」項・candidate 状態語)
+[x] method/concept claim — 上記 24 命題の 4 値。
+
+- [recovered 2026-09-03 via user 裁定「A〜F 全部適用・candidate は playbook を正」→ concept.md §1/§3/§4/§5・terminology「表面」項・WHITEPAPER 2 箇所・ui-ir-ui-bom.md 冒頭へ同日適用(README は「ずる台帳 12 件」= 件数表記のみで命題なし・変更不要)] EXP-20260903-01 — 改訂案 A〜F のレビュー裁定と適用(承認項の concept/terminology への到達日付)。
+  EXP-20260902-04(contradicted/superseded の初出と改訂到達)の前半= superseded 初出は本節で成立、後半= 到達は本 EXP へ引き継ぐ
+  evidence: bomdd/reports/concept-recertification-2026-09-03.md §3
+- [watch 1/3] OBS-20260903-01 — **論文向けの実測が思想文書へ還流しない経路**: 査読対応で実施した再分類・匿名化・
+  評価は paper/・loops/ と論文本文へ書かれ、concept/terminology へは届かない(1 例目= 12 件表面命題)。lesson-promote 3b の
+  対象イベントに「査読対応・論文改訂」を含めるかは 2 例目で判断
+  source: cheat-reclassification-01(2026-07-11)→ concept.md 未反映(2026-09-03 検出)
+  evidence: 本節・報告 §2 所見 1
