@@ -2106,4 +2106,6 @@ changes:
       V5 較正 receipt(trigger ④・所見ごとに再現条件の消失を問う)/ verified 昇格の前提= 異系統の独立再検査 1 ラウンド
       (製造完了後に別途)。**再検査 第 1 ラウンド(2026-09-03・Codex)= REJECT**: 前回 CLOSED 5 / PARTIAL 3・
       新規 6 件 6/6 CONFIRMED(bomdd/reports/independent-reinspection-eco-056.md)→ 第 2 ラウンド fix(IA-01/03/04/
-      05/06・README を窓に追加)。IA-02(52 の ECO 行 schema+C3= 設備追加)は裁定待ち。verified は第 2 ラウンド再検査後。
+      05/06・README を窓に追加)。IA-02(52 の ECO 行 schema+C3= 設備追加)は裁定待ち。**第 2 ラウンド(上限)= REJECT**:
+      前回 CLOSED 7 / OPEN 1 / PARTIAL 1・新規 2/2 CONFIRMED(R2-01 high= 「件数と参照のみ」が Phase 7 正典に無く §13 と衝突・
+      機序 (i)・R2-02 low= 報告の窓外追加)。§7 基準で「対策仮説の誤り」→ 追加ラウンドを積まず user 裁定へ(order §8 の A/B/C)。
