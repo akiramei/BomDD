@@ -1,6 +1,6 @@
-# UI-IR / UI-BOM Candidate Extension
+# UI-IR / UI-BOM Extension(GUI 案件の正規工程= playbook Phase 1.5)
 
-> **ステータス**: candidate / 未実証拡張。
+> **ステータス**: GUI 案件では **playbook §1 全体フロー Phase 1.5 の正規工程**(モック自由創作 → 受入検査 → CAD 化。完了条件は治具 exit code)。状態語の正本は playbook(裁定 2026-09-03 — 本書の旧自己宣言「candidate / 未実証拡張」は文書間不一致として除去)。実運用= ViewPrism2(ui-bom.json / ui-trace-map.json が ECO の再帰属対象)・MoviePad UI-CAD。
 > 本書は、HTML+JavaScript+CSS で作られた実行可能 UI モックを、BomDD の E-BOM / M-BOM / S-BOM へ接続するための入口モデルである。既存の method-v1 を置き換えず、フォワード開発や UI 移植案件で使う前段の観測・追跡層として扱う。
 
 ## 1. 位置づけ
