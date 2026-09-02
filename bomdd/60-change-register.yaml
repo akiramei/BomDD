@@ -2073,3 +2073,35 @@ changes:
       (製造前)受入 5 項目は order §3 — V1 self-conformance 全 PASS / V2 52 diff が 4 項目のみ /
       V3 playbook diff が §5.2・§11 のみ / V4 CI success / V5 較正 receipt(V1 は変更の正しさでなく
       非破壊のみを示す — 限界明示)。
+      **独立検査(2026-09-03・Codex・read-only)= REJECT・所見 8/8 CONFIRMED**(bomdd/reports/
+      independent-inspection-eco-055.md)— verified は起票時凍結の受入基準に対する判定として維持
+      (ECO-041 意味論)。影響なし予測の「stage0 読取列」は帳簿代用と判明(under-inclusion 訂正:
+      実 consumer 0)。是正= ECO-056。
+  - id: ECO-056
+    title: ECO-055 独立検査所見 IA-01〜08 の是正 — 二重正本・検算規則・散文契約・引用座標
+    date: 2026-09-03
+    origin: corrective
+    status: in-progress   # 2026-09-03 user「ECO-056 を起票して製造まで進めて」— 起票と同時に着手
+    source: >
+      ECO-055 の異系統独立検査(Codex・read-only・情報遮断)= REJECT・提起 8・受理側真正判定 8/8 CONFIRMED・
+      留保 1(IA-04)・誤検出 0(bomdd/reports/independent-inspection-eco-055.md §5)。当方の較正 receipt
+      (asked 4/4)は 1 件も検出せず。ECO-055 の verified は起票時凍結基準の判定として維持し、被覆外の
+      欠陥を本 ECO で閉じる(先例: ECO-015 → 016/017)。
+    order_ref: bomdd/60-change-order-eco-056.md
+    affected_refs: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md]
+    no_impact_prediction: "(製造前・IA-01 訂正形)52-metrics を読む治具は存在しない(stage0-survey の参照はコメント 1 行)。被覆は C4 の YAML parse のみで列意味は機械被覆されない → V1 の緑は構文非破壊のみを示す。playbook は §5.2 段落・§11 行+表外注記のみ。improvements は OBS-20260903-02 行内書き換え+記帳節のみ。製品リポ・kit 非接触"
+    diff_audit:
+      baseline: ~          # 起票 commit の HEAD(製造着手時に確定)
+      head: ~
+      allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md]
+    summary: >
+      IA-03: 52 冒頭を Phase 7 正典(phase7 prompt:20・register テンプレ :31= 52 に ECO 行)へ整合(件数と参照のみ・
+      詳細転写禁止)。IA-02: raw_match の「和」検算規則を削除。IA-07: user_rulings 削除根拠を consumer 不在に限定。
+      IA-04: §5.2 末文を「equip 観測値は routing 根拠にしない・資格制度は制定保留」へ縮小。IA-06: 引用座標を
+      equip-01 台帳 #4 t2 行・t2-report へ訂正。IA-05: §11 行を S/M 省略可・L 推奨+研究必須は表外注記・基準線を
+      「完全分解 1・概算 1・再利用 1」へ。IA-08: OBS-20260903-02 の文言縮小。IA-01: 影響なし予測を訂正形で凍結。
+      採らない= schema fixture 新設・ECO-055 記録の遡及書き換え。
+    verification: >
+      (製造前)V1 self-conformance 全 PASS / V2 52 diff 3 箇所のみ / V3 playbook hunk 2 箇所のみ / V4 CI success /
+      V5 較正 receipt(trigger ④・所見ごとに再現条件の消失を問う)/ verified 昇格の前提= 異系統の独立再検査 1 ラウンド
+      (製造完了後に別途)。
