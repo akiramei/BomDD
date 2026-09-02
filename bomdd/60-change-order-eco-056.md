@@ -121,3 +121,16 @@
 - 検出力の限界: 製造者較正は製造者の前提誤りに盲目(ECO-055 で実証・asked 4/4 が誤り 4 件を素通し)。本 receipt の asked も
   同じ限界を持つ。**verified 昇格は独立再検査 1 ラウンドを前提**とし、本 receipt は昇格根拠に数えない。行別: 1 asked / 2 asked /
   3 asked / 4 asked — NA なし。
+
+## 5. CI 実測(V4)と現在状態
+
+- fix commit `58dd2bb` を push → CI run **33685763913**・completed / **success**・headSha `58dd2bb` 一致。ジョブ別= dotnet / fast (windows-latest) /
+  fast (ubuntu-latest) すべて success。
+- 受入 5 項目の状態: V1 PASS(worklist 是正後の再実測・警告 0)/ V2 PASS(52 hunk 4= 3 箇所)/ V3 PASS(playbook hunk 2)/ V4 PASS /
+  V5 較正 receipt(§4・製造者較正の限界を明示)。diff 監査: baseline `13cca3d` → head `58dd2bb`・窓内= 52-metrics / playbook / improvements+
+  台帳系のみ・under-inclusion 0。
+- **status: in-progress のまま**。verified 昇格の前提= §3 の異系統独立再検査 1 ラウンド(未実施・user 裁定待ち)。製造者較正は ECO-055 で
+  誤り 4 件を素通しした実績があり、本 ECO の是正の正しさを製造者自身の緑で昇格させない。
+- 製造中の手順逸脱(記録): worklist 是正の 1 回目の適用がアサーション失敗で未反映のまま、§4 に「警告 0 を確認」を先に書いた
+  (観測前の記述)。2 回目の適用後に警告 0 を実測し、記述と事実が一致してからコミットした — 「検査の結論を観測してから書く」の
+  順序逸脱として本 ECO 自身に記録(ECO-024 型の書面版・実害なし・commit 前に自己検出)。

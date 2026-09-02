@@ -2081,7 +2081,7 @@ changes:
     title: ECO-055 独立検査所見 IA-01〜08 の是正 — 二重正本・検算規則・散文契約・引用座標
     date: 2026-09-03
     origin: corrective
-    status: in-progress   # 2026-09-03 user「ECO-056 を起票して製造まで進めて」— 起票と同時に着手
+    status: in-progress   # 2026-09-03 製造完了・V1〜V5 成立・CI 33685763913 success @58dd2bb — verified 昇格は異系統独立再検査 1 ラウンド後(裁定待ち)
     source: >
       ECO-055 の異系統独立検査(Codex・read-only・情報遮断)= REJECT・提起 8・受理側真正判定 8/8 CONFIRMED・
       留保 1(IA-04)・誤検出 0(bomdd/reports/independent-inspection-eco-055.md §5)。当方の較正 receipt
@@ -2092,7 +2092,7 @@ changes:
     no_impact_prediction: "(製造前・IA-01 訂正形)52-metrics を読む治具は存在しない(stage0-survey の参照はコメント 1 行)。被覆は C4 の YAML parse のみで列意味は機械被覆されない → V1 の緑は構文非破壊のみを示す。playbook は §5.2 段落・§11 行+表外注記のみ。improvements は OBS-20260903-02 行内書き換え+記帳節のみ。製品リポ・kit 非接触"
     diff_audit:
       baseline: "13cca3d"  # 起票 commit(製造着手時 clean)
-      head: ~
+      head: "58dd2bb"      # fix commit(diff監査済み: 52-metrics・playbook §5.2/§11・improvements+台帳系のみ)。verified は独立再検査後
       allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md]
     summary: >
       IA-03: 52 冒頭を Phase 7 正典(phase7 prompt:20・register テンプレ :31= 52 に ECO 行)へ整合(件数と参照のみ・
