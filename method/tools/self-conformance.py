@@ -917,7 +917,62 @@ def _c9_selftest() -> list[str]:
     ok, _ = _c9_identity_match(want_ct, _c9_parse_failure(m_ct))
     if not ok:
         bad.append("正腕: Contains 型の期待赤を受理できない")
+    # ECO-054: 空結果 guard の腕(型④)— ラベルの根拠= 独立検査官 S1/S3 の実測(0/0 合格の PASS)
+    ok_e, _, _ = _c9_suite_verdict({"project": "x", "total": 0, "expected_failed": []}, {}, {})
+    if ok_e:
+        bad.append("known-bad: total 0+空結果を PASS にした(空結果の合格化)")
+    ok_e, _, _ = _c9_suite_verdict({"project": "x", "total": 2, "expected_failed": []}, {}, {})
+    if ok_e:
+        bad.append("known-bad: total 2 だが結果 0 件を PASS にした(結果欠測の合格化)")
+    ok_g, _, _ = _c9_suite_verdict({"project": "x", "total": 2, "expected_failed": []},
+                                   {"A": "Passed", "B": "Passed"}, {})
+    if not ok_g:
+        bad.append("正腕: 正常 suite(2/2 合格)を受理できない")
     return bad
+
+
+def _c9_suite_verdict(suite: dict, results: dict, messages: dict):
+    """1 suite の判定(ECO-054 で純関数化 — 空結果の guard を持ち、selftest で腕を立てる)。
+    返り値= (ok, 要約, detail)。**空結果(results 0 件)または total 0 は FAIL**(型④: 測定不能は
+    合格ではない — 独立検査官 S1/S3 が 0/0 合格の PASS を実測)。"""
+    expected_failed, signatures, identities = set(), {}, {}
+    for e in suite.get("expected_failed") or []:
+        if isinstance(e, dict):
+            expected_failed.add(e["test"])
+            if e.get("signature"):
+                signatures[e["test"]] = e["signature"]
+            if e.get("identity"):
+                identities[e["test"]] = e["identity"]
+        else:
+            expected_failed.add(e)
+    total = suite.get("total")
+    if not results or not total:
+        return False, f"結果 {len(results)} 件・total {total!r}", " 空結果は合格ではない(測定不能の合格化= 型④・ECO-054)"
+    failed = {n for n, o in results.items() if o != "Passed"}
+    total_ok = len(results) == total
+    set_ok = failed == expected_failed
+    wrong_reason = []
+    for n, want in identities.items():
+        if n in failed:
+            ok_id, why = _c9_identity_match(want, _c9_parse_failure(messages.get(n, "")))
+            if not ok_id:
+                wrong_reason.append(f"{n}: {why}")
+    wrong_reason += [f"{n}: signature 不一致" for n, sig in signatures.items()
+                     if n in failed and sig not in messages.get(n, "")]
+    detail = ""
+    if not set_ok:
+        healed = expected_failed - failed
+        regressed = failed - expected_failed
+        if healed:
+            detail += f" 期待赤が直っている(実験証拠の破壊?): {sorted(healed)}"
+        if regressed:
+            detail += f" リグレッション: {sorted(regressed)}"
+    if wrong_reason:
+        detail += f" 期待理由と異なる失敗: {sorted(wrong_reason)}"
+    summary = (f"{len(results) - len(failed)}/{len(results)} 合格・"
+               f"期待赤 {len(expected_failed)} 件一致={set_ok}・"
+               f"identity 突合 {len(identities)} 件・signature 補助 {len(signatures)} 件")
+    return (total_ok and set_ok and not wrong_reason), summary, detail
 
 
 def _c9_population() -> set[str]:
@@ -947,7 +1002,7 @@ def c9_dotnet() -> None:
     if st:
         check("C9", False, f"計器較正不成立(陽性対照): {st}")
         return
-    check("C9", True, "計器較正(陽性対照 5 腕: 正腕 2・known-bad〔substring 一致×identity 相違〕・parse 不能・前提検査)")
+    check("C9", True, "計器較正(陽性対照 8 腕: 正腕 3・known-bad〔substring 一致×identity 相違・空結果×2〕・parse 不能・前提検査)")
     # ECO-039 b-2: 母集団の双方向突合 — 未記載 project と不存在/対象外化 entry の双方を FAIL
     found = _c9_population()
     declared = {s["project"] for s in suites}
@@ -959,17 +1014,8 @@ def c9_dotnet() -> None:
     check("C9", pop_ok, f"母集団突合(Test SDK/xunit 参照 csproj {len(found)} 件 ⇔ manifest {len(declared)} 件・双方向){pop_detail}")
     for suite in suites:
         proj = suite["project"]
-        # 文字列(旧形)/ mapping+signature(ECO-007)/ +identity(構造化 — ECO-039)の三形を受ける
-        expected_failed, signatures, identities = set(), {}, {}
-        for e in suite.get("expected_failed") or []:
-            if isinstance(e, dict):
-                expected_failed.add(e["test"])
-                if e.get("signature"):
-                    signatures[e["test"]] = e["signature"]
-                if e.get("identity"):
-                    identities[e["test"]] = e["identity"]
-            else:
-                expected_failed.add(e)
+        # 文字列(旧形)/ mapping+signature(ECO-007)/ +identity(構造化 — ECO-039)の三形は
+        # _c9_suite_verdict が受ける(ECO-054 で純関数化)
         tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-trx-"))
         try:
             p = run(["dotnet", "test", str(ROOT / proj), "--nologo",
@@ -988,32 +1034,8 @@ def c9_dotnet() -> None:
                 msg = r.find(f".//{ns}Message")
                 if msg is not None and msg.text:
                     messages[name] = msg.text
-            failed = {n for n, o in results.items() if o != "Passed"}
-            total_ok = len(results) == suite.get("total")
-            set_ok = failed == expected_failed
-            # 期待理由と異なる失敗の検査 — identity(構造化・主判定)+ signature(補助 substring)
-            wrong_reason = []
-            for n, want in identities.items():
-                if n in failed:
-                    ok_id, why = _c9_identity_match(want, _c9_parse_failure(messages.get(n, "")))
-                    if not ok_id:
-                        wrong_reason.append(f"{n}: {why}")
-            wrong_reason += [f"{n}: signature 不一致" for n, sig in signatures.items()
-                             if n in failed and sig not in messages.get(n, "")]
-            detail = ""
-            if not set_ok:
-                healed = expected_failed - failed
-                regressed = failed - expected_failed
-                if healed:
-                    detail += f" 期待赤が直っている(実験証拠の破壊?): {sorted(healed)}"
-                if regressed:
-                    detail += f" リグレッション: {sorted(regressed)}"
-            if wrong_reason:
-                detail += f" 期待理由と異なる失敗: {sorted(wrong_reason)}"
-            check("C9", total_ok and set_ok and not wrong_reason,
-                  f"{proj}: {len(results) - len(failed)}/{len(results)} 合格・"
-                  f"期待赤 {len(expected_failed)} 件一致={set_ok}・"
-                  f"identity 突合 {len(identities)} 件・signature 補助 {len(signatures)} 件{detail}")
+            ok_s, summary, detail = _c9_suite_verdict(suite, results, messages)
+            check("C9", ok_s, f"{proj}: {summary}{detail}")
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 

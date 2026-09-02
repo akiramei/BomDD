@@ -2018,7 +2018,7 @@ changes:
     title: 空集合 fail-open の横断是正(型④)— C9 total:0 / ui-cad 空成果物(案 B)
     date: 2026-09-02
     origin: corrective
-    status: filed   # 起票のみ承認(user 2026-09-02「P3 別 ECO として起票」)— 製造着手は別途裁定
+    status: in-progress   # 2026-09-02 user「ECO-054 の製造まで進めて」で着手(起票時は filed)
     source: >
       盲検感度試験 第 1 回(bomdd/reports/calibrate-blind-sensitivity-01.md §3.2/§4-4)で独立検査官が
       実測した型④(測定不能の合格化)の 3 計器横断。C17 は ECO-051 で是正済み。残= C9 の total:0+
@@ -2029,7 +2029,7 @@ changes:
     affected_refs: [method/tools/self-conformance.py, method/tools/ui-cad-gate.py]
     no_impact_prediction: "(製造前)C9 は現行 manifest が全 suite total>0 のため判定不変。ui-cad は BomDD 内 consumer が C6 fixture のみ — fixture の actions: {} が母集団 0 に当たるリスクを凍結(当たれば規則の精密化で解く・判定は書き換えない)。製品リポ側の実運用影響は未測定"
     diff_audit:
-      baseline: "771d80b"  # 起票直前 HEAD(製造着手時に再確認)
+      baseline: "c00de99"  # 製造着手時 HEAD(起票 commit の後・起票時の 771d80b から更新)
       allowed_paths: [method/tools/self-conformance.py, method/tools/ui-cad-gate.py]
     summary: >
       ①C9= suite の total==0 または結果集合が空なら FAIL(空結果は合格ではない)②ui-cad= 二層 —

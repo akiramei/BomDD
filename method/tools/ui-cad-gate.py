@@ -26,6 +26,13 @@
 #              (--mock なしでは skip)。
 #
 # 終了コード: 0 = 実行ゲート全合格かつ昇格可 / 1 = 不合格あり または 昇格判定保留 / 2 = 入力エラー
+# ECO-054(型④の排除): (a) 成果物の欠落・スキーマ不成立(top-level が mapping でない・ui-ir に actions
+#   がない・ui-bom に items がない・JSON/YAML 解析失敗)= 入力エラー exit 2(未捕捉例外を構造化)
+#   (b) 根の母集団(ui-ir の actions+raw の interactables)が 0 = **昇格判定保留(母集団 0)** exit 1 —
+#   下流(bom/trace/rulings)が空でも根に 1 件あれば既存ゲート(GU2 の未会計検出)が測る。
+#   母集団 0 は --na "population: 理由" で契約上の NA として宣言できる(§15 built-in NA と別)。
+#   限界: 母集団 0 の判定は根のみ — 各ゲート固有の空集合(例: 裁定 0 件)は測らない(意図: 空の
+#   bom/trace は根が非空なら GU2/GU5 の所見として現れる)。ラベルの根拠= 独立検査官 S2/S6 の実測。
 #
 # 昇格判定の分離(ECO-045): 「実行済みゲートの合否」と「全体の昇格判定」は別物。
 # 未実行ゲート・縮退(辞書なし)がある場合、無条件に「昇格可」とはしない — 全体昇格を認めるのは
@@ -64,6 +71,11 @@ RULING_STATUSES = {"open", "ruled", "rejected", "superseded"}
 TRACE_REQUIRED_TYPES = {"region", "component", "action", "input"}
 
 
+def _input_error(msg):
+    print(f"[input] {msg}")
+    sys.exit(2)
+
+
 def load_json(path):
     with open(path, encoding="utf-8") as f:
         return json.load(f)
@@ -92,6 +104,46 @@ def ruling_target_ids(ruling):
     return set(ids if isinstance(ids, list) else [ids])
 
 
+_SELFTEST_ARMS = (
+    # (label, files, 期待 exit) — ラベルの根拠= 独立検査官 S2/S6 の実測(ECO-054)
+    ("known-bad: 全成果物 {}(スキーマ不成立)", {
+        "ui-ir.json": "{}", "ui-bom.json": "{}", "ui-trace-map.json": "{}",
+        "ui-rulings.yaml": "{}\n", "ui-dictionary.yaml": "{}\n"}, 2),
+    ("known-bad: スキーマ成立だが母集団 0", {
+        "ui-ir.json": '{"actions": [], "inputs": []}', "ui-bom.json": '{"items": []}',
+        "ui-trace-map.json": '{"mappings": []}', "ui-rulings.yaml": "rulings: []\n",
+        "ui-dictionary.yaml": "actions: {}\n"}, 1),
+    ("known-good: 根 1 件・根拠つき rejected で被覆(C6b 同型)", {
+        "ui-ir.json": '{"actions": [{"uiId": "action.st.one"}], "inputs": []}',
+        "ui-bom.json": '{"items": []}', "ui-trace-map.json": '{"mappings": []}',
+        "ui-rulings.yaml": "rulings:\n  - id: UQ-ST-1\n    status: rejected\n"
+                           "    target: {ui_ids: [\"action.st.one\"]}\n    question: q\n"
+                           "    negative_rulings: [{option: adopt, why: w}]\n    evidence: [e]\n    decided_by: user\n",
+        "ui-dictionary.yaml": "actions: {}\n"}, 0),
+)
+
+
+def _selftest() -> int:
+    import subprocess, tempfile, shutil
+    bad = []
+    for label, files, want in _SELFTEST_ARMS:
+        d = Path(tempfile.mkdtemp(prefix="ui-cad-gate-st-"))
+        try:
+            for name, body in files.items():
+                (d / name).write_text(body, encoding="utf-8")
+            p = subprocess.run([sys.executable, __file__, "--ui-dir", str(d)],
+                               capture_output=True, text=True, encoding="utf-8", errors="replace")
+            if p.returncode != want:
+                bad.append(f"{label}: 期待 exit {want}・実測 {p.returncode}")
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    if bad:
+        print("selftest FAIL(計器を先に疑う): " + " / ".join(bad))
+        return 1
+    print(f"selftest PASS({len(_SELFTEST_ARMS)} 腕: known-bad 2・known-good 1)")
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--ui-dir", default="bomdd/ui")
@@ -104,7 +156,11 @@ def main():
     ap.add_argument("--mock", default=None, help="HTML モック。指定時 GU6(id 揺れ)を実行")
     ap.add_argument("--na", action="append", default=[], metavar="対象: 理由",
                     help='未実行ゲート/縮退の not-applicable 宣言(例: --na "GU6: id 揺れは CI で別途検査")。理由必須')
+    ap.add_argument("--selftest", action="store_true",
+                    help="ECO-054 の陽性対照(全 {} → exit 2 / 母集団 0 → exit 1 / 正常 → exit 0)を実測")
     args = ap.parse_args()
+    if args.selftest:
+        sys.exit(_selftest())
 
     # ECO-045: NA 宣言の解析(理由必須 — 空理由は入力エラー。沈黙する免除を作らない)
     na_decl = {}
@@ -146,6 +202,27 @@ def main():
         dictionary_doc = {}
         # ECO-045: 0 件検査の vacuous PASS を廃止 — 辞書腕は SKIP として昇格判定へ伝播する
         print(f"[warn] 辞書がありません({paths['dictionary']})。GU4 の辞書腕は SKIP(縮退)です。")
+
+    # ECO-054 (a): スキーマ不成立は入力エラー(exit 2)— 未捕捉例外・vacuous PASS の両方を排除
+    for label, doc in (("ui-ir", ui_ir), ("ui-bom", ui_bom), ("trace-map", trace_map), ("rulings", rulings_doc)):
+        if not isinstance(doc, dict):
+            _input_error(f"{label} の top-level が mapping でない({type(doc).__name__})")
+    if raw_ir is not None and not isinstance(raw_ir, dict):
+        _input_error(f"raw の top-level が mapping でない({type(raw_ir).__name__})")
+    if not isinstance(dictionary_doc, dict):
+        _input_error(f"dictionary の top-level が mapping でない({type(dictionary_doc).__name__})")
+    if "actions" not in ui_ir or not isinstance(ui_ir.get("actions"), list):
+        _input_error("ui-ir に actions(list)がない — UI-IR として不成立")
+    if "items" not in ui_bom or not isinstance(ui_bom.get("items"), list):
+        _input_error("ui-bom に items(list)がない — UI-BOM として不成立")
+    if not isinstance(rulings_doc.get("rulings") or [], list):
+        _input_error("rulings の rulings が list でない")
+    for r in rulings_doc.get("rulings") or []:
+        if not isinstance(r, dict):
+            _input_error(f"rulings に mapping でない要素({type(r).__name__})")
+    # ECO-054 (b): 根の母集団(actions+raw interactables)— 0 なら昇格判定保留へ伝播
+    root_population = len(ui_ir.get("actions") or []) + \
+        (len(raw_ir.get("interactables") or []) if raw_ir is not None else 0)
 
     rulings = rulings_doc.get("rulings") or []
     dict_entries = {}
@@ -343,6 +420,11 @@ def main():
             na_applied.append(f"GU4 辞書腕({na_decl['dict']})")
         else:
             undeclared.append("GU4 辞書腕(辞書なし — 辞書由来の来歴検査が未実行)")
+    if root_population == 0:  # ECO-054 (b): 空母集団の PASS は測定不能の合格化(型④)
+        if "population" in na_decl:
+            na_applied.append(f"母集団 0({na_decl['population']})")
+        else:
+            undeclared.append("母集団 0(ui-ir の actions も raw の interactables も 0 件 — 検査対象が無い)")
 
     na_note = f"・NA {len(na_applied)} 件[{' / '.join(na_applied)}]" if na_applied else ""
     if any_fail:

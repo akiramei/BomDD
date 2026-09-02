@@ -58,7 +58,7 @@
 
 ## /preflight receipt(起動経路: 自発 — 既裁定の適用実装〔起票〕)
 
-- 分類= 既裁定の適用実装(厳しい側= continuation)。状態: baseline `771d80b`= **confirmed**/ 次番 054=
+- 分類= 既裁定の適用実装(厳しい側= continuation)。状態: baseline `771d80b`(起票時)→ 製造着手時に **`c00de99` へ再確認**(起票 commit が間に入ったため)/ 次番 054=
   **confirmed**/ C9・ui-cad の残存= **confirmed**(本日 HEAD 実測・ECO-051/053 は両計器に無変更)/
   C6 fixture の `actions: {}`= **confirmed**(ECO-045 記録)/ 製造着手の可否= **unknown(理由コード:
   裁定待ち)** → status: filed。
@@ -76,9 +76,56 @@
   (ECO-045 §)/ ECO-051 の C17 集約 guard(実装済み)。
 - 未収束事項: なし。
 
-## 4. 製造と受入の実測
+## 4. 製造と受入の実測(2026-09-02・user「ECO-054 の製造まで進めて」)
 
-- (製造着手の裁定後に記入)
+- diff 監査の窓: baseline `c00de99`(製造着手時の HEAD — 起票 commit の後)→ head は受入時に確定。
+- **製造前の実測(C6 fixture)**: ui-ir に action 1 件・bom/trace は空・action は根拠つき rejected で被覆
+  (C6b は exit 0 を期待)。**ゲートごとの母集団 0 判定だと C6b が赤化**する(§2 で凍結したリスクの
+  実発生)→ 規則の精密化: **母集団 0 は根(ui-ir の actions+raw の interactables)で判定**し、根が非空
+  なら下流の空は既存ゲート(GU2 の未会計検出)の所見として現れる。C6 の意図は保存(fixture は不変)。
+- **製造**: C9= suite 判定を純関数 `_c9_suite_verdict` へ抽出(挙動保存)し空結果 guard(結果 0 件または
+  total 0 → FAIL)を追加・`_c9_selftest` に腕 3 本(known-bad 2・known-good 1)を追加(5→8 腕)。
+  ui-cad= 二層(スキーマ不成立→ exit 2 / 根の母集団 0 → 保留 exit 1・`--na "population: 理由"` で
+  契約上の NA 宣言可)・`--selftest`(3 腕)・限界宣言。
+- **V1 実測**: C9 selftest 8/8 成立(total 0+空= FAIL / total 2+結果 0= FAIL / 2/2 合格= PASS)/ ui-cad:
+  全 `{}`= **exit 2**(「ui-ir に actions がない」)/ 母集団 0(スキーマ成立)= **exit 1**(保留・母集団 0)/
+  C6b 型(根 1・根拠つき rejected)= **exit 0** / C6a 型(理由なし rejected)= exit 1 / rulings が list=
+  exit 2 / 母集団 0+`--na population`= exit 0(NA 2 件表示)/ `--selftest`= PASS 3 腕。**V1 PASS**。
+- **V2 実測**: 両計器の fixture 全成立・C6 の判定は不変(C6a 遮断・C6b 通過 — 規則の精密化で解決・
+  fixture 不変)。**V2 PASS**。
+- **製造中の判断**: §1-2(b)「GU2〜GU5 の検査対象が空 → 保留」を、C6 実測に基づき「**根の母集団 0**
+  → 保留」へ精密化(下流の空はゲート所見として既に現れる)。§1 の文言より狭い実装であり、限界
+  宣言に「母集団 0 の判定は根のみ」を明記。
+- V3 以降は §5 で確定。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ③: 検査器の変更直後+④: 独立所見の是正。二軸)
+
+- 査定した主張と判定:
+  1. 「空集合の合格化を C9/ui-cad で排除した」— **observed / 適格**(known-bad 腕が FAIL・selftest へ
+     恒久化 — ラベルは独立検査官 S1/S3/S2/S6 の実測で査定者から独立)。
+  2. 「既存の正当な判定を壊さない」— **observed / 適格**(C6a/C6b 不変・C9 正常腕 PASS・built-in NA
+     維持・`--na population` の出口あり)。
+  3. 「製品リポの実運用でも同じ帰結になる」— **unknown(理由コード: 未実行)** — BomDD 内 consumer は
+     C6 のみ・ui-cad は配布治具。
+- 検出した計器欠陥: なし(本 ECO は独立検査官が検出済みの欠陥の修理)。副次: §1-2(b) の文言が
+  C6 fixture を赤化させる過広さを製造前に検出し規則を精密化。
+- 検出力の限界: 母集団 0 の判定は根のみ(各ゲート固有の空集合は測らない)/ C9 の `NotExecuted`・
+  runner exit・`safe_load`(P4)と ui-cad の GU2/識別子/rejected 表示(P5)は対象外。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 限界宣言(根のみ・P4/P5 対象外)とコードの一致 |
+  | Q2 | asked | observed/適格 | 実測 | known-bad/known-good 対(ラベル= 独立検査官) |
+  | Q3 | asked | observed/適格 | 実測 | 腕ごとに独立に落ちる(C9 3 腕・ui-cad 3 腕) |
+  | Q4 | asked | observed/適格 | 実測 | selftest は本体関数/本体プロセスを実入力で実行 |
+  | Q5 | asked | observed/適格 | 実測 | 空結果・母集団 0 を PASS に数えない(本 ECO の主題) |
+  | Q6 | asked | observed/適格 | 実測 | check()/exit code 経由 |
+  | Q7 | asked | observed/適格 | 実測 | selftest が常設陽性対照(ui-cad は本 ECO で初設置) |
+  | Q8 | asked | observed/適格 | 実測 | `--na population` の根拠つき出口・件数表示 |
+  | Q9 | NA | — | — | 個体刻印は ui-cad の宣言済み境界(revision 非刻印) |
+  | Q10 | asked | observed/適格 | 読解 | 限界: 根のみ・P4/P5・製品リポ影響 unknown |
+  | Q11 | asked | observed/適格 | 実測 | スキーマ不成立/母集団 0/根拠つき rejected/理由なし をクラス別に |
 
 ## 5. CI 実測(V4)
 
