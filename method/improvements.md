@@ -4338,7 +4338,7 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
   source: BomDD 2026-08-08 節・観測 4
   origin: internal(自己適用)
   evidence: 本節・観測 1・観測 2
-- [watch 2/3] OBS-20260828-02 — **自発起動を散文で規定しても起動は保証されない** — 「呼ばれなくても
+- [watch 3/3] OBS-20260828-02 — **自発起動を散文で規定しても起動は保証されない** — 「呼ばれなくても
   適用せよ」という自発起動契約は、③の起動問題(§13・ViewPrism2 ECO-060 還元)を解かない。契約の
   存在は起動の証拠ではないため、**起動したこと自体を成果物に残す**(収束 receipt・適用宣言)か、
   起動を必ず起きるイベント(提示・コミット・受入)へアンカーするかのいずれかが要る。
@@ -4364,6 +4364,15 @@ TimetableAdvUI `cad/gameplay-situation-proof-v1/baseline-calibration-expected.ya
   別 ECO・ECO-020 との差分裁定を必須とする
   evidence: 本節・観測 3・効果回収 / 2026-08-30 TimetableAdv 還元節・昇格審査記録 /
   bomdd/60-change-order-eco-033.md §1.1
+  **3 例目(2026-09-02・converge スキル評価)**: converge を評価する回答の中で提案 (a)〜(d)(裁定候補・
+  対策仕様= 自発起動契約が名指すトリガー)を出しながら converge を起動せず — **人間の質問で発見**
+  (1・2 例目と同一の検出器)。事後適用の receipt は 3→1→0 で未収束 → 人間裁定で延長 4 周 → 収束
+  (ECO-053)。**3/3 到達 — 昇格判断は別途レビュー**(3 例の独立性: 3 例とも「散文契約のみ・機械
+  ゲートは artifact 段階〔C16〕で回答段階の非起動は捕捉外」という同一機序 — 同じ抽象規則で説明
+  できるため命題の一般性を支持するが、対策は C16 の被覆外〔限界 (3): artifact に落ちない提示〕に
+  属し本 ECO は解消しない)
+  source: ECO-053
+  evidence: ECO-053 order §0 / 本セッションの converge 評価回答(receipt なし)→ 次回答で事後適用
 - [open] EXP-20260828-03 — **次のレビュー/受入系列**で、①凍結宣言に層別既定処分が載るか
   ②記録層の所見が是正へ流れた比率 ③是正行数 が基準線(2026-08-08 節・観測 4 — 数値はそちらが正本)
   から動くか。**2 レバーを分けて観測する**(混ぜると帰属できない): レバー A= 案 1 の層別既定処分
@@ -5590,6 +5599,15 @@ bomdd/reports/ 4 本。③固有の教訓(REJECT 意味論・報告様式・集�
   検出力が永久に unknown のまま残りうる
   evidence: 本セッションの圧縮後再開(preflight receipt 不在)/ 前ターンの未収束事項
   (遡及プローブの汚染)は本裁定で前向き腕を採る方向へ解消
+- [watch 2/3] OBS-20260901-06 — **収束 receipt は「見逃しなし」を保証しない — 収束判定後に発覚した
+  見逃しは既知型の実施漏れとして分類し、表 B へ新型を足さない** — 実測 2 件(同一セッション):
+  ECO-049(2→0→0 収束 → 修理が backtick fence にしか効かず、~~~ を探していない= 表 A **型②**
+  最初のヒットで打ち切り — 独立検査官が発見)/ ECO-052(2→0→0 収束 → receipt 要件化で限界④が
+  失効したのに古い前提で進行= 表 A **型④** 開いているゲートの前提を再評価しない — 自己照合で
+  発見)。当初「新しい型」と提案したが表 A との照合で反証(ECO-053 converge round 1)。round 軌跡は
+  自己申告で検証不能(工程の陽性対照なし)— 3 例目で昇格判断
+  source: ECO-049, ECO-052
+  evidence: ECO-053 order §0・converge.md 表 A ②④・bomdd/reports/calibrate-blind-sensitivity-01.md §3.1
 - [watch 1/3] OBS-20260901-04 — **検査器の新設・変更直後(calibrate trigger ③)の非起動は
   機械 classifier で守らず、trigger ① gate(verified 昇格時の receipt 検査)を最後の防波堤に
   する** — trigger ③ の機械判定は「何が検査器か」の分類問題を含み、先回りの classifier は

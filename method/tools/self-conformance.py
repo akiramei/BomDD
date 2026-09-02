@@ -1029,6 +1029,18 @@ def c9_dotnet() -> None:
 #       required にならない — その被覆は書き手の `converge: required` 宣言に依存する
 #       (残余の fail-open)。
 #   (3) artifact に落ちない提示(チャットのみで終わる裁定)は原理的に被覆外(Phase 2 の対象)。
+#   (4) ECO-053: receipt 検出は C17 と**共通関数**(fence 除去〔backtick / tilde・未閉鎖は EOF
+#       まで〕→ 見出し → 本体)。**ECO-053 以降の order** は本体ラベル 5 つ(判定〔収束|未収束〕・
+#       起動経路・round/周回・未収束事項・DoD ✔/✘)の存在を要求し、**遺産**(ECO-033〜052 の
+#       order と improvements.md の節)は fence 除去後のトークン共起で測る(歴史は書き換えない)。
+#       **ラベルの存在≠敵対自問の実施**(限界 (1) は維持)。契機= converge 評価(2026-09-02)で
+#       ECO-049 前の C17 と同型の use/mention 穴 6 変種+未閉鎖 fence+インデント免除+
+#       「round 軌跡」様式の偽陽性を実測 — C17(ECO-051)の修理を親へ還流。ラベル検索は
+#       **見出し行を含む**(ECO-036 様式は「起動経路」を見出しに書く — 受入で本 order 自身が
+#       遮断された偽陽性の是正)。否定見出しに全ラベルを揃えた病的 receipt は構造的には receipt で
+#       あり通過する — 意味は測らない(C17 限界 (5) と同じ)。
+#   (5) hard-positive(裁定語)は**フェンス内でも読む**(意図された非対称 — 過剰検出は出口が
+#       あるので安全側・過剰免除は fail-open)。本 ECO はこの非対称を変更していない。
 CONVERGE_CUTOFF = "2026-08-30"   # ECO-033 gate 1 裁定(C-1c)。これ以前の節・order は対象外
 
 # 明示宣言(HTML コメント — 描画に出ず機械可読。前例= worklist-legacy-audit-cutoff)
@@ -1036,10 +1048,12 @@ CONVERGE_CUTOFF = "2026-08-30"   # ECO-033 gate 1 裁定(C-1c)。これ以前の
 # 片方でも空なら却下(FAIL)。前例= ui-cad-gate GU4(ECO-005)「rejected は却下根拠と決定者を
 # 必須にする — 来歴なしの黙殺を通さない」。B-1 の非対称性は「宣言で緩められない」から
 # 「**根拠なしには緩められない**」へ精密化される(`required` への引き上げは無条件で有効)。
+# ECO-053: 宣言は**行頭**でのみ有効(インデントされたコード例・引用内の宣言を実宣言と数えない —
+# C17 F11 と同型の実測)。
 CONVERGE_DECL_RE = re.compile(
-    r"<!--\s*converge:\s*(required|not-required)"
+    r"^<!--\s*converge:\s*(required|not-required)"
     r"(?:[\s;|]+reason:\s*(.*?))?"
-    r"(?:[\s;|]+decided-by:\s*(.*?))?\s*-->", re.S)
+    r"(?:[\s;|]+decided-by:\s*(.*?))?\s*-->", re.S | re.M)
 
 # hard-positive= 「人間へ未解決の選択を出している」ことの高精度マーカー
 # 語彙は**実リポの実測**で決めた(製造時 R5 probe — ECO-033 §8)。`残ゲート` だけでは
@@ -1060,10 +1074,43 @@ CONVERGE_HARD_POSITIVES = (
 # 本ゲートの対象は**未解決の選択を人間へ出している** artifact であり、過去の裁定の記録では
 # ない。再現力の低下は書き手の `converge: required` 宣言で補う(下記 限界宣言 (2))。
 
-# receipt= 現行契約の 3 項(周回数と各周の新規指摘件数 / 検証した主張と実測結果 / 未収束事項)
+# receipt= 現行契約(ECO-036 様式): 判定 / 起動経路 / 周回と各周の新規指摘件数 / 検証した主張 /
+# 未収束事項。ECO-053 で「見出し+本体ラベル」検出へ(共通関数 — C17 と共用)。
 CONVERGE_RECEIPT_RE = re.compile(r"(収束\s*receipt|/?converge\s*receipt)", re.I)
-CONVERGE_ROUNDS_RE = re.compile(r"周回|round\s*\d")
+CONVERGE_RECEIPT_HEAD_RE = re.compile(
+    r"^[ \t]{0,3}(#{2,6})[ \t]+([^\n]*?(?:収束\s*receipt|/?converge\s*receipt)\b[^\n]*)$", re.I | re.M)
+CONVERGE_ROUNDS_RE = re.compile(r"周回|round\s*(\d|軌跡)")   # ECO-053: 「round 軌跡」様式を受理
 CONVERGE_UNRESOLVED_RE = re.compile(r"未収束")
+C16_BODY_MIN = 53   # ECO-053 以降の order は本体ラベル 5 つを要求(遺産はトークン共起)
+_C16_LABELS = (
+    ("判定(収束|未収束)", re.compile(r"判定[^\n]{0,12}(収束|未収束)")),
+    ("起動経路", re.compile(r"起動経路")),
+    ("round/周回", CONVERGE_ROUNDS_RE),
+    ("未収束事項", CONVERGE_UNRESOLVED_RE),
+    ("DoD ✔/✘", re.compile(r"DoD[\s\S]{0,400}?[✔✘]")),
+)
+
+
+# ECO-053: fence 除去と receipt 本体抽出の**共通関数**(C16 / C17 が共用 — 正本を 1 つにする)。
+# backtick と tilde の両方・未閉鎖 fence は EOF まで除去(C17 ECO-051 の正規表現を昇格)。
+_FENCE_ALL_RE = re.compile(r"^[ \t]{0,3}(```|~~~)[^\n]*\n.*?(?:^[ \t]{0,3}\1[ \t]*$|\Z)", re.S | re.M)
+
+
+def _strip_fences_all(text: str) -> str:
+    return _FENCE_ALL_RE.sub("", text)
+
+
+def _receipt_bodies(unfenced: str, heading_re, include_heading: bool = False) -> list:
+    """receipt 見出しの直後から同レベル以上の次見出しまでを本体として返す(該当見出しごと)。
+    include_heading=True で見出し行の文言を本体に含める(ECO-036 様式は「起動経路」を見出しに
+    書く — ECO-053 受入で本 order 自身が遮断された偽陽性の是正。見出し行は receipt の一部)。"""
+    out = []
+    for m in heading_re.finditer(unfenced):
+        lvl = len(m.group(1))
+        nxt = re.compile(rf"^[ \t]{{0,3}}#{{2,{lvl}}}[ \t]", re.M).search(unfenced, m.end())
+        body = unfenced[m.end(): nxt.start() if nxt else len(unfenced)]
+        out.append((m.group(2) + "\n" + body) if include_heading else body)
+    return out
 
 
 # ECO-034 製造中の実測: 宣言構文を**説明する**文書(本 ECO の order 自身)の
@@ -1071,14 +1118,26 @@ CONVERGE_UNRESOLVED_RE = re.compile(r"未収束")
 # プレースホルダで自己免除が成立した。**免除を granting する文はフェンス内では読まない**。
 # hard-positive は逆に**フェンス内でも読む**(非対称) — 過剰検出は出口があるので安全側だが、
 # 過剰免除は fail-open で出口を要さないため。倒れる方向を揃えている。
-_FENCE_RE = re.compile(r"^[ \t]*(?:```|~~~).*?^[ \t]*(?:```|~~~)", re.S | re.M)
-
-
+# ECO-053: フェンス除去は共通関数 _strip_fences_all へ(旧 _FENCE_RE は閉じ fence を要求し
+# 未閉鎖 fence を除去できなかった — 実測)。
 def _strip_fences(text: str) -> str:
-    return _FENCE_RE.sub("", text)
+    return _strip_fences_all(text)
 
 
-def converge_classify(text: str) -> dict:
+def _c16_receipt_present(text: str, eco_no: int = 0) -> bool:
+    """ECO-053: fence 除去後に判定。eco_no >= C16_BODY_MIN は見出し+本体ラベル 5 つ、
+    それ未満(遺産 order・improvements 節= 0)はトークン共起(フェンス穴だけ塞ぐ)。"""
+    unf = _strip_fences_all(text)
+    if eco_no >= C16_BODY_MIN:
+        for body in _receipt_bodies(unf, CONVERGE_RECEIPT_HEAD_RE, include_heading=True):
+            if all(rx.search(body) for _, rx in _C16_LABELS):
+                return True
+        return False
+    return bool(CONVERGE_RECEIPT_RE.search(unf) and CONVERGE_ROUNDS_RE.search(unf)
+                and CONVERGE_UNRESOLVED_RE.search(unf))
+
+
+def converge_classify(text: str, eco_no: int = 0) -> dict:
     """1 artifact を分類する。返り値= required / reasons / declared / conflict / receipt。"""
     reasons = []
     for name, rx in CONVERGE_HARD_POSITIVES:
@@ -1097,17 +1156,15 @@ def converge_classify(text: str) -> dict:
     exempted = bool(declared == "not-required" and reasons and grounded)
     required = (bool(reasons) and not exempted) or declared == "required"
 
-    receipt = bool(CONVERGE_RECEIPT_RE.search(text)
-                   and CONVERGE_ROUNDS_RE.search(text)
-                   and CONVERGE_UNRESOLVED_RE.search(text))
+    receipt = _c16_receipt_present(text, eco_no)
     return {"required": required, "reasons": reasons, "declared": declared,
             "conflict": conflict, "receipt": receipt, "exempted": exempted,
             "decl_reason": decl_reason, "decl_by": decl_by}
 
 
-def converge_verdict(text: str) -> tuple[bool, str]:
+def converge_verdict(text: str, eco_no: int = 0) -> tuple[bool, str]:
     """(ok, 理由)。conflict は receipt の有無によらず FAIL(宣言による引き下げの却下)。"""
-    c = converge_classify(text)
+    c = converge_classify(text, eco_no)
     if c["conflict"]:
         miss = " / ".join(x for x, v in (("reason", c["decl_reason"]),
                                          ("decided-by", c["decl_by"])) if not v)
@@ -1115,6 +1172,10 @@ def converge_verdict(text: str) -> tuple[bool, str]:
                        f"{','.join(c['reasons'])}")
     if c["required"] and not c["receipt"]:
         why = ",".join(c["reasons"]) or "declared:required"
+        if eco_no >= C16_BODY_MIN:
+            return False, (f"converge-required({why})だが収束 receipt の見出し+本体ラベル"
+                           "(判定/起動経路/round/未収束事項/DoD ✔✘)が揃っていない — 平文の言及・"
+                           "フェンス内の様式例は receipt ではない")
         return False, f"converge-required({why})だが収束 receipt がない"
     return True, "ok"
 
@@ -1146,14 +1207,35 @@ _CONVERGE_FIXTURES = (
      "宣言の書式は次のとおり。\n\n```\n"
      "<!-- converge: not-required reason: <なぜ対象外か> decided-by: <誰が宣言したか> -->\n"
      "```\n\n## 残ゲート\n候補 B-1(推奨)。\n"),
+    # ECO-053 追加 — use/mention・fence・様式の known-bad / known-good(ラベルの根拠= converge 評価時の
+    # 実測。C17 の独立検査官変種〔ECO-051〕と同型)。第 5 要素= eco_no(0= 遺産規則・53= 新規則)。
+    ("F10", False, "フェンス内の様式例は receipt ではない(遺産規則でも)",
+     "## 残ゲート\n候補 A-1(推奨)。\n```\n## /converge receipt\n- round 1\n- 未収束事項: なし\n```\n", 0),
+    ("F11", False, "未閉鎖 fence 内の様式例は receipt ではない",
+     "## 残ゲート\n候補 A-1(推奨)。\n```\n## /converge receipt\n- round 1\n- 未収束事項: なし\n", 0),
+    ("F12", False, "チルダ fence 内(新規則)",
+     "## 残ゲート\n候補 A-1(推奨)。\n~~~\n## 収束 receipt\n- 判定: 収束 / 起動経路: 自発 / round 1 / 未収束事項: なし / DoD ✔\n~~~\n", 53),
+    ("F13", False, "平文の言及(省略宣言)は receipt ではない(新規則)",
+     "## 残ゲート\n候補 A-1(推奨)。\n収束 receipt は今回省略した。round 1 は未実施・未収束のまま。\n", 53),
+    ("F14", False, "見出しはあるが判定・DoD のない receipt(ECO-036/053 様式違反)",
+     "## 残ゲート\n候補 A-1(推奨)。\n## /converge receipt\n- round 1 = 2 件\n- 未収束事項: なし\n", 53),
+    ("F15", False, "インデントされたコード例内の免除宣言は無効",
+     "    <!-- converge: not-required reason: example decided-by: nobody -->\n## 残ゲート\n候補 B-1(推奨)。\n", 0),
+    ("F16", True, "「round 軌跡」様式だけの正当 receipt を遮断しない(偽陽性の除去・遺産規則)",
+     "## 残ゲート\n候補 A-1(推奨)。\n## /converge receipt\n- 判定: 収束(round 軌跡: 2→0→0)\n- 未収束事項: なし\n", 0),
+    ("F17", True, "5 ラベル完備の receipt(known-good・新規則)",
+     "## 残ゲート\n候補 A-1(推奨)。\n## /converge receipt\n- 判定: 収束(round 軌跡: 2→0→0)\n"
+     "- 起動経路: 自発\n- 未収束事項: なし\n- DoD: アンカー ✔ / 実装先 ✔\n", 53),
 )
 
 
 def c16_converge_receipt() -> None:
     # (1) 較正 — fixture 5 種を毎回実測(予防ゲートの陽性対照。OBS-20260828-05)
     fx_bad = []
-    for fid, want_ok, desc, body in _CONVERGE_FIXTURES:
-        got_ok, why = converge_verdict(body)
+    for fx in _CONVERGE_FIXTURES:
+        fid, want_ok, desc, body = fx[:4]
+        eco = fx[4] if len(fx) > 4 else 0
+        got_ok, why = converge_verdict(body, eco)
         if got_ok != want_ok:
             fx_bad.append(f"{fid}({desc}) 期待={'PASS' if want_ok else 'FAIL'}"
                           f" 実測={'PASS' if got_ok else 'FAIL'} [{why}]")
@@ -1185,7 +1267,8 @@ def c16_converge_receipt() -> None:
         if not po.is_file():
             check("C16", False, f"{ent.get('id')}: order_ref の実体がない({ref} — 欠測は FAIL)")
             return
-        targets.append((str(ent.get("id")), po))
+        mno = re.match(r"ECO-(\d+)$", str(ent.get("id") or ""))
+        targets.append((str(ent.get("id")), po, int(mno.group(1)) if mno else 0))
 
     imp = ROOT / "method" / "improvements.md"
     if not imp.is_file():
@@ -1207,12 +1290,12 @@ def c16_converge_receipt() -> None:
         sections.append((sec_id, "\n".join(sec_buf)))
 
     problems, exempt = [], []
-    for name, body in ([(n_, po.read_text(encoding="utf-8")) for n_, po in targets]
-                       + sections):
-        c = converge_classify(body)
+    for name, body, eco in ([(n_, po.read_text(encoding="utf-8"), e_) for n_, po, e_ in targets]
+                            + [(n_, b_, 0) for n_, b_ in sections]):
+        c = converge_classify(body, eco)
         if c["exempted"]:
             exempt.append(f"{name}(by {c['decl_by']})")
-        ok, why = converge_verdict(body)
+        ok, why = converge_verdict(body, eco)
         if not ok:
             problems.append(f"{name}: {why}")
 
@@ -1221,7 +1304,7 @@ def c16_converge_receipt() -> None:
     n = len(targets) + len(sections)
     check("C16", not problems,
           f"converge receipt ゲート(cutoff {CONVERGE_CUTOFF} 以降 {n} 件"
-          f"・fixture {len(_CONVERGE_FIXTURES)}/{len(_CONVERGE_FIXTURES)} 較正成立"
+          f"〔本体ラベル要求= ECO-0{C16_BODY_MIN} 以降〕・fixture {len(_CONVERGE_FIXTURES)}/{len(_CONVERGE_FIXTURES)} 較正成立"
           f"・根拠つき免除 {len(exempt)} 件"
           + ("[" + " / ".join(exempt) + "]" if exempt else "") + ")"
           + (" — " + " / ".join(problems) if problems else ""))
@@ -1265,7 +1348,7 @@ C17_DECL_RE = re.compile(
     r"^<!--\s*calibrate:\s*not-required\s+reason:\s*(?P<reason>[^>]*?)\s+decided-by:\s*(?P<by>[^>]*?)\s*-->",
     re.M)
 # ECO-051: ``` と ~~~ の両方・未閉鎖 fence は EOF まで除去(ECO-049 は backtick のみだった)。
-_C17_FENCE_RE = re.compile(r"^[ \t]{0,3}(```|~~~)[^\n]*\n.*?(?:^[ \t]{0,3}\1[ \t]*$|\Z)", re.S | re.M)
+_C17_FENCE_RE = _FENCE_ALL_RE   # ECO-053: 共通関数へ(C16 と正本を 1 つにする)
 # ECO-051: receipt 本体の必須項目(calibrate.md「較正 receipt」節の 3 項目+ECO-052 の行別記録)。
 _C17_LABELS = (
     ("主張と判定", re.compile(r"査定した主張|主張と判定")),
@@ -1276,13 +1359,8 @@ _C17_LABELS = (
 
 
 def _c17_receipt_bodies(unfenced: str):
-    """receipt 見出しの直後から同レベル以上の次見出しまでを本体として返す(該当見出しごと)。"""
-    out = []
-    for m in C17_RECEIPT_RE.finditer(unfenced):
-        lvl = len(m.group(1))
-        nxt = re.compile(rf"^[ \t]{{0,3}}#{{2,{lvl}}}[ \t]", re.M).search(unfenced, m.end())
-        out.append(unfenced[m.end(): nxt.start() if nxt else len(unfenced)])
-    return out
+    """ECO-053: 共通関数 _receipt_bodies へ委譲(挙動保存 — F1〜F18 で回帰確認)。"""
+    return _receipt_bodies(unfenced, C17_RECEIPT_RE)
 
 
 def c17_verdict(status: str, text: str, eco_no: int = 0):

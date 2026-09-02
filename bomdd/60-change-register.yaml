@@ -1974,3 +1974,29 @@ changes:
       二軸・行別 asked/NA つき)は order §4 — 「陽性対照の運用規則の実効到達」は unknown(未実行)。
       製造後の自己照合で限界④の陳腐化(converge 見逃し 1 件)を検出し同一弧内で是正(receipt は
       書き換えず後出の指摘として記録)。
+  - id: ECO-053
+    title: C16/C17 receipt 検出の共通化+C16 本体ラベル・converge 手順 6 の補正・見逃しの記帳(a′+b′+d)
+    date: 2026-09-02
+    origin: corrective
+    status: in-progress
+    source: >
+      converge スキル評価(2026-09-02)で C16 に ECO-049 前の C17 と同じ穴を実測(フェンス内様式例・
+      チルダ・未閉鎖 fence・平文言及・否定文・中身空見出し・判定なし receipt が通過 / インデント
+      免除が有効 / ECO-036 様式「round 軌跡」の正当 receipt が遮断される偽陽性)。C17 は雛形の
+      C16 へ修理が還流していなかった(正本 2 つ)。converge 収束判定の偽陰性 2 件(ECO-049= 型②・
+      ECO-052= 型④の実施漏れ)。提案自体の converge 自発起動不発(人間の質問で発見・事後適用・
+      延長 4 周で収束)。延長 round の「偽 required」は実装コメントの意図された非対称と判明し型③
+      として再分類(required 判定は不変)。
+    order_ref: bomdd/60-change-order-eco-053.md
+    affected_refs: [method/tools/self-conformance.py, method/templates/product-profile/skills/converge.md, .claude/skills/converge/SKILL.md, method/improvements.md]
+    no_impact_prediction: "(製造前)C17 は共通化後も fixture 18/18・実 order 11 件の判定不変(挙動保存)。C16 は遺産規則(fence 除去後トークン共起)で対象 19 order+節が全通過を維持(製造前実測)。本 order は新規則(5 ラベル)の最初の適用個体。C1/C13 判定不変"
+    diff_audit:
+      baseline: "4703606"  # 起票直前 HEAD(起票+製造は同一窓)
+      allowed_paths: [method/tools/self-conformance.py, method/templates/product-profile/skills/converge.md, .claude/skills/converge/SKILL.md, method/improvements.md]
+    summary: >
+      a′= receipt 検出(fence 除去〔2 種・未閉鎖〕→ 見出し → 本体)を共通関数化し C16/C17 が共用。
+      C16 は ECO-053 以降の order に 5 ラベル(判定・起動経路・round・未収束事項・DoD ✔/✘)を要求・
+      遺産(〜052・improvements 節)は fence 除去後トークン共起・「round 軌跡」受理・免除は行頭のみ・
+      C16 fixture 追加・限界改訂。required 判定は不変(宣言済み非対称)。d= converge.md 手順 6 へ
+      「先行する包括承認は未収束の裁定点を代替しない」1 文(正本+写し)。b′= 見逃し 2 件を型②/④の
+      実施漏れとして記帳+自発起動不発の記帳。採らない= required の fence 除去・表 B 新型・遡及。
