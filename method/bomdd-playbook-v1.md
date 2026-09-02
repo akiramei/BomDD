@@ -368,7 +368,7 @@ Work Order(40-work-order.md)     … 製造対象・必須受入・ずる報告�
 > **工場能力は単一軸でない(plm-v0 実測)**: 同一 BOM・同一パッケージで、parse 系契約は sonnet 優位・family 判定系は opus 優位と、能力差の**向きが領域で逆転**した(52-metrics: f-01 は parse 全滅/f-02 は parse 正解のまま family 判定が壊れる)。多工場の価値はモデルの序列づけ(「一番強いのを選ぶ」)ではなく**分散の観測**にある——「強いモデル1体」運用は、そのモデルが劣位な領域の穴をそのまま通す。ティア選択に迷う場合も、初回は**別ティア混成**を優先する。
 > 追補(equip-01 遡及採点・2026-08-02): 能力差は**ドメインでも非一様** — 同一設備・同一クラスの製造で contract miss が webapi 3/16・saga 0(haiku)。また**工場能力の観測値は検査体制(Control Plan)込みの値**であり、検査体制の異なる系列間で初回通過率・差戻率を直接比較しない(検出力差との交絡 — FINDINGS §13)。
 
-> **工場選定の単軸根拠にしない(ECO-055・2026-09-03)**: `specified_contract_miss`(52-metrics)と equip 認定は、**工場選定・ティア変更の単軸根拠にしない**。能力差は領域で向きが逆転し(上記 plm-v0)、ドメインでも非一様(上記 equip-01 追補)、観測値は検査体制込みの値であり、transfer-02 では contract miss 実績のある haiku を工場として採用し続けて補償機構が成立した(loops/equip-01/measurements.md 台帳 #4 t2 行・loops/transfer-02/t2-report.md)。`specified_contract_miss` の消費先は §6.4 の帰属(判断= BOM を改訂しない・manufacturing_miss として fresh 再製造)であり、工場選定は本表のとおり「別ティアを混ぜる」を維持する。equip 系列の観測値(P2 等)は routing・ティア選択の根拠にしない — 設備の限定資格制度と routing 昇格基準は**制定保留**(equip-02 review 項 6「趣旨採択・制定は保留」。ECO-056 で縮小)。
+> **工場選定の単軸根拠にしない(ECO-055・2026-09-03)**: `specified_contract_miss`(52-metrics)と equip 認定は、**工場選定・ティア変更の単軸根拠にしない**。能力差は領域で向きが逆転し(上記 plm-v0)、ドメインでも非一様(上記 equip-01 追補)、観測値は検査体制込みの値である。出典は系列ごとに分ける — ①Plm P2 多工場では haiku の contract miss がドメイン非一様(webapi 3/16・saga 0: loops/equip-01/measurements.md 台帳 #5)。②transfer-02 では haiku を工場に採用したまま、**担当者(sonnet)側**の自発性 4 項目の劣化を工程ゲートが補償した(loops/equip-01/measurements.md 台帳 #4 t2 行・loops/transfer-02/t2-report.md §2)— ①の miss を②が補償したという因果鎖は測っていない。`specified_contract_miss` の消費先は §6.4 の帰属(判断= BOM を改訂しない・manufacturing_miss として fresh 再製造)であり、工場選定は本表のとおり「別ティアを混ぜる」を維持する。equip 系列の観測値(P2 等)は routing・ティア選択の根拠にしない — 設備の限定資格制度と routing 昇格基準は**制定保留**(equip-02 review 項 6「趣旨採択・制定は保留」。ECO-056 で縮小)。
 
 ## 6. Phase 5 — 受入・収束
 
@@ -786,7 +786,7 @@ Work Order(40-work-order.md)     … 製造対象・必須受入・ずる報告�
 | 53 Service BOM | 省略可(使い捨てツール) | 推奨 | 必須 |
 | 52 timing(時間分解) | 省略可 | 省略可 | 推奨 |
 
-> **52 timing の研究レジーム override(全規模・ECO-055/056)**: transfer / equip 系の研究ループでは規模に関わらず**必須**(time-decomposition 規律・observed のみ)。閾値規則(人間待ち比率等)は置かない — 完全分解の基準線は transfer-02 の **1 系列**のみで(cli-cad-01 は概算時刻のみ・equip-01 台帳 #4 は transfer データの再利用)、恣意的な閾値を先に置かない本節の規律に従う。
+> **52 timing の研究レジーム override(全規模・ECO-055/056)**: transfer / equip 系の研究ループでは規模に関わらず**必須**(time-decomposition 規律: 必須測定は observed な timestamp を入力とし、区間の分類は derived/classified として区別する。self-reported 値単独では充足しない — 52 の timing.measurement 来歴欄)。閾値規則(人間待ち比率等)は置かない — 完全分解の基準線は transfer-02 の **1 系列**のみで(cli-cad-01 は概算時刻のみ・equip-01 台帳 #4 は transfer データの再利用)、恣意的な閾値を先に置かない本節の規律に従う。
 
 ## 12. 関係
 - 実証済み規則(典拠): [bomdd-method-v1.md](bomdd-method-v1.md) / [../FINDINGS.md](../FINDINGS.md)

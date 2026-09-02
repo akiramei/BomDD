@@ -5914,7 +5914,7 @@ specified_contract_miss の消費先(§6.4 帰属・BOM 非改訂)と「工場�
 
 - [watch 2/3] OBS-20260903-02 — **製品リポが 52-metrics に独立に意味上近い ECO レジーム指標を追加する**(change_miss /
   impact_prediction / unnecessary_modification / regression〔ViewPrism2 は `regressions`・LibraryLending は `regression` — 名称不一致・
-  同一 schema への独立収束ではない。ECO-056 IA-08 で縮小〕)。正本は 61/63/register にあり 52 へは集約しない(ECO-055 4-A)。
+  同一 schema への独立収束ではない。ECO-056 IA-08 で縮小〕)。**詳細**の正本は 61/63/register。52 には Phase 7 正典(phase7-change-order.md §5-6)に従い件数と参照のみを記録する(ECO-056 第 2 ラウンドで ECO-055 4-A の結論を訂正)。
   3 例目で「52 に ECO 要約欄(転写でなく参照)を置くか」を判断
   source: ViewPrism2 bomdd/52-metrics.yaml, BomDD-LibraryLending-Sample bomdd/52-metrics.yaml
   evidence: bomdd/reports/52-metrics-inventory-2026-09-02.md §3 所見 4・ECO-055 order §0

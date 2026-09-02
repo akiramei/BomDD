@@ -12,7 +12,8 @@ bomdd:
 #   不要改変監査の分類は 63 が正本で、本ファイルには**件数と参照のみ**を置く(詳細の転写禁止 — §13)。
 #   各列は「この値が変わったら何の判断が変わるか」(consumer → decision)を持つ列だけを置く
 #   (棚卸し= bomdd/reports/52-metrics-inventory-2026-09-02.md)。製品固有の追加列は製品リポの裁量。
-#   機械被覆: 本ファイルを読む治具は無い(self-conformance C4 の YAML 構文 parse のみ・列意味は未被覆)。
+#   機械被覆: 意味 consumer 0(本ファイルの列を読んで判断する治具は無い)。構文被覆= self-conformance C1(原本
+#   テンプレの厳格 parse)+C4(bomdd-init 生成物の parse)。列の意味は未被覆(ECO-056 第 2 ラウンドで訂正)。
 
 metric_runs:
   - loop: <例 forward-01>

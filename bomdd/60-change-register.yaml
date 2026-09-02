@@ -2088,12 +2088,12 @@ changes:
       (asked 4/4)は 1 件も検出せず。ECO-055 の verified は起票時凍結基準の判定として維持し、被覆外の
       欠陥を本 ECO で閉じる(先例: ECO-015 → 016/017)。
     order_ref: bomdd/60-change-order-eco-056.md
-    affected_refs: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md]
+    affected_refs: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/templates/README.md]
     no_impact_prediction: "(製造前・IA-01 訂正形)52-metrics を読む治具は存在しない(stage0-survey の参照はコメント 1 行)。被覆は C4 の YAML parse のみで列意味は機械被覆されない → V1 の緑は構文非破壊のみを示す。playbook は §5.2 段落・§11 行+表外注記のみ。improvements は OBS-20260903-02 行内書き換え+記帳節のみ。製品リポ・kit 非接触"
     diff_audit:
       baseline: "13cca3d"  # 起票 commit(製造着手時 clean)
       head: "58dd2bb"      # fix commit(diff監査済み: 52-metrics・playbook §5.2/§11・improvements+台帳系のみ)。verified は独立再検査後
-      allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md]
+      allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md, method/templates/README.md]  # README は第 2 ラウンド(再検査 056-IA-04 の under-inclusion)で追加
     summary: >
       IA-03: 52 冒頭を Phase 7 正典(phase7 prompt:20・register テンプレ :31= 52 に ECO 行)へ整合(件数と参照のみ・
       詳細転写禁止)。IA-02: raw_match の「和」検算規則を削除。IA-07: user_rulings 削除根拠を consumer 不在に限定。
@@ -2104,4 +2104,6 @@ changes:
     verification: >
       (製造前)V1 self-conformance 全 PASS / V2 52 diff 3 箇所のみ / V3 playbook hunk 2 箇所のみ / V4 CI success /
       V5 較正 receipt(trigger ④・所見ごとに再現条件の消失を問う)/ verified 昇格の前提= 異系統の独立再検査 1 ラウンド
-      (製造完了後に別途)。
+      (製造完了後に別途)。**再検査 第 1 ラウンド(2026-09-03・Codex)= REJECT**: 前回 CLOSED 5 / PARTIAL 3・
+      新規 6 件 6/6 CONFIRMED(bomdd/reports/independent-reinspection-eco-056.md)→ 第 2 ラウンド fix(IA-01/03/04/
+      05/06・README を窓に追加)。IA-02(52 の ECO 行 schema+C3= 設備追加)は裁定待ち。verified は第 2 ラウンド再検査後。
