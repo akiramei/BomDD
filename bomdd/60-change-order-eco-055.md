@@ -129,3 +129,22 @@
   changed の実測)は forward/webapi の収束ループ(blocker_diffs / new_unspecified_diffs)と §6.4 帰属(specified_contract_miss)
   以外は持たない。visual_gap / design_system_gap_causes / defect_escape の decision は playbook 規則の存在で判定した
   (実測は ViewPrism2 側・本リポ未転記)。行別: 1 asked / 2 asked / 3 asked / 4 asked — NA なし。
+
+## 5. CI 実測(V4)
+
+- fix commit `c692c3c` を push → CI run **33658962494**・completed / **success**・headSha `c692c3c` 一致。
+  ジョブ別= fast (windows-latest) success / fast (ubuntu-latest) success / dotnet success。
+- 規律 5・6: ローカル全 PASS はクローズ条件ではない — CI 結論を観測してから昇格。UNKNOWN なし。
+
+## 6. クローズ(2026-09-03・verified)
+
+- 受入 5 項目: V1 PASS(self-conformance 全検査)/ V2 PASS(52 diff 1 ファイル・4 項目)/ V3 PASS(playbook hunk 2 箇所)/
+  V4 PASS(CI success・revision 一致)/ V5 PASS(較正 receipt §4 — V1 の緑は非破壊のみを示す限界を明示)。
+- diff 監査: baseline `a82fc2a` → head `c692c3c`。窓内= 52-metrics.yaml / playbook / improvements / order / register のみ
+  (allowed_paths+台帳系)。影響なし予測 under-inclusion 0・不要改変 0。
+- 教訓(一般化可能な形): **「消費者がいる」と「判断が変わる」は別で、後者まで辿って初めて計器と言える。** 棚卸しで
+  「入力」と判定した列(specified_contract_miss)が、実は §6.4 帰属という決定を持つ計器だったのは、consumer を
+  「工場選定」だけに探していたため — 消費先の候補を一つに絞って探すと既存の決定経路を見落とす(converge 失敗型 ②
+  「検索の打ち切り」の棚卸し版)。read-across: 52 以外の台帳(50 as-built・53 service-bom)でも同じ判定基準で棚卸し可能
+  だが、実測された欠損辺は 52 に局在しており、他台帳は機会が生じたときに行う(先回りしない)。
+- 未回収: EXP-20260902-03(lesson-promote 3b の実施証跡)は本 ECO の対象外・次回還元で判定。OBS-20260903-02 は watch 2/3。
