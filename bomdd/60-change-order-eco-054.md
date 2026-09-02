@@ -129,8 +129,23 @@
 
 ## 5. CI 実測(V4)
 
-- (push 後に記入)
+- 対象 revision: `0f2fb7f`(**ローカル HEAD・origin/main と一致を確認**)
+- run 識別子: 33589843504 — 結論: **PASS**(completed/success・headSha 照合済み・dotnet job を含む=
+  C9 の純関数化が実 4 suite で通過)。
+- V3 = self-conformance 全 PASS を **clean な linked worktree(0f2fb7f)で独立観測してから** push。
+  **製造中の手順注記**: 主作業木に当方以外の未コミット編集 10 ファイル(README・docs・onboarding・
+  prompts)が存在したため、witness を主作業木で取ると push 対象 tree と不一致になる。当方の commit
+  だけを含む linked worktree で検査・witness・push を行い、他者の編集には一切触れていない
+  (初回は scratchpad の深いパスで Windows のパス長制限により checkout 失敗 → 短い兄弟パスへ)。
 
 ## 6. クローズ
 
-- (受入時に記入)
+- diff 監査の窓: baseline `c00de99` → head `0f2fb7f`(**窓閉鎖**)。窓内は self-conformance.py・
+  ui-cad-gate.py+台帳系のみ — 影響なし予測が的中(C9 判定不変・C6 不変)。
+- 受入: V1(C9 8 腕・ui-cad 6 変種+selftest)/ V2(fixture 全成立・C6a/C6b 不変)/ V3(全検査緑・
+  clean worktree)/ V4(CI 緑・dotnet 含む)/ V5(窓)成立。較正 receipt は §4(行別 asked/NA つき)。
+- **§1 からの精密化**: 母集団 0 の判定は「GU2〜GU5 の検査対象」でなく**根(actions+raw interactables)**
+  — C6 fixture の実測に基づく縮小(限界宣言に明記)。
+- このクローズが支持しないもの: 製品リポ実運用での帰結(unknown)/ 各ゲート固有の空集合(根のみ
+  判定)/ P4(C9 の NotExecuted・runner exit・safe_load)/ P5(ui-cad の GU2・識別子・型不正網羅・
+  rejected 表示)/ 型④の**第 4 の計器**の有無(3 計器で確認したが横断掃引は未実施)。

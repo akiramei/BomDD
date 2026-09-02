@@ -2018,7 +2018,7 @@ changes:
     title: 空集合 fail-open の横断是正(型④)— C9 total:0 / ui-cad 空成果物(案 B)
     date: 2026-09-02
     origin: corrective
-    status: in-progress   # 2026-09-02 user「ECO-054 の製造まで進めて」で着手(起票時は filed)
+    status: verified   # 2026-09-02 受入= V1(C9 selftest 8 腕・ui-cad 6 変種+selftest 3 腕)・V2(fixture 全成立・C6a/C6b 不変)・V3(全検査緑・clean linked worktree で観測)・V4(CI run 33589843504 success @0f2fb7f・dotnet 含む)・V5(窓は両計器+台帳系のみ)
     source: >
       盲検感度試験 第 1 回(bomdd/reports/calibrate-blind-sensitivity-01.md §3.2/§4-4)で独立検査官が
       実測した型④(測定不能の合格化)の 3 計器横断。C17 は ECO-051 で是正済み。残= C9 の total:0+
@@ -2030,9 +2030,19 @@ changes:
     no_impact_prediction: "(製造前)C9 は現行 manifest が全 suite total>0 のため判定不変。ui-cad は BomDD 内 consumer が C6 fixture のみ — fixture の actions: {} が母集団 0 に当たるリスクを凍結(当たれば規則の精密化で解く・判定は書き換えない)。製品リポ側の実運用影響は未測定"
     diff_audit:
       baseline: "c00de99"  # 製造着手時 HEAD(起票 commit の後・起票時の 771d80b から更新)
+      head: "0f2fb7f"      # diff監査済み: 窓内は self-conformance.py・ui-cad-gate.py+台帳系のみ・予測的中
       allowed_paths: [method/tools/self-conformance.py, method/tools/ui-cad-gate.py]
     summary: >
       ①C9= suite の total==0 または結果集合が空なら FAIL(空結果は合格ではない)②ui-cad= 二層 —
       欠落/スキーマ不成立は exit 2(入力不正)・存在するが母集団 0 は昇格判定保留(exit 1・理由
       「母集団 0」)・§15 built-in NA との弁別維持 ③fixture= C9 total:0 腕 / ui-cad 全 {} 腕・母集団 0 腕・
       正常組腕(ラベルは独立検査官の実測)④両計器の限界宣言改訂。採らない= P4・P5。
+    verification: >
+      V1= PASS(C9: selftest 8/8 — total 0+空/total 2+結果 0 が FAIL・2/2 合格が PASS / ui-cad: 全 {} が
+      exit 2・母集団 0 が exit 1〔保留〕・C6b 型 exit 0・C6a 型 exit 1・rulings 型不正 exit 2・
+      --na population で exit 0・--selftest 3 腕 PASS)。V2= PASS(両計器 fixture 全成立・C6a/C6b の
+      判定不変 — §1-2(b) を「根の母集団 0」へ精密化して fixture を書き換えずに解決)。V3= PASS(clean
+      linked worktree で self-conformance 全 PASS を独立観測後に push — 主作業木の他者編集には
+      非接触)。V4= PASS(CI run 33589843504・success・headSha 0f2fb7f 一致・dotnet job 含む)。
+      V5= PASS(窓は両計器+台帳系のみ)。較正 receipt(trigger ③+④・二軸・行別 asked/NA)は
+      order §4 — 「製品リポ実運用でも同じ帰結」は unknown(未実行)。
