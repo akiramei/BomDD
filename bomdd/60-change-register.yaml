@@ -2046,3 +2046,30 @@ changes:
       非接触)。V4= PASS(CI run 33589843504・success・headSha 0f2fb7f 一致・dotnet job 含む)。
       V5= PASS(窓は両計器+台帳系のみ)。較正 receipt(trigger ③+④・二軸・行別 asked/NA)は
       order §4 — 「製品リポ実運用でも同じ帰結」は unknown(未実行)。
+  - id: ECO-055
+    title: 52-metrics 棚卸しの帰結 — 計器/ログの整理(1-A/2-A/3-A/4-A の束)
+    date: 2026-09-03
+    origin: improvement
+    status: filed   # 起票のみ承認(user 2026-09-03「推奨案 1-A・2-A・3-A・4-A を採択、1 ECO に束ねて起票」)— 製造着手は別途裁定
+    source: >
+      52-metrics 全列棚卸し(bomdd/reports/52-metrics-inventory-2026-09-02.md・修正なしの独立単位)の
+      裁定点 4 件を /converge(自発・round 4→1→0・未収束→打ち切り採用)で整理した帰結。round 1 で
+      棚卸し判定 1 件を訂正: specified_contract_miss は入力でなく §6.4 帰属の計器(判断= BOM 非改訂・
+      manufacturing_miss 再製造)。欠けるのは工場交換規則だけで、単軸規則は実測 3 件が否定(能力の
+      領域/ドメイン非一様・検査体制込み・transfer-02 で haiku 採用継続)。
+    order_ref: bomdd/60-change-order-eco-055.md
+    affected_refs: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md]
+    no_impact_prediction: "(製造前)52-metrics を読む治具は stage0-survey のみで読取列は変更列外 → 治具判定不変。製品リポの既存記録は非接触・テンプレ変更は次回 scaffold から(既存 kit は bomdd.lock 凍結・STALE は advisory)。playbook は §5.2/§11 の追記のみで他節 diff ゼロ"
+    diff_audit:
+      baseline: "c515318"  # 起票時 HEAD(製造着手時に再確認)
+      head: ~
+      allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md]
+    summary: >
+      ①1-A: user_rulings 削除(転写値)・raw_match は分解 3 列の検算用と明記 ②2-A: specified_contract_miss の
+      消費先(§6.4 帰属・BOM 非改訂)を注記+§5.2 に「工場選定の単軸根拠にしない」 ③3-A: §11 に
+      「52 timing: S/M 省略可・研究で必須」行 ④4-A: 52 は Phase 5 計器・ECO 指標は 61/63/register が正本で
+      集約しない+製品側 4 キー(N=2)を OBS 記帳。採らない= 1-B/2-B/3-B/3-C/4-B/4-C。
+    verification: >
+      (製造前)受入 5 項目は order §3 — V1 self-conformance 全 PASS / V2 52 diff が 4 項目のみ /
+      V3 playbook diff が §5.2・§11 のみ / V4 CI success / V5 較正 receipt(V1 は変更の正しさでなく
+      非破壊のみを示す — 限界明示)。
