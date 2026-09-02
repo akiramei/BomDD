@@ -5656,6 +5656,15 @@ ECO-037→038〕)。
   (identity の runner・依存成分)/ C16 の qualified→suspect→qualified 一周(ECO-033→034 —
   registry なしで ECO 台帳が担った実例)。本 watch 自体が「作らない判断を認識依存で運ばない」
   ための器(非起動系の故障がすべて人間の質問で発見されてきた実測への処方)
+  **候補 1(2026-09-02・N は進めない — user 裁定)**: C17 の use/mention 修理(ECO-051)が雛形の C16 へ
+  還流しておらず、C16 の前回較正(fixture 9 本・ECO-034)が現在の知見に対して有効か誰も判断しない
+  まま工程が進んだ(converge 評価で発覚・ECO-053 で修理)。trigger 文言との照合= **部分一致**:
+  困ったのは「較正済み個体の同一性判断」ではなく「同型欠陥の水平展開(read-across)の漏れ」。
+  したがって本件は **資格ライフサイクル問題(前回較正の有効性が判断できない)か read-across 問題
+  (同型残存の閉包漏れ・playbook §8.2)かの判別がつかない候補**として保存し、次の類似事例で
+  どちらかを判別する。設備(qualification index)は作らない。関連: known-bad 台帳(ECO-052)の
+  有効性〔修理前 revision の実在・rubric と現 battery の整合〕も同じ未管理領域(掃引時のローカル
+  実測で代替と宣言済み)
   source: 外部議論 2026-09-01(converge 済み)+当方評価
   origin: internal(自己適用)
   evidence: 本節
