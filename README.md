@@ -1,6 +1,6 @@
 # BomDD — BOM-Driven Development 実証研究
 
-> 🧭 **進行中の BomDD プロジェクトに参加する人はまずここ** → [進行中プロジェクトへの参加(操作チェックリスト)](method/onboarding/joining-a-project.md)。協働の作法は [working-with-ai.md](method/onboarding/working-with-ai.md)。以下は研究リポとしての説明。
+> 🧭 **進行中の BomDD プロジェクトに参加する人はまずここ** → [進行中プロジェクトへの参加(操作チェックリスト)](method/onboarding/joining-a-project.md)。協働の作法は [working-with-ai.md](method/onboarding/working-with-ai.md)。**このリポ自体で作業する人・AI の入口は [AGENTS.md](AGENTS.md)**(作業規律 6 項目・正本の所在・作業スキル契約)。以下は研究リポとしての説明。
 
 ソフトウェアの「工業化」(設計BOM→製造BOM→保守BOM を貫く工程としてのソフトウェア開発)が
 成立するかを、既存アプリ [MoviePad](../MoviePad) の **BOM手法による再実装**を通じて検証する研究。
@@ -35,35 +35,41 @@ BomDD の核は BOM 概念そのものではなく、**隔離 AI 工場、固定
 ## 構成
 
 ```
+AGENTS.md           ★このリポで作業する入口(作業規律 6 項目・正本の所在・作業スキル契約)
+CLAUDE.md           Claude 固有の補足(ハーネス依存の運用・実測の背景)
+WHITEPAPER.md       公開版ホワイトペーパー
+FINDINGS.md         実験記録の総括(7ループ・v2・フォワード・転移・自己適用 §11)
 docs/               公開ドキュメント
   concept.md          構想の全体像(概念)
-  terminology.md      用語集(E/M/S/K-BOM・核/表面・ずる・鋳造の固定)
-FINDINGS.md         7ループ最終総括(核/表面の法則)
+  terminology.md      用語集(E/M/S/K-BOM・核/表面・ずる・鋳造・裁定・receipt・UNKNOWN)
+  evidence-index.md   論文主張と公開証拠の対応
+  reproduce-*.md      第三者再現ガイド(webapi-v2 / saga-v2 / forward-01)
 method/             手法定義(ループ毎に進化)
-  bomdd-method-v1.md  ★正規の方法論(薄い版・実証済み規則のみ)
-  bomdd-playbook-v1.md ★実用パイプライン(フォワード・モード/prescriptive draft)
+  bomdd-method-v1.md  正規の方法論(薄い版・v1〜v1.3 の実証済み規則のみ)
+  bomdd-playbook-v1.md ★実用パイプライン(フォワード・モード。§8 ECO 規律・§9 裁定配置・§13 工具化ラダー)
   ui-ir-ui-bom.md       UIモック→UI-IR/UI-BOM→E-BOM接続(candidate)
   gap-analysis-v1.md  ギャップ分析(仕様→BOM/BOM→製造/検証パターン/運用の課題と優先度)
   silence-checklist.md 沈黙次元カタログ(BOM設計時の掃討表)
-  templates/          フォワード成果物テンプレ一式(00〜52)
-  prompts/            フェーズ実行プロンプト(Phase1〜5)
   cheat-taxonomy.md   ずるの分類・記録様式・製造装置の隔離規律
-  improvements.md     手法改善ログ(各ループの効果測定)
   control-plan.md     製造条件表+検査計画(検査深さ/許容差/承認者)
   k-bom-ffmpeg.md     知識部品BOM(ffmpeg文法パック)
+  s-bom-template.md   Service BOM の語彙と運用
+  improvements.md     手法改善ログ(EXP/OBS 台帳 — 一覧は tools/worklist.py)
+  templates/          フォワード成果物テンプレ一式(00〜64)+ product-profile/(製品リポ運用プロファイル+スキル 11 本)+ process-core/(hooks・lifecycle validator)
+  prompts/            フェーズ実行プロンプト(Phase 0〜7+UI モック系)— 実行手順の正典
+  onboarding/         参加・開始・移行・協働ガイド(人間向け/AI 向け)
+  contracts/          PLM-ready 契約・BOM 粒度・トレース規則
+  tools/              bomdd-init(製品リポ生成)/ self-conformance(本リポの機械検査)/ kit-freshness / 採点・健診治具
+bomdd/              ★方法論リポ自身の変更管理(自己適用): 60-change-register.yaml + ECO order 群 + hooks/
 loops/
-  metrics.csv         全ループの測定値集約(二軸品質: 合格率/介入/ずる/工場間ばらつき/再検査絞込)
-  loop-01-split/      Loop1 区間分割(純粋ロジック): 00-charter〜06-acceptance, cheat-log
-  loop-01-report.md   Loop1 総括
-  loop-01.5-split/    Loop1.5 改善効果測定(再製造でずる減を実測)
-  loop-02-export/     Loop2 書き出し(外部ツールIO): 文字列照合の破綻
-  loop-02-report.md
-  loop-02.5-export-exec/ Loop2.5 execution受入(L2 ffprobe)
-  loop-03-timeline/   Loop3 UI/知覚(golden画素差分)
-  loop-03-report.md
-  loop-04-multifactory/ Loop4 マルチファクトリ×K-BOM(ばらつきで品質測定)
-  loop-05-L3-signal/  Loop5 execution L3(音声信号比較で座標系バグ捕捉)
+  metrics.csv / metrics-v2.csv  測定値集約(二軸品質)
+  loop-01〜07-*/      MoviePad 7 ループ(区間分割・書き出し・UI・マルチファクトリ・L3 信号・S-BOM/PLM・リバース)
+  transfer-01〜03/    方法論の転移試験(ベンダー横断・説明介入ゼロ)
+  equip-01〜03/       AI 設備認定(製造セルの適格性)
+  stage0-oss-01/ cli-cad-01/ bdr-01/ onboarding-t0-01/ cheat-reclassification-01/  個別実験
   各 build/ = 隔離装置が製造した成果物 + 受入オラクル/治具(同格管理)
+experiments/        探索的実験(legacy-wpf-rdb・obsidian-stage0)
+paper/              論文原稿・査読対応
 ```
 
 ## 関連

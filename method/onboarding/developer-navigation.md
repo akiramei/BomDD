@@ -168,5 +168,6 @@ Add CP-BOOKING-001 and a TraceLink, then update this ticket status.
 | G2' Measurement | 測定不能な REQ がない。G depth は承認者がいる |
 | G3 BOM Dry Run | fresh AI が製造パッケージだけで着手可能。blocker 質問がない |
 | PLM Gate | stop finding が 0。warning は `plm-intake/00-index.md` と個別作業票で裁定済み |
+| 作業スキル契約 | `/preflight`(開始条件再認証)・`/converge`(裁定候補の収束)・`/calibrate`(受入証拠の較正)の自発起動契約が有効で、各 receipt が成果物に残る(正本 `method/templates/product-profile/skills/`・入口 AGENTS.md「作業スキル」節)。receipt のない裁定提示・受入判定は受け取らない |
 
 Gate を通らない場合、AI は実装を始めない。修復キューを処理し、必要な成果物へ逆流してから再同期する。

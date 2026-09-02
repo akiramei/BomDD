@@ -14,7 +14,7 @@
 C:\repos> git clone https://github.com/akiramei/BomDD
 C:\repos> python BomDD\method\tools\bomdd-init.py BookLog --dir C:\repos --gui
 
-[ok] C:\repos\BookLog を生成しました(bomdd/ テンプレ+運用プロファイル+スキル 8 本+AGENTS.md)
+[ok] C:\repos\BookLog を生成しました(bomdd/ テンプレ+運用プロファイル+スキル 11 本+AGENTS.md)
 [ok] C:\repos\BookLogUI を生成しました(CAD: 権威宣言+裁定台帳+資料置き場+AGENTS.md)
 [git] BookLog: 初回コミット済み
 [git] BookLogUI: 初回コミット済み
@@ -253,6 +253,8 @@ commit 5: phase5: golden 承認(GF-BL-01 是正込み)・as-built 記録・納�
 ```
 
 **🤖 AI:**
+> `/preflight`(自発起動): 契約〈ECO-001 が staged・診断済み・対象ファイル存在・register 整合〉を
+> 現在状態と突合 → 全項目 confirmed → **PROCEED**(preflight receipt を ECO 本文へ)。
 > プローブ先行: 回帰テスト「空文字 → 全件」を**先に追加 → 是正前に不合格(48 中 1)を確認**
 > = 真因裏取り。是正(early-return の条件から空文字を除外)→ 機械受入: build 0 /
 > Tests 48/48 / Oracle 12/12。
@@ -275,6 +277,8 @@ OK
 > 1. CP-UI-G1 に「検索クリアで全件復帰」観点を**潜伏実績つきで**明記(再発防止)
 > 2. register: applied+golden approved(2026-07-14 akira)
 > 3. ECO 本文に教訓「hit 側だけのオラクルは復帰側の欠陥を素通しする — 状態遷移は往復で固定する」
+> 4. `/calibrate`(自発起動)の較正 receipt: 受入 3 項目(Tests 48/48・Oracle 12/12・golden)の
+>    証拠がそれぞれの主張を本当に証明しているかを行別に査定 — 全項目 asked・NA なし
 >
 > `commit: accept(eco-001): golden 合格 — 検索クリア復帰・CP 観点明記`
 > 起票 `a1b2c3d` / fix `d4e5f6a` / accept `b7c8d9e`。残課題なし。

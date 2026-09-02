@@ -18,4 +18,4 @@
 | (独立プロンプトなし — playbook §7 が正) | 引き渡し・保守(Phase 6) | G4 Closeout(playbook §7) |
 | [phase7-change-order.md](phase7-change-order.md) | 変更オーダー(納品後の仕様変更・ECO) | 回帰ゼロ+変更受入通過 |
 
-**実行手順の正典はこの prompts/ である**(運用方針 2026-06-10)。ただし規模既定(監査体数・工場数・ゲート要否)は playbook §11 テーラリングが上書きする(権限分離規則)。skill 化は forward-01 検証後の 2026-07 に **adapter 層**として追加済み — `tools/bomdd-init.py` が**製品リポ側**へスキル一式(`templates/product-profile/skills/`)を設置する。方法論リポ自体には `.claude/skills` を置かない(正典と adapter を分離)。
+**実行手順の正典はこの prompts/ である**(運用方針 2026-06-10)。ただし規模既定(監査体数・工場数・ゲート要否)は playbook §11 テーラリングが上書きする(権限分離規則)。skill 化は forward-01 検証後の 2026-07 に **adapter 層**として追加済み — `tools/bomdd-init.py` が**製品リポ側**へスキル一式(`templates/product-profile/skills/`)を設置する。方法論リポ自体には製品向けスキル(`/bomdd-next` `/eco-*` 等)を置かない(正典と adapter を分離)。ただし**作業スキル 3 本**(`/preflight` `/converge` `/calibrate`)は本リポの作業にも自発起動契約が適用されるため、正本 `templates/product-profile/skills/` の写しを `.claude/skills/` に置く(方法論リポ専用の `/lesson-promote` も同所。入口は [AGENTS.md](../../AGENTS.md)「作業スキル」節・ECO-048)。

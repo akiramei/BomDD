@@ -86,3 +86,4 @@
 - G2': 測定できない REQ がない。人間承認が必要なものは承認者がいる。
 - G3: BOM 自己完結性ドライランで blocker 質問がない。
 - PLM: stop 状態がない。warning は `plm-intake/00-index.md` と個別作業票にあり、裁定済み。bomdd-lint が無い環境は **PLM-lite**(plm-ready-contract §12.5)で代替し、charter に明記する。
+- 作業スキル: `/preflight` `/converge` `/calibrate` の自発起動契約(`method/templates/product-profile/skills/`)が AI の入口文書から到達可能で、裁定提示・受入判定に receipt が付く運用になっている(散文の「確認済み」を実施証明として受け取らない — playbook §9)。

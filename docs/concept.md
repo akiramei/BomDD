@@ -13,7 +13,7 @@ BomDD(BOM-Driven Development)は、ソフトウェア開発を「人間が都度
 - **AI = 製造装置**(NC 工作機械の類比)。重要なのはプロンプトを書くことではなく、装置への投入情報を NC データ/工程指示として管理すること。
 - **BOM = 製造指示**。設計の意図・部品構成・製造単位・受入基準を構造化したもの。
 - **失敗は部品表の不足だけでなく**、装置が使う暗黙知・治具・検査・許容差が未管理であることに起因する。
-- AI 製造の来歴(モデル・プロンプト・コンテキスト・生成ルール・検査・人間承認)は SLSA provenance を拡張した形で記録する(→ v2 で As-Built BOM として形式化予定)。
+- AI 製造の来歴(モデル・プロンプト・コンテキスト・生成ルール・検査・人間承認)は SLSA provenance を拡張した形で記録する(v2 で **As-Built BOM** として形式化済み — [terminology.md](terminology.md) 参照)。
 
 ## 3. 三層BOM(E / M / S)+ K-BOM
 
@@ -57,7 +57,10 @@ BomDD の測定器は「ずる」である。AI が BOM/工程から導けず、
 ## 7. 研究の現状と次段
 
 - **v1 完了**: 入口(リバース)→ E-BOM → M-BOM + 工程 → S-BOM が一周。ずる 12 件すべてに手法的対策。
-- **次段(v2 research program)**: 最優先は**外部妥当性**——Web/API・分散・組込/リアルタイムで「核/表面の法則」が再現するか。あわせて、研究記録を機械可読な BomDD モデル(E/M/K-BOM・Control Plan・Routing・As-Built・Service BOM の共通スキーマ)へ昇格させる。スキーマは**複数ドメインを生き延びてから固める**方針(単一題材での早すぎる形式化を避ける)。
+- **v2 完了(外部妥当性・N=3)**: Web/API と分散 Saga で「核/表面の法則」と BOM 補正による収束が再現(FINDINGS §6)。As-Built BOM・受入 2 層(固定オラクル/探索プローブ)・差分帰属 3 分類を追加。
+- **フォワード・モード実証済み**: 原版の無い新規開発を forward-01〜04・scale-01・transfer-01〜03(ベンダー横断・説明介入ゼロ)で回した([method/bomdd-playbook-v1.md](../method/bomdd-playbook-v1.md)・FINDINGS §7/9/11)。
+- **現在(2026-09)**: 方法論の**自己適用**(本リポの変更を ECO として管理・`bomdd/`)と、工程設備の較正 — 設計収束 `/converge`・証拠資格査定 `/calibrate`・開始条件再認証 `/preflight` を作業スキルとして配布し、receipt の構造的存在を機械検査(self-conformance)で押さえる。裁定の配置原則(導出できない空白のみを裁定し、出力を BOM・台帳へ書き戻す)は playbook §9。
+- **スキーマ**: 機械可読な共通スキーマ(E/M/K-BOM・Control Plan・Routing・As-Built・Service BOM)は候補のまま([method/schema-candidates-index.md](../method/schema-candidates-index.md))。**複数ドメインを生き延びてから固める**方針は維持。
 
 ## 読む順序
 
@@ -65,5 +68,7 @@ BomDD の測定器は「ずる」である。AI が BOM/工程から導けず、
 2. [terminology.md](terminology.md)(用語の固定)
 3. [WHITEPAPER.md](../WHITEPAPER.md)(公開版・強い主張/未検証の分離)
 4. [FINDINGS.md](../FINDINGS.md)(7 ループの詳細記録・ずる台帳 12 件)
-5. [method/](../method/)(正規手法・Control Plan・K-BOM・S-BOM テンプレート・ずる分類)
-6. [loops/](../loops/) / [loops/metrics.csv](../loops/metrics.csv)(各ループの生成物と測定値)
+5. [method/bomdd-playbook-v1.md](../method/bomdd-playbook-v1.md)(フォワード・モードの実践手順 — 実際に回すならここ。§9 に裁定・統制の配置原則)
+6. [method/](../method/)(正規手法・Control Plan・K-BOM・S-BOM テンプレート・ずる分類・onboarding)
+7. [loops/](../loops/) / [loops/metrics.csv](../loops/metrics.csv)(各ループの生成物と測定値)
+8. 本リポで作業する場合は [AGENTS.md](../AGENTS.md)(作業規律 6 項目・正本の所在)

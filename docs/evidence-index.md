@@ -13,7 +13,7 @@
 | stage0-oss(3リポ・H1〜H5 事前登録・三冠不再現・H5反証) | `loops/stage0-oss-01/`(protocol・calibration・results JSON〔対象リポの HEAD SHA 記録〕・report) |
 | 採点治具(規約v1/v2・v1数値の恒久再現) | `method/tools/impact-retrospective.py`(規約はファイル冒頭に版宣言) |
 | 健診治具(定義凍結・fail-closed) | `method/tools/stage0-survey.py` |
-| 検査治具の第三者監査→是正の全記録 | `bomdd/60-change-register.yaml`+ECO-001〜007 order・self-conformance(C1〜C9)+CI(`.github/workflows/`) |
+| 検査治具の第三者監査→是正の全記録 | `bomdd/60-change-register.yaml`+ECO-001〜007 order・self-conformance(投稿時点 C1〜C9・2026-09 時点で C18 まで拡張)+CI(`.github/workflows/`) |
 | loop 実験の期待結果(意図的な赤の保存検査) | `loops/expected-results.yaml`(失敗分類+シグネチャ) |
 | ずる12件の個票・分類 | `FINDINGS.md` ずる台帳(第二評価者プロトコル= `loops/cheat-reclassification-01/`) |
 | forward/webapi/saga 系列 | 各公開リポ(論文付録A表17のタグ・コミット列) |

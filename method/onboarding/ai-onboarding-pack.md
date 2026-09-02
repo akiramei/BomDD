@@ -257,6 +257,14 @@ donor リポで成熟した工程設備(入口・ECO lifecycle・hooks・validat
 OBS-20260727-23(harness ECO-024 — 帰還方向の伝送段の破れ)。
 詳細は FINDINGS.md §11.6 を参照。
 
+**その後の機械化(harness ECO-046・2026-09-01)**: ④の破れのうち push 経路は、方法論リポの
+自己適用で pre-push hook+PASS witness(直前の必須検査が対象 revision で PASS した証跡がなければ
+push を拒否・設置検収= self-conformance C18)により機械強制へ移った。到達目標は「うっかり型の
+素通り遮断」までで、対象は branch のみ・witness/hook の除去(意図的回避)は信頼境界外・commit
+段階は明文化のまま。押し戻しの最終層は引き続き CI である(AGENTS.md「限界」節)。製品リポの
+process-core(pre-commit/commit-msg hook)はこれとは別系統で、push 経路の witness は同梱していない —
+必要なら製品側で起票して設置する。
+
 donor の分離登録・差分(adapt)・readiness の記録は標準雛形
 `method/templates/process-core/process-donor-intake.yaml` を使う(harness ECO-022 —
 装置が書けない「裁定と由来」だけを手で書く。調達・版固定・設置・初回 IQ/OQ は bomdd-init が

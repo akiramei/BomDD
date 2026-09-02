@@ -86,3 +86,20 @@ PLM の価値は被覆でなく**絞り込み**(影響しない核を巻き込�
 BOM/Control Plan が**明記した**契約を、低能力工場が外したもの=**工場能力**の問題(BOM の穴ではない)。K-BOM の価値の裏返し。例: haiku が「409=state conflict」「code=unauthorized」を取りこぼした。
 
 > ばらつきを「AI ごとに精度が違う」で止めず、**BOM欠落(未規定残渣)/ 工場能力(仕様取りこぼし)/ 探索的未規定面**に切り分けるのが BomDD の成果。
+
+## 工程統制(フォワード・モード/自己適用)
+
+### 裁定
+**Ruling / Human disposition。** CAD・BOM・一般知識から**導出できない空白**に対してのみ人間(設計者)が下す決定。導出試行なしの裁定要求と、空白への無断行動は同じ分類誤り(丸投げ/僭越)として記録する。裁定の出力は BOM・policy・台帳へ書き戻し、同じ空白を二度と裁定にしない。裁定者も設備であり、記憶からの列挙でなく製造側の導出結果に対して裁定する。→ [playbook §9](../method/bomdd-playbook-v1.md)。製造分散から裁定へ還流する経路は §6.2(仕様に昇格/探索のまま/対象外の 3 択)。
+
+### receipt
+**Receipt / 実施記録。** 作業スキル(下記)が成果物に残す短い構造化記録 — 判定・根拠・被覆できなかった範囲。散文の「確認しました」「適用しました」は実施の証拠にならない(実施要求 ≠ 実施証明)ため、順守は receipt・witness・fixture の赤緑という**観測可能な結果**で検証する。方法論リポでは receipt の構造的存在を self-conformance(C16/C17)が検査する — これは順守の証明ではなく素通りの遮断である。
+
+### 作業スキル(自発起動契約)
+`/preflight`(既存状態に依存する作業の開始前に前提を confirmed/missing/stale/contradicted/unknown で突合し PROCEED/PROCEED_WITH_LIMITS/HOLD/STOP を出す)・`/converge`(機械オラクル未整備の設計合成を、DoD 固定→実測裏取り→敵対自問で収束させてから提示する)・`/calibrate`(緑/赤を根拠として信頼済みへ昇格させる前に、証拠品質と計器自身の健全性を査定する)。正本は `method/templates/product-profile/skills/`、契約の入口は [AGENTS.md](../AGENTS.md)。
+
+### UNKNOWN(4 値判定)
+検査・鮮度・CI の結論は PASS/FAIL の 2 値でなく、**測定不能を UNKNOWN として分離**する(例: kit-freshness の FRESH/STALE/TAMPERED/UNKNOWN)。UNKNOWN を PASS へ丸めない(fail-open の禁止)が、FAIL へ丸めて誤停止させることもしない。実行不能・到達不能・権限不足はすべて UNKNOWN。
+
+### ECO(自己適用)
+**Engineering Change Order。** 納品後の変更・是正の再入口(playbook §8)。方法論リポ自身の変更(tools・templates・CI)も同じ様式で `bomdd/60-change-register.yaml`+`60-change-order-eco-NNN.md` に起票し、self-conformance で検査する。是正ループには上限と出口を事前凍結し、上限到達は失敗でなく**人間裁定待ち**(pending_human_disposition)へ遷移する。
