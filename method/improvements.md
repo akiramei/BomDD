@@ -5752,12 +5752,12 @@ P4(C9 個別)/ P5(ui-cad 個別)= 見送り・個別実測待ち / P1(外部リ�
 独立 EXP・常設しない / P6(receipt への battery 個体刻印)= **棄却**(導出可能な値の転写 — §13 記録規約)/
 P8(trigger ②③④ の機械化)= 境界外として維持 / P9(known-bad 台帳の有効性)= registry 候補・N を進めず。
 
-- [watch 1/3] OBS-20260902-02 — **asked/NA の記録は弁別力の証明ではない** — receipt に行別 asked を
+- [watch 2/3] OBS-20260902-02 — **asked/NA の記録は弁別力の証明ではない** — receipt に行別 asked を
   書いても、その行を「問うて健全だった」ことの証明にはならない(ラベルの存在≠実施の真正 — C17 限界
   (1)と同型)。行別弁別力は、独立検査官が同じ行で所見を出した場合(第 1 回: 当方 asked 相当の Q5 で
   独立検査官が 3 計器で発火)のような**外部との不一致**でしか測れない。1 例目= 盲検感度試験 第 1 回。
   常設の測定設備は作らない(P2 裁定: watch)
-  source: 盲検感度試験 第 1 回・calibrate 改善案 converge(2026-09-02)
+  source: 盲検感度試験 第 1 回・calibrate 改善案 converge(2026-09-02)・ECO-055 独立検査(2 例目= 較正 receipt asked 4/4 が当方主張の誤り 4 件を検出せず・異系統検査官が全件検出。行内書き換え= ECO-056)
   origin: internal(自己適用)
   evidence: bomdd/reports/calibrate-blind-sensitivity-01.md §4-2・ECO-053 §0
 
@@ -5873,7 +5873,7 @@ ECO 起票なし(tools/templates/.github に変更なし — AGENTS.md 規律 1 
 - [open] EXP-20260902-04 — 思想層の再認証で `contradicted` / `superseded` が初めて出た命題と、その改訂が
   concept/terminology へ届いた日付(欠損辺①が実際に流れた証拠)
   evidence: 本節
-- [open] EXP-20260902-05 — 52-metrics 棚卸しの裁定点 4 件(ログ 3 列の削除・specified_contract_miss の消費者・
+- [recovered 2026-09-03 via ECO-055(裁定点 4 件すべて裁定・1-A/2-A/4-A が 52 テンプレへ・2-A/3-A が playbook §5.2/§11 へ到達。行内書き換え= ECO-056 で複製行を是正)] EXP-20260902-05 — 52-metrics 棚卸しの裁定点 4 件(ログ 3 列の削除・specified_contract_miss の消費者・
   timing の扱い・製品側キーの棚卸し)が裁定され、少なくとも 1 件が templates または charter に到達するか
   evidence: bomdd/reports/52-metrics-inventory-2026-09-02.md §4
 
@@ -5912,10 +5912,9 @@ specified_contract_miss の消費先(§6.4 帰属・BOM 非改訂)と「工場�
 範囲宣言(ECO 指標は 61/63/register が正本・集約しない)。playbook= §5.2 に単軸選定禁止の段落・§11 に 52 timing の
 規模別行。効果測定は EXP-20260902-05(棚卸し裁定点の templates/charter 到達)が本 ECO で回収対象。
 
-- [recovered 2026-09-03 via ECO-055(裁定点 4 件すべて裁定・1-A/2-A/4-A が 52 テンプレへ・2-A/3-A が playbook §5.2/§11 へ到達)] EXP-20260902-05 — 52-metrics 棚卸しの裁定点 4 件が裁定され、少なくとも 1 件が templates または charter に到達するか
-  evidence: bomdd/60-change-order-eco-055.md §1・§4
-- [watch 2/3] OBS-20260903-02 — **製品リポが 52-metrics に独立に同じ ECO レジーム指標を追加する**(change_miss /
-  impact_prediction / unnecessary_modification / regression)。正本は 61/63/register にあり 52 へは集約しない(ECO-055 4-A)。
+- [watch 2/3] OBS-20260903-02 — **製品リポが 52-metrics に独立に意味上近い ECO レジーム指標を追加する**(change_miss /
+  impact_prediction / unnecessary_modification / regression〔ViewPrism2 は `regressions`・LibraryLending は `regression` — 名称不一致・
+  同一 schema への独立収束ではない。ECO-056 IA-08 で縮小〕)。正本は 61/63/register にあり 52 へは集約しない(ECO-055 4-A)。
   3 例目で「52 に ECO 要約欄(転写でなく参照)を置くか」を判断
   source: ViewPrism2 bomdd/52-metrics.yaml, BomDD-LibraryLending-Sample bomdd/52-metrics.yaml
   evidence: bomdd/reports/52-metrics-inventory-2026-09-02.md §3 所見 4・ECO-055 order §0
@@ -5937,15 +5936,10 @@ templates+playbook のみを変更した ECO に対する初の異系統 read-on
 52 の ECO 行を要求)の見落としで「52 へ集約しない」という二重正本を新設。**較正 receipt(asked 4/4・NA 0)はいずれも
 検出せず** — 製造者自身の較正は製造者の前提誤りに盲目(OBS-20260902-02 の 2 例目)。
 
-- [watch 2/3] OBS-20260902-02 — asked/NA の記録は弁別力の証明ではない(2 例目= ECO-055: 較正 receipt asked 4/4 が
-  当方主張の誤り 4 件を 1 件も検出せず、異系統検査官が全件検出)
-  source: 盲検感度試験 第 1 回・ECO-055 独立検査
-  evidence: 本節・independent-inspection-eco-055.md §5
 - [watch 1/3] OBS-20260903-03 — **templates/playbook のみの ECO でも異系統独立検査は高密度で所見を出す**(治具変更なし・
   受入が「非破壊」しか測れない ECO は製造者較正の盲点が最大 — 8 所見中 7 が当方の記述誤り/正典見落とし)。
   3 例目で「templates/playbook 変更 ECO は verified 前に独立検査を通す」規則の要否を判断
   source: ECO-055
   evidence: 本節
-- [recovered 2026-09-03 via ECO-055 独立検査(検査官= Codex・GPT 系・別題材= 方法論テンプレ/playbook)] EXP-20260726-01 の**別題材軸**— ただし
-  **別ベンダー軸(非 GPT 系)は未回収のまま**(検査官は引き続き Codex)。本行は EXP の分離継続であり、元 ID の状態は変更しない(open 維持)
-  evidence: 本節
+  補記: EXP-20260726-01(非 GPT 系検査官での検査転移)の**別題材軸**は本件(方法論テンプレ/playbook の ECO・検査官= Codex)で
+  回収に相当するが、**別ベンダー軸(非 GPT 系)は未回収**のため元 ID の状態は open 維持(状態遷移なし・ECO-056 で擬似 bullet を散文化)。

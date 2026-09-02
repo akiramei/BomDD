@@ -86,3 +86,38 @@
 - 検証した主張: phase7 prompt:20 の実文 / register テンプレ :31 / equip-02 review:16 / TimetableAdv 52:69,87,105 /
   ViewPrism2 52:44 `regressions` / LibraryLending 52:89 `regression` / stage0-survey.py:6。
 - 未収束事項: なし。
+
+## 4. 製造と受入の実測(2026-09-03)
+
+- preflight 再確認: baseline `13cca3d`(起票 commit・作業ツリー clean)→ PROCEED。窓内= 52-metrics.yaml / playbook / improvements.md。
+- **V1 self-conformance= PASS**(製造直後の実測。worklist 是正後に再実測 — §5)。52 は `yaml.safe_load` 成功。
+- **V2 52 diff**: hunk 4(`@@ -9,3 +9,4` / `@@ -13,0 +15` = 冒頭コメント 1 箇所が 2 hunk・`@@ -20,2 +22,2` raw_match・`@@ -37 +39,3`
+  user_rulings 注記)= **3 箇所**(受入基準どおり)。
+- **V3 playbook diff**: hunk 2(`@@ -371 +371` §5.2 段落・`@@ -787 +787,3` §11 行+表外注記)= 受入基準どおり。
+- **所見ごとの再現条件の再測(trigger ④)**: IA-02「和が合わ」0 件 / IA-07「導出可能な転写値」0 件 / IA-04「最低ライン(適格性)の判定」0 件・
+  「制定保留」1 件 / IA-06「FINDINGS §11 t2」引用 0 件 / IA-05「基準線 3 ループ」0 件・override 注記 :789 / IA-08 縮小文言 1 件 /
+  IA-03 52 冒頭が phase7 prompt:20「52-metrics.yaml に ECO 行」と同じ要求を宣言(整合)/ IA-01 §2 を訂正形で凍結済み。
+- **製造中に自己検出した記帳欠陥(ECO-055 由来・本 ECO の窓内で是正)**: worklist が W1×2(EXP-20260902-05・OBS-20260902-02 の
+  状態遷移を行の複製で書いていた — 規律「行内書き換え・複製禁止」違反)と W6×1(EXP-20260726-01 の別題材軸を擬似 bullet で書き、
+  「<ID> — <内容>」形式に非適合)を検出。self-conformance は worklist を検査に含まないため素通り(worklist は読み取り専用・
+  終了コード 0 の設計 — lesson-promote スキーマ節「強制化は運用実測後に判断」)。3 件とも行内書き換え・散文化で是正、
+  警告 0 を確認。**受入 V1 に「worklist 警告 0」を含めていたのは ECO-056 §3 が初 — ECO-055 の受入には無かった**。
+- 影響なし予測の照合: C4 parse OK・C13 FAIL なし・worklist 警告は上記 3 件(予測に「W 表示」を含めていた — 的中・under-inclusion 0)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ④: 独立所見の是正。製造者較正の限界を前提)
+
+- 査定した主張と判定:
+  1. 「8 所見の再現条件が消えた」— **observed / 適格(条件付き)**: 各所見の再現 grep を上記のとおり再実行し 0 件または整合を確認。
+     asked: 「grep 0 件は是正の証明か」→ 文言の除去の証明にすぎない。IA-03 の整合は phase7:20 との**同文要求**で確認したが、
+     register テンプレ :31 との整合は文言上(「52 の ECO 行を参照」)のみ。**意味の正しさは異系統の独立再検査で測る**(§3)。
+  2. 「V1 の緑は構文非破壊のみを示す」— **observed / 適格**(§2 訂正形のとおり。IA-01 の帳簿代用を繰り返していない:
+     consumer を数えず「治具は無い」と宣言)。asked: 「今回も名称参照を consumer と数えていないか」→ 数えていない。
+  3. 「窓外の変更なし」— **observed / 適格**(git status の変更 3 ファイル= allowed_paths)。asked。
+  4. 「worklist 3 件の是正は記帳の意味を変えていない」— **observed / 適格**(状態遷移と証拠座標は保持・複製の除去と散文化のみ)。
+     asked: 「原本行の書き換えで履歴が消えたか」→ 遷移前の状態は git 履歴(eb40fbd 以前)に残る。
+- 検出した計器欠陥: **worklist 警告が self-conformance の検査面に無い**(設計どおり読み取り専用)— ECO-055 の記帳違反 3 件が
+  CI 緑のまま通過した。計器欠陥ではなく被覆境界(宣言済み)。昇格条件「回収漏れの実害 1 例」には該当しない(実害なし・警告表示で
+  検出)。記帳のみ(OBS-20260903-04 候補・本 order §6 で判断)。
+- 検出力の限界: 製造者較正は製造者の前提誤りに盲目(ECO-055 で実証・asked 4/4 が誤り 4 件を素通し)。本 receipt の asked も
+  同じ限界を持つ。**verified 昇格は独立再検査 1 ラウンドを前提**とし、本 receipt は昇格根拠に数えない。行別: 1 asked / 2 asked /
+  3 asked / 4 asked — NA なし。

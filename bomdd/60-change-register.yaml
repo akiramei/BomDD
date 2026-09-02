@@ -2091,7 +2091,7 @@ changes:
     affected_refs: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md]
     no_impact_prediction: "(製造前・IA-01 訂正形)52-metrics を読む治具は存在しない(stage0-survey の参照はコメント 1 行)。被覆は C4 の YAML parse のみで列意味は機械被覆されない → V1 の緑は構文非破壊のみを示す。playbook は §5.2 段落・§11 行+表外注記のみ。improvements は OBS-20260903-02 行内書き換え+記帳節のみ。製品リポ・kit 非接触"
     diff_audit:
-      baseline: ~          # 起票 commit の HEAD(製造着手時に確定)
+      baseline: "13cca3d"  # 起票 commit(製造着手時 clean)
       head: ~
       allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md]
     summary: >

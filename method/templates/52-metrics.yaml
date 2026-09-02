@@ -6,19 +6,21 @@ bomdd:
 # 規律(observation-schema-candidates §4.6, §6):
 #   raw 一致率を単独で報告しない。分解して残す。
 #   全通過は「完全鋳造」と呼ばず「現固定オラクル被覆で未観測差分ゼロ」と表現する。
-# 範囲(ECO-055・2026-09-03): 本テンプレは Phase 5(受入・収束)の計器。ECO レジームの指標
-#   (影響なし予測の under-inclusion= 61 / 不要改変= 63 / 回帰・no_impact_prediction= register)は
-#   それぞれの成果物が正本であり、本ファイルへ転写・集約しない(§13 記録規約・二重正本の禁止)。
+# 範囲(ECO-055/056・2026-09-03): 本テンプレは Phase 5(受入・収束)の計器。Phase 7(ECO)では
+#   prompts/phase7-change-order.md §5-6 のとおり **ECO 行(回帰 / 変更受入 / 不要改変の件数)を本ファイルへ
+#   記録**し、register の verification がその行を参照する(Phase 7 正典に従属)。影響分析の詳細は 61、
+#   不要改変監査の分類は 63 が正本で、本ファイルには**件数と参照のみ**を置く(詳細の転写禁止 — §13)。
 #   各列は「この値が変わったら何の判断が変わるか」(consumer → decision)を持つ列だけを置く
 #   (棚卸し= bomdd/reports/52-metrics-inventory-2026-09-02.md)。製品固有の追加列は製品リポの裁量。
+#   機械被覆: 本ファイルを読む治具は無い(self-conformance C4 の YAML 構文 parse のみ・列意味は未被覆)。
 
 metric_runs:
   - loop: <例 forward-01>
     factory: <例 factory-01(opus)>
     bom_rev: <seed | rev1 | ...>
     oracle_ref: bomdd/41-fixed-oracle.yaml@<frozen tag>
-    raw_match: <例 14/16>          # 分解 3 列(targeted_fix_success / blocker_diffs / new_unspecified_diffs)の
-                                   #   検算用のみ。単独報告禁止(§6.1)。和が合わなければ分解漏れ
+    raw_match: <例 14/16>          # 参考値。分解 3 列(targeted_fix_success / blocker_diffs / new_unspecified_diffs)
+                                   #   を伴わない単独報告は禁止(§6.1)。3 列は加算関係を持たない(検算規則なし — ECO-056)
     targeted_fix_success: ~        # 前ループで狙った補正が消えたか → 再製造の要否(§6.3)
     blocker_diffs: ~               # blocker 件数(例 1→0)→ 収束ループ終了/継続(§6.3)
     new_unspecified_diffs: ~       # 補正で新たに露出した未規定次元 → 質問リスト・裁定 3 択(§6.2)
@@ -34,7 +36,9 @@ metric_runs:
     defect_escape_causes: ~        # spec_omission / bom_sync_gap / oracle_gap / design_system_part_missing / display_contract_gap / manufacturing_miss / harness_bug の内訳
     # フォワード固有(playbook §9)
     g3_dryrun_questions: ~         # G3 ドライランが検出した質問数 → 製造開始可否(blocker 質問ゼロ・§4.6)
-    # user_rulings は ECO-055 で削除 — 裁定は 10/20/K-BOM への書き戻しが正本で、件数は導出可能な転写値(§13)
+    # user_rulings は ECO-055 で削除(根拠= consumer 不在: 件数で変わる判断が無い。裁定の内容は 10/20/K-BOM への
+    #   書き戻しが正本)。件数の導出規則(ruling ID・集計)は未定義のため「導出可能」とは主張しない(ECO-056)。
+    #   製品リポの既存記録(TimetableAdv 等の非 0 値)は非接触
     # 時間測定(transfer-02 還元 2026-07-10)。秒単位の整数を正規値とし、表示時に時間・分へ変換する。
     # ブロック全体に provenance: observed を付ける方式は採らない — タイムスタンプ自体は観測値だが、
     # 人間待ち・環境処理などへの分類は派生値だからである。
