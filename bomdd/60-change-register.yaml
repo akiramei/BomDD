@@ -2092,7 +2092,7 @@ changes:
     no_impact_prediction: "(製造前・IA-01 訂正形)52-metrics を読む治具は存在しない(stage0-survey の参照はコメント 1 行)。被覆は C4 の YAML parse のみで列意味は機械被覆されない → V1 の緑は構文非破壊のみを示す。playbook は §5.2 段落・§11 行+表外注記のみ。improvements は OBS-20260903-02 行内書き換え+記帳節のみ。製品リポ・kit 非接触"
     diff_audit:
       baseline: "13cca3d"  # 起票 commit(製造着手時 clean)
-      head: "58dd2bb"      # fix commit(diff監査済み: 52-metrics・playbook §5.2/§11・improvements+台帳系のみ)。verified は独立再検査後
+      head: "86bef4f"      # r2 fix commit(diff監査済み: 52-metrics・playbook §5.2/§11・improvements・templates/README+台帳系のみ。r1= 58dd2bb)。verified は第 2 ラウンド再検査後
       allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md, method/templates/README.md]  # README は第 2 ラウンド(再検査 056-IA-04 の under-inclusion)で追加
     summary: >
       IA-03: 52 冒頭を Phase 7 正典(phase7 prompt:20・register テンプレ :31= 52 に ECO 行)へ整合(件数と参照のみ・

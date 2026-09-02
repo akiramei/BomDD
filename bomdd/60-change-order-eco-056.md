@@ -151,3 +151,5 @@
 - 受理側の教訓: 2 ラウンド連続で「引用先を開いて読み直さず記憶で是正文を書く」機序が混入(C4 のみ / FINDINGS §11 t2 / 別系列の接合)。
   較正 receipt はこれを検出しない(OBS-20260902-02 の 3 例目候補 — 2/3 → 昇格審査は lesson-promote で)。
 - verified 昇格= 第 2 ラウンド fix に対する再検査(第 2 ラウンド)の結果に従う。
+- 第 2 ラウンド fix commit `86bef4f` → CI run **33691090797**・completed / **success**(dotnet / fast windows / fast ubuntu)。diff 監査の窓=
+  baseline `13cca3d` → head `86bef4f`(第 2 ラウンドで templates/README.md を窓に追加)。V1 PASS・worklist 警告 0。
