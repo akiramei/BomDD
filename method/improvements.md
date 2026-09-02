@@ -5834,3 +5834,50 @@ receipt 4 項目目)/ ECO-053(C16/C17 共通化・5 ラベル・手順 6)/ ECO-0
   source: ECO-054(主作業木に他者の未コミット編集 10 ファイル)
   origin: internal(自己適用)
   evidence: ECO-054 order §5「製造中の手順注記」
+
+## 2026-09-02 BomDD 自己適用 — 閉ループの欠損辺 2 本(思想層の再認証アンカー・能力記録の消費者)
+
+**観測(出典= 本日の入口文書調査+成熟度議論の評価・converge 2 回)**: 方法論の閉ループのうち
+「観測 → 教訓 → 運用規則(playbook)」は接続されている(2026-07 以降 playbook 54 コミット・FINDINGS 37)が、
+**2 本の辺が欠損**していた。①「教訓 → 思想命題の再認証」: /lesson-promote の行き先候補が playbook・
+silence・control-plan・taxonomy・FINDINGS・templates のみで、concept.md・bomdd-method-v1.md・terminology・
+WHITEPAPER・onboarding は還元経路の外。結果、method-v1 は同期間 0 コミット・concept は 1(本日)で、
+「As-Built 形式化予定」「次段 v2」「スキル 8 本」「.claude/skills を置かない」等の陳腐化が 3 か月潜伏。
+かつ README が method-v1 を「正規の方法論」と呼び続け、還元を受ける playbook との**二重正本**になっていた。
+②「能力記録 → 工程設計/工場選定」: 52-metrics を読む治具は stage0-survey(健診用・別列)のみで、
+specified_contract_miss や equip 認定を工場選定へ入力する規則が charter テンプレ・playbook・prompts のどこにも無い。
+規則性: **思想のうち機械面へ落ちた命題(オラクル凍結・harness_bug・receipt C16/C17)は生き、散文のまま
+残った命題は劣化した** — §9「散文による実施要求を実施証明として扱わない」が思想文書自身に当てはまった。
+
+**user 裁定(2026-09-02)**: 2 → 1 → 3 の順で全部実施。3 は修正でなく棚卸しを独立単位とする。
+- 2(即時・製品欠陥の修理): method-v1 を「v1 実証時点の凍結スナップショット・現行規範ではない」へ格下げし、
+  正本を playbook に一本化。README・concept・FINDINGS・WHITEPAPER の「正規」表現を除去。
+  順序の理由: 二重正本のまま 1 を入れると lesson-promote が「どちらを更新するか」の新しい裁量を持つ。
+- 1(再発防止): /lesson-promote に手順 3b「思想層の再認証判定」を追加 — 教訓ごとに
+  〈operational rule / control・probe / template / terminology / method・concept claim / none〉を毎回判定し
+  記帳に残す(none も証跡)。concept claim に該当する命題は supported / contradicted / superseded / untested の
+  4 値で実証状態を判定。思想文書を毎回更新するのでなく、**思想層に影響するかを判定するイベントが必ず発生する**
+  ことが目的。思想は信条でなく実証状態を持つ仮説として扱う。
+- 3(較正・棚卸し): 52-metrics 全列を producer / consumer / decision changed / observable consequence /
+  stale condition で棚卸し → [bomdd/reports/52-metrics-inventory-2026-09-02.md](../bomdd/reports/52-metrics-inventory-2026-09-02.md)。
+  結果: 計器 10 列・入力 2 群(specified_contract_miss・timing)・ログ 3 列(raw_match / user_rulings /
+  self_reported_s)。欠損辺②の本体は specified_contract_miss の 1 列に局在。修正・削除・charter 変更は別途裁定。
+
+**適用した改善(本節で実施済み)**: 2 の文書変更(method-v1 冒頭・README 2 箇所・concept 2 箇所・FINDINGS・
+WHITEPAPER)/ 1 のスキル改訂(.claude/skills/lesson-promote/SKILL.md 手順 3・3b・5・停止点)/ 3 の棚卸し報告。
+ECO 起票なし(tools/templates/.github に変更なし — AGENTS.md 規律 1 の対象外)。
+
+- [open] EXP-20260902-03 — 次回の /lesson-promote 実行で手順 3b の再認証判定が記帳に残るか(none 含む)。
+  残らなければ「散文契約の自発起動不発」の 4 例目として C16/C17 型の機械ゲート化を判断する
+  evidence: 本節・.claude/skills/lesson-promote/SKILL.md 手順 3b
+- [open] EXP-20260902-04 — 思想層の再認証で `contradicted` / `superseded` が初めて出た命題と、その改訂が
+  concept/terminology へ届いた日付(欠損辺①が実際に流れた証拠)
+  evidence: 本節
+- [open] EXP-20260902-05 — 52-metrics 棚卸しの裁定点 4 件(ログ 3 列の削除・specified_contract_miss の消費者・
+  timing の扱い・製品側キーの棚卸し)が裁定され、少なくとも 1 件が templates または charter に到達するか
+  evidence: bomdd/reports/52-metrics-inventory-2026-09-02.md §4
+
+思想層の再認証判定(手順 3b の自己適用): [x] operational rule(lesson-promote 手順)[ ] control/probe
+[ ] template [x] terminology(「正本」の一意化)[x] method/concept claim — 命題「BOM が真実」= supported
+(フォワード)/ 保守レジームでは superseded(変更統制の正本として保たれ、製造の正本は新規製造時のみ — 本日の
+評価で明文化)。命題「ミスは製造能力として記録する」= supported(書き込み側)/ untested(読み出し側 — 欠損辺②)。
