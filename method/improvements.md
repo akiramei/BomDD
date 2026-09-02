@@ -5722,3 +5722,20 @@ P8(trigger ②③④ の機械化)= 境界外として維持 / P9(known-bad 台�
   source: 盲検感度試験 第 1 回・calibrate 改善案 converge(2026-09-02)
   origin: internal(自己適用)
   evidence: bomdd/reports/calibrate-blind-sensitivity-01.md §4-2・ECO-053 §0
+
+**成熟度議論の評価(2026-09-02・/converge 人間呼び出し・round 5→1→0 未収束 → user 裁定= 打ち切り採用・3 件とも採らない/観測待ち・ECO 起票なし)**:
+外部議論「BomDD は成熟度 Lv7、次は Lv8(実運用→次 revision の閉ループ)と製造者交換可能性」から
+抽出した 3 ヒントを裏取りした結果、**工程を変更する根拠は出なかった**。①研究プログラムの終了条件宣言=
+採らない(散文の宣言は何も強制しない — 実施要求≠実施証明・§9。止める判断は計器ごとの再開条件つき凍結
+〔本節 calibrate/converge・OBS-20260901-05〕として既に書き戻されている)。②/eco-file への計器欠陥分岐=
+採らない(欠落が存在しない — 停止点「検査器/台帳の欠陥 → doc-only 是正」は既存・/eco-accept 手順 1 が
+全 ECO で CP 観点を刻む。当方の検索打ち切り〔失敗型 ②〕による誤認)。③同一 ECO の別ベンダー製造=
+**観測待ち**(別ベンダー工場の greenfield 製造は cli-cad-01/EXP-20260718-01 で回収済み・別ベンダー検査官は
+EXP-20260726-01 で open。未測定セルは「保守 regime の同一 ECO を別ベンダーへ」のみで、ベンダー固有慣習が
+ECO 型製造へ影響した観測はゼロ。新規 EXP は立てず、/factory-delegate で製品 ECO を Codex へ渡す実務機会が
+生じたときに既存の受入基準〔回帰全数・変更受入・不要改変 0・影響なし予測 under 0〕で比較する)。
+成熟度の段位は BomDD 自身の測定軸ではない — 実測されている弱点(裁定側欠陥・散文契約の自発起動不発)は
+段位表のどの行にも対応しない。
+  source: 外部議論 2026-09-02(BOM 活用成熟度)+/converge 評価
+  origin: internal(自己適用)
+  evidence: 本節・eco-file.md 停止点・loops/cli-cad-01/report.md
