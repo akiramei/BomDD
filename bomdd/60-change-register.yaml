@@ -1978,7 +1978,7 @@ changes:
     title: C16/C17 receipt 検出の共通化+C16 本体ラベル・converge 手順 6 の補正・見逃しの記帳(a′+b′+d)
     date: 2026-09-02
     origin: corrective
-    status: in-progress
+    status: verified   # 2026-09-02 受入= V1(変種 8/8 遮断・known-good 3・cutoff 以降 21/21・C17 18/18+実 order 全通過)・V2(C16 fixture 17/17)・V3(converge.md +3/−1 削除文言なし・同期既知 2 点)・V4(全検査緑)・V5(CI run 33581916507 success @18a48f4)・V6(窓は 6 ファイル= 予測どおり)
     source: >
       converge スキル評価(2026-09-02)で C16 に ECO-049 前の C17 と同じ穴を実測(フェンス内様式例・
       チルダ・未閉鎖 fence・平文言及・否定文・中身空見出し・判定なし receipt が通過 / インデント
@@ -1992,6 +1992,7 @@ changes:
     no_impact_prediction: "(製造前)C17 は共通化後も fixture 18/18・実 order 11 件の判定不変(挙動保存)。C16 は遺産規則(fence 除去後トークン共起)で対象 19 order+節が全通過を維持(製造前実測)。本 order は新規則(5 ラベル)の最初の適用個体。C1/C13 判定不変"
     diff_audit:
       baseline: "4703606"  # 起票直前 HEAD(起票+製造は同一窓)
+      head: "18a48f4"      # diff監査済み: 窓内は self-conformance.py・converge 正本+写し・improvements.md+台帳系のみ・予測的中
       allowed_paths: [method/tools/self-conformance.py, method/templates/product-profile/skills/converge.md, .claude/skills/converge/SKILL.md, method/improvements.md]
     summary: >
       a′= receipt 検出(fence 除去〔2 種・未閉鎖〕→ 見出し → 本体)を共通関数化し C16/C17 が共用。
@@ -2000,3 +2001,16 @@ changes:
       C16 fixture 追加・限界改訂。required 判定は不変(宣言済み非対称)。d= converge.md 手順 6 へ
       「先行する包括承認は未収束の裁定点を代替しない」1 文(正本+写し)。b′= 見逃し 2 件を型②/④の
       実施漏れとして記帳+自発起動不発の記帳。採らない= required の fence 除去・表 B 新型・遡及。
+    verification: >
+      V1= PASS(C16 変種 8 本〔フェンス内様式例・チルダ・未閉鎖・平文言及・否定文・中身空見出し・
+      判定/DoD なし・インデント免除〕= 8/8 遮断 / known-good 3 本〔round 軌跡のみ・5 ラベル・行頭免除〕
+      通過 / cutoff 以降の order 21/21 通過〔遺産 20 は自番号の遺産規則・053 は新規則〕/ C17 fixture
+      18/18・実 order 全通過= 共通化の挙動保存)。V2= PASS(C16 fixture 17/17)。V3= PASS(converge
+      正本+写し各 +3/−1 — 1 行を書き換えて 1 文追記・削除文言なし・差分ブロック既知 2 点)。
+      V4= PASS(全検査 PASS を独立観測後に commit)。V5= PASS(CI run 33581916507・success・
+      headSha 18a48f4 一致)。V6= PASS(窓は予測の 6 ファイルのみ)。製造中の自己捕捉= 新規則が
+      本 order 自身を遮断(起動経路が見出し行)→ 見出し行を含める形へ是正(F16 型の偽陽性を push 前に
+      捕捉)。工具逸脱= bash heredoc のバックスラッシュ解釈で構文エラー 1 回(同一弧内で修復・
+      memory へ記録)。較正 receipt(trigger ③・二軸・行別 asked/NA)は order §4 —「当方設計以外の
+      変種にも効く」は unknown(未実行)。副次= OBS-20260828-02 が 3/3 到達(PROMOTION DUE —
+      昇格審査は別途の停止点)。

@@ -142,8 +142,23 @@ C17: fixture 18/18・実 order 11 件の判定不変(共通化は挙動保存)�
 
 ## 5. CI 実測(V5)
 
-- (push 後に記入)
+- 対象 revision: `18a48f4`(**ローカル HEAD と一致を確認**)
+- run 識別子: 33581916507 — 結論: **PASS**(completed/success・headSha 照合済み)
+- V4 = self-conformance 全 PASS を**独立観測してから** commit(C16: 28 件・本体ラベル要求= 053 以降・
+  fixture 17/17・免除 2 / C17: 12 件・fixture 18/18)。
 
 ## 6. クローズ
 
-- (受入時に記入)
+- diff 監査の窓: baseline `4703606` → head `18a48f4`(**窓閉鎖**)。窓内は self-conformance.py・
+  converge 正本+写し・improvements.md+台帳系のみ — 影響なし予測が的中。
+- 受入: V1(変種 8/8 遮断・known-good 3・cutoff 以降 21/21・C17 回帰)/ V2(C16 fixture 17/17)/
+  V3(converge.md +3/−1・削除文言なし・同期既知 2 点)/ V4(全検査緑)/ V5(CI 緑)/ V6(窓)成立。
+  較正 receipt は §4(行別 asked/NA つき)。converge receipt は本 order が**新規則(5 ラベル)の最初の
+  適用個体** — accept 前検査で C16 が本 order を新規則で検査する。
+- 副次: **OBS-20260828-02 が watch 3/3 に到達 → PROMOTION DUE**(worklist が表示)。昇格審査は
+  別途の停止点(3 例の独立性: 同一機序〔散文契約のみ・回答段階の非起動は C16 の被覆外〕— 本 ECO は
+  解消しない)。
+- このクローズが支持しないもの: **C16 固有の未知変種への検出力**(fixture は C17 の独立検査官変種の
+  転記 — C16 を検体とする盲検試験まで主張しない)/ receipt 本体の意味検査(ラベル≠実施)/ 病的
+  receipt(否定見出し+全ラベル)の弁別 / required 判定の非対称(意図された設計・不変)/ d の散文順守
+  (非保証)/ OBS-20260828-02 の昇格判断。
