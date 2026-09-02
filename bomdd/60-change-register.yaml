@@ -2014,3 +2014,25 @@ changes:
       memory へ記録)。較正 receipt(trigger ③・二軸・行別 asked/NA)は order §4 —「当方設計以外の
       変種にも効く」は unknown(未実行)。副次= OBS-20260828-02 が 3/3 到達(PROMOTION DUE —
       昇格審査は別途の停止点)。
+  - id: ECO-054
+    title: 空集合 fail-open の横断是正(型④)— C9 total:0 / ui-cad 空成果物(案 B)
+    date: 2026-09-02
+    origin: corrective
+    status: filed   # 起票のみ承認(user 2026-09-02「P3 別 ECO として起票」)— 製造着手は別途裁定
+    source: >
+      盲検感度試験 第 1 回(bomdd/reports/calibrate-blind-sensitivity-01.md §3.2/§4-4)で独立検査官が
+      実測した型④(測定不能の合格化)の 3 計器横断。C17 は ECO-051 で是正済み。残= C9 の total:0+
+      空 TRX が 0/0 合格で PASS(2 名独立再現)/ ui-cad の全成果物 {} が exit 0・昇格可(当方 HEAD
+      実測)。実害は未実測 — 起票根拠は系統性。calibrate 改善案の converge(延長 1 周で収束)の
+      帰結として P3 のみ起票。P4/P5 は見送り・個別実測待ち。
+    order_ref: bomdd/60-change-order-eco-054.md
+    affected_refs: [method/tools/self-conformance.py, method/tools/ui-cad-gate.py]
+    no_impact_prediction: "(製造前)C9 は現行 manifest が全 suite total>0 のため判定不変。ui-cad は BomDD 内 consumer が C6 fixture のみ — fixture の actions: {} が母集団 0 に当たるリスクを凍結(当たれば規則の精密化で解く・判定は書き換えない)。製品リポ側の実運用影響は未測定"
+    diff_audit:
+      baseline: "771d80b"  # 起票直前 HEAD(製造着手時に再確認)
+      allowed_paths: [method/tools/self-conformance.py, method/tools/ui-cad-gate.py]
+    summary: >
+      ①C9= suite の total==0 または結果集合が空なら FAIL(空結果は合格ではない)②ui-cad= 二層 —
+      欠落/スキーマ不成立は exit 2(入力不正)・存在するが母集団 0 は昇格判定保留(exit 1・理由
+      「母集団 0」)・§15 built-in NA との弁別維持 ③fixture= C9 total:0 腕 / ui-cad 全 {} 腕・母集団 0 腕・
+      正常組腕(ラベルは独立検査官の実測)④両計器の限界宣言改訂。採らない= P4・P5。
