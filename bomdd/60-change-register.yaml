@@ -2177,3 +2177,25 @@ changes:
       effort-calibration.py+台帳系のみ)。較正 receipt(trigger ③・二軸・行別 asked/NA)は order §4 —
       「本測定器で Effort の過不足が測れる」は unknown(未実行・実 trial 0 件)。製造中の自己捕捉= known-good
       腕が effort 順序の文字列比較(低/高反転)を捕捉 → 序数化・known-bad 8 腕目を追加。
+  - id: ECO-059
+    title: effort 序数へ none / max を追加 — ET-002 の Luna none 腕を投影可能にする(序数 1 行+陽性対照 2 腕)
+    date: 2026-09-04
+    origin: preventive
+    status: applied
+    source: >
+      ET-002 の plan(Luna none / medium / high + Sol medium・EXP-20260903-04)が effort=none を含み、現行の
+      EFFORT_ORDER(low/medium/high/xhigh)では none を含む対が unordered-effort となって Luna 内の effort 感度が
+      投影されない。GPT-5.6 系の effort 幅は none〜max(user 提示・codex exec effort=none の応答は 2026-09-03 実測)。
+      user 裁定 2026-09-04「起票して製造まで進めて」。
+    order_ref: bomdd/60-change-order-eco-059.md
+    affected_refs: [method/tools/effort-calibration.py]
+    no_impact_prediction: "(製造前)diff は effort-calibration.py 1 本+台帳系。ET-001 記録(medium/high)の投影結果は不変。self-conformance の判定不変(組み込まれていない)"
+    diff_audit:
+      baseline: "7aac533"  # 起票直前 HEAD
+      head: null
+      allowed_paths: [method/tools/effort-calibration.py]
+    summary: >
+      ①EFFORT_ORDER= none 0 / low 1 / medium 2 / high 3 / xhigh 4 / max 5 ②selftest に known-good 2 腕(none fail /
+      max pass → supported・none pass / high fail → unsupported)③docstring に序数を明記(要求値の順序であり到達
+      effort の順序ではない)。採らない= ET-002 の実施・序数の外部化・unordered-effort の挙動変更。
+    verification: null

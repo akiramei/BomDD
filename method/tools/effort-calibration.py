@@ -32,7 +32,8 @@
   validate [root]        記録の構造・ハッシュ整合・禁止キー・語彙を検査(fail-closed・exit 1)
   project  [root]        trial × treatment の n / pass 率 / コスト、effort 感度の導出分類、来歴を出力
   hash-treatment <yaml>  treatment_spec(requested)の treatment_hash を計算
-  --selftest             陽性対照(known-good 1・known-bad 8)を合成して実測
+  --selftest             陽性対照(known-good 3・known-bad 8)を合成して実測
+                         effort 序数= none < low < medium < high < xhigh < max(ECO-059)。序数外は unordered-effort
 
 検出力の限界(宣言 — 実施した検査が測っていない次元):
   (1) execution receipt のアンカー「model invocation completed」は現ハーネスで**未結線** — 当面は手動記帳
@@ -68,7 +69,9 @@ EVAL_FORBIDDEN = ("treatment", "effort", "model", "candidate_reason", "response_
 REQ_KEYS = ("model", "effort", "method_stack", "harness", "tool_permissions", "runtime_config")
 # effort の序数(文字列比較は "high" < "medium" となり低/高が反転する — selftest の known-good 腕が捕捉)。
 # 序数外のラベルは順序を仮定せず分類しない(unordered-effort)。
-EFFORT_ORDER = {"low": 0, "medium": 1, "high": 2, "xhigh": 3}
+# ECO-059: none / max を追加(GPT-5.6 系の effort 幅 none〜max・ET-002 plan の Luna none 腕が対象)。
+# 序数は「要求した推論量の順序」であり、到達 effort(観測不能・resolved= unknown)の順序ではない。
+EFFORT_ORDER = {"none": 0, "low": 1, "medium": 2, "high": 3, "xhigh": 4, "max": 5}
 
 
 def canonical_hash(obj) -> str:
@@ -342,12 +345,24 @@ def selftest() -> int:
         s = project(b)["trials"]["T8"]["effort_sensitivity"]
         if not (s and s[0]["effort_sensitive"] == "unordered-effort"):
             bad.append(f"known-bad8: 序数外の effort を順序づけて分類した: {s}")
+        # known-good 2(ECO-059): 序数の両端 none / max — none fail / max pass → supported(低/高の向きも検査)
+        g2 = base / "good2"; t = _write_trial(g2, "T9", 1)
+        _write_run(g2, t, "T9-N-01", "none", "fail"); _write_run(g2, t, "T9-X-01", "max", "pass")
+        s = project(g2)["trials"]["T9"]["effort_sensitivity"]
+        if not (s and s[0]["effort_sensitive"] == "supported" and s[0]["low"] == "none" and s[0]["high"] == "max"):
+            bad.append(f"known-good2: none/max の対を supported(none→max)に分類しない: {s}")
+        # known-good 3(ECO-059): 逆向き(none pass / high fail)は unsupported — 序数追加が向きを壊していない
+        g3 = base / "good3"; t = _write_trial(g3, "T10", 1)
+        _write_run(g3, t, "T10-N-01", "none", "pass"); _write_run(g3, t, "T10-H-01", "high", "fail")
+        s = project(g3)["trials"]["T10"]["effort_sensitivity"]
+        if not (s and s[0]["effort_sensitive"] == "unsupported" and s[0]["low"] == "none"):
+            bad.append(f"known-good3: none pass / high fail を unsupported に分類しない: {s}")
     finally:
         shutil.rmtree(base, ignore_errors=True)
     if bad:
         print("selftest FAIL(計器を先に疑う): " + " / ".join(bad))
         return 1
-    print("selftest PASS(known-good 1・known-bad 8)")
+    print("selftest PASS(known-good 3・known-bad 8)")
     return 0
 
 
