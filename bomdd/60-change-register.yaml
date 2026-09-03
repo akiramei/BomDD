@@ -2119,7 +2119,7 @@ changes:
     title: OBS-20260902-02 昇格の実装先裁定 — calibrate「検出力の限界」節への第 4 項追記の要否(起票≠採用)
     date: 2026-09-03
     origin: improvement
-    status: filed   # 起票のみ(user 2026-09-03「A は起票までは許容。起票時に実装先の適否と一般則で足りないかを別に裁定」)— 裁定点は order §1(α 追記 / β 一般則で足りる→rejected / γ 参照 1 行)
+    status: in-progress   # 2026-09-03 user 裁定= γ(参照 1 行・二重化なし)採択・calibrate 凍結の再開条件充足も同裁定に含む — 製造中(V4 CI 待ち)
     source: >
       OBS-20260902-02(3/3・昇格裁定 2026-09-03)= 製造者の自己査定は製造者の前提誤りに盲目(asked/NA は弁別力の証明ではない)。
       一般則は playbook §9 へ織り込み済み(候補 B)。calibrate 固有規則への固定は二重正本の芽であり、凍結中(再開条件= 実運用で
@@ -2128,9 +2128,9 @@ changes:
     affected_refs: [method/templates/product-profile/skills/calibrate.md]
     no_impact_prediction: "(裁定前)案 β= diff ゼロ(register status のみ)/ 案 γ= 正本+写しに参照 1 行・C17 fixture 不変 / 案 α= 限界節 1 項+receipt 様式 1 行・C17 本体ラベル正規表現に触れないことを製造前に再測"
     diff_audit:
-      baseline: ~
+      baseline: "26b877c"  # 起票 commit(製造着手時 clean)
       head: ~
-      allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate.md]
+      allowed_paths: [method/templates/product-profile/skills/calibrate.md, .claude/skills/calibrate/SKILL.md]  # 写しの実パスは SKILL.md(起票時の記載誤りを製造時に訂正)
     summary: >
       裁定点 3: ①実装先の適否(α 追記 / β 一般則のみ→rejected / γ 参照 1 行)②calibrate 凍結の再開条件充足(α/γ の場合)
       ③採らない= C17 の asked 機械検査強化。当方推奨= γ(効果未測定)。

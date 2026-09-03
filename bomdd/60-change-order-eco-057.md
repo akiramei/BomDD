@@ -64,3 +64,31 @@
 - 検証した主張: calibrate.md 限界節の 3 項の実文 / receipt 様式の要求項目 / §9 織り込み文の存在 / C17 が限界節を検出対象にしないこと(_C17_LABELS は
   受入節の本体ラベルのみ)。
 - 未収束事項: なし。
+
+## 4. 裁定と製造(2026-09-03・user「ECO-057 は γ を採択」)
+
+- **裁定**: 案 γ(限界節 第 1 項の末尾に playbook §9 への参照 1 行・本文の二重化なし)。calibrate 凍結の再開は本参照 1 行の範囲に限る
+  (再開条件「実運用で観測された具体的な失敗機序」= OBS-20260902-02 の 3 例で充足、と同裁定に含める)。
+- **製造**: 正本 method/templates/product-profile/skills/calibrate.md と写し .claude/skills/calibrate/SKILL.md の第 1 項末尾に同文を追加
+  (写しはプレースホルダを自リポ相対へ解決 — 同期規則)。写しの実パスは `.claude/skills/calibrate/SKILL.md` で、起票時 register の
+  `.claude/skills/calibrate.md` は記載誤り → 製造時に訂正(窓の会計)。
+- **影響なし予測(凍結)**: 追加は 2 ファイル各 2 行・限界節のみ。C17 の本体ラベル正規表現(査定した主張/計器欠陥/限界/asked)は受入節の
+  receipt 本体にのみ適用され、skill 本文は対象外 → C17 fixture 不変。C13 の相対リンク(写し側 `../../../method/bomdd-playbook-v1.md`)は
+  実在。他ファイル diff ゼロ。
+- **受入**: V1 self-conformance 全 PASS(C13 リンク実在・C17 fixture 不変)/ V2 diff= 2 ファイル各 +2 行 / V3 正本と写しの同文(プレースホルダ差のみ)/
+  V4 CI success / V5 下記較正 receipt。
+- **§7(ECO-056)の対策を diff の全主張へ適用**: 追加文の主張= ①「自己査定は前提誤り・範囲外に盲目」= playbook §9 織り込み文と同文 ②「asked/NA は
+  弁別力の証明ではない」= OBS-20260902-02 本文と同文 ③参照先 §9 の実在= 本日織り込み(2888bb8)を開いて確認。read-across: 限界節と同じ主張を
+  述べる他所= playbook §9(正本)・terminology「receipt」項(「順守の証明ではなく素通りの遮断」— 弁別力への言及なし・**本 ECO の窓外**のため
+  触れない。3b で terminology は行き先候補に挙げており、次の還元で扱う)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ③: 検査器〔calibrate 自身〕の変更直後。製造者較正の限界を前提)
+
+- 査定した主張と判定:
+  1. 「参照 1 行は限界節の意味を変えず二重化しない」— **observed / 適格**(追加は参照と 1 文の要約のみ・規則本文は §9 が唯一)。asked。
+  2. 「C17 fixture は不変」— **observed / 適格**(V1 で fixture 較正成立を確認・_C17_LABELS は receipt 本体のみ対象)。asked。
+  3. 「正本と写しが同文」— **observed / 適格**(diff を並置・差はプレースホルダ解決のみ)。asked。
+- 検出した計器欠陥: なし。副次: 起票時 register の写しパス誤記(.claude/skills/calibrate.md → calibrate/SKILL.md)— 機序 (i) 記憶で書いた
+  の再演(小)。製造時に自己検出。
+- 検出力の限界: 本 receipt は製造者較正であり、§9 に織り込んだとおり製造者の前提誤りに盲目。参照 1 行の妥当性(受理側が読むか)は未測定。
+  行別: 1 asked / 2 asked / 3 asked — NA なし。
