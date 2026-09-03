@@ -194,3 +194,20 @@
     なので、設計を先に決めてから文言を書く順序になる。
   - 当方の推奨: **(C) → (A)** の順。R2-01 は「未制定の設計を文言で先取りした」欠陥であり、文言の書き直しより設計の裁定が先。IA-02 の裁定が
     「schema は作らない(watch)」なら (A) の文言(行の構造は未制定)がそのまま正になる。
+
+## 9. 裁定 C → A の実施(2026-09-03・user「C → A で進めて。IA-02 は watch」)
+
+- **C(IA-02 の裁定)**: watch。52 の ECO 行 schema も C3 拡張も作らない。OBS-20260903-04(watch 1/3)として記帳 — 起票トリガー= 「ECO 行未記録が
+  受入を素通りした実例」1 件。それまで 52 ヘッダ・README・OBS は「Phase 7 §6 のとおり ECO 行を記録する。行の構造は未制定」とだけ書く。
+- **A(第 3 ラウンド最小是正・再検査なし)**: R2-01= 「件数と参照のみ」を 52 ヘッダ(:9-12)・templates/README.md:30・OBS-20260903-02 末尾から撤回し、
+  引用先(phase7-change-order.md:20「metrics(52-metrics.yaml に ECO 行)」)が言うことだけを書いた。R2-02= register の allowed_paths に
+  `bomdd/reports/`(evidence-only)を追加。IA-07= 棚卸し報告 52-metrics-inventory-2026-09-02.md 冒頭に訂正注記を追記(本文は歴史的記録として
+  書き換えない)。
+- **§7 対策の適用範囲を「diff の全主張」へ拡張**(r2 の欠陥= 適用範囲の自己選択への対策): read-across の対象語を diff の変更前後の文言から機械的に
+  抽出(件数と参照 / 件数のみ / 転写・集約しない / 導出可能な転写値 / C4 のみ / FINDINGS §11 t2 / 最低ライン / 基準線 3 ループ)して method・docs・
+  README・register を走査。残存= 「件数と参照」2(improvements:5760= 誤りを引用した所見記録・主張ではない / register:2098= ECO-056 summary の r1
+  記述 → r3 の撤回を追記)・「件数のみ」1(register:1211= 別 ECO の無関係語)・他 0。引用先の実文は phase7-change-order.md:20 を開いて確認
+  (「6. **記録**: … metrics(`52-metrics.yaml` に ECO 行)」)。治具の挙動主張は本 diff に含まない。52 は yaml.safe_load 成功・worklist 警告 0。
+- **verified 昇格の根拠(明記)**: 独立検査 2 ラウンド(r1 REJECT・r2 REJECT= 上限)の結果と、r3 の是正が**製造者較正のみ**で受入されたことを
+  register に併記する。残余= IA-02 watch(OBS-20260903-04)。製造者較正の限界(OBS-20260902-02・3/3)は昇格審査へ。
+- 受入: V1 self-conformance(r3)PASS / V2 52 diff= ヘッダ 1 箇所 / V3 playbook diff なし(r3 は playbook 非接触)/ V4 CI(r3 commit)/ V5 本節。

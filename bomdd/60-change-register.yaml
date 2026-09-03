@@ -2093,14 +2093,17 @@ changes:
     diff_audit:
       baseline: "13cca3d"  # 起票 commit(製造着手時 clean)
       head: "86bef4f"      # r2 fix commit(diff監査済み: 52-metrics・playbook §5.2/§11・improvements・templates/README+台帳系のみ。r1= 58dd2bb)。verified は第 2 ラウンド再検査後
-      allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md, method/templates/README.md]  # README は第 2 ラウンド(再検査 056-IA-04 の under-inclusion)で追加
+      allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md, method/templates/README.md, bomdd/reports/]  # README は r2(056-IA-04)で追加・bomdd/reports/ は evidence-only(r2 R2-02 のスコープ会計)
     summary: >
       IA-03: 52 冒頭を Phase 7 正典(phase7 prompt:20・register テンプレ :31= 52 に ECO 行)へ整合(件数と参照のみ・
       詳細転写禁止)。IA-02: raw_match の「和」検算規則を削除。IA-07: user_rulings 削除根拠を consumer 不在に限定。
       IA-04: §5.2 末文を「equip 観測値は routing 根拠にしない・資格制度は制定保留」へ縮小。IA-06: 引用座標を
       equip-01 台帳 #4 t2 行・t2-report へ訂正。IA-05: §11 行を S/M 省略可・L 推奨+研究必須は表外注記・基準線を
       「完全分解 1・概算 1・再利用 1」へ。IA-08: OBS-20260903-02 の文言縮小。IA-01: 影響なし予測を訂正形で凍結。
-      採らない= schema fixture 新設・ECO-055 記録の遡及書き換え。
+      採らない= schema fixture 新設・ECO-055 記録の遡及書き換え。**r3(user 裁定 C→A・2026-09-03)**: IA-02= watch
+      (OBS-20260903-04・schema も C3 拡張も作らない)。R2-01 是正= 「件数と参照のみ」を 52 ヘッダ・README・OBS から撤回し
+      「Phase 7 §6 のとおり ECO 行を記録・行の構造は未制定」へ統一。R2-02= allowed_paths に bomdd/reports/(evidence-only)。
+      IA-07= 棚卸し報告へ訂正注記(履歴は書き換えず)。再検査なし。
     verification: >
       (製造前)V1 self-conformance 全 PASS / V2 52 diff 3 箇所のみ / V3 playbook hunk 2 箇所のみ / V4 CI success /
       V5 較正 receipt(trigger ④・所見ごとに再現条件の消失を問う)/ verified 昇格の前提= 異系統の独立再検査 1 ラウンド

@@ -27,7 +27,7 @@ YAML の語彙は v2 実証リポジトリ([BomDD-WebApi-Sample](https://github.
 | 43 | [43-visual-gap-analysis.md](43-visual-gap-analysis.md) | Phase 5 視覚ギャップ分析(UI-CAD vs 実機) | 設計者(検査結果。是正時はCAPAへ) |
 | 50 | [50-as-built.yaml](50-as-built.yaml) | Phase 5–6 製造来歴 | 記録 |
 | 51 | [51-cheat-log.md](51-cheat-log.md) | 全期間 ずる台帳 | 記録 |
-| 52 | [52-metrics.yaml](52-metrics.yaml) | Phase 5 測定+Phase 7 ECO 受入記録(ECO 行= 件数と参照のみ・詳細は 61/63) | 記録 |
+| 52 | [52-metrics.yaml](52-metrics.yaml) | Phase 5 測定+Phase 7 ECO 行(phase7 §6。行の構造は未制定・OBS-20260903-04) | 記録 |
 | 53 | [53-service-bom.yaml](53-service-bom.yaml) | Phase 6 保守部品表(概念は [s-bom-template.md](../bomdd-kit/method/s-bom-template.md)) | 納品物 |
 | 60 | [60-change-order.md](60-change-order.md) | Phase 7 変更/是正オーダー(ECO/CAPA: 影響分析→部分再製造→回帰) | 設計者(改訂 BOM+ECO/CAPA を工場へ) |
 | 61 | [61-impact-analysis.md](61-impact-analysis.md) | Phase 7 影響分析(影響なし予測の先行凍結) | 製造パッケージ(ECO/CAPA 時) |

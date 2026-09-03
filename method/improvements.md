@@ -5813,6 +5813,9 @@ receipt 4 項目目)/ ECO-053(C16/C17 共通化・5 ラベル・手順 6)/ ECO-0
 **3/3**・OBS-20260830-08 → 2/3・OBS-20260828-05 → 2/3)/ 機会なし(EXP-20260727-14・EXP-20260828-09 ほか)。
 再演 0。
 
+- [watch 1/3] OBS-20260903-04 — **52-metrics の ECO 行に構造(列・必須性・§13 転写規律との関係)が無く、C3 は register の verification 非空しか見ない**(Phase 7 §6 は「52 に ECO 行」とだけ規定・ECO 行未記録が構文 PASS のまま通る fail-open — Codex 独立検査 ECO056-IA-02/R2-01)。user 裁定 2026-09-03= **watch**(schema も C3 拡張も作らない)。起票トリガー= 「ECO 行未記録が受入を素通りした実例」1 件。それまで 52 ヘッダ・README・OBS は「行の構造は未制定」とだけ書く(設計を文言で先取りしない — R2-01 の教訓)
+  source: ECO-056 独立検査 r1 IA-02・r2 R2-01
+  evidence: bomdd/reports/independent-reinspection-eco-056.md §2・independent-reinspection-r2-eco-056.md §2・ECO-056 order §9
 - [watch 2/3] OBS-20260902-03 — **是正の対照(fixture・赤プローブ)は是正者以外の出所から採る** —
   是正者が設計した変種は是正者の想像の範囲に閉じ、Q3 型(弁別力を被覆と誤読)の「適格」判定を生む。
   出所の候補= 独立検査の所見・修理前 revision・実運用の偽陰性。機械面= fixture ごとに「ラベルの根拠」
@@ -5914,7 +5917,7 @@ specified_contract_miss の消費先(§6.4 帰属・BOM 非改訂)と「工場�
 
 - [watch 2/3] OBS-20260903-02 — **製品リポが 52-metrics に独立に意味上近い ECO レジーム指標を追加する**(change_miss /
   impact_prediction / unnecessary_modification / regression〔ViewPrism2 は `regressions`・LibraryLending は `regression` — 名称不一致・
-  同一 schema への独立収束ではない。ECO-056 IA-08 で縮小〕)。**詳細**の正本は 61/63/register。52 には Phase 7 正典(phase7-change-order.md §5-6)に従い件数と参照のみを記録する(ECO-056 第 2 ラウンドで ECO-055 4-A の結論を訂正)。
+  同一 schema への独立収束ではない。ECO-056 IA-08 で縮小〕)。**詳細**の正本は 61/63/register。52 には Phase 7 §6(phase7-change-order.md:20)のとおり ECO 行を記録する — 行の構造は未制定(OBS-20260903-04 watch。ECO-056 r3 で「件数と参照のみ」の先取りを撤回)。
   3 例目で「52 に ECO 要約欄(転写でなく参照)を置くか」を判断
   source: ViewPrism2 bomdd/52-metrics.yaml, BomDD-LibraryLending-Sample bomdd/52-metrics.yaml
   evidence: bomdd/reports/52-metrics-inventory-2026-09-02.md §3 所見 4・ECO-055 order §0
