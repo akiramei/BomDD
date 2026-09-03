@@ -47,7 +47,12 @@ diff は effort-calibration.py 1 本+台帳系。ET-001 の記録(medium / high 
 
 - diff 監査の窓: baseline `7aac533` → head は受入時に確定。
 - 序数を 6 段へ・known-good 2 腕を追加・docstring 更新。
-- **V1 実測**: 記入は §5。**V2 実測**: 記入は §5。
+- **V1 実測**: `--selftest` **PASS(known-good 3・known-bad 8)** — known-good 2/3 は序数変更前は `unordered-effort` になる腕
+  (変更で初めて通る= 変更固有の理由で赤くなる対照)。**V2 実測**: ET-001 の `project` は変更前(git stash)/後で同一
+  (`effort_sensitive: unsupported` ×2)。実行器 `bomdd/effort-trial-runner` の selftest も PASS。
+- **製造中の手順逸脱(自己捕捉)**: V2 の前後比較で `git stash` / `stash pop` を、self-conformance がバックグラウンドで
+  走っている最中に実行した(作業木が数秒間 baseline に戻った)。その検査結果は信頼せず、staged tree で最終検査を
+  やり直してから commit した(witness は最終検査のもの)。是正= 検査中は作業木を触らない。
 
 ### 較正 receipt(/calibrate 自己適用 — trigger 3: 検査器の変更直後。二軸)
 
@@ -78,8 +83,14 @@ diff は effort-calibration.py 1 本+台帳系。ET-001 の記録(medium / high 
 
 ## 5. CI 実測(V4)
 
-- 記入は受入時。
+- 対象 revision: `8427f24`(**origin/main と一致を確認**)
+- run 識別子: 33774358682 — 結論: **PASS**(completed/success・headSha 照合済み)
+- V3 = self-conformance 全 PASS を staged tree で観測してから push(pre-push hook + witness)。
 
 ## 6. クローズ
 
-- 記入は受入時。
+- diff 監査の窓: baseline `7aac533` → head `8427f24`(**窓閉鎖**)。窓内は effort-calibration.py+台帳系(order・register・
+  improvements.md)のみ — 影響なし予測が的中(ET-001 投影不変・self-conformance 判定不変)。
+- 受入: V1(selftest 3/8)/ V2(投影の前後同一)/ V3(全検査緑)/ V4(CI 緑)/ V5(窓)成立。較正 receipt は §4(行別 asked/NA つき)。
+- このクローズが支持しないもの: ET-002 で Luna none 腕の effort 感度が測れること(未実行)/ `none` が到達側で推論ゼロであること
+  (観測不能)/ 序数の外部化の要否(必要が実測されてから)。

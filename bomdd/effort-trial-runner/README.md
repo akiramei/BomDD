@@ -19,8 +19,8 @@
 1. **実タスク**で Effort の過不足が疑われたこと(測るために課題を作らない・難しくしない)。
 2. oracle または機械比較できる出力があること。評価スクリプトは trial ごとに書く(引数は出力ファイル 1 つ —
    treatment を渡す経路を持たせない)。
-3. **effort 序数に `none`(と `max`)を追加する ECO**(`method/tools/effort-calibration.py` の `EFFORT_ORDER` —
-   harness 変更のため起票必須)。追加しない間、Luna none を含む対は投影で `unordered-effort` になる。
+3. ~~effort 序数に `none`(と `max`)を追加する ECO~~ → **ECO-059 で追加済み(2026-09-04・none〜max の 6 段)**。
+   Luna none を含む対も投影で序数どおりに分類される。
 
 ## 手順
 
