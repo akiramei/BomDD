@@ -1,0 +1,134 @@
+tool_hash: baa553dae620b7e896208aa11c69b07a17938297e4aa51b25acab2699d05326a
+trials:
+  ET-001:
+    repetitions: 2
+    treatments:
+      58e69a63021b48f43cfa528f1b4659a2d9ae676270f79e60ec6a91620307af49:
+        requested:
+          model: gpt-5.6-sol
+          effort: high
+          method_stack: []
+          harness:
+            name: codex-cli
+            hash: 0.144.1
+          tool_permissions:
+          - sandbox:read-only
+          runtime_config:
+            service_tier: default
+            prompt_via: stdin
+            output: -o RESULT.md
+            flags: --json --skip-git-repo-check
+        n: 2
+        pass: 2
+        unevaluated: 0
+        pass_rate: 1.0
+        mean_tokens: 19032
+      0cfb6d0c14d3c5c3161d6f30ba90876e4ec5bdae09b47614cb1519ab9763a4f4:
+        requested:
+          model: gpt-5.6-sol
+          effort: high
+          method_stack:
+          - name: converge.md(method/templates/product-profile/skills)
+            hash: aef174c822193599686a877042db6a7eec0bd42d4323fe54852d348798511a85
+          harness:
+            name: codex-cli
+            hash: 0.144.1
+          tool_permissions:
+          - sandbox:read-only
+          runtime_config:
+            service_tier: default
+            prompt_via: stdin
+            output: -o RESULT.md
+            flags: --json --skip-git-repo-check
+        n: 2
+        pass: 2
+        unevaluated: 0
+        pass_rate: 1.0
+        mean_tokens: 51692
+      740ad134e9f621c13a4f37ac7de76382098837b8873d7030ecfcce7ceb811195:
+        requested:
+          model: gpt-5.6-sol
+          effort: medium
+          method_stack: []
+          harness:
+            name: codex-cli
+            hash: 0.144.1
+          tool_permissions:
+          - sandbox:read-only
+          runtime_config:
+            service_tier: default
+            prompt_via: stdin
+            output: -o RESULT.md
+            flags: --json --skip-git-repo-check
+        n: 2
+        pass: 2
+        unevaluated: 0
+        pass_rate: 1.0
+        mean_tokens: 19055
+      87ff893a36ca1ba934170fa5bbee7839b546a7fb824d9385f838056d1458e7cc:
+        requested:
+          model: gpt-5.6-sol
+          effort: medium
+          method_stack:
+          - name: converge.md(method/templates/product-profile/skills)
+            hash: aef174c822193599686a877042db6a7eec0bd42d4323fe54852d348798511a85
+          harness:
+            name: codex-cli
+            hash: 0.144.1
+          tool_permissions:
+          - sandbox:read-only
+          runtime_config:
+            service_tier: default
+            prompt_via: stdin
+            output: -o RESULT.md
+            flags: --json --skip-git-repo-check
+        n: 2
+        pass: 2
+        unevaluated: 0
+        pass_rate: 1.0
+        mean_tokens: 34888
+    effort_sensitivity:
+    - low: medium
+      high: high
+      low_rate: 1.0
+      high_rate: 1.0
+      effort_sensitive: unsupported
+    - low: medium
+      high: high
+      low_rate: 1.0
+      high_rate: 1.0
+      effort_sensitive: unsupported
+sources:
+- file: ET-001\runs\ET-001-H-01.execution.yaml
+  sha256: 81d97e680abfb76af5fa1bfa32bdc2391a6e7a04c99419a4595445ec15767e87
+- file: ET-001\runs\ET-001-H-01.evaluation.yaml
+  sha256: 3d3a287ac316f3459f603059bcf78e82a18b1ed96cbe4b5b7ac76c91f6d79db6
+- file: ET-001\runs\ET-001-H-02.execution.yaml
+  sha256: 92cafc724d4dbda2bda80219e858273697efabbacbb0307e75be86ab62c95ec9
+- file: ET-001\runs\ET-001-H-02.evaluation.yaml
+  sha256: 753f611c862615063216586b9991f5b6c1caac9384027203e01d812a1f7deee8
+- file: ET-001\runs\ET-001-HC-01.execution.yaml
+  sha256: 83b55df1da3f640a624b374d364c819b4d8d38acf45aeb5301c89eac835a1b29
+- file: ET-001\runs\ET-001-HC-01.evaluation.yaml
+  sha256: 6ecd4ea52c71dea32a4550f63654ca468cadac56c658528f6afc9ffd9a1c1a95
+- file: ET-001\runs\ET-001-HC-02.execution.yaml
+  sha256: d4225e30b075f4a6cc3ca34cc244ead6776cc7a08ec8fc41ee6ea16df6c576a4
+- file: ET-001\runs\ET-001-HC-02.evaluation.yaml
+  sha256: 9f136e9e74ba9a50933bdf6083814809179f7d2726c8a14ffb9ef69a8f95dceb
+- file: ET-001\runs\ET-001-M-01.execution.yaml
+  sha256: 3ab965c1e6abdd60f8d7d4e30d7dca5c142130842625d9b3fff45f0bdb7f0024
+- file: ET-001\runs\ET-001-M-01.evaluation.yaml
+  sha256: 3d96c1a4e1d74f4555d6f462044e459bc6a7bdfbb98991a4364dae53cd9d9bc8
+- file: ET-001\runs\ET-001-M-02.execution.yaml
+  sha256: 720557178699870ac065f8f1ee4af5239d66e0d48a9d04b6b12ad0b46118b142
+- file: ET-001\runs\ET-001-M-02.evaluation.yaml
+  sha256: 9bd456417eb1b925ff0e1fa3fb2619606f56bbb0e1a950bcd8dd20233813436e
+- file: ET-001\runs\ET-001-MC-01.execution.yaml
+  sha256: b6ea6ef35dbca5e5b6e217835a0c40a9bbabc902bddd116fde4facd2188bbffc
+- file: ET-001\runs\ET-001-MC-01.evaluation.yaml
+  sha256: 1a6e61215f87dced02a27ec9b69aae11d612c35b9d7a226455c2b0e1796f983f
+- file: ET-001\runs\ET-001-MC-02.execution.yaml
+  sha256: c77fcca79f0bcc4dba411fede9cfd951e739cc7482597f5bd78c10f3658e3f5d
+- file: ET-001\runs\ET-001-MC-02.evaluation.yaml
+  sha256: 29ed98aa55ba7f48874a1aa444956b446542d2b0bfa826cca60981d8181a15e3
+

@@ -1,0 +1,3 @@
+# ET 記録は sha256 で座標結合されている(trial.yaml → execution receipt → evaluation receipt)。
+# 改行変換で bytes が変わると hash 整合が壊れるため、この配下は変換しない(byte 保存)。
+* -text

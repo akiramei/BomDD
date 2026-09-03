@@ -1,0 +1,35 @@
+run_id: ET-001-M-02
+trial_id: ET-001
+trial_hash: 179ecca519db91a71df2c801278e142caf7ea2f7384a1ea229aed05742d9bb81
+treatment:
+  requested:
+    model: gpt-5.6-sol
+    effort: medium
+    method_stack: []
+    harness:
+      name: codex-cli
+      hash: 0.144.1
+    tool_permissions:
+    - sandbox:read-only
+    runtime_config:
+      service_tier: default
+      prompt_via: stdin
+      output: -o RESULT.md
+      flags: --json --skip-git-repo-check
+  resolved:
+    model: unknown
+    effort: unknown
+treatment_hash: 740ad134e9f621c13a4f37ac7de76382098837b8873d7030ecfcce7ceb811195
+started_at: '2026-09-03T06:47:26Z'
+completed_at: '2026-09-03T06:47:51Z'
+exit_code: 0
+token_usage:
+  input: 19242
+  output: 843
+  reasoning_output: 483
+  cached_input: 10496
+output_hash: 304971ac7dfb0c2e3799cd73a5a80441a45f8574d59ed9e983bebf2d24dde25c
+output_file: outputs/ET-001-M-02.RESULT.md
+prompt_hash: d7ed3c8da9bc5db9c36dc22cbe7505a4cf96287b2e68d9dd1c7cc5f05bcdf3c6
+output_recovered_from: outputs/ET-001-M-02.events.jsonl (item.completed/agent_message
+  最終) — 実行器欠陥の復元・評価前

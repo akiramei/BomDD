@@ -1,0 +1,36 @@
+trial_id: ET-001
+input_hash: d7ed3c8da9bc5db9c36dc22cbe7505a4cf96287b2e68d9dd1c7cc5f05bcdf3c6
+rubric_hash: 19b5ba03cd4d744bc9870653e48e1353d2599dce0109c9431a5420fd6ea01c63
+symptom_vocabulary:
+- miss-hard-positive
+- miss-heading-label
+- miss-legacy-rule
+- miss-new-rule-labels
+- miss-grounded-exemption
+- miss-fence-declaration
+- miss-declared-required
+- miss-fenced-hard-positive
+- miss-conflict-precedence
+- miss-body-boundary
+- miss-unclosed-fence
+- false-fail-control
+- missing-verdict
+- format-violation
+repetitions: 2
+evaluator_policy:
+  blind: true
+  evaluator: oracle-script(rubric/evaluate.py) — treatment を受け取る引数を持たない
+  sealed_at: 2026-09-03 run 開始前
+trial_hash: 179ecca519db91a71df2c801278e142caf7ea2f7384a1ea229aed05742d9bb81
+title: C16 判定規則(散文仕様)からの 12 検体 PASS/FAIL 予測 — effort M/H × converge 有無
+symptom_suspected: EXP-20260903-03 の初回実使用。本セッションで実測した失敗型②(検索打ち切り)・③(意図と実文の混同)・⑧(use/mention)と同族の「規則の相互作用を落とす」症状を、機械 oracle
+  で採点できる課題に写した
+input_file: input/TASK.md
+rubric_file: rubric/rubric.md
+treatments_planned:
+- M(medium)
+- H(high)
+- MC(medium+converge)
+- HC(high+converge)
+oracle_gate_revision: 00a3190bc6fc1ed51a7d5c118ec09400206ee5c2
+notes: treatment は execution receipt に記録する(trial 定義は treatment を含まない — trial/treatment 分離)

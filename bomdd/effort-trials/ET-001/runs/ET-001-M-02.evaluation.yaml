@@ -1,0 +1,24 @@
+run_id: ET-001-M-02
+execution_receipt_hash: 720557178699870ac065f8f1ee4af5239d66e0d48a9d04b6b12ad0b46118b142
+evaluator:
+  id: oracle-script:ET-001/rubric/evaluate.py
+  spec_hash: b2a65906acdca38dd727f5eb7931800990172c63874c9f5f741ed39b12a426bb
+rubric_hash: 19b5ba03cd4d744bc9870653e48e1353d2599dce0109c9431a5420fd6ea01c63
+rubric_sealed_before_run: true
+result: pass
+observed_failures: []
+correct_count: 12/12
+evaluated_at: '2026-09-03T06:50:36Z'
+details:
+  S01: ok
+  S02: ok
+  S03: ok
+  S04: ok
+  S05: ok
+  S06: ok
+  S07: ok
+  S08: ok
+  S09: ok
+  S10: ok
+  S11: ok
+  S12: ok

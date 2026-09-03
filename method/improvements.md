@@ -6018,7 +6018,7 @@ OBS-20260902-02 の状態遷移(recovered via 織り込み根拠)は織り込み
 worklist が検出し行内書き換えで是正。self-conformance は worklist を含まないため、記帳規律の順守は worklist 警告 0 を commit 条件に置く運用で担保
 (機械化は「回収漏れの実害 1 例」の昇格条件のまま)。
 
-- [open] EXP-20260903-03 — **effort-calibration(ECO-058)の初回実使用**: 次に Effort の過不足が疑われた
+- [recovered 2026-09-03 via ET-001(bomdd/effort-trials/ET-001/REPORT.md)] EXP-20260903-03 — **effort-calibration(ECO-058)の初回実使用**: 次に Effort の過不足が疑われた
   タスクで、①trial 定義(input/rubric/症状語彙/反復数)を凍結して execution/evaluation receipt が
   手動で残るか(アンカー未結線のため散文契約 — 非起動は receipt 不在として観測)②評価者が実行者と
   別で盲検か ③project が supported/unsupported/insufficient-n のいずれを出し、それが「High を使う」
@@ -6027,3 +6027,27 @@ worklist が検出し行内書き換えで是正。self-conformance は worklist
   変更 0・capability table は正本にせず記録からの導出投影・converge は独立した treatment(M / M+C /
   H / H+C)として比較する
   evidence: ECO-058 order §0/§1・converge receipt(4→1→0 打ち切り採用)
+
+## 2026-09-03 BomDD 自己適用 — ET-001: effort-calibration の初回実使用(EXP-20260903-03 回収・天井効果)
+
+**観測**(出典: [bomdd/effort-trials/ET-001/REPORT.md](../bomdd/effort-trials/ET-001/REPORT.md)・正本= trial.yaml と runs/ の receipt 16 件):
+課題= C16 判定規則の散文仕様から 12 検体の PASS/FAIL を予測(oracle= 実装 `converge_verdict` @ 00a3190・rubric は run 前に封印)。
+treatment= codex `model_reasoning_effort` medium / high × converge 付加の有無・反復 2・8 run 並列・評価者= oracle スクリプト(構造的盲検)。
+結果= **8/8 run が 12/12 正答**・effort 感度= `unsupported` ×2(1.0 vs 1.0)・converge 付加はコスト 1.8〜2.7× で正答率不変。
+到達 model/effort= unknown。非 C 腕の reasoning tokens は M/H で差なし(457〜483)— 「high 未到達」と「課題が容易で飽和」を弁別できない。
+
+**製造中の自己捕捉(実行器・評価前)**: `codex exec -o` の相対パスが `-C` でなく cwd 基準で解決され 8 run が同一ファイルを上書き(RESULT.md 全空)。
+events.jsonl の最終 agent_message から復元し output_hash を再計算(評価前・コミット前・receipt に復元元を明記)。Windows の `codex`→`codex.cmd` 解決失敗で
+初回起動 8/8 全滅(記録 0)。並列起動の system skills 競合エラー 5/8(exit 0・環境ノイズとして記録)。
+
+**効果回収**: EXP-20260903-03 = **回収**(3 問すべてに観測で回答: ①凍結+手動 receipt は起きた(散文契約)②評価者は別・構造的盲検 ③project の出力は
+policy に使っていない)。**期待効果の棚卸し**: 本節は還元でなく測定記録のため worklist の open 項目は走査対象外(棚卸しは次の lesson-promote で)。
+
+- [open] EXP-20260903-04 — **弁別力のある課題での 2 回目 trial**: 次に Effort の過不足が疑われた**実タスク**(合成課題でなく・基準線で少なくとも
+  1 treatment が落ちることが先に観測されたもの)で ET-002 を実施し、effort 感度が supported / unsupported のどちらを出すか。**測るために課題を難しくしない**
+  (天井効果の逆= 床効果を作らない)。
+  evidence: ET-001 REPORT §2/§5
+- [watch 1/3] OBS-20260903-05 — **requested effort の到達は reasoning tokens から推定できない**: 非 C 腕で M/H の reasoning tokens が同値域(457〜483)。
+  到達 unknown を「未到達」とも「飽和」とも読まない(測定器の限界 (2) の実例 1)
+  source: ET-001
+  evidence: ET-001 REPORT §2・runs/*.execution.yaml token_usage.reasoning_output
