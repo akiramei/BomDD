@@ -1,0 +1,32 @@
+run_id: ET-002-LM-02
+trial_id: ET-002
+trial_hash: a8dc76a0b29dc2b971a1256c5791fda43808587f229b8470fe45ce1cde1efe5c
+treatment:
+  requested:
+    model: gpt-5.6-luna
+    effort: medium
+    method_stack: []
+    harness:
+      name: codex-cli
+      hash: 0.144.1
+    tool_permissions:
+    - sandbox:read-only
+    runtime_config:
+      prompt_via: stdin
+      output: -o <abs>/RESULT.md
+      flags: --json --skip-git-repo-check
+  resolved:
+    model: unknown
+    effort: unknown
+treatment_hash: bf97f894ccc00f2feb7ab7e6f218baf6b76c5a0ee398fda11f1824d92e90db54
+started_at: '2026-09-03T20:52:49Z'
+completed_at: '2026-09-03T20:53:20Z'
+exit_code: 0
+token_usage:
+  input: 43663
+  output: 1291
+  reasoning_output: 516
+  cached_input: 8960
+output_hash: e3ba6cdc4ede5b3139eff7a706304e746fbed3ac15b75fd0e608886d16dc2095
+output_file: outputs/ET-002-LM-02.RESULT.md
+prompt_hash: db6675dc789e5108bc72d1793cbd82c48276e0fa777ec7627a0b6a77568c556c

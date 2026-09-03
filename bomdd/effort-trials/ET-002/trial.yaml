@@ -1,0 +1,18 @@
+trial_id: ET-002
+input_hash: db6675dc789e5108bc72d1793cbd82c48276e0fa777ec7627a0b6a77568c556c
+rubric_hash: 949c1e0bb2c9899396c10553586fd97252330b4f9652a85ab316c622af0035d6
+symptom_vocabulary:
+- miss-silent
+- false-silent
+- missing-verdict
+- format-violation
+repetitions: 2
+evaluator_policy:
+  blind: true
+  evaluator: oracle-script — treatment を受け取る引数を持たない
+  sealed_at: '2026-09-03T20:52:40Z'
+trial_hash: a8dc76a0b29dc2b971a1256c5791fda43808587f229b8470fe45ce1cde1efe5c
+title: '型④ 横断掃引: self-conformance.py の全ゲートで空母集団の無音 PASS を判定(Luna none/medium/high + Sol medium)'
+input_file: input/TASK.md
+rubric_file: rubric/rubric.md
+notes: treatment は execution receipt に記録する(trial 定義は treatment を含まない)

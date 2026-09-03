@@ -1,0 +1,34 @@
+run_id: ET-002-LN-01
+execution_receipt_hash: b45604be0f158b6bd8fb74d6f112561a98edcc9fbb938ae4cbd2014a3154d994
+evaluator:
+  id: oracle-script:bomdd\effort-trials\ET-002\rubric\evaluate.py
+  spec_hash: 24daa04c3bd00967f258fb111ebdccaaf33a5992f67a084b9f37b13e5f30d6f3
+rubric_hash: 949c1e0bb2c9899396c10553586fd97252330b4f9652a85ab316c622af0035d6
+rubric_sealed_before_run: true
+result: fail
+observed_failures:
+- false-silent
+- missing-verdict
+evaluated_at: '2026-09-03T20:55:32Z'
+evaluator_correct: 11
+evaluator_expected: 19
+evaluator_details:
+  C1: ok
+  C2: ok
+  C3: ok
+  C5a: expected OK, got none
+  C5b: expected OK, got none
+  C6a: expected OK, got none
+  C6b: expected OK, got none
+  C7: expected OK, got SILENT
+  C9: ok
+  C10: ok
+  C11: ok
+  C11b: expected OK, got none
+  C12: expected OK, got SILENT
+  C13: ok
+  C14: ok
+  C15: ok
+  C16: expected OK, got SILENT
+  C17: ok
+  C18: ok

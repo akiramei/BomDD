@@ -6050,7 +6050,7 @@ events.jsonl の最終 agent_message から復元し output_hash を再計算(�
 **効果回収**: EXP-20260903-03 = **回収**(3 問すべてに観測で回答: ①凍結+手動 receipt は起きた(散文契約)②評価者は別・構造的盲検 ③project の出力は
 policy に使っていない)。**期待効果の棚卸し**: 本節は還元でなく測定記録のため worklist の open 項目は走査対象外(棚卸しは次の lesson-promote で)。
 
-- [open] EXP-20260903-04 — **ET-002: 安価モデルの effort 反応曲線+能力段差の分離**(user 裁定 2026-09-03・ET-001 の天井効果を受けて treatment を
+- [recovered 2026-09-04 via ET-002(bomdd/effort-trials/ET-002/REPORT.md)] EXP-20260903-04 — **ET-002: 安価モデルの effort 反応曲線+能力段差の分離**(user 裁定 2026-09-03・ET-001 の天井効果を受けて treatment を
   書き換え): 次に Effort の過不足が疑われた**実タスク**(合成課題でなく・oracle または機械比較できる出力を持つもの)で、treatment=
   **Luna none / Luna medium / Luna high(`gpt-5.6-luna`・Sol の約 1/10 価格)+ Sol medium(`gpt-5.6-sol`)** の 4 腕で実施する。Luna 3 腕は「問題側が
   計算量に反応するか」(effort 感度・同一モデル内)、Luna high ↔ Sol medium は「計算量では埋まらない能力の段差」を測る — 2 軸を分離して記録し、
@@ -6064,3 +6064,30 @@ policy に使っていない)。**期待効果の棚卸し**: 本節は還元で
   到達 unknown を「未到達」とも「飽和」とも読まない(測定器の限界 (2) の実例 1)
   source: ET-001
   evidence: ET-001 REPORT §2・runs/*.execution.yaml token_usage.reasoning_output
+
+## 2026-09-04 BomDD 自己適用 — ET-002: 型④横断掃引を実タスクとして Luna none/medium/high + Sol medium で計測(EXP-20260903-04 回収)
+
+**観測**(出典: [bomdd/effort-trials/ET-002/REPORT.md](../bomdd/effort-trials/ET-002/REPORT.md)・正本= trial.yaml と runs/ の receipt 16 件):
+課題= self-conformance.py 全 21 ゲートの「空母集団の無音 PASS」判定(ECO-054 が未実施で閉じた実仕事)。oracle= 製造者の読解(要点は実行確認)を run 前に封印。
+8 run・封印 rubric に対する結果= Luna medium 2/2 pass・他 0/2 → 導出は none→medium supported / medium→high unsupported。
+**不一致の裁定**: 高 effort 腕(Luna high・Sol medium)が SILENT とした C10 / C11b / C16 は**実文で腕が正しく、封印 oracle の誤り**(3/19)。
+裁定後の一致(事後導出・receipt ではない)= Luna none 15/13・medium 16/16・high 17/18・Sol medium 17/19 — Luna 内は単調・reasoning tokens と同順。
+**計器欠陥(自己捕捉)**: 評価器 v1 がゲート ID を upper() して添字つき 5 ゲートが全腕 missing-verdict → v1 receipt を隔離保存・修正版で再評価(rubric 不変)。
+**横断掃引の成果(実仕事)**: 型④が構造として存在するゲート= C3・C10・C11b・C16(+除外の C8 は 8/8 腕 SILENT・C4 は 4/4 で割れ)。
+ECO-054 の「第 4 の計器」は少なくとも 4 本 — **是正の要否は別途裁定(本 trial では直さない)**。
+
+**効果回収**: EXP-20260903-04 = **回収**(supported/unsupported の両方を出し、符号が oracle の誤りに依存することまで観測)。
+期待効果の棚卸し: 本節は測定記録のため走査対象外(次の lesson-promote で)。
+
+- [watch 1/3] OBS-20260904-01 — **封印 oracle の誤りは effort 感度の符号を反転させる** — 測定器は oracle の誤りを吸収しない。製造者の読解 oracle は
+  高 effort 腕より粗く(3/19 欠陥)、粗い oracle は「製造者と同じ見落としをする腕」を最良と評価する。処方候補= oracle は実装/実行で作る(ET-001)か、
+  複数腕の不一致を裁定してから rubric を確定する二段階(rubric の封印を「裁定後」に置く — ただし盲検との両立要検討)
+  source: ET-002
+  evidence: ET-002 REPORT §2–4
+- [watch 1/3] OBS-20260904-02 — **低 effort 腕の誤りは「定義の未適用」と「出力の途切れ」、高 effort 腕の誤りは「過検出」に寄る**(Luna none: C7/C12 の
+  定義 (b) 未適用・C17/C18 欠落 / Luna high・Sol: C11 の過検出)。effort の症状語彙を設計するときの層別候補
+  source: ET-002
+  evidence: ET-002 REPORT §3–4
+- [open] EXP-20260904-03 — **型④の 4 計器(C3/C10/C11b/C16、+C4/C8 の裁定)の是正 ECO** を起票するか・範囲をどう切るか(user 裁定待ち)。
+  起票する場合は §8.2 追補④(クローズ節に同型掃討の対象列挙)と §13 第 5 様態の初適用になる — 掃引結果(本 trial)を対象列挙の根拠にする
+  evidence: ET-002 REPORT §5・ECO-054 order §6
