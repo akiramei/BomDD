@@ -92,3 +92,14 @@
   の再演(小)。製造時に自己検出。
 - 検出力の限界: 本 receipt は製造者較正であり、§9 に織り込んだとおり製造者の前提誤りに盲目。参照 1 行の妥当性(受理側が読むか)は未測定。
   行別: 1 asked / 2 asked / 3 asked — NA なし。
+
+## 5. CI 実測(V4)とクローズ(2026-09-03・verified)
+
+- fix commit `c935ac9` → CI run **33714956231**・completed / **success**(dotnet / fast ubuntu / fast windows)。
+- 受入 5 項目: V1 PASS(C13 210 links 不在 0・C17 fixture 較正成立)/ V2 PASS(2 ファイル各 +2 行・限界節のみ)/ V3 PASS(正本と写しが同文・差は
+  プレースホルダ解決)/ V4 PASS / V5 §4 較正 receipt(製造者較正の限界を明示)。diff 監査: baseline `26b877c` → head `c935ac9`・窓内= 正本・写し+
+  台帳系のみ・under-inclusion 0(起票時の写しパス誤記は製造時に訂正)。
+- **verified 昇格の根拠**: γ は参照 1 行(規則本文は §9 が唯一)で、製造者較正のみで受入(§9 の織り込み文に従い本記録で明記)。独立検査なし
+  (変更が参照 1 行のため — 判断は user 裁定 γ の範囲内)。
+- 教訓: 一般則を固有規則へ固定する誘惑に対し「参照 1 行」という第 3 の選択肢が二重正本を避けた(converge 失敗型 ⑦ の回収例)。
+  read-across: terminology「receipt」項は弁別力への言及がなく、次の還元で扱う(本 ECO の窓外)。
