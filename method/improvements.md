@@ -6043,10 +6043,15 @@ events.jsonl の最終 agent_message から復元し output_hash を再計算(�
 **効果回収**: EXP-20260903-03 = **回収**(3 問すべてに観測で回答: ①凍結+手動 receipt は起きた(散文契約)②評価者は別・構造的盲検 ③project の出力は
 policy に使っていない)。**期待効果の棚卸し**: 本節は還元でなく測定記録のため worklist の open 項目は走査対象外(棚卸しは次の lesson-promote で)。
 
-- [open] EXP-20260903-04 — **弁別力のある課題での 2 回目 trial**: 次に Effort の過不足が疑われた**実タスク**(合成課題でなく・基準線で少なくとも
-  1 treatment が落ちることが先に観測されたもの)で ET-002 を実施し、effort 感度が supported / unsupported のどちらを出すか。**測るために課題を難しくしない**
-  (天井効果の逆= 床効果を作らない)。
-  evidence: ET-001 REPORT §2/§5
+- [open] EXP-20260903-04 — **ET-002: 安価モデルの effort 反応曲線+能力段差の分離**(user 裁定 2026-09-03・ET-001 の天井効果を受けて treatment を
+  書き換え): 次に Effort の過不足が疑われた**実タスク**(合成課題でなく・oracle または機械比較できる出力を持つもの)で、treatment=
+  **Luna none / Luna medium / Luna high(`gpt-5.6-luna`・Sol の約 1/10 価格)+ Sol medium(`gpt-5.6-sol`)** の 4 腕で実施する。Luna 3 腕は「問題側が
+  計算量に反応するか」(effort 感度・同一モデル内)、Luna high ↔ Sol medium は「計算量では埋まらない能力の段差」を測る — 2 軸を分離して記録し、
+  導出 3 分類(Luna none で解ける= 安価側で足りる / Luna high で初めて解ける= 計算量に反応 / Luna では解けず Sol で解ける= 能力の段差)は
+  記録からの投影に留め policy へ焼き込まない。**測るために課題を難しくしない**(床効果を作らない)。到達モデル/effort は unknown のまま
+  (codex exec `-m gpt-5.6-luna` で effort none/high の応答は 2026-09-03 に実測済み・events に model 刻印なし)。effort 序数(none/max)の
+  追加は本 trial で必要になった時点で行う。
+  evidence: ET-001 REPORT §2/§5・user 提示の GPT-5.6 Luna 資料(価格・effort 幅は未検証)
 - [watch 1/3] OBS-20260903-05 — **requested effort の到達は reasoning tokens から推定できない**: 非 C 腕で M/H の reasoning tokens が同値域(457〜483)。
   到達 unknown を「未到達」とも「飽和」とも読まない(測定器の限界 (2) の実例 1)
   source: ET-001
