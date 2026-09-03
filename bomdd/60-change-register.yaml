@@ -2081,7 +2081,7 @@ changes:
     title: ECO-055 独立検査所見 IA-01〜08 の是正 — 二重正本・検算規則・散文契約・引用座標
     date: 2026-09-03
     origin: corrective
-    status: in-progress   # 2026-09-03 製造完了・V1〜V5 成立・CI 33685763913 success @58dd2bb — verified 昇格は異系統独立再検査 1 ラウンド後(裁定待ち)
+    status: verified   # 2026-09-03 受入= r3 V1(self-conformance 全 PASS)・V2(52 ヘッダ 1 箇所)・V3(playbook 非接触)・V4(CI 33699714936 success @7191c84)・V5(order §9)。独立検査 r1/r2 の所見は全件是正済み・r3 は製造者較正のみで受入(user 裁定 C→A)・残余= IA-02 watch
     source: >
       ECO-055 の異系統独立検査(Codex・read-only・情報遮断)= REJECT・提起 8・受理側真正判定 8/8 CONFIRMED・
       留保 1(IA-04)・誤検出 0(bomdd/reports/independent-inspection-eco-055.md §5)。当方の較正 receipt
@@ -2092,7 +2092,7 @@ changes:
     no_impact_prediction: "(製造前・IA-01 訂正形)52-metrics を読む治具は存在しない(stage0-survey の参照はコメント 1 行)。被覆は C4 の YAML parse のみで列意味は機械被覆されない → V1 の緑は構文非破壊のみを示す。playbook は §5.2 段落・§11 行+表外注記のみ。improvements は OBS-20260903-02 行内書き換え+記帳節のみ。製品リポ・kit 非接触"
     diff_audit:
       baseline: "13cca3d"  # 起票 commit(製造着手時 clean)
-      head: "86bef4f"      # r2 fix commit(diff監査済み: 52-metrics・playbook §5.2/§11・improvements・templates/README+台帳系のみ。r1= 58dd2bb)。verified は第 2 ラウンド再検査後
+      head: "7191c84"      # r3 fix commit(diff監査済み: 52-metrics・playbook・templates/README・improvements・bomdd/reports〔evidence〕+台帳系。r1= 58dd2bb / r2= 86bef4f)
       allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md, method/templates/README.md, bomdd/reports/]  # README は r2(056-IA-04)で追加・bomdd/reports/ は evidence-only(r2 R2-02 のスコープ会計)
     summary: >
       IA-03: 52 冒頭を Phase 7 正典(phase7 prompt:20・register テンプレ :31= 52 に ECO 行)へ整合(件数と参照のみ・
@@ -2112,3 +2112,6 @@ changes:
       05/06・README を窓に追加)。IA-02(52 の ECO 行 schema+C3= 設備追加)は裁定待ち。**第 2 ラウンド(上限)= REJECT**:
       前回 CLOSED 7 / OPEN 1 / PARTIAL 1・新規 2/2 CONFIRMED(R2-01 high= 「件数と参照のみ」が Phase 7 正典に無く §13 と衝突・
       機序 (i)・R2-02 low= 報告の窓外追加)。§7 基準で「対策仮説の誤り」→ 追加ラウンドを積まず user 裁定へ(order §8 の A/B/C)。
+      **裁定 C→A(2026-09-03)**: IA-02= watch(OBS-20260903-04)。r3= R2-01/R2-02/IA-07 を最小是正(再検査なし)・CI 33699714936 success
+      @7191c84。**verified は製造者較正のみで昇格**(独立検査 2 ラウンドの所見は全件是正済み・残余 IA-02 watch・製造者較正の限界=
+      OBS-20260902-02 3/3 は昇格審査へ)。

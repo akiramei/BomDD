@@ -211,3 +211,18 @@
 - **verified 昇格の根拠(明記)**: 独立検査 2 ラウンド(r1 REJECT・r2 REJECT= 上限)の結果と、r3 の是正が**製造者較正のみ**で受入されたことを
   register に併記する。残余= IA-02 watch(OBS-20260903-04)。製造者較正の限界(OBS-20260902-02・3/3)は昇格審査へ。
 - 受入: V1 self-conformance(r3)PASS / V2 52 diff= ヘッダ 1 箇所 / V3 playbook diff なし(r3 は playbook 非接触)/ V4 CI(r3 commit)/ V5 本節。
+
+## 10. CI 実測(r3)とクローズ(2026-09-03・verified)
+
+- r3 fix commit `7191c84` → CI run **33699714936**・completed / **success**(dotnet / fast ubuntu / fast windows)。初回の run 特定は GitHub API 502 で
+  失敗(UNKNOWN として扱い再試行で特定 — 規律 6)。
+- 受入 5 項目(r3): V1 PASS / V2 52 diff= ヘッダ 1 箇所 / V3 playbook 非接触 / V4 PASS / V5 §9。diff 監査: baseline `13cca3d` → head `7191c84`(r1 58dd2bb・
+  r2 86bef4f・r3 7191c84)。窓内= 52-metrics / playbook / templates/README / improvements / bomdd/reports(evidence-only)+台帳系。
+- **verified 昇格の根拠**: 独立検査 2 ラウンド(r1 REJECT・新規 6/6 CONFIRMED → r2 REJECT・新規 2/2 CONFIRMED・前回 CLOSED 7)の所見はすべて是正済み
+  (r3)。r3 の是正は**製造者較正のみ**で受入(上限到達・user 裁定 C→A・再検査なし)。残余= IA-02 watch(OBS-20260903-04)。製造者較正の限界
+  (OBS-20260902-02・3/3・PROMOTION DUE)は lesson-promote レビューへ。
+- 教訓(一般化可能な形): **是正の検証範囲を製造者が自分で選ぶと、選択そのものが盲点になる** — 対策 3 つ(引用先を開く・治具をコードで確かめる・
+  他所を全列挙する)は正しくても、適用対象を「新しく書いた文」に限ると r1 由来の主張が漏れる。対策の適用範囲は diff から機械的に定める
+  (r3 で実施)。read-across: 同型は ECO-055(較正 receipt の asked が製造者の前提誤りを素通し)・r2(適用範囲の自己選択)— 3 例で OBS-20260902-02 3/3。
+- 未回収: EXP-20260902-03(lesson-promote 3b の実施証跡)は次回還元で判定。OBS-20260903-03(templates/playbook ECO の独立検査)は 1/3 → 本 ECO で
+  2 例目(r1・r2 とも高密度に所見)として lesson-promote で 2/3 へ更新する(本 order では記帳せず — 記帳は還元スキルの入口で)。
