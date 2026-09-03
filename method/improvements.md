@@ -1455,6 +1455,11 @@ lint〔CpI18n010AssetLintTests〕+死キー 640 件削除+M-CAPTURE-HARNESS-052)
   selftest 8 腕 ③根拠つき fail-closed= スキーマ不成立 exit 2・母集団 0 は理由つき保留・--na population
   の出口、が**製造前に**載った。第 4 回の持ち越し(製造終盤で宣言)を解消。open 維持(別設備・別リポ
   での再現は未観測)
+  **第 6 回観測(2026-09-03・ECO-058 effort-calibration 新設)= 起票時充足・2 例目**: 起票 order §1-7 に
+  限界 6 点(アンカー未結線・resolved 観測不能・盲検は構造のみ・分類は仮説の支持・反復凍結・immutability
+  非検査)、§1-6 に掃射手段(--selftest known-good 1・known-bad 7→8)、§1-4/5 に fail-closed(空 root・
+  不整合記録は投影しない)が載った。製造中に known-good 腕が計器欠陥(effort 順序の文字列比較)を捕捉
+  — 初回設計の陽性対照が機能した実測。open 維持(同一設備・同一セッション)
   **第 5 回観測(2026-08-31・TimetableAdv ECO-038 / SCB-CP・FO-SCB 9 行)= 型が再び誤り**:
   `SCB-CP-GOLDEN-001` の `characteristic:` は**潜伏履歴**(挙動回帰では宣言 content が runtime source で
   ないことを見られない)を恒久記載し、`SCB-CP-BOUNDARY-001` は**スコープ境界**(embedded event 1・
@@ -6012,3 +6017,13 @@ OBS-20260902-02 の状態遷移(recovered via 織り込み根拠)は織り込み
 記帳中の逸脱(自己検出): EXP-20260902-03 の回収を新規 bullet で書き W1(行の複製)— 同じ記帳規律の違反 3 度目(ECO-055 記帳 2 件・本節 1 件)。
 worklist が検出し行内書き換えで是正。self-conformance は worklist を含まないため、記帳規律の順守は worklist 警告 0 を commit 条件に置く運用で担保
 (機械化は「回収漏れの実害 1 例」の昇格条件のまま)。
+
+- [open] EXP-20260903-03 — **effort-calibration(ECO-058)の初回実使用**: 次に Effort の過不足が疑われた
+  タスクで、①trial 定義(input/rubric/症状語彙/反復数)を凍結して execution/evaluation receipt が
+  手動で残るか(アンカー未結線のため散文契約 — 非起動は receipt 不在として観測)②評価者が実行者と
+  別で盲検か ③project が supported/unsupported/insufficient-n のいずれを出し、それが「High を使う」
+  判断に**使われないまま**(policy 自動化なし)記録として蓄積されるか。基準線= 実 trial 0 件・測定器の
+  構造検証のみ。**設計判断(2026-09-03・user 打ち切り採用)**: 新規 skill 0・calibrate/converge 本文
+  変更 0・capability table は正本にせず記録からの導出投影・converge は独立した treatment(M / M+C /
+  H / H+C)として比較する
+  evidence: ECO-058 order §0/§1・converge receipt(4→1→0 打ち切り採用)

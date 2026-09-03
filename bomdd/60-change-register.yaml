@@ -2139,3 +2139,30 @@ changes:
       不在 0・C17 fixture 較正成立)。V2= PASS(正本+写し 各 +2 行・限界節のみ)。V3= PASS(同文・差はプレースホルダ解決)。V4= PASS
       (CI run 33714956231・success・headSha c935ac9 一致・dotnet 含む)。V5= PASS(order §4 較正 receipt・trigger ③・asked 3/3・NA 0)。
       **製造者較正のみで受入**(独立検査なし — 変更が参照 1 行のため。§9 織り込み文のラベリング規則に従い明記)。
+  - id: ECO-058
+    title: effort 較正の測定器 — trial/execution/evaluation receipt の検証と導出投影(skill 新設 0・本文変更 0)
+    date: 2026-09-03
+    origin: preventive
+    status: in-progress
+    source: >
+      Effort レベルの過不足を計測する設計(user 2026-09-03 打ち切り採用・round 4→1→0)。
+      外部案(calibrate 統合・capability table・treatment 比較)→ 当方 3 修正(calibrate 不変・表は
+      導出物・採点独立/反復/コスト)→ 外部 3 修正(execution/evaluation receipt の分離・解釈の導出化・
+      treatment identity のハッシュ化)→ 当方 4 補強(trial/treatment 分離・requested/resolved・評価統制
+      3 点の凍結・投影の来歴)+境界宣言 1(execution receipt のアンカーは現ハーネスで未結線)。
+      Effort は回答から直接観測できず、症状→仮説→介入→帰結→分類の順で測る — 測定器は観測記録の
+      検証と導出投影に徹し、判定器・policy 自動化は作らない。
+    order_ref: bomdd/60-change-order-eco-058.md
+    affected_refs: [method/tools/effort-calibration.py]
+    no_impact_prediction: "(製造前)diff は新規ファイル 1 本+台帳系。C7(SKILLS 本数不変)・C13(新規リンクなし)・C1(bomdd/ に新規 yaml なし)とも判定不変。記録の置場 bomdd/effort-trials/ は実 trial 時に作る"
+    diff_audit:
+      baseline: "6b1a549"  # 起票直前 HEAD(rebase 後 — 起票時は c935ac9・別セッションの ECO-057 accept を跨いだ。clean linked worktree で作業)
+      allowed_paths: [method/tools/effort-calibration.py]
+    summary: >
+      ①正本= trial 定義 / execution receipt / evaluation receipt(immutable・別ファイル)②禁止キーで
+      観測と評価・解釈を分離(execution に result/candidate_reason 等を書かない・evaluation に treatment
+      等を書かない= 盲検)③trial_hash / treatment_hash(requested の canonical JSON・resolved は unknown
+      許容)④validate= fail-closed(ハッシュ整合・語彙・空集合)⑤project= 導出 read-only(反復未達は
+      insufficient-n・effort 感度の supported/unsupported・来歴つき)⑥--selftest(known-good 1・
+      known-bad 7)⑦限界 6 点。採らない= 新規 skill・calibrate/converge 本文変更・表の手保守・E→High
+      自動化・self-conformance 組込み・実 trial の実施。
