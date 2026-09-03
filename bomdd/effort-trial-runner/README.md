@@ -12,6 +12,8 @@
   **2026-09-03 15:05Z(JST 09-04 00:05)の probe は 4 腕とも UNKNOWN**(codex backend が HTTP 404 — 1.5 時間前に成功した同一の
   手動呼び出しも同時刻に 404。サービス側の事象で実行器の欠陥ではない。ET-002 開始前に再 probe する)。
   2026-09-03 の手動 probe では `-m gpt-5.6-luna` の effort none / high が応答済み。
+  **再 probe(2026-09-04・user 指示)= 4 腕とも exit 0・応答 `OK`**(LN/LM/LH: input 15,504・SM: input 14,667・reasoning 0 —
+  1 行プロンプトのため推論量の差は出ない。到達モデルは今回も events に刻印なし= unknown)。ET-002 の到達確認は完了。
 - 陽性対照: `python run-trial.py --selftest`(codex を呼ばず init → 合成 execution → evaluate → validate)。
 
 ## ET-002 を始める条件(EXP-20260903-04)
