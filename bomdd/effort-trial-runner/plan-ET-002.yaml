@@ -1,0 +1,10 @@
+# ET-002 の treatment plan(EXP-20260903-04・user 裁定 2026-09-03)
+# Luna 3 腕= 問題側の計算量反応(同一モデル内の effort 感度)/ Luna high ↔ Sol medium= 能力の段差。
+# trial 定義(input/rubric/語彙/反復)は本ファイルに書かない(trial/treatment 分離)。
+arms:
+  - {tag: LN, model: gpt-5.6-luna, effort: none,   converge: false}
+  - {tag: LM, model: gpt-5.6-luna, effort: medium, converge: false}
+  - {tag: LH, model: gpt-5.6-luna, effort: high,   converge: false}
+  - {tag: SM, model: gpt-5.6-sol,  effort: medium, converge: false}
+harness: {name: codex-cli, version: "0.144.1"}   # execute 時に `codex --version` と突合
+sandbox: read-only

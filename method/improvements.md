@@ -6057,8 +6057,9 @@ policy に使っていない)。**期待効果の棚卸し**: 本節は還元で
   導出 3 分類(Luna none で解ける= 安価側で足りる / Luna high で初めて解ける= 計算量に反応 / Luna では解けず Sol で解ける= 能力の段差)は
   記録からの投影に留め policy へ焼き込まない。**測るために課題を難しくしない**(床効果を作らない)。到達モデル/effort は unknown のまま
   (codex exec `-m gpt-5.6-luna` で effort none/high の応答は 2026-09-03 に実測済み・events に model 刻印なし)。effort 序数(none/max)の
-  追加は本 trial で必要になった時点で行う。
-  evidence: ET-001 REPORT §2/§5・user 提示の GPT-5.6 Luna 資料(価格・effort 幅は未検証)
+  追加は本 trial で必要になった時点で行う。**実行器は準備済み**(2026-09-04・bomdd/effort-trial-runner/: init 封印・dry-run・probe・
+  execute・evaluate・selftest PASS。同日の 4 腕 probe は codex backend 404 で UNKNOWN — 開始前に再 probe)。
+  evidence: ET-001 REPORT §2/§5・user 提示の GPT-5.6 Luna 資料(価格・effort 幅は未検証)・bomdd/effort-trial-runner/README.md
 - [watch 1/3] OBS-20260903-05 — **requested effort の到達は reasoning tokens から推定できない**: 非 C 腕で M/H の reasoning tokens が同値域(457〜483)。
   到達 unknown を「未到達」とも「飽和」とも読まない(測定器の限界 (2) の実例 1)
   source: ET-001
