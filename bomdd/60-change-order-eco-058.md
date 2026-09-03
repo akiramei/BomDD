@@ -126,8 +126,19 @@ C1 は bomdd/ 配下に新規 yaml を置かないため不変)。記録の置�
 
 ## 5. CI 実測(V4)
 
-- (push 後に記入)
+- 対象 revision: `937d1d7`(**origin/main と一致を確認**)
+- run 識別子: 33716957974 — 結論: **PASS**(completed/success・headSha 照合済み)
+- V3 = self-conformance 全 PASS を **clean な linked worktree で独立観測してから** push(初回 push は
+  別セッションの ECO-057 accept により non-fast-forward で拒否 → rebase → register の競合を「上流全採用+
+  ECO-058 追記」で解消 → baseline を 6b1a549 へ更新して amend → 再検査 → push)。
 
 ## 6. クローズ
 
-- (受入時に記入)
+- diff 監査の窓: baseline `6b1a549` → head `937d1d7`(**窓閉鎖**)。窓内は effort-calibration.py+台帳系
+  (order・register・improvements.md)のみ — 影響なし予測が的中(C7/C13/C1 判定不変)。
+- 受入: V1(selftest known-good 1・known-bad 8)/ V2(空 root FAIL・不整合記録は投影せず・投影に来歴)/
+  V3(全検査緑・clean worktree)/ V4(CI 緑)/ V5(窓)成立。較正 receipt は §4(行別 asked/NA つき)。
+- 製造中の自己捕捉= known-good 腕が計器欠陥(effort 順序の文字列比較)を捕捉し是正(§4)。
+- このクローズが支持しないもの: **本測定器で Effort の過不足が実際に測れること**(実 trial 0 件 —
+  EXP-20260903-03 が初回実使用を測る)/ execution receipt の記帳が起きること(アンカー未結線・散文契約)/
+  到達モデル・適用 effort の同一性(観測不能)/ 評価者の行動上の盲検 / policy(E→High)への昇格。

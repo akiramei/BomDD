@@ -2143,7 +2143,7 @@ changes:
     title: effort 較正の測定器 — trial/execution/evaluation receipt の検証と導出投影(skill 新設 0・本文変更 0)
     date: 2026-09-03
     origin: preventive
-    status: in-progress
+    status: verified   # 2026-09-03 受入= V1(selftest known-good 1・known-bad 8)・V2(空 root FAIL・不整合記録は投影せず・投影に来歴)・V3(全検査緑・clean linked worktree)・V4(CI run 33716957974 success @937d1d7)・V5(窓は effort-calibration.py+台帳系のみ)
     source: >
       Effort レベルの過不足を計測する設計(user 2026-09-03 打ち切り採用・round 4→1→0)。
       外部案(calibrate 統合・capability table・treatment 比較)→ 当方 3 修正(calibrate 不変・表は
@@ -2157,6 +2157,7 @@ changes:
     no_impact_prediction: "(製造前)diff は新規ファイル 1 本+台帳系。C7(SKILLS 本数不変)・C13(新規リンクなし)・C1(bomdd/ に新規 yaml なし)とも判定不変。記録の置場 bomdd/effort-trials/ は実 trial 時に作る"
     diff_audit:
       baseline: "6b1a549"  # 起票直前 HEAD(rebase 後 — 起票時は c935ac9・別セッションの ECO-057 accept を跨いだ。clean linked worktree で作業)
+      head: "937d1d7"      # diff監査済み: 窓内は effort-calibration.py+台帳系のみ・予測的中
       allowed_paths: [method/tools/effort-calibration.py]
     summary: >
       ①正本= trial 定義 / execution receipt / evaluation receipt(immutable・別ファイル)②禁止キーで
@@ -2166,3 +2167,13 @@ changes:
       insufficient-n・effort 感度の supported/unsupported・来歴つき)⑥--selftest(known-good 1・
       known-bad 7)⑦限界 6 点。採らない= 新規 skill・calibrate/converge 本文変更・表の手保守・E→High
       自動化・self-conformance 組込み・実 trial の実施。
+    verification: >
+      V1= PASS(--selftest: known-good 1〔M fail×2 / H pass×2 → supported〕・known-bad 8〔execution なし /
+      hash 改変 / 盲検の破れ / 解釈の混入 / 反復不足 / 語彙外+座標不一致 / 空 root / 序数外 effort〕)。
+      V2= PASS(存在しない root の validate= FAIL exit 1 / treatment_hash 改変を含む記録の project= 投影せず
+      exit 1 / known-good 投影= supported・sources 8・tool_hash)。V3= PASS(clean linked worktree で全検査
+      PASS を独立観測後に push — 別セッションの ECO-057 accept を跨いで rebase・競合は上流全採用+ECO-058
+      追記で解消)。V4= PASS(CI run 33716957974・success・headSha 937d1d7 一致)。V5= PASS(窓は
+      effort-calibration.py+台帳系のみ)。較正 receipt(trigger ③・二軸・行別 asked/NA)は order §4 —
+      「本測定器で Effort の過不足が測れる」は unknown(未実行・実 trial 0 件)。製造中の自己捕捉= known-good
+      腕が effort 順序の文字列比較(低/高反転)を捕捉 → 序数化・known-bad 8 腕目を追加。
