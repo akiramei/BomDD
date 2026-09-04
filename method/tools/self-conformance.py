@@ -195,20 +195,17 @@ def c2_json() -> None:
 
 
 # --- C3 ハーネス台帳の規律 ----------------------------------------------------------
-def c3_register() -> None:
-    reg_path = ROOT / "bomdd" / "60-change-register.yaml"
-    if not reg_path.exists():
-        check("C3", False, f"ハーネス台帳がない: {reg_path}")
-        return
-    try:
-        reg = strict_yaml_load(reg_path.read_text(encoding="utf-8"))
-    except yaml.YAMLError as e:
-        check("C3", False, f"台帳がパース不能/情報損失: {e}")
-        return
-    problems = []
-    for c in reg.get("changes") or []:
-        if c.get("status") != "verified":
+# ECO-060: 型④(空母集団の無音 PASS)の横断是正。ET-002(型④横断掃引・4 腕 × 2 反復)で C3 / C10 / C11b / C16 に
+# 構造として存在することが判明し(腕の指摘を実文で裁定)、同型の C11 / C4 も悉皆処置(§8.2 追補④)。
+# 是正の型= 母集団が 0 件なら FAIL(測定不能は合格ではない)+ PASS 行に母集団の件数を出す。
+# 陽性対照= _type4_selftest(下)— 各ゲートの純粋関数を空母集団で実行し FAIL を確認してから走査する。
+def _c3_problems(reg: dict) -> tuple[int, list]:
+    """verified entry の状態契約を検査。返り値= (verified 件数, 問題)。0 件は問題(空集合は合格ではない)。"""
+    problems, n = [], 0
+    for c in (reg or {}).get("changes") or []:
+        if not isinstance(c, dict) or c.get("status") != "verified":
             continue
+        n += 1
         cid = c.get("id", "?")
         # ECO-012 案3: verified の明示的な状態契約 — 窓閉鎖・verification 実記録を一体で検査
         if not (c.get("diff_audit") or {}).get("head"):
@@ -218,8 +215,71 @@ def c3_register() -> None:
             problems.append(f"{cid}: verification が空")
         elif v in _KNOWN_PLACEHOLDERS:
             problems.append(f"{cid}: verification が製造前プレースホルダのまま")
+    if n == 0:
+        problems.append("verified が 0 件(状態契約の検査対象なし — 空集合は合格ではない)")
+    return n, problems
+
+
+def _c11_controls(r: dict) -> list:
+    """qualification JSON の IQ/OQ control 群(C11 / C11b が走査する母集団)。"""
+    return list((r or {}).get("iq") or []) + list((r or {}).get("oq") or [])
+
+
+def _c16_population_problems(n_targets: int, n_sections: int) -> list:
+    """C16 の 2 母集団(cutoff 以降の order / improvements.md の節)は個別に非空を要求する。"""
+    out = []
+    if n_targets == 0:
+        out.append(f"cutoff {CONVERGE_CUTOFF} 以降の order が 0 件(空集合は合格ではない)")
+    if n_sections == 0:
+        out.append(f"cutoff {CONVERGE_CUTOFF} 以降の improvements.md 節が 0 件(空集合は合格ではない)")
+    return out
+
+
+def _type4_selftest() -> list[str]:
+    """型④の陽性対照(常設): 空母集団で各純粋関数が FAIL 側へ倒れることを毎回確認する。"""
+    bad = []
+    n, pr = _c3_problems({"changes": [{"id": "ECO-001", "status": "applied"}]})
+    if n != 0 or not pr:
+        bad.append("C3: verified 0 件を問題にしない")
+    if _c11_controls({"runs_identical": True, "disposition": "PASS"}):
+        bad.append("C11/C11b: iq/oq 欠落を空でない control 群にした")
+    if not _c16_population_problems(0, 3) or not _c16_population_problems(3, 0):
+        bad.append("C16: 一方の母集団 0 件を問題にしない")
+    tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-t4-"))
+    try:
+        (tmp / "ui-ir.json").write_text("{}", encoding="utf-8")
+        (tmp / "ui-trace-map.json").write_text("{}", encoding="utf-8")
+        edges = {"artifacts": [
+            {"file": "bomdd/ui/**/ui-ir.json", "defines": [{"selector": k} for k in
+             ("components", "occurrences", "componentCandidates", "componentOccurrences")]},
+            {"file": "bomdd/ui/**/ui-trace-map.json", "defines": [{"selector": "entries"}, {"selector": "mappings"}]}]}
+        schema = {"$defs": {"uiIrFile": {"properties": {k: {} for k in
+                  ("components", "occurrences", "componentCandidates", "componentOccurrences")}},
+                            "uiTraceMapFile": {"properties": {"entries": {}, "mappings": {}}}}}
+        if not any("0 件" in d for d in _c10_structural_drifts(edges, schema, tmp)):
+            bad.append("C10: テンプレ宣言対象キー 0 件を乖離にしない")
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    return bad
+
+
+def c3_register() -> None:
+    t4 = _type4_selftest()
+    if t4:
+        check("C3", False, "型④陽性対照が不成立(計器を先に疑う): " + " / ".join(t4))
+        return
+    reg_path = ROOT / "bomdd" / "60-change-register.yaml"
+    if not reg_path.exists():
+        check("C3", False, f"ハーネス台帳がない: {reg_path}")
+        return
+    try:
+        reg = strict_yaml_load(reg_path.read_text(encoding="utf-8"))
+    except yaml.YAMLError as e:
+        check("C3", False, f"台帳がパース不能/情報損失: {e}")
+        return
+    n, problems = _c3_problems(reg)
     check("C3", not problems,
-          "台帳厳格パース+verified の状態契約(窓閉鎖・verification 実記録)"
+          f"台帳厳格パース+verified {n} 件の状態契約(窓閉鎖・verification 実記録・型④陽性対照込み)"
           + (f" — {problems}" if problems else "(全 verified 適合)"))
 
 
@@ -249,11 +309,14 @@ def c4_scaffold() -> None:
         count_ok = lock["kit"]["files"] == len(manifest["files"])
         # ECO-012: 生成物も保存正本 — scaffold の全 YAML を厳格パース(重複キー=情報損失を遮断)
         gen_bad = []
-        for f in list(prod.rglob("*.yaml")) + list(prod.rglob("*.yml")):
+        gen_files = list(prod.rglob("*.yaml")) + list(prod.rglob("*.yml"))
+        for f in gen_files:
             try:
                 strict_yaml_load(f.read_text(encoding="utf-8"))
             except yaml.YAMLError as e:
                 gen_bad.append(f"{f.relative_to(prod)}: {str(e).splitlines()[0]}")
+        if not gen_files:  # ECO-060: 生成 YAML 0 件は「全数厳格パース」ではない(空集合は合格ではない)
+            gen_bad.append("生成 YAML が 0 件(厳格パースの母集団なし)")
         # ECO-010: ハーネス中立入口 — AGENTS.md の存在+参照する SKILL.md の全実在
         agents = prod / "AGENTS.md"
         agents_ok, agents_msg = False, "AGENTS.md がない"
@@ -308,10 +371,11 @@ def c11_process_core() -> None:
         # ECO-017 REV-11: 2 回決定性を C11 でも回帰固定(--runs 既定 2)+構造化 JSON 判定
         j1 = tmp / "q1.json"
         q = run([sys.executable, str(runner), "--root", str(prod), "--json", str(j1)])
-        ok1, det_ok = q.returncode == 0, False
+        ok1, det_ok, n_ctl = q.returncode == 0, False, 0
         try:
             r1 = json.loads(j1.read_text(encoding="utf-8"))
-            det_ok = r1.get("runs_identical") is True and r1.get("disposition") == "PASS"
+            n_ctl = len(_c11_controls(r1))  # ECO-060: control 0 件の PASS は合格ではない
+            det_ok = r1.get("runs_identical") is True and r1.get("disposition") == "PASS" and n_ctl > 0
         except (OSError, json.JSONDecodeError):
             ok1 = False
         # 変異: hooksPath 無効化 → 構造化結果で IQ-03 自身の pass==false を確認(文字列一致の廃止)
@@ -327,7 +391,7 @@ def c11_process_core() -> None:
         except (OSError, json.JSONDecodeError):
             pass
         check("C11", head_ok and ok1 and det_ok and ok2,
-              f"process-core 適格性(初回 commit hook 有効={head_ok}・IQ/OQ PASS={ok1}・"
+              f"process-core 適格性(初回 commit hook 有効={head_ok}・IQ/OQ PASS={ok1}・control {n_ctl} 件・"
               f"2 回決定性={det_ok}・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定={ok2})"
               + ("" if ok1 else f" — {q.stdout.strip().splitlines()[-1:] or q.stderr.strip()[:120]}"))
         c11b_adapted_profile(tmp, runner)
@@ -380,16 +444,18 @@ def c11b_adapted_profile(tmp: Path, runner: Path) -> None:
             return
     j = tmp / "q-adapt.json"
     q = run([sys.executable, str(runner), "--root", str(prod), "--json", str(j)])
-    ok, det, failed = q.returncode == 0, False, []
+    ok, det, failed, n_ctl = q.returncode == 0, False, [], 0
     try:
         r = json.loads(j.read_text(encoding="utf-8"))
-        det = r.get("runs_identical") is True and r.get("disposition") == "PASS"
-        failed = [c.get("control") for c in r.get("iq", []) + r.get("oq", []) if not c.get("pass")]
+        controls = _c11_controls(r)
+        n_ctl = len(controls)
+        det = r.get("runs_identical") is True and r.get("disposition") == "PASS" and n_ctl > 0  # ECO-060
+        failed = [c.get("control") for c in controls if not c.get("pass")]
     except (OSError, json.JSONDecodeError):
         ok = False
     check("C11b", ok and det and not failed,
           f"非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— "
-          f"PASS={ok}・2 回決定性={det}" + (f"・不合格 {failed}" if failed else ""))
+          f"PASS={ok}・2 回決定性={det}・control {n_ctl} 件" + (f"・不合格 {failed}" if failed else ""))
 
 
 # --- C5 fail-closed 陽性対照(ECO-002/003・由来検査は ECO-008) -----------------------
@@ -809,11 +875,17 @@ def _c10_structural_drifts(edges: dict, schema: dict, tmpl_dir: Path) -> list[st
             drifts.append(f"Schema uiTraceMapFile に {k} がない(方言被覆の破れ)")
     # テンプレ実在キーの空振り検査(テンプレが持つ宣言対象キーはセレクタに被覆される)
     ir_t = json.loads((tmpl_dir / "ui-ir.json").read_text(encoding="utf-8"))
-    missed = [k for k in ir_t if k in ir_props and k not in ir_roots]
+    ir_keys = [k for k in ir_t if k in ir_props]
+    if not ir_keys:  # ECO-060: 空振り検査の母集団(テンプレの宣言対象キー)が 0 件なら乖離(空集合は合格ではない)
+        drifts.append("ui-ir テンプレの宣言対象キーが 0 件(空振り検査の母集団なし)")
+    missed = [k for k in ir_keys if k not in ir_roots]
     if missed:
         drifts.append(f"ui-ir テンプレのキーがセレクタ空振り: {missed}")
     tm_t = json.loads((tmpl_dir / "ui-trace-map.json").read_text(encoding="utf-8"))
-    missed = [k for k in ("entries", "mappings") if k in tm_t and k not in tm_roots]
+    tm_keys = [k for k in ("entries", "mappings") if k in tm_t]
+    if not tm_keys:
+        drifts.append("ui-trace-map テンプレの宣言対象キーが 0 件(空振り検査の母集団なし)")
+    missed = [k for k in tm_keys if k not in tm_roots]
     if missed:
         drifts.append(f"ui-trace-map テンプレのキーがセレクタ空振り: {missed}")
     return drifts
@@ -1323,9 +1395,10 @@ def c16_converge_receipt() -> None:
 
     # ECO-034: **沈黙する免除を作らない** — 根拠つき not-required は fail-open を再導入しうる
     # ため、有効な免除の件数と宣言者を毎回の判定行へ出す(増加が観測できる形にする)。
-    n = len(targets) + len(sections)
+    problems = _c16_population_problems(len(targets), len(sections)) + problems  # ECO-060: 母集団別の非空
+    n = f"order {len(targets)} 件+improvements 節 {len(sections)} 件"
     check("C16", not problems,
-          f"converge receipt ゲート(cutoff {CONVERGE_CUTOFF} 以降 {n} 件"
+          f"converge receipt ゲート(cutoff {CONVERGE_CUTOFF} 以降 {n}"
           f"〔本体ラベル要求= ECO-0{C16_BODY_MIN} 以降〕・fixture {len(_CONVERGE_FIXTURES)}/{len(_CONVERGE_FIXTURES)} 較正成立"
           f"・根拠つき免除 {len(exempt)} 件"
           + ("[" + " / ".join(exempt) + "]" if exempt else "") + ")"
