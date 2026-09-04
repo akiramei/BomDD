@@ -55,12 +55,51 @@
 
 ## 4. 製造と受入の実測(2026-09-04)
 
-- 記入は受入時。
+- diff 監査の窓: baseline `aa43d89` → head `5ffcd44`。
+- **V1 実測**: `_type4_selftest()` = 空(4 関数が空母集団で FAIL 側)/ `_c3_problems` の 0 件ガードを外した変異で
+  `['C3: verified 0 件を問題にしない']`(較正成立)/ verified 0 件の台帳で `c3_register()` が **FAIL**(実行)。
+- **V2 実測**: 全検査 PASS・判定不変。PASS 行の件数表示= C3 verified 58 件 / C11・C11b control 35 件 / C16 order 28 件+
+  improvements 節 16 件(従来の合算 41 件は節の増加で 44 件に)/ C4・C10 は判定行不変(ガードのみ)。
+- 製造中の手順逸脱: なし(検査中に作業木を触らない — ECO-059 の是正を適用)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger 3: 検査器の変更直後。二軸)
+
+- 査定した主張と判定:
+  1. 「C3 / C10 / C11 / C11b / C16 は母集団 0 件で FAIL する」— **observed / 適格**(陽性対照 `_type4_selftest` が純粋関数を空母集団で
+     実行・C3 は実台帳相当で関数実行)。
+  2. 「C4 は生成 YAML 0 件で FAIL する」— **observed / 条件付き適格**(コード読解のみ — scaffold 実行を要するため陽性対照なし・限界宣言)。
+  3. 「本リポの判定は不変」— **observed / 適格**(全検査 PASS・件数表示の追加のみ)。
+  4. 「21 ゲートに型④は残っていない」— **unknown(理由コード: 定義依存)** — ET-002 の定義(母集団 0 件で無音 PASS)に対する悉皆
+     処置であり、別の定義(例: 上流 runner の母集団)は測っていない。
+- 検出した計器欠陥: 0 件(本 ECO)。ET-002 で評価器 v1 の ID 正規化欠陥 1 件を自己捕捉済み(別記録)。
+- 検出力の限界: (1) C4 / C11 のガードは陽性対照を持たない(scaffold 実行が要る)(2) 陽性対照は純粋関数を対象とし、呼び出し側が
+  その関数を使い続けているかは測らない(C1 の陽性対照と同じ限界)(3) C8 の良性確定は「構造的に空にならない」という読解。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | order §1 の対象列挙とコードの一致 |
+  | Q2 | asked | observed/適格 | 実測 | 陽性対照 4 関数・変異 1 |
+  | Q3 | asked | observed/条件付き適格 | 実測 | 変異は C3 のみ(他 3 関数は空入力での FAIL 側のみ確認) |
+  | Q4 | asked | observed/適格 | 実測 | 陽性対照は本体の純粋関数を実行 |
+  | Q5 | asked | observed/適格 | 実測 | 0 件を PASS にしない |
+  | Q6 | asked | observed/適格 | 実測 | check() 経由・exit 1 |
+  | Q7 | asked | observed/適格 | 実測 | _type4_selftest 常設(C3 冒頭) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | PASS 行に母集団件数が出る |
+  | Q10 | asked | observed/適格 | 読解 | 限界 3 点 |
+  | Q11 | asked | observed/適格 | 実測 | 母集団 0 件を他の FAIL と別文言で報告 |
 
 ## 5. CI 実測(V3)
 
-- 記入は受入時。
+- 対象 revision: `5ffcd44`(**origin/main と一致を確認**)
+- run 識別子: 33823112619 — 結論: **PASS**(completed/success・headSha 照合済み)
 
 ## 6. クローズ
 
-- 記入は受入時。
+- diff 監査の窓: baseline `aa43d89` → head `5ffcd44`(**窓閉鎖**)。窓内は self-conformance.py+台帳系(order・register)のみ — 影響なし予測が的中。
+- 受入: V1(陽性対照・変異・実行)/ V2(全検査 PASS・判定不変)/ V3(CI 緑)/ V4(窓)成立。較正 receipt は §4(行別 asked/NA つき)。
+- **同型掃討の対象列挙**(§8.2 追補④): order §1 の 21 ゲート表(是正 6 / 良性確定 1 / 対象外 14)。掃引しなかった範囲= self-conformance 外の
+  計器(ui-cad-gate・effort-calibration・worklist・kit-freshness・stage0-survey・impact-retrospective)— **未実施**と明示して閉じる。
+- このクローズが支持しないもの: 上流 runner(process-qualification.py)の control 母集団の非空 / self-conformance 外の計器の型④ / C4・C11 ガードの
+  陽性対照による較正。

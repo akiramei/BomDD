@@ -2209,7 +2209,7 @@ changes:
     title: 型④の横断是正 第 2 弾 — ET-002 掃引で判明した C3 / C10 / C11b / C16 と同型 C11 / C4 の空母集団ガード(C8 は良性確定)
     date: 2026-09-04
     origin: corrective
-    status: applied
+    status: verified   # 2026-09-04 受入= V1(陽性対照 空・変異で非空・verified 0 件で C3 FAIL)・V2(全検査 PASS・判定不変)・V3(CI run 33823112619 success @5ffcd44)・V4(窓は self-conformance.py+台帳系のみ)
     source: >
       ECO-054 が「第 4 の計器の有無は横断掃引未実施」と範囲を明示して閉じた型④(空母集団の無音 PASS)を、ET-002
       (型④横断掃引・Luna none/medium/high + Sol medium × 2)で全 21 ゲートに対して掃引。腕の指摘を実文で裁定し
@@ -2220,10 +2220,16 @@ changes:
     no_impact_prediction: "(製造前)現状の全母集団は非空のため全検査の判定は不変・PASS 行の件数表示だけが変わる。diff は self-conformance.py 1 本+台帳系"
     diff_audit:
       baseline: "aa43d89"  # 起票直前 HEAD
-      head: null
+      head: "5ffcd44"      # diff監査済み: 窓内は self-conformance.py+台帳系のみ・予測的中
       allowed_paths: [method/tools/self-conformance.py]
     summary: >
       ①C3: _c3_problems(verified 0 件= FAIL・件数表示)②C10: テンプレ宣言対象キー 0 件= 乖離 ③C11/C11b: _c11_controls
       (control 0 件= FAIL・件数表示)④C16: _c16_population_problems(order / 節を母集団別に非空・件数表示)⑤C4: 生成 YAML
       0 件= FAIL ⑥C8 良性確定 ⑦陽性対照 _type4_selftest(C3 冒頭で常設)。採らない= C8 変更・上流 runner の母集団検査。
-    verification: null
+    verification: >
+      V1= PASS(_type4_selftest 空 / C3 ガードを外した変異で非空 / verified 0 件の台帳で c3_register が FAIL — 実行)。
+      V2= PASS(全検査 PASS・判定不変・件数表示= verified 58・control 35・order 28+節 16)。V3= PASS(CI run 33823112619・
+      success・headSha 5ffcd44 一致)。V4= PASS(窓は self-conformance.py+台帳系のみ)。較正 receipt(trigger 3・二軸・行別
+      asked/NA)は order §4 — C4 は条件付き適格(陽性対照なし)・「型④が残っていない」は定義依存で unknown。同型掃討の対象列挙=
+      order §1(21 ゲート悉皆)・未掃引範囲= self-conformance 外の計器(明示)。**製造者較正のみで受入**(対象列挙は ET-002 の
+      4 腕という是正者以外の出所を含む)。
