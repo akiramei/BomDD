@@ -1032,6 +1032,40 @@ notes の宣言と現物の一致を検査した上で受理**し(「同境界�
 harness bomdd/60-change-order-eco-021.md / eco-023.md・method/improvements.md 2026-07-27 還元節
 (ECO-021 / ECO-023+ECO-001)。
 
+### 11.8 追補: effort 較正の初回 2 trial — 合成課題は天井、実仕事は弁別、封印 oracle は 3/19 誤った(ET-001 / ET-002・2026-09-03/04)
+
+Effort レベル(内部推論量)は回答から直接観測できないため、測定器 effort-calibration(harness ECO-058/059)は
+trial 定義・execution receipt・evaluation receipt を hash で結合した記録と、そこからの導出投影だけを扱う。
+本節は初回 2 trial の**定量記録**であり、effort の最適値についての結論は含まない。
+
+**ET-001**(合成課題・C16 判定規則の散文仕様から 12 検体の PASS/FAIL 予測・oracle= 実装 `converge_verdict`・
+treatment= Codex Sol medium / high × converge 付加の有無・反復 2): **8/8 run が 12/12 正答**。effort 感度は
+unsupported ×2。製造者が難しいと見積もった課題が全腕で解け、effort 比較器として**天井効果が強すぎる**。
+converge 付加は正答率を変えずコストを 1.8〜2.7 倍にした。非 C 腕の reasoning tokens は medium / high で同値域
+(457〜483)— 到達 effort は unknown のため「未到達」と「飽和」を弁別できない。
+
+**ET-002**(実仕事・self-conformance.py 全 21 ゲートの「空母集団の無音 PASS」判定= ECO-054 が未実施で閉じた
+横断掃引・oracle= 製造者の読解を run 前に封印・treatment= Luna none / medium / high(Sol の約 1/10 価格)+
+Sol medium・反復 2): 封印 rubric に対する結果は Luna medium 2/2 pass・他 0/2。**封印 oracle 自身が 3/19 誤って
+おり**(C10 / C11b / C16 — 高 effort 腕が SILENT と判定し実文で腕が正しかった)、封印結果は「製造者と同じ
+見落としをした腕」を最良と評価していた。裁定後の一致(**事後導出・receipt ではない**)は Luna none 15/13・
+medium 16/16・high 17/18・Sol medium 17/19 で、Luna 内は reasoning tokens(0 / 516 / 7,250)と同順に単調。
+低 effort 腕の誤りは定義の未適用と出力の途切れ、高 effort 腕の誤りは過検出に寄った。掃引の成果として
+型④(空母集団の無音 PASS)が 6 計器に見つかり ECO-060 で是正された — effort 差は最終点数以外(見落としの
+種類)にも現れうる。
+
+**言えること**: ①合成課題は天井に張り付き effort を測れない ②実仕事は同じ腕構成で弁別した ③封印 oracle
+(読解)は誤り、観測値は evaluator uncertainty を含む ④多腕の不一致は oracle の欠陥検出器として働いた。
+**言えないこと**: Luna high や Sol medium が「正解」であること / 特定モデルに high を使うべきこと / 到達
+モデル・到達 effort(unknown)/ 裁定後の一致を封印 receipt と同格に扱うこと。
+
+**限界**: N= 2 trial・同一リポ・同一製造者(oracle 作成者= 是正者)。反復 2 のため率は粗い。ET-003 は
+実装・実行結果・既知の履歴など**外部で確定できる ground truth** を持つ実仕事で行い、判定対象モデル自身の
+effort 段階を腕に含められるかを先に確認する(ET-001/002 の腕は Codex 側のモデル)。
+
+証拠: bomdd/effort-trials/ET-001/REPORT.md・ET-002/REPORT.md(正本= trial.yaml と runs/ の receipt)・
+bomdd/60-change-order-eco-058.md / eco-059.md / eco-060.md・method/improvements.md 2026-09-03/04 の ET 節と還元節。
+
 ## 12. stage-0 健診の外部妥当性 — ハブは普遍・三冠は局所(stage0-oss-01)
 
 stage-0 健診(宣言なしリポの変更トポロジー測定)の適用範囲を、ViewGrid(N=1・.NET・108k 行)から
