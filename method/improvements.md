@@ -6206,7 +6206,9 @@ ViewPrism2 側の事前調査で、採点器(scale-01 治具)の対象漏れ(件
   BOM の既存情報(過去事例の記録・契約・依存)が影響 unit・確認すべき検査・非影響の根拠の判断をどこまで支えたかを測る。BOM 改善の効果は
   その後(改善に使わない事例で A/B)。改善者指示は v1/v2 とも保留・履歴編集の一律禁止も保留。BOM 履歴記述の有無の比較は副実験に留める。
   effort 比較は予算内の副評価
-  evidence: pilot-01 REPORT §4–5・exp-04 REPORT §5・PROTOCOL・レビュー(2026-09-05)
+  **next trigger= 次の変更要求(ECO 起票より前)**・手順= ViewPrism2 studies/impact-prospective-pilot-01/PROTOCOL-prospective.md・様式= briefs/TASK-PREDICT-v2
+  (判断ごとに BOM 参照箇所と支持度)・追加の指示比較は行わない・実験のための製品変更はしない(user 2026-09-05)
+  evidence: pilot-01 REPORT §4–5・exp-04 REPORT §5・PROTOCOL-prospective・レビュー(2026-09-05)
 - [recovered 2026-09-05 via ViewPrism2 pilot-01/exp-04-improver-instruction(REPORT)] EXP-20260905-04 — **改善者が対象を名指しされずに実装との対応漏れを発見・補完できるか**: 今回の改善工程(order の設計変更を反映)は diff が生んだ
   実装写像(件数クエリ→M-DB-007)を落とした。改善者の入力に「diff から実装写像を抽出し (observed@rev) で記録する」工程を明示した条件と今回の条件を、
   同じ改善集合(ECO-139/140)で比較する。**中心的な発見(訂正後)= 改善工程は E 品目レベルの依存辺を生成しなかった(M レベルの契約には ECO-140 時点で写像あり)** — 次はその工程に焦点
