@@ -6201,10 +6201,12 @@ ViewPrism2 側の事前調査で、採点器(scale-01 治具)の対象漏れ(件
   予測と裁定の様式差が under に混入する。処方候補= 出力様式に「テスト/検査 unit」欄を置き、裁定と同じ語彙にする
   source: ViewPrism2 pilot-01
   evidence: REPORT §2・§5-2
-- [open] EXP-20260905-03 — **前向き主評価(impact-prospective-01)**: テスト unit を含む予測様式を固定したうえで、次の実変更(ECO-082 の着手か新規)で
-  同じ手順を用いる。主評価= BOM 改善の効果(モデル・effort・課題・評価条件を固定)。様式変更の効果は旧条件との比較で BOM 改善の効果に混ぜない。
-  BOM 履歴記述の有無の比較は依存導出の寄与を調べる副実験に留め、通常運用から履歴を除く方向へは進めない。effort 比較は予算内の副評価
-  evidence: REPORT §5・PROTOCOL・レビュー(2026-09-05・優先順位 3→4)
+- [open] EXP-20260905-03 — **前向き主評価(impact-prospective-01)— 主題「既に BOM にある情報を変更判断へ利用できるか」**(user 2026-09-05 改題):
+  次の実変更(ECO-082 の着手か新規)の起票時に、現状の BOM だけからの予測(製品 unit と検査 unit を分けた様式)と、独立に封印した裁定・実 diff を突合し、
+  BOM の既存情報(過去事例の記録・契約・依存)が影響 unit・確認すべき検査・非影響の根拠の判断をどこまで支えたかを測る。BOM 改善の効果は
+  その後(改善に使わない事例で A/B)。改善者指示は v1/v2 とも保留・履歴編集の一律禁止も保留。BOM 履歴記述の有無の比較は副実験に留める。
+  effort 比較は予算内の副評価
+  evidence: pilot-01 REPORT §4–5・exp-04 REPORT §5・PROTOCOL・レビュー(2026-09-05)
 - [recovered 2026-09-05 via ViewPrism2 pilot-01/exp-04-improver-instruction(REPORT)] EXP-20260905-04 — **改善者が対象を名指しされずに実装との対応漏れを発見・補完できるか**: 今回の改善工程(order の設計変更を反映)は diff が生んだ
   実装写像(件数クエリ→M-DB-007)を落とした。改善者の入力に「diff から実装写像を抽出し (observed@rev) で記録する」工程を明示した条件と今回の条件を、
   同じ改善集合(ECO-139/140)で比較する。**中心的な発見(訂正後)= 改善工程は E 品目レベルの依存辺を生成しなかった(M レベルの契約には ECO-140 時点で写像あり)** — 次はその工程に焦点
@@ -6214,11 +6216,12 @@ ViewPrism2 側の事前調査で、採点器(scale-01 治具)の対象漏れ(件
 
 **観測**(出典: ViewPrism2 `bomdd/studies/impact-prospective-pilot-01/exp-04-improver-instruction/REPORT.md`・正本= REFERENCE.sealed.yaml・candidates/*・audits/*):
 同一の未変更入力(baseline 79123df・manifest 1c56700ad607)から、旧指示 v1 ×2・新指示 v2(= v1 + diff hunk 単位の実装写像棚卸し・データアクセス層も対象)×2 を
-Codex Sol high の独立セッションで実行。独立作成の参照表(32 項目・未反映 7・must_not_change 11・採点前に封印)に対し、盲検ラベルの採点者 4 セッションが
+Codex Sol high の独立セッションで実行(**旧 run の再利用**: v1 の 1 本は pilot-01 の改善者 run〔単独実行〕をそのまま候補にし、新規実行は 3 本・3〜4 並列 — 所要は比較しない)。独立作成の参照表(32 項目・未反映 7・must_not_change 11・採点前に封印)に対し、盲検ラベルの採点者 4 セッションが
 回収(covered/partial/missing/broken)と誤追加(grounded/ungrounded/contradicting/design-overwrite)を採点。
 結果= 総回収は v1/v2 とも covered 26〜27/32 で差なし。**データアクセス層の写像(R-017・M-DB-007 の batch API 契約)は v1 が 2/2 missing、v2 が 2/2 partial**。
 誤追加は両指示で発生し種類が異なる(v1: 旧写像の破壊 1〔ebom_refs を空に〕・歴史 CP エントリの編集 3 / v2: 歴史 routing の編集 2・**実在しない識別子
-`RelinkBatchPair` の記載 1**・new-2 は 0)。コストは v2 が往復 2 倍・累計 input tokens 1.6〜3.5 倍・所要 40 分対 12 分。
+`RelinkBatchPair` の記載 1**・new-2 は 0)。**分けて評価**: 未反映 7 項目の回収(covered=1・partial=0.5)= v1 4.0 / 4.0・v2 3.5 / 4.5 で指示差なし / 既存情報の保存= v1 に broken 1・v2 に 0(contradicting は参照表の
+must_not_change 方針依存)/ 追加費用= v2 が往復 2 倍・累計 input tokens 1.6〜3.5 倍(所要は実行条件が異なり比較しない)。
 参照表 R-016 が pilot-01 の製造者の読み違い(「A に写像なし」— 実際は M-DB-007 契約に ECO-140 時点で記載)を捕捉(前節の訂正)。
 
 **一般化検査**: ①「層を名指しせず指定する指示は当該層への到達を変えるが完全回収には至らず、コストは 2 倍超」= 観測 N=1(v2 の 3b)。
@@ -6226,7 +6229,8 @@ Codex Sol high の独立セッションで実行。独立作成の参照表(32 �
 ③「参照表の must_not_change(歴史エントリへの superseded 注記は是正か改変か)は作成者依存で、採点の分散源」= 観測 N=1・処方= 方針を採点前に固定。
 ④「実在しない識別子の混入は code に対する機械照合で捕まえられる(採点者の判断に頼らない)」= 機械面候補 N=1。
 
-**行き先判定**: 記帳のみ(全て N=1)。前向き主評価(EXP-20260905-03)の改善者指示は v2 を基本にし、履歴エントリの編集禁止と識別子の機械照合を加える。
+**行き先判定**: 記帳のみ(全て N=1)。**user 裁定(2026-09-05)**: v2 の基本採用と履歴エントリ編集の一律禁止は**保留**(回収の利得が R-017 の partial に限られ費用 2 倍超・
+contradicting は参照表方針依存)。次の主題は「**既に BOM にある情報を変更判断へ利用できるか**」で前向き評価へ戻る(EXP-20260905-03 を改題)。
 
 **思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(識別子の機械照合・must_not 方針の事前固定 — 記帳のみ)[ ] template
 [ ] terminology [x] method/concept claim: 「テストは真実ではない・計器は検査対象」= supported(参照表が製造者の前提誤りを捕捉= OBS-20260904-01 の 2 例目)。
