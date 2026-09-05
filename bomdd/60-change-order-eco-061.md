@@ -96,7 +96,7 @@ diff は上記 4 ファイル(各 1 行〜2 行)+台帳系(order・register・im
 - 置換は §1 の 3 件+写し同期(4 ファイル・各 1 行)。置換前に旧文が各ファイルに 1 件であることを grep で確認してから実行。
 - **V1 実測**: 旧文(`receipt 不在= 非起動の証拠` / `診断が誤り`)= 4 ファイルで **0 件**・新文= 各 **1 件**(grep -c)。
 - **V2 実測**: 正本 preflight.md と写し SKILL.md の diff は **2 hunk**(写し注記ブロック・プレースホルダー解決)— ECO-042 時点と同じ。
-- **V3**: self-conformance — 本節末尾に実測を記す。**V4** は §5、**V5** は §6。
+- **V3 実測**: self-conformance **全 PASS**(C7 本数 11/11・C13 不在 0・C16 order 29 件・C17 19 件 — 判定不変)を staged tree で観測してから commit・push(witness は本検査のもの)。**V4** は §5、**V5** は §6。
 - 製造中の手順逸脱: なし(検査中に作業木を触らない — ECO-059 の教訓を遵守。検査は置換と §4 記入の完了後に起動)。
 
 ### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格。散文変更のため二軸のうち「証拠品質」中心)
@@ -126,3 +126,18 @@ diff は上記 4 ファイル(各 1 行〜2 行)+台帳系(order・register・im
   | Q9 | asked | observed/適格 | 実測 | 変更は commit と register で来歴化 |
   | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
   | Q11 | asked | observed/適格 | 読解 | 正本 3・写し 1 をクラス別に列挙(§1) |
+
+## 5. CI 実測(V4)
+
+- 対象 revision: `e69b1c5`(**origin/main と一致を確認**・fix コミット)
+- run 識別子: 33977929658 — 結論: **PASS**(completed/success・headSha e69b1c5 照合済み・job= fast ubuntu / fast windows / dotnet すべて success)
+
+## 6. クローズ(2026-09-06・verified)
+
+- diff 監査の窓: baseline `509533f` → head `e69b1c5`(**窓閉鎖**)。窓内= allowed_paths 4 ファイル(各 1 行)+台帳系(order・register・
+  improvements.md 1 行注記)のみ — 影響なし予測が的中(self-conformance 判定不変・行動指示不変)。
+- 受入: V1(旧文 0・新文各 1)/ V2(写し差分 2 hunk)/ V3(全検査緑)/ V4(CI 緑)/ V5(窓)成立。較正 receipt は §4(行別 asked/NA つき)。
+- **製造者較正のみで受入**(独立検査なし — 散文 4 箇所・機械挙動の変更なし。置換案はレビュー担当が起票段階で承認・ただし盲検ではない)。
+- このクローズが支持しないもの: 新文が実務で誤読を減らすこと(未測定)/ 他原因でプローブが赤にならなかった実例の有無(未調査)/
+  記録漏れ時の再実施義務(本 ECO は定めない — 必要なら別 ECO)/ 製品リポへの波及(kit 再設置まで観測不能)/ converge「収束」の語
+  (凍結・EXP-20260906-01/02 の測定待ち)。

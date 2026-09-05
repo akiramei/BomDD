@@ -2238,7 +2238,7 @@ changes:
     title: 停止規則に貼られた品質の語を工程上の扱いへ直す — preflight「receipt 不在= 非起動の証拠」/ eco-fix・change-management「プローブが不合格にならなければ診断が誤り」(散文 4 箇所・行動指示は不変)
     date: 2026-09-06
     origin: corrective
-    status: in-progress   # 2026-09-06 user「ECO-061 の製造まで進めて」で着手(起票時は filed)— fix 済み・V1/V2 PASS・V4(CI)待ち
+    status: verified   # 2026-09-06 受入= V1(旧文 0・新文各 1)・V2(写し差分 2 hunk)・V3(全検査緑・staged tree)・V4(CI run 33977929658 success @e69b1c5)・V5(窓は 4 ファイル+台帳系のみ)
     source: >
       外部スキル棚卸レビュー(2 往復・2026-09-06)が converge / preflight / eco-fix に同型の断定を指摘し、当方が原文で一致を
       確認(improvements.md 2026-09-06 節)。型= 運用上の停止規則に品質の語が貼られている(playbook §9 の適用漏れ・新原則ではない)。
@@ -2250,6 +2250,7 @@ changes:
     no_impact_prediction: "(製造前)diff は 4 ファイル各 1〜2 行+台帳系。行動指示・停止規則・自発起動契約は不変。self-conformance 判定不変(C7 本数・C13 リンク・C16/C17 対象外)。playbook は触れない(§8.3 は既に適正・ECO-055 窓内)"
     diff_audit:
       baseline: "509533f"  # 起票直前 HEAD
+      head: "e69b1c5"      # diff監査済み: 窓内は allowed_paths 4 ファイル(各 1 行)+台帳系のみ・予測的中
       allowed_paths: [method/templates/product-profile/skills/preflight.md, .claude/skills/preflight/SKILL.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/change-management.md]
     summary: >
       ①preflight 正本:30+写し:36「receipt 不在= 非起動の証拠」→「非起動として扱う(運用上の規約であり、実行漏れと記録漏れを区別した判定ではない)」— 再実施指示は含めない(レビュー反映)
@@ -2257,5 +2258,8 @@ changes:
       ③change-management:38 の R5 同文を同義へ。採らない= converge の「収束」の語(凍結・測定待ち)/ playbook §8.3 改稿 /
       improvements.md 歴史記述の書き換え / 切り分け手順の新設 / 機械ゲート新設。
     verification: >
-      (未製造)受入基準は order §3 — V1 旧文 0 件・新文各 1 件 / V2 正本と写しの差分= 既知 2 箇所のみ / V3 self-conformance
-      全 PASS・判定不変 / V4 CI 緑 / V5 diff 窓。独立検査は不要(散文 4 箇所)— 製造者較正のみで受入する旨を verified 時に明記。
+      V1= PASS(旧文「receipt 不在= 非起動の証拠」「診断が誤り」= 4 ファイルで 0 件・新文各 1 件・置換前に旧文 1 件を確認)。
+      V2= PASS(正本 preflight.md と写し SKILL.md の diff= 既知 2 hunk・ECO-042 時点と同じ)。V3= PASS(self-conformance 全 PASS・
+      判定不変・staged tree で観測後に push)。V4= PASS(CI run 33977929658・success・headSha e69b1c5 一致)。V5= PASS(窓は
+      4 ファイル各 1 行+台帳系のみ)。較正 receipt(trigger ①・行別 asked/NA)は order §4 — 「新文が過大断定を除いた」は読解・
+      「他原因の実例」は unknown(未調査)。**製造者較正のみで受入**(独立検査なし — 散文 4 箇所・機械挙動の変更なし)。
