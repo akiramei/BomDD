@@ -2252,8 +2252,8 @@ changes:
       baseline: "509533f"  # 起票直前 HEAD
       allowed_paths: [method/templates/product-profile/skills/preflight.md, .claude/skills/preflight/SKILL.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/change-management.md]
     summary: >
-      ①preflight 正本:30+写し:36「receipt 不在= 非起動の証拠」→「非起動として扱う(規約・実行漏れと記録漏れは区別できない・帰結は同じ)」
-      ②eco-fix:21「診断が誤り」→「診断またはプローブが症状を捉えていない(真因誤り/感度不足/環境差/再現条件欠落)・§8.3 参照」
+      ①preflight 正本:30+写し:36「receipt 不在= 非起動の証拠」→「非起動として扱う(運用上の規約であり、実行漏れと記録漏れを区別した判定ではない)」— 再実施指示は含めない(レビュー反映)
+      ②eco-fix:21「診断が誤り」→「診断またはプローブが症状を捉えていない(真因誤り/感度不足/環境差/再現条件欠落など・網羅一覧としない)・§8.3 参照」
       ③change-management:38 の R5 同文を同義へ。採らない= converge の「収束」の語(凍結・測定待ち)/ playbook §8.3 改稿 /
       improvements.md 歴史記述の書き換え / 切り分け手順の新設 / 機械ゲート新設。
     verification: >
