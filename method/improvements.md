@@ -6160,3 +6160,44 @@ OBS-20260902-04 → 2/3・OBS-20260902-05 → 2/3)/ 据え置き 2(OBS-20260831-
 (FINDINGS §11.8・言えること/言えないことを分離し effort の最適値は書かない)/ 案 D= 据え置き(独立性基準を今回だけ緩めない)/ 案 E= 未裁定
 (EXP-20260903-02 は open のまま)。参考意見(user 提示)の趣旨= 設備改善をここで止め、次は外部確定 ground truth を持つ ET-003 を主目的
 (判定対象モデルの effort 不足/十分/過剰/判定不能)へ直接当てる。
+
+## 2026-09-05 ViewPrism2 自己適用 — impact-prospective-pilot-01: BOM だけからの変更予測を改善前/後 BOM で比較する予備試験(ECO-142・探索的)
+
+**観測**(出典: ViewPrism2 `bomdd/studies/impact-prospective-pilot-01/`〔REPORT / PROTOCOL / ADJUDICATION-HISTORY / trials PILOT-A・B〕・private リポ):
+レビュー(2026-09-05・「BOM を維持する工程」から「使う工程」へ)を受け、最優先「BOM から変更範囲を予測する」の予備試験を ViewPrism2 の
+過去事例 ECO-142 で実施。手順= 履歴のない許可ファイル集合・3 役分離(改善者/裁定者/予測者= Codex Sol 独立セッション・製造者 claude は封印と突合のみ)・
+裁定の事前封印(予測より前・hash)・訂正の追記履歴・events.jsonl によるパッケージ外アクセス監査。主評価= M unit の変更予測・調査候補。
+結果= 改善前 A / 改善後 B とも予測 change は M-DB-007(実 diff と一致)で **A/B に差なし**。tests unit(M-HARNESS-015)は 4/4 run 未予測(裁定者は change と
+した)。予測の根拠は BOM の acceptance_note に残る類似事例 ECO-098 の記録(同一データ形状)で、依存関係からの導出ではない。改善者(ECO-139/140 の
+order+diff から)は superseded 化と CP 移管を 70 行編集したが、diff が生んだ件数クエリの実装写像は追加せず、事前仮説は不成立。B は input tokens が
+A の 38〜52%。**計器欠陥 3 例目**: 評価器 v1 がフェンス付き YAML しか読まず 4 run 全て missing-verdict → 較正で捕捉・v1 隔離・v2 で再評価。
+ViewPrism2 側の事前調査で、採点器(scale-01 治具)の対象漏れ(件名の大文字固定・M/E ID 以外を写像しない)、BOM の内容不整合(ECO-140 で削除された
+2 artifact を M-BOM が保持)、impacted_bom の記載様式の変化(ECO-080 以降 63 件中 M/E ID を含むのは 11 件)を分けて報告した。
+
+**一般化検査**: ①「新設計器の初回実使用で欠陥が出る」= OBS-20260831-09 の候補 3 例目(ET-001 / ET-002 / pilot 評価器 — いずれも同一製造者・
+独立性疑義のため N 据え置き・裁定 D)。②「BOM の履歴記述(過去事例の受入記録)は予測の主要な根拠源になり、依存関係からの導出の交絡になる」= 新命題 N=1。
+③「予測者の出力様式に無い unit 種別(tests)は系統的に落ちる — 様式差が測定に混入」= 観測 N=1(ET-002 の定義未適用と同族の様式起因)。
+④「隣接 ECO の order から導く BOM 改善は設計変更の反映に偏り、diff が生んだ実装写像を落とす」= 観測 N=1(レビューアの「設計上の対応と実装上の対応を分ける」の実例)。
+
+**行き先判定**: 記帳のみ(全て N=1)。手順(PROTOCOL)は ViewPrism2 側の study に置き、method 化は前向き主評価の後。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(評価器の読取様式 — 記帳のみ)[ ] template [ ] terminology
+[x] method/concept claim: 命題「テストは真実ではない・計器は検査対象」= supported(計器欠陥 3 例目)。BOM の価値命題(記憶としての BOM)は
+本 pilot で **supported かつ交絡の指摘**(過去事例の記録が予測を支えた — ただし依存導出ではない)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: 本節は測定記録のため走査対象外(次の lesson-promote で)。EXP-20260904-06(ET-003 の oracle を実装で作る)は本 pilot では
+裁定者= 別 AI の読解であり機会なし(前向き主評価で再検討)。
+
+- [watch 1/3] OBS-20260905-01 — **BOM の履歴記述(acceptance_note 等の過去事例の記録)は BOM だけからの変更予測の主要な根拠源になる** —
+  依存関係・契約からの導出ではなく「同じデータ形状の過去事例」を辿る。BOM の価値(記憶)であると同時に、依存導出を測るときの交絡。
+  処方候補= 履歴記述を含む/含まない BOM で分けて測る
+  source: ViewPrism2 pilot-01
+  evidence: REPORT §2「根拠の出所」
+- [watch 1/3] OBS-20260905-02 — **予測者の出力様式に無い unit 種別は系統的に落ちる(tests= M-HARNESS-015 が 4/4 未予測・裁定者は change)** —
+  予測と裁定の様式差が under に混入する。処方候補= 出力様式に「テスト/検査 unit」欄を置き、裁定と同じ語彙にする
+  source: ViewPrism2 pilot-01
+  evidence: REPORT §2・§5-2
+- [open] EXP-20260905-03 — **前向き主評価(impact-prospective-01)**: 次の実変更(ECO-082 の着手か新規)で同じ手順を用い、①改善者の入力に「diff からの
+  実装写像抽出」を明示した場合に B が事例の要所(実 diff の unit)へ届くか ②tests unit 欄の追加で under が減るか ③BOM 履歴記述の有無で予測が変わるか。
+  主評価= BOM 改善の効果(モデル・effort・課題・評価条件を固定)。effort 比較は予算内の副評価
+  evidence: REPORT §5・PROTOCOL・レビューア回答(2026-09-05)

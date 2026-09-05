@@ -219,8 +219,11 @@ def cmd_probe(a) -> int:
 
 
 # ---------------------------------------------------------------- execute
-def one_run(rid: str, arm: dict, plan: dict, td: Path, trial: dict, scratch: Path, ver: str, results: dict):
+def one_run(rid: str, arm: dict, plan: dict, td: Path, trial: dict, scratch: Path, ver: str, results: dict,
+            package: Path | None = None):
     d = scratch / rid; d.mkdir(parents=True, exist_ok=True)
+    if package is not None:  # 許可ファイル集合(履歴なし)を run dir へ複製 — 課題文は同ディレクトリのファイルだけを読む契約
+        shutil.copytree(package, d, dirs_exist_ok=True)
     prompt = build_prompt(td, trial, arm)
     write_text(d / "PROMPT.md", prompt)
     started = now()
@@ -264,11 +267,14 @@ def cmd_execute(a) -> int:
     if want != "unknown" and ver != want:
         raise SystemExit(f"codex version 不一致: 実測 {ver} / plan {want}(plan を更新してから実行)")
     scratch = Path(a.scratch).resolve()
+    package = Path(a.package).resolve() if getattr(a, "package", None) else None
+    if package is not None and not package.is_dir():
+        raise SystemExit(f"package が無い: {package}")
     threads, results = [], {}
     for arm in plan["arms"]:
         for i in range(1, int(trial["repetitions"]) + 1):
             rid = f"{td.name}-{arm['tag']}-{i:02d}"
-            t = threading.Thread(target=one_run, args=(rid, arm, plan, td, trial, scratch, ver, results))
+            t = threading.Thread(target=one_run, args=(rid, arm, plan, td, trial, scratch, ver, results, package))
             t.start(); threads.append(t)
     for t in threads:
         t.join()
@@ -420,6 +426,7 @@ def main(argv=None) -> int:
     s = sub.add_parser("dry-run"); s.add_argument("trial_dir"); s.add_argument("--plan", required=True); s.add_argument("--scratch")
     s = sub.add_parser("probe"); s.add_argument("--plan", required=True); s.add_argument("--scratch")
     s = sub.add_parser("execute"); s.add_argument("trial_dir"); s.add_argument("--plan", required=True); s.add_argument("--scratch", required=True)
+    s.add_argument("--package", help="run dir へ複製する許可ファイル集合(履歴なし)のディレクトリ")
     s = sub.add_parser("evaluate"); s.add_argument("trial_dir"); s.add_argument("--evaluator", required=True)
     s = sub.add_parser("recover-outputs"); s.add_argument("trial_dir")
     a = ap.parse_args(argv)
