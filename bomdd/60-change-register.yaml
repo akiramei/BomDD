@@ -2233,3 +2233,29 @@ changes:
       asked/NA)は order §4 — C4 は条件付き適格(陽性対照なし)・「型④が残っていない」は定義依存で unknown。同型掃討の対象列挙=
       order §1(21 ゲート悉皆)・未掃引範囲= self-conformance 外の計器(明示)。**製造者較正のみで受入**(対象列挙は ET-002 の
       4 腕という是正者以外の出所を含む)。
+
+  - id: ECO-061
+    title: 停止規則に貼られた品質の語を工程上の扱いへ直す — preflight「receipt 不在= 非起動の証拠」/ eco-fix・change-management「プローブが不合格にならなければ診断が誤り」(散文 4 箇所・行動指示は不変)
+    date: 2026-09-06
+    origin: corrective
+    status: filed   # 2026-09-06 起票のみ(user「ECO として起票して」)— 製造着手は別裁定
+    source: >
+      外部スキル棚卸レビュー(2 往復・2026-09-06)が converge / preflight / eco-fix に同型の断定を指摘し、当方が原文で一致を
+      確認(improvements.md 2026-09-06 節)。型= 運用上の停止規則に品質の語が貼られている(playbook §9 の適用漏れ・新原則ではない)。
+      preflight は実行漏れと記録漏れを区別できないのに「証拠」と書き、eco-fix / change-management はプローブ感度不足・環境差・
+      再現条件欠落でも同じ結果になるのに「診断が誤り」と断定。指示している行動はいずれも正しい。converge は凍結中のため測定
+      (EXP-20260906-01/02)へ回し本 ECO の対象外。user 裁定 2026-09-06「起票して」。
+    order_ref: bomdd/60-change-order-eco-061.md
+    affected_refs: [method/templates/product-profile/skills/preflight.md, .claude/skills/preflight/SKILL.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/change-management.md]
+    no_impact_prediction: "(製造前)diff は 4 ファイル各 1〜2 行+台帳系。行動指示・停止規則・自発起動契約は不変。self-conformance 判定不変(C7 本数・C13 リンク・C16/C17 対象外)。playbook は触れない(§8.3 は既に適正・ECO-055 窓内)"
+    diff_audit:
+      baseline: "509533f"  # 起票直前 HEAD
+      allowed_paths: [method/templates/product-profile/skills/preflight.md, .claude/skills/preflight/SKILL.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/change-management.md]
+    summary: >
+      ①preflight 正本:30+写し:36「receipt 不在= 非起動の証拠」→「非起動として扱う(規約・実行漏れと記録漏れは区別できない・帰結は同じ)」
+      ②eco-fix:21「診断が誤り」→「診断またはプローブが症状を捉えていない(真因誤り/感度不足/環境差/再現条件欠落)・§8.3 参照」
+      ③change-management:38 の R5 同文を同義へ。採らない= converge の「収束」の語(凍結・測定待ち)/ playbook §8.3 改稿 /
+      improvements.md 歴史記述の書き換え / 切り分け手順の新設 / 機械ゲート新設。
+    verification: >
+      (未製造)受入基準は order §3 — V1 旧文 0 件・新文各 1 件 / V2 正本と写しの差分= 既知 2 箇所のみ / V3 self-conformance
+      全 PASS・判定不変 / V4 CI 緑 / V5 diff 窓。独立検査は不要(散文 4 箇所)— 製造者較正のみで受入する旨を verified 時に明記。
