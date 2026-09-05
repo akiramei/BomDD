@@ -2238,7 +2238,7 @@ changes:
     title: 停止規則に貼られた品質の語を工程上の扱いへ直す — preflight「receipt 不在= 非起動の証拠」/ eco-fix・change-management「プローブが不合格にならなければ診断が誤り」(散文 4 箇所・行動指示は不変)
     date: 2026-09-06
     origin: corrective
-    status: filed   # 2026-09-06 起票のみ(user「ECO として起票して」)— 製造着手は別裁定
+    status: in-progress   # 2026-09-06 user「ECO-061 の製造まで進めて」で着手(起票時は filed)— fix 済み・V1/V2 PASS・V4(CI)待ち
     source: >
       外部スキル棚卸レビュー(2 往復・2026-09-06)が converge / preflight / eco-fix に同型の断定を指摘し、当方が原文で一致を
       確認(improvements.md 2026-09-06 節)。型= 運用上の停止規則に品質の語が貼られている(playbook §9 の適用漏れ・新原則ではない)。
