@@ -6079,11 +6079,11 @@ ECO-054 の「第 4 の計器」は少なくとも 4 本 — **是正の要否�
 **効果回収**: EXP-20260903-04 = **回収**(supported/unsupported の両方を出し、符号が oracle の誤りに依存することまで観測)。
 期待効果の棚卸し: 本節は測定記録のため走査対象外(次の lesson-promote で)。
 
-- [watch 1/3] OBS-20260904-01 — **封印 oracle の誤りは effort 感度の符号を反転させる** — 測定器は oracle の誤りを吸収しない。製造者の読解 oracle は
+- [watch 2/3] OBS-20260904-01 — **封印 oracle の誤りは effort 感度の符号を反転させる** — 測定器は oracle の誤りを吸収しない。製造者の読解 oracle は
   高 effort 腕より粗く(3/19 欠陥)、粗い oracle は「製造者と同じ見落としをする腕」を最良と評価する。処方候補= oracle は実装/実行で作る(ET-001)か、
   複数腕の不一致を裁定してから rubric を確定する二段階(rubric の封印を「裁定後」に置く — ただし盲検との両立要検討)
-  source: ET-002
-  evidence: ET-002 REPORT §2–4
+  source: ET-002 / ViewPrism2 pilot-01(2 例目: 製造者の前提「A に写像なし」の読み違いを独立作成の参照表 R-016 が捕捉 — 2026-09-05 節の訂正)
+  evidence: ET-002 REPORT §2–4・2026-09-05 節
 - [watch 1/3] OBS-20260904-02 — **低 effort 腕の誤りは「定義の未適用」と「出力の途切れ」、高 effort 腕の誤りは「過検出」に寄る**(Luna none: C7/C12 の
   定義 (b) 未適用・C17/C18 欠落 / Luna high・Sol: C11 の過検出)。effort の症状語彙を設計するときの層別候補
   source: ET-002
@@ -6172,7 +6172,9 @@ OBS-20260902-04 → 2/3・OBS-20260902-05 → 2/3)/ 据え置き 2(OBS-20260831-
 原因は未確定: 出力様式の欄不足が有力候補だが断定しない)。裁定者の M-UI-IMAGETAB-035 change(certain)は SQL のみの是正で要求が満たされたため**過大判定**
 として訂正(裁定の訂正・実装方針の違いとして吸収しない)。予測の根拠は BOM の acceptance_note に残る類似事例 ECO-098 の記録(同一データ形状)で、依存関係からの
 導出ではない — **正当な BOM の利用**(依存グラフだけが BOM の価値ではない。「BOM が活躍していない」という見立てを更新する結果)。改善者(ECO-139/140 の
-order+diff から)は superseded 化と CP 移管を 70 行編集したが、diff が生んだ件数クエリの実装写像は追加せず、事前仮説は不成立。B の input tokens は A の 38〜52% だが内訳はモデル呼び出し回数(A 15/18・B 8/11)の差で、両者とも 9 ファイル全部を読み、キャッシュ除外では B は A の 64〜77%。**計器欠陥 3 例目**: 評価器 v1 がフェンス付き YAML しか読まず 4 run 全て missing-verdict → 較正で捕捉・v1 隔離・v2 で再評価。
+order+diff から)は superseded 化と CP 移管を 70 行編集したが、E 品目レベルの依存辺(E-UI-INTEGRITY-050 → E-DB-010)は追加せず、事前仮説は不成立。
+**訂正(EXP-20260905-04 の参照表 R-016 で判明)**: BOM A の M-DB-007 契約には件数クエリ(CountIntegrityReviewEventsAsync)が ECO-140 時点で既に記載されており、
+製造者の「A に写像なし」は E-BOM 辺と path_note しか見ていない読み違い。改善工程が落としたのは E レベルの依存辺で、M レベルの契約には写像があった。B の input tokens は A の 38〜52% だが内訳はモデル呼び出し回数(A 15/18・B 8/11)の差で、両者とも 9 ファイル全部を読み、キャッシュ除外では B は A の 64〜77%。**計器欠陥 3 例目**: 評価器 v1 がフェンス付き YAML しか読まず 4 run 全て missing-verdict → 較正で捕捉・v1 隔離・v2 で再評価。
 ViewPrism2 側の事前調査で、採点器(scale-01 治具)の対象漏れ(件名の大文字固定・M/E ID 以外を写像しない)、BOM の内容不整合(ECO-140 で削除された
 2 artifact を M-BOM が保持)、impacted_bom の記載様式の変化(ECO-080 以降 63 件中 M/E ID を含むのは 11 件)を分けて報告した。
 
@@ -6203,7 +6205,40 @@ ViewPrism2 側の事前調査で、採点器(scale-01 治具)の対象漏れ(件
   同じ手順を用いる。主評価= BOM 改善の効果(モデル・effort・課題・評価条件を固定)。様式変更の効果は旧条件との比較で BOM 改善の効果に混ぜない。
   BOM 履歴記述の有無の比較は依存導出の寄与を調べる副実験に留め、通常運用から履歴を除く方向へは進めない。effort 比較は予算内の副評価
   evidence: REPORT §5・PROTOCOL・レビュー(2026-09-05・優先順位 3→4)
-- [open] EXP-20260905-04 — **改善者が対象を名指しされずに実装との対応漏れを発見・補完できるか**: 今回の改善工程(order の設計変更を反映)は diff が生んだ
+- [recovered 2026-09-05 via ViewPrism2 pilot-01/exp-04-improver-instruction(REPORT)] EXP-20260905-04 — **改善者が対象を名指しされずに実装との対応漏れを発見・補完できるか**: 今回の改善工程(order の設計変更を反映)は diff が生んだ
   実装写像(件数クエリ→M-DB-007)を落とした。改善者の入力に「diff から実装写像を抽出し (observed@rev) で記録する」工程を明示した条件と今回の条件を、
-  同じ改善集合(ECO-139/140)で比較する。**中心的な発見= 実装との対応を BOM へ取り込む改善工程が、狙った情報を生成しなかった** — 次はその工程に焦点
+  同じ改善集合(ECO-139/140)で比較する。**中心的な発見(訂正後)= 改善工程は E 品目レベルの依存辺を生成しなかった(M レベルの契約には ECO-140 時点で写像あり)** — 次はその工程に焦点
   evidence: REPORT §2・§5-2・artifacts/IMPROVER-CHANGELOG.md
+
+## 2026-09-05 ViewPrism2 自己適用 — EXP-20260905-04: BOM 改善者の指示 v1/v2 を同一入力で比較(参照表・盲検採点・探索的 N=4)
+
+**観測**(出典: ViewPrism2 `bomdd/studies/impact-prospective-pilot-01/exp-04-improver-instruction/REPORT.md`・正本= REFERENCE.sealed.yaml・candidates/*・audits/*):
+同一の未変更入力(baseline 79123df・manifest 1c56700ad607)から、旧指示 v1 ×2・新指示 v2(= v1 + diff hunk 単位の実装写像棚卸し・データアクセス層も対象)×2 を
+Codex Sol high の独立セッションで実行。独立作成の参照表(32 項目・未反映 7・must_not_change 11・採点前に封印)に対し、盲検ラベルの採点者 4 セッションが
+回収(covered/partial/missing/broken)と誤追加(grounded/ungrounded/contradicting/design-overwrite)を採点。
+結果= 総回収は v1/v2 とも covered 26〜27/32 で差なし。**データアクセス層の写像(R-017・M-DB-007 の batch API 契約)は v1 が 2/2 missing、v2 が 2/2 partial**。
+誤追加は両指示で発生し種類が異なる(v1: 旧写像の破壊 1〔ebom_refs を空に〕・歴史 CP エントリの編集 3 / v2: 歴史 routing の編集 2・**実在しない識別子
+`RelinkBatchPair` の記載 1**・new-2 は 0)。コストは v2 が往復 2 倍・累計 input tokens 1.6〜3.5 倍・所要 40 分対 12 分。
+参照表 R-016 が pilot-01 の製造者の読み違い(「A に写像なし」— 実際は M-DB-007 契約に ECO-140 時点で記載)を捕捉(前節の訂正)。
+
+**一般化検査**: ①「層を名指しせず指定する指示は当該層への到達を変えるが完全回収には至らず、コストは 2 倍超」= 観測 N=1(v2 の 3b)。
+②「改善者の誤追加は指示様式で減らない — 種類が変わる(履歴の破壊 / 歴史エントリの編集 / 実在しない識別子)」= 観測 N=1。
+③「参照表の must_not_change(歴史エントリへの superseded 注記は是正か改変か)は作成者依存で、採点の分散源」= 観測 N=1・処方= 方針を採点前に固定。
+④「実在しない識別子の混入は code に対する機械照合で捕まえられる(採点者の判断に頼らない)」= 機械面候補 N=1。
+
+**行き先判定**: 記帳のみ(全て N=1)。前向き主評価(EXP-20260905-03)の改善者指示は v2 を基本にし、履歴エントリの編集禁止と識別子の機械照合を加える。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(識別子の機械照合・must_not 方針の事前固定 — 記帳のみ)[ ] template
+[ ] terminology [x] method/concept claim: 「テストは真実ではない・計器は検査対象」= supported(参照表が製造者の前提誤りを捕捉= OBS-20260904-01 の 2 例目)。
+contradicted / superseded: なし。
+
+**期待効果の棚卸し**: 本節は測定記録のため走査対象外。EXP-20260905-04 は本節で回収。
+
+- [watch 1/3] OBS-20260905-05 — **BOM 改善者の誤追加は指示様式で減らず種類が変わる** — 履歴写像の破壊(ebom_refs を空に)/ 歴史エントリ(CP・routing)の
+  編集 / 実在しない識別子の記載。処方候補= 履歴エントリの編集禁止を指示に明文化+候補の識別子を code へ機械照合(採点者に頼らない)
+  source: ViewPrism2 exp-04
+  evidence: exp-04 REPORT §2–3・candidates/*/SCORE-*.md
+- [watch 1/3] OBS-20260905-06 — **参照表の must_not_change 方針は作成者依存で採点の分散源になる**(歴史 CP への superseded 注記を「改変」と判定した
+  contradicting 3 件は方針依存)。処方候補= 「歴史エントリの扱い」を採点前に固定し参照表へ明記
+  source: ViewPrism2 exp-04
+  evidence: exp-04 REPORT §3・REFERENCE.sealed.yaml must_not_change
