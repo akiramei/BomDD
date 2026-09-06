@@ -6469,6 +6469,8 @@ confirmation」・製造設備 Opus 5)/ `test-results/eco-vt-103-structured-logg
 > 改訂(同日): 初版 1f0cf9a を user 指摘 4 点で書き直した — ①中心命題(バウンダリー→構成→組立受入)に追跡項目を設ける ②提案部分は免除でなく
 > /converge を実施(receipt 下記)③観測・原因仮説・対策効果とその計数を分ける ④所在確認と内容確認を分け、EXP は文言でなく成果物間の対応で測る。
 > 新ゲートの追加はしない(記帳内容の精度と元の目的の追跡を優先)。ID は初版のまま(OBS-20260907-01/02・EXP-20260907-01)、文面は本改訂が正。
+> 見出しの「§8.3 手続きの前提欠落」は「§8.3 の入力条件(台帳化された未確定事項)が本件では満たされていなかった」の意 — §8.3 の本文に前提の記述が
+> 欠けているという意味ではない(第 1 周①で訂正済み)。
 
 **出典(一次資料で確認したもの — 会話上の報告は使っていない)**: ViewTube(private)`bomdd/process/boundary-to-bom-method.md`
 commit 0de6878(2026-09-07 01:56・初版・製造設備 Opus 5)→ 300e21e(2026-09-07 02:04・訂正「measured rather than recalled」)/
@@ -6478,8 +6480,13 @@ same REQ-042 content set; its arrangement is unstated by any authority — kind 
 2026-08-25・ECO-VT-086 の組立)/ 同 Section 6(L720-778: `covers_states` 8・VCAD-STATES-0001〜0005・「visual means distinguishing the eight states is
 unstated by any authority」)/ `bomdd/10-requirements.yaml` REQ-048(8 状態の列挙・L1357)/ `bomdd/process/change-impact/ECO-VT-106.yaml`(consumers:
 change-authority=ECO 本文・implementation 2・inspection 2・record= expectations JSON のみ。**CAD 行なし**)/ `git diff --stat fb9a65e~1..0de6878 -- bomdd/ui`
-(expectations JSON 51 行のみ・`videos-cad.md` 無変更)/ `bomdd/ui/37-ui-rulings.yaml`・`unresolved-questions.md`(list-row / arrangement の項 **0 件**)/
-TimetableAdvUI `cad/conversation-social-v1/desk-scenarios.yaml`(シナリオ 16)・`captures/`(23 ファイル)・`acceptance-matrix.yaml`(captures パス参照 0)。
+(expectations JSON 51 行のみ= **変更レビュー記録 2 件**〔ECO-VT-106/107・`expectation_moved: false`・期待値の追加ではない〕・`videos-cad.md` 無変更)/
+`git diff --stat fb9a65e~1..0de6878 -- test/`(UiSmokeTests.cs +440/−34・SortModelAcceptanceTests.cs +97 — **検査行の追加はここ**・manifest consumer=
+`change-impact/ECO-VT-106.yaml` switch-cases / `change-impact/ECO-VT-107.yaml` sort-probe・ui-cases〔いずれも kind: inspection・disposition: change〕)/ `bomdd/ui/37-ui-rulings.yaml`・`unresolved-questions.md`(list-row / arrangement の項 **0 件**)/
+TimetableAdvUI `cad/conversation-social-v1/desk-scenarios.yaml`(シナリオ id 16)・`captures/`(html 11・png 11・`capture-manifest.json`= capture↔surface
+対応表・sha256 付き)・`acceptance-matrix.yaml`(captures パス/名参照 0・シナリオ id 明示参照 2〔DS-CONV-OVERRUN-001〕・method 欄の「refusal-pressure」は
+シナリオ記述であり capture 名との語の重なりで参照ではない)/ ViewTube `bomdd/tools/validate_change_impact.py`(L107 `staged_files`= `git diff --cached
+--name-only`・L398-403 IMPACT_MANIFEST_MISSING= staged path→所有 ECO の**逆向き**検査。manifest の `disposition: change` path→diff の順向き検査は無い)。
 **扱わないもの**: 製品修理そのもの(ECO-VT-104〜107 の是正内容)・BM-1〜BM-4 の裁定・ICONIX バウンダリー命題の本文化(追跡項目のみ設ける)。
 
 **観測**(事実のみ — 原因仮説・対策は次項に分ける):
@@ -6491,10 +6498,14 @@ TimetableAdvUI `cad/conversation-social-v1/desk-scenarios.yaml`(シナリオ 16)
    宣言を ECO 本文内で行った(「declared here」)。同型で ECO-VT-107 §3 の RULED(非対応ソート対の扱い= deferred)も ECO 本文内に留まり CAD 未反映。
 2. **是正文書の所在主張が commit 履歴と不一致**: 0de6878 の §2 は「実際に ECO-VT-106 / 107 では条項を書き足した」と述べ ④ 2 件を「条項の追加+実装」と
    分類した。同文書は §2 で「実装だけが直り、記述は欠けたまま残る」を警告し、§6 で「要約が報告内容と矛盾した」経緯を自ら記録している。
-   実測(BomDD 側査読・`git diff --stat`)= CAD 無変更・宣言は ECO 本文と expectations のみ。**自己検出 0・検出は外部査読**。300e21e で §2 の
+   実測(BomDD 側査読・`git diff --stat`)= CAD 無変更・宣言は ECO 本文と expectations JSON の変更レビュー記録のみ。**自己検出 0・検出は外部査読**。300e21e で §2 の
    ④ 行を「実装の修理+検査行(expectations)の追加+ECO 内での宣言。CAD 条項は未追加」へ訂正・§6 に事実追記・BM-2 を open へ。
+   **訂正文にも精度差が残る**(本節の実測): expectations JSON への追加は検査行ではなく「期待値を動かさない」変更レビュー記録 2 件(`expectation_moved:
+   false`)であり、検査行の追加は acceptance テスト(UiSmokeTests.cs・SortModelAcceptanceTests.cs)にある。「検査行(expectations)」は所在の取り違え —
+   所在主張の検査は訂正文自身にも要る(観測 2 の 2 例目としては数えない: 同一文書・同一弧の訂正内)。
    **所在と内容の切り分け**: 新表現(リスト形態の宣言・非対応ソートの RULED)は**実在した**(ECO 本文内)— 既存実施形「新表現の実在」では通る。
-   通らないのは**所在**(主張した正本= CAD が変更集合に無い)。
+   通らないのは**所在**(主張した正本= CAD が変更集合に無い)。製品側の manifest 検査(validate_change_impact.py)は staged path→所有 ECO の逆向き
+   (未宣言の変更を捕まえる)であり、宣言された変更(`disposition: change` の path・散文の「書き足した」)が実際に変更集合にあるかは**どちらの方向にも無い**。
 3. **バウンダリー上で見つかった差異と設計記述の対応**(300e21e §2 の内訳を一次記録で追認): ECO-VT-104(ホバー)・105(起動)は CAD 条項/REQ が
    存在して実体が満たさず、106(リスト形態)・107(非対応ソート)は設計記述が無かった — 4 件中 2 件が設計記述なし。加えて REQ-048 の 8 状態は
    CAD Section 6 が集合として `covers_states` 8 で覆うが、状態別の外観 assertion は 0(「visual means … unstated by any authority」= kind (ii))。
@@ -6505,13 +6516,15 @@ TimetableAdvUI `cad/conversation-social-v1/desk-scenarios.yaml`(シナリオ 16)
 
 **原因仮説と対策候補**(観測と分けて計数する — 仮説は支持例の数、対策は効果の実測数):
 - 観測 1 の原因仮説 H1: 「明示的未規定」の宣言が散文にのみあり ID 付き台帳(open 状態)に無いため、§8.3 消化手続き(入力=「台帳化された未確定事項」
-  L593-594)の入力に**ならず**、起票時の影響分析に拾う経路が無い(manifest は consumer をファイル単位で列挙し、CAD 散文の未規定項を列挙する欄が無い)。
+  L593-594)の入力に**ならず**、起票時の影響分析に拾う経路が無い(manifest の consumers はファイル単位・`changed_semantic_ids` は意味 ID 単位〔ECO-VT-106:
+  ui.videos-list-form・behaviour.layout-switch-anchor〕だが、CAD 側の未規定項を参照する欄はどちらにも無い — M1 を置くなら `changed_semantic_ids` が自然な位置)。
   支持例 1・反例 0・未検証(台帳化された宣言が拾われた対照例を持たない)。対策候補 M1: 宣言の会計先を台帳へ(kind (ii) 相当を 37-ui-rulings open 行/
   未規定台帳へ)+起票時の影響分析で触れる CAD 節の未規定項を列挙。**効果 N=0**(新ゲートは足さない — 次の機会で対応の有無を測る: EXP-20260907-01)。
 - 観測 2 の原因仮説 H2: 所在主張が記憶から書かれ変更集合で測られなかった(300e21e のコミット文「measured rather than recalled」が製造側の自己記述)。
   支持例 1。検出手段 D2: 主張した正本ファイルが commit 範囲(起票 commit〜クローズ commit・レジスタ timeline)の `git diff --name-only` に含まれるか —
   **検出実績 1**(本件・査読側)・**予防効果 N=0**。既存実施形(§8.3 L697-703: 旧表現 grep=0・新表現の実在)は**内容確認**であり、本件はその手前の
-  **所在確認**で落ちる。
+  **所在確認**で落ちる。選択肢集合: 所在主張の検査点は (i) 散文文書の主張ファイル(本件)/ (ii) manifest の `disposition: change` path(機械可読な
+  所在主張・ViewTube に実在・現状は逆向き検査のみ)— どちらも宣言→diff の順向きは未実装(効果 N=0・新ゲートは足さない)。
 - 観測 3 の原因仮説 H3: 表面の設計記述がモック/実装からの転写(内→外)で作られ、ユースケース/状態列挙(上流)からバウンダリー×状態を導く工程が無い
   ため、実体で見つかる差異の一定割合に対応する設計記述が存在しない。支持例 1(ViewTube 4 件中 2 件・REQ-048 8 状態対 CAD 状態別 0)。
   **既存の部分的対照**: ui-ir-ui-bom §17.1 refmodel(外→内・製品カテゴリ粒度・製品につき 1 回)と playbook §3.1 表示契約(原典あり案件のみ)は上流導出の
@@ -6523,9 +6536,9 @@ TimetableAdvUI `cad/conversation-social-v1/desk-scenarios.yaml`(シナリオ 16)
 **一般化検査**: 観測 1・2・3 とも製品名を落として成立(別リポの ECO・別媒体の CAD にそのまま当てはまる文で書けた)。ただし本文化に足る独立例は無い(全て N=1)。
 
 **行き先判定**: 記帳のみ(OBS 3 本・EXP 2 本・再演 1・watch 進行 1・計数訂正 1)。本文改訂なし(user 裁定 2026-09-07: 織り込み見送り)。織り込み案は
-下記に **/converge 済み**の形で保持し、採否は追跡項目の N が進んだ時点で再提示する。
+下記に **/converge 実施済み**(判定は receipt の冒頭を正とする — 実施と収束は別)の形で保持し、採否は追跡項目の N が進んだ時点で再提示する。
 
-**織り込み案(見送り・/converge 済み — 文言と行き先のみ確定)**:
+**織り込み案(見送り・/converge 実施済み — 判定は receipt 参照。文言と行き先の候補)**:
 - **案 A**(playbook §8.3 L593 bullet 末尾・1 変更): 「本手続きの入力は**台帳化された**未確定事項である。CAD 散文中の『明示的未規定』宣言(責務ヘッダ・
   『Not written』段落)は入力にならない — 宣言の会計先は台帳(§13.1 裁定台帳の open 行/未規定台帳)であり、影響分析は触れる CAD 節の未規定項を列挙する
   (ViewTube ECO-VT-106・N=1)。」 案 D(ui-ir-ui-bom §13.1)は**同一変更の参照側**(「明示的未規定も open レコードとして台帳に置く — 残タスクではなく
@@ -6535,22 +6548,37 @@ TimetableAdvUI `cad/conversation-social-v1/desk-scenarios.yaml`(シナリオ 16)
   (ファイルに触れただけでも通る)— ②を省略しない(ViewTube 300e21e・N=1)。」
 
 **収束 receipt(/converge・提案部分= 案 A/B/D と追跡項目の設計)**:
-- 判定: **未収束**(round 軌跡: 6→1→0 — 単調減少・上限 3 周到達。第 4 周が無いため「2 周連続ゼロ」を確認できていない)
+- 判定: **収束**(round 軌跡: 6→1→0→4→4→1→2→0→0 — 第 8・9 周が連続ゼロ。第 3 周の 0 は延長後の第 4 周で途切れており、収束の根拠には数えない)
 - 起動経路: 人間呼び出し(user 指示 2026-09-07「提案部分は免除ではなく実際に converge を行う」)
 - 周回: round 1 = 6 件(①案 A の主張「§8.3 に前提条件が無い」は実文と不一致 — L593-594 の主語は既に「台帳化された事項」→ 欠けているのは会計先の
   規定と再構成 ②案 A と案 D は同一空白の両端 → 1 変更 2 箇所(正本 §8.3・参照 §13.1)に統合 ③「上流導出が無い」は失敗型①(実測せずの構造的断定)—
   §17.1 refmodel・§3.1 表示契約が部分的に存在 → 選択肢集合 3 レバーへ ④OBS-20260718-04 の watch 進行は「適用例」を観測 N に混入 → 1/3 へ戻し注記
   ⑤EXP-20260907-01 の「declared here が 0 件か」は文言計数 → 成果物間対応へ置換 ⑥ViewTube の要求台帳にユースケース/シナリオ語 0 件 → 中心命題
   EXP のアンカーを REQ-048 状態列挙(ViewTube)と desk-scenarios(TimetableAdvUI)へ)/ round 2 = 1 件(基準線の expectations「4 状態」は名前 grep の
-  粗測定 → 粗測定と明記し EXP の測定は対応表で行う)/ round 3 = 0 件
+  粗測定 → 粗測定と明記し EXP の測定は対応表で行う)/ round 3 = 0 件 / round 4(延長・user 裁定)= 4 件(①captures 23 は png・manifest 込みの誤計数 →
+  html 11 ②capture-manifest.json = capture↔surface 対応表が実在 → 「対応表なし」を capture↔surface あり・シナリオ↔capture なしへ精密化 ③ViewTube
+  validate_change_impact.py は staged path→所有 ECO の逆向き検査を持つ → 「所在確認は無い」を「宣言→diff の順向きは無い」へ限定し検査点の選択肢
+  (散文/manifest)を併記 ④M3 全文が H3 と OBS-20260907-03 に重複(正本 2 つ)→ bullet は参照へ)/ round 5(適用後の実文読み直し)= 4 件(①「検証した
+  主張」行が第 4 周前の値〔captures 23〕のまま → 更新 ②「/converge 済み」が収束と読める(失敗型⑧)→ 「実施済み・判定は receipt」へ ③「検査行
+  (expectations)51 行」は単位と所在の取り違え — expectations JSON の追加は変更レビュー記録 2 件〔expectation_moved: false〕・検査行の追加は acceptance
+  テスト側(UiSmokeTests +440/−34・SortModelAcceptanceTests +97)→ 出典・観測 2・EXP-01 基準線を修正、300e21e の訂正文にも同じ取り違えが残ると記録
+  ④見出し「前提欠落」の語義が二通りに読める → 改訂注記で限定)/ round 6(修正語の全行整合)= 1 件(観測 2 の「宣言は ECO 本文と expectations のみ」が
+  第 5 周③の精密化〔変更レビュー記録〕を反映していない → 修正)/ round 7(全文読み直し)= 2 件(①H1「manifest はファイル単位のみ」は不正確 —
+  `changed_semantic_ids`〔意味 ID 欄〕が実在・CAD 未規定項の参照欄が無いが正確(失敗型①)→ 修正・M1 の自然な位置として記録 ②出典段落に
+  `change-impact/ECO-VT-107.yaml` 未記載のまま本文で参照 → 追加)/ round 8(本文で引用した全ファイル名 17 種と出典段落の機械突合・method 側文書
+  〔terminology/concept〕は出典でなく判定対象のため除外)= 0 件 / round 9(失敗型①〜⑧と DoD D1〜D7 の照合: ①「無い」主張は全件実文/成果物で裏取り
+  ②検索は validator 本体 L356-410 まで読了 ③凍結行は L593-594・L697-703 の実文 ④user 裁定〔見送り・延長〕を前提に維持 ⑦選択肢集合= H2 検査点 2・
+  H3 レバー 3・案 A/D 統合 ⑧判定は receipt 冒頭・本文に「収束」と読める先行表現なし)= 0 件
 - 検証した主張と実測: playbook L593-594(主語=台帳化された事項)/ L697-703(実施形= grep=0+新表現の実在・所在確認なし)/ ui-ir-ui-bom L321-331
   (§13.1 に明示的未規定の会計なし)・L458-470(§17.1 refmodel 存在・カテゴリ粒度)/ silence-checklist L100(CLI 出力契約行に「明示的未規定へ会計」あり・
   媒体は CLI)/ ViewTube 10-requirements.yaml(use case / scenario 語 0 件)/ videos-cad.md L720-778(covers_states 8・状態別外観 assertion 0)/
-  expectations JSON(状態名 4・粗)/ TimetableAdvUI desk-scenarios 16・captures 23・acceptance-matrix の captures パス参照 0
+  expectations JSON(状態名 4・粗/ 弧内追加= 変更レビュー記録 2 件・expectation_moved: false)/ test/(UiSmokeTests.cs +440/−34・SortModelAcceptanceTests.cs
+  +97)/ TimetableAdvUI desk-scenarios id 16・captures html 11・capture-manifest.json(capture↔surface)・acceptance-matrix→シナリオ id 2/16・→capture 0 /
+  ViewTube validate_change_impact.py L107・L398-403(staged path→所有 ECO の逆向きのみ)
 - DoD: D1 行き先実在 ✔ / D2 「無い」主張の実文裏取り ✔ / D3 成果物間対応で測る ✔ / D4 観測・仮説・効果の計数分離 ✔ / D5 中心命題に OBS+EXP・
   アンカーは必ず起きるイベント(BM-2 の ECO・次の UI 面/状態新設 ECO・次の Phase 1.5)✔ / D6 新ゲート追加なし ✔ / D7 所在と内容の分離 ✔
-- 未収束事項: 上限到達により第 4 周未実施。**裁定質問**: 打ち切り採用(本節の文言で追跡項目を確定)/ 延長(第 4 周)/ 差し戻し。織り込み自体は
-  見送り裁定済みのため、裁定の対象は追跡項目の文言確定のみ。
+- 未収束事項: なし。**限界**: 第 4〜9 周は査読側(本セッション)の自己反復であり第三者の再読ではない。第 5〜7 周の指摘は測定の単位・所在・出典座標の
+  精度誤りで、命題そのものの反証ではない — 命題の反証可能性は EXP-20260907-01/02 の測定で初めて試される。
 
 **思想層の再認証判定(手順 3b)**: [x] operational rule(§8.3 消化手続きの入力条件・§8.3 相互一致検査の所在/内容分離 — 候補のみ・見送り)
 [ ] control/probe(新ゲート追加なし)[ ] template [ ] terminology [x] method/concept claim: terminology.md「Ruling」(裁定の出力は BOM・台帳へ書き戻し、
@@ -6587,18 +6615,20 @@ contradicted / superseded: なし。
 - [watch 1/3] OBS-20260907-03 — **観測: バウンダリー上で発見された差異 4 件のうち 2 件に対応する設計記述が無く、要求が列挙する 8 状態に対して CAD の
   状態別外観記述は 0(集合としては被覆)・検査行の状態名一致は 4(粗)**(観測 N=1・1 製品・製造者自己測定を一次記録で追認)。原因仮説 H3=
   表面設計がモック/実装からの転写のみで、ユースケース・状態列挙からバウンダリー×状態×遷移を導く工程が無い(支持 1・部分対照= §17.1 refmodel・
-  §3.1 表示契約)。対策候補 M3= 中心命題「ユースケースからバウンダリーと状態・遷移を定め、その実現構成を CAD で設計して BOM に接続する。実体を
-  バウンダリーで検証し、差異を設計・構成・実装・検査へ帰属して修正する」(効果 N=0・選択肢 3 レバー併記)。効果は EXP-20260907-02 で成果物対応として測る
+  §3.1 表示契約)。対策候補 M3= 中心命題(正文は本節「原因仮説と対策候補」H3 — ここに再掲しない・効果 N=0・選択肢 3 レバー併記)。効果は
+  EXP-20260907-02 で成果物対応として測る
   source: ViewTube ECO-VT-104〜107 / videos-cad.md Section 6 / REQ-048 / 300e21e §1-§2
   evidence: 本節・観測 3・原因仮説 H3
 - [open] EXP-20260907-01 — **次に「明示的未規定」宣言(kind (ii) 相当)に触れる実装 ECO が起票されるとき**(最初の機会= ViewTube BM-2 の CAD 条項追加
   ECO・他リポの UI-CAD 未規定面への実装)、成果物間の対応で測る: ①影響分析/manifest の行 ↔ CAD の未規定項(対応行が存在するか)②ECO 内の裁定 ↔ CAD
-  条項(裁定の値が CAD に転写され差分 0 か)③CAD 条項 ↔ 検査行(expectations/CP)の対応。基準線= ECO-VT-106/107: ①0 ②0(裁定は ECO 本文のみ)③検査行
-  51 行に対し CAD 条項 0。**語の有無(「declared here」等)では測らない**
+  条項(裁定の値が CAD に転写され差分 0 か)③CAD 条項 ↔ 検査行(acceptance テスト/expectations/CP)の対応。基準線= ECO-VT-106/107: ①0 ②0(裁定は ECO
+  本文のみ)③検査行の追加あり(UiSmokeTests.cs・SortModelAcceptanceTests.cs)に対し対応する CAD 条項 0(expectations JSON 側は変更レビュー記録 2 件・
+  期待値の移動なし)。**語の有無(「declared here」等)では測らない**
   evidence: 本節・観測 1・原因仮説 H1・EXP-20260717-08 再演注記
 - [open] EXP-20260907-02 — **次に UI 面/状態を新設する ECO、または次に Phase 1.5(UI-CAD 化)を実施する案件で**、中心命題(M3)の効果を成果物間の
   対応で測る: ①要求台帳の状態列挙(REQ-048 型)↔ CAD の状態別記述 ↔ 検査行 — 対応の欠けた状態数(基準線 ViewTube: REQ 8 / CAD 集合 8・状態別 0 /
   検査行 名前一致 4〔粗〕)②シナリオ/ユースケース ↔ capture/モック ↔ 受入行 — 対応表の有無と欠け(基準線 TimetableAdvUI conversation-social-v1:
-  desk-scenarios 16 / captures 23 / acceptance-matrix の captures 参照 0 = 対応表なし)。測定は対応表(成果物の ID 同士)で行い、文言・名前 grep は
-  基準線の粗測定に留める。比較対照= §17.1 refmodel のみを実施した面(外→内・カテゴリ粒度)
+  シナリオ id 16 / capture html 11(capture↔surface 対応表= capture-manifest.json あり)/ シナリオ↔capture 対応 0 / acceptance-matrix→シナリオ id 明示 2/16・
+  →capture 0)。測定は対応表(成果物の ID 同士)で行い、文言・名前 grep は基準線の粗測定に留める。比較対照= §17.1 refmodel のみを実施した面
+  (外→内・カテゴリ粒度)
   evidence: 本節・観測 3・原因仮説 H3・選択肢集合(refmodel / 表示契約 / M3)
