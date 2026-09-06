@@ -1433,7 +1433,7 @@ lint〔CpI18n010AssetLintTests〕+死キー 640 件削除+M-CAPTURE-HARNESS-052)
 
 期待する効果:
 
-- [open] EXP-20260717-08 — 次の CAD 未確定消化(別画面/別題材)で「実装時裁定の確定手続き」(裁定表→実装→golden 裁定→read-across 納品)が既定経路として踏まれるか(mock 改版ゼロ・介入ゼロで未確定クローズ)
+- [open] EXP-20260717-08 — 次の CAD 未確定消化(別画面/別題材)で「実装時裁定の確定手続き」(裁定表→実装→golden 裁定→read-across 納品)が既定経路として踏まれるか(mock 改版ゼロ・介入ゼロで未確定クローズ)。**→ 再演(2026-09-07・ViewTube ECO-VT-106)**: kind (ii) 散文宣言に触れる実装 ECO が裁定表なし・read-across 納品なし・CAD 無変更で進行(反証 1 件目・ただし未確定台帳が無く手続きの前提未充足 — 2026-09-07 ViewTube 節 観測 1)
   origin: native
   evidence: 本節・昇格候補1(ECO-099/100/103)
 - [open] EXP-20260717-09 — 規約再発系譜への処方(検査器で運ぶ)の実装後、同規約の再発ゼロか(トリガー= ViewPrism2 の axaml 縦整列 lint ECO 実装・以後の新設スタイルでの GF/レビュー所見)
@@ -1605,8 +1605,8 @@ resolved model の来歴表現)= c4655ad で push 済み。
 
 期待する効果と観測:
 
-- [watch 1/3] OBS-20260718-04 — CAD の権威境界は「規定済み」+「明示的未規定」の和で対象面を全面被覆する(部分固定した契約の残余書式を無言にしない — 第三の沈黙領域の禁止。媒体非依存の適用候補: UI の部分規定・API の error code/HTTP status)
-  source: cli-cad-01(宣言漏れ 2 件= due 行・usage 文言)
+- [watch 2/3] OBS-20260718-04 — CAD の権威境界は「規定済み」+「明示的未規定」の和で対象面を全面被覆する(部分固定した契約の残余書式を無言にしない — 第三の沈黙領域の禁止。媒体非依存の適用候補: UI の部分規定・API の error code/HTTP status)
+  source: cli-cad-01(宣言漏れ 2 件= due 行・usage 文言)/ ViewTube videos-cad.md kind (ii) 6 箇所(2 例目・UI-CAD での適用例・宣言側のみ — 消費側は OBS-20260907-01・2026-09-07 ViewTube 節)
   evidence: loops/cli-cad-01/report.md §3 #2/#6・cad-authoring-notes.md
 - [open] EXP-20260718-05 — 3 媒体目(API/イベント/観測契約系)の CAD 認定試験設計時: 本実験の統制 7 点(kit 先行凍結・oracle 製造前凍結・工場/検査官分離・固定/探索の分離・未規定台帳不変・裁量の自己記帳・適用 assert つき negative control)が protocol 雛形として再利用され、OBS-20260718-03 の 3/3 昇格判定(上位概念のみ)・案C 三案比較・**オンボーディング導線の媒体分化の本裁定(working-with-ai §2.5 の構造再裁定)**が実施されるか
   origin: native
@@ -6361,10 +6361,10 @@ converge 凍結の再開は user 裁定(④)= **再開しない(2026-09-06)**。
 
 **期待効果の棚卸し**: 本節は測定記録のため走査対象外。EXP-20260906-02 の open は維持(自然発生 1 例をデータ注記として追記・回収ではない)。
 
-- [watch 1/3] OBS-20260906-01 — **過大断定の是正文が同型の過大(再実施指示の追加・原因の網羅列挙)を含んだ** — 是正者は是正対象の型に盲目。
+- [watch 2/3] OBS-20260906-01 — **過大断定の是正文が同型の過大(再実施指示の追加・原因の網羅列挙)を含んだ** — 是正者は是正対象の型に盲目。
   検出= 外部レビュー(起票段階)。処方候補= 置換文を旧文と同じ問い(測れる範囲か・行動指示を足していないか・列挙を閉じていないか)で
   査定する(順序: 是正文を書いた後、製造前)— 散文を足す処方のため機械面は持たない。3 例で昇格判定
-  source: ECO-061 order §1 レビュー反映
+  source: ECO-061 order §1 レビュー反映 / ViewTube boundary-to-bom-method.md 0de6878→300e21e(2 例目・2026-09-07 ViewTube 節 観測 2: 「実装だけ直り記述欠落」を警告する文書が自ら「条項を書き足した」と作話・外部査読で検出)
   evidence: 本節 観測 2・commit e381380
 - [watch 1/3] OBS-20260906-02 — **較正 receipt の NA 理由が問いと不一致(先行 order の receipt 様式を転写)+ diff 形状を意味的主張の observed 根拠に分類** —
   C17 はラベル存在のみを測るため不可視・検出= 外部レビュー(クローズ後)。機械面候補= NA 行に当該 Q の要語を要求(作らない — 再演を待つ)。
@@ -6463,3 +6463,89 @@ confirmation」・製造設備 Opus 5)/ `test-results/eco-vt-103-structured-logg
 - [open] EXP-20260906-04 — **修理後の実行器で B/M/R を再実行したとき**(ViewTube・裁定待ち)、①M の失敗全件の名前と理由が保存済み生出力から読め、
   件数と一致するか ②NOT_ESTABLISHED が 0 件か ③各段で停止が効くか(不一致を 1 件でも作れば止まるか)。基準線= 33 ケース回(件数のみ・停止なし)
   evidence: runner-divergence §5(未実行の内訳)
+
+## 2026-09-07 ViewTube 還元 — ECO-VT-104〜107 弧+boundary-to-bom-method.md(0de6878→300e21e): 宣言済み未規定の非消化(§8.3 手続きの前提欠落)・是正報告の所在主張が commit 履歴と不一致
+<!-- converge: not-required reason: 記帳のみ(lesson-promote 手順 1〜5)。織り込み案 A/B/D は rule of three 未充足(N=1)の候補列挙で、「推奨: 見送り」は昇格規則(N=1 は本文化しない)の適用であり裁定候補の合成ではない。採否はレビュー停止点で user が決める decided-by: claude-fable-5-1(製造側の自己宣言・監査対象。C16 は有効な免除を毎回件数と宣言者つきで表示する) -->
+
+**出典(一次資料で確認したもの — 会話上の報告は使っていない)**: ViewTube(private)`bomdd/process/boundary-to-bom-method.md`
+commit 0de6878(2026-09-07 01:56・初版・製造設備 Opus 5)→ 300e21e(2026-09-07 02:04・訂正「measured rather than recalled」)/
+`bomdd/eco/ECO-VT-106.md`(表題・§0 FD1「user ruling of 2026-09-06 governs the layout switch」・FD2・§3b「not declared at the time; it is declared here」)/
+`bomdd/eco/ECO-VT-107.md` §3(「RULED 2026-09-07: deferred」— ECO 本文内)/ `bomdd/ui/videos-cad.md:598-600`(kind (ii) 宣言「the list row presents the
+same REQ-042 content set; its arrangement is unstated by any authority — kind (ii), declared in the responsibility header」— 追加 commit 20913e8・
+2026-08-25・ECO-VT-086 の組立)/ `bomdd/process/change-impact/ECO-VT-106.yaml`(consumers: change-authority=ECO 本文・implementation 2・inspection 2・
+record= expectations JSON のみ。**CAD 行なし**)/ `git diff --stat fb9a65e~1..0de6878 -- bomdd/ui`(expectations JSON 51 行のみ・`videos-cad.md` 無変更)/
+`bomdd/ui/37-ui-rulings.yaml`・`unresolved-questions.md`(list-row / arrangement の項 **0 件**)。
+**扱わないもの**: 製品修理そのもの(ECO-VT-104〜107 の是正内容)・BM-1〜BM-4 の裁定・ICONIX バウンダリー命題の本文化(別途 — 本節は 2 観測の記帳のみ)。
+
+**観測**(事実のみ):
+1. **宣言済み未規定の非消化**: 設計正本(UI-CAD)は 2026-08-25 の組立時点でリスト行の配置を「どの authority も述べていない」と **kind (ii) で明示宣言**
+   していた(散文段落「Not written, and why」+責務ヘッダ。videos-cad.md 内の kind (ii) は 6 箇所・いずれも散文)。この宣言は裁定台帳(37-ui-rulings)にも
+   未解決台帳(unresolved-questions)にも ID 付き行として存在しない。12 日後の ECO-VT-106(起票 816feac・2026-09-06 23:55)はリスト形態を user 裁定
+   (2026-09-06)の下で実装したが、ECO 本文に**裁定表なし**・CAD への **read-across 納品なし**・change-impact manifest に **CAD consumer 行なし**・
+   弧全体で `videos-cad.md` **無変更**。結果: 実体(リスト形態・列ヘッダなし)は存在し、権威は「unstated」のまま — ECO-VT-106 §3b はヘッダ欠落の
+   宣言を ECO 本文内で行った(「declared here」)。同型で ECO-VT-107 §3 の RULED(非対応ソート対の扱い= deferred)も ECO 本文内に留まり CAD 未反映。
+2. **是正文書の所在主張が commit 履歴と不一致**: 0de6878 の §2 は「実際に ECO-VT-106 / 107 では条項を書き足した」と述べ ④ 2 件を「条項の追加+実装」と
+   分類した。同文書は §2 で「実装だけが直り、記述は欠けたまま残る」を警告し、§6 で「要約が報告内容と矛盾した」経緯を自ら記録している。
+   実測(BomDD 側査読・`git diff --stat`)= CAD 無変更・宣言は ECO 本文と expectations のみ。**自己検出 0・検出は外部査読**。300e21e で §2 の
+   ④ 行を「実装の修理+検査行(expectations)の追加+ECO 内での宣言。CAD 条項は未追加」へ訂正・§6 に事実追記・BM-2 を open(④ 2 件の CAD 条項未追加)へ。
+3. 訂正時の製造側の 2 判断(300e21e 報告・一次資料= 300e21e 本文): ①査読側の「`list` を含む行は 1 行のみ」を grep で反証(16 行・598-599 の kind (ii)
+   宣言を発見 — 観測 1 の起点)②「3 度目」の内訳列挙を取り消し「件数は査読側の計数」とだけ記録(自分の誤り回数を自分で数え直さない)。
+   ①の査読側誤記は会話内のみで一次資料が無いため **N に数えない**(記録のみ: 査読側の grep 語は `list form|list layout|リスト` で `list` 単体を
+   含まず、測定範囲を超えて「1 行のみ」と断定した — 観測 2 と同型)。
+
+**一般化検査**(製品名を落として成立するか):
+- **(a) 宣言は消費導線を持って初めて消化される**: 「明示的未規定」の宣言が散文(責務ヘッダ・段落)にあり、ID 付き台帳(open 状態)に無いと、
+  playbook §8.3「CAD 未確定事項は実装時裁定の確定手続きで消化する」(裁定表→実装→golden 裁定→read-across 納品)は**起票時にトリガーされない**。
+  §8.3 の前提「未確定として台帳化された事項」が満たされない事例。成立。機械面候補= ①宣言時: kind (ii) 相当の宣言を裁定台帳(37-ui-rulings open 行/
+  unresolved)へ ID 付きで落とす ②起票時: change-impact manifest に、changed_semantic_ids が触れる CAD 節の「明示的未規定」項を consumer 行
+  (kind: record)として要求し、disposition が change でなければ理由を書かせる。OBS-20260718-04(権威境界= 規定済み+明示的未規定)の**宣言側は
+  機能した**(空白は無言でなかった)が、**消費側が無かった** — 「空白の宣言は空白の充填の代わりにならない」(300e21e §3.2 の文言)。
+- **(b) 是正・還元文書の所在主張は変更ファイル集合で裏取りする**: 「どの正本に何を足したか」は commit 範囲の `git diff --name-only <range>` で
+  主張ファイルが変更集合に含まれるかを機械確認する。playbook §8.3 bullet「是正報告も生成提示層 — 同一事実を述べる複数記録の相互一致は独立の検査行」
+  (実施形: 旧表現の残存 grep=0・新表現の実在)の**再演**であり、実施形に「所在= ファイル集合の一致」を足す具体化。成立(cheap・製品非依存)。
+  OBS-20260906-01(是正者は是正対象の型に盲目)の 2 例目 — 別リポ・別設備・検出は外部査読・自己検出 0。
+
+**行き先判定**: 記帳のみ(OBS 2 本・EXP 1 本・再演 1・watch 進行 2)。本文改訂なし(いずれも N=1 の具体化・rule of three 待ち)。織り込み候補は
+下記 案 A/B/D として停止点に提示。
+
+**思想層の再認証判定(手順 3b)**: [x] operational rule(§8.3 消化手続きの前提条件・§8.3 相互一致検査の実施形 — 候補のみ)[x] control/probe
+(manifest の CAD consumer 行・所在主張の diff --name-only 裏取り — 候補のみ)[ ] template(change-impact manifest は製品固有様式・61 への写像は未判定)
+[ ] terminology [x] method/concept claim: terminology.md「Ruling」(裁定の出力は BOM・台帳へ書き戻し、同じ空白を二度と裁定にしない)= **supported**
+(ECO-VT-106/107 の user 裁定は ECO 本文に留まり CAD へ書き戻されていない= 命題の反例ではなく**適用漏れ**。§9「散文の実施要求≠実施証明」の適用)/
+concept.md「導出できない空白のみを裁定」= untested(本件は裁定の有無でなく書き戻しの有無)。contradicted / superseded: なし。
+
+**期待効果の棚卸し(worklist 起点・native open/watch を走査)**: 一致 3 件 —
+- **再演 1**: EXP-20260717-08(次の CAD 未確定消化で「実装時裁定の確定手続き」が既定経路として踏まれるか)→ **再演(2026-09-07・ViewTube ECO-VT-106)**:
+  別リポ・別画面で kind (ii) 宣言に触れる実装 ECO が裁定表なし・read-across 納品なしで進行(反証 1 件目)。ただし前提差あり — ViewPrism2 は未確定
+  台帳が存在、ViewTube は散文宣言のみ。「既定経路として踏まれなかった」と「手続きの前提(台帳化)が満たされていなかった」の両方として記録。
+  open 維持・元 bullet に行内注記。
+- **watch 進行 2**: OBS-20260906-01 → **2/3**(観測 2: 是正・還元文書が自らの警告型を再演・外部査読で検出)/ OBS-20260718-04 → **2/3**
+  (別媒体 UI-CAD での「明示的未規定」宣言の適用例。宣言側は成立・消費側は本節 (a) — 3 例目の昇格判定では宣言と消費を分けて数える)。
+- **一致候補・N は触らない(migrated)**: OBS-20260713-01(影響分析の被覆と欠陥の被覆は同じ盲点)— manifest が CAD を consumer に含めず、欠陥も
+  CAD 側に残った。移行残高の整理は別工程(記帳スキーマ規約)。
+- **機会なし**: OBS-20260802-12(宣言済み境界の**受理**は検査官側 — 本件は製造側の消費)/ EXP-20260711-12(read-across ECO の非機能契約 — 本件は
+  read-across 納品自体が無い)/ OBS-20260906-02・03(receipt・converge — 本弧は両スキル非使用)/ EXP-20260902-01(製品側 README 契約の非起動 —
+  本件の非起動対象は method 側手続き・別命題)。再演 0(EXP-20260717-08 以外)。
+
+**織り込み案(停止点 — 節単位で採否。推奨: 今回は全件見送り・N=1)**:
+- **案 A** playbook §8.3「CAD 未確定事項は実装時裁定の確定手続きで消化する」bullet(L593)末尾に前提条件を追補: 「本手続きのトリガーは**台帳化された**
+  未確定事項である。散文(責務ヘッダ・段落)にのみ置かれた『明示的未規定』の宣言は起票時に拾われない(ViewTube ECO-VT-106・N=1) — 宣言は ID 付き
+  台帳行として置き、影響分析で触れる CAD 節の未規定項を列挙する。」
+- **案 B** playbook §8.3「是正報告も生成提示層」bullet(L697-703)の実施形に追補: 「是正・還元文書が『どの正本に何を足したか』を述べるときは、
+  commit 範囲の変更ファイル集合(`git diff --name-only`)に当該正本が含まれることを機械確認する(ViewTube 300e21e・N=1)。」
+- **案 D** ui-ir-ui-bom.md §13.1 裁定台帳: 「kind (ii)(どの authority も述べていない)相当の宣言は open 行として台帳へ置く」を候補として追記(N=1・見送り推奨)。
+
+- [watch 1/3] OBS-20260907-01 — **「明示的未規定」の宣言は消費導線(ID 付き台帳行+起票時の影響分析での列挙)を持たない限り実装 ECO で消化されない —
+  空白の宣言は空白の充填の代わりにならない**(§8.3 消化手続きの前提「台帳化された未確定事項」が散文宣言では満たされない)。機械面候補= 宣言時の
+  台帳化+change-impact manifest の CAD consumer 行要求。宣言側(OBS-20260718-04)と消費側(本項)は別命題として数える
+  source: ViewTube ECO-VT-106(videos-cad.md:598-600 kind (ii)・change-impact ECO-VT-106.yaml・37-ui-rulings 0 件)
+  evidence: 本節・観測 1
+- [watch 1/3] OBS-20260907-02 — **是正・還元文書の所在主張(どの正本に何を足したか)は commit 範囲の変更ファイル集合で裏取りする — 主張した正本が
+  変更集合に無ければ主張は不成立**(§8.3「是正報告も生成提示層」実施形の具体化・自らその型を警告する文書内で発生・自己検出 0・検出は外部査読の
+  `git diff --stat`)。機械面= `git diff --name-only <range>` に主張ファイルが含まれるか(cheap)
+  source: ViewTube boundary-to-bom-method.md 0de6878 → 300e21e
+  evidence: 本節・観測 2
+- [open] EXP-20260907-01 — **次に「明示的未規定」宣言(kind (ii) 相当)に触れる実装 ECO が起票されるとき**(最初の機会= ViewTube BM-2 の CAD 条項
+  追加 ECO、または他リポの UI-CAD 未規定面への実装)、①起票時の影響分析/manifest に当該宣言が行として載るか ②裁定が CAD へ書き戻されるか
+  (read-across 納品)③ECO 本文内だけの「declared here」が 0 件か。基準線= ECO-VT-106/107(①②とも無し・③ 2 件)
+  evidence: 本節・観測 1・一般化検査 (a)
