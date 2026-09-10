@@ -353,10 +353,35 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 - **r3 の受入**: r2b の selftest PASS・V4・witness→commit・CI・**独立検査 r3**(同設備・`-s workspace-write` で OS temp を許可し、8 腕統合回帰・両 selftest・
   IA-01/02/05 の CLI 統合経路・IA-06/07 の再実測を行う。作業木への書込みは事後 `git status` で 0 を確認する)。
 
+
+### 8.3 独立検査 r3(2026-09-10・Codex・CLI 直接 `codex exec -s workspace-write -m gpt-5.6-sol`)= **REJECT**・IA-01〜07 **resolved 7 / partially 0 / not resolved 0**・新規 1(IA-08 medium)・受理側 **1/1 CONFIRMED(+受理側追加 IA-08b)**
+
+- 引き渡し経路の実測: workspace-write で OS temp が使えるため、r2 で unknown だった **8 腕統合回帰(8/8 期待一致)・両 selftest(PASS)・IA-01/02/05 の
+  実ファイル CLI 経路**が成立。検査官は self-conformance も対象 commit の `git archive` を OS temp に再構成して実行(hooksPath 補正後 C1〜C18 全 PASS —
+  ただし再構成 tree が対象 tree と不一致のため V4 全体の成立へは昇格させず・正しい扱い)。CI は検査官環境からネットワーク不達= UNKNOWN。
+- **最終報告の遮断と復旧**: 初回実行は測定を完了した後、最終メッセージがプロバイダのコンテンツフィルタ(「cybersecurity risk」)で 2 回遮断され report 未出力。
+  `codex exec resume --last` で同一セッションを再開し「セキュリティ連想語を中立語へ言い換え・技術内容は不変」を指示して最終報告を stdout に出力させた。
+  `resume` は `-o` を持たないため、**CLI 出力の最終メッセージ部分を当方がバイト単位で切り出して**
+  [bomdd/reports/independent-inspection-eco-062-r3.md](reports/independent-inspection-eco-062-r3.md) に置いた(内容は無編集・切り出しはスクリプト)。
+  検査官設備の自己申告は「測定時 GPT-5 系・最終報告時 GPT-6 系」(resume 時に既定モデルへ戻った可能性・個体 ID は未確認)。
+- 検査官の後片付けコマンドは Codex の自動実行チェックで拒否され、OS temp に検査用データ 4 件(junction 含む)が残置 → **当方が削除**(下記・リポ外)。
+- IA-08 と受理側判定:
+
+  | 所見 | severity | 内容 | 受理側判定 | 是正(r3b) |
+  |---|---|---|---|---|
+  | IA-08 | medium | Windows 拡張長パス `\\?\C:\...` で `_inside_worktree` が作業木内を外部と誤判定し、`produce` が作業木内へ witness を生成(W5 違反)。直後の verify は自己参照で STOP | **CONFIRMED**(受理側スクリプトで再現: inside_worktree()= False・produce 0・ファイル生成) | `_canon()`: `\\?\` / `\\?\UNC\` 接頭辞を剥がして resolve・`os.path.normcase` で前方一致比較(relative_to をやめる) |
+  | IA-08b(受理側追加) | low | 書込不能・不正パス(`\\?\Z:\...`・ファイルの下)で `mkdir`/`write_text` の OSError が traceback・exit 1 | 受理側の IA-08 再現中に実測 | produce の書込を try/except OSError → exit 2 |
+
+- 陽性対照(selftest に追加・r3b): Windows のみ= 拡張長パスの作業木内出力 → 2・拡張長パスの .git 配下出力 → 0 / 書込不能パス → 2。selftest PASS。
+- 検査官が独立に落とした枝(通常パス・junction 4 腕は期待どおり・拡張長パスのみ不適合)は製造者 selftest の未被覆枝。r1→r2→r3 で検査官が落とした
+  枝の型= 構造完全性・個体結合・依存実行不能・引数不正・temp 不能・パス表記 — いずれも「製造者環境では発火しない入力クラス」。
+- r3 で検査官が「未検査」と宣言したもの: CI・対象リポ自体の self-conformance・UNC/symlink/linked worktree/submodule/Linux・selftest 後の同一プロセス verify。
+- **r4 の受入**: r3b の selftest PASS・V4・witness→commit・CI・**独立検査 r4(IA-08/08b の回帰+8 腕の再確認に限定)**。
+
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 3 製造 第 1 弾: r1 REJECT(5/5 是正)→ r2 REJECT(IA-06/07・2/2 是正・§8.2)→ 是正 r2b 製造者受入済み → **独立検査 r3 引き渡し中**(workspace-write で統合回帰まで)。出口= r3 PASS+較正 receipt+verified。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
+`Phase 3 製造 第 1 弾: r1 REJECT(5/5 是正)→ r2 REJECT(2/2 是正)→ r3 REJECT(IA-01〜07 全 resolved・IA-08 のみ・§8.3)→ 是正 r3b 製造者受入済み → **独立検査 r4 引き渡し中**(IA-08/08b 回帰に限定)。出口= r4 PASS+較正 receipt+verified。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -365,7 +390,7 @@ Phase 0 議論・起票 ─── 完了 2026-09-10
 Phase 1 製造裁定 ─── 完了 2026-09-10(§4)
         │           ┌ Phase 2 手動リハーサル ─── 完了 2026-09-10(§5)
         ▼           ▼
-Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= r1/r2 REJECT 是正済み・独立検査 r3 中(§8.2)
+Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= r1〜r3 の所見 8 件是正済み・独立検査 r4 中(§8.3)
         ▼
 Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)
         ▼

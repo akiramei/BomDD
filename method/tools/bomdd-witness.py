@@ -14,6 +14,7 @@
 #     .git/bomdd-witness/<ECO>.json(witness は自分が束縛する tree に含められないため .git 配下)。
 #  W5 produce は作業木内(.git 配下を除く)への出力を exit 2 で拒否する — 作業木内の witness は
 #     次の write-tree に自分が入って tree を変え、known-good が必ず STOP する(初回 selftest が捕捉)。
+#     判定は Windows 拡張長パス(\\?\C:\...)の接頭辞を剥がし normcase で比較する(IA-08・r3)。
 #
 # 検証の判定: ①witness.tree == 現 worktree tree ②gates 非空かつ全 exit 0 ③stop_type NONE
 #   → exit 0(ADVANCE)。①〜③のいずれか不成立 → exit 1(STOP+理由)。witness 不在・読取不能・
@@ -108,24 +109,29 @@ def default_path(git_dir: Path, eco: str) -> Path:
     return git_dir / "bomdd-witness" / f"{eco}.json"
 
 
+def _canon(path: Path) -> str:
+    """IA-08(r3): Windows 拡張長パス(\\\\?\\C:\\... / \\\\?\\UNC\\...)は resolve() が接頭辞を保持し、
+    relative_to が別ルート扱いにする — 接頭辞を剥がし normcase で比較する。"""
+    s = str(path)
+    if s.startswith("\\\\?\\UNC\\"):
+        s = "\\\\" + s[8:]
+    elif s.startswith("\\\\?\\"):
+        s = s[4:]
+    return os.path.normcase(str(Path(s).resolve()))
+
+
 def _inside_worktree(path: Path, root: Path, git_dir: Path | None) -> bool:
     """作業木内(かつ .git 配下でない)なら True。解決不能は安全側(True)。"""
     try:
-        p = path.resolve()
-        r = root.resolve()
+        p = _canon(path)
+        r = _canon(root)
+        g = _canon(git_dir) if git_dir is not None else None
     except OSError:
         return True
-    if git_dir is not None:
-        try:
-            p.relative_to(git_dir.resolve())
-            return False
-        except ValueError:
-            pass
-    try:
-        p.relative_to(r)
-        return True
-    except ValueError:
+    sep = os.sep
+    if g is not None and (p == g or p.startswith(g.rstrip(sep) + sep)):
         return False
+    return p == r or p.startswith(r.rstrip(sep) + sep)
 
 
 def produce(root: Path, eco: str, gates: list, stop: str, out: Path | None, producer: str) -> tuple[int, str, Path | None]:
@@ -147,8 +153,11 @@ def produce(root: Path, eco: str, gates: list, stop: str, out: Path | None, prod
          "head": head, "gates": gates, "stop_type": stop, "producer": producer,
          "produced_at": date.today().isoformat()}
     path = out or default_path(git_dir, eco)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(w, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    try:  # IA-08b(受理側追加): 書込不能・不正パスは traceback でなく測定不能 exit 2
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(w, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    except OSError as e:
+        return 2, f"witness を書けない: {path}({e.__class__.__name__})— 測定不能は合格ではない", None
     return 0, f"witness 生成: {path}(tree {tree[:12]}・gates {len(gates)}・stop {stop})", path
 
 
@@ -312,6 +321,20 @@ def selftest() -> int:
             fails.append(f"kb-notmp: verify {rc_notmp} / produce {rc_notmp_p} / 作業木内 temp {rc_intmp}(全て 2 であるべき)")
         if any(p.name.startswith("tmp") for p in root.iterdir()):
             fails.append("kb-notmp: 作業木に temp 残置")
+        # IA-08(r3): Windows 拡張長パス(\\?\C:\...)で作業木内を外部と誤判定しない(W5)
+        if os.name == "nt":
+            ext = Path("\\\\?\\" + str((root / "ext.json").resolve()))
+            rc_ext, _, _ = produce(root, "ECO-900", [{"name": "g", "exit": 0, "source": "x"}], "NONE", ext, "selftest")
+            if rc_ext != 2 or (root / "ext.json").exists():
+                fails.append(f"kb-extpath: 拡張長パスの作業木内出力が exit {rc_ext}(2 で拒否すべき)")
+            ext_git = Path("\\\\?\\" + str((root / ".git" / "bomdd-witness" / "ext.json").resolve()))
+            rc_ext_git, _, _ = produce(root, "ECO-900", [{"name": "g", "exit": 0, "source": "x"}], "NONE", ext_git, "selftest")
+            if rc_ext_git != 0:
+                fails.append(f"kb-extpath: 拡張長パスの .git 配下出力が exit {rc_ext_git}(0 であるべき)")
+        # IA-08b(受理側追加): 書込不能パス(ファイルの下)は exit 2・traceback なし
+        rc_unw, _, _ = produce(root, "ECO-900", [{"name": "g", "exit": 0, "source": "x"}], "NONE", wout / "w.json" / "x.json", "selftest")
+        if rc_unw != 2:
+            fails.append(f"kb-unwritable: 書込不能パスが exit {rc_unw}(2 であるべき)")
         # IA-05: 引数不正は ArgError(main で exit 2)
         for bad_argv in (["--gate", "malformed"], ["--gate", "g=x:src"], ["--gate", "g=0"], ["--gate"]):
             try:
@@ -333,7 +356,7 @@ def _report(fails) -> int:
         print("bomdd-witness selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
     print("bomdd-witness selftest PASS(known-good 0 / hash・fail・missing・stop・dirty 1 / 不在 2 / 不正 stop 2 / 作業木内出力 2 / "
-          "r2: 構造不完全 gate 1・不完全 gate 生成拒否 2・個体不一致 1・git 不能 2・引数不正 ArgError・r2b: temp 不能 2・作業木内 temp 2)")
+          "r2: 構造不完全 gate 1・不完全 gate 生成拒否 2・個体不一致 1・git 不能 2・引数不正 ArgError・r2b: temp 不能 2・作業木内 temp 2・r3: 拡張長パス 2/.git 配下 0・書込不能 2)")
     return 0
 
 
