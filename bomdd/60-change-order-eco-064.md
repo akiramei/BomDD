@@ -155,3 +155,26 @@ required_capability(F2)・forbidden(F3)・expected_outputs(F4)・independent_ins
   `shutil.rmtree(ignore_errors=True)` が Windows の read-only な git object を消せず無音(fail-silent)。ECO-064 の範囲外 → improvements.md に OBS 記帳・別 ECO 候補。
   残置は当方が削除(sandbox 所有の 2 件は権限で不可・報告)。
 - **r2 の受入**: r1b の selftest PASS・V4・witness→commit・CI・**独立検査 r2**(IA-01〜04 の再実測+V1〜V3 の回帰・新規所見)。
+
+### 8.2 r2(2026-09-11・Codex・CLI 直接 workspace-write)= **REJECT**・IA-01〜04 **resolved 4/4**・新規 3(high 1 / medium 2)・受理側 **3/3 CONFIRMED**
+
+- 引き渡しの実測: 初回実行は OS のハングで中断(ログ 2,414 行・V2 まで進行・報告未出力・リポ内変更なし・OS temp 残置なし)。r1b commit の CI(run 34499173239)は
+  ハング後に確認= success。同一ブリーフで再実行し成立(所要 約 25 分)。
+- 報告: [bomdd/reports/independent-inspection-eco-064-r2.md](reports/independent-inspection-eco-064-r2.md)(CLI `-o`・無編集)。IA-01〜04 は検査官が r1 の再現手順を
+  再実行して全て resolved(3 型の statuses・glob 5 腕+`**`/`?` 境界・anchor の ablation〔`contract_item` を任意 object に置換しても判定不変〕・断片の literal 実在と
+  陰性対照)。V1 PASS・V2 一致・unknown 5 条件 exit 0・停止語彙/引数処理を **AST で独立抽出**して d9fe305 と同一・diff 窓 PASS。
+- 新規所見と受理側判定・是正(r2b):
+
+  | 所見 | severity | 内容 | 受理側判定 | 是正 |
+  |---|---|---|---|---|
+  | IA-06 | medium | `source` の `;` 区切り空要素を `continue` で黙って通す | **CONFIRMED**(HEAD コピー・validate_map → []) | 空要素を問題として列挙(MAP_INVALID) |
+  | IA-07 | high | unhashable な `id`(list/dict)で `seen.add` が TypeError → 通常 CLI が exit 1(r1 IA-01 と同型の契約違反) | **CONFIRMED**(TypeError 再現) | 文字列 id のみ `seen` に入れる。加えて `load_map` が `validate_map` 自体の例外を捕捉して MAP_INVALID(最終防御) |
+  | IA-08 | medium | 空配列の `statuses` / `instrument_paths` が validate を通り、class を無言で無効化(fail-open) | **CONFIRMED**(validate → []・match → False) | 非空を要求(MAP_INVALID)。`_class_matches` も空配列= None(防御) |
+
+- 陽性対照(selftest・r2): 空要素 2 形 → 問題あり / id= list・dict・None・int → 問題あり(例外なし)・list id の map → MAP_INVALID / 空配列 2 種 → 問題あり・判定 None。
+  selftest PASS・V2 不変。改変 map(id=[start])を temp 複製で `load_map` → MAP_INVALID を実測。
+- 検査官環境の残置: self-conformance C14 の temp 2 件(`bomdd-selfconf-c14-4e7i9d9b` / `-rhz89wcj`)は sandbox 所有で当方も削除不可(権限)— 利用者の削除に委ねる。
+  C14 の temp 残置自体は製造物外の欠陥(§8.1 付随発見・OBS 記帳予定)。
+- 検査官が独立に落とした枝の型(r1〜r2): 型不正・区切り・意味転写・断片検査・空要素・unhashable・空配列 — いずれも validator の**入力クラスの網羅**の穴。
+  製造者 selftest は「正しい map」と「明らかに壊れた map」の 2 極しか持たず、境界(空・型違い・非文字列キー)を測っていなかった。
+- **r3 の受入**: r2b の selftest PASS・V4・witness→commit・CI・**独立検査 r3**(IA-06〜08 の再実測+r1/r2 の回帰+境界クラスの追加探索)。

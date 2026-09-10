@@ -102,10 +102,11 @@ def validate_map(classes, base: Path) -> list:
         cid = cls.get("id")
         tag = f"class {cid!r}" if isinstance(cid, str) else f"class[{i}]"
         if not isinstance(cid, str) or not cid.strip():
-            problems.append(f"{tag}: id が空")
+            problems.append(f"{tag}: id が文字列でないか空")  # IA-07(r2): unhashable な id を seen に入れない
         elif cid in seen:
             problems.append(f"{tag}: id 重複")
-        seen.add(cid)
+        else:
+            seen.add(cid)
         if not _is_str_list(cls.get("required_skills")) or not cls.get("required_skills"):
             problems.append(f"{tag}: required_skills が非空の文字列配列でない")
         else:
@@ -115,10 +116,10 @@ def validate_map(classes, base: Path) -> list:
         kind = cls.get("anchor_kind")
         if kind not in ANCHOR_KINDS:
             problems.append(f"{tag}: anchor_kind 不正 {kind!r}")
-        if kind == "ledger-status" and not _is_str_list(cls.get("statuses")):
-            problems.append(f"{tag}: statuses が文字列配列でない")
-        if kind == "affected-refs-glob" and not _is_str_list(cls.get("instrument_paths")):
-            problems.append(f"{tag}: instrument_paths が文字列配列でない")
+        if kind == "ledger-status" and (not _is_str_list(cls.get("statuses")) or not cls.get("statuses")):
+            problems.append(f"{tag}: statuses が非空の文字列配列でない")  # IA-08(r2): 空配列は class を無言で無効化するため不正
+        if kind == "affected-refs-glob" and (not _is_str_list(cls.get("instrument_paths")) or not cls.get("instrument_paths")):
+            problems.append(f"{tag}: instrument_paths が非空の文字列配列でない")
         if not isinstance(cls.get("anchor"), str) or not cls["anchor"].strip():
             problems.append(f"{tag}: anchor が空")
         src = cls.get("source")
@@ -128,6 +129,7 @@ def validate_map(classes, base: Path) -> list:
         for part in src.split(";"):
             part = part.strip()
             if not part:
+                problems.append(f"{tag}: source に空要素(; 区切り)がある")  # IA-06(r2): 空要素は不正
                 continue
             fp, _, frag = part.partition("#")
             fpath = base / fp.strip()
@@ -165,7 +167,10 @@ def load_map(path: Path = MAP_PATH, base: Path | None = None):
         return None, "activation-map 形状不正(classes 配列なし)"
     if base is None:
         base = path.resolve().parents[4] if len(path.resolve().parents) > 4 else path.resolve().parent
-    problems = validate_map(classes, base)
+    try:
+        problems = validate_map(classes, base)
+    except Exception as e:  # noqa: BLE001 — IA-07(r2): validator 自身の例外も MAP_INVALID(exit 0 契約の最終防御)
+        problems = [f"validate_map が例外終了: {type(e).__name__}"]
     if problems:
         return None, "activation-map 不正(MAP_INVALID): " + " / ".join(problems[:5]) + (" …" if len(problems) > 5 else "")
     return classes, None
@@ -200,12 +205,12 @@ def _class_matches(cls: dict, entry: dict, order_text: str | None, sc) -> bool |
         return True
     if kind == "ledger-status":
         statuses = cls.get("statuses")
-        if not _is_str_list(statuses):  # IA-01: 型不正は判定不能(validate_map が先に弾くが防御的に)
+        if not _is_str_list(statuses) or not statuses:  # IA-01/IA-08: 型不正・空配列は判定不能(validate_map が先に弾くが防御的に)
             return None
         return str(entry.get("status")) in statuses
     if kind == "affected-refs-glob":
         pats = cls.get("instrument_paths")
-        if not _is_str_list(pats):
+        if not _is_str_list(pats) or not pats:
             return None
         refs_raw = entry.get("affected_refs")
         refs = [str(r) for r in refs_raw] if isinstance(refs_raw, list) else []
@@ -487,6 +492,34 @@ def selftest() -> int:
             cl, er = load_map(mp, base)
             if cl is not None or "MAP_INVALID" not in (er or ""):
                 fails.append(f"validate: anchor_kind 不正/スキル不在の map が MAP_INVALID にならない: {er}")
+            # --- 独立検査 r2(ECO-064)の陽性対照 ---
+            st = next(c for c in amap if c.get("id") == "start")
+            # IA-06: source の ; 区切り空要素は不正
+            if not validate_map([dict(st, source=st["source"] + " ; ; " + st["source"])], base):
+                fails.append("IA-06: source の空要素を validate_map が通した")
+            if not validate_map([dict(st, source="; " + st["source"])], base):
+                fails.append("IA-06: 先頭の空要素を validate_map が通した")
+            # IA-07: unhashable な id(list / dict)は traceback でなく問題として列挙・load_map は MAP_INVALID
+            for badid in (["start"], {"a": 1}, None, 3):
+                try:
+                    if not validate_map([dict(st, id=badid)], base):
+                        fails.append(f"IA-07: id={badid!r} を validate_map が通した")
+                except Exception as e:  # noqa: BLE001
+                    fails.append(f"IA-07: id={badid!r} で validate_map が例外 {type(e).__name__}")
+            mp = root / "bomdd" / "bad-map3.yaml"
+            mp.write_text("classes:\n  - {id: [start], required_skills: [preflight], anchor_kind: always, anchor: a, source: 'method/templates/product-profile/skills/preflight.md#自発起動契約'}\n",
+                          encoding="utf-8")
+            cl, er = load_map(mp, base)
+            if cl is not None or "MAP_INVALID" not in (er or ""):
+                fails.append(f"IA-07: id=[start] の map が MAP_INVALID にならない: {er}")
+            # IA-08: 空配列の statuses / instrument_paths は不正・判定関数は None
+            vp2 = next(c for c in amap if c.get("id") == "verified-promotion")
+            ic2 = next(c for c in amap if c.get("id") == "instrument-change")
+            if not validate_map([dict(vp2, statuses=[])], base) or not validate_map([dict(ic2, instrument_paths=[])], base):
+                fails.append("IA-08: 空配列の statuses/instrument_paths を validate_map が通した")
+            if _class_matches(dict(vp2, statuses=[]), {"status": "verified"}, None, sc) is not None or \
+               _class_matches(dict(ic2, instrument_paths=[]), {"affected_refs": ["method/tools/x.py"]}, None, sc) is not None:
+                fails.append("IA-08: 空配列で _class_matches が None でない")
     return _report(fails)
 
 
@@ -494,7 +527,7 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID)")
     return 0
 
 

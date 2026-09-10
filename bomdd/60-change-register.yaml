@@ -2330,7 +2330,7 @@ changes:
     title: ECO-062 第 2 弾 F1 — job ビューの required_skills を事前宣言する(activation-map 参照付き対応表+receipt 突合・skills_missing 情報欄)
     date: 2026-09-10
     origin: requirement
-    status: implemented   # 2026-09-10 起票(filed・job 経由)→ 2026-09-11 user「製造まで進めて」で製造・製造者受入 V1〜V3 済み(order §4〜6)。独立検査 r1(Codex)= REJECT・IA-01〜04 を 4/4 CONFIRMED で是正(r1b・order §8.1)→ r2 引き渡し中・verified は受理後
+    status: implemented   # 2026-09-10 起票(filed・job 経由)→ 2026-09-11 user「製造まで進めて」で製造・製造者受入 V1〜V3 済み(order §4〜6)。独立検査 r1= REJECT(4/4 是正・§8.1)→ r2= REJECT(IA-01〜04 resolved・新規 IA-06〜08 を 3/3 是正・§8.2)→ r3 引き渡し中・verified は受理後
     source: >
       ECO-062 §5.1 F1(required_skills の事前宣言欄なし)と Phase 4 の 1 本目(ECO-063 §6: job 経由でも明示起動は起きず EXP-20260910-01 の中心量が
       測れない)の帰結。出所= preflight/converge/calibrate の自発起動契約(転写せず参照)・C16 hard-positive と C17 適用範囲(self-conformance が正本・import)。
@@ -2341,7 +2341,7 @@ changes:
     diff_audit:
       baseline: "7e90025"  # 起票直前 HEAD
       head: ~
-      allowed_paths: [method/tools/bomdd-job.py, method/templates/product-profile/skills/activation-map.yaml, bomdd/60-change-order-eco-064.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-064.md, bomdd/reports/independent-inspection-eco-064-r2.md]   # 製造裁定で再凍結(製造物 2+台帳系+検査報告)
+      allowed_paths: [method/tools/bomdd-job.py, method/templates/product-profile/skills/activation-map.yaml, bomdd/60-change-order-eco-064.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-064.md, bomdd/reports/independent-inspection-eco-064-r2.md, bomdd/reports/independent-inspection-eco-064-r3.md]   # 製造裁定で再凍結(製造物 2+台帳系+検査報告)
     summary: >
       ①activation-map.yaml(新規): task class(start / design-synthesis / verified-promotion / instrument-change)ごとの required_skills・anchor(台帳側の機械判定)・
       source(契約の所在)。行の追加統制= preflight 最小表と同じ ②bomdd-job.py: required_skills を map から導出・skills_observed を order の receipt 見出し(C16/C17 の
