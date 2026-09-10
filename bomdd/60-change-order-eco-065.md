@@ -116,3 +116,48 @@
 - **V2**= PASS(self-conformance 実行前 12 件 → 実行後 12 件・増加 0。`[cleanup] 残置 0 件`)。**是正前は 1 回あたり c11 1+c14 2 件が増えていた**(§0.1)。
 - **V3**= PASS(全検査 PASS・FAIL 0・PASS 行 20 → 21〔C14 較正行の追加分のみ〕・kit-freshness 7/7 不変・stderr 出力なし)。
 - **V4**(CI)・**V5**(窓)・witness → §7。
+
+## 7. クローズ(2026-09-11・verified)
+
+- **witness 遷移**: §4〜§6 記入後に self-conformance を再実行(exit 0)→ `bomdd-witness.py produce --eco ECO-065` → `verify --eco ECO-065`= ADVANCE → fix commit `a2f9e41127f801a5cb603483f09a53dcaf8ad60b`。
+- **V4**= PASS(CI run 34514888608・success・headSha a2f9e41127f801a5cb603483f09a53dcaf8ad60b 一致・3 job。windows job のログで `[cleanup] 残置 0 件` を確認= 残置 0 件・較正 3 腕 True〔ubuntu は posix 対照不可・残置 0 件〕)。
+- **V5**= PASS(窓 `689a219` → `a2f9e41127f801a5cb603483f09a53dcaf8ad60b`= allowed_paths のみ: self-conformance.py+台帳系。他ツール・templates・hooks の diff= 0 — 影響なし予測が的中)。
+- diff 監査の窓: baseline `689a219` → head `a2f9e41127f801a5cb603483f09a53dcaf8ad60b`(**窓閉鎖**)。本クローズ commit は台帳系(order・register・improvements.md・ECO-062 order)のみ。
+- **製造者較正のみで受入**(A 案・§3/§4 の宣言どおり。異系統独立検査なし — B 案へ切り替える場合は判定に関与するため異系統必須)。
+- **register**: `implemented → verified`・head 凍結。
+- **Phase 4 の 3 本目としての帰結**(ECO-062 §7 へ反映): job 経由の起動・witness 遷移は成立(逸脱 0)。**EXP-20260910-01 の 2 例目**(required_skills 非 null の初例):
+  job が preflight・calibrate を要求 → preflight は起票時の receipt で応答(missing [calibrate])→ verified 昇格の較正 receipt(下記)で missing [] へ。converge は要求外だが
+  A/B 案の設計で自発起動(observed に含まれる)。非起動 0。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格+③: 計器〔self-conformance の後片付け helper・C14 較正行〕の変更。二軸)
+
+- 査定した主張と判定:
+  1. 「8 箇所の無音な rmtree が helper に置換され、残置は必ず報告される」— **observed / 適格**(grep で `ignore_errors` 0 件・`_cleanup_tmp(tmp)` 8 件。本番で `[cleanup] 残置 0 件` 行を観測)。
+  2. 「helper は read-only の git object を消せる」— **observed / 適格**(陽性対照 3 腕 PASS・入れ子 read-only の追加実測・本番実行前後で temp 件数 12 → 12)。
+  3. 「削除不能は残置として返る(無音でない)」— **observed / 適格**(陽性対照②: open handle で残置が返り temp が残る・③: 解放後に消える。posix では対照不可を宣言)。
+  4. 「判定 C1〜C18 は不変」— **observed / 適格**(PASS 行 20 → 21 の差は C14 較正行のみ・FAIL 0・kit-freshness 7/7・終了コード条件と witness 書出し条件は不変〔コード読解〕)。
+  5. 「CI(ubuntu)でも残置 0 かつ判定不変」— **observed / 適格**(CI 3 job success)。ただし ubuntu の read-only 挙動は windows と異なる(posix は read-only でも削除可)ため、
+     本 ECO の主張の中心は windows job で観測した。
+  6. 「A 案で C18 witness の意味(方法論の適合)が保たれる」— **読解**(残置は FAILURES に入らず witness 条件は不変。sandbox 所有の残置 12 件がある環境でも本番 PASS を観測= 環境事象が判定を汚さない実例)。
+  7. 「他ツール(effort-calibration・ui-cad-gate)の同型も直っている」— **unknown(範囲外・OBS-20260911-02 の 3 例目待ち)**。
+- 検出した計器欠陥(帰属つき): 製造物 0 件(本 ECO は計器の後片付けの是正)。是正前の計器欠陥= 温度計のない fail-silent(8 箇所・製造物帰属・§0)。受理側 0 件。
+- 検出力の限界: 陽性対照は当方の環境(Windows・NTFS)での実測。posix の削除不能腕は対照不可。sandbox 所有の残置(12 件)は当方の権限では削除も再現もできない。
+  `onexc` 経路は Python 3.12+ のみ実測(3.11 以下の `onerror` 経路は未実測・宣言)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | helper の自己記述(消せる・返す)を陽性対照 3 腕で実測 |
+  | Q2 | asked | observed/適格 | 実測 | known-good(read-only が消える)と known-bad(open handle で残置)を対で持つ |
+  | Q3 | asked | observed/適格 | 実測 | 是正前の残置発生(1 回あたり 3 件)と是正後の 0 件を前後で実測 |
+  | Q4 | asked | observed/適格 | 実測 | 陽性対照は実 temp・実 rmtree・実 chmod を入力(モックなし) |
+  | Q5 | asked | observed/適格 | 実測 | sandbox 所有 12 件は削除不能と明記・posix 腕は対照不可と宣言・3.11 以下は未実測と宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness produce/verify(条件結合)→ commit → push → CI 照合 |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= C14 較正行(本番で毎回実行) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(個体+tree)・register・commit で来歴化 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 7 の unknown |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= read-only ファイル / 入れ子 read-only / open handle / posix / sandbox 所有(削除不能・対照不可)/ 3.11 以下(未実測) |
+
+- このクローズが支持しないもの: 他ツールの同型(範囲外)/ posix の削除不能挙動 / Python 3.11 以下の `onerror` 経路 / sandbox 所有の残置の削除 /
+  B 案(残置を FAIL)の是非(A 案の裁定で閉じた— 再開条件= 残置が方法論の適合に影響した実測)。

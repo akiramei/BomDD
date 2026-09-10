@@ -6730,6 +6730,7 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
   **next trigger= F1(task class → スキル対応表)実装後の初 job**(更新 2026-09-10: 第 1 弾は F1 を含まず `required_skills` が null のため明示起動は未測定)。
   **初回観測(2026-09-10・ECO-063・job 経由)**: 自発起動 3/3・非起動 0・対照なし・self-report — 明示起動の効果ではない(2026-09-10 Phase 4 節)
   **測定器成立(2026-09-11・ECO-064 verified)**: job ビューの skills_missing が order の receipt 見出しから機械導出される。初回値= ECO-064 自身 implemented [calibrate] → verified []・明示起動の効果は次の job(残り 1 本)から測る(2026-09-11 ECO-064 節)
+  **2 例目(2026-09-11・ECO-065・required_skills 非 null の初例)**: job が preflight・calibrate を事前に要求 → 2/2 の receipt が出た(missing [calibrate] → [])・converge は要求外で自発起動・非起動 0・対照なし・運転員= 製造者。**next trigger= Phase 5 で運転員≠製造者の job**(2026-09-11 ECO-065 節)
   source: ECO-062
   evidence: 本節・ECO-062 order §0.4・improvements.md 2026-09-02「実施要求≠実施証明」節・ECO-063 order §6
 - [open] EXP-20260910-02 — **運転員の fail-open(known-bad 対照腕)**: 無効 receipt(tree hash 不一致 / FAIL 混入)を持つ job を
@@ -6886,3 +6887,35 @@ OBS-20260910-04(検査設備の経路障害)= 本弧は CLI 直接経路で 5 ro
   「temp cleanup の失敗を無音にしない(onerror で属性を外して再試行・残置を報告)」規則の要否を判断。別 ECO 候補(self-conformance.py の C14/C4/C11 の rmtree)
   source: ECO-064
   evidence: 本節・観測 5・ECO-064 order §8.1 付随発見・検査報告 r1/r2 の一時領域節
+
+## 2026-09-11 BomDD 自己適用 — ECO-065(self-conformance の後片付け fail-silent の是正・A 案)verified・Phase 4 の 3 本目= job の required_skills が非 null の初例(明示起動 2/2)・Phase 4 完了
+
+**観測**(出典: [ECO-065 order](../bomdd/60-change-order-eco-065.md) §0・§4〜§7、[ECO-062 order](../bomdd/60-change-order-eco-062.md) §7、CI run 34514888608):
+1. **是正の実測**: `shutil.rmtree(ignore_errors=True)` 8 箇所を helper(read-only を外して再試行・消せないパスを返す)へ置換し、`[cleanup] 残置 N 件` を毎回出力
+   (0 件でも出す= 温度計を常に見せる)。陽性対照 3 腕を C14 の較正行として本番で毎回実行。是正前は 1 回あたり c11 1+c14 2 件が残っていたが、是正後は実行前後で
+   temp 件数 12 → 12(増加 0)。既存残置 363 件のうち 351 件(1,154 MB)を削除・12 件は sandbox 所有で削除不能(利用者へ報告)。
+2. **A 案の帰結**: 残置は判定(C1〜C18)に関与しない。sandbox 所有の残置 12 件が存在する環境でも本番は PASS= 環境事象が方法論の適合判定を汚さないことを実測。
+   helper 自体の健全性は較正として FAIL しうる(計器欠陥の扱い)。
+3. **Phase 4 の 3 本目・明示起動の初例**(EXP-20260910-01 の 2 例目): ECO-064 verified 後に起票したため job ビューが `required_skills`= [calibrate, preflight] を
+   **事前に**出し、preflight は起票時の receipt で・calibrate は verified 昇格の較正 receipt で応答 → missing [calibrate] → []。converge は要求外だが A/B 案の設計で
+   自発起動した(observed に含まれる= 要求外の起動は減点しない)。**非起動 0/2・対照(job なし工程)なし・self-report**。
+4. **Phase 4 の 3 本**: ECO-063(required null・自発起動 3/3)/ ECO-064(測定器の製造・自身が初の測定対象)/ ECO-065(required 非 null・明示起動 2/2)。
+   job 経由の起動・witness 遷移・CI 照合はすべての commit(3 ECO・14 commit)で逸脱 0。運転員= 当方(製造者と同一)で独立性はない(Phase 5 の対象)。
+
+**整理**: ①EXP-20260910-01 の中心量(明示起動が不発を消すか)は「要求された receipt が全て出る」ことを **job が機械導出する**形で測れるようになった。ただし
+本弧は運転員= 製造者で対照なし → 「不発が消えた」とは言えず、「job が要求した receipt が 2/2 出た 1 例」までが実測。②Phase 4 の出口条件(初回値の記帳・N=3)は満たした
+→ **Phase 4 完了**。Phase 5(外部運転員の導入試験・自動実行なし)の入口条件= §7 の運転員仕様 4 点の裏取り+known-bad 対照腕の設計。③C14 の fail-silent は「計器が
+自分の副作用を測らない」型 — §13「計器は自分の前提を自分で満たす」の後始末側への拡張候補(OBS-20260911-02 の 3 例目で判断)。
+
+**一般化検査**: 「fail-silent な後片付け」は self-conformance 内 8 箇所(同一ファイル・同一著者= 1 例)+他ツール 2 箇所(未是正・未実測)= 実測 1 例。OBS-20260911-02 は
+1/3 のまま(是正は個別実例の処置・観測件数は据え置き)。「明示起動の効果」は N=1・対照なし → EXP 維持。playbook への新規則は足さない。
+
+**行き先判定**: 記帳+ECO-065 verified+ECO-062 §7 現在地= Phase 4 完了・Phase 5 入口。本文改訂なし。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(後片付けの陽性対照・A 案の判定分離)[ ] template [ ] terminology
+[x] method/concept claim: §13「慎重さは荷重を負わない」= supported(`ignore_errors` という慎重さの反対= 無音、を helper+温度計に置換)/ 「空白は無報告のみが悪」=
+supported(残置 0 件でも報告する設計)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: EXP-20260910-01= 2 例目(明示起動 2/2・対照なし)を注記・open 維持・**next trigger= Phase 5 で運転員≠製造者の job**。EXP-20260910-02/03= Phase 5 の入口。
+OBS-20260911-01(探索の打ち切りは受理側)= 本弧は製造者較正のみで独立検査なし・据え置き。OBS-20260911-02(fail-silent cleanup)= 個別是正・据え置き(1/3)。
+OBS-20260910-02(クローズ節と status の乖離)= ECO-055 は依然 in-progress・job 射影が LEDGER_INCONSISTENT を出し続ける・据え置き。

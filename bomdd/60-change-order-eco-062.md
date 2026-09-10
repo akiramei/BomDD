@@ -438,7 +438,7 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 4 実施中(2/3 本: ECO-063 verified 09-10・ECO-064〔F1〕verified 09-11 — job 経由起動+witness 遷移 成立・EXP-20260910-01 は F1 により機械記帳可能になり初回値= ECO-064 implemented [calibrate] → verified [])。残り 1 本= **ECO-065(C14/C11 temp 残置の是正)を起票済み**(job の required_skills が非 null の状態で回す初の ECO・製造は裁定待ち)。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
+`Phase 4 完了(3/3 本: ECO-063 09-10・ECO-064〔F1〕09-11・ECO-065〔required_skills 非 null の初例・明示起動 2/2〕09-11 — job 経由起動+witness 遷移+CI 照合は 14 commit で逸脱 0・EXP-20260910-01 は 2 例〔対照なし・運転員= 製造者〕)→ Phase 5 外部運転員 導入試験の入口(入口条件= 運転員仕様 4 点〔§0.1〕の裏取り+known-bad 対照腕の設計・user 裁定)。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -449,9 +449,9 @@ Phase 1 製造裁定 ─── 完了 2026-09-10(§4)
         ▼           ▼
 Phase 3 製造 第 1 弾(job 射影+witness)─── 完了 2026-09-10(r4 ACCEPT・verified・§9)
         ▼
-Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)◀━━ ★ 現在地= 2/3 本(ECO-063・ECO-064)・残り 1 本は候補裁定待ち
+Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)─── 完了 2026-09-11(3/3 本)
         ▼
-Phase 5 外部運転員 導入試験(自動実行なし)
+Phase 5 外部運転員 導入試験(自動実行なし)◀━━ ★ 現在地= 入口(user 裁定待ち)
         ▼
 Phase 6 狭い自動起動入口
         ▼
@@ -464,7 +464,7 @@ Phase 7 複数 executor・裁定キュー
 | 1 製造裁定 | Phase 0 完了 | register `filed→decided`・allowed_paths 再凍結・影響なし予測(製造前) | 下記の裁定 3 点が本 order に記入される | 済 2026-09-10(§4) |
 | 2 手動リハーサル | Phase 0 完了(1 と並行可) | 手書き job ビュー 1 枚(題材= in-progress の ECO-055)・手書き witness 1 枚・known-bad 予行(人間運転員・tree hash 故意不一致)の記録 | 書けなかった欄が §1 の仕様欠落として列挙される | 済 2026-09-10(§5.4)・user 確認待ち |
 | 3 製造 第 1 弾 | Phase 1 decided+Phase 2 の欄一覧 | job 射影ツール(read-only・worklist.py 同型)・witness 生成/検証器・(別 ECO なら)factory-delegate 正本化 | §3 V4(self-conformance・CI・diff 窓)+異系統独立検査 PASS → `verified` | 済 2026-09-10(r1〜r3 REJECT 8 件是正・r4 ACCEPT・§9) |
-| 4 単独運用実測 | Phase 3 verified | job 経由で起動した ECO 2〜3 本の receipt 記録 | EXP-20260910-01 の初回値(非起動 0 か・対照の有無)が記帳される | 1/3 本 済(ECO-063・初回値記帳・improvements.md 2026-09-10 Phase 4 節)・残り 2 本は候補裁定待ち |
+| 4 単独運用実測 | Phase 3 verified | job 経由で起動した ECO 2〜3 本の receipt 記録 | EXP-20260910-01 の初回値(非起動 0 か・対照の有無)が記帳される | 済 2026-09-11(3/3 本・初回値= 自発 3/3〔063〕・測定器〔064〕・明示 2/2〔065〕・対照なし・improvements.md 2026-09-10/11 節) |
 | 5 外部運転員試験 | Phase 4 の記帳+§0.1 の運転員仕様 4 点(unknown)の裏取り | run 台帳(非正本)・裁定材料の提示記録・known-bad 対照腕の結果 | EXP-20260910-02 fail-open 0・EXP-20260910-03 伝言ゲーム率の基準線 | user |
 | 6 狭い自動起動 | Phase 5 で fail-open 0 | 単一入口(`bomdd-run <job>` 相当・コマンド単位の承認は維持) | 自動起動 job で witness 再検証が機械的に効いた実測 | user |
 | 7 複数 executor | Phase 6+設備認定台帳の属性化 | stop_type→配送先の機械定義(§0.5 の 5 種)・独立性判定の機械化(§1-5) | 独立検査として成立しない組合せを機械が弾いた実測 1 例 | user |
