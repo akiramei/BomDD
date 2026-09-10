@@ -438,7 +438,7 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 4 実施中(2/3 本: ECO-063 verified 09-10・ECO-064〔F1〕verified 09-11 — job 経由起動+witness 遷移 成立・EXP-20260910-01 は F1 により機械記帳可能になり初回値= ECO-064 implemented [calibrate] → verified [])。残り 1 本= 候補裁定待ち(job の required_skills が非 null になった状態で回す初の ECO)。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
+`Phase 4 実施中(2/3 本: ECO-063 verified 09-10・ECO-064〔F1〕verified 09-11 — job 経由起動+witness 遷移 成立・EXP-20260910-01 は F1 により機械記帳可能になり初回値= ECO-064 implemented [calibrate] → verified [])。残り 1 本= **ECO-065(C14/C11 temp 残置の是正)を起票済み**(job の required_skills が非 null の状態で回す初の ECO・製造は裁定待ち)。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
