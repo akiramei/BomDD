@@ -137,3 +137,51 @@ hooks・CI は非接触。self-conformance の判定は不変(C16 は本 order �
   対象外と宣言し、3 形式の価値を Grok と独立に測る(§0.4・EXP-01)。「独立検査を自分で免除していないか」— 製造範囲が
   機械挙動を含むなら独立検査必須(§3)。
 - 未収束事項: なし(製造範囲の凍結・factory-delegate 正本化の ECO 分割は本 ECO の未決でなく**製造裁定の入力**)。
+
+## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
+
+**現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
+`Phase 0 完了(2026-09-10・起票 9ac802e/52fef56・CI 緑)→ Phase 1 の入口(user 裁定待ち)。Phase 2 は裁定と並行して着手可。`
+
+```text
+Phase 0 議論・起票 ─── 完了 2026-09-10
+        │
+        ▼
+Phase 1 製造裁定 ◀━━━━ ★ 現在地(user の裁定 3 点で開く)
+        │           ┌ Phase 2 手動リハーサル(裁定と並行可)
+        ▼           ▼
+Phase 3 製造 第 1 弾(job 射影+witness)
+        ▼
+Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)
+        ▼
+Phase 5 外部運転員 導入試験(自動実行なし)
+        ▼
+Phase 6 狭い自動起動入口
+        ▼
+Phase 7 複数 executor・裁定キュー
+```
+
+| Phase | 入口条件 | 成果物 | 出口(次へ進む条件) | 裁定者 |
+|---|---|---|---|---|
+| 0 議論・起票 | 外部議論 | 本 order・register・improvements.md 2026-09-10 節・EXP-20260910-01〜03 / OBS-20260910-01 | 起票 commit の CI 緑 | 済 |
+| 1 製造裁定 | Phase 0 完了 | register `filed→decided`・allowed_paths 再凍結・影響なし予測(製造前) | 下記の裁定 3 点が本 order に記入される | user |
+| 2 手動リハーサル | Phase 0 完了(1 と並行可) | 手書き job ビュー 1 枚(題材= in-progress の ECO-055)・手書き witness 1 枚・known-bad 予行(人間運転員・tree hash 故意不一致)の記録 | 書けなかった欄が §1 の仕様欠落として列挙される | 当方が実施・user が確認 |
+| 3 製造 第 1 弾 | Phase 1 decided+Phase 2 の欄一覧 | job 射影ツール(read-only・worklist.py 同型)・witness 生成/検証器・(別 ECO なら)factory-delegate 正本化 | §3 V4(self-conformance・CI・diff 窓)+異系統独立検査 PASS → `verified` | 独立検査官+user |
+| 4 単独運用実測 | Phase 3 verified | job 経由で起動した ECO 2〜3 本の receipt 記録 | EXP-20260910-01 の初回値(非起動 0 か・対照の有無)が記帳される | 当方が記帳・user が読む |
+| 5 外部運転員試験 | Phase 4 の記帳+§0.1 の運転員仕様 4 点(unknown)の裏取り | run 台帳(非正本)・裁定材料の提示記録・known-bad 対照腕の結果 | EXP-20260910-02 fail-open 0・EXP-20260910-03 伝言ゲーム率の基準線 | user |
+| 6 狭い自動起動 | Phase 5 で fail-open 0 | 単一入口(`bomdd-run <job>` 相当・コマンド単位の承認は維持) | 自動起動 job で witness 再検証が機械的に効いた実測 | user |
+| 7 複数 executor | Phase 6+設備認定台帳の属性化 | stop_type→配送先の機械定義(§0.5 の 5 種)・独立性判定の機械化(§1-5) | 独立検査として成立しない組合せを機械が弾いた実測 1 例 | user |
+
+**Phase 1 で決める 3 点(開かないと Phase 3 に進めない)**:
+
+1. **第 1 弾の範囲**: §1 候補 6 項のうち何を含めるか。当方案= ①job 射影と ②witness の 2 項のみ。③遷移条件の known-bad 常設は
+   Phase 2 の予行結果で判断・④ruling 取り込み・⑤設備認定参照は Phase 5 以降の実測後。
+2. **factory-delegate 正本化(§1-6)**: 本 ECO に含めるか別 ECO か。当方案= 別 ECO(独立検査の対象が「新規ツール」と「既存スキルの
+   移設」で異なり、diff 窓が混ざる)。
+3. **独立検査の配員**: 第 1 弾は機械挙動を含むため異系統必須(§3)。候補= Codex(factory-delegate 経由の先例= 製品側 ECO-137)。
+
+**計画外に置くもの**: 外部運転員の採否そのもの(Phase 5 の入口は仕様の裏取りであって採用ではない)/ 新しい機械ゲートの
+先行新設(運転員が生まれてから)/ Phase 5 完了前の自動起動(Phase 6 は Phase 5 の fail-open 0 を条件とする)。
+
+**この計画が主張しないこと**: 各 Phase の所要・順序の最適性・Phase 5 で外部運転員が有用であること(いずれも未測定)。
+Phase の追加・分割は本節の行内書き換えで行い、変更理由は commit message に残す。
