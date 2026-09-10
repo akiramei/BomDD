@@ -2359,18 +2359,18 @@ changes:
     title: self-conformance の temp 後片付けが無音で失敗する — rmtree(ignore_errors=True) 8 箇所の fail-silent を共通 helper+残置報告+陽性対照へ(C11 350 件 1,154 MB・C14 の実測)
     date: 2026-09-11
     origin: corrective
-    status: filed   # 2026-09-11 user「C14 の temp 残置を直す ECO を起票して」— 起票のみ・製造範囲(判定への影響 A/B)と着手は別裁定。起票工程は job 経由(required_skills 非 null の初例)
+    status: implemented   # 2026-09-11 起票(filed・job 経由)→ 同日 user「製造まで進めて(A 案で)」で製造・製造者受入 V1〜V3 済み(order §4〜6)。製造者較正のみで受入(A 案= 判定不変)・verified は §7 で
     source: >
       ECO-064 §8.1 付随発見・OBS-20260911-02。%TEMP% に bomdd-selfconf-c11-* 350 件(1,154 MB・2026-08-02〜)・c14-* 11 件が残置。機序= Windows で read-only の
       git object を shutil.rmtree(ignore_errors=True) が消せず無音。同型 8 箇所(t4/C4/C11/gu/C13/C14/C15/trx)。検出は独立検査官の後片付け拒否報告が契機で、
       製造者環境では 40 日間観測されなかった(温度計のない fail-silent)。他ツール(effort-calibration・ui-cad-gate)の同型は範囲外。
     order_ref: bomdd/60-change-order-eco-065.md
-    affected_refs: [method/tools/self-conformance.py]   # 候補・製造裁定時に凍結
-    no_impact_prediction: "(起票段階)diff は台帳系(order・register・ECO-062 order §7 現在地 1 行)のみ。製造時(候補): self-conformance.py の変更は finally 節と helper 追加のみで C1〜C18 の判定不変・標準出力の PASS 行不変(stderr に [cleanup] 行が増えうる)・C18 witness 形式不変・他ツール/templates/hooks diff 0"
+    affected_refs: [method/tools/self-conformance.py]   # 製造裁定で凍結(2026-09-11・A 案)
+    no_impact_prediction: "(製造前・凍結・A 案)self-conformance.py の変更は finally 節 8 箇所の置換+helper 2 関数+C14 冒頭の較正 1 行+main 末尾の [cleanup] 行のみ。C1〜C18 の判定式は不変(C14 に較正行 1 行が増える= PASS 行 20→21)・終了コードと witness 条件不変・他ツール/templates/hooks diff 0"
     diff_audit:
       baseline: "689a219"  # 起票直前 HEAD
       head: ~
-      allowed_paths: [bomdd/60-change-order-eco-065.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]   # 起票段階。製造時に再凍結(+self-conformance.py)
+      allowed_paths: [method/tools/self-conformance.py, bomdd/60-change-order-eco-065.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]   # 製造裁定で再凍結(製造物 1+台帳系)
     summary: >
       ①共通 helper _cleanup_tmp: onerror で read-only を外して再試行・消せないパスを戻り値で返す ②残置は [cleanup] 行で必ず報告(判定への影響= A 警告のみ / B FAIL の
       2 案・当方案 A)③selftest 陽性対照 2 腕(read-only 込み temp が消える / 削除不能で残置が返る)④既存残置の掃除(製造時)。採らない= ignore_errors の単純削除・

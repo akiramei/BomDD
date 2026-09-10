@@ -86,3 +86,33 @@
   「方法論の適合」を意味しなくなる。A+温度計(警告の陽性対照)で無音を消し、判定の意味は保つ。「helper 化で 8 箇所の挙動が揃うのは過剰変更では」— 同一文 8 箇所は列挙の腐敗
   そのもの(§13 原則⑥)。
 - 未収束事項: なし(A/B は製造裁定の入力)。
+
+## 4. 製造裁定と製造(2026-09-11・user「ECO-065 の製造まで進めて(A 案で)」)
+
+- 製造裁定: **A 案**(残置は警告のみ・判定 C1〜C18 不変)。製造範囲(凍結)= §1 候補 1〜4。allowed_paths= `method/tools/self-conformance.py`+台帳系。
+  独立検査= §3 の当方案どおり**製造者較正のみで受入**(A 案は判定に関与しない後片付けの変更)。
+- 起動: **job 経由**(`bomdd-job.py ECO-065` → state=filed・stop_type=NONE・`required_skills`= [calibrate, preflight]〔start+instrument-change〕・observed= [preflight,
+  converge]・missing= [calibrate])。preflight(製造着手): baseline `6cf654b`= confirmed(HEAD・clean)/ 8 箇所の所在= confirmed(grep 8/8)/ `check()`・`main()` の要約経路=
+  confirmed(実読)/ 凍結の非該当= confirmed。PROCEED。
+
+## 5. 製造物(`method/tools/self-conformance.py`・+86/-8 行)
+
+- `_cleanup_tmp(tmp) -> list[str]`: `shutil.rmtree` を `onexc`(3.12+)/`onerror` で受け、`os.chmod(path, S_IWRITE)` → 再試行。それでも消せないパスと、削除後に
+  なお存在する tmp を戻り値で返し `CLEANUP_RESIDUE` に集約(無音にしない)。**8 箇所**の `rmtree(tmp, ignore_errors=True)` を置換(t4・C4・C11・gu・C13・C14・C15・trx)。
+- `_cleanup_selftest()`: 陽性対照 **3 腕** — ①read-only ファイルを含む temp が消える ②open handle(Windows)で削除不能 → 残置が返り temp が残る ③handle 解放後に消える。
+  posix では②③を「対照不可」と宣言。較正で意図的に作った残置は本番の残置に数えない(`CLEANUP_RESIDUE` を復元)。
+- **C14 の較正行**: `c14_kit_freshness()` の冒頭で `_cleanup_selftest()` を `check("C14", ...)` として出す — helper が壊れていれば**計器欠陥として FAIL**(較正)。
+  残置そのものは判定に関与しない。
+- **main 末尾**: `[cleanup] 残置 N 件(判定不変・ECO-065 A 案): <paths>` を stdout と stderr の両方に出力(0 件でも `[cleanup] 残置 0 件` を出す= 温度計を常に見せる)。
+  終了コードと witness 書出しの条件は不変。
+- `import stat` を追加。既存 C 検査の判定式・メッセージは不変(C14 に較正行が 1 行増えるのみ)。
+
+## 6. 受入の実測(製造者・2026-09-11)
+
+- **V1**= PASS(陽性対照 3 腕: 単体実行で `read-only 消去=True・削除不能で残置が返る=True・解放後に消える=True`。入れ子の read-only〔`a/.git/objects/ab/cdef`〕も
+  残置 0 で消えることを追加実測。self-conformance 本番でも `[C14] PASS cleanup 較正 ...` として観測)。
+- **既存残置の掃除**: 実行前に `bomdd-selfconf-*` 363 件(c11 350・c14 11・他 2)のうち **351 件を削除**(read-only 属性を外して再帰削除)。残り **12 件は sandbox 所有**
+  (独立検査官の実行が作成・当方の権限では不可・利用者の削除に委ねる: c11 6 件・c14 6 件)。
+- **V2**= PASS(self-conformance 実行前 12 件 → 実行後 12 件・増加 0。`[cleanup] 残置 0 件`)。**是正前は 1 回あたり c11 1+c14 2 件が増えていた**(§0.1)。
+- **V3**= PASS(全検査 PASS・FAIL 0・PASS 行 20 → 21〔C14 較正行の追加分のみ〕・kit-freshness 7/7 不変・stderr 出力なし)。
+- **V4**(CI)・**V5**(窓)・witness → §7。

@@ -94,6 +94,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -118,6 +119,72 @@ def check(cid: str, ok: bool, msg: str) -> None:
     print(f"[{cid}] {'PASS' if ok else 'FAIL'} {msg}")
     if not ok:
         FAILURES.append(f"{cid}: {msg}")
+
+
+# --- ECO-065: temp の後片付けを無音にしない ------------------------------------------------
+# 実測(2026-09-11): %TEMP% に bomdd-selfconf-c11-* 350 件(1,154 MB・2026-08-02〜)・c14-* が残置。
+# 機序= Windows で git が read-only に書く loose object を shutil.rmtree(ignore_errors=True) が消せず、
+# ignore_errors が失敗を無音にした(温度計のない fail-silent・40 日間誰も観測せず・検出は独立検査官の
+# 後片付け拒否報告)。処方(A 案・user 裁定 2026-09-11): onexc/onerror で read-only を外して再試行し、
+# それでも消せないパスを**戻り値で返す**。残置は [cleanup] 行で必ず報告するが**判定(C1〜C18)には
+# 関与させない** — 後片付けは環境の性質であり方法論の適合ではない(C18 witness の意味を保つ)。
+# helper 自身の健全性(read-only を消せる・削除不能を残置として返す)は C14 の較正として測る。
+CLEANUP_RESIDUE: list[str] = []
+
+
+def _cleanup_tmp(tmp: Path) -> list[str]:
+    """tmp を再帰削除する。read-only は属性を外して再試行。消せなかったパスを返す(無音にしない)。"""
+    leftovers: list[str] = []
+
+    def _retry(func, path, exc):
+        try:
+            os.chmod(path, stat.S_IWRITE)
+            func(path)
+        except OSError:
+            p = str(path)
+            if p not in leftovers:
+                leftovers.append(p)
+
+    try:
+        if sys.version_info >= (3, 12):
+            shutil.rmtree(tmp, onexc=_retry)
+        else:  # pragma: no cover — 3.11 以下は onerror(exc_info タプル)
+            shutil.rmtree(tmp, onerror=lambda f, p, ei: _retry(f, p, ei[1]))
+    except OSError as e:
+        leftovers.append(f"{tmp}({e.__class__.__name__})")
+    if tmp.exists() and str(tmp) not in leftovers:
+        leftovers.append(str(tmp))
+    CLEANUP_RESIDUE.extend(x for x in leftovers if x not in CLEANUP_RESIDUE)
+    return leftovers
+
+
+def _cleanup_selftest() -> tuple[bool, str]:
+    """helper の陽性対照 2 腕: ①read-only ファイルを含む temp が消える ②削除不能(open handle・Windows のみ)で
+    残置が返り、handle を閉じれば消える。posix では②を対照不可として宣言(open file は削除できるため)。"""
+    saved = list(CLEANUP_RESIDUE)
+    try:
+        t1 = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-cleanup-"))
+        f = t1 / "ro.txt"
+        f.write_text("x", encoding="ascii")
+        os.chmod(f, stat.S_IREAD)
+        left1 = _cleanup_tmp(t1)
+        arm1 = (not left1) and (not t1.exists())
+        if os.name != "nt":
+            return arm1, f"cleanup 較正 read-only 消去={arm1}・削除不能腕= 対照不可(posix)"
+        t2 = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-cleanup-"))
+        g = t2 / "open.txt"
+        g.write_text("y", encoding="ascii")
+        with open(g, "r", encoding="ascii"):
+            left2 = _cleanup_tmp(t2)
+        arm2 = bool(left2) and t2.exists()
+        left3 = _cleanup_tmp(t2)
+        arm3 = (not left3) and (not t2.exists())
+        ok = arm1 and arm2 and arm3
+        return ok, f"cleanup 較正 read-only 消去={arm1}・削除不能で残置が返る={arm2}・解放後に消える={arm3}"
+    except OSError as e:
+        return False, f"cleanup 較正が実行不能({e.__class__.__name__})— 測定不能は合格ではない"
+    finally:
+        CLEANUP_RESIDUE[:] = saved   # 較正で意図的に作った残置は本番の残置に数えない
 
 
 def run(args: list[str], **kw) -> subprocess.CompletedProcess:
@@ -259,7 +326,7 @@ def _type4_selftest() -> list[str]:
         if not any("0 件" in d for d in _c10_structural_drifts(edges, schema, tmp)):
             bad.append("C10: テンプレ宣言対象キー 0 件を乖離にしない")
     finally:
-        shutil.rmtree(tmp, ignore_errors=True)
+        _cleanup_tmp(tmp)
     return bad
 
 
@@ -332,7 +399,7 @@ def c4_scaffold() -> None:
               f"生成 YAML 厳格パース{'失敗: ' + str(gen_bad[:3]) if gen_bad else ' 全数'})"
               + (f" — 漏れ: {leaks[:3]}" if leaks else ""))
     finally:
-        shutil.rmtree(tmp, ignore_errors=True)
+        _cleanup_tmp(tmp)
 
 
 # --- C11 process-core 適格性(ECO-015・環境依存の除去は ECO-020) ----------------------
@@ -396,7 +463,7 @@ def c11_process_core() -> None:
               + ("" if ok1 else f" — {q.stdout.strip().splitlines()[-1:] or q.stderr.strip()[:120]}"))
         c11b_adapted_profile(tmp, runner)
     finally:
-        shutil.rmtree(tmp, ignore_errors=True)
+        _cleanup_tmp(tmp)
 
 
 def c11b_adapted_profile(tmp: Path, runner: Path) -> None:
@@ -515,7 +582,7 @@ def c6_gate_mutation() -> None:
             ok = (p.returncode != 0) if expect_fail else (p.returncode == 0)
             check(cid, ok, f"{label}(exit {p.returncode})")
         finally:
-            shutil.rmtree(tmp, ignore_errors=True)
+            _cleanup_tmp(tmp)
 
 
 # --- C7 README の陳腐化(スキル本数) ------------------------------------------------
@@ -649,7 +716,7 @@ def c13_link_integrity() -> None:
               + (f" — リポ文脈: {miss_a[:5]}" if miss_a else "")
               + (f" — 設置先: {miss_b[:5]}" if miss_b else ""))
     finally:
-        shutil.rmtree(tmp, ignore_errors=True)
+        _cleanup_tmp(tmp)
 
 
 # --- C14 kit-freshness 治具の対照実測(ECO-026) ---------------------------------------
@@ -664,6 +731,10 @@ def c14_kit_freshness() -> None:
     if run(["git", "--version"]).returncode != 0:
         check("C14", False, "git が実行できない(工程設備の検査対象が実行不能 — 欠測は FAIL)")
         return
+    # ECO-065: 後片付け helper の較正(read-only を消せる・削除不能を残置として返す)— 残置が実測された検査で測る。
+    # helper が壊れていれば計器欠陥として FAIL(較正)。残置そのものは判定に関与しない(A 案・main 末尾で報告)。
+    cal_ok, cal_msg = _cleanup_selftest()
+    check("C14", cal_ok, cal_msg)
     tool = ROOT / "method" / "tools" / "kit-freshness.py"
     tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-c14-"))
     try:
@@ -733,7 +804,7 @@ def c14_kit_freshness() -> None:
               "kit-freshness 対照実測(FRESH/STALE/UNKNOWN/TAMPERED/余剰/入力不正/実 scaffold "
               f"= {len(results) - len(bad)}/{len(results)})" + (f" — 失敗: {bad}" if bad else ""))
     finally:
-        shutil.rmtree(tmp, ignore_errors=True)
+        _cleanup_tmp(tmp)
 
 
 # --- C15 deprecated 参照の掃討 lint(ECO-027) -----------------------------------------
@@ -795,7 +866,7 @@ def c15_deprecated_refs() -> None:
         syn = _dep_naive_refs([tmp / "naive.md", tmp / "knowing.md"], tmp, [dep])
         pos_ok = syn == ["naive.md:1: old-thing.md"]
     finally:
-        shutil.rmtree(tmp, ignore_errors=True)
+        _cleanup_tmp(tmp)
     ok = pos_ok and not naive
     label = (f"deprecated 宣言 {len(deprecated)} 件" if deprecated
              else "deprecated 宣言 0 件(適用対象なし — 明示記録)")
@@ -1109,7 +1180,7 @@ def c9_dotnet() -> None:
             ok_s, summary, detail = _c9_suite_verdict(suite, results, messages)
             check("C9", ok_s, f"{proj}: {summary}{detail}")
         finally:
-            shutil.rmtree(tmp, ignore_errors=True)
+            _cleanup_tmp(tmp)
 
 
 # --- C16 converge receipt ゲート(ECO-033 Phase 1) -------------------------------------
@@ -1700,6 +1771,13 @@ def main() -> int:
         c9_dotnet()
 
     print()
+    # ECO-065(A 案): temp の残置は必ず報告するが判定に関与させない(後片付けは環境の性質・方法論の適合ではない)。
+    if CLEANUP_RESIDUE:
+        line = f"[cleanup] 残置 {len(CLEANUP_RESIDUE)} 件(判定不変・ECO-065 A 案): " + " / ".join(CLEANUP_RESIDUE[:5]) + (" …" if len(CLEANUP_RESIDUE) > 5 else "")
+        print(line)
+        print(line, file=sys.stderr)
+    else:
+        print("[cleanup] 残置 0 件")
     if FAILURES:
         print(f"self-conformance FAILED — {len(FAILURES)} 件の不適合")
         return 1
