@@ -104,6 +104,37 @@ hooks・CI は非接触。self-conformance の判定は不変(C16 は本 order �
 - **V4**: self-conformance 全 PASS・CI 緑・diff 窓= allowed_paths+台帳系。
 - 独立検査: 製造範囲が tool/hook を含むなら**異系統独立検査必須**(運転員の遷移判定は機械挙動)。
 
+## 4. 製造裁定(Phase 1・user 2026-09-10・3 点)
+
+**裁定(原文の要旨)**:
+
+1. **第 1 弾の範囲= §1-1 job 射影と §1-2 witness の 2 項のみ。** §1-3(known-bad 常設)・§1-4(ruling 取り込み)・
+   §1-5(設備認定参照)は第 1 弾に含めない(§7 Phase 5 以降・運転員の実測後)。
+2. **factory-delegate 正本化(§1-6)= 別 ECO。** 本 ECO の前提から外す(第 1 弾の 2 項は factory-delegate に依存しない)。
+   起票は未実施 — 起票トリガー= Phase 3 着手時、または別 ECO の必要が先に生じたとき。
+3. **独立検査= 異系統必須・Codex**(factory-delegate 経由の先例= 製品側 ECO-137)。製造者(Claude Code)の自己受入で閉じない。
+
+**帰結(製造前に凍結)**:
+
+- 製造対象= 新規 2 ファイル:
+  - `method/tools/bomdd-job.py` — register+order から job ビューを生成する **read-only 射影**(worklist.py 同型・exit 常に 0・
+    導出値のみで転写値を持たない)。出力項目は §1-1(ECO ID・required_skills・required_capability・write_scope・停止語彙)。
+  - `method/tools/bomdd-witness.py` — witness の**生成**(tree hash・検査名+exit・停止種別)と**検証**(現ツリーとの hash 一致+
+    ゲート結果の再解釈。不一致・欠測・FAIL 混入は非 0 — 測定不能は合格ではない)。pre-push の 2 行 witness とは別ファイルに書く(§1-2)。
+  - ファイル名は製造時に変えてよい(変更は register の allowed_paths を同一 commit で更新)。
+- allowed_paths= 上記 2 ファイル+台帳系(本 order・register・improvements.md)。既存ファイル(pre-push hook・self-conformance.py・
+  README・AGENTS.md・skills)は**非接触**。AGENTS.md「正本の所在」表への行追加は第 1 弾に含めない(読者= 運転員が生まれてから
+  宣言する・§13 記録の経済)。
+- 影響なし予測(反証可能): 既存の全検査 C1〜C18 の判定不変(新規 .py は検査対象集合に入らない — C5a/C5b は名指しの 2 スクリプトのみ・
+  C4 scaffold は kit に含めない)・pre-push witness の 2 行形式と読取不変・製品リポ非波及。diff 窓= baseline `e26802e`(起票直前)のまま —
+  窓内は台帳系(起票・逸脱記帳・§7・本 §4)+新規 2 ファイルのみになる予測。
+- 受入(§3 を第 1 弾へ具体化):
+  - **V1'**(witness 検証器の陽性対照): hash 不一致・FAIL 混入・欠測の 3 腕で非 0、known-good で 0 — **製造者が実測し、Codex が再実測**。
+  - **V2'**(射影の導出性): job ビューが既存 ECO(ECO-055・ECO-062)に対して生成でき、内容が register/order と一致・転写値なし。
+  - **V4**: self-conformance 全 PASS・CI 緑・窓内= allowed_paths のみ。
+  - V1〜V3(運転員の測定)は Phase 5 の対象であり第 1 弾の受入ではない。
+- Phase 2(手動リハーサル)は本裁定と独立に着手可。その欄一覧(書けなかった欄)を Phase 3 の入力にする。**Phase 3 の着手は user 指示**。
+
 ## /preflight receipt(起動経路: 自発 — 既裁定の適用実装〔起票〕)
 
 - 分類= 既裁定の適用実装(user 裁定 2026-09-10「起票して記帳して」)。baseline `e26802e`= **confirmed**
@@ -141,16 +172,16 @@ hooks・CI は非接触。self-conformance の判定は不変(C16 は本 order �
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 0 完了(2026-09-10・起票 9ac802e/52fef56・CI 緑)→ Phase 1 の入口(user 裁定待ち)。Phase 2 は裁定と並行して着手可。`
+`Phase 1 完了(2026-09-10・裁定 3 点= §4・起票 9ac802e/52fef56)→ Phase 2 手動リハーサル(着手可)/ Phase 3 製造 第 1 弾(入口= Phase 2 の欄一覧・着手は user 指示)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
         │
         ▼
-Phase 1 製造裁定 ◀━━━━ ★ 現在地(user の裁定 3 点で開く)
+Phase 1 製造裁定 ─── 完了 2026-09-10(§4)
         │           ┌ Phase 2 手動リハーサル(裁定と並行可)
         ▼           ▼
-Phase 3 製造 第 1 弾(job 射影+witness)
+Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= 2/3 の入口(2 は着手可・3 は user 指示待ち)
         ▼
 Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)
         ▼
@@ -164,7 +195,7 @@ Phase 7 複数 executor・裁定キュー
 | Phase | 入口条件 | 成果物 | 出口(次へ進む条件) | 裁定者 |
 |---|---|---|---|---|
 | 0 議論・起票 | 外部議論 | 本 order・register・improvements.md 2026-09-10 節・EXP-20260910-01〜03 / OBS-20260910-01 | 起票 commit の CI 緑 | 済 |
-| 1 製造裁定 | Phase 0 完了 | register `filed→decided`・allowed_paths 再凍結・影響なし予測(製造前) | 下記の裁定 3 点が本 order に記入される | user |
+| 1 製造裁定 | Phase 0 完了 | register `filed→decided`・allowed_paths 再凍結・影響なし予測(製造前) | 下記の裁定 3 点が本 order に記入される | 済 2026-09-10(§4) |
 | 2 手動リハーサル | Phase 0 完了(1 と並行可) | 手書き job ビュー 1 枚(題材= in-progress の ECO-055)・手書き witness 1 枚・known-bad 予行(人間運転員・tree hash 故意不一致)の記録 | 書けなかった欄が §1 の仕様欠落として列挙される | 当方が実施・user が確認 |
 | 3 製造 第 1 弾 | Phase 1 decided+Phase 2 の欄一覧 | job 射影ツール(read-only・worklist.py 同型)・witness 生成/検証器・(別 ECO なら)factory-delegate 正本化 | §3 V4(self-conformance・CI・diff 窓)+異系統独立検査 PASS → `verified` | 独立検査官+user |
 | 4 単独運用実測 | Phase 3 verified | job 経由で起動した ECO 2〜3 本の receipt 記録 | EXP-20260910-01 の初回値(非起動 0 か・対照の有無)が記帳される | 当方が記帳・user が読む |

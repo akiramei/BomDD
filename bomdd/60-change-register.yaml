@@ -2264,10 +2264,10 @@ changes:
       4 ファイル各 1 行+台帳系のみ)。較正 receipt(trigger ①・行別 asked/NA)は order §4 — 「新文が過大断定を除いた」は読解・
       「他原因の実例」は unknown(未調査)。**製造者較正のみで受入**(独立検査なし — 散文 4 箇所・機械挙動の変更なし)。
   - id: ECO-062
-    title: 運転層の分離 — job(射影)/ receipt(witness)/ ruling の 3 形式を既存正本の射影として規格化する(設計入力・起票のみ)
+    title: 運転層の分離 — job(射影)/ receipt(witness)/ ruling の 3 形式を既存正本の射影として規格化する(第 1 弾= job 射影+witness の 2 項)
     date: 2026-09-10
     origin: requirement
-    status: filed   # 2026-09-10 user「この議論を bomdd/ に起票して記帳して」— 起票のみ・製造範囲の凍結と着手は別裁定
+    status: decided   # 2026-09-10 起票(filed)→ 同日 user 裁定 3 点(order §4: 第 1 弾= §1-1/§1-2 のみ・factory-delegate 正本化は別 ECO・独立検査= Codex)。製造着手は user 指示待ち
     source: >
       外部議論 2026-09-10(Grok Bot を BomDD 製造セルの外側に運転員として横置きし、job/receipt/ruling の 3 形式で
       受け渡す案)への当方応答。リポ内実測: 3 形式は新設ではなく散在している(ECO order/work order/routing/register=
@@ -2277,12 +2277,12 @@ changes:
       次へ進む」型を量産する位置にいる。job の required_skills 明示は散文契約の自発起動不発(OBS-20260828-02・§9 昇格済み)
       を潰す。Grok Bot 仕様の主張(共有 cloud computer・memory 非正本・per-command 承認)は当方未確認= unknown。
     order_ref: bomdd/60-change-order-eco-062.md
-    affected_refs: [method/tools, method/templates/product-profile/skills, bomdd/hooks/pre-push]   # 候補・製造裁定時に凍結
-    no_impact_prediction: "(起票段階)diff は台帳系(order・register・improvements.md)のみ。method 本文・tools・templates・skills・hooks・CI 非接触。self-conformance 判定不変(C16 は order の converge receipt で通過・C17 非対象・C13 は order の相対リンク 4 本が既存追跡ファイルへ解決)"
+    affected_refs: [method/tools/bomdd-job.py, method/tools/bomdd-witness.py]   # 裁定で凍結(新規 2 ファイル・既存ファイル非接触・ファイル名変更時は同一 commit で更新)
+    no_impact_prediction: "(製造前・裁定後)既存の全検査 C1〜C18 の判定不変(新規 .py は検査対象集合に入らない・C5a/C5b は名指しの 2 スクリプトのみ・kit に含めない)。pre-push witness の 2 行形式と読取不変。既存ファイル(hook・self-conformance.py・README・AGENTS.md・skills)は diff ゼロ。製品リポ非波及。起票段階の予測(台帳系のみ・判定不変)は 3 commit で的中"
     diff_audit:
       baseline: "e26802e"  # 起票直前 HEAD
       head: ~
-      allowed_paths: [bomdd/60-change-order-eco-062.md, bomdd/60-change-register.yaml, method/improvements.md]   # 起票段階。製造時に再凍結
+      allowed_paths: [method/tools/bomdd-job.py, method/tools/bomdd-witness.py, bomdd/60-change-order-eco-062.md, bomdd/60-change-register.yaml, method/improvements.md]   # 裁定で凍結(新規 2+台帳系)
     summary: >
       設計原則= 3 形式は既存正本の射影・正本を二重化しない・運転員は receipt を再検証してから進める。候補 6 項:
       ①JOB は register+ECO §6 から生成する射影(手書きしない・運転状態は run 台帳へ)②RECEIPT は tree hash+ゲート結果+
@@ -2291,6 +2291,8 @@ changes:
       ⑥factory-delegate のリポ内正本化(前提)。採らない= bomdd/jobs 手書き台帳・Bot の正本 Markdown 書込・同一ユーザー
       Bot の独立検査扱い・Bot memory への裁定保持・Phase 1 測定前の自動起動・Grok 採否そのものの裁定・機械ゲート先行新設。
     verification: >
-      (起票段階)製造時の受入候補は order §3 — V1 fail-open(known-bad receipt を進めた件数 0・known-good は進める)/
+      (裁定後・製造前)第 1 弾の受入は order §4 — V1'(witness 検証器の陽性対照 3 腕で非 0・known-good で 0・製造者実測+Codex 再実測)/
+      V2'(job ビューが ECO-055/062 に対し生成でき register/order と一致・転写値なし)/ V4(self-conformance・CI・窓)。
+      運転員の測定 V1〜V3 は Phase 5 の対象(第 1 弾の受入ではない)。起票段階の候補(参考): V1 fail-open(known-bad receipt を進めた件数 0・known-good は進める)/
       V2 伝言ゲーム率(裁定材料の原文乖離件数)/ V3 観測負荷(裁定時に order 以外の artifact を参照した回数)/
       V4 self-conformance・CI・diff 窓。製造範囲が tool/hook を含むなら異系統独立検査必須。追跡= EXP-20260910-01〜03・OBS-20260910-01。
