@@ -11,6 +11,7 @@
 | change-management.md | `<product>/bomdd/change-management.md` | 変更管理の運用プロファイル(R1-R6・シナリオ別経路) |
 | skills/bomdd-next.md | `<product>/.claude/skills/bomdd-next/SKILL.md` | フォワード Phase 0〜6 の現在地判定と次の一手 |
 | skills/eco-file.md 他3本 | `<product>/.claude/skills/<name>/SKILL.md` | 納品後の変更管理入口(起票/是正/受入/脆弱性) |
+| skills/factory-delegate.md | `<product>/.claude/skills/factory-delegate/SKILL.md` | 外部 AI 工場(Codex 等)への製造委譲(正本委譲・完了バリア・受入ゲート・ECO-063) |
 | cad/02_mock_fidelity_policy.md | `<cad>/docs/` | 権威宣言(乖離時は CAD が正) |
 | cad/review_points.md | `<cad>/docs/` | 裁定台帳(空の書式) |
 

@@ -47,7 +47,7 @@ PHASE_TEMPLATE_GLOBS = ["[0-9][0-9]-*.md", "[0-9][0-9]-*.yaml", "README.md"]
 
 SKILLS = ["bomdd-next", "eco-file", "eco-fix", "eco-accept", "sec-advisory",
           "bomdd-refmodel", "bomdd-mock-lint", "bomdd-ui-cad", "converge", "calibrate",
-          "preflight"]
+          "preflight", "factory-delegate"]
 
 
 def cad_ref(cad_name: str, cad_exists: bool, is_gui: bool = True) -> str:

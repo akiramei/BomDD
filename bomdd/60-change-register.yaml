@@ -2300,3 +2300,26 @@ changes:
       運転員の測定 V1〜V3 は Phase 5 の対象(第 1 弾の受入ではない)。起票段階の候補(参考): V1 fail-open(known-bad receipt を進めた件数 0・known-good は進める)/
       V2 伝言ゲーム率(裁定材料の原文乖離件数)/ V3 観測負荷(裁定時に order 以外の artifact を参照した回数)/
       V4 self-conformance・CI・diff 窓。製造範囲が tool/hook を含むなら異系統独立検査必須。追跡= EXP-20260910-01〜03・OBS-20260910-01。
+  - id: ECO-063
+    title: factory-delegate のリポ内正本化 — product-profile スキル 12 本目・kit 配布・Claude 写し(ECO-062 裁定 2 の別 ECO・Phase 4 の 1 本目)
+    date: 2026-09-10
+    origin: reorganization
+    status: decided   # 2026-09-10 方向= ECO-062 §4 裁定 2(別 ECO)・実施= user「Phase 4 を実施して」(ECO-062 §7 Phase 4: job 経由で起動する ECO)。起票と同 commit で製造
+    source: >
+      factory-delegate スキル(2026-07-23 ViewPrism2 ECO-137 由来・Codex 委譲の 3 規律)が利用者のユーザー階層 `~/.claude/skills/` にのみ存在し
+      リポ外だった(ECO-062 §0.2 で発見・OBS-20260910-01 の 1 例)。product-profile スキル 11 本と同型で正本化し、bomdd-init の SKILLS で配布、
+      Claude 写しを D-1 規則で置く。唯一の本文追加= 工程 2 に ECO-062 弧で実測した「経路が止まったときの切替」(OBS-20260910-04)。
+    order_ref: bomdd/60-change-order-eco-063.md
+    affected_refs: [method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/tools/bomdd-init.py, README.md, method/templates/product-profile/README.md]
+    no_impact_prediction: "(製造前)他の 11 スキル・hooks・self-conformance.py・playbook は diff 0。C7 は 12/12 で PASS(11 のままなら FAIL= 感度あり)。C4 は配布本数 +1・参照スキル件数の表示のみ変化・判定不変。C13 は写しの相対リンク 1 本が追跡集合へ解決。既存製品 kit は lock 凍結"
+    diff_audit:
+      baseline: "a45f30b"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/tools/bomdd-init.py, README.md, method/templates/product-profile/README.md, bomdd/60-change-order-eco-063.md, bomdd/60-change-register.yaml, method/improvements.md]
+    summary: >
+      ①正本 factory-delegate.md 新設(旧写しの移設+正典行/関連/出自注記・{{METHOD}} プレースホルダ)②工程 2 に経路切替の追記(実測のみ)
+      ③写し .claude/skills/factory-delegate/SKILL.md ④bomdd-init SKILLS に追加 ⑤README「スキル 12 本」×2+product-profile README 1 行。
+      採らない= 旧写し(利用者環境)の削除・手順本体の改訂・lesson-promote の正本化。
+    verification: >
+      (製造前)受入= order §3 — V1 self-conformance 全 PASS(C7 12/12)/ V2 正本と写しの差分= 注記+{{METHOD}} 解決のみ / V3 旧写しとの本文差分= 冒頭注記+
+      工程 2 追記のみ / V4 CI / V5 窓。witness(bomdd-witness.py)で遷移。製造者較正のみで受入(散文の移設・SKILLS 1 名追加のみ)。
