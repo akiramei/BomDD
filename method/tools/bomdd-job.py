@@ -178,6 +178,11 @@ def selftest() -> int:
         kinds = sorted(j["stop_type"]["value"] for j in jobs)
         if kinds != ["MISSING_INPUT", "NONE"]:
             fails.append(f"IA-05: null エントリの扱いが不正: {kinds}")
+        # IA-07(r2): 対象指定なし・未知オプションは空 jobs でなく MISSING_INPUT レコード
+        for argv_bad in (["--json", "--register", rel], ["--bogus", "ECO-901", "--register", rel]):
+            jobs, _ = select(argv_bad, root)
+            if len(jobs) != 1 or jobs[0]["stop_type"]["value"] != "MISSING_INPUT":
+                fails.append(f"IA-07: {argv_bad} が MISSING_INPUT レコードでない: {jobs}")
     return _report(fails)
 
 
@@ -185,7 +190,7 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT)")
     return 0
 
 
@@ -206,6 +211,13 @@ def select(argv: list, root: Path):
         if i + 1 >= len(argv) or argv[i + 1].startswith("--"):
             return [_missing("--register に値がない(引数不正)")], reg_rel
         reg_rel = argv[i + 1]
+    # IA-07(r2): 未知オプション・対象指定なしを「対象なし」と区別する(空 jobs を黙って返さない)
+    known = {"--register", "--json", "--all", "--selftest"}
+    unknown = [a for a in argv if a.startswith("--") and a not in known]
+    if unknown:
+        return [_missing(f"未知のオプション(引数不正): {' '.join(unknown)}")], reg_rel
+    if "--all" not in argv and not any(a.startswith(("ECO-", "CAPA-")) for a in argv):
+        return [_missing("対象指定なし(引数不正): ECO-NNN か --all を指定")], reg_rel
     entries, err = load_register(root / reg_rel)
     if err:
         return [_missing(err)], reg_rel

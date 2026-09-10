@@ -82,18 +82,26 @@ def worktree_tree(root: Path):
     git_dir = Path(gd.stdout.strip())
     if not git_dir.is_absolute():
         git_dir = root / git_dir
-    with tempfile.TemporaryDirectory() as td:
-        tmp_index = Path(td) / "index"
-        src = git_dir / "index"
-        if src.exists():
-            shutil.copy2(src, tmp_index)
-        env = dict(os.environ, GIT_INDEX_FILE=str(tmp_index))
-        if _git(root, "add", "-A", env=env).returncode != 0:
-            return None, git_dir
-        wt = _git(root, "write-tree", env=env)
-        if wt.returncode != 0:
-            return None, git_dir
-        return wt.stdout.strip(), git_dir
+    try:
+        # IA-06: 一時 index の置き場を作れない(OS temp 不能)は測定不能 → None(exit 2)。traceback にしない。
+        with tempfile.TemporaryDirectory() as td:
+            # IA-06 変種(受理側で実測): tempfile が cwd= 作業木へフォールバックすると一時 dir 自身が
+            # add -A で tree に入り「tree 不一致」を偽生成する — 作業木内の temp は測定不能として拒否。
+            if _inside_worktree(Path(td), root, git_dir):
+                return None, git_dir
+            tmp_index = Path(td) / "index"
+            src = git_dir / "index"
+            if src.exists():
+                shutil.copy2(src, tmp_index)
+            env = dict(os.environ, GIT_INDEX_FILE=str(tmp_index))
+            if _git(root, "add", "-A", env=env).returncode != 0:
+                return None, git_dir
+            wt = _git(root, "write-tree", env=env)
+            if wt.returncode != 0:
+                return None, git_dir
+            return wt.stdout.strip(), git_dir
+    except OSError:
+        return None, git_dir
 
 
 def default_path(git_dir: Path, eco: str) -> Path:
@@ -129,7 +137,7 @@ def produce(root: Path, eco: str, gates: list, stop: str, out: Path | None, prod
             return 2, f"gate 不完全: {prob}", None
     tree, git_dir = worktree_tree(root)
     if tree is None:
-        return 2, "tree を取得できない(git 不能 — 測定不能は合格ではない)", None
+        return 2, "tree を取得できない(git 不能または一時 index 不能 — 測定不能は合格ではない)", None
     if out is not None and _inside_worktree(out, root, git_dir):
         # W5(selftest が自分で捕捉した欠陥): 作業木内に置いた witness は次の write-tree に自分が
         # 含まれて tree を変え、known-good が必ず STOP する(自己参照)。.git 配下か作業木外のみ許す。
@@ -154,7 +162,7 @@ def verify(root: Path, path: Path, eco: str | None = None) -> tuple[int, str]:
         return 2, "witness 形状不正(object でない)— 測定不能は合格ではない"
     tree, _ = worktree_tree(root)
     if tree is None:
-        return 2, "現 tree を取得できない(git 不能)— 測定不能は合格ではない"
+        return 2, "現 tree を取得できない(git 不能または一時 index 不能)— 測定不能は合格ではない"
     if eco is not None and w.get("eco") != eco:
         return 1, f"STOP: 個体不一致(witness.eco={w.get('eco')} / 要求 {eco})— 別 job の receipt"
     if w.get("tree") != tree:
@@ -290,6 +298,20 @@ def selftest() -> int:
                 os.environ["PATH"] = saved
         if rc_nogit != 2 or rc_nogit_p != 2:
             fails.append(f"kb-nogit: verify exit {rc_nogit} / produce exit {rc_nogit_p}(2 であるべき)")
+        # IA-06(r2): OS temp 不能は exit 2(traceback でない)/ 変種: temp が作業木内へフォールバックしても 2
+        saved_td = tempfile.tempdir
+        try:
+            tempfile.tempdir = str(root / "no-such-dir" / "x")
+            rc_notmp, _ = verify(root, out)
+            rc_notmp_p, _, _ = produce(root, "ECO-900", [{"name": "g", "exit": 0, "source": "x"}], "NONE", wout / "nt.json", "selftest")
+            tempfile.tempdir = str(root)   # 作業木内へのフォールバック相当
+            rc_intmp, _ = verify(root, out)
+        finally:
+            tempfile.tempdir = saved_td
+        if rc_notmp != 2 or rc_notmp_p != 2 or rc_intmp != 2:
+            fails.append(f"kb-notmp: verify {rc_notmp} / produce {rc_notmp_p} / 作業木内 temp {rc_intmp}(全て 2 であるべき)")
+        if any(p.name.startswith("tmp") for p in root.iterdir()):
+            fails.append("kb-notmp: 作業木に temp 残置")
         # IA-05: 引数不正は ArgError(main で exit 2)
         for bad_argv in (["--gate", "malformed"], ["--gate", "g=x:src"], ["--gate", "g=0"], ["--gate"]):
             try:
@@ -311,7 +333,7 @@ def _report(fails) -> int:
         print("bomdd-witness selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
     print("bomdd-witness selftest PASS(known-good 0 / hash・fail・missing・stop・dirty 1 / 不在 2 / 不正 stop 2 / 作業木内出力 2 / "
-          "r2: 構造不完全 gate 1・不完全 gate 生成拒否 2・個体不一致 1・git 不能 2・引数不正 ArgError)")
+          "r2: 構造不完全 gate 1・不完全 gate 生成拒否 2・個体不一致 1・git 不能 2・引数不正 ArgError・r2b: temp 不能 2・作業木内 temp 2)")
     return 0
 
 

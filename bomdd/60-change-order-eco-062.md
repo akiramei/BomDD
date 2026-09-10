@@ -325,10 +325,38 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 - allowed_paths に検査報告 `bomdd/reports/independent-inspection-eco-062.md` を追加(検査官の成果物・台帳系扱い・ECO-055 の先例と同じ所在)。
 - **r2 の受入**: 上記陽性対照を含む selftest PASS・V4 再実行・witness 生成→verify→commit・CI・**独立検査 r2**(Codex・是正 5 件の再実測+r1 の 8 腕回帰+可能なら V2')。
 
+
+### 8.2 独立検査 r2(2026-09-10・Codex `gpt-5.6-sol`・CLI 直接 `codex exec -s read-only`)= **REJECT**・IA-01〜05 は resolved 2 / partially 3 / not resolved 0・新規 2(medium 1 / low 1)・受理側 **2/2 CONFIRMED**
+
+- 引き渡し経路の実測: companion 経路(app-server)は 2 回とも `windows sandbox: runner failed during ReadSpawnRequest: unsupported protocol version 4`
+  で起動不能(CLI 0.154.0 更新後に古い runner が残った状態と推定・常駐 codex.exe 5 本を観測・ユーザープロセスは停止しない)。**CLI 直接**
+  (`codex exec -s read-only -m gpt-5.6-sol -C <repo> -o <report>`・ブリーフを stdin で正本委譲・最終メッセージを CLI が report へ書く= 当方は転記しない)
+  で成立(所要 約 12 分)。設備は同一(Codex・gpt-5.6-sol)・隔離は read-only。
+- 報告: [bomdd/reports/independent-inspection-eco-062-r2.md](reports/independent-inspection-eco-062-r2.md)(検査官作成・無編集)。
+  **検査官環境の限界**: read-only サンドボックスが OS temp の作成も禁止 → 一時 git リポを要する 8 腕統合回帰・両 selftest・self-conformance(C3 以降)は
+  **unknown**(検査官はコード単位 probe で期待一致を確認したが PASS に数えていない — 正しい扱い)。PyYAML は今回あり → **V2' observed PASS**
+  (ECO-055= LEDGER_INCONSISTENT / ECO-062= NONE・15 欄全て source・散文転写なし)。diff 窓 PASS(5 ファイル)。
+- IA-01〜05: IA-03(git 不能 → 2)・IA-04(複数 `--json` 単一 object)= **resolved**(実 CLI)。IA-01/02/05= **partially**(是正ロジックは期待一致・
+  temp git リポの CLI 統合経路が検査官環境で未検査)。not resolved 0。
+- 新規所見と受理側判定:
+
+  | 所見 | severity | 内容 | 受理側判定 | 是正(r2b) |
+  |---|---|---|---|---|
+  | IA-06 | medium | `tempfile.TemporaryDirectory()` の OSError を捕捉せず、一時 index を作れないと契約 exit 2 でなく traceback・exit 1 | **CONFIRMED**(検査官の実出力 3 経路+コード読解。受理側環境では OS temp 不能を再現できず — 環境変数上書きが tempfile に効かない〔fallback= 既定 Temp〕— 実測は検査官に依存) | `worktree_tree` で OSError → None(exit 2)。加えて temp が作業木内へ解決される場合(tempfile の cwd フォールバック)は一時 dir 自身が `add -A` で tree に入るため測定不能(2)として拒否 |
+  | IA-07 | low | 対象指定なし・未知オプションで空 `jobs` を黙って返す(「対象なし」と「入力誤り」が区別できない) | **CONFIRMED**(`--json` / `--bogus --json` で再現) | `select()` が未知 `--opt` と対象指定なしを MISSING_INPUT レコードで返す(exit 0 維持) |
+
+- 陽性対照(selftest に追加・r2b): witness= `tempfile.tempdir` を不在 dir に差し替え → verify/produce とも 2・`tempdir` を作業木に差し替え → 2・
+  temp 残置なし / job= 対象指定なし → MISSING_INPUT・未知オプション → MISSING_INPUT。両 selftest PASS。
+- 検査官が独立に落とした枝: IA-06 は **検査官環境の制約(temp 不能)自体が入力クラスとして製造物に当たった**例 — 製造者環境では発火しない枝を、
+  異系統環境が構造的に踏んだ(環境差は検査官の弱点であると同時に検出力でもある)。
+- allowed_paths に r2 検査報告を追加(r1 と同じ扱い)。
+- **r3 の受入**: r2b の selftest PASS・V4・witness→commit・CI・**独立検査 r3**(同設備・`-s workspace-write` で OS temp を許可し、8 腕統合回帰・両 selftest・
+  IA-01/02/05 の CLI 統合経路・IA-06/07 の再実測を行う。作業木への書込みは事後 `git status` で 0 を確認する)。
+
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 3 製造 第 1 弾: 独立検査 r1= REJECT(所見 5/5 CONFIRMED・§8.1)→ 是正 r2 製造・製造者受入済み → **独立検査 r2 引き渡し中**。出口= r2 PASS+較正 receipt+verified。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
+`Phase 3 製造 第 1 弾: r1 REJECT(5/5 是正)→ r2 REJECT(IA-06/07・2/2 是正・§8.2)→ 是正 r2b 製造者受入済み → **独立検査 r3 引き渡し中**(workspace-write で統合回帰まで)。出口= r3 PASS+較正 receipt+verified。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -337,7 +365,7 @@ Phase 0 議論・起票 ─── 完了 2026-09-10
 Phase 1 製造裁定 ─── 完了 2026-09-10(§4)
         │           ┌ Phase 2 手動リハーサル ─── 完了 2026-09-10(§5)
         ▼           ▼
-Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= r1 REJECT 是正済み・独立検査 r2 中(§8.1)
+Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= r1/r2 REJECT 是正済み・独立検査 r3 中(§8.2)
         ▼
 Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)
         ▼
