@@ -2263,3 +2263,34 @@ changes:
       判定不変・staged tree で観測後に push)。V4= PASS(CI run 33977929658・success・headSha e69b1c5 一致)。V5= PASS(窓は
       4 ファイル各 1 行+台帳系のみ)。較正 receipt(trigger ①・行別 asked/NA)は order §4 — 「新文が過大断定を除いた」は読解・
       「他原因の実例」は unknown(未調査)。**製造者較正のみで受入**(独立検査なし — 散文 4 箇所・機械挙動の変更なし)。
+  - id: ECO-062
+    title: 運転層の分離 — job(射影)/ receipt(witness)/ ruling の 3 形式を既存正本の射影として規格化する(設計入力・起票のみ)
+    date: 2026-09-10
+    origin: requirement
+    status: filed   # 2026-09-10 user「この議論を bomdd/ に起票して記帳して」— 起票のみ・製造範囲の凍結と着手は別裁定
+    source: >
+      外部議論 2026-09-10(Grok Bot を BomDD 製造セルの外側に運転員として横置きし、job/receipt/ruling の 3 形式で
+      受け渡す案)への当方応答。リポ内実測: 3 形式は新設ではなく散在している(ECO order/work order/routing/register=
+      job・埋め込み receipt/自己受入ログ/pre-push witness= receipt・gate 裁定/decided/trailer= ruling)。factory-delegate
+      (リポ外・~/.claude/skills)は Codex 向け job プロトコルで、正本委譲・製造完了バリア・受入再実測の 3 規律を既に持つ。
+      運転員は「status を読んで進める装置」であり、本リポの失敗史(ECO-024/045/020・製品側 ECO-137)と同じ「観測前に
+      次へ進む」型を量産する位置にいる。job の required_skills 明示は散文契約の自発起動不発(OBS-20260828-02・§9 昇格済み)
+      を潰す。Grok Bot 仕様の主張(共有 cloud computer・memory 非正本・per-command 承認)は当方未確認= unknown。
+    order_ref: bomdd/60-change-order-eco-062.md
+    affected_refs: [method/tools, method/templates/product-profile/skills, bomdd/hooks/pre-push]   # 候補・製造裁定時に凍結
+    no_impact_prediction: "(起票段階)diff は台帳系(order・register・improvements.md)のみ。method 本文・tools・templates・skills・hooks・CI 非接触。self-conformance 判定不変(C16 は order の converge receipt で通過・C17 非対象・C13 は order の相対リンク 4 本が既存追跡ファイルへ解決)"
+    diff_audit:
+      baseline: "e26802e"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [bomdd/60-change-order-eco-062.md, bomdd/60-change-register.yaml, method/improvements.md]   # 起票段階。製造時に再凍結
+    summary: >
+      設計原則= 3 形式は既存正本の射影・正本を二重化しない・運転員は receipt を再検証してから進める。候補 6 項:
+      ①JOB は register+ECO §6 から生成する射影(手書きしない・運転状態は run 台帳へ)②RECEIPT は tree hash+ゲート結果+
+      停止種別の witness(pre-push の 2 行 witness とは別ファイル)③遷移条件= hash 一致+機械検証・known-bad 対照腕常設
+      ④RULING のみ人間手書き・検証付きツールで register へ取り込み・裁定材料は原文パス提示 ⑤配員は設備認定台帳を参照
+      ⑥factory-delegate のリポ内正本化(前提)。採らない= bomdd/jobs 手書き台帳・Bot の正本 Markdown 書込・同一ユーザー
+      Bot の独立検査扱い・Bot memory への裁定保持・Phase 1 測定前の自動起動・Grok 採否そのものの裁定・機械ゲート先行新設。
+    verification: >
+      (起票段階)製造時の受入候補は order §3 — V1 fail-open(known-bad receipt を進めた件数 0・known-good は進める)/
+      V2 伝言ゲーム率(裁定材料の原文乖離件数)/ V3 観測負荷(裁定時に order 以外の artifact を参照した回数)/
+      V4 self-conformance・CI・diff 窓。製造範囲が tool/hook を含むなら異系統独立検査必須。追跡= EXP-20260910-01〜03・OBS-20260910-01。

@@ -6664,3 +6664,65 @@ contradicted / superseded: なし。
   (§2 に 18 節・「振る舞い:」欄あり)。TimetableAdvUI は仕様書なし(cad/ のみ)のため段 2 の置き場にならず、シナリオ↔capture の対応(id 16 / html 11 /
   対応 0 / matrix→シナリオ id 2/16)は基準線としてのみ使う。比較対照= §17.1 refmodel のみを実施した面(外→内・カテゴリ粒度)
   evidence: 本節・観測 3・原因仮説 H3a/H3b・選択肢集合(refmodel / 表示契約 / M3a / M3b)
+
+## 2026-09-10 BomDD 自己適用 — 外部議論(Grok Bot を運転層として横置き)への応答: 3 形式は既存正本の射影・運転員は status を読む機械・ECO-062 起票
+
+**観測**(出典: user 提示の外部議論 2026-09-10 — Claude Code ハーネスを製造セルとして残し、外側に Grok Bot を職長として置き、
+`job / receipt / ruling` の 3 形式で受け渡す案。当方の照合= リポ内の既存物を実読〔work order・routing・register・pre-push・
+factory-delegate SKILL.md〕・Grok 仕様の引用は未確認):
+提案の骨格(Bot より先に 3 形式・運転員は PASS を決めない・Bot memory は正本でない)は BomDD の思想と一致する。ただし 3 形式は
+**新設ではなく散在している** — job= ECO order §4/§5/§6+work order+routing+register の status 機械 / receipt= 埋め込み receipt
+(C16/C17 検出)+自己受入ログ+cheat-report+pre-push witness / ruling= gate ①/② 裁定+`decided`+commit trailer。さらに
+factory-delegate(Claude 用・**リポ外** `~/.claude/skills`)は Codex 向けの job プロトコルそのもので、提案が Grok で再発見する
+ことになる 3 規律(正本委譲・製造完了バリア・受入再実測)を ECO-137 から既に持つ。提案が `bomdd/jobs/` を新台帳として置くと
+register との二重正本になり、提案自身の「Memory は正本の代替でない」と同型の問題をリポ内に作る(転写値禁止と同じ理由)。
+運転員は定義上「状態フィールドを読んで進める装置」であり、本リポの失敗史(ECO-024 / ECO-045 = 観測前 push・ECO-020 = CI 赤
+11 コミット潜伏・製品側 ECO-137 = status 誤表示で書き込み途中を検査)と同じ「観測前に次へ進む」型を量産する位置にいる。
+提案の停止語彙は 1 種(ruling_required)だが BomDD の停止は 5 種で配送先が違う(規範判断/検査赤/blocked/未収束上限/preflight)。
+
+**整理(裁定の種類を分ける)**: ①**設計原則**(3 形式は既存正本の射影・運転員は receipt を再検証してから進める)は Grok の
+採否と独立に成立し、ECO-062 の中心命題とする。②**Grok Bot の採否**は本件で裁定しない(仕様主張は未確認・3 形式は運転員が
+誰でも成立)。③**job 形式単体の価値**: `required_skills` の明示起動は散文契約の自発起動不発(OBS-20260828-02 → §9「実施要求≠
+実施証明」)を失敗類ごと消す候補 — Grok の価値より先にここを測る。④**処方は慎重さでなく機構**: 遷移条件を「receipt の
+tree hash が現ツリーと一致し機械検証できる」に束縛し、known-bad 対照腕(無効 receipt)で fail-open を測る(calibrate の
+盲検感度試験と同構造)。⑤裁定材料の人間への提示は**要約させない**(ECO-137 の下書き要約誤りが Bot 側で再演する機序)。
+⑥配員は設備認定台帳(equip-01〜03 の型)を参照させ、独立性の評価軸を台帳属性にする。
+
+**一般化検査**: 「外部提案が既存の形式を新設物として再提案する」は本件で 1 例(N=1・2026-09-02 の成熟度議論は「段位表が BomDD の
+測定軸に対応しない」型で別種)。playbook への新規則は足さない — 射影原則は §13(記録の経済・転写値禁止)、統制配置は §9 の
+既存原則で説明できる(適用先が運転層へ広がるだけ)。
+
+**行き先判定**: 記帳+ECO-062 起票(起票のみ・製造範囲の凍結は別裁定)+EXP 3 本+OBS 1 本。本文改訂なし。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(運転員の遷移判定を known-bad で測る — calibrate と
+同構造)[ ] template [ ] terminology [x] method/concept claim: §9「散文による実施要求を実施証明として扱わない」= supported
+(job の明示起動は同原則の運転層適用)/ §13 転写値禁止= supported(job を射影にする根拠)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: EXP-20260902-01(「実施要求≠実施証明」原則の実効 — 次の自発起動不発の発覚経路)はトリガー不一致
+(本件は不発の発覚ではなく、不発を構造的に不要にする候補の起票)— open 維持・本節を設計入力として source 注記のみ。他に該当 0 件。
+
+converge receipt: 3 形式の設計は ECO-062 order 末尾の receipt が正(判定: 収束・round 軌跡 4→2→0→0・未収束事項: なし)。
+応答提示時(同日・会話上)は receipt 未提示で、起票時に実施した — 自発起動の遅延 1 例(発覚経路= 自己照合・起票時。
+EXP-20260902-01 の発覚経路①に該当するかは「不発」でなく「遅延」のため計上しない・注記のみ)。
+
+- [open] EXP-20260910-01 — **job 形式の明示起動は自発起動不発を失敗類ごと消すか**: ECO-062 製造後、job 経由で起動した工程で
+  スキル非起動(converge/calibrate/preflight の receipt 欠落)が 0 で推移するか。対照= 同期間の会話起動(job なし)工程の非起動件数。
+  **next trigger= ECO-062 の製造裁定・初 job 発行時**。job なし工程が同期間に存在しなければ対照なし(感度側のみ)と記録する
+  source: ECO-062
+  evidence: 本節・ECO-062 order §0.4・improvements.md 2026-09-02「実施要求≠実施証明」節
+- [open] EXP-20260910-02 — **運転員の fail-open(known-bad 対照腕)**: 無効 receipt(tree hash 不一致 / FAIL 混入)を持つ job を
+  運転員(人・Bot・スクリプトを問わない)が進めた件数= 0 か。known-good 腕は進めること(両腕で感度と特異度)。
+  **next trigger= Phase 1(自動実行なし・運転員が receipt を回収・整理する段階)の初回運用**。運転員が生まれる前は測れない
+  source: ECO-062
+  evidence: 本節・ECO-062 order §1-3・§3 V1・calibrate.md「陽性対照」節(ECO-052)
+- [open] EXP-20260910-03 — **伝言ゲーム率**: 運転員が人間へ持ってくる裁定材料(issue / options / evidence)が order の原文と
+  乖離した件数。原文パス提示を規格にした場合の基準線 0 に対し、要約を許した場合との比較は探索的(ECO-137 の下書き要約誤りが
+  先例・N=1)。**next trigger= Phase 1 初回の RULING_REQUIRED 発生時**
+  source: ECO-062
+  evidence: 本節・ECO-062 order §1-4・§3 V2・factory-delegate SKILL.md「正本委譲」(ECO-137)
+- [watch 1/3] OBS-20260910-01 — **観測: 外部提案が、リポ内に既に散在する形式(job= order/work order/routing・receipt= witness/
+  埋め込み receipt・ruling= gate 裁定/trailer)を新設物として提案した — 既存形式が外部から発見可能な索引を持たない**
+  (factory-delegate はリポ外・3 形式の対応表はどこにもなかった)。3 例そろえば「形式の索引(何が job/receipt/ruling に当たるか)」を
+  method 側に置く判断へ
+  source: ECO-062
+  evidence: 本節・ECO-062 order §0.2 表
