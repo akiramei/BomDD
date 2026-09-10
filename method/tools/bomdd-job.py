@@ -82,6 +82,7 @@ def _load_selfconf():
 
 
 ANCHOR_KINDS = ("always", "ledger-status", "affected-refs-glob", "order-hard-positive")
+SKILL_ID_RE = re.compile(r"[a-z0-9][a-z0-9-]*")   # IA-09(r3): canonical な skill ID 文法(bomdd-init の SKILLS と同じ命名)
 
 
 def _is_str_list(v) -> bool:
@@ -110,9 +111,22 @@ def validate_map(classes, base: Path) -> list:
         if not _is_str_list(cls.get("required_skills")) or not cls.get("required_skills"):
             problems.append(f"{tag}: required_skills が非空の文字列配列でない")
         else:
+            # IA-09(r3): canonical な skill ID 文法(小文字英数と `-`)+ skills/ 直下の実ファイル名との大小文字込みの完全一致
+            # (Windows の大小文字非区別 FS と `..` の逸脱を排除)+ 重複拒否。
+            skills_dir = base / "method" / "templates" / "product-profile" / "skills"
+            try:
+                canonical = {p.stem for p in skills_dir.iterdir() if p.suffix == ".md"}
+            except OSError:
+                canonical = set()
+            seen_skills = set()
             for s in cls["required_skills"]:
-                if not (base / "method" / "templates" / "product-profile" / "skills" / f"{s}.md").exists():
-                    problems.append(f"{tag}: スキル {s} が skills/ に実在しない")
+                if not SKILL_ID_RE.fullmatch(s):
+                    problems.append(f"{tag}: スキル ID {s!r} が文法外(小文字英数と - のみ)")
+                elif s not in canonical:
+                    problems.append(f"{tag}: スキル {s} が skills/ 直下に実在しない(大小文字込みの完全一致)")
+                if s in seen_skills:
+                    problems.append(f"{tag}: required_skills に重複 {s!r}")
+                seen_skills.add(s)
         kind = cls.get("anchor_kind")
         if kind not in ANCHOR_KINDS:
             problems.append(f"{tag}: anchor_kind 不正 {kind!r}")
@@ -520,6 +534,12 @@ def selftest() -> int:
             if _class_matches(dict(vp2, statuses=[]), {"status": "verified"}, None, sc) is not None or \
                _class_matches(dict(ic2, instrument_paths=[]), {"affected_refs": ["method/tools/x.py"]}, None, sc) is not None:
                 fails.append("IA-08: 空配列で _class_matches が None でない")
+            # --- 独立検査 r3(ECO-064)の陽性対照: IA-09 canonical な skill ID ---
+            for rs in (["Preflight"], ["../README"], ["../x"], ["preflight", "preflight"], ["pre flight"], ["preflight.md"], [""]):
+                if not validate_map([dict(st, required_skills=rs)], base):
+                    fails.append(f"IA-09: required_skills={rs!r} を validate_map が通した")
+            if validate_map([dict(st, required_skills=["preflight"])], base) or validate_map([dict(st, required_skills=["factory-delegate"])], base):
+                fails.append("IA-09: canonical な skill ID を validate_map が弾いた")
     return _report(fails)
 
 
@@ -527,7 +547,7 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕)")
     return 0
 
 

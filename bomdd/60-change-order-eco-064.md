@@ -178,3 +178,20 @@ required_capability(F2)・forbidden(F3)・expected_outputs(F4)・independent_ins
 - 検査官が独立に落とした枝の型(r1〜r2): 型不正・区切り・意味転写・断片検査・空要素・unhashable・空配列 — いずれも validator の**入力クラスの網羅**の穴。
   製造者 selftest は「正しい map」と「明らかに壊れた map」の 2 極しか持たず、境界(空・型違い・非文字列キー)を測っていなかった。
 - **r3 の受入**: r2b の selftest PASS・V4・witness→commit・CI・**独立検査 r3**(IA-06〜08 の再実測+r1/r2 の回帰+境界クラスの追加探索)。
+
+### 8.3 r3(2026-09-11・Codex・CLI 直接 workspace-write)= **REJECT**・IA-06〜08 **resolved 3/3**・新規 1(IA-09 medium)・受理側 **1/1 CONFIRMED**
+
+- 報告: [bomdd/reports/independent-inspection-eco-064-r3.md](reports/independent-inspection-eco-064-r3.md)(CLI `-o`・無編集)。IA-06(空要素 3 位置)・IA-07(id 5 型+
+  `validate_map` の monkeypatch で最終防御を実証)・IA-08(空配列・空文字・空白)は全て resolved。境界探索 8 腕(重複・大小文字・`../`・大文字 anchor_kind・`#` 2 つ・
+  YAML alias・classes が dict・1,000 class 0.49 秒)のうち不適合は IA-09 のみ。V1 PASS・V2 同一・unknown 5 条件・停止語彙/引数処理(AST)不変・diff 窓 PASS・
+  activation-map.yaml に diff なし・temp 残置 0。`self-conformance.py` はブリーフの指示どおり検査官は未実行(環境制約で C14 が測定不能・temp 残置のため)。
+- 所見と受理側判定・是正(r3b):
+
+  | 所見 | severity | 内容 | 受理側判定 | 是正 |
+  |---|---|---|---|---|
+  | IA-09 | medium | `required_skills` が canonical な skill ID に制限されない — `Preflight`(Windows の大小文字非区別 FS で実在判定を通過し、observed と不一致の偽 missing を生成)・`../README`(skills/ 外の実在ファイル)・重複を受理 | **CONFIRMED**(HEAD コピーで 3 形とも validate → []) | ID 文法 `[a-z0-9][a-z0-9-]*`+skills/ 直下の実ファイル名(`iterdir` の stem)との**大小文字込みの完全一致**+重複拒否(MAP_INVALID) |
+
+- 陽性対照(selftest・r3): `Preflight`・`../README`・`../x`・重複・空白入り・`.md` 付き・空文字 → 問題あり / `preflight`・`factory-delegate` → 0。selftest PASS・V2 不変。
+- 検査官が落とした枝の系譜(r1〜r3): 型不正 → 区切り → 意味転写 → 断片 → 空要素 → unhashable → 空配列 → **識別子の正規化**。すべて validator の入力クラス。
+  製造者 selftest は各 round で検査官の腕を取り込み、round ごとに 1 クラス縮小している(r1: 4 → r2: 3 → r3: 1)。
+- **r4 の受入**: r3b の selftest PASS・V4・witness→commit・CI・**独立検査 r4**(IA-09 の再実測+回帰・境界探索の続き)。
