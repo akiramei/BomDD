@@ -195,3 +195,22 @@ required_capability(F2)・forbidden(F3)・expected_outputs(F4)・independent_ins
 - 検査官が落とした枝の系譜(r1〜r3): 型不正 → 区切り → 意味転写 → 断片 → 空要素 → unhashable → 空配列 → **識別子の正規化**。すべて validator の入力クラス。
   製造者 selftest は各 round で検査官の腕を取り込み、round ごとに 1 クラス縮小している(r1: 4 → r2: 3 → r3: 1)。
 - **r4 の受入**: r3b の selftest PASS・V4・witness→commit・CI・**独立検査 r4**(IA-09 の再実測+回帰・境界探索の続き)。
+
+### 8.4 r4(2026-09-11・Codex・CLI 直接 workspace-write)= **REJECT**・IA-09 **resolved**・新規 3(medium 2 / low 1)・受理側 **3/3 CONFIRMED**
+
+- 報告: [bomdd/reports/independent-inspection-eco-064-r4.md](reports/independent-inspection-eco-064-r4.md)(CLI `-o`・無編集)。IA-09 は 14 腕(Unicode 2 種を含む)で
+  resolved・canonical 3 名は受理。境界探索 9 腕のうち不適合 3(IA-10〜12)。V1 PASS・V2 同一・unknown 5 条件・停止語彙/引数処理(AST)不変・diff 窓 PASS・temp 残置 0。
+- 所見と受理側判定・是正(r4b):
+
+  | 所見 | severity | 内容 | 受理側判定 | 是正 |
+  |---|---|---|---|---|
+  | IA-10 | medium | `instrument_paths` の非正規値(絶対パス・前後空白)が validate を通り class を無言で無効化。`**` 単独は全一致 | **CONFIRMED**(3 形とも再現) | 正規形の文法(リポ相対・`/` 区切り・`..` 禁止・前後空白なし・`\` 不可)+ literal 区間のない全一致 pattern を拒否(MAP_INVALID) |
+  | IA-11 | medium | `statuses` の大小文字・前後空白違い(`Verified`・` verified`)が validate を通り verified class を無言で無効化 | **CONFIRMED**(2 形とも再現) | statuses を register の状態語彙(proposed/filed/decided/in-progress/implemented/applied/verified/rejected/superseded・完全一致)に限定 |
+  | IA-12 | low | class の宣言順が `required_skills` の配列順に漏れる(逆順 map で順序が変わる) | **CONFIRMED**(再現) | required・該当 class 列挙・判定不能 class を辞書順で固定(配列は集合・順序に意味なしと宣言) |
+
+- 陽性対照(selftest・r4): instrument_paths 非正規 8 形 → 拒否・正規 4 形 → 受理 / statuses 語彙外 4 形 → 拒否・語彙内 → 受理 / 逆順 map で required が同一かつ辞書順。
+  selftest PASS。**V2 の値は集合として不変・配列順のみ辞書順へ変化**(ECO-062: [calibrate, converge, preflight])。
+- 検査官が「新規 IA にしない」と判定した境界: `id` の文法(表示と重複検出のみに使用・誤射影を再現できず)/ `contract_item`・`limitation` の型(注記・判定入力でない)。
+- **r5 の受入と範囲の限定**: r1〜r4 の各 round で「境界探索の続き」を求めた結果、round ごとに新しい入力クラス(型→区切り→意味→断片→空→unhashable→空配列→識別子→
+  パス正規形→語彙→順序)が 1〜4 件ずつ出ている。**r5 は IA-10〜12 の再実測と r1〜r4 の全所見の回帰に範囲を限定し、新規クラスの探索は求めない**(探索の打ち切りは
+  受理側の判断— 未探索クラスは §9 で「この受入が支持しないもの」として宣言する)。

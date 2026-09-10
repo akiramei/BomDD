@@ -83,6 +83,10 @@ def _load_selfconf():
 
 ANCHOR_KINDS = ("always", "ledger-status", "affected-refs-glob", "order-hard-positive")
 SKILL_ID_RE = re.compile(r"[a-z0-9][a-z0-9-]*")   # IA-09(r3): canonical な skill ID 文法(bomdd-init の SKILLS と同じ命名)
+# IA-11(r4): statuses は register の状態語彙(60-change-register.yaml テンプレ冒頭の宣言+実運用の filed / in-progress)に限定
+REGISTER_STATUSES = ("proposed", "filed", "decided", "in-progress", "implemented", "applied", "verified", "rejected", "superseded")
+# IA-10(r4): instrument_paths の正規形 — リポ相対(先頭 `/`・ドライブ・`..` 禁止)・前後空白なし・`\` 不可・`**` 単独(全一致)禁止
+INSTRUMENT_PATH_RE = re.compile(r"(?!.*(?:^|/)\.\.(?:/|$))[A-Za-z0-9_.*?\-]+(?:/[A-Za-z0-9_.*?\-]+)*")
 
 
 def _is_str_list(v) -> bool:
@@ -130,10 +134,24 @@ def validate_map(classes, base: Path) -> list:
         kind = cls.get("anchor_kind")
         if kind not in ANCHOR_KINDS:
             problems.append(f"{tag}: anchor_kind 不正 {kind!r}")
-        if kind == "ledger-status" and (not _is_str_list(cls.get("statuses")) or not cls.get("statuses")):
-            problems.append(f"{tag}: statuses が非空の文字列配列でない")  # IA-08(r2): 空配列は class を無言で無効化するため不正
-        if kind == "affected-refs-glob" and (not _is_str_list(cls.get("instrument_paths")) or not cls.get("instrument_paths")):
-            problems.append(f"{tag}: instrument_paths が非空の文字列配列でない")
+        if kind == "ledger-status":
+            sts = cls.get("statuses")
+            if not _is_str_list(sts) or not sts:
+                problems.append(f"{tag}: statuses が非空の文字列配列でない")  # IA-08(r2): 空配列は class を無言で無効化するため不正
+            else:
+                for s in sts:  # IA-11(r4): 語彙外(大小文字・前後空白違いを含む)は無言の非該当になるため不正
+                    if s not in REGISTER_STATUSES:
+                        problems.append(f"{tag}: statuses の値 {s!r} が register の状態語彙にない")
+        if kind == "affected-refs-glob":
+            ips = cls.get("instrument_paths")
+            if not _is_str_list(ips) or not ips:
+                problems.append(f"{tag}: instrument_paths が非空の文字列配列でない")
+            else:
+                for pth in ips:  # IA-10(r4): 非正規パス(絶対・前後空白・`\`・`..`・`**` 単独)は無言の非該当/全一致になるため不正
+                    if pth != pth.strip() or "\\" in pth or not INSTRUMENT_PATH_RE.fullmatch(pth):
+                        problems.append(f"{tag}: instrument_paths の値 {pth!r} が正規形でない(リポ相対・前後空白なし・`/` 区切り)")
+                    elif pth.replace("*", "").replace("/", "") == "":
+                        problems.append(f"{tag}: instrument_paths の値 {pth!r} は全一致(literal 区間なし)のため不正")
         if not isinstance(cls.get("anchor"), str) or not cls["anchor"].strip():
             problems.append(f"{tag}: anchor が空")
         src = cls.get("source")
@@ -324,6 +342,10 @@ def project(entry: dict, root: Path, register_rel: str, amap=None, map_err: str 
                 for s in cls.get("required_skills") or []:
                     if s not in req:
                         req.append(str(s))
+        # IA-12(r4): required は集合 — 配列順は class の宣言順に依存させず辞書順で固定(class 列挙も同様)
+        req = sorted(req)
+        matched = sorted(matched)
+        undecidable = sorted(undecidable)
         src = f"activation-map.yaml: {', '.join(matched) or '(該当 class なし)'}"
         if undecidable:
             src += f" / 判定不能 class= {', '.join(undecidable)}(order 不在または self-conformance import 不能)"
@@ -540,6 +562,24 @@ def selftest() -> int:
                     fails.append(f"IA-09: required_skills={rs!r} を validate_map が通した")
             if validate_map([dict(st, required_skills=["preflight"])], base) or validate_map([dict(st, required_skills=["factory-delegate"])], base):
                 fails.append("IA-09: canonical な skill ID を validate_map が弾いた")
+            # --- 独立検査 r4(ECO-064)の陽性対照: IA-10 instrument_paths の正規形 / IA-11 statuses の語彙 / IA-12 順序安定 ---
+            for ip in (["C:/absolute/*.py"], [" method/tools/*.py"], ["method/tools/*.py "], ["**"], ["*/*"], ["/method/tools/*.py"],
+                       ["method/../tools/*.py"], ["method\\tools\\*.py"]):
+                if not validate_map([dict(ic2, instrument_paths=ip)], base):
+                    fails.append(f"IA-10: instrument_paths={ip!r} を validate_map が通した")
+            for ip in (["method/tools/*.py"], ["bomdd/hooks/*"], [".github/workflows/*"], ["a/**/x.py"]):
+                if validate_map([dict(ic2, instrument_paths=ip)], base):
+                    fails.append(f"IA-10: 正規形 {ip!r} を validate_map が弾いた: {validate_map([dict(ic2, instrument_paths=ip)], base)}")
+            for sts in (["Verified"], [" verified"], ["verified "], ["done"]):
+                if not validate_map([dict(vp2, statuses=sts)], base):
+                    fails.append(f"IA-11: statuses={sts!r} を validate_map が通した")
+            if validate_map([dict(vp2, statuses=["verified", "implemented"])], base):
+                fails.append("IA-11: 語彙内の statuses を validate_map が弾いた")
+            pos_rev = {"id": "ECO-910", "status": "verified", "order_ref": "bomdd/f1-pos.md", "affected_refs": ["method/tools/x.py"]}
+            a = project(pos_rev, root, rel, amap, None, sc)["required_skills"]
+            b2 = project(pos_rev, root, rel, list(reversed(amap)), None, sc)["required_skills"]
+            if a != b2 or a["value"] != sorted(a["value"]):
+                fails.append(f"IA-12: class 順序で required が変わる/辞書順でない: {a} vs {b2}")
     return _report(fails)
 
 
@@ -547,7 +587,7 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕・r4: instrument_paths 正規形・statuses 語彙・required 辞書順)")
     return 0
 
 
