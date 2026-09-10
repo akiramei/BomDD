@@ -2326,3 +2326,27 @@ changes:
       較正 receipt(trigger ①・行別 asked/NA)は order §7 — 「C7 の FAIL 側」は式の読解のみ・「明示起動の効果」は unknown(F1 未実装)。**製造者較正のみで受入**。
       (参考・製造前)受入= order §3 — V1 self-conformance 全 PASS(C7 12/12)/ V2 正本と写しの差分= 注記+{{METHOD}} 解決のみ / V3 旧写しとの本文差分= 冒頭注記+
       工程 2 追記のみ / V4 CI / V5 窓。witness(bomdd-witness.py)で遷移。製造者較正のみで受入(散文の移設・SKILLS 1 名追加のみ)。
+  - id: ECO-064
+    title: ECO-062 第 2 弾 F1 — job ビューの required_skills を事前宣言する(activation-map 参照付き対応表+receipt 突合・skills_missing 情報欄)
+    date: 2026-09-10
+    origin: requirement
+    status: filed   # 2026-09-10 user「F1 を第 2 弾として起票して」— 起票のみ・製造範囲の凍結と着手は別裁定。起票工程は job 経由(bomdd-job.py ECO-064)
+    source: >
+      ECO-062 §5.1 F1(required_skills の事前宣言欄なし)と Phase 4 の 1 本目(ECO-063 §6: job 経由でも明示起動は起きず EXP-20260910-01 の中心量が
+      測れない)の帰結。出所= preflight/converge/calibrate の自発起動契約(転写せず参照)・C16 hard-positive と C17 適用範囲(self-conformance が正本・import)。
+      受理側の設計制約= 二重正本を作らない(参照付き対応表)・gate 化しない(情報欄)・列挙(計器パス集合)は限界を宣言。
+    order_ref: bomdd/60-change-order-eco-064.md
+    affected_refs: [method/tools/bomdd-job.py, method/templates/product-profile/skills/activation-map.yaml]   # 候補・製造裁定時に凍結
+    no_impact_prediction: "(起票段階)diff は台帳系(order・register・ECO-062 order §7 現在地 1 行)のみ。製造時(候補): bomdd-job.py の既存欄・停止語彙・exit 契約は不変(既存 selftest 全腕 PASS)・SKILLS/README/C7 不変・self-conformance 不変(import のみ)・C13 は新規 YAML にリンクなし"
+    diff_audit:
+      baseline: "7e90025"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [bomdd/60-change-order-eco-064.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]   # 起票段階。製造時に再凍結(+bomdd-job.py・activation-map.yaml)
+    summary: >
+      ①activation-map.yaml(新規): task class(start / design-synthesis / verified-promotion / instrument-change)ごとの required_skills・anchor(台帳側の機械判定)・
+      source(契約の所在)。行の追加統制= preflight 最小表と同じ ②bomdd-job.py: required_skills を map から導出・skills_observed を order の receipt 見出し(C16/C17 の
+      正規表現を import)から導出・skills_missing= 差(情報欄・停止語彙不変)③selftest 4 class+observed+map 不在 ④EXP-20260910-01 を job ごとに機械記帳可能に。
+      採らない= gate 化・契約文の転写・preflight 最小表への行追加・F2〜F6 の同時実装・認識依存トリガーの機械化。
+    verification: >
+      (起票段階)製造時の受入候補は order §3 — V1 既存+新規 selftest / V2 ECO-062/063 の job ビューで required/observed/missing が期待どおり / V3 map の source 実在 /
+      V4 self-conformance・CI・窓。異系統独立検査必須(機械挙動・Codex CLI 直接経路を既定)。
