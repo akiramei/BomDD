@@ -2330,18 +2330,18 @@ changes:
     title: ECO-062 第 2 弾 F1 — job ビューの required_skills を事前宣言する(activation-map 参照付き対応表+receipt 突合・skills_missing 情報欄)
     date: 2026-09-10
     origin: requirement
-    status: filed   # 2026-09-10 user「F1 を第 2 弾として起票して」— 起票のみ・製造範囲の凍結と着手は別裁定。起票工程は job 経由(bomdd-job.py ECO-064)
+    status: implemented   # 2026-09-10 起票(filed・job 経由)→ 2026-09-11 user「製造まで進めて」で製造・製造者受入 V1〜V3 済み(order §4〜6)。独立検査(Codex)引き渡し中・verified は受理後
     source: >
       ECO-062 §5.1 F1(required_skills の事前宣言欄なし)と Phase 4 の 1 本目(ECO-063 §6: job 経由でも明示起動は起きず EXP-20260910-01 の中心量が
       測れない)の帰結。出所= preflight/converge/calibrate の自発起動契約(転写せず参照)・C16 hard-positive と C17 適用範囲(self-conformance が正本・import)。
       受理側の設計制約= 二重正本を作らない(参照付き対応表)・gate 化しない(情報欄)・列挙(計器パス集合)は限界を宣言。
     order_ref: bomdd/60-change-order-eco-064.md
-    affected_refs: [method/tools/bomdd-job.py, method/templates/product-profile/skills/activation-map.yaml]   # 候補・製造裁定時に凍結
-    no_impact_prediction: "(起票段階)diff は台帳系(order・register・ECO-062 order §7 現在地 1 行)のみ。製造時(候補): bomdd-job.py の既存欄・停止語彙・exit 契約は不変(既存 selftest 全腕 PASS)・SKILLS/README/C7 不変・self-conformance 不変(import のみ)・C13 は新規 YAML にリンクなし"
+    affected_refs: [method/tools/bomdd-job.py, method/templates/product-profile/skills/activation-map.yaml]   # 製造裁定で凍結(2026-09-11)
+    no_impact_prediction: "(製造前・凍結)bomdd-job.py の既存欄・停止語彙・exit 契約は不変(既存 selftest 全腕 PASS のまま)・witness selftest 不変・SKILLS/README/C7 不変・self-conformance.py は diff 0(job が import するだけ)・C1 は新規 YAML を厳格パース(件数 +1)・C13 は新規 YAML にリンクなし・kit には method/ 全体コピーで入る(lock 凍結の既存 kit は非波及)"
     diff_audit:
       baseline: "7e90025"  # 起票直前 HEAD
       head: ~
-      allowed_paths: [bomdd/60-change-order-eco-064.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]   # 起票段階。製造時に再凍結(+bomdd-job.py・activation-map.yaml)
+      allowed_paths: [method/tools/bomdd-job.py, method/templates/product-profile/skills/activation-map.yaml, bomdd/60-change-order-eco-064.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-064.md]   # 製造裁定で再凍結(製造物 2+台帳系+検査報告)
     summary: >
       ①activation-map.yaml(新規): task class(start / design-synthesis / verified-promotion / instrument-change)ごとの required_skills・anchor(台帳側の機械判定)・
       source(契約の所在)。行の追加統制= preflight 最小表と同じ ②bomdd-job.py: required_skills を map から導出・skills_observed を order の receipt 見出し(C16/C17 の

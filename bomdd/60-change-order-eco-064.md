@@ -91,3 +91,42 @@ required_capability(F2)・forbidden(F3)・expected_outputs(F4)・independent_ins
 - 敵対自問: 「対応表自体が第二の契約(正本)になっていないか」— 判定規則は持つが契約の意味は持たない(各行は所在参照のみ)。契約が変われば行の source が
   腐る → selftest V3 で所在の実在を測る(意味の一致は測れない= 限界)。「gate 化を先回りしていないか」— 情報欄に留める。「F2〜F6 を混ぜていないか」— 採らないに明記。
 - 未収束事項: なし(製造範囲の凍結は製造裁定の入力)。
+
+## 4. 製造裁定と製造(2026-09-11・user「ECO-064 の製造まで進めて」)
+
+- 製造範囲(凍結)= §1 候補 1〜3(activation-map 新設・bomdd-job.py の導出 3 欄・selftest)。候補 4(EXP-20260910-01 の測定器化)は 1〜3 の帰結として
+  同時に成立(追加実装なし)。allowed_paths= `method/tools/bomdd-job.py`・`method/templates/product-profile/skills/activation-map.yaml`+台帳系+検査報告。
+- 起動: **job 経由**(`bomdd-job.py ECO-064` → state=filed・stop_type=NONE・write_scope=台帳系・`required_skills: null`〔製造前の第 1 弾 job〕)。
+  preflight(製造着手): baseline `da41238`= confirmed(HEAD・clean)/ 出所契約の実在= confirmed(§0.2)/ self-conformance の正規表現名= confirmed
+  (`CONVERGE_HARD_POSITIVES`・`CONVERGE_RECEIPT_HEAD_RE`・`C17_RECEIPT_RE`・`_strip_fences_all` を実読)/ 凍結の非該当= confirmed。PROCEED。
+
+## 5. 製造物
+
+- [`activation-map.yaml`](../method/templates/product-profile/skills/activation-map.yaml)(新規・43 行): `classes` 4 行(start= always → preflight /
+  design-synthesis= order-hard-positive → converge / verified-promotion= ledger-status[verified] → calibrate / instrument-change= affected-refs-glob
+  〔method/tools/*.py・bomdd/hooks/*・.github/workflows/*〕→ calibrate)。各行= `anchor_kind`・`anchor`・`source`(契約の所在参照)。`addition_control`(preflight
+  最小表と同じ統制)・`limitation`(列挙は腐る)を宣言。kit(method/ 全体コピー)に入る。
+- [`bomdd-job.py`](../method/tools/bomdd-job.py)(+174/-8 行): `MAP_PATH`(ツール自身の位置から解決= kit でも動く)/ `_load_selfconf()`(self-conformance.py を
+  importlib で読み正規表現 4 つを借りる・失敗= None)/ `load_map()` / `_class_matches()`(anchor_kind 4 種・判定不能= None)/ `observed_skills()`(fence 除去後の
+  receipt 見出し・preflight は `PREFLIGHT_RECEIPT_RE`)/ `project()` に `required_skills`(source= map の該当 class 列挙+判定不能 class の明示)・`skills_observed`・
+  `skills_missing`(情報欄)。map 不在= `unknown(MAP_MISSING)`・import 不能= observed unknown+design-synthesis 判定不能・order 不在= observed unknown。
+  既存欄・停止語彙・exit 契約・`select()` の引数処理は不変(`select()` は map と sc を 1 回だけ読む)。
+- selftest 追加腕: 実 map の読取・全 class の必須キー・required_skills のスキル実在・source の所在実在(V3)/ 陽性 class(残ゲート+verified+method/tools/x.py →
+  required [preflight, converge, calibrate]・observed 3・missing [])/ 陰性(fence 内 receipt 無視・start のみ → missing [preflight])/ map 不在・sc 不能・order 不在= unknown。
+
+## 6. 受入の実測(製造者)
+
+- **V1**= PASS(job selftest 全腕 PASS〔既存+F1〕・witness selftest PASS〔不変〕)。製造中の実測: 旧 F1 腕(「required_skills は null であるべき」)が新仕様と衝突し
+  初回 FAIL → 腕を「map なし project は unknown(MAP_MISSING)」へ更新(仕様変更に伴う selftest の更新・欠陥ではない)。
+- **V2**= PASS(`bomdd-job.py ECO-062 ECO-063 ECO-064 --json`):
+
+  | ECO | state | required(source= class) | observed | missing |
+  |---|---|---|---|---|
+  | ECO-062 | verified | preflight・converge・calibrate(start / design-synthesis / verified-promotion / instrument-change) | 3 | [] |
+  | ECO-063 | verified | preflight・calibrate(start / verified-promotion / instrument-change)| 3(converge は要求外だが起動済み)| [] |
+  | ECO-064 | filed(製造前) | preflight・converge・calibrate(start / design-synthesis / instrument-change)| preflight・converge | [calibrate] |
+
+  ECO-064 の `missing [calibrate]` は instrument-change(affected_refs に bomdd-job.py)の要求で、verified 昇格時の較正 receipt で埋まる(§7 で再測)— 情報欄が
+  「これから要るもの」を先に示した初例。
+- **V3**= PASS(selftest が map の 4 class の source〔preflight.md / converge.md / calibrate.md / self-conformance.py〕と required_skills の 3 スキルの実在を確認)。
+- **V4**: self-conformance・CI・diff 窓・witness → §7。**独立検査**(§3・異系統必須)→ §8。

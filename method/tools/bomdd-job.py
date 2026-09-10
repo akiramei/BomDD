@@ -22,9 +22,15 @@
 #
 # 検出力の限界(宣言):
 #   (1) クローズ節の検出は見出し形状(「## N. クローズ」+ verified 語)のみ — 本文の意味は読まない。
-#   (2) required_skills / forbidden / expected_outputs / independent_inspection は register/order に
-#       構造欄がないため常に null(F1/F3/F4/F6)。task class → スキル対応表は第 1 弾の対象外。
+#   (2) forbidden / expected_outputs / independent_inspection / required_capability は register/order に
+#       構造欄がないため常に null(F2/F3/F4/F6)。
 #   (3) 受入の PASS/FAIL は導出しない(witness の担当・bomdd-witness.py)。
+#   (4) ECO-064(F1): required_skills は activation-map(templates/product-profile/skills/activation-map.yaml・
+#       参照付き対応表)から台帳側の機械アンカーだけで導出し、skills_observed は order の receipt 見出し
+#       (C16/C17 の正規表現を import・preflight は job 側)から導出、skills_missing= 差(**情報欄**・停止語彙
+#       不変・gate 化しない)。map 不在 / import 不能 / order 不在は unknown(合格ではない)。契約の**意味**は
+#       測らない — map の source は所在参照のみで、契約が変われば所在が腐る(selftest は実在まで)。
+#       認識依存のトリガー(calibrate ②④)は機械化しない。
 
 import io
 import json
@@ -53,6 +59,76 @@ DERIVABLE_FROM_LEDGER = ("NONE", "LEDGER_INCONSISTENT", "MISSING_INPUT")
 CLOSE_HEAD_RE = re.compile(r"^[ \t]{0,3}#{2,6}[ \t]+\d+\.[ \t]*クローズ[^\n]*verified", re.M)
 FENCE_RE = re.compile(r"^[ \t]{0,3}(```|~~~)[^\n]*\n.*?(?:^[ \t]{0,3}\1[ \t]*$|\Z)", re.S | re.M)
 
+# --- ECO-064(F1): activation-map と receipt 突合 -------------------------------------------
+# 対応表の正本= method/templates/product-profile/skills/activation-map.yaml(契約の所在参照のみ・転写しない)。
+# converge 要否(C16 hard-positive)と receipt 見出しの正規表現は self-conformance.py から import(正本 1 つ)。
+# preflight receipt の見出し(ECO-042 様式)は C 検査が未整備のため job 側で検出する。
+TOOLS_DIR = Path(__file__).resolve().parent
+MAP_PATH = TOOLS_DIR.parent / "templates" / "product-profile" / "skills" / "activation-map.yaml"
+PREFLIGHT_RECEIPT_RE = re.compile(r"^[ \t]{0,3}#{2,6}[ \t]+[^\n]*?/?preflight\s*receipt\b", re.I | re.M)
+
+
+def _load_selfconf():
+    """self-conformance.py の正規表現を import する(失敗= None・呼び側は unknown にする)。"""
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("bomdd_selfconf", TOOLS_DIR / "self-conformance.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return {"hard": mod.CONVERGE_HARD_POSITIVES, "converge": mod.CONVERGE_RECEIPT_HEAD_RE,
+                "calibrate": mod.C17_RECEIPT_RE, "strip": mod._strip_fences_all}
+    except Exception:  # noqa: BLE001 — import 不能は測定不能として上位で unknown にする
+        return None
+
+
+def load_map(path: Path = MAP_PATH):
+    """activation-map を読む。(classes, None) / (None, 理由)。"""
+    if yaml is None:
+        return None, "PyYAML 不在"
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as e:
+        return None, f"activation-map 読取不能: {e}"
+    classes = (data or {}).get("classes") if isinstance(data, dict) else None
+    if not isinstance(classes, list) or not classes:
+        return None, "activation-map 形状不正(classes 配列なし)"
+    return classes, None
+
+
+def _class_matches(cls: dict, entry: dict, order_text: str | None, sc) -> bool | None:
+    """anchor_kind ごとの機械判定。None= 判定不能(unknown)。"""
+    kind = cls.get("anchor_kind")
+    if kind == "always":
+        return True
+    if kind == "ledger-status":
+        return str(entry.get("status")) in [str(s) for s in (cls.get("statuses") or [])]
+    if kind == "affected-refs-glob":
+        import fnmatch
+        refs = [str(r) for r in (entry.get("affected_refs") or [])]
+        pats = [str(p) for p in (cls.get("instrument_paths") or [])]
+        return any(fnmatch.fnmatch(r, p) for r in refs for p in pats)
+    if kind == "order-hard-positive":
+        if order_text is None or sc is None:
+            return None
+        text = sc["strip"](order_text)
+        return any(rx.search(text) for _, rx in sc["hard"])
+    return None
+
+
+def observed_skills(order_text: str | None, sc) -> list | None:
+    """order の receipt 見出しから起動済みスキルを導出(fence 除去後)。None= 判定不能。"""
+    if order_text is None or sc is None:
+        return None
+    text = sc["strip"](order_text)
+    out = []
+    if PREFLIGHT_RECEIPT_RE.search(text):
+        out.append("preflight")
+    if sc["converge"].search(text):
+        out.append("converge")
+    if sc["calibrate"].search(text):
+        out.append("calibrate")
+    return out
+
 
 def _field(value, source):
     return {"value": value, "source": source}
@@ -70,7 +146,8 @@ def load_register(path: Path):
     return data["changes"], None
 
 
-def project(entry: dict, root: Path, register_rel: str) -> dict:
+def project(entry: dict, root: Path, register_rel: str, amap=None, map_err: str | None = None, sc=None) -> dict:
+    """amap= activation-map の classes(None= 不在/不能・map_err に理由)/ sc= self-conformance の正規表現(None= import 不能)。"""
     eco = str(entry.get("id"))
     da = entry.get("diff_audit") or {}
     order_ref = entry.get("order_ref")
@@ -83,7 +160,7 @@ def project(entry: dict, root: Path, register_rel: str) -> dict:
                          f"{register_rel}:{eco}.order_ref/affected_refs"),
         "write_scope": _field(da.get("allowed_paths"), f"{register_rel}:{eco}.diff_audit.allowed_paths"),
         "diff_baseline": _field(da.get("baseline"), f"{register_rel}:{eco}.diff_audit.baseline"),
-        "required_skills": _field(None, "none(F1: 事前宣言欄なし — receipt 見出しは事後記録のため転写しない)"),
+        "required_skills": _field(None, "〔後段で導出〕"),
         "required_capability": _field(None, "none(F2: 設備認定 ID の欄なし — 第 1 弾対象外)"),
         "forbidden": _field(None, "none(F3: order「採らない」は散文 — 転写しない)"),
         "expected_outputs": _field(None, "none(F4: order §1 は散文 — 転写しない)"),
@@ -93,6 +170,7 @@ def project(entry: dict, root: Path, register_rel: str) -> dict:
     }
     # 停止種別の導出(台帳のみから)
     stop, reason = "NONE", "register と order の状態に矛盾なし"
+    order_text = None
     if not order_ref:
         stop, reason = "MISSING_INPUT", "order_ref なし(検査対象が特定不能)"
     else:
@@ -100,7 +178,8 @@ def project(entry: dict, root: Path, register_rel: str) -> dict:
         if not op.exists():
             stop, reason = "MISSING_INPUT", f"order 不在: {order_ref}"
         else:
-            text = FENCE_RE.sub("", op.read_text(encoding="utf-8", errors="replace"))
+            order_text = op.read_text(encoding="utf-8", errors="replace")
+            text = FENCE_RE.sub("", order_text)
             closed = bool(CLOSE_HEAD_RE.search(text))
             status = str(entry.get("status"))
             if closed and status != "verified":
@@ -108,6 +187,37 @@ def project(entry: dict, root: Path, register_rel: str) -> dict:
             elif status == "verified" and not closed:
                 stop, reason = "LEDGER_INCONSISTENT", "register.status=verified だが order にクローズ節(verified)がない"
     job["stop_type"] = _field(stop, f"導出: {reason}")
+
+    # ECO-064(F1): required_skills(activation-map)・skills_observed(order の receipt 見出し)・skills_missing(差・情報欄)
+    if amap is None:
+        job["required_skills"] = _field(None, f"unknown(理由コード MAP_MISSING: {map_err or 'activation-map 不在'})")
+    else:
+        req, matched, undecidable = [], [], []
+        for cls in amap:
+            m = _class_matches(cls, entry, order_text, sc)
+            if m is None:
+                undecidable.append(str(cls.get("id")))
+            elif m:
+                matched.append(str(cls.get("id")))
+                for s in cls.get("required_skills") or []:
+                    if s not in req:
+                        req.append(str(s))
+        src = f"activation-map.yaml: {', '.join(matched) or '(該当 class なし)'}"
+        if undecidable:
+            src += f" / 判定不能 class= {', '.join(undecidable)}(order 不在または self-conformance import 不能)"
+        job["required_skills"] = _field(req, src)
+    obs = observed_skills(order_text, sc)
+    if obs is None:
+        job["skills_observed"] = _field(None, "unknown(order 不在または self-conformance import 不能)")
+        job["skills_missing"] = _field(None, "unknown(observed が判定不能)")
+    else:
+        job["skills_observed"] = _field(obs, "order の receipt 見出し(fence 除去後・C16/C17 の正規表現を import・preflight は job 側の見出し検出)")
+        req_v = job["required_skills"]["value"]
+        if req_v is None:
+            job["skills_missing"] = _field(None, "unknown(required が判定不能)")
+        else:
+            job["skills_missing"] = _field([s for s in req_v if s not in obs],
+                                           "導出: required − observed(情報欄・停止語彙不変・gate 化しない — playbook §8.5)")
     return job
 
 
@@ -155,9 +265,12 @@ def selftest() -> int:
         j = jobs["ECO-901"]
         if j["write_scope"]["value"] != ["a.py"] or j["job"]["value"] != "JOB-ECO-901":
             fails.append("ECO-901: 導出欄が不正")
-        for k in ("required_skills", "forbidden", "expected_outputs", "independent_inspection", "required_capability"):
+        for k in ("forbidden", "expected_outputs", "independent_inspection", "required_capability"):
             if j[k]["value"] is not None or not j[k]["source"].startswith("none"):
                 fails.append(f"ECO-901: {k} は null + source none であるべき")
+        # ECO-064: 上記 jobs は map/sc なしで project したため required は unknown(理由コード)であるべき
+        if j["required_skills"]["value"] is not None or "MAP_MISSING" not in j["required_skills"]["source"]:
+            fails.append(f"ECO-901: map なし project の required が unknown(MAP_MISSING)でない: {j['required_skills']}")
         if any("source" not in f for f in j.values()):
             fails.append("全欄 source 必須")
         # --- r2 追加腕(独立検査 IA-04 / IA-05 の陽性対照)---
@@ -183,6 +296,57 @@ def selftest() -> int:
             jobs, _ = select(argv_bad, root)
             if len(jobs) != 1 or jobs[0]["stop_type"]["value"] != "MISSING_INPUT":
                 fails.append(f"IA-07: {argv_bad} が MISSING_INPUT レコードでない: {jobs}")
+        # --- ECO-064(F1): activation-map と receipt 突合 ---
+        amap, map_err = load_map()
+        sc = _load_selfconf()
+        if amap is None:
+            fails.append(f"F1: 実 activation-map が読めない: {map_err}")
+        if sc is None:
+            fails.append("F1: self-conformance の正規表現を import できない")
+        if amap is not None:
+            skills_dir = MAP_PATH.parent
+            for cls in amap:
+                for k in ("id", "required_skills", "anchor_kind", "anchor", "source"):
+                    if k not in cls:
+                        fails.append(f"F1 V3: class {cls.get('id')} に {k} がない")
+                for s in cls.get("required_skills") or []:
+                    if not (skills_dir / f"{s}.md").exists():
+                        fails.append(f"F1 V3: class {cls.get('id')} のスキル {s} が skills/ に実在しない")
+                for src in str(cls.get("source", "")).split(";"):
+                    fp = src.strip().split("#")[0].strip()
+                    if fp and not (TOOLS_DIR.parent.parent / fp).exists():
+                        fails.append(f"F1 V3: class {cls.get('id')} の source {fp} が実在しない")
+        if amap is not None and sc is not None:
+            # 陽性対照: design-synthesis(残ゲート= hard-positive)/ instrument-change(method/tools/x.py)/ verified / receipt 検出(fence 内は無視)
+            (root / "bomdd" / "f1-pos.md").write_text(
+                "# ECO-907\n\n## 6. 残ゲート\n- gate ① 裁定\n\n## /preflight receipt(起動経路: 自発)\n- ok\n\n"
+                "## /converge receipt(起動経路: 自発)\n- 判定: 収束\n\n### 較正 receipt\n- 査定した主張\n", encoding="utf-8")
+            (root / "bomdd" / "f1-neg.md").write_text(
+                "# ECO-908\n\n## 1. 変更\n- 事実の記録のみ\n\n```\n## /converge receipt(fence 内)\n### 較正 receipt(fence 内)\n## /preflight receipt(fence 内)\n```\n",
+                encoding="utf-8")
+            pos = {"id": "ECO-907", "status": "verified", "order_ref": "bomdd/f1-pos.md", "affected_refs": ["method/tools/x.py"]}
+            neg = {"id": "ECO-908", "status": "decided", "order_ref": "bomdd/f1-neg.md", "affected_refs": ["docs/a.md"]}
+            jp = project(pos, root, rel, amap, None, sc)
+            jn = project(neg, root, rel, amap, None, sc)
+            if sorted(jp["required_skills"]["value"]) != ["calibrate", "converge", "preflight"]:
+                fails.append(f"F1: 陽性 required が不正: {jp['required_skills']}")
+            if jp["skills_observed"]["value"] != ["preflight", "converge", "calibrate"] or jp["skills_missing"]["value"] != []:
+                fails.append(f"F1: 陽性 observed/missing が不正: {jp['skills_observed']} / {jp['skills_missing']}")
+            if jn["required_skills"]["value"] != ["preflight"] or jn["skills_observed"]["value"] != [] or jn["skills_missing"]["value"] != ["preflight"]:
+                fails.append(f"F1: 陰性(fence 内 receipt 無視・start のみ)が不正: {jn['required_skills']} / {jn['skills_observed']} / {jn['skills_missing']}")
+            # map 不在 → required unknown(missing も unknown)/ sc 不能 → observed unknown・design-synthesis 判定不能
+            ju = project(pos, root, rel, None, "activation-map 不在", sc)
+            if ju["required_skills"]["value"] is not None or not ju["required_skills"]["source"].startswith("unknown"):
+                fails.append("F1: map 不在で required が unknown でない")
+            if ju["skills_missing"]["value"] is not None:
+                fails.append("F1: map 不在で missing が unknown でない")
+            js = project(pos, root, rel, amap, None, None)
+            if js["skills_observed"]["value"] is not None or "判定不能 class= design-synthesis" not in js["required_skills"]["source"]:
+                fails.append(f"F1: sc 不能で observed unknown / design-synthesis 判定不能 でない: {js['required_skills']['source']}")
+            # order 不在 → observed unknown・required は台帳アンカー分のみ+design 判定不能
+            jm = project({"id": "ECO-909", "status": "filed", "order_ref": "bomdd/none.md"}, root, rel, amap, None, sc)
+            if jm["skills_observed"]["value"] is not None or jm["required_skills"]["value"] != ["preflight"]:
+                fails.append(f"F1: order 不在の扱いが不正: {jm['required_skills']} / {jm['skills_observed']}")
     return _report(fails)
 
 
@@ -190,7 +354,7 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown)")
     return 0
 
 
@@ -233,7 +397,9 @@ def select(argv: list, root: Path):
         for w in want:
             if not any(str(e.get("id")) == w for e in valid):
                 jobs.append(_missing(f"register に {w} なし", w))
-    jobs.extend(project(e, root, reg_rel) for e in sel)
+    amap, map_err = load_map()
+    sc = _load_selfconf()
+    jobs.extend(project(e, root, reg_rel, amap, map_err, sc) for e in sel)
     return jobs, reg_rel
 
 
