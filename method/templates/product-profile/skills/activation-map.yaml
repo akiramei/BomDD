@@ -3,41 +3,46 @@
 # 役割: 各スキルの「自発起動契約」(正本= 各スキルファイル)を**転写せず**、台帳側の機械アンカーだけで
 #       「この ECO にどのスキルの receipt が要るか」を導出するための表。bomdd-job.py が読む。
 # 規律:
-#   - 各行は anchor(機械判定に使う台帳側の事実)と source(契約の所在)を持つ。契約の**意味**は持たない
-#     (契約が変われば source の所在が腐る — selftest は所在の実在を測るが意味の一致は測れない= 宣言つき限界)。
+#   - 各行は anchor(機械判定に使う台帳側の事実のみ・契約の意味を書かない)と source(契約の所在)を持つ。
+#     source の `#` 以降は参照先ファイルに**literal に存在する見出し語(.md)または識別子(.py)**であり、
+#     bomdd-job.py の validate_map が実在を検査する(意味の一致は測れない= 宣言つき限界)。contract_item は
+#     参照先の箇条番号の注記(検査しない)。
 #   - 行・クラスの追加統制は preflight 最小表と同じ: 「欠落事故 1 件の実測」または「裁定」経由のみ・出典必須。
 #   - skills_missing(required − observed)は**情報欄**。停止語彙・機械ゲートにはしない(playbook §8.5: 必要が実測されてから)。
 #   - 認識依存のトリガー(calibrate ②既存の緑の引用・④計器インシデント後)は機械化しない(本表に載せない)。
+#   - instrument_paths の glob は区切り `/` を跨がない(`*` は 1 階層・`**` は複数階層)。`\` は `/` に正規化してから照合(OS 非依存)。
 bomdd:
   layer: activation-map
-  version: 1
+  version: 1.1          # 1.0= ECO-064 fix(24e16e0)/ 1.1= 独立検査 r1 の IA-03(anchor の意味転写)・IA-04(source fragment)を是正
   origin: BomDD ECO-064 (2026-09-11)
   addition_control: "欠落事故 1 件の実測または裁定のみ・出典必須(preflight.md「task contract 最小表」と同じ統制)"
 
 classes:
   - id: start
     required_skills: [preflight]
-    anchor_kind: always            # すべての ECO は開始を持つ(開始時の前提再認証)
-    anchor: "ECO が register に存在する(status を問わない)"
-    source: "method/templates/product-profile/skills/preflight.md#自発起動契約(既存状態依存タスクの開始時)"
+    anchor_kind: always
+    anchor: "register に ECO エントリが存在する(status を問わない)"
+    source: "method/templates/product-profile/skills/preflight.md#自発起動契約"
   - id: design-synthesis
     required_skills: [converge]
     anchor_kind: order-hard-positive
-    anchor: "order 本文(fence 除去後)が self-conformance の CONVERGE_HARD_POSITIVES に該当する(C16 と同一の判定)"
-    source: "method/templates/product-profile/skills/converge.md#自発起動契約 ; method/tools/self-conformance.py#C16 CONVERGE_HARD_POSITIVES"
+    anchor: "order 本文(fence 除去後)が self-conformance.CONVERGE_HARD_POSITIVES のいずれかに一致する"
+    source: "method/templates/product-profile/skills/converge.md#自発起動契約 ; method/tools/self-conformance.py#CONVERGE_HARD_POSITIVES"
   - id: verified-promotion
     required_skills: [calibrate]
     anchor_kind: ledger-status
     statuses: [verified]
-    anchor: "register.status == verified(verification 節を書くイベント)"
-    source: "method/templates/product-profile/skills/calibrate.md#自発起動契約 ①(verification・受入・較正の節を書くとき) ; method/tools/self-conformance.py#C17"
+    anchor: "register.status が statuses に含まれる"
+    contract_item: "calibrate 自発起動契約 ①(注記・検査しない)"
+    source: "method/templates/product-profile/skills/calibrate.md#自発起動契約 ; method/tools/self-conformance.py#C17_SCOPE_MIN"
   - id: instrument-change
     required_skills: [calibrate]
     anchor_kind: affected-refs-glob
     instrument_paths: ["method/tools/*.py", "bomdd/hooks/*", ".github/workflows/*"]
     limitation: "instrument_paths は列挙であり腐る(playbook §13 第 1 層⑥)— 追加は本表の追加統制に従う"
-    anchor: "register.affected_refs のいずれかが instrument_paths に一致する(検査器の新設・変更)"
-    source: "method/templates/product-profile/skills/calibrate.md#自発起動契約 ③(検査器を新設・変更した直後)"
+    anchor: "register.affected_refs のいずれかが instrument_paths のいずれかに一致する(区切りを跨がない glob)"
+    contract_item: "calibrate 自発起動契約 ③(注記・検査しない)"
+    source: "method/templates/product-profile/skills/calibrate.md#自発起動契約"
 
 # receipt の検出(skills_observed)は order の見出し形状で行う — 正本= self-conformance の CONVERGE_RECEIPT_HEAD_RE / C17_RECEIPT_RE
 # (bomdd-job.py が import)。preflight receipt は「/preflight receipt」見出し(ECO-042 様式)を job 側で検出する(C 検査には昇格しない)。

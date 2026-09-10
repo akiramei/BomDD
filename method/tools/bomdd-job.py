@@ -81,8 +81,79 @@ def _load_selfconf():
         return None
 
 
-def load_map(path: Path = MAP_PATH):
-    """activation-map を読む。(classes, None) / (None, 理由)。"""
+ANCHOR_KINDS = ("always", "ledger-status", "affected-refs-glob", "order-hard-positive")
+
+
+def _is_str_list(v) -> bool:
+    return isinstance(v, list) and all(isinstance(s, str) and s.strip() for s in v)
+
+
+def validate_map(classes, base: Path) -> list:
+    """IA-01/IA-04(r1): class の形状(型)と source の参照実在(ファイル+`#` 以降の literal 断片)を検査し、問題を列挙する。
+    .md の断片は見出し行(# で始まる行)に含まれること・.py その他は本文に含まれることを要求する。意味の一致は測らない。"""
+    problems = []
+    if not isinstance(classes, list) or not classes:
+        return ["classes 配列なし"]
+    seen = set()
+    for i, cls in enumerate(classes):
+        if not isinstance(cls, dict):
+            problems.append(f"class[{i}] が object でない")
+            continue
+        cid = cls.get("id")
+        tag = f"class {cid!r}" if isinstance(cid, str) else f"class[{i}]"
+        if not isinstance(cid, str) or not cid.strip():
+            problems.append(f"{tag}: id が空")
+        elif cid in seen:
+            problems.append(f"{tag}: id 重複")
+        seen.add(cid)
+        if not _is_str_list(cls.get("required_skills")) or not cls.get("required_skills"):
+            problems.append(f"{tag}: required_skills が非空の文字列配列でない")
+        else:
+            for s in cls["required_skills"]:
+                if not (base / "method" / "templates" / "product-profile" / "skills" / f"{s}.md").exists():
+                    problems.append(f"{tag}: スキル {s} が skills/ に実在しない")
+        kind = cls.get("anchor_kind")
+        if kind not in ANCHOR_KINDS:
+            problems.append(f"{tag}: anchor_kind 不正 {kind!r}")
+        if kind == "ledger-status" and not _is_str_list(cls.get("statuses")):
+            problems.append(f"{tag}: statuses が文字列配列でない")
+        if kind == "affected-refs-glob" and not _is_str_list(cls.get("instrument_paths")):
+            problems.append(f"{tag}: instrument_paths が文字列配列でない")
+        if not isinstance(cls.get("anchor"), str) or not cls["anchor"].strip():
+            problems.append(f"{tag}: anchor が空")
+        src = cls.get("source")
+        if not isinstance(src, str) or not src.strip():
+            problems.append(f"{tag}: source が空")
+            continue
+        for part in src.split(";"):
+            part = part.strip()
+            if not part:
+                continue
+            fp, _, frag = part.partition("#")
+            fpath = base / fp.strip()
+            if not fpath.is_file():
+                problems.append(f"{tag}: source {fp.strip()} が実在しない")
+                continue
+            frag = frag.strip()
+            if not frag:
+                problems.append(f"{tag}: source {fp.strip()} に # 断片がない")
+                continue
+            try:
+                text = fpath.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                problems.append(f"{tag}: source {fp.strip()} を読めない")
+                continue
+            if fpath.suffix == ".md":
+                ok = any(line.lstrip().startswith("#") and frag in line for line in text.splitlines())
+            else:
+                ok = frag in text
+            if not ok:
+                problems.append(f"{tag}: source 断片 '{frag}' が {fp.strip()} に実在しない")
+    return problems
+
+
+def load_map(path: Path = MAP_PATH, base: Path | None = None):
+    """activation-map を読み validate する。(classes, None) / (None, 理由)。不正な map は使わない(fail-closed・unknown 側)。"""
     if yaml is None:
         return None, "PyYAML 不在"
     try:
@@ -92,7 +163,34 @@ def load_map(path: Path = MAP_PATH):
     classes = (data or {}).get("classes") if isinstance(data, dict) else None
     if not isinstance(classes, list) or not classes:
         return None, "activation-map 形状不正(classes 配列なし)"
+    if base is None:
+        base = path.resolve().parents[4] if len(path.resolve().parents) > 4 else path.resolve().parent
+    problems = validate_map(classes, base)
+    if problems:
+        return None, "activation-map 不正(MAP_INVALID): " + " / ".join(problems[:5]) + (" …" if len(problems) > 5 else "")
     return classes, None
+
+
+def _glob_match(ref: str, pattern: str) -> bool:
+    """IA-02(r1): 区切りを跨がない glob。`*` は 1 階層内・`**` は複数階層。`\\` は `/` へ正規化(OS 非依存)。"""
+    r = ref.replace("\\", "/")
+    p = pattern.replace("\\", "/")
+    out = ""
+    i = 0
+    while i < len(p):
+        c = p[i]
+        if c == "*":
+            if i + 1 < len(p) and p[i + 1] == "*":
+                out += ".*"
+                i += 2
+                continue
+            out += "[^/]*"
+        elif c == "?":
+            out += "[^/]"
+        else:
+            out += re.escape(c)
+        i += 1
+    return re.fullmatch(out, r) is not None
 
 
 def _class_matches(cls: dict, entry: dict, order_text: str | None, sc) -> bool | None:
@@ -101,12 +199,17 @@ def _class_matches(cls: dict, entry: dict, order_text: str | None, sc) -> bool |
     if kind == "always":
         return True
     if kind == "ledger-status":
-        return str(entry.get("status")) in [str(s) for s in (cls.get("statuses") or [])]
+        statuses = cls.get("statuses")
+        if not _is_str_list(statuses):  # IA-01: 型不正は判定不能(validate_map が先に弾くが防御的に)
+            return None
+        return str(entry.get("status")) in statuses
     if kind == "affected-refs-glob":
-        import fnmatch
-        refs = [str(r) for r in (entry.get("affected_refs") or [])]
-        pats = [str(p) for p in (cls.get("instrument_paths") or [])]
-        return any(fnmatch.fnmatch(r, p) for r in refs for p in pats)
+        pats = cls.get("instrument_paths")
+        if not _is_str_list(pats):
+            return None
+        refs_raw = entry.get("affected_refs")
+        refs = [str(r) for r in refs_raw] if isinstance(refs_raw, list) else []
+        return any(_glob_match(r, p) for r in refs for p in pats)  # IA-02: 区切りを跨がない
     if kind == "order-hard-positive":
         if order_text is None or sc is None:
             return None
@@ -347,6 +450,43 @@ def selftest() -> int:
             jm = project({"id": "ECO-909", "status": "filed", "order_ref": "bomdd/none.md"}, root, rel, amap, None, sc)
             if jm["skills_observed"]["value"] is not None or jm["required_skills"]["value"] != ["preflight"]:
                 fails.append(f"F1: order 不在の扱いが不正: {jm['required_skills']} / {jm['skills_observed']}")
+            # --- 独立検査 r1(ECO-064)の陽性対照 ---
+            base = MAP_PATH.resolve().parents[4]
+            # IA-04: source 断片の陰性対照 — 断片を「不存在」にした map は validate_map が弾く / 実 map は 0 件
+            if validate_map(amap, base):
+                fails.append(f"IA-04: 実 map に validate 問題: {validate_map(amap, base)}")
+            tampered = [dict(c, source=str(c.get("source")).split("#")[0] + "#不存在") for c in amap]
+            if not validate_map(tampered, base):
+                fails.append("IA-04: 断片不存在の map を validate_map が通した")
+            # IA-01: statuses の型不正(int / str / dict)は traceback でなく MAP_INVALID(unknown)・判定関数は None
+            vp = next(c for c in amap if c.get("id") == "verified-promotion")
+            for badv in (7, "verified", {"verified": 1}):
+                badc = dict(vp, statuses=badv)
+                if _class_matches(badc, {"status": "verified"}, None, sc) is not None:
+                    fails.append(f"IA-01: statuses={badv!r} が判定不能(None)でない")
+                mp = root / "bomdd" / "bad-map.yaml"
+                mp.write_text("classes:\n  - {id: verified-promotion, required_skills: [calibrate], anchor_kind: ledger-status,\n"
+                              f"     statuses: {json.dumps(badv)}, anchor: a, source: 'method/templates/product-profile/skills/calibrate.md#自発起動契約'}}\n",
+                              encoding="utf-8")
+                cl, er = load_map(mp, base)
+                if cl is not None or "MAP_INVALID" not in (er or ""):
+                    fails.append(f"IA-01: statuses={badv!r} の map が MAP_INVALID にならない: {er}")
+            # IA-02: glob は区切りを跨がない・`\\` は `/` に正規化・`**` は複数階層
+            ic = next(c for c in amap if c.get("id") == "instrument-change")
+            for ref, want in (("method/tools/x.py", True), ("method/tools/sub/x.py", False), ("method" + chr(92) + "tools" + chr(92) + "x.py", True),
+                              ("docs/x.py", False), ("bomdd/hooks/pre-push", True)):
+                got = _class_matches(ic, {"affected_refs": [ref]}, None, sc)
+                if got is not want:
+                    fails.append(f"IA-02: glob {ref!r} -> {got}(期待 {want})")
+            if not _glob_match("a/b/c/x.py", "a/**/x.py") or _glob_match("a/b/x.py", "a/*/*/x.py"):
+                fails.append("IA-02: ** / * の階層意味が不正")
+            # anchor_kind 不正・required_skills のスキル不在も MAP_INVALID
+            mp = root / "bomdd" / "bad-map2.yaml"
+            mp.write_text("classes:\n  - {id: x, required_skills: [nosuchskill], anchor_kind: bogus, anchor: a, source: 'method/tools/self-conformance.py#C17_SCOPE_MIN'}\n",
+                          encoding="utf-8")
+            cl, er = load_map(mp, base)
+            if cl is not None or "MAP_INVALID" not in (er or ""):
+                fails.append(f"validate: anchor_kind 不正/スキル不在の map が MAP_INVALID にならない: {er}")
     return _report(fails)
 
 
@@ -354,7 +494,7 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob)")
     return 0
 
 

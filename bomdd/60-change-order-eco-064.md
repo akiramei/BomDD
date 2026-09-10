@@ -130,3 +130,28 @@ required_capability(F2)・forbidden(F3)・expected_outputs(F4)・independent_ins
   「これから要るもの」を先に示した初例。
 - **V3**= PASS(selftest が map の 4 class の source〔preflight.md / converge.md / calibrate.md / self-conformance.py〕と required_skills の 3 スキルの実在を確認)。
 - **V4**: self-conformance・CI・diff 窓・witness → §7。**独立検査**(§3・異系統必須)→ §8。
+
+## 8. 独立検査
+
+### 8.1 r1(2026-09-11・Codex・CLI 直接 `codex exec -s workspace-write -m gpt-5.6-sol`)= **REJECT**・所見 4+環境 1・受理側 **4/4 CONFIRMED**
+
+- 報告: [bomdd/reports/independent-inspection-eco-064.md](reports/independent-inspection-eco-064.md)(CLI `-o` で書出し・無編集。58〜59 行目に検査官出力の文字化け
+  2 行があるが該当箇所は 60〜61 行目で正しく示されている)。V1 PASS・**V2 は検査官が order を独立に読んで導出した期待値と 3 ECO とも一致**(ECO-063 に hard-positive
+  なし・ECO-064 の missing [calibrate] は instrument-change 由来)・二重正本なし(import 4 つを確認・再実装なし)・unknown 5 条件で exit 0 維持・receipt 境界 9 腕期待どおり・
+  停止語彙/引数処理/既存欄は d9fe305 から不変・diff 窓 PASS・案超過なし。
+- 所見と受理側判定・是正(r1b):
+
+  | 所見 | severity | 内容 | 受理側判定 | 是正 |
+  |---|---|---|---|---|
+  | IA-01 | high | `statuses` の型不正(int → TypeError・exit 1 / str → 文字反復で silently false / dict → キー反復で true)— exit 0 契約違反 | **CONFIRMED**(HEAD コピーで 3 型とも再現) | `validate_map()`: class の型(id・required_skills・anchor_kind・statuses・instrument_paths・anchor・source)を検査し、不正な map は `MAP_INVALID` として unknown(exit 0)。`_class_matches` も型不正= None(防御) |
+  | IA-02 | medium | `fnmatch` が区切りを跨ぐ(`method/tools/sub/x.py` が一致)・`\` が OS 依存 | **CONFIRMED**(再現) | `_glob_match()`: `*` は 1 階層・`**` は複数階層・`\` を `/` に正規化(OS 非依存)。map に規約を明記 |
+  | IA-03 | medium | anchor の括弧内に契約の意味(「verification 節を書くイベント」「検査器の新設・変更」)が転写されている | **CONFIRMED**(map 実読) | anchor を台帳側の事実だけに書き直し(v1.1)。契約の箇条番号は `contract_item`(注記・検査しない)へ分離 |
+  | IA-04 | medium | selftest の V3 は source の `#` 断片を検査せず、断片を「不存在」にしても PASS(陰性対照なし) | **CONFIRMED**(コード読解: `split("#")[0]` のみ) | `validate_map()` が断片の literal 実在(.md= 見出し行に含む / .py= 本文に含む)を検査。source を literal 断片(`#自発起動契約`・`#CONVERGE_HARD_POSITIVES`・`#C17_SCOPE_MIN`)へ改訂。selftest に断片改変の陰性対照 |
+  | IA-05 | 環境 | 検査官環境で self-conformance C14 が Git ownership 制約により UNKNOWN | 検査官環境帰属(製造者環境では C14 7/7 PASS) | 是正なし |
+
+- 是正の陽性対照(selftest・r1): 型不正 3 型 → 判定 None+MAP_INVALID / glob 5 腕(通常・sub 不一致・`\` 正規化・docs 不一致・hooks 一致)+`**`/`*` の階層意味 /
+  断片不存在 map → validate 問題あり・実 map → 0 / anchor_kind 不正・スキル不在 → MAP_INVALID。selftest PASS・V2(ECO-062/063/064)不変。
+- 受理側の付随発見(製造物外): self-conformance の C14 が OS temp に `bomdd-selfconf-c14-*` を **281 件(2026-08-02 以降・約 13 MB/件)** 残置していた —
+  `shutil.rmtree(ignore_errors=True)` が Windows の read-only な git object を消せず無音(fail-silent)。ECO-064 の範囲外 → improvements.md に OBS 記帳・別 ECO 候補。
+  残置は当方が削除(sandbox 所有の 2 件は権限で不可・報告)。
+- **r2 の受入**: r1b の selftest PASS・V4・witness→commit・CI・**独立検査 r2**(IA-01〜04 の再実測+V1〜V3 の回帰・新規所見)。
