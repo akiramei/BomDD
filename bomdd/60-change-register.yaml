@@ -2267,7 +2267,7 @@ changes:
     title: 運転層の分離 — job(射影)/ receipt(witness)/ ruling の 3 形式を既存正本の射影として規格化する(第 1 弾= job 射影+witness の 2 項)
     date: 2026-09-10
     origin: requirement
-    status: implemented   # 2026-09-10 起票(filed)→ 裁定 3 点(order §4)→ 同日 user「製造まで進めて」で製造・製造者受入 V1'/V2'/V4 済み(order §6)。独立検査(Codex)引き渡し中・verified は所見の受理後
+    status: implemented   # 2026-09-10 起票(filed)→ 裁定 3 点(order §4)→ 同日 user「製造まで進めて」で製造・製造者受入 V1'/V2'/V4 済み(order §6)。独立検査(Codex)は設備障害 2 回で UNKNOWN(order §8・CI 34467755878 success)— verified へ昇格せず user 裁定待ち
     source: >
       外部議論 2026-09-10(Grok Bot を BomDD 製造セルの外側に運転員として横置きし、job/receipt/ruling の 3 形式で
       受け渡す案)への当方応答。リポ内実測: 3 形式は新設ではなく散在している(ECO order/work order/routing/register=

@@ -280,10 +280,27 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
   機械挙動を含むなら独立検査必須(§3)。
 - 未収束事項: なし(製造範囲の凍結・factory-delegate 正本化の ECO 分割は本 ECO の未決でなく**製造裁定の入力**)。
 
+## 8. 独立検査の実施記録(2026-09-10・停止点 — 検査設備の不能により UNKNOWN)
+
+- fix commit `1eefe35`(V4 の witness= `.git/bomdd-witness/ECO-062.json`・tree d21b9a6b・verify ADVANCE を commit 前後で観測)・
+  CI run 34467755878 **success**(headSha 一致・3 job)。製造完了バリア= コミット済みツリー。
+- 引き渡し: Codex(異系統・read-only・§4 裁定 3)へブリーフ(正本= order・register・製造物 2 ファイルのパス指定・観点 7・出力形式指定)を
+  2 回送付。**2 回とも検査官が何も読めずに終了**(所見 0・report 未作成・判定なし・リポ変更なし):
+  1. 1 回目: 既定モデル `gpt-6-astra` が Codex CLI 0.144.1 より新しい(API 400 "requires a newer version of Codex")。
+  2. 2 回目(`--model gpt-5.6-sol` で再試行): Windows サンドボックス初期化エラー `windows sandbox: helper_unknown_error: apply deny-read ACLs`。
+     companion を介さない `codex exec -s read-only` の最小コマンドでも同一エラーを実測 — CLI/環境(`~/.codex/config.toml` `[windows] sandbox = "elevated"`)
+     の障害であり、製造物にも companion にも依存しない。
+- 帰属: **harness_bug(検査設備側)**。製造物の欠陥を示す観測は 0(ただし独立検査が行われていないので「欠陥なし」も言えない)。
+- 判定: 独立検査= **UNKNOWN**(AGENTS 規律 6: 実行不能を PASS として扱わない)。register は `implemented` のまま・verified へ昇格しない。
+- 当方が採らなかった処置: Codex CLI の版上げ・`~/.codex/config.toml` のサンドボックス設定変更(ユーザー環境のセキュリティ設定)・
+  `--dangerously-bypass-approvals-and-sandbox` での実行(検査官の隔離を外す)・製造者自身による「独立検査の代行」(§4 裁定 3 に反する)。
+- **user 裁定待ち**: (a) Codex 環境を復旧して再引き渡し(CLI 更新またはサンドボックス設定)/ (b) 別の異系統検査官を指定 / (c) 第 1 弾を
+  「製造者較正のみで受入」へ切替(§4 裁定 3 の変更 — 機械挙動を含むため当方は推奨しない)。
+
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 3 製造 第 1 弾: 製造・製造者受入(V1' V2' V4)済み(2026-09-10・§6)→ 独立検査(Codex)引き渡し中 — 出口= 独立検査 PASS+verified。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
+`Phase 3 製造 第 1 弾: 製造・製造者受入(V1' V2' V4)・CI 緑(§6・§8)→ **停止点: 独立検査 UNKNOWN**(Codex 環境障害 2 回・§8)— user 裁定待ち(復旧再引き渡し / 別検査官 / 裁定 3 の変更)。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -292,7 +309,7 @@ Phase 0 議論・起票 ─── 完了 2026-09-10
 Phase 1 製造裁定 ─── 完了 2026-09-10(§4)
         │           ┌ Phase 2 手動リハーサル ─── 完了 2026-09-10(§5)
         ▼           ▼
-Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= 製造済み・独立検査中(§6)
+Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= 製造済み・独立検査 UNKNOWN(停止点・§8)
         ▼
 Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)
         ▼
