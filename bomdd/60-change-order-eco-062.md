@@ -135,6 +135,77 @@ hooks・CI は非接触。self-conformance の判定は不変(C16 は本 order �
   - V1〜V3(運転員の測定)は Phase 5 の対象であり第 1 弾の受入ではない。
 - Phase 2(手動リハーサル)は本裁定と独立に着手可。その欄一覧(書けなかった欄)を Phase 3 の入力にする。**Phase 3 の着手は user 指示**。
 
+## 5. Phase 2 手動リハーサル(2026-09-10・user「Phase 2 を実施して」— ツールなし・題材 ECO-055)
+
+### 5.1 手書き job ビュー(ECO-055)— 欄ごとに出所を記録
+
+| 欄 | 値(手書き) | 出所 | 判定 |
+|---|---|---|---|
+| job | JOB-ECO-055 | register `id`(導出) | 導出可 |
+| objective | 52-metrics 棚卸しの帰結 — 計器/ログの整理(1-A/2-A/3-A/4-A の束) | register `title` | 導出可 |
+| state | `in-progress` | register `status` | **不整合** — order §6 は「クローズ(2026-09-03・verified)」・improvements.md 2026-09-03 節は「verified は起票時凍結基準の判定として維持」。register の status は起票以来遷移していない(`git log -G` で確認)。**状態の正本は register**(台帳ヘッダ)なので job は in-progress を出すが、order と食い違う → 下記 F0 |
+| inputs | order_ref・affected_refs | register | 導出可 |
+| write_scope | `diff_audit.allowed_paths` | register | 導出可 |
+| forbidden | (なし) | order §1「採らない」は散文 | **欠落 F3**(構造欄なし) |
+| required_skills | preflight・converge・calibrate | order の receipt **見出し**(事後記録) | **欠落 F1** — 事前の宣言欄がない。job が「起動すべきスキル」を出すには task class → スキル集合の対応表(preflight の task contract 最小表が候補)が要る |
+| required_capability | (なし) | order「担当設備」は事後記録 | **欠落 F2** — 設備認定 ID を参照する欄がない(第 1 弾の対象外・Phase 7) |
+| expected_outputs | order §1 の 4 項+台帳系 | order §1 散文から手写し | **欠落 F4** — 構造化されていない(手写し= 転写値) |
+| gates_remaining | order §3 V1〜V5 → §6 で全 PASS | order 散文 | register が in-progress のため job は「残ゲートあり」と出す → F0 と同根 |
+| stop_vocabulary | 5 種(§0.5) | 本 ECO のみ・ECO-055 には無い | **欠落 F5** — 語彙の正本が未定(第 1 弾では job 側の固定値として持つ) |
+| independent_inspection | REJECT(2026-09-03・Codex)→ 是正 ECO-056 verified | register `verification` 散文 | **欠落 F6** — 構造欄なし(job は「独立検査の結果」を導出できない) |
+
+**F0(状態の不整合・本 ECO の範囲外の発見)**: ECO-055 の register `status: in-progress` は order §6 のクローズと矛盾する。
+job 射影はこれを**修復しない**(射影は read-only)— 射影が出すべきは「register と order の状態が矛盾」という**停止種別**であり、
+§0.5 の 5 種に **⑥台帳不整合(preflight の contradicted 相当・配送先= 台帳の所有者)** を加える候補。ECO-055 の status 遷移そのものは
+user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
+
+### 5.2 手書き witness v0(現ツリー・known-good)
+
+```json
+{"witness": "WIT-ECO-062-P2-001", "eco": "ECO-062", "phase": "2",
+ "tree": "53e2a3152e48129fa38e2c69bda764b14d71746e",
+ "tree_definition": "worktree write-tree (add -A on temp index) — self-conformance C18 と同一",
+ "head": "985f0e2acd5c086771dc6ae7f28d8c006b93ddeb",
+ "gates": [{"name": "self-conformance", "exit": 0, "source": "selfconf-5.log 末尾 passed・task bz00i5lh6 exit=0"}],
+ "stop_type": "NONE", "producer": "claude-fable-5-1 / Claude Code (self-reported)", "produced_at": "2026-09-10"}
+```
+
+- 検証時点で HEAD^{tree}・worktree write-tree・pre-push witness 1 行目の 3 者が一致(clean tree)。
+- **仕様欠落 W1**: `tree` の定義を **C18 と同一(作業木の write-tree)** に固定する — HEAD^{tree} では作業木の未コミット変更を覆えない
+  (5.3 の NG 腕で実証)。**W2**: `gates[].source` は座標(ログのパス+行 or task id)で、値の転写は持たない。**W3**: `stop_type` の語彙は
+  §0.5+F0 の ⑥ を凍結して持つ。**W4**: pre-push の 2 行 witness とは別ファイル(§1-2・不変)。
+
+### 5.3 known-bad 予行(運転員手順の予行・5 腕 × 2 手順)
+
+運転員手順 v0: ①witness.tree が現 tree と一致 ②gates 非空かつ全 exit 0 ③stop_type NONE → ADVANCE、それ以外 STOP+理由。
+現 tree の取り方を 2 通り比較 — **P0**= `HEAD^{tree}`(素朴)/ **P1**= 作業木 write-tree(C18 定義)。dirty 腕は未追跡ファイル 1 つを
+`bomdd/` に置いて計測し直後に削除(後片付け後の write-tree が元に戻ることを assert)。
+
+| 腕 | 作業木 | 手順 | 判定 | 期待 | 合否 |
+|---|---|---|---|---|---|
+| known-good | clean | P0 / P1 | ADVANCE / ADVANCE | ADVANCE | OK / OK |
+| kb-hash(末尾 4 桁改変) | clean | P0 / P1 | STOP(tree 不一致)/ 同 | STOP | OK / OK |
+| kb-fail(exit 1 混入) | clean | P0 / P1 | STOP(FAIL 混入)/ 同 | STOP | OK / OK |
+| kb-missing(gates 空) | clean | P0 / P1 | STOP(欠測)/ 同 | STOP | OK / OK |
+| known-good | **dirty** | **P0** | **ADVANCE** | STOP | **NG(fail-open)** |
+| known-good | dirty | P1 | STOP(tree 不一致) | STOP | OK |
+
+- **所見**: 素朴手順 P0 は「検査後に作業木が変わった」状態を見逃す(HEAD^{tree} は不変のため)。C18 が worktree write-tree を採った
+  理由と同じ。第 1 弾の `bomdd-witness.py` の検証は **P1 のみ**を実装し、P0 を陽性対照(kb-dirty 腕)として持つ(§4 V1' の 3 腕に
+  **dirty 腕を加えて 4 腕**)。
+- 独立性の限界: 運転員役はスクリプト(手順は当方の手書き)であり、witness の書き手と同一。**人間運転員による予行は未実施**
+  (EXP-20260910-02 は Phase 5 で運転員が生まれてから)。本予行が示すのは手順 v0 の欠陥(P0)であって、運転員の行動ではない。
+- 予行の実行環境: 出力が cp932 コンソールで文字化け(判定列は読める)— §13「計器の報告経路は実行環境の既定符号化に依存させない」の
+  再演(計器ではなく予行スクリプトのため是正せず・第 1 弾のツールは明示 UTF-8 で書く)。
+
+### 5.4 Phase 3 への入力(仕様欠落の一覧・出口条件)
+
+- job 射影(`bomdd-job.py`): F1(required_skills の事前宣言欄= task class 対応表)・F3(forbidden の構造化)・F4(expected_outputs の
+  構造化)は**register/order に欄がないため第 1 弾では「出所なし」と明示して空欄で出す**(散文から手写ししない= 転写値禁止)。
+  F0(状態不整合)は停止種別 ⑥ として出す。F2・F5・F6 は第 1 弾の対象外(F5 は job 側固定値)。
+- witness(`bomdd-witness.py`): W1〜W4 を仕様に固定。陽性対照= 4 腕(hash・fail・missing・dirty)。
+- user 裁定が要るもの(本 ECO の範囲外): ECO-055 の register status(in-progress のまま)の遷移。
+
 ## /preflight receipt(起動経路: 自発 — 既裁定の適用実装〔起票〕)
 
 - 分類= 既裁定の適用実装(user 裁定 2026-09-10「起票して記帳して」)。baseline `e26802e`= **confirmed**
@@ -172,16 +243,16 @@ hooks・CI は非接触。self-conformance の判定は不変(C16 は本 order �
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 1 完了(2026-09-10・裁定 3 点= §4・起票 9ac802e/52fef56)→ Phase 2 手動リハーサル(着手可)/ Phase 3 製造 第 1 弾(入口= Phase 2 の欄一覧・着手は user 指示)。`
+`Phase 2 完了(2026-09-10・§5: 欄の欠落 F0〜F6・witness 仕様 W1〜W4・予行 5 腕で P0 の fail-open 1 件)→ Phase 3 製造 第 1 弾の入口(着手は user 指示待ち)。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
         │
         ▼
 Phase 1 製造裁定 ─── 完了 2026-09-10(§4)
-        │           ┌ Phase 2 手動リハーサル(裁定と並行可)
+        │           ┌ Phase 2 手動リハーサル ─── 完了 2026-09-10(§5)
         ▼           ▼
-Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= 2/3 の入口(2 は着手可・3 は user 指示待ち)
+Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= 入口(user 指示待ち)
         ▼
 Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)
         ▼
@@ -196,7 +267,7 @@ Phase 7 複数 executor・裁定キュー
 |---|---|---|---|---|
 | 0 議論・起票 | 外部議論 | 本 order・register・improvements.md 2026-09-10 節・EXP-20260910-01〜03 / OBS-20260910-01 | 起票 commit の CI 緑 | 済 |
 | 1 製造裁定 | Phase 0 完了 | register `filed→decided`・allowed_paths 再凍結・影響なし予測(製造前) | 下記の裁定 3 点が本 order に記入される | 済 2026-09-10(§4) |
-| 2 手動リハーサル | Phase 0 完了(1 と並行可) | 手書き job ビュー 1 枚(題材= in-progress の ECO-055)・手書き witness 1 枚・known-bad 予行(人間運転員・tree hash 故意不一致)の記録 | 書けなかった欄が §1 の仕様欠落として列挙される | 当方が実施・user が確認 |
+| 2 手動リハーサル | Phase 0 完了(1 と並行可) | 手書き job ビュー 1 枚(題材= in-progress の ECO-055)・手書き witness 1 枚・known-bad 予行(人間運転員・tree hash 故意不一致)の記録 | 書けなかった欄が §1 の仕様欠落として列挙される | 済 2026-09-10(§5.4)・user 確認待ち |
 | 3 製造 第 1 弾 | Phase 1 decided+Phase 2 の欄一覧 | job 射影ツール(read-only・worklist.py 同型)・witness 生成/検証器・(別 ECO なら)factory-delegate 正本化 | §3 V4(self-conformance・CI・diff 窓)+異系統独立検査 PASS → `verified` | 独立検査官+user |
 | 4 単独運用実測 | Phase 3 verified | job 経由で起動した ECO 2〜3 本の receipt 記録 | EXP-20260910-01 の初回値(非起動 0 か・対照の有無)が記帳される | 当方が記帳・user が読む |
 | 5 外部運転員試験 | Phase 4 の記帳+§0.1 の運転員仕様 4 点(unknown)の裏取り | run 台帳(非正本)・裁定材料の提示記録・known-bad 対照腕の結果 | EXP-20260910-02 fail-open 0・EXP-20260910-03 伝言ゲーム率の基準線 | user |

@@ -6746,3 +6746,18 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
   method 側に置く判断へ
   source: ECO-062
   evidence: 本節・ECO-062 order §0.2 表
+
+**Phase 2 手動リハーサル(同日・user「Phase 2 を実施して」・ECO-062 order §5)**: 題材 ECO-055 の job ビューを register/order から手書きで
+導出し、欄の出所を記録 — 導出可 4 欄(id・title・inputs・write_scope)/ 出所なし 6 欄(F1 required_skills の事前宣言・F2 設備・F3 forbidden・
+F4 expected_outputs・F5 停止語彙・F6 独立検査結果)。**F0= 状態の不整合**: ECO-055 は register `status: in-progress`(起票以来遷移なし)
+のまま order §6 が「クローズ(2026-09-03・verified)」— 射影は修復せず停止種別 ⑥台帳不整合として出す設計へ。known-bad 予行(5 腕 × 2 手順・
+運転員役= スクリプト・人間運転員は未実施): hash 改変・FAIL 混入・欠測は両手順とも STOP、**作業木 dirty は HEAD^{tree} 比較(素朴手順)で
+fail-open**・worktree write-tree 比較(C18 と同一定義)で STOP — 第 1 弾の検証器は後者のみ実装し前者を陽性対照(4 腕目)に持つ。
+効果計数には含めない(手順 v0 の欠陥検出であって運転員の測定ではない・EXP-20260910-02 は Phase 5 で回収)。
+
+- [watch 1/3] OBS-20260910-02 — **観測: order のクローズ節(verified)と register の status が同一 commit で遷移せず乖離したまま残る**
+  (ECO-055: order §6 クローズ 2026-09-03・register は in-progress のまま 7 日・C3 は verified 以外を検査しないため無音)。
+  同型の先例候補= ECO-VT 系の「是正報告の所在主張が commit 履歴と不一致」(OBS-20260907-02)は主張と変更集合の乖離で、本件は
+  2 正本間の状態乖離 — 別型として数える。3 例で「クローズ節の記入と status 遷移を同一 commit に束ねる機械検査(C3 の対象拡張)」の要否を判断
+  source: ECO-062
+  evidence: 本節・ECO-062 order §5.1 F0・register ECO-055 status 行・order ECO-055 §6
