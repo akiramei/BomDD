@@ -297,10 +297,38 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 - **user 裁定待ち**: (a) Codex 環境を復旧して再引き渡し(CLI 更新またはサンドボックス設定)/ (b) 別の異系統検査官を指定 / (c) 第 1 弾を
   「製造者較正のみで受入」へ切替(§4 裁定 3 の変更 — 機械挙動を含むため当方は推奨しない)。
 
+
+### 8.1 独立検査 r1(2026-09-10・Codex `gpt-5.6-sol`・read-only)= **REJECT**・所見 5(high 2 / medium 2 / low 1)・受理側真正判定 **5/5 CONFIRMED**
+
+- 引き渡し経路の実測: 3 回目(Codex CLI 0.154.0 へ更新後)は companion 経路で既定モデル `gpt-6-astra` が再び 400 — **CLI 直接実行では同モデルで成功**しており、
+  不可は companion(app-server)経路固有。4 回目 `--model gpt-5.6-sol` で成立(所要 約 15 分)。切り分け(user 指示)= 同一サンドボックス・同一コマンドで
+  3 回目に成功 → 実行環境ではなく Codex 側の一時障害だった。
+- 報告: [bomdd/reports/independent-inspection-eco-062.md](reports/independent-inspection-eco-062.md)(検査官作成・当方は無編集)。V1' の指定 8 腕は
+  8/8 期待一致・diff 窓は allowed_paths と完全一致・案超過 0・W1/W4/W5/停止語彙は一致。**V2'・self-conformance・CI は検査官個体で PyYAML 不在/gh 未認証
+  のため unknown**(PASS に数えていない — 正しい扱い)。
+- 所見と受理側の再現(製造者が同一手順で実測・全件再現):
+
+  | 所見 | severity | 内容 | 受理側判定 | 是正(r2) |
+  |---|---|---|---|---|
+  | IA-01 | high | gate の完全性を見ない — 空名・`exit: false`(Python で 0 と等価)・source なしでも ADVANCE | **CONFIRMED**(`--gate =0` で produce 0・verify ADVANCE を再現) | `gate_problem()`: name 非空 str・exit は bool でない int・source 非空 str を produce(拒否 exit 2)と verify(STOP)の両側で検査 |
+  | IA-02 | high | `verify --eco` が witness.eco を照合せず別 ECO の receipt で ADVANCE | **CONFIRMED**(ECO-900 の witness を ECO-902 名でコピー → ADVANCE を再現) | verify に個体照合(`--eco` 指定時に witness.eco 不一致= STOP) |
+  | IA-03 | medium | git 実行不能が traceback・exit 1(契約は exit 2) | **CONFIRMED**(PATH 空で FileNotFoundError を再現) | `_git` が OSError を returncode 127 に変換 → tree None → exit 2 |
+  | IA-04 | medium | 複数 ECO の `--json` が JSON 文書でない(object の連続) | **CONFIRMED**(`json.loads` Extra data を再現) | `--json` は常に単一 object `{"register", "jobs": [...]}`(欠測レコードも同形) |
+  | IA-05 | low | 引数不正・null エントリで traceback | **CONFIRMED**(4 経路とも再現) | witness= `ArgError` → exit 2 / job= `select()` が MISSING_INPUT レコード化・exit 0 維持 |
+
+- 是正の陽性対照(selftest に追加・r2): witness= 構造不完全 gate 3 腕 → 1・不完全 gate の生成拒否 → 2・個体不一致 → 1(一致 → 0)・git 不能 → 2(verify/produce)・
+  引数不正 4 形 → ArgError / job= 複数 `--json` 単一文書・`--register` 値なし → MISSING_INPUT・不在 ECO → MISSING_INPUT レコード・null エントリ → MISSING_INPUT+他は NONE。
+  是正後の再現= IA-01(produce 2・verify STOP)/ IA-02(STOP 個体不一致・一致は ADVANCE)/ IA-03(exit 2)/ IA-04(`json.loads` 成功・3 件)/ IA-05(exit 2 ×2・job exit 0)。
+- 検査官が独立に落とした枝(構造完全性・個体結合・git 欠測・CLI 不正)は製造者 selftest の**未被覆枝**だった — 製造者較正(V1' 8 腕)は自分の前提の外を測れない
+  (OBS-20260902-02 の同型・3 例目候補)。
+- 受理側で拒否した所見: 0。検査官帰属(harness/environment)の限界: PyYAML 不在・gh 未認証・CLI 版 UNKNOWN(検査官報告のとおり・製造物欠陥に数えない)。
+- allowed_paths に検査報告 `bomdd/reports/independent-inspection-eco-062.md` を追加(検査官の成果物・台帳系扱い・ECO-055 の先例と同じ所在)。
+- **r2 の受入**: 上記陽性対照を含む selftest PASS・V4 再実行・witness 生成→verify→commit・CI・**独立検査 r2**(Codex・是正 5 件の再実測+r1 の 8 腕回帰+可能なら V2')。
+
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 3 製造 第 1 弾: 製造・製造者受入(V1' V2' V4)・CI 緑(§6・§8)→ **停止点: 独立検査 UNKNOWN**(Codex 環境障害 2 回・§8)— user 裁定待ち(復旧再引き渡し / 別検査官 / 裁定 3 の変更)。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
+`Phase 3 製造 第 1 弾: 独立検査 r1= REJECT(所見 5/5 CONFIRMED・§8.1)→ 是正 r2 製造・製造者受入済み → **独立検査 r2 引き渡し中**。出口= r2 PASS+較正 receipt+verified。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -309,7 +337,7 @@ Phase 0 議論・起票 ─── 完了 2026-09-10
 Phase 1 製造裁定 ─── 完了 2026-09-10(§4)
         │           ┌ Phase 2 手動リハーサル ─── 完了 2026-09-10(§5)
         ▼           ▼
-Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= 製造済み・独立検査 UNKNOWN(停止点・§8)
+Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= r1 REJECT 是正済み・独立検査 r2 中(§8.1)
         ▼
 Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)
         ▼

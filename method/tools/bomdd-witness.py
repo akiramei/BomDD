@@ -44,8 +44,34 @@ STOP_VOCABULARY = ("NONE", "NORMATIVE_RULING", "VERIFICATION_FAIL", "BOM_CONTRAD
 TREE_DEFINITION = "worktree write-tree (add -A on temp index) — self-conformance C18 と同一"
 
 
+class _GitUnavailable:
+    """git 実行不能(IA-03: FileNotFoundError 等)を returncode 127 の結果として返す — 測定不能は exit 2 へ分類する。"""
+    returncode = 127
+    stdout = ""
+    stderr = "git unavailable"
+
+
 def _git(root: Path, *args, env=None):
-    return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, env=env)
+    try:
+        return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, env=env)
+    except OSError:
+        return _GitUnavailable()
+
+
+def gate_problem(g) -> str | None:
+    """IA-01: gate の完全性 — name 非空 str・exit は bool でない int・source 非空 str。問題なしなら None。"""
+    if not isinstance(g, dict):
+        return "gate が object でない"
+    name = g.get("name")
+    if not isinstance(name, str) or not name.strip():
+        return "gate.name が空"
+    ex = g.get("exit")
+    if isinstance(ex, bool) or not isinstance(ex, int):
+        return f"gate.exit が整数でない({name})"
+    src = g.get("source")
+    if not isinstance(src, str) or not src.strip():
+        return f"gate.source が空({name})— 証拠座標が要る(W2)"
+    return None
 
 
 def worktree_tree(root: Path):
@@ -97,6 +123,10 @@ def _inside_worktree(path: Path, root: Path, git_dir: Path | None) -> bool:
 def produce(root: Path, eco: str, gates: list, stop: str, out: Path | None, producer: str) -> tuple[int, str, Path | None]:
     if stop not in STOP_VOCABULARY:
         return 2, f"stop_type 不正: {stop}(語彙= {', '.join(STOP_VOCABULARY)})", None
+    for g in gates:  # IA-01: 不完全な gate を書かない(生成側でも拒否)
+        prob = gate_problem(g)
+        if prob:
+            return 2, f"gate 不完全: {prob}", None
     tree, git_dir = worktree_tree(root)
     if tree is None:
         return 2, "tree を取得できない(git 不能 — 測定不能は合格ではない)", None
@@ -114,37 +144,68 @@ def produce(root: Path, eco: str, gates: list, stop: str, out: Path | None, prod
     return 0, f"witness 生成: {path}(tree {tree[:12]}・gates {len(gates)}・stop {stop})", path
 
 
-def verify(root: Path, path: Path) -> tuple[int, str]:
-    """0= ADVANCE / 1= STOP(理由)/ 2= 測定不能。"""
+def verify(root: Path, path: Path, eco: str | None = None) -> tuple[int, str]:
+    """0= ADVANCE / 1= STOP(理由)/ 2= 測定不能。eco を渡すと個体(witness.eco)を照合する(IA-02)。"""
     try:
         w = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError) as e:
         return 2, f"witness 読取不能: {path}({e})— 測定不能は合格ではない"
+    if not isinstance(w, dict):
+        return 2, "witness 形状不正(object でない)— 測定不能は合格ではない"
     tree, _ = worktree_tree(root)
     if tree is None:
         return 2, "現 tree を取得できない(git 不能)— 測定不能は合格ではない"
+    if eco is not None and w.get("eco") != eco:
+        return 1, f"STOP: 個体不一致(witness.eco={w.get('eco')} / 要求 {eco})— 別 job の receipt"
     if w.get("tree") != tree:
         return 1, f"STOP: tree 不一致(witness {str(w.get('tree'))[:12]} / 現 {tree[:12]})— 検査後の変更か未検査"
     gates = w.get("gates")
     if not isinstance(gates, list) or not gates:
         return 1, "STOP: gates 欠測(測定不能は合格ではない)"
-    bad = [g for g in gates if not isinstance(g, dict) or g.get("exit") != 0]
+    for g in gates:  # IA-01: 完全性(name・exit の型・source)を先に見る — 存在だけでは進めない
+        prob = gate_problem(g)
+        if prob:
+            return 1, f"STOP: gate 不完全({prob})"
+    bad = [g for g in gates if g["exit"] != 0]
     if bad:
-        return 1, f"STOP: gate FAIL 混入({', '.join(str(g.get('name', '?')) if isinstance(g, dict) else '?' for g in bad)})"
+        return 1, f"STOP: gate FAIL 混入({', '.join(g['name'] for g in bad)})"
     if w.get("stop_type") != "NONE":
         return 1, f"STOP: stop_type={w.get('stop_type')}"
-    return 0, f"ADVANCE: tree 一致({tree[:12]})・gates {len(gates)} 件 exit 0・stop NONE"
+    return 0, f"ADVANCE: tree 一致({tree[:12]})・gates {len(gates)} 件 exit 0・stop NONE" + (f"・個体 {eco} 一致" if eco else "")
+
+
+class ArgError(ValueError):
+    """CLI 引数の不正(IA-05)— main で exit 2 に分類する。"""
 
 
 def parse_gates(argv: list) -> list:
+    """--gate name=exit:source(3 要素とも必須)。不正は ArgError。"""
     gates = []
     for i, a in enumerate(argv):
-        if a == "--gate" and i + 1 < len(argv):
-            spec = argv[i + 1]  # name=exit[:source]
-            name, _, rest = spec.partition("=")
-            ex, _, src = rest.partition(":")
-            gates.append({"name": name, "exit": int(ex), "source": src or None})
+        if a == "--gate":
+            if i + 1 >= len(argv):
+                raise ArgError("--gate に値がない")
+            spec = argv[i + 1]  # name=exit:source
+            name, eq, rest = spec.partition("=")
+            ex, colon, src = rest.partition(":")
+            if not eq or not colon or not name.strip() or not src.strip():
+                raise ArgError(f"--gate の形式不正: {spec!r}(name=exit:source・3 要素とも必須)")
+            try:
+                exit_code = int(ex)
+            except ValueError:
+                raise ArgError(f"--gate の exit が整数でない: {spec!r}") from None
+            gates.append({"name": name, "exit": exit_code, "source": src})
     return gates
+
+
+def _opt(argv: list, flag: str) -> str | None:
+    """flag の値を返す。flag があるのに値がなければ ArgError。flag がなければ None。"""
+    if flag not in argv:
+        return None
+    i = argv.index(flag)
+    if i + 1 >= len(argv) or argv[i + 1].startswith("--"):
+        raise ArgError(f"{flag} に値がない")
+    return argv[i + 1]
 
 
 # --- selftest: 一時 git リポで陽性対照(実リポの作業木に触れない) ---------------------------
@@ -197,9 +258,51 @@ def selftest() -> int:
         if head_tree != good["tree"]:
             fails.append("dirty 前提: clean 時は HEAD^{tree} == worktree tree のはず")
         arm("kb-dirty", good, 1)
-        rc_bad_stop, msg_bad_stop, _ = produce(root, "ECO-900", [], "BOGUS", root / "x.json", "selftest")
+        (root / "dirty.tmp").unlink()
+        rc_bad_stop, msg_bad_stop, _ = produce(root, "ECO-900", [], "BOGUS", wout / "x.json", "selftest")
         if rc_bad_stop != 2:
             fails.append(f"produce: 不正 stop_type が exit {rc_bad_stop}")
+        # --- r2 追加腕(独立検査 IA-01〜03・05 の陽性対照)---
+        # IA-01: 構造不完全な gate(空名・bool exit・source なし)は存在しても ADVANCE しない
+        arm("kb-structural", dict(good, gates=[{"name": "", "exit": False, "source": None}]), 1)
+        arm("kb-bool-exit", dict(good, gates=[{"name": "g", "exit": False, "source": "x"}]), 1)
+        arm("kb-no-source", dict(good, gates=[{"name": "g", "exit": 0}]), 1)
+        rc_inc, _, _ = produce(root, "ECO-900", [{"name": "", "exit": 0, "source": "x"}], "NONE", wout / "inc.json", "selftest")
+        if rc_inc != 2:
+            fails.append(f"produce: 不完全 gate が exit {rc_inc}(2 で拒否すべき)")
+        # IA-02: 個体照合 — 別 ECO の witness を --eco で受理しない / 一致なら 0
+        p = wout / "eco.json"
+        p.write_text(json.dumps(good), encoding="utf-8")
+        rc_mis, _ = verify(root, p, eco="ECO-901")
+        rc_hit, _ = verify(root, p, eco="ECO-900")
+        if rc_mis != 1 or rc_hit != 0:
+            fails.append(f"kb-eco-mismatch: 不一致 exit {rc_mis}(1)/ 一致 exit {rc_hit}(0)")
+        # IA-03: git 実行不能は exit 2(traceback でない)
+        saved = os.environ.get("PATH")
+        try:
+            os.environ["PATH"] = ""
+            rc_nogit, _ = verify(root, out)
+            rc_nogit_p, _, _ = produce(root, "ECO-900", [{"name": "g", "exit": 0, "source": "x"}], "NONE", wout / "ng.json", "selftest")
+        finally:
+            if saved is None:
+                del os.environ["PATH"]
+            else:
+                os.environ["PATH"] = saved
+        if rc_nogit != 2 or rc_nogit_p != 2:
+            fails.append(f"kb-nogit: verify exit {rc_nogit} / produce exit {rc_nogit_p}(2 であるべき)")
+        # IA-05: 引数不正は ArgError(main で exit 2)
+        for bad_argv in (["--gate", "malformed"], ["--gate", "g=x:src"], ["--gate", "g=0"], ["--gate"]):
+            try:
+                parse_gates(bad_argv)
+                fails.append(f"parse_gates が {bad_argv} を受理")
+            except ArgError:
+                pass
+        for bad_argv, flag in ((["verify", "--eco"], "--eco"), (["produce", "--eco", "--out", "x"], "--eco")):
+            try:
+                _opt(bad_argv, flag)
+                fails.append(f"_opt が {bad_argv} を受理")
+            except ArgError:
+                pass
     return _report(fails)
 
 
@@ -207,7 +310,8 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-witness selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-witness selftest PASS(known-good 0 / hash・fail・missing・stop・dirty 1 / 不在 2 / 不正 stop 2 / 作業木内出力 2)")
+    print("bomdd-witness selftest PASS(known-good 0 / hash・fail・missing・stop・dirty 1 / 不在 2 / 不正 stop 2 / 作業木内出力 2 / "
+          "r2: 構造不完全 gate 1・不完全 gate 生成拒否 2・個体不一致 1・git 不能 2・引数不正 ArgError)")
     return 0
 
 
@@ -220,37 +324,41 @@ def main(argv) -> int:
         return 2
     root = Path.cwd()
     cmd = argv[0]
-    eco = argv[argv.index("--eco") + 1] if "--eco" in argv else None
-    out = Path(argv[argv.index("--out") + 1]) if "--out" in argv else None
-    if cmd == "produce":
-        if not eco:
-            print("--eco が必要")
-            return 2
-        stop = argv[argv.index("--stop") + 1] if "--stop" in argv else "NONE"
-        producer = argv[argv.index("--producer") + 1] if "--producer" in argv else "unknown(self-reported)"
-        rc, msg, _ = produce(root, eco, parse_gates(argv), stop, out, producer)
-        print(msg)
-        return rc
-    if cmd == "verify":
-        path = out
-        if path is None:
-            pos = [a for a in argv[1:] if not a.startswith("--") and a != eco]
-            if pos:
-                path = Path(pos[0])
-            elif eco:
-                _, git_dir = worktree_tree(root)
-                if git_dir is None:
-                    print("git 不能 — 測定不能は合格ではない")
-                    return 2
-                path = default_path(git_dir, eco)
-        if path is None:
-            print("verify: PATH か --eco が必要")
-            return 2
-        rc, msg = verify(root, path)
-        print(msg)
-        return rc
-    print(f"不明なコマンド: {cmd}")
-    return 2
+    try:
+        eco = _opt(argv, "--eco")
+        out_s = _opt(argv, "--out")
+        out = Path(out_s) if out_s else None
+        if cmd == "produce":
+            if not eco:
+                raise ArgError("--eco が必要")
+            stop = _opt(argv, "--stop") or "NONE"
+            producer = _opt(argv, "--producer") or "unknown(self-reported)"
+            rc, msg, _ = produce(root, eco, parse_gates(argv), stop, out, producer)
+            print(msg)
+            return rc
+        if cmd == "verify":
+            path = out
+            if path is None:
+                consumed = {v for f in ("--eco", "--out", "--stop", "--producer", "--gate")
+                            for v in ([_opt(argv, f)] if f != "--gate" else [])} - {None}
+                pos = [a for a in argv[1:] if not a.startswith("--") and a not in consumed]
+                if pos:
+                    path = Path(pos[0])
+                elif eco:
+                    _, git_dir = worktree_tree(root)
+                    if git_dir is None:
+                        print("git 不能 — 測定不能は合格ではない")
+                        return 2
+                    path = default_path(git_dir, eco)
+            if path is None:
+                raise ArgError("verify: PATH か --eco が必要")
+            rc, msg = verify(root, path, eco)
+            print(msg)
+            return rc
+        raise ArgError(f"不明なコマンド: {cmd}")
+    except ArgError as e:  # IA-05: 引数不正は traceback でなく exit 2(測定不能側)
+        print(f"引数不正: {e}")
+        return 2
 
 
 if __name__ == "__main__":

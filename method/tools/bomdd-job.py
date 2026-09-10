@@ -160,6 +160,24 @@ def selftest() -> int:
                 fails.append(f"ECO-901: {k} は null + source none であるべき")
         if any("source" not in f for f in j.values()):
             fails.append("全欄 source 必須")
+        # --- r2 追加腕(独立検査 IA-04 / IA-05 の陽性対照)---
+        rel = "bomdd/60-change-register.yaml"
+        jobs, _ = select(["ECO-901", "ECO-902", "--json", "--register", rel], root)
+        doc = json.loads(json.dumps({"register": rel, "jobs": jobs}, ensure_ascii=False))
+        if len(doc["jobs"]) != 2 or {j["eco"]["value"] for j in doc["jobs"]} != {"ECO-901", "ECO-902"}:
+            fails.append("IA-04: 複数 job が単一 JSON 文書に 2 件で入るべき")
+        jobs, _ = select(["--register"], root)
+        if jobs[0]["stop_type"]["value"] != "MISSING_INPUT":
+            fails.append("IA-05: --register 値なしが MISSING_INPUT でない")
+        jobs, _ = select(["ECO-999", "--register", rel], root)
+        if jobs[0]["stop_type"]["value"] != "MISSING_INPUT" or jobs[0]["eco"]["value"] != "ECO-999":
+            fails.append("IA-05: 不在 ECO が MISSING_INPUT レコードでない")
+        reg2 = root / "bomdd" / "null.yaml"
+        reg2.write_text("changes:\n  - ~\n  - {id: ECO-906, title: t6, status: decided, order_ref: bomdd/open.md}\n", encoding="utf-8")
+        jobs, _ = select(["--all", "--register", "bomdd/null.yaml"], root)
+        kinds = sorted(j["stop_type"]["value"] for j in jobs)
+        if kinds != ["MISSING_INPUT", "NONE"]:
+            fails.append(f"IA-05: null エントリの扱いが不正: {kinds}")
     return _report(fails)
 
 
@@ -167,35 +185,56 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ)")
     return 0
+
+
+def _missing(reason: str, eco: str | None = None) -> dict:
+    """欠測(MISSING_INPUT)を job と同形の 1 レコードで表す — 消費側が同じ parser で読める。"""
+    rec = {"stop_type": _field("MISSING_INPUT", f"導出: {reason}")}
+    if eco:
+        rec = {"eco": _field(eco, "引数"), **rec}
+    return rec
+
+
+def select(argv: list, root: Path):
+    """引数と register から (jobs, reg_rel) を返す。引数不正・register 不能・null エントリは
+    MISSING_INPUT レコードにして返す(IA-05: traceback を出さない・終了コードは常に 0)。"""
+    reg_rel = "bomdd/60-change-register.yaml"
+    if "--register" in argv:
+        i = argv.index("--register")
+        if i + 1 >= len(argv) or argv[i + 1].startswith("--"):
+            return [_missing("--register に値がない(引数不正)")], reg_rel
+        reg_rel = argv[i + 1]
+    entries, err = load_register(root / reg_rel)
+    if err:
+        return [_missing(err)], reg_rel
+    jobs = []
+    valid = [e for e in entries if isinstance(e, dict)]
+    for bad in (e for e in entries if not isinstance(e, dict)):
+        jobs.append(_missing(f"register エントリが object でない: {bad!r}"))
+    want = [a for a in argv if a.startswith("ECO-") or a.startswith("CAPA-")]
+    if "--all" in argv:
+        sel = [e for e in valid if e.get("status") != "verified"]
+    else:
+        sel = [e for e in valid if str(e.get("id")) in want]
+        for w in want:
+            if not any(str(e.get("id")) == w for e in valid):
+                jobs.append(_missing(f"register に {w} なし", w))
+    jobs.extend(project(e, root, reg_rel) for e in sel)
+    return jobs, reg_rel
 
 
 def main(argv) -> int:
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace", newline="\n")
     if "--selftest" in argv:
         return selftest()
-    reg_rel = "bomdd/60-change-register.yaml"
-    if "--register" in argv:
-        reg_rel = argv[argv.index("--register") + 1]
-    root = Path.cwd()
-    entries, err = load_register(root / reg_rel)
-    if err:
-        print(f"stop_type: MISSING_INPUT\n  source: 導出: {err}")
-        return 0
-    want = [a for a in argv if a.startswith("ECO-") or a.startswith("CAPA-")]
-    if "--all" in argv:
-        sel = [e for e in entries if e.get("status") != "verified"]
+    jobs, reg_rel = select(argv, Path.cwd())
+    if "--json" in argv:
+        # IA-04: 複数 job でも単一 JSON 文書(object)にする — 標準 parser で閉じる
+        print(json.dumps({"register": reg_rel, "jobs": jobs}, ensure_ascii=False, indent=2))
     else:
-        sel = [e for e in entries if str(e.get("id")) in want]
-        for w in want:
-            if not any(str(e.get("id")) == w for e in entries):
-                print(f"{w}:\nstop_type: MISSING_INPUT\n  source: 導出: register に {w} なし\n")
-    for e in sel:
-        job = project(e, root, reg_rel)
-        if "--json" in argv:
-            print(json.dumps(job, ensure_ascii=False, indent=2))
-        else:
+        for job in jobs:
             print(render(job))
     return 0
 

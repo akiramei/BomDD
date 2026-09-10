@@ -2267,7 +2267,7 @@ changes:
     title: 運転層の分離 — job(射影)/ receipt(witness)/ ruling の 3 形式を既存正本の射影として規格化する(第 1 弾= job 射影+witness の 2 項)
     date: 2026-09-10
     origin: requirement
-    status: implemented   # 2026-09-10 起票(filed)→ 裁定 3 点(order §4)→ 同日 user「製造まで進めて」で製造・製造者受入 V1'/V2'/V4 済み(order §6)。独立検査(Codex)は設備障害 2 回で UNKNOWN(order §8・CI 34467755878 success)— verified へ昇格せず user 裁定待ち
+    status: implemented   # 2026-09-10 起票(filed)→ 裁定 3 点(order §4)→ 同日 user「製造まで進めて」で製造・製造者受入 V1'/V2'/V4 済み(order §6)。独立検査 r1(Codex gpt-5.6-sol)= REJECT・所見 5/5 CONFIRMED → 是正 r2(order §8.1)→ 独立検査 r2 引き渡し中・verified は r2 受理後
     source: >
       外部議論 2026-09-10(Grok Bot を BomDD 製造セルの外側に運転員として横置きし、job/receipt/ruling の 3 形式で
       受け渡す案)への当方応答。リポ内実測: 3 形式は新設ではなく散在している(ECO order/work order/routing/register=
@@ -2282,7 +2282,7 @@ changes:
     diff_audit:
       baseline: "e26802e"  # 起票直前 HEAD
       head: ~
-      allowed_paths: [method/tools/bomdd-job.py, method/tools/bomdd-witness.py, bomdd/60-change-order-eco-062.md, bomdd/60-change-register.yaml, method/improvements.md]   # 裁定で凍結(新規 2+台帳系)
+      allowed_paths: [method/tools/bomdd-job.py, method/tools/bomdd-witness.py, bomdd/60-change-order-eco-062.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/independent-inspection-eco-062.md]   # 裁定で凍結(新規 2+台帳系)。r1 後に検査報告(検査官成果物・台帳系扱い)を追加
     summary: >
       設計原則= 3 形式は既存正本の射影・正本を二重化しない・運転員は receipt を再検証してから進める。候補 6 項:
       ①JOB は register+ECO §6 から生成する射影(手書きしない・運転状態は run 台帳へ)②RECEIPT は tree hash+ゲート結果+
