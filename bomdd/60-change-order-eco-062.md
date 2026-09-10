@@ -206,6 +206,46 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 - witness(`bomdd-witness.py`): W1〜W4 を仕様に固定。陽性対照= 4 腕(hash・fail・missing・dirty)。
 - user 裁定が要るもの(本 ECO の範囲外): ECO-055 の register status(in-progress のまま)の遷移。
 
+## 6. 製造と受入の実測(2026-09-10・user「ECO-062 の製造まで進めて」— Phase 3 第 1 弾)
+
+### /preflight receipt(起動経路: 自発 — 既裁定の適用実装〔製造着手〕)
+
+- baseline `d36fd76`= **confirmed**(HEAD・作業木 clean)/ register `decided`= **confirmed** / 製造範囲= **confirmed**(§4: 新規 2 ファイルのみ)/
+  Phase 2 の欄一覧= **confirmed**(§5.4 F0〜F6・W1〜W4)/ 凍結の非該当= **confirmed**(converge・calibrate 非接触)/ 同一ファイルへの進行中 ECO なし=
+  **confirmed**(新規ファイル)。開始判定: **PROCEED**・override 0。
+
+### 製造物(新規 2 ファイル・既存ファイル非接触)
+
+- [`method/tools/bomdd-job.py`](../method/tools/bomdd-job.py): register+order → job ビュー(read-only・exit 常に 0・`--selftest` のみ失敗で 1)。
+  原則= 全欄 `source` 座標 / 出所なし欄(F1・F2・F3・F4・F6)は null+`none` で出し散文から手写ししない / 状態の正本は register で、
+  order のクローズ節(見出し形状+verified 語・fence 内無視)と矛盾したら **LEDGER_INCONSISTENT** を出す(修復しない・F0)/ 停止語彙は
+  固定値 8(§0.5 の 5 種+⑥台帳不整合+MISSING_INPUT+NONE)で、台帳から導出できるのは NONE・LEDGER_INCONSISTENT・MISSING_INPUT の 3 つと**被覆宣言** /
+  報告経路は明示 UTF-8。
+- [`method/tools/bomdd-witness.py`](../method/tools/bomdd-witness.py): `produce`(tree・gates・stop_type・producer)と `verify`(0= ADVANCE /
+  1= STOP+理由 / 2= 測定不能)。W1 tree の定義= C18 と同一(一時 index に add -A → write-tree)/ W2 gates[].source は座標のみ / W3 停止語彙は job と共通 /
+  W4 既定の出力先= `.git/bomdd-witness/<ECO>.json`(pre-push の 2 行 witness とは別ファイル)/ **W5**(製造中に追加・下記)。
+
+### 製造中の実測(正直記載)
+
+- **witness selftest 初回 FAIL**(known-good 腕が STOP: tree 不一致)。原因= fixture が witness を束縛対象の**作業木内**に書き、verify 時の
+  write-tree に witness 自身が入って tree が変わった(自己参照)。fixture の誤りであると同時に W4 の実証。処置= `produce` に**作業木内(.git 配下を除く)
+  への出力を exit 2 で拒否するガード**(W5)を追加し、selftest に「作業木内出力→2」「.git 配下→0」の 2 腕を追加。計器が自分の欠陥を捕捉した例
+  (陽性対照の設計が製造者の前提誤りを先に露出した)。
+- 製造中の手順逸脱: なし(新規ファイルは Write ツール・CR 0 を実測。検査と commit は別呼び出し・検査が末尾)。
+
+### 受入の実測
+
+- **V1'**(witness 検証器の陽性対照): `bomdd-witness.py --selftest` **PASS** — known-good 0 / hash 改変・FAIL 混入・gates 欠測・stop_type≠NONE・
+  作業木 dirty 1 / witness 不在 2 / 不正 stop_type 2 / 作業木内出力 2(一時 git リポ・実リポ非接触)。**dirty 腕**= §5.3 で fail-open した
+  HEAD^{tree} 比較を陽性対照化したもの(4 腕目)。Codex による再実測は独立検査(§7 Phase 3 出口)で。
+- **V2'**(射影の導出性): `bomdd-job.py ECO-055 ECO-062` — ECO-055= **LEDGER_INCONSISTENT**(order にクローズ節 verified・register in-progress)/
+  ECO-062= **NONE**。導出欄 7(job・eco・objective・state・inputs・write_scope・diff_baseline)は register の座標を `source` に持ち、null 欄 5 は `none`+
+  欠落番号。転写値なし(order 散文からの値は 0)。`--selftest` PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / null 欄 / 全欄 source)。
+- **V4**(製造物を含む作業木で): self-conformance **全 PASS・exit 0**(ログ= scratchpad selfconf-7・task bk794wx0u)— 判定不変(C13 216 links 不在 0・
+  C16 order 30 件・C4 scaffold 不変= 新規 .py は kit に含まれない)。**本 §6 と register の記入後に再実行し、その exit を観測してから witness 生成→commit**
+  (検査後の変更を未検査のまま束縛しない — 本 ECO の witness 自身の規則)。CI は §8 で記録。
+- 独立検査(§4 裁定 3): **停止点** — fix commit 後に Codex(異系統・read-only)へ引き渡し、所見の受理側真正判定を §8 に記録してから verified 昇格。
+
 ## /preflight receipt(起動経路: 自発 — 既裁定の適用実装〔起票〕)
 
 - 分類= 既裁定の適用実装(user 裁定 2026-09-10「起票して記帳して」)。baseline `e26802e`= **confirmed**
@@ -243,7 +283,7 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 2 完了(2026-09-10・§5: 欄の欠落 F0〜F6・witness 仕様 W1〜W4・予行 5 腕で P0 の fail-open 1 件)→ Phase 3 製造 第 1 弾の入口(着手は user 指示待ち)。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
+`Phase 3 製造 第 1 弾: 製造・製造者受入(V1' V2' V4)済み(2026-09-10・§6)→ 独立検査(Codex)引き渡し中 — 出口= 独立検査 PASS+verified。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -252,7 +292,7 @@ Phase 0 議論・起票 ─── 完了 2026-09-10
 Phase 1 製造裁定 ─── 完了 2026-09-10(§4)
         │           ┌ Phase 2 手動リハーサル ─── 完了 2026-09-10(§5)
         ▼           ▼
-Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= 入口(user 指示待ち)
+Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= 製造済み・独立検査中(§6)
         ▼
 Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)
         ▼
