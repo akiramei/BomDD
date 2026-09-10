@@ -438,7 +438,7 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 4 実施中(2026-09-10・1 本目= ECO-063 verified・job 経由起動+witness 遷移 成立・EXP-20260910-01 初回値= 自発起動 3/3・明示起動は F1 未実装で未測定)。残り 2 本= F1 を **ECO-064 として起票済み**(第 2 弾・製造は裁定待ち)+もう 1 本は候補裁定待ち。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
+`Phase 4 実施中(2/3 本: ECO-063 verified 09-10・ECO-064〔F1〕verified 09-11 — job 経由起動+witness 遷移 成立・EXP-20260910-01 は F1 により機械記帳可能になり初回値= ECO-064 implemented [calibrate] → verified [])。残り 1 本= 候補裁定待ち(job の required_skills が非 null になった状態で回す初の ECO)。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -449,7 +449,7 @@ Phase 1 製造裁定 ─── 完了 2026-09-10(§4)
         ▼           ▼
 Phase 3 製造 第 1 弾(job 射影+witness)─── 完了 2026-09-10(r4 ACCEPT・verified・§9)
         ▼
-Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)◀━━ ★ 現在地= 1/3 本(ECO-063)・残り 2 本は候補裁定待ち
+Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)◀━━ ★ 現在地= 2/3 本(ECO-063・ECO-064)・残り 1 本は候補裁定待ち
         ▼
 Phase 5 外部運転員 導入試験(自動実行なし)
         ▼

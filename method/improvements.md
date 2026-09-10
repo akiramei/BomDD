@@ -6729,6 +6729,7 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
   スキル非起動(converge/calibrate/preflight の receipt 欠落)が 0 で推移するか。対照= 同期間の会話起動(job なし)工程の非起動件数。
   **next trigger= F1(task class → スキル対応表)実装後の初 job**(更新 2026-09-10: 第 1 弾は F1 を含まず `required_skills` が null のため明示起動は未測定)。
   **初回観測(2026-09-10・ECO-063・job 経由)**: 自発起動 3/3・非起動 0・対照なし・self-report — 明示起動の効果ではない(2026-09-10 Phase 4 節)
+  **測定器成立(2026-09-11・ECO-064 verified)**: job ビューの skills_missing が order の receipt 見出しから機械導出される。初回値= ECO-064 自身 implemented [calibrate] → verified []・明示起動の効果は次の job(残り 1 本)から測る(2026-09-11 ECO-064 節)
   source: ECO-062
   evidence: 本節・ECO-062 order §0.4・improvements.md 2026-09-02「実施要求≠実施証明」節・ECO-063 order §6
 - [open] EXP-20260910-02 — **運転員の fail-open(known-bad 対照腕)**: 無効 receipt(tree hash 不一致 / FAIL 混入)を持つ job を
@@ -6839,3 +6840,49 @@ CI run 34485248407):
 **期待効果の棚卸し**: EXP-20260910-01= 初回値記帳(注記)・open 維持・next trigger 更新。EXP-20260910-02/03= Phase 5 待ち。OBS-20260910-01(既存形式の索引欠如)=
 ECO-063 で factory-delegate がリポ内に入り 1 例の是正・観測件数は据え置き(1/3)。OBS-20260910-04(検査設備の経路障害)= 工程 2 追記で切替手順を正本化・
 観測件数は据え置き(1/3・効果は次の委譲で測る)。
+
+## 2026-09-11 BomDD 自己適用 — ECO-064(F1・activation-map+receipt 突合)verified: 独立検査 5 round・所見 12 件は全て validator の入力クラスの穴・探索の打ち切りは受理側が宣言・EXP-20260910-01 が機械記帳可能に
+
+**観測**(出典: [ECO-064 order](../bomdd/60-change-order-eco-064.md) §4〜§9、検査報告 r1〜r5〔bomdd/reports/independent-inspection-eco-064*.md〕、
+register ECO-064、CI run 34495672945 / 34499173239 / 34503637641 / 34505764145 / 34508102476):
+1. **製造者受入(V1〜V3)全 PASS の製造物に、異系統独立検査が 4 round で 12 件**(high 2 / medium 9 / low 1)。受理側真正判定 12/12 CONFIRMED・拒否 0。全件が
+   activation-map validator と射影の**入力クラスの穴**: 型不正 → 区切り跨ぎ → 意味転写 → 断片未検査 → 空要素 → unhashable → 空配列 → 識別子正規化 → パス正規形 →
+   語彙 → 順序。製造者 selftest は「正しい map」と「明らかに壊れた map」の 2 極しか持たず、境界を測っていなかった(ECO-062 の 8 件と同型・OBS-20260902-02 の適用実測 2 例目)。
+2. **round ごとに新クラスが出続けた**(r1: 4 → r2: 3 → r3: 1 → r4: 3)。各 round のブリーフで「境界探索の続き」を求めていたため、探索は原理的に終わらない。
+   **r5 は受理側が範囲を回帰のみに限定**し(order §8.4)、未探索クラスは §9「支持しないもの」として宣言した。探索の打ち切りは検査官でなく受理側の判断であり、
+   宣言なしに ACCEPT を得ることはできない(検査官も r1〜r5 で一貫して「全 malformed map に対する fail-closed 性は支持しない」と宣言)。
+3. **OS のハングによる中断**(r2 初回・ログ 2,414 行・V2 まで進行・報告未出力): リポ内変更なし・OS temp 残置なし・r1b commit の CI は事後確認で success。
+   同一ブリーフで再実行して成立。witness(tree 束縛)は中断を跨いで ADVANCE のまま。
+4. **EXP-20260910-01 の測定器が成立**: job ビューの `skills_missing` が order の receipt 見出しから機械導出される。初の測定対象は ECO-064 自身 —
+   implemented 時点 `[calibrate]`(instrument-change の要求・receipt 未記入)→ verified 昇格(較正 receipt 記入)後 `[]`。自己申告でなく台帳から導出した初回値。
+5. **付随発見(製造物外)**: self-conformance の C14 が OS temp に `bomdd-selfconf-c14-*` を **281 件(2026-08-02〜)** 残置 — `shutil.rmtree(ignore_errors=True)` が
+   Windows の read-only な git object を消せず無音(fail-silent)。277 件は当方が削除・4 件は sandbox 所有で不可。検査官環境(Git ownership 制約)では C14 自体が
+   測定不能(r1〜r2 で IA-05 として観測)。
+
+**整理**: ①validator の受入は「正しい入力を通す」だけでは成立せず、**入力クラスの列挙と各クラスの陰性対照**が要る — 検査官が 4 round で列挙した 12 クラスは
+selftest に取り込まれ、次の validator 製造の初期腕になる(playbook への新規則は足さない— §9 の適用)。②探索の打ち切りは受理側の宣言事項(§13「完全性の主張は列挙でなく
+導出で裏付ける」の裏面: 導出できない残余は明示リストとして残す)。③C14 の temp 残置は別 ECO 候補(rmtree の失敗を無音にしない・Windows の read-only 属性の処理)。
+
+**一般化検査**: 「製造者 selftest は境界を測らない」は ECO-062(8 件)・ECO-064(12 件)で 2 例(同一製造者・同一リポ・連続弧のため独立性は弱い)。
+OBS-20260902-02 は昇格済み— 適用実測として記録。「探索の打ち切りは受理側の宣言」は本弧 1 例— OBS 登録。C14 temp 残置は OBS 登録(別 ECO 候補)。
+
+**行き先判定**: 記帳+OBS 2 本+ECO-064 verified+ECO-062 §7 現在地更新。本文改訂なし。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(validator の入力クラス列挙・探索の打ち切り宣言)[ ] template [ ] terminology
+[x] method/concept claim: §9「自己査定 receipt は順守の記録であって弁別力の証明ではない」= supported(2 例目)/ §13「完全性の主張は列挙でなく導出で裏付ける・
+導出できない残余は明示リスト」= supported(未探索クラスの宣言)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: EXP-20260910-01= 測定器成立・初回値(ECO-064: [calibrate] → [])を注記・open 維持(明示起動の効果は Phase 4 残りで測る)。
+EXP-20260910-02/03= Phase 5 待ち。OBS-20260910-03(環境差= 検出力)= 本弧では検査官環境の C14 不能が IA-05 として出たが製造物には当たらず— 件数据え置き(1/3)。
+OBS-20260910-04(検査設備の経路障害)= 本弧は CLI 直接経路で 5 round 障害なし(ハングは OS 側)— 据え置き(1/3)。
+
+- [watch 1/3] OBS-20260911-01 — **観測: 異系統独立検査に「境界探索の続き」を求めると round ごとに新しい入力クラスが出続け、ACCEPT は受理側が探索範囲を
+  限定して初めて得られる — 探索の打ち切りと未探索クラスの宣言は受理側の責務**(ECO-064: r1〜r4 で 12 クラス・r5 で限定して ACCEPT)。3 例目で
+  「独立検査ブリーフに探索の上限(round 数または未探索クラスの宣言方式)を最初から書く」規則の要否を判断
+  source: ECO-064
+  evidence: 本節・観測 2・ECO-064 order §8.4・§9「支持しないもの」・検査報告 r1〜r5 の「支持しないもの」
+- [watch 1/3] OBS-20260911-02 — **観測: self-conformance の C14 が OS temp に fixture を残置する(`shutil.rmtree(ignore_errors=True)` が Windows の read-only な
+  git object を消せず無音)— 281 件・2026-08-02 以降・検出は独立検査官の後片付け拒否報告が契機**。3 例目(別計器の同型 fail-silent cleanup)で
+  「temp cleanup の失敗を無音にしない(onerror で属性を外して再試行・残置を報告)」規則の要否を判断。別 ECO 候補(self-conformance.py の C14/C4/C11 の rmtree)
+  source: ECO-064
+  evidence: 本節・観測 5・ECO-064 order §8.1 付随発見・検査報告 r1/r2 の一時領域節

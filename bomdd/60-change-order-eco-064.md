@@ -214,3 +214,62 @@ required_capability(F2)・forbidden(F3)・expected_outputs(F4)・independent_ins
 - **r5 の受入と範囲の限定**: r1〜r4 の各 round で「境界探索の続き」を求めた結果、round ごとに新しい入力クラス(型→区切り→意味→断片→空→unhashable→空配列→識別子→
   パス正規形→語彙→順序)が 1〜4 件ずつ出ている。**r5 は IA-10〜12 の再実測と r1〜r4 の全所見の回帰に範囲を限定し、新規クラスの探索は求めない**(探索の打ち切りは
   受理側の判断— 未探索クラスは §9 で「この受入が支持しないもの」として宣言する)。
+
+### 8.5 r5(2026-09-11・Codex・CLI 直接 workspace-write・範囲限定= 回帰のみ)= **ACCEPT**・IA-10〜12 **resolved**・IA-01〜09 回帰 9/9・新規所見 **0**
+
+- 報告: [bomdd/reports/independent-inspection-eco-064-r5.md](reports/independent-inspection-eco-064-r5.md)(CLI `-o`・無編集)。V1 PASS・V2(required は辞書順・
+  observed/missing は集合として同一)・unknown 5 条件 exit 0・停止語彙/引数処理(AST)不変・diff 窓 PASS・activation-map.yaml 不変・temp 残置 0・新規クラス探索は
+  §8.4 の限定どおり未実施。
+
+## 9. クローズ(2026-09-11・verified)
+
+- **受入**: V1= PASS(job selftest= 既存+F1+r1〜r4 腕・witness selftest 不変)/ V2= PASS(ECO-062: required 3= observed 3・missing [] / ECO-063: required 2・
+  observed 3・missing [] / ECO-064: implemented 時点で missing [calibrate]= instrument-change の要求 — verified 昇格後は §9 末尾の再測で [])/ V3= PASS(validate_map が
+  map の 4 class の source 断片と skill の実在を検査・r2 以降は検査官が独立確認)/ V4= PASS(self-conformance 全 PASS ×6・各 commit 前に exit 0 を観測・CI 6 run success:
+  34495672945 / 34499173239 / 34503637641 / 34505764145 / 34508102476 +本クローズ)/ diff 窓= allowed_paths のみ(検査官 r1〜r5 各回 PASS)。
+- **独立検査**: 5 round(r1 REJECT 4 → r2 REJECT 3 → r3 REJECT 1 → r4 REJECT 3 → r5 ACCEPT)。所見 12 件= **全件 CONFIRMED・全件是正・全件に陽性対照**。受理側で拒否 0。
+  環境帰属 1(IA-05: 検査官環境の C14 不能)。**r5 は範囲限定**(新規クラス探索なし — 受理側の判断・§8.4)。
+- diff 監査の窓: baseline `7e90025` → head `ef88211`(**窓閉鎖**)。窓内= 製造物 2 ファイル+台帳系(order・register・ECO-062 order・improvements.md)+検査報告 r1〜r4
+  (r5 報告は本クローズ commit)。既存ファイル(self-conformance.py・skills/*.md・README・hooks)の diff= 0 — 影響なし予測(§4)が的中。
+- **製造物の最終形**: `activation-map.yaml` v1.1(4 class・anchor は台帳側の事実のみ・source は literal 断片・contract_item は注記)/ `bomdd-job.py`(validate_map= 型・
+  canonical skill ID・statuses 語彙・instrument_paths 正規形・source 断片実在・空要素/unhashable/空配列/重複の拒否・validator 自身の例外も MAP_INVALID / `_glob_match`=
+  区切りを跨がない・`\` 正規化 / required・class 列挙は辞書順 / 停止語彙・exit 契約・既存欄は第 1 弾から不変)。
+- **register**: `implemented → verified`・head 凍結。
+- **EXP-20260910-01 の測定器**: job ビューの `skills_missing` が order の receipt 見出しから機械導出される(§1-4)。本 ECO 自身が初の測定対象: implemented 時点
+  `[calibrate]`(要求は instrument-change 由来・receipt 未記入)→ 本 §9 の較正 receipt 記入後の再測= `[]`(§9 末尾)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格+③: 計器〔validate_map・job 射影〕の新設・変更。二軸)
+
+- 査定した主張と判定:
+  1. 「独立検査の所見 12 件は全て是正された」— **observed / 適格**(r5 ACCEPT: IA-10〜12 resolved+IA-01〜09 回帰 9/9。受理側でも全件を HEAD コピーで再現→是正後の消失を selftest で実測)。
+  2. 「required_skills は契約を転写せず台帳側の機械アンカーだけで導出される」— **observed / 適格**(map の anchor 4 行を検査官が r2/r3/r5 で実読・IA-03 是正後は契約語なし)。
+     ただし「anchor が契約の**意味**と一致している」は読解であり機械では測れない(source の literal 実在まで)。
+  3. 「validate_map は fail-closed(不正 map は unknown・exit 0)」— **observed / 条件付き適格**(r1〜r4 で検査官が 12 クラスの不正入力を落とし全て是正。**未探索クラスは残る**
+     — r5 で探索を打ち切った・下記「支持しないもの」)。
+  4. 「skills_observed は receipt 見出しから正しく導出される」— **observed / 適格**(3 ECO で検査官が order を独立に読んで一致・fence 内偽見出し 9 腕)。
+  5. 「V4 self-conformance 全 PASS・CI 緑」— **observed / 適格**(製造者・各 commit 前 exit 0・CI headSha 照合 ×6)。検査官は環境制約(C14・ネットワーク)で unknown。
+  6. 「明示起動(job の required_skills)が自発起動不発を消す」— **unknown(理由コード: 未測定 — 本 ECO は測定器を作ったのみ)**。Phase 4 の残り(EXP-20260910-01)で測る。
+  7. 「skills_missing を gate 化しても安全」— **unknown(設計上対象外・検査官も r1〜r5 で「支持しない」と宣言)**。
+- 検出した計器欠陥(帰属つき): **製造物 12 件**(IA-01〜04・06〜12。全て validator/射影の入力クラスの穴= 型・区切り・意味転写・断片・空要素・unhashable・空配列・識別子・
+  パス正規形・語彙・順序)。**検査設備 1 件**(IA-05・検査官環境の C14 不能)。**製造物外 1 件**(self-conformance C14 の temp 残置 281 件— OBS 記帳・別 ECO 候補)。
+  受理側 0 件。
+- 検出力の限界: 製造者 selftest は検査官が落とした 12 クラスを取り込んだが、未探索クラス(Linux/macOS・全 YAML 型・全 glob・alias graph・資源上限・`id` 文法)は
+  測っていない。契約の意味一致・運転員の行動・明示起動の効果は未測定。CI は製造者のみ確認。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | validator の自己記述(fail-closed)より狭い実装を r1〜r4 が 12 件検出 → 全て是正・陽性対照化 |
+  | Q2 | asked | observed/適格 | 実測 | 各 class で known-good(正規 map)と known-bad(改変 map)を対で持つ(selftest 40 腕超) |
+  | Q3 | asked | observed/適格 | 実測 | 各所見を単独腕で落とした(受理側再現 12 件・是正後に消失) |
+  | Q4 | asked | observed/適格 | 実測 | selftest は実 map・実 skills/・実 self-conformance 正規表現を入力・検査官も temp 複製で実 CLI |
+  | Q5 | asked | observed/適格 | 実測 | 検査官の unknown(C14・CI)を PASS に数えず製造者側で実測・出所を分けた |
+  | Q6 | asked | observed/適格 | 実測 | 6 commit すべて「検査 exit 観測 → witness produce/verify(条件結合)→ commit → push → CI 照合」 |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= selftest 各腕・r5 で検査官が独立に PASS |
+  | Q8 | NA | — | — | 免除機構なし(skills_missing は情報欄・gate 化していない) |
+  | Q9 | asked | observed/適格 | 実測 | witness(個体+tree)・register・commit で来歴化 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 6・7 の unknown |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラスを列挙(12 クラス+未探索の宣言)。検査官 r4 が「新規 IA にしない」とした `id` 文法・注記欄の型は宣言つき対象外 |
+
+- このクローズが支持しないもの: 未探索の入力クラス(Linux/macOS・全 YAML 型・全 glob 表現・alias graph・資源上限・`id` 文法)に対する fail-closed 性 /
+  skills_missing の gate 化 / 明示起動の効果(EXP-20260910-01・Phase 4 残り)/ 運転員の行動(Phase 5)/ F2〜F6 / activation-map への行追加の運用(追加統制の実効)。
