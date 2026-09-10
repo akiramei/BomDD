@@ -378,10 +378,67 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 - r3 で検査官が「未検査」と宣言したもの: CI・対象リポ自体の self-conformance・UNC/symlink/linked worktree/submodule/Linux・selftest 後の同一プロセス verify。
 - **r4 の受入**: r3b の selftest PASS・V4・witness→commit・CI・**独立検査 r4(IA-08/08b の回帰+8 腕の再確認に限定)**。
 
+
+### 8.4 独立検査 r4(2026-09-10・Codex・CLI 直接 workspace-write・範囲限定)= **ACCEPT**・IA-08/08b **resolved**・8 腕 8/8・両 selftest PASS・diff 窓 PASS・新規所見 **0**
+
+- 報告: [bomdd/reports/independent-inspection-eco-062-r4.md](reports/independent-inspection-eco-062-r4.md)(CLI `-o` で書出し・当方無編集)。拡張長パスの 4 腕
+  (通常内 2・通常外 0・拡張内 2・拡張 .git 配下 0)・IA-08b(`x.json\y.json` → FileExistsError → exit 2・traceback なし)・junction 2 腕・UNC 正規化同値。
+  検査官の計器欠陥 1 件(初回の `\\?\` 接頭辞生成誤りを自己検出し除外して再測定)。後片付けは実行基盤に拒否 → 当方が OS temp の fixture 2 件を削除(リポ外)。
+- 検査官が未検査と宣言: CI・対象リポでの self-conformance・実共有 UNC I/O・symlink・linked worktree・submodule・Linux・gate 申告値の真正性。
+
+## 9. クローズ(2026-09-10・verified)
+
+- **受入**: V1'= PASS(検証器の陽性対照: 製造者 selftest 8+r2 5+r2b 2+r3 3 腕・**Codex が独立 fixture で r1 8 腕を 3 回(r1/r3/r4)再実測し 8/8**)/
+  V2'= PASS(job ビューが ECO-055= LEDGER_INCONSISTENT・ECO-062= NONE・15 欄 source・転写なし — r2/r3 で検査官が実 register で実測)/ V4= PASS
+  (self-conformance 全 PASS・各 commit 前に exit 0 を観測・CI 5 commit すべて success: 34467755878 / 34474283576 / 34477392209 / 34480909601 +本クローズ §9 末尾)/
+  diff 窓= allowed_paths のみ(検査官 r1〜r4 各回 PASS)。
+- **独立検査**: 4 round(r1 REJECT 5 件 → r2 REJECT 2 件 → r3 REJECT 1 件 → r4 ACCEPT)。所見 8 件(+受理側追加 1)は**全件 CONFIRMED・全件是正・全件に陽性対照を追加**。
+  受理側で拒否した所見 0。
+- diff 監査の窓: baseline `e26802e` → head `d9fe305`(**窓閉鎖**)。窓内= 製造物 2 ファイル+台帳系(order・register・improvements.md)+検査報告 r1〜r3(r4 報告は本クローズ
+  commit・台帳系)。既存ファイル(hook・self-conformance.py・README・AGENTS.md・skills)の diff= 0 — 影響なし予測(§4)が的中。
+- **製造物の最終形**: `bomdd-job.py`(read-only 射影・exit 常に 0・停止語彙 8・被覆宣言 3・全欄 source・欠測/引数不正は MISSING_INPUT レコード・`--json` は単一 object)/
+  `bomdd-witness.py`(produce/verify・tree= C18 定義・exit 0/1/2・gate 完全性・個体照合・git/temp/書込 不能= 2・W5 自己参照拒否は拡張長パス込み)。
+- 製造中の手順逸脱: なし(検査 exit の観測→witness→verify→commit→push の順を 5 commit で維持・CRLF 0)。
+- **register**: `implemented → verified`・head 凍結。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格。二軸= 証拠品質+検査器検査)
+
+- 査定した主張と判定:
+  1. 「独立検査の所見 8 件は全て是正された」— **observed / 適格**(r4 ACCEPT が IA-08/08b と 8 腕回帰、r3 が IA-01〜07 を実 CLI で resolved。受理側でも全件を再現→是正後に消失を実測)。
+  2. 「selftest の陽性対照が是正枝を覆う」— **observed / 条件付き適格**(各所見を known-bad 腕として追加し PASS。ただし selftest は製造者が書いた計器で、独立性は検査官の別 fixture 再実測〔r1 8 腕 ×3 回〕の範囲まで)。
+  3. 「job ビューは転写値を持たない」— **observed / 適格**(全欄 source・出所なし欄は null — 検査官 r2/r3 が 15 欄を確認)。ただし「F1〜F6 の欠落宣言が正しい」は読解。
+  4. 「V4 self-conformance 全 PASS」— **observed / 適格**(製造者・各 commit 前・exit 0)。検査官は再構成 tree で PASS・対象 tree との照合未了= 条件付き。
+  5. 「CI 緑」— **observed / 適格**(製造者 `gh run view`・headSha 照合 ×5)。検査官はネットワーク不達= unknown(独立確認なし)。
+  6. 「witness の再検証は運転員の fail-open を防ぐ」— **unknown(理由コード: 未測定 — 運転員不在)**。本 ECO が示すのは検証器の陽性対照までで、運転員の行動は Phase 5(EXP-20260910-02)。
+  7. 「gate の申告値(exit)は真である」— **unknown(理由コード: 設計上被覆外)**。witness は申告値を束縛するだけで再実行しない(仕様の限界 (2))。
+- 検出した計器欠陥(帰属つき): **製造物 8 件**(IA-01〜08・全て製造者 selftest の未被覆枝= 構造完全性・個体結合・依存実行不能・引数不正・JSON 形状・temp 不能・
+  対象指定なし・パス表記)。**検査設備 4 件**(companion 経路の既定モデル不可・runner プロトコル版不一致・プロバイダのコンテンツフィルタによる最終報告遮断・`resume` の `-o` 欠如)—
+  harness 帰属・製造物欠陥に数えない。**受理側 1 件**(初報「N=1」誤り〔§改行事故〕とは別に、IA-06 の受理側再現で「cwd フォールバック変種」を実測と誤記 → 是正時に訂正)。
+- 検出力の限界: 本 receipt は検査官報告の実在と所見の再現までを製造者が確認したもので、検査官の測定自体は再実行していない(r4 の拡張長パス 4 腕は selftest で同型を持つが検査官の fixture とは別)。
+  gate 申告値の真正性・全 Git 構成・Linux・運転員の行動は未測定。CI は製造者のみ確認。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | 検証器の自己記述(0/1/2 契約・W1〜W5)より狭い実装を r1〜r3 が 8 件検出 → 全て是正・陽性対照化 |
+  | Q2 | asked | observed/適格 | 実測 | known-good/known-bad を対で持つ(selftest 18 腕・検査官 fixture 8 腕 ×3) |
+  | Q3 | asked | observed/適格 | 実測 | 各所見を単独腕で落とした(受理側再現 9 件・是正後に消失) |
+  | Q4 | asked | observed/適格 | 実測 | selftest は一時 git リポ(実 git・実ファイル)を入力・検査官も独立 fixture |
+  | Q5 | asked | observed/適格 | 実測 | 検査官の unknown(CI・self-conformance・temp 不能時)を PASS に数えない・製造者側は実測で補完し出所を分けた |
+  | Q6 | asked | observed/適格 | 実測 | 5 commit すべて「検査 exit 観測 → witness produce/verify(条件結合)→ commit → push → CI 照合」。並列や chain での観測潰しなし |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= selftest の各腕(r1〜r3 追加分を含む)・r4 で検査官が独立に PASS |
+  | Q8 | NA | — | — | 免除機構なし(本ツールに免除宣言はない) |
+  | Q9 | asked | observed/適格 | 実測 | witness は個体(--eco)と tree(write-tree)で束縛・register/commit で来歴化 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 6・7 の unknown |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラスを列挙: 正常/値改変/欠測/dirty/構造不完全/別個体/依存不能/引数不正/temp 不能/パス表記(通常・拡張長・junction・UNC)。未列挙= symlink・linked worktree・submodule・Linux(検査官宣言) |
+
+- このクローズが支持しないもの: 運転員が witness を再検証してから進むこと(Phase 5 で測る)/ gate 申告値の真正性 / Linux・symlink・linked worktree・submodule での挙動 /
+  F1〜F6 の欄を埋める設計(第 2 弾以降)/ factory-delegate のリポ内正本化(別 ECO・未起票)/ ECO-055 の register status(user 裁定待ち・job 射影は矛盾を出し続ける)。
+
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 3 製造 第 1 弾: r1 REJECT(5/5 是正)→ r2 REJECT(2/2 是正)→ r3 REJECT(IA-01〜07 全 resolved・IA-08 のみ・§8.3)→ 是正 r3b 製造者受入済み → **独立検査 r4 引き渡し中**(IA-08/08b 回帰に限定)。出口= r4 PASS+較正 receipt+verified。付随裁定待ち= ECO-055 の register status(§5.1 F0)。`
+`Phase 3 完了(2026-09-10・独立検査 r4 ACCEPT・較正 receipt・verified・§9)→ Phase 4 単独運用実測の入口(job 経由で起動する ECO 2〜3 本・EXP-20260910-01)。付随裁定待ち= ECO-055 の register status(§5.1 F0)・factory-delegate 正本化 ECO の起票。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -390,9 +447,9 @@ Phase 0 議論・起票 ─── 完了 2026-09-10
 Phase 1 製造裁定 ─── 完了 2026-09-10(§4)
         │           ┌ Phase 2 手動リハーサル ─── 完了 2026-09-10(§5)
         ▼           ▼
-Phase 3 製造 第 1 弾(job 射影+witness)◀━━ ★ 現在地= r1〜r3 の所見 8 件是正済み・独立検査 r4 中(§8.3)
+Phase 3 製造 第 1 弾(job 射影+witness)─── 完了 2026-09-10(r4 ACCEPT・verified・§9)
         ▼
-Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)
+Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)◀━━ ★ 現在地= 入口
         ▼
 Phase 5 外部運転員 導入試験(自動実行なし)
         ▼
@@ -406,7 +463,7 @@ Phase 7 複数 executor・裁定キュー
 | 0 議論・起票 | 外部議論 | 本 order・register・improvements.md 2026-09-10 節・EXP-20260910-01〜03 / OBS-20260910-01 | 起票 commit の CI 緑 | 済 |
 | 1 製造裁定 | Phase 0 完了 | register `filed→decided`・allowed_paths 再凍結・影響なし予測(製造前) | 下記の裁定 3 点が本 order に記入される | 済 2026-09-10(§4) |
 | 2 手動リハーサル | Phase 0 完了(1 と並行可) | 手書き job ビュー 1 枚(題材= in-progress の ECO-055)・手書き witness 1 枚・known-bad 予行(人間運転員・tree hash 故意不一致)の記録 | 書けなかった欄が §1 の仕様欠落として列挙される | 済 2026-09-10(§5.4)・user 確認待ち |
-| 3 製造 第 1 弾 | Phase 1 decided+Phase 2 の欄一覧 | job 射影ツール(read-only・worklist.py 同型)・witness 生成/検証器・(別 ECO なら)factory-delegate 正本化 | §3 V4(self-conformance・CI・diff 窓)+異系統独立検査 PASS → `verified` | 独立検査官+user |
+| 3 製造 第 1 弾 | Phase 1 decided+Phase 2 の欄一覧 | job 射影ツール(read-only・worklist.py 同型)・witness 生成/検証器・(別 ECO なら)factory-delegate 正本化 | §3 V4(self-conformance・CI・diff 窓)+異系統独立検査 PASS → `verified` | 済 2026-09-10(r1〜r3 REJECT 8 件是正・r4 ACCEPT・§9) |
 | 4 単独運用実測 | Phase 3 verified | job 経由で起動した ECO 2〜3 本の receipt 記録 | EXP-20260910-01 の初回値(非起動 0 か・対照の有無)が記帳される | 当方が記帳・user が読む |
 | 5 外部運転員試験 | Phase 4 の記帳+§0.1 の運転員仕様 4 点(unknown)の裏取り | run 台帳(非正本)・裁定材料の提示記録・known-bad 対照腕の結果 | EXP-20260910-02 fail-open 0・EXP-20260910-03 伝言ゲーム率の基準線 | user |
 | 6 狭い自動起動 | Phase 5 で fail-open 0 | 単一入口(`bomdd-run <job>` 相当・コマンド単位の承認は維持) | 自動起動 job で witness 再検証が機械的に効いた実測 | user |

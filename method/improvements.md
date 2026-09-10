@@ -6761,3 +6761,51 @@ fail-open**・worktree write-tree 比較(C18 と同一定義)で STOP — 第 1 
   2 正本間の状態乖離 — 別型として数える。3 例で「クローズ節の記入と status 遷移を同一 commit に束ねる機械検査(C3 の対象拡張)」の要否を判断
   source: ECO-062
   evidence: 本節・ECO-062 order §5.1 F0・register ECO-055 status 行・order ECO-055 §6
+
+## 2026-09-10 BomDD 自己適用 — ECO-062 第 1 弾(job 射影+witness)の製造〜verified: 独立検査 4 round・所見 8 件は全て製造者 selftest の未被覆枝・検査設備の経路障害 4 種
+
+**観測**(出典: [ECO-062 order](../bomdd/60-change-order-eco-062.md) §6・§8.1〜8.4・§9、検査報告 r1〜r4〔bomdd/reports/independent-inspection-eco-062*.md〕、
+register ECO-062・CI run 34467755878 / 34474283576 / 34477392209 / 34480909601):
+1. **製造者受入(V1' V2' V4)全 PASS の製造物に対し、異系統独立検査(Codex・gpt-5.6-sol)が 3 round で 8 件を検出**(high 2 / medium 4 / low 2)。受理側真正判定 8/8
+   CONFIRMED・拒否 0。全件が製造者 selftest の**未被覆枝**: gate の構造完全性(`exit:false` が Python で 0 と等価)・witness の個体結合(別 ECO の receipt を受理)・
+   依存実行不能(git 不在)の終了コード・引数不正の traceback・複数 `--json` の非文書化・OS temp 不能・対象指定なし・Windows 拡張長パス表記。製造者較正(selftest 8 腕)は
+   自分の前提の外を 1 件も測っていなかった(OBS-20260902-02〔昇格済み〕の適用実測 — 製造者の自己査定は製造者の前提誤りに盲目)。
+2. **検査官の環境制約が検出力になった**: r2 の read-only 実行基盤は OS temp を作れず統合回帰は unknown になった一方、その制約自体が IA-06(temp 不能→traceback)を
+   製造物に当てた。r3 は拡張長パス、r1 は PATH 空。製造者環境では発火しない入力クラスを、異系統環境が構造的に踏む(環境差は弱点であり同時に検出力)。
+3. **検査設備側の障害 4 種**(製造物と無関係・往復コスト): companion 経路(app-server)の既定モデル `gpt-6-astra` 不可(CLI 直接では可)/ CLI 更新後の runner プロトコル版
+   不一致 / プロバイダのコンテンツフィルタが最終報告を遮断(語= 改竄・ACL・sandbox 等 → `resume` で中立語に言い換えて復旧)/ `codex exec resume` に `-o` がなく
+   最終メッセージを当方がバイト切り出し。復旧経路= CLI 直接(`codex exec -s <mode> -m <model> -C <repo> -o <report> -` に stdin で正本委譲)。
+4. **witness 機構の自己適用**: 5 commit すべてで「検査 exit 観測 → witness produce → verify(条件結合)→ commit → push → CI headSha 照合」。verify は commit 前後で
+   ADVANCE(tree 束縛は commit を跨ぐ)。製造中に selftest が自分の欠陥(作業木内 witness の自己参照・W5)を捕捉した 1 例。
+5. 受理側の記述誤り 1: IA-06 の受理側再現で「tempfile の cwd フォールバック変種を実測」と書いたが、実測は未コミット変更による正当な STOP だった(§8.2 で訂正)。
+   導出せず記憶で裁定した型(同日 2 例目・1 例目は改行事故「N=1」)。
+
+**整理**: ①独立検査は「製造者が想定した入力クラスの外」を測る装置であり、round 数(4)は製造物の質でなく製造者 selftest の被覆の狭さを測っている。
+②検査設備の障害は帰属を分けて記録し製造物欠陥に数えない(§8 の各 round で実施)。③環境差を「検査官の限界」としてだけ扱わず、read-only / temp 不能 / パス表記の
+各制約を**入力クラス**として selftest に取り込んだ(r2b・r3b)。④factory-delegate(リポ外)の教訓 3 規律に、本弧で得た **CLI 直接経路・content filter 回避・
+resume の制約**を加える必要がある — 別 ECO(factory-delegate 正本化・未起票)の入力。
+
+**一般化検査**: 「製造者較正は前提の外に盲目」は OBS-20260902-02 で昇格済み(§9)— 本弧は適用実測 1 例(ツール製造・N=1 追加)。「環境差= 検出力」は本弧 3 例
+(r1 PATH 空 / r2 temp 不能 / r3 拡張長パス)だが同一 ECO・同一検査官系統で独立性なし → OBS として登録(下記)。検査設備障害 4 種は同一日・同一設備 → OBS 1 本。
+playbook への新規則は足さない。
+
+**行き先判定**: 記帳+OBS 2 本+ECO-062 verified。本文改訂なし。factory-delegate 正本化 ECO(未起票)への入力を本節に集約。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(独立検査 4 round・witness 自己適用)[ ] template [ ] terminology
+[x] method/concept claim: §9「自己査定 receipt は順守の記録であって弁別力の証明ではない」= supported(製造者 V1' 全 PASS の製造物に 8 件)/ §13 第 1 層⑤
+「慎重さは荷重を負わない」= supported(witness 機構が慎重さの代替として 5 commit で機能)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: EXP-20260910-01(job 明示起動で不発が消えるか)= トリガー未到達(Phase 4 で回収)・open 維持。EXP-20260910-02/03= Phase 5 待ち・open 維持。
+OBS-20260910-01(既存形式の索引欠如)= 追加観測なし・1/3 維持。OBS-20260910-02(クローズ節と status の乖離)= ECO-055 は未裁定・job 射影が LEDGER_INCONSISTENT を
+出し続ける(機械検出は成立)・1/3 維持。EXP-20260726-01(非 GPT 系検査官)= 本弧は GPT 系・非該当。
+
+- [watch 1/3] OBS-20260910-03 — **観測: 異系統検査官の環境制約(read-only の temp 不能・PATH 空・Windows 拡張長パス)が、製造者環境では発火しない入力クラスとして製造物に
+  当たり所見になる — 環境差は検査官の弱点であると同時に検出力**(本弧 3 例だが同一 ECO・同一検査官系統)。3 例目(別 ECO・別検査官)で「検査官環境の制約を意図的に
+  変える(read-only / 別 OS / 別パス表記)ことを独立検査の設計項目にする」規則の要否を判断
+  source: ECO-062
+  evidence: 本節・観測 2・ECO-062 order §8.1〜8.3・検査報告 r1(IA-03)/ r2(IA-06)/ r3(IA-08)
+- [watch 1/3] OBS-20260910-04 — **観測: 検査設備(Codex)の経路障害が製造物と無関係に独立検査の往復を止める — companion 経路の既定モデル不可・runner プロトコル版不一致・
+  コンテンツフィルタによる報告遮断・resume の出力先欠如(同日 4 種)**。復旧経路は CLI 直接+stdin 正本委譲+`-o`。3 例目で factory-delegate の手順に「経路の選択と
+  障害時の切替」を織り込むか判断(factory-delegate 正本化 ECO の入力)
+  source: ECO-062
+  evidence: 本節・観測 3・ECO-062 order §8・§8.1〜8.3

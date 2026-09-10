@@ -2267,7 +2267,7 @@ changes:
     title: 運転層の分離 — job(射影)/ receipt(witness)/ ruling の 3 形式を既存正本の射影として規格化する(第 1 弾= job 射影+witness の 2 項)
     date: 2026-09-10
     origin: requirement
-    status: implemented   # 2026-09-10 起票(filed)→ 裁定 3 点(order §4)→ 同日 user「製造まで進めて」で製造・製造者受入 V1'/V2'/V4 済み(order §6)。独立検査 r1= REJECT(5/5 是正)→ r2= REJECT(2/2 是正)→ r3= REJECT(IA-01〜07 全 resolved・IA-08 のみ・是正 r3b・§8.3)→ 独立検査 r4 引き渡し中・verified は r4 受理後
+    status: verified   # 2026-09-10 受入= 独立検査 r4 ACCEPT(Codex・IA-08/08b resolved・8 腕 8/8)・r1〜r3 の所見 8 件は全て是正・V4 全 PASS・CI 34480909601 success @d9fe305・窓閉鎖(order §9)。同日 filed→decided→implemented→verified
     source: >
       外部議論 2026-09-10(Grok Bot を BomDD 製造セルの外側に運転員として横置きし、job/receipt/ruling の 3 形式で
       受け渡す案)への当方応答。リポ内実測: 3 形式は新設ではなく散在している(ECO order/work order/routing/register=
@@ -2281,7 +2281,7 @@ changes:
     no_impact_prediction: "(製造前・裁定後)既存の全検査 C1〜C18 の判定不変(新規 .py は検査対象集合に入らない・C5a/C5b は名指しの 2 スクリプトのみ・kit に含めない)。pre-push witness の 2 行形式と読取不変。既存ファイル(hook・self-conformance.py・README・AGENTS.md・skills)は diff ゼロ。製品リポ非波及。起票段階の予測(台帳系のみ・判定不変)は 3 commit で的中"
     diff_audit:
       baseline: "e26802e"  # 起票直前 HEAD
-      head: ~
+      head: "d9fe305"      # diff監査済み: 窓内= 製造物 2+台帳系+検査報告 r1〜r3・既存ファイル diff 0・予測的中
       allowed_paths: [method/tools/bomdd-job.py, method/tools/bomdd-witness.py, bomdd/60-change-order-eco-062.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/independent-inspection-eco-062.md, bomdd/reports/independent-inspection-eco-062-r2.md, bomdd/reports/independent-inspection-eco-062-r3.md, bomdd/reports/independent-inspection-eco-062-r4.md]   # 裁定で凍結(新規 2+台帳系)。r1 以降に検査報告(検査官成果物・台帳系扱い)を追加
     summary: >
       設計原則= 3 形式は既存正本の射影・正本を二重化しない・運転員は receipt を再検証してから進める。候補 6 項:
@@ -2291,7 +2291,11 @@ changes:
       ⑥factory-delegate のリポ内正本化(前提)。採らない= bomdd/jobs 手書き台帳・Bot の正本 Markdown 書込・同一ユーザー
       Bot の独立検査扱い・Bot memory への裁定保持・Phase 1 測定前の自動起動・Grok 採否そのものの裁定・機械ゲート先行新設。
     verification: >
-      (裁定後・製造前)第 1 弾の受入は order §4 — V1'(witness 検証器の陽性対照 3 腕で非 0・known-good で 0・製造者実測+Codex 再実測)/
+      V1'= PASS(検証器の陽性対照 selftest 18 腕+Codex が独立 fixture で 8 腕を r1/r3/r4 の 3 回再実測 8/8)/ V2'= PASS(ECO-055= LEDGER_INCONSISTENT・
+      ECO-062= NONE・15 欄 source・転写なし — r2/r3 で検査官実測)/ V4= PASS(self-conformance 全 PASS ×5・CI 5 run success・headSha 照合)/ 窓= allowed_paths
+      のみ(r1〜r4 各回 PASS)。**独立検査 4 round**: r1 REJECT 5 件 → r2 REJECT 2 件 → r3 REJECT 1 件 → r4 ACCEPT。所見 8 件(+受理側 1)= 全件 CONFIRMED・
+      全件是正・全件に陽性対照。較正 receipt(trigger ①・二軸・行別 asked/NA)は order §9 — 「運転員の fail-open を防ぐ」「gate 申告値の真正性」は unknown(Phase 5 / 設計上被覆外)。
+      (参考・裁定後の受入候補)V1'(witness 検証器の陽性対照 3 腕で非 0・known-good で 0・製造者実測+Codex 再実測)/
       V2'(job ビューが ECO-055/062 に対し生成でき register/order と一致・転写値なし)/ V4(self-conformance・CI・窓)。
       運転員の測定 V1〜V3 は Phase 5 の対象(第 1 弾の受入ではない)。起票段階の候補(参考): V1 fail-open(known-bad receipt を進めた件数 0・known-good は進める)/
       V2 伝言ゲーム率(裁定材料の原文乖離件数)/ V3 観測負荷(裁定時に order 以外の artifact を参照した回数)/
