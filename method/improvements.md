@@ -6727,9 +6727,10 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
 
 - [open] EXP-20260910-01 — **job 形式の明示起動は自発起動不発を失敗類ごと消すか**: ECO-062 製造後、job 経由で起動した工程で
   スキル非起動(converge/calibrate/preflight の receipt 欠落)が 0 で推移するか。対照= 同期間の会話起動(job なし)工程の非起動件数。
-  **next trigger= ECO-062 の製造裁定・初 job 発行時**。job なし工程が同期間に存在しなければ対照なし(感度側のみ)と記録する
+  **next trigger= F1(task class → スキル対応表)実装後の初 job**(更新 2026-09-10: 第 1 弾は F1 を含まず `required_skills` が null のため明示起動は未測定)。
+  **初回観測(2026-09-10・ECO-063・job 経由)**: 自発起動 3/3・非起動 0・対照なし・self-report — 明示起動の効果ではない(2026-09-10 Phase 4 節)
   source: ECO-062
-  evidence: 本節・ECO-062 order §0.4・improvements.md 2026-09-02「実施要求≠実施証明」節
+  evidence: 本節・ECO-062 order §0.4・improvements.md 2026-09-02「実施要求≠実施証明」節・ECO-063 order §6
 - [open] EXP-20260910-02 — **運転員の fail-open(known-bad 対照腕)**: 無効 receipt(tree hash 不一致 / FAIL 混入)を持つ job を
   運転員(人・Bot・スクリプトを問わない)が進めた件数= 0 か。known-good 腕は進めること(両腕で感度と特異度)。
   **next trigger= Phase 1(自動実行なし・運転員が receipt を回収・整理する段階)の初回運用**。運転員が生まれる前は測れない
@@ -6809,3 +6810,32 @@ OBS-20260910-01(既存形式の索引欠如)= 追加観測なし・1/3 維持。
   障害時の切替」を織り込むか判断(factory-delegate 正本化 ECO の入力)
   source: ECO-062
   evidence: 本節・観測 3・ECO-062 order §8・§8.1〜8.3
+
+## 2026-09-10 BomDD 自己適用 — ECO-062 Phase 4(単独運用実測)の 1 本目= ECO-063(factory-delegate 正本化): job 経由起動と witness 遷移は成立・明示起動は F1 未実装で未測定
+
+**観測**(出典: [ECO-063 order](../bomdd/60-change-order-eco-063.md) §6・§7、[ECO-062 order](../bomdd/60-change-order-eco-062.md) §7、
+CI run 34485248407):
+1. **job 経由の起動**: `bomdd-job.py ECO-063` の出力(state/stop_type/write_scope/inputs/baseline)を開始 artifact として preflight を行い、
+   検査 exit 観測 → `bomdd-witness.py produce/verify`(ADVANCE)→ commit → push → CI という遷移が ECO-062 の製造物だけで成立(逸脱 0)。
+   §6 記入後に検査を再実行してから witness を生成(検査後の変更を束縛しない規則を自分に適用)。
+2. **EXP-20260910-01 の初回値**: job の `required_skills` は null(Phase 2 の F1・事前宣言欄なし)のため**明示起動は起きていない**。スキルは自発起動
+   3/3(preflight・converge・calibrate)・非起動 0 — ただし self-report・運転員= 製造者・対照(job なし工程)なし。**測れたのは「job 経由でも自発起動が
+   不発しなかった 1 例」であり、明示起動の効果ではない**。F1(task class → スキル対応表)が第 2 弾で実装されるまで EXP-01 の中心量は測定不能。
+3. **Phase 4 の縮退**: 計画は ECO 2〜3 本だが、製造裁定済みで job 経由に回せる ECO は ECO-063 のみだった(第 2・第 3 候補は user 裁定待ち)。
+   1 本で Phase 4 を閉じず、出口条件(初回値の記帳)は満たしたが N=1・対照なしとして記録。
+4. ECO-063 自体: 正本化(移設)で C7 が 11→12 の書換に感度を持つことを実運用で確認(式の読解+12/12 観測・11 のまま FAIL は未実行)。
+   初版 frontmatter の description を 1 語縮めていたのを V3(旧写し diff)が捕捉 — 移設 ECO でも差分検査は変更に感度がある。
+
+**整理**: EXP-20260910-01 は「job 形式の明示起動」を測る設計だが、第 1 弾は F1 を含まないため**測定器が測定対象より先に凍結された**型 —
+次のトリガーを「F1 実装後の初 job」へ更新する。Phase 4 の残り 2 本は user が候補を裁定してから(F1 を第 2 弾として先に起票する案を推奨)。
+
+**一般化検査**: 「測定器が対象より先に凍結」は N=1(本件)。ET-001 の天井効果(課題が対象を代表しない)と同根だが別型 — 記帳のみ。
+
+**行き先判定**: 記帳のみ+EXP-20260910-01 の next trigger 更新(行内注記)+ECO-063 verified。本文改訂なし。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(job/witness の初実運用)[ ] template [ ] terminology
+[x] method/concept claim: §9「実施要求≠実施証明」= supported(job 経由でも自発起動の証明は receipt に依存・明示起動は未測定と区別)。contradicted: なし。
+
+**期待効果の棚卸し**: EXP-20260910-01= 初回値記帳(注記)・open 維持・next trigger 更新。EXP-20260910-02/03= Phase 5 待ち。OBS-20260910-01(既存形式の索引欠如)=
+ECO-063 で factory-delegate がリポ内に入り 1 例の是正・観測件数は据え置き(1/3)。OBS-20260910-04(検査設備の経路障害)= 工程 2 追記で切替手順を正本化・
+観測件数は据え置き(1/3・効果は次の委譲で測る)。

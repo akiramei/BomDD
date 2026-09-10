@@ -84,3 +84,47 @@
   工程 5 の全角括弧 1 文字の正規化。規律 4 項・工程 0〜6 の手順文は不変)。frontmatter の description は旧写しと同一(初版で 1 語縮めたのを V3 で検出し復元)。
 - **witness**: 本 §6 記入後に self-conformance を再実行し、その exit を gate として `bomdd-witness.py produce --eco ECO-063` → `verify --eco ECO-063` が ADVANCE のときだけ
   commit(結果は commit message と §7 に記録)。
+
+## 7. クローズ(2026-09-10・verified)
+
+- **witness 遷移**: §6 記入後に self-conformance を再実行(exit 0・task b0gd762yk)→ `bomdd-witness.py produce --eco ECO-063`(tree 47f6b78a・gates 1・stop NONE)→
+  `verify --eco ECO-063`= **ADVANCE**(個体 ECO-063 一致)→ commit `f89b81c` → commit 後の verify も ADVANCE(tree 束縛は commit を跨ぐ)。
+- **V4**= PASS(CI run 34485248407・success・headSha f89b81c 一致・3 job)。**V5**= PASS(窓 `a45f30b` → `f89b81c`= allowed_paths 8 パスのうち 7+本 order。
+  他の 11 スキル・hooks・self-conformance.py・playbook は diff 0 — 影響なし予測が的中)。
+- diff 監査の窓: baseline `a45f30b` → head `f89b81c`(**窓閉鎖**)。本クローズ commit は台帳系(order・register・improvements.md・ECO-062 order)のみ。
+- **製造者較正のみで受入**(§3 の宣言どおり・散文の移設+`SKILLS` 1 名追加。異系統独立検査なし — user が求めれば §8 として追加)。
+- **register**: `decided → verified`・head 凍結。
+- **Phase 4 の 1 本目としての帰結**(ECO-062 §7 へ反映): job 経由の起動・witness 遷移は成立(0/0 の逸脱)。EXP-20260910-01 の初回値= 自発起動 3/3
+  (preflight・converge・calibrate)・非起動 0・**明示起動は F1 未実装のため未測定・対照なし**。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格。散文の移設のため「証拠品質」中心)
+
+- 査定した主張と判定:
+  1. 「正本と写しの差分は注記+`{{METHOD}}` 解決のみ」— **observed / 適格**(diff 8 行を実読・frontmatter 同一を diff で確認)。
+  2. 「旧写しとの本文差分は注記・工程 2 追記・括弧 1 文字のみ(手順本体は不変)」— **observed / 適格**(diff の `<` 行 3 件を実読。初版で description を 1 語縮めていたのを
+     この V3 が捕捉し復元 — V3 は変更に感度があった)。
+  3. 「C7 は配布本数の変更に感度がある」— **observed / 適格**(README を 12 にする前の想定= FAIL は実行していないが、C7 の突合式を実読し、11→12 の書換前後で
+     `[12, 12] = 12` を観測。**11 のままの FAIL は未実行**= 感度の証明は式の読解に留まる)。
+  4. 「工程 2 の追記は ECO-062 弧の実測に限る(新規則なし)」— **読解**(追記 8 行と ECO-062 §8〜8.4 を対応づけ。新しい規則語なし)。
+  5. 「job ビューの値で preflight を行った」— **observed / 適格**(§6 に出力を記録・baseline/write_scope/inputs を job から採った)。ただし運転員= 製造者で独立性なし。
+  6. 「明示起動が自発起動不発を消す」— **unknown(理由コード: F1 未実装・対照なし)**。本 ECO は測っていない。
+- 検出した計器欠陥: 0 件(本変更は散文の移設・計器に触れていない)。受理側の記述誤り: 初版 frontmatter の description 1 語(V3 で検出・復元)。
+- 検出力の限界: V2/V3 は文字列差分のみ。工程 2 追記の実務有効性(次の Codex 委譲で経路切替が機能するか)は未測定。C7 の「11 のままなら FAIL」は式の読解であり実行していない。
+  製品リポへの配布は次回 scaffold まで観測不能。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | 変更行は 7 ファイル・allowed_paths 内(git diff --stat) |
+  | Q2 | asked | observed/適格 | 実測 | 正本↔写し・旧写し↔正本の 2 対で差分を実読(known-good= frontmatter 同一) |
+  | Q3 | asked | 読解 | 読解 | C7 の FAIL 側(11 のまま)は未実行 — 式の読解のみ |
+  | Q4 | asked | observed/適格 | 実測 | diff は実ファイルに対して実行 |
+  | Q5 | asked | observed/適格 | 実測 | 旧写しの所在 1 箇所(ユーザー階層)を確認・リポ内 grep 1 箇所 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness produce/verify(条件結合)→ commit → push → CI headSha 照合。§6 記入後に検査を再実行してから witness |
+  | Q7 | NA | — | — | 陽性対照を持つ計器の新設なし |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(個体+tree)・register・commit で来歴化 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 正本 / 写し / 旧写し / 配布定数 / README ×2 のクラス別に列挙(§1) |
+
+- このクローズが支持しないもの: 工程 2 追記の実務有効性 / 製品リポでの配布結果 / 明示起動の効果(F1)/ 旧写し(`~/.claude/skills/`)の削除(利用者の作業)。

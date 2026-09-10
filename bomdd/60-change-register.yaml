@@ -2304,7 +2304,7 @@ changes:
     title: factory-delegate のリポ内正本化 — product-profile スキル 12 本目・kit 配布・Claude 写し(ECO-062 裁定 2 の別 ECO・Phase 4 の 1 本目)
     date: 2026-09-10
     origin: reorganization
-    status: decided   # 2026-09-10 方向= ECO-062 §4 裁定 2(別 ECO)・実施= user「Phase 4 を実施して」(ECO-062 §7 Phase 4: job 経由で起動する ECO)。起票と同 commit で製造
+    status: verified   # 2026-09-10 受入= V1 全 PASS(C7 12/12)・V2 写し差分 8 行・V3 旧写し差分= 注記+工程 2 追記のみ・V4 CI 34485248407 success @f89b81c・V5 窓・witness ADVANCE(order §7)。製造者較正のみで受入。Phase 4 の 1 本目
     source: >
       factory-delegate スキル(2026-07-23 ViewPrism2 ECO-137 由来・Codex 委譲の 3 規律)が利用者のユーザー階層 `~/.claude/skills/` にのみ存在し
       リポ外だった(ECO-062 §0.2 で発見・OBS-20260910-01 の 1 例)。product-profile スキル 11 本と同型で正本化し、bomdd-init の SKILLS で配布、
@@ -2314,12 +2314,15 @@ changes:
     no_impact_prediction: "(製造前)他の 11 スキル・hooks・self-conformance.py・playbook は diff 0。C7 は 12/12 で PASS(11 のままなら FAIL= 感度あり)。C4 は配布本数 +1・参照スキル件数の表示のみ変化・判定不変。C13 は写しの相対リンク 1 本が追跡集合へ解決。既存製品 kit は lock 凍結"
     diff_audit:
       baseline: "a45f30b"  # 起票直前 HEAD
-      head: ~
+      head: "f89b81c"      # diff監査済み: 窓内= allowed_paths のみ・他 11 スキル/hooks/self-conformance/playbook diff 0・予測的中
       allowed_paths: [method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/tools/bomdd-init.py, README.md, method/templates/product-profile/README.md, bomdd/60-change-order-eco-063.md, bomdd/60-change-register.yaml, method/improvements.md]
     summary: >
       ①正本 factory-delegate.md 新設(旧写しの移設+正典行/関連/出自注記・{{METHOD}} プレースホルダ)②工程 2 に経路切替の追記(実測のみ)
       ③写し .claude/skills/factory-delegate/SKILL.md ④bomdd-init SKILLS に追加 ⑤README「スキル 12 本」×2+product-profile README 1 行。
       採らない= 旧写し(利用者環境)の削除・手順本体の改訂・lesson-promote の正本化。
     verification: >
-      (製造前)受入= order §3 — V1 self-conformance 全 PASS(C7 12/12)/ V2 正本と写しの差分= 注記+{{METHOD}} 解決のみ / V3 旧写しとの本文差分= 冒頭注記+
+      V1= PASS(self-conformance 全 PASS・C7 [12, 12]= 12・C4 参照スキル 22→24)/ V2= PASS(正本↔写し 8 行= 注記+正典行+{{METHOD}} 解決)/ V3= PASS(旧写し↔正本=
+      出自注記・工程 2 見出し+追記・全角括弧 1 文字)/ V4= PASS(CI 34485248407)/ V5= PASS(窓)。witness: produce(tree 47f6b78a)→ verify ADVANCE → commit f89b81c(commit 後も ADVANCE)。
+      較正 receipt(trigger ①・行別 asked/NA)は order §7 — 「C7 の FAIL 側」は式の読解のみ・「明示起動の効果」は unknown(F1 未実装)。**製造者較正のみで受入**。
+      (参考・製造前)受入= order §3 — V1 self-conformance 全 PASS(C7 12/12)/ V2 正本と写しの差分= 注記+{{METHOD}} 解決のみ / V3 旧写しとの本文差分= 冒頭注記+
       工程 2 追記のみ / V4 CI / V5 窓。witness(bomdd-witness.py)で遷移。製造者較正のみで受入(散文の移設・SKILLS 1 名追加のみ)。
