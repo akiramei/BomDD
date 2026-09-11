@@ -1,4 +1,4 @@
-# Change Order — ECO-066(bomdd-witness の検証報告を運転員が機構で読める形にする — 理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離〔起票のみ〕)
+# Change Order — ECO-066(bomdd-witness の検証報告を運転員が機構で読める形にする — 理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離〔verified〕)
 
 > 裁定: user 2026-09-11 Phase 5 DECIDE `1:C 2:A` — Phase 6 を保留し、**検証器の是正 ECO を先に閉じてから運転員を変えた run-02** を実施する(1:C)。
 > ECO の範囲は**検証器のみ**(2:A・停止語彙は増やさない)。出典= [ECO-062 order](60-change-order-eco-062.md) §10.4 所見 P5-01/02/03/06/07・
@@ -149,3 +149,61 @@
 - 検査官が測れなかったもの: self-conformance の全 C1〜C18(witness を書くため read-only ブリーフで未実行)→ 受理側で実行(§6 V3・§8)。`WRITE_TREE_FAILED` の実 git 障害(モックのみ)→ 宣言のまま。
 - r1b 付随: `TemporaryDirectory(ignore_cleanup_errors=True)`— try を分割したことで後片付けの OSError が with ブロック外へ漏れる経路を塞ぐ(製造者が r1b で気づいた・検査官所見ではない)。
 - r1b の受入: `--selftest` exit 0(1 行目 `ADVANCE OK: selftest PASS(...)`)・produce `--stop BOGUS` → `UNMEASURABLE ARG_ERROR: …`・r3 治具 `--eco ECO-062` → `STOP IDENTITY_MISMATCH: …`。self-conformance・CI・r2 は下記。
+
+### 7.2 r2(2026-09-11・対象 commit `b39c6f7`・範囲= r1 所見の是正確認+回帰)= **ACCEPT** — 報告: [independent-inspection-eco-066-r2.md](reports/independent-inspection-eco-066-r2.md)
+
+- IA-01〜04 の是正を検査官が独自 fixture で再実測(produce 5 経路の 1 行目・CODES 15 の語彙内・`.git/index` ディレクトリ → INDEX_COPY_FAILED・TemporaryDirectory への
+  注入 → TEMP_UNAVAILABLE・rc 127 差し替え 3 種 → GIT_DIR_FAILED/ADD_FAILED/WRITE_TREE_FAILED・PATH 空 → GIT_UNAVAILABLE・非 UTF-8 stderr の子プロセス注入で例外なし・
+  末尾行が置換つきで残る)。回帰: CLI 14 経路・差分位置の境界値 5 種・`ignore_cleanup_errors` の注入で判定不変・`git diff --check` 0。
+- 検査官が採用しなかった証拠(受理側で評価): clean filter の `required=true` なしの試行は git が失敗を許容するため ADD_FAILED の証拠にしていない — 実 `add -A` 失敗の
+  陽性対照は `required=true` で成立(モックでない実 git 障害の 1 例・製造者 selftest はモック)。
+- 新規所見: なし。作業木汚染: 0(受理側で前後の porcelain 空・write-tree 同一)。検出力の限界(検査官宣言): 実 git バイナリの非 UTF-8 出力と cleanup の実 OS 故障は注入による確認。
+- 受理側判定: **ACCEPT を採用**。r1 の 4 所見はすべて validator/分類器の入力クラスの穴(ECO-064 と同じ型)で、設計判断(W7・CODE の分離)への反証はなし。
+
+## 8. クローズ(2026-09-11・verified)
+
+- **witness 遷移**: 本 §8 と台帳の記入後に self-conformance を再実行(exit 0)→ `bomdd-witness.py produce --eco ECO-066` → `verify --eco ECO-066`= `ADVANCE OK` → accept commit。
+- **V1**= PASS(selftest・CODE 15/15・CAUSE 7/7 に腕・r1b で実 fixture 2 腕追加)/ **V2**= PASS(run-01 治具の再判定・§6)/ **V3**= PASS(hooks・job・self-conformance・templates・
+  .github の diff 0 を窓全体 `b268f37 → b39c6f7` で実測・self-conformance 全 PASS ×3)/ **V4**= PASS(CI 34560468428・34561713307 success)/ **V5**= PASS(Codex r1 REJECT → 是正 → r2 ACCEPT)/
+  **V6**= PASS(pwsh 経由でも 1 行目で 3 値・§6)。
+- diff 監査の窓: baseline `b268f37` → head `b39c6f7`(**窓閉鎖**)。窓内= `bomdd-witness.py`(+424/-122 相当・2 commit)+台帳系+検査報告 r1(r2 は本 commit で追加・allowed_paths を同一 commit で更新)。
+  他ツール・templates・hooks・.github の diff= 0 — 影響なし予測(製造前・凍結)は的中。ただし予測の「挙動変更は 1 点」は r1b で produce/selftest の**出力形式**も変わったため
+  under-inclusion(終了コードの意味は不変・出力 1 行目の形式のみ)。
+- register: `implemented → verified`・head 凍結・allowed_paths に r2 報告を追加。
+- Phase 5 への帰結(ECO-062 §7 現在地へ反映): R3 型(別 job の receipt)は運転員の判断でなく **機構**(CLI が個体未照合を測定不能にする)で止まる状態になった。
+  次= 運転員を変えた run-02(ブリーフ v2= 「終了コードでなく 1 行目を読む」「AGENTS.md の自発起動は運転員の役割外」を規格化)。運転員の選定は user 裁定。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格+③: 計器〔bomdd-witness.py〕の変更。job の required_skills= [calibrate, preflight] に応答)
+
+- 査定した主張と判定:
+  1. 「CLI の全経路で 1 行目が固定形式」— **observed / 適格**(製造者 selftest+検査官 r2 の produce 5 経路・verify 14 経路・selftest 行。r1 で製造者の読みが狭かった穴を検査官が閉じた)。
+  2. 「`verify PATH` 単独は測定不能(exit 2)になり、別 job の receipt を機構で止める」— **observed / 適格**(selftest・run-01 治具 r3・検査官 r1/r2)。
+  3. 「tree 不一致は 40 桁+差分位置」— **observed / 適格**(境界値 5 種を検査官が独立に実測)。
+  4. 「測定不能の 7 原因が正しく分類される」— **observed / 条件付き適格**(GIT_UNAVAILABLE・GIT_DIR_FAILED・TEMP_UNAVAILABLE・INDEX_COPY_FAILED・TEMP_IN_WORKTREE・ADD_FAILED は
+     実 fixture か検査官の実 git 障害で実測。**WRITE_TREE_FAILED は製造者・検査官ともモックのみ**。9009 型ラッパーは分類できず stderr で伝える— 宣言)。
+  5. 「終了コードの意味(0/1/2)は不変」— **observed / 適格**(検査官 r1 の baseline 差分読解+回帰 14 経路)。
+  6. 「hooks・job・self-conformance は非接触」— **observed / 適格**(窓全体の diff 0・検査官の実読)。
+  7. 「pwsh 経由で 1 行目から 3 値が読める」— **observed / 適格**(製造者環境で再現。**運転員環境〔Codex sandbox〕での実測は run-02 で**)。
+  8. 「run-02 で fail-open 0 が機構として出る」— **unknown(未測定・run-02 の対象)**。
+- 検出した計器欠陥(帰属つき): 製造物 4 件(r1 IA-01〜04・すべて製造者の selftest の未被覆枝・製造物帰属)。受理側 1 件(§3 V2 の「R6 で差分位置 36」は現 tree が
+  変わる前提を見落とした受入基準の記述誤り・受理側帰属・§5 で訂正)。製造者の影響なし予測 1 件(出力形式の変更範囲を verify に限定して予測した under-inclusion・§8)。
+- 検出力の限界: WRITE_TREE_FAILED の実障害は未実測。実 git の非 UTF-8 出力は未実測(注入のみ)。運転員環境での 1 行目の可読性は未実測(run-02)。selftest は製造者が書いた
+  計器で、独立性は検査官の別 fixture 再実測の範囲まで。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | 製造物の自己記述(W6/W7)を selftest+検査官の独立 fixture で実測 |
+  | Q2 | asked | observed/適格 | 実測 | known-good/known-bad を CODE ごとに対で持つ(15 CODE・7 CAUSE) |
+  | Q3 | asked | observed/適格 | 実測 | 是正前(run-01: R3 が ADVANCE)と是正後(IDENTITY_UNCHECKED 2)を同一治具で前後実測 |
+  | Q4 | asked | observed/条件付き適格 | 実測 | 実 temp・実 git を入力。git サブコマンド失敗 3 種は製造者側モック・検査官が ADD_FAILED を実 git で補完・WRITE_TREE_FAILED はモックのみ |
+  | Q5 | asked | observed/適格 | 実測 | 未実測(WRITE_TREE_FAILED 実障害・実 git 非 UTF-8・運転員環境)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness produce/verify(条件結合)→ commit → push → CI 照合 ×3 |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= selftest(毎回)+検査官 r1/r2 の独立 fixture |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(個体+tree)・register・commit・検査報告 2 本で来歴化 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 8 の unknown |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= CLI 引数の組合せ / witness の形状 / tree の型・長さ / git 起動不能・起動後失敗・index 複製失敗・temp 不能・temp 作業木内 / 非 UTF-8 出力 / 実行基盤の exit 丸め |
+
+- このクローズが支持しないもの: 運転員環境(sandbox)での 1 行目可読性 / run-02 の fail-open / WRITE_TREE_FAILED の実障害分類 / 9009 型ラッパーの分類 /
+  CODE → job 停止語彙の写像(運転員手順側・ブリーフ v2)/ 他ツールへの同型適用。

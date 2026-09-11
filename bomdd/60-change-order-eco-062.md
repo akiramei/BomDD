@@ -438,7 +438,7 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 5 継続(user DECIDE 2026-09-11 `1:C 2:A`: Phase 6 保留 → 検証器の是正 **ECO-066**〔理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離・範囲= 検証器のみ〕を先に閉じる → verified 後に運転員を変えた run-02〔同一治具・ブリーフ v2= P5-04/07 の手順側〕)。**現在地= ECO-066 起票済・製造裁定待ち**。run-01 の結果は §10(fail-open 0/7 だが R3・run-02 は運転員の判断依存= qualification blocker)。付随裁定待ち= ECO-055 の register status(別 DECIDE・裁定材料= run 台帳 §3)。`
+`Phase 5 継続(user DECIDE 2026-09-11 `1:C 2:A`: Phase 6 保留 → 検証器の是正 **ECO-066**〔理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離・範囲= 検証器のみ〕を先に閉じる → verified 後に運転員を変えた run-02〔同一治具・ブリーフ v2= P5-04/07 の手順側〕)。**現在地= ECO-066 verified(2026-09-11・r1 REJECT 4 件→r2 ACCEPT)→ run-02 準備(運転員の選定= user 裁定・ブリーフ v2)**。run-01 の結果は §10(fail-open 0/7 だが R3・run-02 は運転員の判断依存= qualification blocker)。付随裁定待ち= ECO-055 の register status(別 DECIDE・裁定材料= run 台帳 §3)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -451,7 +451,7 @@ Phase 3 製造 第 1 弾(job 射影+witness)─── 完了 2026-09-10(r4 ACCEP
         ▼
 Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)─── 完了 2026-09-11(3/3 本)
         ▼
-Phase 5 外部運転員 導入試験(自動実行なし)◀━━ ★ 現在地= run-01 済 → ECO-066(検証器是正)起票済・製造裁定待ち → verified 後 run-02(運転員変更)→ Phase 6 は保留(1:C)
+Phase 5 外部運転員 導入試験(自動実行なし)◀━━ ★ 現在地= run-01 済 → ECO-066 verified(R3 型を機構で停止)→ 次= run-02(運転員変更・user 裁定)→ Phase 6 は保留(1:C)
         ▼
 Phase 6 狭い自動起動入口
         ▼

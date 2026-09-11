@@ -2385,7 +2385,7 @@ changes:
     title: bomdd-witness の検証報告を運転員が機構で読める形にする — 1 行目の理由コード・個体照合の既定化(verify PATH 単独= 測定不能)・tree 差分の 40 桁表示・測定不能の原因分離(Phase 5 run-01 所見 P5-01/02/03/06/07 の計器側)
     date: 2026-09-11
     origin: corrective
-    status: implemented   # 2026-09-11 起票(filed・job 経由)→ 製造裁定 A で decided → fix 4068029(製造者受入 V1/V2/V3/V6・CI 34560468428 success)→ 独立検査 r1(Codex)= REJECT・IA-01〜04 を 4/4 CONFIRMED で是正(r1b: produce/selftest も固定形式・CODES 15・INDEX_COPY_FAILED・GIT_UNAVAILABLE は番兵のみ・utf-8/replace)。r2 引き渡し前
+    status: verified   # 2026-09-11 起票→decided(製造裁定 A)→fix 4068029→r1 REJECT(IA-01〜04 4/4 CONFIRMED)→r1b b39c6f7→r2 ACCEPT(新規 0)→verified。受入 V1〜V6 PASS・CI 34560468428/34561713307 success・窓閉鎖 b268f37→b39c6f7・較正 receipt(trigger ①③)order §8。同日 filed→verified
     source: >
       Phase 5 run-01(ECO-062 §10・bomdd/reports/phase5-run-01-eco-062.md §6)。fail-open 0/7 のうち R3(別 job の receipt)と run-02(dirty 腕)は運転員の判断で
       成立し検証器単独の弁別力ではない: verify PATH 単独は個体を照合せず ADVANCE(P5-02)・理由が文字列のみで運転員が停止種別を自前写像(P5-01)・
@@ -2396,8 +2396,8 @@ changes:
     no_impact_prediction: "(製造前・凍結・裁定 A)変更は bomdd-witness.py のみ。挙動変更は CLI `verify PATH`(--eco なし)が 0/1→2 の 1 点だけ(利用箇所= Phase 5 運転員手順と selftest)。終了コードの意味(0/1/2)不変・標準出力 1 行目の形式のみ固定・pre-push hook(別 witness・W4)/bomdd-job.py(import なし)/self-conformance C1〜C18 判定不変(本ツールは検査対象集合外)・kit 非含有で製品リポ非波及。selftest の腕は増えるが実リポ非接触"
     diff_audit:
       baseline: "b268f37"  # 起票直前 HEAD
-      head: ~
-      allowed_paths: [method/tools/bomdd-witness.py, bomdd/60-change-order-eco-066.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-066.md]   # 製造裁定 A で再凍結(製造物 1+台帳系+検査報告。r2 以降の検査報告は同一 commit で追加)
+      head: "b39c6f7"      # diff監査済み: 窓内= bomdd-witness.py+台帳系+検査報告のみ・hooks/job/self-conformance/templates/.github diff 0・予測的中(出力形式の変更範囲は under-inclusion 1 件・order §8)
+      allowed_paths: [method/tools/bomdd-witness.py, bomdd/60-change-order-eco-066.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-066.md, bomdd/reports/independent-inspection-eco-066-r2.md]   # 製造裁定 A で再凍結(製造物 1+台帳系+検査報告 r1/r2・r2 は accept commit で追加)
     summary: >
       ①標準出力 1 行目を `<VERDICT> <CODE>[(<CAUSE>)]: <message>` に固定(VERDICT= ADVANCE/STOP/UNMEASURABLE・CODE 12 語彙・witness ローカルで job の停止語彙とは別)
       ②CLI `verify PATH` は --eco 必須(なしは UNMEASURABLE IDENTITY_UNCHECKED exit 2・関数は eco=None を残す)③TREE_MISMATCH は 40 桁両方+最初に異なる位置
@@ -2407,4 +2407,5 @@ changes:
       (起票段階)製造時の受入候補は order §3 — V1 selftest に CODE ごとの腕+verify PATH 単独→2 / V2 run-01 治具 r1〜r8 の再判定が期待 CODE 表と一致(R6 で差分位置 36)/
       V3 pre-push witness・job.py・self-conformance 不変 / V4 CI・窓 / V5 異系統独立検査 Codex 必須(instrument-change)/ V6 pwsh 経由でも 1 行目から 3 値が読める。
       **製造者受入(4068029)**: V1 selftest PASS / V2 run-01 治具 r3= IDENTITY_MISMATCH・他 TREE_MISMATCH(40 桁+位置)・r3 の --eco なし= IDENTITY_UNCHECKED 2 / V3 hooks・job・self-conformance diff 0+全 PASS /
-      V4 CI 34560468428 success / V6 pwsh で exit は 1 に丸められるが 1 行目で 3 値が読める(再現)。**独立検査 r1(Codex・2026-09-11)= REJECT・IA-01〜04 4/4 CONFIRMED**(order §7.1)— 是正 r1b。r2 待ち。
+      V4 CI 34560468428 success / V6 pwsh で exit は 1 に丸められるが 1 行目で 3 値が読める(再現)。**独立検査 r1(Codex・2026-09-11)= REJECT・IA-01〜04 4/4 CONFIRMED**(order §7.1)— 是正 r1b。**r2(範囲= 是正確認+回帰)= ACCEPT・新規所見 0**(§7.2)。
+      較正 receipt(trigger ①③・行別 asked/NA)は order §8 — WRITE_TREE_FAILED の実障害・実 git の非 UTF-8・運転員環境での 1 行目可読性は unknown(run-02 で)。

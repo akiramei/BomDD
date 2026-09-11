@@ -6740,6 +6740,7 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
   fail-closed は運転員の判断に依存(P5-05/07)。**next trigger= 運転員を変えた run-02(人間 or 別モデル・同一治具)**(2026-09-11 Phase 5 節)
   **裁定(2026-09-11・user DECIDE 1:C 2:A)**: Phase 6 保留・検証器の是正 ECO-066(理由コード/個体照合の既定化/差分表示/原因分離・範囲= 検証器のみ)を先に閉じ、
   verified 後に run-02(運転員変更・ブリーフ v2)。**next trigger= ECO-066 verified 後の run-02**
+  **ECO-066 verified(2026-09-11)**: R3 型(別 job の receipt)は CLI の個体未照合= 測定不能で機構停止に。**next trigger= run-02(運転員変更・user 裁定)**(2026-09-11 ECO-066 節)
   source: ECO-062
   evidence: 本節・ECO-062 order §1-3・§3 V1・calibrate.md「陽性対照」節(ECO-052)
 - [open] EXP-20260910-03 — **伝言ゲーム率**: 運転員が人間へ持ってくる裁定材料(issue / options / evidence)が order の原文と
@@ -6885,7 +6886,7 @@ OBS-20260902-02 は昇格済み— 適用実測として記録。「探索の打
 EXP-20260910-02/03= Phase 5 待ち。OBS-20260910-03(環境差= 検出力)= 本弧では検査官環境の C14 不能が IA-05 として出たが製造物には当たらず— 件数据え置き(1/3)。
 OBS-20260910-04(検査設備の経路障害)= 本弧は CLI 直接経路で 5 round 障害なし(ハングは OS 側)— 据え置き(1/3)。
 
-- [watch 1/3] OBS-20260911-01 — **観測: 異系統独立検査に「境界探索の続き」を求めると round ごとに新しい入力クラスが出続け、ACCEPT は受理側が探索範囲を
+- [watch 2/3] OBS-20260911-01 — **観測: 異系統独立検査に「境界探索の続き」を求めると round ごとに新しい入力クラスが出続け、ACCEPT は受理側が探索範囲を
   限定して初めて得られる — 探索の打ち切りと未探索クラスの宣言は受理側の責務**(ECO-064: r1〜r4 で 12 クラス・r5 で限定して ACCEPT)。3 例目で
   「独立検査ブリーフに探索の上限(round 数または未探索クラスの宣言方式)を最初から書く」規則の要否を判断
   source: ECO-064
@@ -7005,3 +7006,35 @@ lesson-promote の先例 de917eb と同じ)。register・order 不変。
   改善あり → product-profile 正本化を ECO で判断。**next trigger= handoff 20 回到達**
   source: harness(.claude/skills/handoff)
   evidence: 本節・SKILL.md §4・user 裁定 2026-09-11(1:A 2:A)
+
+## 2026-09-11 BomDD 自己適用 — ECO-066(bomdd-witness の検証報告を運転員が機構で読める形に)verified: 独立検査 r1 REJECT 4 件→r2 ACCEPT・R3 型の停止が運転員の判断から機構へ
+
+**観測**(出典: [ECO-066 order](../bomdd/60-change-order-eco-066.md) §5〜§8、検査報告 [r1](../bomdd/reports/independent-inspection-eco-066.md)・[r2](../bomdd/reports/independent-inspection-eco-066-r2.md)):
+1. **是正の実測**: 1 行目 `<VERDICT> <CODE>[(<CAUSE>)]: msg`(CODES 15・TREE_CAUSES 7)・CLI `verify PATH` は `--eco` 必須(なしは UNMEASURABLE IDENTITY_UNCHECKED exit 2)・
+   tree 不一致は 40 桁+差分位置・測定不能の原因分離。run-01 治具 r3(別 job の receipt)は是正前 ADVANCE exit 0 → 是正後 exit 2。終了コードの意味不変・hooks/job/self-conformance
+   非接触(窓全体 diff 0)。
+2. **独立検査(Codex・CLI 直接・workspace-write・2 round)**: r1 REJECT・所見 4 件は全て製造者 selftest の未被覆枝(produce/selftest 経路の形式・index 複製失敗の誤分類・
+   rc 127 の誤分類・非 UTF-8 stderr)で 4/4 CONFIRMED・是正・陽性対照化。r2(範囲= 是正確認+回帰)ACCEPT・新規所見 0。検査官は clean filter `required=true` で
+   実 git の `add -A` 失敗を作り ADD_FAILED を実障害で補完(製造者はモック)。作業木汚染 0/2 round。
+3. **Phase 5 への帰結**: R3 型(別 job の receipt)は運転員の `--eco` 掃引という判断でなく、CLI が個体未照合を測定不能にする機構で止まる。P5-07(pwsh の exit 丸め)は
+   計器側で 1 行目から 3 値が読める形にした(製造者環境で再現・運転員環境は run-02 で)。
+4. **受理側の誤り 1 件**: §3 V2 に「R6 で差分位置 36」と書いたが現 tree が変わる前提を見落とした(受入基準の記述誤り・§5 で訂正)。影響なし予測の under-inclusion 1 件
+   (出力形式の変更範囲を verify に限定・r1 IA-01 で produce/selftest も対象に)。
+
+**整理**: ①「運転員の判断で救われた成功は機構の成功に数えない」(2026-09-11 Phase 5 節)を是正側で実行した例 — 判断依存 2 箇所のうち R3 型を機構化(dirty 腕の
+sandbox 測定不能は環境側・原因分離で次 run に実測可能化)。②検査官の所見 4 件はいずれも「製造者が仕様を自分の実装範囲で狭く読んだ」型(produce を対象外と読んだ・
+try の粒度・番兵でなく rc で判定)— ECO-064 の「validator の入力クラスの穴」と同型(探索の打ち切りは受理側が宣言・OBS-20260911-01 の 2 例目)。③製造者のモック腕を
+検査官が実障害で補完した(ADD_FAILED)— 陽性対照の独立性は「別 fixture」だけでなく「モック vs 実障害」の軸でも上がる(1 例・規則化しない)。
+
+**一般化検査**: 独立検査の所見型「入力クラスの穴」は ECO-062(8 件)・ECO-064(12 件)・ECO-066(4 件)の 3 弧で同型= 3 例。ただし 3 弧とも同一製造者・同一検査官系統
+(Codex)なので、「製造者の selftest は自分の読みの範囲しか覆わない」以上には一般化しない(playbook §8.5「境界統制」の実測例として据え置き・本文改訂なし)。
+探索の打ち切り宣言(OBS-20260911-01)は本弧で r2 を範囲限定した 2 例目。
+
+**行き先判定**: 記帳+ECO-066 verified+ECO-062 §7 現在地= ECO-066 verified → run-02 準備(運転員の選定は user 裁定)。本文改訂なし。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(CODE ごとの陽性対照・実障害 vs モックの区別)[ ] template [x] terminology(VERDICT/CODE/CAUSE の
+語彙は本ツールローカルで閉じる)[x] method/concept claim: 「測定不能は合格ではない」= supported(個体未照合を STOP でなく UNMEASURABLE に置いた設計判断に検査官の反証なし)/
+「慎重さは荷重を負わない」= supported(運転員の自発掃引を CLI の既定に置換)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: EXP-20260910-02= next trigger を **run-02(運転員変更・ECO-066 後)** に更新・open 維持。EXP-20260910-03= 据え置き。OBS-20260911-01(探索の打ち切りは受理側)=
+2/3 へ(r2 の範囲限定)。OBS-20260910-03(環境差= 検出力)= 本弧の所見は環境制約でなく入力クラス・据え置き(2/3)。OBS-20260910-04(検査設備の経路障害)= 2 round とも障害なし・据え置き。
