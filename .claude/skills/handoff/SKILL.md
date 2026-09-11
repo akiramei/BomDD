@@ -8,25 +8,43 @@ description: AI→人間のハンドオフ・プロトコル。ターンを終�
 > 出自: 2026-09-11 BomDD ECO-062 Phase 5 run-01 の報告に対する user 批評 —「裁定に必要な入力」と「実験報告」が混ざり、
 > 人間の仕事が裁定でなく再分析になった(REPORT としては良いが RULING REQUEST として弱い)。改善は文章術ではなく
 > **応答の型付け**で行う。本スキルは BomDD の方法論ではなく **ハーネス側の通信規約**(所在は `.claude/skills/` のみ・
-> user 裁定 2026-09-11 1:A・product-profile 非接触・計測後に正本化を判断)。
+> user 裁定 2026-09-11 1:A・product-profile 非接触・計測後に正本化を判断 → 2026-09-12 試行評価後の user 裁定 A= 採用・v0.3・
+> AGENTS.md から参照〔ECO-070〕・配布〔product-profile〕は別 ECO)。
 >
 > 構造: **§1 契約(normative・小さく固定)**と **§2 実装規則(交換可能)**を分離する。契約は「何を宣言し何を含むか」だけを
 > 決め、書き方・個数・順序は実装側に置く。モデルや用途が変わっても契約は変えない。
 
-## 1. 契約(HANDOFF CONTRACT v0.2・normative)
+## 1. 契約(HANDOFF CONTRACT v0.3・normative)
 
 > v0.1 → v0.2(2026-09-11・user DECIDE「A」): 第 4 の mode **REQUEST**(人間に作業を依頼し成果物を待つ)を追加。契機= run-02 の運転員依頼を INFORM で送り
 > user が訂正(INFORM は人間のアクションなしの型)— EXP-20260911-01 の mode 訂正 1 件目。
+>
+> v0.2 → v0.3(2026-09-12・user DECIDE「A」・ECO-070): 試行評価(handoff 67・DECIDE 12/12 が reply_format どおり・mode 訂正 1・REQUEST の成果物回収に
+> 追加 5 往復・INFORM/BLOCKED を FAIL H2 申告のまま 3 通送信・待機通知が 38/67)から 5 点+待機形を織り込む: ①ヘッダ組合せの許容表を契約に置き structural FAIL は
+> 送信停止 ②DECIDE の options は各案同形の帰結(得る/失う/戻せるか)+非推奨案が劣る理由 ③独立項目は番号を分け部分採択可能に ④decision_question を先頭に
+> ⑤REQUEST の deliverable は穴埋め様式。所在は変えず AGENTS.md から参照する。
 
 ```text
-HANDOFF CONTRACT v0.2
+HANDOFF CONTRACT v0.3
 
 Scope:
   A handoff is the message that ends the AI's turn and returns control to the human.
   Intermediate progress lines within a turn are not handoffs.
+  A turn that ends only to wait for a harness notification (background task,
+  no human action, automatic resumption) is a handoff of mode INFORM / CONTINUING
+  in the wait form: what is awaited and what depends on it, nothing else.
 
 Every handoff starts with:
   [INFORM|DECIDE|DISCUSS|REQUEST / CONTINUING|BLOCKED|COMPLETE|PAUSED]
+
+Valid combinations (anything else is a structural FAIL and is not sent):
+             CONTINUING  BLOCKED  COMPLETE  PAUSED
+  INFORM        yes        no       yes      yes
+  DECIDE        yes        yes      no       yes
+  DISCUSS       yes        yes      no       yes
+  REQUEST       yes        yes      no       no
+  (INFORM never waits on the human, so INFORM/BLOCKED is invalid; a finished
+   scope with a pending question is DECIDE/BLOCKED or /PAUSED, not /COMPLETE.)
 
 Single mode:
   One handoff declares exactly one interaction mode.
@@ -35,10 +53,15 @@ Single mode:
   contain questions or decisions.
 
 INFORM requires:  information being handed off / human_action: none / execution state explanation
-DECIDE requires:  decision_question / options / recommendation / reply_format / execution state explanation
+DECIDE requires:  decision_question / options, each with its consequence (gain, loss, reversibility) /
+                  recommendation, including why the other options are worse / reply_format /
+                  execution state explanation
+                  Independently decidable items are numbered as separate decisions so each
+                  can be adopted or rejected on its own.
 DISCUSS requires: discussion_question / thesis / reasoning / counterpoint /
                   what_would_change_thesis / explicit non-decision status
-REQUEST requires: request (what the human is asked to do) / deliverable (what to return, in what form) /
+REQUEST requires: request (what the human is asked to do) / deliverable, as a fill-in form the human
+                  returns as is (every expected line with its fields) /
                   why_human (why the AI cannot do it itself) / execution state explanation
                   The reply to a REQUEST is the deliverable itself. INFORM never asks for human action.
 
@@ -49,11 +72,13 @@ Execution states:
   PAUSED     = work is intentionally suspended, independent of whether it could proceed
 
 Before sending:
-  1. validate header combination
-  2. validate required fields exist                        (structural check)
-  3. validate message purpose agrees with declared mode    (semantic self-check)
+  1. validate header combination against the table          (structural check)
+  2. validate required fields exist                          (structural check)
+  3. validate message purpose agrees with declared mode      (semantic self-check)
   4. validate single mode (no undeclared-mode content outside the appendix)
-  5. rewrite if invalid
+  5. rewrite if invalid. A structural FAIL is a hard stop: the handoff is not
+     sent with a self-reported FAIL. Only an unresolved semantic self-check
+     may be reported and sent.
 ```
 
 契約が言わないこと: options の個数・reasoning の個数・行数・出現順・分類の手順・書き直し回数・DISCUSS の収束法。これらは §2。
@@ -76,19 +101,26 @@ Q3 それ以外 → INFORM(CONTINUING / COMPLETE / PAUSED のいずれか)
 (コミット回避の動機を疑う)。「〜しますか?」「必要なら言ってください」で終わる末尾付加は、隠れた DECIDE か隠れた DISCUSS —
 本体に昇格させるか削る。
 
+待機: ターンがハーネス通知待ち(バックグラウンド検査の完了など)だけで終わるなら、決定木を通さず INFORM/CONTINUING の**待機形**(§2.2)。
+
 ### 2.2 生成(generate)— mode ごとの default
 
 - 共通: パケット本体は 15 行程度。監査記録(実験結果・ログ・全所見)は **リポのファイルに置きパスで参照**する — メッセージは
   記録の射影であって記録ではない。数値には限定子を付ける(機構の性能か・人間や運転員の判断込みか・N・未測定の failure class)。
   人間や運転員の判断で救われた例は機構の成功に数えない。
 - INFORM: 分かったこと → 意味・示唆(必要なら)→ `human_action: none` → execution の 1 行(次の一手 / 未実施項目 / 再開条件)。
-- DECIDE: decision_question は 1 文で、回答により状態が確定する形。options は 2〜4 個を default とし、相互排他・各 1 行の帰結つき。
-  独立した裁定を 1 つの options に混ぜない(複数なら依存順に並べ、番号を振る)。recommendation は options の 1 つを名指しし、理由は
-  観測の羅列でなく「何が示せて何が示せないか」。reply_format は人間の返答コストを固定する(例: `A` / `1:A 2:B` / `OTHER: 理由` / `MODIFY: 条件`)。
+  **待機形**(ハーネス通知待ちでターンが切れるとき): ヘッダ+「何を待つ・何がそれに依存する」の 1〜2 行のみ。同じ待機が続いても本文を増やさない
+  (読み飛ばせることが価値 — v0.2 実測: 67 handoff 中 38 通がこの型で、user は INFORM に注意を割かずに済んだと評価)。
+- DECIDE: **decision_question を本文の先頭に置く**(1 文・回答により状態が確定する形。状態報告や経緯は末尾か付録へ — 人間が探すのは質問)。
+  options は 2〜4 個を default とし相互排他。**各案を同じ形で並べる**: `得るもの / 失うもの / 戻せるか / 採ると次に何が起きる`(表または同順の 1 行)。
+  独立に採否できる項目は 1 案に束ねず番号を分ける(人間が `1:A,A',C` のように部分採択できる形。依存があれば依存順に並べる)。recommendation は
+  options の 1 つを名指しし、理由は観測の羅列でなく「何が示せて何が示せないか」+**非推奨案がなぜ劣るか 1 行**。reply_format は人間の返答コストを
+  固定する(例: `A` / `1:A 2:B` / `OTHER: 理由` / `MODIFY: 条件`)。
 - DISCUSS: discussion_question は範囲が一意に分かる問い(A/B 形に限定しない)。thesis はその問いへの現在の回答 1 文。reasoning は 3 点以内。
   counterpoint は自分の thesis への最強の反論 1 点。what_would_change_thesis を 1 行。末尾に「裁定要求ではない」と、返答の形(`AGREE` /
   `DISAGREE: 理由` / 自由記述)。
-- REQUEST: request は 1 段落(何を・どこで・どの手順書で)。deliverable は返答の形をそのまま示す(貼れる書式)。why_human は 1 行
+- REQUEST: request は 1 段落(何を・どこで・どの手順書で)。deliverable は**穴埋め様式**— 返してほしい行を欄名つきで全部並べ、記入例を 1 行添える。
+  人間はそれを埋めて返す(v0.2 実測: 様式なしで台帳を依頼し回収に追加 5 往復)。欄が埋まらずに返ったら再 REQUEST の前に様式の欠陥を疑う。why_human は 1 行
   (例: 「運転員= 人間という実験設計」「私の権限外」「私が触ると測定が汚れる」)。作業の所要目安を添える。
 - 付録: 主モード以外の内容を同じメッセージに残す場合は、パケットの後に `---` と `付録(INFORM・返答不要)` の見出しで区切る。
   付録に疑問文・裁定・「〜しますか」を置かない。
@@ -98,11 +130,12 @@ Q3 それ以外 → INFORM(CONTINUING / COMPLETE / PAUSED のいずれか)
 ```text
 structural(lint・機械的に判定できる)
   H1 先頭行が [mode / execution] の形で、語彙内
-  H2 組合せが有効(INFORM/BLOCKED は無効 — 人間の返答を待つなら DECIDE か DISCUSS へ)
+  H2 組合せが §1 の許容表にある(INFORM/BLOCKED は無効 — 人間の返答を待つなら DECIDE / DISCUSS / REQUEST へ)
   F1 mode の必須要素がすべて存在する(見出し・ラベル・または明瞭な 1 文)
-  F2 DECIDE: options が列挙され、reply_format がある
+  F2 DECIDE: decision_question が本文先頭にあり、options が各案同形の帰結(得る/失う/戻せるか)つきで列挙され、独立項目は番号が分かれ、reply_format がある
   F3 DISCUSS: discussion_question と thesis が両方ある
-  F4 REQUEST: request・deliverable・why_human がある。INFORM に human_action あり(依頼・疑問文)は F1 違反= REQUEST か DECIDE へ再分類
+  F4 REQUEST: request・deliverable(穴埋め様式・記入例つき)・why_human がある。INFORM に human_action あり(依頼・疑問文)は F1 違反= REQUEST か DECIDE へ再分類
+  F5 待機形: ヘッダ+2 行以内
   M1 付録の外に、宣言外モードの内容(疑問文・裁定・議題・依頼)がない
 
 semantic(self-review・自己申告 — 較正は人間の mode 訂正回数で外から測る)
@@ -114,8 +147,9 @@ semantic(self-review・自己申告 — 較正は人間の mode 訂正回数で�
 
 ### 2.4 書き直し(rewrite)
 
-FAIL があれば送る前に書き直す。default 上限 2 回。上限で残る FAIL は末尾に `self-check: FAIL <id>(理由)` を 1 行で自己申告する
-(未収束を収束と報告しない — converge と同じ形)。structural PASS / semantic self-check PASS は将来別々に較正できるよう、申告時は id で区別する。
+FAIL があれば送る前に書き直す。default 上限 2 回。**structural(H/F/M)の FAIL は送信停止**— 機械的に直せるものを申告付きで送らない(v0.2 実測:
+FAIL H2 を申告しつつ 3 通送り、user の訂正で止まった。申告は検査の代わりにならない)。上限で残る **semantic(P)の FAIL のみ** 末尾に
+`self-check: FAIL <id>(理由)` を 1 行で自己申告する(未収束を収束と報告しない — converge と同じ形)。structural / semantic は将来別々に較正できるよう id で区別する。
 
 ### 2.5 DISCUSS の収束(default)
 
@@ -130,7 +164,8 @@ VERIFICATION_FAIL → 是正中なら INFORM/CONTINUING、是正方針が分岐�
 
 ### 2.7 適用外
 
-ターン途中の進捗の一行(バックグラウンド待ちの呟き等)。user が「形式なし」を指示したメッセージ。
+ターン途中の進捗の一行(ターンを終えないもの)。user が「形式なし」を指示したメッセージ。**ターンを終える待機(バックグラウンド通知待ち)は適用外ではなく
+待機形 INFORM/CONTINUING**(v0.3。v0.2 では適用外に見えたが実測では handoff の 57% を占め、ヘッダが読み飛ばしを可能にしていた)。
 
 ## 3. 例(最小形)
 
@@ -141,12 +176,21 @@ human_action: none。未実施= なし。次の裁定材料は別 handoff で出
 ```
 
 ```text
+[INFORM / CONTINUING]
+self-conformance の exit 観測待ち。以降(witness → commit → push → CI)はすべてこれに依存する。
+```
+
+```text
 [DECIDE / BLOCKED]
 decision_question: Phase 6(狭い自動起動)を今開くか。
-options: A 開く(帰結: 自動起動 job で witness 再検証が機構として効くかを次に測る)/ B 保留し run-02 を先に(帰結: operator rescue 依存を切り分けてから)
-recommendation: B。fail-open 0/7 は運転員+検証器の性能で、2 件は運転員の仕様外行動に依存し、dirty 腕は狙った failure class を未測定。
+options:
+  A 開く         — 得る: 自動起動 job の witness 再検証を次に測れる / 失う: run-02 の切り分け前に機構を積む / 戻せる: 可(順序の入替) / 次: Phase 6 起票
+  B run-02 先行  — 得る: operator rescue 依存を切り分けてから開ける / 失う: 1 run 分の時間 / 戻せる: 可 / 次: run-02 ブリーフ
+recommendation: B。fail-open 0/7 は運転員+検証器の性能で、2 件は運転員の仕様外行動に依存し、dirty 腕は未測定。A が劣る理由: 未測定の failure class の上に自動起動を積む。
 reply_format: A / B / OTHER: 理由
 execution: BLOCKED — Phase 6 の作業は回答まで着手しない。
+---
+付録(INFORM・返答不要): run-01 の記録= bomdd/reports/phase5-run-01-eco-062.md
 ```
 
 ```text
@@ -162,7 +206,11 @@ what_would_change_thesis: 付録方式で裁定の再分析が起きなければ
 ```text
 [REQUEST / BLOCKED]
 request: run-02 の R1〜R8 を bomdd/reports/phase5-run-02-brief.md の手順 v2 で実施してください(所要 20〜30 分)。
-deliverable: run ごとに `R1 | decision= | code= | 1 行目=` の 1 行+R7 の裁定材料+手順の欠落(なければ「なし」)。
+deliverable(穴埋め・そのまま返す):
+  R1 | decision= | code= | 1 行目=
+  …(R8 まで同形)
+  R7 issue= / options= / 手順の欠落=(なければ「なし」)
+  例: R1 | decision=ADVANCE | code=OK | 1 行目=ADVANCE OK: tree 一致
 why_human: 運転員= 人間という実験設計(裁定 A)。私が実行すると運転員≠製造者が崩れる。
 execution: BLOCKED — 台帳が届くまで採点・R9 に進まない。
 ```
@@ -174,3 +222,9 @@ execution: BLOCKED — 台帳が届くまで採点・R9 に進まない。
 - 基準線(契約前・Phase 5 run-01 報告): 訂正 1・再分析 1・1 語返答 0/1。
 - 試行中の記録(契約後): 2026-09-11 mode 訂正 1(run-02 依頼を INFORM で送信・self-check FAIL H2 を申告しつつ送った → user 訂正 → v0.2 REQUEST 追加)。
 - 評価後の分岐: 指標が改善しなければ §2 の細則の一部を §1 へ昇格させて再試行。改善すれば product-profile への正本化を ECO で判断する。
+- **評価(2026-09-12・EXP-20260911-01 回収・ECO-070 §0)**: 本セッション transcript 実測 handoff 67(INFORM 44 / DECIDE 12 / REQUEST 8 / DISCUSS 3)。
+  ①mode 訂正 1 ②再分析型の再質問 0(運用前の同セッションでは 3)③DECIDE 返答が reply_format どおり 12/12。user 評価: INFORM に注意を割かずに済む・
+  DECIDE の温度差が伝わる・根拠(得失)はもっと分かりやすくできる。欠陥: INFORM/BLOCKED を FAIL 申告のまま 3 通送信 / REQUEST 回収に追加 5 往復 /
+  DECIDE の冒頭が報告 / option の束ねが粗い。同一セッション・同一 user・N 小で学習効果と未分離(示唆止まり)。→ user 裁定 A= 採用・v0.3。
+- **v0.3 の計測(EXP-20260912-01)**: 次の handoff 20 回(DECIDE 5 回以上)で ①許容表外ヘッダ 0 ②structural FAIL 申告つき送信 0 ③REQUEST の成果物回収に
+  要した追加往復(v0.2 基準線 5)④DECIDE で人間が非推奨案の理由や部分採択の可否を再質問した回数 ⑤待機形の本文 2 行以内の比率。

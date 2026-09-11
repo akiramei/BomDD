@@ -7019,13 +7019,15 @@ lesson-promote の先例 de917eb と同じ)。register・order 不変。
 
 **期待効果の棚卸し**: 新規 EXP-20260911-01(下記)。既存 EXP/OBS への影響なし。
 
-- [open] EXP-20260911-01 — **handoff 契約 v0.1 は人間の再分析を減らすか**: `.claude/skills/handoff` 適用下の handoff 20 回(DECIDE 5 回以上)で、
+- [recovered 2026-09-12 via ECO-070] EXP-20260911-01 — **handoff 契約 v0.1 は人間の再分析を減らすか**: `.claude/skills/handoff` 適用下の handoff 20 回(DECIDE 5 回以上)で、
   ①人間が mode を訂正した回数 ②「で、私は何をすれば」型の再質問回数 ③DECIDE への返答が reply_format どおり(1 語/ラベル列)で済んだ比率。
   基準線(契約前・Phase 5 run-01 報告)= 訂正 1・再分析 1・1 語返答 0/1。**評価後の分岐**: 改善なし → §2 細則の一部を §1 契約へ昇格して再試行 /
   改善あり → product-profile 正本化を ECO で判断。**next trigger= handoff 20 回到達**
   **試行中の観測(2026-09-11)**: mode 訂正 1 件目 — 人間に作業を依頼する handoff(run-02 の運転員依頼)を INFORM で送信(self-check FAIL H2 を申告しつつ送った)→ user が
   「INFORM は人間のアクションなし」と訂正 → DECIDE で第 4 mode **REQUEST**(request/deliverable/why_human)を契約 v0.2 に追加(user 裁定 A)。契約の欠落が試行 5 handoff 目で露出
   **run-02 の観測(2026-09-11)**: REQUEST/BLOCKED ×7。人間の返答は deliverable の書式に部分的にしか従わず 6 往復(R6 空欄・evidence 未提出)— 契約は AI 側の型付けで人間側は型付けできない(観測 1)
+  **回収(2026-09-12・ECO-070 §0)**: handoff 67(DECIDE 12)で評価。①mode 訂正 1 ②再分析型の再質問 0(運用前の同セッション 3)③DECIDE 返答 reply_format どおり 12/12。
+  改善あり → user 裁定 A= 採用・v0.3(5 点+待機形)・AGENTS.md 参照。正本化は別 ECO(EXP-20260912-01 の後)。限定子: 同一セッション・同一 user・学習効果と未分離
   source: harness(.claude/skills/handoff)
   evidence: 本節・SKILL.md §4・user 裁定 2026-09-11(1:A 2:A)
 
@@ -7235,3 +7237,28 @@ commit を止めた — order §5 の見出しを先に「クローズ(verified�
 verified 遷移の commit で書く」が運用規則として成立する(1 例・規則化は次回)。**一般化検査**: 1 例。**行き先判定**: 記帳のみ・OBS-20260910-02 に予防側の実例を注記(件数据え置き)。
 **思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(入口が台帳不整合を commit 前に止める)[x] template(range・実行環境の欄)[ ] terminology [ ] method/concept claim。
 **期待効果の棚卸し**: 該当 0 件(案 A/A' の効果測定= 次の異系統独立検査で round 数・環境差由来の所見件数)。
+
+## 2026-09-12 ハーネス側 — handoff 契約の試行評価(EXP-20260911-01 回収)と v0.3(ECO-070): 採用・5 点+待機形の織り込み・AGENTS.md から参照
+
+**観測**(出典: [ECO-070 order](../bomdd/60-change-order-eco-070.md) §0・本セッション transcript の機械集計・user 感想 2026-09-12):
+1. handoff 67(INFORM 44 / DECIDE 12 / REQUEST 8 / DISCUSS 3)。DECIDE の user 返答は 12/12 が reply_format どおり。DISCUSS は各 1〜2 往復で収束。mode 訂正 1。
+   運用前の同セッションにあった再分析型の往復(「何に対応した?私は何を試せる?」「現在地が分かるようにしたい」「長文裁定」)3 件が運用後 0 件。
+2. user 感想: **INFORM に大きな注意力を割かずに済むようになった**(待機通知 38/67 をヘッダで読み飛ばせた)/ DECIDE で候補の温度差が伝わった / 根拠(得失)はもっと分かりやすく。
+3. 欠陥(当方の自己出力から): DECIDE の option に得る/失う/戻せるかが揃わない・decision_question が状態報告の後ろ・option の束ねが粗く部分採択しにくい・REQUEST の
+   deliverable が穴埋め様式でなく回収に追加 5 往復・INFORM/BLOCKED を FAIL H2 と申告しつつ 3 通送った(規則 §2.3 H2 は存在した — 申告が検査の代わりになっていた)。
+4. **別セッションは契約を「知らない」**: 経路が `/handoff` 起動・description・memory 索引のみで、AGENTS.md 等に参照 0。当方の順守は会話文脈由来 — 順守は設置の証拠にならない
+   (playbook §9「散文契約は順守の証拠にならない」の裏返し)。
+**整理**: 契約は「何を宣言し何を含むか」に留め、順序・行数は §2 に置く設計を維持したまま、契約側へ足したのは (a) 許容表と structural FAIL の送信停止 (b) options の帰結と分番
+(c) deliverable の穴埋め様式 (d) 待機形の定義。「申告つきで送る」は converge の「未収束を収束と報告しない」と同型に見えて逆で、機械的に直せる FAIL を申告で通すのは
+検査の無効化 — 送信停止に変えた。**一般化検査**: 1 セッション N=67 の示唆。効果の分離(学習効果)は次の 20 回(EXP-20260912-01)と別 user/別ハーネスの実測が要る。
+**行き先判定**: `.claude/skills/handoff/SKILL.md` v0.3(ハーネス側)・AGENTS.md の参照(入口)・本節。playbook 非改訂・product-profile 非接触(正本化は別 ECO)。
+**思想層の再認証判定(手順 3b)**: [x] operational rule(AGENTS.md の入口規則に handoff 契約を追加)[x] control/probe(許容表・送信停止・F5)[ ] template
+[x] terminology(待機形・許容表)[x] method/concept claim: 「散文契約は順守の証拠にならない」(§9)= supported(順守側も設置の証拠にならない・別セッション実測)/
+「指示ではなく事実・境界で答え合わせ」= supported(裁定 12/12 が記号返答)。contradicted / superseded: なし。
+**期待効果の棚卸し**: EXP-20260911-01 を回収(上記・行内遷移)。新規 EXP-20260912-01(下記)。他の open/watch への影響なし。
+
+- [open] EXP-20260912-01 — **handoff 契約 v0.3 は v0.2 の欠陥 4 類を消すか**: 次の handoff 20 回(DECIDE 5 回以上)で ①許容表外ヘッダ 0 ②structural FAIL 申告つき送信 0
+  ③REQUEST の成果物回収に要した追加往復(v0.2 基準線 5)④DECIDE で人間が非推奨案の理由・部分採択の可否を再質問した回数(基準線: 感想 1)⑤待機形の本文 2 行以内の比率。
+  評価後の分岐: 改善あり → product-profile 正本化を ECO で判断 / 改善なし → §2 の順序規則を §1 へ昇格。**next trigger= handoff 20 回到達**
+  source: ECO-070
+  evidence: ECO-070 order §0・SKILL.md §4
