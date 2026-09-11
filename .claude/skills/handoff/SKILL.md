@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: AI→人間のハンドオフ・プロトコル。ターンを終えて人間へ制御を渡すメッセージごとに、interaction(INFORM/DECIDE/DISCUSS/REQUEST)と execution(CONTINUING/BLOCKED/COMPLETE/PAUSED)を先頭 1 行で宣言し、mode ごとの必須要素を満たしてから送る。人間が「報告か・質問か・議論か・AI は止まっているか」を逆推論しなくて済むようにする通信契約。長い報告・裁定要求・設計議論・完了報告・中断報告のすべてが対象。
+description: AI→人間のハンドオフ・プロトコル。ターンを終えて人間へ制御を渡すメッセージごとに、interaction(INFORM/DECIDE/DISCUSS/REQUEST)と execution(CONTINUING/BLOCKED/COMPLETE/PAUSED)を先頭 1 行で宣言し、mode ごとの必須要素を満たしてから送る。人間が「報告か・質問か・議論か・AI は止まっているか」を逆推論しなくて済むようにする通信契約。長い報告・裁定要求・設計議論・完了報告・中断報告のすべてが対象。フリースタイル区間(形式なし)は人間の宣言でのみ開始・終了し、区間内でも裁定・依頼・タスク終了の 1 通は契約に戻る。
 ---
 
 # /handoff — AI→人間の制御移譲プロトコル
@@ -14,7 +14,7 @@ description: AI→人間のハンドオフ・プロトコル。ターンを終�
 > 構造: **§1 契約(normative・小さく固定)**と **§2 実装規則(交換可能)**を分離する。契約は「何を宣言し何を含むか」だけを
 > 決め、書き方・個数・順序は実装側に置く。モデルや用途が変わっても契約は変えない。
 
-## 1. 契約(HANDOFF CONTRACT v0.3・normative)
+## 1. 契約(HANDOFF CONTRACT v0.4・normative)
 
 > v0.1 → v0.2(2026-09-11・user DECIDE「A」): 第 4 の mode **REQUEST**(人間に作業を依頼し成果物を待つ)を追加。契機= run-02 の運転員依頼を INFORM で送り
 > user が訂正(INFORM は人間のアクションなしの型)— EXP-20260911-01 の mode 訂正 1 件目。
@@ -23,9 +23,13 @@ description: AI→人間のハンドオフ・プロトコル。ターンを終�
 > 追加 5 往復・INFORM/BLOCKED を FAIL H2 申告のまま 3 通送信・待機通知が 38/67)から 5 点+待機形を織り込む: ①ヘッダ組合せの許容表を契約に置き structural FAIL は
 > 送信停止 ②DECIDE の options は各案同形の帰結(得る/失う/戻せるか)+非推奨案が劣る理由 ③独立項目は番号を分け部分採択可能に ④decision_question を先頭に
 > ⑤REQUEST の deliverable は穴埋め様式。所在は変えず AGENTS.md から参照する。
+>
+> v0.3 → v0.4(2026-09-12・user AGREE・ECO-071): **フリースタイル区間**を契約に定義。①区間の開始と終了は人間の宣言のみ(既定は契約・AI の推定で形式を落とさない)
+> ②区間内はヘッダも必須要素もなし ③片方向ラチェット= 区間内でも裁定・依頼・タスクのターン終了を含む 1 通はその通だけ契約に戻り「区間は継続」と明記する。
+> 根拠= 誤分類のコストが非対称(タスク中に形式を落とすと再分析コストが戻る・会話中の形式はヘッダ 1 行)+「会話かタスクか」の推定はこの契約が不信を置いた判断と同種。
 
 ```text
-HANDOFF CONTRACT v0.3
+HANDOFF CONTRACT v0.4
 
 Scope:
   A handoff is the message that ends the AI's turn and returns control to the human.
@@ -33,6 +37,15 @@ Scope:
   A turn that ends only to wait for a harness notification (background task,
   no human action, automatic resumption) is a handoff of mode INFORM / CONTINUING
   in the wait form: what is awaited and what depends on it, nothing else.
+
+Free-style span:
+  The contract applies by default. A free-style span begins and ends only by
+  the human's declaration; inside it, messages carry no header and no required
+  fields. The AI never enters a span by its own inference.
+  One-way ratchet: if, inside a span, a message needs a decision, asks the
+  human for work, or ends a task turn, that single message returns to the
+  contract and says the span continues. Task -> conversation is the human's
+  switch only; conversation -> task is automatic for that message.
 
 Every handoff starts with:
   [INFORM|DECIDE|DISCUSS|REQUEST / CONTINUING|BLOCKED|COMPLETE|PAUSED]
@@ -103,6 +116,9 @@ Q3 それ以外 → INFORM(CONTINUING / COMPLETE / PAUSED のいずれか)
 
 待機: ターンがハーネス通知待ち(バックグラウンド検査の完了など)だけで終わるなら、決定木を通さず INFORM/CONTINUING の**待機形**(§2.2)。
 
+区間: フリースタイル区間内(§1・人間が宣言済み)では決定木を Q0/Q1 の検出にだけ使う — yes ならその 1 通は契約に戻り「区間は継続」と書く・no なら形式なし。
+区間に入るのは人間の宣言だけ(「会話だと思ったので形式を落とした」は違反)。区間の終了も人間の宣言(タスク指示が来たら、それを終了宣言とみなしてよいが、その旨を最初の handoff に書く)。
+
 ### 2.2 生成(generate)— mode ごとの default
 
 - 共通: パケット本体は 15 行程度。監査記録(実験結果・ログ・全所見)は **リポのファイルに置きパスで参照**する — メッセージは
@@ -136,6 +152,7 @@ structural(lint・機械的に判定できる)
   F3 DISCUSS: discussion_question と thesis が両方ある
   F4 REQUEST: request・deliverable(穴埋め様式・記入例つき)・why_human がある。INFORM に human_action あり(依頼・疑問文)は F1 違反= REQUEST か DECIDE へ再分類
   F5 待機形: ヘッダ+2 行以内
+  F6 区間: フリースタイル区間の開始に人間の宣言がある(AI 推定で形式なしにしない)/ 区間内で裁定・依頼・タスク終了を含む通にヘッダと「区間は継続」がある
   M1 付録の外に、宣言外モードの内容(疑問文・裁定・議題・依頼)がない
 
 semantic(self-review・自己申告 — 較正は人間の mode 訂正回数で外から測る)
@@ -164,7 +181,8 @@ VERIFICATION_FAIL → 是正中なら INFORM/CONTINUING、是正方針が分岐�
 
 ### 2.7 適用外
 
-ターン途中の進捗の一行(ターンを終えないもの)。user が「形式なし」を指示したメッセージ。**ターンを終える待機(バックグラウンド通知待ち)は適用外ではなく
+ターン途中の進捗の一行(ターンを終えないもの)。**フリースタイル区間**(§1・v0.4): 人間の宣言で開始・終了し、区間内は形式なし。ただし裁定・依頼・タスクの
+ターン終了を含む 1 通はその通だけ契約に戻り「区間は継続」と明記する(片方向ラチェット)。AI の推定で区間に入らない(既定は契約)。**ターンを終える待機(バックグラウンド通知待ち)は適用外ではなく
 待機形 INFORM/CONTINUING**(v0.3。v0.2 では適用外に見えたが実測では handoff の 57% を占め、ヘッダが読み飛ばしを可能にしていた)。
 
 ## 3. 例(最小形)
@@ -178,6 +196,17 @@ human_action: none。未実施= なし。次の裁定材料は別 handoff で出
 ```text
 [INFORM / CONTINUING]
 self-conformance の exit 観測待ち。以降(witness → commit → push → CI)はすべてこれに依存する。
+```
+
+```text
+(user: ここからはフリースタイルで)
+(形式なしの会話が続く)
+
+[DECIDE / PAUSED]  ← 区間内で裁定が必要になった 1 通だけ契約に戻る
+decision_question: …
+options: …
+reply_format: A / B
+execution: PAUSED — 区間は継続(返答後はフリースタイルに戻る)。
 ```
 
 ```text
@@ -228,3 +257,5 @@ execution: BLOCKED — 台帳が届くまで採点・R9 に進まない。
   DECIDE の冒頭が報告 / option の束ねが粗い。同一セッション・同一 user・N 小で学習効果と未分離(示唆止まり)。→ user 裁定 A= 採用・v0.3。
 - **v0.3 の計測(EXP-20260912-01)**: 次の handoff 20 回(DECIDE 5 回以上)で ①許容表外ヘッダ 0 ②structural FAIL 申告つき送信 0 ③REQUEST の成果物回収に
   要した追加往復(v0.2 基準線 5)④DECIDE で人間が非推奨案の理由や部分採択の可否を再質問した回数 ⑤待機形の本文 2 行以内の比率。
+  v0.4(ECO-071)追加: ⑥人間の「形式なし」宣言回数(数回を超えれば既定を再検討)⑦区間内で契約に戻った通数と隠れ裁定(戻らず「〜しますか」で終えた)件数= 0 要求
+  ⑧AI の推定で形式を落とした件数= 0 要求。thesis を変える条件(DISCUSS 2026-09-12): ⑥が多い/推定が全件正しかった → 既定を AI 推定へ / ⑦>0 → ラチェットを維持・強化。

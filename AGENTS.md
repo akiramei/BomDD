@@ -44,7 +44,7 @@
 (C16= order の converge receipt / C17= verified ECO の calibrate receipt)。
 
 `/handoff`(AI→人間の制御移譲の通信契約)は方法論でなく**ハーネス側の規約**で、正本は
-[.claude/skills/handoff/SKILL.md](.claude/skills/handoff/SKILL.md)(契約 §1・v0.3・ECO-070)。
+[.claude/skills/handoff/SKILL.md](.claude/skills/handoff/SKILL.md)(契約 §1・採用= ECO-070・フリースタイル区間= ECO-071・版は SKILL.md 冒頭)。
 ターンを終えて人間へ制御を渡すメッセージは、ハーネスを問わず契約 §1 に従う(先頭 1 行
 `[INFORM|DECIDE|DISCUSS|REQUEST / CONTINUING|BLOCKED|COMPLETE|PAUSED]`+mode ごとの必須要素)。
 試行評価= EXP-20260911-01(回収済み)・配布(product-profile)は別 ECO。

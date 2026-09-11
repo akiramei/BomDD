@@ -2508,3 +2508,23 @@ changes:
       採らない= product-profile 正本化(別 ECO)・self-conformance の .claude/skills 拡張・契約への出現順規則。
     verification: >
       V1 SKILL.md の grep / V2 AGENTS.md リンク解決(C12)/ V3 self-conformance・CI / V4 製造者較正のみ / V5(非クローズ条件)EXP-20260912-01。実測は order §4〜5。
+  - id: ECO-071
+    title: handoff 契約 v0.4 — フリースタイル区間(人間の宣言で開始・終了/区間内は形式なし/片方向ラチェット)を契約 §1 に定義(user AGREE 2026-09-12)
+    date: 2026-09-12
+    origin: improvement
+    status: implemented   # 2026-09-12 user AGREE「3 点を契約に足して起票して」。起票+製造を同一 commit(文書のみ)・製造者較正のみ・verified は CI 後の accept commit で
+    source: >
+      user の問い「タスク中はプロトコル、フリースタイルな会話が相応しいシーンもある。切り分けは可能か」。v0.3 は §2.7 に 1 通単位の適用外があるだけで、区間・終了・
+      区間内の裁定・AI 推定の可否が未定義。DISCUSS(thesis: 切替の権限は人間・既定は契約・片方向ラチェット)に user AGREE。
+    order_ref: bomdd/60-change-order-eco-071.md
+    affected_refs: [.claude/skills/handoff/SKILL.md, AGENTS.md, method/improvements.md]
+    no_impact_prediction: "(製造前・凍結)3 文書+台帳系のみ。C12 リンク先不変・C7 不変・C13 新リンクなし・tools/templates/hooks/.github diff 0・worklist 新規 ID なし・警告 0"
+    diff_audit:
+      baseline: "bf0924e"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [.claude/skills/handoff/SKILL.md, AGENTS.md, method/improvements.md, bomdd/60-change-order-eco-071.md, bomdd/60-change-register.yaml]
+    summary: >
+      契約 §1 Scope に Free-style span: 既定は契約・開始と終了は人間の宣言のみ・AI は推定で入らない・区間内はヘッダも必須要素もなし・片方向ラチェット(区間内でも裁定・依頼・
+      タスク終了の 1 通は契約に戻り「区間は継続」)。§2.1/§2.3 F6/§2.7/§3 例/§4 指標 ⑥⑦⑧。採らない= AI 推定を既定・第 5 mode・product-profile 正本化。
+    verification: >
+      V1 SKILL.md の grep / V2 C12 / V3 self-conformance・CI / V4 製造者較正のみ / V5(非クローズ条件)指標 ⑥⑦⑧。実測は order §4〜5。
