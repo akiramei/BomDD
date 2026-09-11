@@ -15,6 +15,8 @@
   - resolved: <実到達モデル。**確認できなければ `unknown` — 推定で埋めない**>
   - ハーネス: <CLI・統合層とその版(例: Claude Code vX / Codex CLI vY)>
   - 来歴: observed(機械記録: as-built・セッションログ・API 応答)/ self-reported(申告・ハーネス表示)の別を明記
+- producer: <EQ-NNN — 設備台帳 `bomdd/70-equipment.yaml` の ID(ECO-072)。job 射影が `required_capability` に解決し実在を確認する。台帳に無い ID・構文外は LEDGER_INCONSISTENT で工程が止まる>
+- inspector: <EQ-NNN — 独立検査併用時。入口 `bomdd-run --executor` と照合し、producer と同一 id / model+harness+account_lineage の 3 軸一致 / 軸 unknown は STOP INDEPENDENCE_FAIL(宣言属性の照合まで・独立性の実効は主張しない)>
 - 検査官(独立検査併用時): 同 4 項+read-only の強制方法・セッション分離の有無+**round の range**(境界探索 / 是正確認+回帰)+**実行環境の差**(sandbox モード・OS temp・PATH・パス表記・exit 伝播 — 製造者環境との差を明記。playbook §3)
 - 注意: requested と resolved は**乖離しうる**(実測: `gpt-5.6-sol` 要求が統合層のクライアント識別ゲートで `gpt-5.5` へ到達 — transfer-04)。commit trailer は自己申告であり resolved の証明にならない。設備構成(モデル・ハーネス・prompt)が ECO 途中で変わったら、変更点と時点を本欄へ追記する(**交代の無記録が最危険**)
 

@@ -31,6 +31,11 @@
 #       不変・gate 化しない)。map 不在 / import 不能 / order 不在は unknown(合格ではない)。契約の**意味**は
 #       測らない — map の source は所在参照のみで、契約が変われば所在が腐る(selftest は実在まで)。
 #       認識依存のトリガー(calibrate ②④)は機械化しない。
+#   (5) ECO-072(F2): required_capability は order の配員欄(`- producer: EQ-NNN` / `- inspector: EQ-NNN`・fence 外)から
+#       読み、設備台帳 bomdd/70-equipment.yaml で実在確認する。欄なし= null(従来どおり・停止しない)。値が EQ-NNN 構文外・
+#       同一 role に異なる id・台帳に無い id は LEDGER_INCONSISTENT、台帳が読めないのに宣言がある場合は MISSING_INPUT(fail-closed)。
+#       独立性の判定(producer vs executor)は job の責務外(入口 bomdd-run.py --executor)。停止語彙に INDEPENDENCE_FAIL を
+#       追加するが job は導出しない(被覆宣言のとおり)。
 
 import io
 import json
@@ -53,9 +58,17 @@ STOP_VOCABULARY = (
     "PREFLIGHT_HOLD",        # ⑤ 開始条件不成立 → 工程判定
     "LEDGER_INCONSISTENT",   # ⑥ 台帳不整合(register と order の状態矛盾)→ 台帳の所有者
     "MISSING_INPUT",         # 欠測(order 不在・register 不能)— 測定不能は合格ではない
+    "INDEPENDENCE_FAIL",     # ⑦ 独立性不成立(producer と executor が同一 id / 3 軸一致 / 軸 unknown)→ 運転員(配員のやり直し)。入口が導出・ECO-072
 )
 DERIVABLE_FROM_LEDGER = ("NONE", "LEDGER_INCONSISTENT", "MISSING_INPUT")
 
+EQUIPMENT_REL = "bomdd/70-equipment.yaml"
+EQ_ID_RE = re.compile(r"^EQ-\d{3}$")
+ASSIGN_RE = re.compile(r"^[ \t]{0,3}-[ \t]*(producer|inspector)[ \t]*:[ \t]*(\S+)", re.M)
+HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.S)
+HEAD_RE = re.compile(r"^[ \t]{0,3}(#{1,6})[ \t]+([^\n]*)$", re.M)
+EQUIP_HEAD_RE = re.compile(r"担当設備|equipment", re.I)
+INDEPENDENCE_AXES = ("model", "harness", "account_lineage")
 CLOSE_HEAD_RE = re.compile(r"^[ \t]{0,3}#{2,6}[ \t]+\d+\.[ \t]*クローズ[^\n]*verified", re.M)
 FENCE_RE = re.compile(r"^[ \t]{0,3}(```|~~~)[^\n]*\n.*?(?:^[ \t]{0,3}\1[ \t]*$|\Z)", re.S | re.M)
 
@@ -274,6 +287,84 @@ def _field(value, source):
     return {"value": value, "source": source}
 
 
+def load_equipment(root: Path, rel: str = EQUIPMENT_REL):
+    """設備台帳を読み {id: entry} を返す。(dict, None) / (None, 理由)。形状不正・id 構文外・重複は不正(fail-closed)。"""
+    if yaml is None:
+        return None, "PyYAML 不在"
+    try:
+        data = yaml.safe_load((root / rel).read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as e:
+        return None, f"設備台帳 読取不能: {e.__class__.__name__}"
+    items = (data or {}).get("equipment") if isinstance(data, dict) else None
+    if not isinstance(items, list) or not items:
+        return None, "設備台帳 形状不正(equipment 配列なし)"
+    out = {}
+    for i, e in enumerate(items):
+        if not isinstance(e, dict) or not isinstance(e.get("id"), str) or not EQ_ID_RE.match(e["id"]):
+            return None, f"設備台帳 entry[{i}] の id が EQ-NNN でない"
+        for ax in INDEPENDENCE_AXES:   # r1 IA-01: 未選択 entry でも 3 軸は「文字列か欠落」以外を台帳不正として弾く(台帳全体の形状)
+            if ax in e and e[ax] is not None and not isinstance(e[ax], str):
+                return None, f"設備台帳 {e['id']} の {ax} が文字列でない({type(e[ax]).__name__})"
+        if e["id"] in out:
+            return None, f"設備台帳 id 重複: {e['id']}"
+        out[e["id"]] = e
+    return out, None
+
+
+def equipment_sections(text: str) -> str:
+    """r1 IA-03: 見出しに「担当設備」/「equipment」を含む節(次の同位以上の見出しまで)だけを連結して返す。節がなければ空文字。"""
+    heads = list(HEAD_RE.finditer(text))
+    out = []
+    for i, h in enumerate(heads):
+        if not EQUIP_HEAD_RE.search(h.group(2)):
+            continue
+        level = len(h.group(1))
+        end = len(text)
+        for nxt in heads[i + 1:]:
+            if len(nxt.group(1)) <= level:
+                end = nxt.start()
+                break
+        out.append(text[h.end():end])
+    return "\n".join(out)
+
+
+def assignments(order_text: str) -> dict:
+    """order の配員欄を role → [値…] で返す(出現順・重複込み)。fence と HTML コメントを除去し、担当設備節の中だけを読む(use/mention の区別・r1 IA-03)。"""
+    text = HTML_COMMENT_RE.sub("", FENCE_RE.sub("", order_text))
+    text = equipment_sections(text)
+    found = {"producer": [], "inspector": []}
+    for m in ASSIGN_RE.finditer(text):
+        found[m.group(1)].append(m.group(2))
+    return found
+
+
+def resolve_capability(order_text: str, root: Path):
+    """ECO-072(F2): (value, source, stop, reason)。value は {producer, inspector}(未宣言は None)。欄なしは (None, none…, None, None)。"""
+    found = assignments(order_text)
+    if not found["producer"] and not found["inspector"]:
+        return None, "none(F2: order の担当設備節に配員欄〔- producer: EQ-NNN / - inspector: EQ-NNN〕なし)", None, None
+    value = {}
+    for role in ("producer", "inspector"):
+        vals = found[role]
+        if not vals:
+            value[role] = None
+            continue
+        bad = [v for v in vals if not EQ_ID_RE.match(v)]
+        if bad:
+            return None, "order 配員欄", "LEDGER_INCONSISTENT", f"order の {role} 値が EQ-NNN 構文でない: {bad[0]!r}"
+        if len(set(vals)) > 1:
+            return None, "order 配員欄", "LEDGER_INCONSISTENT", f"order の {role} に異なる id: {sorted(set(vals))}"
+        value[role] = vals[0]
+    eq, err = load_equipment(root)
+    if eq is None:
+        return None, "order 配員欄", "MISSING_INPUT", f"配員欄があるが設備台帳を読めない: {err}"
+    for role, eid in value.items():
+        if eid is not None and eid not in eq:
+            return None, "order 配員欄", "LEDGER_INCONSISTENT", f"order の {role} {eid} が設備台帳 {EQUIPMENT_REL} にない"
+    src = f"order 担当設備節の配員欄(- producer/inspector: EQ-NNN・fence/HTML コメント外)+{EQUIPMENT_REL} で実在確認(独立性の判定は入口 bomdd-run --executor)"
+    return value, src, None, None
+
+
 def load_register(path: Path):
     if yaml is None:
         return None, "PyYAML 不在"
@@ -326,6 +417,11 @@ def project(entry: dict, root: Path, register_rel: str, amap=None, map_err: str 
                 stop, reason = "LEDGER_INCONSISTENT", f"order にクローズ節(verified)があるが register.status={status}"
             elif status == "verified" and not closed:
                 stop, reason = "LEDGER_INCONSISTENT", "register.status=verified だが order にクローズ節(verified)がない"
+            # ECO-072(F2): 配員欄 → required_capability(設備台帳で実在確認)。台帳由来の停止が先(既存の停止を上書きしない)
+            cap, cap_src, cap_stop, cap_reason = resolve_capability(order_text, root)
+            job["required_capability"] = _field(cap, cap_src)
+            if stop == "NONE" and cap_stop:
+                stop, reason = cap_stop, cap_reason
     job["stop_type"] = _field(stop, f"導出: {reason}")
 
     # ECO-064(F1): required_skills(activation-map)・skills_observed(order の receipt 見出し)・skills_missing(差・情報欄)
@@ -427,6 +523,64 @@ def _selftest_body(td_cm) -> int:
             fails.append(f"ECO-901: map なし project の required が unknown(MAP_MISSING)でない: {j['required_skills']}")
         if any("source" not in f for f in j.values()):
             fails.append("全欄 source 必須")
+        # --- ECO-072(F2): 配員欄 → required_capability(設備台帳で実在確認)---
+        (root / "bomdd" / "70-equipment.yaml").write_text(
+            "equipment:\n  - {id: EQ-001, kind: ai-model, model: m1, harness: h1, account_lineage: a1}\n"
+            "  - {id: EQ-002, kind: ai-model, model: m2, harness: h2, account_lineage: a2}\n", encoding="utf-8")
+        (root / "bomdd" / "cap.md").write_text("# ECO-911\n\n## 担当設備\n\n- producer: EQ-001\n- inspector: EQ-002\n\n```\n- producer: EQ-999\n```\n\n<!-- - inspector: EQ-999 -->\n", encoding="utf-8")
+        (root / "bomdd" / "cap-unknown.md").write_text("# ECO-912\n\n## 担当設備\n\n- producer: EQ-999\n", encoding="utf-8")
+        (root / "bomdd" / "cap-syntax.md").write_text("# ECO-913\n\n## 担当設備\n\n- producer: <EQ-NNN>\n", encoding="utf-8")
+        (root / "bomdd" / "cap-dup.md").write_text("# ECO-914\n\n## 担当設備\n\n- producer: EQ-001\n- producer: EQ-002\n", encoding="utf-8")
+        # r1 IA-03: HTML コメント内・担当設備節の外(他節・節なし)の言及は配員でない
+        (root / "bomdd" / "cap-mention.md").write_text(
+            "# ECO-915\n\n<!--\n- producer: EQ-001\n-->\n\n## 説明\n\n- producer: EQ-001\n\n## 担当設備\n\n<!-- - producer: EQ-002 -->\n\n## 3. 受入\n\n- producer: EQ-002\n",
+            encoding="utf-8")
+        (root / "bomdd" / "cap-nosec.md").write_text("# ECO-916\n\n- producer: EQ-001\n", encoding="utf-8")
+        (root / "bomdd" / "cap-sub.md").write_text("# ECO-917\n\n## 担当設備(equipment)\n\n### 製造\n\n- producer: EQ-001\n\n## 次\n\n- inspector: EQ-002\n", encoding="utf-8")
+        mk = lambda i, o: {"id": i, "title": "t", "status": "decided", "order_ref": o}  # noqa: E731
+        jc = project(mk("ECO-911", "bomdd/cap.md"), root, "bomdd/60-change-register.yaml")
+        if jc["required_capability"]["value"] != {"producer": "EQ-001", "inspector": "EQ-002"} or jc["stop_type"]["value"] != "NONE":
+            fails.append(f"F2: 配員欄の解決が不正(fence 内は無視): {jc['required_capability']} / {jc['stop_type']}")
+        for i, o, want in (("ECO-912", "bomdd/cap-unknown.md", "LEDGER_INCONSISTENT"), ("ECO-913", "bomdd/cap-syntax.md", "LEDGER_INCONSISTENT"),
+                           ("ECO-914", "bomdd/cap-dup.md", "LEDGER_INCONSISTENT")):
+            jx = project(mk(i, o), root, "bomdd/60-change-register.yaml")
+            if jx["stop_type"]["value"] != want or jx["required_capability"]["value"] is not None:
+                fails.append(f"F2: {o} が {want} でない: {jx['stop_type']} / {jx['required_capability']}")
+        for i, o in (("ECO-915", "bomdd/cap-mention.md"), ("ECO-916", "bomdd/cap-nosec.md")):
+            jm2 = project(mk(i, o), root, "bomdd/60-change-register.yaml")
+            if jm2["required_capability"]["value"] is not None or jm2["stop_type"]["value"] != "NONE":
+                fails.append(f"IA-03: {o} の言及が配員として解決された: {jm2['required_capability']} / {jm2['stop_type']}")
+        js2 = project(mk("ECO-917", "bomdd/cap-sub.md"), root, "bomdd/60-change-register.yaml")
+        if js2["required_capability"]["value"] != {"producer": "EQ-001", "inspector": None}:
+            fails.append(f"IA-03: 担当設備節の下位見出しは節内・次の同位見出し以降は節外 であるべき: {js2['required_capability']}")
+        # r1 IA-01: 未選択 entry の 3 軸が非文字列 → 台帳不正(MISSING_INPUT)
+        (root / "bomdd" / "70-equipment.yaml").write_text(
+            "equipment:\n  - {id: EQ-001, model: m1, harness: h1, account_lineage: a1}\n  - {id: EQ-002, model: m2, harness: h2, account_lineage: a2}\n"
+            "  - {id: EQ-003, model: [bad], harness: h3, account_lineage: a3}\n", encoding="utf-8")
+        if load_equipment(root)[0] is not None:
+            fails.append("IA-01: 未選択 entry の list 軸を load_equipment が通した")
+        jb = project(mk("ECO-911", "bomdd/cap.md"), root, "bomdd/60-change-register.yaml")
+        if jb["stop_type"]["value"] != "MISSING_INPUT":
+            fails.append(f"IA-01: 軸が非文字列の台帳+宣言ありが MISSING_INPUT でない: {jb['stop_type']}")
+        (root / "bomdd" / "70-equipment.yaml").write_text("equipment:\n  - {id: EQ-001, model: ~, harness: h1, account_lineage: 7}\n", encoding="utf-8")
+        if load_equipment(root)[0] is not None:
+            fails.append("IA-01: 数値の軸を load_equipment が通した")
+        (root / "bomdd" / "70-equipment.yaml").write_text("equipment:\n  - {id: EQ-001, model: ~, harness: h1}\n", encoding="utf-8")
+        if load_equipment(root)[0] is None:
+            fails.append("IA-01: null/欠落の軸(unknown 扱い)を load_equipment が弾いた")
+        (root / "bomdd" / "70-equipment.yaml").unlink()
+        jl = project(mk("ECO-911", "bomdd/cap.md"), root, "bomdd/60-change-register.yaml")
+        if jl["stop_type"]["value"] != "MISSING_INPUT":
+            fails.append(f"F2: 台帳不在+宣言ありが MISSING_INPUT でない: {jl['stop_type']}")
+        (root / "bomdd" / "70-equipment.yaml").write_text("equipment:\n  - {id: EQ-001, model: m1}\n  - {id: EQ-001, model: m1}\n", encoding="utf-8")
+        if load_equipment(root)[0] is not None:
+            fails.append("F2: id 重複の設備台帳を load_equipment が通した")
+        (root / "bomdd" / "70-equipment.yaml").write_text("equipment:\n  - {id: EQ-1, model: m1}\n", encoding="utf-8")
+        if load_equipment(root)[0] is not None:
+            fails.append("F2: id 構文外の設備台帳を load_equipment が通した")
+        (root / "bomdd" / "70-equipment.yaml").unlink()
+        if j["required_capability"]["value"] is not None or "F2" not in j["required_capability"]["source"]:
+            fails.append("F2: 配員欄なしの order で required_capability が null+F2 でない")
         # --- r2 追加腕(独立検査 IA-04 / IA-05 の陽性対照)---
         rel = "bomdd/60-change-register.yaml"
         jobs, _ = select(["ECO-901", "ECO-902", "--json", "--register", rel], root)
@@ -597,7 +751,7 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕・r4: instrument_paths 正規形・statuses 語彙・required 辞書順)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕・r4: instrument_paths 正規形・statuses 語彙・required 辞書順 / F2〔ECO-072〕: 配員欄→台帳実在・fence 内無視・未知 id/構文外/重複= LEDGER_INCONSISTENT・台帳不在= MISSING_INPUT・台帳 id 重複/構文外= 不正 / r1: IA-01 未選択 entry の非文字列軸= 台帳不正・IA-03 HTML コメント/他節/節なしの言及は配員でない・下位見出しは節内)")
     return 0
 
 

@@ -1,0 +1,52 @@
+# 設備台帳(equipment ledger)— ECO-072(ECO-062 Phase 7 第 1 弾)
+#
+# 目的: 配員を「宣言属性の照合」で機械検査できるようにする。job 射影(bomdd-job.py)が order の配員欄
+# (`- producer: EQ-NNN` / `- inspector: EQ-NNN`)をここで実在確認し、入口(bomdd-run.py --executor)が
+# producer と executor の独立性(同一 id / model+harness+account_lineage の 3 軸一致 / 軸 unknown)を弾く。
+# 主張しないこと: 独立性の実効(Grok 公式「Do not use separate Bots as a security boundary」— 宣言上の照合まで)。
+#
+# 規約:
+#  - id は EQ-NNN(3 桁)・一度割り当てたら変更・再利用しない(retired にする)。
+#  - 独立性の 3 軸= model / harness / account_lineage。値が unknown(または欠落)なら入口は照合不能として STOP(fail-closed)。
+#  - 各属性に来歴 provenance を持つ: self-reported(設備自身の申告)/ harness-measured(ハーネス・ログの機械記録)/
+#    user-declared(人間の宣言)/ unknown。来歴は監査欄で、判定には値のみを使う(来歴で通過/停止を変えない)。
+#  - qualification_ref は設備認定(equip-01〜03 の型・improvements.md / loops)への参照。未認定は unqualified と書く。
+#  - sandbox_modes / temp_available / exit_propagation は Phase 5/6 の実測に基づく設備属性(検査ブリーフの実行環境欄の入力)。
+
+equipment:
+  - id: EQ-001
+    kind: ai-model
+    model: claude-fable-5-1
+    harness: claude-code
+    account_lineage: akiramei@anthropic
+    sandbox_modes: [workspace-write]
+    temp_available: {workspace-write: true}
+    exit_propagation: faithful
+    qualification_ref: "improvements.md equip-01〜03 は claude-opus-5 の認定。本モデルは未認定(unqualified・自己適用ラウンドの実績のみ)"
+    provenance: {model: self-reported, harness: self-reported, account_lineage: user-declared, sandbox_modes: self-reported, temp_available: harness-measured, exit_propagation: unknown}
+    status: active
+    note: "BomDD 自己適用の製造者(ECO-062〜072)。2026-09-12 登録"
+  - id: EQ-002
+    kind: ai-model
+    model: gpt-5.6-sol
+    harness: codex-cli
+    account_lineage: akiramei@openai
+    sandbox_modes: [read-only, workspace-write]
+    temp_available: {read-only: false, workspace-write: true}
+    exit_propagation: "faithful(codex exec)・pwsh -Command 経由は exit 2 を 1 に丸める(P5-07)"
+    qualification_ref: "unqualified(独立検査官としての実績: ECO-062/064/066/067 r1〜r5・Phase 5 run-01 運転員)"
+    provenance: {model: self-reported, harness: self-reported, account_lineage: user-declared, sandbox_modes: harness-measured, temp_available: harness-measured, exit_propagation: harness-measured}
+    status: active
+    note: "異系統の独立検査官・運転員。read-only sandbox は OS temp 不能(ECO-062 §10.7 TEMP_UNAVAILABLE)。2026-09-12 登録"
+  - id: EQ-003
+    kind: human
+    model: human
+    harness: terminal
+    account_lineage: akiramei
+    sandbox_modes: [none]
+    temp_available: {none: true}
+    exit_propagation: "unknown(端末経由・pwsh の丸めの可能性)"
+    qualification_ref: "unqualified(運転員 run-02 の実績: fail-open 0/7・座標なし 2/2)"
+    provenance: {model: user-declared, harness: user-declared, account_lineage: user-declared, sandbox_modes: user-declared, temp_available: user-declared, exit_propagation: unknown}
+    status: active
+    note: "人間運転員(Phase 5 run-02)。2026-09-12 登録"

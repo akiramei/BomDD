@@ -7262,6 +7262,8 @@ verified 遷移の commit で書く」が運用規則として成立する(1 例
 - [open] EXP-20260912-01 — **handoff 契約 v0.3 は v0.2 の欠陥 4 類を消すか**: 次の handoff 20 回(DECIDE 5 回以上)で ①許容表外ヘッダ 0 ②structural FAIL 申告つき送信 0
   ③REQUEST の成果物回収に要した追加往復(v0.2 基準線 5)④DECIDE で人間が非推奨案の理由・部分採択の可否を再質問した回数(基準線: 感想 1)⑤待機形の本文 2 行以内の比率。
   評価後の分岐: 改善あり → product-profile 正本化を ECO で判断(設計= core/adapter 分割・ECO-071 節の第三者意見)/ 改善なし → §2 の順序規則を §1 へ昇格。**next trigger= handoff 20 回到達**
+  **第三者到達 1 例(2026-09-12・ECO-072 r1)**: 異系統ハーネス(Codex・AGENTS.md を入口に読む)の検査報告が契約ヘッダ `[INFORM / COMPLETE]`+human_action で始まった — ECO-070 の AGENTS.md 参照が
+  到達経路として機能(ECO-070 receipt の unknown → observed・N=1・順守の質は未評価)
   **v0.4 追加指標(2026-09-12・ECO-071)**: ⑥人間の「形式なし」宣言回数 ⑦区間内で契約に戻った通数と隠れ裁定件数(0 要求)⑧AI 推定で形式を落とした件数(0 要求)
   source: ECO-070, ECO-071
   evidence: ECO-070 order §0・SKILL.md §4
@@ -7299,6 +7301,27 @@ executor を識別しない・独立性は宣言属性の照合までしか機�
 新規 EXP-20260912-02(下記)。
 
 - [open] EXP-20260912-02 — **独立性判定は「成立しない組合せ」を弾き、異系統を弾かないか**: ECO-072 製造受入 V2 で ①producer と同一 executor → STOP INDEPENDENCE_FAIL(known-bad 1 例=
-  Phase 7 出口)②異系統(Codex)→ ADVANCE→起動(陽性対照)③来歴 unknown の軸 → STOP(fail-closed)。加えて製造後 3 ECO で偽陽性(異系統を弾いた)0 件。**next trigger= ECO-072 製造受入**
+  Phase 7 出口)②異系統(Codex)→ ADVANCE→起動(陽性対照)  ③来歴 unknown の軸 → STOP(fail-closed)。加えて製造後 3 ECO で偽陽性(異系統を弾いた)0 件。**next trigger= ECO-072 製造受入**
+  **初回値(2026-09-12・V2 実入口)**: ①STOP INDEPENDENCE_FAIL(SAME_ID)exit 1 起動なし ②異系統 EQ-002 で ADVANCE→起動(cell が BOMDD_EXECUTOR を受領)③実入口では未測定(selftest 腕のみ)。
+  r1 境界探索で fail-open 3 クラス(未選択 entry の型・大小文字差・コメント/他節の言及)→ r1b 是正。偽陽性は継続計測(0/1: r1 実 cell 起動)
   source: ECO-072
   evidence: ECO-072 order §1-3・§1-5・EXP-20260711-05
+
+## 2026-09-12 BomDD 自己適用 — ECO-072 製造中: Phase 7 出口条件の実測 1 例(同一 executor を入口が STOP)・Codex r1 境界探索 REJECT 3(是正)+ブリーフ帰属 1・handoff 契約に異系統ハーネスが到達
+
+**観測**(出典: [ECO-072 order](../bomdd/60-change-order-eco-072.md) §4〜§5・[r1 報告](../bomdd/reports/independent-inspection-eco-072.md)): ①V2= 実入口で `--executor EQ-001`(producer と同一)→
+`STOP ECO-072 INDEPENDENCE_FAIL(SAME_ID) → operator` exit 1 起動なし / `--executor EQ-002` → ADVANCE 起動(cell が `ECO-072|EQ-002` を受領)/ EQ-003 dry ADVANCE / executor なし → ARG_ERROR。
+**§7 Phase 7 の出口「成立しない組合せを機械が弾いた実測 1 例」を初めて取得**(陽性対照つき)。②Codex r1(境界探索・入口から実 cell として起動): REJECT・IA-01 未選択 entry の非文字列軸で起動 /
+IA-02 大小文字差を独立に数えて起動 / IA-03 HTML コメント・他節の言及を配員に採用して起動(いずれも製造物・r1b 是正)/ IA-04 BOM(ブリーフ帰属・仕様明確化)。③検査官の報告が handoff 契約の
+ヘッダで始まった= AGENTS.md 経由の第三者到達 1 例。④環境差の記録: pwsh の exit 丸め(P5-07)は検査官環境で非再現 / sandbox 内 git の dubious ownership で C14 が FAIL(環境帰属)。
+**整理**: fail-closed の主張は「選択した 2 設備の照合」だけでは閉じず、**台帳全体の形状**(未選択 entry)・**比較の正規化**(表記揺れ)・**use/mention の区別**(宣言の所在)の 3 面で穴が
+あった — いずれも selftest の 8 腕が覆っていない入力クラスで、境界探索 round が露出させた(playbook §3「探索 round は所見が尽きない」の再演・打ち切りは受理側)。
+**一般化検査**: 「宣言を機械が読むとき、宣言の所在(節)と表記の正規化を仕様に含めないと use/mention が混ざる」は製品名を含まない(OBS 候補・1 例)。
+**行き先判定**: 記帳のみ(order §5・register・ECO-062 §7)。playbook 非改訂。**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(独立性判定の 3 面是正)[ ] template
+[ ] terminology [ ] method/concept claim。contradicted / superseded: なし。
+**期待効果の棚卸し**: EXP-20260912-02 に初回値(行内)・EXP-20260912-01 に第三者到達 1 例(行内)。OBS 新規 1(下記)。
+
+- [watch 1/3] OBS-20260912-01 — **機械が読む宣言は「所在(節)」と「表記の正規化」を仕様に含めないと use/mention が混ざり fail-open になる**(ECO-072 r1: HTML コメント・他節の言及を配員と読んだ /
+  大小文字差を独立と数えた)。3 例で playbook §8.5(境界統制)か §13 の運用規則へ。
+  source: ECO-072
+  evidence: ECO-072 order §5.1 IA-02/IA-03

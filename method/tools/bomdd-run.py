@@ -24,10 +24,16 @@
 #     cell 終了後に `cell exit N` の 1 行を出す。40 桁 ×2 は台帳の verifier_line にだけ残す。長いパスは中央省略(…)する。
 #  R8 終了コード: 0= 起動した(dry なら ADVANCE)/ 1= STOP(起動せず)/ 2= 測定不能(起動せず)。未知オプションは
 #     ARG_ERROR(exit 2・無視しない)。
+#  R9 独立性判定(ECO-072・Phase 7 第 1 弾): --cell には --executor EQ-NNN が必須(無ければ ARG_ERROR・起動しない)。
+#     job.required_capability.producer(order の配員欄・台帳で実在確認済み)と executor を設備台帳 bomdd/70-equipment.yaml で
+#     照合し、同一 id(SAME_ID)/ model+harness+account_lineage の 3 軸すべて一致(SAME_LINEAGE)/ いずれかの軸が unknown
+#     (AXIS_UNKNOWN:<axis>)/ producer 未宣言(PRODUCER_UNDECLARED)/ executor が台帳にない(EXECUTOR_UNKNOWN)は
+#     STOP INDEPENDENCE_FAIL → operator(配員のやり直し)。台帳が読めないときは UNMEASURABLE MISSING_INPUT。判定は
+#     宣言属性の照合であり独立性の実効は主張しない(Grok 公式の境界)。起動先には BOMDD_EXECUTOR も渡す。
 #
 # 使い方:
 #   python bomdd-run.py ECO-067                      # dry: 検証+台帳
-#   python bomdd-run.py ECO-067 --cell "codex exec ..."   # ADVANCE のときだけ起動
+#   python bomdd-run.py ECO-067 --cell "codex exec ..." --executor EQ-002   # ADVANCE かつ独立なときだけ起動
 #   python bomdd-run.py ECO-067 --ledger PATH         # 台帳の場所(作業木外のみ)
 #   python bomdd-run.py --selftest                    # known-good 1 腕は起動し known-bad 腕は起動しない(痕跡で判定)
 #
@@ -50,7 +56,8 @@ from pathlib import Path
 TOOLS_DIR = Path(__file__).resolve().parent
 ECO_RE = re.compile(r"^(ECO|CAPA)-[A-Za-z0-9]+(-[A-Za-z0-9]+)*$")   # r1 IA-01: 区切り文字・親参照を含まない
 WIDTH = 80
-KNOWN_OPTS = ("--cell", "--ledger")
+KNOWN_OPTS = ("--cell", "--ledger", "--executor")
+EQ_ID_RE = re.compile(r"^EQ-\d{3}$")
 
 # R6: 停止種別 → 配送先(ECO-062 §0.5 の 6 種+F0+MISSING_INPUT)。job の停止語彙(bomdd-job.py F5)と 1 対 1。
 DELIVERY = {
@@ -62,6 +69,7 @@ DELIVERY = {
     "PREFLIGHT_HOLD": "process",
     "LEDGER_INCONSISTENT": "ledger-owner",
     "MISSING_INPUT": "operator",
+    "INDEPENDENCE_FAIL": "operator",   # R9(ECO-072): 配員のやり直し
 }
 # witness 側の CODE(bomdd-witness W6)→ 配送先。receipt 自体の欠陥は運転員へ・検査赤は工場へ・stop_type は表へ。
 WITNESS_DELIVERY = {
@@ -118,11 +126,47 @@ def _under(path: Path, parent: Path) -> bool:
         return False
 
 
-def decide(root: Path, eco: str, jobmod, witmod) -> tuple[dict, dict | None]:
-    """R1〜R3・R6: 判定レコード(台帳 1 行目の元)。起動はしない。"""
+def _unknown(v) -> bool:
+    return not isinstance(v, str) or not v.strip() or v.strip().lower() == "unknown"
+
+
+def _norm(v: str) -> str:
+    """r1 IA-02: 表記揺れ(大小文字・連続空白)を独立の根拠にしない — casefold+空白正規化で比較する。"""
+    return " ".join(v.split()).casefold()
+
+
+def check_independence(root: Path, job: dict, executor: str, jobmod) -> tuple[str | None, str, dict]:
+    """R9: (cause, detail, axes)。cause None= 独立(起動可)。LEDGER_UNREADABLE は測定不能(呼び側で UNMEASURABLE)。"""
+    eq, err = jobmod.load_equipment(root)
+    if eq is None:
+        return "LEDGER_UNREADABLE", err or "設備台帳 読取不能", {}
+    cap = _job_value(job, "required_capability")
+    producer = cap.get("producer") if isinstance(cap, dict) else None
+    if not isinstance(producer, str) or not producer:
+        return "PRODUCER_UNDECLARED", "order に配員欄(- producer: EQ-NNN)がない", {}
+    if executor not in eq:
+        return "EXECUTOR_UNKNOWN", f"executor {executor} が設備台帳にない", {}
+    if producer not in eq:
+        return "PRODUCER_UNKNOWN", f"producer {producer} が設備台帳にない", {}
+    if executor == producer:
+        return "SAME_ID", f"producer と executor が同一 {producer}", {}
+    axes = {}
+    for ax in jobmod.INDEPENDENCE_AXES:
+        pv, ev = eq[producer].get(ax), eq[executor].get(ax)
+        if _unknown(pv) or _unknown(ev):
+            return f"AXIS_UNKNOWN:{ax}", f"軸 {ax} が unknown(照合不能を通過にしない)", axes
+        axes[ax] = (_norm(pv) == _norm(ev))
+    if all(axes.values()):
+        return "SAME_LINEAGE", "model・harness・account_lineage がすべて一致", axes
+    return None, "独立(3 軸のいずれかが異なる)", axes
+
+
+def decide(root: Path, eco: str, jobmod, witmod, executor: str | None = None) -> tuple[dict, dict | None]:
+    """R1〜R3・R6・R9: 判定レコード(台帳 1 行目の元)。起動はしない。"""
     rec = {"event": "decision", "run_id": datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ"), "eco": eco,
            "receipt": None, "job_state": None, "job_stop_type": None, "verifier_line": None, "verifier_exit": None,
-           "code": None, "decision": None, "stop_type": None, "delivery": None, "cell": None, "tree": None}
+           "code": None, "decision": None, "stop_type": None, "delivery": None, "cell": None, "tree": None,
+           "executor": executor, "producer": None, "independence": None}
     jobs, _ = jobmod.select([eco], root)
     job = next((j for j in jobs if _job_value(j, "eco") == eco), None) or (jobs[0] if jobs else None)
     if job is None:
@@ -170,6 +214,17 @@ def decide(root: Path, eco: str, jobmod, witmod) -> tuple[dict, dict | None]:
         else:
             rec.update(decision="STOP", stop_type="VERIFICATION_FAIL", delivery=WITNESS_DELIVERY.get(code, "operator"))
         return rec, job
+    if executor is not None:   # R9: job・receipt が ADVANCE のときだけ独立性を照合(先行する停止理由を隠さない)
+        cap = _job_value(job, "required_capability")
+        rec["producer"] = cap.get("producer") if isinstance(cap, dict) else None
+        cause, detail, axes = check_independence(root, job, executor, jobmod)
+        rec["independence"] = {"cause": cause, "detail": detail, "axes": axes}
+        if cause == "LEDGER_UNREADABLE":
+            rec.update(decision="UNMEASURABLE", stop_type="MISSING_INPUT", delivery="operator")
+            return rec, job
+        if cause is not None:
+            rec.update(decision="STOP", stop_type="INDEPENDENCE_FAIL", delivery=DELIVERY["INDEPENDENCE_FAIL"])
+            return rec, job
     rec.update(decision="ADVANCE", stop_type="NONE", delivery="next")
     return rec, job
 
@@ -179,7 +234,7 @@ def launch(rec: dict, job: dict, cell: str, root: Path) -> dict:
     with tempfile.NamedTemporaryFile("w", suffix=".json", prefix="bomdd-job-", delete=False, encoding="utf-8") as f:
         json.dump(job, f, ensure_ascii=False, indent=2)
         job_json = f.name
-    env = dict(os.environ, BOMDD_JOB=rec["eco"], BOMDD_JOB_JSON=job_json, BOMDD_WITNESS=rec["receipt"])
+    env = dict(os.environ, BOMDD_JOB=rec["eco"], BOMDD_JOB_JSON=job_json, BOMDD_WITNESS=rec["receipt"], BOMDD_EXECUTOR=rec.get("executor") or "")
     ev = {"event": "cell", "run_id": rec["run_id"], "eco": rec["eco"], "cell": cell,
           "started_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "cell_exit": None}
     try:
@@ -217,6 +272,9 @@ def summary_line(rec: dict, launching: bool) -> str:
         tag = f"{code}({cause})"
     if rec["job_stop_type"] and rec["job_stop_type"] != "NONE" and rec["decision"] != "ADVANCE":
         tag = f"job:{rec['job_stop_type']}"
+    ind = rec.get("independence") or {}
+    if ind.get("cause") and rec["decision"] != "ADVANCE":   # R9
+        tag = f"INDEPENDENCE_FAIL({ind['cause']})" if rec["stop_type"] == "INDEPENDENCE_FAIL" else f"MISSING_INPUT({ind['cause']})"
     tree = (rec["tree"] or "")[:12] or "-"
     if rec["decision"] != "ADVANCE":   # 起動できるのは ADVANCE だけなので「未起動」は書かない
         return _fit(f"{rec['decision']} {rec['eco']} {tag} → {rec['delivery']} @{tree}")
@@ -236,7 +294,7 @@ def run(argv: list, root: Path, emit=None) -> int:
     """入口本体。emit(line) で標準出力の各行を出す(1 行目= 判定行・R7)。返り値= 終了コード(R8)。"""
     emit = emit or (lambda s: None)
     if not argv or argv[0].startswith("--"):
-        emit("UNMEASURABLE ARG_ERROR: usage: ECO-NNN [--cell CMD] [--ledger PATH] | --selftest")
+        emit("UNMEASURABLE ARG_ERROR: usage: ECO-NNN [--cell C --executor EQ-NNN] [--ledger P]")
         return 2
     eco = argv[0]
     if not ECO_RE.match(eco):   # r1 IA-01
@@ -263,8 +321,15 @@ def run(argv: list, root: Path, emit=None) -> int:
         return 2
     cell = opts.get("--cell")
     ledger_s = opts.get("--ledger")
+    executor = opts.get("--executor")
+    if executor is not None and not EQ_ID_RE.match(executor):   # R9
+        emit(_fit(f"UNMEASURABLE ARG_ERROR: --executor の構文不正(EQ-NNN): {executor!r}"))
+        return 2
+    if cell and executor is None:   # R9: 起動には配員の宣言が要る(fail-closed)
+        emit("UNMEASURABLE ARG_ERROR: --cell には --executor EQ-NNN が必須(独立性判定)")
+        return 2
     jobmod, witmod = _load("bomdd-job"), _load("bomdd-witness")
-    rec, job = decide(root, eco, jobmod, witmod)
+    rec, job = decide(root, eco, jobmod, witmod, executor)
     _, git_dir, _ = witmod.worktree_tree(root)
     if ledger_s:
         ledger = Path(ledger_s)
@@ -321,12 +386,23 @@ def _selftest_body(td_cm, wd_cm) -> int:
                     return 2
                 return _report(["fixture: git init 不能"])
         (root / "bomdd").mkdir()
-        (root / "bomdd" / "open.md").write_text("# Change Order — ECO-900\n\n## 3. 受入\n- 検討中\n", encoding="utf-8")
+        (root / "bomdd" / "open.md").write_text("# Change Order — ECO-900\n\n## 担当設備\n\n- producer: EQ-001\n\n## 3. 受入\n- 検討中\n", encoding="utf-8")
+        (root / "bomdd" / "nocap.md").write_text("# Change Order — ECO-903\n\n## 3. 受入\n- 検討中\n", encoding="utf-8")
         (root / "bomdd" / "closed.md").write_text("# Change Order — ECO-902\n\n## 6. クローズ(2026-09-03・verified)\n- PASS\n", encoding="utf-8")
+        eqp = root / "bomdd" / "70-equipment.yaml"
+        EQ_TXT = ("equipment:\n"
+                  "  - {id: EQ-001, kind: ai-model, model: m1, harness: h1, account_lineage: a1}\n"
+                  "  - {id: EQ-002, kind: ai-model, model: m2, harness: h2, account_lineage: a2}\n"
+                  "  - {id: EQ-003, kind: ai-model, model: m1, harness: h1, account_lineage: a1}\n"
+                  "  - {id: EQ-004, kind: ai-model, model: unknown, harness: h4, account_lineage: a4}\n"
+                  "  - {id: EQ-005, kind: ai-model, model: m1, harness: h1, account_lineage: a5}\n"
+                  "  - {id: EQ-006, kind: ai-model, model: M1, harness: '  h1  ', account_lineage: A1}\n")
+        eqp.write_text(EQ_TXT, encoding="utf-8")
         reg = root / "bomdd" / "60-change-register.yaml"
         reg.write_text("changes:\n"
                        "  - {id: ECO-900, title: t, status: decided, order_ref: bomdd/open.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
                        "  - {id: ECO-902, title: t2, status: in-progress, order_ref: bomdd/closed.md}\n"
+                       "  - {id: ECO-903, title: t3, status: decided, order_ref: bomdd/nocap.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
                        "  - {id: 'ECO-/../../../x', title: t3, status: decided, order_ref: bomdd/open.md}\n", encoding="utf-8")
         witmod._git(root, "add", "-A", env=env)
         if witmod._git(root, "commit", "-q", "-m", "init", env=env).returncode != 0:
@@ -338,7 +414,7 @@ def _selftest_body(td_cm, wd_cm) -> int:
             return _report([f"fixture produce: {msg}"])
         good = json.loads(wpath.read_text(encoding="utf-8"))
         marker = wout / "launched.txt"
-        cell = f'"{sys.executable}" -c "import pathlib,os; pathlib.Path(r\'{marker}\').write_text(os.environ.get(\'BOMDD_JOB\',\'\')+\'|\'+os.environ.get(\'BOMDD_WITNESS\',\'\'))"'
+        cell = f'"{sys.executable}" -c "import pathlib,os; pathlib.Path(r\'{marker}\').write_text(os.environ.get(\'BOMDD_JOB\',\'\')+\'|\'+os.environ.get(\'BOMDD_WITNESS\',\'\')+\'|\'+os.environ.get(\'BOMDD_EXECUTOR\',\'\'))"'
         ledger = wout / "ledger.jsonl"
 
         def call(argv):
@@ -352,7 +428,7 @@ def _selftest_body(td_cm, wd_cm) -> int:
         def last_rec():
             return json.loads(ledger.read_text(encoding="utf-8").splitlines()[-1]) if ledger.exists() else {}
 
-        def arm(name, w, want_rc, want_dec, want_delivery, launched, eco="ECO-900", use_cell=True):
+        def arm(name, w, want_rc, want_dec, want_delivery, launched, eco="ECO-900", use_cell=True, executor="EQ-002"):
             if marker.exists():
                 marker.unlink()
             if w is None:
@@ -360,7 +436,7 @@ def _selftest_body(td_cm, wd_cm) -> int:
                     wpath.unlink()
             else:
                 wpath.write_text(json.dumps(w), encoding="utf-8")
-            rc, out = call([eco, "--ledger", str(ledger)] + (["--cell", cell] if use_cell else []))
+            rc, out = call([eco, "--ledger", str(ledger)] + (["--cell", cell] if use_cell else []) + (["--executor", executor] if executor else []))
             recs = [json.loads(ln) for ln in ledger.read_text(encoding="utf-8").splitlines()] if ledger.exists() else []
             dec = next((r for r in reversed(recs) if r.get("event") == "decision"), {})
             if rc != want_rc or dec.get("decision") != want_dec:
@@ -374,7 +450,7 @@ def _selftest_body(td_cm, wd_cm) -> int:
             return dec, out
 
         dec_good, out_good = arm("known-good", good, 0, "ADVANCE", "next", True)
-        if marker.exists() and marker.read_text(encoding="utf-8") != f"ECO-900|{wpath}":
+        if marker.exists() and marker.read_text(encoding="utf-8") != f"ECO-900|{wpath}|EQ-002":
             fails.append(f"known-good: 起動先が受け取った環境が不正: {marker.read_text(encoding='utf-8')}")
         ev = last_rec()
         if ev.get("event") != "cell" or ev.get("cell_exit") != 0 or dec_good.get("cell") != cell or "launching" not in out_good[0]:
@@ -391,12 +467,57 @@ def _selftest_body(td_cm, wd_cm) -> int:
         witmod.default_path(git_dir, "ECO-902").write_text(json.dumps(w902), encoding="utf-8")
         if marker.exists():
             marker.unlink()
-        rc902, out902 = call(["ECO-902", "--ledger", str(ledger), "--cell", cell])
+        rc902, out902 = call(["ECO-902", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002"])
         dec902 = last_rec()
         if rc902 != 1 or dec902.get("decision") != "STOP" or dec902.get("delivery") != "ledger-owner" or marker.exists():
             fails.append(f"kb-job-stop: exit {rc902} / {dec902.get('decision')} / {dec902.get('delivery')} / 起動 {marker.exists()} :: {out902[:1]}")
         arm("kb-absent", None, 2, "UNMEASURABLE", "operator", False)
         arm("kb-no-eco", good, 2, "UNMEASURABLE", "operator", False, eco="ECO-999")
+        # --- R9(ECO-072): 独立性判定 — known-bad は起動しない・独立は起動する ---
+        d1, o1 = arm("ind-same-id", good, 1, "STOP", "operator", False, executor="EQ-001")
+        if (d1.get("independence") or {}).get("cause") != "SAME_ID" or d1.get("stop_type") != "INDEPENDENCE_FAIL" or "INDEPENDENCE_FAIL(SAME_ID)" not in o1[0]:
+            fails.append(f"ind-same-id: {d1.get('independence')} / {d1.get('stop_type')} :: {o1[:1]}")
+        d2, _ = arm("ind-same-lineage", good, 1, "STOP", "operator", False, executor="EQ-003")
+        if (d2.get("independence") or {}).get("cause") != "SAME_LINEAGE":
+            fails.append(f"ind-same-lineage: {d2.get('independence')}")
+        d3, _ = arm("ind-axis-unknown", good, 1, "STOP", "operator", False, executor="EQ-004")
+        if (d3.get("independence") or {}).get("cause") != "AXIS_UNKNOWN:model":
+            fails.append(f"ind-axis-unknown: {d3.get('independence')}")
+        d4, _ = arm("ind-executor-unknown", good, 1, "STOP", "operator", False, executor="EQ-999")
+        if (d4.get("independence") or {}).get("cause") != "EXECUTOR_UNKNOWN":
+            fails.append(f"ind-executor-unknown: {d4.get('independence')}")
+        d5, o5 = arm("ind-one-axis-differs", good, 0, "ADVANCE", "next", True, executor="EQ-005")
+        if (d5.get("independence") or {}).get("axes") != {"model": True, "harness": True, "account_lineage": False} or d5.get("producer") != "EQ-001":
+            fails.append(f"ind-one-axis-differs: {d5.get('independence')} / producer {d5.get('producer')}")
+        if marker.exists() and not marker.read_text(encoding="utf-8").endswith("|EQ-005"):
+            fails.append(f"ind-one-axis-differs: BOMDD_EXECUTOR が渡っていない: {marker.read_text(encoding='utf-8')}")
+        # r1 IA-02: 大小文字・空白だけの差は同系統(SAME_LINEAGE)・起動しない
+        d8, _ = arm("ind-case-only", good, 1, "STOP", "operator", False, executor="EQ-006")
+        if (d8.get("independence") or {}).get("cause") != "SAME_LINEAGE":
+            fails.append(f"ind-case-only: {d8.get('independence')}")
+        # producer 未宣言(配員欄なしの order)+ executor → STOP PRODUCER_UNDECLARED(起動しない)
+        w903 = dict(good, witness="WIT-ECO-903", eco="ECO-903")
+        witmod.default_path(git_dir, "ECO-903").write_text(json.dumps(w903), encoding="utf-8")
+        d6, o6 = arm("ind-producer-undeclared", good, 1, "STOP", "operator", False, eco="ECO-903", executor="EQ-002")
+        if (d6.get("independence") or {}).get("cause") != "PRODUCER_UNDECLARED":
+            fails.append(f"ind-producer-undeclared: {d6.get('independence')} :: {o6[:1]}")
+        # dry(--cell なし)は executor なしでも従来どおり ADVANCE / executor つき dry も照合する
+        arm("ind-dry-no-executor", good, 0, "ADVANCE", "next", False, use_cell=False, executor=None)
+        arm("ind-dry-same-id", good, 1, "STOP", "operator", False, use_cell=False, executor="EQ-001")
+        # 台帳不在 → job 側が先に MISSING_INPUT(宣言あり+台帳不能)で止める(STOP job:MISSING_INPUT → operator・起動しない)
+        eqp.unlink()
+        d7, o7 = arm("ind-ledger-missing", good, 1, "STOP", "operator", False, executor="EQ-002")
+        if d7.get("job_stop_type") != "MISSING_INPUT" or "job:MISSING_INPUT" not in o7[0]:
+            fails.append(f"ind-ledger-missing: {d7.get('job_stop_type')} :: {o7[:1]}")
+        eqp.write_text(EQ_TXT, encoding="utf-8")
+        # --cell に --executor なし / 構文外 → ARG_ERROR・起動しない
+        for bad_ex in (["ECO-900", "--ledger", str(ledger), "--cell", cell], ["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-1"],
+                       ["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "eq-002"]):
+            if marker.exists():
+                marker.unlink()
+            rc_e, out_e = call(bad_ex)
+            if rc_e != 2 or not out_e or not out_e[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists():
+                fails.append(f"ind-arg {bad_ex[-2:]}: exit {rc_e} / 起動 {marker.exists()} :: {out_e[:1]}")
         # r1 IA-01: ECO の構文(区切り・親参照)は ARG_ERROR・起動しない・台帳も書かない
         wpath.write_text(json.dumps(good), encoding="utf-8")
         if marker.exists():
@@ -435,7 +556,7 @@ def _selftest_body(td_cm, wd_cm) -> int:
         # 台帳の形(全レコードに event・decision 行に verifier_line と decision)
         recs = [json.loads(ln) for ln in ledger.read_text(encoding="utf-8").splitlines()]
         decs = [r for r in recs if r.get("event") == "decision"]
-        if len(decs) < 10 or any("verifier_line" not in r or "decision" not in r for r in decs) or any("event" not in r for r in recs):
+        if len(decs) < 10 or any("verifier_line" not in r or "decision" not in r or "executor" not in r or "independence" not in r for r in decs) or any("event" not in r for r in recs):
             fails.append(f"ledger: decision 行 {len(decs)} / 形不正")
         # 配送先表の自己整合(job 語彙と 1 対 1)
         jobmod = _load("bomdd-job")
@@ -454,7 +575,7 @@ def _selftest_body(td_cm, wd_cm) -> int:
 def _report_text(fails) -> str:
     if fails:
         return f"STOP SELFTEST_FAIL: {len(fails)} 件\n  " + "\n  ".join(fails)
-    return "ADVANCE OK: selftest PASS(起動1/dry/kb5/job停止/測定不能2/構文5/台帳3/引数10/80桁/表)"
+    return "ADVANCE OK: selftest PASS(起動2/dry2/kb5/job停止/測定不能3/独立性9/構文5/台帳3/引数13/80桁/表)"
 
 
 def _report(fails) -> int:
