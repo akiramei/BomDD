@@ -6736,11 +6736,15 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
 - [open] EXP-20260910-02 — **運転員の fail-open(known-bad 対照腕)**: 無効 receipt(tree hash 不一致 / FAIL 混入)を持つ job を
   運転員(人・Bot・スクリプトを問わない)が進めた件数= 0 か。known-good 腕は進めること(両腕で感度と特異度)。
   **next trigger= Phase 1(自動実行なし・運転員が receipt を回収・整理する段階)の初回運用**。運転員が生まれる前は測れない
+  **初回観測(2026-09-11・Phase 5 run-01・運転員= Codex・盲検 9 腕)**: fail-open **0/7**・特異度 2/2・作業木汚染 0。ただし R3(別 job の receipt)の識別と run-02(測定不能)の
+  fail-closed は運転員の判断に依存(P5-05/07)。**next trigger= 運転員を変えた run-02(人間 or 別モデル・同一治具)**(2026-09-11 Phase 5 節)
   source: ECO-062
   evidence: 本節・ECO-062 order §1-3・§3 V1・calibrate.md「陽性対照」節(ECO-052)
 - [open] EXP-20260910-03 — **伝言ゲーム率**: 運転員が人間へ持ってくる裁定材料(issue / options / evidence)が order の原文と
   乖離した件数。原文パス提示を規格にした場合の基準線 0 に対し、要約を許した場合との比較は探索的(ECO-137 の下書き要約誤りが
   先例・N=1)。**next trigger= Phase 1 初回の RULING_REQUIRED 発生時**
+  **基準線(2026-09-11・Phase 5 run-01 R7= ECO-055 台帳不整合・運転員= Codex)**: 乖離 **0/4**(座標つき原文引用・options は「原文に記載なし」と区別)・欠落 1(register
+  verification の独立検査 REJECT/ECO-041 意味論/ECO-056 は未提示 — 網羅は採点規則の外)。**next trigger= 要約を許した対照腕(探索的)**(2026-09-11 Phase 5 節)
   source: ECO-062
   evidence: 本節・ECO-062 order §1-4・§3 V2・factory-delegate SKILL.md「正本委譲」(ECO-137)
 - [watch 1/3] OBS-20260910-01 — **観測: 外部提案が、リポ内に既に散在する形式(job= order/work order/routing・receipt= witness/
@@ -6802,11 +6806,13 @@ playbook への新規則は足さない。
 OBS-20260910-01(既存形式の索引欠如)= 追加観測なし・1/3 維持。OBS-20260910-02(クローズ節と status の乖離)= ECO-055 は未裁定・job 射影が LEDGER_INCONSISTENT を
 出し続ける(機械検出は成立)・1/3 維持。EXP-20260726-01(非 GPT 系検査官)= 本弧は GPT 系・非該当。
 
-- [watch 1/3] OBS-20260910-03 — **観測: 異系統検査官の環境制約(read-only の temp 不能・PATH 空・Windows 拡張長パス)が、製造者環境では発火しない入力クラスとして製造物に
+- [watch 2/3] OBS-20260910-03 — **観測: 異系統検査官の環境制約(read-only の temp 不能・PATH 空・Windows 拡張長パス)が、製造者環境では発火しない入力クラスとして製造物に
   当たり所見になる — 環境差は検査官の弱点であると同時に検出力**(本弧 3 例だが同一 ECO・同一検査官系統)。3 例目(別 ECO・別検査官)で「検査官環境の制約を意図的に
   変える(read-only / 別 OS / 別パス表記)ことを独立検査の設計項目にする」規則の要否を判断
   source: ECO-062
   evidence: 本節・観測 2・ECO-062 order §8.1〜8.3・検査報告 r1(IA-03)/ r2(IA-06)/ r3(IA-08)
+  **2 例目(2026-09-11・Phase 5 run-01・運転員= Codex)**: sandbox の `.git` 書込拒否で未追跡ファイルを含む作業木の tree が測定不能(P5-06・推定機序)+`pwsh -Command` が
+  検証器の exit 2 を 1 に丸める(P5-07・再現済み)— 製造者環境では発火しない(2026-09-11 Phase 5 節)
 - [watch 1/3] OBS-20260910-04 — **観測: 検査設備(Codex)の経路障害が製造物と無関係に独立検査の往復を止める — companion 経路の既定モデル不可・runner プロトコル版不一致・
   コンテンツフィルタによる報告遮断・resume の出力先欠如(同日 4 種)**。復旧経路は CLI 直接+stdin 正本委譲+`-o`。3 例目で factory-delegate の手順に「経路の選択と
   障害時の切替」を織り込むか判断(factory-delegate 正本化 ECO の入力)
@@ -6919,3 +6925,42 @@ supported(残置 0 件でも報告する設計)。contradicted / superseded: な
 **期待効果の棚卸し**: EXP-20260910-01= 2 例目(明示起動 2/2・対照なし)を注記・open 維持・**next trigger= Phase 5 で運転員≠製造者の job**。EXP-20260910-02/03= Phase 5 の入口。
 OBS-20260911-01(探索の打ち切りは受理側)= 本弧は製造者較正のみで独立検査なし・据え置き。OBS-20260911-02(fail-silent cleanup)= 個別是正・据え置き(1/3)。
 OBS-20260910-02(クローズ節と status の乖離)= ECO-055 は依然 in-progress・job 射影が LEDGER_INCONSISTENT を出し続ける・据え置き。
+
+## 2026-09-11 BomDD 自己適用 — ECO-062 Phase 5 run-01(外部運転員 導入試験・自動実行なし): 運転員= Codex・盲検 9 腕で fail-open 0/7・伝言ゲーム率 0/4(N=1)・運転員環境の制約 2 件(sandbox の .git 書込拒否・pwsh の exit 丸め)
+
+**観測**(出典: [ECO-062 order](../bomdd/60-change-order-eco-062.md) §10、[run 台帳(非正本)](../bomdd/reports/phase5-run-01-eco-062.md)):
+1. **入口条件 (a)**: §0.1 で unknown としていた Grok Bot 仕様 4 点(handoff・shared cloud computer・per-command 承認・「Memory is not a substitute for an authoritative
+   source」)を文書の直読で 4/4 confirmed(x.ai 公式 2 ページ+Cursor 文書 1 ページ・memory の一文は Cursor 側にのみ存在)。「Do not use separate Bots as a security
+   boundary.」が公式にあり、「同一ユーザーの Bot を独立検査器と見なさない」を直接支持。採否は依然として計画外。
+2. **入口条件 (b)+実施**: 運転員= Codex CLI(gpt-5.6-sol・workspace-write・異系統)で**運転員≠製造者**を初めて満たす。ブリーフと設計の sha256 を投入前に固定(盲検)。
+   腕 9(known-good 2・known-bad 7: 古い receipt / 別 job の receipt / FAIL 混入+囮欄 / gates 欠測+囮欄 / hash 末尾改変+囮欄 / 台帳不整合= 裁定要求 / 作業木 dirty)。
+   **EXP-20260910-02 fail-open= 0/7・特異度 2/2**。作業木汚染 0。
+3. **EXP-20260910-03 伝言ゲーム率(R7= ECO-055 の台帳不整合)**: 運転員の裁定材料は issue 1+evidence 3 が全て座標つき原文引用で乖離 0/4・options は「原文に記載なし」と
+   区別して申告。欠落 1(register `verification` の独立検査 REJECT・ECO-041 意味論・是正 ECO-056 は未提示 — 乖離でなく網羅の欠け・採点規則の外)。
+4. **運転員の申告した手順欠落 4 件**: 停止語彙に receipt 無効の語がない(自前写像)/ usage 行に `verify PATH --eco` の個体照合がない / 検証器の文言(測定不能)と終了コード
+   (1)の不一致 / 測定不能の写像先がない。採点側の観測 3 件: R6 の STOP 理由文が 12 桁接頭辞で両 tree を同一に見せる / 運転員が手順適用前に AGENTS.md 由来で
+   preflight.md・calibrate.md を読みに行った(3 exec)/ R3 の識別は運転員が `--eco` 掃引を自発追加した判断で機構ではない。
+5. **運転員環境の制約 2 件(P5-06/07)**: run-02(dirty 腕)は sandbox 内で現 tree を取得できず**測定不能経路で STOP**(未追跡 blob の `.git/objects` 書込拒否の推定)—
+   設計した「tree 不一致」経路は運転員環境では未測定。Codex(Windows)の `pwsh -Command` は検証器の exit 2 を **1 に丸める**(当方で再現: `exit $LASTEXITCODE`
+   なしでは非 0 が全て 1)。3 値契約が終了コードでは運転員に届かない。
+
+**整理**: ①Phase 5 の出口条件 2 量は N=1 run・運転員 1 種で「fail-open 0・基準線 0」を得たが、これは**運転員の判断**(`--eco` 掃引の追加・文言と exit の突合)に
+2 箇所で依存しており機構ではない(P5-05/07)— 「慎重さは荷重を負わない」(§13)の運転員版。機構化候補は検証器の機械可読理由コード(P5-01 と同根)。②「運転員は BomDD を
+理解しなくてよい」(§1)は、運転員がリポ内の AGENTS.md を読む限り成立しない(P5-04)— 作業ルートをリポ外にするかブリーフで役割外を明示する(未実測)。③異系統環境の
+制約が製造者環境で発火しない入力クラスを露出する型(OBS-20260910-03)の **2 例目**(sandbox の `.git` 書込拒否・pwsh の exit 丸め)。④ECO-055 の裁定材料は原文座標つきで
+揃った(OBS-20260910-02)— user 裁定待ち。V3(観測負荷)は裁定時に user が申告。
+
+**一般化検査**: 「運転員の fail-open」は運転員 1 種・9 腕・1 run= 実測 1 例。「伝言ゲーム率」は 1 裁定材料= 1 例。「実行基盤の exit 丸め」は pwsh 1 例(bash 系は未測定)。
+「sandbox の .git 書込拒否 → tree 測定不能」は 1 例(推定機序)。いずれも規則化しない(playbook 非改訂)。所見 P5-01〜07 の是正は別 ECO(user 裁定・検証器の変更は
+instrument-change で異系統独立検査)。
+
+**行き先判定**: 記帳+run 台帳(reports・非正本)+ECO-062 §10・§7 現在地= Phase 5 run-01 済。register 不変(ECO-062 verified のまま)。本文改訂なし。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(盲検 known-bad 対照腕・事前登録 sha256・fail-closed の計数)[ ] template [ ] terminology
+[x] method/concept claim: §13「慎重さは荷重を負わない」= supported(運転員の判断に依存した 2 箇所を機構化候補として分離)/ 「測定不能は合格ではない」= supported
+(run-02 が測定不能で fail-closed)/ 「環境差は検出力」(OBS-20260910-03)= supported(2 例目)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: EXP-20260910-02= **初回値 fail-open 0/7(Codex・盲検・N=1)**を注記・open 維持・next trigger= 運転員を変えた run-02(人間 or 別モデル・同一治具)。
+EXP-20260910-03= **基準線 0/4(欠落 1)**を注記・open 維持・next trigger= 要約を許した対照腕(探索的)。EXP-20260910-01= 本 run は製造工程なし(遷移判定のみ)で
+運転員≠製造者の job は未発生・据え置き。OBS-20260910-03= 2/3 へ(P5-06/07)。OBS-20260910-02= 裁定材料が揃い user 裁定待ち・据え置き。OBS-20260910-04= 本弧は
+CLI 直接経路で 2 exec とも障害なし・据え置き(1/3)。OBS-20260911-01(探索の打ち切りは受理側)= 本弧は run を 2 で打ち切り(次 run は運転員を変える条件つき)・据え置き。
