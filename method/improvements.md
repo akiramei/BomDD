@@ -1469,6 +1469,7 @@ lint〔CpI18n010AssetLintTests〕+死キー 640 件削除+M-CAPTURE-HARNESS-052)
   製品リポでは未定着。open 維持(2026-08-31 還元節・効果回収 4)
   origin: native
   evidence: 本節・昇格候補5(ECO-107/108)
+  **再演(2026-09-11・ECO-067)**: 独立検査所見 5 件はいずれも冒頭の「検出力の限界」宣言の外(ECO 文字列・台帳書込可否・出力順)から顕在化(2026-09-11 還元節)
 - [open] EXP-20260717-12 — 次の工具 track/golden 基準新設/棚卸し削除で「使われる形で一巡実行」検収が踏まれるか(到達不能基準・再実行不能工具・上限切り捨て結論の正本化ゼロ)。**部分再演(2026-08-01・別リポ ViewTube)**: 新設の change-impact validator は mutation 12 種+59 controls で資格したが「導入後**最初の正常後続取引**(first compliant filing)」を一巡に含めず、初適用の起票が循環ゲートで false rejection(ECO-VT-054→055)。「使われる形」には**時間軸の最初の一巡**(install → first compliant use → first transition → first acceptance)が含まれる — 命題の未被覆次元が実測で確定(OBS-20260801-04 として分離記帳・open 維持)。**適用実測(2026-08-06・ViewTube ECO-VT-070)**: 起票宣言集合のメモリ上 preflight・移転 preflight・結線 rehearsal と、正本化前の一巡実行が標準運用化(2026-08-06 還元節)— BomDD 側リポでの実測は未・open 維持
   origin: native
   evidence: 本節・昇格候補6(ECO-104/105/107)/ ECO-VT-055.md:62-64・:80-81 / 2026-08-01 ViewTube 還元節・観測2
@@ -2338,9 +2339,11 @@ legacy 37 audited 節を目視走査〔unaudited L1719「標準部品台帳」�
 
 期待する効果と観測:
 
-- [watch 2/3] OBS-20260727-10 — **検査は自分の前提を自分で満たす** — 検査治具の環境前提(identity・ロケール・TZ・ネットワーク・PATH)の充足を ambient 環境へ委ねると実行環境ごとに判定が変わる。前提は検査側が固定値で供給し、受入は**前提不在環境の陽性対照**+**天然対照(是正前コードの同一環境 FAIL)による等価証明**で行う。**製品側の fallback で解かない**(ユーザーの設定を勝手に決めることになる)。**2 例目(2026-08-06・ViewTube ECO-VT-070)= 逆向きの環境軸**: 検証(rehearsal・直接実行)が操作者環境(PYTHONIOENCODING=utf-8)を継承して符号化欠陥をマスク — 実起動で顕在化。処方= 検証側は操作者 env を中和し実測 codec を証拠に記録
+- [watch 3/3] OBS-20260727-10 — **検査は自分の前提を自分で満たす** — 検査治具の環境前提(identity・ロケール・TZ・ネットワーク・PATH)の充足を ambient 環境へ委ねると実行環境ごとに判定が変わる。前提は検査側が固定値で供給し、受入は**前提不在環境の陽性対照**+**天然対照(是正前コードの同一環境 FAIL)による等価証明**で行う。**製品側の fallback で解かない**(ユーザーの設定を勝手に決めることになる)。**2 例目(2026-08-06・ViewTube ECO-VT-070)= 逆向きの環境軸**: 検証(rehearsal・直接実行)が操作者環境(PYTHONIOENCODING=utf-8)を継承して符号化欠陥をマスク — 実起動で顕在化。処方= 検証側は操作者 env を中和し実測 codec を証拠に記録
   source: harness ECO-020 / ViewTube ECO-VT-070
   evidence: 本節・観測1 / ECO-020 検証節 V1・V1b・是正方針案 1(代案 c 却下)/ 2026-08-06 ECO-VT-070 還元節・観測 4
+  **3 例目(2026-09-11・Phase 6 実 cell・Codex read-only)**: bomdd-run / bomdd-witness の selftest が OS temp 不能で 1 行の UNMEASURABLE でなく Traceback(P6-01)—
+  selftest 自身の前提不在の報告経路が未設計。是正= ECO-068・織り込み案 C(2026-09-11 還元節)→ PROMOTION DUE
 - [watch 1/3] OBS-20260727-11 — **リポ外アンカーの状態は、リポ内成果物だけを入力とする検査からは観測できない** — 提起経路が構造的に存在しないため、**検査官の見落としではなく検査入力の境界**として扱う(再発防止先は人でなく設備)。信頼アンカーの設計には、アンカー自体だけでなく**その状態を次の判断点へ入力する観測経路**の設計が含まれ、ゲートを閉じる前にリポ外状態を確認する手順を併設する(FINDINGS §11.6 の裏面)
   source: harness ECO-020
   evidence: 本節・観測3 / 独立検査 3 ラウンド 25 提起中 CI 赤の指摘 0 件 / FINDINGS §11.6「裏面」
@@ -2360,6 +2363,7 @@ legacy 37 audited 節を目視走査〔unaudited L1719「標準部品台帳」�
   ただし**発覚は配線前**で顕在化はしていない(2026-08-30 ECO-033 弧 還元節・効果回収 1)
   origin: native
   evidence: 本節・観測1 / ECO-020 効果測定(宿題)2 項目め
+  **再演(2026-09-11・ECO-066/067 新設計器)**: 本体は測定不能の原因を分離報告したが selftest は OS temp 不能で traceback(初回設計に載らず・製造後の是正 ECO-068)(2026-09-11 還元節)
 
 ## 2026-07-27 外部提案裁定 — Obsidian workbench(Git 正本のフロントエンド)— 限定採択+stage 0 起票
 
@@ -6828,6 +6832,7 @@ OBS-20260910-01(既存形式の索引欠如)= 追加観測なし・1/3 維持。
   検証器の exit 2 を 1 に丸める(P5-07・再現済み)— 製造者環境では発火しない(2026-09-11 Phase 5 節)
   **3 例目(2026-09-11・Phase 6 実 cell・Codex read-only)**: OS temp 不能で witness verify が UNMEASURABLE(TEMP_UNAVAILABLE)・bomdd-run selftest が Traceback(P6-01)—
   ECO-066 の原因分離が実環境で原因を特定した初例(2026-09-11 実 cell 節)→ PROMOTION DUE
+  **昇格判断(2026-09-11 還元節)= 要**: 3 弧・3 種の環境(同一系統 Codex)。織り込み案 A'(独立検査の運用型に「実行環境の差」)— レビュー承認後に recovered へ
 - [watch 2/3] OBS-20260910-04 — **観測: 検査設備(Codex)の経路障害が製造物と無関係に独立検査の往復を止める — companion 経路の既定モデル不可・runner プロトコル版不一致・
   コンテンツフィルタによる報告遮断・resume の出力先欠如(同日 4 種)**。復旧経路は CLI 直接+stdin 正本委譲+`-o`。3 例目で factory-delegate の手順に「経路の選択と
   障害時の切替」を織り込むか判断(factory-delegate 正本化 ECO の入力)
@@ -6903,6 +6908,7 @@ OBS-20260910-04(検査設備の経路障害)= 本弧は CLI 直接経路で 5 ro
   「独立検査ブリーフに探索の上限(round 数または未探索クラスの宣言方式)を最初から書く」規則の要否を判断
   source: ECO-064
   evidence: 本節・観測 2・ECO-064 order §8.4・§9「支持しないもの」・検査報告 r1〜r5 の「支持しないもの」
+  **昇格判断(2026-09-11 還元節)= 要**: 2/3 例目は規則の意図的適用(機能 2/2)。織り込み案 A(playbook 独立検査規則の報告様式)— レビュー承認後に recovered へ
 - [watch 1/3] OBS-20260911-02 — **観測: self-conformance の C14 が OS temp に fixture を残置する(`shutil.rmtree(ignore_errors=True)` が Windows の read-only な
   git object を消せず無音)— 281 件・2026-08-02 以降・検出は独立検査官の後片付け拒否報告が契機**。3 例目(別計器の同型 fail-silent cleanup)で
   「temp cleanup の失敗を無音にしない(onerror で属性を外して再試行・残置を報告)」規則の要否を判断。別 ECO 候補(self-conformance.py の C14/C4/C11 の rmtree)
@@ -7146,8 +7152,51 @@ contradicted / superseded: なし。
 **期待効果の棚卸し**: EXP-20260910-02= 実 cell N=1 を注記(入口経路 成立・fail-open なし)・open 維持・next trigger= workspace-write / 対話承認の cell。OBS-20260910-03= 3/3 → PROMOTION DUE。
 新規 OBS-20260911-03(下記)。
 
-- [watch 1/3] OBS-20260911-03 — **観測: 計器の selftest が実行環境の測定不能(OS temp 不能)で 1 行の UNMEASURABLE でなく Traceback を出す** — bomdd-run.py(実測)・bomdd-witness.py
+- [superseded 2026-09-11 via OBS-20260727-10(同じ抽象規則・3 例目として吸収)] OBS-20260911-03 — **観測: 計器の selftest が実行環境の測定不能(OS temp 不能)で 1 行の UNMEASURABLE でなく Traceback を出す** — bomdd-run.py(実測)・bomdd-witness.py
   (同型・未実測)。selftest 自身の前提(temp・git)が満たされないときの報告経路が設計されていない。3 例目で「selftest は自分の測定不能を 1 行で報告する」を計器の共通規約に
   するか判断
   source: ECO-062
   evidence: 本節・ECO-062 order §10.7 P6-01・bomdd/reports/phase6-realcell-eco-067.md
+
+## 2026-09-11 BomDD 還元 — OBS-20260911-01(探索の打ち切りは受理側)・OBS-20260910-03(環境差は検出力)の 3/3 昇格判断+OBS-20260727-10(検査は自分の前提を自分で満たす)3 例目・織り込み案 A〜C(レビュー待ち)
+
+**出典**(手順 1): ECO-062 order §8.1〜8.3・§10.6・§10.7 / ECO-064 order §8.4・§9 / ECO-066 order §7.1〜7.2 / ECO-067 order §7.1〜7.3 / 検査報告 12 本(ECO-062 r1〜r4・064 r1〜r5・066 r1〜r2・067 r1〜r3)/
+run 台帳 run-01・run-02 / phase6-realcell-eco-067.md。転記するのは事実(round 数・所見数・環境の種類)。
+
+**一般化検査**(手順 2 — 製品名を落とした命題+機械面):
+
+| OBS | 3 例(独立性) | 命題(製品名なし) | 機械面 | 判断 |
+|---|---|---|---|---|
+| OBS-20260911-01 | ①ECO-064: 境界探索を求めた r1〜r4 で 12 クラスが出続け、r5 で受理側が範囲を限定して ACCEPT ②ECO-066: r2 を「是正確認+回帰」に限定 → 1 round で ACCEPT ③ECO-067: r2/r3 を同じ形で限定 → r3 ACCEPT。**②③は①で提案した規則の意図的適用**であり独立観測ではない(適用して機能した証拠 2/2・round 数 1〜2) | 異系統独立検査の round は**受理側が目的を宣言**して回す: 「境界探索」round は所見が尽きず、ACCEPT は「是正確認+回帰」に範囲を限定した round でしか得られない。未探索クラスは「支持しないもの」に残す | ブリーフの定型(range 欄: 探索 / 是正確認+回帰)・報告の「範囲外の観察」欄 | **昇格= 要**(規則は小さく、3 弧で運用済み)。行き先= playbook 独立検査規則の報告様式段落(織り込み案 A) |
+| OBS-20260910-03 | ①ECO-062 r1〜r3(検査官環境: read-only temp 不能・PATH 空・拡張長パス → IA-03/06/08)②Phase 5 run-01(workspace-write sandbox: `.git` 書込不能で tree 測定不能・pwsh の exit 丸め)③Phase 6 実 cell(read-only sandbox: OS temp 不能 → TEMP_UNAVAILABLE・selftest traceback)。3 弧・3 種の環境(検査官 / 運転員 / 製造セル)・**同一系統(Codex)** | 製造者環境で発火しない入力クラス(temp・PATH・パス表記・書込権限・exit 伝播)は、**異なる実行環境の異系統が触れて初めて露出する** — 環境差は検査官の弱点であると同時に検出力。計器側は測定不能の**原因を分離して報告**すると環境差が推定でなく実測になる(ECO-066 → ③で実証) | 独立検査の設計項目「実行環境の差」(sandbox モード・OS・パス表記)/ 計器の UNMEASURABLE に CAUSE | **昇格= 要**。行き先= playbook 独立検査規則の運用型(織り込み案 A')+§13(計器の測定不能の原因分離・織り込み案 C と併記) |
+| OBS-20260727-10(2/3 → **3/3**) | ①ECO-020(identity)②ECO-VT-070 ③**本弧: bomdd-run / bomdd-witness の selftest が OS temp 不能で 1 行の UNMEASURABLE でなく Traceback**(Phase 6 実 cell・P6-01) | 検査は自分の前提を自分で満たす — **selftest も自分の前提不在を測定不能として 1 行で報告する**(traceback は無報告と同じ) | selftest の前提(temp・git)不在の陽性対照 | **昇格= 要(小)**。§13 の既存規則への 1 文追補(織り込み案 C)。是正は ECO-068 |
+
+- 遷移: OBS-20260911-03(selftest の測定不能報告・1/3・本日起票)は OBS-20260727-10 と同じ抽象規則 → `superseded via OBS-20260727-10` に遷移(重複を残さない)。
+
+**行き先判定**(手順 3): playbook §3(独立検査規則・L172 段落の運用型と報告様式)= A・A' / playbook §13(手順の工具化・計器規約)= C / templates(factory-delegate の工程 3 独立レビュー引き渡し・
+`60-change-order.md` の検査官行)= **ECO で扱う**(規律 1・templates は起票なしに変えない — 織り込み案 B は ECO 候補として提示)/ FINDINGS・concept・terminology= 変更なし。
+
+**思想層の再認証判定(手順 3b)**: [x] operational rule(独立検査の round 目的宣言・環境差の設計項目)[x] control/probe(selftest の前提不在陽性対照・CAUSE 分離)[ ] template(ECO 候補・本還元では触れない)
+[ ] terminology [x] method/concept claim: 「環境差は検出力」= **supported**(3 弧)/ 「測定不能は合格ではない」= supported(UNMEASURABLE の 1 行化を selftest へ拡張)/ 「境界は検査を止める線でなく処理先を切り替える線」(§8.5)= supported(range 欄+範囲外の観察欄はその運用形)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**(手順 4・worklist 起点・legacy 目視):
+- 棚卸し: EXP-20260727-14(環境依存を持つ検査の新設で「前提を自分で満たす」が初回設計に載るか)= **再演**: ECO-066/067 の新設計器は本体では TEMP_UNAVAILABLE 等を分離報告したが、**selftest は前提不在で traceback**(初回設計に載らず・製造後の是正= ECO-068)。open 維持。
+- 棚卸し: EXP-20260717-11(検査器新設で既知限界の宣言+fail-closed が初回設計に載り、限界領域からの後日顕在化ゼロか)= **再演**: ECO-067 の独立検査所見 5 件はいずれも冒頭の「検出力の限界」宣言の**外**(ECO 文字列・台帳の書込可否・出力順)から出た。限界宣言は書かれたが被覆の外側で顕在化。open 維持。
+- 棚卸し: EXP-20260714-02・EXP-20260726-01(非 GPT 系検査官)・OBS-20260711-09・OBS-20260830-06= 機会なし。
+
+**適用した改善**(手順 5): 本節の記帳のみ。OBS-20260911-01・OBS-20260910-03 は 3/3 のまま(昇格判断= 要・**織り込み承認後に `recovered via 織り込み commit` へ遷移**)。OBS-20260727-10 を 3/3 へ(3 例目注記)。OBS-20260911-03 → superseded。
+EXP-20260727-14・EXP-20260717-11 に再演を注記。是正 ECO-068(selftest の測定不能 1 行報告・bomdd-run / bomdd-witness / bomdd-job)を起票(別 commit)。
+
+**本文織り込み案(手順 6・停止点: レビュー・節単位で採否)**:
+- **案 A(playbook 独立検査規則・L172 段落「判定語の意味論と報告様式」の末尾に追補)**: 「**round の目的は受理側が宣言する**(BomDD ECO-064/066/067 還元・2026-09-11): 異系統独立検査の
+  ブリーフには range 欄(『境界探索』/『是正確認+回帰』)を置く。境界探索 round は所見が尽きない(ECO-064: 4 round で 12 クラス)ため、ACCEPT は『是正確認+回帰』に限定した round でしか
+  得られず、打ち切りは検査官でなく受理側の責務である。未探索クラスは『支持しないもの』へ、範囲外の発見は『範囲外の観察』欄へ書かせ判定に含めない(§8.5 の境界統制と同型)。」
+- **案 A'(同段落の運用型に 1 項)**: 「**実行環境の差を設計項目にする**(BomDD ECO-062/Phase 5/Phase 6 還元・2026-09-11): 検査官・運転員・製造セルの実行環境(sandbox モード・OS temp・PATH・
+  パス表記・終了コードの伝播)を製造者環境と意図的に変える。製造者環境で発火しない入力クラスは環境差でしか露出しない(3 弧で 7 所見)。計器は測定不能の原因を分離して報告し(§13)、環境差を
+  推定でなく実測にする。」
+- **案 B(ECO 候補・本還元では触れない)**: `factory-delegate.md` 工程 3(独立レビュー引き渡し)と `60-change-order.md` の検査官行に range 欄と実行環境欄を追加。templates は規律 1 により ECO で。
+- **案 C(playbook §13「計器は自分の前提を自分で満たす」の 1 文追補)**: 「selftest 自身も前提(OS temp・git)の不在を traceback でなく `UNMEASURABLE <CAUSE>` の 1 行で報告する(BomDD Phase 6
+  実 cell・2026-09-11: read-only sandbox で 2 計器の selftest が traceback → ECO-068 で是正)。」
+
+**効果測定の宿題**: 案 A= 次の異系統独立検査で round 数と「範囲外の観察」件数(基準線: 062= 4・064= 5・066= 2・067= 3 round)。案 A'= 次の検査で環境差由来の所見件数(基準線 7/3 弧)。
+案 C= ECO-068 後の実 cell で selftest が 1 行 UNMEASURABLE を返すか。
