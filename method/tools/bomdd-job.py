@@ -376,8 +376,18 @@ def render(job: dict) -> str:
 
 # --- selftest(陽性対照: 整合 / 不整合 2 方向 / order 不在 / 出所なし欄が null) ---------------
 def selftest() -> int:
+    # ECO-068: selftest 自身の前提(OS temp)不在は traceback でなく UNMEASURABLE の 1 行・exit 2(job は git を使わない)
+    try:
+        td_cm = tempfile.TemporaryDirectory()
+    except OSError as e:
+        print(f"UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE): selftest の前提不在 — {e.__class__.__name__}: {str(e)[:120]}")
+        return 2
+    return _selftest_body(td_cm)
+
+
+def _selftest_body(td_cm) -> int:
     fails = []
-    with tempfile.TemporaryDirectory() as td:
+    with td_cm as td:
         root = Path(td)
         (root / "bomdd").mkdir()
         reg = root / "bomdd" / "60-change-register.yaml"

@@ -64,3 +64,28 @@ C1〜C18 判定不変(3 ツールは検査対象集合外)。kit 非含有・製
 
 - register: `filed`(2026-09-11)・baseline `77b966c`・allowed_paths(起票段階)= 3 ファイル+台帳系(製造裁定で再凍結)。
 - **次の裁定(製造裁定)**: 範囲= §1 の 3 項をそのまま / 独立検査= 製造者較正のみ(当方案)か Codex か。
+
+## 4. 製造裁定と製造(2026-09-11・user DECIDE「2:A」— §1 の 3 項をそのまま凍結・製造者較正のみ)
+
+- register `filed → decided`(同日)。affected_refs= 3 ツールで凍結。allowed_paths= 3 ファイル+台帳系(検査報告なし)。影響なし予測(製造前・凍結)は register。
+- 製造者= Claude Code(claude-fable-5-1・起票者と同一)。独立検査なし(製造者較正のみ・裁定 2:A・ECO-065 A 案と同じ整理)。
+
+## 5. 製造物(3 ファイルの `selftest()` 冒頭・+43/-5 行)
+
+| ファイル | 変更 |
+|---|---|
+| `bomdd-witness.py` | `selftest()` が `TemporaryDirectory()` ×2 を try で生成し、OSError は `report_line(2, "TREE_UNAVAILABLE", …, "TEMP_UNAVAILABLE")` の 1 行+`return 2`。本体は `_selftest_body(td_cm, wd_cm)` へ分離(腕は不変)。fixture の `git init` が `_GitUnavailable` 番兵なら `UNMEASURABLE TREE_UNAVAILABLE(GIT_UNAVAILABLE)`+exit 2(従来は「fixture: git init 不能」の selftest 失敗= exit 1 に混ざっていた) |
+| `bomdd-run.py` | 同型(`_selftest_body(td_cm, wd_cm)`・git 番兵は `witmod._GitUnavailable`) |
+| `bomdd-job.py` | 同型(`_selftest_body(td_cm)`・git は使わないため TEMP_UNAVAILABLE のみ) |
+
+- 共通 helper なし(各ファイル局所・import 依存を増やさない)。本体経路(verify / run / select)・1 行目の契約・終了コードの意味・selftest の腕は不変。
+- 製造中の実測(正直記載): V1 の外部プローブは当初、環境変数(TMPDIR/TEMP/TMP)を不在パスにする方式で書いたが、`tempfile.gettempdir()` が候補列(C:\TEMP・cwd 等)へ
+  フォールバックするため temp 不能を再現できず(3 ツールとも通常 PASS のまま)→ 子プロセス内で `tempfile.tempdir` を不在パスに固定してから `runpy` で `__main__` 実行する方式に
+  変更(宣言: in-process 固定。実 sandbox の再現は V2)。「前提不在環境の陽性対照」は、前提の不在を**作れる**ことが先に要る(§13)。手順逸脱: なし(Write・CR 0)。
+
+## 6. 受入の実測(製造者・2026-09-11)
+
+- **V1**= PASS(外部プローブ `probe-eco068.py`・3 ツール × {通常 / temp 不能 / git 不能(job は temp のみ)}= 8 腕): 通常= 従来の 1 行目・exit 0・traceback なし / temp 不能= 3 ツールとも
+  `UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE): selftest の前提不在 — FileNotFoundError: …`・exit 2・traceback なし / git 不能(PATH 空)= witness・run とも
+  `UNMEASURABLE TREE_UNAVAILABLE(GIT_UNAVAILABLE): selftest の前提不在 — git を起動できない`・exit 2。作業木に temp 残置なし(porcelain= 変更ファイルのみ)。
+- **V3**(不変): 3 ツールの通常 selftest は従来の PASS 行・self-conformance 全 PASS(§7)。**V2**(実 cell)・**V3'**(CI)= §7。

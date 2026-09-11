@@ -297,14 +297,28 @@ def run(argv: list, root: Path, emit=None) -> int:
 
 # --- selftest: 一時 git リポ(実リポ非接触)で known-good は起動し known-bad は起動しない ---------------------
 def selftest() -> int:
+    # ECO-068: selftest 自身の前提(OS temp・git)不在は traceback でなく UNMEASURABLE の 1 行・exit 2
+    try:
+        td_cm, wd_cm = tempfile.TemporaryDirectory(), tempfile.TemporaryDirectory()
+    except OSError as e:
+        print(f"UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE): selftest の前提不在 — {e.__class__.__name__}: {str(e)[:120]}")
+        return 2
+    return _selftest_body(td_cm, wd_cm)
+
+
+def _selftest_body(td_cm, wd_cm) -> int:
     fails = []
     witmod = _load("bomdd-witness")
-    with tempfile.TemporaryDirectory() as td, tempfile.TemporaryDirectory() as wd:
+    with td_cm as td, wd_cm as wd:
         root, wout = Path(td), Path(wd)
         env = dict(os.environ, GIT_AUTHOR_NAME="t", GIT_AUTHOR_EMAIL="t@x", GIT_COMMITTER_NAME="t",
                    GIT_COMMITTER_EMAIL="t@x", GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_SYSTEM=os.devnull)
         for cmd in (["init", "-q"], ["config", "core.autocrlf", "false"]):
-            if witmod._git(root, *cmd, env=env).returncode != 0:
+            r0 = witmod._git(root, *cmd, env=env)
+            if r0.returncode != 0:
+                if isinstance(r0, witmod._GitUnavailable):  # ECO-068: git 不能は測定不能(exit 2)
+                    print("UNMEASURABLE TREE_UNAVAILABLE(GIT_UNAVAILABLE): selftest の前提不在 — git を起動できない")
+                    return 2
                 return _report(["fixture: git init 不能"])
         (root / "bomdd").mkdir()
         (root / "bomdd" / "open.md").write_text("# Change Order — ECO-900\n\n## 3. 受入\n- 検討中\n", encoding="utf-8")

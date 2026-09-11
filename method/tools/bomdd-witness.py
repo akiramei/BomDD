@@ -348,15 +348,29 @@ def _code_of(line: str) -> tuple[str, str | None]:
 
 
 def selftest() -> int:
+    # ECO-068: selftest 自身の前提(OS temp・git)不在は traceback でなく UNMEASURABLE の 1 行・exit 2(selftest 失敗の 1 と区別)
+    try:
+        td_cm, wd_cm = tempfile.TemporaryDirectory(), tempfile.TemporaryDirectory()
+    except OSError as e:
+        print(report_line(2, "TREE_UNAVAILABLE", f"selftest の前提不在 — {e.__class__.__name__}: {str(e)[:120]}", "TEMP_UNAVAILABLE"))
+        return 2
+    return _selftest_body(td_cm, wd_cm)
+
+
+def _selftest_body(td_cm, wd_cm) -> int:
     fails = []
     # witness の出力先は作業木の**外**(wd)— 作業木内に置くと自分が tree に入る(W5・初回 selftest が捕捉)
-    with tempfile.TemporaryDirectory() as td, tempfile.TemporaryDirectory() as wd:
+    with td_cm as td, wd_cm as wd:
         root = Path(td)
         wout = Path(wd)
         env = dict(os.environ, GIT_AUTHOR_NAME="t", GIT_AUTHOR_EMAIL="t@x", GIT_COMMITTER_NAME="t",
                    GIT_COMMITTER_EMAIL="t@x", GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_SYSTEM=os.devnull)
         for cmd in (["init", "-q"], ["config", "core.autocrlf", "false"]):
-            if _git(root, *cmd, env=env).returncode != 0:
+            r0 = _git(root, *cmd, env=env)
+            if r0.returncode != 0:
+                if isinstance(r0, _GitUnavailable):  # ECO-068: git 不能は測定不能(exit 2)・selftest 失敗(exit 1)ではない
+                    print(report_line(2, "TREE_UNAVAILABLE", "selftest の前提不在 — git を起動できない", "GIT_UNAVAILABLE"))
+                    return 2
                 return _report(["fixture: git init 不能"])
         (root / "a.txt").write_text("a\n", encoding="utf-8", newline="\n")
         _git(root, "add", "-A", env=env)
