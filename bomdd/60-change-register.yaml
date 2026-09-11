@@ -2381,3 +2381,28 @@ changes:
       asked/NA)は order §7 — 「他ツールの同型」「posix の削除不能」「3.11 以下の onerror 経路」は unknown。**製造者較正のみで受入(A 案)**。
       (参考・起票段階)製造時の受入候補は order §3 — V1 陽性対照 2 腕 / V2 実行前後で %TEMP% の bomdd-selfconf-* が増えない(windows)/ V3 全検査の判定不変 / V4 CI(windows job の
       ログに残置なし)/ V5 窓。製造者較正のみで受入を当方案(B を採る場合は異系統必須)。
+  - id: ECO-066
+    title: bomdd-witness の検証報告を運転員が機構で読める形にする — 1 行目の理由コード・個体照合の既定化(verify PATH 単独= 測定不能)・tree 差分の 40 桁表示・測定不能の原因分離(Phase 5 run-01 所見 P5-01/02/03/06/07 の計器側)
+    date: 2026-09-11
+    origin: corrective
+    status: filed   # 2026-09-11 user DECIDE 1:C(Phase 6 保留・検証器の是正を先に閉じてから run-02)2:A(範囲= 検証器のみ)。起票のみ・製造裁定待ち。起票工程は job 経由(required_skills [calibrate, preflight]・missing [calibrate])
+    source: >
+      Phase 5 run-01(ECO-062 §10・bomdd/reports/phase5-run-01-eco-062.md §6)。fail-open 0/7 のうち R3(別 job の receipt)と run-02(dirty 腕)は運転員の判断で
+      成立し検証器単独の弁別力ではない: verify PATH 単独は個体を照合せず ADVANCE(P5-02)・理由が文字列のみで運転員が停止種別を自前写像(P5-01)・
+      末尾改変の tree が 12 桁接頭辞で同一に見える(P5-03)・測定不能 5 経路の原因が捨てられ sandbox の推定機序を実測できない(P5-06)・pwsh -Command が
+      exit 2 を 1 に丸め 3 値契約が届かない(P5-07・計器側は 1 行目で 3 値を読めるようにする)。
+    order_ref: bomdd/60-change-order-eco-066.md
+    affected_refs: [method/tools/bomdd-witness.py]   # 候補・製造裁定時に凍結
+    no_impact_prediction: "(起票段階)diff は台帳系(order・register・ECO-062 order §7 現在地・improvements.md EXP 注記)のみ。製造時(候補): bomdd-witness.py のみ・挙動変更は CLI `verify PATH`(--eco なし)が 0/1→2 の 1 点だけ(利用箇所= Phase 5 運転員手順と selftest)・終了コードの意味不変・pre-push hook(別 witness・W4)/bomdd-job.py(import なし)/self-conformance C1〜C18 判定不変・kit 非含有で製品リポ非波及"
+    diff_audit:
+      baseline: "b268f37"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [method/tools/bomdd-witness.py, bomdd/60-change-order-eco-066.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-066.md]   # 起票段階。製造裁定で再凍結(r2 以降の検査報告は同一 commit で追加)
+    summary: >
+      ①標準出力 1 行目を `<VERDICT> <CODE>[(<CAUSE>)]: <message>` に固定(VERDICT= ADVANCE/STOP/UNMEASURABLE・CODE 12 語彙・witness ローカルで job の停止語彙とは別)
+      ②CLI `verify PATH` は --eco 必須(なしは UNMEASURABLE IDENTITY_UNCHECKED exit 2・関数は eco=None を残す)③TREE_MISMATCH は 40 桁両方+最初に異なる位置
+      ④worktree_tree の None 5 経路を CAUSE(GIT_UNAVAILABLE/GIT_DIR_FAILED/TEMP_UNAVAILABLE/TEMP_IN_WORKTREE/ADD_FAILED/WRITE_TREE_FAILED)+git stderr 末尾 1 行で区別。
+      採らない= 停止語彙への RECEIPT_INVALID 追加(2:A)・job/hook/self-conformance 接触・検査の再実行・--json・終了コードの意味変更・P5-04/07 の手順側(ブリーフ v2・ECO 外)。
+    verification: >
+      (起票段階)製造時の受入候補は order §3 — V1 selftest に CODE ごとの腕+verify PATH 単独→2 / V2 run-01 治具 r1〜r8 の再判定が期待 CODE 表と一致(R6 で差分位置 36)/
+      V3 pre-push witness・job.py・self-conformance 不変 / V4 CI・窓 / V5 異系統独立検査 Codex 必須(instrument-change)/ V6 pwsh 経由でも 1 行目から 3 値が読める。

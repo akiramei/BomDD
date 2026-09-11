@@ -6738,6 +6738,8 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
   **next trigger= Phase 1(自動実行なし・運転員が receipt を回収・整理する段階)の初回運用**。運転員が生まれる前は測れない
   **初回観測(2026-09-11・Phase 5 run-01・運転員= Codex・盲検 9 腕)**: fail-open **0/7**・特異度 2/2・作業木汚染 0。ただし R3(別 job の receipt)の識別と run-02(測定不能)の
   fail-closed は運転員の判断に依存(P5-05/07)。**next trigger= 運転員を変えた run-02(人間 or 別モデル・同一治具)**(2026-09-11 Phase 5 節)
+  **裁定(2026-09-11・user DECIDE 1:C 2:A)**: Phase 6 保留・検証器の是正 ECO-066(理由コード/個体照合の既定化/差分表示/原因分離・範囲= 検証器のみ)を先に閉じ、
+  verified 後に run-02(運転員変更・ブリーフ v2)。**next trigger= ECO-066 verified 後の run-02**
   source: ECO-062
   evidence: 本節・ECO-062 order §1-3・§3 V1・calibrate.md「陽性対照」節(ECO-052)
 - [open] EXP-20260910-03 — **伝言ゲーム率**: 運転員が人間へ持ってくる裁定材料(issue / options / evidence)が order の原文と
