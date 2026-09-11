@@ -7004,6 +7004,8 @@ lesson-promote の先例 de917eb と同じ)。register・order 不変。
   ①人間が mode を訂正した回数 ②「で、私は何をすれば」型の再質問回数 ③DECIDE への返答が reply_format どおり(1 語/ラベル列)で済んだ比率。
   基準線(契約前・Phase 5 run-01 報告)= 訂正 1・再分析 1・1 語返答 0/1。**評価後の分岐**: 改善なし → §2 細則の一部を §1 契約へ昇格して再試行 /
   改善あり → product-profile 正本化を ECO で判断。**next trigger= handoff 20 回到達**
+  **試行中の観測(2026-09-11)**: mode 訂正 1 件目 — 人間に作業を依頼する handoff(run-02 の運転員依頼)を INFORM で送信(self-check FAIL H2 を申告しつつ送った)→ user が
+  「INFORM は人間のアクションなし」と訂正 → DECIDE で第 4 mode **REQUEST**(request/deliverable/why_human)を契約 v0.2 に追加(user 裁定 A)。契約の欠落が試行 5 handoff 目で露出
   source: harness(.claude/skills/handoff)
   evidence: 本節・SKILL.md §4・user 裁定 2026-09-11(1:A 2:A)
 

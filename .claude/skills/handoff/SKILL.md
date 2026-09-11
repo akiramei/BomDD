@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: AI→人間のハンドオフ・プロトコル。ターンを終えて人間へ制御を渡すメッセージごとに、interaction(INFORM/DECIDE/DISCUSS)と execution(CONTINUING/BLOCKED/COMPLETE/PAUSED)を先頭 1 行で宣言し、mode ごとの必須要素を満たしてから送る。人間が「報告か・質問か・議論か・AI は止まっているか」を逆推論しなくて済むようにする通信契約。長い報告・裁定要求・設計議論・完了報告・中断報告のすべてが対象。
+description: AI→人間のハンドオフ・プロトコル。ターンを終えて人間へ制御を渡すメッセージごとに、interaction(INFORM/DECIDE/DISCUSS/REQUEST)と execution(CONTINUING/BLOCKED/COMPLETE/PAUSED)を先頭 1 行で宣言し、mode ごとの必須要素を満たしてから送る。人間が「報告か・質問か・議論か・AI は止まっているか」を逆推論しなくて済むようにする通信契約。長い報告・裁定要求・設計議論・完了報告・中断報告のすべてが対象。
 ---
 
 # /handoff — AI→人間の制御移譲プロトコル
@@ -13,17 +13,20 @@ description: AI→人間のハンドオフ・プロトコル。ターンを終�
 > 構造: **§1 契約(normative・小さく固定)**と **§2 実装規則(交換可能)**を分離する。契約は「何を宣言し何を含むか」だけを
 > 決め、書き方・個数・順序は実装側に置く。モデルや用途が変わっても契約は変えない。
 
-## 1. 契約(HANDOFF CONTRACT v0.1・normative)
+## 1. 契約(HANDOFF CONTRACT v0.2・normative)
+
+> v0.1 → v0.2(2026-09-11・user DECIDE「A」): 第 4 の mode **REQUEST**(人間に作業を依頼し成果物を待つ)を追加。契機= run-02 の運転員依頼を INFORM で送り
+> user が訂正(INFORM は人間のアクションなしの型)— EXP-20260911-01 の mode 訂正 1 件目。
 
 ```text
-HANDOFF CONTRACT v0.1
+HANDOFF CONTRACT v0.2
 
 Scope:
   A handoff is the message that ends the AI's turn and returns control to the human.
   Intermediate progress lines within a turn are not handoffs.
 
 Every handoff starts with:
-  [INFORM|DECIDE|DISCUSS / CONTINUING|BLOCKED|COMPLETE|PAUSED]
+  [INFORM|DECIDE|DISCUSS|REQUEST / CONTINUING|BLOCKED|COMPLETE|PAUSED]
 
 Single mode:
   One handoff declares exactly one interaction mode.
@@ -35,6 +38,9 @@ INFORM requires:  information being handed off / human_action: none / execution 
 DECIDE requires:  decision_question / options / recommendation / reply_format / execution state explanation
 DISCUSS requires: discussion_question / thesis / reasoning / counterpoint /
                   what_would_change_thesis / explicit non-decision status
+REQUEST requires: request (what the human is asked to do) / deliverable (what to return, in what form) /
+                  why_human (why the AI cannot do it itself) / execution state explanation
+                  The reply to a REQUEST is the deliverable itself. INFORM never asks for human action.
 
 Execution states:
   CONTINUING = the AI keeps working after this handoff
@@ -57,6 +63,8 @@ Before sending:
 ### 2.1 分類(classify)— 決定木を上から当て、最初に yes になったところで決める
 
 ```text
+Q0 人間にしかできない作業(私が代行できない・してはいけない)を頼み、その成果物を待つ必要があるか
+     yes → REQUEST(成果物が返るまで BLOCKED。独立に進められる部分があれば CONTINUING で名指し)
 Q1 私の次の行動が、人間にしか決められない選択で分岐するか
      yes → DECIDE。分岐に依存しない部分があれば CONTINUING(独立部分は進める・依存部分を名指し)、なければ BLOCKED
 Q2 私に立場はあるが、コミットする前に人間の見解で変わりうる論点があるか
@@ -80,6 +88,8 @@ Q3 それ以外 → INFORM(CONTINUING / COMPLETE / PAUSED のいずれか)
 - DISCUSS: discussion_question は範囲が一意に分かる問い(A/B 形に限定しない)。thesis はその問いへの現在の回答 1 文。reasoning は 3 点以内。
   counterpoint は自分の thesis への最強の反論 1 点。what_would_change_thesis を 1 行。末尾に「裁定要求ではない」と、返答の形(`AGREE` /
   `DISAGREE: 理由` / 自由記述)。
+- REQUEST: request は 1 段落(何を・どこで・どの手順書で)。deliverable は返答の形をそのまま示す(貼れる書式)。why_human は 1 行
+  (例: 「運転員= 人間という実験設計」「私の権限外」「私が触ると測定が汚れる」)。作業の所要目安を添える。
 - 付録: 主モード以外の内容を同じメッセージに残す場合は、パケットの後に `---` と `付録(INFORM・返答不要)` の見出しで区切る。
   付録に疑問文・裁定・「〜しますか」を置かない。
 
@@ -92,7 +102,8 @@ structural(lint・機械的に判定できる)
   F1 mode の必須要素がすべて存在する(見出し・ラベル・または明瞭な 1 文)
   F2 DECIDE: options が列挙され、reply_format がある
   F3 DISCUSS: discussion_question と thesis が両方ある
-  M1 付録の外に、宣言外モードの内容(疑問文・裁定・議題)がない
+  F4 REQUEST: request・deliverable・why_human がある。INFORM に human_action あり(依頼・疑問文)は F1 違反= REQUEST か DECIDE へ再分類
+  M1 付録の外に、宣言外モードの内容(疑問文・裁定・議題・依頼)がない
 
 semantic(self-review・自己申告 — 較正は人間の mode 訂正回数で外から測る)
   P1 メッセージの目的が宣言した mode と一致する(読み手が「私は何をすれば?」と問わずに済むか)
@@ -148,9 +159,18 @@ what_would_change_thesis: 付録方式で裁定の再分析が起きなければ
 裁定要求ではない。返答: AGREE / DISAGREE: 理由 / 自由記述。
 ```
 
+```text
+[REQUEST / BLOCKED]
+request: run-02 の R1〜R8 を bomdd/reports/phase5-run-02-brief.md の手順 v2 で実施してください(所要 20〜30 分)。
+deliverable: run ごとに `R1 | decision= | code= | 1 行目=` の 1 行+R7 の裁定材料+手順の欠落(なければ「なし」)。
+why_human: 運転員= 人間という実験設計(裁定 A)。私が実行すると運転員≠製造者が崩れる。
+execution: BLOCKED — 台帳が届くまで採点・R9 に進まない。
+```
+
 ## 4. 計測(試行・user 裁定 2026-09-11 2:A)
 
 - 単位: handoff 20 回(うち DECIDE 5 回以上)で評価。EXP-20260911-01(improvements.md)。
 - 指標: ①人間が mode を訂正した回数 ②「で、私は何をすれば」型の再質問回数 ③DECIDE への返答が reply_format どおり 1 語(またはラベル列)で済んだ比率。
 - 基準線(契約前・Phase 5 run-01 報告): 訂正 1・再分析 1・1 語返答 0/1。
+- 試行中の記録(契約後): 2026-09-11 mode 訂正 1(run-02 依頼を INFORM で送信・self-check FAIL H2 を申告しつつ送った → user 訂正 → v0.2 REQUEST 追加)。
 - 評価後の分岐: 指標が改善しなければ §2 の細則の一部を §1 へ昇格させて再試行。改善すれば product-profile への正本化を ECO で判断する。
