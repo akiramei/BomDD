@@ -2471,7 +2471,7 @@ changes:
     title: 織り込み案 B — factory-delegate 工程 5 と 60-change-order の検査官行に「round の目的(range)」と「実行環境の差」を追加(playbook §3 独立検査規則の配布側・commit f3974c9 の写し)
     date: 2026-09-11
     origin: improvement
-    status: implemented   # 2026-09-11 user DECIDE「B→C」。起票+製造を同一 commit(文書のみ・ECO-063 の型)・製造者較正のみ・verified は CI 後の accept commit で
+    status: verified   # 2026-09-11 user DECIDE「B→C」。起票+製造を同一 commit b0e832b(文書のみ・ECO-063 の型)→ CI 34610167230 success → verified(製造者較正のみ・窓閉鎖 764957c→b0e832b)。起票+fix 直前に入口 bomdd-run が LEDGER_INCONSISTENT(§5 見出しの早書き)で commit を止めた= F0 検出の実運用 1 例目
     source: >
       2026-09-11 還元節(OBS-20260911-01・OBS-20260910-03 の 3/3 昇格)で playbook §3 に織り込んだ 2 規則が配布物(templates)に未反映。factory-delegate 工程 5 の観点と
       60-change-order の検査官行に range・実行環境の欄がなく、製品リポの委譲では欄が書かれない(ECO-063 §0 の再発見型)。templates は規律 1 により ECO で扱う。
@@ -2480,7 +2480,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)3 文書+台帳系のみ。C7 スキル本数不変・C13 追加文にリンクなし・kit 鮮度は advisory・tools/hooks/.github diff 0・製品リポは次回 kit 再設置から"
     diff_audit:
       baseline: "764957c"  # 起票直前 HEAD
-      head: ~
+      head: "b0e832b"      # diff監査済み: 窓内= 3 文書+台帳系のみ・予測的中
       allowed_paths: [method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/templates/60-change-order.md, bomdd/60-change-order-eco-069.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]
     summary: >
       ①factory-delegate 工程 5 に「round の目的(range)を受理側が宣言する」「実行環境の差を設計項目にする」の 2 項(playbook §3 参照つき)②写しへ同文③60-change-order の検査官行に

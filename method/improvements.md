@@ -6784,6 +6784,7 @@ fail-open**・worktree write-tree 比較(C18 と同一定義)で STOP — 第 1 
   2 正本間の状態乖離 — 別型として数える。3 例で「クローズ節の記入と status 遷移を同一 commit に束ねる機械検査(C3 の対象拡張)」の要否を判断
   source: ECO-062
   evidence: 本節・ECO-062 order §5.1 F0・register ECO-055 status 行・order ECO-055 §6
+  **予防側の実例(2026-09-11・ECO-069)**: 起票+fix commit の直前に入口 bomdd-run が job 射影の LEDGER_INCONSISTENT(order §5 見出しを先に「クローズ(verified…)」と書いた・register= implemented)で commit を止めた — 乖離が台帳に入る前に機構が検出(観測件数は据え置き)
   **解消(2026-09-11・user DECIDE A)**: ECO-055 の register を verified へ遷移(遷移忘れ 8 日)。検出= job 射影 LEDGER_INCONSISTENT・提示= Phase 5 R7 裁定材料 ×2(Codex・人間)。観測件数は据え置き(1/3)
 
 ## 2026-09-10 BomDD 自己適用 — ECO-062 第 1 弾(job 射影+witness)の製造〜verified: 独立検査 4 round・所見 8 件は全て製造者 selftest の未被覆枝・検査設備の経路障害 4 種
@@ -7224,3 +7225,13 @@ EXP-20260727-14・EXP-20260717-11 に再演を注記。是正 ECO-068(selftest �
 
 **期待効果の棚卸し**: OBS-20260727-10(recovered)の宿題「ECO-068 後の実 cell で 1 行 UNMEASURABLE」= **回収**(V2)。EXP-20260727-14= 再演のまま据え置き(初回設計には載らず・
 是正で回収)。EXP-20260910-02= 入口の実運用 2 回目(fail-open なし)を注記。
+
+## 2026-09-11 BomDD 自己適用 — ECO-069(織り込み案 B: templates に range・実行環境の欄)verified・入口 bomdd-run が早書きのクローズ見出しを commit 前に止めた(F0 検出の実運用 1 例目)
+
+**観測**(出典: [ECO-069 order](../bomdd/60-change-order-eco-069.md) §4〜§5): ①playbook §3 の 2 規則(round の目的・実行環境の差)を factory-delegate 工程 5(正本+写し・V1 差分は
+既知 8 行)と 60-change-order の検査官行へ写した(文書のみ・製造者較正のみ・CI 34610167230)。②起票+fix commit の直前、`bomdd-run.py ECO-069` が **STOP job:LEDGER_INCONSISTENT** を返し
+commit を止めた — order §5 の見出しを先に「クローズ(verified…)」と書いていたため、job 射影がクローズ節と読み register= implemented と矛盾。見出しを予定形に直して再検査 → ADVANCE。
+**整理**: F0(状態不整合)の検出は Phase 2 で ECO-055 の既存乖離を見つけたが、本例は**乖離が台帳に入る前**に入口が止めた初例(予防側)。検出の対象は見出し形状なので、「クローズ見出しは
+verified 遷移の commit で書く」が運用規則として成立する(1 例・規則化は次回)。**一般化検査**: 1 例。**行き先判定**: 記帳のみ・OBS-20260910-02 に予防側の実例を注記(件数据え置き)。
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(入口が台帳不整合を commit 前に止める)[x] template(range・実行環境の欄)[ ] terminology [ ] method/concept claim。
+**期待効果の棚卸し**: 該当 0 件(案 A/A' の効果測定= 次の異系統独立検査で round 数・環境差由来の所見件数)。

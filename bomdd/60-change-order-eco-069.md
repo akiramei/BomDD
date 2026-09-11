@@ -1,4 +1,4 @@
-# Change Order — ECO-069(織り込み案 B: factory-delegate 工程 5 と 60-change-order の検査官行に「round の目的(range)」と「実行環境の差」を追加〔起票+製造・製造者較正〕)
+# Change Order — ECO-069(織り込み案 B: factory-delegate 工程 5 と 60-change-order の検査官行に「round の目的(range)」と「実行環境の差」を追加〔verified〕)
 
 > 裁定: user 2026-09-11 DECIDE「B→C」— 2026-09-11 還元(improvements.md 還元節・織り込み案 B)の配布側。playbook §3 独立検査規則に織り込んだ 2 規則(「round の目的は受理側が宣言する」
 > 「実行環境の差を設計項目にする」・commit f3974c9)を templates(配布物)へ写す。templates は規律 1 により ECO で扱う。**起票と製造を同一 commit で行う**(文書のみ・ECO-063 の型)・
@@ -48,9 +48,41 @@ kit の鮮度判定が advisory(既存 kit は bomdd.lock 凍結)。tools・hook
 - 製造物: 3 文書(工程 5 に 2 項・写しに同文・検査官行に 2 欄)。
 - **V1**= PASS(正本 vs 写しの diff は ECO-063 の既知 2 hunk〔冒頭注記・playbook 参照の相対化〕のみ — 実測 8 行= ECO-063 と同値)/ **V2**= PASS(検査官行)/ **V3**= self-conformance・CI は §5。
 
-## 5. 受入完了の記入予定(accept commit で書き換え)
+## 5. クローズ(2026-09-11・verified・製造者較正のみ)
 
-- (accept commit で記入: V3 の self-conformance・CI・窓閉鎖)
+- **V3**= PASS(self-conformance 全 PASS ×2・CI run 34610167230〔起票+fix b0e832b〕success)。diff 監査の窓: baseline `764957c` → head `b0e832b`(**窓閉鎖**)。窓内= 3 文書+台帳系のみ。
+- register: `implemented → verified`・head 凍結。製造者較正のみ(裁定 B の帰結)。playbook §3 の 2 規則が配布物(kit 経由)に届く状態になった(製品リポは次回 kit 再設置から)。
 - 製造中の実測(正直記載): 起票+fix commit の直前、入口 `bomdd-run.py ECO-069` が **STOP job:LEDGER_INCONSISTENT → ledger-owner** を返し commit を止めた —
   本節の見出しを先に「クローズ(verified…)」と書いていたため、job 射影がクローズ節と読み register= implemented と矛盾した(F0 検出の実運用 1 例目・是正前に機構が止めた)。
   見出しを「クローズ予定(… verified に書き換え)」に直したが **2 回目も STOP**(見出し行に verified 語が残っていた= 検出は「## N. クローズ」+ verified 語)→ 見出しから両語を外して 3 回目で ADVANCE。
+
+- 製造中の実測(正直記載・accept 段): verified へ書き換えた accept 段の self-conformance が **C17 FAIL**(verified だが較正 receipt の見出しがない)で止めた —
+  文書のみの ECO でも verified 昇格には trigger ① の較正 receipt が要る(job ビューは status 遷移前に出したため required_skills に calibrate が現れなかった= 起票時 job の限界・
+  verified 後の job は required に calibrate を含む)。下記 receipt を書いて再検査。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格。文書のみの変更)
+
+- 査定した主張と判定:
+  1. 「正本と写しの差分が ECO-063 の既知差分のみ」— **observed / 適格**(`diff` 8 行= ECO-063 記録の 8 行と同値)。
+  2. 「検査官行に range・実行環境の 2 欄が入った」— **observed / 適格**(grep 1 件)。
+  3. 「playbook §3 の規則文と templates の記述が意味的に一致する」— **読解**(同日に当方が両方を書いた= 同一著者の転写・独立性なし)。
+  4. 「製品リポの委譲で欄が書かれるようになる」— **unknown(未測定・次回 kit 再設置後の委譲で測る)**。
+- 検出した計器欠陥(帰属つき): 製造物 0 件。受理側 2 件= ①order §5 見出しの早書きで入口が 2 回 STOP(F0 検出の予防側・受理側帰属)②較正 receipt の欠落を C17 が捕捉(受理側帰属)。
+- 検出力の限界: 文書の意味一致は同一著者の読解のみ。配布効果は未測定。独立検査なし(製造者較正のみ・裁定 B)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | diff 8 行・grep 1 件 |
+  | Q2 | asked | NA 相当 | — | 文書変更に known-bad 対照なし(宣言) |
+  | Q3 | asked | observed/適格 | 実測 | 変更前(欄なし)→ 変更後(欄あり)の grep |
+  | Q4 | asked | 読解 | 読解 | 実入力= 実ファイルの diff・意味一致は読解 |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(配布効果)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口(STOP ×2 → ADVANCE)→ commit → push → CI |
+  | Q7 | asked | NA | — | 陽性対照なし(文書) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness・register・commit・run 台帳(ECO-069.jsonl・STOP 2 行を含む) |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 正本/写し/テンプレの 3 文書・見出し形状(入口の F0 検出) |
+
+- このクローズが支持しないもの: 配布先での欄の記入率 / 規則の効果(次の異系統独立検査の round 数・環境差由来の所見件数= 還元節の宿題)。
