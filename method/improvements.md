@@ -6744,6 +6744,8 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
   **2 例目(2026-09-11・run-02・運転員= 人間・盲検 9 腕)**: fail-open **0/7**・特異度 2/2・**判断依存 0**(R3 は機構・R9 dirty 腕を実 tree 不一致で実測)。run-01 の blocker 2 件解消。
   **next trigger= Phase 6(自動起動)の初回 job**(2026-09-11 run-02 節)
   **裁定(2026-09-11・user DECIDE A)**: Phase 6 を開く → ECO-067(単一入口 bomdd-run・起票のみ)。**next trigger= ECO-067 の V3(自動起動の初回実測)**
+  **3 例目(2026-09-11・ECO-067 verified)**: 入口 bomdd-run で known-bad 11 腕(receipt 5・job 停止・測定不能 3・引数/構文)起動 0・fail-open 0(selftest+Codex 3 round。検査官が
+  入口自身の入力クラスで fail-open 2 件を発見→是正)。V3= 同一 job で 起動→known-bad 不起動→復元。**next trigger= 実製造セルでの自動起動(user 裁定)**(2026-09-11 ECO-067 節)
   source: ECO-062
   evidence: 本節・ECO-062 order §1-3・§3 V1・calibrate.md「陽性対照」節(ECO-052)
 - [open] EXP-20260910-03 — **伝言ゲーム率**: 運転員が人間へ持ってくる裁定材料(issue / options / evidence)が order の原文と
@@ -6822,7 +6824,7 @@ OBS-20260910-01(既存形式の索引欠如)= 追加観測なし・1/3 維持。
   evidence: 本節・観測 2・ECO-062 order §8.1〜8.3・検査報告 r1(IA-03)/ r2(IA-06)/ r3(IA-08)
   **2 例目(2026-09-11・Phase 5 run-01・運転員= Codex)**: sandbox の `.git` 書込拒否で未追跡ファイルを含む作業木の tree が測定不能(P5-06・推定機序)+`pwsh -Command` が
   検証器の exit 2 を 1 に丸める(P5-07・再現済み)— 製造者環境では発火しない(2026-09-11 Phase 5 節)
-- [watch 1/3] OBS-20260910-04 — **観測: 検査設備(Codex)の経路障害が製造物と無関係に独立検査の往復を止める — companion 経路の既定モデル不可・runner プロトコル版不一致・
+- [watch 2/3] OBS-20260910-04 — **観測: 検査設備(Codex)の経路障害が製造物と無関係に独立検査の往復を止める — companion 経路の既定モデル不可・runner プロトコル版不一致・
   コンテンツフィルタによる報告遮断・resume の出力先欠如(同日 4 種)**。復旧経路は CLI 直接+stdin 正本委譲+`-o`。3 例目で factory-delegate の手順に「経路の選択と
   障害時の切替」を織り込むか判断(factory-delegate 正本化 ECO の入力)
   source: ECO-062
@@ -6892,7 +6894,7 @@ OBS-20260902-02 は昇格済み— 適用実測として記録。「探索の打
 EXP-20260910-02/03= Phase 5 待ち。OBS-20260910-03(環境差= 検出力)= 本弧では検査官環境の C14 不能が IA-05 として出たが製造物には当たらず— 件数据え置き(1/3)。
 OBS-20260910-04(検査設備の経路障害)= 本弧は CLI 直接経路で 5 round 障害なし(ハングは OS 側)— 据え置き(1/3)。
 
-- [watch 2/3] OBS-20260911-01 — **観測: 異系統独立検査に「境界探索の続き」を求めると round ごとに新しい入力クラスが出続け、ACCEPT は受理側が探索範囲を
+- [watch 3/3] OBS-20260911-01 — **観測: 異系統独立検査に「境界探索の続き」を求めると round ごとに新しい入力クラスが出続け、ACCEPT は受理側が探索範囲を
   限定して初めて得られる — 探索の打ち切りと未探索クラスの宣言は受理側の責務**(ECO-064: r1〜r4 で 12 クラス・r5 で限定して ACCEPT)。3 例目で
   「独立検査ブリーフに探索の上限(round 数または未探索クラスの宣言方式)を最初から書く」規則の要否を判断
   source: ECO-064
@@ -7077,3 +7079,38 @@ Phase 6(自動起動)では台帳を運転員が手書きせず、検証器の 1
 **期待効果の棚卸し**: EXP-20260910-02= **2 例目 fail-open 0/7・判断依存 0(人間)**を注記・open 維持・next trigger= Phase 6(自動起動)の初回 job。EXP-20260910-03= 2 例目
 (人間・座標なし 2/2・内容乖離 0/2)を注記・open 維持・next trigger= 台帳を機械回収する設計の後。EXP-20260911-01= REQUEST 7 通の観測を注記(handoff 数 累計 約 20・評価は次節で)。
 OBS-20260910-02(ECO-055 の乖離)= R7 で人間運転員も検出・裁定待ち据え置き。OBS-20260910-03= 据え置き(2/3)。
+
+## 2026-09-11 BomDD 自己適用 — ECO-067(Phase 6 第 1 弾・狭い自動起動の単一入口 bomdd-run)verified: 独立検査 3 round(fail-open 2 件を検査官が発見)・自動起動で witness 再検証が機構的に効いた初回実測
+
+**観測**(出典: [ECO-067 order](../bomdd/60-change-order-eco-067.md) §5〜§8、検査報告 [r1](../bomdd/reports/independent-inspection-eco-067.md)・[r2](../bomdd/reports/independent-inspection-eco-067-r2.md)・[r3](../bomdd/reports/independent-inspection-eco-067-r3.md)):
+1. **製造物**: `bomdd-run.py <ECO> [--cell CMD]`= job(in-process)→ receipt を ECO から機械導出 → `verify --eco` → 台帳を `.git/bomdd-run/` に機械回収(人間の手書き欄なし・P5-10)→
+   exit 0 AND 1 行目 `ADVANCE OK` AND job.stop_type NONE のときだけ cell をそのまま起動(承認は起動先)。停止種別→配送先の固定表(job 語彙 8+witness CODE 15・selftest が語彙との
+   1 対 1 を検査)。1 行表示 80 桁(P5-08)。
+2. **Phase 6 の出口(初回実測)**: V3= 同一 job で「無害な cell が ADVANCE で起動 → witness を known-bad に差し替えると起動しない → 復元で再び ADVANCE」を前後実測。以後の
+   fix/accept commit 3 本の遷移も `bomdd-run.py ECO-067`(dry)で通した(入口の実運用 4 回・逸脱 0)。**実製造セル(Codex/Claude)を cell に与える自動起動は未実施**。
+3. **独立検査(Codex・3 round)**: r1 REJECT 4 件のうち **fail-open 2 件**(ECO 値のパス区切りで receipt/台帳が所定ディレクトリ外へ出て起動・台帳書込不能でも先に起動)+
+   判定行の順序・80 桁の未被覆。r2= IA-02/03 是正確認・IA-01 残(オプション値と同じ文字列の余分引数の素通り)・IA-04 残(cell 自身の出力行)。r3 ACCEPT。
+   受理側で IA-04 残は NOT CONFIRMED(cell の stdout は起動先の出力・捕捉は R5「そのまま」と承認プロンプトの通過を壊す)— 仕様の文言を明確化。
+4. **製造者 selftest の自己捕捉**: 初回 3 件(80 桁超 ×2・配送先表の欠落)。しかし fail-open 2 件は selftest が覆っておらず、検査官の「入口自身の入力クラス」(ECO 文字列・台帳の
+   書込可否・出力順)の探索で出た— ECO-062/064/066 と同型の「製造者は仕様を自分の実装範囲で狭く読む」4 例目。
+
+**整理**: ①Phase 6 の中心命題「自動起動 job で witness 再検証が機械的に効く」は V3 で成立(無害 cell)。**入口の fail-open は receipt 側でなく入口自身の入力(ECO 文字列・台帳)から
+生じた**— 「STOP なのに起動」は起票時に予測した失敗型(§0.3)だが、経路は予測外(confinement と書込順序)。②検証器(ECO-066)と入口(ECO-067)の 2 段で、受理は「1 行目+終了
+コード+job 状態」の 3 条件 AND に機構化された— 運転員の判断依存は Phase 5 の 2 → 0(run-02)→ 入口では 0 が構造的(運転員が verify を打たない)。③cell の出力を入口が加工しない
+判断は、承認プロンプト(起動先ハーネス)を通すための R5 と表裏。IA-04 残の不採用はその帰結で、80 桁の契約は「入口自身が出す行」に限定した。④independent 検査 3 round は
+ECO-062(4)・064(5)・066(2)に続く 4 例目で、round 数は所見の性質(fail-open の有無)で決まり、範囲限定の宣言(OBS-20260911-01)で収束した。
+
+**一般化検査**: 「製造者 selftest は自分の読みの範囲しか覆わない」は 4 弧(062/064/066/067)で同型= 4 例。同一製造者・同一検査官系統のため、規則化は「新規 tool は異系統独立検査
+必須」(既に ECO-062 §4 裁定 3 で運用)以上に広げない。playbook 非改訂。「入口の fail-open は入口自身の入力から」は 1 例。
+
+**行き先判定**: 記帳+ECO-067 verified+ECO-062 §7 現在地= Phase 6 第 1 弾 verified(出口= V3 で初回実測・実製造セルの自動起動は未実施)。本文改訂なし。次の裁定(実製造セルでの
+自動起動 / Phase 7 の入口)は DECIDE で。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(known-bad 常設 selftest・痕跡ファイルで起動の有無を測る・前後実測)[ ] template [x] terminology
+(配送先の機械定義 next/human/factory/designer/process/ledger-owner/operator)[x] method/concept claim: 「慎重さは荷重を負わない」= supported(3 条件 AND・起動前に台帳・判定行を
+起動前に)/ 「測定不能は合格ではない」= supported(台帳書込不能は起動せず exit 2)/ 「環境差は検出力」(OBS-20260910-03)= 本弧は入力クラスで環境差ではない・据え置き。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: EXP-20260910-02= **3 例目: 入口(bomdd-run)で known-bad 7 腕+job 停止+測定不能 3 で起動 0/11・fail-open 0(selftest+検査官 3 round)**を注記・
+open 維持・next trigger= 実製造セルでの自動起動(user 裁定)。EXP-20260910-01= 本弧は入口が job を読む(明示起動の機械化)— required_skills を入口が起動先へ渡す設計は未着手・
+据え置き。OBS-20260911-01(探索の打ち切りは受理側)= r2/r3 の範囲限定で 3 例目 → **3/3 到達**(規則化の判断は次回還元で: 「範囲限定の宣言を検査ブリーフの定型にする」候補)。
+OBS-20260910-04(検査設備の経路障害)= r1 で CI 参照が実行基盤のネットワーク制約で不能(検査官申告)・2/3 へ。

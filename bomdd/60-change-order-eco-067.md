@@ -1,4 +1,4 @@
-# Change Order — ECO-067(Phase 6 第 1 弾: 狭い自動起動の単一入口 `bomdd-run` — job → receipt 再検証 → 台帳の機械回収 → ADVANCE のときだけ製造セルを起動〔起票のみ〕)
+# Change Order — ECO-067(Phase 6 第 1 弾: 狭い自動起動の単一入口 `bomdd-run` — job → receipt 再検証 → 台帳の機械回収 → ADVANCE のときだけ製造セルを起動〔verified〕)
 
 > 裁定: user 2026-09-11 DECIDE「A」— Phase 5 の出口(fail-open 0/7 ×2・運転員 2 種・判断依存 0)を満たしたと見なし **Phase 6 を開く**。設計入力に P5-10(台帳を運転員が
 > 手書きせず検証器の 1 行目を機械回収)と P5-08(1 行目の短縮)を含める。出典= [ECO-062 order](60-change-order-eco-062.md) §7 Phase 6・§10.6、
@@ -171,3 +171,58 @@ run 台帳を正本にする(正本は register / order のまま)。
 
 - 回帰: 9 腕・正常腕・環境変数・一時 JSON の後片付け・cell 文字列の一致・配送表の被覆(差集合 [] ×2)・非接触 diff 0・作業木非汚染= すべて維持。
 - 検査官の較正判定は「不適格(残存 IA-01・IA-04)」。受理側は IA-01 残を製造物帰属で受理、IA-04 残は仕様側の読みの相違として不採用(理由は上表)。r3 は IA-01 残の是正確認+回帰に範囲限定。
+
+### 7.3 r3(2026-09-11・対象 commit `f4a2b5d`・範囲= IA-01 残の是正確認+回帰)= **ACCEPT** — 報告: [independent-inspection-eco-067-r3.md](reports/independent-inspection-eco-067-r3.md)
+
+- IA-01 残: `--cell C C`・`--ledger L L`・`--ledger L --ledger L` はいずれも ARG_ERROR exit 2・起動なし・台帳なし。正常腕は起動(events decision/cell)。
+- 回帰 9 腕(receipt 5・job 停止・witness/register/git 不在)で起動痕跡なし。IA-02(台帳ディレクトリ・排他ロック)・IA-03(出力順・3 条件の独立故障注入)の是正維持。
+  環境変数・一時 JSON の後片付け・cell 文字列の一致・配送表被覆(対称差 [] ×2)・`--selftest` exit 0・非接触 diff 0・作業木非汚染。新規所見 0。
+- 受理側判定: **ACCEPT を採用**。検査官の較正判定= observed・適格。
+
+## 8. クローズ(2026-09-11・verified)
+
+- **witness 遷移**: 本 §8 と台帳の記入後に self-conformance を再実行(exit 0)→ `bomdd-witness.py produce --eco ECO-067` → **`bomdd-run.py ECO-067`(dry)= ADVANCE** → accept commit
+  (fix 以降の遷移 4 回はすべて入口経由・逸脱 0)。
+- **V1**= PASS(selftest 24 腕・自己捕捉 3 件+r1/r2 由来の腕 12 を追加)/ **V2**= PASS(実 ECO dry・台帳機械回収)/ **V3**= PASS(Phase 6 出口の初回実測: 同一 job で 起動 → known-bad で
+  不起動 → 復元・§6。**実製造セルを cell に与える自動起動は未実施**)/ **V4**= PASS(CI 34576732800・34579198802・34580669303 success)/ **V5**= PASS(Codex r1 REJECT 4 → r1b → r2 REJECT 2 →
+  r1c → r3 ACCEPT)/ **V6**= PASS(本ツール自身の行は 80 桁以内・cell の行は対象外= §7.2)。
+- diff 監査の窓: baseline `49e3a99` → head `f4a2b5d`(**窓閉鎖**)。窓内= `bomdd-run.py`(+459・新規)+台帳系+検査報告 r1/r2(r3 は本 commit で追加・allowed_paths を同一 commit で更新)。
+  `bomdd-job.py`・`bomdd-witness.py`・`self-conformance.py`・hooks・templates・.github の diff= 0 — 影響なし予測は的中。
+- register: `implemented → verified`・head 凍結。
+- Phase 6 への帰結(ECO-062 §7 へ反映): 出口条件「自動起動 job で witness 再検証が機械的に効いた実測」は V3(無害 cell)で **初回成立**。実製造セルでの自動起動と Phase 7 の入口は user 裁定。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格+③: 計器〔bomdd-run.py〕の新設。job の required_skills= [calibrate, preflight] に応答)
+
+- 査定した主張と判定:
+  1. 「3 条件 AND が成立したときだけ起動する」— **observed / 適格**(selftest 痕跡ファイル・検査官 3 round の独立 fixture・3 条件の独立故障注入〔r2/r3〕)。
+  2. 「receipt は ECO から機械導出され任意パスを受けない・所定ディレクトリ外へ出ない」— **observed / 適格**(r1 で逸脱を発見 → r1b で構文検証+confinement → r2/r3 で確認。
+     シンボリックリンクは検査官が権限不足で未測定・宣言)。
+  3. 「台帳へ書けなければ起動しない・起動の事実は台帳に残る」— **observed / 適格**(r1 で逆順を発見 → r1b で起動前に追記 → r2/r3 でディレクトリ・排他ロックの 2 腕)。
+  4. 「1 行目は常に decision で始まる」— **observed / 適格**(r1 で cell 出力の先行を発見 → r1b → r2/r3 で順序確認)。
+  5. 「本ツール自身の行は 80 桁以内」— **observed / 適格**(全経路・selftest 報告行を含む)。cell の行は対象外(仕様の明確化・§7.2)。
+  6. 「終了コード 0/1/2 の意味」— **observed / 適格**(9 腕+正常腕+引数不正 10)。
+  7. 「既存ツール非接触」— **observed / 適格**(窓全体 diff 0・検査官の実読)。
+  8. 「自動起動 job で witness 再検証が機構的に効く」— **observed / 条件付き適格**(無害 cell・製造者環境・N=1 job。実製造セルの起動・承認プロンプトの通過は未測定)。
+  9. 「Phase 6 の出口を満たした」— **unknown(裁定事項)**: 出口の文言は満たすが、実製造セルでの自動起動が未実施。
+- 検出した計器欠陥(帰属つき): 製造物 5 件(r1 IA-01〜04・r2 IA-01 残・すべて製造者 selftest の未被覆= 製造物帰属)。うち fail-open 2 件は入口自身の入力クラス(ECO 文字列・台帳)。
+  受理側 1 件(§3 V6「全経路 80 桁」の文言が cell 出力を含むと読める曖昧さ・§7.2 で明確化・受理側帰属)。製造者の影響なし予測は的中(under-inclusion 0)。
+- 検出力の限界: シンボリックリンク経由の confinement 迂回は未測定。実製造セル(承認プロンプトあり)の起動は未測定。cell の出力は本ツールが読まない(責務外)。
+  selftest は製造者が書いた計器で、独立性は検査官の別 fixture 再実測(3 round)の範囲まで。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | 製造物の自己記述(R1〜R8)を selftest+検査官の独立 fixture で実測 |
+  | Q2 | asked | observed/適格 | 実測 | known-good(起動)と known-bad 11 腕(不起動)を痕跡ファイルで対置 |
+  | Q3 | asked | observed/適格 | 実測 | 同一 job で 起動 → known-bad → 復元 の前後実測(V3) |
+  | Q4 | asked | observed/適格 | 実測 | 実 git・実 witness・実 subprocess(cell)を入力。検査官は排他ロック・ディレクトリで実障害を作った |
+  | Q5 | asked | observed/適格 | 実測 | 未実測(シンボリックリンク・実製造セル・承認プロンプト)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → **入口 dry ADVANCE** → commit → push → CI 照合 ×3 |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= selftest(毎回)+検査官 r1〜r3 |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | run 台帳(.git/bomdd-run/ECO-067.jsonl・10 行)・witness・register・commit・検査報告 3 本 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 8/9 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= ECO 文字列(構文・区切り・親参照)/ 引数の組合せ(重複・同値・未知)/ 台帳の書込可否 / receipt 5 種 / job 状態 / git・register 不在 / cell の出力 |
+
+- このクローズが支持しないもの: 実製造セル(Codex/Claude)の自動起動と承認プロンプトの通過 / 複数 job・複数 executor(Phase 7)/ ruling の取り込み / シンボリックリンクの confinement /
+  cell の出力の意味 / Phase 6 の出口を「満たした」と見なすか(user 裁定)。
