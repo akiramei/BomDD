@@ -2467,3 +2467,23 @@ changes:
       V3 CI・窓 / V4 製造者較正のみ(当方案・局所変更)。
       **受入(2026-09-11)**: V1 PASS(外部プローブ 8 腕・temp 不能は子プロセス内 tempfile.tempdir 固定)/ V2 PASS(入口 bomdd-run 経由の実 cell で 3 selftest= 1 行 UNMEASURABLE・traceback なし・
       cell の見た exit は 1= P5-07 再演)/ V3 self-conformance・CI 34597450715 / V4 製造者較正のみ。較正 receipt(trigger ①③・行別 asked/NA)は order §7。
+  - id: ECO-069
+    title: 織り込み案 B — factory-delegate 工程 5 と 60-change-order の検査官行に「round の目的(range)」と「実行環境の差」を追加(playbook §3 独立検査規則の配布側・commit f3974c9 の写し)
+    date: 2026-09-11
+    origin: improvement
+    status: implemented   # 2026-09-11 user DECIDE「B→C」。起票+製造を同一 commit(文書のみ・ECO-063 の型)・製造者較正のみ・verified は CI 後の accept commit で
+    source: >
+      2026-09-11 還元節(OBS-20260911-01・OBS-20260910-03 の 3/3 昇格)で playbook §3 に織り込んだ 2 規則が配布物(templates)に未反映。factory-delegate 工程 5 の観点と
+      60-change-order の検査官行に range・実行環境の欄がなく、製品リポの委譲では欄が書かれない(ECO-063 §0 の再発見型)。templates は規律 1 により ECO で扱う。
+    order_ref: bomdd/60-change-order-eco-069.md
+    affected_refs: [method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/templates/60-change-order.md]
+    no_impact_prediction: "(製造前・凍結)3 文書+台帳系のみ。C7 スキル本数不変・C13 追加文にリンクなし・kit 鮮度は advisory・tools/hooks/.github diff 0・製品リポは次回 kit 再設置から"
+    diff_audit:
+      baseline: "764957c"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/templates/60-change-order.md, bomdd/60-change-order-eco-069.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]
+    summary: >
+      ①factory-delegate 工程 5 に「round の目的(range)を受理側が宣言する」「実行環境の差を設計項目にする」の 2 項(playbook §3 参照つき)②写しへ同文③60-change-order の検査官行に
+      range・実行環境の 2 欄。採らない= playbook 再改訂・検査ブリーフの独立テンプレート・bomdd-init/README 変更。
+    verification: >
+      V1 正本 vs 写しの diff は ECO-063 の既知 2 hunk のみ / V2 検査官行 / V3 self-conformance・CI / V4 製造者較正のみ。実測は order §4〜5。
