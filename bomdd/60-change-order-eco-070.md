@@ -1,4 +1,4 @@
-# Change Order — ECO-070(handoff 契約 v0.3: 試行評価の 5 点+待機形を織り込み、AGENTS.md から参照〔起票+製造・製造者較正〕)
+# Change Order — ECO-070(handoff 契約 v0.3: 試行評価の 5 点+待機形を織り込み、AGENTS.md から参照〔verified〕)
 
 > 裁定: user 2026-09-12 DECIDE「A」(採用)+「5 点を v0.3 に織り込んで起票して」— handoff プロトコル(`.claude/skills/handoff/SKILL.md`・2026-09-11 運用開始・ECO なし)の
 > 試行 EXP-20260911-01 を評価した結果、採用。当方が自己出力に見つけた改善 5 点と、評価で露出した待機通知の扱いを契約 v0.3 に織り込み、第三者(別セッション)が
@@ -60,6 +60,39 @@ worklist: EXP-20260911-01 の状態遷移 1・新規 open 1・警告 0。
   improvements.md。
 - **V1**= PASS(grep: `Valid combinations` 1・`fill-in form` 1・`wait form` 1・`F5 待機形` 1・`送信停止` 2〔v0.3 注記+§2.4〕)/ **V2**= C12 PASS(§5)/ **V3**= §5。
 
-## 5. 受入完了の記入予定(accept commit で書き換え)
+## 5. クローズ(2026-09-12・verified・製造者較正のみ)
 
-- (accept commit で記入: V3 の self-conformance・CI・窓閉鎖)
+- **V3**= PASS(self-conformance 全 PASS・CI run 34618524024〔起票+fix aa70b65〕success)。diff 監査の窓: baseline `a5700e9` → head `aa70b65`(**窓閉鎖**)。窓内= 3 文書+台帳系のみ。
+- **V2**= C12 PASS(AGENTS.md の相対リンク 14 件すべて実在・追加 1 件を含む)。
+- register: `implemented → verified`・head 凍結。製造者較正のみ。契約 v0.3 は本 commit 以降の全 handoff に適用(EXP-20260912-01 の計測開始)。
+- 製造中の実測(正直記載): 起票+fix 段の self-conformance 1 回目は **C13 FAIL**(improvements.md → 新規 order へのリンクが「不在」— 新規ファイルを stage する前に
+  実行したため。C13 は追跡ファイルに対して照合する)。stage 後の 2 回目で全 PASS(exit 0 観測)→ witness → 入口 dry ADVANCE → commit。ECO-069 の入口 STOP と同じく
+  受理側の手順欠陥で、製造物の欠陥ではない。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格。文書のみの変更)
+
+- 査定した主張と判定:
+  1. 「契約 §1 に許容表・必須要素追記・待機形がある」— **observed / 適格**(grep 6 件・V1)。
+  2. 「AGENTS.md から契約に到達できる」— **observed / 適格**(C12 が追加リンクの実在を検査・14 件 PASS)。到達性の実効(別セッションが読むか)は **unknown(未測定)**。
+  3. 「試行評価の数値(67・12/12・訂正 1・追加 5 往復・38/67)」— **observed / 適格**(transcript を機械集計・スクリプトは scratchpad・非正本)。
+     「再分析往復 3 → 0」は当方の読解による分類(同一セッション・学習効果と未分離)= **読解**。
+  4. 「v0.3 が v0.2 の欠陥を消す」— **unknown(未測定・EXP-20260912-01)**。
+- 検出した計器欠陥(帰属つき): 製造物 0 件。受理側 2 件= ①評価 DECIDE の「許容表がない」は不正確(§2.3 H2 は存在・order §0 で訂正)②C13 を stage 前に実行(手順)。
+- 検出力の限界: 効果の主張はすべて 1 セッション・同一 user の示唆。第三者到達性は入口の存在までしか示せない。独立検査なし(製造者較正のみ)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | grep 6 件・C12 14 件 |
+  | Q2 | asked | NA 相当 | — | 文書変更に known-bad 対照なし(宣言) |
+  | Q3 | asked | observed/適格 | 実測 | 変更前(AGENTS.md 参照 0)→ 変更後(1 段落+1 行) |
+  | Q4 | asked | 読解 | 読解 | 評価数値は機械集計・再分析往復の分類は読解 |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(到達性の実効・v0.3 の効果)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測(FAIL→stage→PASS)→ witness → 入口 dry → commit → push → CI |
+  | Q7 | asked | NA | — | 陽性対照なし(文書) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness・register・commit・run 台帳(ECO-070.jsonl) |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 契約/入口/記帳の 3 文書・評価の限定子(同一セッション) |
+
+- このクローズが支持しないもの: v0.3 の効果(EXP-20260912-01)/ 別セッション・別ハーネスでの到達と順守 / product-profile 配布(別 ECO)。

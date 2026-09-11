@@ -7256,6 +7256,8 @@ verified 遷移の commit で書く」が運用規則として成立する(1 例
 [x] terminology(待機形・許容表)[x] method/concept claim: 「散文契約は順守の証拠にならない」(§9)= supported(順守側も設置の証拠にならない・別セッション実測)/
 「指示ではなく事実・境界で答え合わせ」= supported(裁定 12/12 が記号返答)。contradicted / superseded: なし。
 **期待効果の棚卸し**: EXP-20260911-01 を回収(上記・行内遷移)。新規 EXP-20260912-01(下記)。他の open/watch への影響なし。
+**受入(2026-09-12)**: ECO-070 verified(起票+fix aa70b65・CI 34618524024 success・窓閉鎖・製造者較正のみ)。受理側の実測: 起票+fix 段の self-conformance 1 回目は新規 order を stage する前に
+実行したため C13 FAIL(追跡ファイルに対する照合)→ stage 後 PASS。
 
 - [open] EXP-20260912-01 — **handoff 契約 v0.3 は v0.2 の欠陥 4 類を消すか**: 次の handoff 20 回(DECIDE 5 回以上)で ①許容表外ヘッダ 0 ②structural FAIL 申告つき送信 0
   ③REQUEST の成果物回収に要した追加往復(v0.2 基準線 5)④DECIDE で人間が非推奨案の理由・部分採択の可否を再質問した回数(基準線: 感想 1)⑤待機形の本文 2 行以内の比率。

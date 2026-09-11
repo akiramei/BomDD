@@ -2491,7 +2491,7 @@ changes:
     title: handoff 契約 v0.3 — 試行評価(EXP-20260911-01・handoff 67)の 5 点+待機形を契約に織り込み、AGENTS.md から参照(user 裁定 A= 採用)
     date: 2026-09-12
     origin: improvement
-    status: implemented   # 2026-09-12 user DECIDE「A」+「5 点を v0.3 に織り込んで起票して」。起票+製造を同一 commit(文書のみ・ECO-063/069 の型)・製造者較正のみ・verified は CI 後の accept commit で
+    status: verified   # 2026-09-12 user DECIDE「A」+「5 点を v0.3 に織り込んで起票して」。起票+製造を同一 commit aa70b65(文書のみ・ECO-063/069 の型)→ CI 34618524024 success → verified(製造者較正のみ・窓閉鎖 a5700e9→aa70b65)。契約 v0.3 の計測= EXP-20260912-01
     source: >
       handoff プロトコル(2026-09-11・ECO なし・.claude/skills/handoff)の試行評価: handoff 67・DECIDE 12/12 が reply_format どおり・再分析往復 0(運用前 3)・mode 訂正 1・
       REQUEST 回収に追加 5 往復・INFORM/BLOCKED を FAIL 申告のまま 3 通送信・待機通知 38/67。別セッションが契約を「知らない」= AGENTS.md 等からの参照 0。
@@ -2500,7 +2500,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)3 文書+台帳系のみ。C12 は追加リンク先が実在・C7 不変(handoff は SKILLS 外)・tools/templates/hooks/.github diff 0・worklist 警告 0"
     diff_audit:
       baseline: "a5700e9"  # 起票直前 HEAD
-      head: ~
+      head: "aa70b65"      # diff監査済み: 窓内= 3 文書+台帳系のみ・予測的中
       allowed_paths: [.claude/skills/handoff/SKILL.md, AGENTS.md, method/improvements.md, bomdd/60-change-order-eco-070.md, bomdd/60-change-register.yaml]
     summary: >
       ①契約 §1 にヘッダ組合せの許容表と「structural FAIL は送信停止」②DECIDE の options に得る/失う/戻せるか+非推奨案が劣る理由+独立項目の分番③REQUEST の deliverable を
