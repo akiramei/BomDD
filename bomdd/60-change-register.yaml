@@ -2409,3 +2409,28 @@ changes:
       **製造者受入(4068029)**: V1 selftest PASS / V2 run-01 治具 r3= IDENTITY_MISMATCH・他 TREE_MISMATCH(40 桁+位置)・r3 の --eco なし= IDENTITY_UNCHECKED 2 / V3 hooks・job・self-conformance diff 0+全 PASS /
       V4 CI 34560468428 success / V6 pwsh で exit は 1 に丸められるが 1 行目で 3 値が読める(再現)。**独立検査 r1(Codex・2026-09-11)= REJECT・IA-01〜04 4/4 CONFIRMED**(order §7.1)— 是正 r1b。**r2(範囲= 是正確認+回帰)= ACCEPT・新規所見 0**(§7.2)。
       較正 receipt(trigger ①③・行別 asked/NA)は order §8 — WRITE_TREE_FAILED の実障害・実 git の非 UTF-8・運転員環境での 1 行目可読性は unknown(run-02 で)。
+  - id: ECO-067
+    title: Phase 6 第 1 弾 — 狭い自動起動の単一入口 bomdd-run(job → receipt 再検証〔ECO から機械導出・--eco 束縛〕→ run 台帳の機械回収〔.git/bomdd-run・人間の手書き欄なし〕→ 1 行目+exit+job.stop_type の 3 条件 AND で ADVANCE のときだけ製造セルを起動・承認は迂回しない・停止種別→配送先の固定表)
+    date: 2026-09-11
+    origin: improvement
+    status: filed   # 2026-09-11 user DECIDE「A」(Phase 6 を開く・Phase 5 出口= fail-open 0/7 ×2・運転員 2 種・判断依存 0)。起票のみ・製造裁定待ち。起票工程は job 経由(required [calibrate, preflight]・missing [calibrate])
+    source: >
+      ECO-062 §7 Phase 6・§10.6(run-01/02 の結果)・run 台帳 run-02 §4(P5-08 40 桁 ×2 の折り返し・P5-09 人間運転員は規格を守らない・P5-10 CODE 転写誤り)。
+      Phase 5 は運転員が verify を手で回した。Phase 6 は入口が verify を回し ADVANCE のときだけ次工程を起動する(狭い= 1 job・1 起動先・コマンド単位の承認維持)。
+      入口が起こしうる失敗型= 入口が job と receipt を誤って束ねる(R3 型)・STOP なのに起動する(fail-open の入口版)— いずれも Phase 5 で実測した型の延長。
+    order_ref: bomdd/60-change-order-eco-067.md
+    affected_refs: [method/tools/bomdd-run.py]   # 候補(新規)・製造裁定時に凍結
+    no_impact_prediction: "(起票段階)diff は台帳系(order・register・ECO-062 order §7 現在地・improvements.md)のみ。製造時(候補): 新規 bomdd-run.py のみ・C1〜C18 判定不変(新規 .py は検査対象集合外・kit 非含有)・pre-push witness 不変・bomdd-job.py/bomdd-witness.py diff 0・製品リポ非波及"
+    diff_audit:
+      baseline: "49e3a99"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [method/tools/bomdd-run.py, bomdd/60-change-order-eco-067.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-067.md]   # 起票段階。製造裁定で再凍結
+    summary: >
+      ①bomdd-run.py <ECO> [--cell CMD] [--ledger PATH]: job ビュー取得(stop_type≠NONE は起動せず)→ receipt を ECO から機械導出して verify --eco → 台帳 1 行を
+      .git/bomdd-run/<ECO>.jsonl に機械回収(verifier_line そのまま)→ 起動条件= exit 0 AND 1 行目 ADVANCE OK AND job.stop_type NONE のときだけ --cell をそのまま起動
+      (環境 BOMDD_JOB/BOMDD_JOB_JSON/BOMDD_WITNESS・承認は起動先)・--cell なしは dry・標準出力は短い 1 行(P5-08)・終了 0/1/2・--selftest で known-bad 常設(§1-3)
+      ②停止種別→配送先の固定表(機械定義の初版)③既存ツール非接触。採らない= 承認迂回・キュー/複数 executor(Phase 7)・ruling 取り込み・台帳の作業木内配置・起動先出力の解釈・
+      witness 側の 1 行目短縮・run 台帳の正本化。
+    verification: >
+      (起票段階)製造時の受入候補は order §3 — V1 selftest で known-good は起動し known-bad 5+2 腕は起動しない(痕跡ファイル)/ V2 実 ECO の dry で台帳 1 行が機械回収 /
+      V3 実 ECO で無害な cell を ADVANCE で起動・known-bad 差し替えで起動しない(Phase 6 の出口)/ V4 CI・窓 / V5 異系統独立検査 Codex 必須 / V6 標準出力 1 行が 80 桁以内。

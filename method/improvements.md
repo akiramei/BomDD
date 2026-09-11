@@ -6743,6 +6743,7 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
   **ECO-066 verified(2026-09-11)**: R3 型(別 job の receipt)は CLI の個体未照合= 測定不能で機構停止に。**next trigger= run-02(運転員変更・user 裁定)**(2026-09-11 ECO-066 節)
   **2 例目(2026-09-11・run-02・運転員= 人間・盲検 9 腕)**: fail-open **0/7**・特異度 2/2・**判断依存 0**(R3 は機構・R9 dirty 腕を実 tree 不一致で実測)。run-01 の blocker 2 件解消。
   **next trigger= Phase 6(自動起動)の初回 job**(2026-09-11 run-02 節)
+  **裁定(2026-09-11・user DECIDE A)**: Phase 6 を開く → ECO-067(単一入口 bomdd-run・起票のみ)。**next trigger= ECO-067 の V3(自動起動の初回実測)**
   source: ECO-062
   evidence: 本節・ECO-062 order §1-3・§3 V1・calibrate.md「陽性対照」節(ECO-052)
 - [open] EXP-20260910-03 — **伝言ゲーム率**: 運転員が人間へ持ってくる裁定材料(issue / options / evidence)が order の原文と

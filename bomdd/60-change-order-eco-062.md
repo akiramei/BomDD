@@ -438,7 +438,7 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 5 継続(user DECIDE 2026-09-11 `1:C 2:A`: Phase 6 保留 → 検証器の是正 **ECO-066**〔理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離・範囲= 検証器のみ〕を先に閉じる → verified 後に運転員を変えた run-02〔同一治具・ブリーフ v2= P5-04/07 の手順側〕)。**現在地= run-02 済(2026-09-11・運転員= 人間・fail-open 0/7・判断依存 0・dirty 腕を実測・§10.6)→ Phase 6 入口の可否= user 裁定(DECIDE)**。run-01 の blocker 2 件は解消・残る限界= N=2・人間 1 名・V3 未測定。run-01 の結果は §10(fail-open 0/7 だが R3・run-02 は運転員の判断依存= qualification blocker)。付随裁定待ち= ECO-055 の register status(別 DECIDE・裁定材料= run 台帳 §3)。`
+`Phase 5 継続(user DECIDE 2026-09-11 `1:C 2:A`: Phase 6 保留 → 検証器の是正 **ECO-066**〔理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離・範囲= 検証器のみ〕を先に閉じる → verified 後に運転員を変えた run-02〔同一治具・ブリーフ v2= P5-04/07 の手順側〕)。**現在地= Phase 6 開始(user DECIDE「A」2026-09-11・Phase 5 出口= fail-open 0/7 ×2・運転員 2 種・判断依存 0)→ ECO-067〔狭い自動起動の単一入口 bomdd-run〕起票済・製造裁定待ち**。Phase 5 の残る限界= N=2・人間 1 名・V3 未測定(§10.6)。run-01 の結果は §10(fail-open 0/7 だが R3・run-02 は運転員の判断依存= qualification blocker)。付随裁定待ち= ECO-055 の register status(別 DECIDE・裁定材料= run 台帳 §3)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -451,9 +451,9 @@ Phase 3 製造 第 1 弾(job 射影+witness)─── 完了 2026-09-10(r4 ACCEP
         ▼
 Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)─── 完了 2026-09-11(3/3 本)
         ▼
-Phase 5 外部運転員 導入試験(自動実行なし)◀━━ ★ 現在地= run-01(Codex)・ECO-066・run-02(人間)済 — fail-open 0/7 ×2・判断依存 0 → Phase 6 入口の可否は user 裁定
+Phase 5 外部運転員 導入試験(自動実行なし)─── 完了 2026-09-11(run-01 Codex・ECO-066・run-02 人間 — fail-open 0/7 ×2・判断依存 0・user 裁定 A で出口)
         ▼
-Phase 6 狭い自動起動入口
+Phase 6 狭い自動起動入口 ◀━━ ★ 現在地= ECO-067 起票済・製造裁定待ち
         ▼
 Phase 7 複数 executor・裁定キュー
 ```
@@ -465,8 +465,8 @@ Phase 7 複数 executor・裁定キュー
 | 2 手動リハーサル | Phase 0 完了(1 と並行可) | 手書き job ビュー 1 枚(題材= in-progress の ECO-055)・手書き witness 1 枚・known-bad 予行(人間運転員・tree hash 故意不一致)の記録 | 書けなかった欄が §1 の仕様欠落として列挙される | 済 2026-09-10(§5.4)・user 確認待ち |
 | 3 製造 第 1 弾 | Phase 1 decided+Phase 2 の欄一覧 | job 射影ツール(read-only・worklist.py 同型)・witness 生成/検証器・(別 ECO なら)factory-delegate 正本化 | §3 V4(self-conformance・CI・diff 窓)+異系統独立検査 PASS → `verified` | 済 2026-09-10(r1〜r3 REJECT 8 件是正・r4 ACCEPT・§9) |
 | 4 単独運用実測 | Phase 3 verified | job 経由で起動した ECO 2〜3 本の receipt 記録 | EXP-20260910-01 の初回値(非起動 0 か・対照の有無)が記帳される | 済 2026-09-11(3/3 本・初回値= 自発 3/3〔063〕・測定器〔064〕・明示 2/2〔065〕・対照なし・improvements.md 2026-09-10/11 節) |
-| 5 外部運転員試験 | Phase 4 の記帳+§0.1 の運転員仕様 4 点(unknown)の裏取り | run 台帳(非正本)・裁定材料の提示記録・known-bad 対照腕の結果 | EXP-20260910-02 fail-open 0・EXP-20260910-03 伝言ゲーム率の基準線 | user(run-01 済 2026-09-11・§10: 4 点 4/4 confirmed・fail-open 0/7・基準線 0/4・N=1・運転員= Codex。出口を N=1 で満たしたと見なすかは user) |
-| 6 狭い自動起動 | Phase 5 で fail-open 0 | 単一入口(`bomdd-run <job>` 相当・コマンド単位の承認は維持) | 自動起動 job で witness 再検証が機械的に効いた実測 | user |
+| 5 外部運転員試験 | Phase 4 の記帳+§0.1 の運転員仕様 4 点(unknown)の裏取り | run 台帳(非正本)・裁定材料の提示記録・known-bad 対照腕の結果 | EXP-20260910-02 fail-open 0・EXP-20260910-03 伝言ゲーム率の基準線 | 済 2026-09-11(run-01 Codex・ECO-066・run-02 人間: fail-open 0/7 ×2・判断依存 0・基準線 AI 0/4 / 人間 座標なし 2/2・§10・§10.6・user 裁定 A で出口) |
+| 6 狭い自動起動 | Phase 5 で fail-open 0 | 単一入口(`bomdd-run <job>` 相当・コマンド単位の承認は維持) | 自動起動 job で witness 再検証が機械的に効いた実測 | user(ECO-067 起票 2026-09-11・製造裁定待ち) |
 | 7 複数 executor | Phase 6+設備認定台帳の属性化 | stop_type→配送先の機械定義(§0.5 の 5 種)・独立性判定の機械化(§1-5) | 独立検査として成立しない組合せを機械が弾いた実測 1 例 | user |
 
 **Phase 1 で決める 3 点(開かないと Phase 3 に進めない)**:
