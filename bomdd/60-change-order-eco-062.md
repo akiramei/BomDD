@@ -541,6 +541,7 @@ Phase の追加・分割は本節の行内書き換えで行い、変更理由�
 - **主張しないこと**: 運転員一般で fail-open 0 / Codex の有用性 / V3 / 裁定材料の網羅。**次の run の条件**= 運転員を変える(人間 or 別モデル)+同一治具+P5-01/02 の
   是正前後で R3 の識別が機構化されるかの比較。Phase 6 へ進むかは user 裁定(§7「Phase 6 は Phase 5 の fail-open 0 を条件とする」— N=1 で満たしたと見なすかを含む)。
 - ECO-055 の裁定材料(R7・原文座標つき)は上記 run 台帳 §3 — **user の裁定待ち**(OBS-20260910-02)。
+  **裁定(2026-09-11・user DECIDE A)**: register を verified に遷移(head c692c3c・遷移忘れの是正)。§5.1 F0 は解消・job 射影 ECO-055= NONE。
 
 ### 10.6 run-02(2026-09-11・運転員= 人間〔user・DECIDE 裁定 A〕・ECO-066 verified 後)— 詳細= [run 台帳 run-02](reports/phase5-run-02-eco-062.md)
 

@@ -2050,7 +2050,7 @@ changes:
     title: 52-metrics 棚卸しの帰結 — 計器/ログの整理(1-A/2-A/3-A/4-A の束)
     date: 2026-09-03
     origin: improvement
-    status: in-progress   # 2026-09-03 user「ECO-055 の製造まで進めて」で着手(起票時は filed)— fix 済み・V4(CI)待ち
+    status: verified   # 2026-09-03 クローズ(order §6・V1〜V5 PASS・CI success)。register の遷移忘れ(in-progress のまま 8 日)を 2026-09-11 user DECIDE「A」で是正 — Phase 5 run-01/02 の R7 裁定材料(job 射影 LEDGER_INCONSISTENT)の帰結。独立検査 REJECT 8/8 は ECO-056(verified)で是正済み・verified は起票時凍結基準の判定(ECO-041 意味論)
     source: >
       52-metrics 全列棚卸し(bomdd/reports/52-metrics-inventory-2026-09-02.md・修正なしの独立単位)の
       裁定点 4 件を /converge(自発・round 4→1→0・未収束→打ち切り採用)で整理した帰結。round 1 で
@@ -2062,7 +2062,7 @@ changes:
     no_impact_prediction: "(製造前)52-metrics を読む治具は stage0-survey のみで読取列は変更列外 → 治具判定不変。製品リポの既存記録は非接触・テンプレ変更は次回 scaffold から(既存 kit は bomdd.lock 凍結・STALE は advisory)。playbook は §5.2/§11 の追記のみで他節 diff ゼロ"
     diff_audit:
       baseline: "c515318"  # 起票時 HEAD(製造着手時に再確認)
-      head: ~
+      head: "c692c3c"      # order §6 の diff 監査(2026-09-03): 窓内= 52-metrics.yaml / playbook / improvements / order / register・under-inclusion 0・不要改変 0。2026-09-11 に register へ転記(遷移忘れの是正)
       allowed_paths: [method/templates/52-metrics.yaml, method/bomdd-playbook-v1.md, method/improvements.md]
     summary: >
       ①1-A: user_rulings 削除(転写値)・raw_match は分解 3 列の検算用と明記 ②2-A: specified_contract_miss の
@@ -2077,6 +2077,8 @@ changes:
       independent-inspection-eco-055.md)— verified は起票時凍結の受入基準に対する判定として維持
       (ECO-041 意味論)。影響なし予測の「stage0 読取列」は帳簿代用と判明(under-inclusion 訂正:
       実 consumer 0)。是正= ECO-056。
+      **2026-09-11 遷移是正(user DECIDE A)**: order §6 のクローズ(2026-09-03・verified・V1〜V5 PASS・較正 receipt §4)を register に反映。8 日間 in-progress のまま
+      だった乖離は Phase 5 の job 射影(LEDGER_INCONSISTENT)が検出し、run-01(Codex)/run-02(人間)の R7 裁定材料で user へ提示された(OBS-20260910-02 の実例)。
   - id: ECO-056
     title: ECO-055 独立検査所見 IA-01〜08 の是正 — 二重正本・検算規則・散文契約・引用座標
     date: 2026-09-03

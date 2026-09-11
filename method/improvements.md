@@ -6776,6 +6776,7 @@ fail-open**・worktree write-tree 比較(C18 と同一定義)で STOP — 第 1 
   2 正本間の状態乖離 — 別型として数える。3 例で「クローズ節の記入と status 遷移を同一 commit に束ねる機械検査(C3 の対象拡張)」の要否を判断
   source: ECO-062
   evidence: 本節・ECO-062 order §5.1 F0・register ECO-055 status 行・order ECO-055 §6
+  **解消(2026-09-11・user DECIDE A)**: ECO-055 の register を verified へ遷移(遷移忘れ 8 日)。検出= job 射影 LEDGER_INCONSISTENT・提示= Phase 5 R7 裁定材料 ×2(Codex・人間)。観測件数は据え置き(1/3)
 
 ## 2026-09-10 BomDD 自己適用 — ECO-062 第 1 弾(job 射影+witness)の製造〜verified: 独立検査 4 round・所見 8 件は全て製造者 selftest の未被覆枝・検査設備の経路障害 4 種
 
