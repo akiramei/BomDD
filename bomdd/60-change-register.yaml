@@ -2442,3 +2442,26 @@ changes:
       起動前に台帳へ書く・判定行を起動前に出す・全行 80 桁)。V4 CI 34576732800 success(ff7cd9f)。r2 待ち。
       **r2(cc87371)= REJECT**: IA-02/03 是正確認・IA-01 残(値と同じ余分引数)CONFIRMED→r1c・IA-04 残(cell の 160 桁行)は NOT CONFIRMED(起動先の出力・R7 文言を明確化)。**r3(f4a2b5d)= ACCEPT・新規 0**(§7.3)。
       較正 receipt(trigger ①③・行別 asked/NA)は order §8 — 実製造セルの自動起動・承認プロンプト・シンボリックリンクの confinement は unknown。
+  - id: ECO-068
+    title: 計器の selftest が前提不在(OS temp・git)で Traceback を出す — bomdd-run / bomdd-witness / bomdd-job の selftest を UNMEASURABLE <CAUSE> の 1 行報告(exit 2)へ(Phase 6 実 cell P6-01・OBS-20260727-10 3 例目・織り込み案 C)
+    date: 2026-09-11
+    origin: corrective
+    status: filed   # 2026-09-11 user DECIDE「A」(還元と小是正を先に)。起票のみ・製造裁定待ち。起票工程は job 経由
+    source: >
+      Phase 6 実 cell(bomdd/reports/phase6-realcell-eco-067.md §4): Codex read-only sandbox で bomdd-run.py --selftest が Traceback exit 1(OS temp 不能・selftest の with 文に
+      例外処理なし)。同環境で本体 verify は UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE) を 1 行で返した(ECO-066)。同型= bomdd-witness / bomdd-job の selftest。
+      「測定不能は合格ではない」の裏側= 測定不能を測定不能として報告できない(§13 の selftest 側の欠け)。
+    order_ref: bomdd/60-change-order-eco-068.md
+    affected_refs: [method/tools/bomdd-run.py, method/tools/bomdd-witness.py, method/tools/bomdd-job.py]   # 候補・製造裁定時に凍結
+    no_impact_prediction: "(起票段階)diff は台帳系のみ。製造時(候補): 3 ファイルの selftest() 冒頭のみ(各 +10 行程度)・本体経路/1 行目の契約/終了コードの意味 不変・腕不変・C1〜C18 判定不変(検査対象集合外)・kit 非含有・製品リポ非波及"
+    diff_audit:
+      baseline: "77b966c"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [method/tools/bomdd-run.py, method/tools/bomdd-witness.py, method/tools/bomdd-job.py, bomdd/60-change-order-eco-068.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]   # 起票段階。製造裁定で再凍結
+    summary: >
+      ①selftest() の一時ディレクトリ生成と git 初期化を try で包み、失敗は `UNMEASURABLE TREE_UNAVAILABLE(<CAUSE>): selftest の前提不在 — <detail>` の 1 行+exit 2(selftest 失敗の
+      exit 1 と区別)②対象 3 ツール・共通 helper なし(各 10 行)③陽性対照は自己言及を避け受入側の外部プローブ(tempfile.tempdir 不在パスの子プロセス)。採らない= self-conformance の
+      selftest 系・helper 新設・腕の変更・本体変更。
+    verification: >
+      (起票段階)製造時の受入候補は order §3 — V1 外部プローブ(3 ツール × temp 不能/PATH 空 → 1 行 UNMEASURABLE・exit 2・通常環境は従来どおり)/ V2 Phase 6 実 cell で再実行 /
+      V3 CI・窓 / V4 製造者較正のみ(当方案・局所変更)。
