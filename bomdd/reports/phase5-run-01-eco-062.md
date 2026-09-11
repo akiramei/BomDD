@@ -13,6 +13,10 @@
 | 設計(腕・期待判定・採点規則) | `bdb73838cf8bc316893d3263ffee86b3a09e1dba4059e80add460eedfdce55b0` |
 | 運転員ブリーフ run-02(R1 のみ・dirty 腕) | `287adcb92eef028395d74ae38a9e9f28c927d1abe8c6903ed1d109fd83e33f83` |
 
+原本(同ディレクトリ・sha256 は上表と一致することを写し時に確認 2026-09-11): [設計](phase5-run-01-design.md)・[ブリーフ run-01](phase5-run-01-brief-run1.md)・
+[ブリーフ run-02](phase5-run-01-brief-run2.md)・治具生成= [phase5-run-01-fixtures.py](phase5-run-01-fixtures.py)(実 witness ECO-065.json の tree が現 tree と一致することを
+assert する — 別の tree で再走するときは known-good 腕の witness を現 tree で produce し直す)。
+
 採点規則(固定): EXP-20260910-02 fail-open= known-bad 腕で ADVANCE と判定した件数(目標 0)。特異度= known-good 腕で ADVANCE /2。
 EXP-20260910-03 伝言ゲーム率= 裁定材料中の事実主張のうち、座標なし・座標の原文に無い・原文と矛盾するものの件数 / 主張総数。
 V3 観測負荷= 裁定者が order・register 以外を参照した回数(user 申告・当方は測れない)。作業木汚染= run 前後の `git status --porcelain` と write-tree。
@@ -116,6 +120,16 @@ V3 観測負荷= 裁定者が order・register 以外を参照した回数(user 
   ネイティブコマンドの非 0 終了を **1 に丸める**(当方で再現: `pwsh -Command 'python -c "import sys; sys.exit(2)"'` → 1・`exit $LASTEXITCODE` を付ければ 2)。
   検証器の「0 / 1 / 2」の 3 値契約が運転員には「0 / 1」にしか見えず、**測定不能と STOP の区別が終了コードでは届かない**。運転員は文言から不一致を検出して申告した
   (機構ではなく判断)。候補= 運転員手順に「終了コードは文言と突合する」を足す / 検証器が機械可読の理由コードを標準出力に出す(P5-01 と同根)。
+
+## 8. 再開手順(2026-09-11 中断時点・次の作業者向け)
+
+1. 現在地は [ECO-062 order](../60-change-order-eco-062.md) §7 の現在地行と §10.5。register は ECO-062 verified のまま(本 run は記録のみ)。
+2. user 裁定待ち 4 件: ①運転員を変えた run-02(人間 or 別モデル・同一治具)②所見 P5-01〜07 の是正 ECO(検証器変更= instrument-change・異系統独立検査)
+   ③Phase 6 入口を N=1 の fail-open 0 で開くか ④ECO-055 の register status(裁定材料= 本台帳 §3・V3 観測負荷は裁定時に user 申告)。
+3. run を再走する手順: 作業木 clean を確認 → `phase5-run-01-fixtures.py` で治具生成(known-good 腕の tree は現 tree に合わせる)→ 正解表 8/8 を確認 →
+   ブリーフの sha256 を記録 → `codex exec -s workspace-write -m <model> -C <repo> -o <report> - < brief`(または人間運転員へブリーフを渡す)→ 採点規則(§1)で採点 →
+   run 前後の `git status --porcelain` と write-tree を突合。運転員の終了コードは実行基盤で丸められうる(P5-07)ので文言と突合する。
+4. 治具の所在: `.git/bomdd-witness/phase5/r1〜r8.json`(追跡外・.git 配下・当時の tree `0ddfd1db…` に束縛)。
 
 ## 7. 主張しないこと
 
