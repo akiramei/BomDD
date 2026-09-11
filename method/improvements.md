@@ -6746,6 +6746,8 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
   **裁定(2026-09-11・user DECIDE A)**: Phase 6 を開く → ECO-067(単一入口 bomdd-run・起票のみ)。**next trigger= ECO-067 の V3(自動起動の初回実測)**
   **3 例目(2026-09-11・ECO-067 verified)**: 入口 bomdd-run で known-bad 11 腕(receipt 5・job 停止・測定不能 3・引数/構文)起動 0・fail-open 0(selftest+Codex 3 round。検査官が
   入口自身の入力クラスで fail-open 2 件を発見→是正)。V3= 同一 job で 起動→known-bad 不起動→復元。**next trigger= 実製造セルでの自動起動(user 裁定)**(2026-09-11 ECO-067 節)
+  **実 cell N=1(2026-09-11・Codex read-only)**: 入口 → 起動 → 台帳(cell exit 0)の経路成立・fail-open なし。cell 側は sandbox の temp 不能で UNMEASURABLE(TEMP_UNAVAILABLE)。
+  **next trigger= workspace-write / 対話承認の cell**(2026-09-11 実 cell 節)
   source: ECO-062
   evidence: 本節・ECO-062 order §1-3・§3 V1・calibrate.md「陽性対照」節(ECO-052)
 - [open] EXP-20260910-03 — **伝言ゲーム率**: 運転員が人間へ持ってくる裁定材料(issue / options / evidence)が order の原文と
@@ -6817,13 +6819,15 @@ playbook への新規則は足さない。
 OBS-20260910-01(既存形式の索引欠如)= 追加観測なし・1/3 維持。OBS-20260910-02(クローズ節と status の乖離)= ECO-055 は未裁定・job 射影が LEDGER_INCONSISTENT を
 出し続ける(機械検出は成立)・1/3 維持。EXP-20260726-01(非 GPT 系検査官)= 本弧は GPT 系・非該当。
 
-- [watch 2/3] OBS-20260910-03 — **観測: 異系統検査官の環境制約(read-only の temp 不能・PATH 空・Windows 拡張長パス)が、製造者環境では発火しない入力クラスとして製造物に
+- [watch 3/3] OBS-20260910-03 — **観測: 異系統検査官の環境制約(read-only の temp 不能・PATH 空・Windows 拡張長パス)が、製造者環境では発火しない入力クラスとして製造物に
   当たり所見になる — 環境差は検査官の弱点であると同時に検出力**(本弧 3 例だが同一 ECO・同一検査官系統)。3 例目(別 ECO・別検査官)で「検査官環境の制約を意図的に
   変える(read-only / 別 OS / 別パス表記)ことを独立検査の設計項目にする」規則の要否を判断
   source: ECO-062
   evidence: 本節・観測 2・ECO-062 order §8.1〜8.3・検査報告 r1(IA-03)/ r2(IA-06)/ r3(IA-08)
   **2 例目(2026-09-11・Phase 5 run-01・運転員= Codex)**: sandbox の `.git` 書込拒否で未追跡ファイルを含む作業木の tree が測定不能(P5-06・推定機序)+`pwsh -Command` が
   検証器の exit 2 を 1 に丸める(P5-07・再現済み)— 製造者環境では発火しない(2026-09-11 Phase 5 節)
+  **3 例目(2026-09-11・Phase 6 実 cell・Codex read-only)**: OS temp 不能で witness verify が UNMEASURABLE(TEMP_UNAVAILABLE)・bomdd-run selftest が Traceback(P6-01)—
+  ECO-066 の原因分離が実環境で原因を特定した初例(2026-09-11 実 cell 節)→ PROMOTION DUE
 - [watch 2/3] OBS-20260910-04 — **観測: 検査設備(Codex)の経路障害が製造物と無関係に独立検査の往復を止める — companion 経路の既定モデル不可・runner プロトコル版不一致・
   コンテンツフィルタによる報告遮断・resume の出力先欠如(同日 4 種)**。復旧経路は CLI 直接+stdin 正本委譲+`-o`。3 例目で factory-delegate の手順に「経路の選択と
   障害時の切替」を織り込むか判断(factory-delegate 正本化 ECO の入力)
@@ -7114,3 +7118,36 @@ ECO-062(4)・064(5)・066(2)に続く 4 例目で、round 数は所見の性質(
 open 維持・next trigger= 実製造セルでの自動起動(user 裁定)。EXP-20260910-01= 本弧は入口が job を読む(明示起動の機械化)— required_skills を入口が起動先へ渡す設計は未着手・
 据え置き。OBS-20260911-01(探索の打ち切りは受理側)= r2/r3 の範囲限定で 3 例目 → **3/3 到達**(規則化の判断は次回還元で: 「範囲限定の宣言を検査ブリーフの定型にする」候補)。
 OBS-20260910-04(検査設備の経路障害)= r1 で CI 参照が実行基盤のネットワーク制約で不能(検査官申告)・2/3 へ。
+
+## 2026-09-11 BomDD 自己適用 — Phase 6 実 cell 実測(bomdd-run が Codex read-only を自動起動・N=1): 入口の経路は成立・cell 側は sandbox の temp 不能で測定不能(ECO-066 の原因分離が実環境で初めて効いた)
+
+**観測**(出典: [ECO-062 order](../bomdd/60-change-order-eco-062.md) §10.7、[記録](../bomdd/reports/phase6-realcell-eco-067.md)):
+1. **入口**: `bomdd-run.py ECO-067 --cell "codex exec -s read-only …"` → 判定行 → cell 起動 → `cell exit 0`・台帳 decision/cell の 2 行・作業木非汚染・環境変数 3 つが cell 内で読めた。
+   Phase 6 出口の unknown(実 cell)が N=1 で埋まった(承認プロンプトは非対話 exec で発生せず未測定)。
+2. **cell 側**: Codex read-only sandbox は OS temp を提供せず、`bomdd-witness.py verify` は `UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE)` を返し(ECO-066 の CAUSE 分離が
+   実環境で初めて原因を特定)、`bomdd-run.py --selftest` は **Traceback で exit 1**(P6-01・selftest 自身の測定不能が 1 行にならない)。cell の報告は REJECT だが入口は cell の
+   終了コード 0 だけを記録(P6-02・責務境界)。
+3. OBS-20260910-03(異系統環境の制約が製造者環境で発火しない入力クラスを露出)= **3 例目・3/3**。
+
+**整理**: ①「入口が起動する」と「cell が仕事をできる」は別の契約で、入口は前者だけを保証する — cell の環境適合(temp・sandbox)は設備認定(equip・Phase 7 §1-5)の属性。②ECO-066 で
+入れた原因分離は、run-01 では推定に留まった「sandbox の制約」を TEMP_UNAVAILABLE として機械的に特定した(計器の投資が 1 弧後に回収された例)。③selftest が環境の測定不能で
+traceback を出すのは「測定不能は合格ではない」の裏の欠け(測定不能を測定不能として報告できない)— 是正候補(小)。④cell の判定を入口が回収しない設計は Phase 6 の「狭さ」の
+帰結で、Phase 7(receipt の回収経路)の入力。
+
+**一般化検査**: 実 cell N=1・Codex read-only のみ。workspace-write・Claude セル・対話承認は未測定。OBS-20260910-03 は 3 例そろったが、3 例とも Codex 系統(read-only/workspace-write)
+のため「検査官環境の制約を意図的に変えることを独立検査の設計項目にする」規則は、次回還元で lesson-promote の入口で判断(PROMOTION DUE ×2: OBS-20260911-01・OBS-20260910-03)。
+
+**行き先判定**: 記帳+ECO-062 §10.7・§7 現在地。ECO-067 の order は verified のまま非接触。register 不変。本文改訂なし。次の裁定(Phase 7 入口 / P6-01 是正)は DECIDE で。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(実 cell・環境変数の到達・台帳 2 行)[ ] template [ ] terminology
+[x] method/concept claim: 「測定不能は合格ではない」= supported(cell 側 UNMEASURABLE を入口は ADVANCE に変えない— ただし入口は cell の判定を読まない)/ 「環境差は検出力」= supported(3/3)。
+contradicted / superseded: なし。
+
+**期待効果の棚卸し**: EXP-20260910-02= 実 cell N=1 を注記(入口経路 成立・fail-open なし)・open 維持・next trigger= workspace-write / 対話承認の cell。OBS-20260910-03= 3/3 → PROMOTION DUE。
+新規 OBS-20260911-03(下記)。
+
+- [watch 1/3] OBS-20260911-03 — **観測: 計器の selftest が実行環境の測定不能(OS temp 不能)で 1 行の UNMEASURABLE でなく Traceback を出す** — bomdd-run.py(実測)・bomdd-witness.py
+  (同型・未実測)。selftest 自身の前提(temp・git)が満たされないときの報告経路が設計されていない。3 例目で「selftest は自分の測定不能を 1 行で報告する」を計器の共通規約に
+  するか判断
+  source: ECO-062
+  evidence: 本節・ECO-062 order §10.7 P6-01・bomdd/reports/phase6-realcell-eco-067.md

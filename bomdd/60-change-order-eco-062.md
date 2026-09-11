@@ -438,7 +438,7 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 5 継続(user DECIDE 2026-09-11 `1:C 2:A`: Phase 6 保留 → 検証器の是正 **ECO-066**〔理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離・範囲= 検証器のみ〕を先に閉じる → verified 後に運転員を変えた run-02〔同一治具・ブリーフ v2= P5-04/07 の手順側〕)。**現在地= Phase 6 第 1 弾 ECO-067 verified(2026-09-11・Codex 3 round・fail-open 2 件を検査官が発見し是正)— 出口「自動起動 job で witness 再検証が機械的に効いた実測」は V3〔無害 cell・同一 job で 起動 → known-bad 不起動〕で初回成立・以後の commit 遷移 4 回は入口 dry 経由**。次= user 裁定(DECIDE): 実製造セルを cell に与える自動起動の実施 / Phase 7 の入口。Phase 5 の残る限界= N=2・人間 1 名・V3 未測定(§10.6)。run-01 の結果は §10(fail-open 0/7 だが R3・run-02 は運転員の判断依存= qualification blocker)。付随裁定待ち= ECO-055 の register status(別 DECIDE・裁定材料= run 台帳 §3)。`
+`Phase 5 継続(user DECIDE 2026-09-11 `1:C 2:A`: Phase 6 保留 → 検証器の是正 **ECO-066**〔理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離・範囲= 検証器のみ〕を先に閉じる → verified 後に運転員を変えた run-02〔同一治具・ブリーフ v2= P5-04/07 の手順側〕)。**現在地= Phase 6 第 1 弾 ECO-067 verified+実 cell 実測 済(2026-09-11・§10.7: 入口 → Codex read-only 起動 → 台帳、N=1・cell 側は sandbox の temp 不能で測定不能= 設備認定の属性)**。次= user 裁定(DECIDE): Phase 7 の入口 / P6-01(selftest の測定不能報告)の是正 / 還元(OBS-20260911-01・OBS-20260910-03 が PROMOTION DUE)。Phase 5 の残る限界= N=2・人間 1 名・V3 未測定(§10.6)。run-01 の結果は §10(fail-open 0/7 だが R3・run-02 は運転員の判断依存= qualification blocker)。付随裁定待ち= ECO-055 の register status(別 DECIDE・裁定材料= run 台帳 §3)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -453,7 +453,7 @@ Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員な
         ▼
 Phase 5 外部運転員 導入試験(自動実行なし)─── 完了 2026-09-11(run-01 Codex・ECO-066・run-02 人間 — fail-open 0/7 ×2・判断依存 0・user 裁定 A で出口)
         ▼
-Phase 6 狭い自動起動入口 ◀━━ ★ 現在地= ECO-067 verified(出口は無害 cell で初回成立)— 実製造セルの自動起動 / Phase 7 入口は user 裁定
+Phase 6 狭い自動起動入口 ◀━━ ★ 現在地= ECO-067 verified+実 cell(Codex read-only)N=1 — Phase 7 入口 / P6-01 是正 / 還元は user 裁定
         ▼
 Phase 7 複数 executor・裁定キュー
 ```
@@ -559,3 +559,20 @@ Phase の追加・分割は本節の行内書き換えで行い、変更理由�
 - 新規所見(記録のみ): P5-08 40 桁 ×2 の 1 行目が端末で折り返し VERDICT/CODE が視界から外れる(人間運転員のみ)/ P5-09 人間運転員は deliverable の規格(原文パス提示)を守らず
   「手順の欠落: なし」と申告(規格の未遵守は申告に現れない)/ P5-10 CODE 転写誤り(Phase 6 の機械突合では語彙外)。いずれも「運転員の種類で報告形式・記録経路の最適が違う」を示唆(1 例)。
 - 事前登録: 設計 v2・ブリーフ v2 は commit ecf741c で固定(sha256 は run 台帳)。治具は契約 v0.2 の commit 3ca9e2f の tree に束縛(設計時の予定 ecf741c から変更・ブリーフ/設計は不変)。
+
+### 10.7 Phase 6 実 cell 実測(2026-09-11・user DECIDE「A」— 題材 ECO-067・cell= Codex read-only 回帰検査)— 記録: [phase6-realcell-eco-067.md](reports/phase6-realcell-eco-067.md)
+
+- 実行: `bomdd-run.py ECO-067 --cell "codex exec -s read-only -m gpt-5.6-sol -C <repo> -o <report> - < <brief>"`(承認は Codex の既定・非対話 exec)。
+- **入口の挙動(Phase 6 出口の unknown を埋める)**: 判定行 `ADVANCE ECO-067 OK → next · launching @27c273fdb777` → cell 起動 → `cell exit 0`。台帳= event decision → event cell(cell_exit 0・started_at)。
+  run exit 0。作業木非汚染(前後 porcelain 空)。環境変数 3 つは cell 内で読めた(`eco.value=ECO-067`・`state.value=verified`)。**実 cell の自動起動で witness 再検証 → 起動 → 台帳の経路が
+  機構的に成立(N=1・非対話 exec のため承認プロンプトは発生せず= 未測定のまま)**。
+- **cell 側の結果(入口の責務外・観測)**: 報告は **REJECT** — Codex read-only sandbox では OS temp が使えず、①`bomdd-run.py --selftest` が **Traceback で exit 1**(一時ディレクトリ生成が
+  try の外)②`bomdd-witness.py verify` が `UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE): … No usable temporary directory found` を返した。ECO-066 の原因分離(P5-06)が
+  実 sandbox で **TEMP_UNAVAILABLE** と特定した初例(run-01 の run-02 腕では原因不明だった)。
+- 所見(記録のみ):
+  - **P6-01(計器)**: `bomdd-run.py --selftest`(と同型の `bomdd-witness.py --selftest`)は temp 不能で 1 行目が Traceback になる — selftest 自身の測定不能を `UNMEASURABLE` の 1 行で
+    出す設計になっていない(是正候補・小)。
+  - **P6-02(設計・Phase 7 の入力)**: 入口が記録するのは cell の**終了コード**で、cell の判定(REJECT)は読まない(責務境界・§1 採らない「起動先の出力の解釈」)。cell の判定を
+    receipt として回収する経路(cell が witness を produce する / 入口が cell の report パスを台帳に束ねる)は Phase 7 の設計対象。
+  - **OBS-20260910-03 の 3 例目**: 異系統の実行環境(read-only sandbox・temp 不能)が製造者環境では発火しない入力クラスを露出 → 3/3。
+- 主張しないこと: 承認プロンプトの通過(非対話 exec では発生しない)/ workspace-write sandbox での cell 挙動 / cell の判定を入口が扱えること。
