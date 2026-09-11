@@ -6741,6 +6741,8 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
   **裁定(2026-09-11・user DECIDE 1:C 2:A)**: Phase 6 保留・検証器の是正 ECO-066(理由コード/個体照合の既定化/差分表示/原因分離・範囲= 検証器のみ)を先に閉じ、
   verified 後に run-02(運転員変更・ブリーフ v2)。**next trigger= ECO-066 verified 後の run-02**
   **ECO-066 verified(2026-09-11)**: R3 型(別 job の receipt)は CLI の個体未照合= 測定不能で機構停止に。**next trigger= run-02(運転員変更・user 裁定)**(2026-09-11 ECO-066 節)
+  **2 例目(2026-09-11・run-02・運転員= 人間・盲検 9 腕)**: fail-open **0/7**・特異度 2/2・**判断依存 0**(R3 は機構・R9 dirty 腕を実 tree 不一致で実測)。run-01 の blocker 2 件解消。
+  **next trigger= Phase 6(自動起動)の初回 job**(2026-09-11 run-02 節)
   source: ECO-062
   evidence: 本節・ECO-062 order §1-3・§3 V1・calibrate.md「陽性対照」節(ECO-052)
 - [open] EXP-20260910-03 — **伝言ゲーム率**: 運転員が人間へ持ってくる裁定材料(issue / options / evidence)が order の原文と
@@ -6748,6 +6750,8 @@ self-conformance は改行表現を測らない(宣言済み: 関門検査は at
   先例・N=1)。**next trigger= Phase 1 初回の RULING_REQUIRED 発生時**
   **基準線(2026-09-11・Phase 5 run-01 R7= ECO-055 台帳不整合・運転員= Codex)**: 乖離 **0/4**(座標つき原文引用・options は「原文に記載なし」と区別)・欠落 1(register
   verification の独立検査 REJECT/ECO-041 意味論/ECO-056 は未提示 — 網羅は採点規則の外)。**next trigger= 要約を許した対照腕(探索的)**(2026-09-11 Phase 5 節)
+  **2 例目(2026-09-11・run-02・人間)**: 内容乖離 0/2・座標なし 2/2・evidence 欠落 2/2(2 回催促後も未提出)・運転員は「手順の欠落: なし」と申告 — 規格の未遵守は申告に現れない。
+  基準線は運転員の種類で分かれる(AI 0/4・人間 座標 0)。**next trigger= 台帳を機械回収する設計(検証器 1 行目の回収)の後**(2026-09-11 run-02 節)
   source: ECO-062
   evidence: 本節・ECO-062 order §1-4・§3 V2・factory-delegate SKILL.md「正本委譲」(ECO-137)
 - [watch 1/3] OBS-20260910-01 — **観測: 外部提案が、リポ内に既に散在する形式(job= order/work order/routing・receipt= witness/
@@ -7006,6 +7010,7 @@ lesson-promote の先例 de917eb と同じ)。register・order 不変。
   改善あり → product-profile 正本化を ECO で判断。**next trigger= handoff 20 回到達**
   **試行中の観測(2026-09-11)**: mode 訂正 1 件目 — 人間に作業を依頼する handoff(run-02 の運転員依頼)を INFORM で送信(self-check FAIL H2 を申告しつつ送った)→ user が
   「INFORM は人間のアクションなし」と訂正 → DECIDE で第 4 mode **REQUEST**(request/deliverable/why_human)を契約 v0.2 に追加(user 裁定 A)。契約の欠落が試行 5 handoff 目で露出
+  **run-02 の観測(2026-09-11)**: REQUEST/BLOCKED ×7。人間の返答は deliverable の書式に部分的にしか従わず 6 往復(R6 空欄・evidence 未提出)— 契約は AI 側の型付けで人間側は型付けできない(観測 1)
   source: harness(.claude/skills/handoff)
   evidence: 本節・SKILL.md §4・user 裁定 2026-09-11(1:A 2:A)
 
@@ -7040,3 +7045,33 @@ try の粒度・番兵でなく rc で判定)— ECO-064 の「validator の入�
 
 **期待効果の棚卸し**: EXP-20260910-02= next trigger を **run-02(運転員変更・ECO-066 後)** に更新・open 維持。EXP-20260910-03= 据え置き。OBS-20260911-01(探索の打ち切りは受理側)=
 2/3 へ(r2 の範囲限定)。OBS-20260910-03(環境差= 検出力)= 本弧の所見は環境制約でなく入力クラス・据え置き(2/3)。OBS-20260910-04(検査設備の経路障害)= 2 round とも障害なし・据え置き。
+
+## 2026-09-11 BomDD 自己適用 — ECO-062 Phase 5 run-02(運転員= 人間・ECO-066 後): fail-open 0/7 で判断依存 0・dirty 腕を初めて狙いどおり実測・人間運転員は原文パス提示の規格を守らなかった
+
+**観測**(出典: [ECO-062 order](../bomdd/60-change-order-eco-062.md) §10.6、[run 台帳 run-02](../bomdd/reports/phase5-run-02-eco-062.md)):
+1. **fail-open 0/7・特異度 2/2・判断依存 0/7**。run-01 で運転員の判断に依存していた 2 件(R3 別 job の receipt・dirty 腕)は、ECO-066(`--eco` 必須)と sandbox なしの運転員で
+   機構として止まった。事前登録(設計 v2・ブリーフ v2・commit 固定)・盲検(R9 の作業木変更は非開示)・作業木汚染 0。
+2. **伝言ゲーム率(R7・人間)**: 内容の乖離 0/2 だが座標なし 2/2・evidence 欠落 2/2(2 回催促後も未提出)。issue は job ビューの導出文の転記。run-01 の AI 運転員(0/4・欠落 1)より
+   規格の遵守は低い。運転員は「手順の欠落: なし」と申告 → **規格の未遵守は運転員の申告に現れない**(採点側の突合が要る)。
+3. **報告形式の運転員依存**: 40 桁 ×2 の 1 行目(ECO-066 P5-03 の是正)が既定幅の端末で折り返し、人間運転員は R6 で先頭の VERDICT/CODE を落として貼り付け・decision を空欄に
+   した(P5-08)。CODE 転写誤り 1(`GATE_MISSING`・P5-10)。AI 運転員では起きなかった。
+4. **handoff 契約(EXP-20260911-01)**: 本 run は REQUEST/BLOCKED ×7。人間の返答は deliverable の書式に部分的にしか従わず 6 往復。契約は AI 側の型付けで、人間側の返答は型付け
+   できない(観測 1)。
+
+**整理**: ①Phase 5 の出口条件「fail-open 0・伝言ゲーム率の基準線」は 2 run・2 種の運転員で fail-open 0/7 ×2・判断依存 0(run-02)を得た。run-01 の qualification blocker
+(operator rescue・dirty 未測定)は解消。**残る限界= N=2・人間 1 名・V3 未測定**。②伝言ゲーム率は「原文パス提示を規格にした基準線 0」(EXP-20260910-03 の設計)が AI 運転員で
+0/4、人間運転員で規格未遵守(座標 0)— 基準線は運転員の種類で分かれる。③「運転員は BomDD を理解しなくてよい」は成立したが、「運転員は規格を守る」は人間では成立しなかった —
+Phase 6(自動起動)では台帳を運転員が手書きせず、検証器の 1 行目を機械で回収する設計(P5-10)が要る。④報告形式は運転員の種類で最適が違う(P5-08・1 例)。
+
+**一般化検査**: fail-open 0 は運転員 2 種 × 各 1 run= 2 例(同一治具・同一採点者)。伝言ゲーム率は 2 例(AI 0/4・人間 座標なし 2/2)で方向が逆 — 規則化せず EXP 維持。
+「規格の未遵守は申告に現れない」は 1 例。playbook 非改訂。
+
+**行き先判定**: 記帳+run 台帳(reports・非正本)+ECO-062 §10.6・§7 現在地= run-02 済。register 不変。本文改訂なし。次の裁定(Phase 6 入口の可否)は DECIDE で。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(盲検 R9・事前登録・機構 vs 判断の分類)[ ] template [ ] terminology
+[x] method/concept claim: 「慎重さは荷重を負わない」= supported(運転員の判断依存 2 → 0 は機構〔ECO-066〕で達成)/ 「指示ではなく事実・境界で答え合わせ」= supported
+(規格の遵守は申告でなく採点側の突合で測った)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: EXP-20260910-02= **2 例目 fail-open 0/7・判断依存 0(人間)**を注記・open 維持・next trigger= Phase 6(自動起動)の初回 job。EXP-20260910-03= 2 例目
+(人間・座標なし 2/2・内容乖離 0/2)を注記・open 維持・next trigger= 台帳を機械回収する設計の後。EXP-20260911-01= REQUEST 7 通の観測を注記(handoff 数 累計 約 20・評価は次節で)。
+OBS-20260910-02(ECO-055 の乖離)= R7 で人間運転員も検出・裁定待ち据え置き。OBS-20260910-03= 据え置き(2/3)。

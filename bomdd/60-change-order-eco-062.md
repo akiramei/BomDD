@@ -438,7 +438,7 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 5 継続(user DECIDE 2026-09-11 `1:C 2:A`: Phase 6 保留 → 検証器の是正 **ECO-066**〔理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離・範囲= 検証器のみ〕を先に閉じる → verified 後に運転員を変えた run-02〔同一治具・ブリーフ v2= P5-04/07 の手順側〕)。**現在地= ECO-066 verified(2026-09-11・r1 REJECT 4 件→r2 ACCEPT)→ run-02 準備済(運転員= 人間〔user・DECIDE 裁定 A〕・ブリーフ v2/設計 v2/治具生成= reports/phase5-run-02-*・治具は本 commit の tree に束縛)→ 実施待ち**。run-01 の結果は §10(fail-open 0/7 だが R3・run-02 は運転員の判断依存= qualification blocker)。付随裁定待ち= ECO-055 の register status(別 DECIDE・裁定材料= run 台帳 §3)。`
+`Phase 5 継続(user DECIDE 2026-09-11 `1:C 2:A`: Phase 6 保留 → 検証器の是正 **ECO-066**〔理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離・範囲= 検証器のみ〕を先に閉じる → verified 後に運転員を変えた run-02〔同一治具・ブリーフ v2= P5-04/07 の手順側〕)。**現在地= run-02 済(2026-09-11・運転員= 人間・fail-open 0/7・判断依存 0・dirty 腕を実測・§10.6)→ Phase 6 入口の可否= user 裁定(DECIDE)**。run-01 の blocker 2 件は解消・残る限界= N=2・人間 1 名・V3 未測定。run-01 の結果は §10(fail-open 0/7 だが R3・run-02 は運転員の判断依存= qualification blocker)。付随裁定待ち= ECO-055 の register status(別 DECIDE・裁定材料= run 台帳 §3)。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -451,7 +451,7 @@ Phase 3 製造 第 1 弾(job 射影+witness)─── 完了 2026-09-10(r4 ACCEP
         ▼
 Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員なし)─── 完了 2026-09-11(3/3 本)
         ▼
-Phase 5 外部運転員 導入試験(自動実行なし)◀━━ ★ 現在地= run-01 済 → ECO-066 verified → run-02(運転員= 人間・準備済・実施待ち)→ Phase 6 は保留(1:C)
+Phase 5 外部運転員 導入試験(自動実行なし)◀━━ ★ 現在地= run-01(Codex)・ECO-066・run-02(人間)済 — fail-open 0/7 ×2・判断依存 0 → Phase 6 入口の可否は user 裁定
         ▼
 Phase 6 狭い自動起動入口
         ▼
@@ -541,3 +541,20 @@ Phase の追加・分割は本節の行内書き換えで行い、変更理由�
 - **主張しないこと**: 運転員一般で fail-open 0 / Codex の有用性 / V3 / 裁定材料の網羅。**次の run の条件**= 運転員を変える(人間 or 別モデル)+同一治具+P5-01/02 の
   是正前後で R3 の識別が機構化されるかの比較。Phase 6 へ進むかは user 裁定(§7「Phase 6 は Phase 5 の fail-open 0 を条件とする」— N=1 で満たしたと見なすかを含む)。
 - ECO-055 の裁定材料(R7・原文座標つき)は上記 run 台帳 §3 — **user の裁定待ち**(OBS-20260910-02)。
+
+### 10.6 run-02(2026-09-11・運転員= 人間〔user・DECIDE 裁定 A〕・ECO-066 verified 後)— 詳細= [run 台帳 run-02](reports/phase5-run-02-eco-062.md)
+
+| 量 | run-01(Codex) | **run-02(人間)** |
+|---|---|---|
+| fail-open(known-bad 7 腕) | 0/7 | **0/7**(特異度 2/2) |
+| 判断依存の STOP | 2(R3 の自発 `--eco` 掃引・dirty 腕の測定不能) | **0**(R3 は `--eco` 必須の機構・R9 dirty は実 tree 不一致で STOP) |
+| 伝言ゲーム率(R7) | 0/4・欠落 1 | 内容乖離 0/2・**座標なし 2/2・evidence 欠落 2/2**(2 回催促後も未提出) |
+| CODE 転写 | — | 8/9(`GATE_MISSING` 転写誤り 1・R6 初回空欄) |
+| 作業木汚染 | 0 | 0 |
+| 往復 | 1 | 6(+R9) |
+
+- **run-01 の qualification blocker 2 件は解消**: R3 型が機構で止まる(ECO-066)・dirty 腕を狙った failure class で実測(sandbox なし)。残る限界= N=2 run・運転員 2 種(Codex・人間 1 名)・
+  V3 未測定(運転員= 裁定者)。
+- 新規所見(記録のみ): P5-08 40 桁 ×2 の 1 行目が端末で折り返し VERDICT/CODE が視界から外れる(人間運転員のみ)/ P5-09 人間運転員は deliverable の規格(原文パス提示)を守らず
+  「手順の欠落: なし」と申告(規格の未遵守は申告に現れない)/ P5-10 CODE 転写誤り(Phase 6 の機械突合では語彙外)。いずれも「運転員の種類で報告形式・記録経路の最適が違う」を示唆(1 例)。
+- 事前登録: 設計 v2・ブリーフ v2 は commit ecf741c で固定(sha256 は run 台帳)。治具は契約 v0.2 の commit 3ca9e2f の tree に束縛(設計時の予定 ecf741c から変更・ブリーフ/設計は不変)。
