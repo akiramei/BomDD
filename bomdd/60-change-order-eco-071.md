@@ -1,4 +1,4 @@
-# Change Order — ECO-071(handoff 契約 v0.4: フリースタイル区間 — 人間の宣言で開始・終了/区間内は形式なし/片方向ラチェット〔起票+製造・製造者較正〕)
+# Change Order — ECO-071(handoff 契約 v0.4: フリースタイル区間 — 人間の宣言で開始・終了/区間内は形式なし/片方向ラチェット〔verified〕)
 
 > 裁定: user 2026-09-12 DISCUSS への AGREE+「3 点を契約に足して起票して」— タスク中はプロトコル、フリースタイルの会話が相応しい場面もある、という切り分けの要求。
 > 当方 thesis(切替の権限は人間・既定は契約・片方向ラチェット)に user が AGREE。**起票と製造を同一 commit で行う**(文書のみ・ECO-063/069/070 の型)・受入は製造者較正のみ。
@@ -49,6 +49,38 @@ worklist: 新規 ID なし(EXP-20260912-01 の継続行に追記)・警告 0。
 - 製造物: SKILL.md v0.4(description・§1 Scope・§2.1・§2.3 F6・§2.7・§3 例・§4)・AGENTS.md 1 行・improvements.md。
 - **V1**= PASS(grep: `Free-style span` 1・`One-way ratchet` 1・`F6 区間` 1・`片方向ラチェット` ≥2・`⑧AI の推定` 1)/ **V2**・**V3**= §5。
 
-## 5. 受入完了の記入予定(accept commit で書き換え)
+## 5. クローズ(2026-09-12・verified・製造者較正のみ)
 
-- (accept commit で記入: V3 の self-conformance・CI・窓閉鎖)
+- **V3**= PASS(self-conformance 全 PASS〔1 回目から・order は stage 済みで実行= ECO-070 の手順欠陥を再演せず〕・CI run 34622666418〔起票+fix 4e518cf〕success)。
+  diff 監査の窓: baseline `bf0924e` → head `4e518cf`(**窓閉鎖**)。窓内= 3 文書+台帳系のみ。
+- **V2**= C12 PASS(AGENTS.md の相対リンク 14 件すべて実在・リンク先不変)。
+- register: `implemented → verified`・head 凍結。製造者較正のみ。契約 v0.4 は本 commit 以降の全 handoff に適用(指標 ⑥⑦⑧は EXP-20260912-01 で計測)。
+- 実測(正直記載): 起票+fix 段の self-conformance は 600 秒のツール上限を超えバックグラウンドへ移った(exit 0 は完了通知後にログで観測)。その待機の handoff は
+  v0.3 の待機形(ヘッダ+2 行)で送った= 待機形の実使用 1 例目。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格。文書のみの変更)
+
+- 査定した主張と判定:
+  1. 「契約 §1 に Free-style span と One-way ratchet がある・§2.3 F6・§2.7・§4 ⑥⑦⑧」— **observed / 適格**(grep 1/1/1/2/1・V1)。
+  2. 「AGENTS.md の参照が解決する」— **observed / 適格**(C12 14 件 PASS)。
+  3. 「誤分類のコストが非対称」— **読解**(会話に形式が付くコスト= ヘッダ 1 行は本会話の実測・タスク中に形式を落とすコスト= EXP-20260911-01 の基準線からの推論)。
+  4. 「人間の宣言ベースの切替が機能する(宣言回数が少なく、隠れ裁定 0)」— **unknown(未測定・指標 ⑥⑦⑧)**。
+- 検出した計器欠陥(帰属つき): 製造物 0 件。受理側 0 件(ECO-070 の stage 前実行は再演せず)。
+- 検出力の限界: 区間規則の効果は未測定。第三者(別セッション・別ハーネス)での順守は未測定。独立検査なし(製造者較正のみ)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | grep 5 語・C12 14 件 |
+  | Q2 | asked | NA 相当 | — | 文書変更に known-bad 対照なし(宣言) |
+  | Q3 | asked | observed/適格 | 実測 | 変更前(§2.7 の 1 通単位)→ 変更後(§1 区間) |
+  | Q4 | asked | 読解 | 読解 | 非対称性の主張は読解 |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(⑥⑦⑧・第三者順守)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測(バックグラウンド完了後)→ witness → 入口 dry → commit → push → CI |
+  | Q7 | asked | NA | — | 陽性対照なし(文書) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness・register・commit・run 台帳(ECO-071.jsonl) |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 契約/入口/記帳の 3 文書・区間の開始/終了/区間内裁定の 3 事象 |
+
+- このクローズが支持しないもの: 区間規則の効果(⑥⑦⑧)/ AI 推定の是非(条件付きで再検討)/ product-profile 配布(別 ECO)。
