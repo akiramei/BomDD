@@ -6964,3 +6964,42 @@ instrument-change で異系統独立検査)。
 EXP-20260910-03= **基準線 0/4(欠落 1)**を注記・open 維持・next trigger= 要約を許した対照腕(探索的)。EXP-20260910-01= 本 run は製造工程なし(遷移判定のみ)で
 運転員≠製造者の job は未発生・据え置き。OBS-20260910-03= 2/3 へ(P5-06/07)。OBS-20260910-02= 裁定材料が揃い user 裁定待ち・据え置き。OBS-20260910-04= 本弧は
 CLI 直接経路で 2 exec とも障害なし・据え置き(1/3)。OBS-20260911-01(探索の打ち切りは受理側)= 本弧は run を 2 で打ち切り(次 run は運転員を変える条件つき)・据え置き。
+
+## 2026-09-11 ハーネス側 — handoff プロトコル(AI→人間の制御移譲の契約 v0.1)を `.claude/skills/handoff` に新設・試行開始(EXP-20260911-01・ECO なし)
+
+**観測**(出典: 本セッションの user 批評 2026-09-11・[handoff SKILL.md](../.claude/skills/handoff/SKILL.md)):
+1. Phase 5 run-01 の報告(ECO-062 §10 の要約メッセージ)に対し user が作業を中断 — 問題は情報量でなく**「裁定に必要な入力」と「実験報告」の混在**。
+   指摘 4 点: 並列に見せた 4 裁定が実は依存している / 観測(fail-open 0/7)とその意味(2 件は運転員の仕様外行動に依存・dirty 腕は狙った failure class 未測定 →
+   機構としての 0 ではない)が分離されていない / 提案者の thesis がない(「回すか?」でなく「回すべき。理由は…」)/ 裁定に不要な情報が同じ階層にある。
+   REPORT としては良いが RULING REQUEST として弱い — 末尾だけ RULE で本文が REPORT 構造。
+2. 議論 3 往復で到達した構造: interaction(INFORM / DECIDE / DISCUSS)× execution(CONTINUING / BLOCKED / COMPLETE / PAUSED)の二軸を先頭 1 行で宣言し、
+   mode ごとの必須要素を満たしてから送る。**「最小の外部契約」と「スキル実装規則」を分離**(契約は宣言と必須要素と一致検査のみ・個数/順序/行数/決定木/
+   書き直し回数は実装側)。検査は**構造検査(lint)と意味自己検査(self-review)を別計器**として扱い「決定論的」とは呼ばない。BLOCKED= 進めるのに解消必須の
+   入力/裁定が欠けている・PAUSED= 進行可能性と別に意図的に中断。DISCUSS の問いは A/B に限定しない。**1 handoff 1 主モード**と handoff の定義(ターンを終えて
+   制御を渡すメッセージ)は契約側(user AGREE)。
+3. 所在と試行単位は DECIDE で提示し user 裁定 `1:A 2:A`: `.claude/skills/handoff/SKILL.md` のみ(lesson-promote と同じハーネス側配置・self-conformance は
+   `.claude/skills` を対象外と宣言・product-profile 非接触・AGENTS.md 規律 1 の起票対象外)/ 試行は handoff 20 回(DECIDE 5 回以上)で評価。
+
+**整理**: ①これは文章術でなく **AI が人間へ制御を渡すときのハンドオフ・プロトコル**(Human-AI interaction contract)— 特定ドメインの知識でなく
+応答ごとに適用する通信規約なのでスキル化が適する。②BomDD の停止語彙(NORMATIVE_RULING → DECIDE/BLOCKED 等)と自然に対応し、converge の裁定点・
+preflight の HOLD/STOP は DECIDE への写像先を持つ。③「未収束を収束と報告しない」(converge)と同型で、書き直し上限で残る FAIL は自己申告する。
+④自己査定 receipt と検査器の弁別力を区別してきた考え方(calibrate)と同じく、意味自己検査の較正は外部(人間の mode 訂正回数)で行う。
+
+**一般化検査**: 批評は 1 報告(N=1)だが、混在の型(INFORM → 途中 DECIDE → INFORM → 末尾 DISCUSS 疑問文)は本セッションの過去報告にも当てはまる
+(自己申告・未計数)。契約は方法論に置かず(**行き先= ハーネス側**)、計測後に正本化を判断する。playbook 非改訂。
+
+**行き先判定**: `.claude/skills/handoff/SKILL.md` 新設(契約 §1+実装規則 §2+例+計測)・本節の記帳・EXP-20260911-01 起票。ECO なし(規律 1 の対象外・
+lesson-promote の先例 de917eb と同じ)。register・order 不変。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(構造検査と意味自己検査の分離・人間の訂正回数を外部較正に)[ ] template
+[x] terminology(INFORM/DECIDE/DISCUSS・BLOCKED/PAUSED の定義)[x] method/concept claim: 「指示ではなく事実・境界で答え合わせ」(2026-08-08)= supported
+(裁定者の仕事を再分析でなく裁定にする)/ 「慎重さは荷重を負わない」= supported(読みやすく書く努力でなく型で縛る)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: 新規 EXP-20260911-01(下記)。既存 EXP/OBS への影響なし。
+
+- [open] EXP-20260911-01 — **handoff 契約 v0.1 は人間の再分析を減らすか**: `.claude/skills/handoff` 適用下の handoff 20 回(DECIDE 5 回以上)で、
+  ①人間が mode を訂正した回数 ②「で、私は何をすれば」型の再質問回数 ③DECIDE への返答が reply_format どおり(1 語/ラベル列)で済んだ比率。
+  基準線(契約前・Phase 5 run-01 報告)= 訂正 1・再分析 1・1 語返答 0/1。**評価後の分岐**: 改善なし → §2 細則の一部を §1 契約へ昇格して再試行 /
+  改善あり → product-profile 正本化を ECO で判断。**next trigger= handoff 20 回到達**
+  source: harness(.claude/skills/handoff)
+  evidence: 本節・SKILL.md §4・user 裁定 2026-09-11(1:A 2:A)
