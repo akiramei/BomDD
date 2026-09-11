@@ -130,3 +130,22 @@
   `UNMEASURABLE IDENTITY_UNCHECKED: …` / `STOP TREE_MISMATCH: …` で 3 値が読める。`exit $LASTEXITCODE` を付けても本環境では 1(pwsh の `-Command` 文字列内では
   ネイティブ終了コードが伝播しない場合がある — 実行基盤側の事象・本 ECO の範囲外・ブリーフ v2 で「終了コードでなく 1 行目を読む」を規格にする根拠)。
 - **V4**(CI)・**V5**(Codex 独立検査)= §7。
+
+## 7. 独立検査(Codex・異系統・CLI 直接・workspace-write)
+
+### 7.1 r1(2026-09-11・対象 commit `4068029`)= **REJECT**(IA-01〜03・付随 IA-04)— 報告: [independent-inspection-eco-066.md](reports/independent-inspection-eco-066.md)
+
+検査官は独自 fixture を OS temp に作って再実測し、リポジトリは変更していない(受理側で run 前後の `git status --porcelain` 空・write-tree 同一を確認)。
+
+| 所見 | 受理側の真正判定 | 是正(r1b・同日) |
+|---|---|---|
+| IA-01 固定形式が全 CLI 経路に適用されていない(produce の成功/失敗行・`--selftest` の行が生文字列) | **CONFIRMED**。§1-1 は「標準出力の 1 行目」と書き、製造者が verify に限定して読んだ(§5 に「produce の成功行は従来どおり」と明記していた= 製造者の読みの狭さ)。運転員が produce を回す Phase 6 では同じ穴になる | produce の全経路を `report_line` へ(成功= `ADVANCE PRODUCED`・stop 不正/作業木内出力= `ARG_ERROR`・gate 不完全= `GATE_INCOMPLETE`・tree 不能= `TREE_UNAVAILABLE(CAUSE)`・書込不能= `WITNESS_UNWRITABLE`)。selftest の 1 行目も固定(PASS= `ADVANCE OK`・FAIL= `STOP SELFTEST_FAIL` exit 1)。CODES 12 → **15**(本 ECO で閉じる・W6 更新)。selftest 腕: produce CLI・produce 各 CODE・`_report_text` の形式・CODES 全 15 の report_line/_code_of 往復 |
+| IA-02 `.git/index` の複製失敗(copy2 の OSError)を TEMP_UNAVAILABLE に誤分類 | **CONFIRMED**(判定の誤り= CAUSE)。try が TemporaryDirectory 生成と copy2 を同じブロックで包んでいた | TemporaryDirectory 生成だけを TEMP_UNAVAILABLE に、copy2 の OSError は新 CAUSE **INDEX_COPY_FAILED**(TREE_CAUSES 6 → 7)。selftest 腕: 別の一時 git リポで `.git/index` をディレクトリにして verify → INDEX_COPY_FAILED(実 fixture・モックなし) |
+| IA-03 rc 127 だけで GIT_UNAVAILABLE と判定(起動できた git/ラッパーの 127 を誤分類・9009 型は逆) | **CONFIRMED**(判定の誤り= CAUSE)。本来の「git 不在」は `_git` の OSError → 番兵 `_GitUnavailable` で来る | GIT_UNAVAILABLE は **番兵の isinstance のみ**で判定(rev-parse / add / write-tree の 3 箇所)。起動できた git の rc 127 は GIT_DIR_FAILED 等+stderr 末尾。9009 型(ラッパーが「not recognized」)は GIT_DIR_FAILED+stderr で運転員に文言が届く(分類はできない— 宣言)。selftest 腕: `_git` を rc 127・stderr「executable ran」で差し替え → GIT_DIR_FAILED(GIT_UNAVAILABLE でない) |
+| IA-04 `_git` が `text=True` のみで、非 UTF-8 の stderr で reader thread が UnicodeDecodeError を出し末尾行を失う | **CONFIRMED**(文言のみ・ただし traceback が stderr に漏れる) | `_RUN_KW = capture_output・text・encoding="utf-8"・errors="replace"` を `_git` に適用。selftest 腕: 同じ kwargs で `\x81\xff` を stderr に書く子プロセスを回し、例外なし・末尾行 `tail` が残ることを確認(git 自身が非 UTF-8 を出す個体は作れない— 検査官と同じ限界を宣言) |
+
+- 検査官の追加確認(受理側で採用): 差分位置の境界値(短縮 39・延長 40・先頭 0・末尾 39・非文字列 n/a)、CLI 10 経路の exit と 1 行目、hook / job / self-conformance の非依存(実読)、
+  W7 の設計判断(個体未照合= UNMEASURABLE)への反証なし、CODE と job 停止語彙の分離への反証なし(CODE → 停止語彙の写像は本ツール外= 運転員手順側・ブリーフ v2)。
+- 検査官が測れなかったもの: self-conformance の全 C1〜C18(witness を書くため read-only ブリーフで未実行)→ 受理側で実行(§6 V3・§8)。`WRITE_TREE_FAILED` の実 git 障害(モックのみ)→ 宣言のまま。
+- r1b 付随: `TemporaryDirectory(ignore_cleanup_errors=True)`— try を分割したことで後片付けの OSError が with ブロック外へ漏れる経路を塞ぐ(製造者が r1b で気づいた・検査官所見ではない)。
+- r1b の受入: `--selftest` exit 0(1 行目 `ADVANCE OK: selftest PASS(...)`)・produce `--stop BOGUS` → `UNMEASURABLE ARG_ERROR: …`・r3 治具 `--eco ECO-062` → `STOP IDENTITY_MISMATCH: …`。self-conformance・CI・r2 は下記。

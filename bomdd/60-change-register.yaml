@@ -2385,7 +2385,7 @@ changes:
     title: bomdd-witness の検証報告を運転員が機構で読める形にする — 1 行目の理由コード・個体照合の既定化(verify PATH 単独= 測定不能)・tree 差分の 40 桁表示・測定不能の原因分離(Phase 5 run-01 所見 P5-01/02/03/06/07 の計器側)
     date: 2026-09-11
     origin: corrective
-    status: decided   # 2026-09-11 起票(filed・job 経由・required [calibrate, preflight]・missing [calibrate])→ 同日 user 製造裁定 A(§1 の 4 項をそのまま凍結・独立検査= Codex 異系統)で decided。製造着手
+    status: implemented   # 2026-09-11 起票(filed・job 経由)→ 製造裁定 A で decided → fix 4068029(製造者受入 V1/V2/V3/V6・CI 34560468428 success)→ 独立検査 r1(Codex)= REJECT・IA-01〜04 を 4/4 CONFIRMED で是正(r1b: produce/selftest も固定形式・CODES 15・INDEX_COPY_FAILED・GIT_UNAVAILABLE は番兵のみ・utf-8/replace)。r2 引き渡し前
     source: >
       Phase 5 run-01(ECO-062 §10・bomdd/reports/phase5-run-01-eco-062.md §6)。fail-open 0/7 のうち R3(別 job の receipt)と run-02(dirty 腕)は運転員の判断で
       成立し検証器単独の弁別力ではない: verify PATH 単独は個体を照合せず ADVANCE(P5-02)・理由が文字列のみで運転員が停止種別を自前写像(P5-01)・
@@ -2406,3 +2406,5 @@ changes:
     verification: >
       (起票段階)製造時の受入候補は order §3 — V1 selftest に CODE ごとの腕+verify PATH 単独→2 / V2 run-01 治具 r1〜r8 の再判定が期待 CODE 表と一致(R6 で差分位置 36)/
       V3 pre-push witness・job.py・self-conformance 不変 / V4 CI・窓 / V5 異系統独立検査 Codex 必須(instrument-change)/ V6 pwsh 経由でも 1 行目から 3 値が読める。
+      **製造者受入(4068029)**: V1 selftest PASS / V2 run-01 治具 r3= IDENTITY_MISMATCH・他 TREE_MISMATCH(40 桁+位置)・r3 の --eco なし= IDENTITY_UNCHECKED 2 / V3 hooks・job・self-conformance diff 0+全 PASS /
+      V4 CI 34560468428 success / V6 pwsh で exit は 1 に丸められるが 1 行目で 3 値が読める(再現)。**独立検査 r1(Codex・2026-09-11)= REJECT・IA-01〜04 4/4 CONFIRMED**(order §7.1)— 是正 r1b。r2 待ち。

@@ -16,11 +16,14 @@
 #  W5 produce は作業木内(.git 配下を除く)への出力を exit 2 で拒否する — 作業木内の witness は
 #     次の write-tree に自分が入って tree を変え、known-good が必ず STOP する(初回 selftest が捕捉)。
 #     判定は Windows 拡張長パス(\\?\C:\...)の接頭辞を剥がし normcase で比較する(IA-08・r3)。
-#  W6 検証報告の標準出力 1 行目は `<VERDICT> <CODE>[(<CAUSE>)]: <message>` に固定する(ECO-066 §1-1)。
-#     VERDICT= ADVANCE / STOP / UNMEASURABLE は終了コード 0 / 1 / 2 と 1 対 1。CODE は本ツールローカルの語彙
-#     (CODES・job の停止語彙とは別物・増やさない)。運転員の実行基盤が終了コードを丸めても(pwsh -Command は
+#  W6 CLI の標準出力 1 行目は **全経路**(verify・produce・--selftest・引数不正)で `<VERDICT> <CODE>[(<CAUSE>)]: <message>`
+#     に固定する(ECO-066 §1-1・r1 IA-01 で produce/selftest も対象に)。VERDICT= ADVANCE / STOP / UNMEASURABLE は終了コード
+#     0 / 1 / 2 と 1 対 1(produce の成功は ADVANCE PRODUCED・selftest の失敗は STOP SELFTEST_FAIL)。CODE は本ツールローカルの語彙
+#     (CODES 15・job の停止語彙とは別物・本 ECO で閉じる)。運転員の実行基盤が終了コードを丸めても(pwsh -Command は
 #     非 0 を 1 にする・P5-07)1 行目で 3 値と理由を機械的に読める。tree 不一致は両 tree を 40 桁で示し
-#     最初に異なる位置を添える(P5-03)。測定不能は原因(TREE_CAUSES)を添える(P5-06)。
+#     最初に異なる位置を添える(P5-03)。測定不能は原因(TREE_CAUSES 7)を添える(P5-06)。GIT_UNAVAILABLE は「git を起動できない
+#     (OSError)」のみ — 起動できた git/ラッパーの非 0 は rc 127 でも GIT_DIR_FAILED 等(r1 IA-03)。index の複製失敗は
+#     INDEX_COPY_FAILED(r1 IA-02)。git の stdout/stderr は utf-8・errors=replace で読む(r1 IA-04・非 UTF-8 でも落ちない)。
 #  W7 CLI の `verify PATH` は `--eco ECO` が必須 — 無ければ UNMEASURABLE IDENTITY_UNCHECKED(exit 2)。
 #     個体未照合の receipt で進むのは「別 job の receipt を流用する」失敗型(Phase 5 R3)。関数 verify(eco=None)
 #     は selftest 用に省略可のまま。
@@ -58,8 +61,12 @@ TREE_DEFINITION = "worktree write-tree (add -A on temp index) — self-conforman
 # W6: 検証報告の語彙(本ツールローカル・job の停止語彙 W3 とは別物)
 VERDICTS = {0: "ADVANCE", 1: "STOP", 2: "UNMEASURABLE"}
 CODES = ("OK", "IDENTITY_MISMATCH", "IDENTITY_UNCHECKED", "TREE_MISMATCH", "GATES_MISSING", "GATE_INCOMPLETE",
-         "GATE_FAIL", "STOP_TYPE", "WITNESS_UNREADABLE", "WITNESS_MALFORMED", "TREE_UNAVAILABLE", "ARG_ERROR")
-TREE_CAUSES = ("GIT_UNAVAILABLE", "GIT_DIR_FAILED", "TEMP_UNAVAILABLE", "TEMP_IN_WORKTREE", "ADD_FAILED", "WRITE_TREE_FAILED")
+         "GATE_FAIL", "STOP_TYPE", "WITNESS_UNREADABLE", "WITNESS_MALFORMED", "TREE_UNAVAILABLE", "ARG_ERROR",
+         "PRODUCED", "WITNESS_UNWRITABLE", "SELFTEST_FAIL")   # r1 IA-01: produce / selftest の経路も固定形式に
+TREE_CAUSES = ("GIT_UNAVAILABLE", "GIT_DIR_FAILED", "TEMP_UNAVAILABLE", "INDEX_COPY_FAILED", "TEMP_IN_WORKTREE", "ADD_FAILED",
+               "WRITE_TREE_FAILED")   # r1 IA-02: index 複製の失敗を temp 不能と分ける
+# r1 IA-04: git の出力は utf-8・置換で読む — 非 UTF-8 バイトで reader thread が落ちて stderr 末尾を失わない
+_RUN_KW = dict(capture_output=True, text=True, encoding="utf-8", errors="replace")
 
 
 def report_line(rc: int, code: str, msg: str, cause: str | None = None) -> str:
@@ -76,7 +83,7 @@ class _GitUnavailable:
 
 def _git(root: Path, *args, env=None):
     try:
-        return subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, env=env)
+        return subprocess.run(["git", "-C", str(root), *args], env=env, **_RUN_KW)
     except OSError:
         return _GitUnavailable()
 
@@ -108,34 +115,40 @@ def worktree_tree(root: Path):
     返り値 (tree, git_dir, err) — 失敗は tree=None・err=(CAUSE, detail)(P5-06: 5 経路を区別・原因を捨てない)。"""
     gd = _git(root, "rev-parse", "--git-dir")
     if gd.returncode != 0:
-        cause = "GIT_UNAVAILABLE" if gd.returncode == 127 else "GIT_DIR_FAILED"
+        # r1 IA-03: GIT_UNAVAILABLE は「起動できない」(OSError の番兵)だけ — 起動できた git/ラッパーの rc 127 は GIT_DIR_FAILED
+        cause = "GIT_UNAVAILABLE" if isinstance(gd, _GitUnavailable) else "GIT_DIR_FAILED"
         return None, None, (cause, _tail(gd.stderr))
     git_dir = Path(gd.stdout.strip())
     if not git_dir.is_absolute():
         git_dir = root / git_dir
     try:
         # IA-06: 一時 index の置き場を作れない(OS temp 不能)は測定不能 → TEMP_UNAVAILABLE(exit 2)。traceback にしない。
-        with tempfile.TemporaryDirectory() as td:
-            # IA-06 変種(受理側で実測): tempfile が cwd= 作業木へフォールバックすると一時 dir 自身が
-            # add -A で tree に入り「tree 不一致」を偽生成する — 作業木内の temp は測定不能として拒否。
-            if _inside_worktree(Path(td), root, git_dir):
-                return None, git_dir, ("TEMP_IN_WORKTREE", str(td))
-            tmp_index = Path(td) / "index"
-            src = git_dir / "index"
-            if src.exists():
-                shutil.copy2(src, tmp_index)
-            env = dict(os.environ, GIT_INDEX_FILE=str(tmp_index))
-            added = _git(root, "add", "-A", env=env)
-            if added.returncode != 0:
-                cause = "GIT_UNAVAILABLE" if added.returncode == 127 else "ADD_FAILED"
-                return None, git_dir, (cause, _tail(added.stderr))
-            wt = _git(root, "write-tree", env=env)
-            if wt.returncode != 0:
-                cause = "GIT_UNAVAILABLE" if wt.returncode == 127 else "WRITE_TREE_FAILED"
-                return None, git_dir, (cause, _tail(wt.stderr))
-            return wt.stdout.strip(), git_dir, None
+        # 後片付けの失敗(sandbox 所有等)は測定結果に関係しないので無視する(r1b・with ブロック外へ例外を出さない)
+        tmp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
     except OSError as e:
         return None, git_dir, ("TEMP_UNAVAILABLE", f"{e.__class__.__name__}: {str(e)[:200]}")
+    with tmp as td:
+        # IA-06 変種(受理側で実測): tempfile が cwd= 作業木へフォールバックすると一時 dir 自身が
+        # add -A で tree に入り「tree 不一致」を偽生成する — 作業木内の temp は測定不能として拒否。
+        if _inside_worktree(Path(td), root, git_dir):
+            return None, git_dir, ("TEMP_IN_WORKTREE", str(td))
+        tmp_index = Path(td) / "index"
+        src = git_dir / "index"
+        try:
+            if src.exists():
+                shutil.copy2(src, tmp_index)
+        except OSError as e:  # r1 IA-02: 既存 index の読取/複製失敗は temp 不能ではない
+            return None, git_dir, ("INDEX_COPY_FAILED", f"{e.__class__.__name__}: {str(e)[:200]}")
+        env = dict(os.environ, GIT_INDEX_FILE=str(tmp_index))
+        added = _git(root, "add", "-A", env=env)
+        if added.returncode != 0:
+            cause = "GIT_UNAVAILABLE" if isinstance(added, _GitUnavailable) else "ADD_FAILED"
+            return None, git_dir, (cause, _tail(added.stderr))
+        wt = _git(root, "write-tree", env=env)
+        if wt.returncode != 0:
+            cause = "GIT_UNAVAILABLE" if isinstance(wt, _GitUnavailable) else "WRITE_TREE_FAILED"
+            return None, git_dir, (cause, _tail(wt.stderr))
+        return wt.stdout.strip(), git_dir, None
 
 
 def default_path(git_dir: Path, eco: str) -> Path:
@@ -168,20 +181,21 @@ def _inside_worktree(path: Path, root: Path, git_dir: Path | None) -> bool:
 
 
 def produce(root: Path, eco: str, gates: list, stop: str, out: Path | None, producer: str) -> tuple[int, str, Path | None]:
+    """(rc, 1 行目, path)— 1 行目は W6 の固定形式(r1 IA-01: produce の経路も対象)。"""
     if stop not in STOP_VOCABULARY:
-        return 2, f"stop_type 不正: {stop}(語彙= {', '.join(STOP_VOCABULARY)})", None
+        return 2, report_line(2, "ARG_ERROR", f"stop_type 不正: {stop}(語彙= {', '.join(STOP_VOCABULARY)})"), None
     for g in gates:  # IA-01: 不完全な gate を書かない(生成側でも拒否)
         prob = gate_problem(g)
         if prob:
-            return 2, f"gate 不完全: {prob}", None
+            return 2, report_line(2, "GATE_INCOMPLETE", f"gate 不完全: {prob}"), None
     tree, git_dir, err = worktree_tree(root)
     if tree is None:
         cause, detail = err
-        return 2, f"tree を取得できない({cause}: {detail or '詳細なし'})— 測定不能は合格ではない", None
+        return 2, report_line(2, "TREE_UNAVAILABLE", f"tree を取得できない({detail or '詳細なし'})— 測定不能は合格ではない", cause), None
     if out is not None and _inside_worktree(out, root, git_dir):
         # W5(selftest が自分で捕捉した欠陥): 作業木内に置いた witness は次の write-tree に自分が
         # 含まれて tree を変え、known-good が必ず STOP する(自己参照)。.git 配下か作業木外のみ許す。
-        return 2, f"witness を束縛対象の作業木内に置けない(自己参照): {out} — .git 配下か作業木外を指定", None
+        return 2, report_line(2, "ARG_ERROR", f"witness を束縛対象の作業木内に置けない(自己参照): {out} — .git 配下か作業木外を指定"), None
     head = _git(root, "rev-parse", "HEAD").stdout.strip() or None
     w = {"witness": f"WIT-{eco}", "eco": eco, "tree": tree, "tree_definition": TREE_DEFINITION,
          "head": head, "gates": gates, "stop_type": stop, "producer": producer,
@@ -191,8 +205,8 @@ def produce(root: Path, eco: str, gates: list, stop: str, out: Path | None, prod
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(w, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     except OSError as e:
-        return 2, f"witness を書けない: {path}({e.__class__.__name__})— 測定不能は合格ではない", None
-    return 0, f"witness 生成: {path}(tree {tree[:12]}・gates {len(gates)}・stop {stop})", path
+        return 2, report_line(2, "WITNESS_UNWRITABLE", f"witness を書けない: {path}({e.__class__.__name__})— 測定不能は合格ではない"), None
+    return 0, report_line(0, "PRODUCED", f"witness 生成: {path}(tree {tree[:12]}・gates {len(gates)}・stop {stop})"), path
 
 
 def _first_diff(a: str, b: str) -> str:
@@ -448,7 +462,7 @@ def selftest() -> int:
                 del os.environ["PATH"]
             else:
                 os.environ["PATH"] = saved
-        if rc_nogit != 2 or rc_nogit_p != 2 or _code_of(line_nogit) != ("TREE_UNAVAILABLE", "GIT_UNAVAILABLE") or "GIT_UNAVAILABLE" not in msg_nogit_p:
+        if rc_nogit != 2 or rc_nogit_p != 2 or _code_of(line_nogit) != ("TREE_UNAVAILABLE", "GIT_UNAVAILABLE") or _code_of(msg_nogit_p) != ("TREE_UNAVAILABLE", "GIT_UNAVAILABLE"):
             fails.append(f"kb-nogit: verify exit {rc_nogit} {line_nogit} / produce exit {rc_nogit_p} {msg_nogit_p}(2・GIT_UNAVAILABLE であるべき)")
         # IA-06(r2): OS temp 不能は exit 2(traceback でない)/ 変種: temp が作業木内へフォールバックしても 2 — ECO-066: CAUSE を区別
         saved_td = tempfile.tempdir
@@ -469,11 +483,13 @@ def selftest() -> int:
         if any(p.name.startswith("tmp") for p in root.iterdir()):
             fails.append("kb-notmp: 作業木に temp 残置")
         # ECO-066(P5-06): git サブコマンド失敗の CAUSE(ADD_FAILED / WRITE_TREE_FAILED / GIT_DIR_FAILED)— _git を差し替えて再現
+        # r1 IA-03: 起動できた git/ラッパーの rc 127 は GIT_UNAVAILABLE ではない(rev-parse を rc 127 で失敗させる腕)
         real_git = globals()["_git"]
-        for sub, want_cause in (("add", "ADD_FAILED"), ("write-tree", "WRITE_TREE_FAILED"), ("rev-parse", "GIT_DIR_FAILED")):
-            def fake_git(root_, *args, env=None, _sub=sub):
+        for sub, want_cause, rc_fake in (("add", "ADD_FAILED", 128), ("write-tree", "WRITE_TREE_FAILED", 128),
+                                         ("rev-parse", "GIT_DIR_FAILED", 128), ("rev-parse", "GIT_DIR_FAILED", 127)):
+            def fake_git(root_, *args, env=None, _sub=sub, _rc=rc_fake):
                 if args and args[0] == _sub:
-                    return _FakeGit(128, f"fatal: simulated {_sub} failure")
+                    return _FakeGit(_rc, f"fatal: simulated {_sub} failure rc={_rc}")
                 return real_git(root_, *args, env=env)
             globals()["_git"] = fake_git
             try:
@@ -481,7 +497,39 @@ def selftest() -> int:
             finally:
                 globals()["_git"] = real_git
             if rc_fk != 2 or _code_of(line_fk) != ("TREE_UNAVAILABLE", want_cause) or "simulated" not in line_fk:
-                fails.append(f"kb-{sub}: exit {rc_fk} / {line_fk}(2・{want_cause}・stderr 末尾を含むべき)")
+                fails.append(f"kb-{sub}(rc {rc_fake}): exit {rc_fk} / {line_fk}(2・{want_cause}・stderr 末尾を含むべき)")
+        # r1 IA-02: 既存 index の複製失敗(.git/index がディレクトリ)は INDEX_COPY_FAILED — 実 fixture(モックなし)
+        with tempfile.TemporaryDirectory() as td2:
+            r2 = Path(td2)
+            if _git(r2, "init", "-q", env=env).returncode == 0:
+                (r2 / ".git" / "index").mkdir()
+                rc_ix, line_ix = verify(r2, out)
+                if rc_ix != 2 or _code_of(line_ix) != ("TREE_UNAVAILABLE", "INDEX_COPY_FAILED"):
+                    fails.append(f"kb-index-copy: exit {rc_ix} / {line_ix}(2・INDEX_COPY_FAILED であるべき)")
+            else:
+                fails.append("kb-index-copy: fixture の git init 不能")
+        # r1 IA-04: 非 UTF-8 の stderr でも subprocess の読取が落ちず、末尾行が(置換つきで)残る — _RUN_KW を同じ経路で検査
+        try:
+            pr = subprocess.run([sys.executable, "-c", "import sys; sys.stderr.buffer.write(b'x\\n\\x81\\xff tail\\n'); sys.exit(3)"], **_RUN_KW)
+            if pr.returncode != 3 or "tail" not in _tail(pr.stderr):
+                fails.append(f"kb-stderr-bytes: rc {pr.returncode} / tail {_tail(pr.stderr)!r}(3・tail を含むべき)")
+        except Exception as e:  # noqa: BLE001 — 落ちること自体が欠陥
+            fails.append(f"kb-stderr-bytes: 例外 {e.__class__.__name__}: {e}")
+        # r1 IA-01: produce / selftest の CLI 経路も固定形式(PRODUCED / ARG_ERROR / GATE_INCOMPLETE / WITNESS_UNWRITABLE / SELFTEST_FAIL)
+        rc_pl, line_pl = run_cli(["produce", "--eco", "ECO-900", "--gate", "g=0:x", "--out", str(wout / "pl.json")], root)
+        if rc_pl != 0 or _code_of(line_pl)[0] != "PRODUCED" or not line_pl.startswith("ADVANCE "):
+            fails.append(f"cli-produce: exit {rc_pl} / {line_pl}(0 ADVANCE PRODUCED であるべき)")
+        if _code_of(msg_bad_stop)[0] != "ARG_ERROR" or _code_of(msg_in)[0] != "ARG_ERROR":
+            fails.append(f"cli-produce-arg: {msg_bad_stop} / {msg_in}(ARG_ERROR であるべき)")
+        _, line_inc2, _ = produce(root, "ECO-900", [{"name": "", "exit": 0, "source": "x"}], "NONE", wout / "inc2.json", "selftest")
+        _, line_unw2, _ = produce(root, "ECO-900", [{"name": "g", "exit": 0, "source": "x"}], "NONE", wout / "w.json" / "y.json", "selftest")
+        if _code_of(line_inc2)[0] != "GATE_INCOMPLETE" or _code_of(line_unw2)[0] != "WITNESS_UNWRITABLE":
+            fails.append(f"cli-produce-codes: {line_inc2} / {line_unw2}")
+        if not _report_text(["x"]).startswith("STOP SELFTEST_FAIL: ") or not _report_text([]).startswith("ADVANCE OK: "):
+            fails.append("selftest 自身の 1 行目が固定形式でない")
+        for c in CODES:
+            if _code_of(report_line(0, c, "m"))[0] != c:
+                fails.append(f"report_line/_code_of の往復が {c} で崩れる")
         # IA-08(r3): Windows 拡張長パス(\\?\C:\...)で作業木内を外部と誤判定しない(W5)
         if os.name == "nt":
             ext = Path("\\\\?\\" + str((root / "ext.json").resolve()))
@@ -518,14 +566,19 @@ def selftest() -> int:
     return _report(fails)
 
 
-def _report(fails) -> int:
+def _report_text(fails) -> str:
+    """selftest の 1 行目も W6 の固定形式(r1 IA-01)。FAIL は STOP SELFTEST_FAIL(exit 1)。"""
     if fails:
-        print("bomdd-witness selftest FAILED:\n  " + "\n  ".join(fails))
-        return 1
-    print("bomdd-witness selftest PASS(known-good OK / hash・fail・missing・stop・dirty・不完全 gate・個体不一致 1〔CODE 別〕/ 不在・形状不正・git 不能・"
-          "temp 不能・作業木内 temp・add/write-tree/git-dir 失敗 2〔CAUSE 別〕/ CLI: PATH 単独= IDENTITY_UNCHECKED 2・--eco 付き 0・既定パス 0・引数不正 ARG_ERROR 2 / "
-          "不正 stop 2 / 作業木内出力 2 / 拡張長パス 2/.git 配下 0 / 書込不能 2 / 差分位置 36・0)")
-    return 0
+        return report_line(1, "SELFTEST_FAIL", f"{len(fails)} 件\n  " + "\n  ".join(fails))
+    return report_line(0, "OK", "selftest PASS(known-good / hash・fail・missing・stop・dirty・不完全 gate・個体不一致 1〔CODE 別〕/ 不在・形状不正・"
+                       "git 不能・temp 不能・index 複製失敗・作業木内 temp・add/write-tree/git-dir 失敗〔rc 128・127〕2〔CAUSE 別〕/ CLI: PATH 単独= "
+                       "IDENTITY_UNCHECKED 2・--eco 付き 0・既定パス 0・引数不正 ARG_ERROR 2・produce= PRODUCED 0/ARG_ERROR/GATE_INCOMPLETE/WITNESS_UNWRITABLE 2 / "
+                       "非 UTF-8 stderr で落ちない / 作業木内出力 2 / 拡張長パス 2/.git 配下 0 / 差分位置 36・0)")
+
+
+def _report(fails) -> int:
+    print(_report_text(fails))
+    return 1 if fails else 0
 
 
 def main(argv) -> int:
