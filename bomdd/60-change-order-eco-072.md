@@ -1,4 +1,4 @@
-# Change Order — ECO-072(ECO-062 Phase 7 第 1 弾: 設備台帳の属性化+独立性判定の機械化 — 独立検査として成立しない組合せを入口が弾く〔製造中・裁定 A〕)
+# Change Order — ECO-072(ECO-062 Phase 7 第 1 弾: 設備台帳の属性化+独立性判定の機械化 — 独立検査として成立しない組合せを入口が弾く〔verified〕)
 
 > 裁定: user 2026-09-12「ECO-062 を再開して。Phase 7 を DISCUSS から」→ DISCUSS(thesis: 第 1 弾は設備台帳の属性化+独立性判定に絞る・P6-02 は第 2 弾・裁定キューは保留)に
 > user AGREE。**起票のみ**(製造裁定は別 DECIDE・範囲の凍結は裁定時)。親= [ECO-062](60-change-order-eco-062.md) §7 Phase 7(入口= Phase 6+設備認定台帳の属性化・
@@ -120,3 +120,50 @@ templates 変更で advisory・C7 不変・C13 は新 yaml へのリンク実在
 - 検査官の報告は自前の較正 receipt(observed・条件付き適格・計器欠陥= selftest に IA-01〜03 の陽性対照なし)と preflight receipt(PROCEED_WITH_LIMITS)を含む(記録のみ・受理側判定は上表)。
 - r1b 後の V1: `bomdd-job.py --selftest` exit 0(r1 腕 IA-01/IA-03 追加)・`bomdd-run.py --selftest` exit 0(独立性 9 腕)。実 order の job ビュー: ECO-072 `{producer: EQ-001, inspector: EQ-002}`・
   ECO-071 null(不変)。
+
+### 5.2 r2(2026-09-12・range= 是正確認+回帰・範囲限定)— 報告: [independent-inspection-eco-072-r2.md](reports/independent-inspection-eco-072-r2.md)
+
+- 起動: 入口から実 cell(`--executor EQ-002`・witness tree 23242098fc55= fix commit 2dad24f の作業木)→ `cell exit 0`。報告は再び handoff ヘッダで開始(第三者到達 2 例目)。
+- 判定: **ACCEPT**・新規所見なし。IA-01(未選択 entry の list/数値/dict → `job:MISSING_INPUT` 起動なし・null/欠落は許容・選択 entry の null は `AXIS_UNKNOWN:model`)/ IA-02(`M1/'  h1  '/A1` →
+  SAME_LINEAGE 起動なし・`m2` なら起動)/ IA-03(コメント内外・他節・見出しなし・同位見出し以降= PRODUCER_UNDECLARED / 直下・下位見出し・英語 equipment 見出し= 採用)= すべて期待どおり。
+  回帰: r1 の全腕不変・停止優先順位 job > receipt > independence 不変・別プロセス/別 cwd で `BOMDD_EXECUTOR=EQ-002`・後方互換 dry 旧新同一・3 ツール selftest exit 0・ECO-071 null / ECO-072
+  `{producer: EQ-001, inspector: EQ-002}`。BOM 付き台帳は ADVANCE(明確化した仕様どおり)。検査官の較正 receipt: 計器欠陥なし(r1 の対照腕が selftest に入った)。範囲外の観察: なし。
+
+## 6. クローズ(2026-09-12・verified)
+
+- **V1**= PASS(selftest 3 ツール exit 0・§4)/ **V2**= PASS(Phase 7 出口条件の実測 1 例+陽性対照・§4)/ **V3**= PASS(self-conformance 全 PASS・CI run 34637503548〔fix 2dad24f〕success)。
+  diff 監査の窓: baseline `58205be` → head `2dad24f`(**窓閉鎖**)。窓内= tools 2・新規 yaml・templates 1・order 2・register・improvements・reports(r1)= allowed_paths のみ。
+- **V4**= 異系統独立検査 r1(境界探索・REJECT 3 是正+ブリーフ帰属 1)→ r2(是正確認+回帰・ACCEPT)。range と実行環境の差(workspace-write・別プロセス・pwsh)をブリーフに宣言(ECO-069 の欄)。
+- **V5**= 下記 較正 receipt。register: `implemented → verified`・head 凍結。
+- **Phase 7 第 1 弾の到達点**: 設備台帳(3 entry・来歴つき)・配員欄を job 射影が解決(F2 解消)・入口が独立性を宣言属性で照合し、成立しない組合せを弾いた(N=1・陽性対照 1・r1/r2 の実 cell 起動 2)。
+  §7 Phase 7 の残り= P6-02(cell の判定を receipt として回収)・裁定キュー(保留)・設備属性の harness-measured 化(exit_propagation 2 件が unknown・r1 で pwsh 丸めが非再現= 環境依存)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・③: 計器変更〔tools〕)
+
+- 査定した主張と判定:
+  1. 「成立しない組合せを機械が弾いた実測 1 例」— **observed / 適格**(実入口・witness 個体照合つき・台帳 `.git/bomdd-run/ECO-072.jsonl` に decision 行・起動痕跡なし。陽性対照= 同 job で EQ-002 は起動)。
+  2. 「fail-closed(独立と判定できない限り起動しない)」— **observed / 条件付き適格**(selftest 9 腕+r1 境界探索で 3 クラスの fail-open を検出→是正→r2 で確認。全入力の網羅は主張しない・
+     Unicode 正規化は仕様外)。
+  3. 「独立性の判定は宣言属性の照合まで」— **宣言**(実効は主張しない・Grok 公式の境界。台帳の来歴は harness-measured が sandbox/temp のみ・他は self-reported/user-declared)。
+  4. 「後方互換(配員欄なしの order は従来どおり)」— **observed / 適格**(ECO-071 の job 不変・dry 旧新同一= 検査官 r1/r2 の実測)。
+  5. 「配員欄が製品 order で書かれるようになる」— **unknown(未測定・templates 経由の配布は次回 kit 再設置から)**。
+- 検出した計器欠陥(帰属つき): 製造物 3 件(IA-01〜03・r1 境界探索が検出・r1b 是正・selftest に対照腕を追加)。受理側 2 件= ①ブリーフが BOM を読取不能の例に挙げた(IA-04・仕様明確化)
+  ②記帳スクリプトの anchor 不一致で self-conformance が走らないまま「exit=1」を返した(受理側手順・再適用で解消・製造物無関係)。自己捕捉 1 件(usage 80 桁)。
+- 検出力の限界: N=1 の出口実測(組合せ 1 種)。独立性の実効・Unicode 正規化・別 OS・別 YAML 実装は未測定。設備属性の来歴は大半が申告。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | V2 4 腕・selftest 3 ツール・r1/r2 |
+  | Q2 | asked | observed/適格 | 実測 | known-bad= 同一 executor(STOP)/ 陽性対照= 異系統(起動)/ r1 の fail-open 3 例が是正後に STOP |
+  | Q3 | asked | observed/適格 | 実測 | 是正前後: r1 起動 → r1b 起動なし(検査官 r2 で確認) |
+  | Q4 | asked | observed/適格 | 実測 | 実入口・実 order・実台帳(fixture は selftest と検査官の temp) |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(実効・Unicode・配布)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI(fix・accept とも) |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照あり(EQ-002 起動・r1 の 3 クラス) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness・register・run 台帳(decision/cell 行)・r1/r2 報告 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 台帳形状/配員欄の所在/表記揺れ/executor 引数/停止優先順位(r1 被覆表) |
+
+- このクローズが支持しないもの: 独立性の実効 / 製品 order での配員欄の記入率 / 偽陽性率(EXP-20260912-02 で製造後 3 ECO)/ P6-02・裁定キュー(Phase 7 の残り)。

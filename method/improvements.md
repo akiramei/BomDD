@@ -7303,7 +7303,8 @@ executor を識別しない・独立性は宣言属性の照合までしか機�
 - [open] EXP-20260912-02 — **独立性判定は「成立しない組合せ」を弾き、異系統を弾かないか**: ECO-072 製造受入 V2 で ①producer と同一 executor → STOP INDEPENDENCE_FAIL(known-bad 1 例=
   Phase 7 出口)②異系統(Codex)→ ADVANCE→起動(陽性対照)  ③来歴 unknown の軸 → STOP(fail-closed)。加えて製造後 3 ECO で偽陽性(異系統を弾いた)0 件。**next trigger= ECO-072 製造受入**
   **初回値(2026-09-12・V2 実入口)**: ①STOP INDEPENDENCE_FAIL(SAME_ID)exit 1 起動なし ②異系統 EQ-002 で ADVANCE→起動(cell が BOMDD_EXECUTOR を受領)③実入口では未測定(selftest 腕のみ)。
-  r1 境界探索で fail-open 3 クラス(未選択 entry の型・大小文字差・コメント/他節の言及)→ r1b 是正。偽陽性は継続計測(0/1: r1 実 cell 起動)
+  r1 境界探索で fail-open 3 クラス(未選択 entry の型・大小文字差・コメント/他節の言及)→ r1b 是正。偽陽性は継続計測(0/2: r1・r2 の実 cell 起動)。**ECO-072 verified 2026-09-12**(r2 ACCEPT)・
+  ①②③は selftest+検査官 fixture で確認済み・open 維持(偽陽性 3 ECO の計測が残り)
   source: ECO-072
   evidence: ECO-072 order §1-3・§1-5・EXP-20260711-05
 
@@ -7325,3 +7326,6 @@ IA-02 大小文字差を独立に数えて起動 / IA-03 HTML コメント・他
   大小文字差を独立と数えた)。3 例で playbook §8.5(境界統制)か §13 の運用規則へ。
   source: ECO-072
   evidence: ECO-072 order §5.1 IA-02/IA-03
+
+**受入(2026-09-12)**: ECO-072 verified(fix 2dad24f・CI 34637503548 success・r2 ACCEPT・窓閉鎖・較正 receipt trigger ①③)。Phase 7 第 1 弾 完了。検査官の報告は r1/r2 とも handoff ヘッダで開始
+(第三者到達 2 例)。受理側の手順欠陥 1: 記帳スクリプトの anchor 不一致で検査が走らないまま exit を読んだ(再適用で解消)。

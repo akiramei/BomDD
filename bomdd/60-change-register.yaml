@@ -2532,7 +2532,7 @@ changes:
     title: ECO-062 Phase 7 第 1 弾 — 設備台帳の属性化(bomdd/70-equipment.yaml・属性ごとの来歴)+独立性判定の機械化(bomdd-run --executor 必須・producer と同一 id / 3 軸一致 / 軸 unknown → STOP INDEPENDENCE_FAIL)
     date: 2026-09-12
     origin: improvement
-    status: implemented   # 2026-09-12 起票(3e918de)→ user DECIDE「A」= 完全形 → 製造(台帳+配員欄/job 射影+入口判定+selftest)・V1 selftest PASS・V2 実入口で同一 executor STOP / 異系統 起動(Phase 7 出口の実測 1 例)・Codex 独立検査 r1〜
+    status: verified   # 2026-09-12 起票(3e918de)→ user DECIDE「A」→ fix 2dad24f(V1 selftest・V2 実入口で Phase 7 出口の実測 1 例・r1 境界探索 REJECT 3 是正)→ CI 34637503548 success → r2 是正確認+回帰 ACCEPT → verified(窓閉鎖 58205be→2dad24f・較正 receipt trigger ①③)
     source: >
       ECO-062 §7 Phase 7(出口= 独立検査として成立しない組合せを機械が弾いた実測 1 例)。実測: 設備台帳は機械可読で存在せず(bomdd/ に 0)・bomdd-run は executor を識別しない・
       独立性は宣言属性の照合でしか判定できない(Grok 公式・EXP-20260711-05 のモデル記録欠落)・sandbox/temp/exit 伝播が検出力を左右(Phase 5/6・OBS-20260910-03 3/3)。
@@ -2541,7 +2541,7 @@ changes:
     no_impact_prediction: "(起票時点・製造裁定で凍結)範囲 A なら tools 2+新規 yaml+templates 検査官行+台帳系。C4/C14 advisory・C7 不変・C13 新 yaml リンク実在・既存 ECO の job ビューは配員欄なしでも従来どおり(V1)・hooks/.github diff 0"
     diff_audit:
       baseline: "58205be"  # 起票直前 HEAD
-      head: ~
+      head: "2dad24f"      # diff監査済み: 窓内= allowed_paths のみ・予測的中
       allowed_paths: [method/tools/bomdd-job.py, method/tools/bomdd-run.py, bomdd/70-equipment.yaml, method/templates/60-change-order.md, bomdd/60-change-order-eco-072.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-072.md, bomdd/reports/independent-inspection-eco-072-r2.md, bomdd/reports/independent-inspection-eco-072-r3.md]  # 製造裁定 A で再凍結(2026-09-12)
     summary: >
       ①設備台帳 bomdd/70-equipment.yaml(id/kind/model/harness/account_lineage/sandbox_modes/temp_available/exit_propagation/qualification_ref/provenance/status・初期 3 entry)
