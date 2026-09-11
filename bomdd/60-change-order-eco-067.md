@@ -104,3 +104,37 @@ run 台帳を正本にする(正本は register / order のまま)。
 - register: `filed`(2026-09-11)・baseline `49e3a99`・allowed_paths(起票段階)= 台帳系+`method/tools/bomdd-run.py`(製造裁定で再凍結)。
 - ECO-062 §7 現在地= 「Phase 6 開始(裁定 A)・ECO-067 起票済・製造裁定待ち」。EXP-20260910-02 の next trigger= 本 ECO の V3(自動起動の初回)。
 - **次の裁定(製造裁定)**: 範囲= §1 の 3 項をそのまま凍結するか・独立検査= Codex(V5)。ECO-055 の register status は別 DECIDE。
+
+## 4. 製造裁定と製造(2026-09-11・user DECIDE「A」— §1 の 3 項をそのまま凍結・独立検査= Codex)
+
+- register `filed → decided`(同日)。affected_refs= `method/tools/bomdd-run.py`(新規)で凍結。allowed_paths= 新規 1+台帳系+検査報告。影響なし予測(製造前・凍結)は register。
+- 製造者= Claude Code(claude-fable-5-1・起票者と同一)。独立検査= Codex(異系統・CLI 直接・§3 V5)— verified は検査官の受理側真正判定を §7 に記録してから。
+
+## 5. 製造物(`method/tools/bomdd-run.py`・新規・345 行)
+
+| §1 | 実装 |
+|---|---|
+| 1(a) job 取得 | `bomdd-job.py` を `importlib` で in-process import し `select([eco], root)` → job レコード(`{value, source}` 欄)。job.stop_type ≠ NONE は receipt 検証の結果に関わらず STOP(配送先= 表) |
+| 1(b) receipt 導出 | `bomdd-witness.default_path(git_dir, eco)`= `.git/bomdd-witness/<ECO>.json`。任意パスの引数なし |
+| 1(c) 台帳 | `.git/bomdd-run/<ECO>.jsonl` 追記(`--ledger` で作業木外の別パス可・作業木内は `_inside_worktree` で exit 2)。1 行= run_id・eco・receipt・job_state・job_stop_type・verifier_line(1 行目そのまま)・verifier_exit・**code**(witness CODE・製造中に追加)・decision・stop_type(job 語彙)・delivery・cell・cell_exit・started_at・tree |
+| 1(d) 起動条件 | `decide()` が ADVANCE を返すのは verifier_exit==0 **かつ** 1 行目 `ADVANCE OK:` **かつ** job.stop_type==NONE のときだけ。`launch()` は `subprocess.run(cell, shell=True, cwd=root, env=…)`(文字列を加工しない)・環境 `BOMDD_JOB` / `BOMDD_JOB_JSON`(job の一時 JSON・終了後に削除)/ `BOMDD_WITNESS`。迂回フラグなし。`--cell` なし= dry |
+| 1(e) 表示 | `summary_line()`= `<decision> <ECO> <tag> → <delivery>[ · dry\|launched(exit N)] @<tree 12 桁>`。STOP/UNMEASURABLE では「未起動」を書かない(起動できるのは ADVANCE だけ)。selftest で全腕 80 桁以内を検査 |
+| 1(f) 終了コード | ADVANCE 0 / STOP 1 / UNMEASURABLE 2(台帳書込不能・引数不正・作業木内台帳も 2) |
+| 1(g) selftest | 一時 git リポ+fixture register/order(bomdd-job の selftest と同型)+実 witness。known-good(痕跡ファイルを書く cell が起動し、環境変数 `ECO-900\|<witness path>` を受け取る)/ dry / known-bad 5(tree・別 job・FAIL・欠測・stop)/ job 停止(ECO-902= 台帳不整合・receipt は有効)/ 測定不能 2(witness 不在・register に無い ECO)/ 台帳の作業木内拒否 / 引数不正 4 / 1 行 80 桁以内 / 配送先表と語彙の 1 対 1 |
+| 2 配送先表 | `DELIVERY`(job 語彙 8 → next/human/factory/designer/process/ledger-owner/operator)+`WITNESS_DELIVERY`(witness CODE 15 → 配送先。GATE_FAIL= factory・receipt 欠陥= operator・STOP_TYPE は receipt の stop_type を DELIVERY で引く)。selftest が両表と語彙の集合一致を検査 |
+| 3 非接触 | `bomdd-job.py`・`bomdd-witness.py`・`self-conformance.py`・hooks に diff 0(V3・§6) |
+
+- **製造中の実測(正直記載)**: 初回 selftest で **3 件を自己捕捉** — STOP/UNMEASURABLE の 1 行が 80 桁超(83・85)・`WITNESS_DELIVERY` に `STOP_TYPE` 欠落。表示から「not launched」を落とし
+  tree を `@12 桁` にして是正・表に STOP_TYPE を追加。V3 実測後に台帳へ `code` 欄を追加(receipt 欠陥の stop_type が job 語彙の `VERIFICATION_FAIL` に写るため、witness の CODE を別欄で残す)。
+  手順逸脱: なし(Write・CR 0・検査と commit は別呼び出し)。
+
+## 6. 受入の実測(製造者・2026-09-11)
+
+- **V1**= PASS(`--selftest` exit 0・1 行目 `ADVANCE OK: selftest PASS(…)`・known-good 起動 1 / dry / known-bad 5+job 停止 1+測定不能 2 で起動痕跡なし)。
+- **V2**= PASS(実 ECO= ECO-067 自身・dry): 台帳 1 行が機械回収(`verifier_line`= witness の 1 行目そのまま・decision ADVANCE・delivery next・cell null)。
+- **V3**= PASS(Phase 6 の出口の初回実測・同一 job で前後): witness を現 tree で produce → `--cell "python -c …痕跡…"` で **起動**(痕跡ファイルに `ECO-067|<witness path>`・cell_exit 0・
+  1 行目 `ADVANCE ECO-067 OK → next · launched(exit 0) @a67bba7a1c18`)→ witness の tree 末尾を改変 → 同じ cell で **起動せず**(`STOP ECO-067 TREE_MISMATCH → operator`・痕跡なし・
+  exit 1)→ witness 復元 → dry ADVANCE。承認は起動先の既定(本実測の cell は python 1 行・承認なし)。
+- **V6**= PASS(1 行 80 桁以内・selftest で全腕検査・実 ECO の 4 行も 45〜60 桁)。
+- **V3'**(非接触): `git diff 3c14c83 --stat -- method/tools/bomdd-job.py method/tools/bomdd-witness.py method/tools/self-conformance.py bomdd/hooks`= 0(§7 で再確認)。self-conformance 全 PASS。
+- **V4**(CI)・**V5**(Codex)= §7。
