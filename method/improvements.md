@@ -7281,3 +7281,24 @@ Scope の例外)。**一般化検査**: ハーネス側の通信規約で製品�
 ⑦>0 → ラチェット維持・強化(DISCUSS 2026-09-12 の what_would_change_thesis をそのまま計測条件にした)。
 **第三者意見の記帳(2026-09-12・user 転送・指示でない・当方 DISCUSS に user AGREE)**: 「core は汎用・現ファイルは BomDD で較正された distribution」。BomDD 固有物 4 種= ①出自・配置履歴(ECO 番号・AGENTS.md)②生成規則のリポ前提(監査記録はリポのパス)③停止語彙の対応表(§2.6)④ECO 番号入りの例と §4 計測。提案構造= handoff/SKILL.md(汎用 core: 契約・classify・generate・validate・rewrite・examples)+README+adapters/bomdd.md。当方の読み替え: 診断は実読と一致・**配布 ECO の設計として採る**(ECO-070 で予定した product-profile 正本化)。差分 3 点= (a) 出自は消さず adapter 側へ移す(出典なき還元は禁止・BomDD 内では到達可能に)(b) core から adapter への参照 1 行を必須にする(ローダーは SKILL.md しか読まない・到達性で一度失敗した直後)(c)「監査記録は system of record に置き handoff は参照して再現しない」へ一般化。**実施時期= EXP-20260912-01 の評価時に決める**(前倒し条件= 次の 20 回の前に第三者評価を再依頼する場合。据え置き条件= 正本/写しの同期組が 1 つ増えるコストを重く見る場合)。
 **受入(2026-09-12)**: ECO-071 verified(起票+fix 4e518cf・CI 34622666418 success・窓閉鎖・製造者較正のみ)。待機形 handoff の実使用 1 例目(検査がバックグラウンドへ移った待機)。
+
+## 2026-09-12 BomDD 自己適用 — ECO-062 再開・Phase 7 第 1 弾 ECO-072 起票(設備台帳の属性化+独立性判定の機械化・DISCUSS→AGREE で範囲を独立性判定に絞る)
+
+**観測**(出典: [ECO-072 order](../bomdd/60-change-order-eco-072.md) §0・[ECO-062 order](../bomdd/60-change-order-eco-062.md) §7): ①user 指示「ECO-062 を再開して。Phase 7 を DISCUSS から」
+(2026-09-12)。DISCUSS の thesis(第 1 弾= 設備台帳+独立性判定 / P6-02 は第 2 弾 / 裁定キューは失敗未観測で保留)に user AGREE。②実測: 設備台帳は機械可読で存在しない・入口は
+executor を識別しない・独立性は宣言属性の照合までしか機械化できない(Grok 公式・EXP-20260711-05)・sandbox/temp/exit 伝播が検出力を左右(OBS-20260910-03 3/3 昇格済)。
+③§7 の成果物「stop_type→配送先の機械定義」は ECO-067 の DELIVERY 固定表で済(Phase 7 の残り= 独立性判定)。
+**整理**: 独立性判定は「宣言上同一の組合せを弾く」機構であり、独立の**実効**は主張しない(Grok 公式の「Bot を security boundary にしない」がそのまま境界)。だから台帳の中心は
+属性値でなく**属性ごとの来歴**(self-reported / harness-measured / user-declared)で、来歴 unknown の軸は照合不能= STOP(fail-closed)。裁定キューは converge 凍結と同じ基準(観測された
+失敗機序のみ)で保留。**一般化検査**: 「配員は認定台帳を参照し、独立検査として成立しない組合せを機械が弾く」は製品名を含まない(playbook §3 独立検査規則の機械面候補・製造後)。
+**行き先判定**: 起票のみ(order・register・ECO-062 §7 現在地・本節)。playbook 非改訂(製造・出口実測の後)。
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(独立性判定の入口・INDEPENDENCE_FAIL・来歴 unknown を通過にしない)[x] template(order 配員欄 producer/inspector
+= 製造範囲候補)[x] terminology(設備台帳・account_lineage・来歴)[x] method/concept claim: 「知識も調達する。ただし受入検査する」(K-BOM)= supported の見込み(設備も調達物として
+認定と来歴を持つ)— 製造後に再判定。contradicted / superseded: なし。
+**期待効果の棚卸し**: EXP-20260711-05(担当者モデル+ハーネスの記録)= **適用機会**(台帳の provenance 欄と order 配員欄が様式化に当たる)→ 製造後に回収/再演を判定・現状 open 維持。
+新規 EXP-20260912-02(下記)。
+
+- [open] EXP-20260912-02 — **独立性判定は「成立しない組合せ」を弾き、異系統を弾かないか**: ECO-072 製造受入 V2 で ①producer と同一 executor → STOP INDEPENDENCE_FAIL(known-bad 1 例=
+  Phase 7 出口)②異系統(Codex)→ ADVANCE→起動(陽性対照)③来歴 unknown の軸 → STOP(fail-closed)。加えて製造後 3 ECO で偽陽性(異系統を弾いた)0 件。**next trigger= ECO-072 製造受入**
+  source: ECO-072
+  evidence: ECO-072 order §1-3・§1-5・EXP-20260711-05

@@ -438,7 +438,7 @@ user 裁定(独立検査 REJECT 後の verified 維持の扱いを含む)。
 ## 7. 計画(user 2026-09-10「§7 として記帳して」— 現在地が追えるように Phase 化)
 
 **現在地(更新は行内書き換え・履歴は register の status と commit に残る)**:
-`Phase 5 継続(user DECIDE 2026-09-11 `1:C 2:A`: Phase 6 保留 → 検証器の是正 **ECO-066**〔理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離・範囲= 検証器のみ〕を先に閉じる → verified 後に運転員を変えた run-02〔同一治具・ブリーフ v2= P5-04/07 の手順側〕)。**現在地= Phase 6 第 1 弾 ECO-067 verified+実 cell 実測 済(2026-09-11・§10.7: 入口 → Codex read-only 起動 → 台帳、N=1・cell 側は sandbox の temp 不能で測定不能= 設備認定の属性)**。user 裁定 A(2026-09-11)= 還元と小是正を先に: **還元・織り込み(playbook §3 A/A'・§13 C・commit f3974c9)済・ECO-068 verified(実 cell で前後実測)**。user 裁定 B→C(2026-09-11)= **案 B= ECO-069 verified(templates に range・実行環境の欄)→ 中断(C)**。再開時の候補= Phase 7 の起票(DISCUSS から: cell の判定を receipt として回収する経路〔P6-02〕・設備属性〔sandbox・temp〕・複数 executor・裁定キュー・§1-5 設備認定参照)。付随: ECO-069 で入口が LEDGER_INCONSISTENT(§5 見出しの早書き)を commit 前に止めた= F0 検出の実運用 1 例目(OBS-20260910-02 の予防側)。Phase 5 の残る限界= N=2・人間 1 名・V3 未測定(§10.6)。run-01 の結果は §10(fail-open 0/7 だが R3・run-02 は運転員の判断依存= qualification blocker)。付随裁定待ち= ECO-055 の register status(別 DECIDE・裁定材料= run 台帳 §3)。`
+`Phase 5 継続(user DECIDE 2026-09-11 `1:C 2:A`: Phase 6 保留 → 検証器の是正 **ECO-066**〔理由コード・個体照合の既定化・tree 差分表示・測定不能の原因分離・範囲= 検証器のみ〕を先に閉じる → verified 後に運転員を変えた run-02〔同一治具・ブリーフ v2= P5-04/07 の手順側〕)。**現在地= Phase 6 第 1 弾 ECO-067 verified+実 cell 実測 済(2026-09-11・§10.7: 入口 → Codex read-only 起動 → 台帳、N=1・cell 側は sandbox の temp 不能で測定不能= 設備認定の属性)**。user 裁定 A(2026-09-11)= 還元と小是正を先に: **還元・織り込み(playbook §3 A/A'・§13 C・commit f3974c9)済・ECO-068 verified(実 cell で前後実測)**。user 裁定 B→C(2026-09-11)= **案 B= ECO-069 verified(templates に range・実行環境の欄)→ 中断(C)**。再開時の候補= Phase 7 の起票(DISCUSS から: cell の判定を receipt として回収する経路〔P6-02〕・設備属性〔sandbox・temp〕・複数 executor・裁定キュー・§1-5 設備認定参照)。付随: ECO-069 で入口が LEDGER_INCONSISTENT(§5 見出しの早書き)を commit 前に止めた= F0 検出の実運用 1 例目(OBS-20260910-02 の予防側)。Phase 5 の残る限界= N=2・人間 1 名・V3 未測定(§10.6)。run-01 の結果は §10(fail-open 0/7 だが R3・run-02 は運転員の判断依存= qualification blocker)。(ECO-055 status は 2026-09-11 user DECIDE A で verified に解消)。**再開 2026-09-12(user 指示「Phase 7 を DISCUSS から」)**: DISCUSS→AGREE で第 1 弾= 設備台帳の属性化+独立性判定の機械化(P6-02 は第 2 弾・裁定キューは保留・stop_type→配送先は ECO-067 で済)→ **ECO-072 filed・製造裁定待ち(A 完全形 / B 台帳+入口 / C 台帳のみ)**。`
 
 ```text
 Phase 0 議論・起票 ─── 完了 2026-09-10
@@ -453,9 +453,9 @@ Phase 4 Claude Code 単独運用で実測(運転員= 人間・外部運転員な
         ▼
 Phase 5 外部運転員 導入試験(自動実行なし)─── 完了 2026-09-11(run-01 Codex・ECO-066・run-02 人間 — fail-open 0/7 ×2・判断依存 0・user 裁定 A で出口)
         ▼
-Phase 6 狭い自動起動入口 ◀━━ ★ 現在地= ECO-067 verified+実 cell(Codex read-only)N=1 — Phase 7 入口 / P6-01 是正 / 還元は user 裁定
+Phase 6 狭い自動起動入口 ─── 完了 2026-09-11(ECO-067 verified・実 cell N=1・ECO-068/069 で還元と小是正・user 裁定で Phase 7 入口)
         ▼
-Phase 7 複数 executor・裁定キュー
+Phase 7 複数 executor・裁定キュー ◀━━ ★ 現在地= 第 1 弾 ECO-072 filed 2026-09-12(設備台帳+独立性判定・製造裁定待ち)/ 第 2 弾候補 P6-02 / 裁定キューは保留
 ```
 
 | Phase | 入口条件 | 成果物 | 出口(次へ進む条件) | 裁定者 |

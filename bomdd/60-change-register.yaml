@@ -2528,3 +2528,24 @@ changes:
       タスク終了の 1 通は契約に戻り「区間は継続」)。§2.1/§2.3 F6/§2.7/§3 例/§4 指標 ⑥⑦⑧。採らない= AI 推定を既定・第 5 mode・product-profile 正本化。
     verification: >
       V1 SKILL.md の grep / V2 C12 / V3 self-conformance・CI / V4 製造者較正のみ / V5(非クローズ条件)指標 ⑥⑦⑧。実測は order §4〜5。
+  - id: ECO-072
+    title: ECO-062 Phase 7 第 1 弾 — 設備台帳の属性化(bomdd/70-equipment.yaml・属性ごとの来歴)+独立性判定の機械化(bomdd-run --executor 必須・producer と同一 id / 3 軸一致 / 軸 unknown → STOP INDEPENDENCE_FAIL)
+    date: 2026-09-12
+    origin: improvement
+    status: filed   # 2026-09-12 user「ECO-062 を再開して。Phase 7 を DISCUSS から」→ DISCUSS(第 1 弾= 独立性判定に絞る)に AGREE → 起票のみ・製造裁定は別 DECIDE(A 完全形 / B 台帳+入口 / C 台帳のみ)
+    source: >
+      ECO-062 §7 Phase 7(出口= 独立検査として成立しない組合せを機械が弾いた実測 1 例)。実測: 設備台帳は機械可読で存在せず(bomdd/ に 0)・bomdd-run は executor を識別しない・
+      独立性は宣言属性の照合でしか判定できない(Grok 公式・EXP-20260711-05 のモデル記録欠落)・sandbox/temp/exit 伝播が検出力を左右(Phase 5/6・OBS-20260910-03 3/3)。
+    order_ref: bomdd/60-change-order-eco-072.md
+    affected_refs: [method/tools/bomdd-run.py, method/tools/bomdd-job.py, bomdd/70-equipment.yaml, method/templates/60-change-order.md]
+    no_impact_prediction: "(起票時点・製造裁定で凍結)範囲 A なら tools 2+新規 yaml+templates 検査官行+台帳系。C4/C14 advisory・C7 不変・C13 新 yaml リンク実在・既存 ECO の job ビューは配員欄なしでも従来どおり(V1)・hooks/.github diff 0"
+    diff_audit:
+      baseline: "58205be"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [bomdd/60-change-order-eco-072.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]  # 起票のみ。製造裁定で再凍結
+    summary: >
+      ①設備台帳 bomdd/70-equipment.yaml(id/kind/model/harness/account_lineage/sandbox_modes/temp_available/exit_propagation/qualification_ref/provenance/status・初期 3 entry)
+      ②order 配員欄 producer/inspector を job 射影が required_capability に解決 ③bomdd-run --cell に --executor 必須・同一 id / model+harness+account_lineage 一致 / 軸 unknown → STOP
+      INDEPENDENCE_FAIL(配送先 operator)④selftest 腕。採らない= 台帳の register 埋め込み・executor 自動検出・独立性の実効の主張・fixture/oracle/前提の機械照合・P6-02・裁定キュー。
+    verification: >
+      V1 selftest / V2 出口条件= 実入口で同一 executor → STOP・異系統 → ADVANCE→起動(実 cell 各 1)/ V3 self-conformance・CI・窓 / V4 異系統独立検査(range・環境差を宣言)/ V5 較正 receipt。
