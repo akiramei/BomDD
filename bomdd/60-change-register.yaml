@@ -2446,7 +2446,7 @@ changes:
     title: 計器の selftest が前提不在(OS temp・git)で Traceback を出す — bomdd-run / bomdd-witness / bomdd-job の selftest を UNMEASURABLE <CAUSE> の 1 行報告(exit 2)へ(Phase 6 実 cell P6-01・OBS-20260727-10 3 例目・織り込み案 C)
     date: 2026-09-11
     origin: corrective
-    status: implemented   # 2026-09-11 起票(filed・job 経由・required [calibrate, preflight]・missing [calibrate])→ 同日 user 製造裁定 2:A(§1 の 3 項をそのまま・製造者較正のみ)で decided → 製造(3 ツール selftest 冒頭・+43/-5)・製造者受入 V1 外部プローブ 8 腕 PASS(order §4〜6)。V2 実 cell・CI は §7 で・implemented
+    status: verified   # 2026-09-11 起票→decided(裁定 2:A)→fix 3c52925→verified(同日)。V1 外部プローブ 8 腕・V2 実 cell(Codex read-only)で 3 ツール 1 行 UNMEASURABLE・traceback なし・CI 34597450715 success・窓閉鎖 58a5c3f→3c52925・製造者較正のみ・較正 receipt order §7。旧注記: 製造裁定 2:A(§1 の 3 項をそのまま・製造者較正のみ)で decided → 製造(3 ツール selftest 冒頭・+43/-5)・製造者受入 V1 外部プローブ 8 腕 PASS(order §4〜6)。V2 実 cell・CI は §7 で・implemented
     source: >
       Phase 6 実 cell(bomdd/reports/phase6-realcell-eco-067.md §4): Codex read-only sandbox で bomdd-run.py --selftest が Traceback exit 1(OS temp 不能・selftest の with 文に
       例外処理なし)。同環境で本体 verify は UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE) を 1 行で返した(ECO-066)。同型= bomdd-witness / bomdd-job の selftest。
@@ -2456,7 +2456,7 @@ changes:
     no_impact_prediction: "(製造前・凍結・2:A)3 ファイルの selftest() を try で包み _selftest_body へ分離(各 +10〜15 行)。本体経路(verify/run/select)・1 行目の契約・終了コードの意味(0/1/2)・腕は不変。C1〜C18 判定不変(検査対象集合外)・kit 非含有・製品リポ非波及"
     diff_audit:
       baseline: "77b966c"  # 起票直前 HEAD
-      head: ~
+      head: "3c52925"      # diff監査済み: 窓内= 3 ツールの selftest 冒頭(+43/-5)+台帳系・他 diff 0・予測的中
       allowed_paths: [method/tools/bomdd-run.py, method/tools/bomdd-witness.py, method/tools/bomdd-job.py, bomdd/60-change-order-eco-068.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]   # 製造裁定 2:A で再凍結(3 ファイル+台帳系・検査報告なし= 製造者較正のみ)
     summary: >
       ①selftest() の一時ディレクトリ生成と git 初期化を try で包み、失敗は `UNMEASURABLE TREE_UNAVAILABLE(<CAUSE>): selftest の前提不在 — <detail>` の 1 行+exit 2(selftest 失敗の
@@ -2465,3 +2465,5 @@ changes:
     verification: >
       (起票段階)製造時の受入候補は order §3 — V1 外部プローブ(3 ツール × temp 不能/PATH 空 → 1 行 UNMEASURABLE・exit 2・通常環境は従来どおり)/ V2 Phase 6 実 cell で再実行 /
       V3 CI・窓 / V4 製造者較正のみ(当方案・局所変更)。
+      **受入(2026-09-11)**: V1 PASS(外部プローブ 8 腕・temp 不能は子プロセス内 tempfile.tempdir 固定)/ V2 PASS(入口 bomdd-run 経由の実 cell で 3 selftest= 1 行 UNMEASURABLE・traceback なし・
+      cell の見た exit は 1= P5-07 再演)/ V3 self-conformance・CI 34597450715 / V4 製造者較正のみ。較正 receipt(trigger ①③・行別 asked/NA)は order §7。

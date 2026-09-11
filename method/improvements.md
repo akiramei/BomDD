@@ -7200,3 +7200,27 @@ EXP-20260727-14・EXP-20260717-11 に再演を注記。是正 ECO-068(selftest �
 
 **効果測定の宿題**: 案 A= 次の異系統独立検査で round 数と「範囲外の観察」件数(基準線: 062= 4・064= 5・066= 2・067= 3 round)。案 A'= 次の検査で環境差由来の所見件数(基準線 7/3 弧)。
 案 C= ECO-068 後の実 cell で selftest が 1 行 UNMEASURABLE を返すか。
+
+## 2026-09-11 BomDD 自己適用 — ECO-068(3 ツールの selftest が前提不在で traceback → UNMEASURABLE 1 行)verified: 織り込み案 C の初適用・実 cell で前後実測・OBS-20260727-10 の効果回収
+
+**観測**(出典: [ECO-068 order](../bomdd/60-change-order-eco-068.md) §5〜§7):
+1. **是正**: bomdd-witness / bomdd-run / bomdd-job の `selftest()` が `TemporaryDirectory()` を try で生成し、失敗は `UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE)` の 1 行・exit 2
+   (selftest 失敗の exit 1 と区別)。git 不能(番兵)は GIT_UNAVAILABLE。helper なし・各ファイル局所・腕不変。
+2. **受入**: V1 外部プローブ 8 腕 PASS(初版の環境変数方式は `tempfile.gettempdir()` のフォールバックで temp 不能を作れず → 子プロセス内で `tempfile.tempdir` を固定して runpy。
+   「前提不在環境の陽性対照」は前提の不在を**作れる**ことが先に要る)。V2= 入口 `bomdd-run.py ECO-068 --cell codex…` で実 sandbox の 3 selftest を再実行 → 1 行 UNMEASURABLE・
+   traceback なし(是正前は traceback)。cell が見た終了コードは 3 つとも 1(P5-07 の再演)。製造者較正のみ(裁定 2:A)。
+3. **Phase 6 入口の実運用 2 回目**(実 cell): ECO-067 の V3 相当に加え、是正の効果測定を入口経由の cell で回収した初例。
+
+**整理**: ①織り込み案 C(playbook §13・commit f3974c9)の初適用が同日に閉じ、規則→是正→実環境確認が 1 弧で回った。②実行基盤の exit 丸め(P5-07)は cell でも再演し、
+「終了コードでなく 1 行目を読む」契約(ECO-066/067)の根拠が実 cell で 2 例目。③受理側の陽性対照が「前提の不在を作れない」形で失敗した — 陽性対照の設計は「不在を作る
+機構」の実測を先に置く(1 例・規則化しない)。
+
+**一般化検査**: 3 ツール・1 sandbox(Codex read-only)・製造者較正のみ。self-conformance の selftest 系は範囲外(別 OBS 候補)。playbook 非改訂(§13 の追補で足りる)。
+
+**行き先判定**: 記帳+ECO-068 verified+ECO-062 §7 現在地。本文改訂なし。
+
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(外部プローブ・実 cell の前後実測)[ ] template [ ] terminology
+[x] method/concept claim: 「測定不能は合格ではない」= supported(selftest 自身に適用)/ 「検査は自分の前提を自分で満たす」(§13 新設)= supported(初適用)。contradicted / superseded: なし。
+
+**期待効果の棚卸し**: OBS-20260727-10(recovered)の宿題「ECO-068 後の実 cell で 1 行 UNMEASURABLE」= **回収**(V2)。EXP-20260727-14= 再演のまま据え置き(初回設計には載らず・
+是正で回収)。EXP-20260910-02= 入口の実運用 2 回目(fail-open なし)を注記。

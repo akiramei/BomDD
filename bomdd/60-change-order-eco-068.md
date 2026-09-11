@@ -1,4 +1,4 @@
-# Change Order — ECO-068(計器の selftest が前提不在(OS temp・git)で Traceback を出す — bomdd-run / bomdd-witness / bomdd-job の selftest を `UNMEASURABLE <CAUSE>` の 1 行報告へ〔起票のみ〕)
+# Change Order — ECO-068(計器の selftest が前提不在(OS temp・git)で Traceback を出す — bomdd-run / bomdd-witness / bomdd-job の selftest を `UNMEASURABLE <CAUSE>` の 1 行報告へ〔verified〕)
 
 > 裁定: user 2026-09-11 DECIDE「A」(還元と小是正を先に)— Phase 6 実 cell 実測(ECO-062 §10.7 P6-01)の帰結。出典= [phase6-realcell-eco-067.md](reports/phase6-realcell-eco-067.md) §4、
 > improvements.md 2026-09-11 還元節(OBS-20260727-10 の 3 例目・織り込み案 C)。**起票のみ**(製造着手は別裁定)。起票工程は job 経由。
@@ -89,3 +89,42 @@ C1〜C18 判定不変(3 ツールは検査対象集合外)。kit 非含有・製
   `UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE): selftest の前提不在 — FileNotFoundError: …`・exit 2・traceback なし / git 不能(PATH 空)= witness・run とも
   `UNMEASURABLE TREE_UNAVAILABLE(GIT_UNAVAILABLE): selftest の前提不在 — git を起動できない`・exit 2。作業木に temp 残置なし(porcelain= 変更ファイルのみ)。
 - **V3**(不変): 3 ツールの通常 selftest は従来の PASS 行・self-conformance 全 PASS(§7)。**V2**(実 cell)・**V3'**(CI)= §7。
+
+## 7. クローズ(2026-09-11・verified・製造者較正のみ)
+
+- **V2(実 cell・Phase 6 の入口経由)**= PASS: `bomdd-run.py ECO-068 --cell "codex exec -s read-only … <V2 ブリーフ>"` → 判定行 `ADVANCE ECO-068 OK → next · launching @2182c120609c` →
+  `cell exit 0`。cell(Codex read-only sandbox・OS temp 不能)の報告= **ACCEPT**: 3 ツールとも 1 行目 `UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE): selftest の前提不在 — FileNotFoundError:
+  [Errno 2] No usable temporary directory found in […]`・**traceback なし**・作業木非汚染。是正前(§0.1)は同じ環境で `Traceback (most recent call last):` が 1 行目だった → 前後実測で成立。
+  cell が観測した終了コードは 3 つとも **1**(実返却は 2)= 実行基盤の exit 丸め(P5-07)の再演・1 行目の契約が 3 値を運ぶ根拠を実 cell で再確認。
+- **V3**= PASS(self-conformance 全 PASS ×2・3 ツールの通常 selftest は従来の PASS 行)/ **V3'**= PASS(CI run 34597450715〔fix 3c52925〕success)/ **V4**= 製造者較正のみ(裁定 2:A)。
+- diff 監査の窓: baseline `58a5c3f` → head `3c52925`(**窓閉鎖**)。窓内= 3 ツール(+43/-5)+台帳系。他ツール・templates・hooks・.github の diff= 0 — 影響なし予測は的中。
+- register: `implemented → verified`・head 凍結。
+- 織り込み案 C(playbook §13「selftest も前提不在を 1 行で報告」・commit f3974c9)の初適用= 本 ECO。OBS-20260727-10 の効果測定(宿題)= 実 cell で 1 行 UNMEASURABLE= **回収**。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格+③: 計器〔3 ツールの selftest〕の変更。job の required_skills= [calibrate, preflight] に応答)
+
+- 査定した主張と判定:
+  1. 「temp 不能で 3 ツールの selftest が 1 行 UNMEASURABLE・exit 2・traceback なし」— **observed / 適格**(V1 外部プローブ〔in-process 固定〕+V2 実 sandbox の前後実測)。
+  2. 「git 不能で witness・run の selftest が GIT_UNAVAILABLE」— **observed / 適格**(V1 PATH 空)。job は git を使わない(宣言)。
+  3. 「本体経路・腕・契約は不変」— **observed / 適格**(通常 selftest の PASS 行不変・self-conformance 不変・窓内 diff は selftest 冒頭のみ)。
+  4. 「exit 2 が cell まで届く」— **contradicted の再確認(既知)**: 実行基盤が 1 に丸める(P5-07)。契約は 1 行目が運ぶ(ECO-066)。
+- 検出した計器欠陥(帰属つき): 製造物 0 件。受理側 1 件= V1 の初版プローブが temp 不能を作れなかった(環境変数方式の誤り・受理側帰属・§5 で訂正)。
+- 検出力の限界: 実 sandbox は Codex read-only の 1 種。in-process 固定は実 OS の temp 不能と機序が異なる(FileNotFoundError の発生点は同じ `TemporaryDirectory()`)。
+  独立検査なし(製造者較正のみ・局所変更)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | 自己記述(1 行 UNMEASURABLE・exit 2)をプローブ+実 cell で実測 |
+  | Q2 | asked | observed/適格 | 実測 | known-good(通常 PASS)と known-bad(temp/git 不能)を 3 ツール × 腕で対置 |
+  | Q3 | asked | observed/適格 | 実測 | 是正前(traceback・§0.1)と是正後(1 行)を同一 sandbox で前後実測 |
+  | Q4 | asked | observed/条件付き適格 | 実測 | V2 は実 sandbox・V1 は in-process 固定(宣言) |
+  | Q5 | asked | observed/適格 | 実測 | 未実測(別 sandbox・別 OS)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry ADVANCE → commit → push → CI |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= 外部プローブ 8 腕(自己言及回避) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness・register・commit・run 台帳(ECO-068.jsonl) |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= temp 不能 / git 不能 / 通常 / 実行基盤の exit 丸め |
+
+- このクローズが支持しないもの: self-conformance.py の selftest 系 / 別 sandbox・別 OS / 実行基盤の exit 丸めの是正(計器側の範囲外)。
