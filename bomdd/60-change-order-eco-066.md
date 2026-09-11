@@ -96,3 +96,37 @@
 - register: `filed`(2026-09-11)・baseline `b268f37`・allowed_paths(起票段階)= 台帳系+`bomdd-witness.py`(製造裁定で再凍結)。
 - ECO-062 §7 現在地= 「ECO-066 起票済・製造裁定待ち → verified 後に run-02(運転員変更・ブリーフ v2)」。EXP-20260910-02 の next trigger を同じく更新。
 - **次の裁定(製造裁定)**: 範囲= §1 の 4 項をそのまま凍結するか(当方案= そのまま)・独立検査= Codex(V5)。
+
+## 4. 製造裁定と製造(2026-09-11・user DECIDE「A」— §1 の 4 項をそのまま凍結・独立検査= Codex)
+
+- register `filed → decided`(同日)。affected_refs= `method/tools/bomdd-witness.py` で凍結。allowed_paths= 製造物 1+台帳系+検査報告。影響なし予測(製造前・凍結)は register。
+- 製造者= Claude Code(claude-fable-5-1・起票者と同一)。独立検査= Codex(異系統・CLI 直接・§3 V5)— verified は検査官の受理側真正判定を §7 に記録してから。
+
+## 5. 製造物(`method/tools/bomdd-witness.py`・+232/-101 行・541 行)
+
+| §1 | 実装 |
+|---|---|
+| 1 報告形式 | `VERDICTS` / `CODES`(12)/ `TREE_CAUSES`(6)の定数と `report_line(rc, code, msg, cause)`。`_verify()` が `(rc, code, cause, msg)` を返し、`verify()` は従来の `(rc, 1 行目)` を返す(selftest の呼び出し互換)。CLI は `run_cli(argv, root) → (rc, 1 行目)` に分離し `main` は印字のみ(selftest が CLI 腕を in-process で回せる) |
+| 2 個体照合の既定化 | `run_cli` の verify 分岐で `--eco` なし(PATH 指定・`--out` 指定とも)は `UNMEASURABLE IDENTITY_UNCHECKED` exit 2。`verify --eco X`(既定パス)と `verify PATH --eco X` は従来どおり。関数 `verify(eco=None)` は残す。usage(冒頭 W7)に明記 |
+| 3 tree 差分 | `_first_diff(a, b)`= 最初に異なる位置(0 起点・長さ違いは短い方の長さ・同一なら「なし」)。`TREE_MISMATCH` の message は両 tree 40 桁+`最初の差分位置 N`。witness.tree が文字列でなければ `n/a` |
+| 4 原因分離 | `worktree_tree()` の返り値を `(tree, git_dir, err)` に拡張。err= `(CAUSE, detail)`: rev-parse 失敗(rc 127 → GIT_UNAVAILABLE / 他 → GIT_DIR_FAILED)・TemporaryDirectory の OSError → TEMP_UNAVAILABLE・作業木内 temp → TEMP_IN_WORKTREE・add 失敗 → ADD_FAILED・write-tree 失敗 → WRITE_TREE_FAILED。detail= git stderr 末尾 1 行(`_tail`・200 字)。produce / verify / 既定パス導出の 3 呼び出し元を更新 |
+
+- 終了コードの意味(0/1/2)は不変。1 行目以外の出力は変えていない(verify は 1 行のみ・produce の成功行は従来どおり)。
+- selftest: 既存腕はすべて **CODE(と CAUSE・文言)まで検査**する `arm()` に置換(終了コードだけの検査から、運転員が読む経路の検査へ)。追加腕= 差分位置 36 / 0・tree 非文字列・
+  形状不正(`[]`)・CLI 4 腕(PATH 単独 → IDENTITY_UNCHECKED・`--eco` 付き 0・既定パス 0・`--out` 単独 → IDENTITY_UNCHECKED)・引数不正 6 型 → ARG_ERROR・
+  CAUSE 6 種(GIT_UNAVAILABLE= PATH 空 / TEMP_UNAVAILABLE= tempdir 不在 / TEMP_IN_WORKTREE= tempdir を作業木に / ADD_FAILED・WRITE_TREE_FAILED・GIT_DIR_FAILED=
+  `_git` を差し替えて当該サブコマンドのみ失敗させる〔モック・宣言〕)・report_line の自己整合 4 腕・語彙外 CODE の検出。
+- 製造中の実測(正直記載): 当初 §3 V2 に「R6 で差分位置 36」と書いたが、現 tree は run-01 時と異なるため R6 は差分位置 0 になる(下記 V2)。位置 36 の対照は selftest の
+  kb-hash 腕が持つ。手順逸脱: なし(製造物は Write・CR 0・検査と commit は別呼び出し)。
+
+## 6. 受入の実測(製造者・2026-09-11)
+
+- **V1**= PASS: `--selftest` exit 0(CODE 12/12・CAUSE 6/6 に各 1 腕以上・CLI 4 腕・引数不正 6 型・差分位置 36 と 0)。
+- **V2**= PASS: run-01 治具 r1〜r8 を `--eco` 付きで再判定 — r3= `STOP IDENTITY_MISMATCH`(個体照合が tree 照合より先)・他 7 本= `STOP TREE_MISMATCH`(現 tree `53bd2886…` は
+  run-01 時 `0ddfd1db…` と異なる・40 桁両方と差分位置を表示・R6 は位置 0)。r3 を `--eco` なしで= `UNMEASURABLE IDENTITY_UNCHECKED` exit 2(run-01 では ADVANCE exit 0 だった
+  fail-open 経路が閉じた)。
+- **V3**= PASS: `bomdd/hooks/`・`bomdd-job.py`・`self-conformance.py` diff 0(実測)。self-conformance 全 PASS は §7(fix commit 前に再実行し exit を観測)。
+- **V6**= PASS(計器側): `pwsh -NoProfile -Command 'python … verify …'` で終了コードは実際 2 でも 1 でも **1** に丸められた(再現)が、標準出力 1 行目は
+  `UNMEASURABLE IDENTITY_UNCHECKED: …` / `STOP TREE_MISMATCH: …` で 3 値が読める。`exit $LASTEXITCODE` を付けても本環境では 1(pwsh の `-Command` 文字列内では
+  ネイティブ終了コードが伝播しない場合がある — 実行基盤側の事象・本 ECO の範囲外・ブリーフ v2 で「終了コードでなく 1 行目を読む」を規格にする根拠)。
+- **V4**(CI)・**V5**(Codex 独立検査)= §7。

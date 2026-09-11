@@ -2385,19 +2385,19 @@ changes:
     title: bomdd-witness の検証報告を運転員が機構で読める形にする — 1 行目の理由コード・個体照合の既定化(verify PATH 単独= 測定不能)・tree 差分の 40 桁表示・測定不能の原因分離(Phase 5 run-01 所見 P5-01/02/03/06/07 の計器側)
     date: 2026-09-11
     origin: corrective
-    status: filed   # 2026-09-11 user DECIDE 1:C(Phase 6 保留・検証器の是正を先に閉じてから run-02)2:A(範囲= 検証器のみ)。起票のみ・製造裁定待ち。起票工程は job 経由(required_skills [calibrate, preflight]・missing [calibrate])
+    status: decided   # 2026-09-11 起票(filed・job 経由・required [calibrate, preflight]・missing [calibrate])→ 同日 user 製造裁定 A(§1 の 4 項をそのまま凍結・独立検査= Codex 異系統)で decided。製造着手
     source: >
       Phase 5 run-01(ECO-062 §10・bomdd/reports/phase5-run-01-eco-062.md §6)。fail-open 0/7 のうち R3(別 job の receipt)と run-02(dirty 腕)は運転員の判断で
       成立し検証器単独の弁別力ではない: verify PATH 単独は個体を照合せず ADVANCE(P5-02)・理由が文字列のみで運転員が停止種別を自前写像(P5-01)・
       末尾改変の tree が 12 桁接頭辞で同一に見える(P5-03)・測定不能 5 経路の原因が捨てられ sandbox の推定機序を実測できない(P5-06)・pwsh -Command が
       exit 2 を 1 に丸め 3 値契約が届かない(P5-07・計器側は 1 行目で 3 値を読めるようにする)。
     order_ref: bomdd/60-change-order-eco-066.md
-    affected_refs: [method/tools/bomdd-witness.py]   # 候補・製造裁定時に凍結
-    no_impact_prediction: "(起票段階)diff は台帳系(order・register・ECO-062 order §7 現在地・improvements.md EXP 注記)のみ。製造時(候補): bomdd-witness.py のみ・挙動変更は CLI `verify PATH`(--eco なし)が 0/1→2 の 1 点だけ(利用箇所= Phase 5 運転員手順と selftest)・終了コードの意味不変・pre-push hook(別 witness・W4)/bomdd-job.py(import なし)/self-conformance C1〜C18 判定不変・kit 非含有で製品リポ非波及"
+    affected_refs: [method/tools/bomdd-witness.py]   # 製造裁定 A で凍結(2026-09-11)
+    no_impact_prediction: "(製造前・凍結・裁定 A)変更は bomdd-witness.py のみ。挙動変更は CLI `verify PATH`(--eco なし)が 0/1→2 の 1 点だけ(利用箇所= Phase 5 運転員手順と selftest)。終了コードの意味(0/1/2)不変・標準出力 1 行目の形式のみ固定・pre-push hook(別 witness・W4)/bomdd-job.py(import なし)/self-conformance C1〜C18 判定不変(本ツールは検査対象集合外)・kit 非含有で製品リポ非波及。selftest の腕は増えるが実リポ非接触"
     diff_audit:
       baseline: "b268f37"  # 起票直前 HEAD
       head: ~
-      allowed_paths: [method/tools/bomdd-witness.py, bomdd/60-change-order-eco-066.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-066.md]   # 起票段階。製造裁定で再凍結(r2 以降の検査報告は同一 commit で追加)
+      allowed_paths: [method/tools/bomdd-witness.py, bomdd/60-change-order-eco-066.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-066.md]   # 製造裁定 A で再凍結(製造物 1+台帳系+検査報告。r2 以降の検査報告は同一 commit で追加)
     summary: >
       ①標準出力 1 行目を `<VERDICT> <CODE>[(<CAUSE>)]: <message>` に固定(VERDICT= ADVANCE/STOP/UNMEASURABLE・CODE 12 語彙・witness ローカルで job の停止語彙とは別)
       ②CLI `verify PATH` は --eco 必須(なしは UNMEASURABLE IDENTITY_UNCHECKED exit 2・関数は eco=None を残す)③TREE_MISMATCH は 40 桁両方+最初に異なる位置
