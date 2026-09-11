@@ -138,3 +138,24 @@ run 台帳を正本にする(正本は register / order のまま)。
 - **V6**= PASS(1 行 80 桁以内・selftest で全腕検査・実 ECO の 4 行も 45〜60 桁)。
 - **V3'**(非接触): `git diff 3c14c83 --stat -- method/tools/bomdd-job.py method/tools/bomdd-witness.py method/tools/self-conformance.py bomdd/hooks`= 0(§7 で再確認)。self-conformance 全 PASS。
 - **V4**(CI)・**V5**(Codex)= §7。
+
+## 7. 独立検査(Codex・異系統・CLI 直接・workspace-write)
+
+### 7.1 r1(2026-09-11・対象 commit `ff7cd9f`)= **REJECT**(IA-01〜04)— 報告: [independent-inspection-eco-067.md](reports/independent-inspection-eco-067.md)
+
+検査官は指定の known-bad 腕 9 種(receipt 5・job 停止・witness/register/git 不在)で fail-open を再現せず、DELIVERY/WITNESS_DELIVERY の被覆・環境変数・一時 JSON の後片付け・
+非接触 diff 0・in-process import の副作用なしを確認したうえで、**入口自身の入力クラス**に 4 件の穴を見つけた。作業木汚染 0(受理側で前後の porcelain 空・write-tree 同一)。
+
+| 所見 | 受理側の真正判定 | 是正(r1b・同日) |
+|---|---|---|
+| IA-01 ECO 値にパス区切り・親参照が含まれると receipt と既定台帳が所定ディレクトリの外へ出て、cell が起動する(fail-open)。未知オプション(`--receipt`)は無視され exit 0 | **CONFIRMED**(fail-open・R2/R4 の confinement 迂回)。register の ID を信じてパスに連結していた | `ECO_RE`(`ECO-NNN`/`CAPA-NNN`・英数とハイフンのみ)で構文検証 → ARG_ERROR exit 2・台帳も書かない。導出した receipt/台帳パスが `.git/bomdd-witness/`・`.git/bomdd-run/` 配下か `_under()`(resolve+commonpath)で確認。未知オプション・余分な位置引数は ARG_ERROR。selftest 腕: 構文不正 5 種(親参照 2・`..`・空白・アンダースコア)・未知オプション 2・余分引数 1・register に区切り付き ID を置いた fixture |
+| IA-02 台帳を書けない(ディレクトリ等)ときに cell を先に起動してから exit 2 | **CONFIRMED**(fail-open・R8「2= 起動せず」と R4「起動の事実を残す」を同時に破る)。`launch()` → `write_ledger()` の順だった | **判定レコードを起動の前に追記**し、書けなければ起動せず exit 2。起動後は `event: cell`(cell・started_at・cell_exit)を 2 行目として追記(追記のみ・R4)。selftest 腕: 台帳= ディレクトリ → exit 2・痕跡なし |
+| IA-03 起動時、cell の出力が判定行より先に出る(1 行目が cell の任意文字列になる) | **CONFIRMED**(判定の誤り・R7)。summary を cell 終了後に印字していた | **判定行を起動の前に出す**(`… · launching @tree`)→ cell の出力 → `cell exit N` の 1 行。`run(argv, root, emit)` に印字コールバックを通し、selftest が出力順(1 行目= decision・2 行目= cell exit)を検査。stdout は行バッファ+起動前 flush |
+| IA-04 80 桁制約が selftest の報告行・引数エラー・台帳エラー・作業木内台帳の拒否行を覆っていない | **CONFIRMED**(文言のみ) | 全行を `_fit()`(中央省略)で 80 桁以内・パスは `_short_path()`。selftest は `emit` された**全行**と自身の報告行 2 種を検査。usage 行を短縮 |
+
+- 検査官が測れなかったもの: CI(実行基盤のネットワーク制約)→ 受理側で V4= run 34576732800 success(ff7cd9f)。
+- r1b 付随(製造者): selftest の fixture cell が stdout に印字していたため `--selftest` の 1 行目が cell 出力になっていた(IA-03 と同型・selftest 経路)→ 印字を外した。
+  台帳レコードに `event`(decision / cell)を追加。
+- r1b の受入: `--selftest` exit 0(1 行目 `ADVANCE OK: …`)・実 ECO で構文不正 → `UNMEASURABLE ARG_ERROR` exit 2・未知オプション → exit 2・台帳ディレクトリ → exit 2 で起動なし。
+  実 ECO(ECO-067・現 tree の witness)で `--cell "python -c print('CELL-OUTPUT')"` → 標準出力の順= `ADVANCE ECO-067 OK → next · launching @34c026d082ec` → `CELL-OUTPUT` → `cell exit 0`・
+  台帳= event decision(cell 記載・cell_exit null)→ event cell(cell_exit 0)の 2 行(IA-03/IA-02 の実 ECO 確認)。

@@ -2415,7 +2415,7 @@ changes:
     title: Phase 6 第 1 弾 — 狭い自動起動の単一入口 bomdd-run(job → receipt 再検証〔ECO から機械導出・--eco 束縛〕→ run 台帳の機械回収〔.git/bomdd-run・人間の手書き欄なし〕→ 1 行目+exit+job.stop_type の 3 条件 AND で ADVANCE のときだけ製造セルを起動・承認は迂回しない・停止種別→配送先の固定表)
     date: 2026-09-11
     origin: improvement
-    status: implemented   # 2026-09-11 起票(filed・job 経由)→ 製造裁定 A で decided → 製造(bomdd-run.py 345 行)・製造者受入 V1(selftest・自己捕捉 3 件是正)/V2(実 ECO dry)/V3(無害 cell 起動→known-bad 差し替えで不起動・Phase 6 出口の初回実測)/V6 済み(order §4〜6)。独立検査(Codex)引き渡し前
+    status: implemented   # 2026-09-11 起票(filed・job 経由)→ 製造裁定 A で decided → 製造(bomdd-run.py 345 行)・製造者受入 V1(selftest・自己捕捉 3 件是正)/V2(実 ECO dry)/V3(無害 cell 起動→known-bad 差し替えで不起動・Phase 6 出口の初回実測)/V6 済み(order §4〜6)→ fix ff7cd9f(CI 34576732800 success)→ 独立検査 r1(Codex)= REJECT・IA-01〜04(ECO 構文のパス逸脱= fail-open・台帳書込不能でも起動= fail-open・cell 出力が判定行に先行・80 桁未被覆)を 4/4 CONFIRMED で是正(r1b)。r2 引き渡し前
     source: >
       ECO-062 §7 Phase 6・§10.6(run-01/02 の結果)・run 台帳 run-02 §4(P5-08 40 桁 ×2 の折り返し・P5-09 人間運転員は規格を守らない・P5-10 CODE 転写誤り)。
       Phase 5 は運転員が verify を手で回した。Phase 6 は入口が verify を回し ADVANCE のときだけ次工程を起動する(狭い= 1 job・1 起動先・コマンド単位の承認維持)。
@@ -2438,3 +2438,5 @@ changes:
       V3 実 ECO で無害な cell を ADVANCE で起動・known-bad 差し替えで起動しない(Phase 6 の出口)/ V4 CI・窓 / V5 異系統独立検査 Codex 必須 / V6 標準出力 1 行が 80 桁以内。
       **製造者受入(2026-09-11)**: V1 PASS(selftest 13 腕・初回に 80 桁超 ×2 と STOP_TYPE 欠落を自己捕捉→是正)/ V2 PASS(ECO-067 dry・台帳 1 行機械回収)/ V3 PASS(同一 job で前後: 起動→痕跡・
       known-bad で不起動・復元)/ V6 PASS。V3'(非接触 diff 0)・V4 CI・V5 Codex は order §7。
+      **独立検査 r1(Codex・2026-09-11・ff7cd9f)= REJECT・IA-01〜04 4/4 CONFIRMED**(うち fail-open 2 件= ECO 構文のパス逸脱・台帳書込不能でも起動)— r1b で是正(ECO_RE+confinement・
+      起動前に台帳へ書く・判定行を起動前に出す・全行 80 桁)。V4 CI 34576732800 success(ff7cd9f)。r2 待ち。
