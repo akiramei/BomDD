@@ -7261,7 +7261,7 @@ verified 遷移の commit で書く」が運用規則として成立する(1 例
 
 - [open] EXP-20260912-01 — **handoff 契約 v0.3 は v0.2 の欠陥 4 類を消すか**: 次の handoff 20 回(DECIDE 5 回以上)で ①許容表外ヘッダ 0 ②structural FAIL 申告つき送信 0
   ③REQUEST の成果物回収に要した追加往復(v0.2 基準線 5)④DECIDE で人間が非推奨案の理由・部分採択の可否を再質問した回数(基準線: 感想 1)⑤待機形の本文 2 行以内の比率。
-  評価後の分岐: 改善あり → product-profile 正本化を ECO で判断 / 改善なし → §2 の順序規則を §1 へ昇格。**next trigger= handoff 20 回到達**
+  評価後の分岐: 改善あり → product-profile 正本化を ECO で判断(設計= core/adapter 分割・ECO-071 節の第三者意見)/ 改善なし → §2 の順序規則を §1 へ昇格。**next trigger= handoff 20 回到達**
   **v0.4 追加指標(2026-09-12・ECO-071)**: ⑥人間の「形式なし」宣言回数 ⑦区間内で契約に戻った通数と隠れ裁定件数(0 要求)⑧AI 推定で形式を落とした件数(0 要求)
   source: ECO-070, ECO-071
   evidence: ECO-070 order §0・SKILL.md §4
@@ -7279,4 +7279,5 @@ Scope の例外)。**一般化検査**: ハーネス側の通信規約で製品�
 [x] method/concept claim: 「監視ではなくマネージ」(2026-08-08)= supported(切替の権限を人間に置き、AI は既定側に留まる)。contradicted / superseded: なし。
 **期待効果の棚卸し**: EXP-20260912-01 に指標 ⑥⑦⑧を追記(行内)。新規 ID なし。他への影響なし。thesis を変える条件= ⑥が数回超 or 推定が全件正しかった → 既定を AI 推定へ /
 ⑦>0 → ラチェット維持・強化(DISCUSS 2026-09-12 の what_would_change_thesis をそのまま計測条件にした)。
+**第三者意見の記帳(2026-09-12・user 転送・指示でない・当方 DISCUSS に user AGREE)**: 「core は汎用・現ファイルは BomDD で較正された distribution」。BomDD 固有物 4 種= ①出自・配置履歴(ECO 番号・AGENTS.md)②生成規則のリポ前提(監査記録はリポのパス)③停止語彙の対応表(§2.6)④ECO 番号入りの例と §4 計測。提案構造= handoff/SKILL.md(汎用 core: 契約・classify・generate・validate・rewrite・examples)+README+adapters/bomdd.md。当方の読み替え: 診断は実読と一致・**配布 ECO の設計として採る**(ECO-070 で予定した product-profile 正本化)。差分 3 点= (a) 出自は消さず adapter 側へ移す(出典なき還元は禁止・BomDD 内では到達可能に)(b) core から adapter への参照 1 行を必須にする(ローダーは SKILL.md しか読まない・到達性で一度失敗した直後)(c)「監査記録は system of record に置き handoff は参照して再現しない」へ一般化。**実施時期= EXP-20260912-01 の評価時に決める**(前倒し条件= 次の 20 回の前に第三者評価を再依頼する場合。据え置き条件= 正本/写しの同期組が 1 つ増えるコストを重く見る場合)。
 **受入(2026-09-12)**: ECO-071 verified(起票+fix 4e518cf・CI 34622666418 success・窓閉鎖・製造者較正のみ)。待機形 handoff の実使用 1 例目(検査がバックグラウンドへ移った待機)。
