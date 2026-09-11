@@ -2415,7 +2415,7 @@ changes:
     title: Phase 6 第 1 弾 — 狭い自動起動の単一入口 bomdd-run(job → receipt 再検証〔ECO から機械導出・--eco 束縛〕→ run 台帳の機械回収〔.git/bomdd-run・人間の手書き欄なし〕→ 1 行目+exit+job.stop_type の 3 条件 AND で ADVANCE のときだけ製造セルを起動・承認は迂回しない・停止種別→配送先の固定表)
     date: 2026-09-11
     origin: improvement
-    status: implemented   # 2026-09-11 起票(filed・job 経由)→ 製造裁定 A で decided → 製造(bomdd-run.py 345 行)・製造者受入 V1(selftest・自己捕捉 3 件是正)/V2(実 ECO dry)/V3(無害 cell 起動→known-bad 差し替えで不起動・Phase 6 出口の初回実測)/V6 済み(order §4〜6)→ fix ff7cd9f(CI 34576732800 success)→ 独立検査 r1(Codex)= REJECT・IA-01〜04(ECO 構文のパス逸脱= fail-open・台帳書込不能でも起動= fail-open・cell 出力が判定行に先行・80 桁未被覆)を 4/4 CONFIRMED で是正(r1b)。r2 引き渡し前
+    status: implemented   # 2026-09-11 起票(filed・job 経由)→ 製造裁定 A で decided → 製造(bomdd-run.py 345 行)・製造者受入 V1(selftest・自己捕捉 3 件是正)/V2(実 ECO dry)/V3(無害 cell 起動→known-bad 差し替えで不起動・Phase 6 出口の初回実測)/V6 済み(order §4〜6)→ fix ff7cd9f(CI 34576732800 success)→ 独立検査 r1(Codex)= REJECT・IA-01〜04(ECO 構文のパス逸脱= fail-open・台帳書込不能でも起動= fail-open・cell 出力が判定行に先行・80 桁未被覆)を 4/4 CONFIRMED で是正(r1b cc87371・CI 34579198802)→ r2= REJECT(IA-01 残= 値と同じ余分引数の素通り→r1c 逐次パース・IA-04 残= cell 出力は受理側で仕様の明確化)。r3 引き渡し前
     source: >
       ECO-062 §7 Phase 6・§10.6(run-01/02 の結果)・run 台帳 run-02 §4(P5-08 40 桁 ×2 の折り返し・P5-09 人間運転員は規格を守らない・P5-10 CODE 転写誤り)。
       Phase 5 は運転員が verify を手で回した。Phase 6 は入口が verify を回し ADVANCE のときだけ次工程を起動する(狭い= 1 job・1 起動先・コマンド単位の承認維持)。
@@ -2426,7 +2426,7 @@ changes:
     diff_audit:
       baseline: "49e3a99"  # 起票直前 HEAD
       head: ~
-      allowed_paths: [method/tools/bomdd-run.py, bomdd/60-change-order-eco-067.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-067.md]   # 製造裁定 A で再凍結(新規 1+台帳系+検査報告・r2 以降は同一 commit で追加)
+      allowed_paths: [method/tools/bomdd-run.py, bomdd/60-change-order-eco-067.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-067.md, bomdd/reports/independent-inspection-eco-067-r2.md]   # 製造裁定 A で再凍結(新規 1+台帳系+検査報告・r2 を r1c commit で追加・r3 以降も同一 commit で追加)
     summary: >
       ①bomdd-run.py <ECO> [--cell CMD] [--ledger PATH]: job ビュー取得(stop_type≠NONE は起動せず)→ receipt を ECO から機械導出して verify --eco → 台帳 1 行を
       .git/bomdd-run/<ECO>.jsonl に機械回収(verifier_line そのまま)→ 起動条件= exit 0 AND 1 行目 ADVANCE OK AND job.stop_type NONE のときだけ --cell をそのまま起動
@@ -2440,3 +2440,4 @@ changes:
       known-bad で不起動・復元)/ V6 PASS。V3'(非接触 diff 0)・V4 CI・V5 Codex は order §7。
       **独立検査 r1(Codex・2026-09-11・ff7cd9f)= REJECT・IA-01〜04 4/4 CONFIRMED**(うち fail-open 2 件= ECO 構文のパス逸脱・台帳書込不能でも起動)— r1b で是正(ECO_RE+confinement・
       起動前に台帳へ書く・判定行を起動前に出す・全行 80 桁)。V4 CI 34576732800 success(ff7cd9f)。r2 待ち。
+      **r2(cc87371)= REJECT**: IA-02/03 是正確認・IA-01 残(値と同じ余分引数)CONFIRMED→r1c・IA-04 残(cell の 160 桁行)は NOT CONFIRMED(起動先の出力・R7 文言を明確化)。r3 待ち。

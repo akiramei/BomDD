@@ -159,3 +159,15 @@ run 台帳を正本にする(正本は register / order のまま)。
 - r1b の受入: `--selftest` exit 0(1 行目 `ADVANCE OK: …`)・実 ECO で構文不正 → `UNMEASURABLE ARG_ERROR` exit 2・未知オプション → exit 2・台帳ディレクトリ → exit 2 で起動なし。
   実 ECO(ECO-067・現 tree の witness)で `--cell "python -c print('CELL-OUTPUT')"` → 標準出力の順= `ADVANCE ECO-067 OK → next · launching @34c026d082ec` → `CELL-OUTPUT` → `cell exit 0`・
   台帳= event decision(cell 記載・cell_exit null)→ event cell(cell_exit 0)の 2 行(IA-03/IA-02 の実 ECO 確認)。
+
+### 7.2 r2(2026-09-11・対象 commit `cc87371`・範囲= r1 所見の是正確認+回帰)= **REJECT**(IA-01 残・IA-04 残)— 報告: [independent-inspection-eco-067-r2.md](reports/independent-inspection-eco-067-r2.md)
+
+| 所見 | 検査官の観測 | 受理側の真正判定 | 処置 |
+|---|---|---|---|
+| IA-02 | 台帳= ディレクトリ・排他ロックの 2 腕で exit 2・不起動。正常腕では cell 自身が起動直後に台帳を読み `decision` 行を確認・終了後 `cell` 行 | 是正確認 | — |
+| IA-03 | 出力順= 判定行 → CELL-OUTPUT → cell exit 0。3 条件の独立検証(exit 0+`STOP GATE_FAIL:` / exit 1+`ADVANCE OK:` はいずれも不起動) | 是正確認 | — |
+| IA-01 残 | 不正 ECO 5 種・未知オプション・余分引数は ARG_ERROR・台帳 0 バイト。ただし **オプション値と同じ文字列の余分な位置引数**(`--cell C C`)は素通りし起動した(値集合で「消費済み」と判定していた)。拡張長パスの迂回は再現せず・シンボリックリンクは権限不足で測れず | **CONFIRMED**(製造物・引数パースの設計誤り) | **r1c**: 位置で逐次パース(`opts` 辞書・重複オプションも ARG_ERROR)。selftest 腕 3 追加(値と同じ余分引数 ×2・重複オプション)。実 ECO で `--cell C C` → `UNMEASURABLE ARG_ERROR` exit 2 |
+| IA-04 残 | 本ツール自身の行は全経路 80 桁以内(74/59〜72/42/36/78/72/80)。cell が 160 桁の行を出すと同じ stdout に無加工で現れる | **NOT CONFIRMED(仕様の明確化)**: cell の stdout は起動先の出力で、本ツールが加工・捕捉すると R5「そのまま起動」と起動先ハーネスの承認プロンプトの通過を壊す。V6/R7 の「全経路」は本ツール自身が出す行を指す | R7 の文言を「本ツール自身が出す行」に明確化(製造物冒頭)。是正なし・selftest 変更なし |
+
+- 回帰: 9 腕・正常腕・環境変数・一時 JSON の後片付け・cell 文字列の一致・配送表の被覆(差集合 [] ×2)・非接触 diff 0・作業木非汚染= すべて維持。
+- 検査官の較正判定は「不適格(残存 IA-01・IA-04)」。受理側は IA-01 残を製造物帰属で受理、IA-04 残は仕様側の読みの相違として不採用(理由は上表)。r3 は IA-01 残の是正確認+回帰に範囲限定。

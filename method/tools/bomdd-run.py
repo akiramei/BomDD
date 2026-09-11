@@ -19,9 +19,9 @@
 #     承認は起動先のハーネスに委ねる(本ツールは迂回フラグを持たない)。--cell なしは dry(検証+台帳のみ)。
 #     起動先には環境変数 BOMDD_JOB(ECO)・BOMDD_JOB_JSON(job ビューの一時ファイル)・BOMDD_WITNESS(receipt パス)を渡す。
 #  R6 停止種別 → 配送先の固定表(DELIVERY・機械定義の初版)。witness 側の CODE も配送先を持つ(下記)。
-#  R7 本ツールの標準出力は全行 80 桁以内。**判定行は起動の前に出す**(1 行目= decision・r1 IA-03)。cell の出力は
-#     その後に続き、cell 終了後に `cell exit N` の 1 行を出す。40 桁 ×2 は台帳の verifier_line にだけ残す。
-#     長いパスは中央省略(…)する。
+#  R7 本ツール**自身が出す**行は全行 80 桁以内。**判定行は起動の前に出す**(1 行目= decision・r1 IA-03)。cell の出力は
+#     その後に続き(起動先の出力であり本ツールは加工しない— R5「そのまま」と承認プロンプトの通過のため・r2 IA-04)、
+#     cell 終了後に `cell exit N` の 1 行を出す。40 桁 ×2 は台帳の verifier_line にだけ残す。長いパスは中央省略(…)する。
 #  R8 終了コード: 0= 起動した(dry なら ADVANCE)/ 1= STOP(起動せず)/ 2= 測定不能(起動せず)。未知オプションは
 #     ARG_ERROR(exit 2・無視しない)。
 #
@@ -242,21 +242,27 @@ def run(argv: list, root: Path, emit=None) -> int:
     if not ECO_RE.match(eco):   # r1 IA-01
         emit(_fit(f"UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): {eco!r}"))
         return 2
-    consumed = set()
-    for f in KNOWN_OPTS:
-        v = _opt(argv, f)
-        if v == "":
-            emit(f"UNMEASURABLE ARG_ERROR: {f} に値がない")
-            return 2
-        if v is not None:
-            consumed.add(v)
-    unknown = [a for a in argv[1:] if a.startswith("--") and a not in KNOWN_OPTS]
-    stray = [a for a in argv[1:] if not a.startswith("--") and a not in consumed]
+    # r2 IA-01: 位置で逐次パースする(値集合で「消費済み」と見なすと、オプション値と同じ文字列の余分引数が素通りする)
+    opts, unknown, stray, i = {}, [], [], 1
+    while i < len(argv):
+        a = argv[i]
+        if a in KNOWN_OPTS:
+            if i + 1 >= len(argv) or argv[i + 1].startswith("--"):
+                emit(f"UNMEASURABLE ARG_ERROR: {a} に値がない")
+                return 2
+            if a in opts:
+                emit(f"UNMEASURABLE ARG_ERROR: {a} が重複")
+                return 2
+            opts[a] = argv[i + 1]
+            i += 2
+            continue
+        (unknown if a.startswith("--") else stray).append(a)
+        i += 1
     if unknown or stray:   # r1 IA-01 補足: 未知オプション・余分な引数を無視しない
         emit(_fit(f"UNMEASURABLE ARG_ERROR: 未知の引数: {' '.join(unknown + stray)}"))
         return 2
-    cell = _opt(argv, "--cell")
-    ledger_s = _opt(argv, "--ledger")
+    cell = opts.get("--cell")
+    ledger_s = opts.get("--ledger")
     jobmod, witmod = _load("bomdd-job"), _load("bomdd-witness")
     rec, job = decide(root, eco, jobmod, witmod)
     _, git_dir, _ = witmod.worktree_tree(root)
@@ -403,7 +409,10 @@ def selftest() -> int:
         if rc_in != 2 or (root / "ledger.jsonl").exists() or marker.exists():
             fails.append(f"kb-ledger-inside: exit {rc_in} / 存在 {(root / 'ledger.jsonl').exists()} / 起動 {marker.exists()} :: {out_in[:1]}")
         # 引数不正・未知オプション(r1 IA-01 補足)— 全て ARG_ERROR・起動しない
-        for bad in ([], ["--cell", "x"], ["ECO-900", "--cell"], ["ECO-900", "--ledger"], ["ECO-900", "--receipt", "x"], ["ECO-900", "extra"], ["ECO-900", "--ledger", str(ledger), "--bogus"]):
+        # r2 IA-01: オプション値と同じ文字列の余分な位置引数・オプションの重複も ARG_ERROR
+        for bad in ([], ["--cell", "x"], ["ECO-900", "--cell"], ["ECO-900", "--ledger"], ["ECO-900", "--receipt", "x"], ["ECO-900", "extra"],
+                    ["ECO-900", "--ledger", str(ledger), "--bogus"], ["ECO-900", "--ledger", str(ledger), "--cell", cell, cell],
+                    ["ECO-900", "--ledger", str(ledger), str(ledger)], ["ECO-900", "--ledger", str(ledger), "--ledger", str(ledger)]):
             if marker.exists():
                 marker.unlink()
             rc_b, out_b = call(bad)
@@ -431,7 +440,7 @@ def selftest() -> int:
 def _report_text(fails) -> str:
     if fails:
         return f"STOP SELFTEST_FAIL: {len(fails)} 件\n  " + "\n  ".join(fails)
-    return "ADVANCE OK: selftest PASS(起動1/dry/kb5/job停止/測定不能2/構文5/台帳3/引数7/80桁/表)"
+    return "ADVANCE OK: selftest PASS(起動1/dry/kb5/job停止/測定不能2/構文5/台帳3/引数10/80桁/表)"
 
 
 def _report(fails) -> int:
