@@ -2570,3 +2570,24 @@ changes:
       採らない= 判定で register/witness を動かす(第 3 弾)・散文の解釈・cell 自身の witness・job F6 充足・報告テンプレート。
     verification: >
       V1 selftest / V2 出口条件= 本 ECO の r1 を --report で起動し台帳の cell 行に verdict・sha256(commit した報告と一致)/ V3 self-conformance・CI・窓 / V4 異系統独立検査 / V5 較正 receipt。
+  - id: ECO-074
+    title: ECO-062 Phase 7 第 3 弾 — verified 昇格を台帳の verdict に機械的に依存(bomdd-witness produce --inspection-from-ledger で inspection gate を run 台帳から導出・入口が verified+inspector 宣言で gate を要求 INSPECTION_MISSING・bomdd-run --range で round の目的を台帳に・job F6 導出)
+    date: 2026-09-12
+    origin: improvement
+    status: filed   # 2026-09-12 user DECIDE「1:A 2:A」→ gate の所在と根拠の DISCUSS(witness gate・台帳から機械導出・range・register は自動で動かさない)に AGREE → 起票のみ・製造裁定は別 DECIDE(A 1 層 / B 二層 / C --range なし)
+    source: >
+      ECO-072/073 で判定と hash は台帳に入ったが verified 昇格は製造者が台帳を読んで転記(2 例)・入口は「独立検査 ACCEPT なしの verified」を止められない。round の range(境界探索/是正確認+回帰)を
+      台帳が持たず「最後の cell 行の ACCEPT」では受入根拠にならない round と区別できない。hash の order 転写は禁止・台帳からの導出は W2 を壊さない・CI は .git 配下を読めない(gate はローカル 1 層)。
+    order_ref: bomdd/60-change-order-eco-074.md
+    affected_refs: [method/tools/bomdd-run.py, method/tools/bomdd-witness.py, method/tools/bomdd-job.py]
+    no_impact_prediction: "(起票時点・製造裁定で凍結)範囲 A なら tools 3+台帳系+reports。templates 不変・配員欄なしの既存 ECO は F6 null → gate 不要 → 従来どおり・--report は --range 必須化で ARG_ERROR(意図)・witness 既存 gate 不変・hooks/.github diff 0"
+    diff_audit:
+      baseline: "a8ad524"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [bomdd/60-change-order-eco-074.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]  # 起票のみ。製造裁定で再凍結
+    summary: >
+      ①bomdd-run --range 境界探索|是正確認+回帰(--report と組で必須・台帳 cell 行と env)②bomdd-witness produce --inspection-from-ledger(最後の report つき cell 行 → gate inspection・exit= ACCEPT+是正確認→0/
+      REJECT→1/その他→2・現在の報告 sha256 が台帳と一致しなければ ARG_ERROR)③入口: verified かつ inspector 宣言で gate なし→ STOP INSPECTION_MISSING(operator)・gate exit≠0→ GATE_FAIL ④job F6 導出 ⑤selftest。
+      採らない= register 自動遷移・CI の台帳依存・hash の order 転写。二層化は候補 B。
+    verification: >
+      V1 selftest / V2 出口条件= 本 ECO の昇格 commit で gate なし witness → STOP・最終 round ACCEPT の gate → ADVANCE・境界探索 round の gate → STOP / V3 self-conformance・CI・窓 / V4 異系統独立検査 / V5 較正 receipt。

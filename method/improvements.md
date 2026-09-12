@@ -7265,6 +7265,9 @@ verified 遷移の commit で書く」が運用規則として成立する(1 例
   **第三者到達 1 例(2026-09-12・ECO-072 r1)**: 異系統ハーネス(Codex・AGENTS.md を入口に読む)の検査報告が契約ヘッダ `[INFORM / COMPLETE]`+human_action で始まった — ECO-070 の AGENTS.md 参照が
   到達経路として機能(ECO-070 receipt の unknown → observed・N=1・順守の質は未評価)
   **v0.4 追加指標(2026-09-12・ECO-071)**: ⑥人間の「形式なし」宣言回数 ⑦区間内で契約に戻った通数と隠れ裁定件数(0 要求)⑧AI 推定で形式を落とした件数(0 要求)
+  **暫定評価(2026-09-12・user 2:A・transcript 集計・v0.3 開始〜ECO-074 起票前)**: handoff 31(DECIDE 4= 到達条件 5 未満で暫定)。①許容表外 0/31 ②申告送信 0 ③REQUEST 機会なし ④再質問 0/4・
+  返答 reply_format どおり 4/4 ⑤待機形 2 行以内 19/19(全件 1 行)⑥⑦⑧= 0/0/0(区間の宣言なし= 機会なし)・mode 訂正 0・第三者到達 6/6(Codex 報告が契約ヘッダで開始)。v0.2 の欠陥 4 類の
+  再演 0。確定は DECIDE 5 回目(ECO-074 製造裁定)で。限定子: 同一セッション・同一 user
   source: ECO-070, ECO-071
   evidence: ECO-070 order §0・SKILL.md §4
 
@@ -7372,3 +7375,19 @@ ECO-067 R8 と矛盾= 受理側)/ IA-02(既存ファイルを今回の報告と�
 **受入(2026-09-12)**: ECO-073 verified(fix d60471e・r2b ddae2ee・CI 34668565093 success・r3 ACCEPT・窓閉鎖・較正 receipt trigger ①③)。Phase 7 第 2 弾 完了。r2 で IA-06(ディレクトリ宛先の
 扱い= 受理側のブリーフ期待が旧仕様)・IA-07(旧コメント)→ r2b → r3 ACCEPT。受理側の手順欠陥: 記帳スクリプトの bytes/str 連結で検査が走らないまま exit を読んだ(ECO-072 に続き 2 回目・
 同型 2 例= 記帳スクリプトの雛形化が候補)。
+
+## 2026-09-12 BomDD 自己適用 — ECO-062 Phase 7 第 3 弾 ECO-074 起票(verified 昇格を台帳の verdict に機械的に依存・DISCUSS: witness gate を台帳から導出・range を台帳に・register は自動で動かさない)
+
+**観測**(出典: [ECO-074 order](../bomdd/60-change-order-eco-074.md) §0): ①ECO-072/073 で判定と hash は台帳に入ったが verified 昇格は製造者が台帳を読んで転記(2 例)・入口は「独立検査 ACCEPT なしの
+verified」を止められない。②round の range を台帳が持たず、最後の cell 行の ACCEPT が境界探索 round のものか区別できない(ECO-072 r1→r2・ECO-073 r1/r2→r3 の実例)。③hash の order 転写は規約違反・
+台帳からの導出は witness W2(申告値を再実測しない)を壊さない・CI は `.git` 配下を読めない(ECO-020 の gate 1 裁定)。**整理**: gate はローカル 1 層(入口)に置き、根拠は run 台帳(入口が書いた機械記録)から
+導出する。二層化(order の検査官行に verdict 語+報告リンク・self-conformance が検査)は CI でも効くが verdict 語の転記を伴う— 製造裁定の候補 B として残す。**一般化検査**: 「受入の遷移は、遷移元が
+書いた機械記録から導出した gate でしか通さない(申告と転写を経路から外す)」は製品名を含まない(playbook §9/§13 候補・製造後)。**行き先判定**: 起票のみ。**思想層の再認証判定(手順 3b)**:
+[ ] operational rule [x] control/probe(inspection gate・INSPECTION_MISSING・range の弁別)[ ] template [x] terminology(range・inspection gate)[x] method/concept claim: 「散文契約は順守の証拠にならない」
+(§9)= supported(verified の散文記録から機械 gate へ)。contradicted / superseded: なし。
+**期待効果の棚卸し**: EXP-20260912-01 に暫定評価(行内・DECIDE 5 回目で確定)。新規 EXP-20260912-04(下記)。EXP-20260912-03 は継続。
+
+- [open] EXP-20260912-04 — **inspection gate は「独立検査 ACCEPT なしの verified」を止め、境界探索 round の ACCEPT を通さないか**: ECO-074 製造受入 V2 で ①gate なし witness → STOP INSPECTION_MISSING
+  ②最終 round(是正確認+回帰)ACCEPT の gate → ADVANCE ③境界探索 round の gate → STOP。加えて以後の verified 昇格 3 ECO で偽陽性(正しい ACCEPT を止めた)0 件。**next trigger= ECO-074 製造受入**
+  source: ECO-074
+  evidence: ECO-074 order §0・§1-2/3・ECO-073 §6
