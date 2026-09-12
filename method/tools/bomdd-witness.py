@@ -46,6 +46,7 @@
 #   (4) 1 行目の形式は運転員が読むための契約で、終了コードの丸めそのもの(実行基盤側)は直せない。
 
 import io
+import hashlib
 import json
 import os
 import shutil
@@ -209,6 +210,53 @@ def produce(root: Path, eco: str, gates: list, stop: str, out: Path | None, prod
     return 0, report_line(0, "PRODUCED", f"witness 生成: {path}(tree {tree[:12]}・gates {len(gates)}・stop {stop})"), path
 
 
+# --- ECO-074(Phase 7 第 3 弾): inspection gate を run 台帳から導出 -------------------------------------
+# 申告(--gate)でなく、入口 bomdd-run が書いた台帳(.git/bomdd-run/<ECO>.jsonl)の最後の report つき cell 行から導出する(W2 と両立)。
+# exit の固定写像: ACCEPT かつ range=是正確認+回帰 → 0 / REJECT → 1 / MISSING・UNPARSED・range が境界探索・range なし → 2。
+# produce 時に現在の報告ファイルの sha256 が台帳と一致しなければ gate を作らない(ARG_ERROR)。
+INSPECTION_ACCEPT_RANGE = "是正確認+回帰"
+
+
+def inspection_gate_from_ledger(root: Path, ledger: Path):
+    """(gate, None) / (None, 理由)。"""
+    try:
+        lines = ledger.read_text(encoding="utf-8").splitlines()
+    except OSError as e:
+        return None, f"run 台帳を読めない: {ledger.name}({e.__class__.__name__})"
+    row = None
+    for ln in lines:
+        try:
+            r = json.loads(ln)
+        except ValueError:
+            continue
+        if isinstance(r, dict) and r.get("event") == "cell" and isinstance(r.get("report"), dict):
+            row = r
+    if row is None:
+        return None, "run 台帳に report つきの cell 行がない"
+    rp = row["report"]
+    path, sha, verdict, rng = rp.get("path"), rp.get("sha256"), rp.get("verdict"), rp.get("range")
+    if not isinstance(path, str) or not path:
+        return None, "台帳の report.path がない"
+    if verdict == "ACCEPT" and rng == INSPECTION_ACCEPT_RANGE:
+        ex = 0
+    elif verdict == "REJECT":
+        ex = 1
+    else:
+        ex = 2   # MISSING / UNPARSED / 境界探索の ACCEPT / range なし = 受入根拠にならない(測定不能側)
+    if isinstance(sha, str) and sha:
+        try:
+            cur = hashlib.sha256((root / path).read_bytes()).hexdigest()
+        except OSError:
+            return None, f"報告ファイルを読めない: {path}"
+        if cur != sha:
+            return None, f"報告の sha256 が台帳と一致しない: {path}"
+    elif ex != 2:
+        return None, "台帳の report.sha256 がない"
+    gate = {"name": "inspection", "exit": ex, "source": path, "verdict": verdict, "sha256": sha, "range": rng,
+            "executor": row.get("executor"), "run_id": row.get("run_id")}
+    return gate, None
+
+
 def _first_diff(a: str, b: str) -> str:
     """P5-03: 最初に異なる位置(0 起点)。長さ違いは短い方の長さ。"""
     n = min(len(a), len(b))
@@ -305,7 +353,17 @@ def run_cli(argv: list, root: Path) -> tuple[int, str]:
                 raise ArgError("--eco が必要")
             stop = _opt(argv, "--stop") or "NONE"
             producer = _opt(argv, "--producer") or "unknown(self-reported)"
-            rc, msg, _ = produce(root, eco, parse_gates(argv), stop, out, producer)
+            gates = parse_gates(argv)
+            if "--inspection-from-ledger" in argv:   # ECO-074: 台帳から inspection gate を導出(申告でない)
+                _, git_dir, err = worktree_tree(root)
+                if git_dir is None:
+                    cause, detail = err
+                    return 2, report_line(2, "TREE_UNAVAILABLE", f"台帳の既定パスを導出できない({detail or '詳細なし'})", cause)
+                gate, gerr = inspection_gate_from_ledger(root, git_dir / "bomdd-run" / f"{eco}.jsonl")
+                if gate is None:
+                    raise ArgError(f"--inspection-from-ledger: {gerr}")
+                gates.append(gate)
+            rc, msg, _ = produce(root, eco, gates, stop, out, producer)
             return rc, msg
         if cmd == "verify":
             path = out
@@ -577,6 +635,51 @@ def _selftest_body(td_cm, wd_cm) -> int:
                 fails.append(f"report_line: rc {rc_v} の VERDICT が {name_v} でない")
         if report_line(2, "TREE_UNAVAILABLE", "m", "ADD_FAILED") != "UNMEASURABLE TREE_UNAVAILABLE(ADD_FAILED): m":
             fails.append("report_line: CAUSE の形式が (CAUSE) でない")
+        # --- ECO-074: inspection gate を台帳から導出(作業木を変えるので末尾で実施) ---
+        ldir = root / ".git" / "bomdd-run"
+        ldir.mkdir(parents=True, exist_ok=True)
+        ledger = ldir / "ECO-900.jsonl"
+        (root / "reports").mkdir(exist_ok=True)
+        rep_p = root / "reports" / "r.md"
+        rep_p.write_text("[INFORM / COMPLETE]\n\nACCEPT\n", encoding="utf-8")
+        sha_ok = hashlib.sha256(rep_p.read_bytes()).hexdigest()
+
+        def ledger_rows(verdict, rng, sha=sha_ok, path="reports/r.md", with_report=True):
+            rows = [{"event": "decision", "run_id": "r0", "eco": "ECO-900", "decision": "ADVANCE"}]
+            cell = {"event": "cell", "run_id": "r0", "eco": "ECO-900", "executor": "EQ-002", "cell_exit": 0}
+            if with_report:
+                cell["report"] = {"path": path, "exists": sha is not None, "size": 1, "sha256": sha, "verdict": verdict, "verdict_line": verdict, "range": rng}
+            rows.append(cell)
+            ledger.write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n", encoding="utf-8")
+
+        def insp(name, want_rc, want_exit=None, contains=None):
+            outp = wout / f"insp-{name}.json"
+            rc_i, line_i = run_cli(["produce", "--eco", "ECO-900", "--out", str(outp), "--gate", "g=0:x", "--inspection-from-ledger"], root)
+            if rc_i != want_rc:
+                fails.append(f"insp-{name}: exit {rc_i} != {want_rc}({line_i})")
+            if want_exit is not None and rc_i == 0:
+                g = [x for x in json.loads(outp.read_text(encoding="utf-8"))["gates"] if x.get("name") == "inspection"]
+                if len(g) != 1 or g[0].get("exit") != want_exit or g[0].get("source") != "reports/r.md" or g[0].get("executor") != "EQ-002":
+                    fails.append(f"insp-{name}: gate 不正: {g}")
+            if contains and contains not in line_i:
+                fails.append(f"insp-{name}: 文言に {contains!r} がない({line_i})")
+
+        ledger_rows("ACCEPT", "是正確認+回帰"); insp("accept-corrective", 0, 0)
+        ledger_rows("ACCEPT", "境界探索"); insp("accept-boundary", 0, 2)
+        ledger_rows("ACCEPT", None); insp("accept-norange", 0, 2)
+        ledger_rows("REJECT", "是正確認+回帰"); insp("reject", 0, 1)
+        ledger_rows("MISSING", "是正確認+回帰", sha=None); insp("missing", 0, 2)
+        ledger_rows("UNPARSED", "是正確認+回帰"); insp("unparsed", 0, 2)
+        ledger_rows("ACCEPT", "是正確認+回帰", sha="0" * 64); insp("sha-mismatch", 2, contains="一致しない")
+        ledger_rows("ACCEPT", "是正確認+回帰", path="reports/none.md"); insp("report-absent", 2, contains="読めない")
+        ledger_rows("ACCEPT", "是正確認+回帰", with_report=False); insp("no-cell-report", 2, contains="cell 行がない")
+        ledger.unlink(); insp("ledger-absent", 2, contains="読めない")
+        # 最後の report つき cell 行が採られる(先の REJECT より後の ACCEPT)
+        rows = [json.dumps({"event": "cell", "run_id": "r1", "eco": "ECO-900", "executor": "EQ-002", "cell_exit": 0,
+                            "report": {"path": "reports/r.md", "sha256": sha_ok, "verdict": "REJECT", "range": "境界探索"}}, ensure_ascii=False),
+                json.dumps({"event": "cell", "run_id": "r2", "eco": "ECO-900", "executor": "EQ-002", "cell_exit": 0,
+                            "report": {"path": "reports/r.md", "sha256": sha_ok, "verdict": "ACCEPT", "range": "是正確認+回帰"}}, ensure_ascii=False)]
+        ledger.write_text("\n".join(rows) + "\n", encoding="utf-8"); insp("last-row", 0, 0)
     return _report(fails)
 
 
@@ -587,7 +690,7 @@ def _report_text(fails) -> str:
     return report_line(0, "OK", "selftest PASS(known-good / hash・fail・missing・stop・dirty・不完全 gate・個体不一致 1〔CODE 別〕/ 不在・形状不正・"
                        "git 不能・temp 不能・index 複製失敗・作業木内 temp・add/write-tree/git-dir 失敗〔rc 128・127〕2〔CAUSE 別〕/ CLI: PATH 単独= "
                        "IDENTITY_UNCHECKED 2・--eco 付き 0・既定パス 0・引数不正 ARG_ERROR 2・produce= PRODUCED 0/ARG_ERROR/GATE_INCOMPLETE/WITNESS_UNWRITABLE 2 / "
-                       "非 UTF-8 stderr で落ちない / 作業木内出力 2 / 拡張長パス 2/.git 配下 0 / 差分位置 36・0)")
+                       "非 UTF-8 stderr で落ちない / 作業木内出力 2 / 拡張長パス 2/.git 配下 0 / 差分位置 36・0 / inspection-from-ledger〔ECO-074〕: ACCEPT+是正確認→0・境界探索/range なし/MISSING/UNPARSED→2・REJECT→1・sha 不一致/報告不在/cell 行なし/台帳不在= ARG_ERROR・最後の行)")
 
 
 def _report(fails) -> int:

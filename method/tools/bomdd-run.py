@@ -40,6 +40,10 @@
 #     取り違えない・書けない宛先へ起動しない)。cell 終了時点で
 #     無ければ MISSING(子プロセスの遅延書込みは cell 側の責務)。r1 IA-03: root は cwd(ECO-067 の規約)— 別 cwd では register 不在=
 #     MISSING_INPUT で起動しない。r1 IA-05: 判定語は行頭から照合(行頭空白は契約外= UNPARSED)・verdict_line は原文。
+#  R11 verified 昇格の要求(ECO-074・Phase 7 第 3 弾): --report には --range 境界探索|是正確認+回帰 が必須(台帳 cell 行の report.range と
+#     env BOMDD_RANGE)。job.state が verified かつ job.independent_inspection.required(配員欄に inspector)のとき、witness に name=inspection の
+#     gate(bomdd-witness produce --inspection-from-ledger が台帳から導出)が無ければ STOP INSPECTION_MISSING → operator(独立検査の結果回収)。
+#     gate の exit≠0 は witness 側の GATE_FAIL(→ factory)。verified 以外・inspector 宣言なしは従来どおり。register は動かさない(入口は止めるだけ)。
 #
 # 使い方:
 #   python bomdd-run.py ECO-067                      # dry: 検証+台帳
@@ -68,7 +72,8 @@ from pathlib import Path
 TOOLS_DIR = Path(__file__).resolve().parent
 ECO_RE = re.compile(r"^(ECO|CAPA)-[A-Za-z0-9]+(-[A-Za-z0-9]+)*$")   # r1 IA-01: 区切り文字・親参照を含まない
 WIDTH = 80
-KNOWN_OPTS = ("--cell", "--ledger", "--executor", "--report")
+KNOWN_OPTS = ("--cell", "--ledger", "--executor", "--report", "--range")
+RANGES = ("境界探索", "是正確認+回帰")   # R11: round の目的(playbook §3)
 VERDICT_RE = re.compile(r"^(ACCEPT|REJECT|UNMEASURABLE)\b")   # R10: 判定語の契約(大小文字を区別・固定語彙)
 EQ_ID_RE = re.compile(r"^EQ-\d{3}$")
 
@@ -83,6 +88,7 @@ DELIVERY = {
     "LEDGER_INCONSISTENT": "ledger-owner",
     "MISSING_INPUT": "operator",
     "INDEPENDENCE_FAIL": "operator",   # R9(ECO-072): 配員のやり直し
+    "INSPECTION_MISSING": "operator",  # R11(ECO-074): 独立検査の結果回収
 }
 # witness 側の CODE(bomdd-witness W6)→ 配送先。receipt 自体の欠陥は運転員へ・検査赤は工場へ・stop_type は表へ。
 WITNESS_DELIVERY = {
@@ -179,7 +185,7 @@ def decide(root: Path, eco: str, jobmod, witmod, executor: str | None = None) ->
     rec = {"event": "decision", "run_id": datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ"), "eco": eco,
            "receipt": None, "job_state": None, "job_stop_type": None, "verifier_line": None, "verifier_exit": None,
            "code": None, "decision": None, "stop_type": None, "delivery": None, "cell": None, "tree": None,
-           "executor": executor, "producer": None, "independence": None, "report": None}
+           "executor": executor, "producer": None, "independence": None, "report": None, "inspection": None}
     jobs, _ = jobmod.select([eco], root)
     job = next((j for j in jobs if _job_value(j, "eco") == eco), None) or (jobs[0] if jobs else None)
     if job is None:
@@ -227,6 +233,19 @@ def decide(root: Path, eco: str, jobmod, witmod, executor: str | None = None) ->
         else:
             rec.update(decision="STOP", stop_type="VERIFICATION_FAIL", delivery=WITNESS_DELIVERY.get(code, "operator"))
         return rec, job
+    insp = _job_value(job, "independent_inspection")   # R11: verified 昇格には inspection gate が要る(台帳から導出したもの)
+    if rec["job_state"] == "verified" and isinstance(insp, dict) and insp.get("required"):
+        try:
+            gates = json.loads(path.read_text(encoding="utf-8")).get("gates") or []
+        except (OSError, ValueError):
+            gates = []
+        g = next((x for x in gates if isinstance(x, dict) and x.get("name") == "inspection"), None)
+        rec["inspection"] = {"required": True, "inspector": insp.get("inspector"), "gate": g}
+        if g is None:
+            rec.update(decision="STOP", stop_type="INSPECTION_MISSING", delivery=DELIVERY["INSPECTION_MISSING"])
+            return rec, job
+    else:
+        rec["inspection"] = {"required": False}
     if executor is not None:   # R9: job・receipt が ADVANCE のときだけ独立性を照合(先行する停止理由を隠さない)
         cap = _job_value(job, "required_capability")
         rec["producer"] = cap.get("producer") if isinstance(cap, dict) else None
@@ -260,9 +279,9 @@ def report_verdict(text: str) -> tuple[str, str | None]:
     return "UNPARSED", None
 
 
-def bind_report(root: Path, report: str) -> dict:
-    """R10: 報告ファイルの結線(存在・大きさ・sha256・判定語)。読めない/無い= MISSING(推定で埋めない)。"""
-    out = {"path": report, "exists": False, "size": None, "sha256": None, "verdict": "MISSING", "verdict_line": None}
+def bind_report(root: Path, report: str, rng: str | None = None) -> dict:
+    """R10/R11: 報告ファイルの結線(存在・大きさ・sha256・判定語・range)。読めない/無い= MISSING(推定で埋めない)。"""
+    out = {"path": report, "exists": False, "size": None, "sha256": None, "verdict": "MISSING", "verdict_line": None, "range": rng}
     p = root / report
     try:
         data = p.read_bytes()
@@ -287,13 +306,13 @@ def _report_path_error(root: Path, git_dir: Path | None, report: str) -> str | N
     return None
 
 
-def launch(rec: dict, job: dict, cell: str, root: Path, report: str | None = None) -> dict:
+def launch(rec: dict, job: dict, cell: str, root: Path, report: str | None = None, rng: str | None = None) -> dict:
     """R5/R10: 3 条件成立時のみ呼ばれる。コマンドはそのまま・環境で job/witness/executor/report を渡す・承認は起動先。台帳 2 行目のレコードを返す。"""
     with tempfile.NamedTemporaryFile("w", suffix=".json", prefix="bomdd-job-", delete=False, encoding="utf-8") as f:
         json.dump(job, f, ensure_ascii=False, indent=2)
         job_json = f.name
     env = dict(os.environ, BOMDD_JOB=rec["eco"], BOMDD_JOB_JSON=job_json, BOMDD_WITNESS=rec["receipt"], BOMDD_EXECUTOR=rec.get("executor") or "",
-               BOMDD_REPORT=report or "")
+               BOMDD_REPORT=report or "", BOMDD_RANGE=rng or "")
     ev = {"event": "cell", "run_id": rec["run_id"], "eco": rec["eco"], "cell": cell, "executor": rec.get("executor"),
           "started_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "cell_exit": None, "report": None}
     try:
@@ -308,7 +327,7 @@ def launch(rec: dict, job: dict, cell: str, root: Path, report: str | None = Non
         except OSError:
             pass
     if report:   # R10: cell 終了後に報告を束ねる(cell が書いたものを読むだけ・解釈しない)
-        ev["report"] = bind_report(root, report)
+        ev["report"] = bind_report(root, report, rng)
     return ev
 
 
@@ -333,6 +352,8 @@ def summary_line(rec: dict, launching: bool) -> str:
         tag = f"{code}({cause})"
     if rec["job_stop_type"] and rec["job_stop_type"] != "NONE" and rec["decision"] != "ADVANCE":
         tag = f"job:{rec['job_stop_type']}"
+    if rec["stop_type"] == "INSPECTION_MISSING":   # R11
+        tag = "INSPECTION_MISSING"
     ind = rec.get("independence") or {}
     if ind.get("cause") and rec["decision"] != "ADVANCE":   # R9
         tag = f"INDEPENDENCE_FAIL({ind['cause']})" if rec["stop_type"] == "INDEPENDENCE_FAIL" else f"MISSING_INPUT({ind['cause']})"
@@ -355,7 +376,7 @@ def run(argv: list, root: Path, emit=None) -> int:
     """入口本体。emit(line) で標準出力の各行を出す(1 行目= 判定行・R7)。返り値= 終了コード(R8)。"""
     emit = emit or (lambda s: None)
     if not argv or argv[0].startswith("--"):
-        emit("UNMEASURABLE ARG_ERROR: ECO-NNN [--cell C --executor E --report R] [--ledger P]")
+        emit("UNMEASURABLE ARG_ERROR: ECO [--cell --executor --report --range] [--ledger]")
         return 2
     eco = argv[0]
     if not ECO_RE.match(eco):   # r1 IA-01
@@ -393,6 +414,16 @@ def run(argv: list, root: Path, emit=None) -> int:
     if report is not None and not cell:   # R10
         emit("UNMEASURABLE ARG_ERROR: --report は --cell と組で指定する")
         return 2
+    rng = opts.get("--range")   # R11
+    if rng is not None and report is None:
+        emit("UNMEASURABLE ARG_ERROR: --range は --report と組で指定する")
+        return 2
+    if report is not None and rng is None:
+        emit("UNMEASURABLE ARG_ERROR: --report には --range 境界探索|是正確認+回帰 が必須")
+        return 2
+    if rng is not None and rng not in RANGES:
+        emit(_fit(f"UNMEASURABLE ARG_ERROR: --range の語彙外: {rng!r}"))
+        return 2
     jobmod, witmod = _load("bomdd-job"), _load("bomdd-witness")
     _, git_dir0, _ = witmod.worktree_tree(root)
     if report is not None:
@@ -428,7 +459,7 @@ def run(argv: list, root: Path, emit=None) -> int:
         return 2
     emit(summary_line(rec, launching))   # R7/r1 IA-03: 判定行を起動の前に出す
     if launching:
-        ev = launch(rec, job, cell, root, report)   # R5/R10
+        ev = launch(rec, job, cell, root, report, rng)   # R5/R10/R11
         err2 = write_ledger(ledger, ev)
         emit(_fit(f"cell exit {ev['cell_exit']}" + (f" · 台帳追記失敗: {err2}" if err2 else "")))
         if report is not None:   # R10: 判定語の回収を 1 行で(入口の exit は R8 のまま 0・判定で行動しない)
@@ -465,7 +496,8 @@ def _selftest_body(td_cm, wd_cm) -> int:
                     return 2
                 return _report(["fixture: git init 不能"])
         (root / "bomdd").mkdir()
-        (root / "bomdd" / "open.md").write_text("# Change Order — ECO-900\n\n## 担当設備\n\n- producer: EQ-001\n\n## 3. 受入\n- 検討中\n", encoding="utf-8")
+        (root / "bomdd" / "open.md").write_text("# Change Order — ECO-900\n\n## 担当設備\n\n- producer: EQ-001\n- inspector: EQ-002\n\n## 3. 受入\n- 検討中\n", encoding="utf-8")
+        (root / "bomdd" / "closed-insp.md").write_text("# Change Order — ECO-904\n\n## 担当設備\n\n- producer: EQ-001\n- inspector: EQ-002\n\n## 6. クローズ(2026-09-12・verified)\n- PASS\n", encoding="utf-8")
         (root / "bomdd" / "nocap.md").write_text("# Change Order — ECO-903\n\n## 3. 受入\n- 検討中\n", encoding="utf-8")
         (root / "bomdd" / "closed.md").write_text("# Change Order — ECO-902\n\n## 6. クローズ(2026-09-03・verified)\n- PASS\n", encoding="utf-8")
         eqp = root / "bomdd" / "70-equipment.yaml"
@@ -482,6 +514,8 @@ def _selftest_body(td_cm, wd_cm) -> int:
                        "  - {id: ECO-900, title: t, status: decided, order_ref: bomdd/open.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
                        "  - {id: ECO-902, title: t2, status: in-progress, order_ref: bomdd/closed.md}\n"
                        "  - {id: ECO-903, title: t3, status: decided, order_ref: bomdd/nocap.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
+                       "  - {id: ECO-904, title: t4, status: verified, order_ref: bomdd/closed-insp.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
+                       "  - {id: ECO-905, title: t5, status: verified, order_ref: bomdd/closed.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
                        "  - {id: 'ECO-/../../../x', title: t3, status: decided, order_ref: bomdd/open.md}\n", encoding="utf-8")
         witmod._git(root, "add", "-A", env=env)
         if witmod._git(root, "commit", "-q", "-m", "init", env=env).returncode != 0:
@@ -603,10 +637,10 @@ def _selftest_body(td_cm, wd_cm) -> int:
             else:
                 src.write_text(content, encoding="utf-8")
                 c = cell_rep
-            rc_r, out_r = call(["ECO-900", "--ledger", str(ledger), "--cell", c, "--executor", "EQ-002", "--report", "reports/r.md"])
+            rc_r, out_r = call(["ECO-900", "--ledger", str(ledger), "--cell", c, "--executor", "EQ-002", "--report", "reports/r.md", "--range", "是正確認+回帰"])
             ev_r = last_rec()
             rpt = ev_r.get("report") or {}
-            if rc_r != 0 or ev_r.get("event") != "cell" or rpt.get("verdict") != want_verdict or len(out_r) != 3 or not out_r[2].startswith(want_line3):
+            if rc_r != 0 or ev_r.get("event") != "cell" or rpt.get("verdict") != want_verdict or rpt.get("range") != "是正確認+回帰" or len(out_r) != 3 or not out_r[2].startswith(want_line3):
                 fails.append(f"{name}: exit {rc_r} / verdict {rpt.get('verdict')} / out {out_r}")
             if content is not None:
                 want_sha = hashlib.sha256(rp.read_bytes()).hexdigest() if rp.exists() else None
@@ -640,32 +674,35 @@ def _selftest_body(td_cm, wd_cm) -> int:
         n_st = len(ledger.read_text(encoding="utf-8").splitlines())
         if marker.exists():
             marker.unlink()
-        rc_st, out_st = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002", "--report", "reports/stale.md"])
+        rc_st, out_st = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002", "--report", "reports/stale.md", "--range", "境界探索"])
         if rc_st != 2 or not out_st[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists() or len(ledger.read_text(encoding="utf-8").splitlines()) != n_st:
             fails.append(f"IA-02 stale: exit {rc_st} / 起動 {marker.exists()} :: {out_st[:1]}")
         (root / "reports" / "stale.md").unlink()
         (root / "reports" / "dirtarget").mkdir()   # r2 IA-06: 同名ディレクトリも起動前拒否
-        rc_dt, out_dt = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002", "--report", "reports/dirtarget"])
+        rc_dt, out_dt = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002", "--report", "reports/dirtarget", "--range", "境界探索"])
         if rc_dt != 2 or not out_dt[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists() or len(ledger.read_text(encoding="utf-8").splitlines()) != n_st:
             fails.append(f"IA-06 dir: exit {rc_dt} / 起動 {marker.exists()} :: {out_dt[:1]}")
         (root / "reports" / "dirtarget").rmdir()
         # r1 IA-01(R8 明確化): cell exit≠0 でも報告は束ねられ、入口 exit は 0(起動した)・3 行の順
         src.write_text("[INFORM / COMPLETE]\n\nREJECT — IA-01\n", encoding="utf-8")
         cell_rep7 = f'"{sys.executable}" -c "import os,shutil,sys; shutil.copy(r\'{src}\', os.environ[\'BOMDD_REPORT\']); sys.exit(7)"'
-        rc7, out7 = call(["ECO-900", "--ledger", str(ledger), "--cell", cell_rep7, "--executor", "EQ-002", "--report", "reports/r7.md"])
+        rc7, out7 = call(["ECO-900", "--ledger", str(ledger), "--cell", cell_rep7, "--executor", "EQ-002", "--report", "reports/r7.md", "--range", "境界探索"])
         ev7 = last_rec()
         if rc7 != 0 or ev7.get("cell_exit") != 7 or (ev7.get("report") or {}).get("verdict") != "REJECT" or len(out7) != 3 or not out7[1].startswith("cell exit 7") or not out7[2].startswith("report REJECT sha256:"):
             fails.append(f"IA-01: cell exit 7 の扱い: exit {rc7} / {ev7.get('cell_exit')} / {out7}")
         (root / "reports" / "r7.md").unlink()
         # --report の構文・所在: 絶対 / `..` / .git 配下 / 前後空白 / 空 / --cell なし → ARG_ERROR・起動しない・台帳不変
         n_before_r = len(ledger.read_text(encoding="utf-8").splitlines())
-        for bad_rep in (["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", str(wout / "x.md")],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "reports/../x.md"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", ".git/x.md"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", " reports/x.md"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "/reports/x.md"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "reports//x.md"],
-                        ["ECO-900", "--ledger", str(ledger), "--executor", "EQ-002", "--report", "reports/x.md"],
+        for bad_rep in (["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "reports/x.md"],   # R11: --range なし
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "reports/x.md", "--range", "探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", str(wout / "x.md"), "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "reports/../x.md", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", ".git/x.md", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", " reports/x.md", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "/reports/x.md", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "reports//x.md", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--executor", "EQ-002", "--report", "reports/x.md", "--range", "境界探索"],
                         ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report"]):
             if marker.exists():
                 marker.unlink()
@@ -721,6 +758,34 @@ def _selftest_body(td_cm, wd_cm) -> int:
             rc_b, out_b = call(bad)
             if rc_b != 2 or not out_b or not out_b[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists():
                 fails.append(f"arg {bad}: exit {rc_b} :: {out_b[:1]}")
+        # --- R11(ECO-074): verified 昇格には inspection gate が要る ---
+        gate_ok = {"name": "inspection", "exit": 0, "source": "reports/r.md", "verdict": "ACCEPT", "range": "是正確認+回帰"}
+        def prod(eco_, gates):
+            p_ = witmod.default_path(git_dir, eco_)
+            rc_p, m_p, _ = witmod.produce(root, eco_, gates, "NONE", p_, "selftest")
+            if rc_p != 0:
+                fails.append(f"R11 fixture produce {eco_}: {m_p}")
+        def r11(name, eco_, gates, want_rc, want_dec, want_delivery, want_stop=None):
+            prod(eco_, gates)
+            rc_x, out_x = call([eco_, "--ledger", str(ledger)])
+            d_x = last_rec()
+            if rc_x != want_rc or d_x.get("decision") != want_dec or d_x.get("delivery") != want_delivery or (want_stop and d_x.get("stop_type") != want_stop):
+                fails.append(f"{name}: exit {rc_x} / {d_x.get('decision')} / {d_x.get('stop_type')} / {d_x.get('delivery')} :: {out_x[:1]}")
+            return d_x, out_x
+        d_a, o_a = r11("insp-verified-gate-ok", "ECO-904", [{"name": "g", "exit": 0, "source": "x"}, gate_ok], 0, "ADVANCE", "next")
+        if not ((d_a.get("inspection") or {}).get("required") is True and (d_a.get("inspection") or {}).get("gate", {}).get("exit") == 0):
+            fails.append(f"insp-verified-gate-ok: 台帳の inspection 記録が不正: {d_a.get('inspection')}")
+        d_b, o_b = r11("insp-verified-gate-missing", "ECO-904", [{"name": "g", "exit": 0, "source": "x"}], 1, "STOP", "operator", "INSPECTION_MISSING")
+        if not o_b or "INSPECTION_MISSING" not in o_b[0]:
+            fails.append(f"insp-verified-gate-missing: 判定行に INSPECTION_MISSING がない: {o_b[:1]}")
+        r11("insp-verified-gate-fail", "ECO-904", [{"name": "g", "exit": 0, "source": "x"}, dict(gate_ok, exit=1, verdict="REJECT")], 1, "STOP", "factory", "VERIFICATION_FAIL")
+        r11("insp-verified-gate-unmeasurable", "ECO-904", [{"name": "g", "exit": 0, "source": "x"}, dict(gate_ok, exit=2, range="境界探索")], 1, "STOP", "factory", "VERIFICATION_FAIL")
+        d_e, _ = r11("insp-verified-no-inspector", "ECO-905", [{"name": "g", "exit": 0, "source": "x"}], 0, "ADVANCE", "next")
+        if (d_e.get("inspection") or {}).get("required") is not False:
+            fails.append(f"insp-verified-no-inspector: required が False でない: {d_e.get('inspection')}")
+        # 非 verified+inspector(ECO-900)は gate 不要(既存の known-good 腕が ADVANCE している= 後方互換)
+        wpath.write_text(json.dumps(good), encoding="utf-8")
+        d_f, _ = r11("insp-decided-inspector", "ECO-900", good["gates"], 0, "ADVANCE", "next")
         # 台帳の形(全レコードに event・decision 行に verifier_line と decision)
         recs = [json.loads(ln) for ln in ledger.read_text(encoding="utf-8").splitlines()]
         decs = [r for r in recs if r.get("event") == "decision"]
@@ -743,7 +808,7 @@ def _selftest_body(td_cm, wd_cm) -> int:
 def _report_text(fails) -> str:
     if fails:
         return f"STOP SELFTEST_FAIL: {len(fails)} 件\n  " + "\n  ".join(fails)
-    return "ADVANCE OK: selftest PASS(起動4/dry2/kb5/job停止/不能3/独立性9/報告23/構文5/台帳3/引数13/80桁/表)"
+    return "ADVANCE OK: selftest PASS(起動4/dry2/kb5/job1/不能3/独立性9/報告27/gate6/構文5/台帳3/引数13/表)"
 
 
 def _report(fails) -> int:

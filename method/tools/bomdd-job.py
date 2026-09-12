@@ -59,6 +59,7 @@ STOP_VOCABULARY = (
     "LEDGER_INCONSISTENT",   # ⑥ 台帳不整合(register と order の状態矛盾)→ 台帳の所有者
     "MISSING_INPUT",         # 欠測(order 不在・register 不能)— 測定不能は合格ではない
     "INDEPENDENCE_FAIL",     # ⑦ 独立性不成立(producer と executor が同一 id / 3 軸一致 / 軸 unknown)→ 運転員(配員のやり直し)。入口が導出・ECO-072
+    "INSPECTION_MISSING",    # ⑧ verified かつ inspector 宣言なのに witness に inspection gate がない → 運転員(独立検査の結果回収)。入口が導出・ECO-074
 )
 DERIVABLE_FROM_LEDGER = ("NONE", "LEDGER_INCONSISTENT", "MISSING_INPUT")
 
@@ -395,7 +396,7 @@ def project(entry: dict, root: Path, register_rel: str, amap=None, map_err: str 
         "required_capability": _field(None, "none(F2: 設備認定 ID の欄なし — 第 1 弾対象外)"),
         "forbidden": _field(None, "none(F3: order「採らない」は散文 — 転写しない)"),
         "expected_outputs": _field(None, "none(F4: order §1 は散文 — 転写しない)"),
-        "independent_inspection": _field(None, "none(F6: verification は散文 — 転写しない)"),
+        "independent_inspection": _field(None, "none(F6: 配員欄に inspector なし — verification 散文は転写しない)"),
         "stop_vocabulary": _field(list(STOP_VOCABULARY), "bomdd-job.py 固定値(F5)"),
         "stop_derivable_from_ledger": _field(list(DERIVABLE_FROM_LEDGER), "bomdd-job.py 固定値(被覆宣言)"),
     }
@@ -420,6 +421,9 @@ def project(entry: dict, root: Path, register_rel: str, amap=None, map_err: str 
             # ECO-072(F2): 配員欄 → required_capability(設備台帳で実在確認)。台帳由来の停止が先(既存の停止を上書きしない)
             cap, cap_src, cap_stop, cap_reason = resolve_capability(order_text, root)
             job["required_capability"] = _field(cap, cap_src)
+            if isinstance(cap, dict) and cap.get("inspector"):   # ECO-074(F6): inspector 宣言 → 独立検査が要る(verified 昇格は witness の inspection gate を要求)
+                job["independent_inspection"] = _field({"required": True, "inspector": cap["inspector"]},
+                                                        "order 配員欄 inspector(ECO-074: verified 昇格には witness の inspection gate〔台帳から導出〕が要る)")
             if stop == "NONE" and cap_stop:
                 stop, reason = cap_stop, cap_reason
     job["stop_type"] = _field(stop, f"導出: {reason}")
@@ -541,6 +545,8 @@ def _selftest_body(td_cm) -> int:
         jc = project(mk("ECO-911", "bomdd/cap.md"), root, "bomdd/60-change-register.yaml")
         if jc["required_capability"]["value"] != {"producer": "EQ-001", "inspector": "EQ-002"} or jc["stop_type"]["value"] != "NONE":
             fails.append(f"F2: 配員欄の解決が不正(fence 内は無視): {jc['required_capability']} / {jc['stop_type']}")
+        if jc["independent_inspection"]["value"] != {"required": True, "inspector": "EQ-002"}:   # ECO-074 F6
+            fails.append(f"F6: inspector 宣言から independent_inspection が導出されない: {jc['independent_inspection']}")
         for i, o, want in (("ECO-912", "bomdd/cap-unknown.md", "LEDGER_INCONSISTENT"), ("ECO-913", "bomdd/cap-syntax.md", "LEDGER_INCONSISTENT"),
                            ("ECO-914", "bomdd/cap-dup.md", "LEDGER_INCONSISTENT")):
             jx = project(mk(i, o), root, "bomdd/60-change-register.yaml")
@@ -553,6 +559,8 @@ def _selftest_body(td_cm) -> int:
         js2 = project(mk("ECO-917", "bomdd/cap-sub.md"), root, "bomdd/60-change-register.yaml")
         if js2["required_capability"]["value"] != {"producer": "EQ-001", "inspector": None}:
             fails.append(f"IA-03: 担当設備節の下位見出しは節内・次の同位見出し以降は節外 であるべき: {js2['required_capability']}")
+        if js2["independent_inspection"]["value"] is not None:   # ECO-074 F6: inspector なしは null のまま
+            fails.append(f"F6: inspector なしで independent_inspection が null でない: {js2['independent_inspection']}")
         # r1 IA-01: 未選択 entry の 3 軸が非文字列 → 台帳不正(MISSING_INPUT)
         (root / "bomdd" / "70-equipment.yaml").write_text(
             "equipment:\n  - {id: EQ-001, model: m1, harness: h1, account_lineage: a1}\n  - {id: EQ-002, model: m2, harness: h2, account_lineage: a2}\n"
@@ -751,7 +759,7 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕・r4: instrument_paths 正規形・statuses 語彙・required 辞書順 / F2〔ECO-072〕: 配員欄→台帳実在・fence 内無視・未知 id/構文外/重複= LEDGER_INCONSISTENT・台帳不在= MISSING_INPUT・台帳 id 重複/構文外= 不正 / r1: IA-01 未選択 entry の非文字列軸= 台帳不正・IA-03 HTML コメント/他節/節なしの言及は配員でない・下位見出しは節内)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕・r4: instrument_paths 正規形・statuses 語彙・required 辞書順 / F2〔ECO-072〕: 配員欄→台帳実在・fence 内無視・未知 id/構文外/重複= LEDGER_INCONSISTENT・台帳不在= MISSING_INPUT・台帳 id 重複/構文外= 不正 / r1: IA-01 未選択 entry の非文字列軸= 台帳不正・IA-03 HTML コメント/他節/節なしの言及は配員でない・下位見出しは節内 / F6〔ECO-074〕: inspector 宣言→ required)")
     return 0
 
 

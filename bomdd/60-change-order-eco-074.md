@@ -1,4 +1,4 @@
-# Change Order — ECO-074(ECO-062 Phase 7 第 3 弾: verified 昇格を台帳の verdict に機械的に依存させる — witness の inspection gate を run 台帳から導出・入口が verified+inspector 宣言で gate を要求・round の range を台帳に〔filed〕)
+# Change Order — ECO-074(ECO-062 Phase 7 第 3 弾: verified 昇格を台帳の verdict に機械的に依存させる — witness の inspection gate を run 台帳から導出・入口が verified+inspector 宣言で gate を要求・round の range を台帳に〔製造中・裁定 A〕)
 
 > 裁定: user 2026-09-12 DECIDE「1:A 2:A」(次の工程= 第 3 弾・EXP-20260912-01 の評価をいま行う)→ gate の所在と根拠の DISCUSS(thesis: witness の gate として置き、根拠は run 台帳から機械導出・
 > register は自動で動かさない・range を台帳に)に user AGREE。**起票のみ**(製造裁定は別 DECIDE)。親= [ECO-062](60-change-order-eco-062.md) §7 Phase 7・[ECO-073](60-change-order-eco-073.md) §6
@@ -71,6 +71,20 @@
 - job ビュー: required_skills= `["calibrate", "converge", "preflight"]`・skills_missing= `["calibrate", "converge"]`(instrument-change クラス・製造時に応答)・required_capability= `{"producer": "EQ-001", "inspector": "EQ-002"}`・independent_inspection= null(F6・本 ECO で導出化)
 - 開始判定: **PROCEED(起票のみ)**・override 0。製造は裁定後。
 
-## 4. 製造と受入の実測
+## 4. 製造裁定と製造(2026-09-12・user DECIDE「A」= 1 層)
 
-- (製造裁定後に記入)
+- **製造裁定 A**: §1 の 1〜5 すべて(witness gate・ローカル 1 層)。register `filed → implemented`(本 commit)・allowed_paths 再凍結= tools 3+自リポ order(本 ECO・ECO-062)+register+improvements.md+
+  `bomdd/reports/independent-inspection-eco-074*.md`。二層化(B)は別 ECO の候補として残す。
+- **製造物**:
+  1. `bomdd-run.py`(R11): `--range 境界探索|是正確認+回帰`(`--report` と組で必須・語彙外/片方のみ= ARG_ERROR・台帳 `report.range`・env `BOMDD_RANGE`)/ 入口の要求: job.state= verified かつ
+     `independent_inspection.required` のとき witness の gates に `name=inspection` が無ければ `STOP <ECO> INSPECTION_MISSING → operator`(receipt が ADVANCE のあと・独立性の前)・gate exit≠0 は
+     witness の GATE_FAIL(→ factory・既存)。台帳 decision 行に `inspection: {required, inspector, gate}`。DELIVERY と job の停止語彙に `INSPECTION_MISSING`。
+  2. `bomdd-witness.py`: `produce --inspection-from-ledger`= `.git/bomdd-run/<ECO>.jsonl` の最後の report つき cell 行から gate `{name: inspection, exit, source: <path>, verdict, sha256, range,
+     executor, run_id}` を導出。exit= ACCEPT かつ range 是正確認+回帰 → 0 / REJECT → 1 / MISSING・UNPARSED・境界探索・range なし → 2。現在の報告 sha256 が台帳と一致しない・報告不在・cell 行なし・
+     台帳不在= ARG_ERROR(gate を作らない)。
+  3. `bomdd-job.py`(F6): 配員欄 inspector → `independent_inspection= {required: true, inspector}`(なし= null F6)。
+- **V1**= PASS: `bomdd-job.py --selftest` exit 0(F6 腕 2)/ `bomdd-witness.py --selftest` exit 0(inspection-from-ledger 11 腕: ACCEPT+是正確認→0・境界探索/range なし/MISSING/UNPARSED→2・REJECT→1・
+  sha 不一致/報告不在/cell 行なし/台帳不在= ARG_ERROR・最後の行が採られる)/ `bomdd-run.py --selftest` exit 0(range 4 腕: --range なし/語彙外/--report なし/絶対パス= ARG_ERROR・既存 report 腕は range
+  記録 / 検査 gate 6 腕: verified+inspector+gate 0→ ADVANCE・gate なし→ STOP INSPECTION_MISSING・gate 1/2→ STOP VERIFICATION_FAIL factory・verified+inspector なし→ ADVANCE・decided+inspector→ ADVANCE)。
+- **V2(出口条件)**: (c) 境界探索 round(r1)の台帳から導出した gate(exit 2)で dry → STOP(§5.1 で実測)/ (a) accept 段で register= verified・gate なし witness → STOP INSPECTION_MISSING /
+  (b) 最終 round の ACCEPT から導出した gate → ADVANCE(§6 で実測)。
