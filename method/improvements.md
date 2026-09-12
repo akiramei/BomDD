@@ -7329,3 +7329,18 @@ IA-02 大小文字差を独立に数えて起動 / IA-03 HTML コメント・他
 
 **受入(2026-09-12)**: ECO-072 verified(fix 2dad24f・CI 34637503548 success・r2 ACCEPT・窓閉鎖・較正 receipt trigger ①③)。Phase 7 第 1 弾 完了。検査官の報告は r1/r2 とも handoff ヘッダで開始
 (第三者到達 2 例)。受理側の手順欠陥 1: 記帳スクリプトの anchor 不一致で検査が走らないまま exit を読んだ(再適用で解消)。
+
+## 2026-09-12 BomDD 自己適用 — ECO-062 Phase 7 第 2 弾 ECO-073 起票(cell の判定を入口が receipt として回収・経路 DISCUSS: 入口が報告を束ねる②に AGREE)
+
+**観測**(出典: [ECO-073 order](../bomdd/60-change-order-eco-073.md) §0): ①実 cell 3 回(ECO-067 §10.7・ECO-072 r1/r2)とも入口は `cell exit 0` しか残さず、判定(REJECT/ACCEPT)は当方が報告を読んで
+転記した(P5-10 の人力転記の型が Phase 6/7 に残存)。②報告の先頭形= handoff ヘッダ → 空行 → 判定語(N=2・検査官が契約を守った)。③①cell 自身の witness produce は read-only sandbox の `.git`
+書込不可で不成立。**整理**: 判定語の抽出は散文の解釈でなく固定語彙の照合(witness W6 と同型)。契約外は推定で埋めず MISSING/UNPARSED(fail-closed)。入口は判定に基づいて行動しない(register/
+witness を動かすのは第 3 弾= witness の gate 種別に inspection)。**一般化検査**: 「起動先の判定は、起動元が報告の結線(パス・hash・固定語彙)として回収し、意味は解釈しない」は製品名を含まない
+(playbook §3 の機械面候補・製造後)。**行き先判定**: 起票のみ。**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(判定語の契約・fail-closed の MISSING/UNPARSED)[ ] template
+[x] terminology(REPORT_VERDICT・MISSING/UNPARSED)[ ] method/concept claim。contradicted / superseded: なし。
+**期待効果の棚卸し**: 新規 EXP-20260912-03(下記)。EXP-20260912-02 は継続(偽陽性 0/2)。他への影響なし。
+
+- [open] EXP-20260912-03 — **入口が cell の判定を回収し、人力転記が消えるか**: ECO-073 製造受入 V2 で ①実 cell(本 ECO の r1)の台帳 cell 行に verdict と sha256 が入り commit した報告と一致(N=1)
+  ②以後の独立検査で判定語の契約違反(UNPARSED)0 件/N ③受入記録の判定が台帳の verdict から転記される(人間の読解による転記 0)。**next trigger= ECO-073 製造受入**
+  source: ECO-073
+  evidence: ECO-073 order §0・§1-2・ECO-062 §10.7 P6-02
