@@ -7343,7 +7343,7 @@ witness を動かすのは第 3 弾= witness の gate 種別に inspection)。**
 - [open] EXP-20260912-03 — **入口が cell の判定を回収し、人力転記が消えるか**: ECO-073 製造受入 V2 で ①実 cell(本 ECO の r1)の台帳 cell 行に verdict と sha256 が入り commit した報告と一致(N=1)
   ②以後の独立検査で判定語の契約違反(UNPARSED)0 件/N ③受入記録の判定が台帳の verdict から転記される(人間の読解による転記 0)。**next trigger= ECO-073 製造受入**
   **初回値(2026-09-12・V2)**: ①r1 2 回目で台帳 cell 行に verdict REJECT・sha256 632863fe…(sha256sum と完全一致)= 成立 N=1。1 回目は Codex 応答が遮断され MISSING(本番例・環境帰属)。
-  ②契約違反 0/1(r1 報告は handoff ヘッダ → 判定語)。③本節の判定は台帳の verdict_line から転記
+  ②契約違反 0/2(r1・r2 とも handoff ヘッダ → 判定語)。③r2 の受入判定(REJECT IA-06・IA-07)は台帳の verdict_line から転記= 1 例目
   source: ECO-073
   evidence: ECO-073 order §0・§1-2・ECO-062 §10.7 P6-02
 

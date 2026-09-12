@@ -95,3 +95,18 @@ hooks・.github diff 0。
   行頭空白・stale・cell 非 0 が未被覆= r1b で腕を追加)。
 - 環境の記録: 1 回目の遮断(コンテンツ判定)は**検査ブリーフの語彙が cell の実行可否を左右する**という設備属性(EQ-002 の note 候補)。sandbox の global ignore 参照に Permission denied 警告(測定は成立)。
 - r1b 後の V1: `bomdd-run.py --selftest` exit 0(報告 22 腕)。
+
+### 5.2 r2(2026-09-12・range= 是正確認+回帰・範囲限定)— 報告: [independent-inspection-eco-073-r2.md](reports/independent-inspection-eco-073-r2.md)
+
+- 起動: 入口から `--report` つき(fix commit d60471e の作業木・witness tree 862c995e5bd6)→ `cell exit 0` → `report REJECT sha256:5914c85e2481 (EQ-002)`・台帳 cell 行
+  `verdict_line: "REJECT IA-06、IA-07 — …"`(`sha256sum` と一致・**受入判定は台帳の verdict から転記**= EXP-20260912-03 ③の 1 例目)。
+- 判定: **REJECT**(IA-06・IA-07)。是正確認: IA-02(stale → ARG_ERROR 起動なし / fresh → 束ね / 遅延 → MISSING)・IA-05(`  ACCEPT` → UNPARSED・verdict_line 原文)・IA-01 明確化(cell exit 7 →
+  入口 0・3 行の順)= **すべて成立**。回帰: 判定語の境界表 13 腕・結線 5・パス 11・出力互換・80 桁・selftest 3 ツール= 不変。受理側の真正判定:
+
+  | 所見 | 内容 | 受理側判定 | 是正(r2b) |
+  |---|---|---|---|
+  | IA-06 | 宛先に同名ディレクトリがあるとき、r1 では起動後 MISSING だったのが ARG_ERROR(起動なし)に変わった= 指定回帰腕の差 | **CONFIRMED(差の事実)・受理側帰属** — r1b の事前存在検査はファイル/ディレクトリを区別せず、書けない宛先へ起動しないのは fail-closed として正しい。r2 ブリーフの回帰期待(ディレクトリ= MISSING)が旧仕様だった | 仕様を明文化(宛先に何かが存在すれば ARG_ERROR)・selftest 腕 dirtarget 追加(検査官指摘: selftest がディレクトリを覆っていなかった) |
+  | IA-07 | `run()` 内の R10 コメントに旧文言「exit は cell に従う」が残存(冒頭は R8 に修正済み) | **CONFIRMED・製造物(仕様コメント)** | 文言を R8 に揃える |
+
+- 範囲外の観察(環境帰属): 検査官 sandbox で self-conformance の C14 REAL が FAIL(ECO-072 r1 と同じ git 所有者問題)/ global ignore の Permission denied 警告 1(測定成立)。
+- r2b 後の V1: `bomdd-run.py --selftest` exit 0(報告 23 腕)。

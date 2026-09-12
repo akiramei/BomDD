@@ -36,7 +36,8 @@
 #     0〜1 行と空行を飛ばし、最初の非空行の先頭が ACCEPT|REJECT|UNMEASURABLE ならその語。報告なし= MISSING・契約外= UNPARSED。
 #     散文は解釈しない。入口は判定に基づいて行動しない(入口の exit は R8 のまま= 起動したら 0。cell の終了コードは 2 行目と台帳・
 #     register/witness を動かさない= 第 3 弾)。起動先には BOMDD_REPORT(与えたパスそのまま・cwd= root)を渡す。
-#     r1 IA-02: 宛先が起動前に既に存在するなら起動しない(ARG_ERROR・既存ファイルを今回の報告と取り違えない)。cell 終了時点で
+#     r1 IA-02 / r2 IA-06: 宛先が起動前に既に存在するなら(ファイル・ディレクトリを問わず)起動しない(ARG_ERROR・既存物を今回の報告と
+#     取り違えない・書けない宛先へ起動しない)。cell 終了時点で
 #     無ければ MISSING(子プロセスの遅延書込みは cell 側の責務)。r1 IA-03: root は cwd(ECO-067 の規約)— 別 cwd では register 不在=
 #     MISSING_INPUT で起動しない。r1 IA-05: 判定語は行頭から照合(行頭空白は契約外= UNPARSED)・verdict_line は原文。
 #
@@ -399,7 +400,7 @@ def run(argv: list, root: Path, emit=None) -> int:
         if perr:
             emit(_fit("UNMEASURABLE ARG_ERROR: " + perr))
             return 2
-        if (root / report).exists():   # r1 IA-02: 既存ファイルを今回の cell の報告と取り違えない(fail-closed)
+        if (root / report).exists():   # r1 IA-02 / r2 IA-06: 既存物(ファイル・ディレクトリ)を今回の cell の報告と取り違えない(fail-closed)
             emit(_fit(f"UNMEASURABLE ARG_ERROR: --report の宛先が既に存在する: {report}"))
             return 2
     rec, job = decide(root, eco, jobmod, witmod, executor)
@@ -430,7 +431,7 @@ def run(argv: list, root: Path, emit=None) -> int:
         ev = launch(rec, job, cell, root, report)   # R5/R10
         err2 = write_ledger(ledger, ev)
         emit(_fit(f"cell exit {ev['cell_exit']}" + (f" · 台帳追記失敗: {err2}" if err2 else "")))
-        if report is not None:   # R10: 判定語の回収を 1 行で(exit は cell に従う・判定で行動しない)
+        if report is not None:   # R10: 判定語の回収を 1 行で(入口の exit は R8 のまま 0・判定で行動しない)
             rp = ev["report"] or {}
             sha = (rp.get("sha256") or "")[:12]
             emit(_fit(f"report {rp.get('verdict')} " + (f"sha256:{sha} " if sha else "(no file) ") + f"({rec.get('executor')})"))
@@ -643,6 +644,11 @@ def _selftest_body(td_cm, wd_cm) -> int:
         if rc_st != 2 or not out_st[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists() or len(ledger.read_text(encoding="utf-8").splitlines()) != n_st:
             fails.append(f"IA-02 stale: exit {rc_st} / 起動 {marker.exists()} :: {out_st[:1]}")
         (root / "reports" / "stale.md").unlink()
+        (root / "reports" / "dirtarget").mkdir()   # r2 IA-06: 同名ディレクトリも起動前拒否
+        rc_dt, out_dt = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002", "--report", "reports/dirtarget"])
+        if rc_dt != 2 or not out_dt[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists() or len(ledger.read_text(encoding="utf-8").splitlines()) != n_st:
+            fails.append(f"IA-06 dir: exit {rc_dt} / 起動 {marker.exists()} :: {out_dt[:1]}")
+        (root / "reports" / "dirtarget").rmdir()
         # r1 IA-01(R8 明確化): cell exit≠0 でも報告は束ねられ、入口 exit は 0(起動した)・3 行の順
         src.write_text("[INFORM / COMPLETE]\n\nREJECT — IA-01\n", encoding="utf-8")
         cell_rep7 = f'"{sys.executable}" -c "import os,shutil,sys; shutil.copy(r\'{src}\', os.environ[\'BOMDD_REPORT\']); sys.exit(7)"'
@@ -737,7 +743,7 @@ def _selftest_body(td_cm, wd_cm) -> int:
 def _report_text(fails) -> str:
     if fails:
         return f"STOP SELFTEST_FAIL: {len(fails)} 件\n  " + "\n  ".join(fails)
-    return "ADVANCE OK: selftest PASS(起動4/dry2/kb5/job停止/不能3/独立性9/報告22/構文5/台帳3/引数13/80桁/表)"
+    return "ADVANCE OK: selftest PASS(起動4/dry2/kb5/job停止/不能3/独立性9/報告23/構文5/台帳3/引数13/80桁/表)"
 
 
 def _report(fails) -> int:
