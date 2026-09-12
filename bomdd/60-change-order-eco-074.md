@@ -1,4 +1,4 @@
-# Change Order — ECO-074(ECO-062 Phase 7 第 3 弾: verified 昇格を台帳の verdict に機械的に依存させる — witness の inspection gate を run 台帳から導出・入口が verified+inspector 宣言で gate を要求・round の range を台帳に〔製造中・裁定 A〕)
+# Change Order — ECO-074(ECO-062 Phase 7 第 3 弾: verified 昇格を台帳の verdict に機械的に依存させる — witness の inspection gate を run 台帳から導出・入口が verified+inspector 宣言で gate を要求・round の range を台帳に〔verified〕)
 
 > 裁定: user 2026-09-12 DECIDE「1:A 2:A」(次の工程= 第 3 弾・EXP-20260912-01 の評価をいま行う)→ gate の所在と根拠の DISCUSS(thesis: witness の gate として置き、根拠は run 台帳から機械導出・
 > register は自動で動かさない・range を台帳に)に user AGREE。**起票のみ**(製造裁定は別 DECIDE)。親= [ECO-062](60-change-order-eco-062.md) §7 Phase 7・[ECO-073](60-change-order-eco-073.md) §6
@@ -118,3 +118,62 @@ job JSON の停止語彙と F6 の source 文言・decision 行の `inspection` 
   を本 ECO の受理限界として §6 に記す / `--gate inspection=0:x` の申告 gate は通る(範囲外の観察・受理側の運用規律= produce は `--inspection-from-ledger` でのみ inspection を作る)。
 - 検査官の較正 receipt: 主張 1「台帳からの導出だけで昇格を制御」= 不適格(IA-02/03)→ r1b で是正。selftest 3 本の PASS は受理根拠として不十分(被覆表)→ r1b で腕を追加。
 - r1b 後の V1: `bomdd-witness.py --selftest` exit 0(inspection 22 腕)/ `bomdd-run.py --selftest` exit 0(IA-05 腕)/ `bomdd-job.py --selftest` exit 0。
+
+### 5.2 r2(2026-09-12・range= 是正確認+回帰・範囲限定)— 報告: [independent-inspection-eco-074-r2.md](reports/independent-inspection-eco-074-r2.md)
+
+- 起動: 入口から `--report … --range 是正確認+回帰`(r1b commit df0d7c3・witness tree c85e541d6ed9)→ `cell exit 0` → `report ACCEPT sha256:6d096b9c33b4 (EQ-002)`・台帳 cell 行 `range: 是正確認+回帰`・
+  verdict_line `ACCEPT — IA-01〜IA-05 の是正を確認し、指定された回帰範囲に差異はありません。`(`sha256sum` と一致)。**本節の判定は台帳の verdict から転記**。
+- 判定: **ACCEPT**・新規所見なし。IA-01(壊れた行 先頭/中間/末尾・非 object → ARG_ERROR・空行は無視)/ IA-02(別 ECO 行 → 個体不一致)/ IA-03(絶対・`..`・前後空白・空要素・`.git/`・junction 経由の
+  作業木外 → ARG_ERROR・正常は gate)/ IA-04(ACCEPT/REJECT/UNPARSED の sha 欠落・短縮・大文字 → ARG_ERROR・MISSING は sha なしで exit 2・MISSING に sha → 形状不正)/ IA-05(exit 1/2 の gate も
+  decision 行に記録・gate なしは `gate: null`)= **すべて成立**。回帰: 導出表・入口の要求表・`--range` 6 種・3 ツール selftest exit 0・ECO-074 の F6/配員・ECO-071 の dry 旧新同一(additive 差は仕様どおり)。
+  検査官の較正 receipt: 計器欠陥なし。範囲外の観察: verify の sha 再照合・申告 gate・witness の 80 桁は §6 の限界/運用規律として除外。
+
+## 6. クローズ(2026-09-12・verified)
+
+- **V1**= PASS(selftest 3 ツール exit 0・§4/§5.1)/ **V3**= PASS(self-conformance 全 PASS・CI: fix a43c7f8= 34672485145 success・r1b df0d7c3= 34673758816 success)。diff 監査の窓: baseline `c180cc8` → head `df0d7c3`
+  (**窓閉鎖**)。窓内= tools 3・order 2・register・improvements・reports(r1)= allowed_paths のみ。
+- **V4**= 異系統独立検査 r1(境界探索・REJECT 7: 是正 5・明確化 1・仕様外 1)→ r2(是正確認+回帰・ACCEPT)。range と実行環境の差をブリーフに宣言・入口が `--range` で台帳に残した。
+- **V2(出口条件)**: (c)= §5.1(境界探索 round の gate → STOP GATE_FAIL・起動なし)。(a)(b)= 本節末尾「accept 段の実測」(register を verified にした作業木で、gate なし witness → STOP INSPECTION_MISSING /
+  r2 ACCEPT の台帳から導出した gate → ADVANCE)。
+- **V5**= 下記 較正 receipt。register: `implemented → verified`・head 凍結。
+- **受理限界(検査官の指摘を記録)**: ①`verify` は witness の gate を固定値として検証し、報告の sha256 を再照合しない(witness 冒頭の限界 (2)(3)。追跡対象の報告なら書き換えは TREE_MISMATCH で止まる・
+  gitignore 対象なら通る → 報告は追跡対象に置く= 運用規律)②`--gate inspection=0:x` の申告 gate は produce が通す → inspection gate は `--inspection-from-ledger` でのみ作る(運用規律・機械化は次)
+  ③witness produce 行の 80 桁契約はない(R7 は bomdd-run)。
+- **Phase 7 第 3 弾の到達点**: verified 昇格 commit の直前に、入口が「是正確認+回帰 round の ACCEPT(sha 一致・個体一致)から導出した gate」を要求し、無ければ止める。独立検査の結果回収から
+  昇格の停止までが機構で閉じた(register の遷移自体は人間の accept commit)。残り= 申告 gate の機械拒否・二層化(CI)・裁定キュー(保留)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・③: 計器変更〔tools 3〕)
+
+- 査定した主張と判定:
+  1. 「独立検査 ACCEPT なしの verified を入口が止める」— **observed / 適格**(accept 段の実測 (a): register verified・inspector 宣言・gate なし witness → STOP INSPECTION_MISSING・起動なし)。
+  2. 「境界探索 round の判定は受入根拠にならない」— **observed / 適格**(§5.1 V2(c): r1 REJECT の gate → STOP。ACCEPT+境界探索 → exit 2 は selftest 腕+検査官 r1/r2 の表)。
+  3. 「gate は申告でなく台帳から導出し、個体・境界・形状を再検証する」— **observed / 適格**(r1 で 4 クラスの穴 → r1b → r2 で全成立。申告 gate の拒否は未実装= 運用規律・限界 ②)。
+  4. 「正しい ACCEPT を止めない」— **observed / 適格**(accept 段の実測 (b): r2 ACCEPT の gate → ADVANCE。偽陽性の継続計測は EXP-20260912-04)。
+  5. 「register を自動で動かさない」— **observed / 適格**(入口は STOP/ADVANCE のみ・遷移は本 commit)。
+- 検出した計器欠陥(帰属つき): 製造物 5 件(IA-01〜05・r1 境界探索が検出・r1b 是正・selftest に腕 12 追加)。受理側 2 件= IA-06 予測文言 / IA-07 仕様外の桁(記録)。自己捕捉 2(80 桁)。
+  受理側の手順欠陥 1= build スクリプトの anchor 不一致(job/witness 部だけ適用され run 部が未適用のまま selftest を回した → 語彙不一致で自己捕捉・再適用)。
+- 検出力の限界: verify の報告 sha 再照合なし(限界 ①)/ 申告 gate(限界 ②)/ 同時 append・ACL・非 UTF-8 JSONL・強制終了中の部分書込み(未測定・検査官宣言)/ 検査官 1 系統(Codex)N=2 round。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | V2(a)(b)(c) 実入口・selftest 3 ツール・r1/r2 |
+  | Q2 | asked | observed/適格 | 実測 | known-bad= gate なし/境界探索 gate/壊れた行/別 ECO/作業木外 path/sha 欠落・陽性対照= r2 ACCEPT gate で ADVANCE |
+  | Q3 | asked | observed/適格 | 実測 | 是正前後: r1 で gate 生成 → r1b で ARG_ERROR(検査官 r2 で確認) |
+  | Q4 | asked | observed/適格 | 実測 | 実 order・実台帳(r1/r2 の実 cell 行)・実報告 |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(限界 ①②・競合・ACL)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI(fix・r1b・accept ×2 回の検査) |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照あり(r2 gate ADVANCE・selftest gate 0) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(gate 2 種)・register・run 台帳(decision/cell 行に inspection・report.range)・r1/r2 報告 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 台帳の形状/個体/境界/sha/range・witness gate の有無と exit・job 状態(検査官の被覆表) |
+
+- このクローズが支持しないもの: 申告 gate の機械拒否 / CI 側(二層)の押し戻し / verify の報告 sha 再照合 / 偽陽性率(EXP-20260912-04 で 3 ECO)/ 裁定キュー。
+
+### accept 段の実測(V2(a)(b)・2026-09-12・register= verified の作業木・witness tree 5ee7d2d4881a)
+
+- **(a) gate なし(known-bad)**: `bomdd-witness produce --eco ECO-074 --gate self-conformance=0:…`(gates 1)→ `bomdd-run ECO-074 --executor EQ-002` → `STOP ECO-074 INSPECTION_MISSING → operator @5ee7d2d4881a`
+  exit 1・台帳 decision 行 `job_state: verified`・`inspection: {required: true, inspector: EQ-002, gate: null}`。**独立検査 ACCEPT なしの verified 昇格を入口が止めた実測 1 例**。
+- **(b) 台帳から導出(陽性対照)**: `produce … --inspection-from-ledger`(最後の report つき cell 行= r2・ACCEPT・range 是正確認+回帰・sha 6d096b9c33b4…・run_id 20260912T044913.995808Z)→ gates 2 →
+  dry → `ADVANCE ECO-074 OK → next · dry @5ee7d2d4881a` exit 0・台帳 `inspection.gate: {exit: 0, verdict: ACCEPT}`。本 commit はこの経路(検査 #2 → produce --inspection-from-ledger → dry ADVANCE → commit)で行った。

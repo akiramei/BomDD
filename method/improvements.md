@@ -7330,6 +7330,10 @@ IA-02 大小文字差を独立に数えて起動 / IA-03 HTML コメント・他
   source: ECO-072, ECO-074
   evidence: ECO-072 order §5.1 IA-02/IA-03・ECO-074 order §5.1 IA-01〜IA-04
 
+**受入(2026-09-12)**: ECO-074 verified(fix a43c7f8・r1b df0d7c3・CI 34673758816・r2 ACCEPT・窓閉鎖・較正 receipt trigger ①③)。**Phase 7 第 3 弾 完了**— accept 段で「register verified・inspector 宣言・
+gate なし witness」を入口が STOP INSPECTION_MISSING で止め、r2 ACCEPT(是正確認+回帰)の台帳から導出した gate で ADVANCE(order §6 末尾に実測)。受理限界= verify の報告 sha 再照合なし・申告 gate の
+機械拒否なし(運用規律)。Phase 7 の残り= 申告 gate 拒否・二層化(CI)・裁定キュー。
+
 **受入(2026-09-12)**: ECO-072 verified(fix 2dad24f・CI 34637503548 success・r2 ACCEPT・窓閉鎖・較正 receipt trigger ①③)。Phase 7 第 1 弾 完了。検査官の報告は r1/r2 とも handoff ヘッダで開始
 (第三者到達 2 例)。受理側の手順欠陥 1: 記帳スクリプトの anchor 不一致で検査が走らないまま exit を読んだ(再適用で解消)。
 
@@ -7390,7 +7394,7 @@ verified」を止められない。②round の range を台帳が持たず、�
 - [open] EXP-20260912-04 — **inspection gate は「独立検査 ACCEPT なしの verified」を止め、境界探索 round の ACCEPT を通さないか**: ECO-074 製造受入 V2 で ①gate なし witness → STOP INSPECTION_MISSING
   ②最終 round(是正確認+回帰)ACCEPT の gate → ADVANCE ③境界探索 round の gate → STOP。加えて以後の verified 昇格 3 ECO で偽陽性(正しい ACCEPT を止めた)0 件。**next trigger= ECO-074 製造受入**
   **初回値(2026-09-12・V2(c))**: ③境界探索 round(r1 REJECT)の台帳から導出した gate で dry → STOP GATE_FAIL → factory・起動なし(実測 1 例)。①②は accept 段で。r1 境界探索で fail-open 4 クラス
-  (壊れた行の黙殺・別 ECO 行・作業木外 path・sha 欠落)+記録欠落 1 → r1b 是正
+  (壊れた行の黙殺・別 ECO 行・作業木外 path・sha 欠落)+記録欠落 1 → r1b 是正 → r2 ACCEPT。①②は accept 段で実測(order §6 末尾)。**ECO-074 verified 2026-09-12**・open 維持(偽陽性 3 ECO)
   source: ECO-074
   evidence: ECO-074 order §0・§1-2/3・ECO-073 §6
 

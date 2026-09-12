@@ -2574,7 +2574,7 @@ changes:
     title: ECO-062 Phase 7 第 3 弾 — verified 昇格を台帳の verdict に機械的に依存(bomdd-witness produce --inspection-from-ledger で inspection gate を run 台帳から導出・入口が verified+inspector 宣言で gate を要求 INSPECTION_MISSING・bomdd-run --range で round の目的を台帳に・job F6 導出)
     date: 2026-09-12
     origin: improvement
-    status: implemented   # 2026-09-12 起票(c180cc8)→ user DECIDE「A」= 1 層 → 製造(--range・--inspection-from-ledger・入口の要求 INSPECTION_MISSING・job F6・selftest)・V1 PASS・V2 は r1(境界探索 gate→ STOP)と accept 段(gate なし→ STOP / ACCEPT gate→ ADVANCE)で実測
+    status: verified   # 2026-09-12 起票(c180cc8)→ user DECIDE「A」→ fix a43c7f8(V2(c) 境界探索 gate→ STOP)→ r1 REJECT 7(是正 5)→ r1b df0d7c3 CI 34673758816 → r2 ACCEPT → accept 段で V2(a) gate なし→ STOP INSPECTION_MISSING / (b) ACCEPT gate→ ADVANCE → verified(窓閉鎖 c180cc8→df0d7c3・較正 receipt trigger ①③)
     source: >
       ECO-072/073 で判定と hash は台帳に入ったが verified 昇格は製造者が台帳を読んで転記(2 例)・入口は「独立検査 ACCEPT なしの verified」を止められない。round の range(境界探索/是正確認+回帰)を
       台帳が持たず「最後の cell 行の ACCEPT」では受入根拠にならない round と区別できない。hash の order 転写は禁止・台帳からの導出は W2 を壊さない・CI は .git 配下を読めない(gate はローカル 1 層)。
@@ -2583,7 +2583,7 @@ changes:
     no_impact_prediction: "(起票時点・製造裁定で凍結)範囲 A なら tools 3+台帳系+reports。templates 不変・配員欄なしの既存 ECO は F6 null → gate 不要 → 従来どおり・--report は --range 必須化で ARG_ERROR(意図)・witness 既存 gate 不変・hooks/.github diff 0"
     diff_audit:
       baseline: "a8ad524"  # 起票直前 HEAD
-      head: ~
+      head: "df0d7c3"      # diff監査済み: 窓内= allowed_paths のみ・予測的中
       allowed_paths: [method/tools/bomdd-run.py, method/tools/bomdd-witness.py, method/tools/bomdd-job.py, bomdd/60-change-order-eco-074.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-074.md, bomdd/reports/independent-inspection-eco-074-r2.md, bomdd/reports/independent-inspection-eco-074-r3.md]  # 製造裁定 A で再凍結(2026-09-12)
     summary: >
       ①bomdd-run --range 境界探索|是正確認+回帰(--report と組で必須・台帳 cell 行と env)②bomdd-witness produce --inspection-from-ledger(最後の report つき cell 行 → gate inspection・exit= ACCEPT+是正確認→0/
