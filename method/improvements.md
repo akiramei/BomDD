@@ -7325,10 +7325,10 @@ IA-02 大小文字差を独立に数えて起動 / IA-03 HTML コメント・他
 [ ] terminology [ ] method/concept claim。contradicted / superseded: なし。
 **期待効果の棚卸し**: EXP-20260912-02 に初回値(行内)・EXP-20260912-01 に第三者到達 1 例(行内)。OBS 新規 1(下記)。
 
-- [watch 1/3] OBS-20260912-01 — **機械が読む宣言は「所在(節)」と「表記の正規化」を仕様に含めないと use/mention が混ざり fail-open になる**(ECO-072 r1: HTML コメント・他節の言及を配員と読んだ /
-  大小文字差を独立と数えた)。3 例で playbook §8.5(境界統制)か §13 の運用規則へ。
-  source: ECO-072
-  evidence: ECO-072 order §5.1 IA-02/IA-03
+- [watch 2/3] OBS-20260912-01 — **機械が読む宣言・記録は「所在(節・個体)」と「表記の正規化・境界」を仕様に含めないと use/mention が混ざり fail-open になる**(ECO-072 r1: HTML コメント・他節の
+  言及を配員と読んだ / 大小文字差を独立と数えた。ECO-074 r1: 台帳行の個体未照合・path 境界なし・壊れた行の黙殺)。3 例で playbook §8.5(境界統制)か §13 の運用規則へ。
+  source: ECO-072, ECO-074
+  evidence: ECO-072 order §5.1 IA-02/IA-03・ECO-074 order §5.1 IA-01〜IA-04
 
 **受入(2026-09-12)**: ECO-072 verified(fix 2dad24f・CI 34637503548 success・r2 ACCEPT・窓閉鎖・較正 receipt trigger ①③)。Phase 7 第 1 弾 完了。検査官の報告は r1/r2 とも handoff ヘッダで開始
 (第三者到達 2 例)。受理側の手順欠陥 1: 記帳スクリプトの anchor 不一致で検査が走らないまま exit を読んだ(再適用で解消)。
@@ -7389,5 +7389,21 @@ verified」を止められない。②round の range を台帳が持たず、�
 
 - [open] EXP-20260912-04 — **inspection gate は「独立検査 ACCEPT なしの verified」を止め、境界探索 round の ACCEPT を通さないか**: ECO-074 製造受入 V2 で ①gate なし witness → STOP INSPECTION_MISSING
   ②最終 round(是正確認+回帰)ACCEPT の gate → ADVANCE ③境界探索 round の gate → STOP。加えて以後の verified 昇格 3 ECO で偽陽性(正しい ACCEPT を止めた)0 件。**next trigger= ECO-074 製造受入**
+  **初回値(2026-09-12・V2(c))**: ③境界探索 round(r1 REJECT)の台帳から導出した gate で dry → STOP GATE_FAIL → factory・起動なし(実測 1 例)。①②は accept 段で。r1 境界探索で fail-open 4 クラス
+  (壊れた行の黙殺・別 ECO 行・作業木外 path・sha 欠落)+記録欠落 1 → r1b 是正
   source: ECO-074
   evidence: ECO-074 order §0・§1-2/3・ECO-073 §6
+
+## 2026-09-12 BomDD 自己適用 — ECO-074 製造中: 境界探索 round の gate を入口が止めた実測(V2(c))・Codex r1 境界探索 REJECT 7(是正 5・明確化 1・仕様外 1)
+
+**観測**(出典: [ECO-074 order](../bomdd/60-change-order-eco-074.md) §5.1・[r1 報告](../bomdd/reports/independent-inspection-eco-074.md)): ①V2(c)= r1(境界探索・REJECT)の台帳から `--inspection-from-ledger`
+で導出した gate(exit 1)で dry → `STOP GATE_FAIL → factory`・起動なし。②r1: IA-01 壊れた JSON 行の黙殺 / IA-02 台帳行の ECO 個体未照合 / IA-03 台帳の path に入口と同じ境界なし / IA-04 sha 欠落を
+exit 2 で許容 / IA-05 失敗時に inspection 記録なし(いずれも製造物・r1b 是正)/ IA-06 additive な形状差(予測文言)/ IA-07 witness produce 行の桁(仕様外)。③検査官の指摘「導出後に報告を書き換えても
+verify は gate を再照合しない」= witness の宣言済み限界 (2)(3)。
+**整理**: 「台帳から導出する」は「台帳を信頼する」ではない — 台帳の**個体**(eco)・**境界**(path)・**形状**(壊れた行・sha)を入口と同じ規格で再検証しないと、別プロセスが書いた行が gate になる。
+ECO-072 r1(台帳全体の型)・ECO-073 r1(stale・行頭)と同型の「契約を実装がわずかに緩めた」穴で、境界探索 round が 3 ECO 連続で露出させた(OBS-20260912-01 の 2 例目候補= 機械が読む記録の
+所在・個体・正規化を仕様に含める)。**一般化検査**: 「導出元の記録にも、入口が課すのと同じ個体照合と境界検証を課す」は製品名を含まない。
+**行き先判定**: 記帳のみ(order §5.1・EXP-20260912-04 初回値)。playbook 非改訂。**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(台帳の個体照合・path 境界・壊れた行= 不正)
+[ ] template [ ] terminology [ ] method/concept claim。contradicted / superseded: なし。
+**期待効果の棚卸し**: EXP-20260912-04 に初回値(行内)。OBS-20260912-01 を 2/3 へ(下記・独立性: 別 ECO・別ツール〔witness〕・別クラス〔記録の個体と境界〕)。
+

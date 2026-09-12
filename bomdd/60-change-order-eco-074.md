@@ -45,7 +45,8 @@
 
 ## 2. 影響なし予測(製造前・起票時点 — 製造裁定で凍結)
 
-範囲 A なら diff= tools 3(bomdd-run・bomdd-witness・bomdd-job)+台帳系+reports。templates 不変。既存 ECO(配員欄なし)は F6 null のまま → gate 不要 → 従来どおり(V1 回帰腕)。`--report` の既存呼び出しは
+範囲 A なら diff= tools 3(bomdd-run・bomdd-witness・bomdd-job)+台帳系+reports。templates 不変。既存 ECO(配員欄なし)は F6 null のまま → gate 不要 → **判定と出力は従来どおり**(V1 回帰腕。
+job JSON の停止語彙と F6 の source 文言・decision 行の `inspection` 欄は additive に増える= r1 IA-06 の明確化)。`--report` の既存呼び出しは
 `--range` 必須化で ARG_ERROR になる(意図・ECO-073 の運用手順を更新)。witness の既存 gate(self-conformance)は不変。hooks・.github diff 0。
 
 ## 3. 製造裁定の候補(別 DECIDE で提示)
@@ -88,3 +89,32 @@
   記録 / 検査 gate 6 腕: verified+inspector+gate 0→ ADVANCE・gate なし→ STOP INSPECTION_MISSING・gate 1/2→ STOP VERIFICATION_FAIL factory・verified+inspector なし→ ADVANCE・decided+inspector→ ADVANCE)。
 - **V2(出口条件)**: (c) 境界探索 round(r1)の台帳から導出した gate(exit 2)で dry → STOP(§5.1 で実測)/ (a) accept 段で register= verified・gate なし witness → STOP INSPECTION_MISSING /
   (b) 最終 round の ACCEPT から導出した gate → ADVANCE(§6 で実測)。
+
+## 5. 独立検査(異系統・Codex EQ-002・入口 bomdd-run から `--report`/`--range` つきで起動)
+
+### 5.1 r1(2026-09-12・range= 境界探索・sandbox workspace-write)— 報告: [independent-inspection-eco-074.md](reports/independent-inspection-eco-074.md)
+
+- 起動: `bomdd-run.py ECO-074 --executor EQ-002 --report bomdd/reports/independent-inspection-eco-074.md --range 境界探索 --cell "codex exec …"`(fix commit a43c7f8・witness tree 0685409ab255)→
+  `cell exit 0` → `report REJECT sha256:1c172c902b2d (EQ-002)`・台帳 cell 行 `report.range: 境界探索`・verdict_line `REJECT — 理由: IA-01〜IA-07`(`sha256sum` と一致)。
+- **V2(c) 実測(境界探索 round の gate は通らない)**: r1 直後に `bomdd-witness.py produce --eco ECO-074 --gate self-conformance=0:… --inspection-from-ledger` → gates 2(inspection exit 1・verdict REJECT・
+  range 境界探索)→ `bomdd-run.py ECO-074 --executor EQ-002`(dry)→ `STOP ECO-074 GATE_FAIL → factory @68a1dcaa54a8` exit 1・台帳 `stop_type: VERIFICATION_FAIL`・`inspection: null`(IA-05 の再現= 是正前)。
+  **境界探索 round の判定を受入根拠に使えないことを機構が止めた実測 1 例**(REJECT。ACCEPT+境界探索は selftest 腕で exit 2 → 同じ STOP)。
+- 判定: **REJECT**(IA-01〜07)。受理側の真正判定(帰属つき):
+
+  | 所見 | 内容 | 受理側判定 | 是正(r1b) |
+  |---|---|---|---|
+  | IA-01 | 台帳の壊れた JSON 行を黙って飛ばし別行の ACCEPT を採る | **CONFIRMED・製造物** | 壊れた行・object でない行= ARG_ERROR(台帳不正・測定不能は合格ではない)。selftest 腕 |
+  | IA-02 | 台帳の cell 行の `eco` を要求個体と照合しない(別 ECO の行から gate) | **CONFIRMED・製造物** | `row.eco == --eco` を要求(個体照合・W7 と同型)。selftest 腕 |
+  | IA-03 | 台帳の report.path に入口と同じ境界検証がなく作業木外・絶対パスから gate | **CONFIRMED・製造物** | `_ledger_report_path_error`(リポ相対・`..`/絶対/空要素/前後空白/.git 配下/作業木外を拒否)。selftest 腕 3 |
+  | IA-04 | sha 欠落を exit 2 のときだけ許す(ACCEPT+境界探索・sha なし → gate) | **CONFIRMED・製造物** | sha は MISSING 以外で必須(64 桁小文字 hex・現在の報告と一致)。MISSING 行に sha があれば形状不正。selftest 腕 5 |
+  | IA-05 | inspection gate が exit 1/2 のとき decision 行の `inspection` が null | **CONFIRMED・製造物**(§4 の記録仕様と不一致・V2(c) で再現) | gate の有無・値を receipt 判定の前に記録(失敗時も残す)。selftest 腕 |
+  | IA-06 | ECO-071 の job JSON・decision 行が旧と同一でない(停止語彙・F6 文言・`inspection` 欄) | **NOT CONFIRMED(additive)・受理側(予測文言)** | §2 を「判定と出力は従来どおり・JSON/台帳は additive」に明確化 |
+  | IA-07 | witness produce の 1 行目が 80 桁超(出力先の絶対パス) | **NOT CONFIRMED(仕様外)** — 80 桁契約は bomdd-run R7 のみ(witness W6 は 1 行目の形式)。中央省略は将来の候補 | 記録のみ |
+
+- 検査官のその他の観測(受理側で確認): 台帳からの導出表(REJECT→ACCEPT で後の ACCEPT・ACCEPT→REJECT で後の REJECT・末尾 report null は直前の行・小文字/未知 verdict・語彙外/欠落 range= exit 2・
+  短縮/大文字 sha・別内容 path= ARG_ERROR)= 仕様どおり / 入口の要求表(gate なし= INSPECTION_MISSING operator・exit 1/2= GATE_FAIL factory・`Inspection`/`inspection `= 名前不一致で MISSING・0 と 1 の
+  2 個= GATE_FAIL・implemented+inspector= ADVANCE・verified+inspector なし= ADVANCE・台帳に無い inspector= LEDGER_INCONSISTENT が先行)= 仕様どおり / `--range` 6 種の不正= ARG_ERROR・正常時は
+  cell の `BOMDD_RANGE` と台帳が一致 / **導出後に報告を書き換えても verify は gate を再照合しない**(追跡対象なら TREE_MISMATCH で止まる・gitignore 対象なら通る)= witness の宣言済み限界 (2)(3)
+  を本 ECO の受理限界として §6 に記す / `--gate inspection=0:x` の申告 gate は通る(範囲外の観察・受理側の運用規律= produce は `--inspection-from-ledger` でのみ inspection を作る)。
+- 検査官の較正 receipt: 主張 1「台帳からの導出だけで昇格を制御」= 不適格(IA-02/03)→ r1b で是正。selftest 3 本の PASS は受理根拠として不十分(被覆表)→ r1b で腕を追加。
+- r1b 後の V1: `bomdd-witness.py --selftest` exit 0(inspection 22 腕)/ `bomdd-run.py --selftest` exit 0(IA-05 腕)/ `bomdd-job.py --selftest` exit 0。

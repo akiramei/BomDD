@@ -49,6 +49,7 @@ import io
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -217,41 +218,69 @@ def produce(root: Path, eco: str, gates: list, stop: str, out: Path | None, prod
 INSPECTION_ACCEPT_RANGE = "是正確認+回帰"
 
 
-def inspection_gate_from_ledger(root: Path, ledger: Path):
-    """(gate, None) / (None, 理由)。"""
+def _ledger_report_path_error(root: Path, git_dir: Path | None, path: str) -> str | None:
+    """r1 IA-03: 台帳の report.path にも入口(bomdd-run --report)と同じ境界を課す — リポ相対・`..`/絶対/空要素/前後空白なし・作業木内・.git 配下不可。"""
+    s = path.replace("\\", "/")
+    if not s.strip() or s.strip() != s or s.startswith("/") or re.match(r"^[A-Za-z]:", s) or any(seg in ("..", "") for seg in s.split("/")):
+        return f"台帳の report.path がリポ相対でない: {path!r}"
+    p = root / s
+    try:
+        if os.path.commonpath([p.resolve(), root.resolve()]) != str(root.resolve()):
+            return "台帳の report.path が作業木の外を指す"
+        if git_dir is not None and os.path.commonpath([p.resolve(), git_dir.resolve()]) == str(git_dir.resolve()):
+            return "台帳の report.path が .git 配下を指す"
+    except (OSError, ValueError):
+        return "台帳の report.path を解決できない"
+    return None
+
+
+def inspection_gate_from_ledger(root: Path, ledger: Path, eco: str, git_dir: Path | None = None):
+    """(gate, None) / (None, 理由)。r1: 壊れた行は台帳不正(IA-01)・行の eco を個体照合(IA-02)・path の境界(IA-03)・sha は MISSING 以外で必須(IA-04)。"""
     try:
         lines = ledger.read_text(encoding="utf-8").splitlines()
     except OSError as e:
         return None, f"run 台帳を読めない: {ledger.name}({e.__class__.__name__})"
     row = None
-    for ln in lines:
+    for i, ln in enumerate(lines, 1):
+        if not ln.strip():
+            continue
         try:
             r = json.loads(ln)
         except ValueError:
-            continue
-        if isinstance(r, dict) and r.get("event") == "cell" and isinstance(r.get("report"), dict):
+            return None, f"run 台帳に壊れた行がある({i} 行目)— 測定不能は合格ではない"
+        if not isinstance(r, dict):
+            return None, f"run 台帳の {i} 行目が object でない"
+        if r.get("event") == "cell" and isinstance(r.get("report"), dict):
             row = r
     if row is None:
         return None, "run 台帳に report つきの cell 行がない"
+    if row.get("eco") != eco:
+        return None, f"台帳の cell 行の個体が一致しない: {row.get('eco')!r} != {eco}"
     rp = row["report"]
     path, sha, verdict, rng = rp.get("path"), rp.get("sha256"), rp.get("verdict"), rp.get("range")
     if not isinstance(path, str) or not path:
         return None, "台帳の report.path がない"
+    perr = _ledger_report_path_error(root, git_dir, path)
+    if perr:
+        return None, perr
     if verdict == "ACCEPT" and rng == INSPECTION_ACCEPT_RANGE:
         ex = 0
     elif verdict == "REJECT":
         ex = 1
     else:
         ex = 2   # MISSING / UNPARSED / 境界探索の ACCEPT / range なし = 受入根拠にならない(測定不能側)
-    if isinstance(sha, str) and sha:
+    if verdict == "MISSING":   # 報告なしの記録: sha は持たない(exit 2 の gate として残す)
+        if sha:
+            return None, "台帳の MISSING 行に sha256 がある(形状不正)"
+    else:   # r1 IA-04: MISSING 以外は sha 必須・現在の報告と一致
+        if not isinstance(sha, str) or not re.fullmatch(r"[0-9a-f]{64}", sha):
+            return None, "台帳の report.sha256 がない/形状不正(64 桁小文字 hex)"
         try:
             cur = hashlib.sha256((root / path).read_bytes()).hexdigest()
         except OSError:
             return None, f"報告ファイルを読めない: {path}"
         if cur != sha:
             return None, f"報告の sha256 が台帳と一致しない: {path}"
-    elif ex != 2:
-        return None, "台帳の report.sha256 がない"
     gate = {"name": "inspection", "exit": ex, "source": path, "verdict": verdict, "sha256": sha, "range": rng,
             "executor": row.get("executor"), "run_id": row.get("run_id")}
     return gate, None
@@ -359,7 +388,7 @@ def run_cli(argv: list, root: Path) -> tuple[int, str]:
                 if git_dir is None:
                     cause, detail = err
                     return 2, report_line(2, "TREE_UNAVAILABLE", f"台帳の既定パスを導出できない({detail or '詳細なし'})", cause)
-                gate, gerr = inspection_gate_from_ledger(root, git_dir / "bomdd-run" / f"{eco}.jsonl")
+                gate, gerr = inspection_gate_from_ledger(root, git_dir / "bomdd-run" / f"{eco}.jsonl", eco, git_dir)
                 if gate is None:
                     raise ArgError(f"--inspection-from-ledger: {gerr}")
                 gates.append(gate)
@@ -669,6 +698,20 @@ def _selftest_body(td_cm, wd_cm) -> int:
         ledger_rows("ACCEPT", None); insp("accept-norange", 0, 2)
         ledger_rows("REJECT", "是正確認+回帰"); insp("reject", 0, 1)
         ledger_rows("MISSING", "是正確認+回帰", sha=None); insp("missing", 0, 2)
+        # r1 IA-01: 壊れた行は台帳不正 / IA-02: 行の eco 個体照合 / IA-03: path の境界 / IA-04: sha 欠落・形状(MISSING 以外)
+        ledger_rows("ACCEPT", "是正確認+回帰")
+        ledger.write_text(ledger.read_text(encoding="utf-8") + "{broken\n", encoding="utf-8"); insp("broken-line", 2, contains="壊れた行")
+        ledger_rows("ACCEPT", "是正確認+回帰")
+        ledger.write_text(ledger.read_text(encoding="utf-8").replace('"eco": "ECO-900"', '"eco": "ECO-999"'), encoding="utf-8"); insp("other-eco", 2, contains="個体が一致しない")
+        ext = wout / "ext.md"; ext.write_text("ACCEPT\n", encoding="utf-8")
+        ledger_rows("ACCEPT", "是正確認+回帰", sha=hashlib.sha256(ext.read_bytes()).hexdigest(), path=str(ext)); insp("path-absolute", 2, contains="リポ相対でない")
+        ledger_rows("ACCEPT", "是正確認+回帰", path="reports/../r.md"); insp("path-dotdot", 2, contains="リポ相対でない")
+        ledger_rows("ACCEPT", "是正確認+回帰", path=".git/r.md"); insp("path-gitdir", 2, contains=".git")
+        ledger_rows("ACCEPT", "境界探索", sha=None); insp("sha-missing-boundary", 2, contains="sha256 がない")
+        ledger_rows("UNPARSED", "是正確認+回帰", sha=None); insp("sha-missing-unparsed", 2, contains="sha256 がない")
+        ledger_rows("ACCEPT", "是正確認+回帰", sha=sha_ok.upper()); insp("sha-upper", 2, contains="形状不正")
+        ledger_rows("ACCEPT", "是正確認+回帰", sha=sha_ok[:12]); insp("sha-short", 2, contains="形状不正")
+        ledger_rows("MISSING", "是正確認+回帰", sha=sha_ok); insp("missing-with-sha", 2, contains="形状不正")
         ledger_rows("UNPARSED", "是正確認+回帰"); insp("unparsed", 0, 2)
         ledger_rows("ACCEPT", "是正確認+回帰", sha="0" * 64); insp("sha-mismatch", 2, contains="一致しない")
         ledger_rows("ACCEPT", "是正確認+回帰", path="reports/none.md"); insp("report-absent", 2, contains="読めない")
@@ -690,7 +733,7 @@ def _report_text(fails) -> str:
     return report_line(0, "OK", "selftest PASS(known-good / hash・fail・missing・stop・dirty・不完全 gate・個体不一致 1〔CODE 別〕/ 不在・形状不正・"
                        "git 不能・temp 不能・index 複製失敗・作業木内 temp・add/write-tree/git-dir 失敗〔rc 128・127〕2〔CAUSE 別〕/ CLI: PATH 単独= "
                        "IDENTITY_UNCHECKED 2・--eco 付き 0・既定パス 0・引数不正 ARG_ERROR 2・produce= PRODUCED 0/ARG_ERROR/GATE_INCOMPLETE/WITNESS_UNWRITABLE 2 / "
-                       "非 UTF-8 stderr で落ちない / 作業木内出力 2 / 拡張長パス 2/.git 配下 0 / 差分位置 36・0 / inspection-from-ledger〔ECO-074〕: ACCEPT+是正確認→0・境界探索/range なし/MISSING/UNPARSED→2・REJECT→1・sha 不一致/報告不在/cell 行なし/台帳不在= ARG_ERROR・最後の行)")
+                       "非 UTF-8 stderr で落ちない / 作業木内出力 2 / 拡張長パス 2/.git 配下 0 / 差分位置 36・0 / inspection-from-ledger〔ECO-074〕: ACCEPT+是正確認→0・境界探索/range なし/MISSING/UNPARSED→2・REJECT→1・sha 不一致/報告不在/cell 行なし/台帳不在= ARG_ERROR・最後の行 / r1: 壊れた行・別 ECO 行・絶対/../.git path・sha 欠落/大文字/短縮・MISSING に sha= ARG_ERROR)")
 
 
 def _report(fails) -> int:

@@ -212,6 +212,16 @@ def decide(root: Path, eco: str, jobmod, witmod, executor: str | None = None) ->
         return rec, job
     rec["receipt"] = str(path)
     rc, line = witmod.verify(root, path, eco)   # R3: 個体照合つき
+    insp_req = _job_value(job, "independent_inspection")   # R11(r1 IA-05): gate の有無・値は判定前に記録(失敗時も残す)
+    if rec["job_state"] == "verified" and isinstance(insp_req, dict) and insp_req.get("required"):
+        try:
+            _gates = json.loads(path.read_text(encoding="utf-8")).get("gates") or []
+        except (OSError, ValueError):
+            _gates = []
+        _g = next((x for x in _gates if isinstance(x, dict) and x.get("name") == "inspection"), None)
+        rec["inspection"] = {"required": True, "inspector": insp_req.get("inspector"), "gate": _g}
+    else:
+        rec["inspection"] = {"required": False}
     rec["verifier_line"], rec["verifier_exit"] = line, rc
     code, _cause = _code_of(line)
     rec["code"] = code   # receipt 側の理由(witness CODE)。stop_type は job 語彙(F5)で、receipt 欠陥は VERIFICATION_FAIL に写す
@@ -233,19 +243,9 @@ def decide(root: Path, eco: str, jobmod, witmod, executor: str | None = None) ->
         else:
             rec.update(decision="STOP", stop_type="VERIFICATION_FAIL", delivery=WITNESS_DELIVERY.get(code, "operator"))
         return rec, job
-    insp = _job_value(job, "independent_inspection")   # R11: verified 昇格には inspection gate が要る(台帳から導出したもの)
-    if rec["job_state"] == "verified" and isinstance(insp, dict) and insp.get("required"):
-        try:
-            gates = json.loads(path.read_text(encoding="utf-8")).get("gates") or []
-        except (OSError, ValueError):
-            gates = []
-        g = next((x for x in gates if isinstance(x, dict) and x.get("name") == "inspection"), None)
-        rec["inspection"] = {"required": True, "inspector": insp.get("inspector"), "gate": g}
-        if g is None:
-            rec.update(decision="STOP", stop_type="INSPECTION_MISSING", delivery=DELIVERY["INSPECTION_MISSING"])
-            return rec, job
-    else:
-        rec["inspection"] = {"required": False}
+    if rec["inspection"].get("required") and rec["inspection"].get("gate") is None:   # R11: verified 昇格には inspection gate が要る(台帳から導出したもの)
+        rec.update(decision="STOP", stop_type="INSPECTION_MISSING", delivery=DELIVERY["INSPECTION_MISSING"])
+        return rec, job
     if executor is not None:   # R9: job・receipt が ADVANCE のときだけ独立性を照合(先行する停止理由を隠さない)
         cap = _job_value(job, "required_capability")
         rec["producer"] = cap.get("producer") if isinstance(cap, dict) else None
@@ -778,7 +778,9 @@ def _selftest_body(td_cm, wd_cm) -> int:
         d_b, o_b = r11("insp-verified-gate-missing", "ECO-904", [{"name": "g", "exit": 0, "source": "x"}], 1, "STOP", "operator", "INSPECTION_MISSING")
         if not o_b or "INSPECTION_MISSING" not in o_b[0]:
             fails.append(f"insp-verified-gate-missing: 判定行に INSPECTION_MISSING がない: {o_b[:1]}")
-        r11("insp-verified-gate-fail", "ECO-904", [{"name": "g", "exit": 0, "source": "x"}, dict(gate_ok, exit=1, verdict="REJECT")], 1, "STOP", "factory", "VERIFICATION_FAIL")
+        d_c, _ = r11("insp-verified-gate-fail", "ECO-904", [{"name": "g", "exit": 0, "source": "x"}, dict(gate_ok, exit=1, verdict="REJECT")], 1, "STOP", "factory", "VERIFICATION_FAIL")
+        if ((d_c.get("inspection") or {}).get("gate") or {}).get("exit") != 1:   # r1 IA-05: 失敗した gate も記録される
+            fails.append(f"insp-verified-gate-fail: 失敗時の inspection 記録なし: {d_c.get('inspection')}")
         r11("insp-verified-gate-unmeasurable", "ECO-904", [{"name": "g", "exit": 0, "source": "x"}, dict(gate_ok, exit=2, range="境界探索")], 1, "STOP", "factory", "VERIFICATION_FAIL")
         d_e, _ = r11("insp-verified-no-inspector", "ECO-905", [{"name": "g", "exit": 0, "source": "x"}], 0, "ADVANCE", "next")
         if (d_e.get("inspection") or {}).get("required") is not False:
