@@ -2553,7 +2553,7 @@ changes:
     title: ECO-062 Phase 7 第 2 弾 — cell の判定を入口が receipt として回収(bomdd-run --report PATH・判定語の契約 ACCEPT|REJECT|UNMEASURABLE・報告なし/契約外= MISSING/UNPARSED・入口は判定で行動しない)
     date: 2026-09-12
     origin: improvement
-    status: filed   # 2026-09-12 user DECIDE「A」(ECO-072 後の次= 第 2 弾 P6-02)→ 経路 DISCUSS(②入口が報告を束ねる)に AGREE → 起票のみ・製造裁定は別 DECIDE(A 全部 / B 束ね+契約のみ / C 運用規則のみ)
+    status: implemented   # 2026-09-12 起票(e0639b2)→ user DECIDE「A」= 全部 → 製造(--report 束ね・判定語契約・env・selftest 18 腕)・V1 PASS・V2= 本 ECO の r1 を --report で起動し台帳に verdict/sha256
     source: >
       ECO-062 §10.7 P6-02(入口は cell の終了コードのみ記録・判定は読まない)。実測: 実 cell 3 回(ECO-067・ECO-072 r1/r2)とも判定は当方が報告を読んで転記(P5-10 の型)。報告の先頭形は
       handoff ヘッダ → 空行 → 判定語(N=2)。①cell 自身の witness produce は read-only sandbox の .git 書込不可で不成立。
@@ -2563,7 +2563,7 @@ changes:
     diff_audit:
       baseline: "2a921bd"  # 起票直前 HEAD
       head: ~
-      allowed_paths: [bomdd/60-change-order-eco-073.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]  # 起票のみ。製造裁定で再凍結
+      allowed_paths: [method/tools/bomdd-run.py, bomdd/60-change-order-eco-073.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-073.md, bomdd/reports/independent-inspection-eco-073-r2.md, bomdd/reports/independent-inspection-eco-073-r3.md]  # 製造裁定 A で再凍結(2026-09-12)
     summary: >
       ①bomdd-run --report PATH(--cell と組・リポ相対・作業木内・.git 外)で cell 終了後に path/exists/size/sha256/verdict を台帳の cell 行に束ね `report <VERDICT> sha256:… (EQ)` を 1 行出す
       ②判定語の契約= handoff ヘッダ行と空行を飛ばした最初の非空行の先頭 ACCEPT|REJECT|UNMEASURABLE・なし= MISSING・契約外= UNPARSED・入口は判定で行動しない ③env BOMDD_REPORT ④selftest 腕。

@@ -7342,5 +7342,28 @@ witness を動かすのは第 3 弾= witness の gate 種別に inspection)。**
 
 - [open] EXP-20260912-03 — **入口が cell の判定を回収し、人力転記が消えるか**: ECO-073 製造受入 V2 で ①実 cell(本 ECO の r1)の台帳 cell 行に verdict と sha256 が入り commit した報告と一致(N=1)
   ②以後の独立検査で判定語の契約違反(UNPARSED)0 件/N ③受入記録の判定が台帳の verdict から転記される(人間の読解による転記 0)。**next trigger= ECO-073 製造受入**
+  **初回値(2026-09-12・V2)**: ①r1 2 回目で台帳 cell 行に verdict REJECT・sha256 632863fe…(sha256sum と完全一致)= 成立 N=1。1 回目は Codex 応答が遮断され MISSING(本番例・環境帰属)。
+  ②契約違反 0/1(r1 報告は handoff ヘッダ → 判定語)。③本節の判定は台帳の verdict_line から転記
   source: ECO-073
   evidence: ECO-073 order §0・§1-2・ECO-062 §10.7 P6-02
+
+## 2026-09-12 BomDD 自己適用 — ECO-073 製造中: 入口が cell の判定を台帳へ束ねた初例(REJECT・sha256 一致)・MISSING の本番例(検査ブリーフの語彙で Codex 応答が遮断)・r1 境界探索 REJECT 5(是正 2・仕様文言 1・記録 2)
+
+**観測**(出典: [ECO-073 order](../bomdd/60-change-order-eco-073.md) §5.1・[r1 報告](../bomdd/reports/independent-inspection-eco-073.md)): ①V2 成立: r1 2 回目の実 cell で台帳 cell 行に
+`verdict: REJECT`・`sha256: 632863fe…`(`sha256sum` と一致)・`verdict_line` が入り、受入記録の判定を人間の読解なしに転記できた。②1 回目は Codex の応答が OpenAI 側のコンテンツ判定
+(ブリーフの「抜け道」「外へ出る」等)で遮断され報告なし → 入口は `report MISSING (no file)`・exit は R8 のまま 0 → 中立表現のブリーフで再送。③r1: IA-01(入口 exit と cell exit・起票文言が
+ECO-067 R8 と矛盾= 受理側)/ IA-02(既存ファイルを今回の報告と取り違える= 製造物・是正)/ IA-03(root= cwd・設計どおり)/ IA-04(台帳の additive な欄・予測文言)/ IA-05(行頭空白の strip・
+製造物・是正)。
+**整理**: 「結線する・解釈しない」の境界で穴だったのは**時間**(起動前から存在するファイル)と**空白**(行頭)で、いずれも「契約を実装がわずかに緩めた」型。fail-closed は緩めた側でなく
+契約側に揃える(stale= 起動しない・空白始まり= UNPARSED)。MISSING の本番例は、検査ブリーフの語彙が cell(Codex)の実行可否を左右するという**設備属性**を露出した — 設備台帳の note 候補
+(EQ-002)・playbook §3 の「実行環境の差」に「コンテンツ判定」を含めるかは 2 例目待ち。**一般化検査**: 「起動元が束ねる成果物は、起動前の不在を確認してから起動する(既存物との取り違え
+防止)」は製品名を含まない(OBS 候補・1 例)。
+**行き先判定**: 記帳のみ(order §5.1・EXP-20260912-03 初回値)。playbook 非改訂。**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(stale 拒否・行頭照合・cell exit 腕)
+[ ] template [x] terminology(stale・MISSING/UNPARSED の意味= 読める通常ファイル)[ ] method/concept claim。contradicted / superseded: なし。
+**期待効果の棚卸し**: EXP-20260912-03 に初回値(行内)。OBS 新規 1(下記)。OBS-20260912-01(機械が読む宣言は所在と正規化を仕様に)は本例(行頭空白)が 2 例目候補だが同一 ECO 内の同型是正
+のため件数据え置き(独立性の判断は次回)。
+
+- [watch 1/3] OBS-20260912-02 — **起動元が束ねる成果物(報告・receipt)は、起動前の不在を確認してから起動する— 既存物を今回の成果物と取り違えない**(ECO-073 r1 IA-02: 起動前から存在する報告を
+  束ねた)。3 例で playbook §13 運用規則へ。
+  source: ECO-073
+  evidence: ECO-073 order §5.1 IA-02
