@@ -7343,7 +7343,8 @@ witness を動かすのは第 3 弾= witness の gate 種別に inspection)。**
 - [open] EXP-20260912-03 — **入口が cell の判定を回収し、人力転記が消えるか**: ECO-073 製造受入 V2 で ①実 cell(本 ECO の r1)の台帳 cell 行に verdict と sha256 が入り commit した報告と一致(N=1)
   ②以後の独立検査で判定語の契約違反(UNPARSED)0 件/N ③受入記録の判定が台帳の verdict から転記される(人間の読解による転記 0)。**next trigger= ECO-073 製造受入**
   **初回値(2026-09-12・V2)**: ①r1 2 回目で台帳 cell 行に verdict REJECT・sha256 632863fe…(sha256sum と完全一致)= 成立 N=1。1 回目は Codex 応答が遮断され MISSING(本番例・環境帰属)。
-  ②契約違反 0/2(r1・r2 とも handoff ヘッダ → 判定語)。③r2 の受入判定(REJECT IA-06・IA-07)は台帳の verdict_line から転記= 1 例目
+  ②契約違反 0/3(r1〜r3 とも handoff ヘッダ → 判定語)。③r2・r3 の受入判定は台帳の verdict から転記= 2 例(転記主体は製造者・第三者の読取経路は未測定)。**ECO-073 verified 2026-09-12**・
+  open 維持(②の N 蓄積と③の第三者経路)
   source: ECO-073
   evidence: ECO-073 order §0・§1-2・ECO-062 §10.7 P6-02
 
@@ -7367,3 +7368,7 @@ ECO-067 R8 と矛盾= 受理側)/ IA-02(既存ファイルを今回の報告と�
   束ねた)。3 例で playbook §13 運用規則へ。
   source: ECO-073
   evidence: ECO-073 order §5.1 IA-02
+
+**受入(2026-09-12)**: ECO-073 verified(fix d60471e・r2b ddae2ee・CI 34668565093 success・r3 ACCEPT・窓閉鎖・較正 receipt trigger ①③)。Phase 7 第 2 弾 完了。r2 で IA-06(ディレクトリ宛先の
+扱い= 受理側のブリーフ期待が旧仕様)・IA-07(旧コメント)→ r2b → r3 ACCEPT。受理側の手順欠陥: 記帳スクリプトの bytes/str 連結で検査が走らないまま exit を読んだ(ECO-072 に続き 2 回目・
+同型 2 例= 記帳スクリプトの雛形化が候補)。

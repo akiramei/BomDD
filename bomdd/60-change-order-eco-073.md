@@ -1,4 +1,4 @@
-# Change Order — ECO-073(ECO-062 Phase 7 第 2 弾: cell の判定を入口が receipt として回収 — `--report` の束ね・判定語の契約・fail-closed〔製造中・裁定 A〕)
+# Change Order — ECO-073(ECO-062 Phase 7 第 2 弾: cell の判定を入口が receipt として回収 — `--report` の束ね・判定語の契約・fail-closed〔verified〕)
 
 > 裁定: user 2026-09-12 DECIDE「A」(ECO-072 verified 後の次= 第 2 弾 P6-02)→ 経路の DISCUSS(①cell 自身が witness を produce / ②入口が cell の報告を台帳に束ねる・thesis ②)に user AGREE。
 > **起票のみ**(製造裁定は別 DECIDE・範囲の凍結は裁定時)。親= [ECO-062](60-change-order-eco-062.md) §7 Phase 7・§10.7 P6-02(入口が記録するのは cell の終了コードで、cell の判定は読まない)。
@@ -110,3 +110,50 @@ hooks・.github diff 0。
 
 - 範囲外の観察(環境帰属): 検査官 sandbox で self-conformance の C14 REAL が FAIL(ECO-072 r1 と同じ git 所有者問題)/ global ignore の Permission denied 警告 1(測定成立)。
 - r2b 後の V1: `bomdd-run.py --selftest` exit 0(報告 23 腕)。
+
+### 5.3 r3(2026-09-12・range= r2 所見の是正確認+回帰・範囲限定)— 報告: [independent-inspection-eco-073-r3.md](reports/independent-inspection-eco-073-r3.md)
+
+- 起動: 入口から `--report` つき(r2b commit ddae2ee・witness tree 38ca308bb5e5)→ `cell exit 0` → `report ACCEPT sha256:b578d70abdd9 (EQ-002)`・台帳 cell 行 `verdict: ACCEPT`(`sha256sum` と一致)。
+  **本節の判定は台帳の verdict から転記**(2 例目)。
+- 判定: **ACCEPT**・新規所見なし。IA-06(既存ディレクトリ・既存ファイル → ARG_ERROR 起動なし台帳不変・fresh → 起動+hash 結線・遅延 → MISSING)/ IA-07(旧文言 0 件・R8/R10 相互矛盾なし)/ 回帰
+  (IA-01 cell exit 7・IA-02・IA-05・判定語境界 14/14・パス 11/11・出力互換 2 行/3 行・80 桁・3 ツール selftest exit 0・required_capability 不変)= すべて期待どおり。検査官の較正 receipt: 計器欠陥の新規検出なし・
+  fixture の setup 不能(sandbox の git 所有者)と検査側の quoting 誤りは PASS に算入せず再実行(記録)。範囲外の観察: sandbox の dubious ownership(環境・3 回目)。
+
+## 6. クローズ(2026-09-12・verified)
+
+- **V1**= PASS(selftest 3 ツール exit 0・報告 23 腕・§4/§5)/ **V2**= PASS(出口条件: r1〜r3 の 3 回とも入口が `--report` で判定と sha256 を台帳へ束ね、r2・r3 の受入判定は台帳の verdict から転記。
+  1 回目の MISSING は本番例)/ **V3**= PASS(self-conformance 全 PASS・CI: fix d60471e= 34666394578 success・r2b ddae2ee= 34668565093 success)。diff 監査の窓: baseline `e0639b2` → head `ddae2ee`(**窓閉鎖**)。
+  窓内= bomdd-run.py・order 2・register・improvements・reports(r1/r2)= allowed_paths のみ。
+- **V4**= 異系統独立検査 r1(境界探索・REJECT 5: 是正 2・仕様文言 1・記録 2)→ r2(是正確認+回帰・REJECT 2: 明文化 1・コメント 1)→ r3(是正確認+回帰・ACCEPT)。range と実行環境の差をブリーフに宣言。
+- **V5**= 下記 較正 receipt。register: `implemented → verified`・head 凍結。
+- **Phase 7 第 2 弾の到達点**: 入口が cell の判定を「結線」(パス・hash・固定語彙)として回収し、受入記録の判定を人間の読解なしに転記できる(P6-02 解消・N=3)。残り= 第 3 弾候補(witness の gate 種別に
+  inspection を足し、verified 昇格を台帳の verdict に依存させる)・裁定キュー(保留)・検査ブリーフの語彙が cell の実行可否を左右する設備属性(EQ-002・1 例)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・③: 計器変更〔tools〕)
+
+- 査定した主張と判定:
+  1. 「入口が cell の判定と hash を台帳へ束ねる」— **observed / 適格**(実入口 3 回・sha256sum と一致 3/3・verdict_line が契約どおり 3/3)。
+  2. 「契約外は推定で埋めず MISSING/UNPARSED」— **observed / 適格**(MISSING の本番例 1・selftest 23 腕・検査官の境界表 14/14)。
+  3. 「入口は判定に基づいて行動しない」— **observed / 適格**(REJECT/MISSING/UNPARSED・cell exit 7 で入口 exit 0・register/witness 不変)。
+  4. 「人力転記が消える」— **observed / 条件付き適格**(r2・r3 の受入判定は台帳から転記= 2 例。ただし転記主体は当方= 製造者で、第三者が台帳から読む経路は未測定)。
+  5. 「stale の取り違えがない」— **observed / 適格**(起動前の存在は ARG_ERROR・検査官 r2/r3 で実測)。
+- 検出した計器欠陥(帰属つき): 製造物 3 件(IA-02 stale・IA-05 行頭空白・IA-07 旧コメント= 是正済み)。受理側 4 件= IA-01 起票文言が R8 と矛盾 / IA-04 予測文言 / IA-06 回帰期待が旧仕様 /
+  記帳スクリプトの bytes/str 連結エラーで検査が走らないまま exit を読んだ(ECO-072 に続き 2 回目・手順)。自己捕捉 2(80 桁)。
+- 検出力の限界: 判定語の契約は 1 検査官(Codex)の報告様式で較正(N=3)。root= cwd・別 OS・Unicode 正規化・実 ACL は未測定。第三者が台帳を読む経路は未測定。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | 実入口 3 回・selftest・検査官 r1〜r3 |
+  | Q2 | asked | observed/適格 | 実測 | known-bad= stale/ディレクトリ/契約外(UNPARSED)/報告なし(MISSING 本番例)・陽性対照= fresh で ACCEPT/REJECT の束ね |
+  | Q3 | asked | observed/適格 | 実測 | 是正前後: r1 起動→ r1b ARG_ERROR(stale)・strip→ UNPARSED(検査官 r2/r3) |
+  | Q4 | asked | observed/適格 | 実測 | 実 order・実台帳・実報告(Codex -o)・fixture は selftest と検査官の temp |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(第三者の台帳読取・root 探索・Unicode)を宣言・MISSING 本番例は環境帰属と明記 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI(fix・r2b・accept) |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照あり(fresh・cell exit 7 でも束ね) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness・register・run 台帳(decision/cell 行に report)・r1〜r3 報告 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 判定語/結線/パス/時間(stale・遅延)/exit(検査官の被覆表) |
+
+- このクローズが支持しないもの: 判定に基づく register/witness の更新(第 3 弾)/ 第三者が台帳を読む経路 / 別 root・別 OS / 契約の他検査官への一般性(N=1 検査官)。

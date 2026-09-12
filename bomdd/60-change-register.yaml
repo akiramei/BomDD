@@ -2553,7 +2553,7 @@ changes:
     title: ECO-062 Phase 7 第 2 弾 — cell の判定を入口が receipt として回収(bomdd-run --report PATH・判定語の契約 ACCEPT|REJECT|UNMEASURABLE・報告なし/契約外= MISSING/UNPARSED・入口は判定で行動しない)
     date: 2026-09-12
     origin: improvement
-    status: implemented   # 2026-09-12 起票(e0639b2)→ user DECIDE「A」= 全部 → 製造(--report 束ね・判定語契約・env・selftest 18 腕)・V1 PASS・V2= 本 ECO の r1 を --report で起動し台帳に verdict/sha256
+    status: verified   # 2026-09-12 起票(e0639b2)→ user DECIDE「A」→ fix d60471e(V2: r1 を --report で起動・台帳に verdict/sha256・MISSING 本番例 1)→ r1 REJECT 5(是正 2)→ r2 REJECT 2(明文化+コメント)→ r2b ddae2ee CI 34668565093 → r3 ACCEPT → verified(窓閉鎖 e0639b2→ddae2ee・較正 receipt trigger ①③)
     source: >
       ECO-062 §10.7 P6-02(入口は cell の終了コードのみ記録・判定は読まない)。実測: 実 cell 3 回(ECO-067・ECO-072 r1/r2)とも判定は当方が報告を読んで転記(P5-10 の型)。報告の先頭形は
       handoff ヘッダ → 空行 → 判定語(N=2)。①cell 自身の witness produce は read-only sandbox の .git 書込不可で不成立。
@@ -2562,7 +2562,7 @@ changes:
     no_impact_prediction: "(起票時点・製造裁定で凍結)範囲 A なら bomdd-run.py のみ(+台帳系・reports)。job/witness/templates 不変・--report なしの既存呼び出し不変(V1 回帰腕)・hooks/.github diff 0"
     diff_audit:
       baseline: "2a921bd"  # 起票直前 HEAD
-      head: ~
+      head: "ddae2ee"      # diff監査済み: 窓内= allowed_paths のみ・予測的中
       allowed_paths: [method/tools/bomdd-run.py, bomdd/60-change-order-eco-073.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-073.md, bomdd/reports/independent-inspection-eco-073-r2.md, bomdd/reports/independent-inspection-eco-073-r3.md]  # 製造裁定 A で再凍結(2026-09-12)
     summary: >
       ①bomdd-run --report PATH(--cell と組・リポ相対・作業木内・.git 外)で cell 終了後に path/exists/size/sha256/verdict を台帳の cell 行に束ね `report <VERDICT> sha256:… (EQ)` を 1 行出す
