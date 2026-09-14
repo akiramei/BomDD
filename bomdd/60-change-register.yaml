@@ -2616,7 +2616,7 @@ changes:
     title: handoff 実装規則に「読み手規則」を追加 — 結論先行・内部語の言い換え・証拠は付録か記録へ・裁定の単一化(§2.2 共通規則・§2.3 semantic P5〜P8・§3 例〔付録「根拠」つき DISCUSS〕・契約 v0.4 不変)
     date: 2026-09-14
     origin: improvement
-    status: implemented   # 2026-09-14 user「プロトコル自体は問題ない・問題は応答内容」+第三者コメント(読み手の負荷)→ 起票+製造を同一 commit(文書のみ・ECO-071 の型)。verified は self-conformance・CI 観測後の受入 commit で(製造者較正のみ・独立検査なし)
+    status: verified   # 2026-09-14 user「プロトコル自体は問題ない・問題は応答内容」+第三者コメント(読み手の負荷)→ 起票+製造 cea4b41(文書のみ・ECO-071 の型)→ CI 34842179743 success → verified(製造者較正のみ・独立検査なし・窓閉鎖 b2b4540→cea4b41・較正 receipt trigger ①)
     source: >
       第三者コメント(2026-09-14・user 転送)= OBS-20260914-01 の DISCUSS 応答に対し「技術的には筋が通っているが、内部用語が説明なしに連続し、結論が実測・例外・経緯に埋もれ、
       冒頭「半分は満たされ・残り半分が未測定」は次を読まないと分からず、造語「探索収率」は分母分子が不明、承認 4 項目のうち裁定が要るのは 1 つ、証拠を全部本文に載せる癖がある —
@@ -2626,7 +2626,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)skills 正本+写し+improvements.md+台帳系のみ。契約 §1 v0.4 不変(sha256 で確認)・core 固有語 0 維持(V1 grep 13 語)・写しの diff= 既知 3 hunk のみ・C7 13 本不変・C12/C13 リンク先不変・tools/templates(60-change-order)/hooks/.github diff 0・worklist 警告 0"
     diff_audit:
       baseline: "b2b4540"  # 起票直前 HEAD
-      head: "(製造 commit)"  # 起票+製造を同一 commit(ECO-071 の型)・受入 commit で凍結。窓内= allowed_paths のみ
+      head: "cea4b41"      # diff監査済み: 窓内= allowed_paths のみ・予測的中(受入 commit は台帳系のみ)
       allowed_paths: [method/templates/product-profile/skills/handoff.md, .claude/skills/handoff/SKILL.md, method/improvements.md, bomdd/60-change-order-eco-076.md, bomdd/60-change-register.yaml]
     summary: >
       ①§2.2 共通に「読み手規則」4 点: 結論先行(抽象語で先送りしない・対象を数えて列挙)/ 内部語は初出で言い換え・造語を導入しない / 本文は判断に必要な事実だけ・証拠の列挙は付録「根拠」か記録へ /

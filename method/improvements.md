@@ -7497,3 +7497,6 @@ raw(finding_count・finding_ids・disposition・promoted_to)は機械回収可�
   未計測。判定: ①が 20 通で 0〜1 なら回収・2 以上なら規則の書き直しか structural 化(行数上限)を検討。限定子: 同一 user・学習効果と未分離・第三者の評価は不定期
   source: ECO-076
   evidence: ECO-076 order §0(第三者コメント)・§1
+
+**受入(2026-09-14)**: ECO-076 verified(製造 commit cea4b41・self-conformance 1 回目 C13 FAIL〔order 未 stage・ECO-070 の既知手順・3 例目〕→ 2 回目 全 PASS・CI 34842179743 success・窓閉鎖・製造者較正のみ・
+較正 receipt trigger ①)。契約 v0.4 不変(sha256 一致)・core 固有語 0/13・写し同期。効果は EXP-20260914-02 で計測(本 ECO の製造報告が最初の適用個体)。

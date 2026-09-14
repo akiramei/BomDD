@@ -1,4 +1,4 @@
-# Change Order — ECO-076(handoff 実装規則の「読み手規則」— 結論先行・内部語の言い換え・証拠は付録か記録へ・裁定の単一化/契約 v0.4 不変〔implemented〕)
+# Change Order — ECO-076(handoff 実装規則の「読み手規則」— 結論先行・内部語の言い換え・証拠は付録か記録へ・裁定の単一化/契約 v0.4 不変〔verified〕)
 
 > 裁定: user 2026-09-14「handoff スキルについて、プロトコル自体は問題ない。問題は応答内容」+第三者コメント(user 転送)を読んで対処せよ、という指示。
 > 契約 §1 は変えない(user の判定)。変えるのは §2 実装規則(交換可能・default)と §3 例。**起票と製造を同一 commit で行う**(文書のみ・ECO-071 の型)・受入は製造者較正のみ。
@@ -66,6 +66,41 @@ C7 13 本不変・C12/C13 リンク先不変・tools/templates(60-change-order)/
 - **V2**= PASS(契約 §1 の sha256 `4326a0467cae` が変更前後で一致・63 行 / core 固有語 13 語すべて 0 / 写しの diff= 3 hunk〔8c8,12 冒頭注記・A2/A3 の `{{METHOD}}` 解決 2 行〕)。
 - **V3**= §5 で記録(観測後)。
 
-## 5. クローズ(受入 commit で記録)
+## 5. クローズ(2026-09-14・verified・製造者較正のみ)
 
-- (製造 commit 時点では未記入 — self-conformance の exit と CI 結論を観測してから書く)
+- **V3**= PASS(self-conformance: 1 回目 **exit=1・C13 FAIL**〔新規 order が未追跡で git ls-files の母集団に入らず「リンク不在」— ECO-070 で既知の手順欠陥の再演〕→ stage 後 2 回目 **exit=0 全 PASS**
+  〔C7 13 本・C13 不在 0〕→ witness(tree 87a13ee882a7・gates 1)→ 入口 dry ADVANCE → 製造 commit cea4b41 → push → CI run 34842179743 **success**)。
+  diff 監査の窓: baseline `b2b4540` → head `cea4b41`(**窓閉鎖**・受入 commit は台帳系のみ)。窓内= allowed_paths のみ。
+- **V1/V2**= §4(PASS)。**V4**= 製造者較正のみ(独立検査なし)。register: `implemented → verified`・head 凍結。
+- **V5(非クローズ条件)**: EXP-20260914-02 で次の 20 通の読みにくさ指摘を数える。本 ECO の handoff(製造報告)自体が最初の適用個体。
+- 実測(正直記載): self-conformance の 1 回目 FAIL は製造物の欠陥ではなく実行手順(stage 前実行)。ECO-070/071 で同じ手順欠陥が記録済みで、本件で 3 例目 — 「stage してから実行」は
+  手順書に書かれているが機構化されていない(bomdd-run 入口は self-conformance を起動しない)。今回は記録のみ。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格。文書のみの変更)
+
+- 査定した主張と判定:
+  1. 「正本 §2.2 に読み手規則 4 点・§2.3 に P5〜P8・§3 に付録「根拠」つき例・A3 に出自がある」— **observed / 適格**(grep 7/1・1・1・1/2/1・V1)。
+  2. 「契約 §1 は不変」— **observed / 適格**(契約ブロックの sha256 `4326a0467cae` が変更前後で一致・63 行)。
+  3. 「core は環境非依存のまま」— **observed / 適格**(ECO-075 V1 と同じ 13 語で 0。ただし検査官の 24 語+読解は今回なし)。
+  4. 「写しは正本と同期」— **observed / 適格**(diff 3 hunk= ECO-075 の既知 hunk と同一位置種別)。
+  5. 「読み手規則は指摘の型を消す」— **unknown(未測定・EXP-20260914-02)**。semantic 検査(P5〜P8)は自己申告であり、較正は人間の指摘回数で外から測る。
+- 検出した計器欠陥(帰属つき): 製造物 0 件。受理側 1 件(手順・stage 前実行で C13 が偽 FAIL — 計器は正しく「母集団に無い」と言っており計器欠陥ではなく手順欠陥。3 例目・記録のみ)。
+- 検出力の限界: 読み手規則の効果は未測定。第三者(コメント執筆者)の再評価は未実施。独立検査なし。P5〜P8 は機械判定できず、違反は人間の指摘でしか観測されない
+  (本 ECO の機序そのもの — 生成規則にあって検査にない項目は違反が観測されない — は semantic 検査を足しても「自己申告の検査」にしかならず、外部計測 EXP で補う)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | grep・sha256・diff(V1/V2) |
+  | Q2 | asked | NA 相当 | — | 文書変更に known-bad 対照なし(宣言)。固有語 grep の陽性対照は ECO-075 の 44 件を流用せず今回なし |
+  | Q3 | asked | observed/適格 | 実測 | 変更前(§2.2 に 15 行規則のみ・§2.3 に読み手項目なし)→ 変更後(4 点+P5〜P8) |
+  | Q4 | asked | 読解 | 読解 | 「生成規則にあって検査にない項目は違反しても観測されない」は本件 1 例からの読解 |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(効果・第三者再評価・独立検査なし)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測(1 回目 FAIL → 2 回目 PASS)→ witness → 入口 dry → commit → push → CI success |
+  | Q7 | asked | NA | — | 陽性対照なし(文書) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(ECO-076.json)・register・commit cea4b41・run 台帳(ECO-076.jsonl) |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 正本/写し/記帳の 3 文書・規則 4 点と検査 4 項の対応 |
+
+- このクローズが支持しないもの: 読み手規則の効果(EXP-20260914-02)/ 第三者による再評価 / 契約の変更(していない)/ 製品リポでの適用結果。
