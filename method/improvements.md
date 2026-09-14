@@ -7353,7 +7353,8 @@ witness を動かすのは第 3 弾= witness の gate 種別に inspection)。**
   ②以後の独立検査で判定語の契約違反(UNPARSED)0 件/N ③受入記録の判定が台帳の verdict から転記される(人間の読解による転記 0)。**next trigger= ECO-073 製造受入**
   **初回値(2026-09-12・V2)**: ①r1 2 回目で台帳 cell 行に verdict REJECT・sha256 632863fe…(sha256sum と完全一致)= 成立 N=1。1 回目は Codex 応答が遮断され MISSING(本番例・環境帰属)。
   ②契約違反 0/3(r1〜r3 とも handoff ヘッダ → 判定語)。③r2・r3 の受入判定は台帳の verdict から転記= 2 例(転記主体は製造者・第三者の読取経路は未測定)。**ECO-073 verified 2026-09-12**・
-  open 維持(②の N 蓄積と③の第三者経路)
+  open 維持(②の N 蓄積と③の第三者経路)。**2 回目(2026-09-15・ECO-077)**: ②契約違反 0/3(r1・r2 1 回目・r2 2 回目)= 累計 0/6 ③受入判定は台帳の verdict から転記 2 例(累計 4・転記主体は製造者)。
+  ただし r2 1 回目は verdict ACCEPT が正しく回収された報告の**本文が要約 9 行のみ**で、回収は成立しても証拠は成立しなかった(OBS-20260915-01)
   source: ECO-073
   evidence: ECO-073 order §0・§1-2・ECO-062 §10.7 P6-02
 
@@ -7396,7 +7397,9 @@ verified」を止められない。②round の range を台帳が持たず、�
 - [open] EXP-20260912-04 — **inspection gate は「独立検査 ACCEPT なしの verified」を止め、境界探索 round の ACCEPT を通さないか**: ECO-074 製造受入 V2 で ①gate なし witness → STOP INSPECTION_MISSING
   ②最終 round(是正確認+回帰)ACCEPT の gate → ADVANCE ③境界探索 round の gate → STOP。加えて以後の verified 昇格 3 ECO で偽陽性(正しい ACCEPT を止めた)0 件。**next trigger= ECO-074 製造受入**
   **初回値(2026-09-12・V2(c))**: ③境界探索 round(r1 REJECT)の台帳から導出した gate で dry → STOP GATE_FAIL → factory・起動なし(実測 1 例)。①②は accept 段で。r1 境界探索で fail-open 4 クラス
-  (壊れた行の黙殺・別 ECO 行・作業木外 path・sha 欠落)+記録欠落 1 → r1b 是正 → r2 ACCEPT。①②は accept 段で実測(order §6 末尾)。**ECO-074 verified 2026-09-12**・open 維持(偽陽性 3 ECO)
+  (壊れた行の黙殺・別 ECO 行・作業木外 path・sha 欠落)+記録欠落 1 → r1b 是正 → r2 ACCEPT。①②は accept 段で実測(order §6 末尾)。**ECO-074 verified 2026-09-12**・open 維持(偽陽性 3 ECO)。
+  **蓄積(2026-09-15)**: 偽陽性 0/2(ECO-075・077 とも最終 round ACCEPT の gate で ADVANCE)。**限界の実測(ECO-077 r2 1 回目)**: gate は verdict 語のみを読むため、本文が要約 9 行しかない ACCEPT 報告でも
+  exit 0 の gate が導出される(受理側の証拠品質査定で止めた・機械は止めない)— gate の被覆は「判定の有無と range」までで「証拠の十分性」を含まない(OBS-20260915-01 で追跡)
   source: ECO-074
   evidence: ECO-074 order §0・§1-2/3・ECO-073 §6
 
@@ -7469,11 +7472,13 @@ raw(finding_count・finding_ids・disposition・promoted_to)は機械回収可�
 [x] method/concept claim: 「慎重さでなく機構」= supported(工程追加でなく既存設備の観測経路の問題へ還元)。contradicted / superseded: なし。
 **期待効果の棚卸し**: 新規 OBS-20260914-01(下記)。EXP-20260914-01 は不変(次= user 裁定: 第 2 弾 / 中断)。
 
-- [watch 1/3] OBS-20260914-01 — **探索型の検査設備(独立検査 r1= 境界探索 round)には経時的な検出力劣化(形骸化)という故障モードがある— 所見数でなく探索新規性で観測し、新規性の分類は
+- [watch 2/3] OBS-20260914-01 — **探索型の検査設備(独立検査 r1= 境界探索 round)には経時的な検出力劣化(形骸化)という故障モードがある— 所見数でなく探索新規性で観測し、新規性の分類は
   探索者の自己申告にしない**。トリガー候補(いずれか): 陽性対照なしの r1 所見 0 が連続 / r1 所見が既知項目・既知 selftest の再確認だけに偏る / 一定期間、受入条件外の新規境界所見が 0。
   成立時の対応候補= run 台帳に raw(finding_count・finding_ids・disposition・promoted_to)を機械回収し、derived(novel_boundary・outside_acceptance)は裁定または独立分類。新工程(AI review)は
   追加しない。基準線(2026-09-14): Phase 7 r1= 5/6 REJECT・所見 3〜7・ECO-075 の所見 0 は陽性対照つき。3 例(トリガー成立)で計測欄の起票を判断
-  source: 第三者レビュー 2026-09-14(工程設計)+user DISCUSS, ECO-066〜075
+  **2 例目(2026-09-15・ECO-077 r1)**: 所見 0 が 2 ECO 連続(075・077)。陽性対照は計器側の known-bad(roles 欠落 → MAP_INVALID)のみで、探索の陽性対照(埋め込み欠陥)はなし。
+  r1 の観測 10 入力は受入条件内の境界(validate_map の型・語彙)で、受入条件外の新規境界所見は 0 — トリガー候補「受入条件外の新規境界所見が 0」に該当(独立性: 075 は文書・077 は tools+文書で対象種別が異なる)
+  source: 第三者レビュー 2026-09-14(工程設計)+user DISCUSS, ECO-066〜075, ECO-077
   evidence: 本節・観測②③④・ECO-074 order §5.1 IA-01〜05・ECO-075 order §5 r1(陽性対照 44)
 
 ## 2026-09-14 ハーネス側 — ECO-076(handoff 実装規則の読み手規則: 結論先行・内部語の言い換え・証拠は付録か記録へ・裁定の単一化)起票+製造 — 契約 v0.4 不変
@@ -7564,3 +7569,36 @@ receipt_author_role は「製造者の自己査定は前提誤りに盲目」(§
 〔検査官が同パスへ全文を書き CLI `-o` の最終メッセージで上書き・帰属= ブリーフ文言〕で証拠不足として不受理 → ブリーフ是正 → r2 2 回目 是正確認+回帰 ACCEPT 7/7・inspection gate 経由の昇格・
 窓閉鎖・較正 receipt 著者= **producer**〔register `receipt_author_role` の最初の個体〕)。役割欄を適用した検査官ブリーフ 3 個体で diff 0・commit 0・役割外作業 0(対照なし・効果は弁別不能と明記)。
 検査官の範囲外の観察: `bomdd-job --all` は verified 以外のみ(usage どおり・記録)。EXP-20260914-03 は N=1 で観測開始。
+
+## 2026-09-15 BomDD 還元 — ECO-077 r2 1 回目の報告上書き: 証拠の出力座標に書き手が 2 つあると後勝ちで証拠が消える(3 例目・昇格)+ inspection gate は証拠十分性を被覆しない(観測)
+
+**観測**(出典: [ECO-077 order](../bomdd/60-change-order-eco-077.md) §5.2・§6「受理側の手順欠陥」・run 台帳 `.git/bomdd-run/ECO-077.jsonl` cell 行 3 本・scratchpad に退避した 1 回目報告):
+①機序= 検査官(Codex EQ-002)がブリーフの「最終報告は `-o` で `<path>` に保存される」を「報告を `<path>` に自分で書く」と読み、全文(項目別観測・`git status`・較正 receipt)を同パスへ書いた後、
+CLI の `-o` が**最終メッセージ**(自ファイルへのリンクを含む要約 9 行・486 バイト)で同パスを上書き。台帳は `report ACCEPT sha256:8490a7b3527b size 486` を正しく回収し、inspection gate も
+verdict ACCEPT+range 是正確認+回帰 から exit 0 を導出できる状態だった。②受理側は較正(証拠品質: 証拠が主張を証明しているか)で「項目別の観測が無い」ことから不受理と判定・ブリーフに
+「報告ファイルを自分で書かない・最終メッセージに全文」を追記して再実施(2 回目= 402 行・14,929 バイト・ACCEPT 7/7)。③損失= 往復 1(約 7 分)・証拠 1 本。潜伏 0(同一 round 内で発見)。
+④同型の既往 2 例: (a) ViewPrism2 ECO-082/083(2026-07-14 節・観測 A)= 同一パス(TestResults・実行ログ)への後続 run の上書きで発火証拠を 2 回喪失 (b) ET-001(2026-09-03 節)= `codex exec -o` の
+相対パスが `-C` でなく cwd 基準で解決され 8 run が同一 RESULT.md を上書き(全空・events.jsonl から復元)。3 例とも**証拠の出力座標に書き手が 2 つ以上あり、後勝ちで先の証拠が消えた**。
+帰属は 3 例とも受理側(手順・ブリーフ・実行器の座標指定)であり、委譲先・製品の欠陥ではない。
+**整理**: 3 例は独立(製品 2・自己適用 1 / 書き手の対= 後続 run×前 run・並列 run×run・委譲先×CLI)で、同じ抽象規則で説明できる。命題= **証拠の出力座標には書き手を 1 つだけ置く。委譲では
+報告の正本経路(委譲先が書くファイル / ハーネスが保存する最終メッセージ)を 1 つに固定し、他方を明示的に禁止する。受理側は verdict の回収と証拠の十分性を別に検査する(hash は同一性の証明で
+あって十分性の証明ではない)**。機械面= (i) 台帳の `report.size` は既にあり、round 間の桁違い(7,092 → 486)は機械的に見える— ただし閾値 gate は採らない(要約が正しい round もありうる・§8.5)
+(ii) ブリーフ様式に「報告の正本経路」欄(factory-delegate 工程 5・検査官ブリーフ)(iii) playbook §3 報告様式に 1 文。**一般化検査**: 命題は製品名・ツール名を含まない(Codex `-o` の挙動は
+実例であって規則ではない — 正本は環境非依存に保ち、`-o` の具体は adapter 相当の記述〔本節〕に置く)。
+**行き先判定**: playbook §3(独立検査の報告様式・1 文)・factory-delegate 正本 工程 5+写し(検査官ブリーフの「報告の正本経路」)。playbook §13 運用規則「不可逆観測データ」との関係= 本命題は
+その上位(座標の書き手を 1 つにする)であり、§13 の 1 例本文化規定は「上書きされる観測データは先に退避」の下位規則として既存。cheat-taxonomy・FINDINGS は対象外(N=3 だが定量指標なし)。
+**思想層の再認証判定(手順 3b)**: [x] operational rule(§3 報告様式)[ ] control/probe [x] template(factory-delegate 工程 5)[ ] terminology [x] method/concept claim:
+「散文契約は順守の証拠にならない」(§9)= **supported**(「`-o` で保存される」の散文が 2 通りに読めた— 順守は成果物の観測で検証し、ここでは受理側の較正が検出した)/
+「ハッシュ規約: 座標同一性・転写値禁止」(§13 第 1 層)= **supported かつ限界を明示**(台帳の sha256 は「その報告個体を判定した」ことを証明するが「その報告が証拠として十分」は証明しない —
+規約の主張範囲は同一性であり、十分性は較正の責務)。contradicted / superseded: なし。
+**期待効果の棚卸し**(worklist 起点・ECO-077 を機会とする open 項目 3 件に裁定): EXP-20260912-03= **蓄積**(契約違反 0/6・転記 4 例・open 維持。1 回目は回収成立・証拠不成立を追記)/
+EXP-20260912-04= **蓄積+限界の実測**(偽陽性 0/2・gate は verdict 語のみで証拠十分性を被覆しない— 新 OBS へ)/ OBS-20260914-01= **watch 1/3 → 2/3**(r1 所見 0 が 2 ECO 連続・探索の陽性対照なし・
+受入条件外の新規境界所見 0)。EXP-20260914-02= 機会継続(本セッションの handoff 約 10 通で読みにくさ指摘 0・20 通未達のため回収せず)。EXP-20260914-03= N=1 のまま。機会なし= その他。
+
+- [watch 1/3] OBS-20260915-01 — **inspection gate(witness の inspection・台帳から導出)は verdict 語と range だけを読み、報告本文の証拠十分性(項目別観測・遵守申告の有無)を被覆しない。
+  要約のみの ACCEPT 報告でも exit 0 が導出される**(fail-open の被覆宣言)。実測 1 例= ECO-077 r2 1 回目(受理側の較正で停止・機械は停止せず)。トリガー(いずれか): 証拠不十分な ACCEPT 報告で
+  verified 昇格が実際に成立(受理側が見逃す)/ 同型の上書き・要約化が 2 例目 / 報告様式の必須節(項目別観測・`git status`・較正 receipt)の欠落が受理側で 2 例目。成立時の候補= bomdd-run の
+  report 回収に必須節の**存在**検査(意味は読まない・C17 の見出し検出と同型)を足し、欠落は UNPARSED でなく新 code(EVIDENCE_MISSING)で運転員へ。今は採らない(§8.5: 1 例・受理側で捕捉済み・
+  要約が正しい round の存在を否定できない)
+  source: ECO-077
+  evidence: ECO-077 order §5.2・§6「受理側の手順欠陥」・run 台帳 cell 行 2 本目(size 486)/ 3 本目(size 14,929)
