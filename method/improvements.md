@@ -7259,7 +7259,7 @@ verified 遷移の commit で書く」が運用規則として成立する(1 例
 **受入(2026-09-12)**: ECO-070 verified(起票+fix aa70b65・CI 34618524024 success・窓閉鎖・製造者較正のみ)。受理側の実測: 起票+fix 段の self-conformance 1 回目は新規 order を stage する前に
 実行したため C13 FAIL(追跡ファイルに対する照合)→ stage 後 PASS。
 
-- [open] EXP-20260912-01 — **handoff 契約 v0.3 は v0.2 の欠陥 4 類を消すか**: 次の handoff 20 回(DECIDE 5 回以上)で ①許容表外ヘッダ 0 ②structural FAIL 申告つき送信 0
+- [recovered 2026-09-14 via ECO-074 製造裁定の返答〔DECIDE 5/5〕] EXP-20260912-01 — **handoff 契約 v0.3 は v0.2 の欠陥 4 類を消すか**: 次の handoff 20 回(DECIDE 5 回以上)で ①許容表外ヘッダ 0 ②structural FAIL 申告つき送信 0
   ③REQUEST の成果物回収に要した追加往復(v0.2 基準線 5)④DECIDE で人間が非推奨案の理由・部分採択の可否を再質問した回数(基準線: 感想 1)⑤待機形の本文 2 行以内の比率。
   評価後の分岐: 改善あり → product-profile 正本化を ECO で判断(設計= core/adapter 分割・ECO-071 節の第三者意見)/ 改善なし → §2 の順序規則を §1 へ昇格。**next trigger= handoff 20 回到達**
   **第三者到達 1 例(2026-09-12・ECO-072 r1)**: 異系統ハーネス(Codex・AGENTS.md を入口に読む)の検査報告が契約ヘッダ `[INFORM / COMPLETE]`+human_action で始まった — ECO-070 の AGENTS.md 参照が
@@ -7268,6 +7268,8 @@ verified 遷移の commit で書く」が運用規則として成立する(1 例
   **暫定評価(2026-09-12・user 2:A・transcript 集計・v0.3 開始〜ECO-074 起票前)**: handoff 31(DECIDE 4= 到達条件 5 未満で暫定)。①許容表外 0/31 ②申告送信 0 ③REQUEST 機会なし ④再質問 0/4・
   返答 reply_format どおり 4/4 ⑤待機形 2 行以内 19/19(全件 1 行)⑥⑦⑧= 0/0/0(区間の宣言なし= 機会なし)・mode 訂正 0・第三者到達 6/6(Codex 報告が契約ヘッダで開始)。v0.2 の欠陥 4 類の
   再演 0。確定は DECIDE 5 回目(ECO-074 製造裁定)で。限定子: 同一セッション・同一 user
+  **確定(2026-09-14)**: DECIDE 5 回目(ECO-074 製造裁定「Aです」)で 5/5 が reply_format どおり・再質問 0。v0.2 の欠陥 4 類の再演 0 → **回収**。配布(product-profile 正本化)の入力が揃った
+  (ECO-070 の分岐「改善あり → 正本化を ECO で判断」)。⑥⑦⑧(区間)は機会なし= 未測定のまま(配布後の製品リポで測る)
   source: ECO-070, ECO-071
   evidence: ECO-070 order §0・SKILL.md §4
 
@@ -7411,3 +7413,14 @@ ECO-072 r1(台帳全体の型)・ECO-073 r1(stale・行頭)と同型の「契約
 [ ] template [ ] terminology [ ] method/concept claim。contradicted / superseded: なし。
 **期待効果の棚卸し**: EXP-20260912-04 に初回値(行内)。OBS-20260912-01 を 2/3 へ(下記・独立性: 別 ECO・別ツール〔witness〕・別クラス〔記録の個体と境界〕)。
 
+
+## 2026-09-14 BomDD 自己適用 — ECO-062 Phase 7 完了(user DECIDE A)・EXP-20260912-01 確定・次= 配布 ECO
+
+**観測**(出典: [ECO-062 order](../bomdd/60-change-order-eco-062.md) §7・ECO-072/073/074 の §6): ①§7 Phase 7 の出口「独立検査として成立しない組合せを機械が弾いた実測 1 例」は ECO-072 V2 で成立。
+第 2 弾(ECO-073)で cell の判定と hash を入口が台帳へ束ね、第 3 弾(ECO-074)で verified 昇格 commit を inspection gate(台帳から導出・range 弁別)で止めるところまで到達。②user DECIDE A(2026-09-14)=
+Phase 7 を閉じ、残項目(申告 gate の機械拒否・二層化・裁定キュー)は保留・配布 ECO へ。③EXP-20260912-01 確定(DECIDE 5/5・欠陥 4 類の再演 0)。
+**整理**: ECO-062(運転層の分離)は Phase 0〜7 で「job/receipt/ruling は既存台帳の射影」から始まり、単一入口(bomdd-run)・設備台帳と独立性判定・判定の機械回収・昇格の機械 gate まで閉じた。
+残るのは配布(製品リポで使える形)と、実運用で失敗が観測されてから開く項目(裁定キュー)。**思想層の再認証判定(手順 3b)**: [x] operational rule(verified 昇格の手順= produce
+--inspection-from-ledger → bomdd-run → commit)[ ] control/probe [ ] template [ ] terminology [x] method/concept claim: 「有界委任ハーネス」(リポ面で検査可能な制約・導出してから裁定する順序)=
+supported(Phase 7 の 3 弾すべてが導出→裁定の順で、機構の穴は境界探索 round が露出させ受理側が判定した)。contradicted / superseded: なし。
+**期待効果の棚卸し**: EXP-20260912-01 回収(行内)。EXP-20260912-02/03/04 は open 維持(偽陽性・契約違反・第三者経路の蓄積)。新規 ID なし。
