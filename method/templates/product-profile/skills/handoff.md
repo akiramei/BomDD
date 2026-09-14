@@ -5,11 +5,7 @@ description: AI→人間のハンドオフ・プロトコル(通信契約)。タ
 
 # /handoff — AI→人間の制御移譲プロトコル(通信契約)
 
-> **本ファイルは写しである。正本は [`method/templates/product-profile/skills/handoff.md`](../../../method/templates/product-profile/skills/handoff.md)。**
-> BomDD は `bomdd-init` の配布先ではないため、正本を置いても `.claude/skills/` には入らない。
-> **同期規則**: 変更は必ず**正本側**へ入れ、本ファイルへ反映する(プレースホルダーは自リポ相対へ解決する)。
-> 本ファイルだけを直接編集しない — 配布元と分岐すると、どちらかが必ず腐る。
-> 由来: ECO-075(D-1 前例= ECO-063 / ECO-042 / ECO-032 の踏襲)。v0.1〜v0.4 の履歴は git と improvements.md。
+正典: `{{METHOD}}/method/templates/product-profile/skills/handoff.md`(本ファイルの配布元)。
 
 > 本スキルは特定の方法論に属さない **ハーネス側の通信規約** である。AI が人間へ制御を渡すメッセージ(handoff)を
 > 型付けし、人間の仕事が「再分析」でなく「裁定・確認・議論」になるようにする。改善は文章術ではなく応答の型付けで行う。
@@ -245,11 +241,11 @@ VERIFICATION_FAIL → 是正中なら INFORM/CONTINUING、是正方針が分岐�
 
 ### A2. system of record(BomDD)
 
-詳細な証拠の所在= 変更指示書 `bomdd/60-change-order-eco-NNN.md`・台帳 `bomdd/60-change-register.yaml`・報告 `bomdd/reports/`・改善の追跡 `method/improvements.md`。
+詳細な証拠の所在= 変更指示書 `bomdd/60-change-order-eco-NNN.md`・台帳 `bomdd/60-change-register.yaml`・報告 `bomdd/reports/`・改善の追跡 `{{METHOD}}/method/improvements.md`。
 運転層の台帳(`.git/bomdd-run/`・witness)は非正本の機械記録で、handoff はその判定行を引用してよいが hash や判定語を転写して正本にしない。
 
 ### A3. 出自と計測(BomDD 方法論リポ)
 
 契約 v0.1(2026-09-11・試行開始)→ v0.2(REQUEST 追加)→ v0.3(許容表・DECIDE の得失・REQUEST の穴埋め・待機形/ECO-070)→ v0.4(フリースタイル区間/ECO-071)→ 正本化(ECO-075)。
-出自= Phase 5 報告への批評(裁定入力と実験報告の混在)。試行の評価= `method/improvements.md` の 2026-09-11 節(EXP-20260911-01)と 2026-09-12 節(EXP-20260912-01・確定 2026-09-14)。
+出自= Phase 5 報告への批評(裁定入力と実験報告の混在)。試行の評価= `{{METHOD}}/method/improvements.md` の 2026-09-11 節(EXP-20260911-01)と 2026-09-12 節(EXP-20260912-01・確定 2026-09-14)。
 第三者到達の実測= 異系統ハーネス(Codex)の独立検査報告が契約ヘッダで始まった 6/6。

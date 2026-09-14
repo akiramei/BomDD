@@ -44,7 +44,8 @@
 (C16= order の converge receipt / C17= verified ECO の calibrate receipt)。
 
 `/handoff`(AI→人間の制御移譲の通信契約)は方法論でなく**ハーネス側の規約**で、正本は
-[.claude/skills/handoff/SKILL.md](.claude/skills/handoff/SKILL.md)(契約 §1・採用= ECO-070・フリースタイル区間= ECO-071・版は SKILL.md 冒頭)。
+[method/templates/product-profile/skills/handoff.md](method/templates/product-profile/skills/handoff.md)(core は環境非依存・末尾に BomDD adapter・
+写し: [.claude/skills/handoff/SKILL.md](.claude/skills/handoff/SKILL.md)。採用= ECO-070・フリースタイル区間= ECO-071・正本化= ECO-075)。
 ターンを終えて人間へ制御を渡すメッセージは、ハーネスを問わず契約 §1 に従う(先頭 1 行
 `[INFORM|DECIDE|DISCUSS|REQUEST / CONTINUING|BLOCKED|COMPLETE|PAUSED]`+mode ごとの必須要素)。
 試行評価= EXP-20260911-01(回収済み)・配布(product-profile)は別 ECO。
@@ -55,7 +56,7 @@
 |---|---|
 | 方法論の内容 | [method/](method/) — playbook・checklist・control-plan・onboarding ほか |
 | 作業スキル(自発起動契約) | [method/templates/product-profile/skills/](method/templates/product-profile/skills/)(写し: `.claude/skills/`) |
-| AI→人間の handoff 契約 | [.claude/skills/handoff/SKILL.md](.claude/skills/handoff/SKILL.md)(ハーネス側・ECO-070) |
+| AI→人間の handoff 契約 | [method/templates/product-profile/skills/handoff.md](method/templates/product-profile/skills/handoff.md)(写し: `.claude/skills/handoff/SKILL.md`・ECO-075) |
 | 実証データ | [FINDINGS.md](FINDINGS.md) |
 | 改善の追跡(EXP/OBS) | [method/improvements.md](method/improvements.md)(一覧は `python method/tools/worklist.py`) |
 | 変更状態 | [bomdd/60-change-register.yaml](bomdd/60-change-register.yaml) + 各 ECO order |

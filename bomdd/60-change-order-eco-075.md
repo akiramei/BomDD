@@ -1,4 +1,4 @@
-# Change Order — ECO-075(配布 第 1 弾: handoff 契約の core/adapter 分割と product-profile 正本化 — SKILLS 13 本・写しの同期検査・AGENTS.md 参照・配員欄の文言境界〔filed〕)
+# Change Order — ECO-075(配布 第 1 弾: handoff 契約の core/adapter 分割と product-profile 正本化 — SKILLS 13 本・写しの同期検査・AGENTS.md 参照・配員欄の文言境界〔製造中・裁定 A〕)
 
 > 裁定: user 2026-09-14 DECIDE「A」(Phase 7 を閉じて配布 ECO へ)→ 範囲の DISCUSS(第 1 弾= handoff のみ・運転層は第 2 弾)に user AGREE+境界条件 4 点(下記 §1-5)。**起票のみ**(製造裁定は別 DECIDE)。
 > 出自= ECO-070(採用・配布は評価後)・ECO-071 節の第三者意見(core は汎用・現ファイルは BomDD 較正の distribution)・EXP-20260912-01 確定(2026-09-14・5/5・欠陥 4 類の再演 0)。
@@ -70,6 +70,23 @@ adapter の合計が現 SKILL.md の §1〜§3 と意味的に同一= 読解・V
 - job ビュー: required_skills= `["calibrate", "preflight"]`・skills_missing= `["calibrate"]`(instrument-change クラス〔bomdd-init.py〕・製造時に応答)・required_capability= `{"producer": "EQ-001", "inspector": "EQ-002"}`・independent_inspection= `{"required": true, "inspector": "EQ-002"}`
 - 開始判定: **PROCEED(起票のみ)**・override 0。製造は裁定後。
 
-## 4. 製造と受入の実測
+## 4. 製造裁定と製造(2026-09-14・user DECIDE「A」= 全部+独立検査)
 
-- (製造裁定後に記入)
+- **製造裁定 A**: §1 の 1〜6 すべて+独立検査(Codex を「BomDD を知らない読者」の代役に)。register `filed → implemented`(本 commit)・allowed_paths 再凍結= skills 正本(新規)・写し・bomdd-init.py・
+  README.md・AGENTS.md・templates/60-change-order.md・自リポ order(本 ECO・ECO-062)・register・improvements.md・`bomdd/reports/independent-inspection-eco-075*.md`。
+- **製造物**:
+  1. `method/templates/product-profile/skills/handoff.md`(正本・新規): frontmatter(name/description・環境非依存の文言)/ 正典行(`{{METHOD}}` 参照)/ §1 契約 v0.4(全文・不変)/ §2 実装規則
+     (2.1 classify・2.2 generate〔「詳細な証拠は system of record に置き handoff は参照して再現しない」へ一般化・system of record は環境が決める〕・2.3 validate・2.4 rewrite・2.5 DISCUSS 収束・
+     2.6 適用外)/ §3 例(環境非依存: 変更 #123・機能 X・手順書 <パス>)/ 末尾 `## BomDD adapter`(A1 停止語彙対応〔INDEPENDENCE_FAIL・INSPECTION_MISSING を追加〕・A2 system of record
+     〔order/register/reports・運転層台帳は非正本〕・A3 出自と計測〔v0.1〜v0.4・EXP の所在・第三者到達 6/6〕)。core に「adapter 区画を読む」の参照 1 行。
+  2. `.claude/skills/handoff/SKILL.md`(写し): 正典行 → 写し注記 5 行(factory-delegate と同型)・`{{METHOD}}/method/improvements.md` → `method/improvements.md`(2 行)。旧 §4 計測記録は除去
+     (improvements.md の EXP-20260911-01/EXP-20260912-01 が正本・履歴は git)。契約の内容は不変。
+  3. `bomdd-init.py` SKILLS に `handoff`(13 本)/ README「スキル 13 本」(2 か所)+履歴 1 句 / AGENTS.md の handoff 段落と「正本の所在」表を product-profile 正本(写し .claude)へ。
+  4. `templates/60-change-order.md` 配員欄(user 境界条件): `- producer:` = 「製造担当の設備 ID を記述する欄 … **製品リポではこの欄は記述欄であり、機械的な導出・検証・強制は存在しない**(機械化は
+     BomDD 方法論リポの自己適用でのみ〔ECO-072〕・製品向けは運転層配布の第 2 弾候補〔EXP-20260914-01〕)」/ `- inspector:` = 「独立検査併用時の検査官設備 ID を記述する欄(同上・独立性の判定は
+     人間の配員規律による)」。旧文言の「job 射影が解決」「LEDGER_INCONSISTENT で工程が止まる」「STOP INDEPENDENCE_FAIL」を除去。
+- **V1**= PASS: core(adapter 区画より前)の固有語 grep= `ECO-` 0・`bomdd/` 0・`Phase` 0・`run-02` 0・`R1` 0・`Codex` 0・`witness` 0・`self-conformance` 0・`NORMATIVE_RULING` 0・`LEDGER_INCONSISTENT` 0・
+  `improvements.md` 0・`BomDD` 0・`converge` 0(13 語すべて 0)。
+- **V2**= PASS: `diff 正本 写し`= 3 hunk・16 行(冒頭の写し注記 5 行 / A2・A3 の `{{METHOD}}` 相対解決 2 行)のみ。
+- **V6**= PASS: 配員欄 2 行に `LEDGER_INCONSISTENT|INDEPENDENCE_FAIL|工程が止まる|照合し|解決し` の一致 0。
+- **V3**(self-conformance C7= 13 本・C12/C13・CI)= §5 で記録。**V4**= Codex r1(境界探索・第三者の代役: 固有語の残存・core だけでの再述・adapter の完全性・写し同期・結線・配員欄文言・frontmatter)→ r2。
