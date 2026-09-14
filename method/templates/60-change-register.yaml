@@ -29,3 +29,5 @@ changes:
       # head: <受入タグ — verified 時に設定して窓を閉じる>
     summary: <何をなぜ変えるか(1〜3 行)>
     verification: <回帰+変更受入の結果参照(52-metrics の ECO 行 / as-built 追記)>
+    # receipt_author_role: producer   # 任意・観測欄(BomDD ECO-077): 受入時の較正 receipt を書いた役割。producer= 製造者の自己較正 /
+    #                                 # inspector= 独立検査官の較正 / human。verified 時に記す。gate にしない(自己較正と独立較正の差が実測されてから昇格を判断)

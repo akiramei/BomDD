@@ -7534,3 +7534,28 @@ forbidden・受入条件は playbook §8.5 の既存語で表現可)[x] method/c
   役割の機械強制は採らない(user 裁定 2026-09-14)。基準線(2026-09-14): 製造者較正のみの verified 昇格= ECO-076 ほか自己適用の大半・受入時の役割ラベルなし・役割パッケージ実例 2(工場・検査官)
   source: user 提示の議論本文 2026-09-14+当方 DISCUSS+user AGREE(補足 2 点)
   evidence: 本節・観測②③・activation-map.yaml(classes に role 軸なし)・ECO-076 受入 commit(製造者較正のみ)・playbook §9 自己査定 0/13・0/6・0/2
+
+## 2026-09-14 BomDD 自己適用 — ECO-077(役割 → 使用可能スキル集合の結線: activation-map の roles 軸・ブリーフの役割欄・register の receipt_author_role〔観測欄〕)起票+製造
+
+**観測**(出典: [ECO-077 order](../bomdd/60-change-order-eco-077.md) §0・本ファイル 2026-09-14 役割層の節・user DECIDE「A」2026-09-14): ①user 裁定 A= OBS-20260914-02 のトリガー待ちでなく
+今 ECO を起票(理由: receipt 著者役割の記録欄がないと「自己較正と独立較正の差」というトリガー自体が実測できない循環)。②凍結した最小形 3 点= activation-map v1.2 に `roles`(producer /
+inspector・配員欄と同じ語彙)→ bomdd-job が validate(欠落/空/語彙外/重複= MAP_INVALID・fail-closed)し `required_skills_by_role` を導出(情報欄・停止語彙不変)/ factory-delegate 工程 1・5 の
+ブリーフに役割欄(role・使う手順書・**観測可能な禁止のみ**= 触るパス・commit 0・台帳と受入節に diff 0・受入判定を書かない)/ register の `receipt_author_role`(任意・観測欄・テンプレに
+コメント宣言・job が射影・gate にしない)。③製造者実測: job selftest PASS(F7 腕込み)・run/witness selftest 不変で PASS・known-bad(実 map から roles を外す → FAIL・復元 → PASS)・
+ECO-076 の射影で required 不変・by_role 導出・receipt_author_role null。
+**整理**: 役割層を新しい文書でなく既存台帳の軸として入れた。役割の**禁止**は表に書かず(散文の禁止は遵守検査の被覆外= fail-open・playbook §8.5)、観測可能な項目にのみ置く。
+receipt_author_role は「製造者の自己査定は前提誤りに盲目」(§9)を register の機械ラベルへ落とす手段であり、統制ではない— 自己較正のみで verified になった ECO が後に欠陥を出す回数と、
+独立較正の同回数の差が実測されてから gate 化を判断する。**一般化検査**: 「AI ハーネスの skill 選択は役割 × 工程から候補集合を先に絞る。役割の禁止は観測可能な項目に限る。同一実行主体が
+帽子を替える場合は受入 receipt の著者役割を記録し自己査定と独立査定を弁別可能にする」は製品名を含まない(1 例= 本 ECO・効果は EXP-20260914-03 で測る)。
+**行き先判定**: ECO-077(tools 1・templates 3・写し 1)。playbook 非改訂(§8.5/§9 の既存語で表現可・実害の実測後に §9 表へ役割語を足すかを判断)。**思想層の再認証判定(手順 3b)**:
+[x] operational rule(ブリーフの役割欄)[x] control/probe(receipt_author_role の観測・known-bad 腕)[x] template(activation-map v1.2・factory-delegate・60-change-register)[x] terminology
+(roles / receipt_author_role・語彙は配員欄の 2 語に固定)[x] method/concept claim: 「製造者の自己査定は前提誤りに盲目」(§9)= supported(観測欄で弁別可能に)/「散文統制を中間工程に足さない」
+(§8.5)= supported。contradicted / superseded: なし(当方の「review(role,…) 実装済み」は前節で superseded 済み)。
+**期待効果の棚卸し**: 新規 EXP-20260914-03(下記)。OBS-20260914-02 は不変(role × review-purpose の軸は未定義のまま記名・トリガーは同じ)。
+
+- [open] EXP-20260914-03 — **receipt_author_role は自己較正と独立較正の差を実測可能にするか**: ECO-077 以降の verified ECO で ①receipt_author_role の分布(producer / inspector / human)
+  ②producer のみで verified になった ECO のうち後に異系統検査官・人間・CI が欠陥を検出した件数 ③inspector を経た ECO の同件数。基準線(2026-09-14): 欄なし・ECO-076 以前は order 本文の
+  「製造者較正のみ」注記が唯一の痕跡。判定: 10 ECO 時点で ②−③ の差が 1 件以上なら gate 化(入口の停止語彙か C 検査)の起票を判断・0 なら観測継続。限定子: N 小・同一製造者・
+  欠陥の検出は検査の実施有無に依存(独立検査なし ECO は欠陥が観測されにくい= 差を過小評価する方向)
+  source: ECO-077
+  evidence: ECO-077 order §1-3・§6(最初の個体)

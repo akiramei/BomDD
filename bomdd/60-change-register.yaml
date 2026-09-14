@@ -2635,3 +2635,26 @@ changes:
     verification: >
       V1 正本 §2.2 に読み手規則・§2.3 に P5〜P8・§3 に付録「根拠」の例(grep)/ V2 契約 §1 の sha256 が変更前後で一致・core 固有語 0(13 語)・写しの diff= 既知 3 hunk /
       V3 self-conformance・CI・窓 / V4 製造者較正のみ / V5(非クローズ条件)効果は次の handoff で user の読みにくさ指摘の回数で測る(EXP-20260914-02)。
+  - id: ECO-077
+    title: 役割 → 使用可能スキル集合の結線 — activation-map v1.2 の roles 軸(job 射影 required_skills_by_role・情報欄)・工場/検査官ブリーフの役割欄(role / 手順書 / 観測可能な禁止)・register の receipt_author_role(観測欄・gate にしない)
+    date: 2026-09-14
+    origin: improvement
+    status: implemented   # 2026-09-14 user 役割層の議論 → DISCUSS AGREE+補足 2 点 → DECIDE A(今 ECO を起票)。最小形 3 点を凍結・persona/Role YAML/機械強制/receipt_author_role の gate 化は採らない → 起票+製造(fix commit・selftest/known-bad/射影 PASS)。verified は独立検査 r1→r2 ACCEPT 後の inspection gate 経由の accept commit で
+    source: >
+      user 提示の議論(2026-09-14)= ハーネスの skill は「状況 → 手順」で「誰として判断するか」が弱く、本来は 役割 × 状況 × 工程 × 権限 → 使用可能 skill。役割は persona でなく職務記述書。
+      サブエージェントには役割 SOP ∩ 工程 SOP だけを渡し、skill 集合を絞ること自体が権限制御になる。当方の突合: 部品(設備台帳・配員欄・§9 表・inspection gate・allowed_paths・ブリーフ)は
+      揃っており、欠落は activation-map の役割軸(状況 → skill のまま)と、自己較正/独立較正を register で弁別する欄。user 補足: review(role,…) は未定義のまま残す(role × review-purpose)。
+    order_ref: bomdd/60-change-order-eco-077.md
+    affected_refs: [method/tools/bomdd-job.py, method/templates/product-profile/skills/activation-map.yaml, method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/templates/60-change-register.yaml, method/improvements.md]
+    no_impact_prediction: "(製造前・凍結)tools 1(bomdd-job)+templates 3+写し 1+improvements.md+台帳系のみ。bomdd-run・bomdd-witness・self-conformance・hooks・.github diff 0(job JSON は additive に 2 欄)。既存 ECO の required_skills 不変・receipt_author_role null。activation-map 既存 4 class の required_skills/anchor/source 不変。写しの diff= 既知 2 hunk。C7 13 本不変。worklist 新規 ID 1・警告 0"
+    diff_audit:
+      baseline: "940e757"  # 起票直前 HEAD
+      allowed_paths: [method/tools/bomdd-job.py, method/templates/product-profile/skills/activation-map.yaml, method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/templates/60-change-register.yaml, method/improvements.md, bomdd/60-change-order-eco-077.md, bomdd/60-change-register.yaml, bomdd/reports/independent-inspection-eco-077.md, bomdd/reports/independent-inspection-eco-077-r2.md]
+    summary: >
+      ①activation-map v1.2: 各 class に roles(producer / inspector・配員欄と同じ語彙)。bomdd-job が validate(欠落/空/語彙外/重複= MAP_INVALID)し required_skills_by_role を導出(情報欄・
+      gate 化しない)= 役割を持つ作業者へ渡すスキルパッケージの入力 ②factory-delegate 工程 1/5 のブリーフに役割欄(role・使う手順書・観測可能な禁止のみ)③register に receipt_author_role
+      (任意・観測欄: 受入時の較正 receipt を書いた役割)— テンプレにコメント宣言・job が射影・本 ECO の verified 行が最初の個体。採らない= persona / Role・Process YAML / 役割の機械強制 /
+      receipt_author_role の gate 化(自己較正と独立較正の差の実測後に判断)。
+    verification: >
+      V1 selftest(job F7 腕・run・witness)+known-bad(実 map から roles を外すと FAIL)/ V2 射影(既存 ECO は required 不変・by_role 導出・receipt_author_role null)/ V3 文書 grep・写し diff /
+      V4 self-conformance・CI・窓 / V5 異系統独立検査(EQ-002・range つき・役割欄を適用した最初のブリーフ)/ V6 較正 receipt(著者役割を receipt_author_role に記す)。実測は order §4〜。

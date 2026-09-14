@@ -62,8 +62,16 @@ description: BomDD の製造工程を外部 AI 工場(既定=Codex/codex exec)�
   diff は §5 影響 BOM の範囲内 / <リポ固有の lint・規約があれば列挙>
 - 受入(全て実行し結果を報告): dotnet build(0 warning)・<Tests 名>(全緑)・<Oracle 名>(緑・無接触)・
   <validator: 例 python bomdd/validate_bom.py>(0-0)
+- 役割: producer(製造者)。責任= 実装の正しさ・プローブ・自己受入の実行と報告
+- 使う手順書(役割パッケージ・これ以外は読まなくてよい): work order の正本 §4 / <リポの実装規約・テスト規約のパス> / <preflight を配布済みなら preflight>
+- 観測可能な禁止(受理側が diff と台帳で検査する): 触るパスは §5 影響 BOM の範囲のみ / commit 0 / 変更台帳(60-change-register.yaml)と order の受入節に diff 0 /
+  受入判定(verified・ACCEPT)を書かない。役割外の判断が要る点(要求・受入条件・境界の変更)は停止点として報告する
 - コミットはしないこと(レビュー後にこちらで行う)
 ```
+
+役割欄の由来(BomDD ECO-077・2026-09-14): 役割 × 工程 → 使用可能スキル集合の結線を持たない skill 選択は「状況 → 全候補」になり、
+製造者が受入判定まで書く越権を招く。**allowed は手順書の集合・forbidden は観測可能な項目のみ**(散文の「〜しないこと」は
+遵守検査の被覆外= fail-open・playbook §8.5)。役割語は producer / inspector の 2 語(配員欄・activation-map の `roles` と同じ)。
 
 ### 工程 2 — 委譲(/codex を包む・ハーネス依存部)
 
@@ -121,6 +129,10 @@ description: BomDD の製造工程を外部 AI 工場(既定=Codex/codex exec)�
 - **実行環境の差を設計項目にする**(同 §3・BomDD ECO-062/Phase 5/Phase 6 還元): 検査官の実行環境(sandbox モード・OS temp・PATH・
   パス表記・終了コードの伝播)を製造者環境と**意図的に変え**、ブリーフに記す。製造者環境で発火しない入力クラスは環境差でしか
   露出しない。計器は測定不能の原因を分離して報告させる(§13)。
+- **検査官ブリーフの役割欄**(BomDD ECO-077・2026-09-14): `役割: inspector(検査官)` / 責任= 対象 revision の適合判定と所見の報告(range に従う)/
+  使う手順書= 検査ブリーフ・対象 order の受入節・<calibrate を配布済みなら calibrate> / 観測可能な禁止= 製品と台帳への diff 0(`git status --short` を
+  開始時・終了時に報告)・commit 0・受入節と register の非接触。役割外の作業(製品修理・要求や受入条件の書き換え)は行わず所見として書く。
+  受入時の較正 receipt を誰が書いたか(producer= 自己較正 / inspector= 独立較正)は register の `receipt_author_role`(観測欄・gate にしない)に記す。
 
 ### 工程 6 — lifecycle クローズ(裁定後)
 

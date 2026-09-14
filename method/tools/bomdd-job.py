@@ -36,6 +36,11 @@
 #       同一 role に異なる id・台帳に無い id は LEDGER_INCONSISTENT、台帳が読めないのに宣言がある場合は MISSING_INPUT(fail-closed)。
 #       独立性の判定(producer vs executor)は job の責務外(入口 bomdd-run.py --executor)。停止語彙に INDEPENDENCE_FAIL を
 #       追加するが job は導出しない(被覆宣言のとおり)。
+#   (6) ECO-077(F7): 役割 → 使用可能スキル集合の結線。activation-map の各 class は `roles`(語彙= producer / inspector・
+#       配員欄と同じ)を持ち、required_skills_by_role= 該当 class の required_skills を roles ごとに集めたもの(**情報欄**・
+#       停止語彙不変・gate 化しない)。receipt_author_role は register の同名欄(任意・観測欄: 受入時の較正 receipt を書いた役割)
+#       をそのまま射影する— 欄なし= null(停止しない)。役割の**禁止**は導出しない(禁止はリポ面で観測できる項目
+#       〔allowed_paths・commit・register 遷移・receipt 著者〕にのみ置く— playbook §8.5)。roles 欠落・語彙外・重複は MAP_INVALID。
 
 import io
 import json
@@ -96,6 +101,8 @@ def _load_selfconf():
 
 
 ANCHOR_KINDS = ("always", "ledger-status", "affected-refs-glob", "order-hard-positive")
+# ECO-077(F7): roles の語彙= order 配員欄(ASSIGN_RE)と同じ 2 語。役割の追加は配員欄・設備台帳と同時に(ここだけ増やさない)。
+ROLE_VOCAB = ("producer", "inspector")
 SKILL_ID_RE = re.compile(r"[a-z0-9][a-z0-9-]*")   # IA-09(r3): canonical な skill ID 文法(bomdd-init の SKILLS と同じ命名)
 # IA-11(r4): statuses は register の状態語彙(60-change-register.yaml テンプレ冒頭の宣言+実運用の filed / in-progress)に限定
 REGISTER_STATUSES = ("proposed", "filed", "decided", "in-progress", "implemented", "applied", "verified", "rejected", "superseded")
@@ -145,6 +152,18 @@ def validate_map(classes, base: Path) -> list:
                 if s in seen_skills:
                     problems.append(f"{tag}: required_skills に重複 {s!r}")
                 seen_skills.add(s)
+        # ECO-077(F7): roles は非空の文字列配列・語彙内(ROLE_VOCAB)・重複なし。欠落は無言の「全役割」にせず不正(fail-closed)
+        roles = cls.get("roles")
+        if not _is_str_list(roles) or not roles:
+            problems.append(f"{tag}: roles が非空の文字列配列でない")
+        else:
+            seen_roles = set()
+            for r in roles:
+                if r not in ROLE_VOCAB:
+                    problems.append(f"{tag}: roles の値 {r!r} が語彙 {ROLE_VOCAB} にない")
+                if r in seen_roles:
+                    problems.append(f"{tag}: roles に重複 {r!r}")
+                seen_roles.add(r)
         kind = cls.get("anchor_kind")
         if kind not in ANCHOR_KINDS:
             problems.append(f"{tag}: anchor_kind 不正 {kind!r}")
@@ -393,6 +412,9 @@ def project(entry: dict, root: Path, register_rel: str, amap=None, map_err: str 
         "write_scope": _field(da.get("allowed_paths"), f"{register_rel}:{eco}.diff_audit.allowed_paths"),
         "diff_baseline": _field(da.get("baseline"), f"{register_rel}:{eco}.diff_audit.baseline"),
         "required_skills": _field(None, "〔後段で導出〕"),
+        "required_skills_by_role": _field(None, "〔後段で導出〕"),
+        "receipt_author_role": _field(entry.get("receipt_author_role") if isinstance(entry.get("receipt_author_role"), str) else None,
+                                      f"{register_rel}:{eco}.receipt_author_role(F7 観測欄・ECO-077: 受入時の較正 receipt を書いた役割。欄なし= null・停止しない)"),
         "required_capability": _field(None, "none(F2: 設備認定 ID の欄なし — 第 1 弾対象外)"),
         "forbidden": _field(None, "none(F3: order「採らない」は散文 — 転写しない)"),
         "expected_outputs": _field(None, "none(F4: order §1 は散文 — 転写しない)"),
@@ -431,8 +453,9 @@ def project(entry: dict, root: Path, register_rel: str, amap=None, map_err: str 
     # ECO-064(F1): required_skills(activation-map)・skills_observed(order の receipt 見出し)・skills_missing(差・情報欄)
     if amap is None:
         job["required_skills"] = _field(None, f"unknown(理由コード MAP_MISSING: {map_err or 'activation-map 不在'})")
+        job["required_skills_by_role"] = _field(None, "unknown(required が判定不能)")
     else:
-        req, matched, undecidable = [], [], []
+        req, matched, undecidable, by_role = [], [], [], {}
         for cls in amap:
             m = _class_matches(cls, entry, order_text, sc)
             if m is None:
@@ -442,14 +465,20 @@ def project(entry: dict, root: Path, register_rel: str, amap=None, map_err: str 
                 for s in cls.get("required_skills") or []:
                     if s not in req:
                         req.append(str(s))
+                    for r in cls.get("roles") or []:   # ECO-077(F7): 役割 → スキル集合(validate 済み map では roles は非空・語彙内)
+                        by_role.setdefault(str(r), [])
+                        if s not in by_role[str(r)]:
+                            by_role[str(r)].append(str(s))
         # IA-12(r4): required は集合 — 配列順は class の宣言順に依存させず辞書順で固定(class 列挙も同様)
         req = sorted(req)
         matched = sorted(matched)
         undecidable = sorted(undecidable)
+        by_role = {r: sorted(v) for r, v in sorted(by_role.items())}
         src = f"activation-map.yaml: {', '.join(matched) or '(該当 class なし)'}"
         if undecidable:
             src += f" / 判定不能 class= {', '.join(undecidable)}(order 不在または self-conformance import 不能)"
         job["required_skills"] = _field(req, src)
+        job["required_skills_by_role"] = _field(by_role, "導出: 該当 class の required_skills を roles ごとに集合化(F7 情報欄・役割パッケージの入力・gate 化しない)")
     obs = observed_skills(order_text, sc)
     if obs is None:
         job["skills_observed"] = _field(None, "unknown(order 不在または self-conformance import 不能)")
@@ -622,7 +651,7 @@ def _selftest_body(td_cm) -> int:
         if amap is not None:
             skills_dir = MAP_PATH.parent
             for cls in amap:
-                for k in ("id", "required_skills", "anchor_kind", "anchor", "source"):
+                for k in ("id", "required_skills", "roles", "anchor_kind", "anchor", "source"):   # ECO-077: roles を必須キーに
                     if k not in cls:
                         fails.append(f"F1 V3: class {cls.get('id')} に {k} がない")
                 for s in cls.get("required_skills") or []:
@@ -650,12 +679,38 @@ def _selftest_body(td_cm) -> int:
                 fails.append(f"F1: 陽性 observed/missing が不正: {jp['skills_observed']} / {jp['skills_missing']}")
             if jn["required_skills"]["value"] != ["preflight"] or jn["skills_observed"]["value"] != [] or jn["skills_missing"]["value"] != ["preflight"]:
                 fails.append(f"F1: 陰性(fence 内 receipt 無視・start のみ)が不正: {jn['required_skills']} / {jn['skills_observed']} / {jn['skills_missing']}")
+            # --- ECO-077(F7): 役割 → スキル集合(情報欄)・receipt_author_role の射影 ---
+            if jp["required_skills_by_role"]["value"] != {"inspector": ["calibrate"], "producer": ["calibrate", "converge", "preflight"]}:
+                fails.append(f"F7: 陽性 by_role が不正: {jp['required_skills_by_role']}")
+            if jn["required_skills_by_role"]["value"] != {"producer": ["preflight"]}:
+                fails.append(f"F7: 陰性 by_role が不正: {jn['required_skills_by_role']}")
+            if jp["receipt_author_role"]["value"] is not None:
+                fails.append(f"F7: register 欄なしの receipt_author_role が null でない: {jp['receipt_author_role']}")
+            jr = project(dict(pos, receipt_author_role="producer"), root, rel, amap, None, sc)
+            if jr["receipt_author_role"]["value"] != "producer" or "観測欄" not in jr["receipt_author_role"]["source"]:
+                fails.append(f"F7: receipt_author_role の射影が不正: {jr['receipt_author_role']}")
+            jr2 = project(dict(pos, receipt_author_role=["producer"]), root, rel, amap, None, sc)
+            if jr2["receipt_author_role"]["value"] is not None:
+                fails.append(f"F7: 文字列でない receipt_author_role が null にならない: {jr2['receipt_author_role']}")
+            if jr["stop_type"]["value"] != jp["stop_type"]["value"] or jr["required_skills"] != jp["required_skills"]:
+                fails.append("F7: receipt_author_role の有無で stop_type / required_skills が変わる(gate 化している)")
+            st_ = next(c for c in amap if c.get("id") == "start")
+            for badroles in (None, [], ["promoter"], ["producer", "producer"], "producer", ["Producer"]):
+                bc = dict(st_, roles=badroles)
+                if badroles is None:
+                    bc.pop("roles", None)   # 欠落(キーなし)も不正
+                if not validate_map([bc], MAP_PATH.resolve().parents[4]):
+                    fails.append(f"F7: roles={badroles!r} を validate_map が通した")
+            if validate_map([dict(st_, roles=["inspector", "producer"])], MAP_PATH.resolve().parents[4]):
+                fails.append("F7: 語彙内の roles を validate_map が弾いた")
             # map 不在 → required unknown(missing も unknown)/ sc 不能 → observed unknown・design-synthesis 判定不能
             ju = project(pos, root, rel, None, "activation-map 不在", sc)
             if ju["required_skills"]["value"] is not None or not ju["required_skills"]["source"].startswith("unknown"):
                 fails.append("F1: map 不在で required が unknown でない")
             if ju["skills_missing"]["value"] is not None:
                 fails.append("F1: map 不在で missing が unknown でない")
+            if ju["required_skills_by_role"]["value"] is not None or not ju["required_skills_by_role"]["source"].startswith("unknown"):
+                fails.append("F7: map 不在で by_role が unknown でない")
             js = project(pos, root, rel, amap, None, None)
             if js["skills_observed"]["value"] is not None or "判定不能 class= design-synthesis" not in js["required_skills"]["source"]:
                 fails.append(f"F1: sc 不能で observed unknown / design-synthesis 判定不能 でない: {js['required_skills']['source']}")
@@ -759,7 +814,7 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕・r4: instrument_paths 正規形・statuses 語彙・required 辞書順 / F2〔ECO-072〕: 配員欄→台帳実在・fence 内無視・未知 id/構文外/重複= LEDGER_INCONSISTENT・台帳不在= MISSING_INPUT・台帳 id 重複/構文外= 不正 / r1: IA-01 未選択 entry の非文字列軸= 台帳不正・IA-03 HTML コメント/他節/節なしの言及は配員でない・下位見出しは節内 / F6〔ECO-074〕: inspector 宣言→ required)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕・r4: instrument_paths 正規形・statuses 語彙・required 辞書順 / F2〔ECO-072〕: 配員欄→台帳実在・fence 内無視・未知 id/構文外/重複= LEDGER_INCONSISTENT・台帳不在= MISSING_INPUT・台帳 id 重複/構文外= 不正 / r1: IA-01 未選択 entry の非文字列軸= 台帳不正・IA-03 HTML コメント/他節/節なしの言及は配員でない・下位見出しは節内 / F6〔ECO-074〕: inspector 宣言→ required / F7〔ECO-077〕: roles 必須キー・by_role 陽性/陰性・map 不在= unknown・receipt_author_role 射影〔文字列のみ・欄なし null・stop/required 不変〕・roles 欠落/空/語彙外/重複/非配列/大文字= MAP_INVALID・語彙内 2 語= 通過)")
     return 0
 
 

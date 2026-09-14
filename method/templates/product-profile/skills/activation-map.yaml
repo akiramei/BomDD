@@ -11,25 +11,33 @@
 #   - skills_missing(required − observed)は**情報欄**。停止語彙・機械ゲートにはしない(playbook §8.5: 必要が実測されてから)。
 #   - 認識依存のトリガー(calibrate ②既存の緑の引用・④計器インシデント後)は機械化しない(本表に載せない)。
 #   - instrument_paths の glob は区切り `/` を跨がない(`*` は 1 階層・`**` は複数階層)。`\` は `/` に正規化してから照合(OS 非依存)。
+#   - roles(v1.2・ECO-077・user 裁定 2026-09-14): その class の receipt を書く**役割**の集合。語彙= producer / inspector(order 配員欄と同じ 2 語・
+#     bomdd-job.ROLE_VOCAB)。job 射影が required_skills_by_role(情報欄)を導出する= 「役割 → 使用可能スキル集合」の結線であり、役割を持つ
+#     作業者(サブエージェント・工場・検査官)へ渡すスキルパッケージの入力。役割の**禁止**は本表に書かない— 禁止はリポ面で観測できる項目
+#     (allowed_paths・commit・register 遷移・receipt 著者)にのみ置く(playbook §8.5)。roles の欠落・語彙外・重複は MAP_INVALID(fail-closed)。
+#     役割語の追加は配員欄(bomdd-job.ASSIGN_RE)・設備台帳と同時に行う(本表だけで増やさない)。
 bomdd:
   layer: activation-map
-  version: 1.1          # 1.0= ECO-064 fix(24e16e0)/ 1.1= 独立検査 r1 の IA-03(anchor の意味転写)・IA-04(source fragment)を是正
+  version: 1.2          # 1.0= ECO-064 fix(24e16e0)/ 1.1= 独立検査 r1 の IA-03(anchor の意味転写)・IA-04(source fragment)を是正 / 1.2= ECO-077 roles 軸(役割 → スキル集合)
   origin: BomDD ECO-064 (2026-09-11)
   addition_control: "欠落事故 1 件の実測または裁定のみ・出典必須(preflight.md「task contract 最小表」と同じ統制)"
 
 classes:
   - id: start
     required_skills: [preflight]
+    roles: [producer]
     anchor_kind: always
     anchor: "register に ECO エントリが存在する(status を問わない)"
     source: "method/templates/product-profile/skills/preflight.md#自発起動契約"
   - id: design-synthesis
     required_skills: [converge]
+    roles: [producer]
     anchor_kind: order-hard-positive
     anchor: "order 本文(fence 除去後)が self-conformance.CONVERGE_HARD_POSITIVES のいずれかに一致する"
     source: "method/templates/product-profile/skills/converge.md#自発起動契約 ; method/tools/self-conformance.py#CONVERGE_HARD_POSITIVES"
   - id: verified-promotion
     required_skills: [calibrate]
+    roles: [producer, inspector]   # 較正 receipt は製造者の自己較正(producer)でも独立較正(inspector)でも書ける。どちらが書いたかは register.receipt_author_role(観測欄)
     anchor_kind: ledger-status
     statuses: [verified]
     anchor: "register.status が statuses に含まれる"
@@ -37,6 +45,7 @@ classes:
     source: "method/templates/product-profile/skills/calibrate.md#自発起動契約 ; method/tools/self-conformance.py#C17_SCOPE_MIN"
   - id: instrument-change
     required_skills: [calibrate]
+    roles: [producer]
     anchor_kind: affected-refs-glob
     instrument_paths: ["method/tools/*.py", "bomdd/hooks/*", ".github/workflows/*"]
     limitation: "instrument_paths は列挙であり腐る(playbook §13 第 1 層⑥)— 追加は本表の追加統制に従う"
