@@ -2591,3 +2591,24 @@ changes:
       採らない= register 自動遷移・CI の台帳依存・hash の order 転写。二層化は候補 B。
     verification: >
       V1 selftest / V2 出口条件= 本 ECO の昇格 commit で gate なし witness → STOP・最終 round ACCEPT の gate → ADVANCE・境界探索 round の gate → STOP / V3 self-conformance・CI・窓 / V4 異系統独立検査 / V5 較正 receipt。
+  - id: ECO-075
+    title: 配布 第 1 弾 — handoff 契約の core/adapter 分割と product-profile 正本化(skills/handoff.md 正本・.claude 写し・SKILLS 13 本・AGENTS.md 参照)+配員欄の文言境界(製品リポでは記述欄・機械強制なし)+運転層配布は第 2 弾候補として記名追跡
+    date: 2026-09-14
+    origin: improvement
+    status: filed   # 2026-09-14 user DECIDE「A」(Phase 7 完了→配布)→ DISCUSS(第 1 弾= handoff のみ)に AGREE+境界条件 4 点 → 起票のみ・製造裁定は別 DECIDE(A 独立検査つき / B 製造者較正のみ / C 分割せず)
+    source: >
+      EXP-20260912-01 確定(2026-09-14・5/5・欠陥 4 類の再演 0)で ECO-070 の分岐「改善あり → 正本化」が成立。第三者意見(ECO-071 節)= core は汎用・固有物 4 種は adapter へ。
+      運転層(bomdd-job 等)は self-conformance 依存・台帳配置・hook 関係が未設計のため第 2 弾。60-change-order の配員欄の現行文言は製品側で機械 enforcement が存在するように読める(user 指摘)。
+    order_ref: bomdd/60-change-order-eco-075.md
+    affected_refs: [method/templates/product-profile/skills/handoff.md, .claude/skills/handoff/SKILL.md, method/tools/bomdd-init.py, README.md, AGENTS.md, method/templates/60-change-order.md]
+    no_impact_prediction: "(起票時点・製造裁定で凍結)skills 正本 1 新規+写し化+bomdd-init SKILLS 1 語+README 本数+AGENTS.md 所在+templates 配員欄の文言。C7= 13 本・C12/C13 リンク実在・C4/C14 advisory・契約 v0.4 不変・hooks/.github diff 0"
+    diff_audit:
+      baseline: "db44291"  # 起票直前 HEAD
+      head: ~
+      allowed_paths: [bomdd/60-change-order-eco-075.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md]  # 起票のみ。製造裁定で再凍結
+    summary: >
+      ①core 正本 product-profile/skills/handoff.md(契約 §1 v0.4・classify/generate/validate/rewrite・examples を BomDD 固有語なしで・system of record へ一般化)②BomDD adapter 区画(停止語彙対応・所在・出自)
+      ③.claude/skills/handoff/SKILL.md を写しに(§4 計測は improvements へ)④bomdd-init SKILLS 13・README・AGENTS.md ⑤60-change-order 配員欄= 製品リポでは記述欄・機械強制なし(enforcement を示唆する
+      表現を除く)⑥EXP-20260914-01 で運転層配布を第 2 弾候補として記名追跡。採らない= 運転層の配布・配員欄 enforcement の適合条件化・activation-map・playbook 改訂・契約の内容変更。
+    verification: >
+      V1 core に固有語 0(grep 表)/ V2 写しの diff= 既知 hunk / V3 self-conformance(C7 13)・CI / V4 独立検査(裁定 A)/ V5 較正 receipt / V6 配員欄に enforcement 語なし(grep)。実測は order §4〜。

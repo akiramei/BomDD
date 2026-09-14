@@ -7424,3 +7424,22 @@ Phase 7 を閉じ、残項目(申告 gate の機械拒否・二層化・裁定�
 --inspection-from-ledger → bomdd-run → commit)[ ] control/probe [ ] template [ ] terminology [x] method/concept claim: 「有界委任ハーネス」(リポ面で検査可能な制約・導出してから裁定する順序)=
 supported(Phase 7 の 3 弾すべてが導出→裁定の順で、機構の穴は境界探索 round が露出させ受理側が判定した)。contradicted / superseded: なし。
 **期待効果の棚卸し**: EXP-20260912-01 回収(行内)。EXP-20260912-02/03/04 は open 維持(偽陽性・契約違反・第三者経路の蓄積)。新規 ID なし。
+
+## 2026-09-14 BomDD 自己適用 — 配布 第 1 弾 ECO-075 起票(handoff 契約の core/adapter 分割と product-profile 正本化・配員欄の文言境界・運転層配布は第 2 弾候補として記名追跡)
+
+**観測**(出典: [ECO-075 order](../bomdd/60-change-order-eco-075.md) §0): ①EXP-20260912-01 確定(5/5)で ECO-070 の分岐「改善あり → 正本化」が成立。②第三者意見(ECO-071 節)の構造(core 汎用・
+固有物 4 種は adapter)を採る。③運転層(bomdd-job/witness/run)は self-conformance の正規表現 import・run 台帳の配置・hook との関係が製品リポで未設計 → 第 2 弾。④60-change-order の配員欄の現行文言は
+製品側で機械 enforcement が存在するように読める(user 指摘)。**user の境界条件**(2026-09-14・AGREE に付帯): ECO-075 は bomdd-job を配布しない / 配員欄の enforcement を適合条件にしない /
+機械的 enforcement が存在するように読める表現を残さない / bomdd-job 非依存化と配員検査は第 2 弾候補として追跡可能に残す。「実害 1 件で繰り上げ」は維持するが、実害が起きるまで既知の未実装を
+無記名にしてよいという意味ではない。
+**整理**: 「配布」は 2 種に分かれる— 通信規約(handoff・評価済み・依存なし)と運転設備(製品リポで成立させる設計問題を含む)。混ぜると後者がクリティカルパスになる。配員欄は「欄の存在」と
+「欄を読む機構」を分けて記述し、製品側には機構がないことを欄の文言自体に書く(散文が機構を偽装しない= playbook §9 の裏返し)。**一般化検査**: 「テンプレートに欄を配るとき、その欄を読む
+機構が配布先に存在しない場合は欄の文言にそう書く」は製品名を含まない(OBS 候補・1 例)。**行き先判定**: 起票のみ。**思想層の再認証判定(手順 3b)**: [x] operational rule(欄の文言境界)
+[ ] control/probe [x] template(60-change-order 配員欄・skills/handoff.md)[ ] terminology [ ] method/concept claim。contradicted / superseded: なし。
+**期待効果の棚卸し**: 新規 EXP-20260914-01(下記・既知の未実装の記名追跡)。EXP-20260912-01 は回収済み。
+
+- [open] EXP-20260914-01 — **運転層の製品配布(第 2 弾候補・既知の未実装)**: bomdd-job の self-conformance 非依存化(required_skills 導出の正規表現の所在)・配員欄の機械検査(製品リポでの
+  producer/inspector の導出・実在確認・独立性判定)・run 台帳の配置(`.git/bomdd-run/` と製品リポの hook)・設備台帳テンプレート。ECO-075 の時点で製品リポの配員欄は記述欄であり機械強制は存在しない
+  (欄の文言にそう書く)。**next trigger= 製品リポでの配員取り違えの実害 1 件 or user 裁定**(実害が起きるまで無記名にしてよいという意味ではない・本行が記名)
+  source: ECO-075
+  evidence: ECO-075 order §0・§1-5/6・DISCUSS 2026-09-14(user 境界条件)
