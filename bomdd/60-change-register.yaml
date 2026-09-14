@@ -2612,3 +2612,26 @@ changes:
       表現を除く)⑥EXP-20260914-01 で運転層配布を第 2 弾候補として記名追跡。採らない= 運転層の配布・配員欄 enforcement の適合条件化・activation-map・playbook 改訂・契約の内容変更。
     verification: >
       V1 core に固有語 0(grep 表)/ V2 写しの diff= 既知 hunk / V3 self-conformance(C7 13)・CI / V4 独立検査(裁定 A)/ V5 較正 receipt / V6 配員欄に enforcement 語なし(grep)。実測は order §4〜。
+  - id: ECO-076
+    title: handoff 実装規則に「読み手規則」を追加 — 結論先行・内部語の言い換え・証拠は付録か記録へ・裁定の単一化(§2.2 共通規則・§2.3 semantic P5〜P8・§3 例〔付録「根拠」つき DISCUSS〕・契約 v0.4 不変)
+    date: 2026-09-14
+    origin: improvement
+    status: implemented   # 2026-09-14 user「プロトコル自体は問題ない・問題は応答内容」+第三者コメント(読み手の負荷)→ 起票+製造を同一 commit(文書のみ・ECO-071 の型)。verified は self-conformance・CI 観測後の受入 commit で(製造者較正のみ・独立検査なし)
+    source: >
+      第三者コメント(2026-09-14・user 転送)= OBS-20260914-01 の DISCUSS 応答に対し「技術的には筋が通っているが、内部用語が説明なしに連続し、結論が実測・例外・経緯に埋もれ、
+      冒頭「半分は満たされ・残り半分が未測定」は次を読まないと分からず、造語「探索収率」は分母分子が不明、承認 4 項目のうち裁定が要るのは 1 つ、証拠を全部本文に載せる癖がある —
+      監査証跡としては良いが議論文としては悪い」。§2.2 の「本体 15 行・証拠は system of record」は既存規則だが、validate(§2.3)に対応する検査項目がなく違反が観測されなかった。
+    order_ref: bomdd/60-change-order-eco-076.md
+    affected_refs: [method/templates/product-profile/skills/handoff.md, .claude/skills/handoff/SKILL.md, method/improvements.md]
+    no_impact_prediction: "(製造前・凍結)skills 正本+写し+improvements.md+台帳系のみ。契約 §1 v0.4 不変(sha256 で確認)・core 固有語 0 維持(V1 grep 13 語)・写しの diff= 既知 3 hunk のみ・C7 13 本不変・C12/C13 リンク先不変・tools/templates(60-change-order)/hooks/.github diff 0・worklist 警告 0"
+    diff_audit:
+      baseline: "b2b4540"  # 起票直前 HEAD
+      head: "(製造 commit)"  # 起票+製造を同一 commit(ECO-071 の型)・受入 commit で凍結。窓内= allowed_paths のみ
+      allowed_paths: [method/templates/product-profile/skills/handoff.md, .claude/skills/handoff/SKILL.md, method/improvements.md, bomdd/60-change-order-eco-076.md, bomdd/60-change-register.yaml]
+    summary: >
+      ①§2.2 共通に「読み手規則」4 点: 結論先行(抽象語で先送りしない・対象を数えて列挙)/ 内部語は初出で言い換え・造語を導入しない / 本文は判断に必要な事実だけ・証拠の列挙は付録「根拠」か記録へ /
+      DECIDE・DISCUSS は実際に裁定が要る点だけを問い、付随方針を承認項目に並べない ②§2.3 semantic に P5〜P8 ③§3 に付録「根拠」つき DISCUSS の例 ④adapter A3 に出自。
+      採らない= 契約 §1 の変更 / 行数の structural 上限 / 語彙の機械検査 / 別 mode の新設。
+    verification: >
+      V1 正本 §2.2 に読み手規則・§2.3 に P5〜P8・§3 に付録「根拠」の例(grep)/ V2 契約 §1 の sha256 が変更前後で一致・core 固有語 0(13 語)・写しの diff= 既知 3 hunk /
+      V3 self-conformance・CI・窓 / V4 製造者較正のみ / V5(非クローズ条件)効果は次の handoff で user の読みにくさ指摘の回数で測る(EXP-20260914-02)。
