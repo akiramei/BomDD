@@ -49,10 +49,43 @@ diff= playbook 1 段落+factory-delegate 正本 1 bullet+写し+improvements.md 
 - 製造物: playbook §3 段落 / factory-delegate 正本 bullet / 写し(再生成)/ improvements.md 1 行。
 - **V1**・**V2**= §5 に実測。**V3**= §5(観測後)。
 
-## 5. 実測とクローズ(2026-09-15)
+## 5. クローズ(2026-09-15・verified)— 実測と受入
 
 - **V1**= PASS(grep: playbook `報告の正本経路` 1・正本/写し `報告の正本経路を 1 つ宣言する` 各 1)。**V2**= PASS(写しの diff= 8c8,12・10c14 の 2 hunk のみ・`{{METHOD}}` 0)。worklist 警告 0。
 - **V3**= self-conformance 全 PASS(exit 0 観測後に witness → 入口 dry ADVANCE → 製造 commit)→ push → CI 結論は受入 commit で記す。
 - 実測(正直記載): self-conformance 1 回目 **exit=1・C1/C3/C16/C17 FAIL**(register 重複キー `source`)。機序= 受理側の register 編集で、ECO-078 ブロックを ECO-077 エントリの
   `receipt_author_role` 行(status 直後に置いていた)をアンカーに挿入したため、ECO-077 の `source` 以降が ECO-078 ブロックの後ろへ回った。製造物の欠陥ではなく台帳編集の手順欠陥
   (アンカーが「エントリ末尾」でなかった)。是正= ブロックを末尾へ移動・厳格パースで 78 件・ECO-077 のキー 13 件を確認 → 2 回目を実行。ゲートは機能した(commit 前に停止)。
+- **V3**= PASS(2 回目 全 PASS → witness 363aba516fd3 → 入口 dry ADVANCE → 製造 commit 7e060c9 → push → CI run 34867400275 **success**)。diff 監査の窓: baseline `bbac82c` → head `7e060c9`
+  (**窓閉鎖**・受入 commit は台帳系のみ)。窓内= allowed_paths のみ。
+- **V4**= 製造者較正のみ(独立検査なし)。register: `implemented → verified`・head 凍結・`receipt_author_role: producer`。
+- **V5(非クローズ条件)**: 次の独立検査ブリーフで報告経路の読み違い 0 を OBS-20260915-01 のトリガー「同型 2 例目」で観測。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格。文書のみの変更・著者役割= producer)
+
+- 査定した主張と判定:
+  1. 「playbook §3 と factory-delegate 工程 5・写しに命題が入った」— **observed / 適格**(grep 1/1/1・V1)。
+  2. 「写しは正本と同期」— **observed / 適格**(diff 2 hunk・`{{METHOD}}` 0・V2)。
+  3. 「正本は環境非依存(ツール名は括弧内の実例のみ)」— **observed / 適格**(実読: 規範文に Codex・`-o` は出ず、実例は括弧内)。
+  4. 「織り込みは読み違いを消す」— **unknown(未測定)**: 効果は次の独立検査ブリーフでしか測れない(OBS-20260915-01)。
+- 検出した計器欠陥(帰属つき): 製造物 0 件。受理側 1 件= register 編集のアンカー誤り(重複キー → C1/C3/C16/C17 が正しく FAIL・計器は健全・手順欠陥)。
+- 検出力の限界: 効果未測定・独立検査なし・製品リポでの配布結果(bomdd-init 後の写し)は未測定。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | grep・diff(V1/V2) |
+  | Q2 | asked | NA 相当 | — | 文書変更に known-bad 対照なし(宣言)。register 重複キーは意図しない known-bad として C1/C3/C16/C17 の発火を実測 |
+  | Q3 | asked | observed/適格 | 実測 | 変更前(§3・工程 5 に報告経路の規則なし)→ 変更後(段落 1・bullet 1) |
+  | Q4 | asked | 読解 | 読解 | 「書き手 2 つで後勝ち」は 3 例からの一般化(improvements 2026-09-15 節) |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(効果・独立検査・配布)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測(1 回目 FAIL → 是正 → 2 回目 PASS)→ witness → 入口 dry → commit → push → CI success |
+  | Q7 | asked | NA | — | 陽性対照なし(文書) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(ECO-078.json)・register・commit 7e060c9・run 台帳(ECO-078.jsonl) |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= playbook / 正本 / 写し / 記帳の 4 文書 |
+
+- このクローズが支持しないもの: 織り込みの効果(次の独立検査で観測)/ 機械化(OBS-20260915-01 のトリガー待ち)/ 製品リポでの適用結果。
+- 実測(正直記載・受入段): 入口 dry が **STOP LEDGER_INCONSISTENT**(register verified・order のクローズ節見出しに verified 語なし)→ 見出しを是正して再実行。ゲートは機能した(受入 commit 前に停止)。
+- 実測(正直記載・受入段 2 回目): 再び STOP LEDGER_INCONSISTENT — クローズ節の検出正規表現は「N. クローズ」の直結を要求(「実測とクローズ」は不一致)。見出しを「5. クローズ(…verified)」へ是正。

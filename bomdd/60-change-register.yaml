@@ -2664,7 +2664,8 @@ changes:
     title: ECO-077 還元の織り込み — 報告の正本経路を 1 つに固定する(playbook §3 独立検査規則に 1 段落・factory-delegate 工程 5 の検査官ブリーフに「報告の正本経路を 1 つ宣言する」bullet+写し再生成・文書のみ)
     date: 2026-09-15
     origin: improvement
-    status: implemented   # 2026-09-15 user DECIDE「1:A 2:A」(lesson-promote 織り込み案 2 節を採用)→ 起票+製造(文書のみ・ECO-069/076 の型)。verified は CI 観測後の受入 commit で
+    status: verified   # 2026-09-15 user DECIDE「1:A 2:A」(lesson-promote 織り込み案 2 節を採用)→ 起票+製造 7e060c9(文書のみ・ECO-069/076 の型・self-conformance 1 回目は register 重複キーの手順欠陥で FAIL → 是正 → 2 回目 PASS)→ CI 34867400275 success → verified(製造者較正のみ・窓閉鎖 bbac82c→7e060c9)
+    receipt_author_role: producer   # 観測欄: 製造者の自己較正(独立検査なし・文書のみ)
     source: >
       improvements.md 2026-09-15 還元節(ECO-077 r2 1 回目の報告上書き・3 例目= ViewPrism2 ECO-082/083 の試験結果上書き・ET-001 の codex -o 8 run 上書き・ECO-077 の検査官ファイル×CLI 最終メッセージ)。
       命題= 証拠の出力座標には書き手を 1 つだけ置く・委譲では報告の正本経路を 1 つに固定し他方を禁止・受理側は verdict 回収と証拠十分性を別に検査(hash は同一性の証明で十分性の証明ではない)。
@@ -2673,6 +2674,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)playbook 1 段落+factory-delegate 正本 1 bullet+写し+improvements.md 1 行+台帳系のみ。tools・hooks・.github・他 templates diff 0。C7 13 本不変・C12/C13 リンク先不変・写しの diff= 既知 2 hunk・{{METHOD}} 0・worklist 新規 ID 0・警告 0"
     diff_audit:
       baseline: "bbac82c"  # 起票直前 HEAD
+      head: "7e060c9"      # diff監査済み: 窓内= allowed_paths のみ・予測的中(受入 commit は台帳系のみ)
       allowed_paths: [method/bomdd-playbook-v1.md, method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/improvements.md, bomdd/60-change-order-eco-078.md, bomdd/60-change-register.yaml]
     summary: >
       ①playbook §3 報告様式段落の直後に「報告の正本経路は受理側が 1 つに固定してブリーフに明記する」段落(環境非依存・3 例は括弧内の実例)②factory-delegate 工程 5 に「報告の正本経路を 1 つ宣言する」bullet

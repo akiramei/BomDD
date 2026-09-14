@@ -7605,3 +7605,5 @@ EXP-20260912-04= **蓄積+限界の実測**(偽陽性 0/2・gate は verdict 語
 
 **織り込み(2026-09-15・user DECIDE「1:A 2:A」)**: ECO-078(文書のみ)で playbook §3 に「報告の正本経路は受理側が 1 つに固定してブリーフに明記する」段落・factory-delegate 工程 5 に
 「報告の正本経路を 1 つ宣言する」bullet(+写し再生成)を織り込み。OBS-20260915-01 は不変(機械化はトリガー待ち)。
+**受入(2026-09-15)**: ECO-078 verified(fix 7e060c9・CI 34867400275 success・製造者較正のみ・窓閉鎖 bbac82c→7e060c9・receipt_author_role: producer)。self-conformance 1 回目は register の
+重複キー(ECO-078 ブロックを ECO-077 エントリ途中に挿入した台帳編集の手順欠陥)で C1/C3/C16/C17 FAIL → 是正 → 2 回目 PASS(ゲートは commit 前に停止・記録のみ)。
