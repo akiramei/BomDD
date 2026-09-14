@@ -7500,3 +7500,37 @@ raw(finding_count・finding_ids・disposition・promoted_to)は機械回収可�
 
 **受入(2026-09-14)**: ECO-076 verified(製造 commit cea4b41・self-conformance 1 回目 C13 FAIL〔order 未 stage・ECO-070 の既知手順・3 例目〕→ 2 回目 全 PASS・CI 34842179743 success・窓閉鎖・製造者較正のみ・
 較正 receipt trigger ①)。契約 v0.4 不変(sha256 一致)・core 固有語 0/13・写し同期。効果は EXP-20260914-02 で計測(本 ECO の製造報告が最初の適用個体)。
+
+## 2026-09-14 BomDD 自己適用 — 役割層の議論(「skill の上位に role / assignment / authority が要る」)への応答: 部品は揃っており欠落は「役割 → 使用可能スキル集合」の結線のみ(記帳のみ・起票は裁定待ち)
+
+**観測**(出典: user 提示の議論本文 2026-09-14・当方 DISCUSS 2026-09-14・user AGREE+補足 2 点): ①議論の骨子= ハーネスの skill は「状況 → 手順」で「誰として判断するか」が弱い。本来は
+役割 × 状況 × 工程 × 権限 → 使用可能 skill。役割は persona でなく工程上の職務記述書(責任・権限・禁止・入力・出力・検査対象・停止条件)。サブエージェントには役割 SOP ∩ 工程 SOP ∩ タスク規則だけを
+渡し、**skill 集合を絞ること自体が権限制御になる**。②リポ内の既存物との対応(当方の突合): 「誰が」= 設備台帳 [70-equipment.yaml](../bomdd/70-equipment.yaml)+order 配員欄 producer/inspector /
+「責任・見てよいもの」= playbook §9 表(4 役割・散文)/ 「決めてよい」= verified 昇格の inspection gate(ECO-074)・工場の commit 禁止 / 「観測可能な禁止」= allowed_paths 窓・diff 窓・witness /
+「役割遷移と情報遮断」= 異系統設備・read-only・ブリーフ非開示 / 「役割パッケージ」= factory-delegate の工場ブリーフと検査官ブリーフ(ad hoc な 2 実例)。③欠落: activation-map は ECO クラス
+(状況)→ required_skills であり役割軸がない。3 つ目の役割(較正者 / 変更管理者)にはパッケージがなく、自己適用 AI が全 skill を持ったまま製造者較正で verified へ昇格している(ECO-076 は
+製造者較正のみ・独立検査なし)。§9 は自己査定を「順守の記録であって弁別力の証明ではない」と注記するが、register 上は機械的なラベルになっていない。
+**user 裁定**(2026-09-14・AGREE+補足 2 点): 補足 1= 診断(欠落は役割 → skill 結線)と最小追加(activation-map+ブリーフ)に賛成・新しい Role/Process スキーマを先に作らない。
+補足 2= 当方の「同じ review でも役割で評価関数が違う、は round range+REJECT 意味論で実装済み」は**強すぎる** — round の目的と REJECT 意味論は「何を検査する工程か」を定めるが、「その役割として
+何を見るか」までは定めない(programmer / architect / inspector / calibrator は同じ対象・同じ round でも注目点が違う)→ **role × review-purpose の軸は未解決のまま残る**。receipt 著者役割の
+register 記録= 賛成・ただし**最初は gate にせず観測項目**に留め、producer-only calibration と独立較正の差が実測された時点で昇格。最小形= (a) activation-map に role 軸 (b) ブリーフに role /
+allowed / observable forbidden (c) register に receipt author role、の 3 点で十分。persona・大規模 Role YAML・役割の機械強制は不要。
+**整理**: 問い「役割層を新設すべきか」を「役割の部品はどこに既にあり、どの結線が無いか」へ変換した。無いのは 1 本(役割 → skill 集合)+補足 2 の 1 軸(役割 → 注目点)。取り込みは §8.5 に従い
+禁止は遵守検査の被覆内(触ったパス・commit・register 遷移・receipt 著者)にのみ置き、散文の forbidden(例「acceptance-verdict 禁止」)は fail-open として採らない。**一般化検査**: 「AI ハーネスの
+skill 選択は状況からでなく役割 × 工程から候補集合を先に絞る。役割の禁止はリポ面で観測できる項目に限る。同一実行主体が帽子を替える場合、較正・受入の receipt 著者役割を記録し自己査定と独立査定を
+機械的に弁別可能にする」は製品名を含まない(1 例= 本議論・実測された逸脱は §9 の自己査定 0/13・0/6・0/2 と同型で、役割混同を原因とする新規の実害は未測定)。
+**行き先判定**: 記帳のみ・ECO なし・playbook 非改訂。起票候補(user 裁定で開始): ECO 1 本= 上記最小形 3 点(activation-map v1.2 role 軸〔追加統制は表の規約どおり・出典= 本節〕/
+factory-delegate と検査官ブリーフの様式に role・allowed・observable forbidden 欄 / register.verification に `receipt_author_role`〔観測項目・gate にしない〕)。**思想層の再認証判定(手順 3b)**:
+[ ] operational rule [x] control/probe(receipt 著者役割の観測・role × review-purpose の軸)[x] template(activation-map・ブリーフ様式— 起票後)[x] terminology(role / allowed / observable
+forbidden・受入条件は playbook §8.5 の既存語で表現可)[x] method/concept claim: 「製造者の自己査定は前提誤りに盲目」(§9)= supported(役割層は同じ弱点を register の機械ラベルへ落とす手段)/
+「散文統制を中間工程に足さない」(§8.5)= supported(禁止は観測可能な項目のみ)。contradicted: 当方の「review(role,…) は実装済み」主張は user 補足 2 で **superseded**(工程の検査目的は定義済み・
+役割の注目点は未定義)。
+**期待効果の棚卸し**: 新規 OBS-20260914-02(下記)。OBS-20260914-01・EXP-20260914-01/02 は不変。
+
+- [watch 1/3] OBS-20260914-02 — **役割 → 使用可能スキル集合の結線がなく、同一実行主体が製造者・較正者・変更管理者を連続で担う場合に自己査定と独立査定が register 上で機械的に弁別できない。
+  加えて role × review-purpose(同じ round で役割ごとに何を見るか)の軸は未定義**。トリガー候補(いずれか): 製造者較正のみで verified へ昇格した ECO で後に異系統検査官または人間が欠陥を検出
+  (producer-only calibration と独立較正の差の実測)/ 自己適用 AI が役割外の skill を起動・役割外の状態遷移を行った逸脱 1 件 / サブエージェントへ全 skill を渡したことに起因する越権 1 件。
+  成立時の対応= 最小形 3 点の ECO 起票(activation-map role 軸・ブリーフ様式の role / allowed / observable forbidden・register の receipt_author_role〔観測項目〕)。persona・Role YAML 新設・
+  役割の機械強制は採らない(user 裁定 2026-09-14)。基準線(2026-09-14): 製造者較正のみの verified 昇格= ECO-076 ほか自己適用の大半・受入時の役割ラベルなし・役割パッケージ実例 2(工場・検査官)
+  source: user 提示の議論本文 2026-09-14+当方 DISCUSS+user AGREE(補足 2 点)
+  evidence: 本節・観測②③・activation-map.yaml(classes に role 軸なし)・ECO-076 受入 commit(製造者較正のみ)・playbook §9 自己査定 0/13・0/6・0/2
