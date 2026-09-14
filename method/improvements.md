@@ -7559,3 +7559,8 @@ receipt_author_role は「製造者の自己査定は前提誤りに盲目」(§
   欠陥の検出は検査の実施有無に依存(独立検査なし ECO は欠陥が観測されにくい= 差を過小評価する方向)
   source: ECO-077
   evidence: ECO-077 order §1-3・§6(最初の個体)
+
+**受入(2026-09-15)**: ECO-077 verified(fix 5917e29・CI 34856772714 success・独立検査 r1 境界探索 ACCEPT 所見 0〔validate_map 10 入力・77 件比較・写し 2 hunk〕→ r2 1 回目は報告が要約 9 行のみ
+〔検査官が同パスへ全文を書き CLI `-o` の最終メッセージで上書き・帰属= ブリーフ文言〕で証拠不足として不受理 → ブリーフ是正 → r2 2 回目 是正確認+回帰 ACCEPT 7/7・inspection gate 経由の昇格・
+窓閉鎖・較正 receipt 著者= **producer**〔register `receipt_author_role` の最初の個体〕)。役割欄を適用した検査官ブリーフ 3 個体で diff 0・commit 0・役割外作業 0(対照なし・効果は弁別不能と明記)。
+検査官の範囲外の観察: `bomdd-job --all` は verified 以外のみ(usage どおり・記録)。EXP-20260914-03 は N=1 で観測開始。
