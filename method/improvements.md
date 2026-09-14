@@ -7443,3 +7443,7 @@ supported(Phase 7 の 3 弾すべてが導出→裁定の順で、機構の穴�
   (欄の文言にそう書く)。**next trigger= 製品リポでの配員取り違えの実害 1 件 or user 裁定**(実害が起きるまで無記名にしてよいという意味ではない・本行が記名)
   source: ECO-075
   evidence: ECO-075 order §0・§1-5/6・DISCUSS 2026-09-14(user 境界条件)
+
+**受入(2026-09-14)**: ECO-075 verified(fix bd16bbb・CI 34813648690・Codex r1 境界探索 ACCEPT 所見 0〔core 固有語 0/24・陽性対照 44・第三者再述 5 行〕→ r2 是正確認+回帰 ACCEPT・inspection gate 経由の昇格・
+窓閉鎖・較正 receipt trigger ①)。**配布 第 1 弾 完了**: handoff 契約 v0.4 が bomdd-init 13 本目として製品リポへ配布可能。境界条件 4 点を遵守(bomdd-job 非配布・enforcement 非適合条件・
+配員欄は製品では記述欄・第 2 弾は EXP-20260914-01)。次= user 裁定(第 2 弾 / 中断)。

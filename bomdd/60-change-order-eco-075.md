@@ -1,4 +1,4 @@
-# Change Order — ECO-075(配布 第 1 弾: handoff 契約の core/adapter 分割と product-profile 正本化 — SKILLS 13 本・写しの同期検査・AGENTS.md 参照・配員欄の文言境界〔製造中・裁定 A〕)
+# Change Order — ECO-075(配布 第 1 弾: handoff 契約の core/adapter 分割と product-profile 正本化 — SKILLS 13 本・写しの同期検査・AGENTS.md 参照・配員欄の文言境界〔verified〕)
 
 > 裁定: user 2026-09-14 DECIDE「A」(Phase 7 を閉じて配布 ECO へ)→ 範囲の DISCUSS(第 1 弾= handoff のみ・運転層は第 2 弾)に user AGREE+境界条件 4 点(下記 §1-5)。**起票のみ**(製造裁定は別 DECIDE)。
 > 出自= ECO-070(採用・配布は評価後)・ECO-071 節の第三者意見(core は汎用・現ファイルは BomDD 較正の distribution)・EXP-20260912-01 確定(2026-09-14・5/5・欠陥 4 類の再演 0)。
@@ -90,3 +90,59 @@ adapter の合計が現 SKILL.md の §1〜§3 と意味的に同一= 読解・V
 - **V2**= PASS: `diff 正本 写し`= 3 hunk・16 行(冒頭の写し注記 5 行 / A2・A3 の `{{METHOD}}` 相対解決 2 行)のみ。
 - **V6**= PASS: 配員欄 2 行に `LEDGER_INCONSISTENT|INDEPENDENCE_FAIL|工程が止まる|照合し|解決し` の一致 0。
 - **V3**(self-conformance C7= 13 本・C12/C13・CI)= §5 で記録。**V4**= Codex r1(境界探索・第三者の代役: 固有語の残存・core だけでの再述・adapter の完全性・写し同期・結線・配員欄文言・frontmatter)→ r2。
+
+## 5. 独立検査(異系統・Codex EQ-002・入口 bomdd-run から `--report`/`--range` つきで起動・「BomDD を知らない読者」の代役)
+
+### 5.1 r1(2026-09-14・range= 境界探索)— 報告: [independent-inspection-eco-075.md](reports/independent-inspection-eco-075.md)
+
+- 起動: fix commit bd16bbb(witness tree 9d096da48416)→ `cell exit 0` → `report ACCEPT sha256:2afca78cc5c9 (EQ-002)`・台帳 `range: 境界探索`・verdict_line `ACCEPT — IA 所見なし。境界探索 round であり、
+  打ち切り根拠にはしない。`(検査官自身が range の規則を報告に書いた)。
+- 判定: **ACCEPT・所見 0**(境界探索のため受入根拠にしない= r2 へ)。観測: ①core の固有語 24 語すべて 0(陽性対照= 旧版に同じ語群で 44 件・計器の沈黙でない)②第三者としての再述 5 行(許容表・
+  必須要素・待機形・区間・structural/semantic)= 再述不能・二義的箇所なし ③adapter の完全性= 契約本文の sha256 が旧新で一致・規範の欠落なし(除去は履歴・計測・環境固有例のみ)④写しの同期= 3 hunk・
+  正規化 diff 0 ⑤結線= SKILLS 13・README 2 か所・AGENTS.md 参照・`--skills-only --skills handoff` で生成先に写しと同梱正本が実在・`{{METHOD}}` 未解決 0 ⑥配員欄= enforcement 語 0(導出/検証/強制は
+  否定文内のみ・機械化は「BomDD 方法論リポの自己適用でのみ」と限定)⑦frontmatter 正本/写しとも valid。検査官の較正 receipt: 条件付き適格(列挙語以外の未知語・loader 挙動は未被覆)。
+  範囲外の観察: OS temp fixture の削除が環境ポリシーで拒否(環境)。
+
+### 5.2 r2(2026-09-14・range= 是正確認+回帰・範囲限定)— 報告: [independent-inspection-eco-075-r2.md](reports/independent-inspection-eco-075-r2.md)
+
+- 起動: 同 revision(r1 報告を stage・witness を再生成)→ `cell exit 0` → `report ACCEPT sha256:d0939721665e (EQ-002)`・台帳 `range: 是正確認+回帰`・verdict_line `ACCEPT — IA 所見なし。range「是正確認+回帰」の指定項目はすべて r1 と一致した。`。**本節の判定は台帳の verdict から転記**。
+- 判定: **ACCEPT**(是正 0・回帰 7 項目 r1 と同一・未知の固有語は読解で 0・生成物の `{{METHOD}}` 解決と参照先の実在)。
+
+## 6. クローズ(2026-09-14・verified)
+
+- **V1**= PASS(core 固有語 0/13 語〔検査官は 24 語+読解〕)/ **V2**= PASS(写しの diff= 既知 3 hunk・正規化 0)/ **V6**= PASS(配員欄に enforcement 語 0)/ **V3**= PASS(self-conformance 全 PASS・C7 13 本・
+  C12 15 件・CI run 34813648690〔fix bd16bbb〕success)。diff 監査の窓: baseline `f71e628` → head `bd16bbb`(**窓閉鎖**)。窓内= allowed_paths のみ。
+- **V4**= 異系統独立検査 r1(境界探索・ACCEPT 所見 0)→ r2(是正確認+回帰・ACCEPT)。verified 昇格は入口の inspection gate(r2 の台帳から導出・ECO-074 の運用)を通した。
+- **V5**= 下記 較正 receipt。register: `implemented → verified`・head 凍結。
+- **境界条件の遵守(user・2026-09-14)**: bomdd-job は配布していない / 配員欄の enforcement は適合条件にしていない(V6 は「enforcement を示唆する表現がない」の検査)/ 製品リポでは記述欄と明記 /
+  運転層配布は EXP-20260914-01 として記名追跡。
+- **到達点**: handoff 契約 v0.4 が製品リポへ配布可能(bomdd-init 13 本目)。core は環境非依存(検査官= 異系統ハーネスが core だけで契約を再述できた)・BomDD 固有物は adapter 区画に分離・
+  この repo は写しを同期。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格)
+
+- 査定した主張と判定:
+  1. 「core は環境非依存」— **observed / 適格**(固有語 grep 0・陽性対照 44・検査官の読解 0・第三者再述 5 行が成立)。
+  2. 「契約の内容は不変」— **observed / 適格**(契約本文の sha256 が旧新で一致= 検査官 r1 §3)。
+  3. 「写しは正本と同期している」— **observed / 適格**(diff 3 hunk・正規化 0)。
+  4. 「製品リポで配布物が機能する」— **observed / 条件付き適格**(`--skills-only --skills handoff` の生成物で参照先が実在= 検査官 r1/r2。実運用での mode 分類性能・他ハーネスの loader 挙動は未測定)。
+  5. 「配員欄が製品側で機械 enforcement を偽装しない」— **observed / 適格**(V6・検査官 §6)。
+- 検出した計器欠陥(帰属つき): 製造物 0 件。受理側 0 件。
+- 検出力の限界: 検査官 1 系統(Codex)・列挙語+読解 1 回・製品リポでの実運用(mode 分類・区間・第三者評価)は未測定(EXP-20260912-01 の ⑥⑦⑧は配布先で測る)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | V1/V2/V6 grep・diff・検査官 r1/r2 |
+  | Q2 | asked | observed/適格 | 実測 | 陽性対照= 旧版に同じ語群で 44 件(検査官)・known-good= 現 core 0 |
+  | Q3 | asked | observed/適格 | 実測 | 変更前(単一ファイル・固有物 44)→ 変更後(core 0・adapter 区画) |
+  | Q4 | asked | observed/適格 | 実測 | 実ファイル・実 bomdd-init 生成物(OS temp) |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(実運用・他 loader)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI(fix・accept)・r2 の gate で昇格 |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照あり(旧版 44 件) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(inspection gate)・register・run 台帳・r1/r2 報告 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 固有語/再述/完全性/同期/結線/文言/frontmatter(検査官の 7 軸) |
+
+- このクローズが支持しないもの: 製品リポでの mode 分類性能・区間指標 / 他ハーネスの loader 挙動 / 運転層の配布(第 2 弾・EXP-20260914-01)。

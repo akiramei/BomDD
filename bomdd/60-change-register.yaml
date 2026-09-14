@@ -2595,7 +2595,7 @@ changes:
     title: 配布 第 1 弾 — handoff 契約の core/adapter 分割と product-profile 正本化(skills/handoff.md 正本・.claude 写し・SKILLS 13 本・AGENTS.md 参照)+配員欄の文言境界(製品リポでは記述欄・機械強制なし)+運転層配布は第 2 弾候補として記名追跡
     date: 2026-09-14
     origin: improvement
-    status: implemented   # 2026-09-14 起票(f71e628)→ user DECIDE「A」= 全部+独立検査 → 製造(正本 skills/handoff.md core+adapter・写し・SKILLS 13・README・AGENTS.md・配員欄の文言境界)・V1 固有語 0/13・V2 diff 16 行= 既知・V6 0 → Codex r1〜
+    status: verified   # 2026-09-14 起票(f71e628)→ user DECIDE「A」→ fix bd16bbb(V1 固有語 0・V2 diff 既知・V6 0)→ CI 34813648690 success → Codex r1 境界探索 ACCEPT 所見 0 → r2 是正確認+回帰 ACCEPT → verified(inspection gate 経由・窓閉鎖 f71e628→bd16bbb・較正 receipt trigger ①)
     source: >
       EXP-20260912-01 確定(2026-09-14・5/5・欠陥 4 類の再演 0)で ECO-070 の分岐「改善あり → 正本化」が成立。第三者意見(ECO-071 節)= core は汎用・固有物 4 種は adapter へ。
       運転層(bomdd-job 等)は self-conformance 依存・台帳配置・hook 関係が未設計のため第 2 弾。60-change-order の配員欄の現行文言は製品側で機械 enforcement が存在するように読める(user 指摘)。
@@ -2604,7 +2604,7 @@ changes:
     no_impact_prediction: "(起票時点・製造裁定で凍結)skills 正本 1 新規+写し化+bomdd-init SKILLS 1 語+README 本数+AGENTS.md 所在+templates 配員欄の文言。C7= 13 本・C12/C13 リンク実在・C4/C14 advisory・契約 v0.4 不変・hooks/.github diff 0"
     diff_audit:
       baseline: "db44291"  # 起票直前 HEAD
-      head: ~
+      head: "bd16bbb"      # diff監査済み: 窓内= allowed_paths のみ・予測的中
       allowed_paths: [method/templates/product-profile/skills/handoff.md, .claude/skills/handoff/SKILL.md, method/tools/bomdd-init.py, README.md, AGENTS.md, method/templates/60-change-order.md, bomdd/60-change-order-eco-075.md, bomdd/60-change-register.yaml, bomdd/60-change-order-eco-062.md, method/improvements.md, bomdd/reports/independent-inspection-eco-075.md, bomdd/reports/independent-inspection-eco-075-r2.md, bomdd/reports/independent-inspection-eco-075-r3.md]  # 製造裁定 A で再凍結(2026-09-14)
     summary: >
       ①core 正本 product-profile/skills/handoff.md(契約 §1 v0.4・classify/generate/validate/rewrite・examples を BomDD 固有語なしで・system of record へ一般化)②BomDD adapter 区画(停止語彙対応・所在・出自)
