@@ -2694,5 +2694,5 @@ changes:
     diff_audit:
       baseline: "7e060c920db1bc3b07e838ab905420db03200b5a"
       allowed_paths: [method/acceptance-evidence.md, method/templates/product-profile/skills/eco-accept.md, method/templates/product-profile/change-management.md, bomdd/60-change-order-eco-079.md, bomdd/60-change-register.yaml]
-    summary: "CPを拡張しない独立層。固定版・candidate・attempt・passed verdictへ束縛するappend-only受入記録。製造条件変更は通常ECOへ戻し、読取器の未配備を合格にしない。"
+    summary: "CPを拡張しない独立層。固定版・candidate・attempt・passed verdictへ束縛するappend-only受入記録。製造条件変更は通常ECOへ戻し、読取器の未配備を合格にしない。追補(2026-09-16・user 裁定・EQ-001): 受入条件 V6= 等価プローブ(不変であるべき判定結果・証拠の範囲を先に定義し、受入記録の集合が空/非空でその範囲の出力が同一であることを検査器と負例で確認してから有効化・acceptance-evidence.md §3 に段落。製品導入 ECO の 3 腕実測は導入側の条件でありクローズ条件ではない)。OBS-20260915-02 由来"
     verification: "V1/V2文書経路対照とスキル形式確認済み。V3第1回は所有者不一致でC14 REAL FAIL、第2回は所有者環境で全PASS/exit0（文書3ソース同一hash、検査器/安全設定不変）。V4 b46359fに本件5ファイルのみ。ユーザー「pushして」により公開再開を許可、最終treeの必須検査後にcommit/pushし対象CIを確認する。V5は実行前につき未判定・verified未昇格。結果はcommit本文と製品側公開receiptへ固定する。製品validatorの実装証明ではない。"

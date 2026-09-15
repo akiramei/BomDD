@@ -50,6 +50,11 @@ method/templates/product-profile/skills/eco-accept.md、method/templates/product
 - V3: 単一入口python method/tools/self-conformance.pyの終了コードを観測。非0/測定不能をPASSにしない。
 - V4: stagedのECO078差分を保全し、上記allowed_paths以外に本作業の差分なしを確認。
 - V5: 固定版のCIを観測するまでverified/適格配布版としない。文書の経路対照は製品validatorの動作検査を代用しない。
+- V6（追補・user 裁定 2026-09-16・OBS-20260915-02 由来）: **等価プローブ**。本層は既存判定への非干渉を約束する層であり、宣言(§1)だけでは検査にならない。
+  (a) 契約本文 acceptance-evidence.md §3 に「不変であるべき判定結果・証拠の範囲を先に定義し、受入記録の集合が空/非空でその範囲の出力が同一であることを検査器と負例で確認してから有効化する」
+  を置く(本 ECO の文書受入条件)。(b) 製品導入 ECO(TimetableAdv ECO-113 が初例)は、範囲の定義を適用プロファイルに版固定し、記録なし/正常記録あり/訂正記録ありの 3 腕で製造検査・
+  qualification・Oracle・golden の合否と verdict、候補/attempt/receipt 整合検査の判定が同一であることを実測し、「受入記録を合成した CP を判定器へ渡す」経路を負例として固定する。
+  (b) は本 ECO のクローズ条件ではない(方法論の文書契約と製品導入は別段階・§4)。ただし (b) の実測がない配布版を「等価性が検査済み」と主張しない。
 
 ## preflight receipt
 
@@ -97,3 +102,12 @@ CodexSandboxOfflineで単一入口self-conformance.pyを実行。C14のREALだ�
 計器欠陥: 未確定。Git環境隔離でtrust設定が失われることを診断した。安全機構を緩めず実行主体を正す。
 検出力の限界: 文書の正しさ/新層の製品上の強制/転移効果は既存self-conformanceから導かない。製造者の自己査定で独立検査なし。
 行別記録: Q1 asked（主張は文書/形式へ限定）、Q2 asked（旧CPプローブの独立した原本/改変腕。新層のgood/bad実装試験は未測定）、Q3 asked（実装被覆は未測定）、Q4 NA（本上流差分にfixture宣言なし）、Q5 asked（FAIL/unknownを保存）、Q6 asked（終了観測後に再開判断）、Q7 NA（新計器なし）、Q8 asked（停止出口は通常ECO/検査器配備）、Q9 asked（主体とbaseline変化を記録）、Q10 asked（限界を上記宣言）、Q11 asked（正常追加/条件変更/訂正/参照違い/未配備を区別。機械実行は未測定）。
+
+## 追補（2026-09-16・別担当 EQ-001・user 裁定「OBS-20260915-02 の等価プローブを ECO-079 の受入条件に追加して」）
+
+- 受入計画 §3 は「修正前固定」だったが、user 裁定により V6（等価プローブ）を追補した。追補は範囲の**追加**であり V1〜V5 の緩和・置換ではない。
+- 変更点: acceptance-evidence.md §3 に等価プローブの段落（範囲の事前定義・空/非空で範囲内出力が同一・範囲は適用プロファイルに版固定・合成 CP 投入経路を恒久の負例に）。
+  順序と DoD1〜5 は不変。eco-accept・change-management は非接触。
+- 由来: TimetableAdv ECO-113 の議論（「注記が製造判断に絶対に入力されないことを検査する負例」）→ 当方 DISCUSS → user 条件付き AGREE（範囲を先に定義・対象は非干渉を約束する層に限定）
+  → OBS-20260915-02（watch 2/3・実例= ECO-077 F7 腕 / ECO-079 の欠落）→ 本裁定。
+- 本追補で verified へは昇格しない（元担当の V3〜V5 の記録は維持・追補後の固定版で self-conformance と CI を再観測して commit）。

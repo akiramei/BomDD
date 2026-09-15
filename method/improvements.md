@@ -7631,8 +7631,9 @@ receipt_author_role の有無で stop_type・required_skills が不変= selftest
 - [watch 2/3] OBS-20260915-02 — **既存判定への非干渉を約束する層(観測欄・受入証拠層・情報欄)を追加する ECO は、不変であるべき判定結果・証拠の範囲を先に定義し、層の有無でその範囲が同一で
   あることを受入条件(等価プローブ)に置く**。宣言だけでは検査にならない。実例: ECO-077 F7(receipt_author_role の有無で stop_type・required_skills・skills_missing が不変= selftest 腕・実装済み)/
   ECO-079(§1 で非干渉を宣言・負例 6 種に等価プローブなし・機械的強制 unknown)。3 例目または user 裁定で playbook §8.2(拡張 ECO の凍結面)へ「非干渉層の等価プローブ」として織り込みを判断。
-  範囲定義の例= 判定語・停止種別・必要スキル集合・golden の合否・qualification 結果(日時・run_id・ログ全文は範囲外)
-  source: ECO-077, ECO-079, TimetableAdv ECO-113(user 条件付き AGREE 2026-09-15)
+  範囲定義の例= 判定語・停止種別・必要スキル集合・golden の合否・qualification 結果(日時・run_id・ログ全文は範囲外)。
+  **適用(2026-09-16・user 裁定)**: ECO-079 の受入条件 V6 として追補(acceptance-evidence.md §3 に等価プローブ段落・製品導入 ECO の 3 腕実測は導入側の条件)。playbook §8.2 への一般則の織り込みは別(3 例目または裁定)
+  source: ECO-077, ECO-079, TimetableAdv ECO-113(user 条件付き AGREE 2026-09-15・裁定 2026-09-16)
   evidence: ECO-077 order §1-4・bomdd-job selftest F7 / ECO-079 acceptance-evidence.md §1・§3 / 本節 user 条件 (1)
 - [watch 1/3] OBS-20260915-03 — **preflight 最小表の契約行候補: 「今回の判断に適用される正本・版を特定し、対象条文の差分と適用可否を確認する」**(条文一致の一律要求ではない— 同梱 kit を
   固定版として使う製品では外部正本との版差は正常)。欠落事故 1 例= TimetableAdv ECO-113: 製品 skill・同梱 kit・外部正本の 3 か所のうち kit の当該条文(eco-accept 手順 1・sha 2da19777…)を照合せず、
