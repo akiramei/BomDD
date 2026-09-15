@@ -91,6 +91,12 @@
 
 ## 4. コミット規約(ECO ライフサイクル)
 
+固定製造証拠への後発の受入追記は、`{{METHOD}}/method/acceptance-evidence.md`の
+**独立append-only受入証拠レイヤー**として扱う。Control Planの拡張・合成ではない。
+製品の導入ECOで適用範囲・開始版・記録形式・必須検査器を固定し、検証してから使う。
+CP/Oracle/製造receiptは不変とし、基準の実変更は通常ECOへ戻す。
+未移行の歴史を改作しない。未配備を受入可能として扱わず、詳細はeco-accept手順1に従う。
+
 | 段階 | prefix | 内容 |
 |---|---|---|
 | 起票 | `起票(eco-NNN):` | ECO 本文+register エントリ(staged)。診断結果を要約 |

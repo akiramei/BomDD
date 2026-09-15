@@ -16,9 +16,15 @@ description: golden 合格後の ECO クローズ。クローズ 3 点セット(
 
 ## 手順(クローズ 3 点セット)
 
-1. **検査観点明記(再発防止)**: `bomdd/33-control-plan.yaml` の該当 golden CP
-   (surface の acceptance_refs から特定)の characteristic へ、今回の観点を**潜伏実績つきで**
-   追記する(「この面は一度壊れて見逃された」という事実ごと刻む)。
+1. **受入証拠と再発防止の記録**: 該当golden CPをsurfaceのacceptance_refsから特定する。
+   固定製造証拠へは書き戻さない。独立append-only受入証拠レイヤーを導入済みの製品では、
+   `{{METHOD}}/method/acceptance-evidence.md`と製品の適用プロファイルに従って記録する。
+   対象CPの固定版・candidate・passed attempt/verdictへ束縛し、今回の観点を**潜伏実績つきで**残す。
+   訂正も新記録とし、旧記録を編集・削除しない。CPの拡張・合成、製造条件の上書きは行わない。
+   必須読取検査を通し、受入前とapplied遷移で同じ固定記録集合を確認する。
+   未導入の場合、従来のCP.characteristic追記は製造証拠の固定を破らない場合に限る。
+   固定を破る場合や新層の検査器が未配備の場合は停止し、導入ECOまたは通常の新製造版へ戻す。
+   過去の受入記録を新形式に書き換えず、既存検査・golden・receiptの要件を免除しない。
 2. **register 更新**: `status: applied`+承認記録(日付・approver・確認内容)。
    golden フィールドを `approved(<日付> <承認者> 実機: <確認内容>)` に書き換える。
 3. **ECO 本文クローズ節**: タイトルの (staged)→(applied)、クローズ節に

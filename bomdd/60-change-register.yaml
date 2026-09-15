@@ -2682,3 +2682,17 @@ changes:
       採らない= 報告サイズの閾値 gate / bomdd-run の必須節検査(OBS-20260915-01 待ち)/ Codex -o 固有記述の正本化。
     verification: >
       V1 grep(playbook・正本・写しに新語)/ V2 写しの diff= 既知 2 hunk・{{METHOD}} 0 / V3 self-conformance・CI・窓 / V4 製造者較正のみ / V5(非クローズ条件)次の独立検査ブリーフで報告経路の読み違い 0。実測は order §5。
+  - id: ECO-079
+    title: Immutable製造証拠と独立append-only受入証拠レイヤーの分離
+    date: 2026-09-15
+    origin: improvement
+    status: implemented
+    source: TimetableAdv ECO-113のCP直接追記と固定製造証拠の衝突。ユーザーは独立append-only受入証拠レイヤーとしての上流是正・制御配布を許可。合成CPは採用しない。
+    order_ref: bomdd/60-change-order-eco-079.md
+    affected_refs: [method/acceptance-evidence.md, method/templates/product-profile/skills/eco-accept.md, method/templates/product-profile/change-management.md]
+    no_impact_prediction: "文書契約3件+ECO079台帳のみ。工具・既存検査・CPテンプレ・他手順・ECO078の既存indexを不変に保持。製品配布と実装は別工程。"
+    diff_audit:
+      baseline: "7e060c920db1bc3b07e838ab905420db03200b5a"
+      allowed_paths: [method/acceptance-evidence.md, method/templates/product-profile/skills/eco-accept.md, method/templates/product-profile/change-management.md, bomdd/60-change-order-eco-079.md, bomdd/60-change-register.yaml]
+    summary: "CPを拡張しない独立層。固定版・candidate・attempt・passed verdictへ束縛するappend-only受入記録。製造条件変更は通常ECOへ戻し、読取器の未配備を合格にしない。"
+    verification: "V1/V2文書経路対照とスキル形式確認済み。V3第1回は所有者不一致でC14 REAL FAIL、第2回は所有者環境で全PASS/exit0（文書3ソース同一hash、検査器/安全設定不変）。V4 b46359fに本件5ファイルのみ。ユーザー「pushして」により公開再開を許可、最終treeの必須検査後にcommit/pushし対象CIを確認する。V5は実行前につき未判定・verified未昇格。結果はcommit本文と製品側公開receiptへ固定する。製品validatorの実装証明ではない。"
