@@ -7607,3 +7607,42 @@ EXP-20260912-04= **蓄積+限界の実測**(偽陽性 0/2・gate は verdict 語
 「報告の正本経路を 1 つ宣言する」bullet(+写し再生成)を織り込み。OBS-20260915-01 は不変(機械化はトリガー待ち)。
 **受入(2026-09-15)**: ECO-078 verified(fix 7e060c9・CI 34867400275 success・製造者較正のみ・窓閉鎖 bbac82c→7e060c9・receipt_author_role: producer)。self-conformance 1 回目は register の
 重複キー(ECO-078 ブロックを ECO-077 エントリ途中に挿入した台帳編集の手順欠陥)で C1/C3/C16/C17 FAIL → 是正 → 2 回目 PASS(ゲートは commit 前に停止・記録のみ)。
+
+## 2026-09-15 BomDD 記帳 — TimetableAdv ECO-113 の学びのうち ECO-079 に入らなかった 3 点(user 条件付き AGREE・記帳のみ・ECO-079 の範囲拡大なし・実装着手なし)
+
+**観測**(出典: TimetableAdv ECO-113「方法論正本への変更要求」+同ユーザー議論 2026-09-15・BomDD [ECO-079 order](../bomdd/60-change-order-eco-079.md)・[acceptance-evidence.md](acceptance-evidence.md)・
+当方 DISCUSS 2026-09-15・user 条件付き AGREE): ①ECO-113 の本体(固定製造 CP と後発受入証拠の分離・合成 CP を正本にしない・append-only・非遡及)は ECO-079 として BomDD に導入済み(文書契約・
+製造者自己査定のみ・機械的強制は unknown と自己宣言)。②議論が「強く追加」した負例= 注記あり/なしで既存判定器(製造 checker・qualification・Oracle 等)の結果が同一、は ECO-079 §3 の負例 6 種
+(参照違い・原本改変・未 passed・旧記録削除・未コミット混入・読取器未呼出)に無い。§1 は「期待値は変わらない」と**宣言**しているが検査ではない。同型の腕は BomDD 自己適用に既にある(ECO-077 F7:
+receipt_author_role の有無で stop_type・required_skills が不変= selftest 腕)。③製品側 AI の「診断上の反省」= 裁定前に同梱 kit の当該条文まで実文照合すべきだった(製品 skill と kit と外部正本の
+3 か所のうち kit を照合せず、裁定資料の分離条件を開始条件確認の代わりにした)。④製品側 AI は製品 skill を書き換えず、上位規範(方法論優先・bomdd.lock の実行時正本・外部正本の非自動波及)との
+矛盾を検出して停止し上流へ要求した(AI の検出+停止であり、機械ゲートの遮断ではない)。
+**user 条件(2026-09-15・3 点とも命題に織り込む)**: (1) 等価プローブは「bit 単位で出力全体」ではなく**不変であるべき判定結果・証拠の範囲を先に定義**してから適用し、一般則の対象は「観測層・追加層
+すべて」でなく**既存判定への非干渉を約束する層の追加**に限定。製品側に golden があっても BomDD 側の受入原則として残す価値は変わらない。(2) 開始条件は「条文一致を一律要求」でなく
+「**今回の判断に適用される正本・版を特定し、対象条文の差分と適用可否を確認する**」(同梱 kit を固定版として使う以上、外部正本との版差はあり得る)。ECO-113 の実測がどの確認の欠落かを結び付けて残す。
+(3) 境界が機能した観測は「AI が矛盾を検出して停止した実例」と「機械ゲートが強制的に遮断した実績」を区別して記録する。**現時点は方法論上の価値への同意であり、ECO-079 の範囲拡大・実装着手の裁定ではない**。
+**整理**: 3 点とも既存の BomDD 部品(等価腕・preflight 最小表・§8.5 境界統制・bomdd.lock)への追加候補であり、新しい機構ではない。**一般化検査**: 3 命題とも製品名を含まず成立(下記 OBS)。
+**行き先判定**: 記帳のみ・ECO なし・playbook/preflight 非改訂(織り込みは各 OBS のトリガー成立か user 裁定で)。**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(等価プローブ・
+契約行— 候補)[ ] template [ ] terminology [x] method/concept claim: 「製造時事実と後発知識を混同しない」(ECO-079 §1)= supported(ECO-113 が旧 eco-accept の混同を実測)/「散文の宣言は検査の
+代わりにならない」(§9)= supported(ECO-079 §1 の非干渉宣言に検査がない— 本節 OBS-20260915-02 の根拠)。contradicted / superseded: なし。
+**期待効果の棚卸し**: 該当 0 件(ECO-113 は製品側の出典であり、BomDD の open 項目のトリガーに一致する ECO 種別ではない。EXP-20260914-01〔運転層配布〕は kit/lock の版差が論点として再登場したが
+「製品リポでの配員取り違えの実害」ではないため不変)。
+
+- [watch 2/3] OBS-20260915-02 — **既存判定への非干渉を約束する層(観測欄・受入証拠層・情報欄)を追加する ECO は、不変であるべき判定結果・証拠の範囲を先に定義し、層の有無でその範囲が同一で
+  あることを受入条件(等価プローブ)に置く**。宣言だけでは検査にならない。実例: ECO-077 F7(receipt_author_role の有無で stop_type・required_skills・skills_missing が不変= selftest 腕・実装済み)/
+  ECO-079(§1 で非干渉を宣言・負例 6 種に等価プローブなし・機械的強制 unknown)。3 例目または user 裁定で playbook §8.2(拡張 ECO の凍結面)へ「非干渉層の等価プローブ」として織り込みを判断。
+  範囲定義の例= 判定語・停止種別・必要スキル集合・golden の合否・qualification 結果(日時・run_id・ログ全文は範囲外)
+  source: ECO-077, ECO-079, TimetableAdv ECO-113(user 条件付き AGREE 2026-09-15)
+  evidence: ECO-077 order §1-4・bomdd-job selftest F7 / ECO-079 acceptance-evidence.md §1・§3 / 本節 user 条件 (1)
+- [watch 1/3] OBS-20260915-03 — **preflight 最小表の契約行候補: 「今回の判断に適用される正本・版を特定し、対象条文の差分と適用可否を確認する」**(条文一致の一律要求ではない— 同梱 kit を
+  固定版として使う製品では外部正本との版差は正常)。欠落事故 1 例= TimetableAdv ECO-113: 製品 skill・同梱 kit・外部正本の 3 か所のうち kit の当該条文(eco-accept 手順 1・sha 2da19777…)を照合せず、
+  裁定資料の分離条件で開始条件確認を代替 → 上位規範との矛盾が裁定後に露出。計器は既存(kit-freshness.py の FRESH/STALE/UNKNOWN/TAMPERED)で契約行だけが無い。表の追加統制(欠落事故 1 件)は
+  満たすが、user は実装着手を裁定していない— 2 例目または user 裁定で preflight.md 最小表(bug-fix / continuation・製品リポ)への追加を判断
+  source: TimetableAdv ECO-113(診断上の反省)
+  evidence: ECO-113 変更要求文「診断上の反省」・bomdd.lock の実行時正本規定・preflight.md「task contract 最小表」追加統制
+- [watch 1/3] OBS-20260915-04 — **境界統制(方法論優先・実行時正本の固定・外部正本の非自動波及)が機能した観測は、〈AI が矛盾を検出して停止した実例〉と〈機械ゲートが強制的に遮断した実績〉を
+  区別して数える**。AI 検出+停止の実例 1= TimetableAdv ECO-113(製品 skill を書き換えず上流へ要求・製造物 0・採番 0)。機械遮断の実績(同日・BomDD 自己適用)= pre-push witness が ECO-078 受入 commit
+  の push を tree 不一致で遮断 1 / bomdd-run が LEDGER_INCONSISTENT で受入 commit を 2 回停止 / self-conformance C1/C3/C16/C17 が register 重複キーで commit を停止 1。前者は再現性を主張できない
+  (同じ AI が次も止まる保証はない)・後者は再現性がある。§8.5 の実測へ織り込むときは 2 類を混ぜない。3 例目(AI 検出+停止)で §8.5 への追記を判断
+  source: TimetableAdv ECO-113, ECO-078
+  evidence: ECO-113 変更要求文「今回、方法論リポジトリは参照のみ」・ECO-078 order §5(入口 STOP 2 回・C1/C3 FAIL)・pre-push 遮断メッセージ(2026-09-15 01:44)
