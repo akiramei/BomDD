@@ -7686,3 +7686,36 @@ no-new-claims 散文制約の破れ 3 例目)/「独立性の単位は人物で�
 **期待効果の棚卸し**: EXP-20260828-03 第 2 回観測・EXP-20260808-02 第 1 回観測(部分)— いずれも行内追記済み・open 維持。該当候補(未計上): OBS-20260914-01(探索型検査設備の形骸化— 本弧は所見 0 ではなく
 既知類型の反復であり、r1 境界探索でなく記録面の独立レビューのため対象種別が異なる。user 裁定または実物照合後に計上を判断)。
 **限定**: 転記報告 1 通の読解であり、round ごとの所見・凍結宣言・ブリーフの実物は未照合。数値は転記元の製品側 AI の測定(当方で再測定していない)。
+
+## 2026-09-18 ハーネス側 — TypeSafe/Jev(System One・型付き判定モデル)の BomDD 導入方針: 自己申告の意味検査に別計器を当てる・始め方は設備認定(user AGREE・記帳のみ・起票なし)
+
+**観測**(出典: user 転送の第三者提案 2026-09-18・当方 DISCUSS・user「AGREE」・typesafe-ai skill 0.5.7 本文・docs.typesafe.ai の state / confidence / api / sdk-python): ①提案の基本形= 決定論的抽出 → state → Jev(Choice / Noul / Score)
+→ 確率・選択 → 決定論的方針 → PASS / ESCALATE / BLOCK。Jev は理由を生成せず型付き答えと確率だけを返す(「意味センサー」として使い、工程を支配させない)。既知の規則・計算・権限の事実は
+code が state に入れ、Jev に規則を想像させない。②提案の 3 問(本当に DECIDE か / 本当に BLOCKED か / 裁定材料は揃っているか)は handoff 契約 §2.3 の semantic 検査 P1・P4・P2 そのもの —
+§2.3 は「structural= 機械・semantic= 自己申告(較正は人間の訂正回数で外から)」と分けており、semantic 側の独立計器が空席だった(ECO-076 の読み手規則 P5〜P8 も同席)。③実物: plugin は skill
+(docs)のみ・Python SDK `typesafe-sdk` は未導入・API 鍵(`TYPESAFE_API_KEY`)は環境になし・endpoint `POST https://api.typesafe.ai/v1/systemone`(Bearer)・model `jev-latest`・1 リクエストに複数の
+独立質問(相互の答えは見えない)・docs 明記「CJK は精度が低い」・state の上限は未記載・料金未記載。④リポは PUBLIC(fixture を外部 API へ送る場合の機密性は低いが「外部送信」には変わりない)。
+**当方 thesis(user AGREE)**: 使い所は BomDD が「自己申告」と宣言して放置している意味検査に**書き手と別の計器**を当てること。候補 4 つ(上ほど有力): (1) handoff の semantic P1〜P8(故障は実測
+2 例= 2026-09-11 の出自・ECO-076)(2) 独立検査所見の新規性分類(OBS-20260914-01 で「探索者の自己申告にしない」と裁定済みの derived 欄= 独立分類に適合・トリガー未成立で候補のみ)(3) receipt の中身が
+「観測」か「予定」か(C17 限界 (5)「意味は測らない」を埋める— 各検査器の「検出力の限界」欄が Jev センサーの候補一覧になる)(4) commit 文と diff の一致(提示案・BomDD では register 遷移と order
+クローズ節の整合の方が実害に近く (3) と重なる)。**始め方は統合でなく設備認定**(equip-01〜03 の型): 既存のラベル付き fixture(C17 18 本・C16 17 本・known-bad 台帳 3 検体)に Jev を当て感度と偽陽性を
+測り、設備台帳に EQ-004(kind: judgment-model)として登録してから工程に置く。判定は非正本(run 台帳)に座標つきで残し正本へ値を転写しない・到達不能は UNMEASURABLE(PASS でも ESCALATE でもない・
+規律 6)・閾値は docs の 3 帯(0.9 / 0.5)を出発点に自データで較正。counterpoint= 日本語精度の低さ・閾値較正の手間・故障 2 例で計器を足す「証明のための複雑性」。thesis を変える条件= 感度試験で
+日本語 fixture に対する感度か偽陽性が実用域に届かない → 英訳 state 案へ落とすか採らない。
+**整理**: 提示例の DECIDE 文には recommendation と reply_format がなく契約 v0.4 では structural FAIL で止まる — 機械で分かることは機械が先に止め、Jev は残る意味判定だけを受ける分業。(1) の
+内部語検査(P5)は「select instead of generate」型: code が正本から語彙(ツール名・検査 id・設備 id・停止語彙)を抽出し候補語を決め、語ごとに Noul「初出で言い換えがあるか」。結論先行(P6)は
+Score 4 段。証拠過多(P7)は付録の外の数値・番号の件数を code で数える方が先。実行位置の候補= Stop hook(送信前の handoff 本文)/ bomdd-run --report 直後(判定行と本文の整合)/ pre-commit(receipt の
+観測・予定)。いずれも witness の gate として exit を残せば既存の入口が読める。**一般化検査**: 「自己申告の意味検査には書き手と別の計器を当てる。計器は既存の known-bad で認定してから工程に置く」は
+製品名を含まない(calibrate 盲検感度試験 2026-09-02 と同型・2 例目候補)。**行き先判定**: 記帳のみ・起票なし(設備認定の実施は外部送信+API 鍵を伴うため別 DECIDE)。playbook 非改訂。
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(意味センサー+決定論的方針・UNMEASURABLE の 4 値目)[ ] template [ ] terminology [x] method/concept claim: 「慎重さでなく機構」=
+supported(semantic 自己申告を機構の読みへ)・「監視ではなくマネージ」= supported(Jev に工程を支配させず境界で答え合わせ)。contradicted / superseded: なし。
+**期待効果の棚卸し**: 新規 EXP-20260918-01(下記)。EXP-20260914-02(読み手規則の効果)は継続— Jev が semantic 計器になれば計測経路が変わる(自己申告→機械読み)。OBS-20260914-01 に (2) を候補として結線(不変)。
+
+- [open] EXP-20260918-01 — **Jev は BomDD の日本語 fixture で意味判定の計器として認定できるか(設備認定・第 1 回)**: 検体= C17 fixture 18 本(use/mention・受入 receipt の実在)+C16 fixture 17 本
+  (収束 receipt の実在)+C17 限界 (5) の病的 receipt 1 本(見出し内の否定+本体ラベル完備— 機械は通す・意味では receipt でない)。質問= Noul「この節は実施済みの査定結果を報告しているか(様式の
+  例示・省略の言及・実施予定ではなく)」1 問(fixture ごと・state は本文+status)。ラベルの根拠= fixture の want_ok(修理 ECO+CI 緑で確定・Jev から独立)。判定= 感度(known-bad で P<0.5)・特異度
+  (known-good で P≥0.5)・0.4〜0.6 の件数(拮抗)・病的 receipt 1 本の P。第 2 腕= 同検体を英訳した state(CJK 精度差の分離)。認定条件(事前宣言): 感度・特異度とも 15/17 以上かつ病的 receipt を
+  known-bad 側に置く。未達なら英訳腕の値で再判定・それも未達なら「採らない」。**next trigger= user DECIDE(外部 API への fixture 送信+`TYPESAFE_API_KEY` の user 設定+SDK 導入)**。
+  限定子: 検体は receipt 文(案 3)であり handoff 本文(案 1)の認定ではない— 案 1 の検体(user 訂正でラベル付けした handoff 集)は未整備で第 2 回
+  source: 本節(user AGREE 2026-09-18)
+  evidence: 本節・typesafe-ai skill 0.5.7・docs.typesafe.ai(state / confidence / api / sdk-python)・self-conformance.py _C17_FIXTURES / _CONVERGE_FIXTURES
