@@ -79,4 +79,24 @@ C4/C14 advisory・C13 新リンク実在・ECO-079 の allowed_paths と交差�
 - **受入結果(製造者・観測)**:
   - V1= PASS(観測: grep `(条件)` 1・`観測:` 1・`受入節の書式(二部形` 1 — 60-change-order.md)。
   - V2= PASS(観測: README §6・results-03.jsonl — new 9/9 planned〔p 0.98〜1.00〕・orig 9/9 performed〔対照再現〕・newh0 9/9 planned〔本文だけで効く〕・27 リクエスト・エラー 0・resolved jev-1.13.0)。
+    **r1 是正後(03b)= PASS**(観測: results-03b.jsonl — new 9/9〔0.96〜1.00〕・orig 9/9 performed・newh0 9/9〔各 ECO の原文見出し・0.85〜1.00〕・27 リクエスト・エラー 0・tokens in 24,407)。
   - V3= §6 で記録(self-conformance・CI・窓)。V4= §5 独立検査。V5= §6 較正 receipt。
+
+## 5. 独立検査(異系統・Codex EQ-002・入口 bomdd-run から `--report`/`--range` つきで起動)
+
+### 5.1 r1(2026-09-18・range= 境界探索)— 報告: [independent-inspection-eco-080.md](reports/independent-inspection-eco-080.md)
+
+- 起動: fix commit 79cdcf7(witness tree 659b05125f7d・入口 dry ADVANCE)→ `cell exit 0` → `report REJECT sha256:ed0ccb63f76e (EQ-002)`・台帳 `range: 境界探索`・
+  verdict_line `REJECT IA-01・IA-02・IA-03・IA-04`。**本節の判定は台帳の verdict から転記**。
+- 判定: **REJECT・所見 6(遮断 4・境界 2)**。検査官の観測: diff 0・commit 0・外部 API 呼び出しなし・9 節の第三者読解= 新書式はすべて「未実施の条件」と一意に読め、原文はすべて「結果と読み違える余地あり」
+  (本 ECO の核心は第三者読解でも成立)・自己適用 §3/§4 整合・kit smoke exit 0 で二部形 5 行が生成物に含まれる・窓内・採らない項目は守られている。
+- 所見と是正(すべて製造物帰属・同一 revision の是正 commit で):
+  | IA | 所見 | 是正 |
+  |---|---|---|
+  | IA-01 | テンプレ §5 の二部形箇条書き直後に空行がなく、失敗 5 分類表が Markdown の表として成立しない(pandoc GFM で実測) | 表の前に空行を挿入(python-markdown で `<table>` 1 を確認) |
+  | IA-02 | ECO-077 の新書式が「known-bad(実測)」(実施済みの記録)を条件へ変え fixture も変えた= 内容非保存 | 実測文を原文のまま残す(混在検体として測る) |
+  | IA-03 | newh0 が原文見出しを固定値「## 3. 受入」に置換(ECO-068/075 は「(製造時の候補)」「(候補)」)= 実験定義と不一致 | 各 ECO の原文見出しを使う・README §5 の定義を修正 |
+  | IA-04 | NEW_BODY の多くの条件に「— 検査法:」がなく、テンプレの完全な二部形を測っていない | 全条件に検査法を付す |
+  | IA-05(境界) | UNMEASURABLE の記録要件(原因・試みたコマンド)が未規定 | テンプレの結果行に「測定不能の原因と試みたコマンドを書き PASS に数えない」を追加 |
+  | IA-06(境界) | `state_sha256` が 16 桁の短縮値で命名と不一致 | 完全な 64 桁を記録(01/02/03 初版は 16 桁接頭辞のまま・README に注記) |
+- 是正後の再測(03b)= new 9/9・newh0 9/9・orig 9/9(§4 V2)。検査官の限界宣言: 設計の結果受領前固定は同一 commit のため検証不能・GitHub 表示は未確認・Jev 再実行なし。
