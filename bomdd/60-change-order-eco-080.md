@@ -108,3 +108,12 @@ C4/C14 advisory・C13 新リンク実在・ECO-079 の allowed_paths と交差�
 - 判定: **REJECT・未是正 1(IA-06 の README 注記)**。IA-01〜05= 是正済み(pandoc GFM で表が Table・NEW_BODY["077"] 原文保持・newh0 の見出し 2 件一致・V 項目 45 件に検査法 45 件・UNMEASURABLE 要件あり)/
   回帰 7〜10= 退行なし(§3 条件行不変・03b 27 行の数値一致・kit smoke exit 0 で二部形 5 行と要件行・窓 11 ファイルすべて allowed_paths 内・playbook 等 diff 0)。
 - 是正: README 冒頭に記録の注記(旧 3 ファイルの `state_sha256` は先頭 16 桁の短縮値・03b 以降は 64 桁・旧記録は書き換えない)を追加 → r3(IA-06 の是正確認+回帰)。
+
+### 5.3 r3(2026-09-18・range= 是正確認+回帰・範囲限定 4 項目)— 報告: [independent-inspection-eco-080-r3.md](reports/independent-inspection-eco-080-r3.md)
+
+- 起動: r2 是正 commit c5ea61d(witness tree 4318cedd85fd・入口 dry ADVANCE)→ `cell exit 0` → `report REJECT sha256:55ebea8d8125 (EQ-002)`・台帳 `range: 是正確認+回帰`・
+  verdict_line `REJECT IA-07 — a3c95ee..c5ea61d の差分に、指定された README と order 以外の r2 検査報告が含まれます。`。**本節の判定は台帳の verdict から転記**。
+- 判定: **REJECT・所見 1(IA-07)・帰属= ブリーフ(受理側)**。IA-06= 是正済み(README 注記と JSONL 282 行〔旧 3 ファイル 16 桁・03b 64 桁〕が整合)/ §3 不変(両 revision の §3 が 8 行完全一致・sha256 同一)/
+  窓= 12 ファイルすべて allowed_paths 内。IA-07 の実体: 是正差分 3 ファイル(README 4 行・order §5.2 8 行・r2 報告 76 行)のうち r2 報告は allowed_paths 内の**受理側の記録**であり製造物の逸脱ではないが、
+  当方のブリーフ項目 2 が「README と order のみ」と書いたため検査官は正しく FAIL にした。製造物への是正なし。
+- 是正(ブリーフ側): r4 の項目 2 を「README・order・r2 報告・r3 報告」に修正。教訓= 是正確認 round の差分限定条件は「前 round の報告の commit」を含めて書く(受理側の記録も差分に入る)。

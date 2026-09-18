@@ -2711,7 +2711,7 @@ changes:
     diff_audit:
       baseline: "54382e2"  # 起票直前 HEAD
       head: null
-      allowed_paths: [method/templates/60-change-order.md, bomdd/60-change-order-eco-080.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/jev-qualification-01/README.md, bomdd/reports/jev-qualification-01/jev_qual_03.py, bomdd/reports/jev-qualification-01/results-03.jsonl, bomdd/reports/jev-qualification-01/summary-03.md, bomdd/reports/jev-qualification-01/results-03b.jsonl, bomdd/reports/jev-qualification-01/summary-03b.md, bomdd/reports/independent-inspection-eco-080.md, bomdd/reports/independent-inspection-eco-080-r2.md, bomdd/reports/independent-inspection-eco-080-r3.md]  # 製造裁定 A で再凍結(2026-09-18)・r1 是正で 03b 2 本を追加
+      allowed_paths: [method/templates/60-change-order.md, bomdd/60-change-order-eco-080.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/jev-qualification-01/README.md, bomdd/reports/jev-qualification-01/jev_qual_03.py, bomdd/reports/jev-qualification-01/results-03.jsonl, bomdd/reports/jev-qualification-01/summary-03.md, bomdd/reports/jev-qualification-01/results-03b.jsonl, bomdd/reports/jev-qualification-01/summary-03b.md, bomdd/reports/independent-inspection-eco-080.md, bomdd/reports/independent-inspection-eco-080-r2.md, bomdd/reports/independent-inspection-eco-080-r3.md, bomdd/reports/independent-inspection-eco-080-r4.md]  # 製造裁定 A で再凍結(2026-09-18)・r1 是正で 03b 2 本を追加・r3(ブリーフ帰属)で r4 報告を追加
     summary: >
       候補= ①60-change-order.md の受入欄を二部形に: 条件は「V<n>(条件): …であること」(計画・製造前に凍結)/ 結果は「V<n>= PASS|FAIL|UNMEASURABLE(観測: 座標)」(受入時に記入)
       ②見出しに計画であることを示す語(「受入条件」)③自己適用 order(ECO-080 以降)も同形 ④Jev 第 3 回= 誤読された 9 節を新書式に書き換えた検体(scratch・履歴は改作しない)で planned ≥ 8/9・
