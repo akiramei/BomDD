@@ -1,4 +1,4 @@
-# Change Order — ECO-080(受入節の書式: 受入条件〔計画〕と観測結果を文形で分離 — テンプレート二部形・自己適用 order も同形・Jev 第 3 回で弁別の回復を実測〔implemented〕)
+# Change Order — ECO-080(受入節の書式: 受入条件〔計画〕と観測結果を文形で分離 — テンプレート二部形・自己適用 order も同形・Jev 第 3 回で弁別の回復を実測〔verified〕)
 
 > 裁定: user 2026-09-18 DECIDE「A」(EXP-20260918-01 第 2 回の結果= 受入節の書式が計画と結果を区別していない → 是正 ECO を起票)。**起票のみ**(製造裁定は別 DECIDE)。
 > 出自= Jev 設備認定 第 2 回([報告 §4](reports/jev-qualification-01/README.md))。計器の欠陥ではなく記録の書式の欠陥、という読み。
@@ -117,3 +117,51 @@ C4/C14 advisory・C13 新リンク実在・ECO-079 の allowed_paths と交差�
   窓= 12 ファイルすべて allowed_paths 内。IA-07 の実体: 是正差分 3 ファイル(README 4 行・order §5.2 8 行・r2 報告 76 行)のうち r2 報告は allowed_paths 内の**受理側の記録**であり製造物の逸脱ではないが、
   当方のブリーフ項目 2 が「README と order のみ」と書いたため検査官は正しく FAIL にした。製造物への是正なし。
 - 是正(ブリーフ側): r4 の項目 2 を「README・order・r2 報告・r3 報告」に修正。教訓= 是正確認 round の差分限定条件は「前 round の報告の commit」を含めて書く(受理側の記録も差分に入る)。
+
+### 5.4 r4(2026-09-18・range= 是正確認+回帰・範囲限定 5 項目)— 報告: [independent-inspection-eco-080-r4.md](reports/independent-inspection-eco-080-r4.md)
+
+- 起動: r3 記録 commit 5c593ab(witness tree 38dcc881eba7・入口 dry ADVANCE)→ `cell exit 0` → `report ACCEPT sha256:02a5574ce141 (EQ-002)`・台帳 `range: 是正確認+回帰`・
+  verdict_line `ACCEPT — IA-07 の是正を確認し、指定された5項目すべてで退行なしと判定します。`。**本節の判定は台帳の verdict から転記**。
+- 判定: **ACCEPT**(差分限定= 3 ファイルのみ〔order §5.3・r3 報告・register の allowed_paths 1 行〕/ IA-06 維持〔JSONL 282 行整合〕/ §3 不変〔8 行完全一致〕/ 窓 13 ファイルすべて allowed_paths 内・
+  playbook 等 diff 0 / テンプレ a3c95ee から不変〔内容ハッシュ同一〕)。検査官の較正 receipt: 3 主張とも observed・適格(指定 5 項目の範囲内)。
+- round の総括: r1 境界探索 REJECT(製造物 4+境界 2)→ 是正 → r2 REJECT(IA-06 の注記 1 件残)→ 是正 → r3 REJECT(IA-07・**ブリーフ帰属**)→ ブリーフ是正 → r4 ACCEPT。製造物帰属の所見 6 はすべて是正確認済み。
+
+## 6. クローズ(2026-09-18・verified)— 受入結果(観測・§3 の条件行は不変)
+
+- V1= PASS(観測: grep `(条件)` 1・`観測:` 1・`受入節の書式(二部形` 1 — 60-change-order.md @79cdcf7・r4 で a3c95ee から不変を検査官が確認)。
+- V2= PASS(観測: README §6・results-03b.jsonl — new 9/9 planned・orig 9/9 performed・newh0 9/9 planned・27 リクエスト・エラー 0・resolved jev-1.13.0。初版 results-03.jsonl も同値。r1 の第三者読解 9/9 一意)。
+- V3= PASS(観測: self-conformance 全 PASS を fix/是正/記録の各 commit 前に exit 0 で観測〔4 回〕・CI run 35300501715〔79cdcf7〕・35301524581〔a3c95ee〕・35302286401〔c5ea61d〕・35302926129〔5c593ab〕すべて success・
+  diff 監査の窓 baseline `0e50b2f` → head `5c593ab`= 13 ファイルすべて allowed_paths 内〔r4 項目 4〕・**窓閉鎖**)。
+- V4= PASS(観測: 異系統独立検査 r1 境界探索 → r2/r3/r4 是正確認+回帰・最終 round r4 ACCEPT・verified 昇格は入口の inspection gate〔r4 の台帳から導出〕経由)。
+- V5= PASS(観測: 下記 較正 receipt)。register: `implemented → verified`・head 凍結。
+- 到達点: テンプレの受入節が二部形になり、自己適用の初個体(本 order)で §3 の条件行が起票時から不変のまま §6 に観測行だけを足せた(r2/r3/r4 が §3 不変を毎回確認)。
+- 実測(正直記載): 独立検査 4 round のうち r3 の REJECT は当方のブリーフの誤記(差分限定に受理側の記録を含め忘れ)。検査官は正しく字義どおり適用した。所見の帰属を「ブリーフ」と記し製造物の是正は行っていない。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格)
+
+- 査定した主張と判定:
+  1. 「テンプレの受入節が二部形で、表構造・UNMEASURABLE 要件を含む」— **observed / 適格**(V1 grep・python-markdown `<table>` 1・r1 IA-01 是正を r2 が pandoc GFM で確認)。
+  2. 「文形だけ変えると同一計器の判定が反転する(書式が原因)」— **observed / 適格**(第 3 回 27 リクエスト・orig/new/newh0 の対照・初版と是正版で同値・第三者読解 9/9)。
+  3. 「自己適用で条件行を書き換えていない」— **observed / 適格**(§3 の hunk 0・sha256 同一を r2/r3/r4 が確認)。
+  4. 「他の書き手の受入節でも効く」— **unknown(未測定・9 節とも当方が書いた order)**。
+  5. 「機械 lint なしで書式が守られる」— **unknown(未測定・本 order が初個体)**。
+- 検出した計器欠陥(帰属つき): 製造物 6 件(r1 IA-01〜06・すべて是正確認済み)。受理側 1 件(r3 IA-07= ブリーフの差分限定条件の誤記・製造物への是正なし)。検査器(Jev・pandoc・self-conformance)0 件。
+- 検出力の限界: 他の書き手・製品リポでの適用は未測定。Jev の第 3 回は書き換えを当方が行った(独立でない)。結果受領前固定の時系列は第三者に検証不能(検査官の限界宣言)。
+  GitHub 上の表示は未確認(pandoc/python-markdown で測定)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | V1 grep・V2 27 リクエスト・§3 hunk 0(r2/r3/r4) |
+  | Q2 | asked | observed/適格 | 実測 | 対照腕 orig 9/9 performed(known-bad 相当)・new 9/9 planned |
+  | Q3 | asked | observed/適格 | 実測 | 変更前(結果文形の受入節 9/34 誤読)→ 変更後(二部形 9/9 planned) |
+  | Q4 | asked | observed/適格 | 実測 | 実 order の節・実テンプレ・kit smoke(r1/r2) |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(他の書き手・製品リポ・時系列)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI(4 commit)・r4 の gate で昇格 |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= orig 腕(9/9 performed) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(inspection gate)・register・run 台帳(ECO-080.jsonl 4 round)・r1〜r4 報告 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= テンプレ文言/自己適用/実験記録/kit/窓(検査官 r1 の 6 軸) |
+
+- このクローズが支持しないもの: 他の書き手・製品リポでの効果 / 機械 lint なしでの順守率 / Jev の工程組み込み(EXP-20260918-01 継続) / playbook §8.4 の織り込み(lesson-promote の停止点)。

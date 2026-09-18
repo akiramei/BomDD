@@ -2700,7 +2700,7 @@ changes:
     title: 受入節の書式 — 受入条件(計画)と観測結果を文形で分離する(テンプレート 60-change-order.md に「V(条件)/観測」二部形・自己適用 order も同形・Jev 第 3 回で弁別の回復を実測)
     date: 2026-09-18
     origin: improvement
-    status: implemented   # 2026-09-18 起票(0e50b2f)→ user DECIDE「A」(全部+異系統独立検査)→ 製造(本 commit)。verified は r1 境界探索 → r2 是正確認+回帰 ACCEPT 後に inspection gate 経由で
+    status: verified   # 2026-09-18 起票(0e50b2f)→ user DECIDE「A」→ fix 79cdcf7(V1 grep・V2 Jev 第 3 回 9/9・9/9・9/9)→ Codex r1 REJECT 6 → 是正 a3c95ee(03b 再測 PASS)→ r2 REJECT IA-06 → 是正 c5ea61d → r3 REJECT IA-07〔ブリーフ帰属〕→ 5c593ab → r4 ACCEPT → CI 35302926129 success → verified(inspection gate 経由・窓閉鎖 0e50b2f→5c593ab・較正 receipt trigger ①)
     source: >
       EXP-20260918-01 第 2 回(bomdd/reports/jev-qualification-01/README.md §4): 実 order 150 節のうち planned→performed 誤分類 9/34 がすべて「## 3. 受入」節で、本文が
       「V1: self-conformance 全 PASS(C7 が 12/12)」のように結果文と同形(confidence 0.66〜1.00 で確信して誤る)。正答した受入節(ECO-062/064〜067「製造時の候補」・ECO-079「受入計画」)は計画と
@@ -2710,7 +2710,7 @@ changes:
     no_impact_prediction: "(起票時点・製造裁定で凍結)範囲 A なら templates/60-change-order.md の受入欄+台帳系+reports(第 3 回)。playbook 本文は候補提示のみ(lesson-promote の停止点で別途)・tools/hooks/.github diff 0・C4/C14 advisory・C13 新リンク実在・ECO-079(implemented・change-management.md / acceptance-evidence.md)と allowed_paths が重ならない"
     diff_audit:
       baseline: "54382e2"  # 起票直前 HEAD
-      head: null
+      head: "5c593ab"      # diff監査済み: 窓内= allowed_paths のみ・予測的中(受入 commit は台帳系のみ)
       allowed_paths: [method/templates/60-change-order.md, bomdd/60-change-order-eco-080.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/jev-qualification-01/README.md, bomdd/reports/jev-qualification-01/jev_qual_03.py, bomdd/reports/jev-qualification-01/results-03.jsonl, bomdd/reports/jev-qualification-01/summary-03.md, bomdd/reports/jev-qualification-01/results-03b.jsonl, bomdd/reports/jev-qualification-01/summary-03b.md, bomdd/reports/independent-inspection-eco-080.md, bomdd/reports/independent-inspection-eco-080-r2.md, bomdd/reports/independent-inspection-eco-080-r3.md, bomdd/reports/independent-inspection-eco-080-r4.md]  # 製造裁定 A で再凍結(2026-09-18)・r1 是正で 03b 2 本を追加・r3(ブリーフ帰属)で r4 報告を追加
     summary: >
       候補= ①60-change-order.md の受入欄を二部形に: 条件は「V<n>(条件): …であること」(計画・製造前に凍結)/ 結果は「V<n>= PASS|FAIL|UNMEASURABLE(観測: 座標)」(受入時に記入)

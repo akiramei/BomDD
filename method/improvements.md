@@ -7754,3 +7754,11 @@ supported(意味を運ばない書式は人間にも機械にも読めない)。
 **製造(2026-09-18・user 製造裁定「A」)**: テンプレ §5 冒頭に二部形 5 行(条件行/結果行/注記)・本 order §3 が二部形の初個体・inspector EQ-002・allowed_paths 再凍結。**V2(Jev 第 3 回)= PASS**:
 誤読 9 節 × 3 腕(orig / new / newh0)・27 リクエスト・エラー 0 — **new 9/9 planned(p 0.98〜1.00)・orig 9/9 performed(第 2 回を再現)・newh0 9/9 planned(本文の文形だけで効く・見出しは補助)**
 (README §5 設計固定 → §6 結果)。同一の質問・計器で書式だけが判定を反転 → 第 2 回の条件 ① 未達は記録の書式に帰属、を実測で裏付け。V1= grep PASS。V3〜V5 は独立検査(r1 境界探索 → r2)後の受入 commit で。
+
+**受入(2026-09-18)**: ECO-080 verified — fix 79cdcf7(V1 grep・V2 Jev 第 3 回 new 9/9 planned・orig 9/9 performed・newh0 9/9)→ Codex r1 境界探索 REJECT(製造物 4: テンプレ表崩れ・ECO-077 検体の内容非保存・newh0 見出し固定・検査法欠落 / 境界 2:
+UNMEASURABLE 要件・16 桁 sha)→ 是正 a3c95ee(03b 再測 9/9・9/9・9/9・全条件に検査法・原文見出し・実測文原文保持・64 桁 sha)→ r2 REJECT(IA-06 の README 注記 1 件残)→ 是正 c5ea61d → r3 REJECT(IA-07・**ブリーフ帰属**:
+差分限定条件に前 round の報告 commit を含め忘れ・製造物への是正なし)→ 5c593ab → r4 ACCEPT(5 項目退行なし)→ inspection gate 経由の昇格・窓閉鎖 0e50b2f→5c593ab・較正 receipt trigger ①。
+**到達点**: テンプレ 60-change-order.md の受入節が二部形(条件行/結果行/UNMEASURABLE 要件)・自己適用 order の初個体= ECO-080 §3/§4/§6・第三者(検査官)読解で新書式 9/9 が「未実施の条件」と一意・
+原文 9/9 が「結果と読み違える余地あり」。**教訓(受理側)**: ①是正確認 round の差分限定条件は前 round の報告 commit と register の窓再凍結を含めて書く(r3 の IA-07・受理側の記録も差分に入る)
+②検体の「内容保存」は実測文を条件へ書き換えない(r1 IA-02)③実験の腕は宣言どおりに実装する(r1 IA-03/04: 見出し固定・検査法欠落)。playbook §8.4 の織り込み案は候補提示のまま(lesson-promote の停止点)。
+EXP-20260918-01 は継続(設備認定は第 1〜3 回で「書かれていることは読める・書かれていない意味は読めない」まで。工程組み込みは別 ECO・トリガー= 手動運用で読み違いの実害 1 件 or user 裁定)。
