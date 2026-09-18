@@ -7788,3 +7788,5 @@ templates は ECO-080 で実施済み。cheat-taxonomy・control-plan は該当�
   evidence: ECO-080 order §3/§6・r2〜r4 報告(§3 不変)
 
 **織り込み(2026-09-18・user 採択 1:A 2:A 3:A)**: playbook §8.4(追補 1 段落+E 案の状態更新)/ silence-checklist §19 項目 5「時制の宣言」/ FINDINGS §13.2 追補(jev-01)。本文改訂はレビュー採択後に節単位で適用(lesson-promote 手順 6〜8)。
+
+**user 裁定(2026-09-18・DISCUSS「Jev の使いみちはあったか」への返答)**: 「現状は調査結果に留める」— Jev の工程組み込み・回帰計器化・handoff 読み手規則への適用・所見の独立分類は**着手しない**。到達点は FINDINGS §13.2 の実証データと ECO-080(記録側の是正)。EXP-20260918-01 は open のまま(next trigger= user 裁定のみ・当方からの再提案はしない)。鍵ファイル・SDK は user の環境に残る(当方は非接触)。
