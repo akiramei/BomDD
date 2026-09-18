@@ -2696,3 +2696,25 @@ changes:
       allowed_paths: [method/acceptance-evidence.md, method/templates/product-profile/skills/eco-accept.md, method/templates/product-profile/change-management.md, bomdd/60-change-order-eco-079.md, bomdd/60-change-register.yaml]
     summary: "CPを拡張しない独立層。固定版・candidate・attempt・passed verdictへ束縛するappend-only受入記録。製造条件変更は通常ECOへ戻し、読取器の未配備を合格にしない。追補(2026-09-16・user 裁定・EQ-001): 受入条件 V6= 等価プローブ(不変であるべき判定結果・証拠の範囲を先に定義し、受入記録の集合が空/非空でその範囲の出力が同一であることを検査器と負例で確認してから有効化・acceptance-evidence.md §3 に段落。製品導入 ECO の 3 腕実測は導入側の条件でありクローズ条件ではない)。OBS-20260915-02 由来"
     verification: "V1/V2文書経路対照とスキル形式確認済み。V3第1回は所有者不一致でC14 REAL FAIL、第2回は所有者環境で全PASS/exit0（文書3ソース同一hash、検査器/安全設定不変）。V4 b46359fに本件5ファイルのみ。ユーザー「pushして」により公開再開を許可、最終treeの必須検査後にcommit/pushし対象CIを確認する。V5は実行前につき未判定・verified未昇格。結果はcommit本文と製品側公開receiptへ固定する。製品validatorの実装証明ではない。"
+  - id: ECO-080
+    title: 受入節の書式 — 受入条件(計画)と観測結果を文形で分離する(テンプレート 60-change-order.md に「V(条件)/観測」二部形・自己適用 order も同形・Jev 第 3 回で弁別の回復を実測)
+    date: 2026-09-18
+    origin: improvement
+    status: filed   # 2026-09-18 user DECIDE「A」(EXP-20260918-01 第 2 回の結果を受け是正 ECO を起票)。起票のみ・製造裁定は別 DECIDE
+    source: >
+      EXP-20260918-01 第 2 回(bomdd/reports/jev-qualification-01/README.md §4): 実 order 150 節のうち planned→performed 誤分類 9/34 がすべて「## 3. 受入」節で、本文が
+      「V1: self-conformance 全 PASS(C7 が 12/12)」のように結果文と同形(confidence 0.66〜1.00 で確信して誤る)。正答した受入節(ECO-062/064〜067「製造時の候補」・ECO-079「受入計画」)は計画と
+      分かる語がある。performed 78/78・影響なし予測 17/17 は正答 → 計器の欠陥でなく記録の書式の欠陥(本文だけでは人間にも計画と結果の区別がつかない= 「予定を実測として転記」の危険が記録側に内在)。
+    order_ref: bomdd/60-change-order-eco-080.md
+    affected_refs: [method/templates/60-change-order.md]
+    no_impact_prediction: "(起票時点・製造裁定で凍結)範囲 A なら templates/60-change-order.md の受入欄+台帳系+reports(第 3 回)。playbook 本文は候補提示のみ(lesson-promote の停止点で別途)・tools/hooks/.github diff 0・C4/C14 advisory・C13 新リンク実在・ECO-079(implemented・change-management.md / acceptance-evidence.md)と allowed_paths が重ならない"
+    diff_audit:
+      baseline: "54382e2"  # 起票直前 HEAD
+      head: null
+      allowed_paths: [method/templates/60-change-order.md, bomdd/60-change-order-eco-080.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/jev-qualification-01/README.md, bomdd/reports/jev-qualification-01/jev_qual_03.py, bomdd/reports/jev-qualification-01/results-03.jsonl, bomdd/reports/jev-qualification-01/summary-03.md]  # 起票時点の候補・製造裁定で再凍結
+    summary: >
+      候補= ①60-change-order.md の受入欄を二部形に: 条件は「V<n>(条件): …であること」(計画・製造前に凍結)/ 結果は「V<n>= PASS|FAIL|UNMEASURABLE(観測: 座標)」(受入時に記入)
+      ②見出しに計画であることを示す語(「受入条件」)③自己適用 order(ECO-080 以降)も同形 ④Jev 第 3 回= 誤読された 9 節を新書式に書き換えた検体(scratch・履歴は改作しない)で planned ≥ 8/9・
+      原文 9 節を対照腕。採らない= 既存 order の書き換え・受入節の機械 lint(必要が実測されてから)・playbook 本文の直接改訂(候補提示まで)・Jev の工程組み込み。
+    verification: >
+      V1 テンプレの受入欄に二部形(grep: 「(条件)」「観測:」)/ V2 Jev 第 3 回= 新書式 9 節で planned ≥ 8/9 かつ原文 9 節は performed(対照)/ V3 self-conformance・CI・窓 / V4 製造裁定で決める(A 独立検査 / B 製造者較正)/ V5 較正 receipt。
