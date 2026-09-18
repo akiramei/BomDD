@@ -1,4 +1,4 @@
-# Change Order — ECO-080(受入節の書式: 受入条件〔計画〕と観測結果を文形で分離 — テンプレート二部形・自己適用 order も同形・Jev 第 3 回で弁別の回復を実測〔filed〕)
+# Change Order — ECO-080(受入節の書式: 受入条件〔計画〕と観測結果を文形で分離 — テンプレート二部形・自己適用 order も同形・Jev 第 3 回で弁別の回復を実測〔implemented〕)
 
 > 裁定: user 2026-09-18 DECIDE「A」(EXP-20260918-01 第 2 回の結果= 受入節の書式が計画と結果を区別していない → 是正 ECO を起票)。**起票のみ**(製造裁定は別 DECIDE)。
 > 出自= Jev 設備認定 第 2 回([報告 §4](reports/jev-qualification-01/README.md))。計器の欠陥ではなく記録の書式の欠陥、という読み。
@@ -7,7 +7,8 @@
 
 - 起票: requested/resolved `claude-fable-5-1`・Claude Code(Claude Agent SDK)・来歴 **self-reported**
 - producer: EQ-001
-- 検査官(独立検査併用時): 製造裁定 A なら `- inspector: EQ-002` の行を製造時に追加(gpt-5.6-sol @ Codex CLI・入口 `bomdd-run --executor EQ-002 --report … --range …`)。B/C なら追加しない。
+- inspector: EQ-002
+- 検査官(独立検査併用時): 製造裁定 A(2026-09-18)で inspector 行を追加(gpt-5.6-sol @ Codex CLI・入口 `bomdd-run --executor EQ-002 --report … --range …`)。B/C なら追加しない。
   (起票時点で inspector 行を置くと job 射影が EQ 構文を要求する— 実測: 散文を置いて LEDGER_INCONSISTENT・是正して再射影)
 
 ## 0. 実測(起票根拠)
@@ -65,3 +66,17 @@ C4/C14 advisory・C13 新リンク実在・ECO-079 の allowed_paths と交差�
 - job ビュー(order 生成後): required_skills= `["preflight"]`・skills_missing= `[]`・required_capability= `{"producer": "EQ-001", "inspector": null}`(裁定 A で inspector を記入)・stop_type= NONE
   (1 回目は inspector 欄の散文で LEDGER_INCONSISTENT → 欄を検査官注記に移して再射影)。
 - 開始判定: **PROCEED(起票のみ)**・override 0。製造は裁定後。
+
+## 4. 製造裁定と製造(2026-09-18・user DECIDE「A」= 全部+異系統独立検査)
+
+- **製造裁定 A**: §1 の 1〜4 すべて+独立検査。register `filed → implemented`(本 commit)・inspector EQ-002 を配員欄に追加・allowed_paths 再凍結(reports/independent-inspection-eco-080*.md を追加)。
+- **製造物**:
+  1. `method/templates/60-change-order.md` §5 冒頭に「受入節の書式(二部形・ECO-080)」5 行: 条件行 `V<n>(条件): … であること — 検査法`(製造前に凍結・結果を書かない)/
+     結果行 `V<n>= PASS | FAIL | UNMEASURABLE(観測: 座標)`(受入時に記入・条件行は書き換えない)/ 注記(結果の文形は観測行にだけ・同形だと転記が読めない・由来 ECO-080)。
+  2. 自己適用: 本 order の §3 が二部形の最初の個体(受入条件)。§6 クローズで結果行を書く(条件行は不変)。ECO-080 以降の order は同形。既存 order は不変。
+  3. playbook §8.4 への織り込み案= improvements.md 2026-09-18 節(候補提示のみ・本文不変)。
+  4. Jev 第 3 回= `bomdd/reports/jev-qualification-01/jev_qual_03.py`(検体= 誤読 9 節 × 3 腕・設計は README §5 に結果受領前に固定)。
+- **受入結果(製造者・観測)**:
+  - V1= PASS(観測: grep `(条件)` 1・`観測:` 1・`受入節の書式(二部形` 1 — 60-change-order.md)。
+  - V2= PASS(観測: README §6・results-03.jsonl — new 9/9 planned〔p 0.98〜1.00〕・orig 9/9 performed〔対照再現〕・newh0 9/9 planned〔本文だけで効く〕・27 リクエスト・エラー 0・resolved jev-1.13.0)。
+  - V3= §6 で記録(self-conformance・CI・窓)。V4= §5 独立検査。V5= §6 較正 receipt。
