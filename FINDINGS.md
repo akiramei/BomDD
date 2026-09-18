@@ -1166,3 +1166,22 @@ CAD 製造クラス・CAPA 様式 — v0 は凍結維持)。
 **拘束(§13 と同一)**: セル値は検査体制込み・n 小(P2×1・ECO 適用×1)・率の統計判定と routing
 使用は禁止。**証拠**: loops/equip-02/(protocol 凍結 f80a2e8)・loops/equip-03/(protocol 凍結
 93b1be9・独立検査報告 4 本)・BomDD-Plm ECO-006 台帳(verified・窓閉鎖 v0.5-eco-006-accepted)。
+
+### 13.2 追補: 意味判定モデルの設備認定 — 計器は書かれていることは読み、書かれていない意味は読めない(jev-01・2026-09-18)
+
+**設備**: TypeSafe/Jev(System One・型付き判定モデル・resolved `jev-1.13.0`・API 経由・理由文を生成せず確率と選択だけを返す)。目的= BomDD が「自己申告」と宣言している
+意味検査(handoff の semantic 検査・receipt が観測か予定か・所見の新規性)に書き手と別の計器を当てる前の**設備認定**(EXP-20260918-01・equip-01〜03 の型)。
+設計は各回とも結果受領前に固定(bomdd/reports/jev-qualification-01/README.md §1・§3・§5)。ラベルは Jev から独立(fixture の want_ok・見出し規則・原文/書き換え)。
+
+| 回 | 検体 | 質問 | 結果 | 判定 |
+|---|---|---|---|---|
+| 第 1 回 | self-conformance の fixture 35 本+病的 receipt 1+実 order 節 7(ja 36 / en 35 / real 7= 78) | Noul「実施済みの査定結果を報告しているか」 | ja: negative 26/29・positive 4/7 / en: 24/28・4/7(**日本語/英訳で差なし**)/ 実 receipt 4/4・計画節 1/3・病的 receipt P=0.04 | 認定条件 未達 |
+| 第 2 回 | 実 order 150 節(見出し規則で機械ラベル・performed 78 / planned 34 / template 32 / omitted 6) | Choice 4 択(performed / planned / template / omitted) | performed 78/78・影響なし予測 17/17・**planned→performed 誤読 9/34**(全件が結果文形の受入節・確信 0.66〜1.00)・template 16/32 | 条件 ①のみ未達 |
+| 第 3 回 | 誤読 9 節 × 3 腕(原文 / 二部形 / 二部形+原文見出し)= 27 | 第 2 回と同一 | **0/9・9/9・9/9**(初版と是正版で同値・是正版は全条件に検査法・原文見出し・実測文原文保持) | ECO-080 V2 PASS |
+
+**結論(N と限界つき)**: ①計器の性能: 実施済みの記録(receipt・実測節・独立検査 round・§0 実測)は 78/78、予測節 17/17、placeholder と機械が構造的に通す病的 receipt を正しく弾く。
+②外れは記録の書式に帰属: 受入条件が結果と同じ文形(「V1: 全 PASS(12/12)」)で書かれた節を「実施済み」と読む — 同一の質問・計器で**文形だけ変えると判定が反転**(第 3 回)。異系統検査官(Codex)の
+読解でも原文 9/9 に読み違えの余地・新書式 9/9 が一意。→ 是正は計器でなく記録(ECO-080: テンプレ受入節の二部形)。③言語: 日本語/英訳の腕で差なし(CJK 精度は主因でない)。
+④フェンス内の様式例は content として読む(code が先に剥がす分業で吸収)。**限界**: 検体の書き手は 1 名(自己適用)・第 3 回の書き換えは製造者・結果受領前固定は同一 commit のため第三者に
+検証不能・外部 API 原応答の保存は JSONL 自己記録(署名なし)・工程組み込みは未実施(トリガー= 実害 1 件 or 裁定)。費用= 282 リクエスト・input 約 25.5 万 tokens(単価未記載)。
+**証拠**: bomdd/reports/jev-qualification-01/(README §1〜§6・results*.jsonl・summary*.md・スクリプト 3 本)・ECO-080 order §5(独立検査 r1〜r4)。

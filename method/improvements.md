@@ -7786,3 +7786,5 @@ templates は ECO-080 で実施済み。cheat-taxonomy・control-plan は該当�
   ③独立検査官が受入節を「結果」と読み違えた所見 0。基準線(2026-09-18): ECO-080 で 1/1(r2/r3/r4 が §3 不変を確認)。他の書き手(製品リポ)での適用は kit 再設置後に別途観測
   source: ECO-080
   evidence: ECO-080 order §3/§6・r2〜r4 報告(§3 不変)
+
+**織り込み(2026-09-18・user 採択 1:A 2:A 3:A)**: playbook §8.4(追補 1 段落+E 案の状態更新)/ silence-checklist §19 項目 5「時制の宣言」/ FINDINGS §13.2 追補(jev-01)。本文改訂はレビュー採択後に節単位で適用(lesson-promote 手順 6〜8)。

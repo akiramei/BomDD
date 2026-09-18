@@ -292,6 +292,9 @@ i18n 生成層 / ECO-108= 言語追随の面間非対称 / ViewTube CAPA-VT-001=
 3. **対照側の個体**: 回帰・対照実測は、比較相手(別リポ含む)の revision も固定したか。
 4. **段の宣言**: 是正ループが多段のとき、各段(workspace/採用後/register 追随後/タグ後)の
    どこで測ったかを表・記録にラベルしたか。
+5. **時制の宣言**(BomDD ECO-080・2026-09-18 追加): 受入条件(計画)と観測結果を同じ文形で書いていないか —
+   条件は「…であること — 検査法」、結果は「= PASS | FAIL | UNMEASURABLE(観測: 座標)」(playbook §8.4。
+   結果文形の受入節は意味判定計器にも第三者にも「実施済み」と読まれた — 個体帰属〔項目 1〜4〕と対になる時制の帰属)。
 
 昇格記録: decision= promoted / target= silence §19+playbook §8.4 / basis= Plm ECO-006 の
 IA-05(対照 revision 未固定)・NEW-ECO006-01(最終個体の記録不在)・NEW-IA03-01(workspace 値を
