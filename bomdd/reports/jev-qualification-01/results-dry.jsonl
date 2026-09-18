@@ -1,0 +1,1 @@
+{"ts": "2026-09-18T01:43:13+00:00", "id": "C17-F1", "arm": "ja", "label": true, "desc": "verified + receipt(旧 scope)", "status": "verified", "want_ok": true, "state_sha256": "c62c65ae5f9cf84d", "chars": 33, "model": "jev-1.13.0", "p": 0.4, "usage": {"input_tokens": 488, "output_tokens": 23}, "pred": false, "correct": false, "band": "ambiguous"}

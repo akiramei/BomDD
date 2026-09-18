@@ -7719,3 +7719,11 @@ supported(semantic 自己申告を機構の読みへ)・「監視ではなくマ
   限定子: 検体は receipt 文(案 3)であり handoff 本文(案 1)の認定ではない— 案 1 の検体(user 訂正でラベル付けした handoff 集)は未整備で第 2 回
   source: 本節(user AGREE 2026-09-18)
   evidence: 本節・typesafe-ai skill 0.5.7・docs.typesafe.ai(state / confidence / api / sdk-python)・self-conformance.py _C17_FIXTURES / _CONVERGE_FIXTURES
+
+**受入(2026-09-18・EXP-20260918-01 第 1 回)**: user DECIDE A(鍵ファイル `~/.typesafe/api_key` を user が作成・鍵は当方非接触)→ SDK `typesafe-sdk` 0.6.0 導入 → 78 リクエスト(ja 36 / en 35 / real 7・resolved `jev-1.13.0`・
+エラー 0)。報告= [bomdd/reports/jev-qualification-01/README.md](../bomdd/reports/jev-qualification-01/README.md)(設計は結果受領前に固定)。**判定: 認定条件 未達**(ja: negative 26/29 達成・positive 4/7 未達・
+拮抗帯 6 / en: 24/28・4/7 — CJK は主因でない)。当たり= 病的 receipt(C17 限界 (5)・機械は通す)を P 0.04 で弾いた・実 receipt 4/4(0.93〜0.96)・placeholder 0.04・免除宣言と status 対象外は全て negative。
+外れ 3 群= ①**計画節を実施済みと誤読 2/3**(R5 0.70・R6 0.82 — 候補 3 で最も測りたい弁別)②fixture の positive 3 本は省略記号だけの stub でラベルが意味検査に粗い(検体側の欠陥)③fence 内の様式例を
+content として読む(code が先に剥がす分業で吸収)。**EXP-20260918-01 は「第 1 回= 未達・観測あり」で継続**(回収しない)。第 2 回の設計入力= 実 order の節を機械抽出・Choice(performed / planned /
+template / omitted)・fence 剥がし・認定条件は planned→performed 誤読率。実施は別裁定。思想層: 「計器は既知の known-bad で認定してから工程に置く」= supported(工程に置く前に弁別の穴が 1 群
+見えた)。棚卸し: 本 EXP のみ更新・他への影響なし。
