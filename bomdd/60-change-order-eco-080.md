@@ -100,3 +100,11 @@ C4/C14 advisory・C13 新リンク実在・ECO-079 の allowed_paths と交差�
   | IA-05(境界) | UNMEASURABLE の記録要件(原因・試みたコマンド)が未規定 | テンプレの結果行に「測定不能の原因と試みたコマンドを書き PASS に数えない」を追加 |
   | IA-06(境界) | `state_sha256` が 16 桁の短縮値で命名と不一致 | 完全な 64 桁を記録(01/02/03 初版は 16 桁接頭辞のまま・README に注記) |
 - 是正後の再測(03b)= new 9/9・newh0 9/9・orig 9/9(§4 V2)。検査官の限界宣言: 設計の結果受領前固定は同一 commit のため検証不能・GitHub 表示は未確認・Jev 再実行なし。
+
+### 5.2 r2(2026-09-18・range= 是正確認+回帰・範囲限定 10 項目)— 報告: [independent-inspection-eco-080-r2.md](reports/independent-inspection-eco-080-r2.md)
+
+- 起動: 是正 commit a3c95ee(witness tree 7baecdb67dbe・入口 dry ADVANCE)→ `cell exit 0` → `report REJECT sha256:4dad3f7bd227 (EQ-002)`・台帳 `range: 是正確認+回帰`・
+  verdict_line `REJECT IA-06 — README に「第1回・第2回・第3回初版の state_sha256 は16桁接頭辞」という注記がなく、是正が完了していません。`。**本節の判定は台帳の verdict から転記**。
+- 判定: **REJECT・未是正 1(IA-06 の README 注記)**。IA-01〜05= 是正済み(pandoc GFM で表が Table・NEW_BODY["077"] 原文保持・newh0 の見出し 2 件一致・V 項目 45 件に検査法 45 件・UNMEASURABLE 要件あり)/
+  回帰 7〜10= 退行なし(§3 条件行不変・03b 27 行の数値一致・kit smoke exit 0 で二部形 5 行と要件行・窓 11 ファイルすべて allowed_paths 内・playbook 等 diff 0)。
+- 是正: README 冒頭に記録の注記(旧 3 ファイルの `state_sha256` は先頭 16 桁の短縮値・03b 以降は 64 桁・旧記録は書き換えない)を追加 → r3(IA-06 の是正確認+回帰)。
