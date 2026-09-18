@@ -7715,7 +7715,7 @@ supported(semantic 自己申告を機構の読みへ)・「監視ではなくマ
   (収束 receipt の実在)+C17 限界 (5) の病的 receipt 1 本(見出し内の否定+本体ラベル完備— 機械は通す・意味では receipt でない)。質問= Noul「この節は実施済みの査定結果を報告しているか(様式の
   例示・省略の言及・実施予定ではなく)」1 問(fixture ごと・state は本文+status)。ラベルの根拠= fixture の want_ok(修理 ECO+CI 緑で確定・Jev から独立)。判定= 感度(known-bad で P<0.5)・特異度
   (known-good で P≥0.5)・0.4〜0.6 の件数(拮抗)・病的 receipt 1 本の P。第 2 腕= 同検体を英訳した state(CJK 精度差の分離)。認定条件(事前宣言): 感度・特異度とも 15/17 以上かつ病的 receipt を
-  known-bad 側に置く。未達なら英訳腕の値で再判定・それも未達なら「採らない」。**next trigger= user DECIDE(外部 API への fixture 送信+`TYPESAFE_API_KEY` の user 設定+SDK 導入)**。
+  known-bad 側に置く。未達なら英訳腕の値で再判定・それも未達なら「採らない」。**next trigger(2026-09-18 更新・user AGREE)= 回収漏れの実害 1 例(lesson-promote 手順 4 の④昇格条件と同一)/ 独立検査ブリーフの参照不足による所見 1 例 / user 裁定** — 成立時の設計は「戻せる候補の選別」に限定(棚卸し候補・ブリーフ参照候補・handoff 本文→付録の移動候補)・門番には置かない。第 1〜3 回は実施済み(README §1〜§6)。
   限定子: 検体は receipt 文(案 3)であり handoff 本文(案 1)の認定ではない— 案 1 の検体(user 訂正でラベル付けした handoff 集)は未整備で第 2 回
   source: 本節(user AGREE 2026-09-18)
   evidence: 本節・typesafe-ai skill 0.5.7・docs.typesafe.ai(state / confidence / api / sdk-python)・self-conformance.py _C17_FIXTURES / _CONVERGE_FIXTURES
@@ -7790,3 +7790,5 @@ templates は ECO-080 で実施済み。cheat-taxonomy・control-plan は該当�
 **織り込み(2026-09-18・user 採択 1:A 2:A 3:A)**: playbook §8.4(追補 1 段落+E 案の状態更新)/ silence-checklist §19 項目 5「時制の宣言」/ FINDINGS §13.2 追補(jev-01)。本文改訂はレビュー採択後に節単位で適用(lesson-promote 手順 6〜8)。
 
 **user 裁定(2026-09-18・DISCUSS「Jev の使いみちはあったか」への返答)**: 「現状は調査結果に留める」— Jev の工程組み込み・回帰計器化・handoff 読み手規則への適用・所見の独立分類は**着手しない**。到達点は FINDINGS §13.2 の実証データと ECO-080(記録側の是正)。EXP-20260918-01 は open のまま(next trigger= user 裁定のみ・当方からの再提案はしない)。鍵ファイル・SDK は user の環境に残る(当方は非接触)。
+
+**user AGREE(2026-09-18・DISCUSS「この発想を BomDD に生かせる場面」)**: fast-jev-compaction(Claude Code の会話圧縮・Jev は残す/消すの Yes/No だけ・本文は原文のまま・適用と不変条件はコード)から学んだ形= 「大きな記録に対し、人が後で戻せる候補の選別を Jev に任せ、適用と不変条件はコードと人に残す」。BomDD で合う場面 3= ①還元時の棚卸し(open 項目のトリガー照合・現状は grep+目視で語が違う機序を見落とす)②独立検査ブリーフの「使う手順書」の選択 ③handoff の本文→付録の射影(読み手規則 3)。いずれも実害未実測のため着手条件は未成立 — EXP-20260918-01 の next trigger を上記へ行内更新。門番には置かない(既裁定)。記帳のみ・起票なし。
