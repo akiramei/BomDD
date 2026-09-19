@@ -2718,3 +2718,26 @@ changes:
       原文 9 節を対照腕。採らない= 既存 order の書き換え・受入節の機械 lint(必要が実測されてから)・playbook 本文の直接改訂(候補提示まで)・Jev の工程組み込み。
     verification: >
       V1 テンプレの受入欄に二部形(grep: 「(条件)」「観測:」)/ V2 Jev 第 3 回= 新書式 9 節で planned ≥ 8/9 かつ原文 9 節は performed(対照)/ V3 self-conformance・CI・窓 / V4 製造裁定で決める(A 独立検査 / B 製造者較正)/ V5 較正 receipt。
+  - id: ECO-081
+    title: 配布 第 2 弾 — 運転層の契約と設備台帳の文書配布(product-profile に運転層契約〔core/adapter〕・70-equipment.yaml テンプレート・register の配員注記〔記述欄〕・機械検査なし)
+    date: 2026-09-19
+    origin: improvement
+    status: filed   # 2026-09-19 起票(user 範囲 DECIDE「A」・製造裁定は別 DECIDE)
+    source: >
+      ECO-075 §1-6 の第 2 弾候補(EXP-20260914-01: bomdd-job の self-conformance 非依存化・配員欄の機械検査・run 台帳の配置と hook・設備台帳テンプレート)。
+      user 2026-09-19「ECO-062 第 2 弾の運転層配布に進んで」→ 範囲 DECIDE(A 文書配布 / B 機械検査を process-core に / C ツール移植)に user「A」。実測: 製品側は process-core
+      (profile が register と状態語彙を決め validator が強制)・運転層 3 ツール 2,464 行は自リポの配置と語彙に結合・ViewTube は独自の装置検査(ECO-VT-164/165)を持ち配員欄なし。
+    order_ref: bomdd/60-change-order-eco-081.md
+    affected_refs: [method/templates/product-profile/operator-layer.md, method/templates/70-equipment.yaml, method/templates/60-change-register.yaml, method/tools/bomdd-init.py]
+    no_impact_prediction: "(起票時点・製造裁定で凍結)diff= operator-layer.md(新規)・70-equipment.yaml(新規)・60-change-register.yaml(注記 2 行)・bomdd-init.py(render 1 行・SKILLS 13 不変)・product-profile README(2 行・change-management.md は ECO-079 の窓のため diff 0)+台帳系。process-core / self-conformance / bomdd-job / run / witness / playbook diff 0・既存製品リポは kit 再設置まで非波及"
+    diff_audit:
+      baseline: "e0d4b52"  # 起票直前 HEAD
+      allowed_paths: [method/templates/product-profile/operator-layer.md, method/templates/70-equipment.yaml, method/templates/60-change-register.yaml, method/tools/bomdd-init.py, method/templates/product-profile/README.md, bomdd/60-change-order-eco-081.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/independent-inspection-eco-081.md]
+    summary: >
+      候補= ①product-profile/operator-layer.md(core= 3 形式は台帳の射影・停止語彙 10 語と配送先・設備台帳の規約と独立性 3 軸・配員の記述先・判定語契約・機構がない環境は人間の配員規律 /
+      adapter= 自リポの機械化の所在と出自)②templates/70-equipment.yaml 雛形(値は空欄・bomdd-init の yaml glob で自動配布)③60-change-register.yaml に producer/inspector の注記 2 行(記述欄)
+      ④bomdd-init の render 1 行+README/change-management の参照 ⑤EXP-20260914-01 行内更新。採らない= 3 ツールの配布・process-validator/hooks の変更・配員の機械検査・ViewTube への設置・
+      設備台帳の初期値・playbook 改訂。
+    verification: >
+      V1 core 区画に固有語 0(grep)/ V2 bomdd-init 生成先に 70-equipment.yaml と operator-layer.md が実在し {{ 未解決 0 / V3 注記に enforcement 語 0 / V4 self-conformance・CI・窓 /
+      V5 製造裁定で決める(A 異系統独立検査 r1 境界探索→r2・inspection gate / B 製造者較正のみ)/ V6 較正 receipt。条件行は起票後不変・結果はクローズ節の観測行(ECO-080 二部形)。

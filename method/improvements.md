@@ -7458,7 +7458,7 @@ supported(Phase 7 の 3 弾すべてが導出→裁定の順で、機構の穴�
 
 - [open] EXP-20260914-01 — **運転層の製品配布(第 2 弾候補・既知の未実装)**: bomdd-job の self-conformance 非依存化(required_skills 導出の正規表現の所在)・配員欄の機械検査(製品リポでの
   producer/inspector の導出・実在確認・独立性判定)・run 台帳の配置(`.git/bomdd-run/` と製品リポの hook)・設備台帳テンプレート。ECO-075 の時点で製品リポの配員欄は記述欄であり機械強制は存在しない
-  (欄の文言にそう書く)。**next trigger= 製品リポでの配員取り違えの実害 1 件 or user 裁定**(実害が起きるまで無記名にしてよいという意味ではない・本行が記名)
+  (欄の文言にそう書く)。**next trigger= 製品リポでの配員取り違えの実害 1 件 or user 裁定**(実害が起きるまで無記名にしてよいという意味ではない・本行が記名)。**2026-09-19 user 裁定 → ECO-081 起票(範囲 A= 契約と台帳の文書配布: 設備台帳テンプレート+配員の記述先を回収予定・残= self-conformance 非依存化・機械検査・run 台帳と hook)**
   source: ECO-075
   evidence: ECO-075 order §0・§1-5/6・DISCUSS 2026-09-14(user 境界条件)
 
@@ -7821,3 +7821,21 @@ Score 7 軸(順序 rubric 4 段)+Choice 主因 8 択・3 反復・24 リクエ�
 **第 5 回の設計**= [README §3](../bomdd/reports/jev-qualification-02/README.md)(結果受領前に固定): Score 5 軸(指示語・意味密度・依存の深さ・文負荷・不要な修辞)・Choice なし・初稿の最高軸 1 つを対応表で直す・ADOPT= 狙った軸 ≥ 0.3 低下かつ他軸 < 0.3 上昇・上限 2 回・
 N= 10 通・手作業・計器は本文を止めない。認定条件 5(①稼働 10/10 ②方向 ≥ 7/10 ③副作用 ≤ 3/10 ④採用文への「分かりにくい」≤ 1/10 ⑤追加時間中央値 ≤ 5 分)。期限= 2026-10-03(未到達なら暫定集計)。
 計測器= `bomdd/reports/jev-qualification-02/jev_gauge.py`(実験設備・method/tools ではないので起票なし)。記録= gauge-log.jsonl+gauge/ の初稿・書き直し本文。EXP-20260919-01 を行内更新(第 5 回= 運用内・N=10・next trigger= N 到達 or 期限)。
+
+## 2026-09-19 BomDD 自己適用 — 配布 第 2 弾 ECO-081 起票(運転層の契約と設備台帳の文書配布・機械検査なし・user 範囲 DECIDE「A」・起票のみ)
+
+**観測**(出典: [ECO-081 order](../bomdd/60-change-order-eco-081.md) §0・user「ECO-062 第 2 弾の運転層配布に進んで」2026-09-19・preflight receipt〔job 経由〕): ①再開の入力状態は「範囲の裁定」だけが欠けていた
+(baseline / 現在状態 / 残課題 EXP-20260914-01 の 4 項目 / handoff 状態はすべて正本で confirmed)。②製品側の変更管理は process-core(profile が register の場所と状態語彙を決め validator が強制)で、
+運転層 3 ツール 2,464 行は自リポの台帳配置・状態語彙(filed / in-progress / implemented / verified)・self-conformance import・activation-map の method 内パスに結合している。③ViewTube は独自の
+装置検査(commit-msg hook「process equipment missing」・ECO-VT-164/165)を持ち、ECO 本文は自由形式で配員欄がない。④product-profile に運転層の記述は 0・bomdd-init は `NN-*.yaml` を製品 `bomdd/` へ
+複写する(設備台帳テンプレートは置くだけで配布される)・register テンプレには記述欄の前例(receipt_author_role)。
+**user 裁定**(2026-09-19・DECIDE 範囲): **A 契約と台帳の文書配布**(B 機械検査を process-core に載せる / C ツールごと移植は採らず)。設備台帳の初期値は指定なし → 雛形のみ。
+**整理**: 配布は「欄と契約の形を固定する」段と「欄を読む機構を置く」段に分かれ、前者を先に固定しないと後者が読む対象が決まらない(ECO-075 の配員欄文言と同じ順序)。製品側には既に別系統の
+設備概念(ViewTube の装置検査)があるので、配布物は**記述の規約**に留め、機構の存在を主張しない文言にする(ECO-075 の境界条件の延長)。範囲 B は実害未観測で全製品に波及する検査になり
+converge 凍結時の裁定(証明のための複雑性を足さない)に反する。範囲 C は process-validator との二重統治(ECO-025 の裏返し)。**一般化検査**: 「運転設備の配布は、読む機構より先に読まれる
+記録の形(台帳・欄・契約)を配る。機構がない環境では人間の規律が担うと文書自体に書く」は製品名を含まない(2 例目候補: 1 例目= ECO-075 の配員欄文言)。
+**行き先判定**: 起票のみ(ECO-081・製造裁定は別 DECIDE)。playbook 非改訂。**思想層の再認証判定(手順 3b)**: [x] operational rule(配員の記述先・判定語契約)[ ] control/probe [x] template
+(70-equipment.yaml・register 注記・operator-layer.md)[x] terminology(停止語彙 10 語と配送先を製品向け文書に固定)[x] method/concept claim: 「有界委任ハーネス」= supported(リポ面で検査可能な
+記録の形を先に配る)・「二重正本を作らない」(ECO-062 の中心命題)= supported(3 形式は射影と明記)。contradicted / superseded: なし。
+**期待効果の棚卸し**: EXP-20260914-01 を行内更新(第 2 弾= 文書配布で「設備台帳テンプレート・配員の記述先」を回収予定・残= self-conformance 非依存化・機械検査・run 台帳と hook・next trigger 不変)。
+EXP-20260919-01(ひずみゲージ)は本節の handoff 2 通(範囲 DECIDE・製造裁定 DECIDE)を第 2〜3 通として計測中。新規 ID なし。
