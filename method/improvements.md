@@ -7917,6 +7917,27 @@ baseline を製造直前 HEAD へ再凍結する(preflight の baseline 判定�
   設計= 小さな新製品(当方が定義・要求 5 件程度・既存系列と無関係・.NET CLI)を bomdd-init(ECO-081 配布物込み)で設置し、機構(射影・入口・witness)を**配布せず**、運転員が operator-layer.md だけで運転する。
   記録欄 3 つ(ECO ごと): (i) 停止回数と種別(停止語彙 10 語のどれか・判断依存か機構不在か) (ii) 人間のターンのうち裁定(DECIDE)と依頼(REQUEST)以外に費やしたもの (iii) 製品側が方法論リポ(BomDD)を参照した回数と理由。
   終了条件= ECO 3 本を運転するか、機構不在による実害 1 件(配員の取り違え・判定の未回収・窓の混入など)が出た時点。**結果の行き先**= 実害 1 件なら EXP-20260914-01 の next trigger 成立(機械検査の配布を根拠つきで起票)/
-  実害 0 なら「文書契約で足りる」を 3 ECO 分の実測として記録し、運転層配布は中断のまま。**次の一手**= 題材の要求台帳草案を DECIDE で提示(3:A・user 承認後に設置)。
+  実害 0 なら「文書契約で足りる」を 3 ECO 分の実測として記録し、運転層配布は中断のまま。  **次の一手**= 題材の要求台帳草案を DECIDE で提示(3:A・user 承認後に設置)。**2026-09-22 user DECIDE「A」(単位換算 CLI)→ 設置 `BomDD-UnitConv-Sample`(cb69617)→ forward Phase 0〜5 完了(設計 1c4db46・製造 e734c5b): 停止 1 件〔process-core E01・OBS-20260922-02〕・人間ターン 1(DECIDE)・BomDD リポ参照 0・memory 持ち込み 2(工場の起動と隔離の手段)。次= golden REQUEST → accept(eco-001)→ ECO ①〜③**
   source: 2026-09-22 DISCUSS 2 通・DECIDE 3 件・ECO-081 §6
   evidence: ECO-081 order §4・§6 較正 receipt「支持しないもの」(実運用は未測定)
+
+## 2026-09-22 運転実証 ops-trial(EXP-20260922-02)— 設置〜初回製造: 停止 1 件は kit 内の矛盾(初回製造に ECO は要らない vs 保護パスは open ECO 必須)・運転層の文書契約は配員と台帳で足りた・工場の起動と隔離の手段は文書に無い
+
+**観測**(出典: [BomDD-UnitConv-Sample bomdd/reports/ops-trial/README.md](../../BomDD-UnitConv-Sample/bomdd/reports/ops-trial/README.md)・設計 1c4db46・製造 e734c5b・2026-09-22): ①設置は ECO-081 配布物込みの bomdd-init 1 回(line readiness PASS)。
+設備台帳 EQ-001〜003 と配員(register の producer/inspector・order の担当設備節)は **operator-layer.md §3〜§5 だけで書けた**(BomDD リポ本体の参照 0)。②forward Phase 0〜3 は G2(fresh sonnet 1 体・差分 5 → 補正 → 5/5)・G3(可・質問 2 → K-BOM)で
+運転の停止なし。③Phase 4= Codex(EQ-002)1 回で DELIVERED(6 分・自己受入 51/51・cheat 0・パッケージ外参照なし)。Phase 5= 固定オラクル 59/59(EQ-001・producer と別設備)。④**停止 1 件**: 製造 commit を process-core hook が E01(保護パス src/・test/ に open ECO なし)で遮断。
+kit の `change-management.md` §0「初回製造は ECO を使わない」と `process-profile.yaml` の `protected_paths`(導入点から強制)が**矛盾**。運転員の処置= 初回製造を ECO-001 として起票(起票 commit → 製造 commit)。停止語彙の 10 語に当てはまらず(運転層でなく変更管理の機構)、
+operator-layer §2 の規則「当てはまらなければ NORMATIVE_RULING」に従えば人間へ渡す案件だが、運転員が処置して記録した(裁定に回すほどの分岐がない— 起票以外の経路は hook の無効化で信頼境界外)。⑤**文書契約に無く memory から持ち込んだもの 2 件**: 工場の起動コマンド(`codex exec -s workspace-write … -o … - < brief`)と隔離の手段(非開示物を製造中だけ作業木外へ退避)。
+kit の phase4 プロンプトは「渡さない」と言うが Codex CLI 環境での**手段**は書いていない(factory-delegate スキルは未使用・ECO で試す)。⑥人間のターン= 1(題材 DECIDE)。golden は REQUEST で回収予定。
+**整理**: 実証の問い「運転の連鎖が文書契約だけで回るか」は初回製造では**配員と台帳の記述は足りた・起動と隔離の手段は足りない・変更管理の機構が forward を想定していない**、の 3 点に分解された。④は「実害」(配員の取り違え・判定の未回収・窓の混入・状態の矛盾)ではなく
+kit の設計矛盾で、EXP-20260914-01 の next trigger には数えない(運転層の機構不在が原因ではない)。⑤は operator-layer の範囲外(製造工場の起動は factory-delegate の責務)— 手段の欠落は kit 側の穴として記帳。
+**一般化検査**: 「保護パスの強制は導入点から効くが、初回製造の規律は納品後を前提にしている— 変更管理の機構と forward の手順は『最初の src/ 書き込み』で衝突する」= 製品名を含まない(1 例・候補 → OBS-20260922-02)。
+「隔離は指示でなく手段で担う(非開示物を作業木から退避する)— 工場が『読まなかった』と申告するより、読めない状態にする方が安い」= 1 例・候補(記帳のみ)。
+**行き先判定**: 記帳のみ(EXP-20260922-02 行内更新・OBS-20260922-02 新規)。kit の是正(change-management §0 に「process-core 設置済みなら初回製造も ECO-001 として起票する」の 1 行、または process-profile の導入点免除)は**起票候補**(user 裁定・実証終了後にまとめて)。
+**思想層の再認証判定(手順 3b)**: [x] operational rule(初回製造の起票)[x] control/probe(process-core E01 が forward で発火)[ ] template [ ] terminology [x] method/concept claim: 「慎重さでなく機構」= supported(hook が止めた・運転員の注意ではない)/
+「有界委任ハーネス」= supported with limit(文書契約で配員は書けたが起動と隔離は運転員の持ち込み)。contradicted / superseded: なし。
+**期待効果の棚卸し**: EXP-20260922-02 行内更新(上)。EXP-20260914-01 不変(実害 0)。新規 OBS-20260922-02(下記)。
+
+- [watch 1/3] OBS-20260922-02 — **process-core の保護パス強制(導入点から)と forward 初回製造の規律(ECO を使わない)は『最初の src/ 書き込み』で衝突する— 初回製造を ECO-001 として起票する運用か、導入点免除かを kit で決める**
+  source: BomDD-UnitConv-Sample ops-trial(2026-09-22・E01 で製造 commit 遮断)
+  evidence: 本節 ④・BomDD-UnitConv-Sample bomdd/60-change-order-eco-001.md
