@@ -125,3 +125,58 @@ bomdd-job / run / witness diff 0・playbook diff 0・既存製品リポは kit �
   | IA-04 | core 内に配布元の規約を知らないと意味が定まらない語: `verified` / `executor` vs `inspector` / `bomdd/` 固定パス / `BOM` / `handoff` / `{{METHOD}}` | 製造物 | **§0「用語と前提(本書の中だけで閉じる)」を新設**: 変更台帳と指示書(パスは配布先の規約・別配置なら読み替え)/ BOM= 部品表 / verified= 最終状態(語彙は変更管理の規約)/ producer・inspector・executor の定義(executor≠inspector なら照合は executor)/ 運転員 / 制御移譲メッセージ(handoff)/ プレースホルダは設置時に置換 |
   | IA-05 | §1「射影は手書きしない」が自動生成機構の存在を示唆し、§7「人間が手で行う」と両立の仕方が不明 | 製造物 | §1 の規則を「射影を**台帳と独立に編集しない**。機構があれば台帳から生成し、機構がなければ運転員が台帳を読んでその場で書き出す(§7)」に書き換え(機構の有無に依存しない規則へ)。§2「運転員は解決しない」と §7「運転員が手で行う」は検査官も矛盾と判定せず(分類と解決の区別)・不変 |
 - 是正後の受理側再検査: V1(core 固有語 0・陽性対照)・V2(生成・解決)・V3(注記の enforcement 語 0)を同じ計器で再実行し §6 に記録。r2 の range= 是正確認+回帰(IA-03/04/05 の是正確認・IA-01 の新窓・V1〜V3 と第三者記述試験の回帰)。
+
+### 5.2 r2(2026-09-22・range= 是正確認+回帰・範囲限定)— 報告: [independent-inspection-eco-081-r2.md](reports/independent-inspection-eco-081-r2.md)
+
+- 起動: 是正 commit 2d2f4ae(witness tree 20e815ddedd0・入口 `ADVANCE ECO-081 OK → next`)→ `cell exit 0` → `report ACCEPT sha256:7f92d0889c09 (EQ-002)`・台帳 `range: 是正確認+回帰`・verdict_line `ACCEPT`。
+  **本節の判定は台帳の verdict から転記**。
+- 判定: **ACCEPT**(是正確認 IA-01/03/04/05= 4/4 PASS・回帰 10/10 PASS・是正による新欠陥 0)。検査官の観測: 新窓 `fa0d848..2d2f4ae` の 9 ファイルすべて allowed_paths 内・旧窓 `e0d4b52..fa0d848` が r1 の混入 8 ファイル
+  +台帳系 3 を**完全再現**(baseline_v1 が恒久再現フィールドとして機能)/ **第三者記述試験の再実施で推測 0**(r1 は 2 箇所推測)/ core 語彙 7 語すべて §0 で閉じた・§0 自体に新たな配布元依存語なし /
+  §1 に機構の実在を主張する文なし・§1 と §7 の人手経路が一義 / §0 の executor・verified・運転員の定義が §3〜§6 と整合・§3 の YAML 例と雛形の形が一致。検査官の計器欠陥 1(自身の一時ラッパーの生成先参照・別 temp で再実行し最終証拠に不使用)。
+  検査官の限界宣言: self-conformance 未実行(ブリーフ指定)・CI 未照会・同一検査官(盲検なし)・V2/V3 に欠陥注入の陽性対照なし。
+
+## 6. クローズ(2026-09-22・verified)
+
+- **受入結果(§3 の条件行は不変・観測行)**: V1= PASS(製造者 grep 0・陽性対照 16 / 検査官 r1・r2 とも 0・16)/ V2= PASS(製造者・検査官 r1/r2: 生成 exit 0・2 ファイル実在・`{{` 0・YAML 厳格パース・SKILLS 13・正典参照先実在)/
+  V3= PASS(製造者・検査官とも 0)/ V4= PASS(self-conformance 全 PASS= fix 9e59d42・是正 2d2f4ae の両 tree で exit 0・witness gate / CI run 35714129095〔9e59d42〕・35716309925〔2d2f4ae〕とも success /
+  窓= baseline v2 `fa0d848` → head `2d2f4ae`= allowed_paths のみ・検査官確認)/ V5= PASS(製造裁定 A: r1 境界探索 REJECT 所見 5 → 是正 → r2 是正確認+回帰 ACCEPT・inspection gate 経由の昇格)/ V6= 下記 較正 receipt。
+- **V4 の環境帰属 1 件(IA-02)**: 検査官の sandbox で C14 の REAL 腕(実 scaffold を OS temp に作る検査)だけが FAIL。受理側は同一 tree の製造者実測 3 回 exit 0 と CI success で閉じ、製造物は非改変。
+  検査官が測れない検査を検査官の判定に含めない(ブリーフ r2 で再実行を依頼せず範囲外に置いた)。
+- **窓の版宣言(IA-01)**: 起票(09-19)と製造(09-22)の間に別作業 5 commit が入り、v1 窓 `e0d4b52..` に他作業の 8 ファイルが混入した。baseline を v2 `fa0d848` に版宣言・旧値は `baseline_v1` に恒久保存
+  (playbook §13 ⑧・検査官が旧値で混入の再現を確認)。教訓は §7(improvements)へ: **起票と製造が日を跨ぐ ECO は製造開始時に baseline を再凍結する**(preflight の最小契約に「baseline が製造直前 HEAD か」を足す候補・記帳のみ)。
+- verified 昇格は入口の inspection gate(r2 の台帳から `--inspection-from-ledger` で導出・ECO-074 の運用)を通した(§6 末尾に dry の判定行を転記)。register: `implemented → verified`・head `2d2f4ae`・receipt_author_role producer。
+- **到達点**: 製品リポの書き手が、方法論リポを読まずに `bomdd/operator-layer.md` の core だけで設備台帳・配員・独立性判定・検査報告の先頭を書ける(異系統 AI の記述試験: r1 推測 2 → r2 推測 0)。
+  配布物は記述規約のみで機構を主張しない(検査官の読解でも機構の実在を示す文 0)。第 2 弾で回収した残課題= 設備台帳テンプレート・配員の記述先(EXP-20260914-01)。残= 射影の非依存化・機械検査・run 台帳と hook。
+- **境界条件の遵守**: 3 ツール非配布 / process-validator・hooks 非変更 / 配員の機械検査なし / ViewTube 非設置 / 台帳初期値なし / playbook 非改訂 / activation-map 非追加 / 60-change-order.md 配員欄文言不変(検査官 r1・r2 で「採らない」対象の差分 0)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer)
+
+- 査定した主張と判定:
+  1. 「core は環境非依存で、第三者が core だけで台帳と配員を書ける」— **observed / 適格**(固有語 grep 0・陽性対照 16・異系統検査官の記述試験 r1 推測 2 → 是正 → r2 推測 0・語彙 7 語の閉包 7/7)。
+     限定子: 検査官 1 系統・同一検査官の再試験(盲検なし)。人間の書き手は未測定。
+  2. 「配布物は機構の存在を主張しない」— **observed / 適格**(V3 enforcement 語 0・検査官の読解で機構の実在を示す文 0・IA-05 是正後 §1/§7 が一義)。
+  3. 「生成物が製品リポに正しく届く」— **observed / 適格**(bomdd-init 生成・`{{` 0・正典参照先実在・YAML 厳格パース・SKILLS 13 不変。製造者+検査官 r1/r2 の 3 回)。
+  4. 「窓は allowed_paths のみ」— **observed / 適格(版宣言つき)**(v2 窓 9 ファイルすべて内・旧値で混入を再現可。v1 窓では不適合だった事実を §6 に残す)。
+  5. 「検査は同一 tree で緑」— **observed / 適格**(製造者 3 回+CI 2 run success。検査官環境の C14 REAL 腕 FAIL は環境帰属— 製造物に触れずに閉じたので、この帰属判定自体は受理側の推定であり検査官の再実測で裏取りしていない)。
+- 検出した計器欠陥(帰属つき): 製造物 3 件(IA-03/04/05・r1 で検出・r2 で是正確認)。受理側 2 件(IA-01 窓の再凍結漏れ / 製造中の YAML placeholder と `{{}}` の 2 件は commit 前に自己検査が捕捉)。
+  検査官側 1 件(一時ラッパーの生成先参照・最終証拠に不使用)。
+- 検出力の限界: 検査官 1 系統(Codex)・記述試験は同一検査官の r1→r2(盲検なし・人間の書き手 0)・V2/V3 に欠陥注入の陽性対照なし(V1 のみ adapter 陽性対照)・実運用(製品リポで実際に配員と台帳を書く場面)は
+  未測定— **次の実証実験(EXP-20260922-02)がその測定**。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | V1〜V3 の製造者計器+検査官 r1/r2・CI 2 run |
+  | Q2 | asked | observed/適格 | 実測 | 陽性対照= V1 adapter 16 件(製造者・検査官)/ known-bad= r1 の推測 2 箇所 → r2 0(是正の効果を対で観測) |
+  | Q3 | asked | observed/適格 | 実測 | 変更前(product-profile に運転層の語 0)→ 変更後(core/adapter・雛形・注記 2 行) |
+  | Q4 | asked | observed/適格 | 実測 | 実ファイル・実 bomdd-init 生成物(OS temp・製造者/検査官とも) |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(人間の書き手・実運用・V2/V3 陽性対照)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → commit → witness → push → CI(fix・是正)→ r2 の gate で昇格。製造中の是正 2 件は exit 1 を観測してから直した |
+  | Q7 | asked | observed/適格 | 実測 | V1 陽性対照あり(16)。V2/V3 は限界として宣言 |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(inspection gate)・register(baseline v1/v2)・run 台帳・r1/r2 報告 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 固有語/記述試験/機構示唆/語彙整合/生成/乖離/README(検査官の 7 軸)+窓/環境(受理側) |
+
+- このクローズが支持しないもの: 製品リポでの実運用(配員と台帳を実際に書く場面の成否)/ 人間の書き手の理解 / 運転層の機械検査の配布(EXP-20260914-01 残)/ 実証実験の設計の是非。
+- 入口 dry(verified・inspector 宣言・witness gates 2= self-conformance + inspection〔r2 ACCEPT・是正確認+回帰〕): `ADVANCE ECO-081 OK → next · dry @81e5b1271253`(クローズ commit 前の tree。commit 後の再 dry は commit メッセージに記す)。

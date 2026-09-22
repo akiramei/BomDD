@@ -2722,7 +2722,8 @@ changes:
     title: 配布 第 2 弾 — 運転層の契約と設備台帳の文書配布(product-profile に運転層契約〔core/adapter〕・70-equipment.yaml テンプレート・register の配員注記〔記述欄〕・機械検査なし)
     date: 2026-09-19
     origin: improvement
-    status: implemented   # 2026-09-19 起票(user 範囲 DECIDE「A」)→ 2026-09-22 製造裁定 user「1:A」(全項目+異系統独立検査)・製造・V1〜V3 PASS(order §4)
+    status: verified   # 2026-09-19 起票(e0d4b52)→ user 範囲 DECIDE「A」→ 2026-09-22 製造裁定 user「1:A」→ fix 9e59d42(V1〜V3 PASS・CI 35714129095 success)→ Codex r1 境界探索 REJECT 所見 5(製造物 3・窓 1・環境 1)→ 是正 2d2f4ae(CI 35716309925 success)→ r2 是正確認+回帰 ACCEPT → verified(inspection gate 経由・窓閉鎖 fa0d848→2d2f4ae〔baseline v2〕・較正 receipt trigger ①)
+    receipt_author_role: producer   # ECO-077 観測欄
     source: >
       ECO-075 §1-6 の第 2 弾候補(EXP-20260914-01: bomdd-job の self-conformance 非依存化・配員欄の機械検査・run 台帳の配置と hook・設備台帳テンプレート)。
       user 2026-09-19「ECO-062 第 2 弾の運転層配布に進んで」→ 範囲 DECIDE(A 文書配布 / B 機械検査を process-core に / C ツール移植)に user「A」。実測: 製品側は process-core
@@ -2733,6 +2734,7 @@ changes:
     diff_audit:
       baseline: "fa0d848"  # v2(2026-09-22・製造直前 HEAD): 起票(2026-09-19)から製造(2026-09-22)の間に別作業の commit 4 本(e526c55 / 8fc1d0e / b56ed80 / fbca47d / fa0d848= Jev EXP-20260919-01 打ち切り記録・ECO-VT-177 還元の playbook §8.5/§13 織り込み・worklist 是正)が入り、v1 窓に allowed_paths 外 8 ファイルが混入(r1 IA-01)。playbook §13 ⑧: 旧値は下の恒久フィールドに残す
       baseline_v1: "e0d4b52"  # 起票直前 HEAD(2026-09-19・旧値・恒久再現用: `git diff e0d4b52 fa0d848 --name-only` が混入 8 ファイルを再現する)
+      head: "2d2f4ae"      # diff監査済み: 窓内= allowed_paths のみ(検査官 r2 確認)・予測的中(受入 commit は台帳系のみ)
       allowed_paths: [method/templates/product-profile/operator-layer.md, method/templates/70-equipment.yaml, method/templates/60-change-register.yaml, method/tools/bomdd-init.py, method/templates/product-profile/README.md, bomdd/60-change-order-eco-081.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/independent-inspection-eco-081.md, bomdd/reports/independent-inspection-eco-081-r2.md]
     summary: >
       候補= ①product-profile/operator-layer.md(core= 3 形式は台帳の射影・停止語彙 10 語と配送先・設備台帳の規約と独立性 3 軸・配員の記述先・判定語契約・機構がない環境は人間の配員規律 /
