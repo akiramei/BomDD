@@ -2731,8 +2731,9 @@ changes:
     affected_refs: [method/templates/product-profile/operator-layer.md, method/templates/70-equipment.yaml, method/templates/60-change-register.yaml, method/tools/bomdd-init.py]
     no_impact_prediction: "(起票時点・製造裁定で凍結)diff= operator-layer.md(新規)・70-equipment.yaml(新規)・60-change-register.yaml(注記 2 行)・bomdd-init.py(render 1 行・SKILLS 13 不変)・product-profile README(2 行・change-management.md は ECO-079 の窓のため diff 0)+台帳系。process-core / self-conformance / bomdd-job / run / witness / playbook diff 0・既存製品リポは kit 再設置まで非波及"
     diff_audit:
-      baseline: "e0d4b52"  # 起票直前 HEAD
-      allowed_paths: [method/templates/product-profile/operator-layer.md, method/templates/70-equipment.yaml, method/templates/60-change-register.yaml, method/tools/bomdd-init.py, method/templates/product-profile/README.md, bomdd/60-change-order-eco-081.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/independent-inspection-eco-081.md]
+      baseline: "fa0d848"  # v2(2026-09-22・製造直前 HEAD): 起票(2026-09-19)から製造(2026-09-22)の間に別作業の commit 4 本(e526c55 / 8fc1d0e / b56ed80 / fbca47d / fa0d848= Jev EXP-20260919-01 打ち切り記録・ECO-VT-177 還元の playbook §8.5/§13 織り込み・worklist 是正)が入り、v1 窓に allowed_paths 外 8 ファイルが混入(r1 IA-01)。playbook §13 ⑧: 旧値は下の恒久フィールドに残す
+      baseline_v1: "e0d4b52"  # 起票直前 HEAD(2026-09-19・旧値・恒久再現用: `git diff e0d4b52 fa0d848 --name-only` が混入 8 ファイルを再現する)
+      allowed_paths: [method/templates/product-profile/operator-layer.md, method/templates/70-equipment.yaml, method/templates/60-change-register.yaml, method/tools/bomdd-init.py, method/templates/product-profile/README.md, bomdd/60-change-order-eco-081.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/independent-inspection-eco-081.md, bomdd/reports/independent-inspection-eco-081-r2.md]
     summary: >
       候補= ①product-profile/operator-layer.md(core= 3 形式は台帳の射影・停止語彙 10 語と配送先・設備台帳の規約と独立性 3 軸・配員の記述先・判定語契約・機構がない環境は人間の配員規律 /
       adapter= 自リポの機械化の所在と出自)②templates/70-equipment.yaml 雛形(値は空欄・bomdd-init の yaml glob で自動配布)③60-change-register.yaml に producer/inspector の注記 2 行(記述欄)

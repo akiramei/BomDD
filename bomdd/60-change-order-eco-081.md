@@ -106,3 +106,22 @@ bomdd-job / run / witness diff 0・playbook diff 0・既存製品リポは kit �
   - V2= **PASS**: `bomdd-init.py Smoke --dir <OS temp> --no-gui --no-git` exit 0 → `bomdd/70-equipment.yaml` 実在・`{{` 0 / `bomdd/operator-layer.md` 実在・`{{` 0(正典行は `bomdd-kit/...` に解決)/ SKILLS 13(不変)。
   - V3= **PASS**: register 注記 2 行と 70-equipment.yaml の注記で `工程が止まる|STOP|LEDGER_INCONSISTENT|INDEPENDENCE_FAIL|解決し|照合し` の一致 **0**。
   - V4(self-conformance・CI・窓)・V5(独立検査 r1 → r2)・V6(較正 receipt)= §5・§6 で記録。
+
+## 5. 独立検査(異系統・Codex EQ-002・入口 bomdd-run から `--report`/`--range` つきで起動・「BomDD を知らない製品リポの書き手」の代役)
+
+### 5.1 r1(2026-09-22・range= 境界探索)— 報告: [independent-inspection-eco-081.md](reports/independent-inspection-eco-081.md)
+
+- 起動: fix commit 9e59d42(witness tree caab1139acee・入口 `ADVANCE ECO-081 OK → next`)→ `cell exit 0` → `report REJECT sha256:48f8edfb04f4 (EQ-002)`・台帳 `range: 境界探索`・
+  verdict_line `REJECT IA-01, IA-02, IA-03, IA-04, IA-05`。**本節の判定は台帳の verdict から転記**。
+- 判定: **REJECT・所見 5(製造物 3・窓 1・環境 1)**。検査官の観測: diff 0・commit 0・外部 API なし・V1 PASS(core 0・陽性対照 16)・V2 PASS(生成・解決・YAML 厳格パース・SKILLS 13・正典参照先実在)・
+  V3 PASS・停止語彙 10 語と配送先が機械定義(bomdd-job / bomdd-run)と 1 対 1・README と生成先が一致・「採らない」は対象 commit 単体で遵守。**第三者記述試験(核心)**: (a)〜(d) は書けたが、
+  (a) の provenance の対象と status の値を推測で補った(IA-03)。
+- 所見と帰属・是正:
+  | IA | 所見 | 帰属 | 是正 |
+  |---|---|---|---|
+  | IA-01 | 凍結窓 `e0d4b52..HEAD` に allowed_paths 外 8 ファイル(jev-qualification-02・playbook)。対象 commit 単体は窓内 | 窓(受理側の baseline 管理) | 起票(09-19)と製造(09-22)の間に別作業 5 commit が入った。**baseline を v2= fa0d848(製造直前 HEAD)へ版宣言**し旧値を `baseline_v1` に恒久保存(playbook §13 ⑧)。`git diff fa0d848 9e59d42 --name-only` = 8 ファイルすべて allowed_paths 内 |
+  | IA-02 | self-conformance exit 1(C14 kit-freshness の REAL 腕のみ FAIL・他 17 検査 PASS) | **環境**(検査官の sandbox) | 受理側の実測: 同一 tree で製造者 3 回 exit 0(witness gate)+CI run 35714129095 success(commit 9e59d42)。REAL 腕は実 scaffold を OS temp に作る検査で、ECO-075 r1 と同型の sandbox 制約(OS temp fixture の操作拒否)と推定。製造物の是正なし・r2 で検査官に再実測を依頼せず受理側の記録で閉じる(検査官が測れない検査は受理側が担う) |
+  | IA-03 | core §3 だけでは provenance の対象属性・status の語彙・YAML の形が一意に定まらない(検査官は雛形を見ずに `active` と属性別 map を推測) | 製造物 | §3 に「来歴は 3 軸の各属性にだけ付す・他の属性には付けない」「status は active / retired の 2 値」「形は属性名 → 来歴の対応表」+エントリの形(YAML 例・値は架空)を追加 |
+  | IA-04 | core 内に配布元の規約を知らないと意味が定まらない語: `verified` / `executor` vs `inspector` / `bomdd/` 固定パス / `BOM` / `handoff` / `{{METHOD}}` | 製造物 | **§0「用語と前提(本書の中だけで閉じる)」を新設**: 変更台帳と指示書(パスは配布先の規約・別配置なら読み替え)/ BOM= 部品表 / verified= 最終状態(語彙は変更管理の規約)/ producer・inspector・executor の定義(executor≠inspector なら照合は executor)/ 運転員 / 制御移譲メッセージ(handoff)/ プレースホルダは設置時に置換 |
+  | IA-05 | §1「射影は手書きしない」が自動生成機構の存在を示唆し、§7「人間が手で行う」と両立の仕方が不明 | 製造物 | §1 の規則を「射影を**台帳と独立に編集しない**。機構があれば台帳から生成し、機構がなければ運転員が台帳を読んでその場で書き出す(§7)」に書き換え(機構の有無に依存しない規則へ)。§2「運転員は解決しない」と §7「運転員が手で行う」は検査官も矛盾と判定せず(分類と解決の区別)・不変 |
+- 是正後の受理側再検査: V1(core 固有語 0・陽性対照)・V2(生成・解決)・V3(注記の enforcement 語 0)を同じ計器で再実行し §6 に記録。r2 の range= 是正確認+回帰(IA-03/04/05 の是正確認・IA-01 の新窓・V1〜V3 と第三者記述試験の回帰)。
