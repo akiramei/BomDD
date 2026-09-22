@@ -9,11 +9,14 @@
 | CLAUDE.product.md | `<product>/CLAUDE.md` | 製品リポの導線(全セッション自動ロード) |
 | CLAUDE.cad.md | `<cad>/CLAUDE.md` | CAD リポの導線(役割境界: 実装しない) |
 | change-management.md | `<product>/bomdd/change-management.md` | 変更管理の運用プロファイル(R1-R6・シナリオ別経路) |
+| operator-layer.md | `<product>/bomdd/operator-layer.md` | 運転層の契約(配員・設備台帳・停止語彙の記述規約。core/adapter・機構なし・ECO-081) |
 | skills/bomdd-next.md | `<product>/.claude/skills/bomdd-next/SKILL.md` | フォワード Phase 0〜6 の現在地判定と次の一手 |
 | skills/eco-file.md 他3本 | `<product>/.claude/skills/<name>/SKILL.md` | 納品後の変更管理入口(起票/是正/受入/脆弱性) |
 | skills/factory-delegate.md | `<product>/.claude/skills/factory-delegate/SKILL.md` | 外部 AI 工場(Codex 等)への製造委譲(正本委譲・完了バリア・受入ゲート・ECO-063) |
 | cad/02_mock_fidelity_policy.md | `<cad>/docs/` | 権威宣言(乖離時は CAD が正) |
 | cad/review_points.md | `<cad>/docs/` | 裁定台帳(空の書式) |
+
+配員と設備の記述は operator-layer.md(§3〜§5)に従い、設備台帳の雛形は `templates/70-equipment.yaml`(phase テンプレの glob で `<product>/bomdd/` へ複写)。
 
 プレースホルダ: `{{PRODUCT}}`(製品リポ名) / `{{CAD}}`(CAD リポ名) /
 `{{METHOD}}`(同梱方法論 kit へのリポ内相対パス= `bomdd-kit` — 版と出自は生成先の

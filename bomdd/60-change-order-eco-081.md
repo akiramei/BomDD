@@ -84,3 +84,25 @@ bomdd-job / run / witness diff 0・playbook diff 0・既存製品リポは kit �
   skills_missing= `["calibrate"]`(較正 receipt は verified 昇格時・情報欄)・required_capability= `{"producer": "EQ-001", "inspector": "EQ-002"}`(台帳で実在確認)・
   independent_inspection= required(inspector 宣言)・stop_type= **NONE**。
 - 開始判定: **PROCEED(起票のみ)**・override 0。製造は裁定後。
+
+## 4. 製造裁定と製造(2026-09-22・user DECIDE「1:A」= 全項目+異系統独立検査)
+
+- **製造裁定 A**: §1 の 1〜5 すべて+異系統独立検査(EQ-002・r1 境界探索 → r2 是正確認+回帰・inspection gate 経由の昇格)。register `filed → implemented`(本 commit)。allowed_paths は起票時のまま
+  (change-management.md は ECO-079 の窓のため非接触)。裁定の文脈= 同日の DISCUSS 2 通(AI 工場図の写像は既存機構の言い換え・「工場ではない」の差分は運転層の製品側実証)→ 実証実験の入力として本 ECO を先に閉じる。
+- **製造物**:
+  1. `method/templates/product-profile/operator-layer.md`(新規・core §1〜§7 / adapter A1〜A2): §1 三つの形式は台帳の射影(job / receipt / ruling・手書きしない・食い違いは台帳を直す)/ §2 停止語彙 10 語と
+     配送先 7 種の固定表(語彙を増やさない・当てはまらなければ NORMATIVE_RULING)/ §3 設備台帳の規約(EQ-NNN・再利用しない・3 軸・来歴 4 種・unknown は照合不能・qualification_ref は空欄にしない・
+     人間も設備)/ §4 独立性の規則(不成立 4 条件・宣言上の照合であり実効を主張しない)/ §5 配員の記述先(register エントリ+order 担当設備節・同じ id・inspector を書いたら独立検査の宣言)/ §6 判定語の契約
+     (先頭非空行の行頭 ACCEPT|REJECT|UNMEASURABLE・MISSING / UNPARSED は未回収)/ §7 機構がない環境では人間の配員規律が担う(機構の存在を主張しない・台帳の形は同じにしておく)。
+     adapter= A1 機械化の所在(3 ツール・結合の宣言・配布元の台帳)/ A2 出自と計測(ECO-062 → Phase 5 → Phase 7 → 配布 第 1/2 弾・残= EXP-20260914-01)。正典行は `{{METHOD}}` 参照。
+  2. `method/templates/70-equipment.yaml`(新規・雛形): 規約の注記(id / 3 軸 / 来歴 / qualification_ref / 記述欄であること)+placeholder 1 件(EQ-001・値は `<...>`)。phase テンプレの glob(`[0-9][0-9]-*.yaml`)で
+     製品 `bomdd/` へ**置換なしで複写**されるため、`{{...}}` プレースホルダを持たない(製造中に自己検査で発見・是正: 初稿の注記に `{{DATE}}`/`{{PRODUCT}}` を書いていた)。
+     製造中の是正 2 件目: 初稿の placeholder 値 `<…(例: …)>` が `: ` を含み YAML 厳格パース(self-conformance C1・C4 の生成 YAML パース)で FAIL → 値をすべて引用符で囲んだ(検査が捕捉・commit 前に是正・exit 1 を観測してから commit していない)。
+  3. `method/templates/60-change-register.yaml`: エントリ雛形の `# receipt_author_role` 注記の直後に `# producer: EQ-001` / `# inspector: EQ-002` の注記 2 行(任意・記述欄・機構なしと明記)。
+  4. `bomdd-init.py` `scaffold_product` に `operator-layer.md` の render 1 行(change-management.md と同列・生成先 `bomdd/operator-layer.md`)/ `product-profile/README.md` の表に 1 行+参照 1 段落。
+  5. improvements.md: 2026-09-22 節+EXP-20260914-01 行内更新(§5 で記録)。
+- **受入結果(製造者・観測行・§3 の条件行は不変)**:
+  - V1= **PASS**: core(`## adapter` 見出しより前)で `bomdd-job|bomdd-run|bomdd-witness|self-conformance|EQ-00[1-3]|ECO-0[0-9][0-9]|Codex|Claude` の一致 **0**。陽性対照= 同じ正規表現を adapter 区画に当てて 16 件(計器の沈黙でない)。
+  - V2= **PASS**: `bomdd-init.py Smoke --dir <OS temp> --no-gui --no-git` exit 0 → `bomdd/70-equipment.yaml` 実在・`{{` 0 / `bomdd/operator-layer.md` 実在・`{{` 0(正典行は `bomdd-kit/...` に解決)/ SKILLS 13(不変)。
+  - V3= **PASS**: register 注記 2 行と 70-equipment.yaml の注記で `工程が止まる|STOP|LEDGER_INCONSISTENT|INDEPENDENCE_FAIL|解決し|照合し` の一致 **0**。
+  - V4(self-conformance・CI・窓)・V5(独立検査 r1 → r2)・V6(較正 receipt)= §5・§6 で記録。

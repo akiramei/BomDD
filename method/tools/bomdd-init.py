@@ -318,6 +318,7 @@ def scaffold_product(root: Path, repl: dict[str, str]) -> None:
     # 運用プロファイル
     render(PROFILE / "CLAUDE.product.md", root / "CLAUDE.md", repl)
     render(PROFILE / "change-management.md", bomdd / "change-management.md", repl)
+    render(PROFILE / "operator-layer.md", bomdd / "operator-layer.md", repl)  # ECO-081: 運転層の契約(記述規約・機構なし)
     for skill in SKILLS:
         render(PROFILE / "skills" / f"{skill}.md",
                root / ".claude" / "skills" / skill / "SKILL.md", repl)

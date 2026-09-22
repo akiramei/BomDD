@@ -1,0 +1,25 @@
+# 70-equipment — 設備台帳(雛形・BomDD ECO-081: 運転層の文書配布 第 2 弾)
+#
+# 目的: 製造・検査を行う主体(AI モデル・人間・スクリプト)を「誰」でなく「何ができ、何が認定されているか」で記述する。
+# 規約の正本は bomdd/operator-layer.md §3(設備台帳の規約)・§4(独立性の規則)・§5(配員の記述先)。
+#
+# 記述規約(要点):
+#   - id は EQ-NNN(3 桁)。一度割り当てたら変更・再利用しない(使わなくなったら status: retired)。
+#   - 独立性の 3 軸= model / harness / account_lineage。値が分からない軸は unknown と書く(unknown は「未記入」でなく「不明」の宣言)。
+#   - provenance は属性ごとの来歴: self-reported / harness-measured / user-declared / unknown。監査欄であり判定の値にはしない。
+#   - qualification_ref は設備認定への参照(どの工程に対し、どの実験・記録で適格とされたか)。未認定は unqualified と書く(空欄にしない)。
+#   - 本ファイルは記述欄である。製品リポでは、これを読んで配員を導出・検証・強制する機構は配布されていない(operator-layer.md §7)。
+#     変更指示書の担当設備節と変更台帳の producer / inspector には、ここに登録した id を書く。
+#
+# 値は空欄(<...>)。最初の設備を登録するときに埋める(本ファイルは bomdd-init が置換なしで複写する)。
+
+equipment:
+  - id: EQ-001
+    kind: "<ai-model | human | script>"
+    model: "<モデル名(人間なら human・スクリプトなら script 名)>"
+    harness: "<実行ハーネス(例: CLI 名・端末・CI)>"
+    account_lineage: "<アカウント系統(例: user@provider)>"
+    provenance: {model: "<self-reported | harness-measured | user-declared | unknown>", harness: "<同左>", account_lineage: "<同左>"}
+    qualification_ref: "<設備認定への参照(記録のパス・実験 id)。未認定なら unqualified>"
+    status: active   # active | retired
+    note: "<用途・登録日>"

@@ -2722,7 +2722,7 @@ changes:
     title: 配布 第 2 弾 — 運転層の契約と設備台帳の文書配布(product-profile に運転層契約〔core/adapter〕・70-equipment.yaml テンプレート・register の配員注記〔記述欄〕・機械検査なし)
     date: 2026-09-19
     origin: improvement
-    status: filed   # 2026-09-19 起票(user 範囲 DECIDE「A」・製造裁定は別 DECIDE)
+    status: implemented   # 2026-09-19 起票(user 範囲 DECIDE「A」)→ 2026-09-22 製造裁定 user「1:A」(全項目+異系統独立検査)・製造・V1〜V3 PASS(order §4)
     source: >
       ECO-075 §1-6 の第 2 弾候補(EXP-20260914-01: bomdd-job の self-conformance 非依存化・配員欄の機械検査・run 台帳の配置と hook・設備台帳テンプレート)。
       user 2026-09-19「ECO-062 第 2 弾の運転層配布に進んで」→ 範囲 DECIDE(A 文書配布 / B 機械検査を process-core に / C ツール移植)に user「A」。実測: 製品側は process-core
