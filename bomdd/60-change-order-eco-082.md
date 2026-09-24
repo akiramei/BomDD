@@ -61,3 +61,42 @@ diff= skills 正本・写し・70-equipment.yaml・improvements.md+台帳系(ord
 - **V1**= PASS(観測: 正本・写しとも `15 行程度` 0・`3 点以内` 0・`判断に必要な事実だけに絞る` 1・`thesis を実際に支える点だけ` 1・`F5 待機形: ヘッダ+2 行以内` 1)。
 - **V2**= PASS(観測: 契約 §1 の sha256 `3480569a6454` が変更前後で一致・64 行 / core〔adapter 見出しより前〕の固有語 0 / 写しと正本の diff 出力が変更前と byte 一致)。
 - **V3**= §5 で記録(観測後)。
+
+## 5. クローズ(2026-09-24・verified・製造者較正のみ)
+
+- **V3**= PASS(観測: 変更を stage してから self-conformance を実行 → **exit=0 全 PASS**〔C16 order 50 件・C17 40 件〕→ witness(tree 7e6170216b4a・gates 1・producer EQ-004)→
+  入口 dry `ADVANCE ECO-082 OK` → 製造 commit a3356eb → push → CI run 35952158670 **success**)。diff 監査の窓: baseline `20b18bb` → head `a3356eb`(**窓閉鎖**・受入 commit は台帳系のみ)。
+  窓内= allowed_paths の 6 ファイルのみ(`git diff --stat 20b18bb..a3356eb`)。
+- **V1/V2**= §4(PASS)。**V4**= 製造者較正のみ(独立検査なし)・下の較正 receipt。register: `implemented → verified`・head 凍結。
+- **V5(非クローズ条件)**: EXP-20260924-01 で次の handoff 20 通を数える。本 ECO の handoff(製造報告・受入報告)自体が最初の適用個体。
+- 実測(正直記載): self-conformance は 1 回目で PASS(ECO-076 で 3 例目だった「stage 前実行で C13 偽 FAIL」は、先に stage して回避)。入口の最初の dry は witness 未生成で
+  `UNMEASURABLE WITNESS_UNREADABLE`(exit 2)— 手順の順序(witness produce が先)を運転員が飛ばしたもの。produce 後に ADVANCE。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。文書のみの変更)
+
+- 査定した主張と判定:
+  1. 「正本と写しから数値上限の語(`15 行程度`・`3 点以内`)が消え、置換文が各 1 件あり、F5 の行数は残っている」— **observed / 適格**(grep・V1)。
+  2. 「契約 §1 は不変」— **observed / 適格**(契約ブロックの sha256 `3480569a6454` が変更前後で一致・64 行)。
+  3. 「core は環境非依存のまま・写しは正本と同期」— **observed / 適格**(core 固有語 0・写しと正本の diff 出力が変更前と byte 一致)。
+  4. 「数値目安を外しても本文は膨らまず裁定点を落とさない」— **unknown(未測定・EXP-20260924-01)**。
+- 検出した計器欠陥(帰属つき): 製造物 0 件。上流(監査)1 件 — 監査所見 2 が §3 の例に残る同型の数値を挙げていなかった(被覆漏れ)。V1 の grep が捕捉し、製造内で是正した。
+  受理側の手順 1 件(witness 生成前に入口を dry 実行 — 計器は正しく「読めない」と言っており計器欠陥ではない)。
+- 検出力の限界: V1 は文字列の有無しか測らない — 言い換え後の文が同じ意図を伝えるかは読解。効果は未測定。独立検査なし。数値目安の有無が実際の handoff の長さに与える影響は
+  EXP-20260924-01 の外部計測(人間の指摘回数)でしか観測されない。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | grep・sha256・diff(V1/V2)。検査文(order §3 の条件)は grep が測る範囲に限っている |
+  | Q2 | asked | NA 相当 | — | 文書変更に known-bad 対照なし(宣言)。V1 の grep は製造途中で `3 点以内` 1 件を実際に検出しており、陽性の実例にはなった |
+  | Q3 | asked | observed/適格 | 実測 | 4 箇所それぞれを個別の grep で確認(1 つの一括一致に頼らない) |
+  | Q4 | asked | observed/適格 | 実測 | 検査入力= 実ファイル(正本・写し)そのもの。宣言 fixture なし |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(効果・独立検査)を unknown として分離 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI success(条件で結んだ順) |
+  | Q7 | asked | NA | — | 陽性対照なし(文書) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(ECO-082.json・tree 7e6170216b4a)・commit a3356eb・CI run 35952158670 を同一個体として照合 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 規則文(§2.2・§2.3)と例(§3)を分けて検査 — 例のクラスで漏れが出た |
+
+- このクローズが支持しないもの: 数値目安を外した効果(EXP-20260924-01)/ 独立検査による確認 / 契約の変更(していない)/ 製品リポでの適用結果(kit 再設置まで非波及)。

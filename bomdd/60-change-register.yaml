@@ -2748,7 +2748,7 @@ changes:
     title: handoff 実装規則の数値上限を外す — 本体「15 行程度」・DISCUSS の reasoning「3 点以内」・P7 の再掲(契約 v0.4 不変・F5 待機形の行数は structural 検査の形式要件として維持)
     date: 2026-09-24
     origin: improvement
-    status: implemented   # 2026-09-24 user「所見2も適用して」(/claude-api prompt-audit 所見 2)→ 起票+製造(文書のみ・ECO-076 の型・製造者較正のみ)
+    status: verified   # 2026-09-24 user「所見2も適用して」(/claude-api prompt-audit 所見 2)→ 起票+製造 a3356eb(文書のみ・ECO-076 の型)→ CI 35952158670 success → verified(製造者較正のみ・独立検査なし・窓閉鎖 20b18bb→a3356eb・較正 receipt trigger ①)
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       /claude-api prompt-audit(2026-09-24・基準モデル Claude Opus 5.5)所見 2: handoff.md §2.2 の「本体 15 行程度」「reasoning 3 点以内」と §2.3 P7 の再掲は出力を数値で縛る型で、
@@ -2758,6 +2758,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)skills 正本+写し+70-equipment.yaml(EQ-004 追加)+improvements.md+台帳系のみ。契約 §1 v0.4 不変(sha256 で確認)・core 固有語 0 維持(13 語)・写しと正本の差= 既知 3 hunk のみ・C7 13 本不変・tools/templates(60-change-order)/hooks/.github diff 0・worklist 警告 0"
     diff_audit:
       baseline: "20b18bb"  # 起票直前 HEAD
+      head: "a3356eb"      # diff監査済み: 窓内= allowed_paths のみ・予測的中(受入 commit は台帳系のみ)
       allowed_paths: [method/templates/product-profile/skills/handoff.md, .claude/skills/handoff/SKILL.md, bomdd/70-equipment.yaml, method/improvements.md, bomdd/60-change-order-eco-082.md, bomdd/60-change-register.yaml]
     summary: >
       ①§2.2 共通「パケット本体は 15 行程度」→「判断に必要な事実だけに絞る」②§2.2 DISCUSS「reasoning は 3 点以内」→「thesis を実際に支える点だけ」③§2.3 P7 の「(本体 15 行程度)」を削除 ③b §3 DISCUSS 例の「(3 点以内)」→「(thesis を支える点)」〔製造中の発見で追加〕
