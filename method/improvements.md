@@ -7941,3 +7941,16 @@ kit の設計矛盾で、EXP-20260914-01 の next trigger には数えない(運
 - [watch 1/3] OBS-20260922-02 — **process-core の保護パス強制(導入点から)と forward 初回製造の規律(ECO を使わない)は『最初の src/ 書き込み』で衝突する— 初回製造を ECO-001 として起票する運用か、導入点免除かを kit で決める**
   source: BomDD-UnitConv-Sample ops-trial(2026-09-22・E01 で製造 commit 遮断)
   evidence: 本節 ④・BomDD-UnitConv-Sample bomdd/60-change-order-eco-001.md
+
+## 2026-09-24 BomDD 自己適用 — ECO-082 起票+製造(handoff 実装規則の数値上限を外す・/claude-api prompt-audit 所見 2・契約 v0.4 不変)
+
+**観測**(出典: ECO-082 order §0・§4): /claude-api prompt-audit(基準モデル Claude Opus 5.5)が handoff.md の「本体 15 行程度」「reasoning 3 点以内」を、出力を数値で縛る型として指摘。
+同趣旨は読み手規則 3(本文は判断に必要な事実だけ)が数値なしで述べている。製造中に §3 DISCUSS 例の「(3 点以内)」も同じ型と判明し追加(監査の被覆漏れ— 例は規則より強く出力の形に効く)。
+F5(待機形 2 行以内)は structural 検査の形式要件として残した。同日、lesson-promote の所見 1・4・5・6 は ECO 不要の範囲(`.claude/skills/` のみ)で適用済み(ae6299a / 7a84b30 / ce63d8e / 20b18bb)。
+**適用した改善**: handoff.md §2.2 共通・§2.2 DISCUSS・§2.3 P7・§3 例(正本+写し)。設備台帳に EQ-004(claude-opus-5-5)。
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [ ] control / probe [x] template(handoff 実装規則)[ ] terminology [ ] method/concept claim [ ] none。
+**期待効果の棚卸し**: EXP-20260914-02(読み手規則の効果)は不変 — 本 ECO は読み手規則 3 の数値目安を外すだけで、測定観点は同じ。新規 EXP-20260924-01(下記)。
+
+- [open] EXP-20260924-01 — **数値上限を外しても handoff の本文は膨らまず、裁定点を落とさないか**: 次の handoff 20 通(DECIDE/DISCUSS 5 通以上)で ①user からの「長い・結論が埋もれる」型の指摘回数(EXP-20260914-02 と共通の計数)②DECIDE で裁定点の欠落・分割漏れの指摘回数。どちらかが 2 回以上なら数値目安の復帰を含めて再検討する
+  source: ECO-082
+  evidence: ECO-082 order §0・§4

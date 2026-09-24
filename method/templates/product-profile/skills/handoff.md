@@ -109,7 +109,7 @@ Q3 それ以外 → INFORM(CONTINUING / COMPLETE / PAUSED のいずれか)
 
 ### 2.2 生成(generate)— mode ごとの default
 
-- 共通: パケット本体は 15 行程度。**詳細な証拠(実験結果・ログ・全所見)は system of record に置き、handoff はそれを参照して再現しない** —
+- 共通: パケット本体は判断に必要な事実だけに絞る。**詳細な証拠(実験結果・ログ・全所見)は system of record に置き、handoff はそれを参照して再現しない** —
   メッセージは記録の射影であって記録ではない。system of record が何か(リポのファイル・課題管理・ドキュメント基盤・データベース・CI の成果物)は環境が決める(adapter)。
   数値には限定子を付ける(機構の性能か・人間や運転員の判断込みか・N・未測定の failure class)。人間や運転員の判断で救われた例は機構の成功に数えない。
 - **読み手規則**(共通・handoff は**議論文であって監査証跡ではない** — 監査証跡は system of record が担う):
@@ -129,7 +129,7 @@ Q3 それ以外 → INFORM(CONTINUING / COMPLETE / PAUSED のいずれか)
   独立に採否できる項目は 1 案に束ねず番号を分ける(人間が `1:A,A',C` のように部分採択できる形。依存があれば依存順に並べる)。recommendation は
   options の 1 つを名指しし、理由は観測の羅列でなく「何が示せて何が示せないか」+**非推奨案がなぜ劣るか 1 行**。reply_format は人間の返答コストを
   固定する(例: `A` / `1:A 2:B` / `OTHER: 理由` / `MODIFY: 条件`)。
-- DISCUSS: discussion_question は範囲が一意に分かる問い(A/B 形に限定しない)。thesis はその問いへの現在の回答 1 文。reasoning は 3 点以内。
+- DISCUSS: discussion_question は範囲が一意に分かる問い(A/B 形に限定しない)。thesis はその問いへの現在の回答 1 文。reasoning は thesis を実際に支える点だけ。
   counterpoint は自分の thesis への最強の反論 1 点。what_would_change_thesis を 1 行。末尾に「裁定要求ではない」と、返答の形(`AGREE` /
   `DISAGREE: 理由` / 自由記述)。
 - REQUEST: request は 1 段落(何を・どこで・どの手順書で)。deliverable は**穴埋め様式**— 返してほしい行を欄名つきで全部並べ、記入例を 1 行添える。
@@ -159,7 +159,7 @@ semantic(self-review・自己申告 — 較正は人間の mode 訂正回数で�
   P4 execution が本文と矛盾しない(BLOCKED なのに作業継続を書いていない・COMPLETE なのに未実施が隠れていない)
   P5 本文だけで意味が取れない内部語・造語がない(初出に言い換えがある)                       — §2.2 読み手規則 2
   P6 ヘッダの次の 1 文が結論で、抽象語で先送りしていない                                       — §2.2 読み手規則 1
-  P7 本文の事実は判断に必要なものだけで、証拠の列挙は付録か system of record にある(本体 15 行程度) — §2.2 読み手規則 3
+  P7 本文の事実は判断に必要なものだけで、証拠の列挙は付録か system of record にある — §2.2 読み手規則 3
   P8 DECIDE / DISCUSS: 問うている裁定は実際に裁定が要る点だけで、付随方針が承認項目に紛れていない — §2.2 読み手規則 4
 ```
 
@@ -221,7 +221,7 @@ execution: BLOCKED — 機能 X の作業は回答まで着手しない。
 [DISCUSS / PAUSED]
 discussion_question: 契約に「handoff の定義」と「1 パケット 1 主モード」を契約側として足すか。
 thesis: 足す。どちらも実装規則でなく通信契約の側の制約。
-reasoning: (3 点以内)
+reasoning: (thesis を支える点)
 counterpoint: 分割でメッセージ数が増える。
 what_would_change_thesis: 付録方式で裁定の再分析が起きなければ分割は実装の選択に落とす。
 裁定要求ではない。返答: AGREE / DISAGREE: 理由 / 自由記述。
