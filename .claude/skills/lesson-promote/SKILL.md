@@ -87,7 +87,7 @@ description: 製品リポの ECO 教訓を方法論(method/)へ還元する入�
    `gh run list --repo akiramei/BomDD --limit 3` で結論を確認する。**ローカルの
    self-conformance 全 PASS はクローズ条件ではない**(実測: CI が 11 コミット・約 2 日・
    5 ECO を跨いで赤のまま潜伏。ローカル緑だけを見ていた)。赤なら次の作業へ進む前に
-   是正または起票する。詳細は [CLAUDE.md](../../../CLAUDE.md)。
+   是正または起票する。規律の正本は [AGENTS.md](../../../AGENTS.md) 規律 5・6。
 
 ## 追跡項目の記帳スキーマ(v1 — 2026-07-15 レビュー採択)
 
