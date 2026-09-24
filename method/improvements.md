@@ -7954,3 +7954,12 @@ F5(待機形 2 行以内)は structural 検査の形式要件として残した�
 - [open] EXP-20260924-01 — **数値上限を外しても handoff の本文は膨らまず、裁定点を落とさないか**: 次の handoff 20 通(DECIDE/DISCUSS 5 通以上)で ①user からの「長い・結論が埋もれる」型の指摘回数(EXP-20260914-02 と共通の計数)②DECIDE で裁定点の欠落・分割漏れの指摘回数。どちらかが 2 回以上なら数値目安の復帰を含めて再検討する
   source: ECO-082
   evidence: ECO-082 order §0・§4
+
+## 2026-09-24 BomDD 自己適用 — ECO-083 起票+製造(factory-delegate の経緯節を除去・生きた規則 1 件を工程 6 へ・見出し「規律」の同乗/prompt-audit 所見 3)
+
+**観測**(出典: ECO-083 order §0・§4): /claude-api prompt-audit 所見 3 — factory-delegate 末尾の「この委譲自体の教訓(ECO-137 から)」4 項目のうち 3 項目は規律・工程 2・工程 3 に規則として既存で、
+呼び出しごとに経緯だけが読み込まれていた。残る 1 項目(golden n/a の意味)は他に無い生きた規則だったので工程 6 へ移した。所見 5 の残り(見出し「絶対規律」)は裁定「2:C」どおり本 ECO に同乗
+(factory-delegate のみ。sec-advisory・eco-file・bomdd-next の同見出しは次にその正本を触る ECO へ)。
+**適用した改善**: factory-delegate.md(正本+写し)の経緯節除去・golden n/a の移設・見出し。
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [ ] control / probe [x] template(factory-delegate スキル)[ ] terminology [ ] method/concept claim [ ] none。
+**期待効果の棚卸し**: 該当 0 件(新規 EXP なし — 除去した節は規則を持たず、残した規則の文意は不変のため、挙動の差を測る対象がない)。

@@ -2766,3 +2766,24 @@ changes:
     verification: >
       V1 正本と写しで数値上限の語 0・置換文 各 1・F5 の「2 行以内」残存(grep)/ V2 契約 §1 の sha256 一致・core 固有語 0(13 語)・写しと正本の差= 既知 3 hunk /
       V3 self-conformance・CI・窓 / V4 製造者較正のみ・較正 receipt / V5(非クローズ条件)効果は EXP-20260924-01。
+  - id: ECO-083
+    title: factory-delegate の経緯節「この委譲自体の教訓(ECO-137 から)」を除去し生きた規則 1 件(golden n/a の意味)を工程 6 へ移す+見出し「絶対規律」→「規律」の同乗(裁定 2:C)
+    date: 2026-09-24
+    origin: improvement
+    status: implemented   # 2026-09-24 user「所見3も適用して」(/claude-api prompt-audit 所見 3)+裁定「2:C」の同乗 → 起票+製造(文書のみ・ECO-076/082 の型・製造者較正のみ)
+    receipt_author_role: producer   # ECO-077 観測欄
+    source: >
+      /claude-api prompt-audit(2026-09-24・基準モデル Claude Opus 5.5)所見 3: 末尾の経緯節は 4 項目中 3 項目が規律・工程 2・工程 3 に規則として既存で、呼び出しごとに経緯だけが読み込まれる。
+      残る 1 項目(golden n/a の意味)は他に無い生きた規則。所見 5 の残り(見出し「絶対規律」)は裁定「2:C」で正本を触る次の ECO へ同乗 — 本 ECO が factory-delegate を触るため同乗。
+    order_ref: bomdd/60-change-order-eco-083.md
+    affected_refs: [method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/improvements.md]
+    no_impact_prediction: "(製造前・凍結)skills 正本+写し+improvements.md+台帳系のみ。SKILLS 13 不変・activation-map 不変・C7/C12/C13 リンク先不変・tools/hooks/.github diff 0・写しと正本の差分出力は変更前と一致・worklist 新規 ID 0・警告 0"
+    diff_audit:
+      baseline: "1bf213a"  # 起票直前 HEAD
+      allowed_paths: [method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/improvements.md, bomdd/60-change-order-eco-083.md, bomdd/60-change-register.yaml]
+    summary: >
+      ①経緯節「この委譲自体の教訓(ECO-137 から)」と直前の区切り線を削除 ②golden n/a の意味を工程 6 の accept 行の直後へ移す(文意不変)③見出し「## 絶対規律」→「## 規律」④写しを同期。
+      採らない= 規律・工程内の「ECO-137 で…」の括弧書き / 工程 2 の Codex 経路の具体 / 工程 4 の dotnet 直書き / sec-advisory・eco-file・bomdd-next の見出し。
+    verification: >
+      V1 正本と写しで経緯節 0・「## 絶対規律」0・「## 規律」1・golden n/a が工程 6 より後に 1(grep -n)/ V2 削除項目 1〜3 の規則が残存箇所に実在・写しと正本の差分出力が変更前と一致 /
+      V3 self-conformance・CI・窓 / V4 製造者較正のみ・較正 receipt。

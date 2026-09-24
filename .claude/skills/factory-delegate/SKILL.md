@@ -23,7 +23,7 @@ description: BomDD の製造工程を外部 AI 工場(既定=Codex/codex exec)�
 > 存在しリポ外だった(ECO-062 §0.2 で発見)。**ハーネス依存部(Agent ツール・codex-rescue subagent)は
 > 工程 2 に局在**させてある — 他ハーネスは工程 2 の呼び出しだけを読み替える。
 
-## 絶対規律
+## 規律
 
 - **正本委譲**: 工場へ渡すのは手書き要約でなく **ECO/work order ファイルそのもの**(パスを読ませる)。
   要約は伝言ゲームで意味がずれる(ECO-137 で下書きが対象プロジェクト・要求内容とも誤っていた実例)。
@@ -145,14 +145,5 @@ description: BomDD の製造工程を外部 AI 工場(既定=Codex/codex exec)�
 
 - fix: register `staged→implemented` + `BomDD-ECO-Fix: ECO-NNN`
 - accept: register `implemented→applied` + gate②裁定(golden/n-a)+ `BomDD-ECO-Accept: ECO-NNN`
-
----
-
-## この委譲自体の教訓(ECO-137 から)
-
-- **正本委譲は機能した**: Codex は §4 案A を正しく実装し、未検証だった false-missing クラスまで自力で解いた。
-- **完了バリアの不在が最大の失敗**: 書き込み途中版を読み偽陽性 3 件(lint 不在・テスト数・プローブ空虚)を
-  出した。安定版で全件 refute。→ 工程 3 を必須化。
-- **/codex status は一次判定に使えない**: 別ジョブを completed 表示。→ ツリー(mtime+gates)を一次真実に。
-- **golden n/a の意味**: 挙動 bit 一致+視覚変更なし=実機に照合対象なし。「修正が些末」ではない。
+- golden n/a は「挙動 bit 一致+視覚変更なし= 実機に照合対象なし」を意味し、「修正が些末」ではない。
   性能 ECO でも操作回数プローブ+挙動同値+direct-call lint で golden 不要にできる(ECO-134 の型)。
