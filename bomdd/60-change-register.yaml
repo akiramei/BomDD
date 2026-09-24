@@ -2770,7 +2770,7 @@ changes:
     title: factory-delegate の経緯節「この委譲自体の教訓(ECO-137 から)」を除去し生きた規則 1 件(golden n/a の意味)を工程 6 へ移す+見出し「絶対規律」→「規律」の同乗(裁定 2:C)
     date: 2026-09-24
     origin: improvement
-    status: implemented   # 2026-09-24 user「所見3も適用して」(/claude-api prompt-audit 所見 3)+裁定「2:C」の同乗 → 起票+製造(文書のみ・ECO-076/082 の型・製造者較正のみ)
+    status: verified   # 2026-09-24 user「所見3も適用して」(/claude-api prompt-audit 所見 3)+裁定「2:C」の同乗→ 起票+製造 cf8bdcd(文書のみ・ECO-076/082 の型)→ CI 35955329874 success → verified(製造者較正のみ・独立検査なし・窓閉鎖 1bf213a→cf8bdcd・較正 receipt trigger ①)
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       /claude-api prompt-audit(2026-09-24・基準モデル Claude Opus 5.5)所見 3: 末尾の経緯節は 4 項目中 3 項目が規律・工程 2・工程 3 に規則として既存で、呼び出しごとに経緯だけが読み込まれる。
@@ -2780,6 +2780,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)skills 正本+写し+improvements.md+台帳系のみ。SKILLS 13 不変・activation-map 不変・C7/C12/C13 リンク先不変・tools/hooks/.github diff 0・写しと正本の差分出力は変更前と一致・worklist 新規 ID 0・警告 0"
     diff_audit:
       baseline: "1bf213a"  # 起票直前 HEAD
+      head: "cf8bdcd"      # diff監査済み: 窓内= allowed_paths のみ・予測的中(受入 commit は台帳系のみ)
       allowed_paths: [method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/improvements.md, bomdd/60-change-order-eco-083.md, bomdd/60-change-register.yaml]
     summary: >
       ①経緯節「この委譲自体の教訓(ECO-137 から)」と直前の区切り線を削除 ②golden n/a の意味を工程 6 の accept 行の直後へ移す(文意不変)③見出し「## 絶対規律」→「## 規律」④写しを同期。

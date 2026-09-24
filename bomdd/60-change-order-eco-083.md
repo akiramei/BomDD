@@ -57,3 +57,37 @@ diff= skills 正本・写し・improvements.md+台帳系(order・register)のみ
 - **V1**= PASS(観測: 正本・写しとも `この委譲自体の教訓` 0・`## 絶対規律` 0・`## 規律` 1・`- golden n/a は` 1〔正本 144 行 > 工程 6 見出し 138 行 / 写し 148 行 > 142 行〕)。
 - **V2**= PASS(観測: 正本・写しとも `正本委譲` 3・`完了バリア前に検査しない` 1・`返り値の task-id は信用しない` 1・`` `/codex:status` の "completed" を信用せず `` 1 / 写しと正本の diff 出力が変更前と byte 一致)。
 - **V3**= §5 で記録(観測後)。
+
+## 5. クローズ(2026-09-24・verified・製造者較正のみ)
+
+- **V3**= PASS(観測: stage 後に self-conformance → **exit=0 全 PASS** → witness(tree f331a339c50e・gates 1・producer EQ-004)→ 入口 dry `ADVANCE ECO-083 OK` → 製造 commit cf8bdcd →
+  push → CI run 35955329874 **success**)。diff 監査の窓: baseline `1bf213a` → head `cf8bdcd`(**窓閉鎖**・受入 commit は台帳系のみ)。窓内= allowed_paths の 5 ファイルのみ(`git diff --stat 1bf213a..cf8bdcd`)。
+- **V1/V2**= §4(PASS)。**V4**= 製造者較正のみ(独立検査なし)・下の較正 receipt。register: `implemented → verified`・head 凍結。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。文書のみの変更)
+
+- 査定した主張と判定:
+  1. 「経緯節は正本・写しから消え、見出しは『規律』になった」— **observed / 適格**(grep・V1)。
+  2. 「削除した 4 項目のうち規則は失われていない — 1〜3 は既存箇所に実在し、4 は工程 6 へ移った」— **observed / 条件付き適格**(grep で文字列の実在は確認・V2。
+     測っていない次元: 既存箇所の文が削除項目と**同じ意味**を担うかは §0 の読解による。文字列の実在は意味の同等を証明しない)。
+  3. 「写しは正本と同期」— **observed / 適格**(写しと正本の diff 出力が変更前と byte 一致)。
+- 検出した計器欠陥(帰属つき): なし。
+- 検出力の限界: V2 は削除前後の規則の同等性を文字列の実在でしか測らない(意味の同等は読解)。独立検査なし。factory-delegate の実際の委譲での挙動は測っていない(次の委譲が最初の適用個体)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | 条件(order §3)は grep と diff が測る範囲に限っている。主張 2 は「条件付き」で意味の同等を主張していない |
+  | Q2 | asked | NA 相当 | — | 文書変更に known-bad 対照なし(宣言) |
+  | Q3 | asked | observed/適格 | 実測 | 削除 4 項目を個別に照合(1 つの一括一致に頼らない) |
+  | Q4 | asked | observed/適格 | 実測 | 検査入力= 実ファイル(正本・写し)そのもの |
+  | Q5 | asked | observed/適格 | 実測 | 意味の同等・委譲時の挙動・独立検査を未測定として分離 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI success(条件で結んだ順) |
+  | Q7 | asked | NA | — | 陽性対照なし(文書) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(ECO-083.json・tree f331a339c50e)・commit cf8bdcd・CI run 35955329874 を同一個体として照合 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 削除(経緯節)・移設(golden n/a)・改名(見出し)を分けて検査 |
+
+- このクローズが支持しないもの: 削除項目と既存規則の意味の同等(読解のみ)/ 独立検査による確認 / 実際の委譲での挙動 / 製品リポでの適用結果(kit 再設置まで非波及)/
+  sec-advisory・eco-file・bomdd-next の見出し(裁定 2:C により対象外のまま)。
