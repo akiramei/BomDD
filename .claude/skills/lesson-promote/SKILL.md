@@ -126,17 +126,14 @@ description: 製品リポの ECO 教訓を方法論(method/)へ還元する入�
   (全文確認は `worklist.py --full` / `worklist.py show <ID>`)。
 - **状態遷移は行内書き換え**: 行を複製せず、該当行のマーカーを書き換える(従来の `→ 回収`
   追記様式の後継。回収の実測詳細は従来どおり新節の「効果回収」項に書く)。
-- **期首移行(一回限り・実施済み 2026-07-15)**: 現存していた open/watch 残高は「移行残高」節
-  (節タイトルに「移行残高」を含む)へ短い参照として一度だけ移行済み。legacy 本文は書き換えず
-  証拠正本として残す。棚卸しの監査境界は**明示マーカー**
-  `<!-- worklist-legacy-audit-cutoff: YYYY-MM-DD -->` が正本(位置関係の暗黙判定に依存しない):
+- **legacy 節と監査境界**: 監査境界の正本は明示マーカー
+  `<!-- worklist-legacy-audit-cutoff: YYYY-MM-DD -->`(位置関係の暗黙判定に依存しない)。
   **マーカー以前への legacy 形式の節追加・移動は禁止** — 新規節はマーカー以後に追記し
-  新スキーマを使用する(境界以後に legacy 節が現れたら worklist が unaudited=逸脱として列挙)。
-  移行節は照合記録(reviewed / last audited section / found / migrated / excluded /
-  unclassified)を持つ — unclassified=0 が「判断不能候補を黙って落としていない」ことの証跡。
-  移行残高と新規は worklist 上で区分表示される(既定: 移行節内= migrated / それ以外= native。
-  継続行 `origin:` で上書き可)— 残高 43 件に新規 open が埋もれないため。移行残高の整理
-  (recovered/withdrawn/superseded への遷移)は通常還元と混ぜず別の棚卸し工程で行う。
+  新スキーマを使う(境界以後に legacy 節が現れたら worklist が unaudited=逸脱として列挙)。
+  legacy 本文は書き換えず証拠正本として残す。「移行残高」節(節タイトルに「移行残高」を含む)の
+  項目は worklist 上で migrated、それ以外は native と区分表示される(継続行 `origin:` で上書き可)
+  — 新規 open が移行残高に埋もれないため。移行残高の整理(recovered/withdrawn/superseded への
+  遷移)は通常還元と混ぜず別の棚卸し工程で行う。
 - **強制化(validator/CI)は運用実測後に判断**: 認知コスト(件数・節数・所要)と品質リスク
   (回収漏れ・3 例目見落とし・ID 重複・状態不整合)の二軸で、数回の運用で基準線を作ってから
   昇格条件を決める(先に恣意的な閾値を置かない)。当面 `worklist.py` は読み取り専用・
