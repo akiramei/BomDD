@@ -2792,7 +2792,7 @@ changes:
     title: 運転実証の kit 是正 2 件 — change-management §0「process-core 設置済みなら初回製造も ECO-001 として起票」+factory-delegate 工程 2「隔離の手段= 非開示物の退避」(文書のみ)
     date: 2026-09-26
     origin: improvement
-    status: implemented   # 2026-09-26 user DECIDE「1:A 2:A」→ 起票+製造 同一 commit(文書のみ・ECO-076/082/083 の型)。verified は CI 観測後の受入 commit
+    status: verified   # 2026-09-26 user DECIDE「1:A 2:A」→ 起票+製造 e30eb2a(文書のみ・ECO-076/082/083 の型)→ CI 36207193259 success → verified(製造者較正のみ・窓閉鎖 1f5b76b→e30eb2a・較正 receipt trigger ①)
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       運転実証 EXP-20260922-02(BomDD-UnitConv-Sample・3 ECO)の帰結: ①forward 初回製造の commit を process-core E01 が遮断(change-management §0 と protected_paths の矛盾・OBS-20260922-02)
@@ -2802,6 +2802,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)change-management.md 1 文・factory-delegate 正本と写し 1 段落・improvements.md+台帳系のみ。SKILLS 13 不変・activation-map 不変・process-core diff 0・C4/C7/C12/C13 不変・写しと正本の差分出力は変更前と一致・tools/hooks/.github diff 0"
     diff_audit:
       baseline: "1f5b76b"  # 起票直前 HEAD
+      head: "e30eb2a"      # diff監査済み: 窓内= allowed_paths のみ・予測的中(受入 commit は台帳系のみ)
       allowed_paths: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/factory-delegate.md, .claude/skills/factory-delegate/SKILL.md, method/improvements.md, bomdd/60-change-order-eco-084.md, bomdd/60-change-register.yaml]
     summary: >
       ①§0 に「process-core 設置済みなら初回製造も ECO-001 として起票してから製造 commit」の 2 行 ②factory-delegate 工程 2 末尾に「隔離の手段」1 段落(非開示物の一覧・製造中だけ OS temp へ退避・

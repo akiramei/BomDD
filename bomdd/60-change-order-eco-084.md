@@ -55,3 +55,36 @@ C4/C7/C12/C13 不変・写しと正本の差分出力は変更前と一致・too
 - **V1**= PASS(観測: change-management.md の `ECO-001 として起票してから` 1 件= 13 行目・§1 見出し 15 行目より前)。
 - **V2**= PASS(観測: `隔離の手段` 正本 88 行〔工程 2= 72・工程 3= 93〕/ 写し 92 行〔76・97〕・各 1 件。写しと正本の diff= 冒頭注記+playbook パスの既知 8 行のみ= 変更前と一致)。
 - **V3**= §5 で記録(観測後)。
+
+## 5. クローズ(2026-09-26・verified・製造者較正のみ)
+
+- **V3**= PASS(観測: stage 後に self-conformance → **exit=0 全 PASS** → witness(tree 8c1a0a5c85f0・gates 1・producer EQ-001)→ 入口 dry `ADVANCE ECO-084 OK` → 製造 commit e30eb2a → push → CI run 36207193259 **success**)。
+  diff 監査の窓: baseline `1f5b76b` → head `e30eb2a`(**窓閉鎖**・受入 commit は台帳系のみ)。窓内= allowed_paths の 6 ファイルのみ(`git diff --stat 1f5b76b..e30eb2a`)。
+- **V1/V2**= §4(PASS)。**V4**= 製造者較正のみ(独立検査なし)・下の較正 receipt。register: `implemented → verified`・head 凍結。
+- **到達点**: 運転実証で運転員が持ち込んだ手段 2 つ(初回製造の起票・非開示物の退避)が kit の文書に入り、次の製品リポは bomdd-init の配布物だけでこの 2 点を持つ。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。文書のみの変更)
+
+- 査定した主張と判定:
+  1. 「§0 の起票規則と工程 2 の隔離の手段が正本・写しに入った」— **observed / 適格**(grep・V1/V2・写しの diff は既知 8 行)。
+  2. 「文書化した手段は実証で機能したものと同一」— **observed / 条件付き適格**(実証 4 回の退避手順を文章化した。次の製品リポで文書だけを読んだ運転員が同じ手順を取るかは未測定)。
+  3. 「起票規則は process-core の E01 と整合する」— **observed / 適格**(実証で ECO-001 起票 → 製造 commit の順で E01 を通過した実測に基づく・validator は非改変)。
+- 検出した計器欠陥(帰属つき): なし。
+- 検出力の限界: 文書の効果(次の製品での持ち込み 0 回)は未測定・独立検査なし・改訂した change-management.md は既存製品リポの写しへは kit 再設置まで届かない。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 実測 | 条件は grep と diff が測る範囲・主張 2 は「条件付き」で効果を主張しない |
+  | Q2 | asked | observed/適格 | 実測 | known-bad= 変更前(grep 0 件)・known-good= 変更後(1 件) |
+  | Q3 | asked | observed/適格 | 実測 | 変更前(手段なし・運転員の memory)→ 変更後(文書 1 文+1 段落) |
+  | Q4 | asked | observed/適格 | 実測 | 実ファイル・写しの実 diff |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(次の製品での効果)を宣言 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= 変更前の grep 0 件 |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness・register・run 台帳・order |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス= 起票規則 / 隔離の手段 / 写し同期 |
+
+- このクローズが支持しないもの: 次の製品リポでの持ち込み 0 回(効果)/ 既存製品リポへの波及(kit 再設置まで)/ 隔離の手段の他ハーネスでの妥当性(Codex CLI 以外は未測定)。
