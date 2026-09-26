@@ -7938,7 +7938,7 @@ kit の設計矛盾で、EXP-20260914-01 の next trigger には数えない(運
 「有界委任ハーネス」= supported with limit(文書契約で配員は書けたが起動と隔離は運転員の持ち込み)。contradicted / superseded: なし。
 **期待効果の棚卸し**: EXP-20260922-02 行内更新(上)。EXP-20260914-01 不変(実害 0)。新規 OBS-20260922-02(下記)。
 
-- [watch 1/3] OBS-20260922-02 — **process-core の保護パス強制(導入点から)と forward 初回製造の規律(ECO を使わない)は『最初の src/ 書き込み』で衝突する— 初回製造を ECO-001 として起票する運用か、導入点免除かを kit で決める**
+- [recovered 2026-09-26 via ECO-084(user 裁定 1:A・change-management §0 に起票規則)] OBS-20260922-02 — **process-core の保護パス強制(導入点から)と forward 初回製造の規律(ECO を使わない)は『最初の src/ 書き込み』で衝突する— 初回製造を ECO-001 として起票する運用か、導入点免除かを kit で決める**
   source: BomDD-UnitConv-Sample ops-trial(2026-09-22・E01 で製造 commit 遮断)
   evidence: 本節 ④・BomDD-UnitConv-Sample bomdd/60-change-order-eco-001.md
 
@@ -7991,3 +7991,16 @@ F5(待機形 2 行以内)は structural 検査の形式要件として残した�
 - [watch 1/3] OBS-20260926-01 — **独立検査官の「範囲外の観察」欄は受理側の台帳(order・as-built・設備台帳)の検査器として機能する— 判定に含めないと宣言した欄ほど率直な所見が出る**
   source: BomDD-UnitConv-Sample ops-trial(4 round で 8 件・すべて受理側の記録欠陥・うち設備台帳の記述差 1)
   evidence: BomDD-UnitConv-Sample bomdd/reports/independent-inspection-eco-00{2,3,4}.md 末尾・bomdd/51-cheat-log.md R-001〜R-006
+
+## 2026-09-26 BomDD 自己適用 — ECO-084(運転実証の kit 是正 2 件・user DECIDE「1:A 2:A」・文書のみ・起票と製造を同一 commit)
+
+**観測**(出典: [ECO-084 order](../bomdd/60-change-order-eco-084.md) §0・EXP-20260922-02 の 2026-09-26 節): ①初回製造の commit を process-core E01 が止めた矛盾(OBS-20260922-02)は、
+機構側(protected_paths の導入点免除)でなく**手順側**(change-management §0 に「process-core 設置済みなら初回製造も ECO-001 として起票してから製造 commit」)で閉じる— user 裁定 1:A。
+理由= 免除は validator に「納品済みか」の状態判定を足すことになり検査器の変更(異系統検査)を要する・実証では起票運用で通った。②工場隔離の手段(非開示物を製造中だけ作業木外へ退避・製造後に復元・
+受入 commit に含めない・「読まない」の指示と「読んだ一覧」の申告を併記)を factory-delegate 工程 2 末尾に 1 段落— user 裁定 2:A。phase4 プロンプト側(2:B)は製品の書き手が読まない実測(運転員が先に factory-delegate を読んだ)で退けた。
+**整理**: 2 件とも「観測してから足す」の順序(実証 3 ECO の実測 → 裁定 → 文書 1 文/1 段落)。機構は増やしていない(退避の自動化は採らず)。
+**一般化検査**: 「隔離は指示でなく手段で担う」(2026-09-26 節 (a)・1 製品 5 回)は本 ECO で factory-delegate に**織り込み済み**(候補から昇格・playbook 本文は非改訂— skill が正本)。
+**行き先判定**: ECO-084(文書のみ・製造者較正)。OBS-20260922-02 → recovered。playbook 非改訂。
+**思想層の再認証判定(手順 3b)**: [x] operational rule(初回製造の起票・隔離の手段)[ ] control/probe [x] template(product-profile 2 ファイル+写し)[ ] terminology
+[x] method/concept claim: 「慎重さでなく機構」= supported(手順を機構に合わせた・機構を弱めない)/ 「有界委任ハーネス」= supported(手段をリポ面の文書に)。contradicted / superseded: なし。
+**期待効果の棚卸し**: OBS-20260922-02 recovered。OBS-20260926-01 不変(1/3)。EXP-20260914-01 不変。新規 ID なし。
