@@ -7458,7 +7458,7 @@ supported(Phase 7 の 3 弾すべてが導出→裁定の順で、機構の穴�
 
 - [open] EXP-20260914-01 — **運転層の製品配布(第 2 弾候補・既知の未実装)**: bomdd-job の self-conformance 非依存化(required_skills 導出の正規表現の所在)・配員欄の機械検査(製品リポでの
   producer/inspector の導出・実在確認・独立性判定)・run 台帳の配置(`.git/bomdd-run/` と製品リポの hook)・設備台帳テンプレート。ECO-075 の時点で製品リポの配員欄は記述欄であり機械強制は存在しない
-  (欄の文言にそう書く)。**next trigger= 製品リポでの配員取り違えの実害 1 件 or user 裁定**(実害が起きるまで無記名にしてよいという意味ではない・本行が記名)。**2026-09-19 user 裁定 → ECO-081 起票(範囲 A= 契約と台帳の文書配布: 設備台帳テンプレート+配員の記述先を回収予定・残= self-conformance 非依存化・機械検査・run 台帳と hook)**。**2026-09-22 製造裁定 user「1:A」→ 製造済み(operator-layer.md core/adapter・70-equipment.yaml 雛形・register 注記 2 行・bomdd-init 結線・V1〜V3 PASS)・独立検査 r1 REJECT 5 → 是正 → r2 ACCEPT → **verified 2026-09-22(設備台帳テンプレート・配員の記述先を回収・残 3 項目= self-conformance 非依存化・機械検査・run 台帳と hook)**。同日 DISCUSS(AGREE)で次の弧= 製品リポでの実証実験(文書契約のみで運転し、機構不在による停止と手戻りを記録・記録欄 3 つ= ECO ごとの停止回数と種別 / 人間のターンのうち裁定と依頼以外 / 製品側が方法論リポを参照した回数)— **本 EXP の next trigger「実害 1 件」の証拠はその実験で出す**(EXP 起票は ECO-081 verified 後)
+  (欄の文言にそう書く)。**next trigger= 製品リポでの配員取り違えの実害 1 件 or user 裁定**(実害が起きるまで無記名にしてよいという意味ではない・本行が記名)。**2026-09-19 user 裁定 → ECO-081 起票(範囲 A= 契約と台帳の文書配布: 設備台帳テンプレート+配員の記述先を回収予定・残= self-conformance 非依存化・機械検査・run 台帳と hook)**。**2026-09-26 運転実証(EXP-20260922-02)= 3 ECO で実害 0 → next trigger 不成立・中断のまま**。**2026-09-22 製造裁定 user「1:A」→ 製造済み(operator-layer.md core/adapter・70-equipment.yaml 雛形・register 注記 2 行・bomdd-init 結線・V1〜V3 PASS)・独立検査 r1 REJECT 5 → 是正 → r2 ACCEPT → **verified 2026-09-22(設備台帳テンプレート・配員の記述先を回収・残 3 項目= self-conformance 非依存化・機械検査・run 台帳と hook)**。同日 DISCUSS(AGREE)で次の弧= 製品リポでの実証実験(文書契約のみで運転し、機構不在による停止と手戻りを記録・記録欄 3 つ= ECO ごとの停止回数と種別 / 人間のターンのうち裁定と依頼以外 / 製品側が方法論リポを参照した回数)— **本 EXP の next trigger「実害 1 件」の証拠はその実験で出す**(EXP 起票は ECO-081 verified 後)
   source: ECO-075
   evidence: ECO-075 order §0・§1-5/6・DISCUSS 2026-09-14(user 境界条件)
 
@@ -7913,7 +7913,7 @@ preflight の最小契約は baseline を「confirmed」にしたが、確認し
 baseline を製造直前 HEAD へ再凍結する(preflight の baseline 判定は存在でなく一致)」= 1 例・候補(記帳のみ・preflight 契約の改訂は起票要)。
 **期待効果の棚卸し**: EXP-20260914-01 行内更新(第 2 弾 verified・回収 2 項目・残 3)。新規 EXP-20260922-02(下記・実証実験)。OBS 新規なし(2 例目は候補記帳)。
 
-- [open] EXP-20260922-02 — **BomDD を土台にした製品リポで、運転の連鎖(変更指示 → 配員 → 製造 → 独立検査 → 判定回収 → 昇格)が文書契約だけで回るか**(user DISCUSS AGREE ×2・DECIDE 2:A 3:A・2026-09-22):
+- [closed 2026-09-26] EXP-20260922-02 — **BomDD を土台にした製品リポで、運転の連鎖(変更指示 → 配員 → 製造 → 独立検査 → 判定回収 → 昇格)が文書契約だけで回るか**(user DISCUSS AGREE ×2・DECIDE 2:A 3:A・2026-09-22)。**結果: 回った(3 ECO・実害 0)— 内訳は 2026-09-26 節**:
   設計= 小さな新製品(当方が定義・要求 5 件程度・既存系列と無関係・.NET CLI)を bomdd-init(ECO-081 配布物込み)で設置し、機構(射影・入口・witness)を**配布せず**、運転員が operator-layer.md だけで運転する。
   記録欄 3 つ(ECO ごと): (i) 停止回数と種別(停止語彙 10 語のどれか・判断依存か機構不在か) (ii) 人間のターンのうち裁定(DECIDE)と依頼(REQUEST)以外に費やしたもの (iii) 製品側が方法論リポ(BomDD)を参照した回数と理由。
   終了条件= ECO 3 本を運転するか、機構不在による実害 1 件(配員の取り違え・判定の未回収・窓の混入など)が出た時点。**結果の行き先**= 実害 1 件なら EXP-20260914-01 の next trigger 成立(機械検査の配布を根拠つきで起票)/
@@ -7963,3 +7963,31 @@ F5(待機形 2 行以内)は structural 検査の形式要件として残した�
 **適用した改善**: factory-delegate.md(正本+写し)の経緯節除去・golden n/a の移設・見出し。
 **思想層の再認証判定(手順 3b)**: [ ] operational rule [ ] control / probe [x] template(factory-delegate スキル)[ ] terminology [ ] method/concept claim [ ] none。
 **期待効果の棚卸し**: 該当 0 件(新規 EXP なし — 除去した節は規則を持たず、残した規則の文意は不変のため、挙動の差を測る対象がない)。
+
+## 2026-09-26 運転実証 ops-trial(EXP-20260922-02)— 終了: 3 ECO で実害 0・文書契約は配員と判定回収に足りた・不足は「隔離の手段」1 点・検査官の範囲外観察が受理側台帳の検査器になった
+
+**観測**(出典: [BomDD-UnitConv-Sample bomdd/reports/ops-trial/README.md §3](../../BomDD-UnitConv-Sample/bomdd/reports/ops-trial/README.md)・17 commit・2026-09-22〜26):
+①**運転の連鎖は文書契約だけで 3 ECO 回った**(ECO-002 機能追加= 表駆動の分類追加 / ECO-003 欠陥修正= spec_omission・境界プローブで実欠陥を発見し仕込み不要 / ECO-004 劣化対応= DEG-001・調達交換のみ)。
+機構不在による実害= **0**(配員の取り違え・判定の未回収・窓の混入・状態の矛盾のいずれも起きず)。BomDD リポ本体の参照= **0 回**。
+②文書契約で足りたもの: 設備台帳の記入(4 設備)・配員の記述先(register+order)・独立性の 3 軸照合(目視・4 回)・判定語の契約(先頭非空行・4 round 全回収)・停止語彙の分類。
+③**不足 1 点**: 隔離の**手段**(非開示物を製造中だけ作業木外へ退避)— kit の phase4 プロンプトと factory-delegate は「渡さない」と言うが手段を書かない。運転員が memory から 4 回持ち込んだ。
+初回製造で「起動コマンドも無い」とした記録は誤りで、factory-delegate 工程 1・2 に有った(運転員の読み落とし・2026-09-22 節の ⑤ を訂正)。
+④停止= 1(process-core E01・OBS-20260922-02・kit 内矛盾)。ECO ①〜③ は 0。人間のターン= 7(DECIDE 1・REQUEST 4・様式欠陥 1= 依頼文に cd が無く方法論リポで実行された)。ECO 1 本あたり人間 1 ターン(golden のみ)。
+⑤**独立検査 4 round 全 ACCEPT 所見 0**。検査官(fresh Agent・EQ-004)の**範囲外の観察 8 件はすべて受理側の記録欠陥**(桁数誤記「301」→ 307・受入条件行の追従漏れ・未定義 as-built ID・§7 未記入・未追跡 JSON・**設備台帳の model が実行環境と不一致**)。
+最後の 1 件は operator-layer §3 の来歴欄(user-declared)を検査官の観測(harness-measured)が反証した実例。
+⑥工場(Codex)3 回とも 1 回で DELIVERED・cheat 0・プローブ先行あり。resolved モデル名は 3/3 で「GPT-5 (Codex)」系(requested gpt-5.6-sol と乖離・自己申告のまま記録・observed 手段なし)。
+⑦固定オラクル seed 59 → rev1 66 → rev2 70。較正(変更前個体で新規行 FAIL)2/2 観測。治具側欠陥 1(参照実装の Decimal 精度)を selftest が凍結前に捕捉。
+**整理**: 問い「文書契約だけで回るか」への答えは **yes(配員・判定回収・停止分類)with 1 gap(隔離の手段)**。EXP-20260914-01(機械検査の配布)の next trigger「実害 1 件」は成立しない— 3 ECO の実測で「文書契約で足りる」側の証拠が積まれた。
+検査官の範囲外観察が受理側の台帳を検査していたのは想定外の収穫で、「機構なし」の運転で台帳の正しさを担保していたのは**運転員の注意ではなく検査官の読解**だった(慎重さでなく機構、の「機構」に fresh 検査官の読解が含まれる)。
+**一般化検査**: (a)「隔離は指示でなく手段で担う— 非開示物を作業木から退避すれば『読まなかった』の申告に依存しない」= 4 例(同一製品・同一運転員)・製品名なし・**候補(2026-09-22 節の 1 例目と合わせ計 5 回・1 製品なので rule of three は製品跨ぎで数える)**。
+(b)「独立検査官の範囲外観察は受理側台帳の検査器になる— 判定に含めない欄が、含めない故に率直になる」= 8 件/4 round・1 製品・候補。(c)「requested/resolved の乖離は自己申告では閉じない(3/3)」= order の注意書きの再確認・記帳のみ。
+**行き先判定**: EXP-20260922-02 → **closed**。EXP-20260914-01 不変(中断・実害 0 を追記)。OBS-20260922-02 は 1/3 のまま(kit 是正は user 裁定・候補= change-management §0 の 1 行)。
+(a) は factory-delegate 工程 2 / phase4 プロンプトへの 1 行追記の**起票候補**(user 裁定)。(b)(c) は記帳のみ。playbook 非改訂。
+**思想層の再認証判定(手順 3b)**: [x] operational rule(隔離の手段・範囲外観察の扱い)[x] control/probe(較正 2/2・selftest が治具欠陥を捕捉)[ ] template [ ] terminology
+[x] method/concept claim: 「AI= 装置・人間= 裁定と golden」= supported(人間 7 ターンのうち 5 が裁定/golden・1 が運転員の様式欠陥)/ 「慎重さでなく機構」= supported with refinement(fresh 検査官の読解も機構の一部)/
+「有界委任ハーネス」= supported(リポ面の記述だけで 3 ECO を運転)。contradicted / superseded: なし。
+**期待効果の棚卸し**: EXP-20260922-02 closed。EXP-20260914-01 に「2026-09-26 実害 0(3 ECO)」を行内追記。OBS-20260922-02 不変。新規 OBS-20260926-01(下記)。
+
+- [watch 1/3] OBS-20260926-01 — **独立検査官の「範囲外の観察」欄は受理側の台帳(order・as-built・設備台帳)の検査器として機能する— 判定に含めないと宣言した欄ほど率直な所見が出る**
+  source: BomDD-UnitConv-Sample ops-trial(4 round で 8 件・すべて受理側の記録欠陥・うち設備台帳の記述差 1)
+  evidence: BomDD-UnitConv-Sample bomdd/reports/independent-inspection-eco-00{2,3,4}.md 末尾・bomdd/51-cheat-log.md R-001〜R-006
