@@ -17,6 +17,8 @@
 #   (2) 合成検体は M unit 1・CP 1 の最小形。複数 unit・workspace・retired unit・抑止(suppress)は腕に無い。
 #   (3) CLI の個体(どの commit の dist か)は呼び出し側が記録する — 本スクリプトは HEAD と dist の sha256 を出すだけ。
 #   (4) 測定不能の所見(規則 (c))と適用外の所見(規則 (d))は対象 ID を実装が決めるため、件数 1 以上だけを見る。
+#   (5) 数えるのは**適用ゲート内**の所見(所見の gate が実行ゲート以下)— 出力には全ゲートの所見が gate 付きで
+#       載るため(BomDD-Plm 仕様 §2.7)、絞らずに数えると製造前ゲートでも受入ゲートの所見を拾う。
 
 import argparse
 import hashlib
@@ -73,6 +75,8 @@ ARMS = [
         NONE, (ANY, set())),
     arm("noab-G3", None, "ゲートの対照: 製造記録なしを G3 で実行(製造前は正常な状態)", NONE, NONE, gate="G3"),
     arm("notarget", None, "適用外の対照: 受入対象の M unit なし", NONE, (set(), ANY), keep_m=False),
+    arm("notarget-fail", entry([row(CP, "fail")]), "適用外かつ違反: 受入対象なし・不合格行あり",
+        NONE, ({CP}, ANY), keep_m=False),
 ]
 
 
@@ -88,7 +92,9 @@ def run_cli(cli: Path, repo: Path, out: Path, gate: str = "acceptance"):
         diag = json.loads(p.stdout)
     except json.JSONDecodeError:
         return p.returncode, None, None, None
-    fs = list(diag.get("findings", [])) + list(diag.get("infos", []))
+    ladder = {"always": 0, "G1": 1, "G3": 2, "freeze": 3, "acceptance": 4}
+    fs = [f for f in list(diag.get("findings", [])) + list(diag.get("infos", []))
+          if f.get("gate") != "eco" and ladder.get(f.get("gate", "always"), 0) <= ladder[gate]]
     r050 = [f for f in fs if f.get("rule") == "R-050"]
     err = [f for f in r050 if f.get("severity") == "error"]
     info = [f for f in r050 if f.get("severity") != "error"]
