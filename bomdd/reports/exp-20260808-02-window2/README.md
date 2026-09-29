@@ -46,6 +46,40 @@
 - `extract.py` / `classify.py` — 抽出器・分類器(分類辞書を内包)
 - `count_manifest_reviews.py` — change-impact yaml 内レビューの件数(256)
 - `roi-lead.py` — リードタイム(git log から起票 commit と implemented 宣言 commit)
+- `roi-lines.py` — 是正行数(git log --numstat・レビュー応答 commit の bomdd/** 変更行)
+- `k-disposition-count.md` — 記録層 91 件の処置分類(CORRECTED/CARRIED・所見別に出典 file:line・判断 §4)
 - 出典(ViewTube): `bomdd/eco/ECO-VT-{187,191〜211}-independent-review.md`・`test-results/eco-vt-{186,189}-*/r8-round-*.yaml`・`bomdd/process/change-impact/ECO-VT-{182,183,184,185,188,190}.yaml`・`bomdd/process/change-register.yaml`
 
 争いうる判定(分類器の報告から転記): R193a-F1(記録と読めば記録へ 1 件移動)/ R193a-F4・R209a-F4・R203a-F5(製品では到達しない潜在事項を実体に数えた)/ R196a-F1(既存欠陥だが修理で挙動が変化)/ R200b-F1(正しい状態からの退行ではない)/ R197a-F4(証拠でも筋が通る)/ 191 round 1 はエントリ 9 件(totals は 10)。
+
+## 追補(2026-09-29)— EXP-20260828-03 の ②③(レバー A/B)
+
+①既定処分の所在: 停止条件(第 2 回で最後・最終回の blocking は修理せず主張縮小・material/minor は記録して持ち越す)は ViewTube `change-impact/ECO-VT-182.yaml:583-594`・`ECO-VT-184.yaml:2538-2551`・`ECO-VT-190.yaml:464-470`・register 34521-34525(187)に宣言。以後の製品 ECO はレビュー記録の「the last round under the stop condition」で参照継承(本文に再掲 2 本)。軸は層(実体/証拠/記録)でなく重さ(blocking/material/minor)。
+
+②記録層 91 件の処置(`k-disposition-count.md`・所見別に出典 file:line):
+
+| 区分 | 記録層所見 | 是正へ流れた | 持ち越し | 比率 |
+|---|---|---|---|---|
+| 基準線(2026-08-08・工程 ECO 2 本) | 15 | 15 | 0 | 100% |
+| 第 1 回観測(ECO-VT-162 弧) | 13 | 13 | 0 | 100% |
+| 第 2 窓 全体 | 91 | 54 | 37 | 59% |
+| 非最終回(既定処分なし) | 62 | 49 | 13 | 79% |
+| 停止条件下の最終回(既定処分あり) | 29 | 5 | 24 | 17% |
+| 工程 ECO 最終回 | 15 | 0 | 15 | 0% |
+| 製品 ECO 最終回 | 14 | 5 | 9 | 36% |
+
+SHRUNK・REJECTED・不明 0。最終回でも是正した 5 件= R193b-F3(新 ECO 起票)・R195b-F1・R198b-F3・R206b-F4・R210b-F1(「製品は変えない」の下で後節・register に訂正追記)。
+
+③是正行数(`roi-lines.py`・レビュー応答 commit〔件名に round|disposition|corrected|R8〕が `bomdd/**` に加えた変更行):
+
+| 区分 | 行数 | ECO あたり | ラウンドあたり |
+|---|---|---|---|
+| 基準線(工程 ECO 2 本・2〜3 ラウンド) | 2,535 | 約 1,268 | 約 500 |
+| 第 1 回観測(ECO-VT-162・8 ラウンド) | 1,216 → 543 | — | 約 150 |
+| 製品 ECO 22 本(32 ラウンド) | 9,241 | 420 | 289 |
+| 工程・設備 ECO 12 本(31 ラウンド) | 7,685 | 640 | 248 |
+| うち 184(上限なし 13 ラウンド) | 3,219 | — | 248 |
+
+読み: レバー A(既定処分)は同一窓の宣言あり/なしの対照で 79% → 17%(初の正例・1 製品)。③は ECO あたりで下がりラウンドあたりは不動 — 下がった分はラウンド数の削減(A 経由)で説明でき、レバー B(座標同一性・複写面数)が動いた証拠はない。
+
+限界: ③は訂正だけでなく register 増分・証拠節追加を含む過大値・commit 帰属は件名の ECO 言及。②の争いうる判定(「read X as Y」で本文不変= 持ち越し・複数部分の所見は一部訂正で是正・別 ECO で直した件は是正)は `k-disposition-count.md` §4。基準線行数は 2026-08-08 節、第 1 回観測は転記報告由来、ラウンドあたりは当方の割り算。
