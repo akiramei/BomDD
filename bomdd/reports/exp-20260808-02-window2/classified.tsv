@@ -1,0 +1,250 @@
+eco	id	severity	layer	sub	gloss	source
+186	R186-F1	material	K		E-BOM twin invariant misplaced too; not swept	test-results\eco-vt-186-the-videos-unit-invariant-no-loader-can-read\r8-round-1.yaml
+186	R186-F2	minor	K		register repair.status leftover	test-results\eco-vt-186-the-videos-unit-invariant-no-loader-can-read\r8-round-1.yaml
+186	R186-F3	minor	V		impacted_files omits probe2	test-results\eco-vt-186-the-videos-unit-invariant-no-loader-can-read\r8-round-1.yaml
+186	R186-F4	minor	K		basis overstates the ruling	test-results\eco-vt-186-the-videos-unit-invariant-no-loader-can-read\r8-round-1.yaml
+186	R186-F5	minor	V		probe-run.txt greps do not show claim	test-results\eco-vt-186-the-videos-unit-invariant-no-loader-can-read\r8-round-1.yaml
+186	R186-F6	minor	K		commit cites wrong RED revision	test-results\eco-vt-186-the-videos-unit-invariant-no-loader-can-read\r8-round-1.yaml
+186	R186-F7	minor	V		ECO-066 manifest verified while invariant unloadable	test-results\eco-vt-186-the-videos-unit-invariant-no-loader-can-read\r8-round-1.yaml
+186	R186b-F1	minor	V		closure probe counts N/A marker as gap	test-results\eco-vt-186-the-videos-unit-invariant-no-loader-can-read\r8-round-2.yaml
+187	I187a-F1	blocking	K		same carrier omission, found independently	ECO-VT-187-independent-review.md
+187	I187a-F2	blocking_if_ruled	V		gate slices wrong text silently	ECO-VT-187-independent-review.md
+187	I187a-F3	material	V		same selftest gap independently	ECO-VT-187-independent-review.md
+187	I187a-F4	minor	V		exempt unsliceable entry reported twice	ECO-VT-187-independent-review.md
+187	I187a-F5	minor	V		probe checks code/exit only	ECO-VT-187-independent-review.md
+187	I187a-F6	minor	V		CRLF register fails closed	ECO-VT-187-independent-review.md
+187	I187b-F1	material	V		probe blind to empty-body skip variant	ECO-VT-187-independent-review.md
+187	I187b-F2	blocking_if_ruled	V		gate crashes on non-UTF-8 / no id	ECO-VT-187-independent-review.md
+187	R187a-F1	blocking	K		claim carriers omit body restatement	ECO-VT-187-independent-review.md
+187	R187a-F2	blocking_if_ruled	V		probe green on narrowed gate	ECO-VT-187-independent-review.md
+187	R187a-F3	material	V		selftest has no arm for refusal	ECO-VT-187-independent-review.md
+187	R187a-F4	material	V		impacted_files lacks probe file	ECO-VT-187-independent-review.md
+187	R187a-F5	material	V		premise measured before repair existed	ECO-VT-187-independent-review.md
+187	R187a-F6	material	K		GREEN line wider than claim	ECO-VT-187-independent-review.md
+187	R187a-F7	minor	K		derivation text lacks post-ruling key	ECO-VT-187-independent-review.md
+187	R187a-F8	minor	K		ECO-190 records conflate questions	ECO-VT-187-independent-review.md
+187	R187a-F9	minor	V		gate refuses DIVERGENT when values quoted	ECO-VT-187-independent-review.md
+187	R187b-F1	blocking_if_ruled	K		probe verdict line not a carrier	ECO-VT-187-independent-review.md
+187	R187b-F2	blocking_if_ruled	K		commit-message carrier undispositioned	ECO-VT-187-independent-review.md
+187	R187b-F3	material	V		red_observed cites old probe; no rebound RED run	ECO-VT-187-independent-review.md
+187	R187b-F4	material	K		filing overstates: validate_process already blocked	ECO-VT-187-independent-review.md
+187	R187b-F5	minor	K		I187a-F4 carried only here	ECO-VT-187-independent-review.md
+189	R189-F1	material	K		strongest other unit not named	test-results\eco-vt-189-invariants-appended-to-the-catalog-unit-by-later-ecos\r8-round-1.yaml
+189	R189-F2	material	K		recorded reason not the measured one	test-results\eco-vt-189-invariants-appended-to-the-catalog-unit-by-later-ecos\r8-round-1.yaml
+189	R189-F3	material	K		E-SHELL-UI-001 sibling invariant unswept	test-results\eco-vt-189-invariants-appended-to-the-catalog-unit-by-later-ecos\r8-round-1.yaml
+189	R189-F4	minor	K		generalisation overstates pattern	test-results\eco-vt-189-invariants-appended-to-the-catalog-unit-by-later-ecos\r8-round-1.yaml
+189	R189-F5	minor	K		grammatical subject misdescribed	test-results\eco-vt-189-invariants-appended-to-the-catalog-unit-by-later-ecos\r8-round-1.yaml
+189	R189-F6	minor	K		pasted owner rows cut mid-token	test-results\eco-vt-189-invariants-appended-to-the-catalog-unit-by-later-ecos\r8-round-1.yaml
+191	I191a-F1 / R191a-F1	blocking_if_ruled	V		harness holds two undeclared plans	ECO-VT-191-independent-review.md
+191	I191a-F2	material	V		probe green on four wrong harnesses	ECO-VT-191-independent-review.md
+191	I191a-F3	minor	V		realised counts off-screen cards	ECO-VT-191-independent-review.md
+191	I191a-F4	minor	V		trace ignores idle offset	ECO-VT-191-independent-review.md
+191	I191a-F5	minor	K		declared-layout.json status fields stale	ECO-VT-191-independent-review.md
+191	I191b-F1	material	V		probe green on 31px-tolerant harness	ECO-VT-191-independent-review.md
+191	I191b-F2	minor	V		trace regex matches commented lines	ECO-VT-191-independent-review.md
+191	I191b-F3	minor	K		consumer text true only for probe cases	ECO-VT-191-independent-review.md
+191	I191b-F4	minor	K		residue examples incomplete	ECO-VT-191-independent-review.md
+191	I191b-F5	minor	V		same as R191b-F4 first half	ECO-VT-191-independent-review.md
+191	R191a-F2	material	V		realised clause unexercised	ECO-VT-191-independent-review.md
+191	R191a-F3	material	V		capture manifests carry frozen CAD numbers	ECO-VT-191-independent-review.md
+191	R191a-F4	minor	V		probe dies on autocrlf; leaves worktree	ECO-VT-191-independent-review.md
+191	R191a-F5	minor	K		stale comments, policy comment, scripts not kept	ECO-VT-191-independent-review.md
+191	R191b-F1	material	V		counterexample files are transcriptions	ECO-VT-191-independent-review.md
+191	R191b-F2	material	V		disposition quotes uncommitted sweep line	ECO-VT-191-independent-review.md
+191	R191b-F3	minor	V		trace prints literal 0.0	ECO-VT-191-independent-review.md
+191	R191b-F4	minor	V		manifest status / re-run keys stale	ECO-VT-191-independent-review.md
+191	R191b-F5	minor	K		disposition text wrong about 052	ECO-VT-191-independent-review.md
+192	I192a-F1	blocking	V		runner build reads working-tree global.json	ECO-VT-192-independent-review.md
+192	I192a-F2	blocking_if_ruled	V		same runner defect independently	ECO-VT-192-independent-review.md
+192	I192a-F3	material	V		probe green on two wrong runners	ECO-VT-192-independent-review.md
+192	I192a-F4	material	V		skip-worktree entries silently omitted	ECO-VT-192-independent-review.md
+192	I192a-F5	minor	V		same path-length dependence	ECO-VT-192-independent-review.md
+192	I192a-F6	minor	K		control-plan stop list lacks refusal	ECO-VT-192-independent-review.md
+192	I192a-F7	minor	K		residue (3)/(1) inexact	ECO-VT-192-independent-review.md
+192	I192b-F1	blocking	V		take-out uses working-tree .gitattributes	ECO-VT-192-independent-review.md
+192	I192b-F2	material	V		probe blind to untracked-file copying runner	ECO-VT-192-independent-review.md
+192	I192b-F3	minor	V		intent-to-add taken out as 0-byte file	ECO-VT-192-independent-review.md
+192	I192b-F4	minor	V		refusal leaves busy temp dir	ECO-VT-192-independent-review.md
+192	R192a-F1	blocking	V		working-tree runner executes inside commit	ECO-VT-192-independent-review.md
+192	R192a-F10	minor	V		probe never exercises relative GIT_INDEX_FILE	ECO-VT-192-independent-review.md
+192	R192a-F11	minor	K		body quotes wrong line	ECO-VT-192-independent-review.md
+192	R192a-F12	minor	K		residue (3) broader than measured	ECO-VT-192-independent-review.md
+192	R192a-F2	blocking	K		control plan listed as carrier wrongly	ECO-VT-192-independent-review.md
+192	R192a-F3	blocking_if_ruled	V		take-out fails on path length	ECO-VT-192-independent-review.md
+192	R192a-F4	material	K		other ECOs' residue still counts D6 open	ECO-VT-192-independent-review.md
+192	R192a-F5	material	V		manifest omits real consumers	ECO-VT-192-independent-review.md
+192	R192a-F6	material	K		hook comment now false	ECO-VT-192-independent-review.md
+192	R192a-F7	material	K		form ruling has no record	ECO-VT-192-independent-review.md
+192	R192a-F8	material	K		stop-condition wording differs	ECO-VT-192-independent-review.md
+192	R192a-F9	material	V		machinery statements without pasted output	ECO-VT-192-independent-review.md
+192	R192b-F1	material	V		test vector claims case that does not exist	ECO-VT-192-independent-review.md
+192	R192b-F10	minor	V		wrong runners not committed	ECO-VT-192-independent-review.md
+192	R192b-F11	minor	K		filing text describes defect as current	ECO-VT-192-independent-review.md
+192	R192b-F2	blocking_if_ruled	K		ECO-190 key restates residue wrongly	ECO-VT-192-independent-review.md
+192	R192b-F3	material	K		residue sentence reasoned, not measured	ECO-VT-192-independent-review.md
+192	R192b-F4	minor	K		consumer reason cites (2) not (3)	ECO-VT-192-independent-review.md
+192	R192b-F5	minor	K		docstring/GREEN line say working tree	ECO-VT-192-independent-review.md
+192	R192b-F6	minor	K		stop text names non-commit case	ECO-VT-192-independent-review.md
+192	R192b-F7	minor	V		manifest review status stale	ECO-VT-192-independent-review.md
+192	R192b-F8	minor	K		ECO-184 residue (5) incomplete	ECO-VT-192-independent-review.md
+192	R192b-F9	minor	K		'same code' vs same cases	ECO-VT-192-independent-review.md
+193	R193a-F1	blocking	E	PRE	MCP save_view silently re-scopes music view global	ECO-VT-193-independent-review.md
+193	R193a-F2	material	E	PRE	MusicOriginView filter excludes music origin; rail wrong	ECO-VT-193-independent-review.md
+193	R193a-F3	blocking_if_ruled	V		controls assert refusal in let-go state	ECO-VT-193-independent-review.md
+193	R193a-F4	minor	E	PRE	store accepts invalid scope when service bypassed	ECO-VT-193-independent-review.md
+193	R193a-F5	minor	K		excluded-consumer wording inexact	ECO-VT-193-independent-review.md
+193	R193a-F6	minor	V		probe never checks origin kept	ECO-VT-193-independent-review.md
+193	R193a-F7	minor	K		run recorded as passed; title scope	ECO-VT-193-independent-review.md
+193	R193b-F1	blocking	V		fixture moved out of user's state; gate blind	ECO-VT-193-independent-review.md
+193	R193b-F2	material	V		no supervised run on committed file	ECO-VT-193-independent-review.md
+193	R193b-F3	minor	K		carried defects have no home	ECO-VT-193-independent-review.md
+193	R193b-F4	minor	V		manifest fields at filing	ECO-VT-193-independent-review.md
+194	R194a-F1	material	V		no frame shows condition chip for golden	ECO-VT-194-independent-review.md
+194	R194a-F2	blocking_if_ruled	E	PRE	long condition chip runs out of row	ECO-VT-194-independent-review.md
+194	R194a-F3	material	K		tier B method misdescribed	ECO-VT-194-independent-review.md
+194	R194a-F4	material	V		four files missing from impacted_files	ECO-VT-194-independent-review.md
+194	R194a-F5	minor	V		recorded repeatability evidence not the evidence	ECO-VT-194-independent-review.md
+194	R194a-F6	minor	V		centre check has no control	ECO-VT-194-independent-review.md
+194	R194a-F7	minor	K		product comment inaccurate	ECO-VT-194-independent-review.md
+195	R195a-F1	material	K		requirements YAML no longer parses	ECO-VT-195-independent-review.md
+195	R195a-F2	material	E	REG	#をタグに fails on music/global namesake; added by NEW-3	ECO-VT-195-independent-review.md
+195	R195a-F3	blocking	V		NEW-2 apply repair unchecked	ECO-VT-195-independent-review.md
+195	R195a-F4	minor	V		four guards unqualified or redundant	ECO-VT-195-independent-review.md
+195	R195a-F5	minor	E	IN	reader accepts pack without music-scope-v1 feature	ECO-VT-195-independent-review.md
+195	R195a-F6	minor	K		ruling recorded wider than implemented	ECO-VT-195-independent-review.md
+195	R195a-F7	minor	K		spec/REQ-092 beyond approved text	ECO-VT-195-independent-review.md
+195	R195a-F8	minor	K		eight vs six; undispositioned rows; manifest stale	ECO-VT-195-independent-review.md
+195	R195b-F1	material	K		section 9 gives false cause	ECO-VT-195-independent-review.md
+195	R195b-F2	minor	V		NEW-2 apply guard not qualified alone	ECO-VT-195-independent-review.md
+195	R195b-F3	minor	V		case claims routes it does not run	ECO-VT-195-independent-review.md
+195	R195b-F4	minor	K		record script does not produce record	ECO-VT-195-independent-review.md
+195	R195b-F5	minor	K		eight-to-six correction does not add up	ECO-VT-195-independent-review.md
+196	R196a-F1	blocking	E	PRE	save of other view moves Videos; carried node id	ECO-VT-196-independent-review.md
+196	R196a-F2	blocking_if_ruled	E	IN	HOME id reuse not seen as change	ECO-VT-196-independent-review.md
+196	R196a-F3	material	E	IN	keep clause drops dynamic value; REQ narrowed	ECO-VT-196-independent-review.md
+196	R196a-F4	material	V		keep control guards root only; mutant survives	ECO-VT-196-independent-review.md
+196	R196a-F5	material	K		'any other save keeps' overstates	ECO-VT-196-independent-review.md
+196	R196a-F6	minor	V		precondition checked for two cases only	ECO-VT-196-independent-review.md
+196	R196a-F7	minor	V		manifest at filing state	ECO-VT-196-independent-review.md
+196	R196b-F1	blocking	E	IN	parent id reuse not seen as change	ECO-VT-196-independent-review.md
+196	R196b-F2	blocking_if_ruled	E	IN	moved ancestor does not move view	ECO-VT-196-independent-review.md
+196	R196b-F3	material	V		keep control blind to mutant b	ECO-VT-196-independent-review.md
+196	R196c-F1	blocking	E	REG	keep branch trusts reused id; regression	ECO-VT-196-independent-review.md
+196	R196c-F2	blocking_if_ruled	E	REG	same-tag-path HOME move ignored; regression	ECO-VT-196-independent-review.md
+196	R196c-F3	material	E	PRE	removed shown node's id reused sends elsewhere	ECO-VT-196-independent-review.md
+197	R197a-F1	blocking	E	REG	snapshot read throws when first metadata NULL	ECO-VT-197-independent-review.md
+197	R197a-F2	material	V		before/after result comparison not recorded	ECO-VT-197-independent-review.md
+197	R197a-F3	blocking_if_ruled	E	IN	REQ-063 counterexamples still true of HEAD	ECO-VT-197-independent-review.md
+197	R197a-F4	blocking_if_ruled	E	IN	1.0 s enforced as median; statistic unstated	ECO-VT-197-independent-review.md
+197	R197a-F5	material	V		all-videos arm measures prior residue	ECO-VT-197-independent-review.md
+197	R197a-F6	material	V		'on a copy' condition has no instrument	ECO-VT-197-independent-review.md
+197	R197a-F7	minor	V		timing boundary excludes paint	ECO-VT-197-independent-review.md
+197	R197a-F8	minor	K		DemoCurator sentence inaccurate	ECO-VT-197-independent-review.md
+197	R197a-F9	minor	V		manifest still filing's	ECO-VT-197-independent-review.md
+197	R197b-F1	material	V		WithDescription false unguarded; margin as necessity	ECO-VT-197-independent-review.md
+197	R197b-F2	material	V		named classes miss shell list read	ECO-VT-197-independent-review.md
+197	R197b-F3	minor	K		cited comparison predates repair	ECO-VT-197-independent-review.md
+197	R197b-F4	minor	K		spec/control plan name no statistic	ECO-VT-197-independent-review.md
+197	R197b-F5	minor	K		comment/manifest narrower than change	ECO-VT-197-independent-review.md
+198	R198a-F1	blocking	E	IN	••• still leaves row on HOME/deep rows	ECO-VT-198-independent-review.md
+198	R198a-F2	blocking	V		test does not check ellipsis	ECO-VT-198-independent-review.md
+198	R198a-F3	material	E	PRE	name column collapses under chips	ECO-VT-198-independent-review.md
+198	R198a-F4	material	E	PRE	placing mode overflows even short condition	ECO-VT-198-independent-review.md
+198	R198a-F5	minor	K		'800 wide' is really 960	ECO-VT-198-independent-review.md
+198	R198a-F6	minor	E	PRE	line-break condition draws multi-line chip	ECO-VT-198-independent-review.md
+198	R198a-F7	minor	K		other part properties differ, unrecorded	ECO-VT-198-independent-review.md
+198	R198a-F8	minor	K		probe commit omits 1280 line	ECO-VT-198-independent-review.md
+198	R198b-F1	material	E	REG	new panel overflows LEFT over toggle	ECO-VT-198-independent-review.md
+198	R198b-F2	material	E	REG	placing mode squeezes short condition to sliver	ECO-VT-198-independent-review.md
+198	R198b-F3	minor	K		'short condition shows full' not every row	ECO-VT-198-independent-review.md
+198	R198b-F4	minor	E	REG	sub-20px chip shows nothing; zero chip keeps gap	ECO-VT-198-independent-review.md
+199	R199a-F1	blocking_if_ruled	E	IN	placement takes missing HOME id, becomes HOME	ECO-VT-199-independent-review.md
+199	R199a-F2	material	V		manifest at filing; two paths unlisted	ECO-VT-199-independent-review.md
+199	R199a-F3	material	E	PRE	node id carried into another view	ECO-VT-199-independent-review.md
+199	R199a-F4	minor	V		SMOKE_UI_018 no longer tests leak	ECO-VT-199-independent-review.md
+199	R199a-F5	minor	V		'(measured)' with no retained measurement	ECO-VT-199-independent-review.md
+199	R199a-F6	minor	K		invariant filed under wrong M-BOM part	ECO-VT-199-independent-review.md
+199	R199a-F7	minor	K		section 6 lists done work as remaining	ECO-VT-199-independent-review.md
+199	R199b-F1	material	E	REG	HOME at long.MaxValue overflows next id	ECO-VT-199-independent-review.md
+199	R199b-F2	material	K		cross-reference points at old part	ECO-VT-199-independent-review.md
+199	R199b-F3	minor	K		'holds no revision' vs 'reads none'	ECO-VT-199-independent-review.md
+200	R200a-F1	blocking	E	IN	import route opens Videos at other view's node	ECO-VT-200-independent-review.md
+200	R200a-F2	material	K		REQ-037 sentence wider than spec/body	ECO-VT-200-independent-review.md
+200	R200a-F3	minor	K		M-BOM invariant says more than code	ECO-VT-200-independent-review.md
+200	R200a-F4	minor	K		tests-before attributed to wrong revision	ECO-VT-200-independent-review.md
+200	R200a-F5	minor	V		manifest omits videos expectation consumer	ECO-VT-200-independent-review.md
+200	R200b-F1	blocking	E	REG	evaluation while other view selected loses position/sort	ECO-VT-200-independent-review.md
+200	R200b-F2	minor	V		manifest describes first repair	ECO-VT-200-independent-review.md
+201	R201a-F1	blocking	E	IN	save of other view rewrites shown position	ECO-VT-201-independent-review.md
+201	R201a-F2	minor	K		M-BOM 'opening position' broader than code	ECO-VT-201-independent-review.md
+201	R201a-F3	minor	V		qualification covers one Tags action	ECO-VT-201-independent-review.md
+201	R201b-F1	material	E	PRE	deleting selected view drops shown position/sort	ECO-VT-201-independent-review.md
+201	R201b-F2	minor	V		RefreshClassificationAsync site unexercised; disposition wrong	ECO-VT-201-independent-review.md
+201	R201b-F3	minor	V		over-restricted guard survives suite	ECO-VT-201-independent-review.md
+201	R201b-F4	minor	K		writer sweep not recorded	ECO-VT-201-independent-review.md
+202	R202a-F1	blocking	E	REG	list loses chosen sort after tag action	ECO-VT-202-independent-review.md
+202	R202a-F2	material	V		no case observes list order	ECO-VT-202-independent-review.md
+202	R202a-F3	material	V		'3 of 3' claim has no pasted run	ECO-VT-202-independent-review.md
+202	R202a-F4	minor	V		manifest execution cannot find; omits test file	ECO-VT-202-independent-review.md
+202	R202a-F5	minor	K		reader/writer tables slightly incomplete	ECO-VT-202-independent-review.md
+202	R202a-F6	minor	K		separated defects recorded only here; stale M-BOM	ECO-VT-202-independent-review.md
+202	R202b-F1	material	K		folded-in behaviour has no requirement home	ECO-VT-202-independent-review.md
+202	R202b-F2	material	E	PRE	archive list replaced by active videos on tag change	ECO-VT-202-independent-review.md
+202	R202b-F3	minor	V		'nine cases RED' mutant evidence mostly shared setup	ECO-VT-202-independent-review.md
+202	R202b-F4	minor	V		manifest lacks folded-in scope	ECO-VT-202-independent-review.md
+203	R203a-F1	material	E	PRE	sort change fills origin-less music scope	ECO-VT-203-independent-review.md
+203	R203a-F2	minor	K		'byte-identical' stronger than measured	ECO-VT-203-independent-review.md
+203	R203a-F3	minor	V		frame evidence no provenance; wrong pair	ECO-VT-203-independent-review.md
+203	R203a-F4	minor	V		filing script not retained	ECO-VT-203-independent-review.md
+203	R203a-F5	minor	E	PRE	in-view heading redraws only on publish	ECO-VT-203-independent-review.md
+204	R204a-F1	material	E	PRE	view over open archive keeps archive state	ECO-VT-204-independent-review.md
+204	R204a-F2	material	K		body names unmeasured cause	ECO-VT-204-independent-review.md
+204	R204a-F3	minor	V		alone-run leg not retained	ECO-VT-204-independent-review.md
+204	R204a-F4	minor	K		'before' labelled wrong revision	ECO-VT-204-independent-review.md
+204	R204a-F5	minor	V		checks cover two of reachable routes	ECO-VT-204-independent-review.md
+204	R204a-F6	minor	V		rerun file has no header	ECO-VT-204-independent-review.md
+204	R204a-F7	minor	V		test leaves catalogues in %TEMP%	ECO-VT-204-independent-review.md
+205	R205a-F1	material	E	PRE	scope change loses position when other view selected	ECO-VT-205-independent-review.md
+205	R205a-F2	minor	E	PRE	return to Videos reopens root with archive flag	ECO-VT-205-independent-review.md
+205	R205a-F3	minor	V		checks read VM strings not Tags pane	ECO-VT-205-independent-review.md
+205	R205a-F4	minor	V		manifest/body at filing	ECO-VT-205-independent-review.md
+205	R205a-F5	minor	K		'two steps change order' loose	ECO-VT-205-independent-review.md
+206	R206a-F1	material	E	REG	archive under music scope now empty	ECO-VT-206-independent-review.md
+206	R206a-F2	material	E	PRE	in-flight refresh fills scope after opening	ECO-VT-206-independent-review.md
+206	R206a-F3	minor	V		generation advance has no RED case	ECO-VT-206-independent-review.md
+206	R206a-F4	minor	K		exclusion (a) names Tags route only	ECO-VT-206-independent-review.md
+206	R206b-F1	material	E	IN	archive close leaves panel blank, not asking	ECO-VT-206-independent-review.md
+206	R206b-F2	material	E	PRE	with origin, archive close lists whole catalogue	ECO-VT-206-independent-review.md
+206	R206b-F3	minor	E	PRE	archived video fills scope via in-flight refresh	ECO-VT-206-independent-review.md
+206	R206b-F4	minor	K		'collection's archive' narrower than code	ECO-VT-206-independent-review.md
+207	R207a-F1	minor	E	PRE	archived video stays selected after view opens	ECO-VT-207-independent-review.md
+207	R207a-F2	minor	K		body names route window does not offer	ECO-VT-207-independent-review.md
+207	R207a-F3	minor	K		exclusion understates Tags round trip	ECO-VT-207-independent-review.md
+208	R208a-F1	material	V		probe marker cannot match after repair	ECO-VT-208-independent-review.md
+208	R208a-F2	material	K		inventory lists eight, ninth exists	ECO-VT-208-independent-review.md
+208	R208a-F3	minor	K		fixture's wider reach unrecorded	ECO-VT-208-independent-review.md
+208	R208a-F4	minor	K		old comment above collections	ECO-VT-208-independent-review.md
+208	R208a-F5	minor	V		manifest names unreached consumers	ECO-VT-208-independent-review.md
+208	R208a-F6	minor	K		'went first were whole' is inference	ECO-VT-208-independent-review.md
+209	R209a-F1	minor	K		'2 of 7' should be 2 of 8	ECO-VT-209-independent-review.md
+209	R209a-F2	minor	V		probe feeds fixture counter when defective	ECO-VT-209-independent-review.md
+209	R209a-F3	minor	K		probe comment overclaims isolation	ECO-VT-209-independent-review.md
+209	R209a-F4	minor	E	PRE	Start/Stop on two threads unsafe	ECO-VT-209-independent-review.md
+210	R210a-F1	blocking	V		M-BOM behaviours have no case; mutants survive	ECO-VT-210-independent-review.md
+210	R210a-F2	material	E	PRE	label under group; ••• merges with alias	ECO-VT-210-independent-review.md
+210	R210a-F3	minor	E	REG	hidden-on-resize button keeps focus	ECO-VT-210-independent-review.md
+210	R210a-F4	minor	E	REG	hidden buttons stay in automation tree	ECO-VT-210-independent-review.md
+210	R210a-F5	minor	E	REG	focus border swaps parts at 2px bands	ECO-VT-210-independent-review.md
+210	R210a-F6	minor	V		test sliver threshold 30 vs product 60	ECO-VT-210-independent-review.md
+210	R210a-F7	minor	K		body/register/manifest record errors	ECO-VT-210-independent-review.md
+210	R210b-F1	minor	K		register error left; manifest status stale	ECO-VT-210-independent-review.md
+210	R210b-F2	minor	V		minimum 60 pinned only to 48	ECO-VT-210-independent-review.md
+210	R210b-F3	minor	V		button choice pinned only to fixture slack	ECO-VT-210-independent-review.md
+211	R211a-F1	blocking	V		three M-BOM clauses have no case	ECO-VT-211-independent-review.md
+211	R211a-F2	material	E	REG	hidden type/owner chips stay IsVisible	ECO-VT-211-independent-review.md
+211	R211a-F3	minor	E	REG	label tooltip replaces keyboard-hint tooltip	ECO-VT-211-independent-review.md
+211	R211a-F4	minor	V		probe crashes on pre-repair view; dates wrong	ECO-VT-211-independent-review.md
+211	R211a-F5	minor	K		flattened rows: keyboard indent feedback unmentioned	ECO-VT-211-independent-review.md
+211	R211b-F1	material	V		gap check measures box not ink	ECO-VT-211-independent-review.md
+211	R211b-F2	minor	V		zero-width treatment stated, unheld	ECO-VT-211-independent-review.md
+211	R211b-F3	minor	V		probe crash carried; section 7 miscount	ECO-VT-211-independent-review.md
