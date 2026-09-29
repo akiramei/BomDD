@@ -8004,3 +8004,25 @@ F5(待機形 2 行以内)は structural 検査の形式要件として残した�
 **思想層の再認証判定(手順 3b)**: [x] operational rule(初回製造の起票・隔離の手段)[ ] control/probe [x] template(product-profile 2 ファイル+写し)[ ] terminology
 [x] method/concept claim: 「慎重さでなく機構」= supported(手順を機構に合わせた・機構を弱めない)/ 「有界委任ハーネス」= supported(手段をリポ面の文書に)。contradicted / superseded: なし。
 **期待効果の棚卸し**: OBS-20260922-02 recovered。OBS-20260926-01 不変(1/3)。EXP-20260914-01 不変。新規 ID なし。
+
+## 2026-09-29 外部文献の突き合わせ — claude.dev「Automating eval design and hillclimbing with Claude」(Lance Martin・2026-09-28)× BomDD 較正・検査器設計: 記事にあって BomDD に無い 2 点を OBS 記帳(記帳のみ・本文非改訂)
+
+**観測**(出典: https://claude.dev/blog/automating-eval-design-and-hillclimbing/ 全文・[calibrate 写し](../.claude/skills/calibrate/SKILL.md)・playbook §0/§4.4/§5.1/§6.4/§9・[known-bad 台帳](../bomdd/calibrate-known-bad.yaml)・[ET-002 REPORT](../bomdd/effort-trials/ET-002/REPORT.md)・[盲検感度試験 第 1 回](../bomdd/reports/calibrate-blind-sensitivity-01.md)):
+①記事と BomDD は同じ危険(「自分を騙す」= 緑を無条件に信頼へ変換する)を扱うが主戦場が逆 — 記事は**製品が eval に過適合する**ことを訓練/保留の乱数分割(訓練↑テスト横ばい → 差し戻し)で捕まえ、採点器側は軽い衛生規則(採点済み transcript を読む・同一出力に 2 回かける・常に落ちる課題を疑う・95% で headroom 警告)。
+BomDD は**検査器が静かに壊れる**こと(型④ 測定不能の合格化・常設検査器の沈黙・対照の出所の非独立)を known-bad 腕・較正・独立検査官で捕まえ、過適合は情報隔離(§5.1・§0 置換表「オラクル過適合の防止」・ECO-084 の退避)で防ぐ。
+②直接一致 5(effort/モデル単調性= ET-002 裁定後の Luna none<medium<high / 改善しない課題= 採点器欠陥= ET-002 の多腕不一致 3/19 / 失敗を prompt に貼らない・答えに届かせない= §5.1 / 1 ラウンド 1 変更= 1 ECO 1 変更+allowed_paths / 停滞時の原因仕分け= §6.4 帰属 5 分類)。BomDD が深い 4(型④・常設陽性対照・対照の出所独立性 Q2・自己査定の限界宣言 §9)。
+③**記事にあって BomDD に無い 2 点**: (a)**ノイズ床の事前宣言** — 記事は開始前に「偶然だけで動く幅」を測り、行動に値する最小差より大きいことを確認してから登り、終了時も差がノイズ内なら「マージ非推奨」と言う。BomDD の必須検査器(self-conformance・validator)は決定的でノイズ 0 のため未要求だったが、AI 判定を含む測定(calibrate 掃引・ET 試験・盲検感度試験)には偶然幅の宣言欄が無い(ET-002 の 13〜19/19 の分散・盲検 3/3 N=3 はいずれも偶然幅と未比較。effort-calibration.py 限界 (5) の insufficient-n は反復数不足の遮断であり偶然幅の宣言ではない)。
+(b)**同一検体への反復判定(査定者内再現性)** — 記事の採点器診断は同一出力に採点器を 2 回かけて判定が変わるかを見る。BomDD の較正 Q2 は known-bad 赤/known-good 緑の**弁別力**、calibrate 限界 1 は**査定者間**差(査定者を変えると所見が変わる)を扱い、同一査定者・同一検体の反復で所見が安定するかは battery に無い。
+④記事の「今のモデルが落ちる例で課題を集めない(能力は凸凹)」に対応する BomDD の規律は無いが、BomDD の known-bad は修理 ECO で確定した**検査器の欠陥**であり課題選択とは対象が違う — 被覆とも欠落とも数えない(記録のみ)。
+**整理**: 対称性= 記事の「訓練↑テスト横ばい」は BomDD 語彙で「製品側の過適合を検出する陽性対照」、BomDD の「陽性対照なしの所見ゼロは健全の証拠ではない」は記事語彙で「採点器側の保留集合」。同じ原則を製品と計器のどちらに向けるかで別の装置になる。
+**一般化検査**: (a)(b) とも製品名を含まず、BomDD の**確率的判定器を含む測定**にだけ当たる(決定的検査器には不要)。1 例(外部文献との突き合わせ・実害の実測なし)。
+**行き先判定**: 記帳のみ。calibrate 本体は凍結(user 判定 2026-09-02・再開条件= 実運用で観測された失敗機序)につき battery 改訂は提案しない。playbook 非改訂。着手条件は各 OBS の本文に置く。
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [ ] control/probe [ ] template [ ] terminology [x] method/concept claim: 「緑を無条件に信頼へ変換しない」= supported(外部文献が製品側から同じ原則に到達)/ 「慎重さでなく機構」= supported(記事も分割・差し戻しの機構で過適合を止める)。contradicted / superseded: なし。
+**期待効果の棚卸し**: OBS-20260926-01 不変(1/3)。EXP-20260914-01 不変。新規 OBS-20260929-01・OBS-20260929-02(下記)。
+
+- [watch 1/3] OBS-20260929-01 — **確率的判定器を含む測定(calibrate 掃引・effort 試験・盲検感度試験)は、行動に値する最小差より小さい「偶然だけで動く幅」(ノイズ床)を事前に宣言しない限り、腕間・掃引間の差を効果として読めない — 決定的検査器ではノイズ 0 のため未要求だった。着手条件= ノイズ内の差を効果として昇格・裁定した実害 1 例、または次の AI 判定つき試験の設計時**
+  source: 外部文献(claude.dev 2026-09-28「開始前にノイズ幅 < 最小改善を確認・ノイズ内ならマージ非推奨」)× BomDD 実測(ET-002 13〜19/19・盲検感度試験 3/3 N=3 はいずれも偶然幅と未比較)
+  evidence: 本節 ③(a)・ET-002 REPORT §3–4・calibrate-blind-sensitivity-01.md §結果・effort-calibration.py docstring 限界 (5)
+- [watch 1/3] OBS-20260929-02 — **確率的判定器(LLM-as-judge・AI 査定者)の査定者内再現性(同一検体・同一査定者・反復で所見が安定するか)は較正 battery に無い — Q2 は弁別力(known-bad 赤/known-good 緑)、calibrate 限界 1 は査定者間差を扱い、査定者内の揺れは未測定。着手条件= 同一検体の再査定で所見が反転した実測 1 例、または次の盲検感度試験の設計時(同一検体 2 回を対照腕に含める)**
+  source: 外部文献(claude.dev 2026-09-28「採点器を同一出力に 2 回かけ判定が変わったか報告する」)× BomDD calibrate 写し Q2・限界 1
+  evidence: 本節 ③(b)・.claude/skills/calibrate/SKILL.md 手順 2 Q2・「検出力の限界」1
