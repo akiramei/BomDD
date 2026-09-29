@@ -2810,3 +2810,27 @@ changes:
     verification: >
       V1 §0 に `ECO-001 として起票してから` 1 件(§1 見出しより前)/ V2 正本と写しに `隔離の手段` 1 件(工程 2 と工程 3 の間)・写しと正本の diff が変更前と一致 / V3 self-conformance・CI・窓 / V4 製造者較正のみ・較正 receipt。
     producer: EQ-001
+  - id: ECO-085
+    title: R-050 の「所見なし」に証拠能力を戻す — 受入証拠検査の規則文言が合否値(result)を要求していない(ref-v0.11 候補・起票のみ)
+    date: 2026-09-29
+    origin: defect
+    status: filed   # 2026-09-29 起票(user DECIDE「A」)。設計の収束が上限 3 周で未収束(3→1→1)のため製造は裁定待ち — スキーマ本体は未改訂・候補は reports のパッチ
+    source: >
+      外部議論(製造業の証拠チェーン: リンクがあることと実現したことの区別)との突き合わせ(2026-09-29)で発見。規則文言「被覆する」は証拠行の有無だけを要求し、
+      実測(BomDD-Plm 6937a66・受入ゲート)で不合格・未実行・保留・欄なし・語彙外の証拠行と、製造記録なし・空リスト・文書方言がいずれも所見 0・exit 0。
+      user 目的(逐語)「不合格製品を防ぐ よりも、R-050 PASSという事実に、再び証拠能力を持たせる」。
+    order_ref: bomdd/60-change-order-eco-085.md
+    affected_refs: [method/schemas/draft/ref-edges.draft.yaml]
+    no_impact_prediction: "(起票時点・製造裁定で凍結)diff= ref-edges.draft.yaml(版ヘッダ+R-050 の rule/note)+台帳系のみ。id-grammar・派生 JSON Schema・templates・tools・hooks・.github diff 0・C10 判定不変。規則文言だけでは挙動不変(実測)。BomDD-Plm 実装後の実リポ 7 本: 合否値の面で所見なし→所見ありは 0 本・測定不能の error 化で文書方言の 1 本が所見ありへ・既に所見ありの 5 本は所見ありのまま"
+    diff_audit:
+      baseline: "3d95d45"  # 起票直前 HEAD
+      allowed_paths: [method/schemas/draft/ref-edges.draft.yaml, method/improvements.md, bomdd/60-change-order-eco-085.md, bomdd/60-change-register.yaml, bomdd/reports/eco-085-r050-evidence/]
+    summary: >
+      候補= R-050 を 4 項へ: (a) 対象の全 CP に合格行 (b) 合格以外の行が 1 本もない(受入対象外の CP の行も含む)(c) 対象があるのに製造記録をリスト形で読めないなら測定不能として error
+      (d) 対象 0 件は適用外を info で明示。note に「所見なし」の定義(抑止なし)・支持すること・支持しないこと 4 点。実装と陽性対照の検体は BomDD-Plm 側の ECO。
+      採らない= 「最新」の定義・リポ単位の判定・retired 製造単位の除外・文書方言の被覆検査・語彙の拡張・テンプレートと契約文書の改訂・受入ゲートの結線。
+    verification: >
+      V1 スキーマ本体に 4 項と note・ref-v0.11 / V2 文言だけでは現行実装の出力が不変 / V3 違反陽性対照 7 腕が error / V4 対象欠落 3 腕が受入ゲートで error・製造前ゲートは出さない /
+      V5 合格の腕は所見 0・適用外は info / V6 実在標本で合格以外の行を持つ CP が全て error / V7 self-conformance・CI・窓 / V8 較正 receipt。
+      V3〜V6 は BomDD-Plm の実装個体で測る(それまで implemented に留める)。条件行は起票後不変・結果はクローズ節の観測行(ECO-080 二部形)。
+    producer: EQ-001
