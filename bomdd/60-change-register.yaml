@@ -2811,10 +2811,10 @@ changes:
       V1 §0 に `ECO-001 として起票してから` 1 件(§1 見出しより前)/ V2 正本と写しに `隔離の手段` 1 件(工程 2 と工程 3 の間)・写しと正本の diff が変更前と一致 / V3 self-conformance・CI・窓 / V4 製造者較正のみ・較正 receipt。
     producer: EQ-001
   - id: ECO-085
-    title: R-050 の「所見なし」に証拠能力を戻す — 受入証拠検査の規則文言が合否値(result)を要求していない(ref-v0.11・規則文言の改訂まで — 検出の実測は BomDD-Plm の実装待ち)
+    title: R-050 の「所見なし」に証拠能力を戻す — 受入証拠検査の規則文言が合否値(result)を要求していない(ref-v0.11・実装= BomDD-Plm ECO-008)
     date: 2026-09-29
     origin: defect
-    status: implemented   # 2026-09-29 起票 5ca64de(user DECIDE「A」・設計の収束は上限 3 周で未収束 3→1→1)→ 製造裁定 user DECIDE「1:A 2:A」(打ち切り採用・実装側は異系統の独立検査を併用)→ 規則文言を改訂 6ed183f(V1・V2 PASS)→ 製造中の是正 3 点(所見を出すゲートの記述が BomDD-Plm の凍結済み仕様と不整合・適用外と所見なしの区別・(b) と (d) の優先 — order §4b・V1・V2 再測 PASS)→ 独立検査 r1(EQ-002・境界探索・対象= BomDD-Plm 5994147)REJECT 所見 5(製造物 2・仕様 2・規則文言 1)→ 規則文言 1 件を是正(「対象」= M unit と CP の組 — order §4c)。V3〜V6 は BomDD-Plm の実装個体で測るまで未測定 — verified へは上げない
+    status: verified   # 2026-09-29 起票 5ca64de(user DECIDE「A」・設計の収束は上限 3 周で未収束 3→1→1)→ 製造裁定 user DECIDE「1:A 2:A」(打ち切り採用・実装側は異系統の独立検査を併用)→ 規則文言を改訂 6ed183f(V1・V2 PASS)→ 製造中の是正 3 点(所見を出すゲートの記述が BomDD-Plm の凍結済み仕様と不整合・適用外と所見なしの区別・(b) と (d) の優先 — order §4b・V1・V2 再測 PASS)→ 独立検査 r1(EQ-002・境界探索・対象= BomDD-Plm 5994147)REJECT 所見 5(製造物 2・仕様 2・規則文言 1)→ 規則文言 1 件を是正(「対象」= M unit と CP の組 — order §4c)。→ BomDD-Plm 側で是正 → r2(是正確認+回帰)ACCEPT 0 → BomDD-Plm ECO-008 verified(d02052b)→ 受入済みの個体で V3〜V6 PASS(15 腕+実在標本)→ verified(窓閉鎖 3d95d45→4a96cda・較正 receipt trigger ①③)
     source: >
       外部議論(製造業の証拠チェーン: リンクがあることと実現したことの区別)との突き合わせ(2026-09-29)で発見。規則文言「被覆する」は証拠行の有無だけを要求し、
       実測(BomDD-Plm 6937a66・受入ゲート)で不合格・未実行・保留・欄なし・語彙外の証拠行と、製造記録なし・空リスト・文書方言がいずれも所見 0・exit 0。
@@ -2824,6 +2824,7 @@ changes:
     no_impact_prediction: "(起票時点・製造裁定で凍結)diff= ref-edges.draft.yaml(版ヘッダ+R-050 の rule/note)+台帳系のみ。id-grammar・派生 JSON Schema・templates・tools・hooks・.github diff 0・C10 判定不変。規則文言だけでは挙動不変(実測)。BomDD-Plm 実装後の実リポ 7 本: 合否値の面で所見なし→所見ありは 0 本・測定不能の error 化で文書方言の 1 本が所見ありへ・既に所見ありの 5 本は所見ありのまま"
     diff_audit:
       baseline: "3d95d45"  # 起票直前 HEAD
+      head: "4a96cda"      # diff監査済み: 窓内= allowed_paths のみ(受入 commit は台帳系と reports のみ)
       allowed_paths: [method/schemas/draft/ref-edges.draft.yaml, method/improvements.md, bomdd/60-change-order-eco-085.md, bomdd/60-change-register.yaml, bomdd/reports/eco-085-r050-evidence/]
     summary: >
       候補= R-050 を 4 項へ: (a) 対象の全 CP に合格行 (b) 合格以外の行が 1 本もない(受入対象外の CP の行も含む)(c) 対象があるのに製造記録をリスト形で読めないなら測定不能として error
@@ -2833,4 +2834,5 @@ changes:
       V1 スキーマ本体に 4 項と note・ref-v0.11 / V2 文言だけでは現行実装の出力が不変 / V3 違反陽性対照 7 腕が error / V4 対象欠落 3 腕が受入ゲートで error・製造前ゲートは出さない /
       V5 合格の腕は所見 0・適用外は info / V6 実在標本で合格以外の行を持つ CP が全て error / V7 self-conformance・CI・窓 / V8 較正 receipt。
       V3〜V6 は BomDD-Plm の実装個体で測る(それまで implemented に留める)。条件行は起票後不変・結果はクローズ節の観測行(ECO-080 二部形)。
+    receipt_author_role: producer   # ECO-077 観測欄
     producer: EQ-001
