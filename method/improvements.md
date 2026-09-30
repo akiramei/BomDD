@@ -8140,3 +8140,20 @@ M-BOM へは多くが届く(Plm 9/10・UnitConv 6/7・Transfer03 8/8・ViewPrism
   基準線= 実リポ 5 本の 0〜3 割。着手時に欄を使わない書き手が出る・字面の一致でしか測れない場合は、機械検査(案 C)へ進む前に欄の書式を再検討する
   source: ECO-086
   evidence: bomdd/reports/eco-086-inv-reach/baseline.md・ECO-086 order §0・§3
+
+## 2026-09-30 BomDD 自己適用 — ECO-087 起票+製造(妥当性確認の記録欄・OBS-20260929-07 の user 裁定 B・文書のみ・candidate)
+
+**観測**(出典: [ECO-087 order](../bomdd/60-change-order-eco-087.md)・UnitConv `50-as-built.yaml` の defect_attribution と ECO-003・ViewPrism2 ECO-004〜006): ①前回の記帳は推論だったが、仕様の欠落が全検査合格のまま通った実例が実リポにある —
+UnitConv ECO-003(結果の有限性が仕様に無い・実装は仕様どおり・固定オラクルに行が無い・運転員の境界プローブで発見・潜伏 2 日)・ViewPrism2 ECO-004(表示契約が要件化されていない・ユーザー確認で発見)。ECO-005・006 も仕様の欠落だが発見経路は未確認。
+②実例はすべて「仕様に書かれていなかった欠落」で、OBS が書いた「仕様が要求を取り違えた」型の実例は無い。③発見と是正の経路(探索プローブ・人間の確認・playbook §6.4)は既にあり実際に機能した。欠けていたのは、その確認を独立した役割として記録する場所。
+**整理**: user 裁定 B に従い、完了ゲート G4 の項 5 と As-Built の validation 欄だけを candidate として足す。検査・工程の追加(案 C)は採らない。
+**一般化検査**: 製品名を落としても成立する(固定オラクルは仕様から導く構造に由来)。実例 2 件確認(2 製品)・欠落型のみ。
+**行き先判定**: ECO-087(文書のみ・製造者較正)。playbook は candidate 1 項のみ。OBS-20260929-07 は**欠落型の証拠を部分ごとに数える**(「取り違え型」の部分は証拠 0)— watch 1/3 のまま据え置き。
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [ ] control/probe [x] template(50)[ ] terminology
+[x] method/concept claim: 「一致≠正しさ」(method-v1 §6)= supported(仕様由来のオラクルは仕様の欠落に盲目・実例 2)/「指示ではなく事実・境界で答え合わせ」= 記録欄で未実施を見えるようにする形(強制しない)。contradicted / superseded: なし。
+**期待効果の棚卸し**: OBS-20260926-01 不変(1/3)。EXP-20260914-01 不変。OBS-20260929-07 は本節の実測を追記(状態不変)。新規 EXP-20260930-02(下記)。
+
+- [open] EXP-20260930-02 — **欄を足すと、次の新規案件で妥当性確認が記録されるか**: 次の新規案件(forward)の As-Built で validation 欄の有無・spec_given の値・未実施理由の有無を数える。欄が空または形だけ(spec_given を確かめずに false)になるなら、書式を再検討する。
+  仕様の欠落が全検査合格のまま通った新しい実例が出たら、その発見経路と欄の記録を突き合わせる
+  source: ECO-087
+  evidence: ECO-087 order §0・§3・playbook §7 G4 項 5

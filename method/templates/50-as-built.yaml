@@ -23,6 +23,12 @@ as_built:
     inspections:                 # 設計者側オラクルの結果(Phase 5)
       fixed_oracle: <例 0/16 差分(現固定オラクル被覆で未観測差分ゼロ)>
       exploratory: <probe 結果への参照>
+    validation:                  # candidate(ECO-087): 妥当性確認 — 仕様を経由せず要求原文と実物を突き合わせた確認(playbook §7 G4 項 5)
+      performed_by: <人名/役割/設備 ID>   # 未実施なら not-performed と書き not_performed_reason を埋める
+      spec_given: false          # 入力に仕様・固定オラクルを含めたか(含めたなら仕様の欠落は見えない)
+      requirements_used: [<要求原文の所在 または REQ ID>]
+      result: <確認した利用場面と結果>
+      not_performed_reason: ~
     test_evidence_refs:
       - evidence_id: TE-<ループID>-001
         cp_ref: CP-<NAME>-001

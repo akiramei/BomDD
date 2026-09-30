@@ -2858,3 +2858,24 @@ changes:
     verification: >
       V1 テンプレに invariant_refs・「検査する CP」列・INV 先頭例(grep)/ V2 diff が allowed_paths のみ / V3 self-conformance・CI / V4 製造者較正のみ・較正 receipt / V5(非クローズ条件)効果は EXP-20260930-01。
     producer: EQ-005
+  - id: ECO-087
+    title: 完了ゲート G4 に妥当性確認の記録を足す — playbook §7 の項 5 と As-Built の validation 欄(candidate・文書のみ)
+    date: 2026-09-30
+    origin: improvement
+    status: implemented   # 2026-09-30 user「OBS-07の妥当性確認も進めて」→ DECIDE「B」→ 起票+製造(文書のみ・ECO-082/086 の型)。verified は self-conformance・CI の観測後の受入 commit で
+    receipt_author_role: producer   # ECO-077 観測欄
+    source: >
+      OBS-20260929-07(妥当性確認は独立した門でない)。実測(2026-09-30): 仕様の欠落が全検査合格のまま通った実例が実リポにある(UnitConv ECO-003= 運転員の境界プローブで発見・ViewPrism2 ECO-004= ユーザー確認で発見)。
+      発見と是正の経路(探索プローブ・人間の確認・§6.4)は既にあり、欠けているのは記録欄。user 裁定 B(記録欄のみ・強制しない)。
+    order_ref: bomdd/60-change-order-eco-087.md
+    affected_refs: [method/bomdd-playbook-v1.md, method/templates/50-as-built.yaml, method/improvements.md]
+    no_impact_prediction: "(製造前・凍結)playbook §7 に 1 項・50-as-built テンプレに validation 欄・improvements.md+台帳系のみ。schemas・tools・hooks・.github diff 0・C1/C4/C10/C13 判定不変・worklist 警告 0"
+    diff_audit:
+      baseline: "e8173ec"  # 起票直前 HEAD
+      allowed_paths: [method/bomdd-playbook-v1.md, method/templates/50-as-built.yaml, method/improvements.md, bomdd/60-change-order-eco-087.md, bomdd/60-change-register.yaml]
+    summary: >
+      ①playbook §7 G4 に項 5(妥当性確認の記録・candidate)②50-as-built テンプレに validation 欄 ③EXP-20260930-02。
+      採らない= 検査・lint・ゲートの追加・要求のみから独立オラクルを作る工程(案 C)・既存製品リポへの遡及。
+    verification: >
+      V1 playbook §7 に項 5 と 50 テンプレに validation 欄(grep)/ V2 diff が allowed_paths のみ / V3 self-conformance・CI / V4 製造者較正のみ・較正 receipt / V5(非クローズ条件)効果は EXP-20260930-02。
+    producer: EQ-005
