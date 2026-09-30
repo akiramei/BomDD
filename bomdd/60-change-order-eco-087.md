@@ -1,4 +1,4 @@
-# Change Order — ECO-087(完了ゲート G4 に妥当性確認の記録を足す — playbook §7 の項 5 と As-Built の validation 欄 / candidate・文書のみ)
+# Change Order — ECO-087(完了ゲート G4 に妥当性確認の記録を足す — playbook §7 の項 5 と As-Built の validation 欄 / candidate・文書のみ・verified)
 
 > 指示: user 2026-09-30「OBS-07の妥当性確認も進めて」→ DECIDE「B」(A 記帳のみ / B 記録欄 / C 要求のみから独立オラクルを作る工程 — C は採らない)。
 > **起票と製造を同一 commit で行う**(文書のみ・ECO-082/086 の型)。受入は製造者較正のみ。verified 昇格は self-conformance PASS と CI 結論を観測した後の受入 commit で。
@@ -46,3 +46,43 @@ diff= playbook(§7 に 1 項)・50-as-built テンプレ(validation 欄)・impro
   変更対象 2 ファイルの現状= **confirmed**(実読: G4 は 4 項・inspections に妥当性の欄なし)/ 同じファイルを窓に持つ進行中の ECO がない= **confirmed**(進行中は ECO-079〔implemented〕のみ・playbook を含まない)/
   EQ-005 が設備台帳にある= **confirmed**(ECO-086 で登録)。
 - 開始判定: **PROCEED**・override 0。
+
+## 4. 製造の実測(2026-09-30・同一 commit 8d789cf)
+
+- 製造物: playbook §7 の G4 に項 5(妥当性確認の記録)/ 50-as-built テンプレに validation 欄 / improvements.md(節+EXP-20260930-02)/ register(ECO-087)。
+- **V1**= PASS(観測: playbook の「妥当性確認の記録」1 件〔G4 の項 5〕・50-as-built テンプレの行頭 `validation:` 1 件)。
+- **V2**= PASS(観測: `git diff --name-only e8173ec 8d789cf` は allowed_paths の 5 ファイルのみ。schemas・tools・hooks・.github は diff 0)。
+
+## 5. クローズ(2026-09-30・verified・製造者較正のみ)
+
+- **V3**= PASS(観測: 変更を stage してから self-conformance を実行 → **exit=0 全 PASS** → witness〔tree c1a23e9ab426〕→ 入口 dry `ADVANCE ECO-087 OK` → 製造 commit 8d789cf → push → CI run 36720317759 **success**〔headSha 照合〕)。
+  diff 監査の窓: baseline `e8173ec` → head `8d789cf`(**窓閉鎖**・受入 commit は台帳系のみ)。
+- **V4**= 製造者較正のみ(独立検査なし)・下の較正 receipt。register: `implemented → verified`・head 凍結。
+- **V5(非クローズ条件)**: EXP-20260930-02 で次の新規案件の As-Built の validation 欄を数える。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。文書のみの変更)
+
+- 査定した主張と判定:
+  1. 「G4 に妥当性確認の記録の項が入り、As-Built テンプレに validation 欄が入った」— **observed / 適格**(grep・V1)。
+  2. 「変更は文書のみで、検査・スキーマ・ツールは変わっていない」— **observed / 適格**(窓の diff・V2)。
+  3. 「仕様の欠落が全検査合格のまま通った実例がある」— **observed / 条件付き適格**(UnitConv ECO-003 と ViewPrism2 ECO-004 の記録の実読。測っていない次元= 実例の一般性〔2 製品〕・ViewPrism2 ECO-005/006 の発見経路)。
+  4. 「欄を足すと妥当性確認が記録される」— **unknown(未測定・EXP-20260930-02)**。
+- 検出した計器欠陥(帰属つき): 製造物 0 件。
+- 検出力の限界: V1 は文字列の有無しか測らず、欄の書式が書き手に伝わるかは読解。実例の数え方は記録の実読で、網羅的な走査ではない。効果は未測定。独立検査なし。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 項 5 は「強制しない・記録の有無で未実施が見える」と自分の範囲を宣言している |
+  | Q2 | asked | NA 相当 | — | 文書変更に known-bad 対照なし(宣言) |
+  | Q3 | asked | observed/適格 | 実測 | 2 ファイルを個別の grep で確認 |
+  | Q4 | asked | observed/適格 | 実測 | 実例は実リポの実ファイルを直接読んだ(宣言 fixture なし) |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(効果・発見経路)を unknown として分離 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI success(条件で結んだ順) |
+  | Q7 | asked | NA | — | 陽性対照なし(文書) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(ECO-087.json・tree c1a23e9ab426)・commit 8d789cf・CI run 36720317759 を同一個体として照合 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/条件付き適格 | 読解 | 実例を「欠落型」と「取り違え型」に分け、後者の実例は 0 と記録した(OBS-07 は部分ごとに数え据え置き) |
+
+- このクローズが支持しないもの: 欄を足した効果(EXP-20260930-02)/ 妥当性確認が実施されること(強制していない)/ 取り違え型の実例の存在 / 要求のみから独立にオラクルを作る工程(案 C・採っていない)/ 既存製品リポの是正 / 独立検査による確認。
