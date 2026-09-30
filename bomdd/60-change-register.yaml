@@ -2880,3 +2880,24 @@ changes:
     verification: >
       V1 playbook §7 に項 5 と 50 テンプレに validation 欄(grep)/ V2 diff が allowed_paths のみ / V3 self-conformance・CI / V4 製造者較正のみ・較正 receipt / V5(非クローズ条件)効果は EXP-20260930-02。
     producer: EQ-005
+  - id: ECO-088
+    title: As-Built の証拠行の書き方を注記する — 各エントリは受入対象の全 CP を今回の個体で再測定した行として持つ(candidate・文書のみ)
+    date: 2026-09-30
+    origin: improvement
+    status: implemented   # 2026-09-30 user「OBS-08の増分記録も進めて」→ DECIDE「B」→ 起票+製造(文書のみ・ECO-082/086/087 の型)。verified は self-conformance・CI の観測後の受入 commit で
+    receipt_author_role: producer   # ECO-077 観測欄
+    source: >
+      OBS-20260929-08(R-050 は所見ありの側でも実物と合わない)。実測(2026-09-30): 赤の大半は証拠行の欠如(規則の指摘は正当)で、増分記録が原因なのは UnitConv 5・TimetableAdv 18 の計 23 CP のみ。
+      Plm は各 ECO で全 CP を再測定して緑。user 裁定 B(書き方の注記のみ・規則は変えない)。
+    order_ref: bomdd/60-change-order-eco-088.md
+    affected_refs: [method/templates/50-as-built.yaml, method/improvements.md]
+    no_impact_prediction: "(製造前・凍結)50-as-built テンプレの注記 2 箇所・improvements.md+台帳系のみ。schemas・tools・hooks・.github・playbook diff 0・R-050 の判定は全リポで不変・C1/C4/C10/C13 判定不変・worklist 警告 0"
+    diff_audit:
+      baseline: "b5ba425"  # 起票直前 HEAD
+      allowed_paths: [method/templates/50-as-built.yaml, method/improvements.md, bomdd/60-change-order-eco-088.md, bomdd/60-change-register.yaml, bomdd/reports/eco-088-incremental/]
+    summary: >
+      ①50-as-built テンプレの test_evidence_refs に再測定の注記+checklist 1 行 ②OBS-20260929-08 の訂正 ③EXP-20260930-03。
+      採らない= R-050 の規則・Plm 実装の変更(案 C)・「最新」の定義・playbook 改訂・既存製品リポの記録の是正・証拠行が無い製品リポへの対応。
+    verification: >
+      V1 テンプレに再測定の注記と ECO-088 の checklist 行(grep)/ V2 diff が allowed_paths のみ / V3 self-conformance・CI / V4 製造者較正のみ・較正 receipt / V5(非クローズ条件)効果は EXP-20260930-03。
+    producer: EQ-005

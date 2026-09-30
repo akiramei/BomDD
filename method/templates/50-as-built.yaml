@@ -29,7 +29,9 @@ as_built:
       requirements_used: [<要求原文の所在 または REQ ID>]
       result: <確認した利用場面と結果>
       not_performed_reason: ~
-    test_evidence_refs:
+    test_evidence_refs:          # candidate(ECO-088): 各エントリは、M-BOM の受入対象(acceptance_refs)の全 CP について、
+                                 # このエントリの個体に対して再測定した行を持つ(ECO は変更分だけでなく回帰の再被覆も行として書く)。
+                                 # 再測定していない CP は行を書かない — 前のエントリの合格は今回の個体の証拠ではなく、行が無いことで未再測定が見える
       - evidence_id: TE-<ループID>-001
         cp_ref: CP-<NAME>-001
         result: pass              # pass | fail | blocked | not-run
@@ -61,5 +63,6 @@ as_built:
 # PLM-ready checklist:
 #   - artifacts_sha256.path は M-BOM output_artifact_ref と対応する
 #   - test_evidence_refs.cp_ref は Control Plan の実在 ID を指す
+#   - (candidate・ECO-088)最新エントリは受入対象の全 CP について合格行を持つ(受入証跡の検査 R-050 の前提 — 実例: Plm は各 ECO で全 CP を再被覆・UnitConv は変更分のみで 5 CP が未再測定)
 #   - self_acceptance が赤のままの場合、納品ではなく manufacturing nonconformance
 #   - As-Built は Service BOM から逆引きできる
