@@ -32,9 +32,10 @@ mbom:
           - DC-<SCREEN>-001
         required_elements:
           - DE-001                      # サムネイル/ファイル名/状態表示など。欠落は仕様 omission として扱う
-      invariants:                       # 関係の不変条件。中身はドメイン固有(CHEAT-008)
-        - <例 シーク後の音声時刻は絶対時刻基準(seekBase)>
-        - <例 booking id は bk_ prefix + 16hex の内容ハッシュ>
+      invariants:                       # 関係の不変条件。中身はドメイン固有(CHEAT-008)。各行は仕様 §3 の ID を先頭に書く(candidate・ECO-086)—
+                                        # 検査行の invariant_refs から辿れるように
+        - <例 INV-003: シーク後の音声時刻は絶対時刻基準(seekBase)>
+        - <例 INV-004: booking id は bk_ prefix + 16hex の内容ハッシュ>
       acceptance_refs:
         - CP-<NAME>-001
       fmea_refs:

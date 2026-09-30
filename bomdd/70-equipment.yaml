@@ -62,3 +62,15 @@ equipment:
     provenance: {model: self-reported, harness: self-reported, account_lineage: user-declared, sandbox_modes: self-reported, temp_available: harness-measured, exit_propagation: unknown}
     status: active
     note: "BomDD 自己適用の製造者(ECO-082〜)。2026-09-24 登録"
+  - id: EQ-005
+    kind: ai-model
+    model: claude-sonnet-5-5
+    harness: claude-code
+    account_lineage: akiramei@anthropic
+    sandbox_modes: [workspace-write]
+    temp_available: {workspace-write: true}
+    exit_propagation: faithful
+    qualification_ref: "unqualified(equip-01〜03 は claude-opus-5 の認定。本モデルは自己適用ラウンドの実績のみ)"
+    provenance: {model: self-reported, harness: self-reported, account_lineage: user-declared, sandbox_modes: self-reported, temp_available: harness-measured, exit_propagation: unknown}
+    status: active
+    note: "BomDD 自己適用の製造者(ECO-086〜)。2026-09-30 登録(セッション途中で /model により claude-fable-5-1 から切替)"

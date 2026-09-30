@@ -2836,3 +2836,24 @@ changes:
       V3〜V6 は BomDD-Plm の実装個体で測る(それまで implemented に留める)。条件行は起票後不変・結果はクローズ節の観測行(ECO-080 二部形)。
     receipt_author_role: producer   # ECO-077 観測欄
     producer: EQ-001
+  - id: ECO-086
+    title: 不変条件から検査行への対応欄をテンプレートへ足す — Control Plan の invariant_refs・仕様 §3 の「検査する CP」列・M-BOM の INV 先頭記法(candidate・文書のみ)
+    date: 2026-09-30
+    origin: improvement
+    status: implemented   # 2026-09-30 user「OBS-06の特性単位の対応を進めて」→ DECIDE「B」→ 起票+製造(文書のみ・ECO-082 の型)。verified は self-conformance・CI の観測後の受入 commit で
+    receipt_author_role: producer   # ECO-077 観測欄
+    source: >
+      OBS-20260929-06(不変条件から検査行への対応は部品単位までで特性単位の線が無い)。実測(2026-09-30・実リポ定義あり 5 本): 仕様の INV が検査計画の行へ字面で届くのは 0〜3 割
+      (Plm 1/10・UnitConv 2/7・Transfer03 0/8・ViewTube 0/17・ViewPrism2 3/15)。user 裁定 B(テンプレートと規約のみ・機械検査は採らない)。
+    order_ref: bomdd/60-change-order-eco-086.md
+    affected_refs: [method/templates/33-control-plan.yaml, method/templates/20-spec.md, method/templates/32-mbom.yaml, bomdd/70-equipment.yaml, method/improvements.md]
+    no_impact_prediction: "(製造前・凍結)templates 3 ファイル・70-equipment.yaml・improvements.md+台帳系のみ。schemas・tools・hooks・.github・playbook diff 0・C1/C4/C10/C13 判定不変・worklist 警告 0"
+    diff_audit:
+      baseline: "0f8805d"  # 起票直前 HEAD
+      allowed_paths: [method/templates/33-control-plan.yaml, method/templates/20-spec.md, method/templates/32-mbom.yaml, bomdd/70-equipment.yaml, method/improvements.md, bomdd/60-change-order-eco-086.md, bomdd/60-change-register.yaml, bomdd/reports/eco-086-inv-reach/]
+    summary: >
+      ①33-control-plan の例の行へ invariant_refs(検査する INV ID)②20-spec §3 の表へ「検査する CP(または未検査の理由)」列 ③32-mbom の invariants を INV ID 先頭記法へ ④EQ-005 登録+EXP-20260930-01。
+      採らない= INV 定義サイトの構造化・schemas/Plm の変更・lint 規則・playbook 改訂・既存製品リポへの遡及。
+    verification: >
+      V1 テンプレに invariant_refs・「検査する CP」列・INV 先頭例(grep)/ V2 diff が allowed_paths のみ / V3 self-conformance・CI / V4 製造者較正のみ・較正 receipt / V5(非クローズ条件)効果は EXP-20260930-01。
+    producer: EQ-005
