@@ -137,6 +137,7 @@ id-grammar・派生 JSON Schema・templates・tools の改訂 / 実リポの記�
 1. 収束の扱い: 打ち切り採用 / 再延長 / 差し戻し(収束 receipt の裁定質問。延長 1 周は裁定 2:B で実施済み)。
 2. レバー: C-a / C-b / C-c(§1.1)。
 3. 実装側(BomDD-Plm 別 ECO)の起票時期と配員: 本 ECO の規則文言の後 / 並行・製造者較正のみ / 異系統の独立検査を併用。
+   → 起票時期は裁定 2:A(2026-10-01)で「今」と決まり、**BomDD-Plm ECO-009 を起票済み**(filed・7c1e157・Plm の CI success・設計・製造とも未着手)。配員は未裁定のまま。
 
 ## /preflight receipt(起動経路: **自発** — 既裁定の適用の開始時)
 
@@ -208,3 +209,6 @@ id-grammar・派生 JSON Schema・templates・tools の改訂 / 実リポの記�
 - **V7・V8**= クローズ節で記録する(観測後)。**V5**= BomDD-Plm の実装 ECO 後。**V6**= 実装 ECO へ移管。V2・V3 は起票時点の測定(arms-pre.md・cp-reach.md)が条件を満たす。
 - 状態: register `filed → implemented`。`verified` へは BomDD-Plm の実装個体で V5 を測ってから。
 - 規則文言(ref-v0.12)と BomDD-Plm の実装(ref-v0.11 の (d) = 対象 0 件で info)は、実装が追随するまで R-050 (d) について食い違う(ECO-085 と同じ構造・規則の note に明記)。
+- **実装側= BomDD-Plm ECO-009**(`bomdd/60-change-order-eco-009.md`・filed・commit 7c1e157・Plm の CI success〔run 36825732045〕・裁定 2:A による起票のみ)。
+  連鎖の帰属(旧 V6)・終了コードの値・区分欄の表記を設計入力に持つ。V5 は ECO-009 の実装個体で測る。製造・独立検査の配員は未裁定。
+- BomDD 側の CI: 起票 b78ad33= run 36802595943・延長 d69a4a9= run 36803751840・製造 42eaa38= run 36818241099 — いずれも success(headSha 照合)。

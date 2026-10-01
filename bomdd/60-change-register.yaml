@@ -2906,7 +2906,7 @@ changes:
     title: 測定不能の扱いの契約化 — 検査の判定を「違反(RED)」と「測れなかった(MEASUREMENT_FAILURE)」に分ける(ref-v0.12・実装= BomDD-Plm の別 ECO)
     date: 2026-10-01
     origin: improvement
-    status: implemented   # 2026-10-01 起票 b78ad33(user DECIDE「A'」・コミット裁定「1:B」)→ 設計の収束は 3 周で未収束(5→2→1)→ 延長 1 周(裁定 2:B)でも未収束(5→2→1→2)→ 製造裁定「1:A 2:C」(差し戻し=範囲縮小: 連鎖の帰属を実装 ECO へ移管・他の 5 項を製造)→ ref-edges を ref-v0.12 へ(V1 18/18・V4 24/24 同一+陽性対照)。verified へは BomDD-Plm の実装個体で V5 を測ってから
+    status: implemented   # 2026-10-01 起票 b78ad33(user DECIDE「A'」・コミット裁定「1:B」)→ 設計の収束は 3 周で未収束(5→2→1)→ 延長 1 周(裁定 2:B)でも未収束(5→2→1→2)→ 製造裁定「1:A 2:C」(差し戻し=範囲縮小: 連鎖の帰属を実装 ECO へ移管・他の 5 項を製造)→ ref-edges を ref-v0.12 へ(V1 18/18・V4 24/24 同一+陽性対照)。verified へは BomDD-Plm の実装個体で V5 を測ってから(実装側= BomDD-Plm ECO-009 filed 7c1e157・設計製造は未着手)
     source: >
       M-BOM / Control Plan の再設計(後続)の前提整備。実測(2026-10-01・BomDD-Plm d02052b の複製 2 構成): キー改名・構文エラー・空文書が違反と同じ error で出る(混在)—
       1 件の改名が R-003 の error 8〜158 件に見え、既知の違反と同じ規則・同じ件数で区別できない。無音で緑になるのは「M ID が他から参照されない構成」のコミット時ゲートの 1 arm。
