@@ -2906,7 +2906,7 @@ changes:
     title: 測定不能の扱いの契約化 — 検査の判定を「違反(RED)」と「測れなかった(MEASUREMENT_FAILURE)」に分ける(ref-v0.12・実装= BomDD-Plm の別 ECO)
     date: 2026-10-01
     origin: improvement
-    status: implemented   # 2026-10-01 起票 b78ad33(user DECIDE「A'」・コミット裁定「1:B」)→ 設計の収束は 3 周で未収束(5→2→1)→ 延長 1 周(裁定 2:B)でも未収束(5→2→1→2)→ 製造裁定「1:A 2:C」(差し戻し=範囲縮小: 連鎖の帰属を実装 ECO へ移管・他の 5 項を製造)→ ref-edges を ref-v0.12 へ(V1 18/18・V4 24/24 同一+陽性対照)。verified へは BomDD-Plm の実装個体で V5 を測ってから(実装側= BomDD-Plm ECO-009 filed 7c1e157・設計製造は未着手)
+    status: verified   # 2026-10-01 起票 b78ad33(user DECIDE「A'」・コミット裁定「1:B」)→ 設計の収束は 3 周で未収束(5→2→1)→ 延長 1 周(裁定 2:B)でも未収束(5→2→1→2)→ 製造裁定「1:A 2:C」(差し戻し=範囲縮小: 連鎖の帰属を実装 ECO へ移管・他の 5 項を製造)→ ref-edges を ref-v0.12 へ 42eaa38(V1 18/18・V4 24/24 同一+陽性対照)→ 製造中の是正 2748359(R-014・R-050 (d) の混同・裁定 3:A)→ 実装側 BomDD-Plm ECO-009 verified 0d98371(独立検査 r1 REJECT IA-01 → 是正 → r2 ACCEPT)→ V5 35/36(A9 always は裁定 2:A で宣言済みの限界)→ verified(窓閉鎖 a3aa327→f396455・較正 receipt trigger ①③)
     source: >
       M-BOM / Control Plan の再設計(後続)の前提整備。実測(2026-10-01・BomDD-Plm d02052b の複製 2 構成): キー改名・構文エラー・空文書が違反と同じ error で出る(混在)—
       1 件の改名が R-003 の error 8〜158 件に見え、既知の違反と同じ規則・同じ件数で区別できない。無音で緑になるのは「M ID が他から参照されない構成」のコミット時ゲートの 1 arm。
@@ -2916,6 +2916,7 @@ changes:
     no_impact_prediction: "(起票時点・製造裁定で凍結)diff= ref-edges.draft.yaml(版ヘッダ+新節+対象 4 規則の宣言欄)+台帳系・reports のみ。id-grammar・派生 JSON Schema・templates・tools・hooks・.github diff 0・C10 判定不変(製造時に実測)。規則文言だけでは挙動不変(V4 で実測)。実装後の実リポへの影響は未予測(BomDD-Plm 側 ECO の影響分析で全数を測る)"
     diff_audit:
       baseline: "a3aa327"  # 起票直前 HEAD
+      head: "f396455"      # diff監査済み: 窓内= allowed_paths のみ(受入 commit は台帳系と reports のみ)
       allowed_paths: [method/schemas/draft/ref-edges.draft.yaml, method/improvements.md, bomdd/60-change-order-eco-089.md, bomdd/60-change-register.yaml, bomdd/reports/eco-089-measurability/]
     summary: >
       製造物= ref-edges を ref-v0.12 へ: 新節 measurability(①判定の 4 状態 PASS / RED / MEASUREMENT_FAILURE / NOT_APPLICABLE ②原因の閉語彙 ③対象 0 件は上流の宣言と突き合わせる

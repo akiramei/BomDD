@@ -1,4 +1,4 @@
-# Change Order — ECO-089(測定不能の扱いの契約化 — 検査の判定を「違反」と「測れなかった」に分ける・ref-v0.12〔implemented〕)
+# Change Order — ECO-089(測定不能の扱いの契約化 — 検査の判定を「違反」と「測れなかった」に分ける・ref-v0.12〔verified〕)
 
 > 裁定: user 2026-10-01 DECIDE「A'」(提案「受入条件に RED と MEASUREMENT_FAILURE の分離を入れる」を取り込んで起票・前回の A は A' に置換)。
 > 起票 b78ad33(user DECIDE「A'」)・設計の収束は上限 3 周で未収束(5→2→1)・延長 1 周(裁定 2:B)でも新規指摘 2 件で未収束(5→2→1→2)→ 未収束の設計は裁定まで製造へ進めない(/converge 手順 6)。
@@ -235,3 +235,58 @@ id-grammar・派生 JSON Schema・templates・tools の改訂 / 実リポの記�
 - V5 の最終の観測は、受入個体(commit 後)と独立検査の後に取り直す。本 ECO は `implemented` のまま。
 
 - BomDD 側の CI: 起票 b78ad33= run 36802595943・延長 d69a4a9= run 36803751840・製造 42eaa38= run 36818241099 — いずれも success(headSha 照合)。
+
+## 5. クローズ(2026-10-01・verified・実装側は異系統の独立検査 r1→r2)
+
+測定した個体= BomDD-Plm `0d98371`(ECO-009 verified・作業木 clean)。実装側の受入= BomDD-Plm ECO-009 order §6(r1 REJECT IA-01 → 是正 e252f69 → r2 ACCEPT)。
+
+- **V1**= PASS(観測: [verify-v1-v4.md](reports/eco-089-measurability/verify-v1-v4.md) — §4b の是正後に YAML 解析で 18/18 項目。5 項・対象 4 規則の上流宣言・deferred の明記・ref-v0.12)。
+- **V2**= PASS(観測: [arms-pre.md](reports/eco-089-measurability/arms-pre.md) — 期待= 測定不能の arm が是正前の個体で全て不一致: plm-self 混在 5/5・minimal 混在 5/6+無音 1/6)。
+- **V3**= PASS(観測: [cp-reach.md](reports/eco-089-measurability/cp-reach.md) — 母集団の不一致・解析不可・走査 0 を 0% に丸めず状態列に記録)。
+- **V4**= PASS(観測: verify-v1-v4.md — 改訂後スキーマの直指定で現行実装の出力が 24/24 組同一・陽性対照= gate 変更の変種で差を検出)。
+- **V5**= PASS(観測: [v5-arms-post.md](reports/eco-089-measurability/v5-arms-post.md) — 計器= BomDD-Plm 0d98371・clean で 36 組中 35 組一致。不一致 1 組= A9 のコミット時ゲートは user 裁定「2:A」で宣言済みの限界として受け入れ〔§4c〕)。
+- **V6**= 実装 ECO へ移管(裁定 2:C)。BomDD-Plm ECO-009 で測定: A3(Control Plan のキー改名)は RED 0(`test/measurability.test.js`)・連鎖の帰属は独立検査 r1 が実在リポの標本で妥当と判定。
+- **V7**= PASS(観測: self-conformance は各 commit の前に exit 0 を観測。CI= b78ad33・d69a4a9・42eaa38・9c2a110・2748359・f396455 の 6 本とも success〔run 36802595943 / 36803751840 / 36818241099 / 36827642114 / 36840042878 / 36844757742・headSha 照合〕。
+  diff 監査の窓: baseline `a3aa327` → head `f396455`(**窓閉鎖**)。窓内= allowed_paths のみ。受入 commit は台帳系と reports のみ)。
+- **V8**= 下の較正 receipt。独立検査は実装側(BomDD-Plm ECO-009)に置いた(製造裁定 4:A・inspector EQ-002)。入口の台帳は r2 の判定語 ACCEPT を回収した(r1 は報告経路の欠陥で UNPARSED — §4c 以降の記録と ECO-009 §6.1)。
+- register: `implemented → verified`・head 凍結。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・trigger ③: 検査器の変更・receipt_author_role= producer)
+
+- 査定した主張と判定:
+  1. 「実装後の検査器は、測れなかったことを違反と区別して出し、測定不能を exit 0 にしない」— **observed / 条件付き適格**
+     (v5-arms-post.md 35/36・個体 0d98371。測っていない次元= 規則の gate より前のゲート〔A9 の always・宣言済みの限界〕・arms は私の設計した変異で実在の事故の分布ではない)。
+  2. 「区分の追加は、既存の所見と終了コードを変えない」— **observed / 適格**(実リポ 7 本×2 ゲート= 14 構成で区分を除く所見と exit が同一・独立検査 r2 の旧新比較 3 本で差 0)。
+  3. 「連鎖の測定不能の帰属は妥当である」— **observed / 条件付き適格**(独立検査 r1 が TimetableAdv・ViewTube の標本を読み、定義が宣言外の場所・書き方にあると判定。測っていない次元= 全数の帰属・他の製品リポ)。
+  4. 「規則文言(ref-v0.12)と実装は一致している」— **observed / 条件付き適格**(検査官が仕様と規則文言から期待を導出して r1・r2 で検査。測っていない次元= 別の読み手による規則文言の読解)。
+  5. 「この区分が製品の受入を実際に守っている」— **unknown(理由コード: 未結線)**。受入ゲートを判定経路で実行している製品リポは見つかっていない。資格判定は付けない。
+- 検出した計器欠陥(帰属つき):
+  - 私の測定スクリプト: measure-arms の A8 の期待をゲートで分けていなかった(§0.1 の初回)/ cp-reach が定義の正規表現を狭く書き・走査 0 を 0% に丸めていた / verify-v1-v4 の陽性対照の最初の案(severity の変更)は比較の感度の証明にならなかった — いずれも測定中に是正。
+  - 私のテスト: A2 のコミット時ゲートの検査が `outcome` の無い出力でも通る空振りだった(ECO-009 §4)— 是正。
+  - 私のブリーフ: r1 で報告の置き場所を固定せず、入口が判定語を UNPARSED と記録(ECO-078 の型の再演)— r2 で是正。
+  - 上流(私の設計): ref-v0.12 の R-014・R-050 (d) が「対象の空」と「定義サイトの空」を混同(§4b)— 是正。X-GIT-001 への区分の付与が凍結済みの fail-open と矛盾(ECO-009 §4)— 例外として宣言。
+  - 被較正計器(BomDD-Plm の既存実装): ファイル名からの候補定義の取り出しが仕様 §2.4 (a) に不適合(r1 IA-01)— ECO-009 で是正。
+- 検出力の限界:
+  - arms は土台 2 種・変異 8 種+変種 2 種の合成検体。実在の事故の分布・頻度は測っていない。
+  - 実リポは 7 本・1 時点・各 1 回。TimetableAdv と ViewTube の作業木は dirty。
+  - 連鎖の帰属は標本の確認(独立検査)まで。全数の帰属の正しさは測っていない。
+  - 宣言済みの限界(規則の gate より前のゲートの見逃し)・例外(X-GIT-001)は検査の外。
+  - 独立検査官は 1 系統・2 回。検査官が変われば所見は変わりうる。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 規則文言(measurability)は「区分を出す・exit 0 にしない」まで。実装の到達範囲と一致させるため、限界と例外を仕様 §2.6 に明記した |
+  | Q2 | asked | observed/適格 | 実測 | known-bad(測定不能の arm)と known-good(clean・既知の違反の RED)を対で実測。期待は実装の前に ARMS に固定し、是正前の個体で不一致を確認(arms-pre.md) |
+  | Q3 | asked | observed/条件付き適格 | 実測 | 原因(selector-miss・unreadable-input・empty-required-source)と族(M・CP)ごとに独立に落ちる arm を持つ。R-050 (d) は検査官が全組合せを測った。上流宣言 R-011・R-014 は単体の検体が少ない |
+  | Q4 | asked | observed/適格 | 実測 | arm は実行時に土台を複製して変異を入れ、CLI に渡す(宣言だけの fixture ではない) |
+  | Q5 | asked | observed/適格 | 実測 | 主張 5 を unknown として分離。V5 の不一致 1 を合格に数えず、裁定で限界として扱った。cp-reach の走査 0 を 0% にしない是正 |
+  | Q6 | asked | observed/適格 | 実測 | 各 commit の前に self-conformance と Plm の自己監査の exit を観測。push 後に CI の結論を headSha で照合 |
+  | Q7 | asked | observed/適格 | 実測 | V4 の比較に陽性対照(gate 変更)を置き、差を検出できることを確認。最初の対照(severity)が感度を持たないことも実測 |
+  | Q8 | asked | NA | 読解 | 予防ゲートの新設ではない(区分は既存の所見への付与)。抑止との組合せは独立検査が確認 |
+  | Q9 | asked | observed/適格 | 実測 | 測定スクリプトが対象の HEAD・作業木の状態・evaluate.js の sha256 を刻印。最終測定は受入済みの 0d98371・clean |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/条件付き適格 | 実測 | 入力クラスを、定義サイトの状態(5 種)・上流の有無・ゲート・参照の有無(A9)・族の宣言の有無(INV 等)に分けて測った。実在リポの方言クラスは標本のみ |
+
+- このクローズが支持しないもの: 受入ゲートが製品の判定経路で実行されていること / 規則の gate より前のゲートでの測定不能の検出(A9 型)/ X-GIT-001 の区分 /
+  他の規則(R-011・R-012・R-014・R-050 以外)の対象 0 件の意味 / 連鎖の帰属の全数の正しさ / M-BOM・Control Plan の再設計(後続)。
