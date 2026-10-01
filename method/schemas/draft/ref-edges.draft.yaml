@@ -12,6 +12,9 @@ edges_version: ref-v0.12
 #   無音で緑になるのは「M ID が他から参照されない構成」のコミット時ゲートの 1 構成。新節 measurability に 4 状態・
 #   原因の閉語彙・対象 0 件の判定・境界・出力を置き、対象 4 規則(R-011・R-012・R-014・R-050)の上流宣言を宣言した。
 #   R-050 の (d) は上流が非 0 のとき測定不能へ改めた(上流も 0 なら ref-v0.11 どおり適用外)。
+#   製造中の是正(同日・BomDD-Plm ECO-009 の設計で発見): R-014 と R-050 (d) が「対象の空」と「定義サイトの空」を
+#   混同していた(全行 golden の CP・acceptance_refs の無い M unit が測定不能の誤報になる)。測定不能は定義サイトの
+#   状態が ok でないときに限り、読めた定義サイトの上で対象が空なのは適用外と改めた(zero_target_rule・R-014・R-050)。
 #   範囲外(本版で変えない): 連鎖所見の帰属(実装 ECO の設計入力・延長 1 周の実測を measurability.deferred に記録)・
 #   終了コードの値・BomDD-Plm の実装と仕様の凍結行(§2.2 X-PARSE-001 の severity・§2.6 X-* の閉集合・§2.10/INV-006 の
 #   終了コード 0/1/2)・hook と CI の方針・受入ゲートの結線。規則文言の変更だけでは挙動は変わらない — 実装は BomDD-Plm 側の ECO。
@@ -365,6 +368,9 @@ measurability:
     対象が 0 件のとき、規則は「その規則の対象が非空であるべき根拠(上流の宣言)」を upstream_declarations に 1 つ宣言する。
     上流が 1 件以上なのに対象が 0 件なら MEASUREMENT_FAILURE(原因は selector-miss または empty-required-source)、
     上流も 0 件なら NOT_APPLICABLE(適用外を明示する・ECO-085 の裁定「製造前は製造記録が無いのが正常」と整合)。
+    測定不能と言えるのは、規則が読む**定義サイトの状態**が ok でないとき(なし= empty-required-source・構文エラー= unreadable-input・
+    キーなし= selector-miss・空リスト= empty-required-source)に限る。定義サイトが読めて要素がある上で、規則の対象(絞り込んだ部分集合や組)が
+    0 件なのは NOT_APPLICABLE である(boundary_rule — 読めた定義サイトは測定不能にしない。ECO-089 製造中の是正)。
     upstream_declarations に無い規則は「宣言なし」である — 空集合の意味を沈黙させない(control-plan「各検査は対象集合が空の場合の意味を宣言する」の履行)。
     本版の宣言対象は M-BOM / Control Plan / As-Built を読む R-011・R-012・R-014・R-050 のみ。他の規則は未宣言(後続 ECO)。
   boundary_rule: >-
@@ -386,11 +392,11 @@ measurability:
     - rule: R-014
       reads: "33-control-plan の control_plan.characteristics[]"
       expectation_source: "32-mbom の M unit の acceptance_refs が挙げる CP が 1 件以上"
-      on_empty: "対象(depth が unit/L2/L3 の CP 行)が 0 件で上流が 1 件以上なら MEASUREMENT_FAILURE(33 が読めない・空・キー空振り)・上流も 0 件なら NOT_APPLICABLE"
+      on_empty: "CP の定義サイト(33 の control_plan.characteristics)の状態が ok でなく、上流が 1 件以上なら MEASUREMENT_FAILURE。定義サイトが読めて行がある上で、depth が unit/L2/L3 の行が 0 件なら NOT_APPLICABLE(全行が golden 等は正常)。上流も 0 件なら NOT_APPLICABLE"
     - rule: R-050
       reads: "50-as-built の as_built[]・32-mbom の manufacturing_units[].acceptance_refs"
       expectation_source: "30-ebom に lifecycle_state が manufacturing-ready の品目が 1 件以上"
-      on_empty: "対象(M unit と CP の組)が 0 件で上流が 1 件以上なら MEASUREMENT_FAILURE(規則 (d))・上流も 0 件なら NOT_APPLICABLE(info で明示)。対象が 1 件以上で製造記録が読めないなら MEASUREMENT_FAILURE(規則 (c))"
+      on_empty: "M unit の定義サイト(32-mbom の manufacturing_units)の状態が ok でなく、上流が 1 件以上なら MEASUREMENT_FAILURE(規則 (d))。M unit が読めて存在する上で組が 0 件(acceptance_refs が無い)なら NOT_APPLICABLE(info で明示)。上流も 0 件なら NOT_APPLICABLE。対象が 1 件以上で製造記録が読めないなら MEASUREMENT_FAILURE(規則 (c))"
   deferred:
     - id: cascade-attribution
       meaning: >-
@@ -519,8 +525,9 @@ lint_rules:
       (c) 対象が 1 件以上あるのに as_built をリスト形のエントリとして読めない場合
       (製造記録ファイルなし・as_built キーなし・空リスト・文書方言)は測定不能として error にする。
       (d) 対象が 0 件のとき(ref-v0.12): 上流の宣言(measurability.upstream_declarations の R-050 —
-      30-ebom に manufacturing-ready の品目が 1 件以上)が非 0 なら、(c) と同じ測定不能として error にする。
-      上流も 0 件なら (a)(c) は適用外とし、適用外であることを info で明示する
+      30-ebom に manufacturing-ready の品目が 1 件以上)が非 0 で、かつ M unit の定義サイト(32-mbom の
+      manufacturing_units)の状態が ok でない(なし・構文エラー・キーなし・空)なら、(c) と同じ測定不能として error にする。
+      M unit が読めて存在する上で対象が 0 件のとき、または上流も 0 件のときは、(a)(c) は適用外とし、適用外であることを info で明示する
       ((b) は対象の件数によらず適用する)。
     gate: acceptance
     severity: error
@@ -529,8 +536,8 @@ lint_rules:
       合格は文字列 pass の完全一致のみ(語彙外の値は合格に数えない — 語彙の拡張は実物を根拠に別 ECO)。
       (a)〜(d) の所見はいずれも他の規則と同じく本規則の gate(acceptance)を付けて出す。実行ゲートが
       それより前なら判定(exit)には効かない — 製造前に製造記録が無いのは正常な状態であり、ゲートがそれを
-      判定から外す(所見を出すゲートを規則ごとに変えない)。severity は (a)(b)(c) が error・(d) は上流が非 0 なら
-      error(測定不能)・上流も 0 なら info(適用外)。ref-v0.12(ECO-089)で (d) を改訂した — BomDD-Plm の実装
+      判定から外す(所見を出すゲートを規則ごとに変えない)。severity は (a)(b)(c) が error・(d) は上流が非 0 かつ
+      M unit の定義サイトが ok でなければ error(測定不能)・それ以外は info(適用外)。ref-v0.12(ECO-089)で (d) を改訂した — BomDD-Plm の実装
       (ECO-008・ref-v0.11)が追随するまで、実装は (d) を従来どおり対象 0 件で info(適用外)として出す。
       「R-050 の所見なし」とは、error の R-050 が無く、抑止(suppress)された R-050 も、(d) の適用外の
       info も無い状態を指す — 抑止つきの通過と適用外は出力に残る別の状態であり、所見なしとして引用しない。

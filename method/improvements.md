@@ -8201,6 +8201,9 @@ V1 は 18/18 項目、V4(改訂後スキーマの直指定で現行実装の出�
 - [watch 1/3] OBS-20261001-01 — **検査器が「測れなかった」を「違反」と同じ区分(error)で出す — 不良を見つけたのか測れなかったのかが出力から区別できず、改名 1 件が error 8〜158 件に見える。1 例目: bomdd-lint(BomDD-Plm)。2 例目の着手条件= 別の検査器(self-conformance・validate_bom.py・process-validator など)で、測定不能が違反と同じ失敗区分で出ている実例 1 件**
   source: BomDD ECO-089 §0.1(較正測定 2 構成・8 種の変異)
   evidence: bomdd/reports/eco-089-measurability/arms-pre.md・bomdd/60-change-order-eco-089.md §0
+- [watch 1/3] OBS-20261001-02 — **規則の gate より前のゲートでは、その規則が読む成果物の測定不能が見えない — 他から参照されない M-BOM のキー改名は、コミット時ゲート(always)で exit 0(R-012 の測定不能は G3 以降)。always で「宣言された定義サイトが ok でない」を一律に測定不能とすると、任意の定義サイト(GF・DC・DE・FMEA・TE・AB・P・ROUTING)が実リポ 7 本全てで引っかかる。着手条件= 族ごとに「必須の定義サイト」を宣言する根拠(必須か任意かを実リポで判別した実測)1 件、またはコミット時ゲートでの改名の見逃しによる実害 1 件**
+  source: BomDD ECO-089 §4c(V5 の A9・user 裁定 2:A)× BomDD-Plm ECO-009 §4(定義サイトの走査)
+  evidence: bomdd/reports/eco-089-measurability/v5-arms-post.md・ECO-089 order §4c
 - [open] EXP-20261001-01 — **区分を分けた後、M-BOM / Control Plan の再設計の前後比較で「不良が増えた」と「測定不能が増えた」を別々に数えられるか**: 実装後(BomDD-Plm 側 ECO)の arms で MEASUREMENT_FAILURE と RED が区別され、連鎖所見が原因 1 件へ従属するかを測る(ECO-089 V5・V6)。区別できない・連鎖が原因へ帰属しないなら、契約の連鎖の帰属(5)を再検討する材料になる。基準線= 現行 arms-pre.md(期待= 測定不能の arm: plm-self は混在 5/5・minimal は混在 5/6 と無音 1/6〔コミット時ゲート〕)
   source: ECO-089
   evidence: bomdd/reports/eco-089-measurability/measure-arms.py・ECO-089 order §3(V5・V6)

@@ -211,4 +211,24 @@ id-grammar・派生 JSON Schema・templates・tools の改訂 / 実リポの記�
 - 規則文言(ref-v0.12)と BomDD-Plm の実装(ref-v0.11 の (d) = 対象 0 件で info)は、実装が追随するまで R-050 (d) について食い違う(ECO-085 と同じ構造・規則の note に明記)。
 - **実装側= BomDD-Plm ECO-009**(`bomdd/60-change-order-eco-009.md`・filed・commit 7c1e157・Plm の CI success〔run 36825732045〕・裁定 2:A による起票のみ)。
   連鎖の帰属(旧 V6)・終了コードの値・区分欄の表記を設計入力に持つ。V5 は ECO-009 の実装個体で測る。製造・独立検査の配員は未裁定。
+## 4b. 製造中の是正(2026-10-01・BomDD-Plm ECO-009 の設計で発見・user 裁定「3:A」= ECO-089 の中で直す)
+
+- 発見: Plm ECO-009 の設計の収束(round 1・2)で、ref-v0.12 の上流宣言のうち **R-014 と R-050 (d) が「対象の空」と「定義サイトの空」を混同**していた。
+  - R-014: CP の行が全て golden などで depth unit/L2/L3 の行が 0 件でも、上流があれば測定不能になる(誤報)。
+  - R-050 (d): M unit が読めて存在するのに acceptance_refs が無いだけで測定不能になる(境界規則「読めた定義サイトは測定不能にしない」と矛盾)。
+- 是正: `zero_target_rule` に「測定不能は定義サイトの状態が ok でないとき(なし・構文エラー・キーなし・空)に限る」を追加し、R-014・R-050 の `on_empty` と R-050 の規則 (d)・note を同じ形へ改めた。版は ref-v0.12 のまま(ECO-085 §4b と同じ扱い)・版ヘッダに経緯を追記。
+- 失敗型の分類(/converge 学習ループ): 既知の型には当たらない定義の混同(上流の宣言を対象の集合で書き、定義サイトの状態で書かなかった)。私の arms は定義サイトを壊す変異だけで、「読めるが対象が空」の検体(全行 golden・acceptance_refs なし)を持っていなかった — 検体の外の欠陥。
+- V1(再測)= PASS(観測: verify-v1-v4.md・18/18 項目)。V4(再測)= PASS(観測: 同ファイル・24/24 組同一・陽性対照= gate 変更の変種は差を検出)。
+- 実装側への受け渡し: 「読めるが対象が空」の検体(A10= CP が全て golden・A11= acceptance_refs の無い M unit)は ECO-009 の受入に入れる(ECO-009 order §1A.2 D10)。
+
+## 4c. 実装側の製造と V5(2026-10-01・BomDD-Plm ECO-009 の作業木)
+
+- 実装= BomDD-Plm ECO-009(設計者適用・製造裁定「1:A 2:B 3:A 4:A」— 同 order §3c・§4)。出力は plm-diag/2(判定を表す所見に outcome・原因は measurement 節・終了コードは 0/1/2 のまま)。
+- **V5**= 実装個体(作業木・commit 前)で **36 組中 35 組が期待と一致**(観測: [v5-arms-post.md](reports/eco-089-measurability/v5-arms-post.md))。不一致 1 組= A9(他から参照されない M-BOM の改名)のコミット時ゲート(exit 0)。
+- **裁定「2:A」(2026-10-01)= 既知の限界として受け入れる**: コミット時ゲートには M-BOM を読む規則が無く、R-012 の測定不能は G3 以降に出る(A9 の acceptance は一致)。V5 の当該 1 組の期待(always で測定不能)は、本裁定により「宣言済みの限界」として扱う — 条件行は書き換えず、本節に変更を記録する。
+  採らなかった案(always で「成果物はあるのに宣言された定義サイトが ok でない」を一律に測定不能とする)は、実リポ 7 本全てで任意の定義サイトに引っかかり、BomDD-Plm 自身と ViewPrism2 の always の終了コードが 0→1 になる(走査の実測)。
+  族ごとに「必須の定義サイト」を宣言する案は観測として記録した(improvements.md OBS-20261001-02)。
+- 実リポの突合(14 構成): 区分以外の所見と終了コードは変更前後で全て同一(観測: [compare-real-repos.md](reports/eco-089-measurability/compare-real-repos.md))。
+- V5 の最終の観測は、受入個体(commit 後)と独立検査の後に取り直す。本 ECO は `implemented` のまま。
+
 - BomDD 側の CI: 起票 b78ad33= run 36802595943・延長 d69a4a9= run 36803751840・製造 42eaa38= run 36818241099 — いずれも success(headSha 照合)。

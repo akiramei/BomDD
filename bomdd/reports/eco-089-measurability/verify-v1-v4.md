@@ -1,7 +1,7 @@
 # ECO-089 製造後の受入 V1・V4 の観測
 
 - 測定日: 2026-10-01・対象= `method/schemas/draft/ref-edges.draft.yaml`
-- V4 の計器= BomDD-Plm `d02052b`(clean)の bomdd-lint。同梱スキーマ= ref-v0.11(`schemas/ref-v0`)・比較は diagnostics.json から refSchema(版の表記)を除いた内容と終了コード。
+- V4 の計器= BomDD-Plm `7c1e157`(dirty)の bomdd-lint。同梱スキーマ= ref-v0.11(`schemas/ref-v0`)・比較は diagnostics.json から refSchema(版の表記)を除いた内容と終了コード。
 
 ## V1(スキーマ本体の構造を YAML 解析で読む)
 
