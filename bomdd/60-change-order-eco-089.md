@@ -10,7 +10,10 @@
 ## 担当設備(equipment)
 
 - 起票: requested/resolved `claude-sonnet-5-5`・Claude Code(Claude Agent SDK)・来歴 **self-reported**
-- producer: EQ-005(製造者較正のみで足りるかは製造裁定 §3b)
+- producer: EQ-005
+- inspector: EQ-002
+- 配員の注記: 起票と ref-v0.12 の製造は EQ-005(claude-sonnet-5-5)。**設備交代**(2026-10-01・user のモデル切り替え)で、§4b の是正と実装側(BomDD-Plm ECO-009)の設計・製造は EQ-004(claude-opus-5-5)。
+  独立検査(inspector 行)は製造裁定「4:A」(実装側 ECO-009 に異系統の独立検査を併用)により EQ-002 — 検査対象は実装側の個体(BomDD-Plm)。
 - 独立検査: 本 ECO(規則文言と契約)は製造裁定で決める。検出の挙動を変える実装は BomDD-Plm 側の別 ECO で、そちらに異系統の独立検査を置く想定。
 
 ## 0. 実測(起票根拠・2026-10-01)
