@@ -8175,3 +8175,26 @@ C(特性ごとの最新の証拠)は古い個体の合格を「所見なし」�
   基準線= UnitConv 3/8・TimetableAdv 2/427。注記があっても増分のままなら、記録の書き方でなく規則(案 C)を再検討する材料になる
   source: ECO-088
   evidence: bomdd/reports/eco-088-incremental/incr-reach.py・ECO-088 order §0・§3
+
+## 2026-10-01 BomDD 自己適用 — ECO-089 起票(測定不能の扱いの契約化・user DECIDE「A'」・起票のみ・設計は未収束 5→2→1・製造は裁定待ち)
+
+**観測**(出典: [ECO-089 order](../bomdd/60-change-order-eco-089.md) §0・[較正測定](../bomdd/reports/eco-089-measurability/arms-pre.md)・[基準線](../bomdd/reports/eco-089-measurability/cp-reach.md)):
+①現行の検査に「測れなかった」を作って当てると(BomDD-Plm d02052b の複製 2 構成・8 種の変異)、キー改名・構文エラー・空文書は**違反と同じ error** で出る(混在)—
+1 件の改名が R-003 の error 8〜158 件に見え、minimal 構成では既知の違反(存在しない ID への参照)と同じ規則・同じ件数で区別できない。
+②無音で緑になるのは「M ID を他ファイルが参照しない構成」のコミット時ゲートの 1 arm だけ(受入ゲートでは R-012 が止める)。実測前の予測(無音が主)は反証された。
+③実リポ 7 本のうち 2 本は 33-control-plan が YAML として解析できず、TimetableAdv は選択子が拾う特性数(471)と字面の数(25)が食い違う — 測定不能・母集団の食い違いは実在する。
+**整理**: user 提案(受入条件に RED と MEASUREMENT_FAILURE の分離を入れる)を取り込み、本 ECO は lint 強化でなく「測定不能の扱いの契約化」として起票した。契約は 4 状態・原因の閉語彙・対象 0 件の上流宣言・境界・連鎖の帰属・出力。
+Plm 仕様の凍結行(X-PARSE-001 severity・X-* 閉集合・INV-006 の終了コード 0/1/2)は本 ECO で変えず、実装は Plm 側 ECO(仕様改訂を伴う)に分ける。レバーは C-a/C-b/C-c の補完関係(arms の実測)で第一候補= C-c。
+**正直記載**: 議論過程で私が述べた 2 点を訂正(order §0.4)— 「hook は測定不能を通す」は誤りで通すのは exit 2 のみ・「黙って緑が最悪」は実測では起きにくく主問題は混在。
+**一般化検査**: 製品名を落としても成立する(「測れなかった」と「違反」を同じ区分で出す検査器は、再設計の前後比較を曖昧にする)。実例 1 検査器(bomdd-lint)・arms は私の設計した変異で実在の事故の分布ではない。
+**行き先判定**: ECO-089(起票のみ・製造は未収束の裁定後)。control-plan.md の一般規則「各検査は対象集合が空の場合の意味を宣言する」の履行(宣言済み規則は R-050 のみ)。playbook・テンプレート・契約文書は非改訂。
+**思想層の再認証判定(手順 3b)**: [ ] operational rule [x] control/probe(測定不能の扱い)[ ] template [ ] terminology
+[x] method/concept claim: 「測定不能は合格ではない」(AGENTS.md 規律 4・6)= supported(ただし違反と同じ区分に入れる出力は、合格でないことは守るが原因を区別できない)/「各検査は対象集合が空の場合の意味を宣言する」= 19 規則中 1 規則のみ宣言(R-050)。contradicted / superseded: なし。
+**期待効果の棚卸し**: OBS-20260926-01 不変(1/3)。EXP-20260914-01 不変。新規 OBS-20261001-01・EXP-20261001-01(下記)。
+
+- [watch 1/3] OBS-20261001-01 — **検査器が「測れなかった」を「違反」と同じ区分(error)で出す — 不良を見つけたのか測れなかったのかが出力から区別できず、改名 1 件が error 8〜158 件に見える。1 例目: bomdd-lint(BomDD-Plm)。2 例目の着手条件= 別の検査器(self-conformance・validate_bom.py・process-validator など)で、測定不能が違反と同じ失敗区分で出ている実例 1 件**
+  source: BomDD ECO-089 §0.1(較正測定 2 構成・8 種の変異)
+  evidence: bomdd/reports/eco-089-measurability/arms-pre.md・bomdd/60-change-order-eco-089.md §0
+- [open] EXP-20261001-01 — **区分を分けた後、M-BOM / Control Plan の再設計の前後比較で「不良が増えた」と「測定不能が増えた」を別々に数えられるか**: 実装後(BomDD-Plm 側 ECO)の arms で MEASUREMENT_FAILURE と RED が区別され、連鎖所見が原因 1 件へ従属するかを測る(ECO-089 V5・V6)。区別できない・連鎖が原因へ帰属しないなら、契約の連鎖の帰属(5)を再検討する材料になる。基準線= 現行 arms-pre.md(期待= 測定不能の arm: plm-self は混在 5/5・minimal は混在 5/6 と無音 1/6〔コミット時ゲート〕)
+  source: ECO-089
+  evidence: bomdd/reports/eco-089-measurability/measure-arms.py・ECO-089 order §3(V5・V6)
