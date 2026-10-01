@@ -2928,3 +2928,24 @@ changes:
       V7 self-conformance・CI・窓 / V8 較正 receipt。V5 は BomDD-Plm の実装個体で測る(それまで implemented に留める)。条件行は 2:C 以外起票後不変・結果はクローズ節の観測行(ECO-080 二部形)。
     receipt_author_role: producer   # ECO-077 観測欄
     producer: EQ-005
+  - id: ECO-090
+    title: M-BOM / Control Plan 再設計の基準計数と、製品側の試行(ViewPrism2 ECO-143)の記録(記録のみ)
+    date: 2026-10-02
+    origin: improvement
+    status: implemented   # 2026-10-02 user「BomDD 側の記録を起票して」→ 起票+記録(同一 commit・記録のみ・ECO-088 の型)
+    receipt_author_role: producer   # ECO-077 観測欄
+    source: >
+      ECO-089 verified 後の M-BOM / CP 再設計の議論。7 リポの基準計数(事前登録つき・user AGREE)・主 2 本の受入経路の調査(user「B」)・
+      方法論の文書より先に製品で試す(user「B」)→ ViewPrism2 ECO-143 applied(テスト結果を CP の行ごとに集計して承認に添える・初回の表は予測と完全一致)。
+    order_ref: bomdd/60-change-order-eco-090.md
+    affected_refs: [method/improvements.md]
+    no_impact_prediction: "(製造前・凍結)diff= improvements.md+台帳系(order・register・reports)のみ。playbook・templates・schemas・tools・hooks・.github diff 0・C10/C13 判定不変・C16 は本 order と節に裁定の語を置かない・worklist 警告 0・製品リポへ非波及"
+    diff_audit:
+      baseline: "efa9864"  # 起票直前 HEAD
+      allowed_paths: [method/improvements.md, bomdd/60-change-order-eco-090.md, bomdd/60-change-register.yaml, bomdd/reports/eco-090-redesign-baseline/]
+    summary: >
+      ①reports に事前登録・計数スクリプト 3 本・結果 2 本・受入経路の調査 ②improvements.md に節と OBS-20261002-01〜03・EXP-20261002-01。
+      採らない= playbook・テンプレート・スキーマ・ツールの改訂(試行の評価の前)・ViewTube の常に赤の計器の是正・標準 M-BOM 案と文脈境界案の着手・EXP-20261001-01 の回収。
+    verification: >
+      V1 reports の 7 ファイルと M4 が ECO-086 の基準線と一致 / V2 OBS 3 件・EXP 1 件・worklist 警告 0 / V3 diff が allowed_paths のみ / V4 self-conformance・CI / V5 製造者較正のみ・較正 receipt。
+    producer: EQ-004
