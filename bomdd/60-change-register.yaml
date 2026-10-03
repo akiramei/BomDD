@@ -3081,3 +3081,25 @@ changes:
     verification: >
       V1 playbook §1 の 2 行と §7 の 1 項(grep)/ V2 10・53 テンプレの欄(grep)+53 の厳格 YAML パース(C1)/ V3 diff 窓・self-conformance・CI / V4 製造者較正のみ・較正 receipt(trigger ①)。条件行は起票後不変・結果はクローズ節の観測行。
     producer: EQ-001
+  - id: ECO-096
+    title: 運転層の証跡ツール bomdd-witness.py が検査していない Git の木を束縛する — ECO-092 と同型の skip-worktree / assume-unchanged 未正規化の是正・selftest の CI 結線(起票のみ)
+    date: 2026-10-04
+    origin: defect
+    status: filed   # 2026-10-04 起票のみ(ECO-092 §4 範囲外の発見・OBS-20261003-02 の同型。標準の裁定「検査器の偽陰性は実害待ちにしない」)。製造+異系統の独立検査(r1+r2)の着手時期は裁定待ち(order §5)
+    source: >
+      ECO-092(2026-10-03)の製造中に発見: bomdd-witness.py worktree_tree は実 index を一時 index へ複製して add -A するだけで、skip-worktree / assume-unchanged の entry では index の bytes を束縛する
+      (W1「C18 と同一」は ECO-092 以後に不成立)。--selftest は self-conformance にも CI にも結線されておらず手動実行のみ。本リポの製造者環境は S/h 0 件・ECO-092 r2 の検査官 sandbox は 1151 件(自然発生 1 例)。
+    order_ref: bomdd/60-change-order-eco-096.md
+    affected_refs: [method/tools/bomdd-witness.py]
+    no_impact_prediction: "(起票時点)起票の diff は台帳系のみ。製造時(候補)= bomdd-witness.py(worktree_tree の正規化・INDEX_NORMALIZE_FAILED・selftest 腕・W1 注記)+候補 4 を採る場合 .github/workflows 1 行+台帳系。self-conformance C1〜C18 判定不変(本ツールは対象外)。フラグ 0 件の作業木では receipt の tree は是正前後で同一"
+    diff_audit:
+      baseline: "a2eae9e"  # 起票直前 HEAD(ECO-095 クローズ commit)
+      allowed_paths: [method/tools/bomdd-witness.py, .github/workflows/self-conformance.yml, method/improvements.md, bomdd/60-change-order-eco-096.md, bomdd/60-change-register.yaml, bomdd/reports/independent-inspection-eco-096.md, bomdd/reports/independent-inspection-eco-096-r2.md]
+    summary: >
+      候補(製造裁定で凍結): ①worktree_tree に ECO-092 と同じ正規化(ls-files -v → update-index --no-assume-unchanged / --no-skip-worktree を別呼び出し → add -A → write-tree・失敗は INDEX_NORMALIZE_FAILED exit 2)
+      ②selftest に skip-worktree / 対照 / assume-unchanged 腕 ③W1 注記と sparse の限界(訂正後の文言)④selftest の CI 結線(ハーネス .github の変更・採否は製造裁定)。採らない= hook・receipt 形式・verify 規則・sparse 対応・bomdd-run/job。
+    verification: >
+      V1 selftest 追加腕 PASS・1 行目 ADVANCE / V2 フラグ 0 件で是正前後の tree 同一 / V3 検査官の sparse-checkout 環境で是正後の blob= 作業ツリー(是正前は index)/ V4 update-index 失敗が INDEX_NORMALIZE_FAILED exit 2 /
+      V5 diff 窓・self-conformance・CI(4 を採れば CI で selftest が走る)/ V6 異系統の独立検査 ACCEPT / V7 較正 receipt(trigger ①③)。製造裁定時に凍結。
+    producer: EQ-001
+    inspector: EQ-002
