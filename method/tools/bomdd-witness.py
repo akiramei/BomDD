@@ -9,6 +9,9 @@
 # 仕様(v0 で凍結・W6/W7 は ECO-066):
 #  W1 tree の定義は self-conformance C18 と同一 — 追跡対象+追加可能ファイルの worktree 内容
 #     (一時 index に add -A → write-tree)。HEAD^{tree} は未コミット変更を覆えないので使わない。
+#     ECO-096(ECO-092 と同型): 一時 index の skip-worktree / assume-unchanged フラグを add -A の前に外す —
+#     外さないと add が更新せず、検査が読んだ worktree でなく index の bytes を束縛する(偽証明)。限界= sparse-checkout
+#     では sparse 外の path が index の内容のまま残る(通常 index=HEAD で一致・index≠HEAD の稀な場合は検査していない bytes)。
 #  W2 gates[].source は座標(ログのパス・task id)のみ — 値の転写を持たない。
 #  W3 stop_type の語彙は bomdd-job.py と共通(固定値)。
 #  W4 pre-push の 2 行 witness(.git/bomdd-selfconf-witness)とは別ファイル — 既定は
@@ -59,14 +62,14 @@ from pathlib import Path
 
 STOP_VOCABULARY = ("NONE", "NORMATIVE_RULING", "VERIFICATION_FAIL", "BOM_CONTRADICTION",
                    "CONVERGENCE_LIMIT", "PREFLIGHT_HOLD", "LEDGER_INCONSISTENT", "MISSING_INPUT")
-TREE_DEFINITION = "worktree write-tree (add -A on temp index) — self-conformance C18 と同一"
+TREE_DEFINITION = "worktree write-tree (normalize skip-worktree/assume-unchanged flags on temp index, then add -A) — self-conformance C18 と同一(ECO-092/096)"
 # W6: 検証報告の語彙(本ツールローカル・job の停止語彙 W3 とは別物)
 VERDICTS = {0: "ADVANCE", 1: "STOP", 2: "UNMEASURABLE"}
 CODES = ("OK", "IDENTITY_MISMATCH", "IDENTITY_UNCHECKED", "TREE_MISMATCH", "GATES_MISSING", "GATE_INCOMPLETE",
          "GATE_FAIL", "STOP_TYPE", "WITNESS_UNREADABLE", "WITNESS_MALFORMED", "TREE_UNAVAILABLE", "ARG_ERROR",
          "PRODUCED", "WITNESS_UNWRITABLE", "SELFTEST_FAIL")   # r1 IA-01: produce / selftest の経路も固定形式に
 TREE_CAUSES = ("GIT_UNAVAILABLE", "GIT_DIR_FAILED", "TEMP_UNAVAILABLE", "INDEX_COPY_FAILED", "TEMP_IN_WORKTREE", "ADD_FAILED",
-               "WRITE_TREE_FAILED")   # r1 IA-02: index 複製の失敗を temp 不能と分ける
+               "WRITE_TREE_FAILED", "INDEX_NORMALIZE_FAILED")   # r1 IA-02: index 複製の失敗を temp 不能と分ける / ECO-096: フラグ正規化の失敗
 # r1 IA-04: git の出力は utf-8・置換で読む — 非 UTF-8 バイトで reader thread が落ちて stderr 末尾を失わない
 _RUN_KW = dict(capture_output=True, text=True, encoding="utf-8", errors="replace")
 
@@ -112,8 +115,32 @@ def gate_problem(g) -> str | None:
     return None
 
 
+def _normalize_index_flags(root: Path, env: dict, paths: list | None = None) -> tuple[bool, str]:
+    """ECO-096(ECO-092 と同型): env の GIT_INDEX_FILE が指す**一時 index** 上で skip-worktree(タグ S)と
+    assume-unchanged(小文字タグ)を外す。add -A はフラグ付き entry を更新しないため、外さないと検査が読んだ worktree
+    でなく index の bytes を束縛する。2 つのオプションは**別々の呼び出し**で渡す(同時指定だと git 2.47 は assume-unchanged
+    側の処理だけで返り skip-worktree が残る・rc 0 のまま— ECO-092 §4 実測)。実 index は触らない。
+    返り値= (ok, 理由)。paths を明示すると ls-files を省きその path を対象にする(selftest の失敗腕用)。"""
+    if paths is None:
+        ls = _git(root, "ls-files", "-v", "-z", env=env)
+        if ls.returncode != 0:
+            return False, f"ls-files 失敗(exit {ls.returncode}): {_tail(ls.stderr)}"
+        paths = [e[2:] for e in ls.stdout.split("\0") if len(e) > 2 and (e[0] == "S" or e[0].islower())]
+    if not paths:
+        return True, "フラグ正規化 0 件"
+    for opt in ("--no-assume-unchanged", "--no-skip-worktree"):
+        try:
+            r = subprocess.run(["git", "-C", str(root), "update-index", opt, "-z", "--stdin"],
+                               env=env, input="\0".join(paths) + "\0", **_RUN_KW)
+        except OSError:
+            return False, "git unavailable"
+        if r.returncode != 0:
+            return False, f"update-index {opt} 失敗(exit {r.returncode}・{len(paths)} 件): {_tail(r.stderr)}"
+    return True, f"フラグ正規化 {len(paths)} 件"
+
+
 def worktree_tree(root: Path):
-    """W1: 追跡対象+追加可能ファイルの worktree 内容の tree。
+    """W1: 追跡対象+追加可能ファイルの worktree 内容の tree(ECO-096: 一時 index のフラグを正規化してから add -A)。
     返り値 (tree, git_dir, err) — 失敗は tree=None・err=(CAUSE, detail)(P5-06: 5 経路を区別・原因を捨てない)。"""
     gd = _git(root, "rev-parse", "--git-dir")
     if gd.returncode != 0:
@@ -142,6 +169,10 @@ def worktree_tree(root: Path):
         except OSError as e:  # r1 IA-02: 既存 index の読取/複製失敗は temp 不能ではない
             return None, git_dir, ("INDEX_COPY_FAILED", f"{e.__class__.__name__}: {str(e)[:200]}")
         env = dict(os.environ, GIT_INDEX_FILE=str(tmp_index))
+        ok_n, why_n = _normalize_index_flags(root, env)   # ECO-096: フラグ付き entry を add -A が更新しない偽証明を塞ぐ
+        if not ok_n:
+            cause = "GIT_UNAVAILABLE" if why_n == "git unavailable" else "INDEX_NORMALIZE_FAILED"
+            return None, git_dir, (cause, why_n)
         added = _git(root, "add", "-A", env=env)
         if added.returncode != 0:
             cause = "GIT_UNAVAILABLE" if isinstance(added, _GitUnavailable) else "ADD_FAILED"
@@ -723,6 +754,42 @@ def _selftest_body(td_cm, wd_cm) -> int:
                 json.dumps({"event": "cell", "run_id": "r2", "eco": "ECO-900", "executor": "EQ-002", "cell_exit": 0,
                             "report": {"path": "reports/r.md", "sha256": sha_ok, "verdict": "ACCEPT", "range": "是正確認+回帰"}}, ensure_ascii=False)]
         ledger.write_text("\n".join(rows) + "\n", encoding="utf-8"); insp("last-row", 0, 0)
+        # --- ECO-096: フラグ正規化の腕(ECO-092 と同型の自己較正)— index= 不正 bytes・作業ツリー= 正しい bytes で
+        # tree の blob が作業ツリー側になり、実 index(ls-files -s/-v)が変わらないこと。対照腕・失敗腕つき。
+        (root / "f.yaml").write_bytes(b"a: 1\n"); _git(root, "add", "f.yaml", env=env); _git(root, "commit", "-q", "-m", "f", env=env)
+        (root / "f.yaml").write_bytes(b"a: 1\na: 2\n"); _git(root, "add", "f.yaml", env=env)
+        _git(root, "update-index", "--skip-worktree", "f.yaml", env=env)
+        (root / "f.yaml").write_bytes(b"a: 1\n")
+        good_blob = _git(root, "hash-object", "f.yaml", env=env).stdout.strip()
+
+        def _index_state():
+            return _git(root, "ls-files", "-s", env=env).stdout + _git(root, "ls-files", "-v", env=env).stdout
+
+        def _blob_of(tree):
+            return _git(root, "rev-parse", f"{tree}:f.yaml", env=env).stdout.strip() if tree else ""
+
+        before = _index_state()
+        t_s, _, err_s = worktree_tree(root)
+        if err_s or _blob_of(t_s) != good_blob or _index_state() != before or "S f.yaml" not in before:
+            fails.append(f"kb-skip-worktree: tree の blob が作業ツリーと一致しない/実 index が変わった(err={err_s})")
+        _git(root, "update-index", "--no-skip-worktree", "f.yaml", env=env)
+        _git(root, "update-index", "--assume-unchanged", "f.yaml", env=env)
+        before_h = _index_state()
+        t_h, _, err_h = worktree_tree(root)
+        if err_h or _blob_of(t_h) != good_blob or _index_state() != before_h or "h f.yaml" not in before_h:
+            fails.append(f"kb-assume-unchanged: tree の blob が作業ツリーと一致しない/実 index が変わった(err={err_h})")
+        _git(root, "update-index", "--no-assume-unchanged", "f.yaml", env=env)
+        t_c, _, err_c = worktree_tree(root)
+        if err_c or _blob_of(t_c) != good_blob:
+            fails.append(f"control: フラグなしで tree の blob が作業ツリーと一致しない(err={err_c})")
+        # 失敗腕: index に無い path を正規化対象に渡すと update-index が非 0 → (False, 理由)= 本番では INDEX_NORMALIZE_FAILED
+        tmp_idx = wout / "tmpidx"
+        shutil.copy2(root / ".git" / "index", tmp_idx)
+        ok_n, why_n = _normalize_index_flags(root, dict(env, GIT_INDEX_FILE=str(tmp_idx)), ["no-such-file.txt"])
+        if ok_n or "update-index" not in why_n:
+            fails.append(f"kb-normalize-fail: index に無い path の正規化が失敗にならない({ok_n}, {why_n})")
+        if "INDEX_NORMALIZE_FAILED" not in TREE_CAUSES:
+            fails.append("語彙: INDEX_NORMALIZE_FAILED が TREE_CAUSES にない")
     return _report(fails)
 
 

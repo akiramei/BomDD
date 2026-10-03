@@ -33,6 +33,8 @@ jobs:
       - run: python method/tools/self-conformance.py
       # worklist は読み取り専用ビュー(台帳はゲートしない)— selftest はツール自身の恒久較正のみ
       - run: python method/tools/worklist.py --selftest
+      # ECO-096: 運転層の証跡ツールの恒久較正(W1〜W7+フラグ正規化の腕)— それまで手動実行のみで毎 push では走っていなかった
+      - run: python method/tools/bomdd-witness.py --selftest
 
   dotnet:
     runs-on: windows-latest

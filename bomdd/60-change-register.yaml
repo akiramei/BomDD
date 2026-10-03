@@ -3085,7 +3085,7 @@ changes:
     title: 運転層の証跡ツール bomdd-witness.py が検査していない Git の木を束縛する — ECO-092 と同型の skip-worktree / assume-unchanged 未正規化の是正・selftest の CI 結線(起票のみ)
     date: 2026-10-04
     origin: defect
-    status: filed   # 2026-10-04 起票のみ(ECO-092 §4 範囲外の発見・OBS-20261003-02 の同型。標準の裁定「検査器の偽陰性は実害待ちにしない」)。製造+異系統の独立検査(r1+r2)の着手時期は裁定待ち(order §5)
+    status: implemented   # 2026-10-04 起票 305fba2(ECO-092 §4 範囲外の発見・OBS-20261003-02 の同型)→ user DECIDE「A」(今回製造)→ 製造(正規化 helper・INDEX_NORMALIZE_FAILED・selftest 4 腕・W1 注記・候補 4= CI 結線を採用)→ V1(selftest ADVANCE・変異で STOP)/ V2(フラグ 0 件で tree 同一)/ V4(失敗腕)PASS → implemented(独立検査 r1 へ)
     source: >
       ECO-092(2026-10-03)の製造中に発見: bomdd-witness.py worktree_tree は実 index を一時 index へ複製して add -A するだけで、skip-worktree / assume-unchanged の entry では index の bytes を束縛する
       (W1「C18 と同一」は ECO-092 以後に不成立)。--selftest は self-conformance にも CI にも結線されておらず手動実行のみ。本リポの製造者環境は S/h 0 件・ECO-092 r2 の検査官 sandbox は 1151 件(自然発生 1 例)。

@@ -59,8 +59,21 @@
 - 敵対自問: 「bomdd-witness は受理側の運転層で、pre-push の遮断には関与しないので優先度は低いのでは」— 低いが、receipt が『検査済み』として束縛する bytes が検査対象と違う状態は ECO-092 と同じ偽証明で、標準の裁定(偽陰性は実害待ちにしない)の対象。起票して製造の時期は人が決める。
 - 未収束事項: なし(候補 4 の採否は製造裁定)。
 
-## 4. 製造・受入・クローズ(製造時に追記)
+## 4. 製造(2026-10-04・製造者 EQ-001)
 
-## 5. 裁定待ち
+- **裁定(user 2026-10-04)**: 「A」= 製造と異系統の独立検査を今回行う。
+- **製造裁定(producer・候補 4 の採否)**: 採用。理由= selftest は手動実行のみで、腕を足しても毎 push で走らなければ恒久較正にならない(ECO-039 以来の「陽性対照は常設」の原則)。
+  worklist.py と同じ形で fast job に 1 行(ubuntu / windows の両 OS で走る)。ハーネス `.github` の変更は allowed_paths に宣言済み。
+- 製造物: `method/tools/bomdd-witness.py`= `_normalize_index_flags(root, env, paths=None)`(一時 index 上で `ls-files -v -z` → S / 小文字タグ → `update-index --no-assume-unchanged` と `--no-skip-worktree` を別呼び出し・失敗は (False, 理由))/
+  `worktree_tree` の結線(複製の直後・失敗は `INDEX_NORMALIZE_FAILED`〔git 起動不能は `GIT_UNAVAILABLE`〕・exit 2)/ `TREE_CAUSES` に語彙追加 / `TREE_DEFINITION`・W1 注記(正規化と sparse の限界= ECO-092 r1 IA-03 の訂正後の文言)/
+  selftest に 4 腕(skip-worktree・assume-unchanged・対照・失敗〔index に無い path〕+語彙の存在)。`.github/workflows/self-conformance.yml`= fast job に `bomdd-witness.py --selftest` 1 行。
+  hook・receipt 形式・verify 規則・bomdd-run/job は不変。
 
-製造と異系統の独立検査(ECO-092 と同型・r1+r2)の着手時期(今回 / 別セッション)。
+## 5. 受入の実測(2026-10-04・製造者・独立検査 r1 の前)
+
+- **V1**= PASS(観測: `python method/tools/bomdd-witness.py --selftest` → `ADVANCE OK: selftest PASS(…)`・exit 0。**陽性対照**: `_normalize_index_flags` を no-op に差し替えた変異で `STOP SELFTEST_FAIL: 3 件`(kb-skip-worktree・kb-assume-unchanged・kb-normalize-fail)→ 復元で ADVANCE= 新しい腕が正規化の有無を弁別する)。
+- **V2**= PASS(観測: 本リポの作業木〔S/h 0 件〕で是正前の経路〔複製+add -A〕と `worktree_tree` が同一 tree `06c689e49997…`・err None)。
+- **V4**= PASS(観測: selftest の失敗腕= index に無い path を正規化対象に渡すと `update-index --no-assume-unchanged 失敗(exit 128・1 件)` を理由に (False, …)。本番経路では `INDEX_NORMALIZE_FAILED` に写像〔読解・`worktree_tree` の分岐〕)。
+- **V3**(検査官の sparse-checkout 環境)・**V5**〜**V7**= 独立検査とクローズで。
+
+## 6. 独立検査(クローズ時に追記)
