@@ -13,7 +13,7 @@ requirements:
     statement: <要求の宣言文(検証可能な形)>
     rationale: <なぜこの要求か。許容差・深さが決まる精度で>
     rationale_precision: ok        # ok | needs-refinement(G1 で ok に揃える)
-    classification_hint: core      # core(要求から導出可) | surface(外部知識の転記が要る)
+    classification_hint: core      # core(要求から導出可) | surface(外部知識の転記が要る) | maintainability(保守上の約束— 交換の方針・継続・復旧・許容する保守境界。人が裁定し E-BOM/53 へ結線・candidate・ECO-094/095)
     priority: must                 # must | should | could
     source_refs:                   # 人間が置いた原典資料。PLM intake から逆引きする
       - bomdd/plm-intake/<source>.md

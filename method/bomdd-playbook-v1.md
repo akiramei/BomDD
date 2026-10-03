@@ -25,13 +25,13 @@ method-v1 の装置はすべて「原版あり」で実証された。フォワ�
 
 ```
 Phase 0  チャーター            … 題材・スコープ・予算・工場構成を固定
-Phase 1  ブレインストーミング   … 要求台帳(REQ ledger)を作る
+Phase 1  ブレインストーミング   … 要求台帳(REQ ledger)を作る。保守上の約束(交換の方針・継続・復旧・許容する保守境界)も要求として人が裁定する(maintainability REQ・candidate・ECO-094 試行 N=1)
 Phase 1.5 UI/UXデザイン(GUI案件) … モック自由創作 → 受入検査(refmodel/mock-lint)→ CAD化(UI-IR/UI-BOM+双子出力)。完了条件は治具 exit code
 Phase 2  仕様化               … 仕様書+仕様完了ゲート(マルチリーダー監査)
 Phase 3  BOM・工程設計        … E/K/M-BOM・Control Plan・Routing・固定オラクル・製造パッケージ
 Phase 4  製造                 … 隔離ファクトリへパッケージのみ供与・ずる報告
 Phase 5  受入・収束            … オラクル合否+分散観測/ユーザー指摘→差分帰属→質問リスト→BOM補正→再製造
-Phase 6  引き渡し・保守        … As-Built・Service BOM
+Phase 6  引き渡し・保守        … As-Built・Service BOM(下流= 監視と再検査。上流の約束は Phase 1 の REQ に置き、53 の service_requirement_refs から参照する・candidate)
 Phase 7  変更/是正オーダー(ECO/CAPA) … 仕様変更・欠陥修正→影響分析→部分再製造→回帰(納品後の再入口)
 ```
 
@@ -454,6 +454,7 @@ Work Order(40-work-order.md)     … 製造対象・必須受入・ずる報告�
 - **As-Built**([templates/50-as-built.yaml](templates/50-as-built.yaml)): どの BOM 版を・どのモデルで・どのプロンプトで製造し、何点だったか。成果物ハッシュ・ずる参照込み(SLSA provenance の AI 製造拡張)。
 - **Service BOM**([templates/53-service-bom.yaml](templates/53-service-bom.yaml)、概念は [s-bom-template.md](s-bom-template.md)): 表面部品ごとに `依存外部知識+版 / 変更時に再実行する検査(深さ付き) / 交換判断`。劣化イベント(外部ツール更新・デザイン改定・**AI モデル更新**)から影響部品と再検査深さを逆引きする(Loop6: 価値は被覆でなく絞り込み)。
 - 納品物 = 成果物 + `bomdd/` 一式(BOM・オラクル・治具・As-Built・cheat-log)。**治具とオラクルは製品と同格**——次の改修時、これがそのまま回帰検査になる。
+- **上流の約束との結線(candidate・ECO-094 試行 N=1・ECO-095)**: Service BOM は下流(何を監視し何を再検査するか)であり、「何を約束するか」は Phase 1 の maintainability REQ に人が裁定して置く。53 の item は `service_requirement_refs`(上流 REQ への参照)と `replacement_policy`(declared-coupling= 交換しない宣言された結合 / substitutable)を candidate 欄として持ち、約束を含む E/S 版は bom_version+tag で設計リリースとして固定してから M/CP を導出する(人へ戻す判断は新しい機能・新しい約束・導出不能の 3 種だけ)。1 行の Control Plan に複数の約束の検査が同居すると、約束単位の測定不能は行の区分に現れない(OBS-20261003-03・再設計の入力)。
 
 ## 8. Phase 7 — 変更/是正オーダー(ECO/CAPA・candidate / validated ×2)
 

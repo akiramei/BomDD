@@ -3059,3 +3059,23 @@ changes:
       V1 事前登録が製品側の着手より前の commit / V2 約束が REQ として人の承認つきで固定され E/S 版が bom_rev+tag / V3 追跡表 5 辺+意味審査の記録 / V4 M1・M3・M4 の記録 /
       V5 製品側 ECO が ViewPrism2 の受入を通過 / V6 playbook・テンプレ非改訂・self-conformance・CI / V7 製造者較正のみ・較正 receipt。条件行は起票後不変・結果はクローズ節の観測行。
     producer: EQ-001
+  - id: ECO-095
+    title: ECO-094 試行の反映 — 上流の保守上の約束(maintainability REQ・E/S 版の設計リリース)を playbook 工程表と 10/53 テンプレへ candidate として置く(文書のみ)
+    date: 2026-10-03
+    origin: improvement
+    status: implemented   # 2026-10-03 user DECIDE「1:A 2:A 3:A」(ECO-094 クローズ後の反映の判断)→ 起票+製造(文書 3 ファイル・V1/V2 PASS・文書のみ・製造者較正のみ)→ implemented(verified は CI 結論の観測後)
+    source: >
+      ECO-094 verified(ViewPrism2 ECO-144 applied)の回収: 人が約束を REQ として裁定し E/S 版を tag で固定し統括 AI が CP を導出する経路が 1 機能で完走(M1 1・機械的派生 0・M2 5/5・M3 1/2・M4 0)。
+      製品で使った欄(10 の classification_hint: maintainability・53 の service_requirement_refs / replacement_policy)を candidate として配布テンプレへ。3:A= 行と vector の粒度差は再設計の入力(文書不変)。
+    order_ref: bomdd/60-change-order-eco-095.md
+    affected_refs: [method/bomdd-playbook-v1.md, method/templates/10-requirements.yaml, method/templates/53-service-bom.yaml]
+    no_impact_prediction: "(製造前・凍結)diff= playbook(§1 工程表 2 行・§7 1 項)・templates/10(コメント 1 行)・templates/53(欄 2 行)+台帳系のみ。tools・hooks・.github・schemas・contracts diff 0。C1/C7/C13/C15 判定不変。配布テンプレは次回配布時に波及・既存製品不変"
+    diff_audit:
+      baseline: "b6f5fe2"  # 起票直前 HEAD(ECO-094 クローズ commit)
+      allowed_paths: [method/bomdd-playbook-v1.md, method/templates/10-requirements.yaml, method/templates/53-service-bom.yaml, method/improvements.md, bomdd/60-change-order-eco-095.md, bomdd/60-change-register.yaml]
+    summary: >
+      ①playbook §1: Phase 1 に「保守上の約束も要求として人が裁定(maintainability REQ・candidate)」・Phase 6 に「上流の約束は Phase 1 の REQ・53 から参照」②§7 Phase 6 に結線と設計リリースの 1 項(candidate・N=1・粒度差は再設計の入力)
+      ③10 テンプレ classification_hint に maintainability ④53 テンプレ item に service_requirement_refs・replacement_policy(candidate)。採らない= 粒度差の対処・既存製品の遡及・他節・新機械検査・効果の主張。
+    verification: >
+      V1 playbook §1 の 2 行と §7 の 1 項(grep)/ V2 10・53 テンプレの欄(grep)+53 の厳格 YAML パース(C1)/ V3 diff 窓・self-conformance・CI / V4 製造者較正のみ・較正 receipt(trigger ①)。条件行は起票後不変・結果はクローズ節の観測行。
+    producer: EQ-001

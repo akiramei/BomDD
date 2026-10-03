@@ -15,6 +15,8 @@ service_bom:
       lifecycle_state: as-built
       part_ref: E-<NAME>-001            # 監視対象の部品(表面が主対象。核は外部知識非依存なら原則巻き込まない)
       classification: surface           # core | surface
+      service_requirement_refs: []      # (candidate・ECO-094/095)上流の保守上の約束= 10 の maintainability REQ への参照。上流= 何を約束するか / 本 item= 約束を守るために何を監視し何を再検査するか
+      replacement_policy: ~             # (candidate)declared-coupling= 交換しない宣言された結合(版 exact・更新は DEG として再検査)| substitutable= 交換可。方針であって実測コストではない(コストは measured_leak)
       external_deps:                    # 依存する外部知識(劣化イベントはここに紐づく)
         - kbom_ref: K-<NAME>-001
           version: v1
