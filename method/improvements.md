@@ -8272,6 +8272,15 @@ E-BOM は利用者に意味のある機能で切る・承認済み E/S 版から
 ③**範囲外の同型**: `bomdd-witness.py` の `worktree_tree` も同じ機序(複製+add -A・正規化なし)— ECO-092 の凍結範囲外・後続 ECO で同じ正規化を適用(OBS-20261003-02 の同型・同一リポのため加算しない)。
 ④ECO-093 は §0 の数え上げで templates/README L13 を見落とし(同一ファイルの L38/L51 が条件を持つため)、製造中に追加。
 
+**受入追記(2026-10-03)**: ECO-091 独立検査 r1(Codex・境界探索)= **ACCEPT**(blocking 0・non-blocking 2・境界探索 30 行で誤受入 0・誤拒否 0)。IA-01= §4 の宣言済み限界の実例を検査官が合成(期待赤行+ホスト異常の Error 同居・Failed・exit 1)—
+実 VSTest がこの形を書き切る実例は未観測で単独では REJECT にならない(較正 receipt の限界へ)。IA-02= ResultSummary の outcome 属性なしを要素不在と同じ診断文にしていた → 区別して診断(判定は FAIL のまま・較正 18 腕)。
+検査官の環境観測= fast tier が 6 分以上無出力で中断(pwsh 経由の出力バッファ)— ECO-092 のブリーフへ待ち時間を注記。ECO-093 verified(CI 37102721323 success・製造者較正のみ)。
+**ECO-094 起票**(user 裁定 1:A・事前登録つき): 保守上の約束を人が REQ として上流で裁定 → E/S 版を bom_rev+tag で設計リリース → 統括 AI が M/CP を導出(人へ戻すのは新しい機能・約束・導出不能だけ)→ 製品側で検査を製造 →
+REQ→E→M→CP→test ID→実行証拠の追跡(構造と意味を別審査)→ 振り分けリハーサル → E→M 参照方向の確認。製品の実例= ViewPrism2 の `-v2`(サービス継続の約束)が ECO-049 で下流に決まった。候補 A(E-THUMB-020)/ B(E-DB-010)は user の裁定事項。
+- [open] EXP-20261003-01 — **保守上の約束を人が上流(REQ)で裁定し、承認済み E/S 版から統括 AI が M/CP を導出する経路は、1 機能で実行可能か・責任境界は機能するか・規範から実行証拠まで到達するか**(ECO-094・ViewPrism2 1 機能): 事前登録(reports/eco-094-upstream-sbom-trial/preregistration.md)の M1(人へ戻った判断の種別— 機械的派生 0 か)・M2(REQ→E→M→CP→test→証拠の 5 辺の到達性・意味の審査は別欄)・M3(赤/測定不能の振り分け 2/2)・M4(E→M 参照 0 件)を読み方のとおり回収する。playbook・テンプレ(S-BOM の工程位置・粒度規準・設計リリース契約)への反映はこの回収の後に判断する。効果量・一般化は主張しない(N=1・同一オーナー)
+  source: ECO-094(外部レビュー 2026-10-02 論点 1・2・5 × user DECIDE「1:A」)
+  evidence: bomdd/60-change-order-eco-094.md §1・§2・bomdd/reports/eco-094-upstream-sbom-trial/preregistration.md
+
 - [watch 1/3] OBS-20261003-01 — **行の内側を測る検査器は、行の外(実行単位)の異常を見ない — C9 は個別テスト結果が期待どおり揃えば、実行の中断(Aborted)・実行基盤のエラー(RunInfo Error)・終了コードと報告の不整合があっても PASS にする。件数・空結果・期待赤集合・identity の既存の腕はいずれも行の内側を測る。1 例目: 自リポ C9(外部レビューの合成 4 腕で誤受入 2)。2 例目の条件= 別の計器(製品リポの受入実行・監督つき実行など)で、個別結果が揃えば実行単位の中断・基盤エラーを合格にする実測 1 件。OBS-20261002-02(ViewTube の常に赤の読み替え)は逆向き(常に赤を人が通す)で別物**
   source: 外部レビュー 2026-10-02 論点 8 × BomDD ECO-091 §0(機序の実読)
   evidence: bomdd/reports/external-review-20261002/verification.md・bomdd/60-change-order-eco-091.md §0

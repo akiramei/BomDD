@@ -3005,7 +3005,8 @@ changes:
     title: 製造パッケージの条件付き定義の一本化(playbook §4.6)・playbook 冒頭ステータスの正本化・phase3 の粒度規準に candidate 留保を戻す(文書のみ)
     date: 2026-10-03
     origin: improvement
-    status: implemented   # 2026-10-03 外部レビュー(2026-10-02)論点 4・P3・論点 2(文面)→ user DECIDE「2:A」→ 起票 246c2fd → 製造(7 ファイル・templates/README L13 を製造中に追加)→ V1〜V4 PASS → implemented(verified は CI 結論の観測後)
+    status: verified   # 2026-10-03 外部レビュー(2026-10-02)論点 4・P3・論点 2(文面)→ user DECIDE「2:A」→ 起票 246c2fd → 製造 e7d563b(7 ファイル・templates/README L13 を製造中に追加)→ V1〜V4 PASS → CI 37102721323 success → verified(製造者較正のみ・窓閉鎖 069e0d5→e7d563b・窓内の tools diff は ECO-091/092 に帰属・較正 receipt trigger ①)
+    receipt_author_role: producer   # ECO-077 観測欄
     source: >
       外部レビュー 2026-10-02 論点 4(G3・phase3・phase4 は 20/30〜34/40、40-work-order は UI-CAD で 35 必須 — method/ の列挙 15 箇所中 5 箇所が 35 条件を欠く)・
       P3(README は playbook を正本と明記・playbook 冒頭は「単一題材検証済み・method-v1 と未統合」のまま)・論点 2 の文面部分(playbook §4.1 は粒度規準を candidate と明示・
@@ -3015,6 +3016,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)diff= playbook(冒頭ステータス・§4.6)・phase3-design・phase4-manufacture・34-routing・40-work-order・bomdd-next+台帳系のみ。tools・hooks・.github・schemas・contracts diff 0。C7/C13/C15 判定不変。配布 templates の内容は変わるが C4/C11 は内容を検査しない。製品リポへは次回配布時に波及・既存 work order 不変"
     diff_audit:
       baseline: "069e0d5"  # 起票直前 HEAD
+      head: "e7d563b"      # diff監査済み: 窓内 15 パス= 和集合の内・本 ECO の diff は文書 7 ファイル(tools の diff は ECO-091/092 に帰属)・受入 commit は台帳系のみ
       # 同時起票の ECO-091/092/093 は baseline を共有し窓が重なるため、allowed_paths は 3 ECO の和集合(受入条件・判定は ECO ごと)。
       # 製造中の追加(§4): method/templates/README.md L13(列挙の 1 箇所・V1 の厳密化)
       allowed_paths: [method/tools/self-conformance.py, method/bomdd-playbook-v1.md, method/prompts/phase3-design.md, method/prompts/phase4-manufacture.md, method/templates/34-routing.yaml, method/templates/40-work-order.md, method/templates/product-profile/skills/bomdd-next.md, method/templates/README.md, method/improvements.md, bomdd/60-change-order-eco-091.md, bomdd/60-change-order-eco-092.md, bomdd/60-change-order-eco-093.md, bomdd/60-change-register.yaml, bomdd/reports/external-review-20261002/, bomdd/reports/independent-inspection-eco-091.md, bomdd/reports/independent-inspection-eco-091-r2.md, bomdd/reports/independent-inspection-eco-092.md, bomdd/reports/independent-inspection-eco-092-r2.md]
@@ -3025,4 +3027,27 @@ changes:
     verification: >
       V1 列挙箇所で 35 条件も §4.6 参照も持たないものが 0 件(grep+実読)/ V2 §4.6 に 35 と正本の文 / V3 冒頭に正本と実証状況・「未統合」の文なし / V4 phase3 L6 に candidate と guide 参照 /
       V5 diff 窓・self-conformance・CI / V6 製造者較正のみ・較正 receipt(trigger ①)。条件行は起票後不変・結果はクローズ節の観測行。
+    producer: EQ-001
+  - id: ECO-094
+    title: 目標モデルの試行 — 保守上の約束を人が上流で裁定し、承認済み E/S 版から M-BOM / Control Plan を導出する経路を 1 機能・1 製品(ViewPrism2)で追跡する(事前登録つき)
+    date: 2026-10-03
+    origin: improvement
+    status: filed   # 2026-10-03 外部レビュー(2026-10-02)論点 1・2・5 → user DECIDE「1:A」→ 起票+事前登録(製品側の着手は §5 の裁定〔機能と約束〕を得てから)
+    source: >
+      外部レビュー 2026-10-02 論点 1(S-BOM が Phase 6 にあり保守性要求を E/M の構造決定前に承認する入力が無い)・2(E/S の承認済み版から M/CP を導出する責任境界が独立した
+      リリース契約でない)・5(規範→実行証拠の追跡)。製品の実例= ViewPrism2 のサムネイルキャッシュ世代サフィックス -v2(サービス継続の約束)が欠陥是正 ECO-049 で下流に決まった。
+      既存の機構(REQ・E/S の参照・bom_rev+tag・register・cp_results)だけで試行し、並行する承認台帳を増やさない。playbook・テンプレの改訂は評価(EXP-20261003-01)の後。
+    order_ref: bomdd/60-change-order-eco-094.md
+    affected_refs: [method/improvements.md]
+    no_impact_prediction: "(起票時点・凍結)本リポの diff= 台帳系(order・register・improvements.md・reports/eco-094-upstream-sbom-trial/)のみ。playbook・templates・schemas・tools・hooks・.github diff 0。製品側の diff は製品側 ECO が予測する"
+    diff_audit:
+      baseline: "e7d563b"  # 起票直前 HEAD(ECO-091〜093 の製造 commit)
+      allowed_paths: [method/improvements.md, bomdd/60-change-order-eco-094.md, bomdd/60-change-register.yaml, bomdd/reports/eco-094-upstream-sbom-trial/]
+    summary: >
+      手順 7 段(人が約束を裁定 → REQ として固定し E/S 版を bom_rev+tag で設計リリース → 統括 AI が M/CP を導出〔人へ戻すのは新しい機能・新しい約束・導出不能だけ〕→ 製品側 ECO で検査を製造 →
+      REQ→E→M→CP→test ID→実行証拠の追跡〔構造と意味を別審査〕→ 赤/測定不能の振り分けリハーサル → E→M 参照方向の静的確認)。指標 M1〜M4 と読み方を事前登録。
+      候補= A: E-THUMB-020(交換可能性+サービス継続・推奨)/ B: E-DB-010(復旧・移行)。採らない= 新台帳・全製品適用・DI 一律強制・M 再編の実施・効果量の推定。
+    verification: >
+      V1 事前登録が製品側の着手より前の commit / V2 約束が REQ として人の承認つきで固定され E/S 版が bom_rev+tag / V3 追跡表 5 辺+意味審査の記録 / V4 M1・M3・M4 の記録 /
+      V5 製品側 ECO が ViewPrism2 の受入を通過 / V6 playbook・テンプレ非改訂・self-conformance・CI / V7 製造者較正のみ・較正 receipt。条件行は起票後不変・結果はクローズ節の観測行。
     producer: EQ-001

@@ -87,4 +87,37 @@ C4/C11 の煙試験は内容を検査しない(判定不変)。製品リポへ�
 - **V4**= PASS(観測: phase3-design L6 に「粒度規準(candidate・playbook §4.1)」と `method/contracts/bom-granularity-guide.md` の参照)。
 - **V5**・**V6**= §6(クローズ時)。
 
-## 6. クローズ(クローズ時に追記)
+## 6. クローズ(2026-10-03・verified・製造者較正のみ)
+
+- **V5**= PASS(観測: 製造 commit `e7d563b` — self-conformance 全 PASS〔staged・exit 0 観測後〕→ witness tree 222f53ac55ad → 入口 dry `ADVANCE ECO-093 OK` → commit → push → CI run 37102721323 **success**〔3 job・headSha e7d563b 一致〕。
+  diff 窓 `069e0d5` → `e7d563b`= 15 パス・全て 3 ECO の和集合の内。**窓内の tools の diff(self-conformance.py)は ECO-091/092 に帰属**し、本 ECO の diff は文書 7 ファイルのみ〔`git diff --stat` で +14/-11〕。窓閉鎖= head `e7d563b`。本クローズ commit は台帳系のみ)。
+- **V6**= 製造者較正のみ(独立検査なし・文書のみ)・下の較正 receipt。register: `implemented → verified`・head 凍結。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。文書のみの変更)
+
+- 査定した主張と判定:
+  1. 「製造パッケージを列挙する箇所で 35 の条件も §4.6 参照も持たないものは 0」— **observed / 適格**(grep+実読・V1。残る 7 行は列挙の目的が別〔検査・同期時点・補正先・反映先・過去記録〕)。
+  2. 「playbook §4.6 が定義の正本で、35 は UI-CAD 案件のみ必須」— **observed / 適格**(L339・L343)。
+  3. 「playbook 冒頭は正本の所在と実証状況を分けて書き、method-v1 未統合の文は無い」— **observed / 適格**(L3〜7・grep 0)。
+  4. 「phase3 の粒度規準は candidate 留保と guide 参照を持ち、E/S・粒度の方針は先取りしていない」— **observed / 適格**(L6。方針は ECO-094 の領分と order §1-5 で宣言)。
+  5. 「配布テンプレ(34・40・bomdd-next・README)の変更は製品リポへ次回配布時にのみ波及する」— **読解**(bomdd-init の配布は手動起動・既存製品の work order は不変)。
+  6. 「本 ECO の変更で製造パッケージの欠落が実際に減る」— **unknown**(実製品で 35 の欠落は未観測・効果は主張しない)。
+- 検出した計器欠陥(帰属つき): 製造物 0 件。受理側 1 件= §0 の数え上げで templates/README L13 を見落とし(同一ファイルの他行が条件を持つため)— 製造中に検出し追加(§4)。上流 0 件。
+- 検出力の限界: grep は `30[〜–-]34|20/30` の字面で、別の書き方(「30 番台」など)の列挙は拾わない。配布先製品での効果は未測定。独立検査なし。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 文書は自分の範囲(定義の正本・candidate 不格上げ・方針は先取りしない)を宣言している |
+  | Q2 | asked | observed/適格 | 実測 | 是正前の grep(5 箇所が条件を欠く)と是正後(0)を対で持つ |
+  | Q3 | asked | observed/適格 | 実測 | V1〜V4 を別々の grep・実読で確認 |
+  | Q4 | asked | observed/適格 | 実測 | 実ファイルを直接 grep(宣言 fixture なし) |
+  | Q5 | asked | observed/適格 | 実測 | 字面の限界・配布先の効果未測定・独立検査なしを分離 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI success(条件で結んだ順) |
+  | Q7 | asked | NA | — | 陽性対照なし(文書のみ) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(tree 222f53ac55ad)・commit e7d563b・CI run 37102721323 を同一個体として照合 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 6 の unknown |
+  | Q11 | asked | observed/適格 | 実測 | 列挙の目的(定義 / 検査 / 時点 / 補正先 / 反映先 / 過去記録)を分けて扱い、定義以外は不変にした |
+
+- このクローズが支持しないもの: 製造パッケージの欠落が実際に減ること / E/S の上流裁定・粒度の第一基準の方針(ECO-094)/ 配布先製品での効果 / 独立検査による確認。

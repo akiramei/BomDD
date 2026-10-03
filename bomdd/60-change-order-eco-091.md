@@ -109,4 +109,20 @@ templates・hooks・.github・schemas は diff 0。製品リポへ非波及(self
   他 3 suite は `実行単位 ok(outcome=Completed・exit 0)`。**1 回目(修正前)は loop-02-export FAIL・exit 1**= 誤拒否の実測。2 回目は `self-conformance passed`・exit 0・check 行 28〔fast 21+C18 較正 1+C9 6〕)。
 - **V4**〜**V7**= §6。
 
-## 6. クローズ(クローズ時に追記)
+## 6. 独立検査(異系統・Codex EQ-002・入口 bomdd-run から `--report`/`--range` つきで起動)
+
+### 6.1 r1(2026-10-03・range= 境界探索)— 報告: [independent-inspection-eco-091.md](reports/independent-inspection-eco-091.md)
+
+- 起動: 製造 commit `e7d563b`(witness tree 222f53ac55ad・入口 `ADVANCE ECO-091 OK → next · launching`)→ `cell exit 0` → `report ACCEPT sha256:09110e9a4b2c (EQ-002)`・台帳 `range: 境界探索`。
+  検査官の作業木: 開始・終了とも clean・commit 0・外部 API なし。
+- 判定: **ACCEPT**(blocking 0・non-blocking 2)。V1 PASS(直接較正 `[]`・17 腕)/ V2 PASS(検査官自前の検体で 4 腕)/ V3 測れなかった(`--dotnet` 省略— 製造者ログと CI が担う)/ V4 PASS(15 パスが和集合の内)。
+  境界探索 30 行: summary 語彙(Aborted / Error / Inconclusive / 未知 → FAIL)・属性なし・要素なし・RunInfo(Error×不合格行の有無・Warning/Info・複数・Text なし)・終了コード×行(負の値含む)・不合格行の定義(両経路とも `!= "Passed"`)・結線・TRX 不在経路・4 類型。誤受入 0・誤拒否 0。
+- **IA-01(non-blocking・上流= §4 の宣言済み限界の実例)**: 期待赤 1 行+Passed 1 行・総数一致・Failed・exit 1・RunInfo Error に期待失敗と「host crashed」が同居 → 行単位 PASS・実行単位 PASS。
+  検査官の判定= 実 VSTest がこの形の完成 TRX を書き切る実例は未観測のため単独では REJECT 条件を満たさない。受理側: 較正 receipt の「検出力の限界」に実例として引用する(是正しない — 文言で捕まえる手段が無く、
+  行数・Aborted・終了状態が残る防御)。
+- **IA-02(non-blocking・製造物の診断文)**: `ResultSummary` 要素はあるが `outcome` 属性が無い場合、要素不在と同じ「ResultSummary 不在」の理由になる(判定は FAIL で安全側)。
+  **是正(同日)**: `_c9_parse_trx` は属性なしを `""` で返し、`_c9_run_verdict` は「ResultSummary に outcome 属性がない」と診断(FAIL 不変)。較正に TRX 抽出 3 腕目(属性なし)を追加(較正行= 18 腕)。
+- 検査官の環境観測: fast tier の self-conformance は 6 分以上出力が無く中断(pwsh 経由の出力バッファ)。V1 は指定の代替較正で成立。ECO-092 のブリーフへ待ち時間の注記を追加。
+- 次: r2(range= 是正確認+回帰: IA-02 の是正確認・V1/V2 の回帰)。playbook §3 の規則どおり ACCEPT は是正確認+回帰の round で確定する。
+
+## 7. クローズ(クローズ時に追記)

@@ -1104,6 +1104,13 @@ def _c9_selftest() -> list[str]:
         bad.append("TRX 抽出(中断): Aborted / RunInfo Error を抽出できない")
     elif _c9_run_verdict(2, r2[2], r2[3], False)[0]:
         bad.append("known-bad: 中断 TRX(全行 Passed・Aborted・Error・終了 2)を PASS にした")
+    # 独立検査 r1 IA-02: 要素はあるが outcome 属性がない TRX — 不在(None)と区別して診断し、判定は FAIL のまま
+    trx_noattr = ('<TestRun xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">'
+                  '<Results><UnitTestResult testName="A" outcome="Passed"/></Results><ResultSummary/></TestRun>')
+    r3 = _c9_parse_trx(ET.fromstring(trx_noattr))
+    ok3, why3 = _c9_run_verdict(0, r3[2], r3[3], False)
+    if r3[2] != "" or ok3 or "属性がない" not in why3:
+        bad.append("TRX 抽出(属性なし): outcome 属性なしを不在と区別して FAIL にできない")
     return bad
 
 
@@ -1122,6 +1129,8 @@ def _c9_run_verdict(returncode, summary_outcome, run_errors, has_failed_rows) ->
     ResultSummary 不在・Completed/Failed 以外(未知の語彙を含む)・RunInfo Error・終了状態と報告の不整合は FAIL。"""
     if summary_outcome is None:
         return False, "ResultSummary 不在(実行の完了が報告されていない — 測定不能は合格ではない)"
+    if summary_outcome == "":
+        return False, "ResultSummary に outcome 属性がない(完了の報告が読めない — 測定不能は合格ではない)"
     if summary_outcome not in _C9_RUN_OK_OUTCOMES:
         return False, f"ResultSummary outcome={summary_outcome!r}(完了した実行ではない)"
     # 製造中の実測(ECO-091 §4): xUnit の VSTest アダプタは**失敗テストのメッセージ**を RunInfo outcome="Error" として
@@ -1149,7 +1158,8 @@ def _c9_parse_trx(root):
         if msg is not None and msg.text:
             messages[name] = msg.text
     summ = root.find(f"{ns}ResultSummary")
-    summary_outcome = summ.get("outcome") if summ is not None else None
+    # 要素なし= None / 要素はあるが outcome 属性なし= ""(独立検査 r1 IA-02: 両者を同じ診断文にしない)
+    summary_outcome = summ.get("outcome", "") if summ is not None else None
     run_errors = []
     for ri in root.iter(f"{ns}RunInfo"):
         if ri.get("outcome") == "Error":
@@ -1231,7 +1241,7 @@ def c9_dotnet() -> None:
         return
     check("C9", True, "計器較正(陽性対照 17 腕: 行単位 8〔正腕 3・known-bad substring 一致×identity 相違・空結果×2・parse 不能・前提検査〕"
                       "+実行単位 7〔正腕 3(正常/期待赤/期待赤の実形= RunInfo Error 同居)・known-bad 中断/行で説明できない Error/終了 0 と不合格行/ResultSummary 不在〕"
-                      "+TRX 抽出 2〔ECO-091〕)")
+                      "+TRX 抽出 3〔正常/中断/outcome 属性なし・ECO-091〕)")
     # ECO-039 b-2: 母集団の双方向突合 — 未記載 project と不存在/対象外化 entry の双方を FAIL
     found = _c9_population()
     declared = {s["project"] for s in suites}
