@@ -126,4 +126,45 @@ B が劣る点= 復旧の約束は新しい検査(バックアップ・復元)�
   - **M2**= 到達性 **5/5**([trace.md](reports/eco-094-upstream-sbom-trial/trace.md))。欄の不足= CP 行→vector→テストは文言でしか結べない(vector に ID なし・trait は行単位)/ 53 の上流参照欄・10 の保守性種別は新設(candidate)。意味の審査= gate② で人が記入。
   - **M3**= **1/2**([rehearsal.md](reports/eco-094-upstream-sbom-trial/rehearsal.md))。赤→ 違反→ 製品修正は行で見える。Skip 3(治具の不能)は行の区分に現れず合格 `(18)` のまま(実行単位の skip 件数にだけ出る)— **止まった層= 区分(行の粒度)**。原因= 1 行に複数の約束・vector が同居(導出 D2 の形の帰結)。製品・cp_results の欠陥ではない。R8 所見 1(測定系復旧はメッセージのみ)と同根。
   - **M4**= E → M 参照 **0 件**(成立)。
-- 次: gate②(golden n/a の受理+trace.md の意味審査欄の記入)→ ViewPrism2 accept → 本 ECO の V1〜V7 の観測行とクローズ・EXP-20261003-01 の回収。
+- gate②(人・2026-10-03): 「A 104:条件付き 105:合 106:合」→ ViewPrism2 `accept(eco-144)` **f622c3c**(trailer・post-condition validate 0-0・selftest-lifecycle OK・push 済み)。表の行への言及= なし(選択+意味審査 3 行)。
+
+## 8. クローズ(2026-10-03・verified・製造者較正のみ)
+
+- **V1**= PASS(観測: 事前登録 preregistration.md は BomDD 5d90ba4〔2026-10-03 06:xx〕・製品側の最初の commit は ViewPrism2 359409f〔起票・同日後刻〕— 事前登録が先。指標の意味と成功条件は着手後に変えていない〔変更の履歴= 初版のみ〕)。
+- **V2**= PASS(観測: REQ-104〜106 が 10-requirements に人の裁定 1:A 2:OK つきで固定・E-THUMB-020 requirement_refs・SB-THUMB-020 service_requirement_refs・bom_version v4.1・tag `bom-v4.1`= decide 9f32ef4)。
+- **V3**= PASS(観測: trace.md に 5 辺の表〔REQ→E→M→CP→テスト→実行証拠 sha256 793554f877aa〕と意味審査〔104 条件付き・105 合・106 合〕)。
+- **V4**= PASS(観測: M1= derivation.md〔人へ戻した判断 1・種別= 新しい保守の約束・機械的派生 0〕/ M3= rehearsal.md〔1/2・止まった層= 区分〕/ M4= trace.md〔E→M 0 件〕)。
+- **V5**= PASS(観測: ViewPrism2 ECO-144 status applied・機械受入 4 点+R8+表+gate② 受理・accept f622c3c)。
+- **V6**= PASS(観測: 本リポの窓 `e7d563b` → `813365a`= 台帳系+reports のみ〔playbook・templates・schemas・tools diff 0〕・各 commit は self-conformance exit 0 観測後・CI 97e86da / 813365a とも success。窓閉鎖= head `813365a`・本クローズ commit は台帳系のみ)。
+- **V7**= 製造者較正のみ・下の較正 receipt。register: `implemented → verified`。評価(playbook・テンプレへの反映)は EXP-20261003-01 の回収結果を入力に別途裁定(本 ECO のクローズ条件ではない)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。記録・事前登録・導出の変更)
+
+- 査定した主張と判定:
+  1. 「人が約束を上流で裁定し、統括 AI が M/CP を導出する経路は 1 機能で完走した」— **observed / 適格**(ViewPrism2 ECO-144 起票→gate 1→decide/tag→fix→gate 2→accept・同日)。
+  2. 「人へ戻した判断は新しい約束 1 件だけで、機械的派生は 0」— **observed / 適格**(derivation.md・導出で統括 AI が決めた派生 5 種を列挙し、人が後から「決めるべきだった」と判定した項目は gate 2 時点で 0)。
+  3. 「規範から実行証拠まで 5 辺が到達する」— **observed / 適格**(trace.md・各辺にファイル:行と ID・実行証拠は cp_results の sha256 と素性)。
+  4. 「赤と測定不能は製品修正 / 測定系復旧へ振り分けられる」— **observed / 条件付き適格**(赤= 行の区分「違反」で成立 / 測定不能= 行の区分に現れず 1/2。原因は行と vector の粒度差で、製品・cp_results の欠陥ではない。読み方どおり「止まった層」を記録)。
+  5. 「E は M を参照しない(責任境界の向き)」— **observed / 適格**(grep 0/0)。
+  6. 「導出した検査は約束を検査している」— **人の審査**(104 条件付き・105 合・106 合)。条件付きの内容= 更新時の再検査経路は depth G(人の承認)にしか置けない。
+  7. 「この経路は他の機能・製品でも機能する」「不具合流出が減る」— **unknown(測らない・N=1・同一オーナー)**。
+- 検出した計器欠陥(帰属つき): 製造物(本リポの記録・事前登録)0 件。受理側 1 件= improvements.md の節に C16 の hard-positive 語(gate の丸数字)を書き、検査が止めた(表記を改めて再検査・PASS)。
+  製品側= 工場の報告 BLOCKED(sandbox の NuGet 拒否・環境)/ R8 所見 3(是正 2・文書 1)。上流= 叩き台 ① が現状の宣言と食い違った(人へ戻して解消= 試行の意図どおり)。
+- 検出力の限界: 1 機能・1 製品・同一オーナー・同日。意味審査は人 1 名。測定不能のリハーサルは Skip のみ(ファイル欠落は未再演— R8 の実測で経路は確認)。工場の自己受入はフィルタ実行不能(アセンブリ直接実行で代替)。製造者較正のみ(独立検査なし)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 事前登録が「測らないこと」(効果量・一般化)を宣言し、クローズもそれを超えて主張しない |
+  | Q2 | asked | observed/適格 | 実測 | 赤(53 の版を変える)と正常の対で cp_results の区分が反転・Skip の腕で不成立を観測 |
+  | Q3 | asked | observed/適格 | 実測 | M1〜M4 を別々の記録(derivation / trace / rehearsal / grep)で測った |
+  | Q4 | asked | observed/適格 | 実測 | 実製品の実ファイル・実テスト実行(977 件)・実 commit/tag |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(効果・一般化・ファイル欠落の再演)を unknown / 限界として分離 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 → commit → push → CI(両リポ・条件で結んだ順) |
+  | Q7 | asked | NA | — | 陽性対照なし(記録 ECO)。製品側の検査には R8 の実測とリハーサルがある |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | tag bom-v4.1・commit 9f32ef4/762f001/f622c3c・cp-results sha256・CI run を同一個体として照合 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 7 の unknown |
+  | Q11 | asked | observed/適格 | 実測 | 入力クラス(約束 3 種= 交換・継続・失敗時 / 赤・Skip / 人の裁定と確認)を分けて測り、M3 の不成立をクラス別に記録 |
+
+- このクローズが支持しないもの: 他機能・他製品への一般化 / 効果量 / playbook・テンプレの改訂の是非(EXP-20261003-01 の回収結果を入力に別途裁定)/ 行と vector の粒度差の対処案の選択。

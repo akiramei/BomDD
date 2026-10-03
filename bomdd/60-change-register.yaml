@@ -3038,7 +3038,8 @@ changes:
     title: 目標モデルの試行 — 保守上の約束を人が上流で裁定し、承認済み E/S 版から M-BOM / Control Plan を導出する経路を 1 機能・1 製品(ViewPrism2)で追跡する(事前登録つき)
     date: 2026-10-03
     origin: improvement
-    status: implemented   # 2026-10-03 外部レビュー(2026-10-02)論点 1・2・5 → user DECIDE「1:A」→ 起票+事前登録 5d90ba4 → 裁定「対象は A」97e86da → 製品側 ViewPrism2 ECO-144: 起票 359409f → gate① 1:A 2:OK・承認済み E/S 版 decide 9f32ef4(tag bom-v4.1)→ fix 762f001(導出・工場製造・機械受入 977/977・表 違反 0)→ 本リポに derivation/trace/rehearsal/factory 記録 → implemented(M1 1 件・機械的派生 0 / M2 5/5 / M3 1/2〔行と vector の粒度差〕/ M4 0)。verified は製品側 gate②(golden n/a+意味審査)と accept の後
+    status: verified   # 2026-10-03 外部レビュー(2026-10-02)論点 1・2・5 → user DECIDE「1:A」→ 起票+事前登録 5d90ba4 → 裁定「対象は A」97e86da → 製品側 ViewPrism2 ECO-144: 起票 359409f → gate 1 裁定 1:A 2:OK・承認済み E/S 版 decide 9f32ef4(tag bom-v4.1)→ fix 762f001(導出・工場製造・機械受入 977/977・表 違反 0)→ 本リポに derivation/trace/rehearsal/factory 記録 813365a → gate 2「A 104:条件付き 105:合 106:合」→ accept f622c3c → verified(M1 1 件・機械的派生 0 / M2 5/5・意味審査 合 2 条件付き 1 / M3 1/2〔行と vector の粒度差〕/ M4 0・製造者較正のみ・窓閉鎖 e7d563b→813365a・較正 receipt trigger ①)。playbook・テンプレへの反映は別途裁定
+    receipt_author_role: producer   # ECO-077 観測欄
     source: >
       外部レビュー 2026-10-02 論点 1(S-BOM が Phase 6 にあり保守性要求を E/M の構造決定前に承認する入力が無い)・2(E/S の承認済み版から M/CP を導出する責任境界が独立した
       リリース契約でない)・5(規範→実行証拠の追跡)。製品の実例= ViewPrism2 のサムネイルキャッシュ世代サフィックス -v2(サービス継続の約束)が欠陥是正 ECO-049 で下流に決まった。
@@ -3048,6 +3049,7 @@ changes:
     no_impact_prediction: "(起票時点・凍結)本リポの diff= 台帳系(order・register・improvements.md・reports/eco-094-upstream-sbom-trial/)のみ。playbook・templates・schemas・tools・hooks・.github diff 0。製品側の diff は製品側 ECO が予測する"
     diff_audit:
       baseline: "e7d563b"  # 起票直前 HEAD(ECO-091〜093 の製造 commit)
+      head: "813365a"      # diff監査済み: 窓内= 台帳系+reports のみ(playbook・templates・schemas・tools diff 0)・クローズ commit は台帳系のみ
       allowed_paths: [method/improvements.md, bomdd/60-change-order-eco-094.md, bomdd/60-change-register.yaml, bomdd/reports/eco-094-upstream-sbom-trial/]
     summary: >
       手順 7 段(人が約束を裁定 → REQ として固定し E/S 版を bom_rev+tag で設計リリース → 統括 AI が M/CP を導出〔人へ戻すのは新しい機能・新しい約束・導出不能だけ〕→ 製品側 ECO で検査を製造 →
