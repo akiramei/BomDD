@@ -8265,6 +8265,13 @@ E-BOM は利用者に意味のある機能で切る・承認済み E/S 版から
 [x] method/concept claim: 「測定不能は合格ではない」= C9 の `ResultSummary` 不在・中断を合格にしていた(自リポの規則が未履行・ECO-091 で是正)/ 「座標同一性」(hash と記録の規約)= witness が検査と別の座標を証明していた(ECO-092 で是正)。contradicted / superseded: なし。
 **期待効果の棚卸し**: OBS-20261002-02(常に赤の計器の読み替え)は本件と関係しうるが、C9 は「常に緑」でなく「特定条件で緑」なので加算しない。EXP-20261002-01 は補助注記のみ(主指標不変)。新規 OBS-20261003-01・02(下記)。
 
+**製造追記(2026-10-03・ECO-091/092/093 implemented)**: ①**ECO-091 の規則 (c) を製造中の実測で狭めた** — ローカルの `--dotnet` 1 回目で期待赤 suite(loop-02-export)が FAIL。xUnit の VSTest アダプタは失敗テストのメッセージを
+`RunInfo outcome="Error"` に書く(期待赤 4 件= Error 4 件)ため、「Error が 1 件以上→ FAIL」は §1-5 で避けると宣言した「正当な suite を赤にする」側の誤りを別経路で再導入していた。converge の DoD ✔ は合成腕だけで実 TRX を読んでおらず過大(ECO-085 クローズ追記①と同型・2 例目候補だが同一リポのため加算しない)。
+是正= 「不合格行が無いのに Error」だけを FAIL にし、期待赤 suite の実形を正腕に追加。限界= 不合格行と同居する基盤エラーは Aborted・行数不一致・終了状態の不整合でしか捕まらない。
+②**ECO-092 で git の無音の分岐を実測** — `update-index --no-skip-worktree --no-assume-unchanged` を同じ呼び出しに並べると rc 0 のまま skip-worktree が残る(assume-unchanged 系の処理だけで返る)。preflight で unknown と置いた項目がそのまま顕在化した(unknown を書いておく価値の実例)。別呼び出しで是正。
+③**範囲外の同型**: `bomdd-witness.py` の `worktree_tree` も同じ機序(複製+add -A・正規化なし)— ECO-092 の凍結範囲外・後続 ECO で同じ正規化を適用(OBS-20261003-02 の同型・同一リポのため加算しない)。
+④ECO-093 は §0 の数え上げで templates/README L13 を見落とし(同一ファイルの L38/L51 が条件を持つため)、製造中に追加。
+
 - [watch 1/3] OBS-20261003-01 — **行の内側を測る検査器は、行の外(実行単位)の異常を見ない — C9 は個別テスト結果が期待どおり揃えば、実行の中断(Aborted)・実行基盤のエラー(RunInfo Error)・終了コードと報告の不整合があっても PASS にする。件数・空結果・期待赤集合・identity の既存の腕はいずれも行の内側を測る。1 例目: 自リポ C9(外部レビューの合成 4 腕で誤受入 2)。2 例目の条件= 別の計器(製品リポの受入実行・監督つき実行など)で、個別結果が揃えば実行単位の中断・基盤エラーを合格にする実測 1 件。OBS-20261002-02(ViewTube の常に赤の読み替え)は逆向き(常に赤を人が通す)で別物**
   source: 外部レビュー 2026-10-02 論点 8 × BomDD ECO-091 §0(機序の実読)
   evidence: bomdd/reports/external-review-20261002/verification.md・bomdd/60-change-order-eco-091.md §0

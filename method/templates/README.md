@@ -10,7 +10,7 @@ YAML の語彙は v2 実証リポジトリ([BomDD-WebApi-Sample](https://github.
 | 00 | [00-charter.md](00-charter.md) | Phase 0 チャーター | 設計者 |
 | 10 | [10-requirements.yaml](10-requirements.yaml) | Phase 1 要求台帳 | 設計者 |
 | 20 | [20-spec.md](20-spec.md) | Phase 2 仕様書 | 設計者→**製造パッケージに含む** |
-| UI | [ui-mock-extraction/](../bomdd-kit/method/templates/ui-mock-extraction/) | Phase 2–3 UIモック抽出(candidate) | 設計者(E-BOM 前段。工場へ渡す場合は20/30–34へ昇格後) |
+| UI | [ui-mock-extraction/](../bomdd-kit/method/templates/ui-mock-extraction/) | Phase 2–3 UIモック抽出(candidate) | 設計者(E-BOM 前段。工場へ渡す場合は 20/30–34〔UI-CAD 案件は 35 も〕へ昇格後 — 製造パッケージの定義の正本= playbook §4.6) |
 | UI | [ui/README.md](ui/README.md) | Phase 2–3 UI標準配置 | 設計者(`bomdd/ui/` の入口) |
 | DB | [db/schema-intent.md](db/schema-intent.md) | Phase 2–3 DB/永続化意図 | 設計者(E-BOM/M-BOM/Control Plan 前段) |
 | 30 | [30-ebom.yaml](30-ebom.yaml) | Phase 3 E-BOM | 製造パッケージ |

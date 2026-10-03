@@ -87,4 +87,26 @@ templates・hooks・.github・schemas は diff 0。製品リポへ非波及(self
   Error と Aborted は否定する — 否定する側だけを判定語にする(過剰検出は出口があるが、ここでは本物の赤を生まない側を選ぶ)。
 - 未収束事項: なし。
 
-## 4. 製造・受入・クローズ(製造時に追記)
+## 4. 製造(2026-10-03・製造者 EQ-001)
+
+- 製造物(`method/tools/self-conformance.py`): `_c9_run_verdict(returncode, summary_outcome, run_errors, has_failed_rows)`(純関数)/ `_c9_parse_trx(root)`(行・Message・`ResultSummary@outcome`・`RunInfo[@outcome='Error']/Text` の抽出)/
+  `c9_dotnet` の結線(行単位 AND 実行単位・FAIL 時は `実行単位の異常(exit N): <理由>` を check 行へ・PASS 時は `実行単位 ok(outcome=…・exit N)`)/ `_c9_selftest` に実行単位 7 腕+TRX 抽出 2 腕(較正行= 17 腕)。
+  行単位の判定 `_c9_suite_verdict` は不変。
+- **製造中の発見(規則 (c) の修正 — §1 は凍結のまま・逸脱は本節に記録)**: ローカルの `--dotnet` 1 回目で **loop-02-export(期待赤 suite)が FAIL**(`実行単位の異常(exit 1): run-level Error 4 件: '[xUnit.net 00:00:00.68] MoviePad.ExportSlice.Tests.ExportSliceTests.B10_Filt…'`)。
+  機序= xUnit の VSTest アダプタは**失敗テストのメッセージ**を `RunInfo outcome="Error"` として TRX に書く(期待赤 4 件= RunInfo Error 4 件)。起票時の (c)「Error が 1 件以上 → FAIL」は、
+  §1-5 で「採らない」と宣言した**正当な suite を赤にする側の誤り**を、別の経路で再導入していた。converge receipt の DoD「✔ 期待赤 suite を赤にしない」は合成腕でしか確かめておらず、
+  実 TRX を 1 本も読んでいなかった(DoD の ✔ が過大 — ECO-085 クローズ追記①と同型)。是正= (c) を「**不合格行が無いのに** RunInfo Error がある → FAIL」に狭め、不合格行がある suite の Error は
+  付随メッセージとみなす。較正に「期待赤 suite の実形(終了 1・Failed・RunInfo Error 4・不合格行あり)= PASS」の正腕を追加。**検出力の限界(較正 receipt へ)**: 不合格行と同居する実行基盤の
+  エラーは outcome=Aborted・行数不一致(既存 `total_ok`)・終了状態の不整合でしか捕まらない。レビューの 4 腕はいずれも「不合格行なし」側のため判定は不変(FAIL のまま)。
+- 製造者ローカルで `--dotnet` が走ること= 実測(preflight の unknown を解消・V3 はローカルと CI の両方で測れる)。
+
+## 5. 受入の実測(2026-10-03・製造者・独立検査 r1 の前)
+
+- **V1**= PASS(観測: 2 回目の全検査ログ `[C9] PASS 計器較正(陽性対照 17 腕: 行単位 8 … +実行単位 7 … +TRX 抽出 2〔ECO-091〕)`。1 回目のログは規則 (c) 修正前・16 腕)。
+- **V2**= PASS(製造者の検体 `c9_arms.py`: 正常対照= 行単位 PASS・実行単位 PASS / 異常対照= 行単位 FAIL / 中断(Aborted・Error・exit 2)= 実行単位 FAIL「outcome='Aborted'」/
+  実行エラー(Failed・Error・exit 1・全行 Passed)= 実行単位 FAIL「不合格行が無いのに run-level Error 1 件」。独立検査官が自前の検体で再測する)。
+- **V3**= PASS(観測: 2 回目の全検査ログ — 4 suite とも `[C9] PASS`・loop-02-export は `26/30 合格・期待赤 4 件一致=True・identity 突合 4 件・signature 補助 4 件・実行単位 ok(outcome=Failed・exit 1)`・
+  他 3 suite は `実行単位 ok(outcome=Completed・exit 0)`。**1 回目(修正前)は loop-02-export FAIL・exit 1**= 誤拒否の実測。2 回目は `self-conformance passed`・exit 0・check 行 28〔fast 21+C18 較正 1+C9 6〕)。
+- **V4**〜**V7**= §6。
+
+## 6. クローズ(クローズ時に追記)

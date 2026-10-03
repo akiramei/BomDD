@@ -68,4 +68,23 @@ C4/C11 の煙試験は内容を検査しない(判定不変)。製品リポへ�
 - 敵対自問: 「参照に置き換えると読み手が §4.6 まで飛ぶ手間が増える」— 一覧を残す箇所は 35 の条件を同梱するので飛ばなくても足りる。参照は「正本がどこか」を示すため。
 - 未収束事項: なし。
 
-## 4. 製造・受入・クローズ(製造時に追記)
+## 4. 製造(2026-10-03・製造者 EQ-001)
+
+- 製造物(7 ファイル・+14/-11 行): playbook 冒頭ステータス(正本・実証状況・candidate 不格上げの 3 文に分離)/ playbook §4.6(定義の正本の宣言+35 の条件付き品目)/
+  phase3-design L6(粒度規準(candidate・playbook §4.1)・E-BOM は guide の機能・責務・M-BOM unit の規準を分離)・L23(G3 の参照)/ phase4-manufacture L8 / 34-routing L10 / 40-work-order L17(正本参照の注記)/
+  bomdd-next L16 / **templates/README L13**(製造中の追加: 「工場へ渡す場合は 20/30–34 へ昇格後」の列挙 1 箇所 — §0 の 15 箇所の数え上げで L38・L51 の条件を持つ同一ファイルとして見落としていた。
+  V1 の厳密化のため同梱し、register の affected_refs / allowed_paths に追加)。
+- 製造中の発見: ①templates/README L13 の見落とし(上記)②残る列挙 7 行(plm-ready-contract L269 必須成果物の検査・example-session-log L174 過去記録・phase5-accept L13 補正先・
+  s-bom-template L54 層別出現・00-charter L76 同期タイミング・36-ui-dictionary L14 と templates/README L22 canonical 名の反映先)は製造パッケージの定義ではなく、§1-2 の宣言どおり不変。
+
+## 5. 受入の実測(2026-10-03・製造者)
+
+- **V1**= PASS(観測: `grep -rnE '30[〜–-]34|20/30' method/` から improvements.md を除き、`35` も `§4.6` も持たない行は上記 7 行のみで、いずれも製造パッケージの列挙ではない。
+  製造パッケージを列挙する 8 箇所〔playbook §4.6・phase3 L23・phase4 L8・34-routing L10・40-work-order L17/L21・bomdd-next L16・templates/README L13/L38/L51・developer-navigation L91〕は全て 35 の条件か §4.6 参照を持つ)。
+- **V2**= PASS(観測: playbook L339「本節が製造パッケージの定義の正本」・L343「Design System BOM(35)… UI-CAD 案件のみ必須」)。
+- **V3**= PASS(観測: playbook L3〜7 に「現行の方法論の正本(README・2026-09-02 裁定で一本化)」「実証状況(正本であることとは別に読む)… forward-01〜04・scale-01・transfer-01〜03」
+  「candidate を実証済みへ格上げしない」。`grep -c 'まだ統合しない'`= 0)。
+- **V4**= PASS(観測: phase3-design L6 に「粒度規準(candidate・playbook §4.1)」と `method/contracts/bom-granularity-guide.md` の参照)。
+- **V5**・**V6**= §6(クローズ時)。
+
+## 6. クローズ(クローズ時に追記)

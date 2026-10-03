@@ -1,8 +1,10 @@
 # BomDD Playbook v1 — フォワード・モード実践手順(prescriptive draft)
 
-> **ステータス**: prescriptive / **単一題材検証済み(single-case validated)・一般化は未検証**。
-> 本書は [bomdd-method-v1.md](bomdd-method-v1.md)(N=3 で実証済みの規則)を、**原版が存在しない新規開発**(ブレインストーミング→仕様→BOM→AI製造)へ移植した実践手順である。
-> 検証状況: グリーンフィールド1題材(図書貸出 API・SQLite 永続化)で、初回製造(forward-01: opus/sonnet 20/20・未規定残渣 0)→仕様昇格の転移(rev2: fresh 23/23)→変更オーダー(forward-01.5: 回帰 0・移行 4/4・不要改変 0)まで一周した([../FINDINGS.md](../FINDINGS.md) §7、証拠リポ [BomDD-LibraryLending-Sample](https://github.com/akiramei/BomDD-LibraryLending-Sample))。**N=1 につき一般化はしない**(題材横断の再現が次の検証対象)。method-v1(実証された規則だけの薄い正規版)とはまだ統合しない。両者を混同しない。
+> **ステータス**: prescriptive / **現行の方法論の正本**([../README.md](../README.md)・2026-09-02 裁定で一本化)。[bomdd-method-v1.md](bomdd-method-v1.md) は v1 実証時点(MoviePad 7 ループ)の**凍結スナップショット**で、現行規範ではない(由来の参照資料)。
+> 本書は method-v1 の規則を、**原版が存在しない新規開発**(ブレインストーミング→仕様→BOM→AI製造)へ移植した実践手順である。
+> **実証状況(正本であることとは別に読む)**: 初回は 1 題材(図書貸出 API・forward-01: opus/sonnet 20/20 → rev2: fresh 23/23 → forward-01.5: 回帰 0・移行 4/4)で一周し、
+> その後 forward-01〜04・scale-01・transfer-01〜03(N=3・ベンダー横断・説明介入ゼロ)で再現した([../FINDINGS.md](../FINDINGS.md) §7/9/11)。
+> **各節の `candidate` 表示は実証状況の正本であり、正本化を理由に candidate を実証済みへ格上げしない**(ECO-093・外部レビュー 2026-10-02 P3)。
 
 ## 0. リバース→フォワードの置換表(本書の設計原理)
 
@@ -334,10 +336,11 @@ M-BOM 確定**前**に(Loop4):
 - Routing: 読む→核製造→表面製造→自己受入→As-Built 記録、の工程列。治具・測定器(受入ハーネス)は製品 BOM と同格に管理(Loop2.5,3,5)。
 
 ### 4.6 製造パッケージと完了ゲート G3 — ドライラン(転用仮説)
-**製造パッケージ** = 製造装置に渡す全部。これ以外を渡さない:
+**製造パッケージ** = 製造装置に渡す全部。これ以外を渡さない。**本節が製造パッケージの定義の正本**(ECO-093)— 他の文書(phase3/phase4 プロンプト・34-routing・40-work-order・スキル)は本節を参照し、一覧を複製しない(複製する場合は条件付き品目も同梱する):
 ```
 仕様書(20-spec.md)               … 契約と不変条件の典拠
 E-BOM / K-BOM / M-BOM / Control Plan / Routing(30〜34)
+Design System BOM(35)            … **UI-CAD 案件のみ必須**(coverage matrix に missing を残さない・§4.1)
 Work Order(40-work-order.md)     … 製造対象・必須受入・ずる報告義務の明示
 観測契約(該当題材のみ)           … emit すべき正規化出力の形
 ```

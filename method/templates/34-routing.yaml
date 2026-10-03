@@ -7,7 +7,7 @@ routing:
   id: ROUTING-<NAME>-001
   purpose: <この工程列の目的>
   lifecycle_state: draft                # draft | ready-for-plm | manufacturing-ready | retired
-  factory_isolation: 製造装置には本パッケージ(20/30-34/40+観測契約)のみ供与。設計対話・オラクル・他工場成果は非開示
+  factory_isolation: 製造装置には製造パッケージ(定義の正本= playbook §4.6。20/30-34/40+観測契約・UI-CAD 案件は 35 も)のみ供与。設計対話・オラクル・他工場成果は非開示
   cheat_report: BOM/K-BOM/Control Plan から導けなかった判断は実装を止めず全件 cheat-log 形式で報告する
   steps:
     - order: 1

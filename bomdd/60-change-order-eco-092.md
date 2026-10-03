@@ -75,4 +75,29 @@ C18 の NA 宣言(CI)は不変 — 較正行は NA 判定の前に出す。
   通るが、それは検査済み tree なので実害はない。削除するのは「書けない理由を見せる」ため(温度計)— 判定の意味は変えない。
 - 未収束事項: なし(`update-index` の作用先は製造時の実測項目・代替案あり)。
 
-## 4. 製造・受入・クローズ(製造時に追記)
+## 4. 製造(2026-10-03・製造者 EQ-001)
+
+- 製造物(`method/tools/self-conformance.py`): `_witness_tree(root, git_dir) -> (tree | None, why)`(複製 → `ls-files -v -z` で `S` / 小文字タグの path を抽出 → 一時 index 上で
+  `update-index --no-assume-unchanged -z --stdin` と `update-index --no-skip-worktree -z --stdin` を**別々に** → `add -A` → `write-tree`。各 git の非 0 は `(None, why)`)/
+  `_witness_selftest()`(3 腕・`_cleanup_tmp` で後片付け)/ `_write_selfconf_witness`(`(None, why)` のとき `witness.unlink(missing_ok=True)`+`[witness] 書出し省略(判定不変・証明しない・ECO-092): <why>` を stdout と stderr へ)/
+  `c18_prepush_witness` 冒頭に較正行(NA 判定の前・CI でも実測)/ C18 の限界宣言に (6) を追記。hook は不変。
+- **製造中の発見(preflight の unknown が顕在化)**: `update-index --no-skip-worktree --no-assume-unchanged -z --stdin` を**同じ呼び出し**に並べると、git 2.47.1 は rc 0 を返すが
+  skip-worktree のフラグが残る(一時 index の `ls-files -v` が `S` のまま・tree の blob= index の bytes)。Git Bash で引数の与え方 3 変種(path 引数 / `--stdin` / `-z --stdin`)を
+  **`--no-skip-worktree` 単独**で試すと全て効く(blob= 作業ツリー)。update-index の実装は assume-unchanged 系の指定があればその処理だけで返る分岐を持つ(片方のみ適用・無音)。
+  是正= 2 つのオプションを別々の呼び出しにする(§1-1 の「正規化」の手段の修正・範囲は不変)。代替案(`read-tree HEAD` から一時 index を作る)も実測で有効だったが、
+  §1 の宣言どおり正規化で実装した(実 index の複製を基礎にする方が、intent-to-add・staged 削除などの既存の扱いを変えない)。
+- **範囲外の発見**: `method/tools/bomdd-witness.py` の `worktree_tree`(運転層の receipt が束縛する tree・W1「C18 と同一の定義」)も同じ機序(実 index の複製 → `add -A`・フラグ正規化なし)を持つ。
+  本 ECO の凍結範囲(self-conformance.py)の外。是正後は `S`/`h` entry がある作業木で両者の tree が食い違う(bomdd-witness は自分の produce/verify で自己整合するため機械は止まらないが、
+  証明する bytes は index 側のまま)。後続 ECO で同じ正規化を適用する(OBS-20261003-02 の同型・同一リポのため件数には加算しない)。
+
+## 5. 受入の実測(2026-10-03・製造者・独立検査 r1 の前)
+
+- **V1**= PASS(観測: 較正 3 腕を関数で直接実行 — `skip-worktree 腕(tree の blob= 作業ツリー・実 index 不変)=True・対照腕=True・失敗腕(書かない)=True`。
+  是正前の 1 回目は skip-worktree 腕= False(上記の発見)→ 2 呼び出しに分けて True。本番の全検査(`--dotnet` 込み・2 回目)で
+  `[C18] PASS witness 較正 skip-worktree 腕(tree の blob= 作業ツリー・実 index 不変)=True・対照腕=True・失敗腕(書かない)=True` を観測・`self-conformance passed`・exit 0・witness 書出し `54a560248930…`)。
+- **V2**= PASS(観測: 本リポの作業木〔`S`/`h` entry 0 件〕で、是正前の経路〔複製+add -A+write-tree〕と `_witness_tree(ROOT, git_dir)` の tree が同一 `90038fb334139243c6a5d36c274b1aadac97b8d0`・why=「フラグ正規化 0 件」)。
+- **V3**= PASS(観測: 隔離リポで `.git/index` を `b"garbage"` で上書き〔実の git 失敗〕→ `ls-files 失敗(exit 128): fatal: … index file smaller t…` を why として `(None, why)` →
+  事前に置いた stale witness `deadbeef\nPASS\n` が**削除**され、stdout と stderr に同一の `[witness] 書出し省略(判定不変・証明しない・ECO-092): …` 行。正常経路では witness が書かれ出力なし)。
+- **V4**〜**V7**= §6。
+
+## 6. クローズ(クローズ時に追記)

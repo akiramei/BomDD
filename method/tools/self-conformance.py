@@ -1071,7 +1071,91 @@ def _c9_selftest() -> list[str]:
                                    {"A": "Passed", "B": "Passed"}, {})
     if not ok_g:
         bad.append("正腕: 正常 suite(2/2 合格)を受理できない")
+    # ECO-091: 実行単位(行の外)の判定の対の腕 — 外部レビュー 2026-10-02 論点 8 の合成 4 腕を恒久化。
+    # ラベルの根拠= 是正前の c9_dotnet は後半 2 腕(中断・実行エラー)を PASS にしていた(レビューの実測・当方の読解)。
+    run_arms = (
+        ("正腕: 正常完了(終了 0・Completed・不合格行なし)", (0, "Completed", [], False), True),
+        ("正腕: 期待どおりの失敗(終了 1・Failed・不合格行あり)", (1, "Failed", [], True), True),
+        ("known-bad: 行出力後の中断(終了 2・Aborted・run-level Error)", (2, "Aborted", ["abort"], False), False),
+        ("known-bad: 実行エラー+終了 1+全行合格(不合格行で説明できない Error)", (1, "Failed", ["err"], False), False),
+        ("known-bad: 終了 0 なのに不合格行がある", (0, "Failed", [], True), False),
+        ("known-bad: ResultSummary 不在(測定不能)", (0, None, [], False), False),
+        # 製造中の実測(§4): 期待赤 suite の実形 — xUnit アダプタが失敗メッセージを RunInfo Error に書く(loop-02-export: Error 4・exit 1・Failed)
+        ("正腕: 期待赤 suite の実形(終了 1・Failed・RunInfo Error 4・不合格行あり)", (1, "Failed", ["e1", "e2", "e3", "e4"], True), True),
+    )
+    for label, args, want in run_arms:
+        got, _ = _c9_run_verdict(*args)
+        if got != want:
+            bad.append(f"{label}: 期待={'PASS' if want else 'FAIL'} 実測={'PASS' if got else 'FAIL'}")
+    # 合成 TRX 文書で抽出を実測(プロセスと TRX の境界 — 実 .NET のクラッシュは再現しない・宣言した入力で測る)
+    trx_ok = ('<TestRun xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">'
+              '<Results><UnitTestResult testName="A" outcome="Passed"/></Results>'
+              '<ResultSummary outcome="Completed"><Counters total="1" executed="1" passed="1" failed="0"/></ResultSummary></TestRun>')
+    trx_abort = ('<TestRun xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">'
+                 '<Results><UnitTestResult testName="A" outcome="Passed"/></Results>'
+                 '<ResultSummary outcome="Aborted"><Counters total="1" executed="1" passed="1" failed="0"/>'
+                 '<RunInfos><RunInfo computerName="x" outcome="Error"><Text>host crashed</Text></RunInfo></RunInfos>'
+                 '</ResultSummary></TestRun>')
+    r1 = _c9_parse_trx(ET.fromstring(trx_ok))
+    if not (r1[0] == {"A": "Passed"} and r1[2] == "Completed" and r1[3] == []):
+        bad.append("TRX 抽出(正常): 行・outcome・Error の抽出が期待と異なる")
+    r2 = _c9_parse_trx(ET.fromstring(trx_abort))
+    if not (r2[0] == {"A": "Passed"} and r2[2] == "Aborted" and r2[3] == ["host crashed"]):
+        bad.append("TRX 抽出(中断): Aborted / RunInfo Error を抽出できない")
+    elif _c9_run_verdict(2, r2[2], r2[3], False)[0]:
+        bad.append("known-bad: 中断 TRX(全行 Passed・Aborted・Error・終了 2)を PASS にした")
     return bad
+
+
+# ECO-091: 実行単位の判定(行の外の異常)— 外部レビュー 2026-10-02 論点 8。
+# 行単位の判定(_c9_suite_verdict)は UnitTestResult 行の内側しか測らず、期待件数の行が揃えば
+# 中断(ResultSummary@outcome=Aborted)・実行基盤のエラー(RunInfo@outcome=Error)・終了コードと報告の
+# 不整合があっても PASS にしていた(合成 4 腕で誤受入 2)。一律の「終了 0 必須」は期待赤 suite
+# (loop-02-export は意図的な赤 4 件で正当に非 0 終了)を赤にするため採らず、「終了 0 ⇔ 不合格行なし」の
+# 整合で測る(VSTest / MTP の終了コード体系に依存しない)。Warning は実行の完了を否定しないため判定語にしない。
+_C9_RUN_OK_OUTCOMES = ("Completed", "Failed")
+_C9_TRX_NS = "{http://microsoft.com/schemas/VisualStudio/TeamTest/2010}"
+
+
+def _c9_run_verdict(returncode, summary_outcome, run_errors, has_failed_rows) -> tuple[bool, str]:
+    """1 suite の実行単位の判定(純関数・selftest で腕を立てる)。返り値= (ok, 理由)。
+    ResultSummary 不在・Completed/Failed 以外(未知の語彙を含む)・RunInfo Error・終了状態と報告の不整合は FAIL。"""
+    if summary_outcome is None:
+        return False, "ResultSummary 不在(実行の完了が報告されていない — 測定不能は合格ではない)"
+    if summary_outcome not in _C9_RUN_OK_OUTCOMES:
+        return False, f"ResultSummary outcome={summary_outcome!r}(完了した実行ではない)"
+    # 製造中の実測(ECO-091 §4): xUnit の VSTest アダプタは**失敗テストのメッセージ**を RunInfo outcome="Error" として
+    # TRX に書く(loop-02-export の期待赤 4 件= RunInfo Error 4 件・exit 1)。Error の実在だけで FAIL にすると期待赤 suite を
+    # 赤にする(誤拒否)ため、「不合格行が無いのに Error がある」= 行で説明できない実行単位のエラーだけを FAIL にする。
+    # 不合格行がある suite の Error は不合格行の付随メッセージとみなす(検出力の限界: 不合格行と同居する基盤エラーは
+    # outcome=Aborted か終了状態の不整合でしか捕まらない)。
+    if run_errors and not has_failed_rows:
+        return False, f"不合格行が無いのに run-level Error {len(run_errors)} 件: {run_errors[0][:80]!r}"
+    if returncode == 0 and has_failed_rows:
+        return False, "終了 0 だが不合格行がある(終了状態と報告の不整合)"
+    if returncode != 0 and not has_failed_rows:
+        return False, f"終了 {returncode} だが不合格行がない(行の外の異常)"
+    return True, "ok"
+
+
+def _c9_parse_trx(root):
+    """TRX から (results, messages, summary_outcome, run_errors) を抽出する(ECO-091 で関数化・合成文書で較正)。"""
+    ns = _C9_TRX_NS
+    results, messages = {}, {}
+    for r in root.iter(f"{ns}UnitTestResult"):
+        name = r.get("testName")
+        results[name] = r.get("outcome")
+        msg = r.find(f".//{ns}Message")
+        if msg is not None and msg.text:
+            messages[name] = msg.text
+    summ = root.find(f"{ns}ResultSummary")
+    summary_outcome = summ.get("outcome") if summ is not None else None
+    run_errors = []
+    for ri in root.iter(f"{ns}RunInfo"):
+        if ri.get("outcome") == "Error":
+            txt = ri.find(f"{ns}Text")
+            run_errors.append((txt.text or "").strip() if txt is not None else "(Text なし)")
+    return results, messages, summary_outcome, run_errors
 
 
 def _c9_suite_verdict(suite: dict, results: dict, messages: dict):
@@ -1145,7 +1229,9 @@ def c9_dotnet() -> None:
     if st:
         check("C9", False, f"計器較正不成立(陽性対照): {st}")
         return
-    check("C9", True, "計器較正(陽性対照 8 腕: 正腕 3・known-bad〔substring 一致×identity 相違・空結果×2〕・parse 不能・前提検査)")
+    check("C9", True, "計器較正(陽性対照 17 腕: 行単位 8〔正腕 3・known-bad substring 一致×identity 相違・空結果×2・parse 不能・前提検査〕"
+                      "+実行単位 7〔正腕 3(正常/期待赤/期待赤の実形= RunInfo Error 同居)・known-bad 中断/行で説明できない Error/終了 0 と不合格行/ResultSummary 不在〕"
+                      "+TRX 抽出 2〔ECO-091〕)")
     # ECO-039 b-2: 母集団の双方向突合 — 未記載 project と不存在/対象外化 entry の双方を FAIL
     found = _c9_population()
     declared = {s["project"] for s in suites}
@@ -1168,17 +1254,16 @@ def c9_dotnet() -> None:
             if not trx.exists():
                 check("C9", False, f"{proj}: trx が生成されない (dotnet exit {p.returncode})")
                 continue
-            ns = "{http://microsoft.com/schemas/VisualStudio/TeamTest/2010}"
             root = ET.parse(trx).getroot()
-            results, messages = {}, {}
-            for r in root.iter(f"{ns}UnitTestResult"):
-                name = r.get("testName")
-                results[name] = r.get("outcome")
-                msg = r.find(f".//{ns}Message")
-                if msg is not None and msg.text:
-                    messages[name] = msg.text
+            results, messages, summary_outcome, run_errors = _c9_parse_trx(root)
             ok_s, summary, detail = _c9_suite_verdict(suite, results, messages)
-            check("C9", ok_s, f"{proj}: {summary}{detail}")
+            # ECO-091: 実行単位(行の外)の判定を行単位と AND で結ぶ — 中断・run-level Error・終了状態と報告の不整合は
+            # 行が揃っていても FAIL。期待赤 suite は「不合格行あり+非 0」で通る(一律の終了 0 要求はしない)。
+            has_failed_rows = any(o != "Passed" for o in results.values())
+            ok_r, why_r = _c9_run_verdict(p.returncode, summary_outcome, run_errors, has_failed_rows)
+            run_note = (f"・実行単位 ok(outcome={summary_outcome}・exit {p.returncode})" if ok_r
+                        else f" 実行単位の異常(exit {p.returncode}): {why_r}")
+            check("C9", ok_s and ok_r, f"{proj}: {summary}{run_note}{detail}")
         finally:
             _cleanup_tmp(tmp)
 
@@ -1676,17 +1761,17 @@ def c17_calibrate_receipt() -> None:
 #       (ECO-045 の NA 思想 — SKIP と PASS を同義にしない)。
 #   (5) 突合対象は refs/heads/* のみ — 歴史タグ等(push.followTags の同送を含む)は当時の
 #       検査対象であり witness は現 tree のみを覆うため対象外(タグ単独 push は被覆外)。
+#   (6) ECO-092: skip-worktree / assume-unchanged のフラグは一時 index 上で外してから add -A する
+#       (フラグ付き entry は add が更新せず、検査が読んだ作業ツリーでなく index の bytes を証明していた —
+#       外部レビュー 2026-10-02 論点 9・隔離リポで再現)。sparse-checkout(skip-worktree を大量に使う)では
+#       sparse 外の path が作業ツリーに無く削除として記録され commit tree と不一致= 遮断(安全側・本リポ未使用)。
+#       git の非 0 で witness は書かず、古い witness も削除し、理由を [witness] 行で出す(無音にしない)。
 
-def _write_selfconf_witness() -> None:
-    """全検査 PASS 時に検査対象 tree の witness を書く(ECO-046)。防御用であり検査結果に
-    影響させない — git 外・書込不能なら黙って省略(pre-push 側が witness 不在を遮断する)。"""
+def _witness_tree(root: Path, git_dir: Path) -> tuple[str | None, str]:
+    """検査対象 tree(追跡対象+追加可能ファイルの worktree 内容)を一時 index で計算する(ECO-046・ECO-092)。
+    実 index を複製 → skip-worktree / assume-unchanged のフラグを**一時 index 上で**外す → add -A → write-tree。
+    実 index は触らない。git の非 0 は (None, why)= 証明しない。純関数に近い形にして C18 の較正腕で実測する。"""
     try:
-        gd = run(["git", "-C", str(ROOT), "rev-parse", "--git-dir"])
-        if gd.returncode != 0:
-            return
-        git_dir = Path(gd.stdout.strip())
-        if not git_dir.is_absolute():
-            git_dir = ROOT / git_dir
         with tempfile.TemporaryDirectory() as td:
             tmp_index = Path(td) / "index"
             src_index = git_dir / "index"
@@ -1694,20 +1779,106 @@ def _write_selfconf_witness() -> None:
                 shutil.copy2(src_index, tmp_index)
             env = os.environ.copy()
             env["GIT_INDEX_FILE"] = str(tmp_index)
-            run(["git", "-C", str(ROOT), "add", "-A"], env=env)
-            wt = run(["git", "-C", str(ROOT), "write-tree"], env=env)
+            ls = run(["git", "-C", str(root), "ls-files", "-v", "-z"], env=env)
+            if ls.returncode != 0:
+                return None, f"ls-files 失敗(exit {ls.returncode}): {ls.stderr.strip()[:80]}"
+            # -v のタグ: H= 通常 / S= skip-worktree / 小文字= assume-unchanged(h・s …)
+            flagged = [e[2:] for e in ls.stdout.split("\0")
+                       if len(e) > 2 and (e[0] == "S" or e[0].islower())]
+            # 製造中の実測(ECO-092 §4): --no-assume-unchanged と --no-skip-worktree を**同じ呼び出し**に並べると
+            # git(2.47)は assume-unchanged 側の処理だけで返り skip-worktree が残る(rc 0 のまま — 無音)。別々に呼ぶ。
+            for opt in ("--no-assume-unchanged", "--no-skip-worktree"):
+                if not flagged:
+                    break
+                ui = run(["git", "-C", str(root), "update-index", opt, "-z", "--stdin"],
+                         env=env, input="\0".join(flagged) + "\0")
+                if ui.returncode != 0:
+                    return None, f"update-index {opt}(フラグ正規化 {len(flagged)} 件)失敗(exit {ui.returncode}): {ui.stderr.strip()[:80]}"
+            ad = run(["git", "-C", str(root), "add", "-A"], env=env)
+            if ad.returncode != 0:
+                return None, f"add -A 失敗(exit {ad.returncode}): {ad.stderr.strip()[:80]}"
+            wt = run(["git", "-C", str(root), "write-tree"], env=env)
             if wt.returncode != 0:
-                return
-            tree = wt.stdout.strip()
+                return None, f"write-tree 失敗(exit {wt.returncode}): {wt.stderr.strip()[:80]}"
+            return wt.stdout.strip(), f"フラグ正規化 {len(flagged)} 件"
+    except OSError as e:
+        return None, f"{e.__class__.__name__}: {str(e)[:80]}"
+
+
+def _witness_selftest() -> tuple[bool, str]:
+    """ECO-092 の陽性対照 3 腕(毎回実測・CI でも走らせる — 関数の性質であり環境の性質ではない):
+    ①skip-worktree 付き entry(index= 不正 bytes・作業ツリー= 正しい bytes)でも tree の blob= 作業ツリーの bytes、
+      実 index の blob とフラグは不変 ②フラグなし(対照)でも同じ blob ③git リポでない root では (None, why)= 書かない。"""
+    tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-c18-"))
+    try:
+        env = {**os.environ, "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t",
+               "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t"}
+        repo = tmp / "r"
+        repo.mkdir()
+
+        def g(*a):
+            return run(["git", "-C", str(repo), *a], env=env)
+
+        g("init", "-q")
+        g("config", "core.autocrlf", "false")
+        (repo / "f.yaml").write_bytes(b"a: 1\n")
+        g("add", "f.yaml")
+        g("commit", "-qm", "init")
+        (repo / "f.yaml").write_bytes(b"a: 1\na: 2\n")      # index= 不正 YAML(重複キー)
+        g("add", "f.yaml")
+        g("update-index", "--skip-worktree", "f.yaml")
+        (repo / "f.yaml").write_bytes(b"a: 1\n")            # 作業ツリー= 正しい YAML(検査が読む側)
+        git_dir = repo / ".git"
+        good = g("hash-object", "f.yaml").stdout.strip()
+        before = g("ls-files", "-s").stdout + g("ls-files", "-v").stdout
+        tree1, _ = _witness_tree(repo, git_dir)
+        blob1 = g("rev-parse", f"{tree1}:f.yaml").stdout.strip() if tree1 else ""
+        after = g("ls-files", "-s").stdout + g("ls-files", "-v").stdout
+        arm1 = bool(tree1) and blob1 == good and before == after and "S f.yaml" in before
+        g("update-index", "--no-skip-worktree", "f.yaml")
+        tree2, _ = _witness_tree(repo, git_dir)
+        blob2 = g("rev-parse", f"{tree2}:f.yaml").stdout.strip() if tree2 else ""
+        arm2 = bool(tree2) and blob2 == good
+        tree3, why3 = _witness_tree(tmp / "nope", tmp / "nope" / ".git")
+        arm3 = tree3 is None and bool(why3)
+        return (arm1 and arm2 and arm3,
+                f"witness 較正 skip-worktree 腕(tree の blob= 作業ツリー・実 index 不変)={arm1}・対照腕={arm2}・失敗腕(書かない)={arm3}")
+    except OSError as e:
+        return False, f"witness 較正が実行不能({e.__class__.__name__})— 測定不能は合格ではない"
+    finally:
+        _cleanup_tmp(tmp)
+
+
+def _write_selfconf_witness() -> None:
+    """全検査 PASS 時に検査対象 tree の witness を書く(ECO-046)。防御用であり検査結果に
+    影響させない — git 外なら黙って省略(pre-push 側が witness 不在を遮断する)。
+    ECO-092: tree を計算できなければ**書かず・古い witness を削除し・理由を出す**(書けない= 証明しない)。"""
+    try:
+        gd = run(["git", "-C", str(ROOT), "rev-parse", "--git-dir"])
+        if gd.returncode != 0:
+            return
+        git_dir = Path(gd.stdout.strip())
+        if not git_dir.is_absolute():
+            git_dir = ROOT / git_dir
+        witness = git_dir / "bomdd-selfconf-witness"
+        tree, why = _witness_tree(ROOT, git_dir)
+        if tree is None:
+            witness.unlink(missing_ok=True)
+            line = f"[witness] 書出し省略(判定不変・証明しない・ECO-092): {why}"
+            print(line)
+            print(line, file=sys.stderr)
+            return
         # newline="\n" 明示 — Windows の改行変換で CRLF になると hook 側の比較に \r が混入する
         # (W2 緑腕の較正が本 push 前に捕捉した欠陥・ECO-046 §4)
-        (git_dir / "bomdd-selfconf-witness").write_text(
-            f"{tree}\nPASS\n", encoding="ascii", newline="\n")
+        witness.write_text(f"{tree}\nPASS\n", encoding="ascii", newline="\n")
     except OSError:
         pass
 
 
 def c18_prepush_witness() -> None:
+    # ECO-092: witness の tree 計算の較正(3 腕)— 関数の性質なので CI(NA 宣言)でも実測する
+    ok_cal, cal_msg = _witness_selftest()
+    check("C18", ok_cal, cal_msg)
     if os.environ.get("GITHUB_ACTIONS") == "true":
         check("C18", True, "pre-push witness(NA — CI は push しない環境・適用対象外の宣言)")
         return
