@@ -87,4 +87,45 @@
 - 検査官の計器所見(自己訂正): PowerShell の `-match` は大文字小文字を区別せず `H` 1161 件を誤算入 → `-cmatch` で 0 件に訂正(報告に明記)。
 - 次: r2(range= 是正確認+回帰・是正なしのため回帰のみ: V1〜V5 の再測+境界表 6 行)— playbook §3 の規則どおり ACCEPT は是正確認+回帰の round で確定する。
 
-## 7. クローズ(クローズ時に追記)
+### 6.2 r2(2026-10-04・range= 是正確認+回帰・回帰のみ)— 報告: [independent-inspection-eco-096-r2.md](reports/independent-inspection-eco-096-r2.md)
+
+- 起動: r1 記録 commit `76e2a01`(witness tree 579f54b10ecb・入口 `ADVANCE ECO-096 OK → next · launching`)→ `cell exit 0` → `report ACCEPT sha256:d5a041452d45 (EQ-002)`。作業木 clean・commit 0・index 操作 0。
+- 判定: **ACCEPT**(所見なし)。1 製造物の不変= `bomdd-witness.py`・workflow の差分空・窓 6 パス和集合の内 / 2 V1 回帰= selftest ADVANCE・no-op 変異で STOP 3 件 / 3 V2〜V4 回帰= r1 と同一(旧= index blob・新= worktree blob・失敗注入 `UNMEASURABLE TREE_UNAVAILABLE(INDEX_NORMALIZE_FAILED)`)/ 4 境界表 10 行の再測= r1 と同一・実 index 不変。
+- 検査官の環境観測(範囲外): 隔離試験の初回は Windows の read-only git object の後片付けで中断 → 後片付けを直して全腕を再実行(外部一時ディレクトリ 1 件が sandbox policy で残存・本リポ外)。ECO-065 と同じ現象(read-only の loose object)。
+
+## 7. クローズ(2026-10-04・verified)
+
+- **V3**= PASS(観測: 検査官の自環境は今回 S/h 0 件のため隔離リポで代替〔r1・r2〕— 是正前= index blob・是正後= 作業ツリー blob を 3 例(サブディレクトリ・空白・非 ASCII)で反転確認。sparse-checkout 環境(ECO-092 r2 の 1151 件)は今回の sandbox 構成では再現せず= 自然発生環境での検証は**未実施**〔限界へ〕)。
+- **V5**= PASS(観測: 窓 `a2eae9e` → `76e2a01`= allowed_paths の内〔r2 項目 1〕。CI: 製造 f34a6d6 run 37140774283 **success**(fast ubuntu / windows で `bomdd-witness.py --selftest` の step が実行)/ r1 記録 76e2a01 run 37141750927 **success**。各 commit は self-conformance exit 0 観測後。窓閉鎖= head `76e2a01`・本クローズ commit は台帳系+r2 報告のみ)。
+- **V6**= PASS(観測: 異系統の独立検査 r1 ACCEPT〔境界探索 20 行・所見なし〕→ r2 ACCEPT〔回帰・所見なし〕。製造物への blocking 所見 0・受理側帰属 0)。
+- **V7**= 下の較正 receipt。register: `implemented → verified`(witness は `--inspection-from-ledger` で inspection gate を導出)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格+③: 計器〔運転層の証跡 tree の計算・selftest〕の変更・receipt_author_role= producer・独立検査あり)
+
+- 査定した主張と判定:
+  1. 「receipt が束縛する tree は、skip-worktree / assume-unchanged の entry があっても検査が読んだ作業ツリーの bytes を含む」— **observed / 適格**(selftest 腕・検査官の隔離リポ 20 行+回帰 10 行で偽証明 0)。
+  2. 「実 index は変えない」— **observed / 適格**(全腕で ls-files -s/-v 前後一致・製造者と検査官)。
+  3. 「フラグ 0 件の作業木では是正前後の tree が同一」— **observed / 適格**(製造者 V2・検査官 r1/r2)。
+  4. 「正規化の失敗は測定不能として止まる」— **observed / 適格**(失敗注入 → `UNMEASURABLE TREE_UNAVAILABLE(INDEX_NORMALIZE_FAILED)`・exit 2)。
+  5. 「新しい腕は正規化の有無を弁別する」— **observed / 適格**(no-op 変異で STOP 3 件・製造者と検査官が独立に実測)。
+  6. 「selftest は毎 push で走る」— **observed / 適格**(CI run 37140774283 の fast job に step 実行・success)。
+  7. 「sparse-checkout の自然発生環境でも検査した bytes を束縛する」— **unknown(未実施)**— 検査官の今回の sandbox は 0 件・限界= sparse 外で index≠HEAD の稀な場合は検査していない bytes(ECO-092 と同じ宣言)。
+- 検出した計器欠陥(帰属つき): 製造物 0 件(是正前の欠陥= ECO-092 §4 範囲外の発見・本 ECO の対象)。受理側 0 件。上流 0 件。検査官の計器自己訂正 1 件(PowerShell の `-match` の大小文字・r1 で報告)。
+- 検出力の限界: sparse-checkout の自然発生環境では未検証。`update-index` の 2 オプション同時指定の無音分岐は git 2.47 で実測(他版は未確認)。独立検査官は 1 系統。CI は fast tier の両 OS で selftest を実行(dotnet job は対象外)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | W1 注記と TREE_DEFINITION が正規化と sparse の限界を宣言 |
+  | Q2 | asked | observed/適格 | 実測 | 対の腕(skip-worktree / assume-unchanged / 対照)+失敗腕+no-op 変異の陽性対照 |
+  | Q3 | asked | observed/適格 | 実測 | 是正前(index の bytes)と是正後(作業ツリー)を同じ入力で反転(製造者・検査官) |
+  | Q4 | asked | observed/適格 | 実測 | 実 git リポ・実 index・実 update-index・produce→verify の往復 |
+  | Q5 | asked | observed/適格 | 実測 | sparse の自然発生環境・他 git 版を unknown / 限界として分離 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 → commit → push → CI(2 run)→ 独立検査 2 round |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= selftest 4 腕(CI で毎 push 実行) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(tree)・commit・CI run・検査報告 sha256 を同一個体として照合 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 7 |
+  | Q11 | asked | observed/適格 | 実測 | 入力クラス(S / h / 両方 / 複数 / パス表記 / 削除 / 未追跡 / ignore / intent-to-add / staged 削除 / 往復 / 失敗注入)— 検査官が製造者の 4 腕の外を測った |
+
+- このクローズが支持しないもの: sparse 外で index≠HEAD の場合の束縛 / git 2.47 以外での同時指定の挙動 / 意図的な receipt 改竄(信頼境界外)。

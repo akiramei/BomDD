@@ -3085,7 +3085,8 @@ changes:
     title: 運転層の証跡ツール bomdd-witness.py が検査していない Git の木を束縛する — ECO-092 と同型の skip-worktree / assume-unchanged 未正規化の是正・selftest の CI 結線(起票のみ)
     date: 2026-10-04
     origin: defect
-    status: implemented   # 2026-10-04 起票 305fba2(ECO-092 §4 範囲外の発見・OBS-20261003-02 の同型)→ user DECIDE「A」(今回製造)→ 製造(正規化 helper・INDEX_NORMALIZE_FAILED・selftest 4 腕・W1 注記・候補 4= CI 結線を採用)→ V1(selftest ADVANCE・変異で STOP)/ V2(フラグ 0 件で tree 同一)/ V4(失敗腕)PASS → 製造 f34a6d6(CI 37140774283 success・witness selftest が CI で実行)→ 独立検査 r1 ACCEPT(境界探索 20 行・所見なし・検査官の自環境は S/h 0 件→ V3 は隔離リポで代替)→ r2(回帰)へ
+    status: verified   # 2026-10-04 起票 305fba2(ECO-092 §4 範囲外の発見・OBS-20261003-02 の同型)→ user DECIDE「A」(今回製造)→ 製造 f34a6d6(正規化 helper・INDEX_NORMALIZE_FAILED・selftest 4 腕・W1 注記・候補 4= CI 結線を採用。CI 37140774283 success・witness selftest が CI で実行)→ 独立検査 r1 ACCEPT(境界探索 20 行・所見なし)→ r1 記録 76e2a01(CI 37141750927 success)→ r2 ACCEPT(回帰 10 行・所見なし)→ verified(窓閉鎖 a2eae9e→76e2a01・較正 receipt trigger ①③・sparse の自然発生環境は未検証= 限界)
+    receipt_author_role: producer   # ECO-077 観測欄(独立検査併用・receipt は製造者)
     source: >
       ECO-092(2026-10-03)の製造中に発見: bomdd-witness.py worktree_tree は実 index を一時 index へ複製して add -A するだけで、skip-worktree / assume-unchanged の entry では index の bytes を束縛する
       (W1「C18 と同一」は ECO-092 以後に不成立)。--selftest は self-conformance にも CI にも結線されておらず手動実行のみ。本リポの製造者環境は S/h 0 件・ECO-092 r2 の検査官 sandbox は 1151 件(自然発生 1 例)。
@@ -3094,6 +3095,7 @@ changes:
     no_impact_prediction: "(起票時点)起票の diff は台帳系のみ。製造時(候補)= bomdd-witness.py(worktree_tree の正規化・INDEX_NORMALIZE_FAILED・selftest 腕・W1 注記)+候補 4 を採る場合 .github/workflows 1 行+台帳系。self-conformance C1〜C18 判定不変(本ツールは対象外)。フラグ 0 件の作業木では receipt の tree は是正前後で同一"
     diff_audit:
       baseline: "a2eae9e"  # 起票直前 HEAD(ECO-095 クローズ commit)
+      head: "76e2a01"      # diff監査済み: 窓内= bomdd-witness.py・workflow 2 行+台帳系+r1 報告(独立検査 r2 項目 1)・クローズ commit は台帳系+r2 報告のみ
       allowed_paths: [method/tools/bomdd-witness.py, .github/workflows/self-conformance.yml, method/improvements.md, bomdd/60-change-order-eco-096.md, bomdd/60-change-register.yaml, bomdd/reports/independent-inspection-eco-096.md, bomdd/reports/independent-inspection-eco-096-r2.md]
     summary: >
       候補(製造裁定で凍結): ①worktree_tree に ECO-092 と同じ正規化(ls-files -v → update-index --no-assume-unchanged / --no-skip-worktree を別呼び出し → add -A → write-tree・失敗は INDEX_NORMALIZE_FAILED exit 2)
