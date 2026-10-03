@@ -104,4 +104,15 @@ B が劣る点= 復旧の約束は新しい検査(バックアップ・復元)�
   それ自体が測定(到達しない辺が出れば欄の不足)。「1 機能・N=1 で何が言えるか」— 到達性と責任境界が機能するかの実行可能性まで。効果は主張しない(§2)。
 - 未収束事項: なし(機能と約束の確定は人の裁定事項・§5)。
 
-## 6. 製造・受入・クローズ(裁定後に追記)
+## 6. 裁定と製品側の着手(2026-10-03)
+
+- **裁定(user 2026-10-03)**: 「ECO-094 の対象は A で」= 機能= E-THUMB-020(サムネイル生成)。約束の文言は §5 の叩き台を基に製品側 ECO の gate① で人が確定する。
+- 製品側の着手前の実測(統括 AI・ViewPrism2 HEAD dc722a9): ①調達台帳(32 procurement)で SkiaSharp は `substitutable: false`(ADR-0004)②SkiaSharp 固有識別子の層別出現= Core 4 ファイル・Infrastructure 7・App 3・tests 24 /
+  契約層= 10-requirements 5・20-spec 5・30-ebom 1・31-kbom 11・33 1・41-fixed-oracle 0 ③20-spec §2.10 は「SkiaSharp は版差で出力が変わり得るため版を exact ピン(53)」「hash_adapter= decode 経路/SkiaSharp 版の世代識別子」を宣言済み。
+  → s-bom-template の交換クラスでは **oracle-coupled(宣言された結合)**。叩き台の約束 ①「同等の部品へ交換できる」は現状の宣言と食い違う。**人へ戻す判断(M1 の 1 件目・種別= 新しい保守の約束)**:
+  ①を「交換しない部品(宣言された結合)— 版は exact ピン・更新は劣化イベントとして CP-THUMB-007 と pHash の CP を再検査」と置くか、交換可能性を目標として製品変更(抽象境界の導入= 機能追加)へ進むか。
+  ②③は現状の検査(CP-THUMB-007 の vector: キャッシュヒット・-v2 世代・壊れた画像→ null)と整合し、そのまま REQ 化できる。
+- 製品側 ECO= ViewPrism2 **ECO-144**(起票 `359409f`・2026-10-03・staged・validate_bom 0-0 → gate① で約束の文言を確定 → fix → accept)。追跡表・導出記録・リハーサルは本リポ reports/eco-094-upstream-sbom-trial/ に置く。
+  起票時の R3 所見(ViewPrism2 側で記録のみ): 00-manifest の eco_range / open_eco が現状と乖離。validate_bom は 10-requirements と 53 を意味検査しない(`classification_hint: maintainability` と 53 の新欄は検査器を壊さない= preflight 項目の解消)。
+
+## 7. 製造・受入・クローズ(製品側の完了後に追記)
