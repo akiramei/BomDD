@@ -1,0 +1,90 @@
+# Change Order — ECO-091(C9 が実行単位の異常を合格にする — TRX の行単位判定が中断・run-level Error・終了状態の不整合を見ない偽陰性の是正)
+
+> 裁定: user 2026-10-03 DECIDE「2:A」(外部レビュー 2026-10-02 論点 8 — 検査器の偽陰性 2 件と文書矛盾 2 件を今すぐ起票。前例= 2026-09-29 裁定「検査器の偽陰性は実害待ちにしない」)。
+> 出典: [外部レビュー 論点 8](reports/external-review-20261002/review.md) / 照合= [verification.md](reports/external-review-20261002/verification.md)。
+> 目的(ECO-085 の型): 「不合格製品を防ぐ」より **C9 PASS に、実行が完了し報告と終了状態が整合しているという証拠能力を持たせる**。受入は「何を証拠として引用できるか」で測る。
+
+## 担当設備(equipment)
+
+- 起票・製造: requested/resolved `claude-fable-5-1`・Claude Code(Claude Agent SDK)・来歴 **self-reported**
+- producer: EQ-001
+- inspector: EQ-002
+  判定に関与する計器(C9 の FAIL 経路の追加)の変更のため、異系統の独立検査を併用する(前例= ECO-065 §3「判定に関与するなら異系統必須」・ECO-085 製造裁定 2:A)。
+  range= 境界探索(r1)→ 是正確認+回帰(r2 以降)。read-only sandbox・セッション分離・外部 API 呼出しなし。実行環境の差(OS temp 不能・exit の丸め)はブリーフに明記。
+
+## 0. 実測(起票根拠・2026-10-03)
+
+- **機序**(`method/tools/self-conformance.py` の実読): `c9_dotnet()` は `dotnet test … --logger trx` を走らせ、`out.trx` が存在すれば `UnitTestResult` 行だけを読んで
+  `_c9_suite_verdict(suite, results, messages)` に渡す。`p.returncode` を見るのは **trx が生成されないときだけ**(L1169)。`ResultSummary`(outcome= Completed / Failed / Aborted …)と
+  `RunInfos/RunInfo`(outcome= Error の実行基盤エラー)への参照は **0 件**(grep)。
+- **帰結**: 期待件数の行が揃っていれば、実行が中断(Aborted)していても、run-level Error が明示されていても、終了コードが行の内容と矛盾していても PASS になる。
+  レビューは未変更の validator に合成 subprocess/TRX 入力を与え、次の 4 腕を実測した(当方は機序を読解で確認・合成腕は本 ECO の陽性対照として恒久化する):
+
+  | 入力条件 | 現行 C9 |
+  |---|---|
+  | Passed 行・Completed・終了 0 | PASS(正常対照) |
+  | 予期しない Failed 行・終了 1 | FAIL(異常対照) |
+  | Passed 行・Aborted・run-level Error・終了 2 | **PASS(誤受入)** |
+  | Passed 行・Failed・run-level Error・終了 1 | **PASS(誤受入)** |
+
+- **既存の腕では補えない**: 件数(`total_ok`)・空出力(ECO-054 型④)・expected-failure 集合・identity 突合・`_c9_selftest` の 8 腕は、いずれも**行の内側**を測る。実行単位の異常は行の外にある。
+- **制約**: `loops/loop-02-export` は意図的な赤 4 件を保存する期待赤 suite であり、`dotnet test` は**正当に非 0 で終了する**。「終了 0 必須」の規則は正しい suite を赤にする。
+- **露出**: C9 は CI の windows job(`--dotnet`)で毎 push 走る= 本リポの最終層の計器。ローカル fast tier には入らない(witness の被覆外・ECO-046 限界 (2))。
+- **自然発生例**: 未観測(合成入力のみ・N=1 ずつ)。self-conformance 全体の PASS に影響していない。
+
+## 1. 変更要求(製造対象・凍結)
+
+1. **実行単位の判定を純関数に切り出す** `_c9_run_verdict(returncode, summary_outcome, run_errors, has_failed_rows) -> (ok, why)`:
+   - (a) `summary_outcome` が None(`ResultSummary` 不在)→ FAIL「測定不能」(型④: 不在は合格ではない)。
+   - (b) `summary_outcome` が `Completed` / `Failed` 以外(Aborted・Error・未知の語彙)→ FAIL(未知の語彙も fail-closed)。
+   - (c) `run_errors`(`RunInfo outcome="Error"` の Text)が 1 件以上 → FAIL。`Warning` は通す(xunit は警告を出しうる・判定語でない)。
+   - (d) 終了状態と報告の整合: `returncode == 0` なのに不合格行がある → FAIL / `returncode != 0` なのに不合格行が無い → FAIL(行の外の異常)。
+     期待赤 suite は「不合格行あり+非 0」で (d) を通り、行単位の判定(既存)が期待集合と突合する — **一律の終了 0 要求にはしない**。
+2. **TRX の読み取りを関数化** `_c9_parse_trx(root) -> (results, messages, summary_outcome, run_errors)`(既存の行の読み取りを移し、`ResultSummary@outcome` と `RunInfos/RunInfo[@outcome='Error']/Text` を追加)。
+3. **`c9_dotnet` の結線**: suite ごとに (1) を先に判定し、FAIL なら理由を check 行へ出す。行単位の判定(`_c9_suite_verdict`)は**不変**。最終判定= 実行単位 AND 行単位。
+4. **陽性対照**(`_c9_selftest` に追加・毎回実測): (1) に対する対の腕 — 正常完了(0・Completed・[]・不合格なし)= PASS / 期待どおりの失敗(1・Failed・[]・不合格あり)= PASS /
+   行出力後の中断(2・Aborted・[err]・不合格なし)= FAIL / 実行エラー+終了 1+全行合格(1・Failed・[err]・不合格なし)= FAIL / 終了 0 なのに不合格行(0・Failed・[]・不合格あり)= FAIL /
+   `ResultSummary` 不在(0・None・[]・不合格なし)= FAIL。加えて (2) に対する合成 TRX 文書 2 腕(正常 / Aborted+RunInfo Error)で抽出を実測する。
+5. **採らない**: 一律の終了 0 要求(期待赤 suite を赤にする)/ `Counters`(total/executed)との突合(既存の `total_ok` が行数を見ている — 列挙の追加)/
+   MTP(Microsoft.Testing.Platform)の終了コード体系への対応(本リポの loops は VSTest `--logger trx` のみ・(d) は体系に依存しない)/ 実 .NET のクラッシュ再現(合成の境界で測る— レビューと同じ立場)/
+   行単位の判定の変更。
+
+## 2. 影響なし予測(製造前・凍結)
+
+diff= `method/tools/self-conformance.py`(C9 の関数 2 本の追加・`c9_dotnet` の結線・`_c9_selftest` の腕追加)+台帳系(order・register・improvements.md・reports)のみ。
+C1〜C8・C10〜C18 の判定式とメッセージは**不変**。C9 の既存 4 suite は現行 CI で全て正常完了(Completed / Failed・RunInfo Error なし)のため、是正後も判定不変(V3 で CI 実測)。
+templates・hooks・.github・schemas は diff 0。製品リポへ非波及(self-conformance は本リポ専用)。
+
+## 3. 受入条件(製造前に凍結・二部形・ECO-080)
+
+- V1(条件): `_c9_selftest` の追加腕(実行単位 6 腕+TRX 抽出 2 腕)が本番で毎回実測され、C9 の較正行に腕数が出ること — 検査法: `python method/tools/self-conformance.py --dotnet` の `[C9] PASS 計器較正` 行。
+- V2(条件): レビューの 4 腕(§0 表)を本 ECO の純関数に与えたとき、正常対照= PASS・異常対照= FAIL・誤受入 2 腕= **FAIL** になること — 検査法: 独立検査官が関数を直接呼ぶ(ブリーフに検体を渡す)。
+- V3(条件): 既存 4 suite の判定が不変(loop-02-export の期待赤 4 件が PASS のまま・他 3 suite PASS)であること — 検査法: CI windows job のログ(`[C9] PASS loops/…`)。
+- V4(条件): diff が allowed_paths のみ・C1〜C18 の PASS 行が不変(C9 の較正行の文言差のみ)であること — 検査法: `git diff --name-only baseline..head`・PASS 行数の前後比較。
+- V5(条件): self-conformance 全 PASS(exit 0 観測後に commit)・CI success であること。
+- V6(条件): 異系統の独立検査(EQ-002)が ACCEPT であること(r1 は境界探索)。
+- V7(条件): 較正 receipt(trigger ①③・receipt_author_role= producer)があること。
+
+## /preflight receipt(起動経路: **自発** — 既裁定の適用実装の開始時〔bug-fix 類〕)
+
+- 分類= 既裁定の適用実装(user 2026-10-03「2:A」)。baseline `069e0d5`= **confirmed**(HEAD・作業木 clean・push 済み・レビューの対象コミットと同一)/ 次番 091= **confirmed**(register 末尾= 090)/
+  機序= **confirmed**(L1164〜1181 実読・`ResultSummary`/`RunInfos` 参照 0 件を grep)/ 期待赤 suite の存在= **confirmed**(loops/expected-results.yaml loop-02-export 4 件)/
+  同一ファイルへの進行中 ECO= **confirmed**(なし。ECO-092 は同時起票だが対象関数が別〔witness〕— 窓は同じファイルを共有するため allowed_paths を双方に置き、受入は ECO ごとに測る)/
+  dotnet SDK の手元実行= **unknown**(ローカルで `--dotnet` が走るかは製造時に確認・走らなければ V3 は CI で測る)。
+- 開始判定: **PROCEED_WITH_LIMITS**(限界= V3 の実測場所が CI になりうる)・override 0。
+
+## /converge receipt(起動経路: 自発 — 実行単位の判定規則の設計)
+
+- **判定: 収束**(round 軌跡: 5→2→0)。
+- DoD: ✔ 中断・run-level Error・終了状態と報告の不整合を FAIL にする / ✔ 期待赤 suite(非 0 終了が正当)を赤にしない / ✔ 対の陽性対照(正常・期待赤・中断・実行エラー)を持つ /
+  ✔ 行単位の判定は不変 / ✔ 判定は純関数で selftest できる / ✔ 未知の語彙・不在は fail-closed。
+- round 1(新規 5 件): ①一律の終了 0 要求は loop-02-export を赤にする → 整合規則 (d) へ ②`ResultSummary@outcome` の語彙(Completed / Failed / Aborted / Error / …)— 受理集合を 2 語に限定し、
+  それ以外と未知は FAIL ③`ResultSummary` 不在は測定不能 → FAIL(型④)④`RunInfo` は Error のみ判定語にし Warning は通す ⑤終了コードの整合は「0 ⇔ 不合格行なし」の双方向。
+- round 2(新規 2 件): ⑥`Counters`(total / executed)の突合は要るか → 既存 `total_ok` が行数を見ており、スキップは行数差で既に落ちる → 採らない ⑦MTP の終了コード体系(2= 失敗・8= テスト 0)は
+  VSTest と異なる → (d) は「0 かどうか」と行の有無の整合だけを見るため体系に依存しない・本リポは VSTest のみ → 範囲外を宣言。round 3: 0 件。
+- 検証した主張: 参照 0 件(grep)/ 期待赤 suite の存在と非 0 終了(expected-results.yaml・CI の慣行)/ CI で C9 が走る job(`.github/workflows` 実読)/ TRX の要素名(`ResultSummary`・`RunInfos/RunInfo`・VSTest スキーマ)。
+- 敵対自問: 「(d) は dotnet の終了コードの意味に依存していないか」— 依存は「0= 成功」の 1 点のみで、VSTest / MTP とも共通。「Warning を通すのは fail-open では」— Warning は実行の完了を否定しない・
+  Error と Aborted は否定する — 否定する側だけを判定語にする(過剰検出は出口があるが、ここでは本物の赤を生まない側を選ぶ)。
+- 未収束事項: なし。
+
+## 4. 製造・受入・クローズ(製造時に追記)

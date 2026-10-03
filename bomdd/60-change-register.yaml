@@ -2950,3 +2950,74 @@ changes:
     verification: >
       V1 reports の 7 ファイルと M4 が ECO-086 の基準線と一致 / V2 OBS 3 件・EXP 1 件・worklist 警告 0 / V3 diff が allowed_paths のみ / V4 self-conformance・CI / V5 製造者較正のみ・較正 receipt。
     producer: EQ-004
+  - id: ECO-091
+    title: C9 が実行単位の異常(中断・run-level Error・終了状態と報告の不整合)を合格にする — TRX の行単位判定だけで判定する偽陰性の是正
+    date: 2026-10-03
+    origin: defect
+    status: filed   # 2026-10-03 外部レビュー(2026-10-02)論点 8 → user DECIDE「2:A」→ 起票(製造は同セッションで続行・異系統の独立検査 EQ-002 併用)
+    source: >
+      外部レビュー 2026-10-02 論点 8(bomdd/reports/external-review-20261002/)。c9_dotnet は out.trx があれば UnitTestResult 行だけを判定し、
+      プロセス終了コードも ResultSummary も RunInfo Error も見ない(実読・参照 0 件)。レビューの合成 4 腕のうち「Passed 行・Aborted・run-level Error・終了 2」
+      「Passed 行・Failed・run-level Error・終了 1」が PASS(誤受入)。期待赤 suite(loop-02-export)は正当に非 0 で終わるため一律の終了 0 要求は採れない。
+    order_ref: bomdd/60-change-order-eco-091.md
+    affected_refs: [method/tools/self-conformance.py]
+    no_impact_prediction: "(製造前・凍結)diff= self-conformance.py(C9 の純関数 2 本の追加・c9_dotnet の結線・_c9_selftest の腕追加)+台帳系のみ。C1〜C8・C10〜C18 の判定式とメッセージ不変。既存 4 suite は正常完了のため C9 判定不変(CI で実測)。templates・hooks・.github・schemas diff 0・製品リポへ非波及"
+    diff_audit:
+      baseline: "069e0d5"  # 起票直前 HEAD(レビューの対象コミットと同一)
+      allowed_paths: [method/tools/self-conformance.py, method/improvements.md, bomdd/60-change-order-eco-091.md, bomdd/60-change-register.yaml, bomdd/reports/external-review-20261002/, bomdd/reports/independent-inspection-eco-091.md, bomdd/reports/independent-inspection-eco-091-r2.md]
+    summary: >
+      実行単位の判定を純関数 _c9_run_verdict(終了コード・ResultSummary@outcome・RunInfo Error・不合格行の有無)に切り出し、c9_dotnet で行単位の判定と AND で結ぶ。
+      ResultSummary 不在は測定不能= FAIL・Completed/Failed 以外は FAIL・RunInfo Error は FAIL・「終了 0 ⇔ 不合格行なし」の不整合は FAIL。期待赤 suite は不合格行あり+非 0 で通る。
+      陽性対照= 実行単位 6 腕+合成 TRX 抽出 2 腕を _c9_selftest に恒久化。採らない= 一律の終了 0 要求・Counters 突合・MTP 体系対応・行単位判定の変更。
+    verification: >
+      V1 較正腕 8 本が本番の C9 較正行に出る / V2 レビューの 4 腕が純関数で 正常 PASS・異常 FAIL・誤受入 2 腕 FAIL(独立検査官が直接呼ぶ)/ V3 既存 4 suite の判定不変(CI windows job)/
+      V4 diff 窓・PASS 行不変 / V5 self-conformance・CI / V6 異系統の独立検査 ACCEPT / V7 較正 receipt(trigger ①③)。条件行は起票後不変・結果はクローズ節の観測行(ECO-080 二部形)。
+    producer: EQ-001
+    inspector: EQ-002
+  - id: ECO-092
+    title: pre-push witness が検査していない Git の木を証明する — skip-worktree / assume-unchanged 付き entry を一時 index が引き継ぐ偽証明の是正
+    date: 2026-10-03
+    origin: defect
+    status: filed   # 2026-10-03 外部レビュー(2026-10-02)論点 9 → user DECIDE「2:A」→ 起票(製造は同セッションで続行・異系統の独立検査 EQ-002 併用〔workspace-write〕)
+    source: >
+      外部レビュー 2026-10-02 論点 9(bomdd/reports/external-review-20261002/)。_write_selfconf_witness は実 index を一時 index へ複製して git add -A するが、
+      skip-worktree / assume-unchanged の entry は add が更新しないため index の bytes が tree に入る(検査は作業ツリーを読む)。隔離リポで再現(不正 YAML を index に置き
+      skip-worktree → 作業ツリーは正常 → witness tree の blob= index の不正 YAML・対照腕は作業ツリー・実 index 不変)。git add の戻り値も未確認。本リポの該当 entry は 0 件。
+    order_ref: bomdd/60-change-order-eco-092.md
+    affected_refs: [method/tools/self-conformance.py]
+    no_impact_prediction: "(製造前・凍結)diff= self-conformance.py(witness 関数の分割・一時 index のフラグ正規化・成否確認・C18 較正行)+台帳系のみ。hook・templates・.github・schemas diff 0。フラグ 0 件の作業木では witness tree は是正前後で同一(実測)。C18 の PASS 行が較正行 1 行分増える以外 C1〜C17 不変。C18 の NA 宣言(CI)不変"
+    diff_audit:
+      baseline: "069e0d5"  # 起票直前 HEAD
+      allowed_paths: [method/tools/self-conformance.py, method/improvements.md, bomdd/60-change-order-eco-092.md, bomdd/60-change-register.yaml, bomdd/reports/external-review-20261002/, bomdd/reports/independent-inspection-eco-092.md, bomdd/reports/independent-inspection-eco-092-r2.md]
+    summary: >
+      tree の計算を _witness_tree(root, git_dir) に切り出し、一時 index 上で S/h フラグを update-index --no-skip-worktree --no-assume-unchanged(-z --stdin)で正規化してから add -A → write-tree。
+      update-index / add / write-tree の失敗は witness を書かず既存 witness を削除し [witness] 行を出す。陽性対照= skip-worktree 腕・対照腕・失敗腕(C18 の較正行・CI でも実測)。
+      hook と witness 形式は不変。採らない= 拒否のみ(push 不能化)・sparse-checkout 対応(限界宣言)・FAIL 時の古い witness 削除。
+    verification: >
+      V1 較正 3 腕が C18 行で毎回実測(skip-worktree 腕で tree の blob= 作業ツリー・実 index 不変)/ V2 フラグ 0 件の作業木で是正前後の tree 同一 / V3 失敗で書かず・削除・[witness] 行 /
+      V4 hook diff 0・本 ECO の push が ADVANCE / V5 diff 窓・self-conformance・CI / V6 異系統の独立検査 ACCEPT / V7 較正 receipt(trigger ①③)。条件行は起票後不変・結果はクローズ節の観測行。
+    producer: EQ-001
+    inspector: EQ-002
+  - id: ECO-093
+    title: 製造パッケージの条件付き定義の一本化(playbook §4.6)・playbook 冒頭ステータスの正本化・phase3 の粒度規準に candidate 留保を戻す(文書のみ)
+    date: 2026-10-03
+    origin: improvement
+    status: filed   # 2026-10-03 外部レビュー(2026-10-02)論点 4・P3・論点 2(文面)→ user DECIDE「2:A」→ 起票(製造は同セッションで続行・文書のみ・製造者較正のみ)
+    source: >
+      外部レビュー 2026-10-02 論点 4(G3・phase3・phase4 は 20/30〜34/40、40-work-order は UI-CAD で 35 必須 — method/ の列挙 15 箇所中 5 箇所が 35 条件を欠く)・
+      P3(README は playbook を正本と明記・playbook 冒頭は「単一題材検証済み・method-v1 と未統合」のまま)・論点 2 の文面部分(playbook §4.1 は粒度規準を candidate と明示・
+      phase3-design L6 は留保なしで E-BOM の切り分けに使う)。方針(E/S の上流裁定・粒度の第一基準)は ECO-094 の領分で本 ECO では決めない。
+    order_ref: bomdd/60-change-order-eco-093.md
+    affected_refs: [method/bomdd-playbook-v1.md, method/prompts/phase3-design.md, method/prompts/phase4-manufacture.md, method/templates/34-routing.yaml, method/templates/40-work-order.md, method/templates/product-profile/skills/bomdd-next.md]
+    no_impact_prediction: "(製造前・凍結)diff= playbook(冒頭ステータス・§4.6)・phase3-design・phase4-manufacture・34-routing・40-work-order・bomdd-next+台帳系のみ。tools・hooks・.github・schemas・contracts diff 0。C7/C13/C15 判定不変。配布 templates の内容は変わるが C4/C11 は内容を検査しない。製品リポへは次回配布時に波及・既存 work order 不変"
+    diff_audit:
+      baseline: "069e0d5"  # 起票直前 HEAD
+      allowed_paths: [method/bomdd-playbook-v1.md, method/prompts/phase3-design.md, method/prompts/phase4-manufacture.md, method/templates/34-routing.yaml, method/templates/40-work-order.md, method/templates/product-profile/skills/bomdd-next.md, method/improvements.md, bomdd/60-change-order-eco-093.md, bomdd/60-change-register.yaml, bomdd/reports/external-review-20261002/]
+    summary: >
+      ①playbook §4.6 を製造パッケージの定義の正本にし 35(UI-CAD 案件のみ必須)を加える ②phase3 G3・phase4・34-routing・bomdd-next は参照か条件同梱へ・40-work-order は列挙を保ち正本参照を添える
+      ③playbook 冒頭を「正本(README・2026-09-02 裁定)」と実証状況(forward-01〜04・scale-01・transfer-01〜03)に分けて改訂・method-v1 は凍結スナップショット ④phase3 L6 に粒度規準(candidate)と
+      bom-granularity-guide 参照。採らない= 生成器・新機械検査・方針変更・過去記録の書き換え。
+    verification: >
+      V1 列挙箇所で 35 条件も §4.6 参照も持たないものが 0 件(grep+実読)/ V2 §4.6 に 35 と正本の文 / V3 冒頭に正本と実証状況・「未統合」の文なし / V4 phase3 L6 に candidate と guide 参照 /
+      V5 diff 窓・self-conformance・CI / V6 製造者較正のみ・較正 receipt(trigger ①)。条件行は起票後不変・結果はクローズ節の観測行。
+    producer: EQ-001
