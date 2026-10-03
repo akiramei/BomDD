@@ -61,4 +61,36 @@ C1(YAML 厳格パース)・C7・C13・C15 の判定不変。配布テンプレ�
 - **V2**= PASS(観測: 10 L16 に maintainability・53 L18〜19 に 2 欄。self-conformance `[C1] PASS YAML 69 件厳格パース`)。
 - **V3**・**V4**= §6。
 
-## 6. クローズ(クローズ時に追記)
+## 6. クローズ(2026-10-03・verified・製造者較正のみ)
+
+- **V3**= PASS(観測: 製造 commit `23b6bd5`= self-conformance 全 PASS〔staged・exit 0 観測後〕→ witness → 入口 dry `ADVANCE ECO-095 OK` → commit → push → CI run 37130912102 **success**。diff 窓 `b6f5fe2` → `23b6bd5`= allowed_paths の 6 パスのみ〔playbook・10・53・improvements・order・register〕・tools・hooks・.github・schemas・contracts diff 0。窓閉鎖= head `23b6bd5`・本クローズ commit は台帳系のみ)。
+- **V4**= 製造者較正のみ・下の較正 receipt。register: `implemented → verified`。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。文書のみの変更)
+
+- 査定した主張と判定:
+  1. 「工程表と Phase 6 に上流の約束の経路が candidate として置かれた」— **observed / 適格**(grep・V1)。
+  2. 「10/53 テンプレの欄名は製品(ViewPrism2 ECO-144)で実際に使った欄名と同じ」— **observed / 適格**(53 `service_requirement_refs` / `replacement_policy`・10 `maintainability`— ViewPrism2 の実ファイルと同名)。
+  3. 「candidate 表示で実証状況(N=1)を明示し、効果を主張していない」— **observed / 適格**(各追記に candidate・ECO-094 試行 N=1 の語)。
+  4. 「3:A のとおり粒度差の対処は文書に書かず再設計の入力に留めた」— **observed / 適格**(§7 の 1 項は所見の参照のみ・対処案を書かない)。
+  5. 「配布テンプレの変更は次回配布時にのみ波及する」— **読解**(bomdd-init は手動起動)。
+  6. 「この経路は他製品でも機能する」— **unknown**(N=1・主張しない)。
+- 検出した計器欠陥(帰属つき): 製造物 0 件・受理側 0 件・上流 0 件。
+- 検出力の限界: 文書の整合は grep と実読のみ・配布先での効果は未測定・独立検査なし。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 追記は candidate・N=1 を自分で宣言している |
+  | Q2 | asked | observed/適格 | 実測 | 是正前(grep 0 件)と是正後(各箇所)の対 |
+  | Q3 | asked | observed/適格 | 実測 | V1・V2 を別々の grep と C1 で確認 |
+  | Q4 | asked | observed/適格 | 実測 | 実ファイルを直接 grep・C1 の厳格パース |
+  | Q5 | asked | observed/適格 | 実測 | 配布先の効果・他製品を unknown として分離 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 dry → commit → push → CI success |
+  | Q7 | asked | NA | — | 陽性対照なし(文書のみ) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness・commit 23b6bd5・CI run 37130912102 を同一個体として照合 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 6 |
+  | Q11 | asked | observed/適格 | 実測 | 反映 3 点を独立に扱い(1・2 は文書・3 は記帳のまま)それぞれの置き場を確認 |
+
+- このクローズが支持しないもの: 他製品での経路の成立 / 配布先での効果 / 粒度差への対処の選択(再設計の入力)。

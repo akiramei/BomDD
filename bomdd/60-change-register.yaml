@@ -3063,7 +3063,8 @@ changes:
     title: ECO-094 試行の反映 — 上流の保守上の約束(maintainability REQ・E/S 版の設計リリース)を playbook 工程表と 10/53 テンプレへ candidate として置く(文書のみ)
     date: 2026-10-03
     origin: improvement
-    status: implemented   # 2026-10-03 user DECIDE「1:A 2:A 3:A」(ECO-094 クローズ後の反映の判断)→ 起票+製造(文書 3 ファイル・V1/V2 PASS・文書のみ・製造者較正のみ)→ implemented(verified は CI 結論の観測後)
+    status: verified   # 2026-10-03 user DECIDE「1:A 2:A 3:A」(ECO-094 クローズ後の反映の判断)→ 起票+製造 23b6bd5(文書 3 ファイル・V1/V2 PASS)→ CI 37130912102 success → verified(製造者較正のみ・窓閉鎖 b6f5fe2→23b6bd5・較正 receipt trigger ①)
+    receipt_author_role: producer   # ECO-077 観測欄
     source: >
       ECO-094 verified(ViewPrism2 ECO-144 applied)の回収: 人が約束を REQ として裁定し E/S 版を tag で固定し統括 AI が CP を導出する経路が 1 機能で完走(M1 1・機械的派生 0・M2 5/5・M3 1/2・M4 0)。
       製品で使った欄(10 の classification_hint: maintainability・53 の service_requirement_refs / replacement_policy)を candidate として配布テンプレへ。3:A= 行と vector の粒度差は再設計の入力(文書不変)。
@@ -3072,6 +3073,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)diff= playbook(§1 工程表 2 行・§7 1 項)・templates/10(コメント 1 行)・templates/53(欄 2 行)+台帳系のみ。tools・hooks・.github・schemas・contracts diff 0。C1/C7/C13/C15 判定不変。配布テンプレは次回配布時に波及・既存製品不変"
     diff_audit:
       baseline: "b6f5fe2"  # 起票直前 HEAD(ECO-094 クローズ commit)
+      head: "23b6bd5"      # diff監査済み: 窓内= allowed_paths の 6 パスのみ・tools/hooks/.github/schemas diff 0・クローズ commit は台帳系のみ
       allowed_paths: [method/bomdd-playbook-v1.md, method/templates/10-requirements.yaml, method/templates/53-service-bom.yaml, method/improvements.md, bomdd/60-change-order-eco-095.md, bomdd/60-change-register.yaml]
     summary: >
       ①playbook §1: Phase 1 に「保守上の約束も要求として人が裁定(maintainability REQ・candidate)」・Phase 6 に「上流の約束は Phase 1 の REQ・53 から参照」②§7 Phase 6 に結線と設計リリースの 1 項(candidate・N=1・粒度差は再設計の入力)
