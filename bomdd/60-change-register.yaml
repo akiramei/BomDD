@@ -2981,7 +2981,7 @@ changes:
     title: pre-push witness が検査していない Git の木を証明する — skip-worktree / assume-unchanged 付き entry を一時 index が引き継ぐ偽証明の是正
     date: 2026-10-03
     origin: defect
-    status: implemented   # 2026-10-03 外部レビュー(2026-10-02)論点 9 → user DECIDE「2:A」→ 起票 246c2fd → 製造(update-index の 2 オプション同時指定で skip-worktree が残る実測 → 別呼び出しへ)→ V1〜V3 PASS・C18 較正 3 腕 True → implemented → 独立検査 r1 REJECT IA-01(検査官 sandbox の C14 REAL 腕= 環境帰属・同一 tree で製造者 exit 0+CI 37104338649 success)・IA-02(窓に ECO-094 の起票 2 パス= 和集合へ追加)・non-blocking IA-03(sparse の宣言を実挙動へ訂正)・IA-04(ブリーフの例示)→ r2 へ
+    status: implemented   # 2026-10-03 外部レビュー(2026-10-02)論点 9 → user DECIDE「2:A」→ 起票 246c2fd → 製造(update-index の 2 オプション同時指定で skip-worktree が残る実測 → 別呼び出しへ)→ V1〜V3 PASS・C18 較正 3 腕 True → implemented → 独立検査 r1 REJECT IA-01(検査官 sandbox の C14 REAL 腕= 環境帰属・同一 tree で製造者 exit 0+CI 37104338649 success)・IA-02(窓に ECO-094 の起票 2 パス= 和集合へ追加)・non-blocking IA-03(sparse の宣言を実挙動へ訂正)・IA-04(ブリーフの例示)→ 是正 e096369 → r2 ACCEPT(所見なし・回帰 10 行一致・検査官作業木は sparse-checkout で S/h 1151 件= 対象状態の自然発生 1 例)→ verified は CI 結論の観測後
     source: >
       外部レビュー 2026-10-02 論点 9(bomdd/reports/external-review-20261002/)。_write_selfconf_witness は実 index を一時 index へ複製して git add -A するが、
       skip-worktree / assume-unchanged の entry は add が更新しないため index の bytes が tree に入る(検査は作業ツリーを読む)。隔離リポで再現(不正 YAML を index に置き

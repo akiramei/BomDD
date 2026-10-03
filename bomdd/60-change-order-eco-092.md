@@ -117,4 +117,13 @@ C18 の NA 宣言(CI)は不変 — 較正行は NA 判定の前に出す。
 - **IA-04(non-blocking)— 帰属= 受理側のブリーフ**: 未解決 merge conflict は一時 index への `add -A` が作業ツリーの内容で解消するため write-tree の失敗腕にならない(検査官は exit 17 の注入で分岐を確認)。ブリーフの例示の誤り。
 - 次: r2(range= 是正確認+回帰: IA-02 の窓・IA-03 の宣言・V1〜V4 の回帰。IA-01 は環境帰属で製造物非改変— r2 では self-conformance の全体 exit を判定に使わず C18 行を読む)。
 
+### 6.2 r2(2026-10-03・range= 是正確認+回帰・範囲限定)— 報告: [independent-inspection-eco-092-r2.md](reports/independent-inspection-eco-092-r2.md)
+
+- 起動: 是正 commit `e096369`(witness tree 3a69231ffb83・入口 `ADVANCE ECO-092 OK → next · launching`)→ `cell exit 0` → `report ACCEPT sha256:a7c1da4c32be (EQ-002)`・台帳 `range: 是正確認+回帰`。
+- 判定: **ACCEPT**(所見なし)。1 IA-02 窓= 20 パス全て和集合の内・理由コメントあり / 2 IA-03 宣言= 実挙動どおり・`_witness_tree` 実装は不変(差分はコメント 4 行)/ 3 V1〜V4 回帰= 全 PASS(V2 は隔離 clone で是正前後とも tree 3a69231ffb83)/
+  4 境界表 6 行の抜き取り= r1 と同一判定・実 index 不変。
+- **環境観測(範囲外・記録)**: 検査官の作業木は **sparse-checkout 状態で S/h entry が 1151 件**(r1 では 0 件— sandbox の構成が round 間で変わった)。V2 は対象 revision を Git bundle 経由で OS temp の隔離リポへ展開して測った。
+  初回の隔離 clone は dubious ownership で不成立・2 回目は後片付けの sandbox アクセス拒否で停止(測定値に採用せず)。本 ECO の対象(skip-worktree を持つ作業木で witness が index の bytes を証明する)が検査官自身の環境で**実在した**ことになる—
+  是正前の実装なら、その作業木での PASS witness は検査していない bytes を証明していた(自然発生の露出 1 例・ただし本リポの製造者環境ではなく検査官 sandbox の clone)。
+
 ## 7. クローズ(クローズ時に追記)
