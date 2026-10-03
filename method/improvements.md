@@ -8281,6 +8281,8 @@ REQ→E→M→CP→test ID→実行証拠の追跡(構造と意味を別審査)�
 環境帰属(同一 tree で製造者 exit 0+CI success・**ECO-075 r1・ECO-081 r1 に続く 3 例目**— 検査官ブリーフに既知の環境差として書き、全体 exit を判定に使わず C18 行を読ませる)。IA-02= 窓が開いている間に ECO-094 を起票して和集合の外に 2 パス →
 受理側の手順の問題・和集合へ追加。IA-03(non-blocking)= sparse-checkout の限界宣言が実挙動と不一致(add -A は sparse の範囲を尊重し sparse 外は index の内容のまま残る)→ 宣言を訂正・限界は「sparse 外で index≠HEAD の稀な場合」へ。
 IA-04= merge conflict は add -A が解消し失敗腕にならない(ブリーフの例示)。**受理側帰属 3 件(ブリーフ 2・台帳 1)対 製造物 0・上流(宣言)1** — 検査官が製造者の検体の外(sandbox・窓・sparse)を測った。
+ECO-092 r2(是正確認+回帰)= **ACCEPT**(所見なし・回帰 10 行一致)。検査官の作業木は sparse-checkout で S/h 1151 件(r1 は 0)— 本 ECO の対象状態が検査官環境で実在(自然発生 1 例・製造者環境ではない)。
+ECO-091 r2(是正確認+回帰)= **REJECT IA-03**(項目 1〜3 PASS・項目 4「窓」のみ FAIL)— 受理側ブリーフが「差分は IA-02 の是正に限る」と書き、同じファイルに同居する ECO-092 の是正コメントを条件から除外していなかった(**窓を共有する姉妹 ECO の扱いの不備・IA-02 と同型の 2 例目**)。製造物非改変・r3 を項目 4 のみで回す。
 - [open] EXP-20261003-01 — **保守上の約束を人が上流(REQ)で裁定し、承認済み E/S 版から統括 AI が M/CP を導出する経路は、1 機能で実行可能か・責任境界は機能するか・規範から実行証拠まで到達するか**(ECO-094・ViewPrism2 1 機能): 事前登録(reports/eco-094-upstream-sbom-trial/preregistration.md)の M1(人へ戻った判断の種別— 機械的派生 0 か)・M2(REQ→E→M→CP→test→証拠の 5 辺の到達性・意味の審査は別欄)・M3(赤/測定不能の振り分け 2/2)・M4(E→M 参照 0 件)を読み方のとおり回収する。playbook・テンプレ(S-BOM の工程位置・粒度規準・設計リリース契約)への反映はこの回収の後に判断する。効果量・一般化は主張しない(N=1・同一オーナー)
   source: ECO-094(外部レビュー 2026-10-02 論点 1・2・5 × user DECIDE「1:A」)
   evidence: bomdd/60-change-order-eco-094.md §1・§2・bomdd/reports/eco-094-upstream-sbom-trial/preregistration.md

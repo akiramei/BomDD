@@ -125,4 +125,12 @@ templates・hooks・.github・schemas は diff 0。製品リポへ非波及(self
 - 検査官の環境観測: fast tier の self-conformance は 6 分以上出力が無く中断(pwsh 経由の出力バッファ)。V1 は指定の代替較正で成立。ECO-092 のブリーフへ待ち時間の注記を追加。
 - 次: r2(range= 是正確認+回帰: IA-02 の是正確認・V1/V2 の回帰)。playbook §3 の規則どおり ACCEPT は是正確認+回帰の round で確定する。
 
+### 6.2 r2(2026-10-03・range= 是正確認+回帰・範囲限定)— 報告: [independent-inspection-eco-091-r2.md](reports/independent-inspection-eco-091-r2.md)
+
+- 起動: commit `9b496fc`(witness tree 814d5b745531・入口 `ADVANCE ECO-091 OK → next · launching`)→ `cell exit 0` → `report REJECT sha256:947bb2a059e9 (EQ-002)`・台帳 `range: 是正確認+回帰`。作業木 clean・commit 0・外部 API なし。
+- 判定: **REJECT IA-03**(blocking 1)。項目 1(IA-02 の是正確認)PASS / 2(V1・V2 の回帰)PASS / 3(境界表 8 行の抜き取り)PASS・r1 と同一 / **4(窓)FAIL**。
+- **IA-03(blocking)— 帰属= 受理側のブリーフ**: 項目 4 を「`git diff e7d563b..REV -- self-conformance.py` が IA-02 の是正に限られること」と書いたが、同じファイルには **ECO-092 r1 IA-03 のコメント訂正 4 行**(C18 の限界宣言 (6)・commit e096369)が同居する。
+  検査官はブリーフの文面どおり FAIL とした(正当)。製造物の欠陥ではない。窓を共有する姉妹 ECO の差分をブリーフの条件が除外していなかった(IA-02 と同型の、受理側の窓の扱いの不備・2 例目)。
+- 是正= r3 のブリーフで項目 4 を「差分= IA-02 の是正(抽出・診断文・較正腕・較正行)+ECO-092 r1 IA-03 のコメント 4 行〔`_witness_tree` 等の関数本体に差分なし〕に限られること」と正しく定義し、範囲を項目 4 のみに限定する。
+
 ## 7. クローズ(クローズ時に追記)

@@ -2954,7 +2954,7 @@ changes:
     title: C9 が実行単位の異常(中断・run-level Error・終了状態と報告の不整合)を合格にする — TRX の行単位判定だけで判定する偽陰性の是正
     date: 2026-10-03
     origin: defect
-    status: implemented   # 2026-10-03 外部レビュー(2026-10-02)論点 8 → user DECIDE「2:A」→ 起票 246c2fd → 製造(規則 (c) を製造中の実測で狭めた: xUnit アダプタの RunInfo Error・期待赤 suite の誤拒否を V3 が捕捉)→ V1〜V3 PASS → implemented(独立検査 r1 へ)
+    status: implemented   # 2026-10-03 外部レビュー(2026-10-02)論点 8 → user DECIDE「2:A」→ 起票 246c2fd → 製造(規則 (c) を製造中の実測で狭めた: xUnit アダプタの RunInfo Error・期待赤 suite の誤拒否を V3 が捕捉)→ V1〜V3 PASS → implemented → 独立検査 r1 ACCEPT(境界探索・non-blocking IA-01 宣言済み限界の実例・IA-02 診断文→ 是正 5d90ba4)→ r2 REJECT IA-03(受理側ブリーフの欠陥: 窓を共有する ECO-092 のコメント差分を条件が除外していなかった・項目 1〜3 は PASS)→ r3(項目 4 のみ)へ
     source: >
       外部レビュー 2026-10-02 論点 8(bomdd/reports/external-review-20261002/)。c9_dotnet は out.trx があれば UnitTestResult 行だけを判定し、
       プロセス終了コードも ResultSummary も RunInfo Error も見ない(実読・参照 0 件)。レビューの合成 4 腕のうち「Passed 行・Aborted・run-level Error・終了 2」
