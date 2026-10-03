@@ -76,4 +76,15 @@
 - **V4**= PASS(観測: selftest の失敗腕= index に無い path を正規化対象に渡すと `update-index --no-assume-unchanged 失敗(exit 128・1 件)` を理由に (False, …)。本番経路では `INDEX_NORMALIZE_FAILED` に写像〔読解・`worktree_tree` の分岐〕)。
 - **V3**(検査官の sparse-checkout 環境)・**V5**〜**V7**= 独立検査とクローズで。
 
-## 6. 独立検査(クローズ時に追記)
+## 6. 独立検査(異系統・Codex EQ-002・入口 bomdd-run から `--report`/`--range` つきで起動・workspace-write)
+
+### 6.1 r1(2026-10-04・range= 境界探索)— 報告: [independent-inspection-eco-096.md](reports/independent-inspection-eco-096.md)
+
+- 起動: 製造 commit `f34a6d6`(witness tree 21920a69e1b1・入口 `ADVANCE ECO-096 OK → next · launching`)→ `cell exit 0` → `report ACCEPT sha256:478a2d514135 (EQ-002)`。作業木 clean・commit 0・`.git/index` 操作 0・外部 API なし。
+- 判定: **ACCEPT**(所見なし・blocking 0・non-blocking 0)。V1 PASS(selftest ADVANCE・no-op 変異で STOP 3 腕)/ V2 PASS(隔離リポ・フラグ 0 件で同一 tree)/ V3 PASS(検査官の自環境は今回 S/h **0 件**〔r2 の 1151 件とは sandbox 構成が異なる〕→ 隔離リポで代替・サブディレクトリ・空白・非 ASCII の 3 例で是正前= index・是正後= 作業ツリー)/
+  V4 PASS(失敗注入で `UNMEASURABLE TREE_UNAVAILABLE(INDEX_NORMALIZE_FAILED)`・produce exit 2)/ V5 PASS(窓 5 パス・workflow 2 行・fast matrix のみ)。
+  境界探索 20 行(assume-only・両フラグ・複数+サブディレクトリ・空白・非 ASCII・削除+S・未追跡・ignore・intent-to-add・staged 削除・produce→verify 往復と変更後の TREE_MISMATCH〔是正前は index 側に固定され変更を識別しない対照〕・2 オプション同時指定の独立再現〔逆順でも S が残る〕・原因語彙・CI 結線・副作用)で偽証明 0・実 index 変化 0。
+- 検査官の計器所見(自己訂正): PowerShell の `-match` は大文字小文字を区別せず `H` 1161 件を誤算入 → `-cmatch` で 0 件に訂正(報告に明記)。
+- 次: r2(range= 是正確認+回帰・是正なしのため回帰のみ: V1〜V5 の再測+境界表 6 行)— playbook §3 の規則どおり ACCEPT は是正確認+回帰の round で確定する。
+
+## 7. クローズ(クローズ時に追記)
