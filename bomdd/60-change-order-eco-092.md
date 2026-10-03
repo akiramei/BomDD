@@ -100,4 +100,21 @@ C18 の NA 宣言(CI)は不変 — 較正行は NA 判定の前に出す。
   事前に置いた stale witness `deadbeef\nPASS\n` が**削除**され、stdout と stderr に同一の `[witness] 書出し省略(判定不変・証明しない・ECO-092): …` 行。正常経路では witness が書かれ出力なし)。
 - **V4**〜**V7**= §6。
 
-## 6. クローズ(クローズ時に追記)
+## 6. 独立検査(異系統・Codex EQ-002・入口 bomdd-run から `--report`/`--range` つきで起動・workspace-write)
+
+### 6.1 r1(2026-10-03・range= 境界探索)— 報告: [independent-inspection-eco-092.md](reports/independent-inspection-eco-092.md)
+
+- 起動: commit `5d90ba4`(witness tree dbaba17fd20a・入口 `ADVANCE ECO-092 OK → next · launching`)→ `cell exit 0` → `report REJECT sha256:b1859d0f96f0 (EQ-002)`・台帳 `range: 境界探索`。検査官の作業木: 開始・終了とも clean・commit 0・`.git/index` 操作 0・外部 API なし。
+- 判定: **REJECT IA-01, IA-02**(blocking 2・non-blocking 2)。対象機能(C18 witness)は V1〜V4 PASS・境界探索 19 行(assume-unchanged / 両フラグ / 複数+サブディレクトリ / 空白・非 ASCII パス / 作業ツリー削除+S /
+  未追跡 / .gitignore / intent-to-add / staged 削除 / 非 git root / init 直後 / 破損 index / merge conflict / write-tree 失敗注入 / sparse-checkout / 2 オプション同時指定の独立再現)で「検査した作業ツリーと違う bytes の証明」0・実 index の変化 0。
+- **IA-01(blocking・V5)— 帰属= 環境(検査官の sandbox)**: 検査官環境で fast tier が C14 kit-freshness の **REAL 腕のみ FAIL**(他は PASS・C18 2 行 PASS)・exit 1。受理側の実測: 同一 tree `dbaba17fd20a` で製造者の fast tier exit 0(commit 前・witness gate)+
+  **CI run 37104338649 success**(5d90ba4・ubuntu / windows の fast job とも)。REAL 腕= 実 scaffold を OS temp に作る検査で、**ECO-075 r1・ECO-081 r1 IA-02 と同型(3 例目)**の sandbox 制約。製造物は非改変。
+  再発防止= r2 ブリーフに「C14 REAL は sandbox で FAIL することが既知・V5 の self-conformance は製造者実測+CI で測り、検査官は C18 行の文言を読む」と明記(ブリーフの欠陥として受理側に帰属)。
+- **IA-02(blocking・V5)— 帰属= 受理側の台帳**: 窓 `069e0d5..5d90ba4` に ECO-094 の起票 2 パス(order・preregistration)が入り、3 ECO の和集合の外。窓が開いている間に別 ECO を起票した受理側の手順の問題。
+  是正= ECO-091/092 の allowed_paths に ECO-094 の台帳系 2 パスを追加(理由を register のコメントに記す)。ECO-094 の diff は台帳系のみ・tools 非接触(V5 の意味= 製造物の窓は変わらない)。
+- **IA-03(non-blocking)— 帰属= 上流(§1-5 の限界宣言)**: sparse-checkout では `add -A` が sparse の適用範囲を尊重し、フラグを外しても sparse 外の path は index の内容のまま tree に残る(「削除として記録され遮断」は誤り)。
+  是正= C18 の限界宣言 (6) を実挙動に合わせて書き直し(index の内容は通常 HEAD と同一で通る・sparse 外で index≠HEAD の稀な場合は検査していない bytes を証明する= 限界)。§1-5 の文は凍結のまま、本節で訂正。
+- **IA-04(non-blocking)— 帰属= 受理側のブリーフ**: 未解決 merge conflict は一時 index への `add -A` が作業ツリーの内容で解消するため write-tree の失敗腕にならない(検査官は exit 17 の注入で分岐を確認)。ブリーフの例示の誤り。
+- 次: r2(range= 是正確認+回帰: IA-02 の窓・IA-03 の宣言・V1〜V4 の回帰。IA-01 は環境帰属で製造物非改変— r2 では self-conformance の全体 exit を判定に使わず C18 行を読む)。
+
+## 7. クローズ(クローズ時に追記)

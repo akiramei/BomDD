@@ -1774,7 +1774,10 @@ def c17_calibrate_receipt() -> None:
 #   (6) ECO-092: skip-worktree / assume-unchanged のフラグは一時 index 上で外してから add -A する
 #       (フラグ付き entry は add が更新せず、検査が読んだ作業ツリーでなく index の bytes を証明していた —
 #       外部レビュー 2026-10-02 論点 9・隔離リポで再現)。sparse-checkout(skip-worktree を大量に使う)では
-#       sparse 外の path が作業ツリーに無く削除として記録され commit tree と不一致= 遮断(安全側・本リポ未使用)。
+#       add -A が sparse の適用範囲を尊重し、sparse 外の path はフラグを外しても index の内容のまま tree に残る
+#       (独立検査 r1 IA-03 の実測 — 起票時の「削除として記録され遮断」は誤り)。index の内容は通常 HEAD と同一なので
+#       commit tree と一致して通るが、検査はその path を読めない= sparse 外で index≠HEAD の場合(稀)は検査していない
+#       bytes を証明する。限界として宣言(本リポ未使用)。
 #       git の非 0 で witness は書かず、古い witness も削除し、理由を [witness] 行で出す(無音にしない)。
 
 def _witness_tree(root: Path, git_dir: Path) -> tuple[str | None, str]:

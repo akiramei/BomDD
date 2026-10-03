@@ -8277,6 +8277,10 @@ E-BOM は利用者に意味のある機能で切る・承認済み E/S 版から
 検査官の環境観測= fast tier が 6 分以上無出力で中断(pwsh 経由の出力バッファ)— ECO-092 のブリーフへ待ち時間を注記。ECO-093 verified(CI 37102721323 success・製造者較正のみ)。
 **ECO-094 起票**(user 裁定 1:A・事前登録つき): 保守上の約束を人が REQ として上流で裁定 → E/S 版を bom_rev+tag で設計リリース → 統括 AI が M/CP を導出(人へ戻すのは新しい機能・約束・導出不能だけ)→ 製品側で検査を製造 →
 REQ→E→M→CP→test ID→実行証拠の追跡(構造と意味を別審査)→ 振り分けリハーサル → E→M 参照方向の確認。製品の実例= ViewPrism2 の `-v2`(サービス継続の約束)が ECO-049 で下流に決まった。候補 A(E-THUMB-020)/ B(E-DB-010)は user の裁定事項。
+**受入追記 2(2026-10-03)**: ECO-092 独立検査 r1(Codex・境界探索)= **REJECT IA-01, IA-02**(対象機能は V1〜V4 PASS・境界探索 19 行で偽証明 0・実 index 変化 0)。IA-01= 検査官 sandbox で C14 kit-freshness の REAL 腕のみ FAIL →
+環境帰属(同一 tree で製造者 exit 0+CI success・**ECO-075 r1・ECO-081 r1 に続く 3 例目**— 検査官ブリーフに既知の環境差として書き、全体 exit を判定に使わず C18 行を読ませる)。IA-02= 窓が開いている間に ECO-094 を起票して和集合の外に 2 パス →
+受理側の手順の問題・和集合へ追加。IA-03(non-blocking)= sparse-checkout の限界宣言が実挙動と不一致(add -A は sparse の範囲を尊重し sparse 外は index の内容のまま残る)→ 宣言を訂正・限界は「sparse 外で index≠HEAD の稀な場合」へ。
+IA-04= merge conflict は add -A が解消し失敗腕にならない(ブリーフの例示)。**受理側帰属 3 件(ブリーフ 2・台帳 1)対 製造物 0・上流(宣言)1** — 検査官が製造者の検体の外(sandbox・窓・sparse)を測った。
 - [open] EXP-20261003-01 — **保守上の約束を人が上流(REQ)で裁定し、承認済み E/S 版から統括 AI が M/CP を導出する経路は、1 機能で実行可能か・責任境界は機能するか・規範から実行証拠まで到達するか**(ECO-094・ViewPrism2 1 機能): 事前登録(reports/eco-094-upstream-sbom-trial/preregistration.md)の M1(人へ戻った判断の種別— 機械的派生 0 か)・M2(REQ→E→M→CP→test→証拠の 5 辺の到達性・意味の審査は別欄)・M3(赤/測定不能の振り分け 2/2)・M4(E→M 参照 0 件)を読み方のとおり回収する。playbook・テンプレ(S-BOM の工程位置・粒度規準・設計リリース契約)への反映はこの回収の後に判断する。効果量・一般化は主張しない(N=1・同一オーナー)
   source: ECO-094(外部レビュー 2026-10-02 論点 1・2・5 × user DECIDE「1:A」)
   evidence: bomdd/60-change-order-eco-094.md §1・§2・bomdd/reports/eco-094-upstream-sbom-trial/preregistration.md
