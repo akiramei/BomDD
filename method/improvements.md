@@ -8283,6 +8283,11 @@ REQ→E→M→CP→test ID→実行証拠の追跡(構造と意味を別審査)�
 IA-04= merge conflict は add -A が解消し失敗腕にならない(ブリーフの例示)。**受理側帰属 3 件(ブリーフ 2・台帳 1)対 製造物 0・上流(宣言)1** — 検査官が製造者の検体の外(sandbox・窓・sparse)を測った。
 ECO-092 r2(是正確認+回帰)= **ACCEPT**(所見なし・回帰 10 行一致)。検査官の作業木は sparse-checkout で S/h 1151 件(r1 は 0)— 本 ECO の対象状態が検査官環境で実在(自然発生 1 例・製造者環境ではない)。
 ECO-091 r2(是正確認+回帰)= **REJECT IA-03**(項目 1〜3 PASS・項目 4「窓」のみ FAIL)— 受理側ブリーフが「差分は IA-02 の是正に限る」と書き、同じファイルに同居する ECO-092 の是正コメントを条件から除外していなかった(**窓を共有する姉妹 ECO の扱いの不備・IA-02 と同型の 2 例目**)。製造物非改変・r3 を項目 4 のみで回す。
+**クローズ追記(2026-10-03・ECO-091/092 verified)**: ECO-091 r3= **ACCEPT**(窓 21 パス・対象ファイルの差分 5 hunk が IA-02 の是正と ECO-092 のコメント訂正だけ・関数本体の差分なし)。CI 4 run(e7d563b / 5d90ba4 / e096369 / e8a7ee6)success。
+両 ECO とも製造物に対する blocking 所見 0。独立検査 5 round の帰属= 製造物 2(ECO-091 の規則 (c)〔製造者 V3 が捕捉〕・診断文 IA-02)/ 上流 1(sparse の限界宣言)/ 受理側 4(ブリーフ 3・窓の台帳 1)/ 環境 1(sandbox の C14 REAL・3 例目)。
+**受理側の窓の扱いが 2 回続けて REJECT を生んだ**(ECO-092 r1 IA-02= 窓が開いている間の別 ECO の起票 / ECO-091 r2 IA-03= 姉妹 ECO の差分をブリーフの条件が除外せず)— 同時起票で窓を共有するときは、
+①和集合の allowed_paths に後続の起票・報告パスを先に入れる ②ブリーフの差分条件を「本 ECO の差分+姉妹 ECO の差分(列挙)」と書く、の 2 点を受理側の手順にする(記帳のみ・factory-delegate の改訂は 3 例目で判断)。
+受理側の較正 receipt は製造者が書いた(receipt_author_role= producer・独立検査併用)。
 - [open] EXP-20261003-01 — **保守上の約束を人が上流(REQ)で裁定し、承認済み E/S 版から統括 AI が M/CP を導出する経路は、1 機能で実行可能か・責任境界は機能するか・規範から実行証拠まで到達するか**(ECO-094・ViewPrism2 1 機能): 事前登録(reports/eco-094-upstream-sbom-trial/preregistration.md)の M1(人へ戻った判断の種別— 機械的派生 0 か)・M2(REQ→E→M→CP→test→証拠の 5 辺の到達性・意味の審査は別欄)・M3(赤/測定不能の振り分け 2/2)・M4(E→M 参照 0 件)を読み方のとおり回収する。playbook・テンプレ(S-BOM の工程位置・粒度規準・設計リリース契約)への反映はこの回収の後に判断する。効果量・一般化は主張しない(N=1・同一オーナー)
   source: ECO-094(外部レビュー 2026-10-02 論点 1・2・5 × user DECIDE「1:A」)
   evidence: bomdd/60-change-order-eco-094.md §1・§2・bomdd/reports/eco-094-upstream-sbom-trial/preregistration.md

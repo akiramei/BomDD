@@ -126,4 +126,41 @@ C18 の NA 宣言(CI)は不変 — 較正行は NA 判定の前に出す。
   初回の隔離 clone は dubious ownership で不成立・2 回目は後片付けの sandbox アクセス拒否で停止(測定値に採用せず)。本 ECO の対象(skip-worktree を持つ作業木で witness が index の bytes を証明する)が検査官自身の環境で**実在した**ことになる—
   是正前の実装なら、その作業木での PASS witness は検査していない bytes を証明していた(自然発生の露出 1 例・ただし本リポの製造者環境ではなく検査官 sandbox の clone)。
 
-## 7. クローズ(クローズ時に追記)
+## 7. クローズ(2026-10-03・verified)
+
+- **V4**= PASS(観測: `git diff --stat 069e0d5 e8a7ee6 -- bomdd/hooks/`= 空・witness 形式 `<tree>\nPASS\n`〔検査官 r1/r2 で LF 2 個・CR なしを確認〕・本 ECO の各 push が是正後の witness で pre-push を通過〔e7d563b 以降 5 push〕)。
+- **V5**= PASS(観測: 窓 `069e0d5` → `e8a7ee6`= 21 パス・全て和集合の内〔検査官 r2 項目 1・091-r3 4'(a)〕。CI: e7d563b 37102721323 / 5d90ba4 37104338649 / e096369 37105504245 / e8a7ee6 37106713044 いずれも success。各 commit は self-conformance exit 0 を観測してから作成)。
+- **V6**= PASS(観測: 異系統の独立検査 r1 REJECT〔IA-01 環境帰属・IA-02 受理側の窓・non-blocking IA-03 宣言・IA-04 ブリーフ〕→ 是正 e096369 → r2 ACCEPT〔所見なし〕。製造物に対する blocking 所見 0)。
+- **V7**= 下の較正 receipt。diff 監査の窓: baseline `069e0d5` → head `e8a7ee6`(**窓閉鎖**)。register: `implemented → verified`。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格+③: 計器〔C18 witness の tree 計算・較正行〕の変更・receipt_author_role= producer・独立検査あり)
+
+- 査定した主張と判定:
+  1. 「witness の tree は、skip-worktree / assume-unchanged の entry があっても検査が読んだ作業ツリーの bytes を含む」— **observed / 適格**(較正 3 腕・検査官の境界探索 19 行〔assume-only・両フラグ・複数・空白/非 ASCII・削除+S〕で偽証明 0)。
+  2. 「実 index は変えない」— **observed / 適格**(全腕で `ls-files -s`/`-v`/status 前後一致・検査官も同じ)。
+  3. 「フラグ 0 件の作業木では是正前後の tree が同一」— **observed / 適格**(製造者 V2・検査官 r1/r2 の隔離 clone)。
+  4. 「git の失敗で witness を書かず、古い witness を削除し、理由を出す」— **observed / 適格**(破損 index の実測・製造者と検査官・write-tree 失敗は検査官が exit 17 注入で分岐確認)。
+  5. 「hook と witness 形式は不変」— **observed / 適格**(diff 0・形式確認)。
+  6. 「sparse-checkout でも検査した bytes を証明する」— **unknown / 宣言済み限界**(検査官 r1 IA-03: sparse 外の path は index の内容のまま残る。index=HEAD が通常のため通るが、index≠HEAD の稀な場合は検査していない bytes を証明する。起票時の「削除として遮断」は誤りで訂正)。
+  7. 「対象状態(S/h entry のある作業木)は自然に発生する」— **observed(1 例・検査官の sandbox clone が sparse-checkout で 1151 件)**— 製造者環境・CI では 0 件。
+- 検出した計器欠陥(帰属つき): 製造物 0 件(是正前の欠陥= レビュー論点 9・本 ECO の対象)。上流 1 件= §1-5 の sparse の限界宣言が実挙動と不一致(検査官 r1 IA-03・訂正)。
+  受理側 3 件= ブリーフが sandbox の既知の環境差(C14 REAL)を書いていなかった(IA-01)/ 窓が開いている間に ECO-094 を起票して和集合の外に 2 パス(IA-02)/ merge conflict の例示が失敗腕にならない(IA-04)。
+  製造中の発見 1 件= `update-index` の 2 オプション同時指定で skip-worktree が残る(git の無音の分岐・別呼び出しで是正・検査官が独立再現)。
+- 検出力の限界: 主張 6 の稀な場合。`bomdd-witness.py` の同型は範囲外(後続 ECO)。独立検査官は 1 系統。CI では witness は使われない(NA・較正行のみ実測)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 限界宣言 (6) が実挙動(sparse)と範囲外(bomdd-witness)を明記 |
+  | Q2 | asked | observed/適格 | 実測 | 対の腕(skip-worktree 腕 / 対照腕)と失敗腕を毎回実測・C18 較正行 |
+  | Q3 | asked | observed/適格 | 実測 | 是正前(index の bytes を証明・再現スクリプト)と是正後(作業ツリーの bytes)を同じ入力で反転 |
+  | Q4 | asked | observed/適格 | 実測 | 実 git リポ・実 index・実 update-index(モックなし) |
+  | Q5 | asked | observed/適格 | 実測 | sparse の稀な場合・bomdd-witness の同型・CI の NA を分離 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → witness → 入口 → commit → push(pre-push 通過)→ CI |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= C18 較正行 3 腕(CI でも実測) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(tree)・commit・CI run・検査報告 sha256 を同一個体として照合 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」 |
+  | Q11 | asked | observed/適格 | 実測 | 入力クラス(S / h / 両方 / 複数 / パス表記 / 削除 / 未追跡 / ignore / intent-to-add / staged 削除 / 非 git / 破損 / conflict / sparse)— 検査官が製造者の 3 腕の外を広く測った |
+
+- このクローズが支持しないもの: sparse 外で index≠HEAD の場合の証明 / `bomdd-witness.py` の同型の是正(後続 ECO)/ 意図的な witness 改竄・hook 除去(信頼境界外・ECO-046 と同じ)。

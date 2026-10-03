@@ -2954,7 +2954,8 @@ changes:
     title: C9 が実行単位の異常(中断・run-level Error・終了状態と報告の不整合)を合格にする — TRX の行単位判定だけで判定する偽陰性の是正
     date: 2026-10-03
     origin: defect
-    status: implemented   # 2026-10-03 外部レビュー(2026-10-02)論点 8 → user DECIDE「2:A」→ 起票 246c2fd → 製造(規則 (c) を製造中の実測で狭めた: xUnit アダプタの RunInfo Error・期待赤 suite の誤拒否を V3 が捕捉)→ V1〜V3 PASS → implemented → 独立検査 r1 ACCEPT(境界探索・non-blocking IA-01 宣言済み限界の実例・IA-02 診断文→ 是正 5d90ba4)→ r2 REJECT IA-03(受理側ブリーフの欠陥: 窓を共有する ECO-092 のコメント差分を条件が除外していなかった・項目 1〜3 は PASS)→ r3(項目 4 のみ)へ
+    status: verified   # 2026-10-03 外部レビュー(2026-10-02)論点 8 → user DECIDE「2:A」→ 起票 246c2fd → 製造 e7d563b(規則 (c) を製造中の実測で狭めた: xUnit アダプタの RunInfo Error・期待赤 suite の誤拒否を V3 が捕捉)→ V1〜V3 PASS → 独立検査 r1 ACCEPT(境界探索・non-blocking IA-01 宣言済み限界の実例・IA-02 診断文→ 是正 5d90ba4)→ r2 REJECT IA-03(受理側ブリーフの欠陥・製造物非改変)→ r3 ACCEPT(窓)→ CI 4 run success(e7d563b/5d90ba4/e096369/e8a7ee6)→ verified(窓閉鎖 069e0d5→e8a7ee6・較正 receipt trigger ①③)
+    receipt_author_role: producer   # ECO-077 観測欄(独立検査併用・receipt は製造者)
     source: >
       外部レビュー 2026-10-02 論点 8(bomdd/reports/external-review-20261002/)。c9_dotnet は out.trx があれば UnitTestResult 行だけを判定し、
       プロセス終了コードも ResultSummary も RunInfo Error も見ない(実読・参照 0 件)。レビューの合成 4 腕のうち「Passed 行・Aborted・run-level Error・終了 2」
@@ -2964,9 +2965,10 @@ changes:
     no_impact_prediction: "(製造前・凍結)diff= self-conformance.py(C9 の純関数 2 本の追加・c9_dotnet の結線・_c9_selftest の腕追加)+台帳系のみ。C1〜C8・C10〜C18 の判定式とメッセージ不変。既存 4 suite は正常完了のため C9 判定不変(CI で実測)。templates・hooks・.github・schemas diff 0・製品リポへ非波及"
     diff_audit:
       baseline: "069e0d5"  # 起票直前 HEAD(レビューの対象コミットと同一)
+      head: "e8a7ee6"      # diff監査済み: 窓内 21 パス= 和集合の内(独立検査 r3 4'(a))・製造物の差分は C9 系+ECO-092 の witness 系のみ・クローズ commit は台帳系+r3 報告のみ
       # 同時起票の ECO-091/092/093 は baseline を共有し窓が重なるため、allowed_paths は 3 ECO の和集合(受入条件・判定は ECO ごと)。
-      # ECO-092 r1 IA-02(2026-10-03): 窓が開いている間に ECO-094 を起票した(5d90ba4)ため、その台帳系 2 パスを和集合へ追加(ECO-094 の diff は台帳系のみ・tools 非接触)
-      allowed_paths: [method/tools/self-conformance.py, method/bomdd-playbook-v1.md, method/prompts/phase3-design.md, method/prompts/phase4-manufacture.md, method/templates/34-routing.yaml, method/templates/40-work-order.md, method/templates/product-profile/skills/bomdd-next.md, method/templates/README.md, method/improvements.md, bomdd/60-change-order-eco-091.md, bomdd/60-change-order-eco-092.md, bomdd/60-change-order-eco-093.md, bomdd/60-change-order-eco-094.md, bomdd/60-change-register.yaml, bomdd/reports/external-review-20261002/, bomdd/reports/eco-094-upstream-sbom-trial/, bomdd/reports/independent-inspection-eco-091.md, bomdd/reports/independent-inspection-eco-091-r2.md, bomdd/reports/independent-inspection-eco-092.md, bomdd/reports/independent-inspection-eco-092-r2.md]
+      # ECO-092 r1 IA-02(2026-10-03): 窓が開いている間に ECO-094 を起票した(5d90ba4)ため、その台帳系 2 パスを和集合へ追加(ECO-094 の diff は台帳系のみ・tools 非接触)。r3 報告(091-r3)も追加
+      allowed_paths: [method/tools/self-conformance.py, method/bomdd-playbook-v1.md, method/prompts/phase3-design.md, method/prompts/phase4-manufacture.md, method/templates/34-routing.yaml, method/templates/40-work-order.md, method/templates/product-profile/skills/bomdd-next.md, method/templates/README.md, method/improvements.md, bomdd/60-change-order-eco-091.md, bomdd/60-change-order-eco-092.md, bomdd/60-change-order-eco-093.md, bomdd/60-change-order-eco-094.md, bomdd/60-change-register.yaml, bomdd/reports/external-review-20261002/, bomdd/reports/eco-094-upstream-sbom-trial/, bomdd/reports/independent-inspection-eco-091.md, bomdd/reports/independent-inspection-eco-091-r2.md, bomdd/reports/independent-inspection-eco-091-r3.md, bomdd/reports/independent-inspection-eco-092.md, bomdd/reports/independent-inspection-eco-092-r2.md]
     summary: >
       実行単位の判定を純関数 _c9_run_verdict(終了コード・ResultSummary@outcome・RunInfo Error・不合格行の有無)に切り出し、c9_dotnet で行単位の判定と AND で結ぶ。
       ResultSummary 不在は測定不能= FAIL・Completed/Failed 以外は FAIL・「不合格行が無いのに RunInfo Error」は FAIL(製造中の実測で狭めた: xUnit アダプタは失敗テストのメッセージを
@@ -2981,7 +2983,8 @@ changes:
     title: pre-push witness が検査していない Git の木を証明する — skip-worktree / assume-unchanged 付き entry を一時 index が引き継ぐ偽証明の是正
     date: 2026-10-03
     origin: defect
-    status: implemented   # 2026-10-03 外部レビュー(2026-10-02)論点 9 → user DECIDE「2:A」→ 起票 246c2fd → 製造(update-index の 2 オプション同時指定で skip-worktree が残る実測 → 別呼び出しへ)→ V1〜V3 PASS・C18 較正 3 腕 True → implemented → 独立検査 r1 REJECT IA-01(検査官 sandbox の C14 REAL 腕= 環境帰属・同一 tree で製造者 exit 0+CI 37104338649 success)・IA-02(窓に ECO-094 の起票 2 パス= 和集合へ追加)・non-blocking IA-03(sparse の宣言を実挙動へ訂正)・IA-04(ブリーフの例示)→ 是正 e096369 → r2 ACCEPT(所見なし・回帰 10 行一致・検査官作業木は sparse-checkout で S/h 1151 件= 対象状態の自然発生 1 例)→ verified は CI 結論の観測後
+    status: verified   # 2026-10-03 外部レビュー(2026-10-02)論点 9 → user DECIDE「2:A」→ 起票 246c2fd → 製造 e7d563b(update-index の 2 オプション同時指定で skip-worktree が残る実測 → 別呼び出しへ)→ V1〜V3 PASS・C18 較正 3 腕 True → implemented → 独立検査 r1 REJECT IA-01(検査官 sandbox の C14 REAL 腕= 環境帰属・同一 tree で製造者 exit 0+CI 37104338649 success)・IA-02(窓に ECO-094 の起票 2 パス= 和集合へ追加)・non-blocking IA-03(sparse の宣言を実挙動へ訂正)・IA-04(ブリーフの例示)→ 是正 e096369 → r2 ACCEPT(所見なし・回帰 10 行一致・検査官作業木は sparse-checkout で S/h 1151 件= 対象状態の自然発生 1 例)→ CI 4 run success → verified(窓閉鎖 069e0d5→e8a7ee6・較正 receipt trigger ①③)
+    receipt_author_role: producer   # ECO-077 観測欄(独立検査併用・receipt は製造者)
     source: >
       外部レビュー 2026-10-02 論点 9(bomdd/reports/external-review-20261002/)。_write_selfconf_witness は実 index を一時 index へ複製して git add -A するが、
       skip-worktree / assume-unchanged の entry は add が更新しないため index の bytes が tree に入る(検査は作業ツリーを読む)。隔離リポで再現(不正 YAML を index に置き
@@ -2991,9 +2994,10 @@ changes:
     no_impact_prediction: "(製造前・凍結)diff= self-conformance.py(witness 関数の分割・一時 index のフラグ正規化・成否確認・C18 較正行)+台帳系のみ。hook・templates・.github・schemas diff 0。フラグ 0 件の作業木では witness tree は是正前後で同一(実測)。C18 の PASS 行が較正行 1 行分増える以外 C1〜C17 不変。C18 の NA 宣言(CI)不変"
     diff_audit:
       baseline: "069e0d5"  # 起票直前 HEAD
+      head: "e8a7ee6"      # diff監査済み: 窓内 21 パス= 和集合の内(独立検査 r2 項目 1・091-r3 4'(a))・製造物の差分は witness 系+ECO-091 の C9 系のみ・クローズ commit は台帳系+報告のみ
       # 同時起票の ECO-091/092/093 は baseline を共有し窓が重なるため、allowed_paths は 3 ECO の和集合(受入条件・判定は ECO ごと)。
-      # r1 IA-02(2026-10-03): 窓が開いている間に ECO-094 を起票した(5d90ba4)ため、その台帳系 2 パスを和集合へ追加(ECO-094 の diff は台帳系のみ・tools 非接触)
-      allowed_paths: [method/tools/self-conformance.py, method/bomdd-playbook-v1.md, method/prompts/phase3-design.md, method/prompts/phase4-manufacture.md, method/templates/34-routing.yaml, method/templates/40-work-order.md, method/templates/product-profile/skills/bomdd-next.md, method/templates/README.md, method/improvements.md, bomdd/60-change-order-eco-091.md, bomdd/60-change-order-eco-092.md, bomdd/60-change-order-eco-093.md, bomdd/60-change-order-eco-094.md, bomdd/60-change-register.yaml, bomdd/reports/external-review-20261002/, bomdd/reports/eco-094-upstream-sbom-trial/, bomdd/reports/independent-inspection-eco-091.md, bomdd/reports/independent-inspection-eco-091-r2.md, bomdd/reports/independent-inspection-eco-092.md, bomdd/reports/independent-inspection-eco-092-r2.md]
+      # r1 IA-02(2026-10-03): 窓が開いている間に ECO-094 を起票した(5d90ba4)ため、その台帳系 2 パスを和集合へ追加(ECO-094 の diff は台帳系のみ・tools 非接触)。091-r3 報告も追加
+      allowed_paths: [method/tools/self-conformance.py, method/bomdd-playbook-v1.md, method/prompts/phase3-design.md, method/prompts/phase4-manufacture.md, method/templates/34-routing.yaml, method/templates/40-work-order.md, method/templates/product-profile/skills/bomdd-next.md, method/templates/README.md, method/improvements.md, bomdd/60-change-order-eco-091.md, bomdd/60-change-order-eco-092.md, bomdd/60-change-order-eco-093.md, bomdd/60-change-order-eco-094.md, bomdd/60-change-register.yaml, bomdd/reports/external-review-20261002/, bomdd/reports/eco-094-upstream-sbom-trial/, bomdd/reports/independent-inspection-eco-091.md, bomdd/reports/independent-inspection-eco-091-r2.md, bomdd/reports/independent-inspection-eco-091-r3.md, bomdd/reports/independent-inspection-eco-092.md, bomdd/reports/independent-inspection-eco-092-r2.md]
     summary: >
       tree の計算を _witness_tree(root, git_dir) に切り出し、一時 index 上で S/h フラグを update-index --no-skip-worktree --no-assume-unchanged(-z --stdin)で正規化してから add -A → write-tree。
       update-index / add / write-tree の失敗は witness を書かず既存 witness を削除し [witness] 行を出す。陽性対照= skip-worktree 腕・対照腕・失敗腕(C18 の較正行・CI でも実測)。

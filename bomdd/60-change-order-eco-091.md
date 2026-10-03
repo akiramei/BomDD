@@ -133,4 +133,47 @@ templates・hooks・.github・schemas は diff 0。製品リポへ非波及(self
   検査官はブリーフの文面どおり FAIL とした(正当)。製造物の欠陥ではない。窓を共有する姉妹 ECO の差分をブリーフの条件が除外していなかった(IA-02 と同型の、受理側の窓の扱いの不備・2 例目)。
 - 是正= r3 のブリーフで項目 4 を「差分= IA-02 の是正(抽出・診断文・較正腕・較正行)+ECO-092 r1 IA-03 のコメント 4 行〔`_witness_tree` 等の関数本体に差分なし〕に限られること」と正しく定義し、範囲を項目 4 のみに限定する。
 
-## 7. クローズ(クローズ時に追記)
+### 6.3 r3(2026-10-03・range= 是正確認+回帰・項目 4 のみ)— 報告: [independent-inspection-eco-091-r3.md](reports/independent-inspection-eco-091-r3.md)
+
+- 起動: commit `e8a7ee6`(witness tree 7bda72ed711b・入口 `ADVANCE ECO-091 OK → next · launching`)→ `cell exit 0` → `report ACCEPT sha256:a995b1eb7189 (EQ-002)`。作業木 clean・commit 0・外部 API なし。
+- 判定: **ACCEPT**(所見なし)。4'(a) 窓 21 パス全て和集合の内 / 4'(b) 対象ファイルの差分 5 hunk= ①IA-02 の是正 4 hunk+②ECO-092 IA-03 のコメント 4 行・関数本体にコード差分なし(`c9_dotnet` は較正行の文言のみ)/ 4'(c) 受理側の記録と一致。
+- 独立検査の総括: r1 ACCEPT(境界探索・non-blocking 2)→ 是正 → r2 REJECT(受理側ブリーフの欠陥・製造物非改変)→ r3 ACCEPT(窓)。製造物に対する blocking 所見= **0**。受理側帰属= 1(ブリーフ)。
+
+## 7. クローズ(2026-10-03・verified)
+
+- **V4**= PASS(観測: 窓 `069e0d5` → `e8a7ee6`= 21 パス・全て和集合の内〔r3 4'(a)〕。PASS 行の差= C9 の較正行の文言と C18 の較正行 1 行(ECO-092)のみ・FAIL 0・他の check 行の文言は不変)。
+- **V5**= PASS(観測: 製造 commit e7d563b CI 37102721323 success / 是正 5d90ba4 CI 37104338649 success / e096369 CI 37105504245 success / 窓末尾 e8a7ee6 CI 37106713044 success〔fast ubuntu・fast windows・dotnet= C9 4 suite 込み〕。
+  各 commit は self-conformance exit 0 を観測してから作成)。
+- **V6**= PASS(観測: 異系統の独立検査 r1 ACCEPT〔境界探索・non-blocking 2〕→ r2 REJECT〔受理側ブリーフの欠陥・製造物非改変〕→ r3 ACCEPT〔窓・項目 4 のみ〕。製造物に対する blocking 所見 0)。
+- **V7**= 下の較正 receipt。diff 監査の窓: baseline `069e0d5` → head `e8a7ee6`(**窓閉鎖**・本クローズ commit は台帳系+r3 報告のみ)。register: `implemented → verified`。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格+③: 計器〔C9 の実行単位の判定〕の変更・receipt_author_role= producer・独立検査あり)
+
+- 査定した主張と判定:
+  1. 「C9 PASS は、実行が完了し(Completed / Failed)、不合格行で説明できない基盤エラーが無く、終了状態と報告が整合していることを含意する」— **observed / 適格**(純関数の対の腕 7+TRX 抽出 3・独立検査官の境界探索 30 行で誤受入 0)。
+  2. 「期待赤 suite(loop-02-export)は赤にならない」— **observed / 適格**(ローカル `--dotnet` 2 回目と CI dotnet job で `実行単位 ok(outcome=Failed・exit 1)`。1 回目の FAIL が規則 (c) の誤りを捕捉した= 実 TRX を読む前の DoD ✔ は過大だった)。
+  3. 「レビューの誤受入 2 腕(中断 / 実行エラー+全行合格)は FAIL になる」— **observed / 適格**(製造者の検体+検査官の自前の検体)。
+  4. 「行単位の判定は不変」— **observed / 適格**(`_c9_suite_verdict` に diff なし・検査官 r3 4'(b))。
+  5. 「既存 4 suite の判定は不変」— **observed / 適格**(CI dotnet job・ローカル 2 回目)。
+  6. 「不合格行と同居する基盤エラーも捕まえる」— **unknown / 宣言済み限界**(検査官 r1 IA-01 がその形を合成: outcome=Failed・行数一致・exit 1 のまま PASS。実 VSTest がこの形を書き切る実例は未観測。残る防御= Aborted・行数不一致・終了状態の不整合)。
+- 検出した計器欠陥(帰属つき): 製造物 1 件= 起票時の規則 (c)「RunInfo Error があれば FAIL」が期待赤 suite を誤拒否(製造中に是正・§4)/ 製造物 1 件= outcome 属性なしの診断文(検査官 r1 IA-02・是正)/
+  受理側 1 件= r2 ブリーフの窓の条件が姉妹 ECO の差分を除外していなかった(r2 REJECT・製造物非改変)/ 上流 0 件。
+- 検出力の限界: 合成入力で測った(実 .NET のクラッシュは再現していない— レビューと同じ立場)。主張 6 の形は捕まえられない。VSTest の TRX のみ(MTP の TRX 形式は未検証)。`Warning` は判定語にしない。
+  独立検査官は 1 系統(EQ-002)。CI は fast tier が ubuntu / windows・dotnet は windows のみ。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 計器は自分の範囲(行の外の異常・限界= 不合格行と同居する Error)を check 行の文言と注記で宣言している |
+  | Q2 | asked | observed/適格 | 実測 | 対の腕(正常 / 期待赤 / 期待赤の実形)と known-bad(中断 / 説明できない Error / 終了 0 と不合格行 / 不在 / 属性なし)を毎回実測 |
+  | Q3 | asked | observed/適格 | 実測 | 是正前の誤受入(レビュー 2 腕)と誤拒否(ローカル 1 回目)の双方を是正後に反転させた |
+  | Q4 | asked | observed/適格 | 実測 | 実 TRX(4 suite)と合成 TRX の両方を入力にした |
+  | Q5 | asked | observed/適格 | 実測 | 未測定(主張 6・MTP 形式・実クラッシュ)を unknown / 限界として分離 |
+  | Q6 | asked | observed/適格 | 実測 | 各 commit で検査 exit 観測 → witness → 入口 → commit → push → CI(条件で結んだ順) |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= C9 較正行 18 腕(毎回実行・不成立なら本走査を止める) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | witness(tree)・commit・CI run・独立検査報告の sha256 を同一個体として照合 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 6 |
+  | Q11 | asked | observed/適格 | 実測 | 入力クラス(語彙 / 属性なし / 不在 / Error×不合格行の有無 / Warning / 終了コード×行 / 期待赤の実形)を分けて測った— 検査官が製造者の検体の外(負の終了コード・複数 Error・Text なし)を追加 |
+
+- このクローズが支持しないもの: 主張 6 の形の検出 / MTP 形式の TRX / 実クラッシュの再現 / 製品リポの受入実行(C9 は本リポ専用)。
