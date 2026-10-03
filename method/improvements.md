@@ -8288,6 +8288,13 @@ ECO-091 r2(是正確認+回帰)= **REJECT IA-03**(項目 1〜3 PASS・項目 4�
 **受理側の窓の扱いが 2 回続けて REJECT を生んだ**(ECO-092 r1 IA-02= 窓が開いている間の別 ECO の起票 / ECO-091 r2 IA-03= 姉妹 ECO の差分をブリーフの条件が除外せず)— 同時起票で窓を共有するときは、
 ①和集合の allowed_paths に後続の起票・報告パスを先に入れる ②ブリーフの差分条件を「本 ECO の差分+姉妹 ECO の差分(列挙)」と書く、の 2 点を受理側の手順にする(記帳のみ・factory-delegate の改訂は 3 例目で判断)。
 受理側の較正 receipt は製造者が書いた(receipt_author_role= producer・独立検査併用)。
+**試行追記(2026-10-03・ECO-094 implemented・製品側 ViewPrism2 ECO-144 fix 済み・gate② 待ち)**: user 裁定「対象は A」(E-THUMB-020)→ 着手前の実測で叩き台 ①「交換できる」が現状の宣言と食い違い(32 substitutable: false・SkiaSharp 識別子が Core 4 ファイルと契約層 10/20/30 に出現・41 は 0・20-spec §2.10 の exact ピン=
+s-bom-template の oracle-coupled)→ **人へ戻した判断の 1 件目(新しい保守の約束)**→ gate 1(裁定) 1:A(宣言された結合)2:OK → 承認済み E/S 版 tag bom-v4.1(REQ-104〜106・`classification_hint: maintainability` 新設・53 に `service_requirement_refs` / `replacement_policy` の candidate 欄)→ 統括 AI が CP を導出(既存行に vector を足す形・新規 vector 1 本= 版の一致)→ 工場 Codex が検査 1 本を製造(sandbox の NuGet 拒否で BLOCKED 報告・build 0/0・ずる報告 6 項= 実装の形のみ)→ 受理 977/977・表 違反 0・R8 blocking 0(是正 2)。
+**部分観測**: M1= 1 件・機械的派生 **0** / M2= **5/5** 到達(欄の不足= CP 行→vector→テストは文言でしか結べない・vector に ID なし・trait は行単位)/ **M3= 1/2**(赤は行の区分「違反」で見える・Skip 3 は行では合格 `(18)` のまま= **止まった層は区分〔行の粒度〕**)/ M4= 0 件。
+**整理**: M3 の不成立は製品・cp_results の欠陥ではなく、「1 行= 複数の約束・複数の vector」という CP の粒度が受入の入力側で見えた結果(ECO-090 の再設計の入力・導出が既存行に足す形を選んだ帰結)。R8 所見 1(治具の不能はメッセージでしか区別されず行では違反に計上)も同根。playbook・テンプレの改訂は gate② 後の評価で判断する。
+- [watch 1/3] OBS-20261003-03 — **Control Plan の行と vector の粒度差で、1 つの約束の検査が行の区分に現れない — 行= 複数の約束・複数の vector を束ね、cp_results の区分は行の Pass/Fail/Skip 件数で決まる(測定不能= 行の全テスト Skip)。1 vector の治具が不能(Skip)でも行は合格のまま(skip 件数は実行単位にだけ出る)。治具の不能を Fail で表せば行は「違反」に計上される(測定系復旧と製品修正の区別はメッセージ文字列のみ)。1 例目: ViewPrism2 ECO-144(CP-THUMB-007 に REQ-104〜106 の vector を足し、Skip 3 のリハーサルで行の区分が合格 `(18)` のまま)。2 例目の条件= 別の製品または別の行で、約束(REQ)単位の赤/測定不能が行の区分に現れない実測 1 件。対処候補(評価後に判断)= 約束ごとに行を分ける / 合格一覧にも内訳を出す / vector 単位の trait**
+  source: BomDD ECO-094 §7(ViewPrism2 ECO-144 リハーサル M3・R8 所見 1)
+  evidence: bomdd/reports/eco-094-upstream-sbom-trial/rehearsal.md・ViewPrism2 bomdd/60-change-order-eco-144.md §7
 - [open] EXP-20261003-01 — **保守上の約束を人が上流(REQ)で裁定し、承認済み E/S 版から統括 AI が M/CP を導出する経路は、1 機能で実行可能か・責任境界は機能するか・規範から実行証拠まで到達するか**(ECO-094・ViewPrism2 1 機能): 事前登録(reports/eco-094-upstream-sbom-trial/preregistration.md)の M1(人へ戻った判断の種別— 機械的派生 0 か)・M2(REQ→E→M→CP→test→証拠の 5 辺の到達性・意味の審査は別欄)・M3(赤/測定不能の振り分け 2/2)・M4(E→M 参照 0 件)を読み方のとおり回収する。playbook・テンプレ(S-BOM の工程位置・粒度規準・設計リリース契約)への反映はこの回収の後に判断する。効果量・一般化は主張しない(N=1・同一オーナー)
   source: ECO-094(外部レビュー 2026-10-02 論点 1・2・5 × user DECIDE「1:A」)
   evidence: bomdd/60-change-order-eco-094.md §1・§2・bomdd/reports/eco-094-upstream-sbom-trial/preregistration.md

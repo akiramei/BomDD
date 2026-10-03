@@ -115,4 +115,15 @@ B が劣る点= 復旧の約束は新しい検査(バックアップ・復元)�
 - 製品側 ECO= ViewPrism2 **ECO-144**(起票 `359409f`・2026-10-03・staged・validate_bom 0-0 → gate① で約束の文言を確定 → fix → accept)。追跡表・導出記録・リハーサルは本リポ reports/eco-094-upstream-sbom-trial/ に置く。
   起票時の R3 所見(ViewPrism2 側で記録のみ): 00-manifest の eco_range / open_eco が現状と乖離。validate_bom は 10-requirements と 53 を意味検査しない(`classification_hint: maintainability` と 53 の新欄は検査器を壊さない= preflight 項目の解消)。
 
-## 7. 製造・受入・クローズ(製品側の完了後に追記)
+## 7. 製品側の実施(2026-10-03・ViewPrism2 ECO-144)— gate② 待ち
+
+- **gate①(人)**: 1:A 2:OK → `decide(eco-144)` 9f32ef4・**tag bom-v4.1 = 承認済み E/S 版**(REQ-104〜106・E-THUMB-020 の requirement_refs・SB-THUMB-020 の `service_requirement_refs` / `replacement_policy: declared-coupling`・bom_version v4.1)。
+- **導出(統括 AI)**: [derivation.md](reports/eco-094-upstream-sbom-trial/derivation.md)— D1〜D6。M unit の新設なし・CP-THUMB-007 の既存 vector 4 本に【REQ・振り分け】・新規 vector 1 本(版の一致)。
+- **製造(工場 Codex)**: 検査 1 本(`CpThumb144VersionPinTests`・3 Fact)— [brief](reports/eco-094-upstream-sbom-trial/factory-brief-eco-144.md) / [report](reports/eco-094-upstream-sbom-trial/factory-report-eco-144.md)(sandbox の NuGet 拒否で BLOCKED 報告だが build 0/0・アセンブリ直接実行 3/3・ずる報告 6 項= 実装の形のみ)。
+- **受理(統括 AI)**: 機械受入 build 0/0 / Tests 977/977 / Oracle 109+skip 4 / validate 0-0。表(sha256 793554f877aa)= 違反 0 / 測定不能 0 / 検査なし 4 / 人の承認 3 / 合格 57。R8(別文脈)blocking 0・是正 2(tests)・文書 1(33)。`fix(eco-144)` **762f001**(trailer `BomDD-ECO-Fix: ECO-144`)。
+- **指標の部分観測(事前登録の読み方・gate② 前)**:
+  - **M1**= 人へ戻した判断 **1 件**(① の文言・種別= 新しい保守の約束)。**機械的派生 0** → 責任境界は機能した。
+  - **M2**= 到達性 **5/5**([trace.md](reports/eco-094-upstream-sbom-trial/trace.md))。欄の不足= CP 行→vector→テストは文言でしか結べない(vector に ID なし・trait は行単位)/ 53 の上流参照欄・10 の保守性種別は新設(candidate)。意味の審査= gate② で人が記入。
+  - **M3**= **1/2**([rehearsal.md](reports/eco-094-upstream-sbom-trial/rehearsal.md))。赤→ 違反→ 製品修正は行で見える。Skip 3(治具の不能)は行の区分に現れず合格 `(18)` のまま(実行単位の skip 件数にだけ出る)— **止まった層= 区分(行の粒度)**。原因= 1 行に複数の約束・vector が同居(導出 D2 の形の帰結)。製品・cp_results の欠陥ではない。R8 所見 1(測定系復旧はメッセージのみ)と同根。
+  - **M4**= E → M 参照 **0 件**(成立)。
+- 次: gate②(golden n/a の受理+trace.md の意味審査欄の記入)→ ViewPrism2 accept → 本 ECO の V1〜V7 の観測行とクローズ・EXP-20261003-01 の回収。
