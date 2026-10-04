@@ -8313,3 +8313,16 @@ s-bom-template の oracle-coupled)→ **人へ戻した判断の 1 件目(新し
 - [watch 1/3] OBS-20261003-02 — **証明した座標と検査した座標が別物になりうる — witness は一時 index(実 index の複製)の tree を証明し、検査は作業ツリーを読む。両者が一致する前提(add -A が作業ツリーを取り込む)は skip-worktree / assume-unchanged で破れ、検査していない bytes が「検査済み」として証明される。1 例目: 自リポ C18 witness(隔離リポで再現)。2 例目の条件= 別の証跡(製造記録の test_evidence_refs・CI の headSha 照合・receipt の個体照合など)で、検査が読んだ対象と証跡が指す対象が別の座標である実測 1 件。ハッシュと記録の規約「座標同一性」の計器側の実例**
   source: 外部レビュー 2026-10-02 論点 9 × BomDD ECO-092 §0(隔離リポでの再現)
   evidence: bomdd/reports/external-review-20261002/witness-skip-worktree-repro.sh・bomdd/60-change-order-eco-092.md §0
+
+## 2026-10-05 BomDD 自己適用 — ECO-097 起票(M-BOM / Control Plan 再設計・欄の所有を人の裁定層と AI の導出層に分ける試行・起票+事前登録・設計は未収束 6→4→0)
+
+**出典**: user 2026-10-05「M-BOM / Control Plan 再設計に着手して」(E-BOM= 人の裁定の場所・M-BOM / CP= その裁定に基づいて AI が判断する場所・責任分担は決めの問題)。order= `bomdd/60-change-order-eco-097.md`・事前登録= `bomdd/reports/eco-097-mbom-cp-redesign/preregistration.md`。
+**起票時の実測(読み取りのみ)**: ①ViewPrism2(f622c3c)= E の不変条件 288 行(ID つき 48)・M 69 行(ID つき 16)・CP 65 行は requirement_refs / invariant_refs / verifies を 1 つも持たない ②ViewTube(0c3e42d1)= E 48 行・M 114 行・ID 0(M の方が多くを持つ逆の形)
+③ViewPrism2 の 2 単位(M-THUMB-008・M-DB-007)の M の行は 3 種に分かれる: 裁定層に同じ内容 3 行 / 裁定層に無い設計の内容 2 行 / 製造手段 1 行。
+**設計の要点**: 導出層は裁定層の内容を自分の言葉で持たない(M の invariants を 3 分類で解消)・人へ戻すのは 3 種だけ・人が受入で読む表のキーを裁定層の ID にする(行は割らない)・AI の層への統制は ID ごとの表と異系統の検査官。
+文書(playbook・テンプレ)は試行の評価の後(ECO-090 §1 の順序のまま)。
+**期待効果の棚卸し**: OBS-20261002-01(2/3)・OBS-20261003-03(1/3)不変 — 試行の結果で動く。EXP-20261001-01・EXP-20261002-01 不変。新規 EXP-20261005-01(下記)。
+
+- [open] EXP-20261005-01 — **欄の所有を人の裁定層と AI の導出層に分けると、(a) M が自分の言葉で持つ設計の内容は対象単位で 0 行にできるか (b) 人へ戻す判断は 3 種に収まるか(機械的派生 0)(c) 1 つの約束の測定不能が、裁定層の ID ごとの表に現れるか(ECO-094 M3 1/2 との比較)**: ViewPrism2 の 2 単位(M-THUMB-008・M-DB-007)で試す。指標 R1〜R7 と停止条件 S1〜S4 は事前登録のとおり。回収= 製品側 ECO のクローズ時。不成立の読み方= 分類不能の行が出れば 3 分類の不足 / R3 が ID ごとに 2/2 でなければ行を割る案へ戻る。効果量・一般化は測らない(2 単位・1 製品・同一オーナー)
+  source: BomDD ECO-097 §1・§2 × ECO-090 §0.1 × ECO-094 M3
+  evidence: bomdd/60-change-order-eco-097.md・bomdd/reports/eco-097-mbom-cp-redesign/preregistration.md

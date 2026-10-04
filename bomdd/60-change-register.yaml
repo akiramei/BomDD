@@ -3105,3 +3105,28 @@ changes:
       V5 diff 窓・self-conformance・CI(4 を採れば CI で selftest が走る)/ V6 異系統の独立検査 ACCEPT / V7 較正 receipt(trigger ①③)。製造裁定時に凍結。
     producer: EQ-001
     inspector: EQ-002
+  - id: ECO-097
+    title: M-BOM / Control Plan 再設計 — 欄の所有を人の裁定層(E 側)と AI の導出層(M・CP)に分け、2 製造単位・1 製品(ViewPrism2)で試す(事前登録つき)
+    date: 2026-10-05
+    origin: improvement
+    status: draft   # 2026-10-05 user「M-BOM / Control Plan 再設計に着手して」(E= 人の裁定の場所・M/CP= AI の判断の場所・決めの問題)→ 起票+事前登録(設計は未収束 6→4→0・上限到達・開いた論点 0 — 扱いは人が決める・製品側の着手はその後)
+    receipt_author_role: producer   # ECO-077 観測欄
+    source: >
+      ECO-090 の基準計数(M-BOM が設計の内容を自分の言葉で持つ・CP 行に「いつ」「落ちたら」の欄が無い・CP は受入の入力でない)と ECO-094 の試行(M3 1/2= 行と vector の粒度差・OBS-20261003-03)。
+      2026-10-05 の再計数: ViewPrism2 の CP 65 行は裁定層の ID を 1 つも持たない / M の不変条件の行に 3 種(裁定層に同じ内容・裁定層に無い設計の内容・製造手段)/ ViewTube は M 114 行・E 48 行の逆の形。
+      順序は既決のまま(文書より先に製品で試す・ECO-090 §1)。
+    order_ref: bomdd/60-change-order-eco-097.md
+    affected_refs: [method/improvements.md]
+    no_impact_prediction: "(起票時点・凍結)本リポの diff= 台帳系(order・register・improvements.md・reports/eco-097-mbom-cp-redesign/)のみ。playbook・templates・schemas・tools・hooks・.github diff 0。製品側の diff は製品側 ECO が予測する"
+    diff_audit:
+      baseline: "6810d2c"  # 起票直前 HEAD(ECO-096 クローズ commit)
+      allowed_paths: [method/improvements.md, bomdd/60-change-order-eco-097.md, bomdd/60-change-register.yaml, bomdd/reports/eco-097-mbom-cp-redesign/]
+    summary: >
+      原則= 裁定層(10・20・30・53 の約束への参照)は人が裁定し版を固定 / 導出層(32・33・34・trait・表)は統括 AI が導出し人の個別承認の対象にしない / 導出層は裁定層の内容を自分の言葉で持たない /
+      人へ戻すのは新しい機能・新しい約束・導出不能の 3 種。M の invariants は 3 分類(参照化・人へ戻す・製造手段)で解消。CP 対象行に裁定層の ID・when / on_fail。
+      人が受入で読む表のキーを裁定層の ID にする(行は割らない)。AI の層への統制= ID ごとの表・異系統の検査官による意味の審査・判断の列挙。遡及は lazy。
+      採らない= 行の分割・新台帳・新検査器・playbook / テンプレ改訂(評価の後)・標準 M-BOM・文脈境界・ViewTube・interface_contract の移し替え。
+    verification: >
+      V1 事前登録が製品側の着手より前 / V2 人へ戻す行が人の裁定つきで裁定層に固定・版が bom_version+tag / V3 R1〜R7 の記録 / V4 停止条件 S1〜S4 の発生の有無の記録 /
+      V5 製品側 ECO が ViewPrism2 の受入を通過 / V6 playbook・テンプレ非改訂・self-conformance・CI / V7 製造者較正・較正 receipt。条件行は起票後不変・結果はクローズ節の観測行。
+    producer: EQ-001
