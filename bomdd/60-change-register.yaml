@@ -3109,7 +3109,7 @@ changes:
     title: M-BOM / Control Plan 再設計 — 欄の所有を人の裁定層(E 側)と AI の導出層(M・CP)に分け、2 製造単位・1 製品(ViewPrism2)で試す(事前登録つき)
     date: 2026-10-05
     origin: improvement
-    status: draft   # 2026-10-05 user「M-BOM / Control Plan 再設計に着手して」(E= 人の裁定の場所・M/CP= AI の判断の場所・決めの問題)→ 起票+事前登録(設計は未収束 6→4→0・上限到達・開いた論点 0 — 扱いは人が決める・製品側の着手はその後)→ user「A」(打ち切り採用・全部)→ 仮の分類を訂正(人へ戻す 0 行・裁定層は不変)→ 製品側 ViewPrism2 ECO-145 へ
+    status: draft   # 2026-10-05 user「M-BOM / Control Plan 再設計に着手して」(E= 人の裁定の場所・M/CP= AI の判断の場所・決めの問題)→ 起票+事前登録(設計は未収束 6→4→0・上限到達・開いた論点 0 — 扱いは人が決める・製品側の着手はその後)→ user「A」(打ち切り採用・全部)→ 仮の分類を訂正(人へ戻す 0 行・裁定層は不変)→ 製品側 ViewPrism2 ECO-145 起票 9f239a8 → fix 491d2c1(R1 参照化 5・製造手段 1・人へ戻す 0 / R2 1 件〔導出不能〕/ R3 10/10 の ID で 2/2 / R4 2/65 / R6 検査官 r1 REJECT → r2 ACCEPT / R7 変化 0・停止条件の発生なし)→ 人の受入待ち
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       ECO-090 の基準計数(M-BOM が設計の内容を自分の言葉で持つ・CP 行に「いつ」「落ちたら」の欄が無い・CP は受入の入力でない)と ECO-094 の試行(M3 1/2= 行と vector の粒度差・OBS-20261003-03)。

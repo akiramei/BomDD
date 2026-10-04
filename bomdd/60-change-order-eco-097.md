@@ -133,3 +133,20 @@
   帰結: 製品側 gate 1 で人が決める E 側の文案は無い。裁定層は不変で、bom_version と tag は動かさない。V2 は「人へ戻す行 0・該当なし」として記録する。
 - **設計の補正(凍結後の発見・記録のみ)**: 裁定層の列挙(§1.1)に K-BOM(31)が抜けていた。K-BOM の項目は人が裁定する(playbook §4.3)ので裁定層に含める。M の「製造手段」の行は、K-BOM にある決定の参照になることがある(M-DB-007 の接続戦略= K-SQLITE・ADR-0003)。
 - 製品側 ECO= ViewPrism2 **ECO-145**(起票は本 commit の後)。導出記録・リハーサル・検査官の報告は本リポ reports/eco-097-mbom-cp-redesign/ に置く。
+
+## 7. 製品側の実施(2026-10-05・ViewPrism2 ECO-145)— 人の受入待ち
+
+- **起票** `9f239a8` → **fix** `491d2c1`(trailer `BomDD-ECO-Fix: ECO-145`)。裁定層(10・20・30・31・53・manifest)・src・41 は無変更。
+- **指標(事前登録の読み方)**:
+  - **R1**= 参照化 5・製造手段 1・人へ戻す 0・分類不能 0 → 対象 2 単位で M が自分の言葉で持つ設計の内容 0 行(成立)。ECO-090 の計数の再実行: invariants を持つ unit 22/44 → 20/44・本文のみ 53 → 48([rehearsal.md](reports/eco-097-mbom-cp-redesign/rehearsal.md))。
+  - **R2**= 人へ戻した判断 **1 件**(種別= 導出不能: REQ-106 の statement と rationale の食い違い・検査官の審査が発端)。機械的派生 0。導出の欠陥 4 件(X1〜X4・[derivation.md](reports/eco-097-mbom-cp-redesign/derivation.md))。
+  - **R3**= **10/10 の ID で 2/2**(Skip → 測定不能・赤 → 違反)。行は割らず、CP-THUMB-007 の行の区分は合格のまま。ECO-094 M3 は 1/2。限界= ID のテストの一部だけが Skip なら合格のまま。
+  - **R4**= when / on_fail を持つ行 0/65 → 2/65。
+  - **R5**= (a) 欄では 0・本文の名指し 2(既存)(b) 2/2 行 (c) 届かない ID が表に出る: INV-009・REQ-005・INV-W1(+E-SIMCACHE-033 経由の 3 ID)。
+  - **R6**= 検査官 r1 **REJECT IA-01** → 是正 → r2 **ACCEPT**。ID ごとの判定(r2)= 合 5・条件付き 5・否 0([review-and-inspection.md](reports/eco-097-mbom-cp-redesign/review-and-inspection.md))。
+  - **R7**= 対象外の行の区分の変化 0(違反 0 / 測定不能 0 / 検査なし 4 / 人の承認 3 / 合格 57)。
+- **停止条件**: S1〜S4 とも発生せず。
+- **独立レビュー(R8・別文脈)**: blocking 2(例外で既存の表が消える・目的の腕が空)・non-blocking 6 → 工場 r3 で是正・受理側で裏取り。工場の自己受入(selftest OK)は 2 件とも通過していた。
+- **機械受入(最終)**: build 0/0 / Tests 977/977 / Oracle 109+skip 4 / validate 0-0。表 sha256 bfc6aa81e93d。
+- **未確認**: 2 回目の赤のリハーサルで、注入の対象外の CP-UI-G1 に不合格 1 件(テスト名は残っていない・他の全件実行 5 回では 0)。
+- 人の受入(gate 2)で読むもの: 裁定層の ID ごとの表・検査官の判定・人へ戻す 1 件。
