@@ -1,4 +1,4 @@
-# Change Order — ECO-097(M-BOM / Control Plan 再設計 — 欄の所有を「人の裁定層(E 側)」と「AI の導出層(M・CP)」に分け、2 製造単位・1 製品で試す〔事前登録つき・起票〕)
+# Change Order — ECO-097(M-BOM / Control Plan 再設計 — 欄の所有を「人の裁定層(E 側)」と「AI の導出層(M・CP)」に分け、2 製造単位・1 製品で試す〔事前登録つき・verified〕)
 
 > 指示: user 2026-10-05「M-BOM / Control Plan 再設計に着手して。E-BOM は人間の裁定を行う場所であり、M-BOM / Control Plan はその裁定に基づいて AI が判断する場所。責任分担であり、決めの問題。
 > 致命的な欠陥やトレードオフでは許容できない問題があれば、止まって相談」。
@@ -134,7 +134,7 @@
 - **設計の補正(凍結後の発見・記録のみ)**: 裁定層の列挙(§1.1)に K-BOM(31)が抜けていた。K-BOM の項目は人が裁定する(playbook §4.3)ので裁定層に含める。M の「製造手段」の行は、K-BOM にある決定の参照になることがある(M-DB-007 の接続戦略= K-SQLITE・ADR-0003)。
 - 製品側 ECO= ViewPrism2 **ECO-145**(起票は本 commit の後)。導出記録・リハーサル・検査官の報告は本リポ reports/eco-097-mbom-cp-redesign/ に置く。
 
-## 7. 製品側の実施(2026-10-05・ViewPrism2 ECO-145)— 人の受入待ち
+## 7. 製品側の実施(2026-10-05・ViewPrism2 ECO-145)
 
 - **起票** `9f239a8` → **fix** `491d2c1`(trailer `BomDD-ECO-Fix: ECO-145`)。裁定層(10・20・30・31・53・manifest)・src・41 は無変更。
 - **指標(事前登録の読み方)**:
@@ -150,3 +150,50 @@
 - **機械受入(最終)**: build 0/0 / Tests 977/977 / Oracle 109+skip 4 / validate 0-0。表 sha256 bfc6aa81e93d。
 - **未確認**: 2 回目の赤のリハーサルで、注入の対象外の CP-UI-G1 に不合格 1 件(テスト名は残っていない・他の全件実行 5 回では 0)。
 - 人の受入(gate 2)で読むもの: 裁定層の ID ごとの表・検査官の判定・人へ戻す 1 件。
+- **人の受入(user 2026-10-05)**: 「A」= 受け入れ・REQ-106 は根拠欄を本文に合わせる。ViewPrism2 `accept(eco-145)` **883cb08**(trailer・post-condition validate 0-0・selftest-lifecycle OK・push 済み)。表の行・ID への言及= なし(選択のみ)。
+  裁定層の変更= 10-requirements の REQ-106 rationale 1 文(statement・bom_version・tag は不変)。
+
+## 8. クローズ(2026-10-05・verified・製造者較正+製品側の異系統検査)
+
+- **V1**= PASS(観測: 事前登録は BomDD ce597ab・変更の履歴 1 件〔仮の分類の訂正・指標の意味は不変〕は dc6ff85 — いずれも製品側の最初の commit ViewPrism2 9f239a8 より前)。
+- **V2**= PASS・**空成立**(観測: 「人へ戻す」行は 0 行のため、gate 1 で裁定層へ固定する文は無かった。検査官の審査の後に人へ戻した 1 件〔REQ-106 の statement と rationale の食い違い〕は、user 裁定 A で 10-requirements の rationale に固定〔883cb08〕。
+  statement は不変のため bom_version・tag は動かしていない — 条件行の「版が bom_version+tag で固定」は該当なし)。
+- **V3**= PASS(観測: R1〜R7 を derivation.md・rehearsal.md・review-and-inspection.md と §7 に事前登録の読み方で記録)。
+- **V4**= PASS(観測: S1〜S4 とも発生せず— rehearsal.md「停止条件」)。
+- **V5**= PASS(観測: ViewPrism2 ECO-145 status applied・機械受入 4 点+R8+検査官 r2 ACCEPT+人の受入・accept 883cb08)。
+- **V6**= PASS(観測: 本リポの窓 `6810d2c` → `0c164c5`= 台帳系+reports のみ〔playbook・templates・schemas・tools・hooks・.github diff 0〕・各 commit は self-conformance exit 0 観測後・CI ce597ab / dc6ff85 / 0c164c5 とも success。本クローズ commit は台帳系のみ)。
+- **V7**= 製造者較正・下の較正 receipt。register: `draft → verified`。評価(playbook・テンプレへの反映)は EXP-20261005-01 の回収結果を入力に別途裁定(本 ECO のクローズ条件ではない)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。記録・事前登録・導出の変更。製品側の導出は異系統の検査官が審査)
+
+- 査定した主張と判定:
+  1. 「対象 2 単位で、M-BOM が自分の言葉で持つ設計の内容は 0 行にできた」— **observed / 適格**(6 行= 参照化 5・製造手段 1。検査官が 6 行すべての裁定層の所在を独立に確認・ECO-090 の計数の再実行で 22/44 → 20/44)。
+  2. 「人へ戻す判断は 3 種に収まった」— **observed / 適格**(1 件・導出不能。機械的派生 0)。ただし導出の時点では 0 件で、検査官の審査で初めて 1 件が出た — 統括 AI は食い違いに自分では気づいていない。
+  3. 「約束単位の測定不能は、裁定層の ID ごとの表に現れる」— **observed / 適格**(10/10 の ID で Skip → 測定不能・赤 → 違反。行は合格のまま。最終版で再実行)。**限界つき**: ID のテストの一部だけが Skip なら合格のまま。
+  4. 「表は、検査が届いていない裁定層の ID を見せる」— **observed / 条件付き適格**(INV-009・REQ-005・INV-W1 が出る。ただし ID の集合は「参加する行を acceptance_refs に持つ E 品目」に限られ、他の行で検査済みの ID も trait が無ければ検査なしと出る〔REQ-063・084・090〕)。
+  5. 「AI の層への統制は、人の個別承認なしで弱い導出を検出した」— **observed / 適格(N=1)**(検査官が対応の誤り 1・漏れ 1 を検出。別文脈のレビューがツールの blocking 2 を検出)。検出されなかった誤りの数は分からない。
+  6. 「表の合格は、その要求が検査されたことを意味する」— **不適格(主張しない)**。表は trait の文字列一致。検査官は 10 ID 中 5 を条件付き(要求の一部しか測っていない)とした。
+  7. 「検査官の審査は人の審査の代わりになる」— **unknown**(REQ-106 で人〔ECO-144・合〕と検査官〔否〕が割れた 1 例のみ。検査官の r1 / r2 で合 / 条件付きが 3 ID 揺れた)。
+  8. 「この分け方は他の単位・他の製品でも機能する」「不具合流出が減る」— **unknown(測らない・2 単位・1 製品・同一オーナー)**。ViewTube は逆の形(M 114 行 / E 48 行)で未試行。
+- 検出した計器欠陥(帰属つき): 上流(統括 AI の設計・導出)4 件= X1 REQ-106 の誤対応 / X2 COLLATE の対応漏れ / X3 表の ID の集合を導出側の欄だけから取る仕様 / X4 受理時に selftest の目的の腕が空なのを見逃し。
+  起票時の誤り 1 件= E-BOM だけを読んで「裁定層に無い」と断定(着手前に訂正)。設計の抜け 1 件= 裁定層の列挙に K-BOM が無い。工場(Codex)= blocking 2(例外で既存の表が消える・目的の腕が空)が自己受入を通過。
+  受理側の操作の誤り 1 件= 最終受入のコマンドを誤った形で並列化し空振り(製品に無影響・再実行)。製造物(本リポの記録)= 0 件。
+- 検出力の限界: 2 単位・1 製品・同一オーナー・同日。検査官は同一系統(Codex)が工場も兼ねた(審査の対象は統括 AI の導出で、工場の製造物〔cp_results〕の審査は別文脈の Claude)。検査官は静的突合のみ(テスト未実行)。
+  赤のリハーサルは REQ-104 以外 Assert.Fail の注入。2 回目の赤の実行で注入対象外の CP-UI-G1 に不合格 1 件(原因未確認)。意味の審査の同等性(人と検査官)は測っていない。本リポ側は製造者較正のみ。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 事前登録が「測らないこと」を宣言し、クローズは主張 6〜8 を不適格 / unknown に分離 |
+  | Q2 | asked | observed/適格 | 実測 | Skip・赤・正常の 3 状態で ID の区分が反転。selftest は「ID の測定不能 → 合格」の変異で FAILED(受理側で実行) |
+  | Q3 | asked | observed/適格 | 実測 | R1(分類+計数の再実行)・R3(リハーサル)・R6(検査官)・R7(前後比較)を別々の手段で測った |
+  | Q4 | asked | observed/適格 | 実測 | 実製品の実台帳・実テスト 977 件・実 commit(9f239a8 / 491d2c1 / 883cb08) |
+  | Q5 | asked | observed/適格 | 実測 | 未確認(CP-UI-G1 の 1 件・一部 Skip・interface_contract)を限界として分離 |
+  | Q6 | asked | observed/適格 | 実測 | 検査 exit 観測 → commit → push → CI(本リポ 3 回)。製品側は機械受入 → fix → 受入 → post-condition |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= リハーサル 2 種と selftest の変異。製造者の読解だけで受理した r1 の selftest は腕が空だった(X4) |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | 表 sha256 bfc6aa81e93d・commit・CI run を同一個体として照合。リハーサル後に結果ファイルを最終の受入実行のものへ戻し sha256 一致を確認 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 6〜8 |
+  | Q11 | asked | observed/適格 | 実測 | 入力クラス(surface の単位 / core の単位・Skip / 赤・参照化 / 製造手段)を分けて測った。「人へ戻す」クラスは対象に実例が無く未測定 |
+
+- このクローズが支持しないもの: 他の単位・他の製品への一般化 / 効果量 / 検査官の審査が人の審査と同等であること / 表の合格が要求の充足を意味すること / playbook・テンプレの改訂の是非(EXP-20261005-01 の回収結果を入力に別途裁定)。
