@@ -34,8 +34,12 @@ mbom:
           - DE-001                      # サムネイル/ファイル名/状態表示など。欠落は仕様 omission として扱う
       invariants:                       # 関係の不変条件。中身はドメイン固有(CHEAT-008)。各行は仕様 §3 の ID を先頭に書く(candidate・ECO-086)—
                                         # 検査行の invariant_refs から辿れるように
+                                        # (candidate・ECO-098・playbook §4.5)裁定層(10・20・30・31)に同じ内容がある行は**書かない**(ebom_refs で引き継ぐ・
+                                        # ID だけの行は可)。設計の内容なのに裁定層に無い行は人へ戻して裁定層へ書き戻す。どう作るかの行は manufacturing_decisions へ
         - <例 INV-003: シーク後の音声時刻は絶対時刻基準(seekBase)>
         - <例 INV-004: booking id は bk_ prefix + 16hex の内容ハッシュ>
+      manufacturing_decisions: []       # candidate(ECO-098): どう作るかの決定(並行制御・ライブラリの使い方・分割)。K-BOM にある決定は K の参照として書く
+                                        # (例 "接続戦略は K-SQLITE(ADR-0003)のとおり")。設計の内容(何を守るか)はここに書かない
       acceptance_refs:
         - CP-<NAME>-001
       fmea_refs:

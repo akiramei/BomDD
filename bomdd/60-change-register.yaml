@@ -3135,7 +3135,7 @@ changes:
     title: ECO-097 試行の反映 — 裁定層と導出層の欄の所有・M-BOM の 3 分類・検査行と裁定層の結線・人が読む表を playbook と 32 / 33 テンプレへ candidate として置く(文書のみ)
     date: 2026-10-05
     origin: improvement
-    status: draft   # 2026-10-05 user DECIDE「A」(ECO-097 クローズ後の反映の判断)→ 起票(変更要求・受入条件を凍結)→ 製造は次の commit
+    status: implemented   # 2026-10-05 user DECIDE「A」(ECO-097 クローズ後の反映の判断)→ 起票 cf1852f(変更要求・受入条件を凍結)→ 製造(文書 3 ファイル・追加 27 行・V1/V2 PASS)→ 独立検査へ
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       ECO-097 verified(ViewPrism2 ECO-145 applied)の回収: M の invariants 6 行= 参照化 5・製造手段 1・人へ戻す 0 / 人へ戻した判断 1 件・機械的派生 0 / 裁定層の ID ごとの表で 10/10 の ID が Skip → 測定不能・赤 → 違反 /

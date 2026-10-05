@@ -27,6 +27,10 @@ control_plan:
         - M-<NAME>-001
       requirement_refs:
         - REQ-001
+      when: acceptance                  # candidate(ECO-098): 測る時点(例 acceptance= 機械受入のたび / dependency-update= 依存の更新時)
+      on_fail:                          # candidate(ECO-098): 落ちたときの振り分け。違反と測定不能を分ける(playbook §4.4)
+        red: product-fix                #   product-fix(製品修正)| instrument-recovery(測定系復旧)| human-approval(人の承認)
+        unmeasurable: instrument-recovery
       invariant_refs: []                # candidate(ECO-086): この行が検査する仕様 §3 の不変条件 ID(例 [INV-003])。
                                         # 部品に不変条件があるのに空= その不変条件は検査行に届いていない。検査しない不変条件は
                                         # 20-spec §3 の「検査する CP」列に理由を書く(部品に検査行が 1 本あることは不変条件ごとの検査を意味しない)
@@ -103,3 +107,5 @@ control_plan:
 #   - evidence_output_ref は As-Built の test_evidence_refs から参照する
 #   - L0/pixel-exact は仕様化された正規形以外では使わない
 #   - (candidate・ECO-086)仕様 §3 の各 INV は、いずれかの行の invariant_refs から届くか、20-spec §3 の「検査する CP」列に未検査の理由がある
+#   - (candidate・ECO-098)requirement_refs / invariant_refs は「この行のテストが実際に検査する ID」を書く(E 品目の requirement_refs の写しではない)。
+#     人が受入で読む表は ID ごとに出し、ID の集合は行の refs と、行を受入に持つ E 品目が負う ID の両方から取る(playbook §4.4)
