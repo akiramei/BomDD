@@ -3184,7 +3184,7 @@ changes:
     title: ViewTube の 2 例目と書き戻しの反映 — playbook §4.5 の「3 つに分ける」を句の単位の 4 分類に訂正し、書き戻しの前のコードとの突き合わせを足す(文書のみ・candidate)
     date: 2026-10-06
     origin: improvement
-    status: implemented   # 2026-10-06 user DECIDE「A」(ViewTube ECO-VT-227 のクローズ報告への応答= 記録に残し playbook も直す)→ 起票 ffffdab(変更要求・受入条件を凍結)→ 製造(playbook §4.5 の 1 項・32 テンプレのコメント・追加 14 行 / 削除 6 行)→ 独立検査へ
+    status: verified   # 2026-10-06 独立検査 r1 ACCEPT(対象 fbd3f4a・blocking なし・non-blocking 1 件= 区分の名「記録」が他の節の語と同じ)→ verified(窓閉鎖 569a4bc→fbd3f4a・CI 2 run success・較正 receipt trigger ①)。経過: user DECIDE「A」(ViewTube ECO-VT-227 のクローズ報告への応答= 記録に残し playbook も直す)→ 起票 ffffdab(変更要求・受入条件を凍結)→ 製造 fbd3f4a(playbook §4.5 の 1 項・32 テンプレのコメント・追加 14 行 / 削除 6 行)
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       ECO-099 verified(ViewTube の 3 単位 15 行の句ごとの分類: 「記録」の句 7・15 / 混在の行 6/15・8/15 / 人へ戻す 一致 3・不一致 2・統括 AI の誤り 1)と、ViewTube ECO-VT-227 applied b908a46c
@@ -3194,6 +3194,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)diff= playbook(§4.5 の candidate の 1 項の中だけ)・templates/32(invariants のコメント)+台帳系+reports/eco-100-mbom-four-classes/+独立検査の報告のみ。playbook §4.4・§9・templates/33・tools・hooks・.github・schemas・contracts・prompts diff 0。C1/C7/C13/C14/C15 判定不変。配布テンプレは次回配布時に波及・既存製品不変"
     diff_audit:
       baseline: "569a4bc"  # 起票直前 HEAD(ECO-099 クローズ commit)
+      head: "fbd3f4a"      # diff監査済み: 窓内= allowed_paths のみ(独立検査 r1 項目 1・差分 8 パス)・playbook は §4.5 の 1 項の中だけ・tools/hooks/.github/schemas/prompts diff 0・クローズ commit は台帳系+r1 報告のみ
       allowed_paths: [method/bomdd-playbook-v1.md, method/templates/32-mbom.yaml, method/improvements.md, bomdd/60-change-order-eco-100.md, bomdd/60-change-register.yaml, bomdd/reports/eco-100-mbom-four-classes/]
     summary: >
       ①playbook §4.5 の candidate の項を訂正: 分類は句の単位・4 つ目の区分「記録」(置き場は未決)・人へ戻す句の書き戻しは、書いた者と別の文脈の読み手が導出層の文との突き合わせとコードの読みを行ってから・見出しと試行の実測・未測定を ViewTube の値で更新
