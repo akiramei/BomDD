@@ -8338,7 +8338,7 @@ OBS-20261002-01(CP が受入の入力でない)= 2/3 のまま(本試行の承�
 - [watch 1/3] OBS-20261005-01 — **統制の対象の集合を、統制される側が書く欄から取ると、書かなかったものが統制から消える — 「人が裁定した ID ごとの表」の ID の集合を、導出側(AI)が書く Control Plan 行の refs だけから取る仕様にしたところ、行の refs に入れなかった要求(REQ-005)が表に出なかった。裁定層(E 品目の requirement_refs・不変条件の ID)からも集合を取る形に直して「検査なし」と出るようになった。1 例目: ViewPrism2 ECO-145(BomDD ECO-097 の導出の欠陥 X3・製造後に統括 AI が表を見て発見)。2 例目の条件= 別の検査・表・ゲートで、対象の集合が被検査側の自己申告(欄・一覧・宣言)だけから作られ、申告しなかった項目が検査から外れていた実測 1 件。C16 / C17 の「receipt の存在しか測らない」限界と近いが、こちらは母集合の出所の問題**
   source: BomDD ECO-097 derivation.md 導出の欠陥 X3 × ViewPrism2 ECO-145 工場ブリーフ r2
   evidence: bomdd/reports/eco-097-mbom-cp-redesign/derivation.md・bomdd/reports/eco-097-mbom-cp-redesign/factory-brief-eco-145-r2.md
-- [watch 1/3] OBS-20261005-02 — **「裁定層に無い」の判定は、裁定層の全部(要求・仕様・E-BOM・K-BOM)を読まないと誤る — M-BOM の行が E-BOM に無いことを見て「人が裁定していない設計の内容」と分類したが、2 行とも仕様に、1 行は K-BOM にあった。E-BOM は裁定層の一部で、設計の内容の多くは仕様の本文にある(ViewPrism2: E の不変条件 288 行のうち ID つき 48)。M から裁定層への参照が E 品目の ID(ebom_refs)だけだと、仕様の本文にある内容への到達は E 品目の requirement_refs 経由になる。1 例目: BomDD ECO-097 の起票時の仮の分類(着手前に訂正)。2 例目の条件= 別の製品で、M-BOM(または Control Plan)の記述が「E-BOM に無いが仕様・K-BOM にある」と実測された 1 件、または E-BOM に無いことを根拠に人へ判断を戻して「既に裁定済み」と返された 1 件**
+- [watch 2/3] OBS-20261005-02 — **「裁定層に無い」の判定は、裁定層の全部(要求・仕様・E-BOM・K-BOM)を読まないと誤る — M-BOM の行が E-BOM に無いことを見て「人が裁定していない設計の内容」と分類したが、2 行とも仕様に、1 行は K-BOM にあった。E-BOM は裁定層の一部で、設計の内容の多くは仕様の本文にある(ViewPrism2: E の不変条件 288 行のうち ID つき 48)。M から裁定層への参照が E 品目の ID(ebom_refs)だけだと、仕様の本文にある内容への到達は E 品目の requirement_refs 経由になる。1 例目: BomDD ECO-097 の起票時の仮の分類(着手前に訂正)。2 例目の条件= 別の製品で、M-BOM(または Control Plan)の記述が「E-BOM に無いが仕様・K-BOM にある」と実測された 1 件、または E-BOM に無いことを根拠に人へ判断を戻して「既に裁定済み」と返された 1 件**
   source: BomDD ECO-097 order §6・preregistration.md 変更の履歴 × ViewPrism2 ECO-145 order §3 ①
   evidence: bomdd/reports/eco-097-mbom-cp-redesign/preregistration.md・bomdd/reports/eco-097-mbom-cp-redesign/derivation.md
 
@@ -8360,3 +8360,19 @@ OBS-20261002-01(CP が受入の入力でない)= 2/3 のまま(本試行の承�
 **縮小の理由(起票時の実測)**: ViewTube は別の作業(ECO-VT-226)が進行中で、未 commit の変更があり、当日の commit が 32-mbom を書いている — 同じ台帳への書き込みは衝突する。受入テストは CP・要求の ID を持たず、監督つき受入実行は常に赤(OBS-20261002-02)—
 ID ごとの表の前提が無い。→ ViewTube へは書き込まず、対象 commit fe0250ef の 3 単位 15 行を句ごとに分類する(参照化 / 人へ戻す / 製造手段 / 記録 / 分類不能)。検査官(異系統)が盲検で独立に分類し、突合する。
 **期待効果の棚卸し**: OBS-20261005-02(裁定層は E-BOM だけでない・1/3)— 本計測が 2 例目の条件(別の製品で M の記述が E-BOM に無いが仕様・K-BOM にある)に当たるかを結果で判定する。OBS-20261002-02 不変。新規の OBS / EXP は結果の後。
+
+**記録・クローズ追記(2026-10-05・ECO-099 verified)**: ViewTube fe0250ef の 3 単位 15 行を、統括 AI(42 句)と検査官(盲検・63 句)が句ごとに分類。**両者とも「人へ戻す」を挙げた**(ViewPrism2 は 0)— 一致 3 件: pack の必須機能 `node-condition-v1`(同種の `music-scope-v1` は仕様にある)/
+music の定義の取り込み先 / 読めない numeric restriction の pack の拒否(保存済みの同じ状況は「捨てて警告」と裁定済み)。いずれも View Pack のファイルの形式・取り込みの取り決めで、前 2 件は ECO 本文にも利用者の裁定の記載が見つからない。
+不一致 2 件(変換は schema version を上げない= 人へ戻す / 製造手段・両方の形を持つ placement の拒否= 参照化 / 人へ戻す)。統括 AI の誤り 1 件(「どの外部の失敗もユーザー作成データを消さない」を裁定層に無いとした— 検査官が REQ-004・REQ-005 を示した)。
+「記録」の句= 7・15(実測値・レビューの所見・検査していないことの注記・由来)。混在の行 6/15・8/15。行ごとの区分の集合の一致 7/15(差の半分は句の切り方の粒度)。
+ViewTube の REQ-095 は「仕組みは M-BOM の実装判断」と明文で委ねている。手順の逸脱= クォートなしの heredoc の本文がシェルで実行され、ViewTube に空ファイルを 1 つ作った(検出・削除)。
+**期待効果の棚卸し**: OBS-20261005-02(裁定層は E-BOM だけでない)**1/3 → 2/3** — 2 例目= ViewTube(参照化の所在は要求と仕様の本文で、E-BOM を所在に挙げた句は両分類者とも 0。統括 AI は E-BOM と rationale を見て「無い」と誤り、検査官が statement を示した)。
+同一オーナー・同一方法論の 2 製品で独立性は限られる。OBS-20261003-03・OBS-20261005-01 不変(本計測は表を扱わない)。OBS-20261002-02(常に赤の計器)不変。新規 OBS-20261005-03・04(下記)。
+**次の判断の入力(本記録は入力・改訂は別途)**: ①playbook §4.5 の candidate は「3 分類」と書くが、ViewTube では 4 つ目(記録)が要り、行ではなく句の単位でしか分けられなかった ②一致した 3 件と不一致 2 件を ViewTube の裁定層へ書き戻すかは ViewTube 側の判断(進行中の作業がある)。
+
+- [watch 1/3] OBS-20261005-03 — **M-BOM の行に、設計の内容でも作り方でもない「記録」が混ざる — 実測値(日付・版・観測)・レビューの所見(round と重大度)・「自動の検査では確かめていない」という注記・ECO と裁定の由来。ViewTube の 3 単位 15 行で、2 人の分類者が独立に 7 句・15 句を「記録」とした。playbook §4.5 の 3 分類(参照化・人へ戻す・製造手段)には入らない。置き場の候補は K-BOM(実測の知識)・As-Built・Control Plan(検査なしの注記)・変更記録だが未決。行は ECO ごとに書き足され、1 行に 2〜4 種類の内容が混ざる(混在の行 6〜8/15)ため、分類は句の単位でしかできなかった。1 例目: ViewTube(BomDD ECO-099)。ViewPrism2 の試行(ECO-097・6 行)では現れなかった(行が短く、由来は「since ECO-049」程度)。2 例目の条件= 別の製品の M-BOM(または Control Plan)で、実測値・レビューの所見・未検査の注記が設計や作り方の記述と同じ行に書かれている実測 1 件**
+  source: BomDD ECO-099 reconciliation.md T2・T3 × ViewTube fe0250ef bomdd/32-mbom.yaml(M-INFRA-YOUTUBE-001 行 4・5)
+  evidence: bomdd/reports/eco-099-viewtube-second-example/reconciliation.md・bomdd/reports/eco-099-viewtube-second-example/classification-producer.md
+- [watch 1/3] OBS-20261005-04 — **人が裁定していない設計の決めが、導出層(M-BOM)にだけ書かれて残る — ファイルの形式の必須機能フラグ・取り込みの既定・不正な入力の扱いのように、利用者の画面には直接現れないが後から変えにくい(出回ったファイルと以前の版の読み手が相手)取り決めが、ECO の実装の中で決まり、要求・仕様に書き戻されずに M-BOM の行にだけある。ViewTube で 2 人の分類者が一致して 3 件を挙げ(うち 2 件は ECO 本文にも利用者の裁定の記載なし)、同じ種類の先行する決め(music-scope-v1)は仕様に書かれていた= 書き戻しが起きたり起きなかったりする。1 例目: ViewTube ECO-VT-195 / 212 由来(BomDD ECO-099 H3・H4・H5)。ViewPrism2 の 2 単位では 0 件。2 例目の条件= 別の製品または ViewTube の別の単位で、裁定層(要求・仕様・E-BOM・K-BOM)に無い設計の決めが M-BOM・Control Plan・コードのコメントにだけあると、2 人以上の独立の読み手が一致した実測 1 件。playbook §9「裁定の出力は情報基盤へ書き戻す」の、裁定を経ていない決めの版**
+  source: BomDD ECO-099 reconciliation.md「人へ戻す の内容の突合」× ViewTube fe0250ef bomdd/32-mbom.yaml(M-VIEW-PACK-001 行 4・5)・bomdd/eco/ECO-VT-212.md
+  evidence: bomdd/reports/eco-099-viewtube-second-example/reconciliation.md・bomdd/reports/eco-099-viewtube-second-example/inspection-report-r2.md
