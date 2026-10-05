@@ -1,4 +1,4 @@
-# Change Order — ECO-098(ECO-097 試行の反映 — 裁定層と導出層の欄の所有・M-BOM の 3 分類・検査行と裁定層の結線・人が読む表を playbook と 32 / 33 テンプレへ candidate として置く〔文書のみ〕)
+# Change Order — ECO-098(ECO-097 試行の反映 — 裁定層と導出層の欄の所有・M-BOM の 3 分類・検査行と裁定層の結線・人が読む表を playbook と 32 / 33 テンプレへ candidate として置く〔文書のみ・verified〕)
 
 > 裁定: user 2026-10-05 DECIDE「A」(ECO-097 クローズ後の反映の判断)= いま candidate として文書に書く。効果は主張しない(試行 1 回・2 製造単位・1 製品)。
 > 出典: [ECO-097](60-change-order-eco-097.md) §7・§8 / EXP-20261005-01(回収済み)/ OBS-20261005-01・02 / ViewPrism2 ECO-145(applied 883cb08)。
@@ -93,3 +93,48 @@ C1(YAML 厳格パース)は新しい欄を含めて PASS のまま・C7 / C13 / 
   その後ろに `;` で並べた「HEAD の sha を取る → ブリーフに埋める → 検査を起動」は止まらずに走り、検査官には是正前の revision(8d84edb)が渡った。検査官は「対象 revision では是正されていない」「是正の差分の窓がゼロ幅」と正しく判定した。
 - 機序= 検査と後続の操作を条件で結ばなかった(AGENTS.md 規律 3・ECO-024 と同型。今回は commit の失敗を観測する前に、検査の起動が実行された)。実害= 検査 1 round の空費(push・昇格は起きていない)。
 - 処置= 是正・r1 報告・r2 報告・本記録を commit し(commit の成否を観測してから)、r3 で是正確認をやり直す。r3 の報告の置き場を allowed_paths に足す。
+
+### 6.3 r3(2026-10-05・是正確認+回帰・対象 ad9d836)— **ACCEPT**
+
+- 報告= [independent-inspection-eco-098-r3.md](reports/independent-inspection-eco-098-r3.md)。項目 1(3 項すべての見出しが `candidate・ECO-097 試行 N=1〔2 製造単位・1 製品〕・ECO-098`)・2(`git diff 8d84edb ad9d836 -- method/` は §9 の 1 行だけ・変更 5 パスは allowed_paths 内)・
+  3(回帰: r1 の PASS 項目に新しい不一致・矛盾なし・テンプレは r1 から不変)= PASS。所見なし。
+
+## 7. クローズ(2026-10-05・verified・異系統の独立検査 r3 ACCEPT)
+
+- **V1**= PASS(観測: 是正後の grep `試行 N=1〔2 製造単位・1 製品〕・ECO-098` → playbook 3 行〔§4.4・§4.5・§9〕。各項に未測定 / 限界の句。検査官 r3 項目 1)。§5 の V1 の観測は r1 の時点では誤りだった(§9 に規模の句が無かった・§6.1)。
+- **V2**= PASS(観測: §5 のとおり・検査官 r1 項目 5〔PyYAML で読める・新しい欄の型・schema は新しい欄を拒否しない〕)。
+- **V3**= PASS(観測: 検査官 r1 項目 2 — 本文の事実の主張 16 件すべてが ECO-097 の記録と一致・記録に無い主張〔効果・一般化・同等性〕なし)。
+- **V4**= PASS(観測: 検査官 r1 項目 4 — §4.1・§4.4・§4.5・§4.6・§7・§9・§11・§13・30 / 32 / 33 / 34 テンプレと正面の矛盾なし・ECO-086 の ID だけの行と両立。phase3-design は新しい所有・結線を説明していないが逆の作業を指示していない)。
+- **V5**= PASS(観測: 窓 `f99c7c4` → `ad9d836`= allowed_paths のみ〔playbook・32・33・台帳系・r1 / r2 報告〕・tools / hooks / .github / schemas / prompts diff 0。各 commit は self-conformance exit 0 観測後。CI cf1852f / 8d84edb / ad9d836 とも success。本クローズ commit は台帳系+r3 報告のみ)。
+- **V6**= PASS(観測: r1 REJECT IA-01 → 是正 → r2 REJECT〔受理側の手順の誤り〕→ r3 **ACCEPT**・所見なし)。
+- **V7**= 下の較正 receipt。register: `implemented → verified`。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。文書のみの変更・異系統の独立検査 3 round)
+
+- 査定した主張と判定:
+  1. 「playbook の 3 項と 32 / 33 テンプレの追加は、ECO-097 の記録と一致し、記録より強い主張を含まない」— **observed / 適格**(検査官 r1: 主張 16 件を 1 件ずつ記録と突合・全件一致)。
+  2. 「3 項とも candidate と試行の規模を明示している」— **observed / 適格**(是正後・検査官 r3)。製造時点では不成立(§9 の 1 項で規模の句が欠落)で、製造者の受入の実測は誤って PASS としていた。
+  3. 「追加は既存の本文・テンプレ(ECO-086 を含む)と矛盾しない」— **observed / 適格**(検査官 r1 が §4.1〜§13 と 30〜34 テンプレ・phase3-design を実読)。
+  4. 「テンプレは機械的に健全」— **observed / 適格**(PyYAML・C1・schema は additionalProperties を拒否しない)。
+  5. 「この記載で、次の製品の担当者が同じ分け方を実行できる」— **unknown**(文書を読んだ別の担当者による実施は未実施。phase3-design などのプロンプトは未改訂で、新しい項を参照していない)。
+  6. 「この分け方は効果がある・他の製品でも機能する」— **unknown(本文も主張しない)**。
+- 検出した計器欠陥(帰属つき): 製造物 1 件= IA-01(§9 の項に規模の句が無い・是正済み)。製造者の受入 1 件= V1 の条件の全部を測らずに PASS とした(「candidate・N=1」だけを確かめ「2 製造単位・1 製品」を grep しなかった)。
+  受理側の運転 2 件= ①検査の起動のパス指定の誤り(検査は始まらず・再実行)②是正の commit の失敗を観測する前に検査の起動が走り、是正前の revision を検査へ渡した(r2 の空費・AGENTS.md 規律 3 と同型・push と昇格は起きていない)。
+- 検出力の限界: 文書のみ。検査官は 1 系統(Codex)・読解中心。本文の「実行可能性」(読み手が実際に従えるか)は測っていない。試行の根拠自体が 2 単位・1 製品・同日。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 受入条件は「記録との一致・candidate の表示・矛盾なし・健全性」までで、効果を条件にしていない。主張 5・6 を unknown に分離 |
+  | Q2 | asked | observed/適格 | 実測 | V1 は是正前の revision で検査官が FAIL・是正後に PASS(同じ項目が反転)。r2 は是正前の revision を渡すと FAIL になることを意図せず実演した |
+  | Q3 | asked | observed/適格 | 実測 | 製造者の grep・PyYAML・self-conformance と、検査官の主張ごとの突合を別々に行った |
+  | Q4 | asked | observed/適格 | 実測 | 実ファイル・実 commit(cf1852f / 8d84edb / ad9d836)・CI |
+  | Q5 | asked | observed/適格 | 実測 | 未改訂のプロンプト・未測定の実行可能性を限界として分離 |
+  | Q6 | asked | **逸脱 1 件** | 実測 | commit の成否を観測する前に検査を起動した(r2)。以後は commit を単独で実行して exit を観測してから起動(r3)。push・昇格の順序は保たれた |
+  | Q7 | asked | observed/適格 | 実測 | 陽性対照= r1 の FAIL(規模の句の欠落)と r2 の FAIL(是正前の revision)。検査官は 2 回とも落とした |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | 検査の対象 revision の完全 SHA をブリーフに埋め、検査官が `git rev-parse HEAD` と照合(r3= ad9d836…)。r2 は渡した SHA が是正前だったことを検査官が検出 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 5・6 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス(playbook の 3 項 / テンプレ 2 本 / 既存節との照合 / schema・ツールへの影響)を分けて検査させた |
+
+- このクローズが支持しないもの: 記載した分け方の効果 / 他の製品への一般化 / 文書だけで別の担当者が実施できること / candidate の実証済みへの格上げ。
