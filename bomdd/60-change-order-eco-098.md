@@ -76,3 +76,20 @@ C1(YAML 厳格パース)は新しい欄を含めて PASS のまま・C7 / C13 / 
 - **V1**= PASS(観測: grep `ECO-098` → playbook の 3 項。各項に「candidate・ECO-097 試行 N=1」と、未測定 / 限界の句がある— §4.4「限界: …」・§4.5「**未測定**: …」・§9「同等かは未測定」)。
 - **V2**= PASS(観測: 32 に 3 分類のコメントと `manufacturing_decisions: []`・33 に `when: acceptance`・`on_fail: {red, unmeasurable}`・checklist の 1 項。PyYAML の厳格パースで 2 ファイルとも読め、新しい欄の値を取り出せた。self-conformance の C1 PASS)。
 - **V3**・**V4**・**V6**= 独立検査(§6)。**V5**・**V7**= クローズ節。
+
+## 6. 独立検査(異系統・EQ-002 Codex gpt-5.6-sol)
+
+### 6.1 r1(2026-10-05・境界探索・対象 8d84edb)— **REJECT IA-01**
+
+- 報告= [independent-inspection-eco-098.md](reports/independent-inspection-eco-098.md)。項目 1(範囲)・2(記録との一致: 主張 16 件すべて一致・記録に無い主張なし)・4(既存本文・テンプレとの矛盾なし・ECO-086 と両立)・5(機械的健全性)・6(言い回し)= PASS。
+- **IA-01(blocking・製造物)**: §9 の新しい項の見出しが `candidate・ECO-097 試行 N=1` だけで、「2 製造単位・1 製品」が無い(§4.4・§4.5 にはある)。V1 の条件(3 項とも試行の規模を明示)を満たさない。
+- 帰属= 製造者(V1 の条件を自分で書いておきながら、3 項のうち 1 項で規模の句を落とし、受入の実測 §5 で「各項に candidate・N=1」とだけ確かめて PASS とした— 条件の「2 製造単位・1 製品」を grep していない)。
+- 是正= §9 の見出しを他の 2 項と同じ `candidate・ECO-097 試行 N=1〔2 製造単位・1 製品〕・ECO-098` に(1 行)。§5 の V1 の観測は r1 の時点では誤り(是正後に再測し、クローズ節に書く)。
+
+### 6.2 r2(2026-10-05・是正確認+回帰・対象として渡した revision= 8d84edb)— **REJECT IA-01 / IA-02(受理側の手順の誤り・製造物の所見ではない)**
+
+- 報告= [independent-inspection-eco-098-r2.md](reports/independent-inspection-eco-098-r2.md)。項目 3(回帰)= PASS(未 commit の是正 1 行も「規模の句の追加だけで新しい不一致・矛盾なし」と観測)。
+- **IA-01 / IA-02(blocking・帰属= 受理側〔製造者の運転〕)**: 是正を commit しないまま検査を起動した。commit のコマンドで、未追跡の r1 報告を `git add -u <path>` に渡してエラーになり、`&&` で結んだ commit と push が実行されなかった。
+  その後ろに `;` で並べた「HEAD の sha を取る → ブリーフに埋める → 検査を起動」は止まらずに走り、検査官には是正前の revision(8d84edb)が渡った。検査官は「対象 revision では是正されていない」「是正の差分の窓がゼロ幅」と正しく判定した。
+- 機序= 検査と後続の操作を条件で結ばなかった(AGENTS.md 規律 3・ECO-024 と同型。今回は commit の失敗を観測する前に、検査の起動が実行された)。実害= 検査 1 round の空費(push・昇格は起きていない)。
+- 処置= 是正・r1 報告・r2 報告・本記録を commit し(commit の成否を観測してから)、r3 で是正確認をやり直す。r3 の報告の置き場を allowed_paths に足す。
