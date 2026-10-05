@@ -8376,3 +8376,19 @@ ViewTube の REQ-095 は「仕組みは M-BOM の実装判断」と明文で委�
 - [watch 1/3] OBS-20261005-04 — **人が裁定していない設計の決めが、導出層(M-BOM)にだけ書かれて残る — ファイルの形式の必須機能フラグ・取り込みの既定・不正な入力の扱いのように、利用者の画面には直接現れないが後から変えにくい(出回ったファイルと以前の版の読み手が相手)取り決めが、ECO の実装の中で決まり、要求・仕様に書き戻されずに M-BOM の行にだけある。ViewTube で 2 人の分類者が一致して 3 件を挙げ(うち 2 件は ECO 本文にも利用者の裁定の記載なし)、同じ種類の先行する決め(music-scope-v1)は仕様に書かれていた= 書き戻しが起きたり起きなかったりする。1 例目: ViewTube ECO-VT-195 / 212 由来(BomDD ECO-099 H3・H4・H5)。ViewPrism2 の 2 単位では 0 件。2 例目の条件= 別の製品または ViewTube の別の単位で、裁定層(要求・仕様・E-BOM・K-BOM)に無い設計の決めが M-BOM・Control Plan・コードのコメントにだけあると、2 人以上の独立の読み手が一致した実測 1 件。playbook §9「裁定の出力は情報基盤へ書き戻す」の、裁定を経ていない決めの版**
   source: BomDD ECO-099 reconciliation.md「人へ戻す の内容の突合」× ViewTube fe0250ef bomdd/32-mbom.yaml(M-VIEW-PACK-001 行 4・5)・bomdd/eco/ECO-VT-212.md
   evidence: bomdd/reports/eco-099-viewtube-second-example/reconciliation.md・bomdd/reports/eco-099-viewtube-second-example/inspection-report-r2.md
+
+## 2026-10-06 BomDD 自己適用 — ECO-100 起票(ViewTube の 2 例目と書き戻しの反映・user DECIDE「A」・文書のみ・candidate の訂正)
+
+**出典**: user「A」(ViewTube ECO-VT-227 のクローズ報告への応答= 分かったことを記録に残し、playbook の M-BOM の節も直す)。order= `bomdd/60-change-order-eco-100.md`。ViewTube の根拠 3 文書の写し(未 push のため・sha256 つき)= `bomdd/reports/eco-100-mbom-four-classes/viewtube-snapshot/`。
+**ViewTube の書き戻しの記録(ECO-VT-227 applied b908a46c・2026-10-05)**: ECO-099 の 5 件を人に示し、4 件(D1〜D4)を「いまの決めをそのまま書き戻す」・1 件(D5)を「M-BOM の判断のまま」と裁定。
+独立レビュー第一回(担当の文脈を持たない読み手・読みだけ)が、D4 の文は M-BOM と同じ内容だがアプリの中の復元ではコードがそのとおりに動かないと指摘(blocking)— 担当も同じ箇所を読んで同じ結論。人の裁定で D4 を外し、別の ECO(ECO-VT-228・起票のみ)にした。
+第二回は合格(D1〜D3 の全句が M-BOM と同じでコードと合う・読み)。所見 2 件は担当の起票時の誤り(D2 の言い換えがコードと違う・検索の件数の数え違い)。M-BOM の未定義の語(forced)は、人の裁定でコードの意味まで仕様に書いた。M-BOM・コード・テストは不変。書き戻した句を M-BOM から消してはいない。
+**反映の内容(製造は次の commit)**: playbook §4.5 の candidate の項を訂正 — 句の単位の 4 分類(「記録」を追加・置き場は未決)・書き戻しの前に、書いた者と別の文脈の読み手が導出層の文との突き合わせとコードの読みを行う。32 テンプレの invariants のコメント。candidate のまま・効果は主張しない。
+**思想層の再認証判定(lesson-promote 3b)**: operational rule(playbook)= 該当 / template= 該当 / control・probe・terminology・method/concept claim= 該当なし(docs/concept.md・terminology に M-BOM の行の分類の記載なし— grep `3 分類`・`3 つに分` で確認)。
+**期待効果の棚卸し**: EXP-20261005-01(回収済み)の「不成立の読み方= 分類不能の行が出れば 3 分類の不足」— ViewPrism2 では出ず、ViewTube(ECO-099)で「記録」が出た → 本 ECO の訂正の根拠(EXP は ViewPrism2 の 2 単位について回収済みのまま)。
+OBS-20261005-03(記録が混ざる・1/3)・OBS-20261005-04(裁定されていない決めが M-BOM にだけ残る・1/3)**不変** — ECO-VT-227 は同じ単位の同じ 3 件の書き戻しで、2 例目の条件(別の製品または別の単位)に当たらない。OBS-20261005-02(2/3)不変。
+playbook §9「製造者の自己査定は製造者の前提誤りに盲目」(昇格済み)の実例 2 件(レビュー第一回の D4・第二回の言い換えの誤り)— 昇格済みのため加算しない。新規 OBS-20261006-01(下記)。
+
+- [watch 1/3] OBS-20261006-01 — **導出層(M-BOM)の文そのものが、製品のふるまいと合っていないことがある — 「M-BOM に書いてあるから、そのまま裁定層へ書き戻す」と、誤った文が人の裁定した要求になる。M-BOM の「復元したバックアップは open で変換される」を、人が「そのまま書き戻す」と裁定したあと、担当の文脈を持たない読み手がコードを読み、アプリの中の復元ではその変換が走らない経路を見つけた(変換の呼び出しは初期化の 1 か所だけ・復元は初期化をやり直さない・読みで実行なし)。文は書き戻さず、欠陥の疑いとして別に起票した。同じ書き戻しで、M-BOM の未定義の語(forced)を担当が誤って言い換えていたことも同じ読み手が見つけた。人の裁定は「M-BOM の文」を対象にしており、文とコードの一致は裁定の入力に無かった。1 例目: ViewTube ECO-VT-227(D4・書き戻しを裁定した 4 件中 1 件)。2 例目の条件= 別の製品または別の単位で、導出層(M-BOM・Control Plan・コードの注記)の記述を裁定層へ運ぶ、または裁定の入力として人に示す際に、コードとの突き合わせ(読みまたは実行)で記述とコードの不一致が見つかった実測 1 件**
+  source: ViewTube ECO-VT-227(applied b908a46c)§4・§9 × ECO-VT-227-independent-review.md Round 1 R227a-F1 × ECO-VT-228(staged 33e16ff9)
+  evidence: bomdd/reports/eco-100-mbom-four-classes/viewtube-snapshot/ECO-VT-227-independent-review.md・bomdd/reports/eco-100-mbom-four-classes/viewtube-snapshot/ECO-VT-227.md

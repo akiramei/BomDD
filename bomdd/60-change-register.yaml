@@ -3180,3 +3180,27 @@ changes:
       条件行は起票後不変・結果はクローズ節の観測行。
     producer: EQ-001
     inspector: EQ-002
+  - id: ECO-100
+    title: ViewTube の 2 例目と書き戻しの反映 — playbook §4.5 の「3 つに分ける」を句の単位の 4 分類に訂正し、書き戻しの前のコードとの突き合わせを足す(文書のみ・candidate)
+    date: 2026-10-06
+    origin: improvement
+    status: draft   # 2026-10-06 user DECIDE「A」(ViewTube ECO-VT-227 のクローズ報告への応答= 記録に残し playbook も直す)→ 起票(変更要求・受入条件を凍結)→ 製造は次の commit
+    receipt_author_role: producer   # ECO-077 観測欄
+    source: >
+      ECO-099 verified(ViewTube の 3 単位 15 行の句ごとの分類: 「記録」の句 7・15 / 混在の行 6/15・8/15 / 人へ戻す 一致 3・不一致 2・統括 AI の誤り 1)と、ViewTube ECO-VT-227 applied b908a46c
+      (人が書き戻すと裁定した 4 件のうち 1 件は、M-BOM の文のとおりにコードが動かない経路が独立レビューの読みで見つかり、外して ECO-VT-228 に / 3 件を要求と仕様へ書き戻し / M-BOM の未定義の語 1 件は人の裁定でコードの意味まで書いた)。
+    order_ref: bomdd/60-change-order-eco-100.md
+    affected_refs: [method/bomdd-playbook-v1.md, method/templates/32-mbom.yaml]
+    no_impact_prediction: "(製造前・凍結)diff= playbook(§4.5 の candidate の 1 項の中だけ)・templates/32(invariants のコメント)+台帳系+reports/eco-100-mbom-four-classes/+独立検査の報告のみ。playbook §4.4・§9・templates/33・tools・hooks・.github・schemas・contracts・prompts diff 0。C1/C7/C13/C14/C15 判定不変。配布テンプレは次回配布時に波及・既存製品不変"
+    diff_audit:
+      baseline: "569a4bc"  # 起票直前 HEAD(ECO-099 クローズ commit)
+      allowed_paths: [method/bomdd-playbook-v1.md, method/templates/32-mbom.yaml, method/improvements.md, bomdd/60-change-order-eco-100.md, bomdd/60-change-register.yaml, bomdd/reports/eco-100-mbom-four-classes/]
+    summary: >
+      ①playbook §4.5 の candidate の項を訂正: 分類は句の単位・4 つ目の区分「記録」(置き場は未決)・人へ戻す句の書き戻しは、書いた者と別の文脈の読み手が導出層の文との突き合わせとコードの読みを行ってから・見出しと試行の実測・未測定を ViewTube の値で更新
+      ②32 テンプレの invariants のコメント ③improvements.md に記帳と新規 OBS(導出層の文そのものが誤りうる)。
+      採らない= 実証済みへの格上げ・効果の主張・「記録」の置き場の決定・§4.4 / §9 の項・33 テンプレ・schemas / ツール / プロンプト・既存製品の遡及・OBS-20261005-03 / 04 の加算。
+    verification: >
+      V1 §4.5 の項の 5 つの句(grep 1 件ずつ)と candidate・規模の表示 / V2 32 テンプレのコメントと厳格パース / V3 記述が ECO-099 の記録と ECO-VT-227 の写しに一致し記録に無い主張を含まない(独立検査)/
+      V4 他の節・ECO-086 / 098 の他の項と矛盾せず §4.4・§9 の項は不変 / V5 diff 窓・self-conformance・CI / V6 異系統の独立検査 ACCEPT / V7 較正 receipt(trigger ①)。条件行は起票後不変・結果はクローズ節の観測行。
+    producer: EQ-001
+    inspector: EQ-002
