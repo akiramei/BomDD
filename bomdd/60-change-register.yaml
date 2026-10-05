@@ -3184,7 +3184,7 @@ changes:
     title: ViewTube の 2 例目と書き戻しの反映 — playbook §4.5 の「3 つに分ける」を句の単位の 4 分類に訂正し、書き戻しの前のコードとの突き合わせを足す(文書のみ・candidate)
     date: 2026-10-06
     origin: improvement
-    status: draft   # 2026-10-06 user DECIDE「A」(ViewTube ECO-VT-227 のクローズ報告への応答= 記録に残し playbook も直す)→ 起票(変更要求・受入条件を凍結)→ 製造は次の commit
+    status: implemented   # 2026-10-06 user DECIDE「A」(ViewTube ECO-VT-227 のクローズ報告への応答= 記録に残し playbook も直す)→ 起票 ffffdab(変更要求・受入条件を凍結)→ 製造(playbook §4.5 の 1 項・32 テンプレのコメント・追加 14 行 / 削除 6 行)→ 独立検査へ
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       ECO-099 verified(ViewTube の 3 単位 15 行の句ごとの分類: 「記録」の句 7・15 / 混在の行 6/15・8/15 / 人へ戻す 一致 3・不一致 2・統括 AI の誤り 1)と、ViewTube ECO-VT-227 applied b908a46c
