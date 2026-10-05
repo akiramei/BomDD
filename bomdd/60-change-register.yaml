@@ -3156,3 +3156,26 @@ changes:
       V5 diff 窓・self-conformance・CI / V6 異系統の独立検査 ACCEPT / V7 較正 receipt(trigger ①)。条件行は起票後不変・結果はクローズ節の観測行。
     producer: EQ-001
     inspector: EQ-002
+  - id: ECO-099
+    title: ViewTube での 2 例目 — M-BOM の行を句ごとに分類する読み取りの計測(事前登録つき・記録のみ・ViewTube へは書き込まない)
+    date: 2026-10-05
+    origin: improvement
+    status: draft   # 2026-10-05 user「ViewTube で 2 例目を試して」→ 起票+事前登録(ViewTube は別の作業 ECO-VT-226 が進行中のため読み取りの計測に縮小・対象 commit fe0250ef の 3 単位 15 行)
+    receipt_author_role: producer   # ECO-077 観測欄
+    source: >
+      ECO-097 / 098 の未測定(M-BOM の方が E-BOM より多くを持つ製品での「人へ戻す」行)。ViewTube= M 114 行・E 48 行。起票時の実測: ViewTube は ECO-VT-226 が進行中(未 commit の変更・当日の commit が 32 を書いている)/
+      受入テスト 836 件は CP・要求の ID を持たず監督つき受入実行は常に赤(ID ごとの表の前提が無い)/ M の行は最大 736 文字で要求の参照・作り方・実測値・レビューの所見が 1 行に混ざる。
+    order_ref: bomdd/60-change-order-eco-099.md
+    affected_refs: [method/improvements.md]
+    no_impact_prediction: "(起票時点・凍結)本リポの diff= 台帳系(order・register・improvements.md・reports/eco-099-viewtube-second-example/)のみ。playbook・templates・schemas・tools・hooks・.github diff 0。ViewTube の作業ツリー・index・refs は不変(git show で読むだけ)"
+    diff_audit:
+      baseline: "a9063ff"  # 起票直前 HEAD(ECO-098 クローズ commit)
+      allowed_paths: [method/improvements.md, bomdd/60-change-order-eco-099.md, bomdd/60-change-register.yaml, bomdd/reports/eco-099-viewtube-second-example/]
+    summary: >
+      対象= ViewTube fe0250ef の M-INFRA-PERSISTENCE-001(4 行・既見)・M-INFRA-YOUTUBE-001(5 行・既見)・M-VIEW-PACK-001(6 行・未見)。句ごとに 参照化 / 人へ戻す / 製造手段 / 記録 / 分類不能 を付け、裁定層(10・20・30・31)の所在を記録。
+      指標 T1 区分の分布 / T2 3 分類の十分さ(「記録」の要否)/ T3 混在の行 / T4 検査官の盲検の分類との一致 / T5 既見と未見の腕の差。採らない= ViewTube への書き込み・playbook 改訂・M-APP-*・ID ごとの表・常に赤の計器の是正。
+    verification: >
+      V1 事前登録が分類より前の commit / V2 15 行の全部が句ごとに分類され所在つき / V3 検査官の盲検の分類と突合 / V4 T1〜T5 の記録 / V5 ViewTube を本 ECO が変えていない / V6 diff 窓・self-conformance・CI / V7 製造者較正・較正 receipt。
+      条件行は起票後不変・結果はクローズ節の観測行。
+    producer: EQ-001
+    inspector: EQ-002
