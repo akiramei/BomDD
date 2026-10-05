@@ -8341,3 +8341,10 @@ OBS-20261002-01(CP が受入の入力でない)= 2/3 のまま(本試行の承�
 - [watch 1/3] OBS-20261005-02 — **「裁定層に無い」の判定は、裁定層の全部(要求・仕様・E-BOM・K-BOM)を読まないと誤る — M-BOM の行が E-BOM に無いことを見て「人が裁定していない設計の内容」と分類したが、2 行とも仕様に、1 行は K-BOM にあった。E-BOM は裁定層の一部で、設計の内容の多くは仕様の本文にある(ViewPrism2: E の不変条件 288 行のうち ID つき 48)。M から裁定層への参照が E 品目の ID(ebom_refs)だけだと、仕様の本文にある内容への到達は E 品目の requirement_refs 経由になる。1 例目: BomDD ECO-097 の起票時の仮の分類(着手前に訂正)。2 例目の条件= 別の製品で、M-BOM(または Control Plan)の記述が「E-BOM に無いが仕様・K-BOM にある」と実測された 1 件、または E-BOM に無いことを根拠に人へ判断を戻して「既に裁定済み」と返された 1 件**
   source: BomDD ECO-097 order §6・preregistration.md 変更の履歴 × ViewPrism2 ECO-145 order §3 ①
   evidence: bomdd/reports/eco-097-mbom-cp-redesign/preregistration.md・bomdd/reports/eco-097-mbom-cp-redesign/derivation.md
+
+## 2026-10-05 BomDD 自己適用 — ECO-098 起票(ECO-097 試行の反映・user DECIDE「A」・文書のみ・candidate)
+
+**出典**: user 2026-10-05「A」(ECO-097 クローズ後の反映の判断= いま candidate として文書に書く)。order= `bomdd/60-change-order-eco-098.md`。
+**反映の内容**: playbook §4.5(裁定層と導出層・M の invariants の 3 分類)・§4.4(検査行と裁定層の結線・人が読む表)・§9(層の所有)・32 テンプレ(invariants のコメント・manufacturing_decisions)・33 テンプレ(when・on_fail・checklist)。
+いずれも candidate(試行 1 回・2 製造単位・1 製品)で、効果は主張しない。未測定(M の方が E より多くを持つ製品・interface_contract / display_contract・E の acceptance_refs・検査官の審査と人の審査の同等性)は本文に併記する。
+**期待効果の棚卸し**: OBS-20261005-01・02(1/3)不変 — 本文に参照として引く(昇格ではない)。OBS-20261003-03(1/3)不変。OBS-20261002-01(2/3)不変。新規の OBS / EXP なし(次の製品の実使用で 2 例目を数える)。

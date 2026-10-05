@@ -3131,3 +3131,27 @@ changes:
       V1 事前登録が製品側の着手より前 / V2 人へ戻す行が人の裁定つきで裁定層に固定・版が bom_version+tag / V3 R1〜R7 の記録 / V4 停止条件 S1〜S4 の発生の有無の記録 /
       V5 製品側 ECO が ViewPrism2 の受入を通過 / V6 playbook・テンプレ非改訂・self-conformance・CI / V7 製造者較正・較正 receipt。条件行は起票後不変・結果はクローズ節の観測行。
     producer: EQ-001
+  - id: ECO-098
+    title: ECO-097 試行の反映 — 裁定層と導出層の欄の所有・M-BOM の 3 分類・検査行と裁定層の結線・人が読む表を playbook と 32 / 33 テンプレへ candidate として置く(文書のみ)
+    date: 2026-10-05
+    origin: improvement
+    status: draft   # 2026-10-05 user DECIDE「A」(ECO-097 クローズ後の反映の判断)→ 起票(変更要求・受入条件を凍結)→ 製造は次の commit
+    receipt_author_role: producer   # ECO-077 観測欄
+    source: >
+      ECO-097 verified(ViewPrism2 ECO-145 applied)の回収: M の invariants 6 行= 参照化 5・製造手段 1・人へ戻す 0 / 人へ戻した判断 1 件・機械的派生 0 / 裁定層の ID ごとの表で 10/10 の ID が Skip → 測定不能・赤 → 違反 /
+      異系統の検査官が対応づけの誤り 1・漏れ 1、別文脈のレビューが表の計器の blocking 2 を検出。user の決め= E-BOM は人が裁定する場所・M-BOM / Control Plan は AI が判断する場所。
+    order_ref: bomdd/60-change-order-eco-098.md
+    affected_refs: [method/bomdd-playbook-v1.md, method/templates/32-mbom.yaml, method/templates/33-control-plan.yaml]
+    no_impact_prediction: "(製造前・凍結)diff= playbook(§4.4・§4.5・§9 に各 1 項)・templates/32(コメント+欄 1)・templates/33(欄 2+checklist 1 項)+台帳系+独立検査の報告のみ。tools・hooks・.github・schemas・contracts・prompts diff 0。C1/C7/C13/C14/C15 判定不変。配布テンプレは次回配布時に波及・既存製品不変"
+    diff_audit:
+      baseline: "f99c7c4"  # 起票直前 HEAD(ECO-097 クローズ commit)
+      allowed_paths: [method/bomdd-playbook-v1.md, method/templates/32-mbom.yaml, method/templates/33-control-plan.yaml, method/improvements.md, bomdd/60-change-order-eco-098.md, bomdd/60-change-register.yaml, bomdd/reports/independent-inspection-eco-098.md, bomdd/reports/independent-inspection-eco-098-r2.md]
+    summary: >
+      ①playbook §4.5「裁定層と導出層」(層の所有・導出層は裁定層の内容を自分の言葉で持たない= M の invariants の 3 分類・人へ戻す 3 種・lazy 遡及・未測定)②§4.4「検査行と裁定層の結線・人が読む表」(CP 行の refs・when・on_fail・
+      表のキーを裁定層の ID に・作り方の規律 3 点・限界)③§9「層の所有」(導出層への統制の置き場)④32 テンプレ invariants のコメント・manufacturing_decisions ⑤33 テンプレ when・on_fail・checklist。
+      採らない= 実証済みへの格上げ・効果の主張・既存製品の遡及・schemas / ツール / プロンプトの変更・interface_contract / display_contract / E の acceptance_refs の扱い・ECO-086 の撤回。
+    verification: >
+      V1 playbook の 3 項(candidate・N=1・未測定の併記)/ V2 32・33 テンプレの欄と厳格パース / V3 記述が ECO-097 の記録と一致し記録に無い主張を含まない(独立検査)/ V4 ECO-086 と矛盾しない /
+      V5 diff 窓・self-conformance・CI / V6 異系統の独立検査 ACCEPT / V7 較正 receipt(trigger ①)。条件行は起票後不変・結果はクローズ節の観測行。
+    producer: EQ-001
+    inspector: EQ-002
