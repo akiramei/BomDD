@@ -1,0 +1,60 @@
+    - 'ECO-VT-195 (REQ-073 as amended): ViewValidator lets a view reference global tags and tags of its own
+    - 'ECO-VT-212 (REQ-032/034/035 as amended 2026-09-29, ruling (A)): a hierarchy node carries NodeCondition? Condition
+    - 'ECO-VT-212 R8 round 1: a carried textual restriction becomes the pattern \A<escaped>\z, not ^...$, because .NET''s $
+    - 'ECO-VT-217 (REQ-022, REQ-023, REQ-025): TagDefinition.ValidatePersonAssignment is the rule for a PERSON''S
+    - 'ECO-VT-217 R8 round 1 (R217a-F3, F4): neither judgement throws on a decimal the tag accepts.
+    - 'ECO-VT-217 R8 round 2 (R217b-F1, F2, F3, F6): not overflowing is not being exact. OnStep''s
+    - 'ECO-VT-218 (REQ-023, REQ-025; R217b-F1, F2): the step and the offered values are computed EXACTLY, as whole
+    - 'ECO-VT-218 R8 round 1 (R218a-F1, F2): the parse rounding works both ways - an off-step text past a
+    - 'ECO-VT-219 (REQ-023, REQ-081): a person''s numeric text is read exactly. ValidatePersonAssignment first asks
+    - 'ECO-VT-219 R8 round 1 (R219a-F1, F3): text NumericValue.TryParse refuses is still refused
+    - 'ECO-VT-219 R8 round 2 (R219b-F1): IsWrittenAsANumber writes only ASCII digits as 0, so a full-width digit
+    - 'ECO-VT-195 (REQ-092): TagAssignmentService refuses an assignment in the music scope
+    - 'ECO-VT-217 (REQ-022, REQ-023, REQ-081): TagAssignmentService.AssignAtomicAsync holds every row to
+    - 'ECO-VT-195 (REQ-092: a scope is fixed at creation, everywhere - the user''s ruling (b)): SaveTagAsync and
+    - 'ECO-VT-212: a view''s hierarchy is one JSON blob, so a node''s Restriction - a property the model no longer has -
+    - 'ECO-VT-228 (the user''s ruling (B), 2026-10-06): the steps applied to a schema-4 catalogue after the version
+    - 'ECO-VT-232 (REQ-064; the user''s ruling 「3」 = (C), 2026-10-06): RestoreAsync applies ApplyStepsAfterVersionMigrationsAsync
+    - 'ECO-VT-209: EmbedPageHost.Start hands its accept loop the listener and the cancellation token as
+    - 'ECO-VT-199: inside one edit of a view''s hierarchy a node id is never issued twice, and never the
+    - 'ECO-VT-199: after a hierarchy save the Videos position is resolved against the saved view by
+    - 'ECO-VT-200: the Videos position belongs to the view it was resolved for (_classificationViewId,
+    - 'ECO-VT-201: the replacement above happens only while Videos is the active area. An evaluation
+    - 'ECO-VT-201 R8 round 1 (R201a-F1): the hierarchy save moves the shown position (the ECO-VT-196 and
+    - 'ECO-VT-202: the Videos sort is written only by the person (the sort dropdown, the list header,
+    - 'ECO-VT-202 R8 round 1 (R202a-F1, F5). The person writes the sort through SetVideoSort (the
+    - 'ECO-VT-203: every heading that names the sort takes the chosen sort''s own description
+    - 'ECO-VT-204: the reload after a tag change asks, outside a view, for the same list RefreshAsync
+    - 'ECO-VT-205: the view delete moves the selection to the next view BEFORE refreshing the applicable
+    - 'ECO-VT-206: one predicate, MusicScopeHoldsNothing (the music scope selected with no origin), is
+    - 'ECO-VT-206 R8 round 1 (R206a-F1, R206a-F2): MusicScopeHoldsNothing is false while a collection''s
+    - 'ECO-VT-207: one method, BeginClassificationBrowse, turns a view on for all three writers
+    - 'ECO-VT-195: MusicOriginView asks ViewApplicability for the music scope; the impact text, the view card''s
+    - 'ECO-VT-224 (REQ-094, ECO-VT-224-provisional-1): DeleteSelectedViewCommand, DeleteEditingTagCommand and the
+    - 'ECO-VT-224 R8 round 1 (R224a-F1, F2; the user''s rulings 「削除の直前に数え直す (推奨)」 and 「断りをボタンのそばに出す
+    - 'ECO-VT-224 R8 round 2 (R224b-F1; the user''s ruling 「断りを出す (推奨)」): CORRECTS the round-1 clause above, whose
+    - 'ECO-VT-224 change review (R224c-F2; the user''s ruling 「設定を開くときに文を消す (推奨)」): OpenViewSettings
+    - 'ECO-VT-224 second change review (R224d-F1, F2; the user''s ruling 「新規でも消し、削除後の文はなしと記録 (推奨)」):
+    - 'ECO-VT-217 (REQ-025, ECO-VT-217-provisional-1, UI-RUL-0084): the assignment dialog (MainWindow.cs, whose
+    - 'ECO-VT-217 R8 round 1 (R217a-F1, F2): THE SUGGESTED VALUE IS SHOWN WHERE IT IS TAKEN, OR IT IS NOT TAKEN.
+    - 'ECO-VT-217 R8 round 2 (R217b-F4, F5): copy across with choices is held by R217bCopySpanTests. The round-1
+    - 'ECO-VT-219 (UI-RUL-0085): AssignmentValueRefusal says 「桁が多すぎます。有効数字 28 桁までで入力してください。」 for
+    - 'ECO-VT-219 R8 round 1 (R219a-F2, UI-RUL-0085 amended): the line is 「桁が多すぎます。小数点以下は 28 桁まで、数字は全部で 28 桁までで入力してください。」
+    - 'ECO-VT-198: the hierarchy row''s condition chip takes the drawing''s .condition-chip limits - MaxWidth
+    - 'ECO-VT-198 R8 round 1 (R198a-F1): a row with a condition lays out its label and right-hand group
+    - 'ECO-VT-198 R8 round 2 (R198b-F1): when the buttons themselves are wider than the row - placing mode
+    - 'ECO-VT-210 (the user''s rulings (1) and (a), 2026-09-29): every hierarchy row, with or without a
+    - 'ECO-VT-211 (the user''s rulings (A) and (i), 2026-09-29), superseding ECO-VT-210''s line above where they
+    - 'ECO-VT-211 R8 round 1 (R211a-F2): the label hides its owner badge and type chip by arranging them at zero
+    - 'ECO-VT-212 (ECO-VT-212-provisional-2, UI-RUL-0083): the node dialog''s free-text 条件 is replaced by
+    - 'ECO-VT-212 R8 round 1, the user''s ruling Q1 (a): the dropped-restriction report is read from the SELECTED view
+    - 'ECO-VT-214 (R212b-F2): the node dialog closes whenever another view comes on screen, because applying it finds
+    - 'ECO-VT-214 R8 round 1 (R214a-F1): replaces the round-0 clause above. What the dialog must not outlive is the
+    - 'ECO-VT-214 R8 round 2 (R214b-F1): corrects the reason given above for the delete route. Deleting a view is
+    - 'ECO-VT-222 (the user''s ruling on the accent bar, ECO-VT-213): the HOME row''s bar HierarchyHomeEmphasis_{id}
+    - 'ECO-VT-224 (REQ-094, ECO-VT-224-provisional-1): BuildDeleteConfirmationDialog makes ViewDeleteConfirmDialog
+    - 'ECO-VT-224 R8 round 1 (R224a-F8): the confirmation''s card is the drawing''s .modal (viewtube-v1.html 582), not
+    - 'ECO-VT-208: UiFixture is an assembly fixture ([assembly: AssemblyFixture] in
+    - 'ECO-VT-195 (the user''s ruling of 2026-09-27, E): the pack format carries Music as a third owner; a pack
+    - 'ECO-VT-212: ViewPackHierarchyPlacement carries Condition; its Restriction is read-only, never written (omitted
+    - 'ECO-VT-212 R8 round 1, the user''s ruling Q2 (i): a pack carries a selection as it is stored. Import still refuses

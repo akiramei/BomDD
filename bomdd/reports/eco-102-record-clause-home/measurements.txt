@@ -1,0 +1,91 @@
+date: 2026-10-07T00:06:13+0900
+ViewTube HEAD: 7a6cae592d6a5793038e04ecab411d5143a59990 (working tree: 0 modified paths under bomdd/)
+ViewPrism2 HEAD: 883cb08c3f26c6a40492c3247d426ef6ee72dc99 (working tree: 0 modified paths under bomdd/)
+
+== sha256 of the measured files
+2a5beb790bd0ba102b7544e2ab9c1b0624188cef0c540a82dfd8aeb2c94f9c01 *bomdd/32-mbom.yaml
+2f8cc13efc98c8042bfe195d201784cf415dbf986b01aeb386fef15ba1171eed *bomdd/33-control-plan.yaml
+b206bb68233f772fe6a330329b00d8b862fa9c771f1bc3c9c74fb286ccc23192 *bomdd/50-as-built.yaml
+17be4ce517d7749d50ebe94da1e62d74a2ba9ac2fae328f9ab7624c7bc06b7e0 *bomdd/52-metrics.yaml
+577b8a6e1813a4e07081f663993ec7341850af8948c1689a117bcdef9e2013e6 *bomdd/31-kbom.yaml
+931d7d1fe8bfc5a997015f2384c10d0aacf158c13dead0d869dc241e8b40647a *bomdd/32-mbom.yaml
+b439e8528f607a6f4ba28c7ab3f21eeb07bc708484cafc3557e12d6168aa8637 *method/templates/33-control-plan.yaml
+
+== M1: ViewTube M-BOM invariant lines, and how many begin with an ECO id
+
+$ grep -c "^    - '" C:/Users/akira/source/repos/ViewTube/bomdd/32-mbom.yaml
+60
+[exit 0]
+
+$ grep -c "^    - 'ECO-VT-" C:/Users/akira/source/repos/ViewTube/bomdd/32-mbom.yaml
+60
+[exit 0]
+== M2: lines mentioning a measurement
+
+$ grep -ci measured C:/Users/akira/source/repos/ViewTube/bomdd/32-mbom.yaml
+21
+[exit 0]
+== M3: lines mentioning a review, a round or a finding id
+
+$ grep -cE 'review|R[0-9]+[a-z]-F[0-9]+|round' C:/Users/akira/source/repos/ViewTube/bomdd/32-mbom.yaml
+95
+[exit 0]
+== M4: lines with a not-exercised / not-covered note
+
+$ grep -ciE 'not exercised|not covered|not measured|unmeasured|no case|not captured|not yet' C:/Users/akira/source/repos/ViewTube/bomdd/32-mbom.yaml
+6
+[exit 0]
+== M5: lines mentioning a ruling
+
+$ grep -ci ruling C:/Users/akira/source/repos/ViewTube/bomdd/32-mbom.yaml
+15
+[exit 0]
+== M6: ViewTube As-Built and Metrics - size, entries, last change
+
+$ wc -l C:/Users/akira/source/repos/ViewTube/bomdd/50-as-built.yaml C:/Users/akira/source/repos/ViewTube/bomdd/52-metrics.yaml
+  244 C:/Users/akira/source/repos/ViewTube/bomdd/50-as-built.yaml
+  176 C:/Users/akira/source/repos/ViewTube/bomdd/52-metrics.yaml
+  420 total
+[exit 0]
+
+$ grep -c '^  - id: ' C:/Users/akira/source/repos/ViewTube/bomdd/50-as-built.yaml
+8
+[exit 0]
+
+$ git -C C:/Users/akira/source/repos/ViewTube log --format='%h %ad' --date=short -1 -- bomdd/50-as-built.yaml
+a9b71406 2026-07-25
+[exit 0]
+== M7: ViewTube Control Plan - learned acceptance characteristics and known_limits
+
+$ grep -c 'learned_acceptance_characteristics' C:/Users/akira/source/repos/ViewTube/bomdd/33-control-plan.yaml
+15
+[exit 0]
+
+$ grep -c '^    - id: ECO-VT-' C:/Users/akira/source/repos/ViewTube/bomdd/33-control-plan.yaml
+42
+[exit 0]
+
+$ grep -c 'known_limits' C:/Users/akira/source/repos/ViewTube/bomdd/33-control-plan.yaml
+7
+[exit 0]
+== M8: the 33 template has no known_limits field (before the manufacture)
+
+$ grep -c known_limits /c/Users/akira/source/repos/BomDD/bomdd/reports/eco-102-record-clause-home/../../../method/templates/33-control-plan.yaml
+0
+[exit 1]
+== M9: ViewPrism2 M-BOM - measurements and ECO references
+
+$ grep -ci measured C:/Users/akira/source/repos/ViewPrism2/bomdd/32-mbom.yaml
+0
+[exit 1]
+
+$ grep -c 'ECO-' C:/Users/akira/source/repos/ViewPrism2/bomdd/32-mbom.yaml
+138
+[exit 0]
+== M10: K-BOM - no measured record (the word 'measured' and 'MEASURED' in the knowledge items)
+
+$ grep -ci measured C:/Users/akira/source/repos/ViewTube/bomdd/31-kbom.yaml
+2
+[exit 0]
+== copies of the matched lines (ViewTube 32-mbom: the invariant lines; 33: the known_limits lines)
+written: viewtube-32-mbom-invariant-lines.txt (60 lines), viewtube-33-known-limits-lines.txt (49 lines)
