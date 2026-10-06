@@ -1,0 +1,11 @@
+ECO-VT-229 probe at HEAD 3371c223; executable C:/Users/akira/source/repos/ViewTube/test/ViewTube.Acceptance/bin/Release/net10.0/win-x64/ViewTube.Acceptance.exe (built 2026-10-06T07:48:01+0900)
+--- case default: python bomdd/tools/validate_acceptance_disposition.py prepare-run --executable test/ViewTube.Acceptance/bin/Release/net10.0/win-x64/ViewTube.Acceptance.exe --run-dir C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-BomDD/fcb391ad-9ac2-4a08-bcec-60c5507dc1bc/scratchpad/vt229-probe/run-default --candidate-commit 3371c223522b211ff924b72a4d91db9904f7e75a --minimum-expected-tests 1
+exit=1 elapsed=15.1s
+stdout: eptance.exe', '--list-tests', '--diagnostic', '--diagnostic-filelogger-synchronouswrite', '--diagnostic-output-directory', 'C:\\Users\\akira\\AppData\\Local\\Temp\\claude\\C--Users-akira-source-repos-BomDD\\fcb391ad-9ac2-4a08-bcec-60c5507dc1bc\\scratchpad\\vt229-probe\\run-default\\inventory-diagnos
+inventory.json: absent
+discovery nodes pushed: 985; first 2026-10-05T22:59:26.2505429; last 2026-10-05T22:59:40.9637734
+--- case 120: python bomdd/tools/validate_acceptance_disposition.py prepare-run --executable test/ViewTube.Acceptance/bin/Release/net10.0/win-x64/ViewTube.Acceptance.exe --run-dir C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-BomDD/fcb391ad-9ac2-4a08-bcec-60c5507dc1bc/scratchpad/vt229-probe/run-120 --candidate-commit 3371c223522b211ff924b72a4d91db9904f7e75a --minimum-expected-tests 1 --discovery-timeout-seconds 120
+exit=0 elapsed=16.5s
+stdout: 9","44995a6b7de7ea48c3fc11e2a6c915e14ddb3abb96022cb0f12ecca4cba3d7b2","90f8812e962abef398b425aca4c18f3672d039f8929cb25e1893e691fca9cee4","4058945c883efb3ca8c27c4ed271ad79275f37cb07548bc32c2c9daa05e978b5","3ed80aa13a35ff9c539c2d149daee45b65acee6c01dc0615668463f30ad77591","f70ab761f8f3e37f80248e0d8342
+inventory planned tests: 1076
+discovery nodes pushed: 1077; first 2026-10-05T22:59:41.9101539; last 2026-10-05T22:59:57.3560287

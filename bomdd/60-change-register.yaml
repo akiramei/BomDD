@@ -3205,3 +3205,26 @@ changes:
       V4 他の節・ECO-086 / 098 の他の項と矛盾せず §4.4・§9 の項は不変 / V5 diff 窓・self-conformance・CI / V6 異系統の独立検査 ACCEPT / V7 較正 receipt(trigger ①)。条件行は起票後不変・結果はクローズ節の観測行。
     producer: EQ-001
     inspector: EQ-002
+  - id: ECO-101
+    title: ViewTube の復元経路の弧の記帳 — M-BOM の文の誤りが実行で確かめられた・書き戻し前の突き合わせの初の実使用・検査設備の固定の上限が検査一式に追いつかれる 2 例目(記録のみ)
+    date: 2026-10-06
+    origin: improvement
+    status: implemented   # 2026-10-06 user DECIDE「A」(ViewTube ECO-VT-228/229 の受け入れ報告への応答の ②= BomDD 側に記帳)→ 起票+記録(同じ commit・写し 8 文書・improvements.md 本節と OBS-20261006-02)→ クローズは次の commit
+    receipt_author_role: producer   # ECO-077 観測欄
+    source: >
+      ViewTube ECO-VT-228 applied 737b7252(復元経路の修理・赤くなる検査で D4 の読みを実行で確認: 復元直後は条件なし・復元→保存→起動で条件が失われる)/ ECO-VT-229 applied 9c9d6ad8(一覧取得の固定 15 秒が 1076 件に追いつかれ監督つき実行が 2 回準備で停止)/
+      ECO-VT-231 implemented 562076d9(D4 の書き戻し・ECO-100 の手順の初の実使用・レビュー 15 句 SAME・軽微 6)/ ECO-VT-230 staged(範囲の外の発見)。
+    order_ref: bomdd/60-change-order-eco-101.md
+    affected_refs: [method/improvements.md]
+    no_impact_prediction: "(起票時点・凍結)本リポの diff= 台帳系(order・register・improvements.md・reports/eco-101-viewtube-restore-arc/)のみ。playbook・templates・schemas・tools・hooks・.github diff 0。ViewTube は git show で読むだけ"
+    diff_audit:
+      baseline: "6edfb16"  # 起票直前 HEAD(ECO-100 クローズ commit)
+      allowed_paths: [method/improvements.md, bomdd/60-change-order-eco-101.md, bomdd/60-change-register.yaml, bomdd/reports/eco-101-viewtube-restore-arc/]
+    summary: >
+      ①OBS-20261006-01 の 1 例目を読みから実行へ格上げ(カウンタ 1/3 不変・同じ単位)②playbook §4.5(ECO-100)の書き戻し前の突き合わせの初の実使用(忠実さの所見 0・言い回しと置き場の所見 6)③新規 OBS-20261006-02(検査設備の固定の上限が一式の成長に追いつかれる・ECO-VT-215/229)
+      ④昇格済みの同型の実例(道具の既定の書き先が別の号の証拠を上書き)と環境の観測(アプリ起動中の 12 件の赤)。採らない= playbook / テンプレ / ツールの改訂・効果の主張・ViewTube への書き込み・OBS-20261006-01 の加算。
+    verification: >
+      V1 写しの sha256 が ViewTube 562076d9 と一致 / V2 記帳の数値が写しと一致(製造者の突合)/ V3 OBS-20261006-01 1/3 のまま+実行で確認の記載・OBS-20261006-02 に source/evidence・worklist 警告 0 / V4 diff 窓・self-conformance・CI・較正 receipt(trigger ①)。
+      条件行は起票後不変・結果はクローズ節の観測行。
+    producer: EQ-001
+    inspector: none

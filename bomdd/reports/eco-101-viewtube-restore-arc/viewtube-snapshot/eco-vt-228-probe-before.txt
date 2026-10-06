@@ -1,0 +1,16 @@
+head: b908a46c0911f53434837a9a484dd367638e20d0
+P1 ValidateRestoreAsync -> IsValid=True; Rejection=None
+P1 RestoreAsync -> CatalogRestoreOutcome { Restored = True, Validation = CatalogRestoreValidation { Rejection = None, SchemaVersion = 4, Detail = , IsValid = True }, SafetyCopyPath = <root>\safety\viewtube-pre-restore-20261005-161014322.db }
+P1 GetViewsAsync after RestoreAsync, no InitializeAsync -> node1:condition=none,dropped=none | node2:condition=none,dropped=none | node3:condition=none,dropped=none | node4:condition=none,dropped=none | node5:condition=none,dropped=none
+P1 legacy rows left in the live file after the restore -> 1
+P2 ValidateRestoreAsync -> IsValid=True; Rejection=None
+P2 RestoreAsync -> CatalogRestoreOutcome { Restored = True, Validation = CatalogRestoreValidation { Rejection = None, SchemaVersion = 4, Detail = , IsValid = True }, SafetyCopyPath = <root>\safety\viewtube-pre-restore-20261005-161014457.db }
+P2 legacy rows left in the live file after restore and one save of the view -> 0
+P2 after restore, save, and a start -> node1:condition=none,dropped=none | node2:condition=none,dropped=none | node3:condition=none,dropped=none | node4:condition=none,dropped=none | node5:condition=none,dropped=none
+C0 legacy rows in the arranged file before any open -> 1
+C0 after InitializeAsync -> node1:condition={"Kind":1,"Pattern":null,"Value":null,"Minimum":null,"Maximum":null,"Candidates":["\u30A2\u30FC\u30DF\u30E4"],"Summary":"\u5019\u88DC\u5024: \u30A2\u30FC\u30DF\u30E4"},dropped=none | node2:condition={"Kind":0,"Pattern":"\\A\u30ED\u30B9\\z","Value":null,"Minimum":null,"Maximum":null,"Candidates":[],"Summary":"\u30D1\u30BF\u30FC\u30F3: \\A\u30ED\u30B9\\z"},dropped=none | node3:condition={"Kind":2,"Pattern":null,"Value":"3","Minimum":null,"Maximum":null,"Candidates":[],"Summary":"\u7B49\u5024: 3"},dropped=none | node4:condition=none,dropped=高め | node5:condition=none,dropped=none
+P3 ValidateRestoreAsync -> IsValid=True; Rejection=None
+P3 RestoreAsync -> CatalogRestoreOutcome { Restored = True, Validation = CatalogRestoreValidation { Rejection = None, SchemaVersion = 4, Detail = , IsValid = True }, SafetyCopyPath = <root>\safety\viewtube-pre-restore-20261005-161014571.db }
+P3 legacy rows left in the live file after the restore -> 1
+P3 after restore and a start, no save -> node1:condition={"Kind":1,"Pattern":null,"Value":null,"Minimum":null,"Maximum":null,"Candidates":["\u30A2\u30FC\u30DF\u30E4"],"Summary":"\u5019\u88DC\u5024: \u30A2\u30FC\u30DF\u30E4"},dropped=none | node2:condition={"Kind":0,"Pattern":"\\A\u30ED\u30B9\\z","Value":null,"Minimum":null,"Maximum":null,"Candidates":[],"Summary":"\u30D1\u30BF\u30FC\u30F3: \\A\u30ED\u30B9\\z"},dropped=none | node3:condition={"Kind":2,"Pattern":null,"Value":"3","Minimum":null,"Maximum":null,"Candidates":[],"Summary":"\u7B49\u5024: 3"},dropped=none | node4:condition=none,dropped=高め | node5:condition=none,dropped=none
+dotnet test exit: 2
