@@ -3237,7 +3237,7 @@ changes:
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       playbook §4.5 ④(ECO-100 で「置き場は未決」)/ OBS-20261005-03(候補= K-BOM・As-Built・Control Plan・変更記録)/ ECO-100 IA-01(区分の名)/
-      実測(2026-10-06・読みだけ): ViewTube 32-mbom の不変条件 60 行は全行が ECO 番号で始まり measured 21・review/round 95・未検査の注記 6・ruling 15、
+      実測(2026-10-06・読みだけ): ViewTube 32-mbom の不変条件 60 件(項目)は全件が ECO 番号で始まり measured 11・review/round 36・未検査の注記 2・ruling 14(起票時の 21/95/6/15 は物理行の数・独立検査 r1 で訂正)、
       50-as-built は ECO ごとに書かれていない(最終更新 a9b71406・2026-07-25)、33 の受入の特性 42 件(15 の検査行)中 known_limits 7 件、
       33 テンプレに known_limits 欄なし、ViewPrism2 32-mbom は measured 0・ECO 参照 138。
     order_ref: bomdd/60-change-order-eco-102.md

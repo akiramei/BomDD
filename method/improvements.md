@@ -8423,7 +8423,7 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
 
 **出典**: user「「記録」の置き場の決定に着手して」→ 実測(ViewTube・ViewPrism2 の作業木の読みだけ)→ DECIDE(A/B/C)→ user「A」。order= `bomdd/60-change-order-eco-102.md`。
 **裁定の内容**: M-BOM の記録句(実測値・レビューの所見・検査していないことの注記・ECO と裁定の由来)の正本は変更記録(60 番台: ECO 本文と台帳)。M-BOM の行には由来の ECO 番号の参照だけを残す。検査していないことの注記だけは Control Plan の `known_limits`(検査の層が自分で何を見ていないかを言う欄)へ。
-**実測(2026-10-06)**: ViewTube の M-BOM の不変条件 60 行は全行が ECO 番号で始まり、21 行が実測値・6 行が未検査の注記を含む。As-Built は ECO ごとに書かれていない(最終更新 2026-07-25)。実測値と所見の正本は ECO 本文と台帳が既に持つ。ViewTube の Control Plan は受入の特性 42 件(15 の検査行)のうち 7 件が known_limits を持つが、33 テンプレに欄は無い。ViewPrism2 の M-BOM は由来の参照だけで実測値は 0。K-BOM に実測の記録を入れた例は無い(候補から外した)。
+**実測(2026-10-06)**: ViewTube の M-BOM の不変条件 60 件は全件が ECO 番号で始まり、11 件が実測値・36 件がレビューの所見・2 件が未検査の注記を含む(起票時の 21 / 6 は物理行の数。独立検査 r1〔IA-02〕で項目の数に訂正)。As-Built は ECO ごとに書かれていない(最終更新 2026-07-25)。実測値と所見の正本は ECO 本文と台帳が既に持つ。ViewTube の Control Plan は受入の特性 42 件(15 の検査行)のうち 7 件が known_limits を持つが、33 テンプレに欄は無い。ViewPrism2 の M-BOM は由来の参照だけで実測値は 0。K-BOM で `measured` の語を持つ 2 行は知識の文で、実測の記録ではない(候補から外した)。
 **選ばれなかった道**: B(種類ごとに 50 番台へ: As-Built を ECO ごとに書く新しい義務— 推定)/ C(M-BOM に残して別の欄に: 導出層が記録を持ち続ける)。
 **製造(次の commit)**: playbook §4.5 ④の書き換え(局所名「M-BOM の記録句」・ECO-100 IA-01 の回収)・32 テンプレのコメント・33 テンプレの検査行に `known_limits: []`。candidate のまま・効果は主張しない。
 **思想層の再認証判定(lesson-promote 3b)**: operational rule(playbook)= 該当 / template= 該当(32・33)/ control・probe・terminology・method/concept claim= 該当なし(§13 の転写値禁止と同じ形を使うだけで、§13 は変えない)。

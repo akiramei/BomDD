@@ -1,0 +1,2 @@
+552:    name: ViewPrism2 measured responsive grid and toolbar read-across
+561:    - Responsive decisions use measured toolbar content width rather than outer window width.

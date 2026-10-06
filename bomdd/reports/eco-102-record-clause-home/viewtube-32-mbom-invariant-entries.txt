@@ -1,0 +1,422 @@
+    - 'ECO-VT-195 (REQ-073 as amended): ViewValidator lets a view reference global tags and tags of its own
+      scope only; a music-scope view uses global or music-scope tags. The two older refusals keep their
+      tokens; the new case is ViewCannotReferenceOtherScopeTag. PortableScope has a Music member with no
+      collection id.'
+    - 'ECO-VT-212 (REQ-032/034/035 as amended 2026-09-29, ruling (A)): a hierarchy node carries NodeCondition? Condition
+      in place of the free-text Restriction. NodeCondition is Kind (Pattern, Candidates, Equal, Range) with Pattern,
+      Candidates, Value, Minimum and Maximum; numbers are kept in NumericValue.Normalize''s form; Candidates is never a
+      default array; equality is structural (a record would compare the array by reference). NodeCondition.Validate is
+      the one rule: textual takes Pattern (non-empty, compiles with a one-second timeout) or Candidates (non-empty,
+      distinct, and with candidatesMustBeDefined each one predefined or one the node already carried - the stale
+      candidate REQ-032 keeps); numeric takes Equal (reads as a number) or Range (both read, minimum <= maximum);
+      anything else, and any condition on a simple tag, is NodeConditionNotForTagType. ViewValidator.Validate calls it
+      for every node, with the previous view and candidatesMustBeDefined on every saving route (ViewHierarchyService,
+      View Pack import) and without them when a stored view is only evaluated. ToViewCondition maps the condition onto
+      the evaluator''s own operators (Pattern -> Regexp, Candidates -> In joined by U+001F, Equal -> Equals, Range ->
+      Between), so the one-second timeout and its warning are the evaluator''s; Admits is the same test for one value;
+      Summary is the row chip''s text (候補値: / パターン: / 等値: / 範囲:). FromLegacyRestriction carries a stored
+      restriction so that it keeps its result: numeric that reads -> Equal, textual predefined -> that one candidate,
+      other textual -> Pattern \A<escaped>\z (R8 round 1; ^escaped$ at the fix), simple -> dropped silently (it never acted), numeric that does not read ->
+      dropped and reported. HierarchyNode.DroppedRestriction keeps the reported text until the node is applied.'
+    - 'ECO-VT-212 R8 round 1: a carried textual restriction becomes the pattern \A<escaped>\z, not ^...$, because .NET''s $
+      also matches before a final newline (R212a-F2). Every pattern - a node''s and a view condition''s Regexp - is
+      compiled once by PatternMatcher.For and matched by the NonBacktracking engine, whose time is linear in the input,
+      wherever that engine can express it; a pattern it cannot (a backreference, a lookaround) keeps the backtracking
+      engine and its one-second bound per call. Whether a pattern occurs in a value is the same in both (R212a-F5). A
+      candidate containing the selection''s separator U+001F is refused (R212a-F8). MCP (src/ViewTube.Mcp/CatalogTools.cs,
+      which has no unit of its own): a candidate that is not a JSON string is refused as
+      NodeConditionCandidatesRequired (R212a-F10); an update that sends no condition for a node keeps that node''s
+      DroppedRestriction, and list_views reports droppedRestriction (R212a-F9).'
+    - 'ECO-VT-217 (REQ-022, REQ-023, REQ-025): TagDefinition.ValidatePersonAssignment is the rule for a PERSON''S
+      assignment. It runs ValidateAssignment first, then refuses an empty or whitespace-only textual value
+      (TextualValueRequired), a closed textual tag''s value outside its predefined values, none being predefined
+      included (TextualValueNotPredefined), and a numeric value on a tag with a step whose distance from the minimum -
+      from zero with none - is not a whole multiple of the step, in decimal (NumericValueOffStep). ValidateAssignment
+      itself is unchanged, and stays the rule for View Pack preview, import and apply, which keep what they carry.
+      EnumeratedNumericValues gives the normalised values a numeric tag''s minimum, maximum and step enumerate when
+      there are at most AssignmentChoiceLimit (20, the approved drawing''s N); otherwise none.'
+    - 'ECO-VT-217 R8 round 1 (R217a-F3, F4): neither judgement throws on a decimal the tag accepts.
+      EnumeratedNumericValues answers none when (maximum - minimum) / step overflows - such a tag enumerates far
+      more than twenty. The step is judged by comparing the remainders of the value and of the origin by the step
+      (OnStep), which cannot overflow, rather than by the remainder of their difference, which can.'
+    - 'ECO-VT-217 R8 round 2 (R217b-F1, F2, F3, F6): not overflowing is not being exact. OnStep''s
+      `remainder + step` and EnumeratedNumericValues'' division and products round once a value, a minimum or a
+      step reaches 28-29 significant digits, so at such settings an off-step value can be taken and an offered
+      value can be one the rule refuses; the user accepted this as a known limit and it is ECO-VT-218''s
+      (「Q1 は (a)」). The negative-remainder normalisation is held by R217bStepOriginTests.'
+    - 'ECO-VT-218 (REQ-023, REQ-025; R217b-F1, F2): the step and the offered values are computed EXACTLY, as whole
+      numbers. Each decimal is taken as its units and scale (decimal.GetBits) and the settings and the value are
+      brought to their largest scale (AtCommonScale); OnStep asks whether (value - origin) is a whole multiple of
+      the step by BigInteger remainder, and EnumeratedNumericValues counts (maximum - minimum) / step + 1 and
+      builds minimum + i x step the same way. A built value is turned back into a decimal only when one holds it
+      (ToDecimal: trailing zeros dropped, units below 2^96); when any of the values is not a decimal, none is
+      offered and the value is typed. This supersedes ECO-VT-217''s remainder comparison and its overflow guard
+      (R217a-F3, F4): whole numbers neither round nor overflow. What the rule judges is the decimal
+      NumericValue.TryParse reads, which rounds typed text past the digits a decimal holds; that is the parse
+      layer''s, outside this clause (step-arithmetic-inventory.md).'
+    - 'ECO-VT-218 R8 round 1 (R218a-F1, F2): the parse rounding works both ways - an off-step text past a
+      decimal''s digits is taken, and an exactly on-step one (8.0000000000000000000000000001 from 1e-28 by 1) is
+      refused NumericValueOffStep. The user ruled it a separate ECO (「別の号として起票」). ToDecimal''s two boundaries
+      - a value of exactly 2^96 units is not a decimal, and trailing zeros are dropped down to scale 0 - are held by
+      R218aToDecimalBoundaryTests.'
+    - 'ECO-VT-219 (REQ-023, REQ-081): a person''s numeric text is read exactly. ValidatePersonAssignment first asks
+      ReadsExactly whether the decimal NumericValue.TryParse made is the number the text writes - the text''s own
+      digits as a whole number at their own scale (NumberStyles.Number: digits, one point, group separators, a
+      sign) against the decimal''s units - and refuses NumericValueTooPrecise when it is not, before
+      ValidateAssignment judges a bound and before the step. Trailing zeros the decimal drops do not count.
+      ValidateAssignment, the rule for values carried in, is unchanged. MCP returns the service''s code as it is.'
+    - 'ECO-VT-219 R8 round 1 (R219a-F1, F3): text NumericValue.TryParse refuses is still refused
+      NumericValueTooPrecise when IsWrittenAsANumber - every ASCII digit written as 0 parses, so the text was refused
+      for its size, not its form; NaN, Infinity, 1e40 and words stay InvalidNumericValue. The guard holds only for a
+      numeric tag, and a trailing sign is a sign; both held by R219aUnheldClauseTests.'
+    - 'ECO-VT-219 R8 round 2 (R219b-F1): IsWrittenAsANumber writes only ASCII digits as 0, so a full-width digit
+      and a space keep a text not a number (InvalidNumericValue); a leading + is a plus; a text the decimal rounds
+      to zero is still read exactly and refused NumericValueTooPrecise. All four held by R219bUnheldClauseTests.
+      ReadsExactly''s cost grows faster than linearly past a million digits after the point; the user left it to a
+      separate ECO (「Q2 は (a)」).'
+    - 'ECO-VT-195 (REQ-092): TagAssignmentService refuses an assignment in the music scope
+      (InvalidAssignmentScope); an assignment through a music-owned tag is recorded Global or as a
+      collection''s override.'
+    - 'ECO-VT-217 (REQ-022, REQ-023, REQ-081): TagAssignmentService.AssignAtomicAsync holds every row to
+      ValidatePersonAssignment. Its callers are a person''s: the assignment dialog, the quick action (a simple tag,
+      which the rule leaves as it was) and MCP''s assign_tag. The refusal''s code is the rule''s, so MCP answers with
+      the window''s code.'
+    - 'ECO-VT-195 (REQ-092: a scope is fixed at creation, everywhere - the user''s ruling (b)): SaveTagAsync and
+      SaveViewAsync refuse an update whose scope differs from the stored scope_key (DefinitionScopeIsFixed),
+      after ECO-VT-193''s origin guard. The store refuses a music-scope assignment. The MCP save_tag and save_view
+      keep an existing definition''s scope when no scopeCollectionId is given, and assign_tag / unassign_tag
+      record a music-owned tag Global when none is given. Import compares scopes (DefinitionScope), not collection
+      ids, so a music definition is never matched, shadowed or collided with as a global one.'
+    - 'ECO-VT-212: a view''s hierarchy is one JSON blob, so a node''s Restriction - a property the model no longer has -
+      would be dropped by the serializer without a word. CarryNodeRestrictionsAsync runs on every open inside the
+      initialising transaction: it reads each view''s raw JSON, removes Restriction, writes Condition by
+      NodeCondition.FromLegacyRestriction with the tag''s stored type and predefined values, and writes
+      DroppedRestriction where the text could not be carried. It is not a schema version bump (the restore path
+      compares a backup against SchemaVersion); a restored backup is converted on its open, and a second open finds
+      nothing. View Pack export writes Condition and declares node-condition-v1 when any exported node has one.'
+    - 'ECO-VT-228 (the user''s ruling (B), 2026-10-06): the steps applied to a schema-4 catalogue after the version
+      migrations are ONE list, ApplyStepsAfterVersionMigrationsAsync - the refresh opt-out column, the view application
+      policies table, app_settings, then CarryNodeRestrictionsAsync - called by InitializeAsync inside the initialising
+      transaction and by RestoreAsync in one transaction on the connection that replaced the file. A new step is added
+      to the list and nowhere else. THIS CORRECTS THE ECO-VT-212 LINE ABOVE: before this ECO a restored backup was NOT
+      converted on its open by the in-app restore, only by the next start (MEASURED at b908a46c: read with no condition
+      after the restore, and lost for good by one save of the view before the start). It is converted by the restore.
+      If a step of the list fails on the restore, nothing of the list is kept (the added column is rolled back too -
+      MEASURED at the independent review, R228a-F2), the failure is returned with the safety copy, and the replaced
+      file is read without the list until the next start; before this ECO the steps that had succeeded stayed.'
+    - 'ECO-VT-232 (REQ-064; the user''s ruling 「3」 = (C), 2026-10-06): RestoreAsync applies ApplyStepsAfterVersionMigrationsAsync
+      to a STAGED copy of the candidate BEFORE ANYTHING OPENS THE ACTIVE CATALOG - the candidate is copied to a file beside
+      the live one through the backup engine, the list runs there in one transaction, and only then the safety copy is
+      taken, the pool cleared and the staged file copied over the live file; the staged file is removed on every exit. A
+      failure before the safety copy - opening the candidate, staging it, or a step of the list - is a new outcome,
+      PreparationFailed, with no safety copy (Ports.cs; the shell maps it from the enum). THIS CORRECTS THE ECO-VT-228 LINE ABOVE: a step of the list that fails no longer leaves the replaced
+      file without the list - the live file is not opened (MEASURED at 2df7ecd3 before the repair: the digest over
+      catalog.db, -wal and -shm differed after the failure and the same session read ''no such column: refresh_opt_out''),
+      so REQ-064''s "failure leaves the active catalog byte-for-byte unchanged" holds for the validation and the list - every
+      failure before the safety copy is taken - as a property of the control flow. THE ORDER IS MEASURED (digest-per-step.txt):
+      a read rewrites -shm and clearing the pool checkpoints the WAL into catalog.db, so a first cut that staged after the
+      safety copy left the digest case red. KNOWN LIMIT, pre-existing and inherent: from the safety copy on the live file is
+      opened (its open rewrites -shm; the pool clearing checkpoints), so a failure of the copy (a throw, as before) or of the
+      replacement write (ReplacementFailed) leaves the bytes changed and the rows untouched (MEASURED at the review, R232a-F5
+      / F7); the safety copy exists for exactly the replacement''s failure and is the way back from it.'
+    - 'ECO-VT-209: EmbedPageHost.Start hands its accept loop the listener and the cancellation token as
+      values taken before the work is queued, never the fields, so a Stop at any moment leaves no failed
+      task behind.'
+    - 'ECO-VT-199: inside one edit of a view''s hierarchy a node id is never issued twice, and never the
+      id a HOME names when no node has it (R199a-F1). The draft (ShellViewModel, this unit''s artifact;
+      moved here from M-APP-TAGS-001 by R199a-F6) issues the next id after the highest node or HOME id
+      it has held since the view was loaded, so an id names one placement from the view before the edit
+      to the view as saved (REQ-037).'
+    - 'ECO-VT-199: after a hierarchy save the Videos position is resolved against the saved view by
+      id: the HOME changed when the ids from the root down to it differ, and then the view goes to the
+      new HOME (root without one); a shown node whose id the saved view lacks returns to the HOME or
+      root; otherwise the shown node is kept. Correct because ids are not reused inside one edit
+      (M-APP-TAGS-001). The shell holds no revision of the definition; the save refreshes Videos
+      itself (measured 2026-09-27: test-results/eco-vt-199-videos-mistakes-the-shown-node-after-a-save/shell-has-no-revision.txt).'
+    - 'ECO-VT-200: the Videos position belongs to the view it was resolved for (_classificationViewId,
+      set by every opener of a position: opening a view, a saved-hierarchy node, a Tags row). Before any
+      evaluation of the position (RefreshClassificationAsync and the post-command reload), a position
+      that belongs to another view is replaced by the selected view''s opening position - HOME or root,
+      its remembered mode (ResolvePositionForSelectedView; the sort is kept, ECO-VT-202) - so no route can
+      carry it.
+      NavigateVideosAsync also opens the selected view when the two differ, because returning to
+      Videos without a save evaluates nothing. The hierarchy save and child navigation work inside the
+      position''s own view and are unchanged. Corrected by R8 round 1 (R200a-F1, F3): the first design
+      checked the Videos tab only. Measured in the evidence directory: disabling the resolution turns
+      the import case RED, disabling the navigation condition turns the two no-save cases RED, and a
+      save-side call changed no case, so none is kept.'
+    - 'ECO-VT-201: the replacement above happens only while Videos is the active area. An evaluation
+      made elsewhere for another selected view (a Tags action) uses that view''s HOME or root, with the
+      shown view''s mode (R201a-F2), without replacing the shown position (PositionForEvaluation),
+      and records the view it evaluated
+      (_evaluatedViewId). Returning to Videos at the shown view re-evaluates when the last evaluation was
+      for another view, at the kept position and sort. Measured in
+      test-results/eco-vt-201-an-evaluation-while-another-view-is-selected-loses-the-shown-position/:
+      replacing in every area turns the tag case RED (V at root, V''s saved sort); not re-evaluating on
+      the return turns it RED (W''s root under V).'
+    - 'ECO-VT-201 R8 round 1 (R201a-F1): the hierarchy save moves the shown position (the ECO-VT-196 and
+      199 rules) only when the saved view is the one the position belongs to; a save of another view
+      selected in Tags leaves it. Measured: removing that condition turns the two save cases RED
+      (V › 甲 when W''s HOME was set; V''s root when W has no node with the shown number).'
+    - 'ECO-VT-202: the Videos sort is written only by the person (the sort dropdown, the list header,
+      the clear button). The three routes that copied a view''s saved sort into it - OpenClassificationAsync,
+      ResolvePositionForSelectedView and ApplyViewSelectionAsync - no longer do, and the SortIndex
+      helper they shared is removed. The inventory is
+      test-results/eco-vt-202-opening-a-view-overwrites-the-chosen-sort/sort-writers-inventory.md;
+      putting any one of the three back turns at least one SortKeptWhenAViewOpensTests case RED
+      (mutant-W4/W5/W6). The ECO-VT-200 and ECO-VT-201 wording that says an evaluation uses a view''s
+      mode "and sort" now reads mode only.'
+    - 'ECO-VT-202 R8 round 1 (R202a-F1, F5). The person writes the sort through SetVideoSort (the
+      dropdown, the direction toggle, the list header) and ClearVideoSort; nothing else writes it. Every
+      builder of the Videos list orders it by that sort: RefreshAsync queries with it,
+      RefreshClassificationAsync re-sorts the evaluation by it, and the reload after a tag mutation
+      (CompleteTagMutationAsync) now does both - it re-sorts the evaluation inside a view and queries with
+      the sort outside one (folded into ECO-VT-202 by the user''s decision of 2026-09-28). Measured:
+      disabling either reload branch, or RefreshClassificationAsync''s re-sort, turns SortKeptWhenAViewOpensTests
+      cases RED (round1-mutant-*).'
+    - 'ECO-VT-203: every heading that names the sort takes the chosen sort''s own description
+      (VideoSortDescription): the heading outside a view already did, and ClassificationResultCountText,
+      inside a view, now does instead of a fixed 追加日の新しい順. A sort change refreshes the list, and the
+      refresh raises the heading, so no separate notice is added (the second read in
+      ResultHeadingNamesTheSortTests, after a later change, passes without one). At the default sort the
+      text equals the drawing''s; measured, 86 of 87 captured frames are byte-identical and the one that
+      moves moves by the same 6 px between two runs of the same tree (frames.txt, frames-repeatability.txt).'
+    - 'ECO-VT-204: the reload after a tag change asks, outside a view, for the same list RefreshAsync
+      asks for - the archive''s collection and archived videos only while an archive list is open
+      (IsArchiveView, ArchiveViewCollectionId), the selected collection''s active videos otherwise. The
+      inventory of the archive state''s writers and the list builders is
+      test-results/eco-vt-204-a-tag-change-replaces-the-archive-list/archive-inventory.md.'
+    - 'ECO-VT-205: the view delete moves the selection to the next view BEFORE refreshing the applicable
+      set when that view is the one Videos shows, so the ECO-VT-117 guard - which asks about the selected
+      view and clears the shown position - does not clear it. Any other next view is selected after the
+      refresh, as before. The inventory of what clears the shown position and the routes that reach it is
+      test-results/eco-vt-205-a-view-deleted-in-tags-loses-the-shown-position/position-inventory.md.'
+    - 'ECO-VT-206: one predicate, MusicScopeHoldsNothing (the music scope selected with no origin), is
+      asked by every list builder that is not evaluating a view - the opening, RefreshAsync and the
+      non-view branch of CompleteTagMutationAsync - and one method, ShowMusicScopeAskingForOrigin, empties
+      the list and sets the status the state panel reads. RefreshAsync advances the refresh generation
+      before it, so a query already in flight cannot fill the list afterwards. The inventory is
+      test-results/eco-vt-206-music-without-an-origin-lists-the-catalogue/list-builders-inventory.md.'
+    - 'ECO-VT-206 R8 round 1 (R206a-F1, R206a-F2): MusicScopeHoldsNothing is false while a collection''s
+      archive list is open (IsArchiveView) - that list is the archive''s, and opening the scope leaves any
+      archive first. The generation advance stops a query in flight from filling the list only on the
+      RefreshAsync branch; the opening does not advance it, so a refresh started before the scope opens can
+      still fill it (pre-existing, a candidate).'
+    - 'ECO-VT-207: one method, BeginClassificationBrowse, turns a view on for all three writers
+      (OpenClassificationAsync, SelectSavedHierarchyNodeAsync, ApplyViewSelectionAsync); it leaves an open
+      archive first, as a scope change does before opening its origin. The inventory is
+      test-results/eco-vt-207-a-view-opened-over-the-archive-keeps-the-archive-on/archive-view-inventory.md.'
+    - 'ECO-VT-195: MusicOriginView asks ViewApplicability for the music scope; the impact text, the view card''s
+      scope label and the creation notice name ミュージック for a music-owned definition; #をタグに creates and
+      reuses tags of the working scope; the export from ミュージック uses no collection and exactly the music-owned
+      views; EffectiveAssignments drops music-owned tags'' assignments unless ミュージック is the working scope, so
+      their filter chips, card chips and detail labels appear only there.'
+    - 'ECO-VT-224 (REQ-094, ECO-VT-224-provisional-1): DeleteSelectedViewCommand, DeleteEditingTagCommand and the
+      unbound DeleteTagCommand REQUEST a delete and remove nothing. The refusals come first and are the ones each
+      delete already gave: for a view HierarchyDirty (Status only, no notice, as before), ViewRequired, and
+      ViewIsOrigin with ViewDeleteNotice; for a tag TagInUse with TagDeleteNotice, for the unsaved draft and for a
+      view''s condition or hierarchy node. They are known before the confirmation by asking the store''s own
+      question of what the shell holds - ViewIsOrigin is a _viewOrigins entry naming the view whose
+      ViewApplicability.Repair over Views without it still names it (what SqliteCatalogStore.DeleteViewAsync
+      computes), TagInUse is any of Views naming the tag (what SqliteCatalogStore.DeleteTagAsync reads), the views
+      named in id order - and the store''s refusal at confirm time is still handled and written to the same
+      notice. Otherwise the request records the subject and its count in _viewDeleteConfirmation or
+      _tagDeleteConfirmation (IsViewDeleteConfirmOpen, IsTagDeleteConfirmOpen): a view''s count is the length of
+      its SAVED Hierarchy (every node, children included); a tag''s is _tagUsageCounts for it, the distinct videos
+      active and archived carrying it, read once at the request and passed to the delete so the after-notice
+      reports the number the confirmation stated. The confirmation REPLACES the dialog it was opened from (the
+      settings or the editor is closed, its inputs untouched); CancelViewDeleteCommand / CancelTagDeleteCommand
+      put back whichever dialog was open at the request, or none; ConfirmViewDeleteCommand /
+      ConfirmTagDeleteCommand run the delete as it was (the after-notices, ECO-VT-205''s selection, ECO-VT-180 FD1
+      and FD3, ECO-VT-131 and ECO-VT-132 unchanged) and close both, or on a refusal reopen the dialog that was open.
+      The view confirm deletes nothing if the selection is no longer the view it named. The press is logged as
+      ViewDeleteConfirmationRequired / TagDeleteConfirmationRequired, beside ScopedDeletePreviewRequired. The two
+      sentences are the drawing''s: 「「{name}」と、その階層の{N}つのノードを削除します。」 and
+      「「{name}」を{N}本の動画から外して削除します。」, said for N = 0 too (undrawn).'
+    - 'ECO-VT-224 R8 round 1 (R224a-F1, F2; the user''s rulings 「削除の直前に数え直す (推奨)」 and 「断りをボタンのそばに出す
+      (推奨)」): replaces the clause above where they differ. Both counts are READ FROM THE STORE, at the press and again
+      at 削除 - a tag''s from GetTagUsageCountsAsync (distinct videos, active and archived), a view''s as the length of the
+      Hierarchy GetViewsAsync returns for it (a view the store no longer has is ViewRequired). At 削除 the refusals are
+      asked again (RefuseTagDelete, RefuseViewDelete - the same methods the press asks) and the count read again; a
+      refusal closes the confirmation and is said as at the press, reopening the dialog that was open; a count other
+      than the one stated deletes nothing and sets the confirmation again with the new count (the outcome is the
+      press''s ...ConfirmationRequired), so 削除 must be pressed again; only an equal count deletes, and it is the
+      count the tag''s after-notice reports. The routes that move a count under an open confirmation, measured in
+      DeleteConfirmationTests: the top band to Videos and its assignment dialog (a tag''s), and the settings'' catalogue
+      restore (a view''s hierarchy, and a view newly using the tag). The view''s unsaved-edits refusal now sets
+      ViewDeleteNotice 「保存していない階層の変更があるため削除できません。先に保存するか破棄してください。」 beside ビューを削除,
+      as ViewIsOrigin does; it was Status only.'
+    - 'ECO-VT-224 R8 round 2 (R224b-F1; the user''s ruling 「断りを出す (推奨)」): CORRECTS the round-1 clause above, whose
+      「a refusal closes the confirmation and is said as at the press」 was not true of a view''s ViewRequired at 削除 -
+      that closed the confirmation and set only Status. ConfirmViewDeleteAsync now asks the store for the view first:
+      gone (a catalogue restore) sets ViewDeleteNotice 「このビューはもうありません。」; otherwise a selection that is no
+      longer the view the confirmation named (the top band to Videos and its card strip) sets
+      「選んでいるビューが変わったため削除しませんでした。」; a view the store has and Views does not is said as gone. Each
+      deletes nothing, closes the confirmation and reopens the dialog that was open, where the sentence stands beside
+      ビューを削除. The node count at 削除 is the Hierarchy of that same store read. With this every refusal at 削除 is
+      said beside its delete button, except a tag gone from the store, which has no refusal: it is re-asked as 0本 and
+      then reported as deleted (R224b-F2, left to the application golden).'
+    - 'ECO-VT-224 change review (R224c-F2; the user''s ruling 「設定を開くときに文を消す (推奨)」): OpenViewSettings
+      empties ViewDeleteNotice, so the settings opened afresh never show a sentence that answered an earlier press (it
+      once left 「このビューはもうありません。」 beside another view''s ビューを削除). A refusal at 削除 reopens the dialog by
+      setting IsViewCreateOpen, not through OpenViewSettings, and keeps its sentence.'
+    - 'ECO-VT-224 second change review (R224d-F1, F2; the user''s ruling 「新規でも消し、削除後の文はなしと記録 (推奨)」):
+      OpenViewCreate (「＋ 新規」, the same dialog) empties ViewDeleteNotice too. The view''s after-delete sentence
+      「「…」を削除しました。」 is written after the settings close and is emptied by the next open, so it is not seen; the
+      confirmation''s statement says what is removed. UI-RUL-0087 carries the same amendment.'
+    - 'ECO-VT-217 (REQ-025, ECO-VT-217-provisional-1, UI-RUL-0084): the assignment dialog (MainWindow.cs, whose
+      view model is ShellViewModel) takes the value in its tag type''s form. AssignmentValueChoices holds the offered
+      values - a textual tag''s predefined values, or EnumeratedNumericValues - each an AssignmentValueChoice_{value}
+      button whose IsChosen follows AssignmentValueInput. AssignmentValueInput is the one value 付ける writes; a
+      choice sets it and clears the typed box (AssignmentTypedValue, the TextBox AssignmentValueInput), and typing
+      sets it to what is typed. The box is shown for a suggest textual tag and for a numeric tag with no choices, never
+      for a closed one. AssignmentValueRefusal says why the value would be refused, from ValidatePersonAssignment''s
+      code, and is empty where the value can only be chosen and none is chosen; 付ける''s CanExecute is the same rule.
+      The editor grid is copy | box in row 0, or copy across with choices | box in row 1, and the refusal across row
+      2. The help line''s first sentence says how the value is taken; its second is the aggregate state as before.
+      The AutoCompleteBox AssignmentPredefinedValueInput is gone; the capture harness still maps its name
+      (tools/ViewTube.CaptureHarness/Program.cs), which is left for that equipment''s owner.'
+    - 'ECO-VT-217 R8 round 1 (R217a-F1, F2): THE SUGGESTED VALUE IS SHOWN WHERE IT IS TAKEN, OR IT IS NOT TAKEN.
+      SuggestedValue is the first value the selected videos carry, and in a mixed selection it may be none of the
+      choices. SelectAssignmentTag chooses it when it is a choice; types it into the box when it is not and the tag
+      takes a typed value; and drops it when the value can only be chosen, so 付ける waits with nothing chosen and
+      no refusal. The layout (R217a-F5) is held by TagValueLayoutTests.'
+    - 'ECO-VT-217 R8 round 2 (R217b-F4, F5): copy across with choices is held by R217bCopySpanTests. The round-1
+      clause holds for the value written, not for the value held: a closed textual tag with no predefined values
+      keeps the suggested value unshown in AssignmentValueInput (the drop needs AssignmentOffersChoices), and
+      付ける cannot write it because ValidatePersonAssignment refuses every value on such a tag
+      (TextualValueNotPredefined).'
+    - 'ECO-VT-219 (UI-RUL-0085): AssignmentValueRefusal says 「桁が多すぎます。有効数字 28 桁までで入力してください。」 for
+      NumericValueTooPrecise, on the refusal line ECO-VT-217 drew; 付ける''s CanExecute is the same rule, so it waits.'
+    - 'ECO-VT-219 R8 round 1 (R219a-F2, UI-RUL-0085 amended): the line is 「桁が多すぎます。小数点以下は 28 桁まで、数字は全部で 28 桁までで入力してください。」
+      (ECO-VT-219-provisional-2).'
+    - 'ECO-VT-198: the hierarchy row''s condition chip takes the drawing''s .condition-chip limits - MaxWidth
+      150 and character-ellipsis trimming of its text - and carries the full condition as its tooltip,
+      which the drawing does not have. Chip and its other users are unchanged.'
+    - 'ECO-VT-198 R8 round 1 (R198a-F1): a row with a condition lays out its label and right-hand group
+      in ConditionRowPanel. HOME, the child count, the placing button and the ••• keep their width; the
+      condition chip takes what is left up to its own width (at most 150), so it gives up width before
+      any button leaves the row; the label takes the rest, as the Auto column left it before. Rows
+      without a condition keep the Grid layout unchanged.'
+    - 'ECO-VT-198 R8 round 2 (R198b-F1): when the buttons themselves are wider than the row - placing mode
+      from depth 3, or depth 6 and deeper at 960 - ConditionRowPanel places the group from a negative x, so
+      it overflows to the left over the expand button, where the Grid overflowed to the right. "Before any
+      button leaves the row" holds only while the buttons fit.'
+    - 'ECO-VT-210 (the user''s rulings (1) and (a), 2026-09-29): every hierarchy row, with or without a
+      condition, lays out its label and right-hand group in HierarchyRowPartsPanel, which replaces
+      ConditionRowPanel; where the parts fit, the geometry is the one the Grid and ConditionRowPanel gave.
+      The order of fit: the buttons first - 「＋ 子にする」 while placing, or, where it and the ••• do not
+      fit, its compact twin InsertPlacementAsChildCompact_{id} showing 「＋」 (padding 4, margin 0, the
+      tooltip 子にする, the same click and drop) - then HOME, then the child count, each shown only whole,
+      then the condition chip, which takes what is left up to its own width (at most 150) and is hidden
+      below ConditionChipMinWidth (60). A hidden part is arranged at zero width; a hidden button is neither
+      focusable nor hit-testable. When even 「＋」 and the ••• do not fit, the group is placed from the
+      right edge as before; that case is not ruled.'
+    - 'ECO-VT-211 (the user''s rulings (A) and (i), 2026-09-29), superseding ECO-VT-210''s line above where they
+      differ. The label is HierarchyRowLabelPanel: the depth marker, the colour dot, the name (character-ellipsis
+      trimming), the type chip and the owner badge. When they do not fit, the owner badge is hidden, then the
+      type chip, then the name is trimmed; the marker and the dot are never hidden; a hidden part is arranged
+      at zero width; when anything is hidden or trimmed the label''s tooltip reads name・type・owner. The label''s
+      floor (FloorWidth) is the marker when shown, the dot and the name up to NameFloorWidth (80) with their
+      spacings. HierarchyRowPartsPanel reserves that floor and one spacing before the group: 「＋ 子にする」 is
+      shown only if it, the ••• and the floor fit, and HOME, the child count and the condition only beside the
+      floor. The row is placed by HierarchyIndentPanel, which replaces the row''s depth × 32 margin: the
+      indentation is depth × IndentStep (32), cut to whole steps so that the row is not narrower than
+      MinRowWidth (340); a row whose indentation was cut shows 「深さ N」 (N counts the root as 1; hidden rows
+      have IsVisible false, so neither accessibility nor the rendered-text scans read them). MinRowWidth holds
+      the narrowest placing row, measured at 328 on the fourteen-level probe tree: border 2, padding 16,
+      handle 24, expand column 44, the 深さ 14 marker 50 and its spacing 8, the dot 10 and its spacing 8,
+      the name floor 80, the gap 6, 「＋」 24, spacing 6 and the ••• 50; the 12 above it covers a wider
+      marker. The marker uses the type chip''s colours (#536074 on #F8FAFC).'
+    - 'ECO-VT-211 R8 round 1 (R211a-F2): the label hides its owner badge and type chip by arranging them at zero
+      width, and they stay in the visual and automation trees ON PURPOSE: they are the row''s own information,
+      the same the tooltip reads, and they take no input. The depth marker is different: when not shown it has
+      IsVisible false, because 深さ N on a row indented in full would be a claim the row does not make.'
+    - 'ECO-VT-212 (ECO-VT-212-provisional-2, UI-RUL-0083): the node dialog''s free-text 条件 is replaced by
+      BuildNodeConditionSection, visible only for a textual or numeric tag (NodeOffersCondition). One
+      NodeConditionType_None button serves both types; NodeConditionType_Pattern and _Equal share the middle cell and
+      _Select and _Range the right-hand one, shown by the tag''s type, so no name repeats. The inputs are
+      NodeConditionPattern, NodeConditionEqual, NodeConditionMinimum and NodeConditionMaximum; each candidate is the
+      CheckBox NodeConditionCandidate_{value}, a stale one with 「候補値から外れています」 (#8A5A20 on #FFF5E8); a textual
+      tag without candidates shows 「候補値がありません。パターンマッチをご利用ください。」. ShellViewModel judges the draft
+      with NodeCondition.Validate (candidatesMustBeDefined, the node''s saved candidates allowed); a refusal disables
+      反映 (SaveHierarchyNodeCommand''s CanExecute), and an unreadable expression, a reversed range or an entered
+      number that does not read shows its message (#B03A3A on #FFF0F0). The dialog''s body is a ScrollViewer between
+      the heading and the actions, its MaxHeight the backdrop''s height less the paddings, the heading and the
+      actions. The row chip is the condition''s Summary alone. While any view keeps a DroppedRestriction the
+      diagnostics panel reads 条件をN件外しました with the view, the tag and the text, ahead of the evaluation''s own
+      warnings; 設定を確認 then selects that view and opens that node, and applying it clears the text.'
+    - 'ECO-VT-212 R8 round 1, the user''s ruling Q1 (a): the dropped-restriction report is read from the SELECTED view
+      only, so the view that holds it reports it in its own panel until the node is applied, and another view''s
+      warnings are never replaced by it (R212a-F6, F7).'
+    - 'ECO-VT-214 (R212b-F2): the node dialog closes whenever another view comes on screen, because applying it finds
+      its node by id in whatever draft is showing. The view on screen is SelectedViewId, or with none selected
+      PreviewedViewId, the one writer of _previewedViewId; both setters call CloseNodeEditorForAnotherView when the
+      value changes, so the Videos screen''s choice, a scope change and every other route are held in two places,
+      not at each caller. The backdrop needed no change: it takes the pointer over the view list once the
+      compositor''s scene shows it.'
+    - 'ECO-VT-214 R8 round 1 (R214a-F1): replaces the round-0 clause above. What the dialog must not outlive is the
+      DRAFT it writes into, not a view id: a catalogue restore puts another view under the same id. So the three
+      loaders of the draft - LoadViewDraft, LoadUnselectedHierarchyPreview and ClearHierarchyDraft - each call
+      CloseNodeEditorWithItsDraft first; the two setter hooks and the PreviewedViewId property of round 0 are not
+      kept. Deleting a view clears the draft in place, but only from the view dialog, whose every opener lies under
+      the node dialog''s backdrop.'
+    - 'ECO-VT-214 R8 round 2 (R214b-F1): corrects the reason given above for the delete route. Deleting a view is
+      held by the loaders, not by the backdrop: DeleteSelectedViewAsync rebuilds the applicable views while the
+      deleted id is still selected, which drops the selection and reaches ClearHierarchyDraft (or, with a next view,
+      LoadViewDraft), and the dialog closes there. The view dialog is reachable by keyboard under the node dialog
+      (ECO-VT-216). The doc comment on CloseNodeEditorWithItsDraft keeps the wrong sentence, as no product file
+      changes after the last review round.'
+    - 'ECO-VT-222 (the user''s ruling on the accent bar, ECO-VT-213): the HOME row''s bar HierarchyHomeEmphasis_{id}
+      (3 wide, #3467E8, left-aligned, the row''s inner height) is the only child of a layer in rowSurface - a
+      Border with CornerRadius 8 (the row''s 9 less its border of 1) and ClipToBounds - so Avalonia clips it to the
+      rounded edge of the row''s padding box, as the capture-fixture drawing''s `.fx-row.home::before` is clipped by
+      its row''s `overflow:hidden` rounded box (viewtube-v1.html 865-867). The default drawing''s inset box-shadow
+      differs at the corners; that is ECO-VT-213''s drawing question. Nothing else on the row is in that layer, so
+      nothing else is clipped. The radius stays 8 when the focused row''s border is 2: a radius-8
+      arc inset 2 lies inside that inner edge too.'
+    - 'ECO-VT-224 (REQ-094, ECO-VT-224-provisional-1): BuildDeleteConfirmationDialog makes ViewDeleteConfirmDialog
+      (IsViewDeleteConfirmOpen) and TagDeleteConfirmDialog (IsTagDeleteConfirmOpen), after the node dialog and over
+      the same DialogBackdrop (#18202D at 60 %, below the top band), at the drawing''s 480 with no card padding: a
+      heading band (the title 17 bold, 「この操作は元に戻せません」 11 #536074, a 1 px #E4E8EF rule), a body of padding 20
+      with the warning (#FFF5E8, radius 11, padding 14/12, 11 on 17, #7F4B0C: the bound sentence bold, then
+      「タグと、動画に付いたタグは残ります。」 or 「動画とビューは残ります。」) and one counts card 140 wide (one cell of the
+      drawing''s three-column grid; the count 20 bold, the caption 10 #536074: 削除される階層のノード, タグが外される動画),
+      and a foot band with キャンセル then 削除 (min-height 44, radius 9, 13 semibold; #8A95A6 on white, and
+      #C74747 on #FFF0F0). No typed name and no close cross, as approved. The names and the drawing''s data-ui-ids:
+      ViewDeleteConfirmDialog / TagDeleteConfirmDialog = modal.{view|tag}.delete-confirm,
+      {View|Tag}DeleteConfirmStatementText = state.{view|tag}.delete-confirm.statement,
+      {View|Tag}DeleteConfirmCountText = the count inside state.{view|tag}.delete-confirm.count,
+      Cancel{View|Tag}DeleteButton = action.{view|tag}.delete.cancel, Confirm{View|Tag}DeleteButton =
+      action.{view|tag}.delete.confirm, DeleteViewButton = action.view.delete, DeleteCurrentTagButton =
+      action.tag.delete. As in every DialogBackdrop the first focus is the first focusable control, キャンセル, and
+      Tab cycles inside; no Tags dialog handles Escape, so this one does not either. The buttons'' hover and press
+      looks are the Fluent theme''s, which the drawing does not state.'
+    - 'ECO-VT-224 R8 round 1 (R224a-F8): the confirmation''s card is the drawing''s .modal (viewtube-v1.html 582), not
+      the Tags dialogs'' card: DialogBackdrop''s card is restyled to CornerRadius 18, no border, BoxShadow
+      0 22 60 0 #47141C2A (rgba(20,28,42,.28)), and not clipped so the shadow is drawn (no child paints a background
+      that could cross the corners). The buttons are FontWeight 650 (.btn); whether the font face renders 650
+      differently from 600 depends on the installed Segoe UI / Yu Gothic UI weights, which is not measured. The heading
+      is Bold (700), the h2 default the drawing inherits. The backdrop stays the Tags screen''s (#18202D at 60 %, no
+      blur), which is what the approved drawing''s .fx-dc-stage draws.'
+    - 'ECO-VT-208: UiFixture is an assembly fixture ([assembly: AssemblyFixture] in
+      VideoGridLayoutTests.cs), constructed before any test in the process, so its STA thread is the first
+      to bind Avalonia''s UI dispatcher whatever order the collections start in. The ui collection only
+      serialises the classes that drive the window; it no longer owns the fixture.'
+    - 'ECO-VT-195 (the user''s ruling of 2026-09-27, E): the pack format carries Music as a third owner; a pack
+      with a music definition lists music-scope-v1, and the reader supports it. A music tag may shadow a
+      global one (collection-local rules). Import lands music definitions in the receiver''s music scope unless
+      a target collection is forced. A collection''s export drops music-owned tags'' assignments (REQ-092 as
+      amended); an export from the music scope (ruling (a)) carries its own views and their tags only.'
+    - 'ECO-VT-212: ViewPackHierarchyPlacement carries Condition; its Restriction is read-only, never written (omitted
+      when null). ViewPackJsonTransfer.CarryLegacyRestrictions converts a pack from before ECO-VT-212 on read, with the
+      pack''s own tag types, by FromLegacyRestriction; a numeric restriction that does not read as a number refuses the
+      pack (ViewPackLegacyRestrictionUnreadable) rather than importing it with the condition gone, and a placement
+      carrying both forms refuses as ViewPackNodeConditionAmbiguous. Import validates each view''s conditions for form
+      (R8 round 1: a candidate is not held to the definition - see below). The reader supports node-condition-v1; a reader from before it
+      refuses such a pack before mutation.'
+    - 'ECO-VT-212 R8 round 1, the user''s ruling Q2 (i): a pack carries a selection as it is stored. Import still refuses
+      a condition out of form, but does not hold a candidate to the pack''s tag definition, so a view keeping a
+      candidate its tag dropped is exported, and lands with that candidate selected and shown as no longer a
+      candidate (R212a-F1, F3). The candidate must be predefined only where it is newly chosen - the editor and MCP,
+      through ViewHierarchyService.'

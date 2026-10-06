@@ -20,12 +20,13 @@
 
 ### 0.2 実測(2026-10-06・製造者・ViewTube と ViewPrism2 の作業木を読んだだけ。書き込みなし)
 
-- ViewTube `bomdd/32-mbom.yaml`: 不変条件の行 60。**60 行すべてが ECO 番号で始まる**(由来の記録は全行)。`measured` を含む行 21。`review` / `round` / 所見 ID を含む行 95(重複あり)。「検査していない」の注記(not exercised / not covered / not captured 等)を含む行 6。`ruling` を含む行 15。
+- ViewTube `bomdd/32-mbom.yaml`: 不変条件の項目 60(1 項目= `invariants:` の 1 要素・複数の物理行。写し `viewtube-32-mbom-invariant-entries.txt` 422 行・計数は `count_entries.py`)。**60 件すべてが ECO 番号で始まる**(由来の記録は全件)。`measured` を含む項目 11。`review` / `round` / 所見 ID を含む項目 36。「検査していない」の注記(not exercised / not covered / not captured 等)を含む項目 2。`ruling` を含む項目 14。
+  (r2 の訂正: 起票時はファイルの物理行で数えて 21 / 95 / 6 / 15 と書いた。独立検査 r1〔IA-02〕が、先頭行だけの写しからは再計数できないと指摘し、項目の数に改めた。DECIDE で示した「21 行が実測値・6 行が未検査の注記」も物理行の数である。)
 - ViewTube `bomdd/50-as-built.yaml`: 244 行・エントリ 8 件(工場ごとの派生製造・現場是正・CAPA)。**最終更新は `a9b71406`・2026-07-25** — ECO ごとには書かれていない。`52-metrics.yaml` 176 行、同様。
 - ViewTube `bomdd/33-control-plan.yaml`: 受入の特性(`learned_acceptance_characteristics`)42 件が 15 の検査行に付き、うち `known_limits` を持つもの 7 件(ECO-VT-192 の様式。受入のときに「何を測っていないか」を書く欄)。33 テンプレには `known_limits` の欄が無い(grep 0 件)。
 - ViewTube の ECO 本文と台帳(60 番台): 実測値・レビューの所見・未検査の注記・由来の 4 種すべてを毎回持つ(例: ECO-VT-232 本文 §7〜§10、台帳の `probe_2026_10_06` / `r8_rounds` / `acceptance`)。
 - ViewPrism2 `bomdd/32-mbom.yaml`: `measured` 0 件・`ECO-` の参照 138 件 — 由来の参照はあるが実測値は無い。「記録」は長い ECO 弧を持つ製品で現れる(OBS-20261005-03 の観察と一致)。
-- K-BOM(ViewTube `31-kbom.yaml`): 知識(出典つきの判断・`managed_knowledge`・`source`)の層で、実測の記録を入れた例は無い。
+- K-BOM(ViewTube `31-kbom.yaml`): 知識(出典つきの判断・`managed_knowledge`・`source`)の層。`measured` の語を持つ行は 2(K の名「ViewPrism2 measured responsive grid …」と知識の文「Responsive decisions use measured toolbar content width …」。写し `viewtube-31-kbom-measured-lines.txt`)で、日付・値・版を持つ実測の記録ではない(r2 で写しを足した。独立検査 r1〔IA-03〕)。
 
 ### 0.3 候補の評価(DECIDE で示した得失)
 
@@ -98,3 +99,15 @@ C1(YAML 厳格パース)PASS のまま(33 の新しい欄は空のリスト)・C
 - **V4** のうち機械で測れる部分= PASS(観測: 上の hunk の位置。§4.4 の candidate の項〔L170〕・§9〔L825 → 製造後 L828〕・§13〔L911 → L914〕に差分なし)。
 - **V8**= PASS(観測: improvements.md の OBS-20261005-03 の本文末尾に回収の追記〔`置き場は ECO-102 で決定`〕・カウンタ `[watch 1/3]` 不変・`python method/tools/worklist.py` の validation_warnings 0)。
 - **V3**・**V4** の実読・**V6**= 独立検査(§6)。**V5**・**V7**= クローズ節。
+
+## 6. 独立検査(異系統・EQ-002 Codex gpt-5.6-sol)
+
+### 6.1 r1(2026-10-07・境界探索・対象 78f96509)— **REJECT**(blocking 3・証拠の連鎖)
+
+- 報告= [independent-inspection-r1.md](reports/eco-102-record-clause-home/independent-inspection-r1.md)。項目 1(範囲)・2(V1 の句)・4(既存の本文との整合)・5(テンプレの健全性)・6(言い回し)= PASS。項目 3(記録との一致)= FAIL。IA-04(non-blocking): 製造物は order §4 のとおりで、所見は設計の内容でなく受入用の証拠の欠落に帰属する。
+- **IA-01(blocking)**: order は写しを「sha256 つき」と書いたが、measurements.txt に写し 2 本の sha256 が無い(元ファイルの sha256 だけ)。
+- **IA-02(blocking)**: 写しは不変条件の先頭行だけ(`grep "^    - '"`)で、計数(21 / 95 / 6 / 15)は物理行の全部に対するもの— 写しからは再計数できない(検査官の再計数: 0 / 26 / 0 / 14)。
+- **IA-03(blocking)**: 「K-BOM に実測の記録を入れた例は無い」は、`measured` 2 件の存在までしか記録になく、その 2 件を実測の記録でないと分類する根拠行の写しが無い。
+- **処置(r2・本 commit)**: 測定の台本を改め(`measure102.sh` r2・`count_entries.py`)、不変条件を**項目**(複数行の 1 要素)の単位で数え、全項目の全行の写し(`viewtube-32-mbom-invariant-entries.txt`・422 行)と K-BOM の該当 2 行の写しを置き、写し 3 本の sha256 を measurements.txt に記録した。
+  数値を項目の数に訂正した(60 / 60 / 11 / 36 / 2 / 14): order §0.2・register の source・improvements.md の節・playbook §4.5 ④の根拠。K-BOM の主張は「`measured` の語を持つ 2 行は知識の文で、実測の記録ではない」に限定した。起票 commit のメッセージの数値(21・6)は訂正できないので、ここに記す。
+  r2 の検査は本 commit を対象に、同じブリーフ(対象の版と IA-01〜03 の処置の確認を加える)で行う。
