@@ -3233,7 +3233,7 @@ changes:
     title: 「記録」の置き場の決定 — M-BOM の記録句は変更記録を正本とし、行には ECO 番号の参照だけを残し、検査していないことの注記は Control Plan の known_limits へ(文書とテンプレのみ・candidate)
     date: 2026-10-07
     origin: improvement
-    status: draft   # 2026-10-07 起票(user DECIDE「A」= 変更記録が正本・M-BOM は ECO 番号の参照だけ・未検査の注記は CP の known_limits)。製造は次の commit
+    status: verified   # 2026-10-07 独立検査 r1〜r3 REJECT(blocking 8・すべて製造者の記録の欠陥: 写しの sha256・写しの被覆・物理行と項目・引用符つき項目だけの計数・ECO 本文の主張の根拠・排他の表現・古い記述)→ r4 ACCEPT(対象 ee5eec62)→ verified(窓閉鎖 aec11da→ee5eec6・CI 4 run success・較正 receipt trigger ①)。経過: user DECIDE「A」→ 起票 37c4f82 → 製造 78f9650(playbook §4.5 ④・32 / 33 テンプレ)→ r2 9212e71 → r3 b559212 → r4 ee5eec6
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       playbook §4.5 ④(ECO-100 で「置き場は未決」)/ OBS-20261005-03(候補= K-BOM・As-Built・Control Plan・変更記録)/ ECO-100 IA-01(区分の名)/
@@ -3245,7 +3245,7 @@ changes:
     no_impact_prediction: "(起票時点・凍結)diff= playbook §4.5 の④の文とその項の実測・未測定の列挙、templates/32 のコメント 1 行、templates/33 の検査行に 1 欄、台帳系、reports/eco-102-record-clause-home/ のみ。他の節・他のテンプレ・tools・hooks・.github・schemas・prompts diff 0。C1/C4 PASS のまま"
     diff_audit:
       baseline: "aec11da"  # 起票直前 HEAD(ECO-101 クローズ commit)
-      head: ~
+      head: "ee5eec6"      # diff監査済み: 窓内= allowed_paths のみ(独立検査 r4 項目 1)・playbook は §4.5 の 1 項の中だけ・tools/hooks/.github/schemas/prompts diff 0・クローズ commit は台帳系+r4 報告のみ
       allowed_paths: [method/bomdd-playbook-v1.md, method/templates/32-mbom.yaml, method/templates/33-control-plan.yaml, method/improvements.md, bomdd/60-change-order-eco-102.md, bomdd/60-change-register.yaml, bomdd/reports/eco-102-record-clause-home/]
     summary: >
       ①§4.5 ④を置き場の決定として書き換え(正本= 変更記録〔ECO 本文と台帳〕・M-BOM の行は由来の ECO 番号だけ・未検査の注記は CP の known_limits・局所名「M-BOM の記録句」・candidate)

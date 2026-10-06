@@ -8428,3 +8428,7 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
 **製造(次の commit)**: playbook §4.5 ④の書き換え(局所名「M-BOM の記録句」・ECO-100 IA-01 の回収)・32 テンプレのコメント・33 テンプレの検査行に `known_limits: []`。candidate のまま・効果は主張しない。
 **思想層の再認証判定(lesson-promote 3b)**: operational rule(playbook)= 該当 / template= 該当(32・33)/ control・probe・terminology・method/concept claim= 該当なし(§13 の転写値禁止と同じ形を使うだけで、§13 は変えない)。
 **期待効果の棚卸し**: OBS-20261005-03(記録が混ざる・1/3)= **置き場は本 ECO で決定(回収)**。カウンタは不変— 2 例目の条件(別の製品の M-BOM に記録句が混ざる実測)はそのまま。OBS-20261005-02/04・OBS-20261006-01/02 不変。
+
+**クローズ追記(2026-10-07・ECO-102 verified)**: 起票 37c4f82・製造 78f9650・r2 9212e71・r3 b559212・r4 ee5eec6・クローズ ee5eec6。独立検査(EQ-002・異系統)は r1〜r3 REJECT(blocking 8・すべて製造者の記録の欠陥= 測定を記録に残す前に数字を書いた同じ型: 写しの sha256 なし・写しが先頭行だけ・物理行の数を項目のように書いた・引用符つき項目だけの計数・ECO 本文の主張の根拠なし・排他の表現・§4 の更新漏れ)→ r4 ACCEPT。製造物(置き場の決定・テンプレの欄)への blocking は 0。V1〜V8 PASS。CI 4 run success。
+**計測の訂正の記録**: DECIDE で示した数値(60 行・21 行・6 行・learned 15 件中 7 件・As-Built 5 件)は、最終的に 128 件(invariants の要素)中 ECO 番号で始まる 87・実測値 17・所見 54・未検査 5・裁定 14 / 受入の特性 42 件中 known_limits 7 / As-Built 8 件 に改まった。裁定 A の根拠(As-Built は ECO ごとに書かれていない・ECO 本文と台帳が記録を持つ・CP に known_limits の実例がある)は訂正後も成り立つ。
+**次に数える機会**: 別の製品の M-BOM に記録句が混ざる実測(OBS-20261005-03 の 2 例目)/ この置き場で記録句を書いた最初の製品(playbook §4.5 の未測定)。
