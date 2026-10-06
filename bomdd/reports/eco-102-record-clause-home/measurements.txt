@@ -1,4 +1,4 @@
-date: 2026-10-07T00:27:48+0900
+date: 2026-10-07T00:39:00+0900
 ViewTube HEAD: 7a6cae592d6a5793038e04ecab411d5143a59990 (working tree: 0 modified paths under bomdd/)
 ViewPrism2 HEAD: 883cb08c3f26c6a40492c3247d426ef6ee72dc99 (working tree: 0 modified paths under bomdd/)
 
@@ -8,16 +8,31 @@ ViewPrism2 HEAD: 883cb08c3f26c6a40492c3247d426ef6ee72dc99 (working tree: 0 modif
 b206bb68233f772fe6a330329b00d8b862fa9c771f1bc3c9c74fb286ccc23192 *bomdd/50-as-built.yaml
 17be4ce517d7749d50ebe94da1e62d74a2ba9ac2fae328f9ab7624c7bc06b7e0 *bomdd/52-metrics.yaml
 577b8a6e1813a4e07081f663993ec7341850af8948c1689a117bcdef9e2013e6 *bomdd/31-kbom.yaml
+0d85697099b2d69935670c9ac09874672563454a5a0981452bf13e5c9fa6f91c *bomdd/process/change-register.yaml
+57a637b4295c60f8cc752f8671d192d2886ff38a74a288e94af93e00ecff8c57 *bomdd/eco/ECO-VT-232.md
 931d7d1fe8bfc5a997015f2384c10d0aacf158c13dead0d869dc241e8b40647a *bomdd/32-mbom.yaml
-838ee238911ed5bdc313e2583e676ef97633f53b7524f2e55e0a6b5e1ee23fe9 *method/templates/33-control-plan.yaml
 
-== M1-M5: ViewTube M-BOM invariant ENTRIES (each entry = one list item under invariants:, all its physical lines), counted by python
-entries: 60 (physical lines in the entries: 422); copy: viewtube-32-mbom-invariant-entries.txt
-  entries that begin with an ECO id: 60
-  entries that mention a measurement (measured): 11
-  entries that mention a review, a round or a finding id: 36
-  entries that carry a not-exercised / not-covered note: 2
-  entries that mention a ruling: 14
+== M1-M5, M9, M11: the M-BOM invariant entries of both products (PyYAML), and the ECO bodies behind ViewTube's (count_records.py)
+ViewTube 32-mbom: entries 128
+  begin with an ECO id: 87
+  mention an ECO id anywhere: 87
+  measured: 17
+  review: 54
+  untested: 5
+  ruling: 14
+ViewPrism2 32-mbom: entries 63
+  begin with an ECO id: 0
+  mention an ECO id anywhere: 15
+  measured: 0
+  review: 0
+  untested: 0
+  ruling: 1
+ViewTube: distinct ECO ids beginning an entry: 26; with a body file: 26; with a register entry: 26
+  bodies that carry measured: 26 of 26
+  bodies that carry review: 26 of 26
+  bodies that carry untested: 13 of 26
+  bodies that carry ruling: 20 of 26
+copies: viewtube-32-mbom-invariant-entries.txt viewprism2-32-mbom-invariant-entries.txt viewtube-eco-ids-of-the-entries.txt viewtube-eco-vt-232-body.md viewtube-register-eco-vt-232.yaml
 [exit 0]
 == M6: ViewTube As-Built and Metrics - size, entries, last change
 
@@ -47,21 +62,12 @@ $ grep -c '^    - id: ECO-VT-' C:/Users/akira/source/repos/ViewTube/bomdd/33-con
 $ grep -c 'known_limits' C:/Users/akira/source/repos/ViewTube/bomdd/33-control-plan.yaml
 7
 [exit 0]
-== M8: the 33 template had no known_limits field before the manufacture (measured at 37c4f82; at HEAD after the manufacture the field exists)
+== M8: the 33 template had no known_limits field before the manufacture (at the filing commit 37c4f82)
 
 $ git -C /c/Users/akira/source/repos/BomDD show 37c4f82:method/templates/33-control-plan.yaml | grep -c known_limits
 0
 [exit 1]
-== M9: ViewPrism2 M-BOM - the word 'measured' and ECO references (physical lines)
-
-$ grep -ci measured C:/Users/akira/source/repos/ViewPrism2/bomdd/32-mbom.yaml
-0
-[exit 1]
-
-$ grep -c 'ECO-' C:/Users/akira/source/repos/ViewPrism2/bomdd/32-mbom.yaml
-138
-[exit 0]
-== M10: K-BOM - the lines carrying the word 'measured' (copied in full below); the reading: knowledge sentences, no date, value or revision of a measurement
+== M10: K-BOM - the lines carrying the word 'measured' (copied in full); the reading: knowledge sentences, no date, value or revision of a measurement
 
 $ grep -n -i measured C:/Users/akira/source/repos/ViewTube/bomdd/31-kbom.yaml
 552:    name: ViewPrism2 measured responsive grid and toolbar read-across
@@ -70,6 +76,10 @@ $ grep -n -i measured C:/Users/akira/source/repos/ViewTube/bomdd/31-kbom.yaml
 == copies: the Control Plan's learned characteristic ids and known_limits lines (with line numbers)
 
 == sha256 of the copies beside this file (compute and compare: cd bomdd/reports/eco-102-record-clause-home && sha256sum <file>)
-2cedc20320f67fe08fc34e5333624a7198b42b57b248897f21a0455fb5c20f42 *viewtube-32-mbom-invariant-entries.txt
+7e78a63bfe1d1b7cf241478ca13d3ebbccee3dd2bd03213c2e9610c003ba5456 *viewtube-32-mbom-invariant-entries.txt
+6daf9821646e22207b80c1a7be5a6ac2a9d80585b8ecd1c7cae73ebfd206bf6d *viewprism2-32-mbom-invariant-entries.txt
+222e7980ec4c88b24f455d384b7b4a51ca1e62581e8e25654b60b0082e48d08c *viewtube-eco-ids-of-the-entries.txt
+57a637b4295c60f8cc752f8671d192d2886ff38a74a288e94af93e00ecff8c57 *viewtube-eco-vt-232-body.md
+9b80df3b7c63a466e986cc38702d19e95ac0812b812a7d540bf81678a2d56543 *viewtube-register-eco-vt-232.yaml
 53e08aacfc864bd77acb220eb06c5fecb1b6b8d61876b3d88286d3ebcecb4bb0 *viewtube-33-known-limits-lines.txt
 ea5429c6982d6b125a55268a4ff19f2336618694208ca299639f491df732f413 *viewtube-31-kbom-measured-lines.txt

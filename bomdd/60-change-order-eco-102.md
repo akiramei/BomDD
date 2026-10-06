@@ -20,12 +20,15 @@
 
 ### 0.2 実測(2026-10-06・製造者・ViewTube と ViewPrism2 の作業木を読んだだけ。書き込みなし)
 
-- ViewTube `bomdd/32-mbom.yaml`: 不変条件の項目 60(1 項目= `invariants:` の 1 要素・複数の物理行。写し `viewtube-32-mbom-invariant-entries.txt` 422 行・計数は `count_entries.py`)。**60 件すべてが ECO 番号で始まる**(由来の記録は全件)。`measured` を含む項目 11。`review` / `round` / 所見 ID を含む項目 36。「検査していない」の注記(not exercised / not covered / not captured 等)を含む項目 2。`ruling` を含む項目 14。
-  (r2 の訂正: 起票時はファイルの物理行で数えて 21 / 95 / 6 / 15 と書いた。独立検査 r1〔IA-02〕が、先頭行だけの写しからは再計数できないと指摘し、項目の数に改めた。DECIDE で示した「21 行が実測値・6 行が未検査の注記」も物理行の数である。)
+- ViewTube `bomdd/32-mbom.yaml`: 不変条件の項目 128(1 項目= `invariants:` の 1 要素。PyYAML で読み、写し `viewtube-32-mbom-invariant-entries.txt`・計数は `count_records.py`・語彙は英日: measured/実測/測った/測定、review/round/所見 ID/レビュー/所見、not exercised 等/測っていない/未検査/未測定、ruling/裁定/利用者の判断)。**87 件が ECO 番号で始まる**(由来の記録)。実測値の語を含む項目 17。レビューの所見の語を含む項目 54。未検査の注記の語を含む項目 5。裁定の語を含む項目 14。
+  (r2 の訂正: 起票時はファイルの物理行で数えて 21 / 95 / 6 / 15 と書いた。独立検査 r1〔IA-02〕が、先頭行だけの写しからは再計数できないと指摘し、項目の数に改めた。DECIDE で示した「21 行が実測値・6 行が未検査の注記」も物理行の数である。
+  r3 の訂正: r2 の「60 件・全件が ECO 番号で始まる」は、引用符つきで ECO 番号から始まる項目だけを正規表現で拾った数だった。`invariants:` には引用符の無い項目(設計時からの不変条件)もあり、PyYAML で読むと 128 件・ECO 番号で始まるのは 87 件。語彙も英語だけだったので、英日の語彙で数え直した。)
 - ViewTube `bomdd/50-as-built.yaml`: 244 行・エントリ 8 件(工場ごとの派生製造・現場是正・CAPA)。**最終更新は `a9b71406`・2026-07-25** — ECO ごとには書かれていない。`52-metrics.yaml` 176 行、同様。
 - ViewTube `bomdd/33-control-plan.yaml`: 受入の特性(`learned_acceptance_characteristics`)42 件が 15 の検査行に付き、うち `known_limits` を持つもの 7 件(ECO-VT-192 の様式。受入のときに「何を測っていないか」を書く欄)。33 テンプレには `known_limits` の欄が無い(grep 0 件)。
-- ViewTube の ECO 本文と台帳(60 番台): 実測値・レビューの所見・未検査の注記・由来の 4 種すべてを毎回持つ(例: ECO-VT-232 本文 §7〜§10、台帳の `probe_2026_10_06` / `r8_rounds` / `acceptance`)。
-- ViewPrism2 `bomdd/32-mbom.yaml`: `measured` 0 件・`ECO-` の参照 138 件 — 由来の参照はあるが実測値は無い。「記録」は長い ECO 弧を持つ製品で現れる(OBS-20261005-03 の観察と一致)。
+- ViewTube の ECO 本文と台帳(60 番台): M-BOM の記録句の由来(ECO 番号で始まる 87 項目の先頭の番号)は 26 号で、**26 号すべてに本文と台帳の項がある**(`viewtube-eco-ids-of-the-entries.txt`)。26 本の本文のうち、実測値の語を含むもの 26・レビューの所見の語 26・未検査の注記の語 13・裁定の語 20(`count_records.py`)。例として ECO-VT-232 の本文と台帳の項を写した(`viewtube-eco-vt-232-body.md`・`viewtube-register-eco-vt-232.yaml`: 本文 §7〜§10 と台帳の `probe_2026_10_06` / `r8_rounds` / `acceptance` が 4 種を持つ)。
+  (r3 の訂正: 起票時は「4 種すべてを毎回持つ」と書いた— 独立検査 r2〔IA-05〕のとおり記録が無かった。上は計数と写しに置き換えた文である。)
+- ViewPrism2 `bomdd/32-mbom.yaml`: 不変条件の項目 63(写し `viewprism2-32-mbom-invariant-entries.txt`・同じ語彙)。ECO 番号で始まる項目 0・ECO 番号を含む項目 15。実測値の語 0・レビューの所見の語 0・未検査の注記の語 0・裁定の語 1。「記録」は長い ECO 弧を持つ製品で現れる(OBS-20261005-03 の観察と一致)。
+  (r3 の訂正: r2 までの「`measured` 0 件・`ECO-` の参照 138 件〔物理行〕— 由来の参照だけ」は、独立検査 r2〔IA-06〕のとおり 2 語の grep では「だけ」を支えない。項目の単位と同じ語彙で数え直した。)
 - K-BOM(ViewTube `31-kbom.yaml`): 知識(出典つきの判断・`managed_knowledge`・`source`)の層。`measured` の語を持つ行は 2(K の名「ViewPrism2 measured responsive grid …」と知識の文「Responsive decisions use measured toolbar content width …」。写し `viewtube-31-kbom-measured-lines.txt`)で、日付・値・版を持つ実測の記録ではない(r2 で写しを足した。独立検査 r1〔IA-03〕)。
 
 ### 0.3 候補の評価(DECIDE で示した得失)
@@ -111,3 +114,12 @@ C1(YAML 厳格パース)PASS のまま(33 の新しい欄は空のリスト)・C
 - **処置(r2・本 commit)**: 測定の台本を改め(`measure102.sh` r2・`count_entries.py`)、不変条件を**項目**(複数行の 1 要素)の単位で数え、全項目の全行の写し(`viewtube-32-mbom-invariant-entries.txt`・422 行)と K-BOM の該当 2 行の写しを置き、写し 3 本の sha256 を measurements.txt に記録した。
   数値を項目の数に訂正した(60 / 60 / 11 / 36 / 2 / 14): order §0.2・register の source・improvements.md の節・playbook §4.5 ④の根拠。K-BOM の主張は「`measured` の語を持つ 2 行は知識の文で、実測の記録ではない」に限定した。起票 commit のメッセージの数値(21・6)は訂正できないので、ここに記す。
   r2 の検査は本 commit を対象に、同じブリーフ(対象の版と IA-01〜03 の処置の確認を加える)で行う。
+
+### 6.2 r2(2026-10-07・境界探索・対象 9212e719)— **REJECT**(blocking 2・証拠の連鎖)
+
+- 報告= [independent-inspection-r2.md](reports/eco-102-record-clause-home/independent-inspection-r2.md)。写し 3 本の sha256 一致。IA-01・02・03 は **CLOSED**。項目 1・2・4・5・6 PASS、項目 3 FAIL。
+- **IA-05(blocking)**: 「ECO 本文と台帳が実測値・レビューの所見の正本を既に持つ」「4 種すべてを毎回持つ」は置き場の決定を直接支える事実なのに、measurements.txt と写しに照合できる根拠行が無い。
+- **IA-06(blocking)**: 「ViewPrism2 は由来の参照だけ」は排他の主張で、`measured` 0 と `ECO-` 138 の 2 語の grep では立証できない。
+- **処置(r3・本 commit)**: 測定の台本を r3 に(`count_records.py`: 両製品の M-BOM を PyYAML で読み、`invariants` の全要素を英日の語彙で数え、全要素の写しを置く。ViewTube の記録句の由来 26 号の本文と台帳の有無と語彙を数え、ECO-VT-232 の本文と台帳の項を写す。写し 7 本の sha256 を記録)。
+  r3 で分かった r2 の誤り: r2 の「60 件・全件が ECO 番号で始まる」は引用符つきの項目だけの数で、`invariants` は 128 要素(ECO 番号で始まるのは 87)。数値を order §0.2・register・improvements・playbook §4.5 ④で訂正し、
+  ECO 本文の主張を計数(26 号すべてに本文と台帳・本文 26 本中 実測値 26・所見 26・未検査の注記 13・裁定 20)に、ViewPrism2 の主張を計数(63 件中 ECO 番号を含む 15・裁定 1・実測値/所見/未検査 0)に置き換えた。製造物の形は不変。r3 の検査は本 commit を対象に行う。

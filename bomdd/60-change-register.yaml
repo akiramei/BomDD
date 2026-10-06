@@ -3237,9 +3237,9 @@ changes:
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       playbook §4.5 ④(ECO-100 で「置き場は未決」)/ OBS-20261005-03(候補= K-BOM・As-Built・Control Plan・変更記録)/ ECO-100 IA-01(区分の名)/
-      実測(2026-10-06・読みだけ): ViewTube 32-mbom の不変条件 60 件(項目)は全件が ECO 番号で始まり measured 11・review/round 36・未検査の注記 2・ruling 14(起票時の 21/95/6/15 は物理行の数・独立検査 r1 で訂正)、
+      実測(2026-10-06・読みだけ): ViewTube 32-mbom の不変条件 128 件(invariants の要素・PyYAML)のうち 87 件が ECO 番号で始まり、実測値の語 17・レビューの所見の語 54・未検査の注記の語 5・裁定の語 14(起票時の 21/95/6/15 は物理行の数、r2 の 60/11/36/2/14 は引用符つき項目だけの数・独立検査 r1/r2 で訂正)、記録句の由来 26 号はすべて本文と台帳を持ち本文 26 本中 実測値 26・所見 26・未検査 13・裁定 20、
       50-as-built は ECO ごとに書かれていない(最終更新 a9b71406・2026-07-25)、33 の受入の特性 42 件(15 の検査行)中 known_limits 7 件、
-      33 テンプレに known_limits 欄なし、ViewPrism2 32-mbom は measured 0・ECO 参照 138。
+      33 テンプレに known_limits 欄なし、ViewPrism2 32-mbom の不変条件 63 件は ECO 番号を含む 15・裁定 1・実測値/所見/未検査 0。
     order_ref: bomdd/60-change-order-eco-102.md
     affected_refs: [method/bomdd-playbook-v1.md, method/templates/32-mbom.yaml, method/templates/33-control-plan.yaml]
     no_impact_prediction: "(起票時点・凍結)diff= playbook §4.5 の④の文とその項の実測・未測定の列挙、templates/32 のコメント 1 行、templates/33 の検査行に 1 欄、台帳系、reports/eco-102-record-clause-home/ のみ。他の節・他のテンプレ・tools・hooks・.github・schemas・prompts diff 0。C1/C4 PASS のまま"

@@ -1,0 +1,153 @@
+  - id: ECO-VT-232
+    status: applied
+    title: >-
+      復元の要件の「失敗したときは active catalog を byte-for-byte 不変にする」が、ファイルを置き換えた後の失敗には成り立たない
+    body: bomdd/eco/ECO-VT-232.md
+    baseline: '562076d9'
+    change_class: >-
+      要件と実装の食い違いの訂正である。REQ-064 は復元を検証と置換の二段で書き、失敗したときは active catalog を byte-for-byte 不変にすると
+      言う。実装は置換の後に手当ての並びを当て、そこで失敗すると、ファイルは置き換わったまま安全の写しの場所を返す。ECO-VT-228 より前から
+      ある。要件を実装に合わせるか、実装を要件に合わせるかは利用者の判断を待つ。読み取りだけで、実行していない
+    diagnosis_layer: requirements_bom_control
+    diagnosis_layer_derivation: >-
+      要件と仕様の層である。要件の文に置換の後の段が無く、実装にはある。実装の変更が要るかは判断の後。図面の層は関係しない。検査の層には
+      置換の後の失敗の検査が無いという欠けがある
+    impacted_files:
+      - bomdd/eco/ECO-VT-232.md
+      - bomdd/process/change-register.yaml
+      - bomdd/process/change-impact/ECO-VT-232.yaml
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/probe232.cs.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/run-probe232.sh
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/probe-before.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/rotate.py
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/run-class232.sh
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/tests-before.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/impl232.py
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/record232.py
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/tests-after-safety-copy-first.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/digest-per-step.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/tests-before-r1.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/tests-after.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/run-whole232.sh
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/whole-project.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/tests-after-r1.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/record232b.py
+      - bomdd/ui/expectations/eco-vt-006-classification-exact-v2-videos.json
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/capture232.sh
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/compare232.py
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/release-hash-compare.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/expect232.py
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/tier-a-at-the-transition.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/close232.py
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/close232.json
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/close232body.py
+      - bomdd/33-control-plan.yaml
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/x1-acceptance-replay.json
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/x1-replay-clock.txt
+      - test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/accept232.py
+      - bomdd/eco/ECO-VT-232-independent-review.md
+      - src/ViewTube.Application/Ports.cs
+      - src/ViewTube.App/ShellViewModel.cs
+      - bomdd/32-mbom.yaml
+      - src/ViewTube.Infrastructure/Persistence/SqliteCatalogStore.cs
+      - test/ViewTube.Acceptance/RestoreFailureLeavesTheActiveCatalogTests.cs
+    ui_change: false
+    manufacturer: primary-agent@viewtube.local
+    independent_reviewer: fresh-context-reviewer
+    evidence:
+      acceptance:
+        approver: user
+        approved_at: '2026-10-06'
+        source_kind: explicit_answer_to_a_question_that_named_the_eco
+        approval_evidence: '承認・b'
+        what_was_asked: >-
+          「ECO-VT-232 を承認して applied にしてよいですか?」と、残る食い違い（置換の書き込みそのものの失敗では REQ-064 の byte-for-byte の文が
+          成り立たない）の扱いを (a) 既知の限界として記録するだけ (b) 別の号として起票し REQ-064 と仕様の文を直す (c) この号の中でやり直す、
+          で問うた。答えの「承認」は一つ目への、「b」は二つ目への答えである。利用者は号の名を自分では書いていない。号の名は問いにある
+        what_was_approved: >-
+          裁定 C の修理（手当ての並びを候補の一時ファイルの上で当て、それから安全の写しを取り、整った一時ファイルで置き換える。安全の写しの前の
+          失敗は PreparationFailed で写しは無い）と、裁定の文言には無かった画面の状態の変化（並びの失敗が「断った」になる）である。示したのは、
+          検査 7 件の緑、全体 1082 件の合格、独立レビューの所見つきの合格、監督つきの一式の既定の形、捕捉計画 25 画面の画像の一致である。
+          画面の変更ではないので、図面と実画面の承認はない
+        rulings_at_acceptance: >-
+          b: 置換の書き込みそのものの失敗に対する REQ-064 の無条件の文は、別の号として起票して直す（起票のみ、ECO-VT-233）
+        carried_past_closure: >-
+          REQ-064 と仕様の文の限定は ECO-VT-233 へ。置換の失敗でバイト列が変わることは M-BOM と管理計画の既知の限界。画面そのものは見ていない
+        x1_replay: test-results/eco-vt-232-the-byte-for-byte-clause-does-not-hold-after-the-file-was-replaced/x1-acceptance-replay.json
+        x1_replay_reading: >-
+          区間は前回の受け入れ `fc35bf1d` から `620b3364` までで、改訂は 8、
+          検査したのは 7 である。所見は 0 件、状態は `REPLAY_CLEAN` である。
+          時計はシェルの日付で、`2026-10-06T21:24:13+0900` から `2026-10-06T21:25:08+0900` まで
+        control_plan: >-
+          第一の手順を行った。バックアップと復元の契約は CP-BACKUP-001 のもので、受け入れた特性（ECO-VT-231 の特性の次）と、製品が開いている
+          ファイルを置き換えるために別のファイルを整えるすべての経路への読み替えを足した
+      probe:
+        observed_failure_before_fix: true
+        note: >-
+          写しの中で、検証を通った後に手当てが失敗する復元を動かし、検証で断られる候補ではダイジェストが不変、手当ての失敗ではダイジェストが変わり同じセッションの読みが失敗する、安全の写しから戻すと中身は戻るがバイト列は戻らない、を実行で確かめた（probe-before.txt）。同じ測りを受入の検査にして修理の前は 5 件のうち 2 件が赤（tests-before.txt）、形の判断の後に 6 件で 3 件が赤（tests-before-r1.txt）、修理の後は 6 件とも緑（tests-after.txt）、レビューの七件目を足して 7 件とも緑（tests-after-r1.txt）
+      review:
+        status: complete
+        reviewer: fresh-context-reviewer
+        open_in_scope_findings: 0
+        evidence: bomdd/eco/ECO-VT-232-independent-review.md
+        how_it_closed: >-
+          第一回で blocking も major も無い。軽微三件は、PreparationFailed の説明を「候補を開く・写す・並びを当てる、のどこで失敗しても」に直し、副ファイルの削除が正常な閉じ方では効かないことを注記に書き、本文の冒頭に起票時の文であることを足して閉じた。安全の写しの open が -shm を書く所見（F7）で既知の限界の文を狭め、画面の状態の所見（F9）で画面側の検査を七件目として足した
+      acceptance_run:
+        route: >-
+          管理されたエージェントの経路である。`dotnet build ViewTube.slnx -c Release` のあと、監督つきの一式を一回だけ走らせた
+        run: test-results/acceptance-runs/run-20261006T110940647Z-dfb14bc5
+        result: >-
+          1083 件を選び、1082 件が合格、失敗 0、スキップ 1（既知の一件、ECO-VT-109 の SkipWhen）。実行器の終了コードは 9 で pass は false（ECO-VT-220 の決まり: スキップは合格ではない）、lifecycleNormal・childNormal・postRunPass は true — 前の受入（ECO-VT-228、229、231）と同じ形である。記録に discoveryTimeoutSeconds: 120 が書かれている（ECO-VT-229）。一回で通り、再試行は無い
+      r8_rounds:
+        record: bomdd/eco/ECO-VT-232-independent-review.md
+        round_1_2026_10_06: >-
+          第一回は所見つきの合格である。blocking も major もない。レビュー役は修理を壊した版を八つ作った。求めた四つのうち、古い順序に戻す・一時
+          ファイルを消さない・安全の写しを先に取って ReplacementFailed で返す、はいずれも検査が赤になった。「手当てのコミットの前に置き換える」は
+          文字どおりの形では成功の検査だけが赤で、自分で足した「手当ての前に置き換える」が失敗の検査を赤にした。自分で足した「一時ファイルの
+          副ファイルを消さない」は全件が緑のままだった（F2: SQLite が閉じるときに自分で消す）。探針を八つ走らせ（ページの大きさの違い、
+          写しの置き場がファイル、途中の取り消し、live の置き場が新しいファイルを断る、rollback モードの候補、副ファイルの出入り、
+          本物のストアでの画面の状態、読み取り専用の live）、どれも active catalog の行は変わらなかった。軽微が三件（F1 から F3）、記録だけの
+          所見が十二件（F4 から F15）
+        round_1_disposition_2026_10_06: >-
+          F1 は PreparationFailed の説明を「候補を開く・写す・並びを当てる、のどこで失敗しても」に直した（Ports.cs の二か所と M-BOM）。
+          F2 は作りを変えず、副ファイルの削除が正常な閉じ方では効かないことを注記に書いた。F3 は本文の冒頭と第 1 節に起票時の文である
+          ことと着手の経緯を足した。F7（安全の写しを取るところから live が開かれる）は M-BOM と本文の既知の限界の文を「安全の写しの前の
+          失敗」に狭めた。F9（画面の状態）は画面側の検査を一件足した（七件目、修理の後だけ緑）。F4 は implemented への移行で埋まる
+      repair_form_decision:
+        words: '3'
+        date: '2026-10-06'
+        what_was_asked: >-
+          探針の結果（検証で断られる候補では active catalog のダイジェストは不変、検証を通った後の手当ての失敗ではダイジェストが変わり
+          同じセッションの読みが失敗する、安全の写しから戻すと中身は戻るがバイト列は戻らない）を示したうえで、修理の形を問うた。
+          (1 / A) 要件を実装に合わせる。(2 / B) 手当てが失敗したら安全の写しから active catalog を戻す。(3 / C) 候補を一時ファイルへ写し、
+          そこで手当ての並びを当て、成功したものだけで active catalog を置き換える。推しは (3) と添えた
+        meaning: >-
+          (3) = (C) である。手当ての並びは置換の前に、候補の写しの上で当てる。失敗は置換の前に起きるので active catalog は触られず、
+          要件の「byte-for-byte 不変」は検証の段と同じく制御の流れの性質として成り立つ。選ばれなかった道は、要件を弱めること（要件が
+          自分の反例として名指しする場合を消す）と、写しから戻すこと（中身は戻るがバイト列は戻らないので、結局要件の文も直すことになる）
+      probe_2026_10_06: >-
+        基準点 `2df7ecd3` の写しの中で、検証を通った後に手当てが失敗する復元を実際に動かした（`probe-before.txt`）。検証で断られる候補
+        （対照）では、active catalog のダイジェスト（本体・-wal・-shm）は前後で同じだった。読めない旧い条件を持ち、並びの手当てを一つも
+        持たないスキーマ 4 のバックアップでは、検証は通り、復元は ReplacementFailed と安全の写しを返し、ダイジェストは変わり、同じ
+        セッションでコレクションを読むと `no such column: refresh_opt_out` で失敗した。その後に安全の写しを同じ復元で戻すと、中身は
+        戻ったがダイジェストは元と一致しなかった。要件の反例の行（`failed restore replaces the active database`）がこの場合を名指し
+        している。同じ測りを受入の検査にした（`tests-before.txt`、5 件のうち 2 件が赤。形の判断の後に 6 件にし、修理の前は 3 件が赤、
+        `tests-before-r1.txt`）
+      order_measured_2026_10_06: >-
+        修理の最初の切り方（安全の写しとプールの解放の後に候補を写して並びを当てる）では、ダイジェストの検査が赤のままだった
+        （`tests-after-safety-copy-first.txt`）。一度だけ走らせて消した診断（`digest-per-step.txt`）で、カタログを読むだけで -shm が
+        書き換わり、プールを解放すると WAL が本体へ畳み込まれて catalog.db が変わることを測った。どちらも行を変えない。そのため、候補が
+        丸ごと整うまで active catalog を開かない順序にし、並びの失敗は安全の写しの無い新しい結果（PreparationFailed）にした
+      observation:
+        status: measured
+        observed_at: '2026-10-06'
+        found_during: >-
+          ECO-VT-231 の独立レビュー第一回の所見 F10（範囲の外）
+        measured_by_the_reading: >-
+          レビュー役の読みと、ECO-VT-228 の独立レビューの実測（R228a-F2: 読めない値を含むバックアップで復元は Restored=False を返し、live の
+          ファイルは手当ての無い復元されたものになる）。この号では実行していない
+      user_decision:
+        words: 'a'
+        date: '2026-10-06'
+        meaning: >-
+          別の号として起票する。起票までで止め、形（要件を直すか実装を直すか）は利用者の判断を待つ。選ばれなかった道は、起票しないこと

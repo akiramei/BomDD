@@ -1,0 +1,188 @@
+[M-SLN-000]
+依存方向 App → Infrastructure → Core のみ(逆参照・飛び越し禁止)
+
+[M-CORE-001]
+INV-001 / INV-002 / INV-005 / INV-007(エンティティ生成時に強制)
+
+[M-CORE-001]
+日時文字列は IClock 経由でのみ生成(DateTime.Now 直呼び禁止)
+
+[M-EVAL-002]
+INV-007 数値比較は double.TryParse(InvariantCulture)
+
+[M-EVAL-002]
+例外を外へ漏らさない
+
+[M-GRAPH-003]
+INV-004 入力階層に循環があっても無限ループしない(検出して当該枝を打ち切り+警告)
+
+[M-GRAPH-003]
+INV-008 参照切れタグのノードはスキップ
+
+[M-GRAPH-003]
+INV-010 値抽出は ITagValueSource 契約により Normal のみ
+
+[M-SORT-004]
+{'安定': '同一入力で常に同一出力'}
+
+[M-SCAN-005]
+INV-009 ファイルへ書き込まない
+
+[M-SCAN-005]
+遷移は仕様 §2.1 遷移表のみ。スキャン二重起動は ErrorCode.ScanInProgress
+
+[M-SCAN-005]
+読み取り不能ファイルはスキップ+警告(summary.skipped へ計上)
+
+[M-SCAN-005]
+(ECO-059/FMEA-039) ファイル読取はHDDのランダムseekを増やさない直列+SequentialScan。列挙時のサイズ/日時を保持してFileInfo再照会を行わず、DB変更だけを有界バッチ化し、進捗通知は同じ整数百分率を重複送信しない
+
+[M-SCAN-005]
+(ECO-059/GF-059-01) ScanCoreAsyncはTask.Run境界で呼出元UI threadから明示分離する。ConfigureAwait(false)だけに依存しない(同期完了awaitはthreadを切り替えないため)
+
+[M-SCAN-005]
+(ECO-060/REQ-086) 初回列挙はstreaming。ApplyScanBatchAsync成功後だけnormal追加行をScanBatchCommittedで通知し、batch内/全体の取込順を保持する
+
+[M-SCAN-005]
+(ECO-140/REQ-103) UpdateMetaAndPend(changed/reappeared)の適用は hash 上書き前の値を pending_baseline_hash へ保全する。PendInPlace は保全しない。ScanJudge/ScanStaging の判定ロジックと I/O は不変
+
+[M-VIEWSVC-012]
+INV-003 / INV-004 / INV-006
+
+[M-UI-IMAGETAB-035]
+適用は TagService の原子バッチ API のみ経由(個別ループ禁止)
+
+[M-UI-IMAGETAB-035]
+子 VM はホスト型を参照しない(関数注入)。通知は消費者(XAML/tests=ホスト公開契約)に対し旧実装と同一回数・同一位置(51 通知トポロジー 3 則)
+
+[M-UI-IMAGETAB-035]
+(ECO-060) スキャン中のsort操作は条件だけ更新しItems順を変えない。completionでDB再読込後に最新条件を一度適用する
+
+[M-VIEWERCORE-017]
+仕様 §2.9 の規則のみ。端で停止(負値・総数超の index を返さない)
+
+[M-VIEWERCORE-017]
+OC-9〜13 の入出力契約を公開 API とする(治具・固定オラクルが直接呼ぶ)
+
+[M-UI-018]
+余白クリック閉じるは normal のみ(scroll=無操作 / spread=半面送り)
+
+[M-UI-018]
+全件一括読み込み禁止(REQ-055)
+
+[M-UI-018]
+Esc/閉じるボタン/現在位置表示/端停止は全モード共通(REQ-044 継承)
+
+[M-UI-018]
+(ECO-022)タグ制御 ON の見開き配置/送り/現在画像は E-VIEWER-TAGCTRL-044 のみ経由。マッピングモーダルは表示パリティ契約(6行×提示フィールド)を満たす
+
+[M-UI-019]
+機能の意味論は不変(視覚・表示整形のみ。既存 unit 234 件と凍結オラクルの回帰ゼロが前提)
+
+[M-UI-WORKSPACE-029]
+件数/一覧は status=normal のみ(INV-W2)。デフォルトは常に 1 つ(INV-W1)・デフォルトはリネーム不可(INV-W3)
+
+[M-UI-WORKSPACE-029]
+Core 意味論不変(MoveImages/Merge/Trash は既存サービス再利用)。新 Core なし
+
+[M-UI-WORKSPACE-029]
+中央 grid/list は画面外 ImageItemVM セル/ThumbnailImage を全件実体化しない(REQ-041・FMEA-038)
+
+[M-PHASH-020]
+INV-012 決定的(同一ピクセル→同一 pHash)。距離→%は単調非増加
+
+[M-PHASH-020]
+cos テーブルは事前計算固定。grayscale 丸めは (int)(y+0.5)(ToEven 不使用)
+
+[M-PHASH-020]
+OC-14/OC-15 を公開 API とする(固定オラクル S-19/S-20 が直接呼ぶ)
+
+[M-SIMSEARCH-021]
+候補=Normal 限定・フィルタ先行(仕様 §2.10.4)。コレクション境界(REQ-053)
+
+[M-SIMSEARCH-021]
+since ECO-062(REQ-087) scope候補外はfeature/similarity repository・reader非接触。既存APIは固定Oracle互換で維持
+
+[M-SIMSEARCH-021]
+無効化は内容ベース(時間失効なし)+adapter 世代(P-09)+変種欠落(since ECO-048/REQ-084)+特徴量再計算で関与ペア連鎖削除
+
+[M-SIMSEARCH-021]
+非同期で UI をブロックしない。OC-16/OC-18 を公開 API に
+
+[M-SIMSEARCH-021]
+since ECO-066(REQ-089) phase/count progressは単調、cancel後の検索結果publicationはsurface session generationで拒否し正常cacheは再利用
+
+[M-SIMSEARCH-021]
+since ECO-067(REQ-090) pHash scoreは候補抽出専用。距離0だけで画像内容一致/実質同一/100%を確定しない
+
+[M-SIMSEARCH-021]
+since GF-067-02 productionの利用者thresholdと表示/順位は同じcandidateScore軸。pHashは内部固定50の粗候補gate。固定Oracleのverifierなし経路は旧契約を維持
+
+[M-SIMSEARCH-021]
+since GF-067-03 小面積局所編集は上位6 block集中率で全体meanへの希釈を禁止。verifier v1 cacheはv2不一致で再検証。固定関係帯域写像はGF-067-04で廃止
+
+[M-SIMSEARCH-021]
+since GF-067-04 GF-067-03の関係帯域写像を廃止。表示/threshold/順位=min(pHash,連続detail)、exactのみ100。関係は数値と独立。verifier v2 cacheはv3不一致で再検証
+
+[M-MERGE-022]
+INV-011 タグ union・マージ先優先・NULL 補完・多元 id 昇順先勝ち・simple union
+
+[M-MERGE-022]
+INV-009 物理ファイルを移動・削除・変更しない(L3 物理差分 CP-MERGE-001 で実証)
+
+[M-MERGE-022]
+INV-006 原子(失敗時全ロールバック)。マージ元の image_tags は残す
+
+[M-CRITERIA-024]
+純粋な絞り込み(CriteriaMatcher は I/O なし・固定オラクルが直接呼ぶ)。OC-19 を公開 API に
+
+[M-CRITERIA-024]
+指定条件のみ AND・空条件は非実行(全件返さない)。安定順(relative_path 昇順・同値 id 昇順)
+
+[M-CRITERIA-024]
+対象 status は statusTargets で制御(エンジンは status を勝手に固定しない=用途別)
+
+[M-RELINK-025]
+INV-001 missing 側 image_id 不変 / INV-015 候補=pending∪untagged-normal・タグ付きは拒否・candidate_link_id は非確定ヒント
+
+[M-RELINK-025]
+遷移表 T4 のみ。missing でない/別コレクション/許可外 status/タグ付き → 拒否。原子(失敗時ロールバック)
+
+[M-RELINK-025]
+{'ECO-075 スケール前提': '修復 Load 経路の候補集計はフォルダ行の単一ロードで完了する(missing 大量=数十万行でも UI が応答する)'}
+
+[M-TRASH-026]
+INV-013 復元は存在時 Normal・不在時 Missing(幽霊 normal 防止)/ INV-014 完全削除は行削除+CASCADE のみ・deleted 限定
+
+[M-TRASH-026]
+INV-009 物理ファイルへ触れない(復元の存在確認は読み取りのみ・除外は status 更新のみ)。L3 物理差分 CP-TRASH-001 で実証
+
+[M-TRASH-026]
+復元・完全削除はともに deleted 状態のみ許可(他 status は ValidationError)。(ECO-005)除外は missing 状態のみ許可
+
+[M-UI-REPAIR-027]
+各操作は M-CRITERIA-024/M-RELINK-025/M-TRASH-026 の API のみ経由(UI で状態遷移・タグ操作を再実装しない)
+
+[M-UI-REPAIR-027]
+INV-009 UI からも物理ファイルを操作しない。完全削除は確認必須・非破壊文言必須(裁定 6)
+
+[M-UI-REPAIR-027]
+(ECO-003) 候補カードは表示パリティ契約(サムネイル+ファイル名+パス+サイズ+更新日時)を満たす。表示フィールドは VM 公開=unit、描画=golden
+
+[M-UI-REPAIR-027]
+(ECO-005) 一括/単一自動修復・除外の判定反復は ViewModel に置き unit 検査可能。relink/除外は core API のみ経由(UI で状態遷移を再実装しない)
+
+[M-TAGCTRL-028]
+OFF-identity: アクション無し列の Build 結果は SpreadPairCalculator(M-VIEWERCORE-017)と全位置一致(回帰保証)
+
+[M-TAGCTRL-028]
+両面空白の見開きを生成しない(seed 抑止+相方 emit の不変条件 — 仕様 §2.12.2)。canonical は常に一意
+
+[M-TAGCTRL-028]
+競合解決は全順序で支配 1 つ。決定的(原典の非決定的『次の適切な画像探索』ループは採らない — ECO-022 §0.1)
+
+[M-TAGCTRL-028]
+Resolve は画像のタグ ID 集合とマッピングのみを入力に取り、タグ存在台帳は取らない(major-1 補正)。削除済みタグを指すマッピングは『画像が当該 tag_id を持たない=自然に無視』で結果整合。現存タグでマッピングを濾す責務は UI 層(picker=GetAllAsync 現存のみ)
+
+[M-TAGCTRL-028]
+OC-23/24/25 の入出力契約を公開 API とする(治具・固定オラクルが直接呼ぶ)
