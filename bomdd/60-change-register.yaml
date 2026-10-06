@@ -3209,7 +3209,7 @@ changes:
     title: ViewTube の復元経路の弧の記帳 — M-BOM の文の誤りが実行で確かめられた・書き戻し前の突き合わせの初の実使用・検査設備の固定の上限が検査一式に追いつかれる 2 例目(記録のみ)
     date: 2026-10-06
     origin: improvement
-    status: implemented   # 2026-10-06 user DECIDE「A」(ViewTube ECO-VT-228/229 の受け入れ報告への応答の ②= BomDD 側に記帳)→ 起票+記録(同じ commit・写し 8 文書・improvements.md 本節と OBS-20261006-02)→ クローズは次の commit
+    status: verified   # 2026-10-06 verified(記録のみ・製造者較正・窓閉鎖 6edfb16→662faff・CI success・較正 receipt trigger ①)。経過: user DECIDE「A」(ViewTube ECO-VT-228/229 の受け入れ報告への応答の ②= BomDD 側に記帳)→ 起票+記録 662faff(写し 8 文書・improvements.md 本節と OBS-20261006-02)
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       ViewTube ECO-VT-228 applied 737b7252(復元経路の修理・赤くなる検査で D4 の読みを実行で確認: 復元直後は条件なし・復元→保存→起動で条件が失われる)/ ECO-VT-229 applied 9c9d6ad8(一覧取得の固定 15 秒が 1076 件に追いつかれ監督つき実行が 2 回準備で停止)/
@@ -3219,6 +3219,7 @@ changes:
     no_impact_prediction: "(起票時点・凍結)本リポの diff= 台帳系(order・register・improvements.md・reports/eco-101-viewtube-restore-arc/)のみ。playbook・templates・schemas・tools・hooks・.github diff 0。ViewTube は git show で読むだけ"
     diff_audit:
       baseline: "6edfb16"  # 起票直前 HEAD(ECO-100 クローズ commit)
+      head: "662faff"      # diff監査済み: 窓内= 台帳系+reports のみ(playbook・templates・schemas・tools diff 0)・クローズ commit は台帳系のみ
       allowed_paths: [method/improvements.md, bomdd/60-change-order-eco-101.md, bomdd/60-change-register.yaml, bomdd/reports/eco-101-viewtube-restore-arc/]
     summary: >
       ①OBS-20261006-01 の 1 例目を読みから実行へ格上げ(カウンタ 1/3 不変・同じ単位)②playbook §4.5(ECO-100)の書き戻し前の突き合わせの初の実使用(忠実さの所見 0・言い回しと置き場の所見 6)③新規 OBS-20261006-02(検査設備の固定の上限が一式の成長に追いつかれる・ECO-VT-215/229)

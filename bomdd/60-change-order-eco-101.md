@@ -1,4 +1,4 @@
-# Change Order — ECO-101(ViewTube の復元経路の弧の記帳 — M-BOM の文の誤りが実行で確かめられた・書き戻し前の突き合わせの初の実使用・検査設備の固定の上限が検査一式に追いつかれる 2 例目〔記録のみ・draft〕)
+# Change Order — ECO-101(ViewTube の復元経路の弧の記帳 — M-BOM の文の誤りが実行で確かめられた・書き戻し前の突き合わせの初の実使用・検査設備の固定の上限が検査一式に追いつかれる 2 例目〔記録のみ・verified〕)
 
 > 裁定: user DECIDE「A」(2026-10-06・ViewTube ECO-VT-228/229 の受け入れ報告への応答)= ①ECO-VT-227 が持ち越した決め D4 を要求へ書く ViewTube の ECO を起票・書き戻し ②BomDD 側に、OBS-20261006-01 が実行で確かめられたことを記帳する。本 ECO は ②。
 > 出典: ViewTube ECO-VT-228(applied `737b7252`)・ECO-VT-229(applied `9c9d6ad8`)・ECO-VT-230(staged `4b51151b`)・ECO-VT-231(implemented `562076d9`)。[ECO-100](60-change-order-eco-100.md)が「次に数える機会」と書いた ViewTube ECO-VT-228 の赤くなる検査。
@@ -79,3 +79,38 @@ e5a56116046f8f43dc768c6a1871a9419d4810529bcc8cdf1f444eac4db742ae *ECO-VT-231-ind
 ## 4. 記録(2026-10-06)
 
 - 写し 8 文書を §0 の sha256 で置いた。improvements.md に本節と OBS-20261006-02 を記帳した(起票と同じ commit)。
+
+## 5. クローズ(2026-10-06・verified・製造者較正)
+
+- **V1**= PASS(観測: 写し 8 文書の `sha256sum` が §0 の値と一致。値は ViewTube `562076d9` の `git show` の出力から取った)。
+- **V2**= PASS(観測: 記帳の数値を写しで 1 件ずつ突合 — ECO-VT-228 §7(4 件のうち 2 件赤・5 件目を足して 3/5 赤・5/5 緑・1076 件 失敗 0)・ECO-VT-229 §2(15.1 秒・985 ノード / 16.5 秒・1076 件・15.4 秒 / 前回 11.9 秒)・ECO-VT-231-independent-review.md(15 句 SAME・軽微 6・記録だけ 4)— 一致)。
+- **V3**= PASS(観測: `grep -c "OBS-20261006-01"` の watch 行は `[watch 1/3]` のまま・本節に「読みから実行へ」の記載。OBS-20261006-02 は `source:`/`evidence:` 行つき・`worklist.py` の validation_warnings 0)。
+- **V4**= PASS(観測: 窓 `6edfb16` → `662faff`= allowed_paths のみ〔order・register・improvements・reports/eco-101-viewtube-restore-arc/〕。起票+記録 commit は self-conformance exit 0 観測後。CI は起票+記録 commit を確認のうえクローズ。本クローズ commit は台帳系のみ)。register: `implemented → verified`。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。記録のみ・製造者較正)
+
+- 査定した主張と判定:
+  1. 「OBS-20261006-01 の 1 例目(D4 の文がコードと合わない)は、実行で確かめられた」— **observed / 適格**(ViewTube ECO-VT-228 の赤くなる検査を写しの中で実行・観測ファイルの写しを置いた・修理後に緑)。
+  2. 「ECO-100 の手順(書き戻し前の別の文脈の読み手による突き合わせとコードの読み)は ECO-VT-231 で実使用された」— **observed / 適格**(レビュー記録の句ごとの表・15 句 SAME)。
+  3. 「その手順は、文の内容の誤りを拾う効果がある」— **unknown(本文も主張しない)**。ECO-VT-231 では内容の誤りが無く(所見は言い回しと置き場)、ECO-VT-227 では手順の前に同じ読み手が内容の誤りを拾った。1 回ずつ。
+  4. 「検査設備の固定の上限が一式の成長に追いつかれるのは、ViewTube で 2 回起きた」— **observed / 適格**(ECO-VT-215 の記録と ECO-VT-229 の写し)。2 例は同じ製品・同じ設備の系統。
+  5. 「ECO-VT-230・R231a-F10 は欠陥である」— **unknown**(読みだけ・ViewTube 側で未着手)。
+- 検出した計器欠陥(帰属つき): 本 ECO の製造物 0 件。弧の運転の逸脱 1 件(ViewTube 側・製造者の運転)= 道具の自己検査を既定の書き先で走らせ、別の号の証拠を上書きした(独立レビューが検出・復元・昇格済みの同型)。
+- 検出力の限界: 記録のみ・独立検査なし(ViewTube 側の各 ECO は別の文脈の読み手のレビューを受けている)。ViewTube の根拠は写し(未 push)。
+- battery 行別記録:
+
+  | Q | asked/NA | 判定 | 実測 or 読解 | 所見 |
+  |---|---|---|---|---|
+  | Q1 | asked | observed/適格 | 読解 | 受入条件は「写しの一致・数値の一致・カウンタと行の形式」までで、効果を条件にしていない。主張 3・5 を unknown に分離 |
+  | Q2 | asked | 条件付き | 読解 | 本 ECO に陰性の実演は無い(記録のみ)。写しの sha256 は改変を落とす |
+  | Q3 | asked | observed/適格 | 実測 | 写しは ViewTube の commit から取り、記帳は写しを開いて突合した |
+  | Q4 | asked | observed/適格 | 実測 | 実 commit(ViewTube 562076d9・BomDD の起票+記録 commit)・CI |
+  | Q5 | asked | observed/適格 | 実測 | 読みだけの発見(230・R231a-F10)・効果の未測定を限界として分離 |
+  | Q6 | asked | observed/適格 | 実測 | commit は単独で実行して exit を観測し、push は witness の後、CI 結論を見てクローズ |
+  | Q7 | NA | — | — | 記録のみ・陽性対照なし |
+  | Q8 | NA | — | — | 免除機構なし |
+  | Q9 | asked | observed/適格 | 実測 | 写しの sha256 と ViewTube の完全 SHA を order に記録 |
+  | Q10 | asked | 宣言 | 読解 | 上記「検出力の限界」+主張 3・5 |
+  | Q11 | asked | observed/適格 | 読解 | 入力クラス(実行で確認 / 手順の実使用 / 設備の上限 / 同型の実例 / 環境)を分けて記帳 |
+
+- このクローズが支持しないもの: §4.5 の手順の効果 / OBS-20261006-02 の昇格 / ViewTube の未着手の 2 件の欠陥の実在 / playbook の改訂。
