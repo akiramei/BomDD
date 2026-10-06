@@ -81,3 +81,20 @@ C1(YAML 厳格パース)PASS のまま(33 の新しい欄は空のリスト)・C
   「未検査の注記を 33 に置くと、§4.4 の『検査行と裁定層の結線』の項と衝突しないか」— 衝突しない。`known_limits` は検査行が自分の被覆の限界を言う欄で、結線(どの不変条件を検査するか)は `invariant_refs` のまま。
   「効果の予測」— 「記録句を動かすと M-BOM が読みやすくなる・導出が正確になる」は主張しない。
 - 未収束事項: なし。
+
+## 4. 製造(2026-10-07・製造者 EQ-001)
+
+- 起票 commit `37c4f82` の後に製造した(文案は起票の前に台本〔mfg102.py〕として作り、起票 commit の作業木には入れず、起票の後に適用)。
+- 製造物(3 ファイル・追加 10 行・削除 3 行): playbook §4.5 の candidate の項の 2 か所(④の文〔1 行を 4 行に: 局所名・正本・参照・known_limits・根拠・選ばれなかった道〕/ 未測定の列挙の 1 句〔「記録」の置き場 → 記録句をこの置き場で書いた製品 0〕)。
+  templates/32 の `invariants` のコメント(1 行を 2 行に)。templates/33 の検査行に `known_limits: []` とコメント(3 行)。§4.4・§9・§13 の項・他のテンプレは変えていない。
+- 測定の記録(§0.2 の根拠): `reports/eco-102-record-clause-home/measurements.txt`(measure102.sh の出力・測定したファイルの sha256・ViewTube / ViewPrism2 の HEAD)と、突き合わせの対象行の写し 2 本(`viewtube-32-mbom-invariant-lines.txt` 60 行・`viewtube-33-known-limits-lines.txt`)。
+  測定で起票の文の数値を 2 か所訂正した(起票 commit の前): As-Built のエントリは 5 件でなく 8 件 / Control Plan の「15 件のうち 7 件」は、受入の特性 42 件(15 の検査行に付く)のうち 7 件。DECIDE で示した「15 件のうち 7 件」は後者の誤りで、order・register・improvements・playbook の文は訂正後の値である。
+
+## 5. 受入の実測(2026-10-07・製造者)
+
+- **V1**= PASS(観測: playbook への grep、1 句ずつ — `変更記録(60 番台: ECO 本文と台帳)` 1 件・`ECO 番号の参照だけを残す` 1 件・`known_limits` 3 件〔④の文・根拠・未測定〕・`M-BOM の記録句` 1 件・`ECO-102` 1 件・`**未測定**` 1 件・`置き場は**未決**` 0 件。
+  `git diff -U0` の playbook の hunk は 2 つ〔L348 → L348〜351・L356 → L359〕で、どちらも §4.5 の項の中。項は candidate の表示のまま)。
+- **V2**= PASS(観測: 32 テンプレに `置き場は未決` 0 件・`変更記録` / `known_limits` 2 件。33 テンプレの L47 に `known_limits: []`(検査行 `CP-<NAME>-001` の `test_vectors` の次)。PyYAML の `safe_load` で 2 本とも読めた。`git diff` の追加・削除行のうち、コメントでも `known_limits: []` の欄でもない行は 0)。
+- **V4** のうち機械で測れる部分= PASS(観測: 上の hunk の位置。§4.4 の candidate の項〔L170〕・§9〔L825 → 製造後 L828〕・§13〔L911 → L914〕に差分なし)。
+- **V8**= PASS(観測: improvements.md の OBS-20261005-03 の本文末尾に回収の追記〔`置き場は ECO-102 で決定`〕・カウンタ `[watch 1/3]` 不変・`python method/tools/worklist.py` の validation_warnings 0)。
+- **V3**・**V4** の実読・**V6**= 独立検査(§6)。**V5**・**V7**= クローズ節。

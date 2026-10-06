@@ -36,7 +36,8 @@ mbom:
                                         # 検査行の invariant_refs から辿れるように
                                         # (candidate・ECO-098 / ECO-100・playbook §4.5)分類は行でなく句の単位。裁定層(10・20・30・31)に同じ内容がある句は**書かない**(ebom_refs で引き継ぐ・
                                         # ID だけの行は可)。設計の内容なのに裁定層に無い句は人へ戻して裁定層へ書き戻す。どう作るかの句は manufacturing_decisions へ。
-                                        # 記録(実測値・レビューの所見・検査していないことの注記・由来)は設計の内容でも作り方でもない— 置き場は未決(playbook §4.5)
+                                        # 記録(実測値・レビューの所見・検査していないことの注記・由来)は設計の内容でも作り方でもない— 正本は変更記録(ECO 本文・台帳)。行には由来の ECO 番号の参照だけを
+                                        # 残し、検査していないことの注記は 33 の検査行の known_limits へ(candidate・ECO-102・playbook §4.5 ④)
         - <例 INV-003: シーク後の音声時刻は絶対時刻基準(seekBase)>
         - <例 INV-004: booking id は bk_ prefix + 16hex の内容ハッシュ>
       manufacturing_decisions: []       # candidate(ECO-098): どう作るかの決定(並行制御・ライブラリの使い方・分割)。K-BOM にある決定は K の参照として書く

@@ -44,6 +44,9 @@ control_plan:
         - <境界値>                      #   サイレント乖離を通した。「受入の被覆が捕捉を決める」)
         - <中間値(丸めの分岐点)>
         - <反例(FMEA の故障モード由来)>
+      known_limits: []                  # candidate(ECO-102・playbook §4.5 ④): この行が測っていないこと(検査していない経路・測っていない条件・読みだけで
+                                        # 確かめた事項)。検査の層が自分で言う— M-BOM の行に「NOT exercised by any case」のような注記を書かない。
+                                        # 実測値とレビューの所見は変更記録(ECO 本文・台帳)が正本で、ここには書かない
       trace_links:
         - trace_id: TL-CP-M-001
           from: CP-<NAME>-001
