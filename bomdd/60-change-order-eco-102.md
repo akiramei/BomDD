@@ -33,14 +33,15 @@
 
 ### 0.3 候補の評価(DECIDE で示した得失)
 
-- A(採用): 実測値・所見・由来の正本は今でも ECO 本文と台帳が完全に持つ(正本が一つ・§13 の転写値禁止と整合)。未検査の注記は「検査の層が何を見ていないか」であり、検査の責任層(33)に置けば読み手が探さずに済む。
+- A(採用): 記録句の由来 26 号はすべて ECO 本文と台帳の項を持ち、本文 26 本すべてが実測値と所見の語を含む(§0.2)— 正本をそこに置いても新しい記録の義務は生まれない(正本が一つ・§13 の転写値禁止と整合)。個々の記録が本文と台帳の両方に漏れなく載っているかは測っていない。未検査の注記は「検査の層が何を見ていないか」であり、検査の責任層(33)に置けば読み手が探さずに済む。
+  (r4 の訂正: 「実測値・所見・由来の正本は今でも ECO 本文と台帳が完全に持つ」は独立検査 r3〔IA-05〕のとおり記録より強い。計数の文に置き換えた。)
 - B: 番号体系(50 番台= 記録)に最も忠実だが、As-Built を ECO ごとに書く新しい義務が生まれる(ViewTube では現状書かれておらず、ECO 本文との二重化になる— 推定・未測定)。
 - C: 移行は最も安いが、導出層が設計でも作り方でもない内容を持ち続ける(OBS-20261005-03 が指摘したことそのもの)。
 - 「K-BOM へ」: 実例 0 のため候補から外した。
 
 ## 1. 変更要求(user 裁定 A・凍結)
 
-1. playbook §4.5 の④を、置き場の決定として書き換える: 記録句の正本= 変更記録(60 番台: ECO 本文と台帳)。M-BOM の行には由来の ECO 番号だけを残す。検査していないことの注記は Control Plan の `known_limits` へ。局所名=「M-BOM の記録句」(ECO-100 IA-01)。根拠の規模(1 製品の実測・ViewPrism2 は由来のみ)と未測定を併記。candidate のまま。
+1. playbook §4.5 の④を、置き場の決定として書き換える: 記録句の正本= 変更記録(60 番台: ECO 本文と台帳)。M-BOM の行には由来の ECO 番号だけを残す。検査していないことの注記は Control Plan の `known_limits` へ。局所名=「M-BOM の記録句」(ECO-100 IA-01)。根拠の規模(1 製品の実測・ViewPrism2 は実測値・所見・未検査の語 0・ECO 参照 15・裁定の語 1)と未測定を併記。candidate のまま。(r4 の訂正: 凍結した文の「ViewPrism2 は由来のみ」は独立検査 r3〔IA-06〕のとおり裁定の語 1 件と矛盾する排他の表現で、計数に限定した。要求の内容は変えていない。)
 2. 32 テンプレの `invariants` のコメントの「置き場は未決」を、決定の内容に書き換える。
 3. 33 テンプレの検査行に `known_limits: []`(candidate・ECO-102)を足す(コメントで用途を書く)。
 4. `method/improvements.md` に本節(記帳)と、OBS-20261005-03 の回収の追記(置き場は決まった。2 例目の条件〔別の製品の M-BOM に記録句が混ざる実測〕はそのまま)。
@@ -91,7 +92,8 @@ C1(YAML 厳格パース)PASS のまま(33 の新しい欄は空のリスト)・C
 - 起票 commit `37c4f82` の後に製造した(文案は起票の前に台本〔mfg102.py〕として作り、起票 commit の作業木には入れず、起票の後に適用)。
 - 製造物(3 ファイル・追加 10 行・削除 3 行): playbook §4.5 の candidate の項の 2 か所(④の文〔1 行を 4 行に: 局所名・正本・参照・known_limits・根拠・選ばれなかった道〕/ 未測定の列挙の 1 句〔「記録」の置き場 → 記録句をこの置き場で書いた製品 0〕)。
   templates/32 の `invariants` のコメント(1 行を 2 行に)。templates/33 の検査行に `known_limits: []` とコメント(3 行)。§4.4・§9・§13 の項・他のテンプレは変えていない。
-- 測定の記録(§0.2 の根拠): `reports/eco-102-record-clause-home/measurements.txt`(measure102.sh の出力・測定したファイルの sha256・ViewTube / ViewPrism2 の HEAD)と、突き合わせの対象行の写し 2 本(`viewtube-32-mbom-invariant-lines.txt` 60 行・`viewtube-33-known-limits-lines.txt`)。
+- 測定の記録(§0.2 の根拠): `reports/eco-102-record-clause-home/measurements.txt`(measure102.sh r3 の出力・測定したファイルの sha256・ViewTube / ViewPrism2 の HEAD・写しの sha256)と、`count_records.py`(PyYAML・両製品・英日の語彙)、写し 7 本(`viewtube-32-mbom-invariant-entries.txt`・`viewprism2-32-mbom-invariant-entries.txt`・`viewtube-eco-ids-of-the-entries.txt`・`viewtube-eco-vt-232-body.md`・`viewtube-register-eco-vt-232.yaml`・`viewtube-33-known-limits-lines.txt`・`viewtube-31-kbom-measured-lines.txt`)。
+  (r4 の訂正: この行は r1 の写し 2 本〔`viewtube-32-mbom-invariant-lines.txt` 60 行・現存せず〕のままだった— 独立検査 r3〔IA-07〕。r1 → r2 → r3 の変遷は §6 にある。)
   測定で起票の文の数値を 2 か所訂正した(起票 commit の前): As-Built のエントリは 5 件でなく 8 件 / Control Plan の「15 件のうち 7 件」は、受入の特性 42 件(15 の検査行に付く)のうち 7 件。DECIDE で示した「15 件のうち 7 件」は後者の誤りで、order・register・improvements・playbook の文は訂正後の値である。
 
 ## 5. 受入の実測(2026-10-07・製造者)
@@ -123,3 +125,11 @@ C1(YAML 厳格パース)PASS のまま(33 の新しい欄は空のリスト)・C
 - **処置(r3・本 commit)**: 測定の台本を r3 に(`count_records.py`: 両製品の M-BOM を PyYAML で読み、`invariants` の全要素を英日の語彙で数え、全要素の写しを置く。ViewTube の記録句の由来 26 号の本文と台帳の有無と語彙を数え、ECO-VT-232 の本文と台帳の項を写す。写し 7 本の sha256 を記録)。
   r3 で分かった r2 の誤り: r2 の「60 件・全件が ECO 番号で始まる」は引用符つきの項目だけの数で、`invariants` は 128 要素(ECO 番号で始まるのは 87)。数値を order §0.2・register・improvements・playbook §4.5 ④で訂正し、
   ECO 本文の主張を計数(26 号すべてに本文と台帳・本文 26 本中 実測値 26・所見 26・未検査の注記 13・裁定 20)に、ViewPrism2 の主張を計数(63 件中 ECO 番号を含む 15・裁定 1・実測値/所見/未検査 0)に置き換えた。製造物の形は不変。r3 の検査は本 commit を対象に行う。
+
+### 6.3 r3(2026-10-07・境界探索・対象 b5592120)— **REJECT**(blocking 3・order の文だけ)
+
+- 報告= [independent-inspection-r3.md](reports/eco-102-record-clause-home/independent-inspection-r3.md)。写し 7 本の sha256 一致・全要素の写しからの再計数が両製品とも一致(128/87/87/17/54/5/14・63/0/15/0/0/0/1)・26 号の本文と台帳の有無が一致。IA-01〜04 CLOSED。項目 1・2・4・5・6 PASS、項目 3 FAIL。
+- **IA-05(open・blocking)**: order §0.3 の「実測値・所見・由来の正本は今でも ECO 本文と台帳が完全に持つ」は、記録(本文 26 本が語を含む・台帳の項がある)より強い。
+- **IA-06(open・blocking)**: order §1 の「ViewPrism2 は由来のみ」は、裁定の語 1 件と矛盾する排他の表現。
+- **IA-07(blocking)**: order §4 の測定の記録の行が r1 の写し 2 本(現存せず)のままで、r3 の 7 本と食い違う。
+- **処置(r4・本 commit)**: order の 3 文を計数の文に置き換え、または現状に合わせた(§0.3 の A・§1 の 1・§4 の測定の記録の行)。凍結した §1 の文は訂正の注記つきで直し、要求の内容は変えていない。playbook・テンプレ・register・improvements は r3 のまま(r3 で既に計数の文)。r4 の検査は本 commit を対象に行う。
