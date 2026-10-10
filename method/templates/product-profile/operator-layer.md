@@ -106,7 +106,7 @@ equipment:
 2. 変更指示書(`bomdd/60-change-order-eco-NNN.md`)の「担当設備」節: `- producer: EQ-NNN` / `- inspector: EQ-NNN`。
 
 `inspector` を書いた変更は「独立検査が要る」と宣言したことになり、その結果(§6 の判定語)が回収されるまで verified に上げない(§2 `INSPECTION_MISSING`)。
-`inspector` を書かない変更は製造者の自己較正だけで閉じる(それが許される変更かどうかは変更管理の規律が決める)。
+`inspector` を書かない変更は製造者の自己較正だけで閉じる(それが許される変更かどうかは変更管理の規約〔`change-management.md` の R8〕が決める。`inspector` は §4 の設備の独立の欄で、同じ設備の別の文脈による見直し〔R8 の既定〕はここに書かない)。
 
 ## 6. 判定語の契約(検査報告の先頭)
 

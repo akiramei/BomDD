@@ -94,6 +94,19 @@ self-conformance の判定は不変の見込み(C4〔bomdd-init 生成物の par
 - 検証した主張(実測): §0.1〜0.4 の file:line(`measurements.txt` M1〜M4)。
 - 未収束事項: 文脈の独立で足りるかは未測定(EXP で測る)。round 3 の後の確認周は行っていない(裁定 A)。
 
-## 4. 製造
+## 4. 製造(2026-10-10・製造者 EQ-004)
 
-(次の commit で記録する。)
+- 起票 commit `c41838a` の後に製造した。製造物は 3 ファイル(`git diff --numstat`: 追加 17 行・削除 2 行 — 新しい行 15 と、書き換えた行 2〔description・:109〕)。
+  - キット `change-management.md`: §2 の R7 の直後に R8 の項(10 行・`@@ -48,0 +49,10 @@` の 1 hunk)。
+  - キット `skills/eco-fix.md`: 手順 3.6(5 行)と、frontmatter の description に「→独立レビュー(R8・src/test に触れた fix)」(1 行の変更)。
+  - キット `operator-layer.md:109`: 委ね先を「変更管理の規約〔`change-management.md` の R8〕」と名指しにし、`inspector` が §4 の設備の独立の欄であることを添えた(1 行の変更)。
+- 配布先の配置を確かめた: `bomdd-init.py:320-321` は `change-management.md` と `operator-layer.md` を製品リポの同じ `bomdd/` に置く。R8 の中の `operator-layer.md` §4 への参照は、配布先で解決する。
+- 受入の実測の器具 `bomdd/reports/eco-103-r8-independent-review/accept103.sh`、出力 `accept-output.txt`。
+
+## 5. 受入の実測(2026-10-10・製造者)
+
+- V1 結果: R8 の項の中に 7 句がすべてある(`R8` 4 行・`文脈の独立` 2・`設備の独立` 3・`R8 対象外` 1・`inspector` 1・`ECO-103` 1・`未測定` 1)。change-management.md の hunk は `@@ -48,0 +49,10 @@` の 1 つで、削除行は 0。R1〜R7・§0・§1・§3〜§5(ECO-079 の §4 の段落を含む)は変わっていない。— **PASS**
+- V2 結果: 3.6 の中に `R8` 3 行・`停止点に進まない` 1・`R8 対象外` 1。hunk は description の 1 行(`@@ -3 +3 @@`)と 3.6 の追加(`@@ -34,0 +35,5 @@`)だけ。frontmatter は PyYAML で読め(キー `description`・`name`)、description に `R8` がある。— **PASS**
+- V3 結果: operator-layer.md の hunk は `@@ -109 +109 @@` の 1 つ。§4(:89-99)は基準と同一。— **PASS**
+- V6 結果(製造の時点): 基準 `c41838a` からの diff は 3 ファイルだけ(すべて allowed_paths)。self-conformance は exit 0「全検査合格」(commit の前に観測)。CI は push の後に観測する。
+- V4・V5・V7: 異系統の独立検査で観測する(未了)。V8・V9: クローズで観測する。
