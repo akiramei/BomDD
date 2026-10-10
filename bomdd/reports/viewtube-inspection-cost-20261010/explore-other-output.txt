@@ -1,0 +1,38 @@
+script (other .ps1/.sh/.py)          n=711   min=  196.4
+poll_wait (until/sleep loops)        n=50    min=   48.3
+misc                                 n=1572  min=   46.3
+git (non-commit)                     n=463   min=   22.4
+cleanup (delete/worktree remove)     n=39    min=   21.1
+worktree/checkout                    n=30    min=    3.8
+
+-- other: 待ちの長い順 30 件 --
+2026-10-09T00:43:02   602s Remove-Item -Recurse -Force 'C:\Users\akira\AppData\Local\Temp\claude\C--Users-akira-source-repos-ViewTube\c27366a2-2e25-4041-8353-4edee5a58ef9\scratchpad\walks244'; & 'C
+2026-10-08T00:35:35   591s until [ -s "$TEMP/diag240.txt" ] && [ $(wc -l < "$TEMP/diag240.txt") -ge 7 ]; do sleep 10; done; cat "$TEMP/diag240.txt"
+2026-10-08T16:01:31   394s cd "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9" && until [ -s scratchpad/commit-harness243c.out ] 
+2026-10-08T15:03:51   369s cd "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad" && export VT_MOCK="$(pwd -W)/work-base/
+2026-10-08T14:58:01   336s f="C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/outB/verify.out"; until grep -q "^real" "
+2026-10-09T01:54:03   258s R=/c/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/r244; python $R/mkmutants.py "C:/Users/aki
+2026-10-08T15:14:45   246s cd "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad"; export PYTHONSAFEPATH=1 VT_MOCK="$(pwd
+2026-10-08T15:14:21   246s cd "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad" && export VT_MOCK="$(pwd -W)/work-B/vie
+2026-10-08T03:59:42   222s cd C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/rv && for i in $(seq 1 22); do if grep -q
+2026-10-08T15:06:05   221s cd C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad; for i in $(seq 1 55); do grep -q "not as
+2026-10-09T13:13:13   220s Set-Location 'C:\Users\akira\source\repos\ViewTube' | "app: $(@(Get-Process ViewTube.App -ErrorAction SilentlyContinue).Count)" | & 'C:\Users\akira\AppData\Local\Temp\claude\
+2026-10-08T15:27:23   215s cd "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9" && until grep -q "manifest, review" scratchpad/bui
+2026-10-08T20:39:18   214s git status --short | grep -v acceptance-runs | head; bash "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58
+2026-10-09T02:03:36   207s R=/c/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/r244; bash $R/probe-mut.sh "*R8Probe244Tes
+2026-10-09T06:23:18   203s bash /c/Users/akira/AppData/Local/Temp/vt244r4/tools/walks.sh 2>&1
+2026-10-09T04:09:32   195s until grep -q "=====" /c/Users/akira/AppData/Local/Temp/vt244r2/mutants-r2.log; do sleep 5; done; sed -n '/=====/,$p' /c/Users/akira/AppData/Local/Temp/vt244r2/mutants-r2
+2026-10-09T06:36:56   183s D=test-results/eco-vt-244-keyboard-gaps-found-by-the-paired-walks && sed -i 's/\r$//' $D/supervised-run*.txt && for f in $D/*.txt $D/*.py $D/*.sh $D/walks-after/*/*.json;
+2026-10-09T04:16:15   174s cd /c/Users/akira/AppData/Local/Temp/vt244r2 && python -I survivors_r2.py 2>&1 | grep -E "^==|A3|BUILD|D2 how=small|D2 how=none"
+2026-10-07T17:40:26   161s python test-results/eco-vt-239-the-videos-heading-ignores-the-selected-collection/mock239.py && (PYTHONUTF8=1 python bomdd/ui/captures/ECO-VT-239-provisional-1/build_evid
+2026-10-09T01:28:05   161s cd /c/Users/akira/source/repos/ViewTube && bash "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratc
+2026-10-08T07:02:12   156s D=test-results/eco-vt-213-a-drawn-dialog-state-has-no-actual-capture && P=bomdd/ui/captures/ECO-VT-213-provisional-4 && sha256sum $P/*.png $P/repeat/*.png $P/manifest.jso
+2026-10-09T02:39:22   155s cd /c/Users/akira/source/repos/ViewTube && SP=C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpa
+2026-10-08T06:59:33   150s D=test-results/eco-vt-213-a-drawn-dialog-state-has-no-actual-capture && python $D/cad213e.py 2>&1 | grep -v "Counter\|ViewTube.Acceptance"; git diff --stat bomdd/ui/mock/
+2026-10-09T12:37:29   149s $s='C:\Users\akira\AppData\Local\Temp\claude\C--Users-akira-source-repos-ViewTube\c27366a2-2e25-4041-8353-4edee5a58ef9\scratchpad\r3' | pwsh -NoProfile -File "$s\mut3.ps1" 
+2026-10-08T08:48:57   146s cd "$(cygpath -u "$TEMP")/r8-223-review" && git status --short -- src; python mut.py 2>&1 | tee mut-out.txt
+2026-10-07T23:27:07   133s bash /c/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/validate239.sh test-results/eco-vt-239-
+2026-10-09T03:51:40   129s git add test-results/eco-vt-244-keyboard-gaps-found-by-the-paired-walks && bash "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e
+2026-10-08T15:12:28   128s F="C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/work-C/verify.out"; until grep -q "not as
+2026-10-08T04:46:42   126s S=/c/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad && E=test-results/eco-vt-241-the-folded-ra
+2026-10-08T20:52:29   123s F=test-results/eco-vt-224-deleting-a-view-or-a-tag-asks-nothing-first/accept224.py && sed -i 's/第 6 節で、実画面で見ると残してあったもの/独立レビュー第一回の F7 が、実画面の承認で見ると残したもの/' $F && grep -c "独立

@@ -1,0 +1,14 @@
+==================== 2026-10-08T08:37:12.604Z 349 s ce-repos-ViewTube\c27366a2-2e25-4041-8353-4edee5a58ef9.jsonl
+CMD: git add tools/ViewTube.CaptureHarness/Program.cs tools/ViewTube.CaptureHarness/capture-plans.txt && git commit -F "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/msg213i.txt" > /c/Users/akira/AppData/Local/Temp/c213i.log 
+[bomdd] capture-plan sweep: a path that can strand a plan is staged (product, harness, fixture manifest or file, root build input, runner or hook) - building the harness and running every plan
+capture-plan sweep: 18 plans from the harness this build wrote (--list-plans), measuring the index being committed, scratch C:\Users\akira\AppData\Local\Temp\viewtube-capture-sweep-nemaw26_
+capture-plan sweep: FAIL - 18 plans, 17 passing, 1 failing, 126 states captured, 237 s including the build, measuring the index being committed
+[bomdd] a capture plan does not run to its end against the working tree; commit blocked
+741a19d0 fix(eco-vt-223): a dialog's Tab cycle stops at the controls that can ta
+==================== 2026-10-08T08:43:06.988Z 1 s ce-repos-ViewTube\c27366a2-2e25-4041-8353-4edee5a58ef9.jsonl
+CMD: grep -n -B2 -A12 "FAIL\|failing\|failed\|exception\|Exception" /c/Users/akira/AppData/Local/Temp/c213i.log | cut -c1-240 | head -60
+33-  eco-vt-213-node-walks-v1             -      14        THE MANIFEST NAMES ANOTHER PLAN: 'eco-vt-213-node-dialog-v1'
+34-  ------------------------------------------------------------------------------------------------
+35:capture-plan sweep: FAIL - 18 plans, 17 passing, 1 failing, 126 states captured, 237 s including the build, measuring the index being committed
+36-[bomdd] a capture plan does not run to its end against the working tree; commit blocked
+37-        run: python tools/sweep-capture-plans.py

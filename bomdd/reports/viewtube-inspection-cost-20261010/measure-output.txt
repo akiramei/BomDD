@@ -1,0 +1,91 @@
+window since 2026-10-07T00:00:00Z; transcript files 299; tool calls in window 4015
+
+== Q1 待ち時間(分)— 分類ごと・本体/サブエージェント ==
+category                main n  main min   sub n   sub min   share
+commit                     187     502.3       0       0.0   39.3%
+other                     1473     182.7    1386     155.4   26.4%
+validate                   177     146.3      34      16.5   12.7%
+mutation                    59     115.7      20       8.4    9.7%
+targeted_test              129      46.3      81      36.2    6.5%
+capture                    203      32.8      90      11.1    3.4%
+supervised                  20      13.1       2       0.0    1.0%
+build                       13       3.6      27       7.3    0.9%
+wait:other                  70       0.7      31       0.3    0.1%
+wait:capture                 8       0.1       0       0.0    0.0%
+sweep                        2       0.0       2       0.0    0.0%
+total (<= 3600s) 1278.9 min; human_wait excluded: 1 calls, 295.0 min
+
+== Q2 commit とフックの全計画 ==
+sweep      n=6    sum_min=   36.7 median_s=   349
+no_sweep   n=20   sum_min=   45.9 median_s=   113
+unknown    n=161  sum_min=  419.8 median_s=   161
+Q2b landed commits since 2026-10-07T00:00:00Z: 168; matching the sweep pattern: 14
+   accept     sweep=False 19
+   cad        sweep=False 7
+   chore      sweep=False 2
+   dist       sweep=False 12
+   file       sweep=False 10
+   fix        sweep=False 12
+   fix        sweep=True  14
+   log        sweep=False 1
+   probe      sweep=False 77
+   record     sweep=False 14
+
+== Q3 門が止めた呼び出し ==
+calls whose output contains "commit blocked": 30
+  11  [bomdd] process integrity failure; commit blocked
+   6  [bomdd] record-language failure; commit blocked
+   5  [bomdd] probe protocol: this commit does not satisfy the probe protocol; commit blocked
+   3  [bomdd] a record cites a run directory the tree does not hold; commit blocked
+   2  [bomdd] record-consistency failure; commit blocked
+   2  [bomdd] change-impact closure failure; protected commit blocked
+   1  [bomdd] a capture plan does not run to its end against the working tree; commit blocked
+   1  36-[bomdd] a capture plan does not run to its end against the working tree; commit blocked
+   1  [bomdd] release-workflow ownership failure; commit blocked
+   1  [bomdd] materialisation divergence; commit blocked
+
+== Q4 全体の受け入れテスト(acceptance-runs)==
+runs in window: 16; with failed>0: 2
+   run-20261007T041037932Z-b5366586 1087 1 1
+   run-20261007T063919094Z-696f0814 1092 0 1
+   run-20261007T110533862Z-ee1aecf9 1104 0 1
+   run-20261007T120441282Z-01076ed9 1104 0 1
+   run-20261007T125009500Z-3e164df4 1107 0 1
+   run-20261007T151956850Z-61c21d52 1117 0 1
+   run-20261007T185409735Z-82d974c8 1125 0 1
+   run-20261008T013857479Z-1e2030f8 1134 0 1
+   run-20261008T042605217Z-7f7818e8 1145 0 1
+   run-20261008T093257805Z-f059710a 1152 0 1
+   run-20261008T180835003Z-f553faa5 1152 0 1
+   run-20261009T024235848Z-c08274d1 1160 12 1
+   run-20261009T034146275Z-315963fc 1160 0 1
+   run-20261009T050103875Z-c41dc76a 1167 0 1
+   run-20261009T055721857Z-bb3ad6a6 1168 0 1
+   run-20261009T131739282Z-d8da7757 1168 0 1
+
+== 参考: 待ちの長い呼び出し 上位 25(human_wait を除く)==
+2026-10-09T00:43:02    602s main other            Remove-Item -Recurse -Force 'C:\Users\akira\AppData\Local\Temp\claude\C--Users-akira-source-repos-ViewTube\c27366a2-2e25-4041-8353-4edee5a58ef9\scratc
+2026-10-08T00:35:35    591s main other            until [ -s "$TEMP/diag240.txt" ] && [ $(wc -l < "$TEMP/diag240.txt") -ge 7 ]; do sleep 10; done; cat "$TEMP/diag240.txt"
+2026-10-09T05:29:48    587s main mutation         D=test-results/eco-vt-244-keyboard-gaps-found-by-the-paired-walks && cp src/ViewTube.App/Controls/ViewTubeVideoGrid.cs /tmp/grid.v4.cs && git stash pu
+2026-10-09T06:40:30    541s main commit           time git commit -q -F "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/m
+2026-10-08T08:24:48    435s main commit           D=test-results/eco-vt-223-assignment-dialog-tab-cycle-breaks-at-a-disabled-button && python C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-so
+2026-10-07T13:01:54    433s main commit           S=/c/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/a35f4792-a3ea-459a-9a40-5e71b821fe7c/scratchpad && (time git commit -F
+2026-10-08T04:49:50    420s main commit           git commit -F /c/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/msg241fix.
+2026-10-07T16:19:39    419s main commit           git add bomdd/process/change-impact/ECO-VT-235.yaml && python bomdd/tools/validate_change_impact.py --prospective-index 2>&1 | tail -3 && time git com
+2026-10-09T13:05:53    418s main mutation         Set-Location 'C:\Users\akira\source\repos\ViewTube' | & 'C:\Users\akira\AppData\Local\Temp\claude\C--Users-akira-source-repos-ViewTube\c27366a2-2e25-404
+2026-10-07T05:47:00    414s main commit           S=/c/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/a35f4792-a3ea-459a-9a40-5e71b821fe7c/scratchpad && git status --short 
+2026-10-09T12:59:00    403s main mutation         Set-Location 'C:\Users\akira\source\repos\ViewTube' | & 'C:\Users\akira\AppData\Local\Temp\claude\C--Users-akira-source-repos-ViewTube\c27366a2-2e25-404
+2026-10-07T06:59:14    402s main commit           S=/c/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/a35f4792-a3ea-459a-9a40-5e71b821fe7c/scratchpad && (time git commit -F
+2026-10-08T02:22:52    402s main commit           git commit -F /c/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/msg240fix.
+2026-10-09T13:24:57    398s main mutation         Set-Location 'C:\Users\akira\source\repos\ViewTube' | & 'C:\Users\akira\AppData\Local\Temp\claude\C--Users-akira-source-repos-ViewTube\c27366a2-2e25-404
+2026-10-07T23:32:43    397s main commit           M=/c/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/msg239fix.txt && sed -
+2026-10-08T16:01:31    394s main other            cd "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9" && until [ -s scratchpad/commi
+2026-10-08T15:03:51    369s sub  other            cd "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad" && export VT_MOCK="
+2026-10-07T23:12:23    365s main capture          D=/c/Users/akira/source/repos/ViewTube/test-results/eco-vt-239-the-videos-heading-ignores-the-selected-collection; until tail -1 $D/all-plans-compare.
+2026-10-08T08:37:12    349s main commit           git add tools/ViewTube.CaptureHarness/Program.cs tools/ViewTube.CaptureHarness/capture-plans.txt && git commit -F "C:/Users/akira/AppData/Local/Temp/c
+2026-10-09T12:52:55    346s main mutation         Set-Location 'C:\Users\akira\source\repos\ViewTube' | & 'C:\Users\akira\AppData\Local\Temp\claude\C--Users-akira-source-repos-ViewTube\c27366a2-2e25-404
+2026-10-08T14:58:01    336s sub  other            f="C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad/outB/verify.out"; unt
+2026-10-09T04:38:17    330s main mutation         D=test-results/eco-vt-244-keyboard-gaps-found-by-the-paired-walks && git stash push -q -- src/ViewTube.App/Controls/ViewTubeVideoGrid.cs && bash $D/ru
+2026-10-08T08:43:27    328s main commit           git add tools/ViewTube.CaptureHarness/Program.cs tools/ViewTube.CaptureHarness/capture-plans.txt && git commit -F "C:/Users/akira/AppData/Local/Temp/c
+2026-10-08T10:09:48    327s main commit           git commit -q -F - <<MSG 2>&1 | grep -E "FAIL|blocked|ERROR|\[main" | cut -c1-200; git log --oneline -n1 | cut -c1-110 | file(eco-vt-243): the 22 drawn 
+2026-10-09T13:55:37    325s main commit           S=C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-ViewTube/c27366a2-2e25-4041-8353-4edee5a58ef9/scratchpad && python -c " | import 
