@@ -1,0 +1,19 @@
+### ViewTube bomdd/process/change-management.md:103-117
+### R8 — Independent review before user golden
+
+Any product-source change receives a fresh-context independent review. Classify all findings.
+Open in-scope findings block golden and return to R5. Out-of-scope findings follow R3. Record the
+review identity, findings, and disposition in the ECO evidence.
+
+### R9 — Risk-weighted impact closure before golden
+
+Beginning with ECO-VT-055, UI and UI-inspection changes covered by
+`change-impact-policy.yaml` carry a versioned semantic change-impact manifest. Inventory the
+changed semantic parts and their direct/dependent consumers before probe manufacture. At the
+`implemented` transition every required consumer must have operating evidence; unresolved and
+deferred required work must both be zero. A fresh-context reviewer reconstructs the boundary and
+reviews exclusions independently from the manufacturer.
+
+
+### ViewTube AGENTS.md:23
+7. Product-source changes require an independent fresh-context review before user golden.

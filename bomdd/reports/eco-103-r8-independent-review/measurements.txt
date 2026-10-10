@@ -1,0 +1,27 @@
+# ECO-103 measurements — 2026-10-10T12:47:15+09:00
+BomDD HEAD: 810b4422d7fbe8ba52fd90d76e627dda540c2130
+ViewTube HEAD: f0ea459a2ab1113582b03069b11760bad028f42a  status: ## main...origin/main [ahead 5]
+ViewPrism2 HEAD: 883cb08c3f26c6a40492c3247d426ef6ee72dc99  status: ## main...origin/main
+
+## M1 ViewTube の R8(写し: viewtube-r8.txt)
+source sha256: 06855fab2644040b45df081bd801c3a2f0972bcca3bfac4c14c7a1eb2aaa0702  change-management.md
+source sha256: f3fdf17b36d6f7bde8d3ee2fca8a4af373e2c3b9952aece4c9bd5fe28dbe4287  AGENTS.md
+
+## M2 ViewPrism2 の R8(写し: viewprism2-r8.txt)
+source sha256: a4b7cd9ecd3d69863825e617e6ae5a3787b82be76f94ec764593773f538f5097  eco-fix/SKILL.md
+
+## M3 配布キットの現状(BomDD・grep)
+kit eco-fix.md の R8|独立|fresh|異系統|セルフレビュー: 0
+kit change-management.md の 独立|independent|R8: 1
+  (内訳: 該当行)
+97:**独立append-only受入証拠レイヤー**として扱う。Control Planの拡張・合成ではない。
+kit operator-layer.md:109 = `inspector` を書かない変更は製造者の自己較正だけで閉じる(それが許される変更かどうかは変更管理の規律が決める)。
+kit operator-layer.md §4 不成立の条件 2 = 2. 3 軸(model / harness / account_lineage)がすべて一致
+
+## M4 BomDD 自己適用の配員(register)
+inspector: EQ- の行数: 7
+receipt_author_role の値:      24 receipt_author_role: producer 
+
+## 写しの sha256
+956f3283993fc2618358d437bc5870cba52c2e9a35b544366e8ba623da536a48 *bomdd/reports/eco-103-r8-independent-review/viewtube-r8.txt
+872454cd8e0d9c502e8e084fcc20ae0ee6f4f4800b9b5a0ba7d9774b75ee402d *bomdd/reports/eco-103-r8-independent-review/viewprism2-r8.txt
