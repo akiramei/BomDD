@@ -1,0 +1,8 @@
+python -c 'import yaml'          rc=0     0.1s | 
+validate_process --quiet         rc=0   109.8s | [bomdd] gate inventory: 18 validators reconciled against the census
+validate_release_workflow        rc=0     2.0s | PASS (0 findings) over 1876 paths with an active owner, 120 of them colliding
+validate_run_evidence            rc=0     0.1s | run-evidence validator: PASS (0 findings)
+validate_record_citations        rc=0     0.2s | record-citations validator: PASS (0 findings) no record was staged; this run measured nothing
+validate_mcp_host_location       rc=0     0.1s | mcp-host-location validator: PASS (0 findings) over 1 configured MCP server commands
+git checkout-index --all         rc=0    11.8s | 
+rm -rf (checkout copy)                    2.4s

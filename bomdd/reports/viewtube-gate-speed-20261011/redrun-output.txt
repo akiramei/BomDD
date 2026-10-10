@@ -1,0 +1,20 @@
+[SAME] A record_consistency / as committed  (25.6s vs 0.8s)
+    original: []
+[SAME] A record_consistency / lifecycle_transition_performed flipped (known-bad)  (25.2s vs 0.8s)
+    original: [{'code': 'POLICY_LIFECYCLE_ASSERTION_FALSE', 'state': 'contract_violation', 'eco': 'policy', 'statement': "the policy's lifecycle_transition_performed assertion matches the register's states across the baseline it names", 'measures': 'per-ECO status comparison of the register blob across the named baseline', 'comparands': ['release-workflow-policy.yaml#record_integrity_correction.lifecycle_transition_performed', 'git:6c39638:change-register.yaml'], 'observed': {'asserted': True, 'moved': {}, 'baseline': '6c39638'}, 'limit': 'it compares the register only; a lifecycle claim recorded elsewhere is not seen'}]
+[SAME] A record_consistency / validator_rule_changed flipped (known-bad)  (24.1s vs 0.9s)
+    original: [{'code': 'POLICY_SAFETY_ASSERTION_FALSE', 'state': 'contract_violation', 'eco': 'policy', 'statement': "the policy's validator_rule_changed assertion matches the validator's bytes at the baseline it names", 'measures': 'blob-byte comparison of the validator across the named baseline', 'comparands': ['release-workflow-policy.yaml#record_integrity_correction.validator_rule_changed', 'git:6c39638:bomdd/tools/validate_release_workflow.py'], 'observed': {'asserted': True, 'bytes_changed': False, 'baseline': '6c39638'}, 'limit': 'it compares the validator file only; a rule changed elsewhere is not seen'}]
+[SAME] A record_consistency / empty before, unparsable after
+    original: []
+[SAME] A record_consistency / entries before, unparsable after
+    original: raised ParserError
+    B selftest_machinery_claims with original module: exit=0 | selftest_machinery_claims: PASS (27/27 arms)
+    B selftest_machinery_claims with patched module: exit=0 | selftest_machinery_claims: PASS (27/27 arms)
+[SAME] B machinery_claims / qualification suite output
+    original: (0, "  ok   clean: []\n  ok   bound_entry_without_a_declaration: ['MACHINERY_CLAIMS_MISSING']\n  ok   an_entry_that_changes_no_machinery_is_not_bound: []\n  ok   an_inactive_entry_is_not_bound: []\n  ok   exempt_entry_without_a_declaration_is_silent: []\n  ok   exemption_stale_when_it_declares: ['MACHINERY_CLAIM_EXEMPTION_STALE']\n  ok   a_claim_without_a_probe: ['MACHINERY_CLAIM_FIELD_MISSING']\n  ok   a_probe_that_does_not_exist: ['MACHINERY_CLAIM_PROBE_ABSENT']\n  ok   a_carrier_that_does_not_exist: ['MACHINERY_CLAIM_CARRIER_ABSENT']\n  ok   a_carrier_that_does_not_carry_the_claim: ['MACHINERY_CLAIM_NOT_IN_CARRIER']\n  ok   an_undeclared_carrier_is_found: ['MACHINERY_CLAIM_CARRIER_UNDECLARED']\n  ok   the_commit_message_carrier_is_not_looked_for_on_disk: []\n  ok   a_claim_wrapped_across_lines_is_still_found: []\n  ok   emphasis_inside_the_claim_does_not_hide_it: []\n  ok   japanese_emphasis_does_not_hide_it_either: []\n  ok   policy_file_supplies_the_bound_prefixes: ['MACHINERY_CLAIMS_MISSING']\n  ok   policy_file_supplies_the_bound_states: ['MACHINERY_CLAIMS_MISSING']\n  ok   policy_file_supplies_the_required_fields: ['MACHINERY_CLAIM_FIELD_MISSING']\n  ok   policy_file_supplies_the_exemptions: 0\n  ok   payload_is_parseable_json: True\n  ok   payload_reports_the_finding_count: 1\n  ok   payload_names_the_code: ['MACHINERY_CLAIMS_MISSING']\n  ok   payload_counts_bound_entries: 1\n  ok   exit_code_is_1_on_a_finding: 1\n  ok   exit_code_is_0_when_clean: 0\n  ok   payload_is_not_applicable_without_impacted_files: False\n  ok   records_without_policy_still_block: True\n  ok   arm_inventory: all 27 declared arms ran, in order\nselftest_machinery_claims: PASS (27/27 arms)\n")
+[SAME] D process history / real register  (17.6s vs 1.0s)
+    original: [0]
+[SAME] D process history / register + 2 known-bad ids  (18.9s vs 1.3s)
+    original: [('ACCEPT_HISTORY_MISSING', 'ECO-VT-100: accept trailer not found in git history'), ('ACCEPT_HISTORY_MISSING', 'ECO-VT-999: accept trailer not found in git history'), ('FIX_HISTORY_MISSING', 'ECO-VT-999: fix trailer not found in git history'), 29]
+
+TOTAL: 8/8 SAME
