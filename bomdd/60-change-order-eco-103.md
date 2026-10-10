@@ -18,7 +18,9 @@
 - 委ね先の変更管理の規約(キット `change-management.md`)には、独立レビュー・独立検査の要否の条文が無い。`独立|independent|R8` の該当は 1 行で、受入証拠レイヤーの語(:97)だけ(`measurements.txt` M3)。
 - キットの是正スキル(`skills/eco-fix.md`)にも独立レビューの段が無い(`R8|独立|fresh|異系統|セルフレビュー` 0 件・M3)。
 
-### 0.2 製品が別々に置いた同じ規則(写しと sha256 は `bomdd/reports/eco-103-r8-independent-review/`)
+### 0.2 製品がそれぞれ別に置いた見直しの規則(写しと sha256 は `bomdd/reports/eco-103-r8-independent-review/`)
+
+(r1 の訂正: 見出しは起票時「製品が別々に置いた同じ規則」だった。対象の範囲の表記は製品ごとに違い〔ViewTube= product-source の変更 / ViewPrism2= src に触れた fix〕、「同じ」は写しより強い — 独立検査 r1 IA-01。)
 
 - ViewTube `bomdd/process/change-management.md:103-107` R8「Any product-source change receives a fresh-context independent review」・`AGENTS.md:23`(写し `viewtube-r8.txt`。ViewTube は origin より 5 commit 先行で未 push のため写しを置いた)。
 - ViewPrism2 `.claude/skills/eco-fix/SKILL.md:55-64` 手順 3.7「セルフレビュー(R8・src に触れた fix は必須)」。独立性の担保は「fix を書いたコンテキストと別の fresh context」。文書のみ・機械的 1 行変更は「R8 対象外」を宣言して省略できる。入れた commit は c49286a(2026-07-18)(写し `viewprism2-r8.txt`)。
@@ -47,11 +49,11 @@
 1. キット `method/templates/product-profile/change-management.md` §2 に **R8** を加える(R7 の後・candidate・ECO-103)。
    - 保護パス(`src/`・`test/`)に触れる ECO は、golden の提示(golden n/a なら受入の依頼)の**前**に、製造した文脈と別の新しい文脈で diff を見直す。
    - 所見は全列挙して処置する(スコープ内= R5 へ / スコープ外= R3)。未処置のスコープ内所見が 0 になるまで停止点へ進まない。
-   - 文書のみ・機械的な 1 行変更は「R8 対象外」を宣言して省略できる。宣言は製造者が書く(自分の判断であることが記録に残る形)。
+   - 文書のみの変更、または機械的な 1 行の変更は「R8 対象外」を宣言して省略できる。宣言は製造者が書く(自分の判断であることが記録に残る形)。(r1 の訂正: 起票時は「文書のみ・機械的な 1 行変更」で、「または」か「かつ」かが一意でなかった — 独立検査 r1 IA-02。ViewPrism2 の原文〔doc-only・機械的 1 行変更〕の 2 類型の意に合わせた。要求の内容は変えていない。)
    - **独立の 2 段**: 文脈の独立(R8 の既定。同じ設備の別の新しい文脈でよい)/ 設備の独立(運転層の規約 §4。異系統)。設備の独立は playbook §3 の場合に要る。
    - レビューの記録には、どちらの独立かとレビューした設備を書く。設備の独立でないレビューを register の `inspector` に書かない(§4 で不成立になる)。
    - R4 の人の関門は増やさない。1 人が要求者・裁定者・golden 承認者を兼ねてよいが、それを独立した人の承認とは主張しない。
-   - 由来(2 製品が別々に同じ規則を置いた)と、未測定(文脈の独立で足りるか)を併記する。
+   - 由来(2 製品がそれぞれ別に、製品コードの変更を別の新しい文脈で見直す規則を置いた・対象の表記は製品ごとに違い、`test/` を含めるのは本 R8 の決め)と、未測定(文脈の独立で足りるか)を併記する。(r1 の訂正: 起票時は「2 製品が別々に同じ規則を置いた」— 独立検査 r1 IA-01。要求の内容は変えていない。)
 2. キット `skills/eco-fix.md` に手順 **3.6**(R8 の段)を加え、frontmatter の description に R8 を足す。
 3. キット `operator-layer.md:109` の委ね先を「変更管理の規約 R8」と名指しにし、`inspector` が設備の独立の欄であることを添える。§4 は変えない。
 4. `method/improvements.md` に本節(記帳)と EXP(効果の測定先)を置く。
@@ -110,3 +112,16 @@ self-conformance の判定は不変の見込み(C4〔bomdd-init 生成物の par
 - V3 結果: operator-layer.md の hunk は `@@ -109 +109 @@` の 1 つ。§4(:89-99)は基準と同一。— **PASS**
 - V6 結果(製造の時点): 基準 `c41838a` からの diff は 3 ファイルだけ(すべて allowed_paths)。self-conformance は exit 0「全検査合格」(commit の前に観測)。CI は push の後に観測する。
 - V4・V5・V7: 異系統の独立検査で観測する(未了)。V8・V9: クローズで観測する。
+- **r2 の再実測**(IA-01・IA-02 の処置の後・`accept-output-r2.txt`): R8 の項は 11 行(`@@ -48,0 +49,11 @@`・削除 0)で、7 句はすべてある(`R8` 5 行・他は上と同じ)。eco-fix の hunk と句、operator-layer の hunk と §4 の不変は上と同じ。
+  `git diff --numstat c41838a`(キット): change-management 11/0・operator-layer 1/1・eco-fix 6/1(追加 18・削除 2)。上の §4 の「追加 17」と V1 の「10 行」は fab10e1 の時点の値。V1・V2・V3 は r2 でも **PASS**。
+
+## 6. 独立検査(異系統・EQ-002 Codex gpt-5.6-sol)
+
+### 6.1 r1(2026-10-10・境界探索・対象 fab10e1)— **REJECT**(blocking 1)
+
+- 報告= [independent-inspection-r1.md](reports/eco-103-r8-independent-review/independent-inspection-r1.md)(ブリーフ= `inspection-brief-r1.md`・`codex exec -s read-only -m gpt-5.6-sol -o`)。HEAD 開始/終了= fab10e1 で一致・commit 0・ファイル変更 0。写し 2 本の sha256 は measurements.txt と一致。
+- 項目 1(範囲)・2(V1・V2 の句)・4(既存の規則との整合)・5(配布の健全性)= PASS。項目 3(記録との一致)= FAIL。項目 6(言い回し)= FAIL(non-blocking)。
+- **IA-01(blocking)**: improvements.md の「両製品が別々に同じ規則(保護パスに触れる変更は…)を置いた」は写しより強い。ViewPrism2 の写しが支えるのは `src`、ViewTube は product-source で、`test/` を含むのはキットの R8 の決め。
+- **IA-02(non-blocking)**: 「文書のみ・機械的な 1 行変更」が「または」か「かつ」か一意でない。
+- **処置(r2・本 commit)**: IA-01 は、指摘の 1 か所だけでなく、同じ言い回しの全箇所(grep `同じ規則`)を直した — improvements.md の節・register の source・キット change-management R8 の由来の文・order §0.2 の見出しと §1 の 1 行(凍結した文は訂正の注記つき)。IA-02 は「文書のみの変更、または機械的な 1 行の変更」に揃えた(change-management R8・eco-fix 3.6・order §1)。要求の内容と製造物の形は変えていない。
+  r2 の検査は本 commit を対象に、同じブリーフ(対象の版と IA-01・IA-02 の処置の確認を加える)で行う。

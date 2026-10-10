@@ -1,0 +1,37 @@
+# ECO-103 accept measurements — 2026-10-10T13:18:04+09:00 — base c41838a — HEAD fab10e1
+## V1 change-management の R8
+  [R8] lines in R8 item: 5
+  [文脈の独立] lines in R8 item: 2
+  [設備の独立] lines in R8 item: 3
+  [R8 対象外] lines in R8 item: 1
+  [inspector] lines in R8 item: 1
+  [ECO-103] lines in R8 item: 1
+  [未測定] lines in R8 item: 1
+  hunks in change-management.md:
+@@ -48,0 +49,11 @@
+  removed lines (-): 0
+## V2 eco-fix の 3.6
+  [R8] lines in 3.6: 3
+  [停止点に進まない] lines in 3.6: 1
+  [R8 対象外] lines in 3.6: 1
+  hunks in eco-fix.md:
+@@ -3 +3 @@ name: eco-fix
+@@ -34,0 +35,5 @@ description: 起票済み ECO の是正実施。プローブ先行(是正前不
+  frontmatter parse OK: ['description', 'name'] R8 in description: True
+## V3 operator-layer
+  hunks:
+@@ -109 +109 @@ equipment:
+  §4 (89-99) unchanged: yes
+## V6 diff window
+bomdd/60-change-order-eco-103.md
+bomdd/60-change-register.yaml
+bomdd/reports/eco-103-r8-independent-review/accept-output.txt
+bomdd/reports/eco-103-r8-independent-review/accept103.sh
+method/improvements.md
+method/templates/product-profile/change-management.md
+method/templates/product-profile/operator-layer.md
+method/templates/product-profile/skills/eco-fix.md
+## sha256 of the three files
+8f5f13591eb44cba06f1b31e6ef3a08b1cd3020d1b31bd70a998394ecf6a7731 *method/templates/product-profile/change-management.md
+2f29d6650e2a896fa6123b8cab28d0df95ac26bea3445b1be87c239553073e31 *method/templates/product-profile/skills/eco-fix.md
+8647981f35bb8ed10fce094f02b729acbf4f5b617e9d42912dbf4d72f8670656 *method/templates/product-profile/operator-layer.md

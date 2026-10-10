@@ -3265,7 +3265,7 @@ changes:
     source: >
       user が持ち込んだ議論(方法論の「誰が」はロール)→ DISCUSS 提案 1(関門ごとの独立性の表)→ 導出: キット operator-layer.md:109 が要否を変更管理へ委ね、
       キット change-management.md と skills/eco-fix.md に独立レビューの条文・段が無い / ViewTube change-management.md:103-107 R8 と ViewPrism2 eco-fix 3.7(c49286a)が
-      別々に同じ規則(別の新しい文脈で見直す)を置いた / 運転層の規約 §4 では 3 軸一致の見直しは独立不成立(食い違い)。写しと sha256= bomdd/reports/eco-103-r8-independent-review/。
+      それぞれ別に、製品コードの変更を別の新しい文脈で見直す規則を置いた(対象の表記= product-source / src に触れた fix。test/ を含めたのはキットの決め・r1 IA-01 で訂正)/ 運転層の規約 §4 では 3 軸一致の見直しは独立不成立(食い違い)。写しと sha256= bomdd/reports/eco-103-r8-independent-review/。
     order_ref: bomdd/60-change-order-eco-103.md
     affected_refs: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/operator-layer.md]
     no_impact_prediction: "(起票時点・凍結)diff= キット change-management.md の §2 に R8 の 1 項・skills/eco-fix.md の手順 3.6 と description・operator-layer.md:109 の 1 行+台帳系+reports/eco-103-r8-independent-review/ のみ。R1〜R7・§0・§1・§3〜§5(ECO-079 の §4 の段落を含む)・operator-layer §4・tools・hooks・.github・schemas・playbook・control-plan diff 0。既存製品は不変(次回配布で波及)。"
