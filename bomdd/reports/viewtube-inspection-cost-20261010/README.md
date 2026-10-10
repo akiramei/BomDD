@@ -128,3 +128,19 @@ Monitor(背景の実行を待つ)は同じ分類を当て、`wait:` を前につ
 - **門には検出の実績がある(§4 の第 3 項)。** 30 回止め、そのうち撮影の全計画の 1 件は、道具の宣言の誤りを commit の前に捕まえた。残りは記録と工程の規則の違反である。
   時間だけを理由に門を外す根拠にはならない。問いは「同じ検出を、より少ない回数・より速い検証器で得られるか」である。
 - **全体の受け入れテストは、この窓では製品の欠陥を 0 件見つけた**(16 回中、失敗の 2 回は原因不明の 1 件と環境の推定 12 件)。ただし約 3 日(2026-10-07T00:00Z〜10-10T03:00Z 頃)・1 製品の窓であり、「全体テストは不要」を支えるには足りない。
+
+## 9. 器具と出力の sha256(リポに入った内容・LF)
+
+出力 3 本は、作業コピーでは CRLF で書かれ、commit で LF に正規化された。下の値は `git show <commit>:<path> | sha256sum` で計算した、リポの中の内容の値である。
+
+| ファイル | sha256 |
+|---|---|
+| measure.py | 779c4e50ae0967ece9be18ff77487f264c59f2ae1b74febea713e0cee9778448 |
+| explore_other.py | 86e98268f4042e7c4f6ead4c0956fe3af7b4cf3c0e7bd24a7a2dd312f9a5686a |
+| explore_detect.py | 8243f07f91970b125f0bbe04f86781ff2ef27fed565e1e5fdefd886989380b80 |
+| measure-output.txt | e975a64988ae796dd1ce9776c4b718723c233a7a0aff63a1646d8bf05a0fa84c |
+| explore-other-output.txt | 23c296d113d30204ac7381d1909d9ae04917f300cb2f81890a8c78119d63d49a |
+| explore-detect-output.txt | 6d9b7099fed9237d47b73e0d69ae9c9870d86dff0107cd0fbff049252b66ce80 |
+
+再実行: `python -I measure.py <ViewTube の transcripts のフォルダ> <ViewTube>/test-results/acceptance-runs 2026-10-07T00:00:00Z <ViewTube>`。
+transcripts は測定の後も書き足されるので、同じ窓でも、後で走らせると回数は増える(ECO-VT-246 の作業セッションが継続中)。
