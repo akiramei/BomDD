@@ -125,3 +125,37 @@ self-conformance の判定は不変の見込み(C4〔bomdd-init 生成物の par
 - **IA-02(non-blocking)**: 「文書のみ・機械的な 1 行変更」が「または」か「かつ」か一意でない。
 - **処置(r2・本 commit)**: IA-01 は、指摘の 1 か所だけでなく、同じ言い回しの全箇所(grep `同じ規則`)を直した — improvements.md の節・register の source・キット change-management R8 の由来の文・order §0.2 の見出しと §1 の 1 行(凍結した文は訂正の注記つき)。IA-02 は「文書のみの変更、または機械的な 1 行の変更」に揃えた(change-management R8・eco-fix 3.6・order §1)。要求の内容と製造物の形は変えていない。
   r2 の検査は本 commit を対象に、同じブリーフ(対象の版と IA-01・IA-02 の処置の確認を加える)で行う。
+
+### 6.2 r2(2026-10-10・是正確認+回帰・対象 4cf6304)— **ACCEPT**
+
+- 報告= [independent-inspection-r2.md](reports/eco-103-r8-independent-review/independent-inspection-r2.md)(ブリーフ= `inspection-brief-r2.md`)。HEAD 開始/終了= 4cf6304 で一致・commit 0・ファイル変更 0。写し 2 本の sha256 一致。
+- 項目 1〜6 すべて PASS。IA-01・IA-02 は **CLOSED**。新しい所見なし。
+- range を「是正確認+回帰」にしたのは受理側(製造者)の判断である(playbook §3: ACCEPT はこの range でしか得られず、探索の打ち切りは受理側の責務)。境界探索は r1 の 1 round だけで、その後の探索はしていない(§7 の「支持しないもの」)。
+
+## 7. クローズ(2026-10-10・verified・異系統の独立検査 r2 ACCEPT)
+
+- 窓: 基準 `810b442` → 起票 `c41838a` → 製造 `fab10e1` → r1 の処置 `4cf6304`(diff_audit.head)。窓内の差分は allowed_paths だけ(独立検査 r2 項目 1)。CI= fab10e1: 38023037799 success / 4cf6304: 38023952222 success。クローズ commit の CI は push の後に観測する。
+- 受入条件の結果:
+  - V1 結果: PASS(§5・r2 の再実測)。
+  - V2 結果: PASS(§5)。
+  - V3 結果: PASS(§5)。
+  - V4 結果: PASS(独立検査 r2 項目 3 — §0 の事実が写し・measurements.txt・BomDD の記録と一致・記録より強い主張なし。r1 の IA-01 は処置済み)。
+  - V5 結果: PASS(独立検査 r2 項目 4)。
+  - V6 結果: PASS(窓・self-conformance exit 0 の観測後に各 commit・CI success 2 件)。
+  - V7 結果: PASS(r2 ACCEPT)。
+  - V8 結果: 下の較正 receipt。
+  - V9 結果: improvements.md の節と EXP-20261010-01 があり、worklist の検証警告は 0(クローズの commit の前に観測)。
+- **支持しないもの**: R8 の効果(文脈の独立で足りるか — EXP-20261010-01 で測る)/ 配布先の製品での運用(ViewTube・ViewPrism2 には書き込んでいない・次回配布で波及)/ r1 の後の新しい種類の境界(探索は r1 だけ)/ R8 の機械的な強制(採らない)。
+
+### 較正 receipt(/calibrate 自己適用 — trigger ①: verified 昇格・receipt_author_role= producer。文書とテンプレのみの変更)
+
+- 主張(1 文): 配布キットの 3 ファイルに R8・手順 3.6・:109 の名指しが入り、範囲の外に差分が無く、本文の事実の主張は記録の範囲に収まり、既存の規則と矛盾しない。
+- 査定した主張と判定(測定成立性 × 証拠資格):
+  - 「3 ファイルに句と段が入り、範囲外の差分が無い」(V1〜V3・V6 の範囲)— **observed / 適格**。`accept103.sh` の句の計数と hunk、独立検査 r2 項目 1・2。known-bad 側は起票時の測定 M3(基準 `810b442` の eco-fix で該当 0 件・change-management は受入証拠レイヤーの 1 行だけ)で、同じ句の検査が基準では立たないことを観測している。
+  - 「事実の主張が記録と一致する」(V4)— **observed / 条件付き適格**。測っていない次元: 原リポ(ViewTube・ViewPrism2)のファイルの再取得はしていない(検査官は写しの sha256 だけを照合した。ViewTube は未 push)。
+  - 「既存の規則と矛盾しない」(V5)— **observed / 条件付き適格**。測っていない次元: 意味の整合は読みによる判定で、機械の検査は無い。検査官は 1 系統(EQ-002)・矛盾の探索は r1 の 1 round。
+  - 「self-conformance・CI が通る」(V6)— **observed / 適格**(ただし self-conformance は 3 ファイルの文の意味を測らない。C4 は bomdd-init の生成物の parse まで)。
+  - 「R8 が効く(文脈の独立で足りる)」— 主張しない。**unknown**(理由= 未実行・EXP-20261010-01)。
+- 検出した計器欠陥と帰属: `accept103.sh` は作業木のファイルを測るが、ヘッダには HEAD を刻む。`accept-output-r2.txt` のヘッダは `HEAD fab10e1` だが、測ったのは r1 の処置を入れた作業木である。帰属= 製造者の記録の器具。影響の確認: 出力末尾の 3 ファイルの sha256 は `git show 4cf6304:<path> | sha256sum` と 3 本とも一致 — r2 の行数は 4cf6304 の内容の値である。器具の改修は本 ECO の範囲外(手作業の測定の器具で、常設の検査器ではない)。
+- 宣言した検出力の限界: 3 ファイルの文の意味(読み手が規則を正しく適用できるか)は、独立検査官の 1 回の読みでしか測っていない。配布先の製品でこの文が実際に R8 の運用を変えるかは測っていない。自己査定は製造者の前提誤りに盲目(playbook §9)— 本 receipt は製造者が書いた。
+- battery 行別の記録: Q1 asked(accept103 の出力は計数と hunk の表示だけで、合否の文を出さない。§5 の PASS は製造者の判定と明記)/ Q2 asked(known-bad= 基準 810b442 の M3・known-good= 製造後。ラベルは被較正計器から独立〔起票前の grep〕)/ Q3 asked(V1 の 7 句・V2 の 3 句を 1 句ずつ数え、各句が独立に落ちうる)/ Q4 asked(宣言入力= 写し 2 本。sha256 を検査官が独立に照合し一致)/ Q5 asked(クローズ commit の CI は未観測= unknown と明記。他の CI は success を観測)/ Q6 asked(各 commit は self-conformance の exit 0 を条件で結んだ後・push は pre-push の witness を経由)/ Q7 NA(常設の検査器を新設・変更していない)/ Q8 NA(予防ゲートを足していない)/ Q9 asked(上の計器欠陥= ヘッダの HEAD と測定対象の齟齬。sha256 の照合で個体を確定)/ Q10 asked(上の限界)/ Q11 NA(計器の系統誤差に関わる入力クラスの区別が要る計器を使っていない)。
