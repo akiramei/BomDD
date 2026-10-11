@@ -3288,7 +3288,7 @@ changes:
     title: handoff 実装規則の 2 点 — §2.1 Q1 に停止の見分け(自分で告げた打ち切りで止まっても BLOCKED・DECIDE/PAUSED は人間の指示で中断している間に限る)と、独立項目の番号分けの検査を structural F2 から semantic P8 へ移す(契約 v0.4 不変)
     date: 2026-10-11
     origin: improvement
-    status: implemented   # 2026-10-11 第三者レビュー(user 転送)→ 当方の取捨 DECIDE → user「A」(2 点で起票)→ 起票+製造を同一 commit(文書のみ・ECO-076 の型)。verified は self-conformance・CI 観測後の受入 commit で(製造者較正のみ・独立検査なし)
+    status: verified   # 2026-10-11 第三者レビュー(user 転送)→ 当方の取捨 DECIDE → user「A」(2 点で起票)→ 起票+製造 0c1af40(文書のみ・ECO-076 の型)→ push 1 回遮断(検査出力をリポ内に置き witness と tree が食い違った・手順の欠陥)→ 再検査 exit 0 → CI 38110538983 success → verified(製造者較正のみ・独立検査なし・窓閉鎖 25e1f24→0c1af40・較正 receipt trigger ①)
     receipt_author_role: producer   # ECO-077 観測欄
     source: >
       第三者レビュー(2026-10-11・user 転送)= handoff v0.4 の評価と出力例 1 通。当たった 2 点: ①出力例の [DECIDE / PAUSED] は自分で告げた打ち切り(4 回目の手直しはしない)での停止で、
@@ -3299,6 +3299,7 @@ changes:
     no_impact_prediction: "(製造前・凍結)skills 正本+写し+improvements.md+台帳系のみ。正本の差分= §2.1 Q1 の括弧書き 3 行・§2.3 F2 の 1 句削除と P8 の 1 句+理由 1 行・adapter A3 の 1 行。契約 §1 v0.4 不変(sha256 で確認)・core 固有語 0 維持・写しの diff= 既知 3 hunk のみ・tools/templates(60-change-order)/hooks/.github diff 0・worklist 警告 0"
     diff_audit:
       baseline: "25e1f24"  # 起票直前 HEAD
+      head: "0c1af40"      # diff監査済み: 窓内= allowed_paths の 5 本のみ・予測的中(受入 commit は台帳系のみ)
       allowed_paths: [method/templates/product-profile/skills/handoff.md, .claude/skills/handoff/SKILL.md, method/improvements.md, bomdd/60-change-order-eco-104.md, bomdd/60-change-register.yaml]
     summary: >
       ①§2.1 Q1 の BLOCKED に括弧書き(自分で決めた・告げた打ち切りで止まった場合も BLOCKED・止めると自分で決めたことは PAUSED の理由にならない・DECIDE/PAUSED は人間の指示で中断している間に
