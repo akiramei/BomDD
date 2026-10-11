@@ -93,6 +93,9 @@ Q0 人間にしかできない作業(私が代行できない・してはいけ�
      yes → REQUEST(成果物が返るまで BLOCKED。独立に進められる部分があれば CONTINUING で名指し)
 Q1 私の次の行動が、人間にしか決められない選択で分岐するか
      yes → DECIDE。分岐に依存しない部分があれば CONTINUING(独立部分は進める・依存部分を名指し)、なければ BLOCKED
+         (自分で決めた・告げた打ち切り — 上限・停止点・「これ以上は手直ししない」— で止まった場合も BLOCKED。
+          止めると自分で決めたことは PAUSED の理由にならない。DECIDE/PAUSED は、人間の指示で作業を中断している間に
+          再開の条件ではない裁定を出すときに限る)
 Q2 私に立場はあるが、コミットする前に人間の見解で変わりうる論点があるか
      yes → DISCUSS(execution は作業状態に従う。コミットを意図的に保留しているなら PAUSED)
 Q3 それ以外 → INFORM(CONTINUING / COMPLETE / PAUSED のいずれか)
@@ -145,7 +148,7 @@ structural(lint・機械的に判定できる)
   H1 先頭行が [mode / execution] の形で、語彙内
   H2 組合せが §1 の許容表にある(INFORM/BLOCKED は無効 — 人間の返答を待つなら DECIDE / DISCUSS / REQUEST へ)
   F1 mode の必須要素がすべて存在する(見出し・ラベル・または明瞭な 1 文)
-  F2 DECIDE: decision_question が本文先頭にあり、options が各案同形の帰結(得る/失う/戻せるか)つきで列挙され、独立項目は番号が分かれ、reply_format がある
+  F2 DECIDE: decision_question が本文先頭にあり、options が各案同形の帰結(得る/失う/戻せるか)つきで列挙され、reply_format がある
   F3 DISCUSS: discussion_question と thesis が両方ある
   F4 REQUEST: request・deliverable(穴埋め様式・記入例つき)・why_human がある。INFORM に human_action あり(依頼・疑問文)は F1 違反= REQUEST か DECIDE へ再分類
   F5 待機形: ヘッダ+2 行以内
@@ -160,7 +163,8 @@ semantic(self-review・自己申告 — 較正は人間の mode 訂正回数で�
   P5 本文だけで意味が取れない内部語・造語がない(初出に言い換えがある)                       — §2.2 読み手規則 2
   P6 ヘッダの次の 1 文が結論で、抽象語で先送りしていない                                       — §2.2 読み手規則 1
   P7 本文の事実は判断に必要なものだけで、証拠の列挙は付録か system of record にある — §2.2 読み手規則 3
-  P8 DECIDE / DISCUSS: 問うている裁定は実際に裁定が要る点だけで、付随方針が承認項目に紛れていない — §2.2 読み手規則 4
+  P8 DECIDE / DISCUSS: 問うている裁定は実際に裁定が要る点だけで、付随方針が承認項目に紛れておらず、独立に採否できる項目は番号が分かれている
+     (何が独立かは読解でしか決まらないので structural に置かない — structural の FAIL は送信停止で、書き直せば必ず直る項目だけをそこに置く) — §2.2 読み手規則 4
 ```
 
 ### 2.4 書き直し(rewrite)
@@ -276,5 +280,6 @@ VERIFICATION_FAIL → 是正中なら INFORM/CONTINUING、是正方針が分岐�
 
 契約 v0.1(2026-09-11・試行開始)→ v0.2(REQUEST 追加)→ v0.3(許容表・DECIDE の得失・REQUEST の穴埋め・待機形/ECO-070)→ v0.4(フリースタイル区間/ECO-071)→ 正本化(ECO-075)。
 実装規則の読み手規則(§2.2・P5〜P8・§3 の DISCUSS 例)= ECO-076(2026-09-14・第三者コメント「監査証跡としては良いが議論文としては悪い」への応答・契約は不変)。
+実装規則の停止の見分け(§2.1 Q1 の BLOCKED/PAUSED)と、独立項目の番号分けの検査を structural F2 から semantic P8 へ移したこと= ECO-104(2026-10-11・第三者レビュー〔user 転送〕への応答・契約は不変)。
 出自= Phase 5 報告への批評(裁定入力と実験報告の混在)。試行の評価= `{{METHOD}}/method/improvements.md` の 2026-09-11 節(EXP-20260911-01)と 2026-09-12 節(EXP-20260912-01・確定 2026-09-14)。
 第三者到達の実測= 異系統ハーネス(Codex)の独立検査報告が契約ヘッダで始まった 6/6。
