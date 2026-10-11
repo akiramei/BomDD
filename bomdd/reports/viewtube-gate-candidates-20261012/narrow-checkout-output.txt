@@ -1,0 +1,5 @@
+clone at fb2fe0a379f620e49a3a97e66db785c7e093cef0
+[SAME] + ECO-VT-252.yaml with unresolved_required_consumers 7 (known-bad): rc full=1 narrow=1 | copy full 14.3s + rm 4.2s, narrow 0.16s + rm 0.01s | last line ERROR REQUIRED_CONSUMER_UNRESOLVED: ECO-VT-252: unresolved required consumers = 7
+[SAME] register + a src/ViewTube.App file staged: rc full=0 narrow=0 | copy full 16.2s + rm 2.7s, narrow 0.08s + rm 0.00s | last line change-impact validator: PASS (0 findings) over 50 declared changes
+[SAME] register staged: rc full=0 narrow=0 | copy full 13.4s + rm 2.2s, narrow 0.08s + rm 0.01s | last line change-impact validator: PASS (0 findings) no declared change was in scope; this run measu
+files copied: full 11792, narrow 38

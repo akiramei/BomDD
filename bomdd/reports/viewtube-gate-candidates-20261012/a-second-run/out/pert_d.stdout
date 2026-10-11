@@ -1,0 +1,9 @@
+process validator: PASS (0 findings)
+[bomdd] record-consistency: 0 findings, 0 outstanding, 0 contract violations over 171 entries
+[bomdd] line-ending flip gate: 0 findings over 1 comparable staged paths
+[bomdd] materialisation divergence gate: 1 findings over 1 comparable staged paths
+ERROR MATERIALISATION_DIVERGENCE: bomdd/process/change-register.yaml: git will not write this file back as it stands - the working copy has 45835 CRLF and a checkout produces 0. A hash taken over the working copy is not reproducible from this repository. Write the file the way git stores it, or declare an attribute that makes git store what you wrote.
+[bomdd] materialisation divergence; commit blocked
+        the file on disk is not what git will write back, so a hash taken over it
+        is not reproducible. Write it the way git stores it, or declare an
+        attribute that makes git store what you wrote. ECO-VT-097.

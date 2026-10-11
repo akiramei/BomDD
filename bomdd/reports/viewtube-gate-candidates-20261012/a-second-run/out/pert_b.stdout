@@ -1,0 +1,8 @@
+ERROR INDEPENDENT_REVIEW_INCOMPLETE: ECO-VT-006 independent review evidence file does not exist: bomdd/eco/ECO-VT-006-independent-review-post-vector.md
+ERROR UI_SELF_GOLDEN_MISSING: ECO-VT-006 self-golden evidence file does not exist: bomdd/eco/ECO-VT-006-independent-review-post-vector.md
+[bomdd] record-consistency: 0 findings, 0 outstanding, 0 contract violations over 171 entries
+[bomdd] line-ending flip gate: 0 findings over 1 comparable staged paths
+[bomdd] materialisation divergence gate: 0 findings over 1 comparable staged paths
+[bomdd] record-language: 0 findings over 171 measured entries (7 exempt)
+[bomdd] machinery-claims: 0 findings over 8 bound entries (39 exempt)
+[bomdd] gate inventory: 18 validators reconciled against the census

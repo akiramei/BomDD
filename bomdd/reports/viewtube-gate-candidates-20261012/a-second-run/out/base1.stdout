@@ -1,0 +1,7 @@
+process validator: PASS (0 findings)
+[bomdd] record-consistency: 0 findings, 0 outstanding, 0 contract violations over 171 entries
+[bomdd] line-ending flip gate: 0 findings over 1 comparable staged paths
+[bomdd] materialisation divergence gate: 0 findings over 1 comparable staged paths
+[bomdd] record-language: 0 findings over 171 measured entries (7 exempt)
+[bomdd] machinery-claims: 0 findings over 8 bound entries (39 exempt)
+[bomdd] gate inventory: 18 validators reconciled against the census

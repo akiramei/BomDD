@@ -1,0 +1,1 @@
+wt-before.txt and wt-after.txt (manifests of all 11,792 working-tree files, path and sha256, before and after a full pre-commit run in the clone) were byte-identical: sha256 3f462e2c82f5cea27f8873c4aa6841dfa8593c88e0704e298bbb0c19b515c6ab, 11,792 lines, 1,797,039 bytes each. Not kept (size); produced by wtfp.py.

@@ -1,0 +1,12 @@
+[bomdd] record-consistency: 0 findings, 0 outstanding, 0 contract violations over 171 entries
+[bomdd] line-ending flip gate: 0 findings over 1 comparable staged paths
+[bomdd] materialisation divergence gate: 0 findings over 1 comparable staged paths
+[bomdd] record-language: 0 findings over 171 measured entries (7 exempt)
+[bomdd] machinery-claims: 0 findings over 8 bound entries (39 exempt)
+[bomdd] gate inventory: 18 validators reconciled against the census
+[bomdd] release-workflow ownership: PASS (0 findings) over 1856 paths with an active owner, 120 of them colliding
+[bomdd] run-evidence validator: PASS (0 findings)
+[bomdd] record-citations validator: PASS (0 findings) over 428 run directories named by 1 staged records - 410 resolve, 18 are known-bad and counted, 0 reported; 68 tracked run directories are named by nothing and are NOT reported
+[bomdd] mcp-host-location validator: PASS (0 findings) over 1 configured MCP server commands
+[bomdd] videos expectation coupling: no product UI staged
+[bomdd] capture-plan sweep: no path that can strand a plan is staged (product, harness, fixture manifest or file, root build input, runner, hook); not run

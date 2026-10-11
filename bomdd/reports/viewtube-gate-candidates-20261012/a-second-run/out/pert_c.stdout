@@ -1,0 +1,4 @@
+process validator: PASS (0 findings)
+[bomdd] record-consistency: 1 findings, 1 outstanding, 1 contract violations over 171 entries
+ERROR REGISTER_REQUIRED_FIELD_MISSING: ECO-VT-007: every field the transplant policy requires of a register entry is present
+[bomdd] record-consistency failure; commit blocked
