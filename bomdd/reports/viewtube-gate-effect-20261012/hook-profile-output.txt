@@ -1,0 +1,16 @@
+clone at fb2fe0a379f620e49a3a97e66db785c7e093cef0
+first (cold) pre-commit run: 87.9s
+pre-commit rc=0 total 56.1s
+    24.9s  python bomdd/tools/validate_process.py --commit-msg /tmp/tmp.9E0KvGL81v --quiet
+    14.2s  git checkout-index --all --prefix=/tmp/tmp.ho8QMz7xvt/
+     9.9s  python /tmp/tmp.ho8QMz7xvt/bomdd/tools/validate_change_impact.py --root /tmp/hookprof-gurwnjrw/clone --prospec
+     1.9s  rm -rf /tmp/tmp.ho8QMz7xvt
+     1.8s  python bomdd/tools/validate_release_workflow.py
+     1.7s  python - /tmp/tmp.9E0KvGL81v
+     0.3s  python bomdd/tools/validate_record_citations.py
+     0.2s  python bomdd/tools/validate_process.py --selftest --quiet
+     0.1s  python bomdd/tools/validate_run_evidence.py
+     0.1s  python -
+     0.1s  python bomdd/tools/validate_mcp_host_location.py
+     0.1s  python -c 'import yaml'
+commit-msg's validate_process --commit-msg: 24.7s

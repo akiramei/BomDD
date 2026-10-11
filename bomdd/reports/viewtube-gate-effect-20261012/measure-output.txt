@@ -1,0 +1,66 @@
+window since 2026-10-11T07:30:00Z; transcript files 307; tool calls in window 478
+
+== Q1 待ち時間(分)— 分類ごと・本体/サブエージェント ==
+category                main n  main min   sub n   sub min   share
+other                      270      47.3      48      35.6   59.7%
+commit                      19      25.0       0       0.0   18.0%
+validate                    21      13.7       0       0.0    9.8%
+targeted_test               15       4.1      25       7.7    8.5%
+build                        1       0.5       7       2.3    2.0%
+capture                     34       2.3       1       0.1    1.7%
+wait:other                  27       0.2       0       0.0    0.1%
+mutation                     7       0.2       0       0.0    0.1%
+supervised                   2       0.0       0       0.0    0.0%
+wait:capture                 1       0.0       0       0.0    0.0%
+total (<= 3600s) 139.0 min; human_wait excluded: 0 calls, 0.0 min
+
+== Q2 commit とフックの全計画 ==
+sweep      n=0    sum_min=    0.0 median_s=     0
+no_sweep   n=3    sum_min=    4.2 median_s=   104
+unknown    n=16   sum_min=   20.8 median_s=    99
+Q2b landed commits since 2026-10-11T07:30:00Z: 17; matching the sweep pattern: 1
+   accept     sweep=False 1
+   cad        sweep=False 3
+   dist       sweep=False 1
+   file       sweep=False 1
+   fix        sweep=False 1
+   fix        sweep=True  1
+   probe      sweep=False 6
+   record     sweep=False 3
+
+== Q3 門が止めた呼び出し ==
+calls whose output contains "commit blocked": 2
+   2  [bomdd] process integrity failure; commit blocked
+   1  [bomdd] materialisation divergence; commit blocked
+   1  [bomdd] record-language failure; commit blocked
+
+== Q4 全体の受け入れテスト(acceptance-runs)==
+runs in window: 1; with failed>0: 0
+   run-20261011T152508173Z-76ae895f 1268 0 1
+
+== 参考: 待ちの長い呼び出し 上位 25(human_wait を除く)==
+2026-10-11T13:22:30    594s main other            & ./tools/agent-disposable.ps1 -Action Run -ScriptBlock { & pwsh -NoProfile -File .agent-disposable/scratch/repeat-one252.ps1 }; Get-Content .agent-di
+2026-10-11T12:10:15    455s sub  other            cd /c/Users/akira/source/repos/ViewTube/.agent-disposable/review252/review-scratch; for i in $(seq 1 58); do grep -q "^done" mutants2.txt && break; sl
+2026-10-11T14:00:39    404s main other            & ./tools/agent-disposable.ps1 -Action Run -ScriptBlock { python -u bomdd/ui/captures/ECO-VT-252-provisional-2/build_evidence.py *> .agent-disposable/
+2026-10-11T16:25:07    356s main other            Set-Location C:\Users\akira\source\repos\ViewTube | $stage = Join-Path (Get-Location) '.agent-disposable\stage-build44' | if (Test-Path $stage) { throw 's
+2026-10-11T12:19:38    334s sub  other            cd /c/Users/akira/source/repos/ViewTube/.agent-disposable/review252/review-scratch; for i in $(seq 1 58); do grep -q "^done" mutants3.txt && break; sl
+2026-10-11T14:10:03    308s main other            Remove-Item .agent-disposable/scratch/repeat-plans252c.done -ErrorAction SilentlyContinue; & ./tools/agent-disposable.ps1 -Action Run -ScriptBlock { &
+2026-10-11T11:56:01    281s sub  other            cd /c/Users/akira/source/repos/ViewTube/.agent-disposable/review252/review-scratch; sleep 280; cat mutants.txt | tail -n +7
+2026-10-11T11:51:44    241s sub  other            cd /c/Users/akira/source/repos/ViewTube/.agent-disposable/review252/review-scratch; sleep 240; cat mutants.txt
+2026-10-11T12:49:20    193s main other            & ./tools/agent-disposable.ps1 -Action Run -ScriptBlock { & 'C:\Program Files\Git\bin\bash.exe' test-results/eco-vt-252-a-row-of-the-music-queue-panel
+2026-10-11T12:03:38    193s sub  other            cd /c/Users/akira/source/repos/ViewTube/.agent-disposable/review252/review-scratch; for i in $(seq 1 58); do grep -q "^done" mutants.txt && break; sle
+2026-10-11T12:46:23    169s main other            & ./tools/agent-disposable.ps1 -Action Run -ScriptBlock { & 'C:\Program Files\Git\bin\bash.exe' test-results/eco-vt-252-a-row-of-the-music-queue-panel
+2026-10-11T12:43:34    158s main other            & ./tools/agent-disposable.ps1 -Action Run -ScriptBlock { & 'C:\Program Files\Git\bin\bash.exe' test-results/eco-vt-252-a-row-of-the-music-queue-panel
+2026-10-11T12:01:11    142s sub  other            cd /c/Users/akira/source/repos/ViewTube/.agent-disposable/review252/review-scratch; for i in $(seq 1 55); do grep -q "^M15" mutants.txt && break; slee
+2026-10-11T13:32:58    129s main targeted_test    & ./tools/agent-disposable.ps1 -Action Run -ScriptBlock { dotnet build test/ViewTube.Acceptance/ViewTube.Acceptance.csproj -c Release -nologo -v q *> 
+2026-10-11T16:55:19    126s main other            git status --porcelain --untracked-files=no; python test-results/eco-vt-252-a-row-of-the-music-queue-panel-jumps-to-its-video/runx1.py test-results/ec
+2026-10-11T07:59:11    125s main commit           git commit -F .agent-disposable/scratch/commit-cad252.txt > .agent-disposable/scratch/commit-cad252.out 2>&1; echo "exit=$?"; tail -4 .agent-disposabl
+2026-10-11T08:07:25    125s main commit           git commit -F .agent-disposable/scratch/commit-rec252.txt > .agent-disposable/scratch/commit-rec252.out 2>&1; echo "exit=$?"; tail -3 .agent-disposabl
+2026-10-11T12:25:28    122s sub  other            cd /c/Users/akira/source/repos/ViewTube/.agent-disposable/review252/review-scratch; for i in $(seq 1 40); do grep -q "^done" steal-result.txt && break
+2026-10-11T08:21:42    113s main commit           sed -i 's/16 test-results files/17 test-results files/g' .agent-disposable/scratch/commit-decl252b.txt && grep -c "17 test-results" .agent-disposable/
+2026-10-11T11:47:40    112s sub  other            cd /c/Users/akira/source/repos/ViewTube/.agent-disposable/review252/review-scratch; until grep -q done flake.txt; do sleep 5; done; cat flake.txt
+2026-10-11T14:52:33    108s main commit           git diff --cached --name-only | wc -l && git add bomdd/process/change-register.yaml bomdd/ui/37-ui-rulings.yaml bomdd/eco/ECO-VT-252.md bomdd/ui/captu
+2026-10-11T07:45:34    106s main commit           git commit -F .agent-disposable/scratch/commit-decl252a.txt 2>&1 | tail -8; echo "exit=${PIPESTATUS[0]}"
+2026-10-11T17:00:09    106s main commit           timeout 900 git commit -q -F .agent-disposable/scratch/commit-accept252.txt 2>&1 | grep -E 'ERROR|FAIL|PASS|validator' | cut -c1-220 | head -14; echo 
+2026-10-11T07:38:47    104s main commit           git commit -F .agent-disposable/scratch/commit-file252.txt; echo "exit=$?"
+2026-10-11T15:51:21    102s main commit           git diff --cached --name-only | grep -vE 'test-results/eco-vt-252' ; timeout 900 git commit -q -F .agent-disposable/scratch/commit-impl252.txt 2>&1 | 
