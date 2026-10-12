@@ -1,0 +1,8 @@
+clone at 9c129eac23eb9a537486f4338a94e9267bbabc29 (hook unchanged)
+rc=1 in 1361s
+  ui-manufacturing self-test: FAIL (49/51)
+  ERROR RECORD_LANGUAGE_DIVERGENT: ECO-VT-207: the body is 94% Japanese and its register entry 73%, a gap of 0.21 against a limit of 0.20. A claim written in one language and recorded in the other cannot be found by any se
+  ERROR RECORD_LANGUAGE_DIVERGENT: ECO-VT-209: the body is 89% Japanese and its register entry 68%, a gap of 0.21 against a limit of 0.20. A claim written in one language and recorded in the other cannot be found by any se
+  ERROR RECORD_LANGUAGE_DIVERGENT: ECO-VT-213: the body is 88% Japanese and its register entry 63%, a gap of 0.25 against a limit of 0.20. A claim written in one language and recorded in the other cannot be found by any se
+
+[exited with code 0]

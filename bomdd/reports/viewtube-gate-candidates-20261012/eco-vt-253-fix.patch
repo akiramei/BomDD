@@ -1,0 +1,402 @@
+diff --git c/bomdd/eco/ECO-VT-253.md i/bomdd/eco/ECO-VT-253.md
+index 411d0522..31f4db8b 100644
+--- c/bomdd/eco/ECO-VT-253.md
++++ i/bomdd/eco/ECO-VT-253.md
+@@ -45,3 +45,34 @@
+ - 修理の後: 元のフックと修理後のフックを同じ stage の状態(登録簿だけ、既知の不良の manifest など)で走らせ、終了コードと出力が同じであることを確かめる。道具を stage した commit では、今までどおりまるごとの複製と信頼された自己検査が走ることを確かめる。
+ - 宣言: probe の段で、修理と証拠が書く経路を `impacted_files` に宣言し、`evidence.machinery_claims` を宣言する(`bomdd/hooks/` を変えるので)。フックを stage する commit では、撮影の全計画と各道具の自己検査が走る。
+ - 独立レビュー(R8)と変更影響(R9、`bomdd/process/change-impact/ECO-VT-253.yaml`)。
++
++## 7. 修理(2026-10-12)
++
++証拠のフォルダ: `test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/`。
++
++### 直したもの
++
++commit 前フックは、変更影響の道具を含まない保護された commit では、変更影響の検証器のフォルダと方針のファイルだけを複製する。`bomdd/hooks/pre-commit` の変更影響の段で、道具を stage したかの判定(`IMPACT_EQUIPMENT`)を複製の前に移し、道具を stage していなければ `git ls-files -z -- bomdd/tools bomdd/process/change-impact-policy.yaml | git checkout-index -z --stdin --prefix=<複製>/` で複製する。道具を stage した commit は今までどおり `git checkout-index --all`。信頼された自己検査が求めるフックの文(`git checkout-index --all` と、検証器を起動する行)は残した。
++
++### probe(2abdf9c2 で赤、修理の後で緑)
++
++| 場合 | 修理の前(`probe-before.txt`) | 修理の後(`probe-after.txt`) |
++|---|---|---|
++| N1 登録簿だけの commit で、変更影響の段がまるごとの複製をするか | した(赤、13.15 秒) | しない(絞った複製、0.07 秒) |
++| E1 変更影響の道具(方針)を stage した commit(対照) | まるごとの複製をした | まるごとの複製をした(20.38 秒) |
++
++### 同じ判定であることの確かめ(`equiv253.py` → `equiv-output.txt`)
++
++元のフック(`9c129eac`)と修理後のフックを、同じ stage の状態で 1 回ずつ走らせ、終了コードと標準出力をバイト単位で比べた(一時フォルダの名前は伏せた)。**6/6 の状態で同じ**: 登録簿だけ・登録簿と本文・この号の変更影響の manifest から independent_review を消したもの(既知の不良、`INDEPENDENT_IMPACT_REVIEW_MISSING`)・同じ manifest から semantic ids を消したもの(既知の不良、`SEMANTIC_PART_INVENTORY_MISSING`)・変更影響の道具を stage したもの(まるごとの複製と信頼された自己検査が両方で走る)・登録簿を stage し、作業ツリーにだけ壊した検証器を置いたもの(両方とも index の検証器を走らせて通る)。
++
++最初の版の確かめは、既知の不良に適用済みの ECO-VT-252 の manifest を使っていた。その変更は工程の検証器が `UNREGISTERED_PROTECTED_CHANGE` で先に止めるので、変更影響の段に届いていなかった。stage 中のこの号の manifest に替えて、変更影響の段で止まることを確かめた。
++
++### 変異(`mutants253.py` → `mutants-output.txt`)
++
++修理を壊す変異 3 つは、すべて probe か確かめを赤にした: 道具の commit にも絞った複製を使う(K1、E1 が赤)・絞った複製から方針のファイルを外す(K2、存在の確かめで止まり N1 が赤)・複製を index でなく作業ツリーから作る(K4、S6 が DIFFERENT)。
++
++検証器と二つの存在確認のファイルだけを複製し、フォルダの残りを複製しない形は、変異として扱わなかった。検証器はフォルダから何も import しないので、判定は変わらない。フォルダごとの複製は、import の解決に使われうる場所を覆う安全側の上位集合であり、確かめでは区別できない。
++
++### 範囲
++
++UI の製造の検査の複製と、UI-golden の道具の複製は変えていない(第 5 節)。
+diff --git c/bomdd/hooks/pre-commit i/bomdd/hooks/pre-commit
+index 951cd077..25b8fef1 100644
+--- c/bomdd/hooks/pre-commit
++++ i/bomdd/hooks/pre-commit
+@@ -315,9 +315,25 @@ fi
+ # validators cannot weaken their own gate: after the initial ECO-VT-054 installation, the trusted
+ # committed mutation harness qualifies every replacement and must observe all 12 reason codes,
+ # the recurrence control, and the low-risk positive control.
++#
++# ECO-VT-253. commit 前フックは、変更影響の道具を含まない保護された commit では、変更影響の検証器のフォルダと方針のファイルだけを複製する。
++# The whole index (11,792 files, about 1.4 GB) was copied on every protected commit, 13-19 seconds
++# with its removal, only to run validate_change_impact.py from it. The validator imports only the
++# standard library and yaml, does not use __file__, and reads everything through --root and git;
++# from the copy it reads its own script, its folder (Python's sys.path[0], so an import could
++# resolve there) and the three files checked for below. Those are written from the same index by
++# the same checkout-index, so the bytes read are the bytes they were. A commit that stages
++# change-impact equipment still gets the whole copy: the trusted harness reads it widely.
+ if [ "$PROTECTED" -eq 0 ]; then
++  echo "$STAGED" | grep -Eq '^(bomdd/hooks/pre-commit$|bomdd/process/(change-impact-policy|process-transplant-policy)\.yaml$|bomdd/tools/(validate_change_impact|selftest_change_impact)\.py$)'
++  IMPACT_EQUIPMENT=$?
+   TMP_IMPACT_TREE="$(mktemp -d)"
+-  git checkout-index --all --prefix="$TMP_IMPACT_TREE/"
++  if [ "$IMPACT_EQUIPMENT" -eq 0 ]; then
++    git checkout-index --all --prefix="$TMP_IMPACT_TREE/"
++  else
++    git ls-files -z -- bomdd/tools bomdd/process/change-impact-policy.yaml \
++      | git checkout-index -z --stdin --prefix="$TMP_IMPACT_TREE/"
++  fi
+   for required in \
+     bomdd/process/change-impact-policy.yaml \
+     bomdd/tools/validate_change_impact.py \
+@@ -330,8 +346,6 @@ if [ "$PROTECTED" -eq 0 ]; then
+     fi
+   done
+ 
+-  echo "$STAGED" | grep -Eq '^(bomdd/hooks/pre-commit$|bomdd/process/(change-impact-policy|process-transplant-policy)\.yaml$|bomdd/tools/(validate_change_impact|selftest_change_impact)\.py$)'
+-  IMPACT_EQUIPMENT=$?
+   if [ "$IMPACT_EQUIPMENT" -eq 0 ]; then
+     TRUSTED_IMPACT_SELFTEST="$(mktemp)"
+     git show HEAD:bomdd/tools/selftest_change_impact.py >"$TRUSTED_IMPACT_SELFTEST" 2>/dev/null
+diff --git c/bomdd/process/change-register.yaml i/bomdd/process/change-register.yaml
+index 4cfc3f1c..610c179e 100644
+--- c/bomdd/process/change-register.yaml
++++ i/bomdd/process/change-register.yaml
+@@ -45879,14 +45879,20 @@ changes:
+             判定が変わらないと証明できた候補(変更影響の検証器のための複製を絞る)だけを起票して進めるか(2 は副産物の三件も別に起票、
+             3 は記録だけ)
+       repair:
+-        status: not_started
++        status: done
++        what_was_done: >-
++          変更影響の段で、道具を stage したかの判定を複製の前に移し、道具を stage していない commit では検証器のフォルダと方針の
++          ファイルだけを索引から複製するようにした(本文第 7 節)。修理の後の木で probe は二つとも緑、元のフックと修理後のフックは
++          六つの状態で同じ判定、変異三つはすべて赤
+         what_is_not_settled: >-
+-          修理の形は本文第 4 節の候補で、probe の段で赤を記録してから確定する
++          独立レビュー(R8)と、implemented への遷移
+       machinery_claims:
+         - claim: commit 前フックは、変更影響の道具を含まない保護された commit では、変更影響の検証器のフォルダと方針のファイルだけを複製する
+           language: ja
+           carriers:
+             - bomdd/process/change-register.yaml
+-          carriers_note: 宣言のときは登録簿だけが文を持つ。修理でフックの説明と本文に同じ文を書き、ここに加える
++            - bomdd/eco/ECO-VT-253.md
++            - bomdd/hooks/pre-commit
++          carriers_note: 宣言のときは登録簿だけが文を持った。修理でフックの説明と本文に同じ文を書き、ここに加えた
+           probe: test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe253.py
+-          red_observed: 修理の前のフックは、登録簿だけを stage した commit で索引をまるごと複製した(probe-before.txt の N1 が赤、十三・一五秒)
++          red_observed: 修理の前のフックは、登録簿だけを stage した commit で索引をまるごと複製した(probe-before.txt の N1 が赤、十三・一五秒)。修理の後は絞った複製で〇・〇七秒(probe-after.txt)。修理を壊す変異三つはすべて赤(mutants-output.txt)
+diff --git c/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt i/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+new file mode 100644
+index 00000000..ace44265
+--- /dev/null
++++ i/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+@@ -0,0 +1,11 @@
++started_at 2026-10-12T09:11:54+09:00
++ORIGINAL 9c129eac sha256 77d9926596ebc94bf0ad8f2631c40abf3e74bd8d66ef79dff76afaf4d331fb5d
++REPAIRED working tree sha256 f46a2bdd90526764605acbd3aafae573b0c4941cd30051961046237225a91ddb
++[SAME] S1 the register only | rc 0/0, stdout 1168/1168 chars | [bomdd] capture-plan sweep: no path that can strand a plan is staged (product, harness, fixture manifest or fi
++[SAME] S2 the register and an ECO body | rc 0/0, stdout 1168/1168 chars | [bomdd] capture-plan sweep: no path that can strand a plan is staged (product, harness, fixture manifest or fi
++[SAME] S3 an active manifest without its independent_review field (known-bad) | rc 1/1, stdout 1308/1308 chars | ERROR INDEPENDENT_IMPACT_REVIEW_MISSING: ECO-VT-253: required manifest field is missing: independent_review
++[SAME] S4 an active manifest without semantic ids (known-bad) | rc 1/1, stdout 1294/1294 chars | ERROR SEMANTIC_PART_INVENTORY_MISSING: ECO-VT-253: changed semantic-part inventory is missing
++[SAME] S5 change-impact equipment staged | rc 0/0, stdout 1164/1164 chars | [bomdd] capture-plan sweep: no path that can strand a plan is staged (product, harness, fixture manifest or fi
++[SAME] S6 the validator broken in the working tree only | rc 0/0, stdout 1168/1168 chars | [bomdd] capture-plan sweep: no path that can strand a plan is staged (product, harness, fixture manifest or fi
++finished_at 2026-10-12T09:35:51+09:00 elapsed_ms 1436938
++RESULT SAME (6/6 states same)
+diff --git c/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py i/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+new file mode 100644
+index 00000000..dad34604
+--- /dev/null
++++ i/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+@@ -0,0 +1,148 @@
++#!/usr/bin/env python3
++"""ECO-VT-253 equivalence: the original and the repaired pre-commit hook return the same verdict.
++
++ORIGINAL is bomdd/hooks/pre-commit at --original-rev (default 9c129eac, the commit before the
++repair); REPAIRED is the working tree's. For each staged state, a fresh throwaway clone
++(`git clone --shared -c core.autocrlf=false` into the system temp directory; nothing is written to
++this tree) runs each hook once and the exit code and stdout are compared byte for byte. Temporary
++directory names are masked. Run from the repository root:
++
++  python test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py [--original-rev REV]
++
++  S1  the register only (a record commit)                                     - PASS expected
++  S2  the register and an ECO body                                            - PASS expected
++  S3  ECO-VT-253's manifest without its independent_review field              - blocked expected
++  S4  ECO-VT-253's manifest emptied of its semantic ids                       - blocked expected
++  (--states S3,S6 runs only the named states; mutants253.py uses it)
++  S5  change-impact equipment staged (the policy): the whole copy and the trusted harness run in both
++  S6  the register staged and the validator broken in the WORKING TREE only - the index copy must run
++
++Exit 0 when every state gives the same exit code and stdout, 1 otherwise.
++"""
++import datetime
++import hashlib
++import re
++import shutil
++import subprocess
++import sys
++import tempfile
++from pathlib import Path
++
++ROOT = Path.cwd()
++ORIGINAL_REV = "9c129eac"
++ONLY = sys.argv[sys.argv.index("--states") + 1].split(",") if "--states" in sys.argv else []
++if "--original-rev" in sys.argv:
++    ORIGINAL_REV = sys.argv[sys.argv.index("--original-rev") + 1]
++for stream in (sys.stdout, sys.stderr):
++    stream.reconfigure(encoding="utf-8", errors="backslashreplace")
++started = datetime.datetime.now().astimezone()
++print(f"started_at {started.isoformat(timespec='seconds')}")
++original = subprocess.run(["git", "show", f"{ORIGINAL_REV}:bomdd/hooks/pre-commit"], cwd=ROOT,
++                          capture_output=True, check=True).stdout
++repaired = (ROOT / "bomdd" / "hooks" / "pre-commit").read_bytes()
++print(f"ORIGINAL {ORIGINAL_REV} sha256 {hashlib.sha256(original).hexdigest()}")
++print(f"REPAIRED working tree sha256 {hashlib.sha256(repaired).hexdigest()}")
++if original == repaired:
++    print("REFUSED: ORIGINAL and REPAIRED are the same bytes; nothing would be compared")
++    raise SystemExit(1)
++
++# THE KNOWN-BAD STATES BREAK AN ACTIVE ECO'S MANIFEST. The first run broke ECO-VT-252's, which is
++# applied: validate_process refused it as UNREGISTERED_PROTECTED_CHANGE before the hook reached the
++# change-impact step, so S3 and S4 never exercised the step this ECO changes. ECO-VT-253 is staged
++# and declares its own manifest, so a broken one reaches validate_change_impact.
++MANIFEST = "bomdd/process/change-impact/ECO-VT-253.yaml"
++
++
++def stage_s1(clone):
++    path = clone / "bomdd/process/change-register.yaml"
++    path.write_bytes(path.read_bytes() + b"# equiv253\n")
++    return ["bomdd/process/change-register.yaml"]
++
++
++def stage_s2(clone):
++    body = clone / "bomdd/eco/ECO-VT-252.md"
++    body.write_bytes(body.read_bytes() + b"\nequiv253\n")
++    return stage_s1(clone) + ["bomdd/eco/ECO-VT-252.md"]
++
++
++def stage_s3(clone):
++    path = clone / MANIFEST
++    text = path.read_bytes()
++    assert b"\nindependent_review:\n" in text
++    path.write_bytes(text.replace(b"\nindependent_review:\n", b"\nindependent_review_removed:\n", 1))
++    return [MANIFEST]
++
++
++def stage_s4(clone):
++    path = clone / MANIFEST
++    text = path.read_bytes()
++    new = re.sub(rb"changed_semantic_ids:\n(- [^\n]*\n)+", b"changed_semantic_ids: []\n", text, count=1)
++    assert new != text
++    text = new
++    path.write_bytes(text)
++    return [MANIFEST]
++
++
++def stage_s5(clone):
++    path = clone / "bomdd/process/change-impact-policy.yaml"
++    path.write_bytes(path.read_bytes() + b"# equiv253\n")
++    return ["bomdd/process/change-impact-policy.yaml"]
++
++
++def stage_s6(clone):
++    # The register staged, and the change-impact validator broken IN THE WORKING TREE ONLY (not
++    # staged). The hook must run the validator as the index holds it, so both hooks pass; a copy
++    # taken from the working tree would run the broken one.
++    validator = clone / "bomdd/tools/validate_change_impact.py"
++    validator.write_bytes(b"raise SystemExit('equiv253: the working-tree copy ran')\n")
++    return stage_s1(clone)
++
++
++def run(hook, stage):
++    base = Path(tempfile.mkdtemp(prefix="eco253eq-"))
++    clone = base / "clone"
++    try:
++        subprocess.run(["git", "clone", "-q", "--shared", "-c", "core.autocrlf=false", str(ROOT), str(clone)],
++                       check=True)
++        # S5 stages the policy, which makes the trusted harness qualify the hook in the copy; the
++        # hook under test is written in place and kept out of the staged set.
++        (clone / "bomdd/hooks/pre-commit").write_bytes(hook)
++        subprocess.run(["git", "-C", str(clone), "update-index", "--assume-unchanged",
++                        "bomdd/hooks/pre-commit"], check=True)
++        for rel in stage(clone):
++            subprocess.run(["git", "-C", str(clone), "add", rel], check=True)
++        done = subprocess.run(["bash", "bomdd/hooks/pre-commit"], cwd=clone, capture_output=True)
++        out = done.stdout.decode("utf-8", "replace")
++        out = re.sub(r"/tmp/tmp\.[A-Za-z0-9]+", "<TMP>", out)
++        out = out.replace(str(clone), "<CLONE>").replace(clone.as_posix(), "<CLONE>")
++        return done.returncode, out
++    finally:
++        shutil.rmtree(base, ignore_errors=True)
++
++
++results = []
++for label, stage in (("S1 the register only", stage_s1), ("S2 the register and an ECO body", stage_s2),
++                     ("S3 an active manifest without its independent_review field (known-bad)", stage_s3),
++                     ("S4 an active manifest without semantic ids (known-bad)", stage_s4),
++                     ("S5 change-impact equipment staged", stage_s5),
++                     ("S6 the validator broken in the working tree only", stage_s6)):
++    if ONLY and label.split()[0] not in ONLY:
++        continue
++    a = run(original, stage)
++    b = run(repaired, stage)
++    same = a == b
++    results.append(same)
++    last = [line for line in a[1].splitlines() if "ERROR" in line or "blocked" in line][:1] or \
++        [a[1].strip().splitlines()[-1] if a[1].strip() else ""]
++    print(f"[{'SAME' if same else 'DIFFERENT'}] {label} | rc {a[0]}/{b[0]}, stdout {len(a[1])}/{len(b[1])} chars | {last[0][:110]}")
++    if not same:
++        for line_a, line_b in zip(a[1].splitlines(), b[1].splitlines()):
++            if line_a != line_b:
++                print(f"    first difference:\n    - {line_a[:160]}\n    + {line_b[:160]}")
++                break
++
++finished = datetime.datetime.now().astimezone()
++print(f"finished_at {finished.isoformat(timespec='seconds')} "
++      f"elapsed_ms {int((finished - started).total_seconds() * 1000)}")
++print(f"RESULT {'SAME' if all(results) else 'DIFFERENT'} ({sum(results)}/{len(results)} states same)")
++raise SystemExit(0 if all(results) else 1)
+diff --git c/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt i/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+new file mode 100644
+index 00000000..6aed1d53
+--- /dev/null
++++ i/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+@@ -0,0 +1,8 @@
++started_at 2026-10-12T08:59:35+09:00
++HEAD 9c129eac23eb9a537486f4338a94e9267bbabc29
++sha256 f46a2bdd90526764605acbd3aafae573b0c4941cd30051961046237225a91ddb  bomdd/hooks/pre-commit (working tree, the source every mutant edits)
++[KILLED] K1 the narrowed copy is used for equipment commits too | probe exit 1, red in ['E1: RED']
++[KILLED] K2 the narrowed copy leaves out the change-impact policy | probe exit 1, red in ['N1: RED']
++[KILLED] K4 the narrowed copy is taken from the working tree, not the index | equiv exit 1, red in ['[DIFFERENT] S6 the validator broken in the working tree only']
++finished_at 2026-10-12T09:11:54+09:00 elapsed_ms 738963
++RESULT ALL KILLED
+diff --git c/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py i/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+new file mode 100644
+index 00000000..db5275c4
+--- /dev/null
++++ i/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+@@ -0,0 +1,90 @@
++#!/usr/bin/env python3
++"""ECO-VT-253 mutants: do the probe and the equivalence check go red when the repair is broken?
++
++Each mutant edits the working tree's bomdd/hooks/pre-commit in a temporary copy of this script's
++inputs - the working tree itself is NOT written: the mutated hook is handed to probe253.py and
++equiv253.py through a throwaway directory that mirrors the repository root (the scripts read the
++hook from `<cwd>/bomdd/hooks/pre-commit`, so they are run with cwd at a throwaway clone whose hook is
++the mutant). A mutant is KILLED when the probe or the equivalence check exits 1. Run from the
++repository root:
++
++  python test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
++"""
++import datetime
++import hashlib
++import shutil
++import subprocess
++import sys
++import tempfile
++from pathlib import Path
++
++ROOT = Path.cwd()
++HERE = Path(__file__).resolve().parent
++HOOK = ROOT / "bomdd" / "hooks" / "pre-commit"
++NARROW = ("    git ls-files -z -- bomdd/tools bomdd/process/change-impact-policy.yaml \\\n"
++          "      | git checkout-index -z --stdin --prefix=\"$TMP_IMPACT_TREE/\"\n")
++BRANCH = "  if [ \"$IMPACT_EQUIPMENT\" -eq 0 ]; then\n    git checkout-index --all --prefix=\"$TMP_IMPACT_TREE/\"\n"
++
++MUTANTS = [
++    ("K1 the narrowed copy is used for equipment commits too",
++     [(BRANCH, "  if false; then\n    git checkout-index --all --prefix=\"$TMP_IMPACT_TREE/\"\n")], "probe"),
++    ("K2 the narrowed copy leaves out the change-impact policy",
++     [(NARROW, "    git ls-files -z -- bomdd/tools \\\n"
++               "      | git checkout-index -z --stdin --prefix=\"$TMP_IMPACT_TREE/\"\n")], "probe"),
++    # NOT A MUTANT: copying the validator and the two presence-checked files without the rest of
++    # bomdd/tools/ gives the same verdict, because the validator imports nothing from its folder.
++    # Copying the whole folder is the conservative superset (an import could resolve there); it is
++    # not something the checks can tell apart, and it is recorded as such rather than "killed".
++    ("K4 the narrowed copy is taken from the working tree, not the index",
++     [(NARROW, "    mkdir -p \"$TMP_IMPACT_TREE/bomdd/process\" && cp -r bomdd/tools \"$TMP_IMPACT_TREE/bomdd/\""
++               " && cp bomdd/process/change-impact-policy.yaml \"$TMP_IMPACT_TREE/bomdd/process/\"\n")], "equiv"),
++]
++
++
++def main() -> int:
++    for stream in (sys.stdout, sys.stderr):
++        stream.reconfigure(encoding="utf-8", errors="backslashreplace")
++    started = datetime.datetime.now().astimezone()
++    print(f"started_at {started.isoformat(timespec='seconds')}")
++    head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
++    source = HOOK.read_bytes().decode("utf-8")
++    print(f"HEAD {head}")
++    print(f"sha256 {hashlib.sha256(HOOK.read_bytes()).hexdigest()}  bomdd/hooks/pre-commit (working tree, the source every mutant edits)")
++    killed_all = True
++    for label, edits, check in MUTANTS:
++        mutant = source
++        missing = [old for old, _ in edits if mutant.count(old) != 1]
++        if missing:
++            print(f"[NOT APPLIED] {label}: an anchor does not occur exactly once: {missing[0][:70]!r}")
++            killed_all = False
++            continue
++        for old, new in edits:
++            mutant = mutant.replace(old, new)
++        base = Path(tempfile.mkdtemp(prefix="eco253mu-"))
++        stage_root = base / "root"
++        try:
++            # A throwaway clone as the "repository root" the check scripts read the hook from. Its
++            # HEAD is this tree's HEAD, so equiv253's --original-rev resolves the same way.
++            subprocess.run(["git", "clone", "-q", "--shared", "-c", "core.autocrlf=false", str(ROOT),
++                            str(stage_root)], check=True)
++            (stage_root / "bomdd/hooks/pre-commit").write_bytes(mutant.encode("utf-8"))
++            script = HERE / ("probe253.py" if check == "probe" else "equiv253.py")
++            extra = [] if check == "probe" else ["--states", "S6"]   # the state that reads the index
++            done = subprocess.run([sys.executable, str(script), *extra], cwd=stage_root, capture_output=True,
++                                  text=True, encoding="utf-8", errors="replace")
++        finally:
++            shutil.rmtree(base, ignore_errors=True)
++        red = [line.split("|")[0].strip() for line in done.stdout.splitlines()
++               if ": RED" in line or line.startswith("[DIFFERENT]")]
++        killed = done.returncode == 1 and bool(red)
++        killed_all = killed_all and killed
++        print(f"[{'KILLED' if killed else 'SURVIVED'}] {label} | {check} exit {done.returncode}, red in {red or 'none'}")
++    finished = datetime.datetime.now().astimezone()
++    print(f"finished_at {finished.isoformat(timespec='seconds')} "
++          f"elapsed_ms {int((finished - started).total_seconds() * 1000)}")
++    print(f"RESULT {'ALL KILLED' if killed_all else 'NOT ALL KILLED'}")
++    return 0 if killed_all else 1
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git c/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt i/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+new file mode 100644
+index 00000000..b1aaf374
+--- /dev/null
++++ i/test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+@@ -0,0 +1,7 @@
++started_at 2026-10-12T09:35:51+09:00
++HEAD 9c129eac23eb9a537486f4338a94e9267bbabc29
++sha256 f46a2bdd90526764605acbd3aafae573b0c4941cd30051961046237225a91ddb  bomdd/hooks/pre-commit (working tree)
++N1: GREEN | register only: hook rc=0; checkout-index runs [('git checkout-index -z --stdin --prefix=/tmp/tmp.yVkTUqj35i/', 0.07)]
++E1: GREEN | change-impact policy staged: hook rc=0; checkout-index runs [('git checkout-index --all --prefix=/tmp/tmp.5rPQaFriPG/', 20.38)]
++finished_at 2026-10-12T09:40:04+09:00 elapsed_ms 253073
++RESULT GREEN (2/2 green)

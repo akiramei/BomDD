@@ -46,6 +46,16 @@ ViewTube は読むだけで、実験はすべて使い捨ての clone(`git clone
 2. 一時的な読み取りの失敗で、2 か所が通す側に倒れる(読んだ): `validate_materialisation_divergence.py:161`(作業ツリーのファイルが無いと、その経路を飛ばす)と `validate_machinery_claims.py:91`(記録の面の頭のフォルダが無いと、そのフォルダ全体を飛ばす)。
 3. 3 つの検証器が `--commit-msg` でも登録簿を作業ツリーから読む。`--commit-msg` で index に切り替わるのは `validate_process.py` 自身の読み取りだけである(作業ツリーだけを変えた実験 c で、validate_process は PASS、記録の一貫性が止めた)。
 
+## 2.5 候補 (b) の ECO(ViewTube ECO-VT-253)の進み — フックを変える commit が通らない(2026-10-12)
+
+user 裁定「1」で ViewTube ECO-VT-253 を起票し(`ac09abf6`)、probe(`2abdf9c2`)・宣言(`9c129eac`)まで commit した。修理は作業木で済ませ、probe 2/2 緑・元と修理後のフックで 6/6 の状態が同じ判定・変異 3/3 を確かめた。
+
+修理の commit は、ViewTube の門で **止まった**(31 分)。撮影の全計画は 23/23 で通ったが、フックを stage した commit でだけ走る UI 製造の道具の資格確認(HEAD の `selftest_ui_manufacturing.py` が候補の索引の複製で走る)が 49/51 で失敗し、理由は ECO-VT-207・209・213 の記録の言語の比率(フィクスチャの中で本文と登録簿の日本語の比率の差が 0.21〜0.25、上限 0.20)だった。
+
+**修理の前からの欠陥である**: 同じ資格確認を、フックを変えない HEAD(`9c129eac`)の使い捨ての clone で走らせても、同じ 49/51・同じ 3 件で失敗した(`mfg_qual_head.py` → `mfg-qual-head-output.txt`、1361 秒)。フックを最後に変えた commit は 2026-09-25(ECO-VT-190)で、ECO-VT-207 以降はその後に起票された。いまは、フックや UI 製造の道具を stage する commit がすべてこの資格確認で止まる。
+
+ViewTube の作業木は HEAD に戻した(フックは作業木から直接走るので、commit していない修理を置いたままにすると、ほかのセッションの commit がそれで走る)。修理は `eco-vt-253-fix.patch`(`git diff --cached --binary`、HEAD `9c129eac` に `git apply --check --index` で当たることを確かめた)に保存した。ECO-VT-253 は staged のままで、フックの所有権を持っている。
+
 ## 3. 限界
 
 - (b) の実測は 3 つの stage の状態だけ。同じ判定であることの主な根拠は、§1 の「読むもの」の証明(読んだ)である。
