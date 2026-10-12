@@ -1,0 +1,17 @@
+.json   3300 files    234.6 MB
+.md      771 files     10.1 MB
+.yaml    238 files      7.8 MB
+.py      886 files      7.2 MB
+untracked (not in git): 18 files 0.6 MB
+largest 20 files hold 25.9 MB:
+      7.4 MB  test-results/eco-vt-068-worktree-retirement/custody-inventory.json
+      3.5 MB  bomdd/process/change-register.yaml
+      3.5 MB  test-results/eco-vt-067-demo-curation/google-developers-showcase-v1.viewtube.json
+      0.7 MB  test-results/acceptance-runs/run-20261011T152508173Z-76ae895f/test-ledger.json
+      0.7 MB  test-results/eco-vt-050-actual-04/capture-manifest.json
+      0.7 MB  test-results/eco-vt-050-actual-03/capture-manifest.json
+      0.7 MB  test-results/eco-vt-050-actual-02/capture-manifest.json
+      0.7 MB  test-results/eco-vt-050-actual-01/capture-manifest.json
+      0.7 MB  test-results/acceptance-runs/run-20261010T190338730Z-beb269f9/test-ledger.json
+      0.7 MB  test-results/eco-vt-068-worktree-retirement/preserved/unreferenced/test-results/eco-vt-053-actual-05/capture-manifest.json
+files over 1 MB: 3 holding 14.4 MB

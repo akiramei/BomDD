@@ -1,0 +1,5 @@
+wrote 5195 files in 5.8s
+read pass 1: 34.59s (260 MB)
+read pass 2: 0.43s (260 MB)
+read pass 3: 0.54s (260 MB)
+read of the same files in the ViewTube working tree: 1.58s

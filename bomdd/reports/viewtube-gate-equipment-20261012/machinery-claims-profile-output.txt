@@ -1,0 +1,6 @@
+surface prefixes ('bomdd/', 'test-results/', '.agents/', 'tools/') suffixes ('.md', '.yaml', '.yml', '.py', '.json')
+bound entries 47, claims 13
+record surface: 5195 files, 259.7 MB, listed in 0.34s
+read + normalise every surface file once: 3.20s
+substring searches: 13 claims x 5195 files = 67,535 in 1.05s (47 hits, by suffix {'.md': 13, '.yaml': 17, '.py': 15, '.json': 2})
+whole inspect(): 7.96s, findings 0
