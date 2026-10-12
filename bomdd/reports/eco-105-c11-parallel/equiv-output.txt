@@ -1,0 +1,7 @@
+all-pass                   SAME  lines=2 failures=0 exception=None
+c11-init-fails             SAME  lines=1 failures=1 exception=None
+c11b-init-fails            SAME  lines=2 failures=1 exception=None
+c11b-qualification-fails   SAME  lines=2 failures=1 exception=None
+both-fail                  SAME  lines=2 failures=2 exception=None
+c11b-raises                SAME  lines=1 failures=0 exception='RuntimeError: adapted runner exploded'
+RESULT SAME (6 scenarios)

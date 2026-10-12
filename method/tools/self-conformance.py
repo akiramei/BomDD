@@ -96,6 +96,7 @@ import re
 import shutil
 import stat
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 import sys
 import tempfile
 import xml.etree.ElementTree as ET
@@ -424,6 +425,7 @@ def c11_process_core() -> None:
         check("C11", False, "git が実行できない(工程設備の検査対象が実行不能 — 欠測は FAIL)")
         return
     tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-c11-"))
+    c11b_pool = None
     try:
         p = run([sys.executable, str(ROOT / "method" / "tools" / "bomdd-init.py"),
                  "ProcCoreSmoke", "--dir", str(tmp), "--no-gui", "--no-qualify"],
@@ -433,6 +435,13 @@ def c11_process_core() -> None:
             check("C11", False, f"bomdd-init が失敗 (exit {p.returncode}): {p.stderr.strip()[:120]}")
             return
         runner = prod / "bomdd" / "tools" / "process-qualification.py"
+        # ECO-105: C11b builds and qualifies its own scaffold (AdaptSmoke) and reads nothing C11's runs below write,
+        # so it runs beside them on a second thread. Its results are reported after C11's, in the order the sequential
+        # version printed them; an exception in it is raised here, as before.
+        c11b_results: list[tuple] = []
+        c11b_pool = ThreadPoolExecutor(max_workers=1)
+        c11b_future = c11b_pool.submit(c11b_adapted_profile, tmp, runner,
+                                       lambda *item: c11b_results.append(item))
         # scaffold の初回 commit が hook 有効のまま成立していること(bomdd-init 経路の実測)
         head_ok = run(["git", "-C", str(prod), "rev-parse", "HEAD"]).returncode == 0
         # ECO-017 REV-11: 2 回決定性を C11 でも回帰固定(--runs 既定 2)+構造化 JSON 判定
@@ -461,21 +470,26 @@ def c11_process_core() -> None:
               f"process-core 適格性(初回 commit hook 有効={head_ok}・IQ/OQ PASS={ok1}・control {n_ctl} 件・"
               f"2 回決定性={det_ok}・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定={ok2})"
               + ("" if ok1 else f" — {q.stdout.strip().splitlines()[-1:] or q.stderr.strip()[:120]}"))
-        c11b_adapted_profile(tmp, runner)
+        c11b_future.result()
+        for item in c11b_results:
+            check(*item)
     finally:
+        if c11b_pool is not None:
+            c11b_pool.shutdown(wait=True)
         _cleanup_tmp(tmp)
 
 
-def c11b_adapted_profile(tmp: Path, runner: Path) -> None:
+def c11b_adapted_profile(tmp: Path, runner: Path, report=None) -> None:
     """C11b(ECO-024 IA-04・裁定 4)— **非既定構成の対照 1 本**。
     差分注入点(register パス・initial 状態名・trailer 名・保護パス)をすべて既定と変えた
     profile で全対照が PASS するか。既定一致構成だけの検査は、adapt された実運用リポで
     初めて誤 FAIL/素通りを起こす(ECO-021 は保護パスのみ導出化し、他の可変点が残った)。"""
+    report = report or check  # ECO-105: C11 collects these to print them after its own
     p = run([sys.executable, str(ROOT / "method" / "tools" / "bomdd-init.py"),
              "AdaptSmoke", "--dir", str(tmp), "--no-gui", "--no-qualify"], env=_c11_env())
     prod = tmp / "AdaptSmoke"
     if p.returncode != 0:
-        check("C11b", False, f"bomdd-init が失敗 (exit {p.returncode}): {p.stderr.strip()[:120]}")
+        report("C11b", False, f"bomdd-init が失敗 (exit {p.returncode}): {p.stderr.strip()[:120]}")
         return
     prof_path = prod / "bomdd" / "process-profile.yaml"
     try:
@@ -502,12 +516,12 @@ def c11b_adapted_profile(tmp: Path, runner: Path) -> None:
         (prod / "app").mkdir(parents=True, exist_ok=True)
         (prod / "app" / ".keep").write_text("", encoding="utf-8", newline="\n")
     except (OSError, KeyError, yaml.YAMLError) as e:
-        check("C11b", False, f"adapt profile を構成できない: {type(e).__name__}: {e}")
+        report("C11b", False, f"adapt profile を構成できない: {type(e).__name__}: {e}")
         return
     for args in (["add", "-A"], ["commit", "-q", "--no-verify", "-m", "adapt: non-default profile"]):
         r = run(["git", "-C", str(prod), *args], env=_c11_env())
         if r.returncode != 0:
-            check("C11b", False, f"adapt commit が失敗: {r.stderr.strip()[:120]}")
+            report("C11b", False, f"adapt commit が失敗: {r.stderr.strip()[:120]}")
             return
     j = tmp / "q-adapt.json"
     q = run([sys.executable, str(runner), "--root", str(prod), "--json", str(j)])
@@ -520,7 +534,7 @@ def c11b_adapted_profile(tmp: Path, runner: Path) -> None:
         failed = [c.get("control") for c in controls if not c.get("pass")]
     except (OSError, json.JSONDecodeError):
         ok = False
-    check("C11b", ok and det and not failed,
+    report("C11b", ok and det and not failed,
           f"非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— "
           f"PASS={ok}・2 回決定性={det}・control {n_ctl} 件" + (f"・不合格 {failed}" if failed else ""))
 

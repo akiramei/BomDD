@@ -84,3 +84,18 @@ The diff is `method/tools/self-conformance.py` (C11/C11b only), this order, the 
 - **Current text of `c11_process_core` and `c11b_adapted_profile`**: **confirmed** (read).
 - **No ECO in progress on `method/tools/self-conformance.py`**: **confirmed** (every register entry is verified, apart from one implemented entry that does not touch it).
 - **Start decision**: **PROCEED**, override 0.
+
+## 4. Manufacture and the measurements before commit (2026-10-12)
+
+**What was changed** in `method/tools/self-conformance.py` (20 lines added, 6 changed), all in C11/C11b:
+- one import (`concurrent.futures.ThreadPoolExecutor`);
+- in `c11_process_core`, a worker started after the runner path is known, results collected and reported after C11's line, and the worker shut down before `_cleanup_tmp`;
+- in `c11b_adapted_profile`, a `report` parameter defaulting to `check`, and its four `check("C11b", ...)` calls made through it.
+
+**Evidence** is in `bomdd/reports/eco-105-c11-parallel/` (README.md lists each file).
+
+- **V2 result**: PASS.
+  - `equiv105.py`: 6 of 6 scenarios the same (`equiv-output.txt`): all pass, C11 init fails, C11b init fails, C11b qualification fails, both fail, and C11b raises (the same `RuntimeError`).
+  - The two broken versions, not waiting for C11b and not reporting its results, are both told apart (`equiv-mutants-output.txt`).
+- **V1, the clone part**: PASS. The prototype gave the same exit code and the same 25 check lines in a throwaway clone: 336.5 s → 188.3 s.
+- **V1, the real-repository part, V3 and V4**: recorded in section 5, after the changed self-conformance has run on this tree.

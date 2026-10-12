@@ -1,0 +1,32 @@
+== mutant105a
+all-pass                   DIFFERENT  lines=2 failures=0 exception=None
+   original: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)', '[C11b] PASS 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=True・2 回決定性=True・control 2 件'], [], None)
+   repaired: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)'], [], None)
+c11-init-fails             SAME  lines=1 failures=1 exception=None
+c11b-init-fails            SAME  lines=2 failures=1 exception=None
+c11b-qualification-fails   DIFFERENT  lines=2 failures=1 exception=None
+   original: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)', "[C11b] FAIL 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=False・2 回決定性=True・control 2 件・不合格 ['OQ-07']"], ["C11b: 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=False・2 回決定性=True・control 2 件・不合格 ['OQ-07']"], None)
+   repaired: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)'], [], None)
+both-fail                  DIFFERENT  lines=2 failures=2 exception=None
+   original: (['[C11] FAIL process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=False・control 2 件・2 回決定性=False・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True) — ', "[C11b] FAIL 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=False・2 回決定性=True・control 2 件・不合格 ['OQ-09']"], ['C11: process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=False・control 2 件・2 回決定性=False・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True) — ', "C11b: 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=False・2 回決定性=True・control 2 件・不合格 ['OQ-09']"], None)
+   repaired: (['[C11] FAIL process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=False・control 2 件・2 回決定性=False・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True) — '], ['C11: process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=False・control 2 件・2 回決定性=False・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True) — '], None)
+c11b-raises                DIFFERENT  lines=1 failures=0 exception='RuntimeError: adapted runner exploded'
+   original: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)'], [], 'RuntimeError: adapted runner exploded')
+   repaired: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)'], [], None)
+RESULT DIFFERENT (6 scenarios)
+== mutant105b
+all-pass                   DIFFERENT  lines=2 failures=0 exception=None
+   original: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)', '[C11b] PASS 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=True・2 回決定性=True・control 2 件'], [], None)
+   repaired: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)'], [], None)
+c11-init-fails             SAME  lines=1 failures=1 exception=None
+c11b-init-fails            DIFFERENT  lines=2 failures=1 exception=None
+   original: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)', '[C11b] FAIL bomdd-init が失敗 (exit 1): adapt init failed'], ['C11b: bomdd-init が失敗 (exit 1): adapt init failed'], None)
+   repaired: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)'], [], None)
+c11b-qualification-fails   DIFFERENT  lines=2 failures=1 exception=None
+   original: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)', "[C11b] FAIL 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=False・2 回決定性=True・control 2 件・不合格 ['OQ-07']"], ["C11b: 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=False・2 回決定性=True・control 2 件・不合格 ['OQ-07']"], None)
+   repaired: (['[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 2 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)'], [], None)
+both-fail                  DIFFERENT  lines=2 failures=2 exception=None
+   original: (['[C11] FAIL process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=False・control 2 件・2 回決定性=False・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True) — ', "[C11b] FAIL 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=False・2 回決定性=True・control 2 件・不合格 ['OQ-09']"], ['C11: process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=False・control 2 件・2 回決定性=False・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True) — ', "C11b: 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=False・2 回決定性=True・control 2 件・不合格 ['OQ-09']"], None)
+   repaired: (['[C11] FAIL process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=False・control 2 件・2 回決定性=False・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True) — '], ['C11: process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=False・control 2 件・2 回決定性=False・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True) — '], None)
+c11b-raises                SAME  lines=1 failures=0 exception='RuntimeError: adapted runner exploded'
+RESULT DIFFERENT (6 scenarios)

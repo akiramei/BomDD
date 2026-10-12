@@ -3314,7 +3314,7 @@ changes:
     title: self-conformance C11 - run C11b beside C11's own qualification runs (same checks, same output)
     date: 2026-10-12
     origin: improvement
-    status: draft   # 2026-10-12 filed on the user's "1" (parallel C11 runs; the record-only skip not chosen). Manufacture follows
+    status: implemented   # 2026-10-12 filed c82b852 on the user's "1" (parallel C11 runs; the record-only skip not chosen); manufactured in the next commit
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       A BomDD record commit took 11 min 43 s; local self-conformance 337.9 s of which C11 330.6 s (two full process-qualification
