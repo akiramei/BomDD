@@ -67,3 +67,43 @@ Its cost is friction when it blocks, and that friction was not measured. Whether
 | + R1 | about 38 min |
 | + E1 | about 23 min |
 | + E2, for a hook-only commit | about 18 min |
+
+## G. Closure: ViewTube ECO-VT-254 applied (2026-10-12)
+
+**The user's ruling** (verbatim): "1です。また、Aは変えません。Windows Defenderに疑いのもたれないように大量のアクセスや複数回の連続実行をやめればよいはず。B.は変えます。変わることが問題ではなく、変えた後に目的を達成できるかです。"
+
+**What landed, with ViewTube's commits:**
+- the filing `5d1053bc`;
+- the probe `c7f5dc25`, which was RED on 8 of 8 cases;
+- the declaration `a42e06b0`;
+- the repair `945d86ac`;
+- implemented `4029fc47`;
+- applied `7b79469a` (the user's answer "1").
+
+**What applied:**
+- **R1.** Each evidence directory is copied once.
+- **E1.** The nested qualification stops at its first failure, by a flag the harness sets only for its own fixture commits.
+- **C1-C3.** `test-results/` is left out of three index copies.
+- **G1.** The fixture runs with `gc.auto 0`.
+- **L1.** git is asked once.
+- **B1.** The reachability probe's mutation moved to commit-msg. This is the user's ruling B: the probe is still valid on the real hooks, invalid when their UI-golden block is switched off, and starts 0 change-impact processes where it used to start 64.
+
+**What did not apply:**
+- **E2 was withdrawn after R8 round 1.** ECO-VT-184's applied claim and CP-CAPTURE-PLANS-RUN-001 both name the hook as a sweep trigger, so E2 needs an ECO of its own that changes those records.
+- **The expectation coupling (section E) was not ruled on.**
+
+**Measured effect:**
+- The repair commit's gate took **2,373 s (39.6 min)**, against 6,815 s (113.6 min) for the same kind of commit before. The estimate had been about 45 minutes.
+- That gate still ran HEAD's old harness. Later equipment commits run the repaired one, which took 756.5 s end to end on a shared machine. With the sweep and UI-golden, an equipment commit is estimated at about 20-25 minutes; that has not been measured on a real commit.
+- The ordinary record commits of this ECO took 57-79 s.
+
+**Elapsed time and its causes:**
+- The ECO took 2 h 45 min from filing to implemented, against the 1.5-2 h estimate given to the user.
+- The difference came from two R8 rounds (round 1 REJECT), the manufacturer's own tooling incident (a line-ending normaliser run over `test-results/` in the working clone), and two repair defects found by the evidence (B1's newline and the sentinel's machinery claim).
+
+**Open:**
+- E2, as its own ECO.
+- The validator inefficiencies (`hooks-inefficiency.md` sections 2-3).
+- Running the sweep's plans in parallel.
+- D1, the nested control that passes on "nothing to commit".
+- The commit-msg UI-golden exit-status gap that round 1 found (it predates this ECO).
