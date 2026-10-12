@@ -1,0 +1,93 @@
+     2.2s +   73.6s  validate_process.py --commit-msg tmp.25WdiwAqDo  [cwd C:\Users\akira\AppData\Local\Temp\gate-equip-22hsi5bi\clone]
+      31.4s +   44.3s  validate_machinery_claims.py --json --root  [cwd C:\Users\akira\AppData\Local\Temp\gate-equip-22hsi5bi\clone]
+    78.6s +  313.0s  sweep-capture-plans.py  [cwd C:\Users\akira\AppData\Local\Temp\gate-equip-22hsi5bi\clone]
+   411.1s +   33.4s  tmp.cJGHcRfo4C --quiet  [cwd C:\Users\akira\AppData\Local\Temp\gate-equip-22hsi5bi\clone]
+    commit     0.1s rc=0  ?
+    commit     0.1s rc=0  impact fixture baseline
+    commit     0.1s rc=0  ?
+    commit     0.1s rc=0  ?
+    commit     0.1s rc=0  ?
+    commit     0.1s rc=0  ?
+   482.9s +   67.7s  tmp.o9h56NXNiX  [cwd C:\Users\akira\AppData\Local\Temp\tmp.zoZ668Bfa2]
+    commit     0.1s rc=0  trusted hook fixture
+    commit    53.4s rc=1  pre-commit reachability probe
+    commit     0.1s rc=0  trusted hook fixture
+    commit     0.1s rc=0  pre-commit reachability probe
+    commit     0.1s rc=0  trusted hook fixture
+    commit     6.5s rc=1  commit-msg reachability probe
+    commit     0.1s rc=0  trusted hook fixture
+    commit     0.1s rc=0  commit-msg reachability probe
+     486.4s +   31.7s  tmp.OT4V9a7s7j --quiet  [cwd AppData\Local\Temp\viewtube-pre-commit-reachability-i5uf4__e]
+      commit     0.1s rc=0  ?
+      commit     0.1s rc=0  impact fixture baseline
+      commit     0.1s rc=0  ?
+      commit     0.1s rc=0  ?
+      commit     0.1s rc=0  ?
+      commit     0.1s rc=0  ?
+   577.4s + 6073.3s  selftest_ui_manufacturing.py  [cwd C:\Users\akira\AppData\Local\Temp\tmp.suj8IRQpLX]
+    commit     0.1s rc=0  fixture
+    commit    34.1s rc=0  fixture
+    commit    77.0s rc=1  missing lifecycle trailer
+    commit    71.9s rc=0  fix(eco-vt-011): lifecycle positive control
+    commit  2998.6s rc=1  stage weakened inspection equipment
+    commit  1532.7s rc=1  stage weakened validator and selftest
+    1897.9s +   66.1s  validate_process.py  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-3ignvb7_\lifecycle-hook]
+      1926.2s +   37.8s  validate_machinery_claims.py --json --root  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-3ignvb7_\lifecycle-hook]
+    1969.7s +   29.0s  validate_process.py --commit-msg tmp.sUC6ZOMO4x  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-3ignvb7_\lifecycle-hook]
+    2015.5s +   28.6s  validate_process.py --commit-msg COMMIT_EDITMSG  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-3ignvb7_\lifecycle-hook]
+    2046.6s +   28.3s  validate_process.py --commit-msg tmp.NupUquhgtj  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-3ignvb7_\lifecycle-hook]
+    2087.3s +   28.8s  validate_process.py --commit-msg COMMIT_EDITMSG  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-3ignvb7_\lifecycle-hook]
+    2116.7s +   27.2s  validate_process.py --quiet  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-3ignvb7_\lifecycle-hook]
+    2178.0s + 2934.7s  tmp.kLHub82dDO  [cwd C:\Users\akira\AppData\Local\Temp\tmp.uRoVDIAKty]
+      commit     0.1s rc=0  fixture
+      commit    34.0s rc=0  fixture
+      commit    71.1s rc=1  missing lifecycle trailer
+      commit    70.6s rc=0  fix(eco-vt-011): lifecycle positive control
+      commit    31.8s rc=1  stage weakened inspection equipment
+      commit  1538.7s rc=1  stage weakened validator and selftest
+      3333.6s +   58.7s  validate_process.py  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-wzq1tgh8\lifecycle-hook]
+        3358.3s +   33.9s  validate_machinery_claims.py --json --root  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-wzq1tgh8\lifecycle-hook]
+      3400.6s +   24.0s  validate_process.py --commit-msg tmp.lXyrbbgJX3  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-wzq1tgh8\lifecycle-hook]
+      3439.8s +   28.2s  validate_process.py --commit-msg COMMIT_EDITMSG  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-wzq1tgh8\lifecycle-hook]
+      3470.3s +   27.0s  validate_process.py --commit-msg tmp.Ay9MQUy8kX  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-wzq1tgh8\lifecycle-hook]
+      3509.8s +   28.7s  validate_process.py --commit-msg COMMIT_EDITMSG  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-wzq1tgh8\lifecycle-hook]
+      3539.2s +   28.2s  validate_process.py --quiet  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-wzq1tgh8\lifecycle-hook]
+      3571.1s +   28.5s  validate_process.py --quiet  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-wzq1tgh8\lifecycle-hook]
+      3633.4s + 1473.2s  tmp.YdaijoswX4  [cwd C:\Users\akira\AppData\Local\Temp\tmp.5lu427vfhM]
+        commit     0.2s rc=0  fixture
+        commit    35.0s rc=0  fixture
+        commit    31.4s rc=1  missing lifecycle trailer
+        commit    29.2s rc=1  fix(eco-vt-011): lifecycle positive control
+        4970.8s +   67.7s  validate_process.py  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-hz1xyu2m\lifecycle-hook]
+          4996.6s +   41.9s  validate_machinery_claims.py --json --root  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-hz1xyu2m\lifecycle-hook]
+        5045.4s +   28.8s  validate_process.py --commit-msg tmp.o7TjATHZVe  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-hz1xyu2m\lifecycle-hook]
+        5076.8s +   26.6s  validate_process.py --commit-msg tmp.tFJYQpmLdV  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-hz1xyu2m\lifecycle-hook]
+    5115.5s +   63.4s  validate_process.py --quiet  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-3ignvb7_\lifecycle-hook]
+      5139.5s +   39.4s  validate_machinery_claims.py --json --root  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-3ignvb7_\lifecycle-hook]
+    5207.9s + 1437.3s  tmp.ZbPbplKmo0  [cwd C:\Users\akira\AppData\Local\Temp\tmp.nijS90ggbH]
+      commit     0.1s rc=0  fixture
+      commit    33.9s rc=0  fixture
+      commit    29.9s rc=1  missing lifecycle trailer
+      commit    32.9s rc=1  fix(eco-vt-011): lifecycle positive control
+      6509.8s +   60.1s  validate_process.py  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-1q6nyj1v\lifecycle-hook]
+        6535.4s +   34.4s  validate_machinery_claims.py --json --root  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-1q6nyj1v\lifecycle-hook]
+      6579.3s +   26.1s  validate_process.py --commit-msg tmp.OtKkCWtbxb  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-1q6nyj1v\lifecycle-hook]
+      6608.7s +   29.5s  validate_process.py --commit-msg tmp.BlPrkmisZA  [cwd a\AppData\Local\Temp\viewtube-ui-mfg-1q6nyj1v\lifecycle-hook]
+  6677.0s +   64.0s  tmp.sLeIBoInht  [cwd C:\Users\akira\AppData\Local\Temp\tmp.MKjdtnXuyb]
+    commit     0.1s rc=0  trusted hook fixture
+    commit    45.1s rc=1  pre-commit reachability probe
+    commit     0.1s rc=0  trusted hook fixture
+    commit     0.1s rc=0  pre-commit reachability probe
+    commit     0.1s rc=0  trusted hook fixture
+    commit    10.7s rc=1  commit-msg reachability probe
+    commit     0.1s rc=0  trusted hook fixture
+    commit     0.1s rc=0  commit-msg reachability probe
+    6681.4s +   34.4s  tmp.qIJDScDnRo --quiet  [cwd AppData\Local\Temp\viewtube-pre-commit-reachability-dd1ogta5]
+      commit     0.1s rc=0  ?
+      commit     0.1s rc=0  impact fixture baseline
+      commit     0.1s rc=0  ?
+      commit     0.1s rc=0  ?
+      commit     0.1s rc=0  ?
+      commit     0.1s rc=0  ?
+  6744.5s +   70.5s  validate_process.py --commit-msg COMMIT_EDITMSG  [cwd C:\Users\akira\AppData\Local\Temp\gate-equip-22hsi5bi\clone]
+    6773.5s +   41.5s  validate_machinery_claims.py --json --root  [cwd C:\Users\akira\AppData\Local\Temp\gate-equip-22hsi5bi\clone]

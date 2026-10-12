@@ -1,0 +1,493 @@
++ 1791787992.822441 9 for required_tool in git grep mktemp rm
++ 1791787992.822566 10 command -v git
++ 1791787992.822974 9 for required_tool in git grep mktemp rm
++ 1791787992.823003 10 command -v grep
++ 1791787992.823464 9 for required_tool in git grep mktemp rm
++ 1791787992.823488 10 command -v mktemp
++ 1791787992.823945 9 for required_tool in git grep mktemp rm
++ 1791787992.823967 10 command -v rm
+++ 1791787992.841202 16 git rev-parse --local-env-vars
++ 1791787992.879468 16 GIT_LOCAL_ENV_VARS='GIT_ALTERNATE_OBJECT_DIRECTORIES
+GIT_CONFIG
+GIT_CONFIG_PARAMETERS
+GIT_CONFIG_COUNT
+GIT_OBJECT_DIRECTORY
+GIT_DIR
+GIT_WORK_TREE
+GIT_IMPLICIT_WORK_TREE
+GIT_GRAFT_FILE
+GIT_INDEX_FILE
+GIT_NO_REPLACE_OBJECTS
+GIT_REPLACE_REF_BASE
+GIT_PREFIX
+GIT_SHALLOW_FILE
+GIT_COMMON_DIR'
++ 1791787992.879921 17 '[' 0 -ne 0 ']'
++ 1791787992.879954 17 '[' -z 'GIT_ALTERNATE_OBJECT_DIRECTORIES
+GIT_CONFIG
+GIT_CONFIG_PARAMETERS
+GIT_CONFIG_COUNT
+GIT_OBJECT_DIRECTORY
+GIT_DIR
+GIT_WORK_TREE
+GIT_IMPLICIT_WORK_TREE
+GIT_GRAFT_FILE
+GIT_INDEX_FILE
+GIT_NO_REPLACE_OBJECTS
+GIT_REPLACE_REF_BASE
+GIT_PREFIX
+GIT_SHALLOW_FILE
+GIT_COMMON_DIR' ']'
++ 1791787992.880021 29 unset VIEWTUBE_UI_MFG_INSPECTOR_DLL
+++ 1791787992.911324 34 git diff --cached --name-only -z --no-renames --diff-filter=ACMRDT
+++ 1791787992.926281 34 tr '\0' '\n'
++ 1791787992.973873 34 STAGED='bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791787992.973959 36 PY=
++ 1791787992.973995 37 for c in python python3 py
++ 1791787992.974016 38 command -v python
++ 1791787992.975312 38 python -c 'import yaml'
++ 1791787993.102695 39 PY=python
++ 1791787993.102734 40 break
++ 1791787993.102791 46 '[' -z python ']'
++ 1791787993.102815 46 '[' '!' -f bomdd/tools/validate_process.py ']'
+++ 1791787993.130250 76 STAGED_PATHS='bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
+++ 1791787993.130396 76 python -
++ 1791787993.346888 76 PROTECTED_DECISION=protected
++ 1791787993.346964 77 case "$PROTECTED_DECISION" in
++ 1791787993.346983 78 PROTECTED=0
++ 1791787993.347005 91 REGISTER_STAGED=1
++ 1791787993.363632 92 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791787993.381814 92 grep -q '^bomdd/process/change-register.yaml$'
++ 1791787993.398558 93 TMP_MSG=
++ 1791787993.398642 94 '[' 1 -eq 1 ']'
+++ 1791787993.415507 95 mktemp
++ 1791787993.446291 95 TMP_MSG=/tmp/tmp.25WdiwAqDo
++ 1791787993.446344 96 python - /tmp/tmp.25WdiwAqDo
++ 1791787995.213607 118 generator_rc=0
++ 1791787995.213655 119 '[' 0 -ne 0 ']'
++ 1791787995.213682 124 python bomdd/tools/validate_process.py --commit-msg /tmp/tmp.25WdiwAqDo --quiet
++ 1791788068.886925 125 rc=0
++ 1791788068.886988 126 rm -f /tmp/tmp.25WdiwAqDo
++ 1791788068.940812 131 '[' 0 -ne 0 ']'
++ 1791788068.940886 140 '[' '!' -f bomdd/tools/validate_release_workflow.py ']'
+++ 1791788068.958849 144 python bomdd/tools/validate_release_workflow.py
++ 1791788070.736274 144 RELEASE_RESULT='PASS (0 findings) over 1869 paths with an active owner, 120 of them colliding'
++ 1791788070.736404 145 release_rc=0
++ 1791788070.736470 146 '[' 0 -ne 0 ']'
++ 1791788070.736531 151 echo '[bomdd] release-workflow ownership: PASS (0 findings) over 1869 paths with an active owner, 120 of them colliding'
++ 1791788070.736629 162 '[' '!' -f bomdd/tools/validate_run_evidence.py ']'
+++ 1791788070.752756 166 python bomdd/tools/validate_run_evidence.py
++ 1791788070.907208 166 RUN_EVIDENCE_RESULT='  no run directory in scope; this run measured nothing
+run-evidence validator: PASS (0 findings)'
++ 1791788070.907307 167 run_evidence_rc=0
++ 1791788070.907343 168 '[' 0 -ne 0 ']'
++ 1791788070.920490 174 printf '%s\n' '  no run directory in scope; this run measured nothing
+run-evidence validator: PASS (0 findings)'
++ 1791788070.933138 174 tail -n 1
++ 1791788070.946666 174 sed 's/^/[bomdd] /'
++ 1791788070.977587 190 '[' '!' -f bomdd/tools/validate_record_citations.py ']'
+++ 1791788070.992213 194 python bomdd/tools/validate_record_citations.py
++ 1791788071.267567 194 RECORD_CITATIONS_RESULT='record-citations validator: PASS (0 findings) over 429 run directories named by 2 staged records - 411 resolve, 18 are known-bad and counted, 0 reported; 68 tracked run directories are named by nothing and are NOT reported'
++ 1791788071.267622 195 record_citations_rc=0
++ 1791788071.267649 196 '[' 0 -ne 0 ']'
++ 1791788071.280115 202 printf '%s\n' 'record-citations validator: PASS (0 findings) over 429 run directories named by 2 staged records - 411 resolve, 18 are known-bad and counted, 0 reported; 68 tracked run directories are named by nothing and are NOT reported'
++ 1791788071.291519 202 tail -n 1
++ 1791788071.304672 202 sed 's/^/[bomdd] /'
++ 1791788071.322900 211 '[' '!' -f bomdd/tools/validate_mcp_host_location.py ']'
+++ 1791788071.336926 215 python bomdd/tools/validate_mcp_host_location.py
++ 1791788071.448787 215 MCP_HOST_RESULT='mcp-host-location validator: PASS (0 findings) over 1 configured MCP server commands'
++ 1791788071.448885 216 mcp_host_rc=0
++ 1791788071.448921 217 '[' 0 -ne 0 ']'
++ 1791788071.462311 223 printf '%s\n' 'mcp-host-location validator: PASS (0 findings) over 1 configured MCP server commands'
++ 1791788071.475086 223 tail -n 1
++ 1791788071.488588 223 sed 's/^/[bomdd] /'
++ 1791788071.519722 240 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791788071.532677 240 grep -Eq '^src/ViewTube\.App/'
++ 1791788071.542168 241 PRODUCT_UI_STAGED=1
++ 1791788071.555346 242 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791788071.568816 242 grep -Eq '^bomdd/ui/expectations/[^/]+\.json$'
++ 1791788071.579385 243 EXPECTATION_STAGED=1
++ 1791788071.579461 244 '[' 1 -eq 0 ']'
++ 1791788071.579495 252 '[' 1 -eq 0 ']'
++ 1791788071.579519 255 echo '[bomdd] videos expectation coupling: no product UI staged'
++ 1791788071.579589 293 SWEEP_PATTERN='^(src/|tools/ViewTube\.CaptureHarness/|tools/sweep-capture-plans\.py$|bomdd/hooks/pre-commit$|bomdd/ui/captures/[^/]+/fixture-manifest\.json$|bomdd/ui/fixtures/|Directory\.Build\.props$|Directory\.Packages\.props$|global\.json$|\.editorconfig$|Directory\.Build\.targets$|NuGet\.config$|Directory\.Build\.rsp$)'
++ 1791788071.593225 294 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791788071.606482 294 grep -Eq '^(src/|tools/ViewTube\.CaptureHarness/|tools/sweep-capture-plans\.py$|bomdd/hooks/pre-commit$|bomdd/ui/captures/[^/]+/fixture-manifest\.json$|bomdd/ui/fixtures/|Directory\.Build\.props$|Directory\.Packages\.props$|global\.json$|\.editorconfig$|Directory\.Build\.targets$|NuGet\.config$|Directory\.Build\.rsp$)'
++ 1791788071.616384 295 '[' '!' -f tools/sweep-capture-plans.py ']'
++ 1791788071.616821 299 echo '[bomdd] capture-plan sweep: a path that can strand a plan is staged (product, harness, fixture manifest or file, root build input, runner or hook) - building the harness and running every plan'
+++ 1791788071.630045 300 python tools/sweep-capture-plans.py
++ 1791788384.707418 300 SWEEP_RESULT='capture-plan sweep: 23 plans from the harness this build wrote (--list-plans), measuring the working tree, scratch C:\Users\akira\AppData\Local\Temp\viewtube-capture-sweep-005hytem
+  plan                                 status captured  first failure
+  ------------------------------------------------------------------------------------------------
+  release                              pass   25      
+  eco-vt-006-cad                       pass   4       
+  eco-vt-028-actual                    pass   2       
+  eco-vt-031-thumbnail                 pass   2       
+  eco-vt-034-component                 pass   2       
+  eco-vt-035-tag-assignment            pass   3       
+  eco-vt-046-saved-node-navigation-v2  pass   5       
+  eco-vt-048-result-navigation-v2      pass   8       
+  eco-vt-049-breadcrumb-navigation-v2  pass   6       
+  eco-vt-050-large-batch-selection-v1  pass   4       
+  eco-vt-052-live-batch-interaction-v1 pass   2       
+  eco-vt-051-tags-layout-v3            pass   2       
+  eco-vt-056-view-pack-v1              pass   17      
+  eco-vt-066-responsive-v1             pass   3       
+  eco-vt-066-scrollbar-v1              pass   2       
+  eco-vt-213-node-dialog-v1            pass   14      
+  eco-vt-213-assignment-dialog-v1      pass   11      
+  eco-vt-213-node-walks-v1             pass   14      
+  eco-vt-243-videos-v1                 pass   13      
+  eco-vt-243-tags-v1                   pass   4       
+  eco-vt-243-music-v1                  pass   7       
+  eco-vt-243-videos-walks-v1           pass   13      
+  eco-vt-243-music-walks-v1            pass   7       
+  ------------------------------------------------------------------------------------------------
+capture-plan sweep: PASS - 23 plans, 23 passing, 0 failing, 170 states captured, 313 s including the build, measuring the working tree'
++ 1791788384.707527 301 sweep_rc=0
++ 1791788384.707544 302 '[' 0 -ne 0 ']'
++ 1791788384.718551 308 printf '%s\n' 'capture-plan sweep: 23 plans from the harness this build wrote (--list-plans), measuring the working tree, scratch C:\Users\akira\AppData\Local\Temp\viewtube-capture-sweep-005hytem
+  plan                                 status captured  first failure
+  ------------------------------------------------------------------------------------------------
+  release                              pass   25      
+  eco-vt-006-cad                       pass   4       
+  eco-vt-028-actual                    pass   2       
+  eco-vt-031-thumbnail                 pass   2       
+  eco-vt-034-component                 pass   2       
+  eco-vt-035-tag-assignment            pass   3       
+  eco-vt-046-saved-node-navigation-v2  pass   5       
+  eco-vt-048-result-navigation-v2      pass   8       
+  eco-vt-049-breadcrumb-navigation-v2  pass   6       
+  eco-vt-050-large-batch-selection-v1  pass   4       
+  eco-vt-052-live-batch-interaction-v1 pass   2       
+  eco-vt-051-tags-layout-v3            pass   2       
+  eco-vt-056-view-pack-v1              pass   17      
+  eco-vt-066-responsive-v1             pass   3       
+  eco-vt-066-scrollbar-v1              pass   2       
+  eco-vt-213-node-dialog-v1            pass   14      
+  eco-vt-213-assignment-dialog-v1      pass   11      
+  eco-vt-213-node-walks-v1             pass   14      
+  eco-vt-243-videos-v1                 pass   13      
+  eco-vt-243-tags-v1                   pass   4       
+  eco-vt-243-music-v1                  pass   7       
+  eco-vt-243-videos-walks-v1           pass   13      
+  eco-vt-243-music-walks-v1            pass   7       
+  ------------------------------------------------------------------------------------------------
+capture-plan sweep: PASS - 23 plans, 23 passing, 0 failing, 170 states captured, 313 s including the build, measuring the working tree'
++ 1791788384.730616 308 tail -n 1
++ 1791788384.742172 308 sed 's/^/[bomdd] /'
++ 1791788384.759233 327 '[' 0 -eq 0 ']'
++ 1791788384.774390 328 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791788384.786753 328 grep -Eq '^(bomdd/hooks/pre-commit$|bomdd/process/(change-impact-policy|process-transplant-policy)\.yaml$|bomdd/tools/(validate_change_impact|selftest_change_impact)\.py$)'
++ 1791788384.797197 329 IMPACT_EQUIPMENT=0
+++ 1791788384.821295 330 mktemp -d
++ 1791788384.833073 330 TMP_IMPACT_TREE=/tmp/tmp.a5nzE7phyz
++ 1791788384.833118 331 '[' 0 -eq 0 ']'
++ 1791788384.833148 332 git checkout-index --all --prefix=/tmp/tmp.a5nzE7phyz/
++ 1791788403.901326 337 for required in bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788403.901451 342 '[' '!' -f /tmp/tmp.a5nzE7phyz/bomdd/process/change-impact-policy.yaml ']'
++ 1791788403.920667 337 for required in bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788403.920710 342 '[' '!' -f /tmp/tmp.a5nzE7phyz/bomdd/tools/validate_change_impact.py ']'
++ 1791788403.935839 337 for required in bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788403.935969 342 '[' '!' -f /tmp/tmp.a5nzE7phyz/bomdd/tools/selftest_change_impact.py ']'
++ 1791788403.947688 349 '[' 0 -eq 0 ']'
+++ 1791788403.966611 350 mktemp
++ 1791788403.992183 350 TRUSTED_IMPACT_SELFTEST=/tmp/tmp.cJGHcRfo4C
++ 1791788403.992256 351 git show HEAD:bomdd/tools/selftest_change_impact.py
++ 1791788404.038967 352 grep -q 'TRUSTED_HARNESS_VERSION = "1.0.0"' /tmp/tmp.cJGHcRfo4C
++ 1791788404.074490 353 IMPACT_HARNESS=/tmp/tmp.cJGHcRfo4C
++ 1791788404.074564 358 VIEWTUBE_CHANGE_IMPACT_CANDIDATE_ROOT=/tmp/tmp.a5nzE7phyz
++ 1791788404.074575 358 python /tmp/tmp.cJGHcRfo4C --quiet
++ 1791788437.591546 360 rc=0
++ 1791788437.591605 361 rm -f /tmp/tmp.cJGHcRfo4C
++ 1791788437.616340 362 '[' 0 -ne 0 ']'
+++ 1791788437.647714 369 pwd
++ 1791788437.648860 369 python /tmp/tmp.a5nzE7phyz/bomdd/tools/validate_change_impact.py --root /tmp/gate-equip-22hsi5bi/clone --prospective-index --quiet
++ 1791788452.687886 371 rc=0
++ 1791788452.687944 372 '[' 0 -ne 0 ']'
++ 1791788452.687973 378 rm -rf /tmp/tmp.a5nzE7phyz
++ 1791788458.556731 384 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791788458.579705 384 grep -Eq '^bomdd/(hooks/(pre-commit|commit-msg)|process/(ui-golden-policy|process-transplant-policy)\.yaml|tools/(validate_process|qualify_process_transplant|compare_ui_golden|validate_ui_golden|selftest_ui_golden)\.py)$'
++ 1791788458.599668 385 UI_GOLDEN_EQUIPMENT=0
++ 1791788458.599937 386 '[' 0 -eq 0 ']'
+++ 1791788458.623342 387 mktemp -d
++ 1791788458.642892 387 TMP_TREE=/tmp/tmp.zoZ668Bfa2
++ 1791788458.643005 388 git checkout-index --all --prefix=/tmp/tmp.zoZ668Bfa2/
++ 1791788475.358804 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.358860 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/process/ui-golden-policy.yaml ']'
++ 1791788475.367384 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.367445 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/process/process-transplant-policy.yaml ']'
++ 1791788475.374460 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.374507 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/hooks/pre-commit ']'
++ 1791788475.384195 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.384263 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/hooks/commit-msg ']'
++ 1791788475.391058 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.391093 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/tools/validate_process.py ']'
++ 1791788475.403682 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.403741 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/tools/qualify_process_transplant.py ']'
++ 1791788475.417801 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.417915 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/tools/compare_ui_golden.py ']'
++ 1791788475.419222 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.419252 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/tools/validate_ui_golden.py ']'
++ 1791788475.430425 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.430485 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/tools/selftest_ui_golden.py ']'
++ 1791788475.441685 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.441746 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/process/change-impact-policy.yaml ']'
++ 1791788475.450285 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.450353 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/tools/validate_change_impact.py ']'
++ 1791788475.460760 389 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791788475.460821 403 '[' '!' -f /tmp/tmp.zoZ668Bfa2/bomdd/tools/selftest_change_impact.py ']'
+++ 1791788475.487358 409 mktemp
++ 1791788475.513678 409 TRUSTED_SELFTEST=/tmp/tmp.o9h56NXNiX
++ 1791788475.513756 410 git show HEAD:bomdd/tools/selftest_ui_golden.py
++ 1791788475.561059 411 ECO54_BOOTSTRAP=1
++ 1791788475.561139 412 grep -q 'TRUSTED_HARNESS_VERSION = "2.0.1"' /tmp/tmp.zoZ668Bfa2/bomdd/tools/selftest_ui_golden.py
++ 1791788475.606586 414 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791788475.621873 414 grep -q '^bomdd/tools/selftest_ui_golden.py$'
++ 1791788475.631518 427 ECO70_QUALIFIED_SHA=b333a5b8636bc72caac68d737b2a48943c881f3b5d3b108ca4f1d4cb33287662
+++ 1791788475.645793 428 python -c 'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],'\''rb'\'').read()).hexdigest())' /tmp/tmp.zoZ668Bfa2/bomdd/tools/selftest_ui_golden.py
++ 1791788475.736256 428 ECO70_CANDIDATE_SHA=39d8014e4c6c07116e06513418e0a942488d9ab4b890ba68fbb17608a8ddcdb9
+++ 1791788475.751581 429 python -c 'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],'\''rb'\'').read()).hexdigest())' /tmp/tmp.o9h56NXNiX
++ 1791788475.851293 429 ECO70_TRUSTED_SHA=39d8014e4c6c07116e06513418e0a942488d9ab4b890ba68fbb17608a8ddcdb9
++ 1791788475.851379 430 '[' 39d8014e4c6c07116e06513418e0a942488d9ab4b890ba68fbb17608a8ddcdb9 = b333a5b8636bc72caac68d737b2a48943c881f3b5d3b108ca4f1d4cb33287662 ']'
++ 1791788475.851407 433 grep -q 'TRUSTED_HARNESS_VERSION = "2.0.1"' /tmp/tmp.o9h56NXNiX
++ 1791788475.879168 434 HARNESS=/tmp/tmp.o9h56NXNiX
++ 1791788475.894303 445 cd /tmp/tmp.zoZ668Bfa2
++ 1791788475.894906 447 clear_git_local_env
++ 1791788475.894967 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.894990 24 unset GIT_ALTERNATE_OBJECT_DIRECTORIES
++ 1791788475.895007 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895021 24 unset GIT_CONFIG
++ 1791788475.895032 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895044 24 unset GIT_CONFIG_PARAMETERS
++ 1791788475.895055 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895067 24 unset GIT_CONFIG_COUNT
++ 1791788475.895077 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895088 24 unset GIT_OBJECT_DIRECTORY
++ 1791788475.895098 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895110 24 unset GIT_DIR
++ 1791788475.895119 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895131 24 unset GIT_WORK_TREE
++ 1791788475.895142 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895153 24 unset GIT_IMPLICIT_WORK_TREE
++ 1791788475.895163 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895175 24 unset GIT_GRAFT_FILE
++ 1791788475.895185 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895196 24 unset GIT_INDEX_FILE
++ 1791788475.895206 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895220 24 unset GIT_NO_REPLACE_OBJECTS
++ 1791788475.895231 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895241 24 unset GIT_REPLACE_REF_BASE
++ 1791788475.895249 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895260 24 unset GIT_PREFIX
++ 1791788475.895268 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895278 24 unset GIT_SHALLOW_FILE
++ 1791788475.895287 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788475.895297 24 unset GIT_COMMON_DIR
++ 1791788475.895324 447 VIEWTUBE_UI_GOLDEN_CANDIDATE_ROOT=/tmp/tmp.zoZ668Bfa2
++ 1791788475.895332 447 python /tmp/tmp.o9h56NXNiX
++ 1791788543.649506 449 rc=0
++ 1791788543.649581 450 rm -f /tmp/tmp.o9h56NXNiX
++ 1791788543.673529 451 '[' 0 -ne 0 ']'
++ 1791788543.673572 456 rm -rf /tmp/tmp.zoZ668Bfa2
++ 1791788547.284454 464 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791788547.319859 464 grep -Eq '^src/ViewTube\.App/'
++ 1791788547.371371 465 UI_MFG=1
++ 1791788547.412055 466 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791788547.452451 466 grep -Eq '^bomdd/(process/(ui-manufacturing-policy|ui-part-resolution)\.yaml|tools/(validate_ui_manufacturing|selftest_ui_manufacturing)\.py|tools/UiManufacturingInspector/|hooks/pre-commit$)'
++ 1791788547.480803 467 UI_MFG_EQUIPMENT=0
++ 1791788547.481209 468 '[' 1 -eq 0 ']'
++ 1791788547.481244 468 '[' 0 -eq 0 ']'
+++ 1791788547.505679 469 mktemp -d
++ 1791788547.524351 469 TMP_TREE=/tmp/tmp.suj8IRQpLX
++ 1791788547.524451 470 git checkout-index --all --prefix=/tmp/tmp.suj8IRQpLX/
++ 1791788566.348676 471 '[' '!' -f /tmp/tmp.suj8IRQpLX/bomdd/tools/validate_ui_manufacturing.py ']'
++ 1791788566.371790 476 '[' 0 -eq 0 ']'
++ 1791788566.372462 477 '[' '!' -f /tmp/tmp.suj8IRQpLX/bomdd/tools/selftest_ui_manufacturing.py ']'
+++ 1791788566.404928 482 mktemp
++ 1791788566.416412 482 TRUSTED_SELFTEST=/tmp/tmp.h3JQGUzJ6e
++ 1791788566.416490 483 git show HEAD:bomdd/tools/selftest_ui_manufacturing.py
++ 1791788566.479352 484 ECO23_BOOTSTRAP=1
++ 1791788566.479430 485 grep -q 'TRUSTED_HARNESS_VERSION = "2.0.2"' /tmp/tmp.suj8IRQpLX/bomdd/tools/selftest_ui_manufacturing.py
++ 1791788566.506398 487 git cat-file -e HEAD:bomdd/process/qualification-contexts/ECO-VT-023.yaml
++ 1791788566.550900 490 python - /tmp/tmp.suj8IRQpLX
++ 1791788570.084347 560 ECO23_BOOTSTRAP=1
++ 1791788570.084383 562 ECO17_BOOTSTRAP=1
++ 1791788570.099442 563 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791788570.112827 563 grep -q '^bomdd/tools/selftest_ui_manufacturing.py$'
++ 1791788570.137010 564 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791788570.152085 564 grep -q '^bomdd/process/change-register.yaml$'
++ 1791788570.161139 565 grep -q 'TRUSTED_HARNESS_VERSION = "2.0.1"' /tmp/tmp.suj8IRQpLX/bomdd/tools/selftest_ui_manufacturing.py
++ 1791788570.186105 620 ECO70_MFG_QUALIFIED_SHA=4ef86b8a8f9ab368bb67518df0e0b07d32bb447d16d0b7422d3c8870d212fcd9
+++ 1791788570.200600 621 python -c 'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],'\''rb'\'').read()).hexdigest())' /tmp/tmp.suj8IRQpLX/bomdd/tools/selftest_ui_manufacturing.py
++ 1791788570.286900 621 ECO70_MFG_CANDIDATE_SHA=983075a64bc053a26cf043e4ff953093bfca54366afbcaae88e77620a2b7c808
+++ 1791788570.301338 622 python -c 'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],'\''rb'\'').read()).hexdigest())' /tmp/tmp.h3JQGUzJ6e
++ 1791788570.400371 622 ECO70_MFG_TRUSTED_SHA=5778029f341f6684b69f928781069ec602986b4d7fd71c0e86b42906580c93d0
++ 1791788570.400438 631 ECO183_MFG_QUALIFIED_SHA=5778029f341f6684b69f928781069ec602986b4d7fd71c0e86b42906580c93d0
++ 1791788570.400453 639 ECO253_MFG_QUALIFIED_SHA=983075a64bc053a26cf043e4ff953093bfca54366afbcaae88e77620a2b7c808
++ 1791788570.400477 640 '[' 983075a64bc053a26cf043e4ff953093bfca54366afbcaae88e77620a2b7c808 = 4ef86b8a8f9ab368bb67518df0e0b07d32bb447d16d0b7422d3c8870d212fcd9 ']'
++ 1791788570.400502 643 '[' 983075a64bc053a26cf043e4ff953093bfca54366afbcaae88e77620a2b7c808 = 5778029f341f6684b69f928781069ec602986b4d7fd71c0e86b42906580c93d0 ']'
++ 1791788570.400522 646 '[' 983075a64bc053a26cf043e4ff953093bfca54366afbcaae88e77620a2b7c808 = 983075a64bc053a26cf043e4ff953093bfca54366afbcaae88e77620a2b7c808 ']'
++ 1791788570.400540 646 '[' 5778029f341f6684b69f928781069ec602986b4d7fd71c0e86b42906580c93d0 '!=' 983075a64bc053a26cf043e4ff953093bfca54366afbcaae88e77620a2b7c808 ']'
++ 1791788570.400560 647 HARNESS=/tmp/tmp.suj8IRQpLX/bomdd/tools/selftest_ui_manufacturing.py
++ 1791788570.400583 648 echo '[bomdd] installing trusted UI manufacturing harness under ECO-VT-253, content-hash bound'
++ 1791788570.417094 668 cd /tmp/tmp.suj8IRQpLX
++ 1791788570.417429 670 clear_git_local_env
++ 1791788570.417459 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417474 24 unset GIT_ALTERNATE_OBJECT_DIRECTORIES
++ 1791788570.417485 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417495 24 unset GIT_CONFIG
++ 1791788570.417502 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417512 24 unset GIT_CONFIG_PARAMETERS
++ 1791788570.417519 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417528 24 unset GIT_CONFIG_COUNT
++ 1791788570.417534 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417543 24 unset GIT_OBJECT_DIRECTORY
++ 1791788570.417549 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417558 24 unset GIT_DIR
++ 1791788570.417564 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417572 24 unset GIT_WORK_TREE
++ 1791788570.417579 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417587 24 unset GIT_IMPLICIT_WORK_TREE
++ 1791788570.417594 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417602 24 unset GIT_GRAFT_FILE
++ 1791788570.417612 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417621 24 unset GIT_INDEX_FILE
++ 1791788570.417627 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417635 24 unset GIT_NO_REPLACE_OBJECTS
++ 1791788570.417642 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417650 24 unset GIT_REPLACE_REF_BASE
++ 1791788570.417656 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417664 24 unset GIT_PREFIX
++ 1791788570.417671 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417679 24 unset GIT_SHALLOW_FILE
++ 1791788570.417685 23 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791788570.417693 24 unset GIT_COMMON_DIR
++ 1791788570.417716 670 VIEWTUBE_UI_MFG_CANDIDATE_ROOT=/tmp/tmp.suj8IRQpLX
++ 1791788570.417722 670 python /tmp/tmp.suj8IRQpLX/bomdd/tools/selftest_ui_manufacturing.py
++ 1791794643.762456 672 rc=0
++ 1791794643.762611 673 rm -f /tmp/tmp.h3JQGUzJ6e
++ 1791794643.805977 674 '[' 0 -ne 0 ']'
++ 1791794643.806041 680 '[' 1 -eq 0 ']'
++ 1791794643.806062 694 rm -rf /tmp/tmp.suj8IRQpLX
++ 1791794646.268645 697 python bomdd/tools/validate_process.py --selftest --quiet
++ 1791794646.568024 698 rc=0
++ 1791794646.568203 699 '[' 0 -ne 0 ']'
++ 1791794646.568237 704 exit 0

@@ -1,0 +1,14 @@
+clone HEAD 5fd5394e5192fc772c2ee68603060741875915c3
+index tree 0ad658d4d6cce2fa1f8ae8524080c3459733031b (= e912e5d8f2888c212f38597168a0169f7a52f0b6^{tree})
+selftest_ui_manufacturing.py sha256 983075a64bc053a26cf043e4ff953093bfca54366afbcaae88e77620a2b7c808
+staged:
+M	bomdd/eco/ECO-VT-253.md
+M	bomdd/hooks/pre-commit
+M	bomdd/process/change-register.yaml
+M	bomdd/tools/selftest_ui_manufacturing.py
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt

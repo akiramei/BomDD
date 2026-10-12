@@ -1,0 +1,16 @@
+evidence root: test-results
+registered evidence paths: 4782; under the evidence root: 3104; present as files: 3050
+distinct parent directories copied: 389
+copytree calls (one per present file): 3050
+files written across those calls: 1,078,279 (129.49 GB)
+files if each directory were copied once: 16,366 (1.79 GB)
+directories copied most often (times copied, files, MB):
+  x98    9,743 files    1278.1 MB  test-results
+  x95       95 files       0.5 MB  test-results/eco-vt-184-what-the-182-review-found-its-instruments-let-through
+  x92       93 files       0.3 MB  test-results/eco-vt-217-a-tag-value-is-free-text-whatever-its-type
+  x77       77 files       0.2 MB  test-results/eco-vt-219-typed-text-past-a-decimal-s-digits-is-rounded-before-the-rule
+  x72       72 files       0.2 MB  test-results/eco-vt-212-a-node-condition-is-free-text-not-the-per-type-form
+  x61       68 files       0.7 MB  test-results/eco-vt-226-a-manual-collection-cannot-be-created
+  x55       55 files       0.1 MB  test-results/eco-vt-218-the-step-and-the-offered-values-round-at-29-digits
+  x53       53 files       0.2 MB  test-results/eco-vt-224-deleting-a-view-or-a-tag-asks-nothing-first
+one copy of the most-copied directory: 15.72s; the same copy over itself: 13.99s

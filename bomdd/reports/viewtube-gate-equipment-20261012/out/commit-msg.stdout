@@ -1,0 +1,9 @@
+ui-golden self-test: PASS (42/42)
+probe-protocol validator: PASS (0 findings) over 1 ECO references, 1 in scope, 0 out of scope
+process validator: PASS (0 findings)
+[bomdd] record-consistency: 0 findings, 0 outstanding, 0 contract violations over 172 entries
+[bomdd] line-ending flip gate: 0 findings over 4 comparable staged paths
+[bomdd] materialisation divergence gate: 0 findings over 10 comparable staged paths
+[bomdd] record-language: 0 findings over 172 measured entries (7 exempt)
+[bomdd] machinery-claims: 0 findings over 9 bound entries (39 exempt)
+[bomdd] gate inventory: 18 validators reconciled against the census

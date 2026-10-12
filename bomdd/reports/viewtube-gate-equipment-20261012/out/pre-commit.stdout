@@ -1,0 +1,16 @@
+[bomdd] record-consistency: 0 findings, 0 outstanding, 0 contract violations over 172 entries
+[bomdd] line-ending flip gate: 0 findings over 4 comparable staged paths
+[bomdd] materialisation divergence gate: 0 findings over 10 comparable staged paths
+[bomdd] record-language: 0 findings over 172 measured entries (7 exempt)
+[bomdd] machinery-claims: 0 findings over 9 bound entries (39 exempt)
+[bomdd] gate inventory: 18 validators reconciled against the census
+[bomdd] release-workflow ownership: PASS (0 findings) over 1869 paths with an active owner, 120 of them colliding
+[bomdd] run-evidence validator: PASS (0 findings)
+[bomdd] record-citations validator: PASS (0 findings) over 429 run directories named by 2 staged records - 411 resolve, 18 are known-bad and counted, 0 reported; 68 tracked run directories are named by nothing and are NOT reported
+[bomdd] mcp-host-location validator: PASS (0 findings) over 1 configured MCP server commands
+[bomdd] videos expectation coupling: no product UI staged
+[bomdd] capture-plan sweep: a path that can strand a plan is staged (product, harness, fixture manifest or file, root build input, runner or hook) - building the harness and running every plan
+[bomdd] capture-plan sweep: PASS - 23 plans, 23 passing, 0 failing, 170 states captured, 313 s including the build, measuring the working tree
+ui-golden self-test: PASS (42/42)
+[bomdd] installing trusted UI manufacturing harness under ECO-VT-253, content-hash bound
+ui-manufacturing self-test: PASS (51/51)

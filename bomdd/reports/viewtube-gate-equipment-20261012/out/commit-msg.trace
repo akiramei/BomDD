@@ -1,0 +1,180 @@
++ 1791794646.657610 6 for required_tool in git grep mktemp rm
++ 1791794646.657747 7 command -v git
++ 1791794646.658239 6 for required_tool in git grep mktemp rm
++ 1791794646.658271 7 command -v grep
++ 1791794646.658751 6 for required_tool in git grep mktemp rm
++ 1791794646.658777 7 command -v mktemp
++ 1791794646.659303 6 for required_tool in git grep mktemp rm
++ 1791794646.659327 7 command -v rm
+++ 1791794646.675637 13 git rev-parse --local-env-vars
++ 1791794646.715195 13 GIT_LOCAL_ENV_VARS='GIT_ALTERNATE_OBJECT_DIRECTORIES
+GIT_CONFIG
+GIT_CONFIG_PARAMETERS
+GIT_CONFIG_COUNT
+GIT_OBJECT_DIRECTORY
+GIT_DIR
+GIT_WORK_TREE
+GIT_IMPLICIT_WORK_TREE
+GIT_GRAFT_FILE
+GIT_INDEX_FILE
+GIT_NO_REPLACE_OBJECTS
+GIT_REPLACE_REF_BASE
+GIT_PREFIX
+GIT_SHALLOW_FILE
+GIT_COMMON_DIR'
++ 1791794646.718264 14 '[' 0 -ne 0 ']'
++ 1791794646.718325 14 '[' -z 'GIT_ALTERNATE_OBJECT_DIRECTORIES
+GIT_CONFIG
+GIT_CONFIG_PARAMETERS
+GIT_CONFIG_COUNT
+GIT_OBJECT_DIRECTORY
+GIT_DIR
+GIT_WORK_TREE
+GIT_IMPLICIT_WORK_TREE
+GIT_GRAFT_FILE
+GIT_INDEX_FILE
+GIT_NO_REPLACE_OBJECTS
+GIT_REPLACE_REF_BASE
+GIT_PREFIX
+GIT_SHALLOW_FILE
+GIT_COMMON_DIR' ']'
+++ 1791794646.759140 28 git diff --cached --name-only -z --no-renames --diff-filter=ACMRDT
+++ 1791794646.775294 28 tr '\0' '\n'
++ 1791794646.809688 28 STAGED='bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791794646.809770 30 PY=
++ 1791794646.809801 31 for c in python python3 py
++ 1791794646.809819 32 command -v python
++ 1791794646.810940 32 python -c 'import yaml'
++ 1791794646.911179 33 PY=python
++ 1791794646.911221 34 break
++ 1791794646.911272 37 '[' -z python ']'
++ 1791794646.925626 44 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791794646.939359 44 grep -Eq '^bomdd/(hooks/(pre-commit|commit-msg)|process/(ui-golden-policy|process-transplant-policy)\.yaml|tools/(validate_process|qualify_process_transplant|compare_ui_golden|validate_ui_golden|selftest_ui_golden)\.py)$'
++ 1791794646.952848 45 UI_GOLDEN_EQUIPMENT=0
++ 1791794646.953014 46 '[' 0 -eq 0 ']'
+++ 1791794646.967163 47 mktemp -d
++ 1791794646.979666 47 TMP_TREE=/tmp/tmp.MKjdtnXuyb
++ 1791794646.979715 48 git checkout-index --all --prefix=/tmp/tmp.MKjdtnXuyb/
++ 1791794669.285458 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.285515 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/process/ui-golden-policy.yaml ']'
++ 1791794669.294026 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.294173 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/process/process-transplant-policy.yaml ']'
++ 1791794669.303827 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.303895 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/hooks/pre-commit ']'
++ 1791794669.314888 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.314953 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/hooks/commit-msg ']'
++ 1791794669.326992 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.327071 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/tools/validate_process.py ']'
++ 1791794669.339127 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.339256 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/tools/qualify_process_transplant.py ']'
++ 1791794669.356292 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.356360 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/tools/compare_ui_golden.py ']'
++ 1791794669.357936 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.357975 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/tools/validate_ui_golden.py ']'
++ 1791794669.369177 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.369318 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/tools/selftest_ui_golden.py ']'
++ 1791794669.384110 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.384176 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/process/change-impact-policy.yaml ']'
++ 1791794669.393741 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.393801 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/tools/validate_change_impact.py ']'
++ 1791794669.406159 49 for required in bomdd/process/ui-golden-policy.yaml bomdd/process/process-transplant-policy.yaml bomdd/hooks/pre-commit bomdd/hooks/commit-msg bomdd/tools/validate_process.py bomdd/tools/qualify_process_transplant.py bomdd/tools/compare_ui_golden.py bomdd/tools/validate_ui_golden.py bomdd/tools/selftest_ui_golden.py bomdd/process/change-impact-policy.yaml bomdd/tools/validate_change_impact.py bomdd/tools/selftest_change_impact.py
++ 1791794669.406209 63 '[' '!' -f /tmp/tmp.MKjdtnXuyb/bomdd/tools/selftest_change_impact.py ']'
+++ 1791794669.438854 69 mktemp
++ 1791794669.453119 69 TRUSTED_SELFTEST=/tmp/tmp.sLeIBoInht
++ 1791794669.453202 70 git show HEAD:bomdd/tools/selftest_ui_golden.py
++ 1791794669.510613 71 ECO54_BOOTSTRAP=1
++ 1791794669.510695 72 grep -q 'TRUSTED_HARNESS_VERSION = "2.0.1"' /tmp/tmp.MKjdtnXuyb/bomdd/tools/selftest_ui_golden.py
++ 1791794669.566162 74 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791794669.604148 74 grep -q '^bomdd/tools/selftest_ui_golden.py$'
++ 1791794669.616932 91 ECO70_QUALIFIED_SHA=b333a5b8636bc72caac68d737b2a48943c881f3b5d3b108ca4f1d4cb33287662
+++ 1791794669.636244 92 python -c 'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],'\''rb'\'').read()).hexdigest())' /tmp/tmp.MKjdtnXuyb/bomdd/tools/selftest_ui_golden.py
++ 1791794669.746244 92 ECO70_CANDIDATE_SHA=39d8014e4c6c07116e06513418e0a942488d9ab4b890ba68fbb17608a8ddcdb9
+++ 1791794669.764215 93 python -c 'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],'\''rb'\'').read()).hexdigest())' /tmp/tmp.sLeIBoInht
++ 1791794669.912342 93 ECO70_TRUSTED_SHA=39d8014e4c6c07116e06513418e0a942488d9ab4b890ba68fbb17608a8ddcdb9
++ 1791794669.912424 94 '[' 39d8014e4c6c07116e06513418e0a942488d9ab4b890ba68fbb17608a8ddcdb9 = b333a5b8636bc72caac68d737b2a48943c881f3b5d3b108ca4f1d4cb33287662 ']'
++ 1791794669.912457 97 grep -q 'TRUSTED_HARNESS_VERSION = "2.0.1"' /tmp/tmp.sLeIBoInht
++ 1791794669.950759 98 HARNESS=/tmp/tmp.sLeIBoInht
++ 1791794669.972524 109 cd /tmp/tmp.MKjdtnXuyb
++ 1791794669.973244 111 clear_git_local_env
++ 1791794669.973313 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973338 21 unset GIT_ALTERNATE_OBJECT_DIRECTORIES
++ 1791794669.973356 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973382 21 unset GIT_CONFIG
++ 1791794669.973403 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973419 21 unset GIT_CONFIG_PARAMETERS
++ 1791794669.973433 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973448 21 unset GIT_CONFIG_COUNT
++ 1791794669.973461 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973474 21 unset GIT_OBJECT_DIRECTORY
++ 1791794669.973486 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973500 21 unset GIT_DIR
++ 1791794669.973513 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973527 21 unset GIT_WORK_TREE
++ 1791794669.973673 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973718 21 unset GIT_IMPLICIT_WORK_TREE
++ 1791794669.973785 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973821 21 unset GIT_GRAFT_FILE
++ 1791794669.973834 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973848 21 unset GIT_INDEX_FILE
++ 1791794669.973859 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973872 21 unset GIT_NO_REPLACE_OBJECTS
++ 1791794669.973883 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973895 21 unset GIT_REPLACE_REF_BASE
++ 1791794669.973905 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973918 21 unset GIT_PREFIX
++ 1791794669.973928 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973940 21 unset GIT_SHALLOW_FILE
++ 1791794669.973950 20 for git_local_var in $GIT_LOCAL_ENV_VARS
++ 1791794669.973961 21 unset GIT_COMMON_DIR
++ 1791794669.973996 111 VIEWTUBE_UI_GOLDEN_CANDIDATE_ROOT=/tmp/tmp.MKjdtnXuyb
++ 1791794669.974006 111 python /tmp/tmp.sLeIBoInht
++ 1791794734.115815 113 rc=0
++ 1791794734.115876 114 rm -f /tmp/tmp.sLeIBoInht
++ 1791794734.143143 115 '[' 0 -ne 0 ']'
++ 1791794734.143281 120 rm -rf /tmp/tmp.MKjdtnXuyb
++ 1791794736.717096 156 '[' '!' -f bomdd/tools/validate_probe_protocol.py ']'
++ 1791794736.730115 160 PROBE_ALSO=
+++ 1791794736.765135 161 git rev-parse --git-dir
++ 1791794736.799376 161 '[' -f .git/MERGE_HEAD ']'
++ 1791794736.799793 165 python bomdd/tools/validate_probe_protocol.py --message 'C:\Users\akira\AppData\Local\Temp\gate-equip-22hsi5bi\COMMIT_EDITMSG' --fix HEAD --fix-pending
++ 1791794737.496407 173 echo 'bomdd/eco/ECO-VT-253.md
+bomdd/hooks/pre-commit
+bomdd/process/change-register.yaml
+bomdd/tools/selftest_ui_manufacturing.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt'
++ 1791794737.511400 173 grep -q '^bomdd/process/change-register.yaml$'
++ 1791794737.522399 174 '[' '!' -f bomdd/tools/validate_process.py ']'
++ 1791794737.522687 179 python bomdd/tools/validate_process.py --commit-msg 'C:\Users\akira\AppData\Local\Temp\gate-equip-22hsi5bi\COMMIT_EDITMSG'
++ 1791794808.086996 185 exit 0

@@ -1,0 +1,16 @@
+
+   577.4s + 6073.3s  selftest_ui_manufacturing.py
+    gap  1173.0s at    643.1s  after [git config core.excludesFile .selftest-git-excludes]  before [git add -A]
+    own time total 1182.9s
+
+  2178.0s + 2934.7s  tmp.kLHub82dDO
+    gap  1066.3s at   2193.3s  after [git config core.excludesFile .selftest-git-excludes]  before [git add -A]
+    own time total 1079.9s
+
+  3633.4s + 1473.2s  tmp.YdaijoswX4
+    gap  1247.2s at   3649.1s  after [git config core.excludesFile .selftest-git-excludes]  before [git add -A]
+    own time total 1259.5s
+
+  5207.9s + 1437.3s  tmp.ZbPbplKmo0
+    gap  1209.4s at   5225.0s  after [git config core.excludesFile .selftest-git-excludes]  before [git add -A]
+    own time total 1225.4s

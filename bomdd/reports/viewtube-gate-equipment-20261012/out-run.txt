@@ -1,0 +1,15 @@
+clone ready at C:\Users\akira\AppData\Local\Temp\gate-equip-22hsi5bi; staged:
+M	bomdd/eco/ECO-VT-253.md
+M	bomdd/hooks/pre-commit
+M	bomdd/process/change-register.yaml
+M	bomdd/tools/selftest_ui_manufacturing.py
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv-output.txt
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/equiv253.py
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants-output.txt
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/mutants253.py
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-after.txt
+A	test-results/eco-vt-253-the-hook-copies-the-whole-index-to-run-one-validator/probe-h-after.txt
+
+pre-commit rc=0 6653.8s
+commit-msg rc=0 161.5s
+exit=0
