@@ -60,7 +60,9 @@ The four whole-index copies are three in pre-commit and one in commit-msg. With 
 2. Sets `core.hooksPath=bomdd/hooks` there.
 3. Makes real `git commit`s.
 4. Two of those commits stage UI-manufacturing equipment ("stage weakened inspection equipment", "stage weakened validator and selftest").
-5. The fixture's real pre-commit therefore runs the UI-manufacturing qualification again, with the fixture's committed harness, which builds its own lifecycle fixture.
+5. The fixture's real pre-commit can then run the UI-manufacturing qualification again, with the fixture's committed harness, which builds its own lifecycle fixture.
+
+Of the four such equipment commits made by L1 and L2, three started a nested harness run. The fourth, L2's "stage weakened inspection equipment", was rejected in 31.8 s with no nested run. Why it took a different path was not examined.
 
 **Measured nesting** (`nesting-output.txt`):
 
@@ -113,7 +115,7 @@ The user's rule holds: speed is not traded for correctness. Each candidate below
    This is a correctness question before it is a speed question.
 3. **UI-golden qualification runs in both hooks** (178 s). It is deliberate per the commit-msg hook's comment ("Reciprocal protection").
 4. **The whole-index copies**: four of them, 91.5 s with their removals.
-5. **`validate_process.py` in both hooks**: 144 s. Here it was 70-74 s, not the 25 s measured warm on 2026-10-11, because `validate_machinery_claims.py` took 41-44 s per run on a cache the evidence copying had churned. Candidate (a) of `../viewtube-gate-candidates-20261012/` (skip the second run) was already judged not recommended.
+5. **`validate_process.py` in both hooks**: 144 s. Here it was 70-74 s, not the 25 s measured warm on 2026-10-11, mostly because of `validate_machinery_claims.py`. Its first read of a freshly written tree took 34-44 s: the gate's pre-commit run at t=2 s, and each fixture's precondition run. Re-reads of the same tree took 7-12 s: the `--commit-msg` runs inside each fixture. The gate's commit-msg run (41.5 s) came after 1.8 hours of copying, so its cache state is unknown. Candidate (a) of `../viewtube-gate-candidates-20261012/` (skip the second run) was already judged not recommended.
 
 ## 4. Limits
 
