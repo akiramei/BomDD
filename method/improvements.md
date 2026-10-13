@@ -8679,3 +8679,16 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
 
 **Inventory of expected effects**: no new EXP. After distribution, EXP-20260828-03 ② and ③ read the product's next review series (its observation 3 is the baseline).
 
+## 2026-10-13 BomDD self-application — ECO-108's template defects found by its first distribution (ViewPrism2 ECO-147); ECO-110 filed (user "A", then "B" at the converge limit; documents only)
+
+**Source**: ViewPrism2 ECO-147's independent review (round 1 FAIL, 9 findings; round 2 PASS, 2 minor carried as known defects under the new R8 itself). Six of its findings are also in the template. The new R8 ended ECO-147's own review in 2 rounds as designed.
+
+**Destination**: ECO-110 (R4, R8, eco-fix, eco-accept). ECO-108's design is unchanged.
+
+**Observation (for EXP-20260828-03, not a new entry)**:
+- Rule text for process equipment kept producing interaction findings round after round: ECO-108 went 16→7→3→2 and ECO-110 went 11→5→2.
+- The first real merge into a product found defects that four template rounds had not.
+- A product merge works as a second reading of the template, so the distribution review is part of the template's inspection.
+
+**Inventory of expected effects**: no new EXP. EXP-20260828-03 reads ViewPrism2 from ECO-147's fix commit `b63897a`, and ViewTube from its merge.
+
