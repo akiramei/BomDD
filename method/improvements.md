@@ -8694,3 +8694,22 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
 
 **ECO-109 closed (2026-10-13)**: EXP-20260828-03's windows are open in ViewPrism2 from `b63897a` and in ViewTube from `1453401c` (ECO-VT-260). ViewTube's ECO-VT-260 reached its validator's "open findings = 0" by a register convention (carried known defects listed by id), which ECO-VT-182 and 184 had reached by relabelling. Two more template points from its review go to ECO-111.
 
+## 2026-10-13 BomDD self-application — ViewTube ECO-VT-260's template points; ECO-111 narrowed to naming (user "B" twice); the substance definition held
+
+**Source**: ViewTube ECO-VT-260 (applied `9074b831`) found two points that are also in the template:
+- R260-F2: the narrow substance definition;
+- KD-260-3: partial naming at golden.
+
+**Destination**: ECO-111, narrowed to naming known defects.
+
+**Held, not filed (with the reopening condition)**:
+- **The R8 substance definition and R8's trigger** (ECO-111 converge round 1, F1 to F6). In the template, R8 is triggered by `src/` and `test/` only. "Substance = code, tests and probes" is consistent with that trigger, and document-only ECOs are exempt.
+  - Changing it means redesigning R8: the trigger, a route to R4 for ruling-layer findings, a probe form for text, and playbook §8.5's definition.
+  - ViewTube already uses its own wider definition (ECO-VT-260).
+  - **Reopen** when a template-based product records a finding on a delivered BOM, CP or procedure file that was classed as record and not repaired. One such case is enough.
+- **Naming beyond known defects** (F8): `MISSING`, unconfirmable findings and the last-round REJECT. Widening it opened two gaps in round 2 (N1: eco-accept does not record or dispose of these items; N2: there is no GF route for them).
+  - **Reopen** when one of those items is accepted by silence and turns out wrong.
+- **EXP-20260828-03's layer ratios** (F10): ViewPrism2 uses the template's definition and ViewTube its wider one, so the ratios are not compared across products.
+
+**Observation**: in three successive template ECOs, every converge round kept finding interaction defects (ECO-108: 16→7→3→2; ECO-110: 11→5→2; ECO-111: 10→4→2). What ended them was narrowing the scope and the user's filing rulings, not convergence.
+
