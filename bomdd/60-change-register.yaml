@@ -3372,7 +3372,7 @@ changes:
     title: distribution of ECO-106 to the existing products - TimetableAdv, ViewPrism2 and ViewTube carry its wording on who decides derived-layer choices (filed only; the manufacture ruling decides products and order)
     date: 2026-10-13
     origin: improvement
-    status: filed   # 2026-10-13 filed on the user's "配布のECOを起票して" after ECO-106 verified; manufacture ruling separate (ECO-075/081 pattern)
+    status: implemented   # 2026-10-13 filed 8ed0832 -> manufacture ruling A -> ViewPrism2 ECO-146 implemented (c0f6237) and ViewTube ECO-VT-256 implemented (405ae3ca), both waiting for the user's acceptance; TimetableAdv not started (ECO-046 in progress)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       ECO-106 changed the product-profile templates only. The products keep diverged copies: TimetableAdv (R4 as the old template, eco-fix,

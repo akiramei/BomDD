@@ -1,4 +1,4 @@
-# Change Order — ECO-107 (distribution of ECO-106 to the existing products: TimetableAdv, ViewPrism2 and ViewTube carry its wording on who decides derived-layer choices) — filed only
+# Change Order — ECO-107 (distribution of ECO-106 to the existing products: TimetableAdv, ViewPrism2 and ViewTube carry its wording on who decides derived-layer choices) — manufactured in two products
 
 > Instruction: user, 2026-10-13, "配布のECOを起票して" (file the distribution ECO), after ECO-106 was verified.
 > **Filing only.** Which products, and in what order, is a separate manufacture ruling (the pattern of ECO-075 and ECO-081).
@@ -83,3 +83,37 @@ The per-product merge is design work. converge is applied at manufacture, per pr
 - **The product copies and gate lines listed in section 0**: **confirmed** (read and diffed against the template at `41efd00`).
 - **TimetableAdv's working tree**: **contradicted** for starting work there now (dirty, ECO-046 in progress). This limits the manufacture order, not the filing.
 - **Start decision**: **PROCEED_WITH_LIMITS** (filing only; TimetableAdv waits).
+
+## 4. Manufacture (2026-10-13; manufacture ruling "A": ViewPrism2 and ViewTube now, TimetableAdv after its ECO-046 work is committed)
+
+**ViewPrism2 ECO-146** (`implemented`; golden n/a waits for the maintainer):
+- filed `d20ad6d`, fix `c0f6237`, pushed;
+- R4, `AGENTS.md:37`, `CLAUDE.md:16` and eco-fix step 2 carry the clauses (V1: 5 phrases 0 → 1);
+- mechanical acceptance: build 0/0, Tests 977/977, Oracle 109 + skip 4, validate_bom 0-0;
+- the CP-row table is unchanged from ECO-145;
+- R8 not applicable (documents only).
+
+**ViewTube ECO-VT-256** (`implemented`; acceptance waits for the user):
+- filed `cad7be9b`, probe `05db9c3a`, fix `405ae3ca`, pushed.
+- AGENTS.md item 1, R4 and eco-fix step 3 carry the clauses (probe: 5 of 5 RED → GREEN).
+- **Rulings on the way:**
+  - the user approved moving AGENTS.md's ownership from ECO-VT-065 to ECO-VT-256 ("A"). The ECO-VT-061 → ECO-VT-065 handoff was annulled and kept, in the ECO-VT-172 form;
+  - the release-workflow self-test was rebuilt so that its handoff arms do not borrow that record, and a positive control was added.
+  - The write was refused twice by the harness's automatic permission check ("audit tampering"). It went ahead after the user switched to manual approval.
+- **Independent review R8, round 1: PASS.**
+  - 0 blocking findings;
+  - 4 material, repaired: the carve-outs for rule 11, the stabilization-first section, security treatment, and the ruling record;
+  - F5 recorded as CHEAT-D10-027: five single-condition mutants of the ownership validator survive the self-test before and after alike.
+- **Machine acceptance:**
+  - the first supervised run had 12 failures in MCP and demo-curation tests while ViewTube.App and ViewTube.Mcp were running; asked under rule 12;
+  - the exact retest the user chose was refused at preparation (the route is for invalid executions); asked again;
+  - the user-authorized second full run, with both programs closed: 1268 / 1267 / 0 failed / 1 known skip, exit 9. This is the known form.
+- **The new R4 applied to its own manufacture.** The order, the form of the self-test change and R3's cut were decided by the agent and recorded (ECO-VT-256 section 8f).
+
+**TimetableAdv:** not started; its tree still holds ECO-046's uncommitted work.
+
+**Acceptance so far:**
+- **V1:** clauses present in both products (grep 0 → 1); the applied state waits for the user's acceptance of ECO-146 and ECO-VT-256.
+- **V2:** section 4.5 is reachable through `../BomDD` in both products; TimetableAdv's kit is not yet updated.
+- **V3:** each product commit passed its own gates; BomDD's own commits pass self-conformance and CI.
+- **V4:** the windows of EXP-20261013-01 are open from ViewPrism2 `c0f6237` and ViewTube `405ae3ca` (recorded in `method/improvements.md`).
