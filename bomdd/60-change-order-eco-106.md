@@ -125,3 +125,52 @@ From `bomdd/reports/escalation-asks-20261013/summary.md` (read-only; two classif
 - **未収束事項**:
   1. (c) the kit-version requirement for distribution: the distribution ECO must carry a kit at ECO-098 or later.
   2. Formal: one round of zero, not two. A further gap of the kind found late in rounds 2 and 3 (lines elsewhere that repeat the old wording) is possible; the grep for the old wording over .md, .py, .yaml and .json found none beyond those listed.
+
+
+## 5. Closure (2026-10-13, verified, manufacturer's calibration only)
+
+- **Window.** Baseline `41efd00` → filing and manufacture `44c0332` (diff_audit.head; **the window is closed**; the acceptance commit holds records only). Inside the window there are only the 10 allowed paths (`git diff --name-only 41efd00 44c0332`).
+- **Acceptance results:**
+  - **V1 result: PASS** (§4).
+  - **V2 result: PASS** (§4).
+  - **V3 result: PASS.** Self-conformance exited 0, observed before the commit (all checks, C16 and C17 included). The push went through the pre-push witness. CI run 38327279338 was **success** (fast ubuntu, fast windows, dotnet).
+  - **V4 result.** Manufacturer's calibration only; no independent inspection. Register: `implemented → verified`; head frozen.
+- **V5** (not a closing condition): EXP-20261013-01, after distribution to a product.
+- **Recorded honestly.**
+  - A commit attempt hung on a stray `cat` reading standard input and was stopped. Nothing was committed by it; the commit was then made from a message file, on the tree self-conformance had checked.
+  - The converge verdict stays 未収束 (2→1→2→0). The design went ahead under the user's extension ruling, not under a claim of convergence.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; documents only)
+
+- **The claim (one sentence).** The product templates now say that derived-layer choices and R3's scope cut are decided, recorded and reported by the AI, with the human asked only for the ruling layer, section 4.5's three kinds, an exceeded limit or mixing into the current ECO; and the rest of each file and the copy relation are unchanged.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The new phrases are in R4, eco-fix, converge (canonical and copy) and the two entry lines": **observed / eligible**. Grep counts 0 at the baseline (known-bad side) and 1 after, for 7 phrases, each able to fail on its own.
+  - "No other text changed; the copy differs by placeholder resolution only": **observed / eligible**. Hunk counts against the baseline, and a line diff of copy against canonical (3 hunks, 2 of them known from ECO-075).
+  - "The new text does not conflict with R3, R6, R8, golden, converge's non-convergence and extension rules, handoff or ECO-097's approval points": **read / conditionally eligible**. Read by the manufacturer only, over converge rounds 1 to 4. Not measured: a reader other than the manufacturer.
+  - "The 14 derived-layer asks came from procedures that name no layer": **read / conditionally eligible**. The cited rules come from two blind classifiers; the link from wording to behaviour is inferred, not tested.
+  - "The change removes derived-layer asks": **not claimed; unknown** (EXP-20261013-01, after distribution).
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): 0.
+  - The hung commit attempt was the manufacturer's command (a stray `cat`), not an instrument.
+  - The earlier instrument mismatch in the measurement (the `[DECIDE]` header on one side and keywords on the other) was the manufacturer's, found and corrected before filing (report, "A correction").
+- **宣言した検出力の限界** (declared limits of detection):
+  - The grep shows the text is there, not that a product AI will act on it.
+  - Misclassification in the other direction, an E-side matter decided alone, is caught only by golden or by a user correction; no mechanical check was added (ruling A).
+  - The products' copies are unchanged until distribution.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9); this receipt was written by the manufacturer.
+- **Battery, row by row:**
+  - **Q1 asked.** The grep only counts; the verdict sentences are the manufacturer's.
+  - **Q2 asked.** Known-bad: the baseline counts (0). Known-good: after manufacture. The labels were fixed at filing, before the counts were taken.
+  - **Q3 asked.** 7 phrases counted one by one.
+  - **Q4 NA.** No declared input.
+  - **Q5 asked.** CI success observed for the commit.
+  - **Q6 asked.** The commit came after an observed exit 0, and the push went through the witness.
+  - **Q7 NA.** No standing instrument was added.
+  - **Q8 NA.** No preventive gate was added.
+  - **Q9 asked.** Baseline and after were counted by the same script on the same tree.
+  - **Q10 asked.** The limits above.
+  - **Q11 NA.** No input class needs to be separated.
+- **What this closure does not support:**
+  - any effect on products (EXP-20261013-01);
+  - the distribution (a separate ECO, which needs a kit at ECO-098 or later);
+  - the start-wait, which is unchanged;
+  - TimetableAdv's per-scene start ruling.

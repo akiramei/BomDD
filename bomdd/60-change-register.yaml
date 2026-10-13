@@ -3341,7 +3341,7 @@ changes:
     title: who decides derived-layer choices - product change-management R4, eco-fix step 2, converge step 6 and the two product entry lines say the AI decides, records and reports them; the start-wait after filing is unchanged
     date: 2026-10-13
     origin: improvement
-    status: implemented   # 2026-10-13 measurement of ruling stops (reports/escalation-asks-20261013) -> DECIDE -> user "A" (keep the start-wait; fix derived-layer choices asked as rulings) -> converge 3-round limit, unconverged 2->1->2 -> user "A" (extend one round) -> round 4: 0 -> filing and manufacture in one commit (documents only, the ECO-076/104 pattern). Verified after self-conformance and the CI conclusion are observed (manufacturer's calibration only)
+    status: verified   # 2026-10-13 measurement of ruling stops -> DECIDE -> user "A" -> converge limit, unconverged 2->1->2 -> user "A" (extend) -> round 4: 0 -> filing and manufacture 44c0332 (documents only) -> self-conformance exit 0 -> push -> CI 38327279338 success -> verified (manufacturer's calibration only; window 41efd00->44c0332)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       The user's question (2026-10-13): the AI files a new ECO for a problem that closes in the M-BOM or Control Plan and still asks the user to rule.
@@ -3354,6 +3354,7 @@ changes:
     no_impact_prediction: "(before manufacture; frozen) the five templates and the converge copy (16 lines added, 5 changed), the order, the register, improvements.md and bomdd/reports/escalation-asks-20261013/. No tool, hook, .github or playbook change. The converge copy differs from canonical by placeholder resolution only (3 hunks). Products see nothing until distribution."
     diff_audit:
       baseline: "41efd00"  # HEAD before filing
+      head: "44c0332"      # diff audited: inside the window only the allowed paths; the acceptance commit holds records only
       allowed_paths: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/skills/converge.md, .claude/skills/converge/SKILL.md, method/templates/product-profile/AGENTS.product.md, method/templates/product-profile/CLAUDE.product.md, method/improvements.md, bomdd/60-change-order-eco-106.md, bomdd/60-change-register.yaml, bomdd/reports/escalation-asks-20261013/]
     summary: >
       R4: the human gate is the design decisions of the ruling layer (CAD, requirements, specification, E-BOM, K-BOM) and the choice among them;
