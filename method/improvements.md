@@ -8615,3 +8615,31 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
 
 - [open] EXP-20261011-02 — **handoff 形式の比較試験(自由形式 / 米軍の意思決定ブリーフィング式 / handoff v0.4)**: 同じ技術情報(過去の DECIDE の題材)を 3 形式で提示し、①裁定までの時間 ②再質問の回数 ③選んだ案の正しさ(推奨の正しさを別の評価者が判定)を比べる。実施の条件= handoff の効果を外部(論文・配布先)へ主張する必要が出る、または user 裁定。そのときは題材と評価者を先に固定し、評価者に形式の意図を伝えない。**測るために主張を作らない**
   evidence: 本節
+
+## 2026-10-13 BomDD self-application — ruling stops measured in product transcripts; ECO-106 filed (who decides derived-layer choices; user DECIDE "A"; documents only)
+
+**Source**: the user's question (2026-10-13): when a problem closes in the M-BOM or the Control Plan, the AI still files a new ECO and asks the user to rule, although the E-BOM the user ruled on has not changed. A pasted discussion with another assistant proposed causes (avoiding responsibility, an unwritten boundary, report confused with approval, no criteria). The analysis found the boundary already written (playbook section 4.5, ECO-097 to ECO-102) and measured where the asks come from before choosing a fix. The user's model note: TimetableAdv runs on GPT models, the other products on Claude models.
+
+**Measurement** (`bomdd/reports/escalation-asks-20261013/summary.md`; read-only; two classifiers, Claude Opus and Claude Sonnet, blind to each other and to the hypothesis; numbers only where both agree):
+- Turn-ending messages that wait on or ask for a ruling: Claude Code 176 (ViewTube, ViewPrism2, TimetableAdv; 07-13 to 09-25), Codex 124 (TimetableAdv; gpt-6-astra, gpt-6.1-sol; 09-05 to 10-05).
+- Stops the AI could have decided under section 4.5: Claude 32 (18%), Codex 28 (23%). Start-waits (may manufacturing start?) 19 and 21; derived-layer choices asked as rulings 7 and 7; other progress checks 6 and 0.
+- The two families show the same shape. Model, product, period, harness and procedure copy overlap completely, so no model difference is claimed either way.
+- After the rule (10-06 to 10-12, 27 Claude `[DECIDE]` messages): no message that both classifiers call a derived-layer ask. One equipment repair's filing was asked three times running, and the user pushed back.
+- These are a baseline from before the rule. The rule was not wired into the procedures: R4 of the product change-management names no layer, eco-fix step 2 does not say who chooses, converge step 6 asks every point that needs human judgement.
+- A correction made during the work: the first pass used the `[DECIDE]` header on the Claude side and a keyword instrument on the Codex side, and wrongly reported that Claude transcripts before September were gone and that Claude stops had no derived-layer asks. Both sources were then measured with the same instrument.
+
+**Rulings**: user "A" (keep the start-wait after filing; fix only derived-layer choices asked as rulings). converge then stopped at the 3-round limit, unconverged 2→1→2; user "A" (extend one round; R4 also names R3's scope cut); round 4 found nothing.
+
+**Destination**: ECO-106 (the product change-management R4, `skills/eco-fix.md` step 2, `skills/converge.md` step 6 and its copy, the `AGENTS.product.md` and `CLAUDE.product.md` lines). The playbook is not revised: section 4.5 already holds the rule, and this ECO wires it in. Product copies change only with a distribution ECO, which must carry a kit at ECO-098 or later.
+
+**Related counts**:
+- Count ⑤ of EXP-20260914-02 covers user corrections of the AI routing its own decisions to the user. The user's question of 2026-10-13 is such a correction, made in general terms and not about one handoff message. Recorded here as the first instance in the record; the 20-message window of that EXP is not changed by it.
+- Candidate ① of OBS-20261011-02 (reword handoff section 2.1 Q1 to name where authority lies) names a ⑤ correction as its trigger. This one is it, for ① only (②③④ have none). The measurement locates the asks in the procedures (R4, eco-fix, converge, ECO-046's per-scene start ruling), not in the handoff tree, so ① is not taken now.
+
+**Re-certification of the thinking layer (lesson-promote 3b)**: [x] operational rule (R4: who decides derived-layer choices) [x] template (eco-fix, converge, two entry lines) [ ] terminology [ ] method/concept claim. Contradicted or superseded: none.
+
+**Inventory of expected effects**: new EXP-20261013-01 (below). EXP-20260914-02 and OBS-20261011-02 are unchanged in status.
+
+- [open] EXP-20261013-01 — **Does wiring section 4.5 into R4, eco-fix and converge remove derived-layer choices asked as rulings?** After ECO-106 is distributed to a product, count the next 20 turn-ending stops that wait on or ask for a ruling there (the instrument of `bomdd/reports/escalation-asks-20261013/`) and classify them the same way, with two blind classifiers. Baseline: 7 of 176 (Claude) and 7 of 124 (Codex) derived-layer choices asked as rulings. Reading: 0 or 1 in 20 → recovered; 2 or more → read what the stops cite and whether the copy in that product carries the new R4. Also count the reverse, an E-side matter the AI decided alone, from user corrections. Limits: one user; learning effect not separated; start-waits are kept by the ruling and not counted as failures.
+  source: ECO-106
+  evidence: bomdd/60-change-order-eco-106.md section 0; bomdd/reports/escalation-asks-20261013/summary.md

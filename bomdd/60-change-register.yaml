@@ -3337,3 +3337,33 @@ changes:
       versions told apart / V3 self-conformance exit 0 before commit, CI green / V4 local time before and after on the same machine /
       V5 (not a closing condition) CI job times on the next run. Conditions are frozen at filing; results go to the closing section.
     producer: EQ-004
+  - id: ECO-106
+    title: who decides derived-layer choices - product change-management R4, eco-fix step 2, converge step 6 and the two product entry lines say the AI decides, records and reports them; the start-wait after filing is unchanged
+    date: 2026-10-13
+    origin: improvement
+    status: implemented   # 2026-10-13 measurement of ruling stops (reports/escalation-asks-20261013) -> DECIDE -> user "A" (keep the start-wait; fix derived-layer choices asked as rulings) -> converge 3-round limit, unconverged 2->1->2 -> user "A" (extend one round) -> round 4: 0 -> filing and manufacture in one commit (documents only, the ECO-076/104 pattern). Verified after self-conformance and the CI conclusion are observed (manufacturer's calibration only)
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      The user's question (2026-10-13): the AI files a new ECO for a problem that closes in the M-BOM or Control Plan and still asks the user to rule.
+      Measured (read-only, two blind classifiers): of 176 Claude and 124 Codex ruling stops in product repositories, 32 and 28 were derived-layer
+      or progress stops the AI could have decided under playbook section 4.5; of these, 19 and 21 were start-waits (kept by the ruling) and 7 and 7
+      were derived-layer choices asked as rulings. The procedures name no layer: R4 calls the human gate "design decisions and choosing among options",
+      eco-fix step 2 does not say who chooses, converge step 6 asks every point that needs human judgement.
+    order_ref: bomdd/60-change-order-eco-106.md
+    affected_refs: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/skills/converge.md, .claude/skills/converge/SKILL.md, method/templates/product-profile/AGENTS.product.md, method/templates/product-profile/CLAUDE.product.md, method/improvements.md]
+    no_impact_prediction: "(before manufacture; frozen) the five templates and the converge copy (16 lines added, 5 changed), the order, the register, improvements.md and bomdd/reports/escalation-asks-20261013/. No tool, hook, .github or playbook change. The converge copy differs from canonical by placeholder resolution only (3 hunks). Products see nothing until distribution."
+    diff_audit:
+      baseline: "41efd00"  # HEAD before filing
+      allowed_paths: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/skills/converge.md, .claude/skills/converge/SKILL.md, method/templates/product-profile/AGENTS.product.md, method/templates/product-profile/CLAUDE.product.md, method/improvements.md, bomdd/60-change-order-eco-106.md, bomdd/60-change-register.yaml, bomdd/reports/escalation-asks-20261013/]
+    summary: >
+      R4: the human gate is the design decisions of the ruling layer (CAD, requirements, specification, E-BOM, K-BOM) and the choice among them;
+      derived-layer choices (fix option, order and plan of manufacture and inspection, repairing its own output) and R3's scope cut are AI work,
+      decided, recorded and reported at the next stop; back to the human only when the ruling layer must change, for section 4.5's three kinds,
+      for a limit exceeded, or to mix a separate problem into the current ECO. eco-fix step 2 and converge step 6 follow R4; the entry lines point to R4.
+      Not changed: the start-wait after filing (ruling A), TimetableAdv's per-scene start ruling, the human-facing lines, the handoff contract, product copies.
+    verification: >
+      V1 grep counts 0 -> 1 for the new phrases (R4 x2, eco-fix, converge canonical and copy, the two entry lines) / V2 no other hunks; the copy's diff
+      is placeholder-only (3 hunks); frontmatter parses / V3 self-conformance exit 0 before commit, CI green / V4 manufacturer's calibration only /
+      V5 (not a closing condition) after distribution, derived-layer choices asked as rulings in the next 20 ruling stops (baseline 7/176, 7/124).
+      Conditions are frozen at filing; results go to the closing section.
+    producer: EQ-004

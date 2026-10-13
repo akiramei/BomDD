@@ -52,5 +52,5 @@ Phase 3(工程設計)で確定したらここへ記入する。それまでは T
 
 ## 人間との分担
 
-人間の仕事は**裁定**(選択肢から選ぶ)と **golden**(実機確認)の 2 つだけ。詳細は
+人間の仕事は**裁定**(裁定層の選択肢から選ぶ。M-BOM・Control Plan・Routing の選択は AI が決めて記録する — change-management.md R4)と **golden**(実機確認)の 2 つだけ。詳細は
 `{{METHOD}}/method/onboarding/working-with-ai.md`(人間向け協働ガイド)。

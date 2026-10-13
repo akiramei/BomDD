@@ -28,7 +28,7 @@
 
 ## human gate(人間の作業はこの 2 つだけ)
 
-1. **裁定**(gate① — 選択肢から選ぶ)
+1. **裁定**(gate① — 裁定層〔CAD・要求・仕様・E-BOM・K-BOM〕の選択肢から選ぶ。M-BOM・Control Plan・Routing の選択は AI が決めて記録する — change-management.md R4)
 2. **golden**(実機承認)
 
 gate に到達したら**停止**し、「人間がやること」を明示して待つこと。自然文の了承を
