@@ -3431,3 +3431,34 @@ changes:
       exit 0 before commit, CI green / V4 manufacturer's calibration only / V5 (not a closing condition) after distribution, EXP-20260828-03 2 and 3.
       Conditions are frozen at filing; results go to the closing section.
     producer: EQ-004
+  - id: ECO-109
+    title: distribution of ECO-108 to the existing products - ViewPrism2 and ViewTube carry the default dispositions for limits and for independent-review findings (filed only; the manufacture ruling decides products and order; TimetableAdv deferred)
+    date: 2026-10-13
+    origin: improvement
+    status: filed   # 2026-10-13 filed on the user's "ECO-108 の配布の ECO を起票して" after ECO-108 verified; manufacture ruling separate (ECO-075/081/107 pattern)
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      ECO-108 changed the product-profile templates only. ViewPrism2 keeps its own R8 ("until in-scope findings are 0", restated in scenario 3.3),
+      eco-fix 3.7, step 2's extension ruling and eco-accept step 7. ViewTube keeps R8 "open in-scope findings block golden", eco-fix step 7,
+      and an eco-accept precondition of zero open in-scope findings. Its measured stop conditions (ECO-VT-182) were per-ECO user rulings, not a
+      standing rule. TimetableAdv is deferred by the user (project paused).
+    order_ref: bomdd/60-change-order-eco-109.md
+    affected_refs: [bomdd/60-change-order-eco-109.md, method/improvements.md]
+    no_impact_prediction: "(before manufacture; frozen) BomDD: this order and the register at filing; at closure the closure record and an improvements.md line for EXP-20260828-03. Products: per product, its change-management rules (R4, R5, R7, R8 or equivalents), eco-fix, eco-accept and its own ECO records. No product code, tests, BOM files, fixed oracles, CAD, hooks or ViewTube validators."
+    diff_audit:
+      baseline: "21df6ed"  # HEAD before filing
+      allowed_paths: [bomdd/60-change-order-eco-109.md, bomdd/60-change-register.yaml, method/improvements.md]
+    summary: >
+      Per target product, one product-side ECO under its own change management that merges ECO-108's clauses: the limit default (no stop to
+      ask for an extension; narrow the claim and report; converge's limit excepted), R8's layered defaults and 2-review bound (equipment-independent
+      inspection carries the 2; substance left at the last review shown at golden as known defects; R7 copy errors repaired; departures decided by
+      the human at the next stop), eco-fix's step 2, review step and stop list, eco-accept's approval record, after-acceptance R3 disposition and
+      re-listing. ViewTube also reconciles its eco-accept precondition and maps its weight axis (blocking/material/minor) onto the layers.
+      Not changed: product code, tests, BOM, oracles, CAD, hooks, the start-wait, BomDD templates, TimetableAdv.
+    verification: >
+      V1 each target product's ECO applied with the clauses present (grep per file; the "until 0" rule 1 -> 0) / V2 product gates and CI green
+      per product commit; BomDD self-conformance exit 0 and CI green / V3 each product ECO records how its conflicting text was reconciled
+      (ViewPrism2 scenario 3.3 and R7; ViewTube eco-accept precondition and weight axis), attacked by that product's independent review /
+      V4 EXP-20260828-03 window opened per product / V5 (not a closing condition) EXP-20260828-03 2 and 3 per product.
+      Conditions are frozen at filing; results go to the closing section.
+    producer: EQ-004
