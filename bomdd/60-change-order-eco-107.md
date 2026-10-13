@@ -1,4 +1,4 @@
-# Change Order — ECO-107 (distribution of ECO-106 to the existing products: TimetableAdv, ViewPrism2 and ViewTube carry its wording on who decides derived-layer choices) — manufactured in two products
+# Change Order — ECO-107 (distribution of ECO-106 to the existing products: TimetableAdv, ViewPrism2 and ViewTube carry its wording on who decides derived-layer choices) — verified for ViewPrism2 and ViewTube; TimetableAdv deferred
 
 > Instruction: user, 2026-10-13, "配布のECOを起票して" (file the distribution ECO), after ECO-106 was verified.
 > **Filing only.** Which products, and in what order, is a separate manufacture ruling (the pattern of ECO-075 and ECO-081).
@@ -131,4 +131,59 @@ The per-product merge is design work. converge is applied at manufacture, per pr
   - V4 for TimetableAdv.
 
   ECO-107 stays `implemented` until then.
+
+## 6. Closure (2026-10-13, verified for ViewPrism2 and ViewTube; TimetableAdv deferred)
+
+**TimetableAdv deferred.** The user, 2026-10-13, verbatim: 「TimetableAdvは現在、ChatGPTのモデルの計算リソースの問題でプロジェクトが中断しています。再開の予定が立っていないので今回は見送ります。」 TimetableAdv is taken out of this ECO's targets.
+- Its distribution, a product ECO plus a kit at ECO-098 or later, is recorded under EXP-20261013-01 with its resume condition: the project restarts.
+- At that point a new distribution ECO is filed. This one is not reopened.
+
+**Window.** Baseline `207f56d` → `cc765b3` (diff_audit.head; **the window is closed**; the acceptance commit holds records only). Inside the window there are only the allowed paths: this order, the register and `method/improvements.md`.
+
+**Acceptance results:**
+- **V1 result: PASS** for both targets.
+  - ViewPrism2 ECO-146 applied at `d8735ff`; ViewTube ECO-VT-256 applied at `5971cef8`.
+  - The clauses are present: grep 0 → 1, 5 phrases in ViewPrism2; in ViewTube, its probe's 5 boundary sentences.
+- **V2 result: PASS** for both targets. Section 4.5's ruling-layer and derived-layer text is reachable through `../BomDD`, which both products name as their method. TimetableAdv's kit is not applicable now (deferred).
+- **V3 result: PASS.**
+  - Each product commit passed its own gates: ViewPrism2's pre-commit validate_bom; ViewTube's commit gate, R8, and the X1 replay at acceptance.
+  - BomDD's commits had self-conformance exit 0 before each commit and CI success: filing run 38329450347; records runs 38338181380 and 38340487026.
+- **V4 result: PASS** for both targets. EXP-20261013-01's windows are open from `c0f6237` (ViewPrism2) and `405ae3ca` (ViewTube).
+- **V5** (not a closing condition): EXP-20261013-01's result.
+
+Register: `implemented → verified`; head frozen. Manufacturer's calibration only on the BomDD side. ViewTube's own record carries its independent review.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; records only on the BomDD side)
+
+- **The claim (one sentence).** ECO-106's wording on who decides derived-layer choices is in ViewPrism2's and ViewTube's process documents, both changes accepted by the user, and each product's own gates passed. TimetableAdv is deferred by the user.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The clauses are in the two products": **observed / eligible**. Grep counts 0 at each product's baseline and 1 after. ViewTube's probe went RED before and GREEN after, with 2 controls that can fail.
+  - "Both are applied on the user's acceptance": **observed / eligible**. The register status and the accept commits with parsed trailers (`d8735ff`, `5971cef8`); the user's answer "A" is recorded in each product.
+  - "The product gates passed": **observed / conditionally eligible**.
+    - ViewPrism2's 4-point mechanical acceptance was run once.
+    - ViewTube's first supervised run failed 12 tests while its programs were running; the second run, with them closed, was in the known form.
+    - Not measured: the cause of the first run's failures.
+  - "The rule reduces derived-layer asks": **not claimed; unknown** (EXP-20261013-01).
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): 0 on the BomDD side. ViewTube: five single-condition mutants of the ownership validator survive its self-test, before and after this work alike (CHEAT-D10-027). This is a pre-existing weakness of the product's instrument, recorded, not repaired here.
+- **宣言した検出力の限界** (declared limits of detection):
+  - The grep shows the text is there, not that an agent acts on it.
+  - The products' copies were edited by the manufacturer of the template; ViewTube's change was reviewed in a fresh context of the same model family, which is context independence, not equipment independence.
+  - TimetableAdv, the only GPT-run product, is not covered, so EXP-20261013-01 can no longer compare model families.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9); this receipt was written by the manufacturer.
+- **Battery, row by row:**
+  - **Q1 asked.** The counts are mechanical; the verdict sentences are the manufacturer's.
+  - **Q2 asked.** Known-bad: each product's baseline. Known-good: after the fix. The labels were fixed in each order before manufacture.
+  - **Q3 asked.** Each phrase is counted on its own, per product.
+  - **Q4 NA.** No declared input.
+  - **Q5 asked.** CI success observed for the BomDD commits. The product repositories have no CI; their commit gates ran.
+  - **Q6 asked.** Every commit came after an observed passing check. One ViewTube commit attempt was refused by its gate (ownership); the record was corrected and the commit retried.
+  - **Q7 NA.** No standing instrument was added on the BomDD side.
+  - **Q8 NA.** No preventive gate was added.
+  - **Q9 asked.** The same phrase lists were used before and after.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** The two products differ in harness and gates, so the results are reported per product, not pooled.
+- **What this closure does not support:**
+  - TimetableAdv (deferred);
+  - any effect on asks (EXP-20261013-01);
+  - a comparison of model families, now not possible without TimetableAdv.
 

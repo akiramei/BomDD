@@ -3372,7 +3372,7 @@ changes:
     title: distribution of ECO-106 to the existing products - TimetableAdv, ViewPrism2 and ViewTube carry its wording on who decides derived-layer choices (filed only; the manufacture ruling decides products and order)
     date: 2026-10-13
     origin: improvement
-    status: implemented   # 2026-10-13 filed 8ed0832 -> manufacture ruling A -> ViewPrism2 ECO-146 implemented (c0f6237) and ViewTube ECO-VT-256 implemented (405ae3ca), both applied on the user's "A" (d8735ff, 5971cef8); TimetableAdv not started (ECO-046 in progress), so ECO-107 stays implemented
+    status: verified   # 2026-10-13 filed 8ed0832 -> manufacture ruling A -> ViewPrism2 ECO-146 applied (d8735ff) and ViewTube ECO-VT-256 applied (5971cef8) on the user's "A" -> TimetableAdv deferred by the user (project paused; resume condition under EXP-20261013-01) -> verified (manufacturer's calibration only; window 207f56d->cc765b3)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       ECO-106 changed the product-profile templates only. The products keep diverged copies: TimetableAdv (R4 as the old template, eco-fix,
@@ -3384,6 +3384,7 @@ changes:
     no_impact_prediction: "(before manufacture; frozen) BomDD: this order and the register at filing; at closure the closure record and an improvements.md line for EXP-20261013-01. Products: per product, the gate lines, eco-fix (and converge in TimetableAdv), its own ECO records and, in TimetableAdv, kit files and lock. No product code, tests, BOM files, fixed oracles or CAD."
     diff_audit:
       baseline: "207f56d"  # HEAD before filing
+      head: "cc765b3"      # diff audited: inside the window only the allowed paths; the acceptance commit holds records only
       allowed_paths: [bomdd/60-change-order-eco-107.md, bomdd/60-change-register.yaml, method/improvements.md]
     summary: >
       Per target product, one product-side ECO under its own change management: narrow the decision gate to the ruling layer and add ECO-106's
