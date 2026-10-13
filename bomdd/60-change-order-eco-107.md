@@ -117,3 +117,18 @@ The per-product merge is design work. converge is applied at manufacture, per pr
 - **V2:** section 4.5 is reachable through `../BomDD` in both products; TimetableAdv's kit is not yet updated.
 - **V3:** each product commit passed its own gates; BomDD's own commits pass self-conformance and CI.
 - **V4:** the windows of EXP-20261013-01 are open from ViewPrism2 `c0f6237` and ViewTube `405ae3ca` (recorded in `method/improvements.md`).
+
+## 5. Product acceptance (2026-10-13; the user's answer "A": accept both)
+
+- ViewPrism2 ECO-146 **applied** at `d8735ff` (golden n/a accepted).
+- ViewTube ECO-VT-256 **applied** at `5971cef8`:
+  - the four ownership rows went back to active declarers, with AGENTS.md to ECO-VT-061 (the ECO-VT-172 shape), and the cheat-log row was retired;
+  - the X1 replay was REPLAY_CLEAN over the interval from `7b79469a`;
+  - the validator and its self-test passed after the commit.
+- **V1: met for ViewPrism2 and ViewTube.**
+- **What remains for closure:**
+  - TimetableAdv: a product ECO after its ECO-046 work is committed, with its kit at ECO-098 or later (V2);
+  - V4 for TimetableAdv.
+
+  ECO-107 stays `implemented` until then.
+
