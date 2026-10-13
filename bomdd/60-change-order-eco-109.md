@@ -102,3 +102,71 @@ The per-product merge is design work. converge is applied at manufacture, per pr
 - **The product texts listed in section 0**: **confirmed** (read at ViewPrism2 `d8735ff` and ViewTube `dcf5c178`; both trees clean).
 - **TimetableAdv**: **out of scope** by the user's deferral (2026-10-13); not read.
 - **Start decision**: **PROCEED_WITH_LIMITS** (filing only; manufacture waits for the ruling on products and order).
+
+## 4. Manufacture (2026-10-13; manufacture ruling "A": both products, ViewPrism2 first)
+
+**ViewPrism2 ECO-147** (applied `504921a`):
+- filed `f697a82`, fix `b63897a`, pushed;
+- mechanical acceptance 4 points green;
+- independent review: round 1 FAIL (9 findings, repaired), round 2 PASS with 2 minor carried as known defects (N1, N2), accepted by the maintainer and recorded in its cheat log;
+- six findings were also in the template, which led to ECO-110 (the user's "A": repair the template before ViewTube).
+
+**ViewTube ECO-VT-260** (applied `9074b831`):
+- filed `831ae8cb`, probe `694352e2`, fix `1453401c`, pushed;
+- R8 ran under the rule it writes: round 1 FAIL (2 blocking, 6 material, 4 minor; repaired), round 2 FAIL with one blocking record finding corrected and three minor substance findings carried as KD-260-1 to 3, named and accepted by the user (CHEAT-D10-028);
+- the validator's "open findings must be 0" is met by a register convention: only undisposed findings count, and carried known defects are listed by id;
+- two findings are also in the template (the narrow substance definition, R260-F2; partial naming at golden, KD-260-3), which lead to ECO-111 (the user's "A").
+
+## 5. Closure (2026-10-13, verified for ViewPrism2 and ViewTube)
+
+**Window.** Baseline `21df6ed` → filing `070d46e` (diff_audit.head; the acceptance commit holds records only). Inside the window there are only the order and the register.
+
+**Acceptance results:**
+- **V1: PASS** for both targets.
+  - Each product ECO is applied under its own lifecycle.
+  - Its rules, eco-fix and eco-accept carry the clauses: ViewPrism2's count script showed 6 new phrases 0 → 1 and 3 old ones 1 → 0; ViewTube's probe showed RED 14/14 → GREEN 14/14.
+  - The "until in-scope findings are 0" rule is gone in both.
+- **V2: PASS.** Each product commit passed its own gates:
+  - ViewPrism2: validate_bom, and the lifecycle self-test after acceptance;
+  - ViewTube: the commit gate, the release-workflow validator and self-test, and the X1 replay at acceptance (REPLAY_CLEAN).
+
+  Neither product has CI. BomDD's commits had self-conformance exit 0 and CI success.
+- **V3: PASS.** Each product ECO records how its conflicting text was reconciled, and its own independent review attacked those points:
+  - ViewPrism2: scenario 3.3, R7's exception, the Codex second opinion, no equipment tier;
+  - ViewTube: the eco-accept precondition, the weight axis, the validator's zero rule, the stabilization carve-out, rule 7.
+- **V4: PASS.** EXP-20260828-03's windows are open from ViewPrism2 `b63897a` and ViewTube `1453401c` (recorded in improvements.md).
+- **V5** (not a closing condition): EXP-20260828-03 ② and ③ in each product's next review series.
+
+Register: `filed → verified`; head frozen. Manufacturer's calibration only on the BomDD side.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; records only on the BomDD side)
+
+- **The claim (one sentence).** ECO-108's default dispositions are in ViewPrism2's and ViewTube's process documents. Both changes were accepted by their users with their known defects named. Each product's own gates passed.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The clauses are in the two products": **observed / eligible**. ViewPrism2's count script (0 → 1, 1 → 0) and ViewTube's probe (RED → GREEN, with controls) can each fail on their own.
+  - "Both are applied on the user's acceptance": **observed / eligible**. Register status and accept commits with parsed trailers (`504921a`, `9074b831`).
+  - "The product gates passed": **observed / eligible**. The gates ran at each commit; ViewPrism2's 4 points ran twice, on the first and the final text.
+  - "The bound reduces record-layer corrections in products": **not claimed; unknown** (EXP-20260828-03).
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): ViewTube's `validate_process.py` enforces "open findings = 0". It is not a defect of the instrument, but it forced earlier relabelling. The register convention resolves the conflict without changing the instrument.
+- **宣言した検出力の限界** (declared limits of detection):
+  - The counts and the probe show the text is there, not that it is acted on.
+  - Both products' reviews were context independence of the same model family.
+  - Known defects are carried in both products. They are named, not resolved.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9).
+- **Battery, row by row:**
+  - **Q1 asked.** The counts are mechanical; the verdicts are the manufacturer's.
+  - **Q2 asked.** Known-bad: each product's baseline. Known-good: after.
+  - **Q3 asked.** Per phrase and per check.
+  - **Q4 NA.**
+  - **Q5 asked.** BomDD CI observed; the products have no CI and their gates ran.
+  - **Q6 asked.** Every commit came after an observed passing check.
+  - **Q7 NA.**
+  - **Q8 NA.**
+  - **Q9 asked.** The same script or probe was used before and after.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** The products differ, so the results are reported per product.
+- **What this closure does not support:**
+  - any effect on review rounds (EXP-20260828-03);
+  - the carried known defects;
+  - TimetableAdv (deferred).
+

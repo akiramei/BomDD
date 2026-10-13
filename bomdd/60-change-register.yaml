@@ -3435,7 +3435,7 @@ changes:
     title: distribution of ECO-108 to the existing products - ViewPrism2 and ViewTube carry the default dispositions for limits and for independent-review findings (filed only; the manufacture ruling decides products and order; TimetableAdv deferred)
     date: 2026-10-13
     origin: improvement
-    status: filed   # 2026-10-13 filed on the user's "ECO-108 の配布の ECO を起票して" after ECO-108 verified; manufacture ruling separate (ECO-075/081/107 pattern)
+    status: verified   # 2026-10-13 filed 070d46e -> manufacture ruling A (both, ViewPrism2 first) -> ViewPrism2 ECO-147 applied (504921a) -> template repaired by ECO-110 -> ViewTube ECO-VT-260 applied (9074b831), both with known defects named by the user -> verified (manufacturer's calibration only; window 21df6ed->070d46e)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       ECO-108 changed the product-profile templates only. ViewPrism2 keeps its own R8 ("until in-scope findings are 0", restated in scenario 3.3),
@@ -3447,6 +3447,7 @@ changes:
     no_impact_prediction: "(before manufacture; frozen) BomDD: this order and the register at filing; at closure the closure record and an improvements.md line for EXP-20260828-03. Products: per product, its change-management rules (R4, R5, R7, R8 or equivalents), eco-fix, eco-accept and its own ECO records. No product code, tests, BOM files, fixed oracles, CAD, hooks or ViewTube validators."
     diff_audit:
       baseline: "21df6ed"  # HEAD before filing
+      head: "070d46e"      # diff audited: inside the window only the allowed paths; the acceptance commit holds records only
       allowed_paths: [bomdd/60-change-order-eco-109.md, bomdd/60-change-register.yaml, method/improvements.md]
     summary: >
       Per target product, one product-side ECO under its own change management that merges ECO-108's clauses: the limit default (no stop to

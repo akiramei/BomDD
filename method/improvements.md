@@ -8692,3 +8692,5 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
 
 **Inventory of expected effects**: no new EXP. EXP-20260828-03 reads ViewPrism2 from ECO-147's fix commit `b63897a`, and ViewTube from its merge.
 
+**ECO-109 closed (2026-10-13)**: EXP-20260828-03's windows are open in ViewPrism2 from `b63897a` and in ViewTube from `1453401c` (ECO-VT-260). ViewTube's ECO-VT-260 reached its validator's "open findings = 0" by a register convention (carried known defects listed by id), which ECO-VT-182 and 184 had reached by relabelling. Two more template points from its review go to ECO-111.
+
