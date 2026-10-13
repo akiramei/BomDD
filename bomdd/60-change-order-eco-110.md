@@ -136,3 +136,52 @@ ViewPrism2 ECO-147 (applied `504921a`) merged ECO-108's text into ViewPrism2's o
   1. The round-3 repairs are unreviewed (ruling B). ViewTube's review under ECO-109 reads this text next (V5).
   2. Each round found interactions with neighbouring rules. ECO-108 showed the same pattern, so more of that kind are possible.
 
+## 5. Closure (2026-10-13, verified, manufacturer's calibration only)
+
+- **Window.** Baseline `070d46e` → filing and manufacture `f7e860e` (diff_audit.head; **the window is closed**; the acceptance commit holds records only). Inside the window there are only the 6 allowed paths.
+- **Acceptance results:**
+  - **V1 result: PASS** (§4).
+  - **V2 result: PASS** (§4).
+  - **V3 result: PASS.** Self-conformance exited 0, observed before the commit. The push went through the pre-push witness. CI run 38404046432 was **success**.
+  - **V4 result.** Manufacturer's calibration only; no inspector row. The round reviewer was context independence only.
+- **V5** (not a closing condition): ViewTube's merge under ECO-109.
+- **Recorded honestly.** The converge verdict stays 未収束 (11→5→2). The round-3 repairs are unreviewed, by the user's ruling B.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; documents only)
+
+- **The claim (one sentence).** The product kit's R4, R8, eco-fix and eco-accept no longer carry the six defects ViewPrism2 ECO-147's review found in ECO-108's text. Those defects were:
+  - the limit stop against R7;
+  - the R7-exception return path;
+  - late or missing review results;
+  - the separate filing's order;
+  - the n/a slot;
+  - the destinations.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The new phrases are in the four places": **observed / eligible**. Eight phrases count 0 at the baseline and 1 after. The manufacturer and the round reviewer counted them independently.
+  - "No other text changed": **observed / eligible**. 15 hunks, all at the V2 places.
+  - "The repaired text is consistent with its neighbouring rules": **read / conditionally eligible**.
+    - Three rounds by a fresh-context reviewer found 18 items and resolved them.
+    - Not measured: the two round-3 repairs, which are unreviewed. Not measured either: a reader of other equipment.
+  - "Products no longer meet these defects": **not claimed; unknown**. The first evidence is V5, ViewTube's merge.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): 0.
+- **宣言した検出力の限界** (declared limits of detection):
+  - The counts show the text is there, not that it is acted on.
+  - Interaction findings kept coming in every round.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9).
+- **Battery, row by row:**
+  - **Q1 asked.** The counts are mechanical; the verdicts are the manufacturer's.
+  - **Q2 asked.** Known-bad is the baseline via `git show`; known-good is after.
+  - **Q3 asked.** 8 phrases counted one by one.
+  - **Q4 NA.** No declared input.
+  - **Q5 asked.** CI success observed.
+  - **Q6 asked.** The commit came after exit 0; the push went through the witness.
+  - **Q7 NA.** No standing instrument was added.
+  - **Q8 NA.** No preventive gate was added.
+  - **Q9 asked.** The same script counted the baseline and after, in one run.
+  - **Q10 asked.** The limits above.
+  - **Q11 NA.** No input class needs to be separated.
+- **What this closure does not support:**
+  - any product effect (V5);
+  - the unreviewed round-3 repairs;
+  - ECO-108's own effect (EXP-20260828-03).
+

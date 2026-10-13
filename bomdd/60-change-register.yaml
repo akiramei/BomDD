@@ -3466,7 +3466,7 @@ changes:
     title: repair of ECO-108's product-kit text - the defects ViewPrism2 ECO-147's review found in the merged copy (the limit stop against R7, the R7-exception return path, review rounds and late or missing results, eco-accept's order and slots) are also in the template
     date: 2026-10-13
     origin: improvement
-    status: implemented   # 2026-10-13 user "A" on ViewPrism2 ECO-147 (accept; template first) -> converge with a fresh-context round reviewer, unconverged 11->5->2 -> user "B" (file; round-3 repairs unreviewed) -> filing and manufacture (documents only); verified after self-conformance and CI are observed
+    status: verified   # 2026-10-13 user "A" on ViewPrism2 ECO-147 -> converge unconverged 11->5->2 -> user "B" (file; round-3 repairs unreviewed) -> filing and manufacture f7e860e (documents only) -> self-conformance exit 0 -> push -> CI 38404046432 success -> verified (manufacturer's calibration only; window 070d46e->f7e860e)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       ViewPrism2 ECO-147 (applied 504921a) merged ECO-108's text, and its independent review found defects that are also in the template:
@@ -3477,6 +3477,7 @@ changes:
     no_impact_prediction: "(before manufacture; frozen) the three templates (29 insertions, 11 deletions), the order, the register and improvements.md. No tool, hook, .github, playbook or .claude/skills change. Products see nothing until ViewTube's merge under ECO-109."
     diff_audit:
       baseline: "070d46e"  # HEAD before filing
+      head: "f7e860e"      # diff audited: inside the window only the allowed paths; the acceptance commit holds records only
       allowed_paths: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/skills/eco-accept.md, method/improvements.md, bomdd/60-change-order-eco-110.md, bomdd/60-change-register.yaml]
     summary: >
       R4: an unfinished R7 side-by-side or a copy error left at a limit means no golden and no fix commit; the record is written with
