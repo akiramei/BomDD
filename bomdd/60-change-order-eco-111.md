@@ -93,3 +93,44 @@ ViewTube ECO-VT-260's acceptance (`9074b831`) carried KD-260-3. Its second half 
 - **未収束事項**:
   1. The round-3 repairs are unreviewed (ruling B).
   2. F1 to F6, F8 and F10 are recorded, not resolved.
+
+## 5. Closure (2026-10-13, verified, manufacturer's calibration only)
+
+- **Window.** Baseline `eac8c1a` → filing and manufacture `fbc73b2` (diff_audit.head; **the window is closed**). Inside the window there are only the 5 allowed paths.
+- **Acceptance results:**
+  - **V1 result: PASS** (§4).
+  - **V2 result: PASS** (§4).
+  - **V3 result: PASS.** Self-conformance exited 0, observed before the commit. CI run 38417529182 was **success**.
+  - **V4 result.** Manufacturer's calibration only.
+- **Recorded honestly.**
+  - The converge verdict stays 未収束 (10→4→2). The round-3 repairs are unreviewed (ruling B).
+  - The substance definition, R8's trigger and naming beyond known defects are held in improvements.md with their reopening conditions.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; documents only)
+
+- **The claim (one sentence).** At golden, known defects are listed with IDs. An answer that points to a listing option names them. Zero or partial naming gets one recorded re-ask, and anything still unnamed is GF-*. eco-accept reads the re-ask record.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The phrases are present": **observed / eligible**. Three phrases count 0 at the baseline and 1 after.
+  - "Nothing else changed": **observed / eligible**. 2 hunks; change-management.md is unchanged.
+  - "The naming rule closes KD-260-3's route gap": **read / conditionally eligible**. The round-3 reviewer judged N1, N2 and N4 moot and found 2 minor defects, which were repaired and are unreviewed.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): 0.
+- **宣言した検出力の限界** (declared limits of detection):
+  - The counts show the text is there, not that it is acted on.
+  - The items other than known defects (`MISSING`, unconfirmable findings, REJECT) are still accepted by silence; this is a recorded limit.
+  - The self-assessment is blind to the manufacturer's own wrong premises. The withdrawn substance redefinition began from one such premise, about the scope of R8's trigger.
+- **Battery, row by row:**
+  - **Q1 asked.** The counts are mechanical; the verdicts are the manufacturer's.
+  - **Q2 asked.** Known-bad: the baseline via `git show`.
+  - **Q3 asked.** 3 phrases.
+  - **Q4 NA.**
+  - **Q5 asked.** CI success.
+  - **Q6 asked.** The commit came after exit 0.
+  - **Q7 NA.**
+  - **Q8 NA.**
+  - **Q9 asked.** The same counts were taken before and after.
+  - **Q10 asked.** The limits above.
+  - **Q11 NA.**
+- **What this closure does not support:**
+  - the held items;
+  - any product effect (no distribution is filed; ViewTube's own text already routes partial naming as KD-260-3).
+

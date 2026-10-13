@@ -3496,7 +3496,7 @@ changes:
     title: naming known defects at golden - IDs, what counts as naming, and one recorded re-ask on zero or partial naming (narrowed by the user's "B"; the substance redefinition withdrawn and recorded)
     date: 2026-10-13
     origin: improvement
-    status: implemented   # 2026-10-13 user "A" on ViewTube ECO-VT-260 (template points) -> converge round 1 -> user "B" (narrow to naming) -> unconverged 10->4->2 -> user "B" (file; round-3 repairs unreviewed) -> filing and manufacture (documents only); verified after self-conformance and CI are observed
+    status: verified   # 2026-10-13 user "A" on ViewTube ECO-VT-260 -> narrowed by user "B" -> unconverged 10->4->2 -> user "B" (file) -> filing and manufacture fbc73b2 (documents only) -> self-conformance exit 0 -> push -> CI 38417529182 success -> verified (manufacturer's calibration only; window eac8c1a->fbc73b2)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       ViewTube ECO-VT-260 carried KD-260-3: when the human names some known defects at golden and is silent on others, eco-accept's
@@ -3507,6 +3507,7 @@ changes:
     no_impact_prediction: "(before manufacture; frozen) the two skill files (6 insertions, 1 deletion), the order, the register and improvements.md. change-management.md, tools, hooks, .github, the playbook and .claude/skills untouched."
     diff_audit:
       baseline: "eac8c1a"  # HEAD before filing
+      head: "fbc73b2"      # diff audited: inside the window only the allowed paths; the acceptance commit holds records only
       allowed_paths: [method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/skills/eco-accept.md, method/improvements.md, bomdd/60-change-order-eco-111.md, bomdd/60-change-register.yaml]
     summary: >
       eco-fix's stop lists known defects with IDs; an answer that points to a presented option listing IDs names them, a free-text
