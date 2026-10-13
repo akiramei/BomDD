@@ -188,3 +188,50 @@ The record-layer phrase (row 3) was reworded in round 1, before filing. The row 
   2. The text grew from a one-sentence change to 39 lines. Each round's findings were interactions with neighbouring rules, so further ones of that kind are possible. The distribution ECO compares the text with each product's own copy, which is a second reading.
   3. §8.5 stays candidate (N=1 positive, one product). The kit now carries a candidate rule, by the user's ruling A.
 
+## 5. Closure (2026-10-13, verified, manufacturer's calibration only)
+
+- **Window.** Baseline `40379d1` → filing and manufacture `bdda53e` (diff_audit.head; **the window is closed**; the acceptance commit holds records only). Inside the window there are only the 6 allowed paths (`git diff --name-only 40379d1 bdda53e`).
+- **Acceptance results:**
+  - **V1 result: PASS** (§4).
+  - **V2 result: PASS** (§4).
+  - **V3 result: PASS.** Self-conformance exited 0, observed before the commit (all checks, C16 and C17 included). The push went through the pre-push witness. CI run 38347672682 was **success**.
+  - **V4 result.** Manufacturer's calibration only; no independent inspection. The converge round reviewer is not an inspector (context independence only), so there is no inspector row. Register: `implemented → verified`; head frozen.
+- **V5** (not a closing condition): after distribution, EXP-20260828-03's ② and ③ in the product's next review series.
+- **Recorded honestly.** The converge verdict stays 未収束 (16→7→3→2). The round-4 repairs (eco-fix 3.6's exception, eco-accept 4.5) are unreviewed, by the user's ruling B.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; documents only)
+
+- **The claim (one sentence).** The product kit now gives R4's limits and R8's reviews playbook section 8.5's default dispositions, and the old "until 0" rule is gone from the kit:
+  - layered findings;
+  - at most 2 reviews;
+  - known defects shown at golden with the claim narrowed.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The new phrases are in R4, R8, eco-fix and eco-accept, and the old ones are gone": **observed / eligible**. `git show` baseline counts against the working tree for 10 phrases, each able to fail on its own (7 rose 0 → 1, 3 fell 1 → 0).
+  - "No other text changed": **observed / eligible**. 10 hunks, all at named places.
+  - "The new text does not conflict with neighbouring rules": **read / conditionally eligible**.
+    - Four rounds by a fresh-context reviewer found and resolved 28 items.
+    - Not measured: the round-4 repairs, which are unreviewed; a reader of other equipment.
+  - "Bounding R8 with default dispositions lowers record-layer corrections in products": **not claimed; unknown**. The basis is one controlled observation in one product (EXP-20260828-03 observation 3). The product effect is V5, after distribution.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): 0. The count script's first version could not print to the cp932 console; it was rewritten to print row numbers only, before any recorded count.
+- **宣言した検出力の限界** (declared limits of detection):
+  - The counts show the text is there, not that a product AI will act on it.
+  - Each review round kept finding interactions with neighbouring rules, so more are possible.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9); this receipt was written by the manufacturer.
+- **Battery, row by row:**
+  - **Q1 asked.** The script only counts; the verdict sentences are the manufacturer's.
+  - **Q2 asked.** Known-bad is the baseline via `git show`; known-good is after manufacture. The phrases were fixed before the counts; row 3 was reworded in round 1, before any recorded count, and is 0 at baseline either way.
+  - **Q3 asked.** 10 phrases counted one by one.
+  - **Q4 NA.** No declared input.
+  - **Q5 asked.** CI success observed for the commit.
+  - **Q6 asked.** The commit came after an observed exit 0, and the push went through the witness.
+  - **Q7 NA.** No standing instrument was added.
+  - **Q8 NA.** No preventive gate was added.
+  - **Q9 asked.** Baseline and after were counted by the same script in one run.
+  - **Q10 asked.** The limits above.
+  - **Q11 NA.** No input class needs to be separated.
+- **What this closure does not support:**
+  - any effect in products (V5);
+  - the distribution (a separate ECO);
+  - the proposal's held lenses;
+  - section 8.5's promotion from candidate.
+

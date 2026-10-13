@@ -3401,7 +3401,7 @@ changes:
     title: default dispositions in the product kit - R4's limit and R8's review get playbook 8.5's default disposition and layered findings (2 reviews at most; known defects shown at golden); eco-fix and eco-accept follow
     date: 2026-10-13
     origin: improvement
-    status: implemented   # 2026-10-13 outside proposal analysed -> DECIDE -> user "A" -> converge with a fresh-context round reviewer, unconverged 16->7->3 at the limit -> user "A" (extend) -> round 4: 2 minor -> user "B" (file now; round-4 repairs unreviewed) -> filing and manufacture (documents only); verified after self-conformance and CI are observed
+    status: verified   # 2026-10-13 outside proposal analysed -> DECIDE -> user "A" -> converge with a fresh-context round reviewer, unconverged 16->7->3 -> user "A" (extend) -> round 4: 2 minor -> user "B" (file; round-4 repairs unreviewed) -> filing and manufacture bdda53e (documents only) -> self-conformance exit 0 -> push -> CI 38347672682 success -> verified (manufacturer's calibration only; window 40379d1->bdda53e)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       An outside proposal (2026-10-13) said BomDD imported manufacturing's artifacts but not its stop institutions (concession, tolerance,
@@ -3414,6 +3414,7 @@ changes:
     no_impact_prediction: "(before manufacture; frozen) the three templates (39 insertions, 8 deletions), the order, the register and improvements.md. No tool, hook, .github, playbook or .claude/skills change. BomDD's self-application does not use the kit's R8. Products see nothing until distribution."
     diff_audit:
       baseline: "40379d1"  # HEAD before filing
+      head: "bdda53e"      # diff audited: inside the window only the allowed paths; the acceptance commit holds records only
       allowed_paths: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/skills/eco-accept.md, method/improvements.md, bomdd/60-change-order-eco-108.md, bomdd/60-change-register.yaml]
     summary: >
       R4: when a limit is reached, do not stop to ask for an extension; accept the confirmed part, record the rest as known defects and inaccuracies,
