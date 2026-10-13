@@ -1,0 +1,57 @@
+window since 2026-10-13T06:49:33Z; transcript files 18; tool calls in window 100
+
+== Q1 待ち時間(分)— 分類ごと・本体/サブエージェント ==
+category                main n  main min   sub n   sub min   share
+other                       36       1.3      44       1.7   35.9%
+commit                       4       2.8       0       0.0   33.4%
+validate                    10       2.5       5       0.1   30.6%
+build                        1       0.0       0       0.0    0.1%
+total (<= 3600s) 8.5 min; human_wait excluded: 0 calls, 0.0 min
+
+== Q2 commit とフックの全計画 ==
+sweep      n=0    sum_min=    0.0 median_s=     0
+no_sweep   n=1    sum_min=    0.6 median_s=    36
+unknown    n=3    sum_min=    2.2 median_s=    41
+Q2b landed commits since 2026-10-13T06:49:33Z: 5; matching the sweep pattern: 0
+   accept     sweep=False 1
+   file       sweep=False 1
+   fix        sweep=False 1
+   probe      sweep=False 1
+   record     sweep=False 1
+
+== Q3 門が止めた呼び出し ==
+calls whose output contains "commit blocked": 1
+   1  [bomdd] materialisation divergence; commit blocked
+
+== Q4 全体の受け入れテスト(acceptance-runs)==
+runs in window: 3; with failed>0: 1
+   run-20261013T020508739Z-60470fb4 1268 12 1
+   run-20261013T022714546Z-d6f489fe 1268 0 1
+   run-20261013T051422232Z-cf3c0e6f 1295 0 1
+
+== 参考: 待ちの長い呼び出し 上位 25(human_wait を除く)==
+2026-10-13T06:59:43     62s sub  other            cd /c/Users/akira/source/repos/ViewTube && awk 'NR>=45835 && NR<=46050' bomdd/process/change-register.yaml | grep -n -i -E "english|英|言語|language|訳|tr
+2026-10-13T07:18:59     57s main commit           cd /c/Users/akira/source/repos/ViewTube && S="$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scratchpad"; git com
+2026-10-13T07:15:14     41s main commit           cd /c/Users/akira/source/repos/ViewTube && S="$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scratchpad"; git com
+2026-10-13T06:52:40     36s main commit           cd /c/Users/akira/source/repos/ViewTube && git commit -q -F "$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scrat
+2026-10-13T06:57:54     35s main commit           cd /c/Users/akira/source/repos/ViewTube && git commit -q -F "$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scrat
+2026-10-13T07:17:22     30s main other            cd /c/Users/akira/source/repos/ViewTube && D=test-results/eco-vt-258-the-record-language-ruling-has-no-standing-home; python test-results/eco-vt-070-p
+2026-10-13T07:14:24     20s main validate         cd /c/Users/akira/source/repos/ViewTube && D=test-results/eco-vt-258-the-record-language-ruling-has-no-standing-home; file bomdd/eco/ECO-VT-258*.md $D
+2026-10-13T07:18:31     20s main validate         cd /c/Users/akira/source/repos/ViewTube && git diff --stat; python "$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba723
+2026-10-13T06:52:13     19s main validate         cd /c/Users/akira/source/repos/ViewTube && python "$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scratchpad/vt25
+2026-10-13T06:56:53     18s main validate         cd /c/Users/akira/source/repos/ViewTube && python "$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scratchpad/vt25
+2026-10-13T07:15:58     17s main validate         cd /c/Users/akira/source/repos/ViewTube && python bomdd/tools/validate_process.py > /dev/null 2>&1; echo "process=$?"; python bomdd/tools/validate_rec
+2026-10-13T07:14:48     16s main validate         cd /c/Users/akira/source/repos/ViewTube && python bomdd/tools/validate_process.py 2>&1 | grep -v "^\[bomdd\].*0 findings" | head -30 | cut -c1-300
+2026-10-13T06:57:31     13s main validate         cd /c/Users/akira/source/repos/ViewTube && python bomdd/tools/validate_process.py > /dev/null 2>&1; echo "process=$?"
+2026-10-13T06:57:15     13s main validate         cd /c/Users/akira/source/repos/ViewTube && D=test-results/eco-vt-258-the-record-language-ruling-has-no-standing-home; for f in $D/probe-before.txt $D/
+2026-10-13T06:56:16      9s main other            mkdir -p "/c/Users/akira/source/repos/ViewTube/test-results/eco-vt-258-the-record-language-ruling-has-no-standing-home"
+2026-10-13T07:09:19      7s main other            cd /c/Users/akira/source/repos/ViewTube && sed -n '45880,45900p' bomdd/process/change-register.yaml | cut -c1-200; sed -n '151p' bomdd/eco/ECO-VT-257.
+2026-10-13T07:12:38      6s sub  validate         cd /c/Users/akira/source/repos/ViewTube && python bomdd/tools/validate_record_language.py 2>&1 | tail -3; python bomdd/tools/validate_change_impact.py
+2026-10-13T07:18:20      5s main validate         cd /c/Users/akira/source/repos/ViewTube && S="$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scratchpad"; sed -i 
+2026-10-13T07:18:07      5s main validate         cd /c/Users/akira/source/repos/ViewTube && python "$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scratchpad/vt25
+2026-10-13T07:14:16      4s main other            cd /c/Users/akira/source/repos/ViewTube && python "$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scratchpad/vt25
+2026-10-13T07:09:26      2s main other            cd /c/Users/akira/source/repos/ViewTube && S="$TEMP/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scratchpad"; python 
+2026-10-13T07:05:09      2s sub  other            python "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scratchpad/active.py"
+2026-10-13T07:03:12      2s sub  other            python "C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-BomDD/5f7d2ecf-8292-4315-b67a-bb22ecba7237/scratchpad/pins.py"
+2026-10-13T06:59:16      2s sub  other            cd /c/Users/akira/source/repos/ViewTube && sed -n '46550,46700p' bomdd/process/change-register.yaml | cat -n | head -150
+2026-10-13T07:09:56      2s main other            cd /c/Users/akira/source/repos/ViewTube && D=test-results/eco-vt-258-the-record-language-ruling-has-no-standing-home; python $D/probe258.py . > $D/pro

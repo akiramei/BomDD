@@ -8573,6 +8573,12 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
   evidence: 本節・ViewTube bomdd/eco/ECO-VT-250-independent-review.md
 
 **効果回収(2026-10-12・EXP-20261011-01)**: 是正の後の作業の窓(ECO-VT-252・2026-10-11T07:30Z〜・別のセッション)を前と同じ `measure.py` で数えた(`bomdd/reports/viewtube-gate-effect-20261012/`)。①`validate_process.py` 1 回 109.8 → 25.2 秒 ②門(commit と単独の検証器)の待ちが本体の待ちに占める割合 62% → 41.5%、commit 1 回の平均 161 → 79 秒 ③門が止めた 2 回は前と同じ種類(工程の整合・実体化の不一致・記録の言葉)で、判定が変わった疑いは無い。限界: 窓は 1 つの UI の ECO(commit 17 件)で、前の窓(3 日・168 件)と作業の中身が違う。いまの待ちの最大は門の外(ECO ごとのスクリプト・変異の待ち・ビルドの複製= 59.7%)。門に残る大きいものは、commit-msg フックでの `validate_process.py` の 2 回目(約 25 秒、登録簿を stage した commit だけ)と `checkout-index` の複製+変更影響の検証器(約 26 秒)で、どちらも ECO-VT-250 で「判定が変わらない証明が先に要る」として範囲の外に置いた候補。
+**Third reading (2026-10-13, after ECO-VT-254 and 255; the ECO-VT-258 window; the user's request)**: `bomdd/reports/viewtube-gate-effect-20261013/`, with the same `measure.py`, over 06:49:33Z to 07:20Z of the methodology session that did ECO-VT-258 (documents only; no sweep, build or suite).
+- One commit, hooks included: 161 s before, 79 s after ECO-VT-250, now 35, 36, 41 and 57 s (mean about 42 s; the 57 s call also ran validate_process for about 14 s). All four staged the register.
+- `validate_process.py` once: 109.8 s, then 25.2 s, now 13.9 and 14.4 s warm (51.2 s on the first, cold run).
+- Gate refusals: 1, a correct materialisation-divergence catch of the manufacturer's CRLF evidence files. No sign of a changed verdict.
+- Consistent with ECO-VT-255's clone profile of a register-staged record commit (29.6 s).
+- Limits: a different kind of work from the earlier windows, and only 4 commits. The wait share ② is not meaningful here, because almost no other tool waits form the denominator. The EXP stays recovered; this is an added reading, not a reopening.
 
 ## 2026-10-11 ハーネス側 — handoff 契約 v0.4 への第三者レビュー(user 転送)の取捨: 実装規則 2 点を ECO-104 で直す・契約は不変・残りは候補と計数の追加
 
