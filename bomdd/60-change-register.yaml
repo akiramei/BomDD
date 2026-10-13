@@ -3397,3 +3397,36 @@ changes:
       exit 0 and CI green / V4 EXP-20261013-01 window opened per product / V5 (not a closing condition) EXP-20261013-01's result.
       Conditions are frozen at filing; results go to the closing section.
     producer: EQ-004
+  - id: ECO-108
+    title: default dispositions in the product kit - R4's limit and R8's review get playbook 8.5's default disposition and layered findings (2 reviews at most; known defects shown at golden); eco-fix and eco-accept follow
+    date: 2026-10-13
+    origin: improvement
+    status: implemented   # 2026-10-13 outside proposal analysed -> DECIDE -> user "A" -> converge with a fresh-context round reviewer, unconverged 16->7->3 at the limit -> user "A" (extend) -> round 4: 2 minor -> user "B" (file now; round-4 repairs unreviewed) -> filing and manufacture (documents only); verified after self-conformance and CI are observed
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      An outside proposal (2026-10-13) said BomDD imported manufacturing's artifacts but not its stop institutions (concession, tolerance,
+      measurement-system analysis). Read against the repository, playbook section 8.5 already holds them (review bound, budget with a default
+      disposition, layered default dispositions), with one controlled positive measurement (EXP-20260828-03 observation 3: record-layer findings
+      sent to correction 17% under the default against 79% without) and a measured failure when undeclared (observation 2, 9/9). The product kit
+      carries none of it: R8 and eco-fix 3.6 say never proceed until in-scope findings are 0 (the rule ViewTube ECO-VT-184 ran 13 rounds under).
+    order_ref: bomdd/60-change-order-eco-108.md
+    affected_refs: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/skills/eco-accept.md, method/improvements.md]
+    no_impact_prediction: "(before manufacture; frozen) the three templates (39 insertions, 8 deletions), the order, the register and improvements.md. No tool, hook, .github, playbook or .claude/skills change. BomDD's self-application does not use the kit's R8. Products see nothing until distribution."
+    diff_audit:
+      baseline: "40379d1"  # HEAD before filing
+      allowed_paths: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/skills/eco-accept.md, method/improvements.md, bomdd/60-change-order-eco-108.md, bomdd/60-change-register.yaml]
+    summary: >
+      R4: when a limit is reached, do not stop to ask for an extension; accept the confirmed part, record the rest as known defects and inaccuracies,
+      narrow the claim and report (the human decides on extension). R8: in-scope findings take layered defaults (substance -> R5 repair; evidence ->
+      accepted if readable, else UNKNOWN; record -> known inaccuracy, not corrected); at most 2 reviews; substance findings left at the last review
+      are shown at golden as known defects with the claim narrowed; a different bound or record-layer correction only if written before the review.
+      Exceptions: converge's limit stays a ruling point; R7 copy errors are repaired, not carried; equipment-independent inspection carries
+      the 2 reviews; departures from the default are decided by the human at the next stop. eco-fix steps 1, 2, 3.6 and the stop section,
+      R5, and eco-accept steps 2, 4.5 (R3 disposition after acceptance) and 6 follow. Not changed: R4's gates, the start-wait, factory-delegate, operator-layer,
+      the playbook, product copies; no mechanical check (section 8.5 declines validator enforcement).
+    verification: >
+      V1 phrase counts 0 -> 1 for 7 new phrases and 1 -> 0 for 3 old ones (eco108_count.py, quoted in the order) / V2 no hunks outside R4, R5, R8,
+      eco-fix 1, 2, 3.6 and stop, eco-accept 2, 4.5 and 6; frontmatter parses; no remaining statement of the old rules in templates, .claude/skills, tools or onboarding / V3 self-conformance
+      exit 0 before commit, CI green / V4 manufacturer's calibration only / V5 (not a closing condition) after distribution, EXP-20260828-03 2 and 3.
+      Conditions are frozen at filing; results go to the closing section.
+    producer: EQ-004

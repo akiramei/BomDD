@@ -8643,3 +8643,33 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
 - [open] EXP-20261013-01 — **Does wiring section 4.5 into R4, eco-fix and converge remove derived-layer choices asked as rulings?** After ECO-106 is distributed to a product, count the next 20 turn-ending stops that wait on or ask for a ruling there (the instrument of `bomdd/reports/escalation-asks-20261013/`) and classify them the same way, with two blind classifiers. Baseline: 7 of 176 (Claude) and 7 of 124 (Codex) derived-layer choices asked as rulings. Reading: 0 or 1 in 20 → recovered; 2 or more → read what the stops cite and whether the copy in that product carries the new R4. Also count the reverse, an E-side matter the AI decided alone, from user corrections. Limits: one user; learning effect not separated; start-waits are kept by the ruling and not counted as failures. **Windows opened (2026-10-13, ECO-107):** ViewPrism2 from `c0f6237` (ECO-146), ViewTube from `405ae3ca` (ECO-VT-256); TimetableAdv not distributed: the user deferred it on 2026-10-13 (the project is paused for model compute, no restart date); resume condition = the project restarts, then a new distribution ECO (product ECO + kit at ECO-098 or later). Without it this EXP measures Claude-run products only; the model-family comparison is not available.
   source: ECO-106
   evidence: bomdd/60-change-order-eco-106.md section 0; bomdd/reports/escalation-asks-20261013/summary.md
+
+## 2026-10-13 BomDD self-application — an outside proposal on manufacturing's stop institutions read against the method; ECO-108 filed (default dispositions into the product kit; user DECIDE "A"; documents only)
+
+**Source**: an outside proposal (pasted by the user, 2026-10-13). It said BomDD borrowed from mass production (APQP) while AI software work is closer to construction or regulated process industry (one-off product, design during manufacture, change as the main flow). It also said BomDD imported the artifacts (BOM, CP, FMEA, ECO) but not the institutions that end work (concession, tolerance, measurement-system analysis, change classes).
+
+**Finding** (read against the repository):
+- The stop institutions are in playbook section 8.5, with one controlled positive measurement (EXP-20260828-03 observation 3, 79% to 17%).
+- κ-style agreement has been measured before (cheat reclassification, blind).
+- Derived-layer choices are the AI's (ECO-106).
+- The proposal missed these because it searched for manufacturing words.
+- The real gap: the product kit carries none of section 8.5. Its R8 says "until in-scope findings are 0".
+
+**Rulings**:
+- user "A": file the kit change now; distribution apart.
+- converge stopped unconverged at the 3-round limit (16→7→3): user "A", extend one round.
+- round 4 found 2 minor items: user "B", file now, recording that the round-4 repairs are unreviewed.
+- Each round's findings were interactions with neighbouring rules (converge's limit, R7, R5, factory-delegate, eco-accept). The one-sentence idea became 39 lines.
+
+**Destination**: ECO-108.
+
+**Held as lenses, not filed**: an established-conditions list, a standing repeatability check of reviewers, process characteristics in the CP, procurement classes in the M-BOM, lessons moved to a process FMEA, Hold/Witness/Review per CP row. None has an observed trigger, and the proposal says the same.
+- Two of them cut against standing rulings.
+  - The list would replace R4's mechanism while EXP-20261013-01 is still measuring it.
+  - "An unqualified instrument's red makes no work" runs against closing measured false negatives first (2026-09-29).
+- Reach for them when real work gets stuck. A reviewer repeatability check is cheap and fits a review that will not converge under its bound.
+
+**Re-certification of the thinking layer (lesson-promote 3b)**: [x] operational rule (R4 limit, R8 bound and layers) [x] template (eco-fix, eco-accept) [ ] terminology [ ] method/concept claim. Contradicted or superseded: the kit's R8 "until 0" sentence.
+
+**Inventory of expected effects**: no new EXP. After distribution, EXP-20260828-03 ② and ③ read the product's next review series (its observation 3 is the baseline).
+
