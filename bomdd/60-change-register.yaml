@@ -3368,3 +3368,31 @@ changes:
       V5 (not a closing condition) after distribution, derived-layer choices asked as rulings in the next 20 ruling stops (baseline 7/176, 7/124).
       Conditions are frozen at filing; results go to the closing section.
     producer: EQ-004
+  - id: ECO-107
+    title: distribution of ECO-106 to the existing products - TimetableAdv, ViewPrism2 and ViewTube carry its wording on who decides derived-layer choices (filed only; the manufacture ruling decides products and order)
+    date: 2026-10-13
+    origin: improvement
+    status: filed   # 2026-10-13 filed on the user's "配布のECOを起票して" after ECO-106 verified; manufacture ruling separate (ECO-075/081 pattern)
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      ECO-106 changed the product-profile templates only. The products keep diverged copies: TimetableAdv (R4 as the old template, eco-fix,
+      converge, AGENTS/CLAUDE gate lines; kit playbook lacks section 4.5's ruling/derived layers; tree dirty with ECO-046 in progress),
+      ViewPrism2 (own R4 and gate lines, eco-fix; method at ../BomDD; clean), ViewTube (AGENTS.md decision gate "chooses requirements, design,
+      or treatment"; own eco-fix in .agents/skills; English records; clean).
+    order_ref: bomdd/60-change-order-eco-107.md
+    affected_refs: [bomdd/60-change-order-eco-107.md, method/improvements.md]
+    no_impact_prediction: "(before manufacture; frozen) BomDD: this order and the register at filing; at closure the closure record and an improvements.md line for EXP-20261013-01. Products: per product, the gate lines, eco-fix (and converge in TimetableAdv), its own ECO records and, in TimetableAdv, kit files and lock. No product code, tests, BOM files, fixed oracles or CAD."
+    diff_audit:
+      baseline: "207f56d"  # HEAD before filing
+      allowed_paths: [bomdd/60-change-order-eco-107.md, bomdd/60-change-register.yaml, method/improvements.md]
+    summary: >
+      Per target product, one product-side ECO under its own change management: narrow the decision gate to the ruling layer and add ECO-106's
+      derived-layer and return-case sentences (TimetableAdv R4, AGENTS.md:41, CLAUDE.md:65; ViewPrism2 R4, AGENTS.md:37, CLAUDE.md:16; ViewTube AGENTS.md:85),
+      merge eco-fix step 2 (and converge step 6 in TimetableAdv) keeping product additions, make section 4.5 reachable (TimetableAdv kit at ECO-098 or later),
+      open EXP-20261013-01's window. Not changed: the start-wait, TimetableAdv's per-scene start ruling, product code, CAD, BomDD templates.
+    verification: >
+      V1 each target product's ECO applied under its lifecycle with the clauses present (grep 0 -> 1 per file) / V2 section 4.5's text reachable
+      (TimetableAdv kit grep and lock; ViewPrism2 and ViewTube via ../BomDD) / V3 product gates and CI green per product commit; BomDD self-conformance
+      exit 0 and CI green / V4 EXP-20261013-01 window opened per product / V5 (not a closing condition) EXP-20261013-01's result.
+      Conditions are frozen at filing; results go to the closing section.
+    producer: EQ-004
