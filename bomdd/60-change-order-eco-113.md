@@ -428,6 +428,34 @@ built on it. OBS-20261019-01 (review snapshots) stays on hold (user), and nothin
   exit 0, output as asked. L5 (no breakaway) therefore did not stop the inspection cell in that probe; the workspace-write sandbox is observed with r1.
 - **The diff window (V8):** see the preflight receipt — asked at closure.
 
+## 5. Independent inspection r1 (2026-10-19, EQ-002, range 境界探索) — REJECT IA-01, IA-02
+
+- **Launched through the manufactured entry** on `2752d18` (CI 39166932515 success; witness tree `a90ecad107b3`, gate self-conformance):
+  `bomdd-run.py ECO-113 --cell "codex exec -s workspace-write -m gpt-5.6-sol … - < %BOMDD_BRIEF%" --brief <brief outside the worktree> --executor EQ-002
+  --report bomdd/reports/eco-113-briefs/inspection-r1.md --range 境界探索`. Brief `787a5502…` (stored; committed copy
+  `bomdd/reports/eco-113-briefs/inspection-brief-r1.md`, same sha256); report `inspection-r1.md` (`48fd4056…`); the ledger's cell record binds it
+  (`report REJECT sha256:48fd40561357 (EQ-002)`, `journal_end: committed`). Codex ran at its default reasoning effort (low).
+- **Observed on the real cell (V1, V2, A1):** the journal holds `start` and `end` for run `20261018T211926.052338Z` (job
+  `Local\BomDD-run-ECO-113-20261018T211926.052338Z`); the Codex cell ran inside the job with the workspace-write sandbox and exited 0; a dry
+  invocation while the cell ran read `STOP ECO-113 RUN_IN_FLIGHT(ENTRY_ALIVE) - → operator` and wrote its refusal record to the ledger.
+- **Items PASS:** scope (witness diff empty), X, W, R, S and O, T and the acceptance evidence (conditionally: the arms do not cover the findings below).
+  **FAIL:** J, A, boundary exploration and records, through two findings:
+  - **IA-01 — blocking.** `open_runs()` closes a `start` by any `end`, `abort` or `release` with the same `run_id`, whatever their order, and keeps
+    only the first of two `start` records with one id. `run_id` is a UTC timestamp, not a guaranteed-unique value, so a reused id (clock rollback, an
+    equal timestamp) can make a later, genuinely open run read as closed — it is then not classified and a second launch is allowed. The inspector's
+    probe: `release(r)` then `start(r)` → `open_runs = []`. **The defect is in J1's definition ("a `start` record with no `end`, `abort` or `release`
+    for its `run_id`"), which the code follows literally, and in the unstated assumption that ids are unique** — not only in the code. J2's claim
+    "every open run is classified" and the register summary repeat it.
+  - **IA-02 — non-blocking.** The reader validates a record only as a JSON object: a record whose `run_id` is not a string is skipped silently, and any
+    integer quarantine `offset` — one past the end of the file included — excludes corrupt lines without its position or `excluded_sha256` being
+    checked (probe: an offset of 999999 hid a later corrupt line). Such records come only from outside the normal writer, so L11's trust boundary limits
+    the exposure, but L11 names deletion by hand, not semantic corruption. The inspector offers two repairs: validate (schema, transitions, an offset
+    inside the file on a line boundary, the digest) with invalid complete records as `JOURNAL_CORRUPT`, or extend L11.
+- **Reproduced by the producer** on `2752d18`'s reader (a throwaway script on temporary journals): `release(r)` then `start(r)` → no open run; two
+  `start` records for one id → only the first kept; a `quarantine` with offset 999999 before a corrupt line → 0 corrupt, 1 excluded.
+- **Not repaired yet:** both repairs change rule text of the filed design (J1, J2, A4, L11); the user rules how they are made (the user's condition:
+  stop and ask before adding a mechanism or changing an acceptance item).
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1
