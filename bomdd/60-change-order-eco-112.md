@@ -244,6 +244,24 @@ comment; operator-layer.md — G5 (core §6.1, adapter A1).
   (クローズ), so the English-primary ECO-110 and ECO-111 already project as `LEDGER_INCONSISTENT` at `3a9de06`. This order's closure heading therefore
   carries クローズ, so that its own promotion (V7) is not stopped by that reader.
 
+## 5. Independent inspection r1 (2026-10-18, EQ-002, range 境界探索) — REJECT IA-01, IA-02
+
+- **Launched through the manufactured entry:** `bomdd-run.py ECO-112 --cell "codex exec … - < %BOMDD_BRIEF%" --brief <brief outside the worktree>
+  --executor EQ-002 --report bomdd/reports/eco-112-briefs/inspection-r1.md --range 境界探索` on `f2d91d4` (CI 39123329104 success). The entry stored the
+  brief (`4df6cdca…`, 5906 bytes) and the cell read the stored copy through `BOMDD_BRIEF`; the inspector re-fetched it and found the same sha256 and size
+  — **V2(f)'s real-cell part observed** (the brief's committed copy: `bomdd/reports/eco-112-briefs/inspection-brief-r1.md`, same sha256). Report
+  `inspection-r1.md` (`8b25e493…`); the ledger's cell record binds it (`report REJECT sha256:8b25e49375ed (EQ-002)`). Codex ran at its default
+  reasoning effort (low).
+- **Items PASS:** scope (witness diff empty), G1-G5, O1, T1-T6 (the three selftests re-run: exit 0), the acceptance evidence as recorded (V3's instrument
+  result explicitly pending). **FAIL:** B1-B5, boundary exploration and records, through two blocking findings:
+  - **IA-01** — `store_brief()` runs before the ledger decision record is written; if that write fails, nothing launches but the brief stays in the store.
+    B2 says a refused invocation stores nothing, and the stored brief would later make promotion demand a copy for a cell that never ran. The existing
+    unwritable-ledger arm uses `--brief none`, so it cannot show this. **The defect is in the design's order (B2), not only in the code.**
+  - **IA-02** — the cell receives the store's own file as `BOMDD_BRIEF`; a cell that deletes it (or the per-ECO directory) makes B4 see an empty store
+    and pass with no copy, so the brief is neither re-fetchable nor checked. L4 covers deletion "by hand", not by the ordinary launched cell to which B3
+    hands the path. **The defect is in the design (B3 + B4).**
+- **Not repaired yet:** both repairs change rule text of the converged design (B2, B3, L4); the user rules how they are made.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (before the split; ①②③ together)
