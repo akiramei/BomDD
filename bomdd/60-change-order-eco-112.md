@@ -375,6 +375,94 @@ receipt "Amendment loop A2"); the tool — `bomdd-run.py` at `f2d91d4` (`bfea9b4
   paths (`control-include-3c7781c.md`, `86c7233793ff`).
 - **Next:** inspection r3 (是正確認+回帰) on ECO-112's change set, with IA-03 judged under this ruling; at closure V6 is re-run on the final head.
 
+## 9. Independent inspection r3 (2026-10-18, EQ-002, range 是正確認+回帰) — ACCEPT
+
+- **Launched through the entry** on `0b6a784` (CI 39135781245 success; witness tree `f73f5498815e`), after V3's re-run had finished (so the
+  inspector's selftests did not overlap it). Brief `843e608f…` (5479 bytes; committed copy `bomdd/reports/eco-112-briefs/inspection-brief-r3.md`, same
+  sha256); report `inspection-r3.md` (`e4ac915b…`); the ledger's cell record binds it (`report ACCEPT sha256:e4ac915bbb93 (EQ-002)`).
+- **IA-03 resolved under the ruling.** All six items PASS: the ruling's record (only `3c7781c` excluded, with its reason); non-interference checked
+  independently of the script (the shared register only, ECO-112's entry unchanged, no later change to ECO-113's paths, no dependency of ECO-112's tools
+  or evidence on them); `diff_window.py` on `3a9de06..0b6a784` PASS (9 ECO-112 commits, 1 excluded, 38 paths, none outside `allowed_paths`) and its
+  positive control FAIL; `bomdd-witness.py` unchanged; regression (`method/` changed since `4d2c05f` only in `improvements.md`; the three selftests and
+  the nine rule mutations re-run); the records, V3 run 2's counts and every hash. **Findings: none.**
+
+## 10. クローズ (closure, 2026-10-18, verified)
+
+The acceptance commit after `0b6a784` holds records only (this section, the register entry, r3's report and brief). Results by acceptance item:
+
+- **V1 — PASS.** The G1-G3 and O1 arms (§4) in the bomdd-run selftest and the nine G2 arms in the bomdd-job selftest; both selftests exit 0 on the
+  final tools (unchanged since `4d2c05f`).
+- **V2 — PASS.** (a)-(e) by the selftest arms (§4); (g)-(j) by the repair arms and their rule mutations (§6); (f) and (j) also on real cells: the r2 and
+  r3 cells read an execution copy, each brief re-fetched from its `store_ref` has the sha256 its decision record names, and no execution copy was left.
+- **V3 — PASS** (run 2, §6): the pinned instrument exits 0 on the repaired `bomdd-run.py`, clean baseline, 73/73 OWN, 0 MASKED, 0 CRASH, no gap; the
+  existing selftests of bomdd-run, bomdd-job and bomdd-witness pass; `git diff 3a9de06..0b6a784 -- method/tools/bomdd-witness.py` is empty. V3's first
+  run (FAIL, two causes in the new arms) is kept as `manufacture/v3-run1-*`.
+- **V5 — PASS:** independent inspection by EQ-002: r1 境界探索 REJECT IA-01, IA-02 (§5) → amendment and repair (§6) → r2 是正確認+回帰 REJECT IA-03 (§7)
+  → the user's exception ruling (§8) → r3 是正確認+回帰 **ACCEPT** (§9), read as the gate `inspection` (R11) from the ledger's last cell record.
+- **V4 — PASS:** self-conformance exit 0 before the commits (the pre-push witness admits a push only after a PASS); CI success on the tip of every
+  push: `d762270` 39115977832, `f2d91d4` 39123329104, `3c7781c` 39125601451 (pushed with `ced3ffc`), `e394af0` 39129970768, `4d2c05f` 39131152252,
+  `436f0c6` 39132550501, `48f65ba` 39134043583, `0b6a784` 39135781245; `19243e5` and `ced3ffc` have no run of their own (pushed with their successor).
+  This commit's run is observed after push.
+- **V6 — PASS, under the exception ruling (§8):** `diff_window.py` on `3a9de06..0b6a784`: the ECO-112 commits change only §2's paths; `3c7781c`
+  (ECO-113's filing) excluded with its reason and checked for non-interference; the included and excluded ranges are in
+  `bomdd/reports/eco-112-briefs/diff-window/`.
+- **V7 — PASS:** ECO-112's verified promotion was decided by bomdd-run (dry) under G3: decision record `run_id 20261018T143902.359002Z`, tree `27b38f796abf`, `ADVANCE OK`, `required_gates` = `matched_gates` = [V1, V2, V3, inspection]; the gate `inspection` derived from the ledger (r3, ACCEPT, 是正確認+回帰, `e4ac915b…`), not declared.
+- **V8 — PASS:** that decision passed B4 for every brief in ECO-112's store (3 stored, 0 ignored): `brief_copies` names a committed copy for each, and each pair below was checked against the file (same sha256).
+- **The `{sha256, path}` pairs of ECO-112's stored briefs (B4; the lasting reference):**
+  - `4df6cdca4243d06efa305f90eddb902847abac0589696e9036122166868c26e4` — `bomdd/reports/eco-112-briefs/inspection-brief-r1.md` (r1, launched)
+  - `4112b156054ffd4691d065356f3483a3fa46cb02df84c1e0a1e3547ebe910267` — `bomdd/reports/eco-112-briefs/inspection-brief-r2.md` (r2, launched)
+  - `843e608f800eb518fc121bc4f0fcb0f659d7f7458d5edd40f99d8f289d38aad9` — `bomdd/reports/eco-112-briefs/inspection-brief-r3.md` (r3, launched)
+  ("launched" read from the ledger, B3: each has an ADVANCE decision record with `cell` and a cell record with a report.)
+- **Declared limits that stay:** L1-L10 as in §1; the V2(g) arms' shared-temporary-directory limit (§7); OBS-20261018-01 (the closure heading),
+  OBS-20261018-02 (the diff window) and OBS-20261018-03 (the V2(g) arms' shared temporary area) are recorded for later, outside this ECO.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer)
+
+- **The claim (one sentence).** bomdd-run's promotion decision reads every required gate by its exact name and demands a committed copy of every stored
+  brief; a launching invocation stores the brief, hands the cell only an execution copy, and rolls back only the stored file it created when nothing
+  launches; and the selftest arms that show this each fail for their own reason.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "G3 and B4 read by name and demand committed copies": **observed / eligible.** Known-bad arms (V1, V2(e)) and the rule mutations G3-off and B4-off
+    (red, naming their arms); the real promotion decision (V7, V8) shows the passing path on the real ledger and store.
+  - "IA-01 and IA-02 repaired": **observed / eligible.** Five rule mutations each red for their own arm (§6); two real cells (r2, r3) given an execution
+    copy that was gone afterwards; the inspector's own probe in a throwaway repository (§7).
+  - "Each selftest arm fails for its own reason" (V3): **observed / eligible.** The pinned instrument (its sha256 fixed at filing) on the measured tool's
+    exact bytes: clean baseline, 73/73 OWN, no static/dynamic gap. The same instrument read FAIL on the pre-repair tool (run 1), with two causes that
+    code reading confirmed, so it is not an always-green instrument.
+  - "V6 under the exception ruling": **observed / conditionally eligible** — attribution is by the commit subject's tag (self-declared); r3 checked it
+    against the diffs for this window. Not measured: a commit whose tag misstates its ECO in a way the diff does not show.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): 3.
+  - (1) V3 run 1: two causes in the new selftest arms (a deferred check; an unguarded read of the last record). Attribution: the manufacture's selftest
+    arms. Repaired in `4d2c05f`, with one more instance of the same cause (§6).
+  - (2) The three V2(g) arms count `bomdd-brief-*` directories in the OS temporary area that other processes share, so a concurrent run can turn them red
+    without cause (never green). Attribution: the selftest arm (instrument). **Not repaired in ECO-112** — a repair changes `bomdd-run.py` after V3's
+    measured bytes; recorded as OBS-20261018-03 for a later ECO.
+  - (3) r2's brief named the literal range `f2d91d4..4d2c05f`, which held another ECO's commit, and the inspector applied it as written (IA-03).
+    Attribution: the inspection brief (instrument); resolved by the user's ruling and r3's brief (§8, §9).
+- **宣言した検出力の限界** (declared limits of detection):
+  - V3's instrument sees in-process `call(...)` invocations only (T6), and its mutation is one refusal form (the brief rule's); a launch from a thread or
+    child process, or another way of failing, is not measured.
+  - The real promotion decision exercised the passing path only; the refusing paths (`REQUIRED_GATE_MISSING`, `BRIEF_NOT_COMMITTED`) are measured on
+    fixtures, not on a real ECO.
+  - The concurrency race of the rollback (L10) and a hostile store change (L4) are not exercised.
+  - The self-assessment is the producer's own and blind to its own wrong premises; the independent inspections (r1-r3) are the outside check, and they
+    found three defects (IA-01, IA-02, IA-03) that the producer's checks had passed.
+- **Battery, row by row:**
+  - **Q1 asked.** Arm names and `diff_window.py`'s header against their code (r3 item 3).
+  - **Q2 asked.** Known-bad and known-good in pairs: the 9 rule mutations (labels from the order's rules), V3 run 1 FAIL vs run 2 PASS, the diff check's
+    positive control.
+  - **Q3 asked.** Each rule fails alone: every mutation names its own arm.
+  - **Q4 asked.** V3's static/dynamic cross-check: every declared call site ran (no gap).
+  - **Q5 asked.** V3's baseline guard (exit 2, never a pass); the inspection gate derived from the ledger, where MISSING and 境界探索 read exit 2.
+  - **Q6 asked.** Each commit after self-conformance exit 0; each report after CI was observed.
+  - **Q7 asked.** Positive controls exist for the selftest (mutations), V3 (run 1) and the diff check (`--control-include`).
+  - **Q8 asked.** The new refusals have recorded exits: `GATES_UNDECLARED` (write the field), `BRIEF_NOT_COMMITTED` (commit the brief).
+  - **Q9 asked.** The tool's bytes measured by V3 (`69e849630f90…`) equal `4d2c05f`'s; the witness binds the worktree tree; the instrument's sha256 is pinned.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** Launching, refused and dry invocations, and verified vs other states, are measured by separate arms.
+- **What this closure does not support:** a product effect beyond this repository (no distribution is filed); ECO-113's design (filed, not
+  manufactured).
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (before the split; ①②③ together)

@@ -3523,7 +3523,7 @@ changes:
     title: the operator layer's two connection gaps - check results read by the promotion decision (required_gates), and the factory brief kept and re-fetchable (store + committed copy); filing only, design converged after five loops
     date: 2026-10-18
     origin: improvement
-    status: implemented   # 2026-10-18 manufactured (user "1:A": manufacture approved); filed earlier the same day after user "1:A 2:A 3:A" (evaluation of an external proposal) -> split "B" (item 3 to ECO-113) -> extensions "A", "1:A", "1:A", "1 (one extra round)" -> converge: converged (loop 5 rounds 3-4 zero) -> filing; manufacture waits for the user's instruction
+    status: verified   # 2026-10-18 filed (user "1:A 2:A 3:A" -> split "B" -> extensions; converged loop 5) -> manufactured f2d91d4 (user "1:A") -> r1 REJECT IA-01, IA-02 -> amendment (user "1:A", "A", "A"; converged 4->1->0->0) e394af0 -> repair 4d2c05f -> V3 run 2 PASS -> r2 REJECT IA-03 (the diff window) -> user "A": exception ruling (ECO-112's commits only; 3c7781c excluded) -> r3 ACCEPT -> promotion decided by bomdd-run under G3 -> verified (closure: order section 10)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       An external proposal ("AI manufacturing separated from external workflow control") evaluated against the existing operator layer (ECO-062 to
@@ -3535,6 +3535,7 @@ changes:
     no_impact_prediction: "(before manufacture; frozen at filing) bomdd-run.py, bomdd-job.py, the register template's comment, operator-layer.md, improvements.md, the order, the register and bomdd/reports/eco-112-*/. bomdd-witness.py, self-conformance.py, hooks, .github, the playbook, skills, .claude/skills and 33-control-plan.yaml untouched."
     diff_audit:
       baseline: "3a9de06"  # HEAD before filing
+      head: "0b6a784"      # diff audited under the user's exception ruling (order section 8): ECO-112's commits only, 3c7781c (ECO-113's filing) excluded; the acceptance commit holds records only
       allowed_paths: [method/tools/bomdd-run.py, method/tools/bomdd-job.py, method/templates/60-change-register.yaml, method/templates/product-profile/operator-layer.md, method/improvements.md, bomdd/60-change-order-eco-112.md, bomdd/60-change-register.yaml, bomdd/reports/eco-112-arm-inventory/, bomdd/reports/eco-112-briefs/]
     required_gates: [V1, V2, V3, inspection]   # the order's machine copy (G1); read by the promotion decision once ECO-112's G3 is manufactured
     summary: >
