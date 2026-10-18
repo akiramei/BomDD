@@ -349,6 +349,26 @@ receipt "Amendment loop A2"); the tool — `bomdd-run.py` at `f2d91d4` (`bfea9b4
   other processes share; a concurrent selftest or launch can make them red without cause (never green). The rule mutation that disables the copy's removal
   leaves its directories there by design.
 
+## 8. Exception ruling on the diff window (user "A", 2026-10-18; for ECO-112 only, not a general rule)
+
+- **The ruling:** for ECO-112's V6 and its independent inspections, the change set is the commits attributed to ECO-112; ECO-113's filing commit
+  `3c7781c` is not part of ECO-112's manufacture. Conditions: (1) the excluded commit and its reason are recorded; (2) a diff shows that ECO-113's
+  commit does not affect ECO-112's products or acceptance evidence; (3) ECO-112's changes are enumerated in full and that set is inspection r3's target;
+  (4) V6 applies this ruling and keeps the included and excluded ranges as evidence; (5) the existing CI and acceptance checks on the actual final tree
+  are not skipped. The ruling is not made a general rule; how a diff window is defined is recorded separately (OBS-20261018-02 in `method/improvements.md`).
+  ECO-112's acceptance is not completed before V3's result is settled.
+- **(1) Excluded:** `3c7781c` `file(eco-113): …` — ECO-113's filing (its order, `bomdd/reports/eco-113-*`, and its register entry), made between
+  ECO-112's first manufacture and its repair under the user's rulings on ECO-113; it carries no ECO-112 change. No other commit in `3a9de06..436f0c6`
+  is excluded.
+- **(2)-(4) Evidence:** [`bomdd/reports/eco-112-briefs/diff-window/`](reports/eco-112-briefs/diff-window/README.md) — `diff_window.py` (`76b998c86019`)
+  run on `3a9de06..436f0c6`: **PASS** (`diff-window.md`, `4ce0d161748a`). C1: 8 commits, 7 attributed to ECO-112, 1 excluded. C2: the excluded
+  commit's only ECO-112 path is the shared register, where it removes no line, adds one hunk inside ECO-113's own entry, and leaves the ECO-112 entry
+  byte-identical. C3: none of its 14 other paths is touched by an ECO-112 commit or changed after it. C4: ECO-112's change set, 32 paths over 7
+  commits, all inside the register's `allowed_paths`. C5: the net diff `3a9de06..436f0c6` minus the excluded commit's own paths and register entry
+  changes only ECO-112's paths and, in the register, only the ECO-112 entry. The positive control (`--control-include 3c7781c`) fails on C4 with ECO-113's
+  paths (`control-include-3c7781c.md`, `86c7233793ff`).
+- **Next:** inspection r3 (是正確認+回帰) on ECO-112's change set, with IA-03 judged under this ruling; at closure V6 is re-run on the final head.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (before the split; ①②③ together)
