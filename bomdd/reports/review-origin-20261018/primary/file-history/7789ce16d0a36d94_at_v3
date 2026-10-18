@@ -1,0 +1,258 @@
+# Change Order — ECO-113 (in-flight runs: exclusion by an OS file lock, in-flight judgement, recovery from an abnormal end, and atomic journal records — four responsibilities kept apart)
+
+> Ruling: user, 2026-10-18, "1:A 2:A 3:A" on the evaluation of an external proposal ("AI製造と外部ワークフロー制御の分離"), with the condition for ③:
+> when only a start record exists, **do not conclude an abnormal end**; distinguish running / abnormal end / unknown; **prevent duplicate launches**.
+>
+> Split ruling: user, 2026-10-18, "B". ③ leaves ECO-112 and is designed here, independently and in parallel (not deferred). Further conditions:
+> - **Abolish the hand-made lock-breaking scheme**; design again with an **OS file lock** as the candidate.
+> - Treat **exclusion, in-flight judgement, recovery from an abnormal end, and the atomic commit of records as separate responsibilities.**
+> - **The replacement by an OS lock is itself an object of independent review.**
+> - The split relaxes no convergence rule (two consecutive rounds with zero new findings, limit 3); manufacture starts after this design converges.
+> - No new workflow engine, LLM wiki or context access control; use the existing operator layer.
+>
+> Records are English-primary.
+
+## Equipment
+
+- Filing and design: requested/resolved `claude-opus-5-5`, Claude Code (Claude Agent SDK), provenance **self-reported**.
+- producer: EQ-004
+- inspector: EQ-002
+- Converge round reviewer: a fresh context of the same model that has not seen ECO-112's loops (context independence), read-only, resumed each round.
+- Independent inspection: EQ-002 (Codex) — the OS-lock replacement included (user condition).
+
+## 0. Basis
+
+- **G3 (measured at baseline `3a9de06`).** The decision record is written (`bomdd-run.py:456`) and the first line printed (`:460`) before `launch()`
+  (`:462`); the cell runs under a blocking `subprocess.run(..., shell=True)` (`:320`), so no child pid is known while it runs. If the entry dies
+  mid-cell, the ledger holds a decision with no cell record; the next invocation does not read the ledger and launches again. Two concurrent
+  invocations for the same ECO both launch. The ledger path is free (`--ledger`) and defaults under the per-worktree git dir, so two worktrees keep
+  separate ledgers. The `--report` existence check (`:434`) runs before anything that could serialize runs.
+- **What the first design taught (ECO-112 loop 1, rounds 1-3).** A hand-made mutex (exclusive create, read the holder, break it when the holder is gone)
+  produced the last material findings: two breakers both proceeding to launch, and an empty mutex or a torn journal line that nothing could clear.
+- **The OS lock, measured on this machine (Windows 11, CPython, `msvcrt.locking` on byte 0, 2026-10-18, two scratchpad probes — mine and the round-1
+  reviewer's):** a live holder blocks a non-blocking attempt, and the conflict is `EACCES` (errno 13); after the holder is killed the lock was free at
+  once (0.0 s and 0.0001 s); the lock is freed with the holder's death **whether or not** a child inherited the handle (`set_inheritable` +
+  `close_fds=False`, child alive); a second handle in the same process is blocked; `os.open` descriptors are not inheritable by default.
+  `EDEADLK` comes only from the blocking `LK_LOCK` (after about 9 s), not from `LK_NBLCK`. Opening a read-only lock file also gives errno 13 —
+  from `os.open`, not from the lock. A file opened without `O_BINARY` writes `\n` as `\r\n`. **POSIX (`fcntl.flock`) is not measured here.**
+  Microsoft documents that the time to release a terminated process's locks "depends upon available system resources" (one observation is not a bound).
+
+## 1. Change request — four responsibilities
+
+Each responsibility has one mechanism, one owner (bomdd-run) and its own arms. None reads another's internal state except through the interfaces named
+here: exclusion answers "may this entry act now"; judgement answers "is an earlier run open, and in what state"; recovery closes an open run;
+the record layer commits and reads journal lines.
+
+### 1-1. Exclusion — at most one entry process acts on an ECO's runs at a time
+
+1. **The lock:** `<git-common-dir>/bomdd-run/<ECO>.lock` (one per clone, whatever `--ledger` says and whichever worktree runs). It holds **no state**;
+   its content is irrelevant. bomdd-run **never deletes it** (deleting a held lock file on POSIX lets a second process lock a new file of the same name).
+2. **Acquire:** `os.open(O_RDWR | O_CREAT | O_BINARY | O_NOINHERIT)` (POSIX: `O_CLOEXEC`), then a non-blocking exclusive lock — Windows
+   `msvcrt.locking(fd, LK_NBLCK, 1)` at offset 0; POSIX `fcntl.flock(fd, LOCK_EX | LOCK_NB)`.
+   - **Only the locking call's conflict** (Windows `EACCES` from `LK_NBLCK`; POSIX `EWOULDBLOCK`/`EAGAIN` from `flock`) means another entry is alive →
+     `STOP`, stop type `RUN_IN_FLIGHT`, cause `ENTRY_ALIVE`, exit 1.
+   - Any error from `os.open`, the directory, or any other error from the locking call → `UNMEASURABLE`, `RUN_IN_FLIGHT`, cause `LOCK_UNAVAILABLE`,
+     exit 2. The way out is fixing the environment (permissions, path); release cannot help and is not offered.
+3. **Who holds it, and for how long:** a launching invocation (`--cell`) from before classification until after its last journal record; a release (1-3)
+   for its whole run; a dry invocation only for its classification. The OS releases it when the holder's handle closes or the process dies.
+   Why a cell does not keep it: on Windows the lock dies with the owning process even when a child inherited the handle (measured); on POSIX `flock`
+   follows the open file description, so `O_CLOEXEC` and `close_fds=True` are what protect (not measured here).
+4. **Not this responsibility:** whether an earlier run is still open (1-2). Holding the lock proves only that no other **entry** is alive.
+
+### 1-2. In-flight judgement — is an earlier run open, and in what state?
+
+1. **The source:** the run journal `<git-common-dir>/bomdd-run/<ECO>.runs.jsonl`, read only through 1-4. An open run is a `start` record with no
+   `end`, `abort` or `release` for its `run_id`. The ledger (`--ledger`) is not read for this.
+2. **When:** only while holding the lock (1-1). No open run → proceed. An open run means its entry is gone (else the lock would have been refused);
+   its cell is classified:
+   - `CELL_ALIVE` — a `spawned` record exists and the cell (pid with the recorded creation time) is alive → `STOP`, `RUN_IN_FLIGHT`, exit 1;
+   - `ABNORMAL_END` — a `spawned` record exists, the cell is not alive, and the tree of the recorded `worktree_root` is identical across two reads 15 s
+     apart → `STOP`, `RUN_IN_FLIGHT`, exit 1;
+   - `UNKNOWN` — no `spawned` record (the entry died between `Popen` and `spawned`: a cell may exist unrecorded); another host; a creation time or
+     liveness that cannot be read; the recorded worktree that cannot be read; a tree that changed between the reads → `UNMEASURABLE`, `RUN_IN_FLIGHT`, exit 2;
+   - `JOURNAL_CORRUPT` — a complete line that does not parse (1-4.4) → `UNMEASURABLE`, `RUN_IN_FLIGHT`, exit 2.
+   A start without an end is therefore never read as an abnormal end by itself. Delivery: operator.
+3. **Liveness of one process:** Windows `OpenProcess` + `WaitForSingleObject(handle, 0)` (`WAIT_TIMEOUT` = alive; an exit code of 259 is not used) +
+   `GetProcessTimes`; POSIX `os.kill(pid, 0)` plus the start time and state from `/proc/<pid>/stat` (state `Z` = not alive; where `/proc` cannot be read
+   → `UNKNOWN`). **`os.kill` is never called on Windows** (signal 0 there is `CTRL_C_EVENT` to the console group). A reused pid has a different
+   creation time and reads as not alive.
+4. **The cell is a process tree, not one pid.** With `shell=True` the recorded `cell_pid` is the shell; the real command is its child (measured by the
+   round-2 reviewer: killing the shell leaves the command running). "The cell is alive" therefore means: the shell, or any process descending from it, is
+   alive. Descendants are found by parent pid with a creation time not earlier than the parent's — Windows: a Toolhelp32 process snapshot (an orphan
+   keeps its dead parent's pid); POSIX: `/proc/*/stat` parent pids (an orphan is re-parented and is no longer found — limits). A snapshot that cannot be
+   taken → `UNKNOWN`.
+
+### 1-3. Recovery from an abnormal end — close an open run by a recorded act
+
+1. `bomdd-run.py ECO --release RUN_ID --by EQ-NNN` and `bomdd-run.py ECO --quarantine-journal --by EQ-NNN` take no other option (`--cell`,
+   `--executor`, `--report`, `--range`, `--ledger`, and `--brief` once ECO-112 exists → `ARG_ERROR`). Neither runs `decide()` or launches anything.
+2. **Release:** takes the lock (refused → `ENTRY_ALIVE`, exit 1) and re-classifies the open run named by RUN_ID: `CELL_ALIVE` is refused (exit 1);
+   `ABNORMAL_END` and `UNKNOWN` are closed by a `release` record `{run_id, classified, cause, tree, by}` (exit 0). A RUN_ID that is not an open run →
+   `ARG_ERROR`, exit 2. For `UNKNOWN` without a `spawned` record the record says `cell: unrecorded`: the person releasing asserts that no cell is running
+   (the tool cannot see it — limits).
+3. **Quarantine** (the way out of `JOURNAL_CORRUPT`): takes the lock and commits, through 1-4 and into the **same** journal, a `quarantine` record
+   `{offset, excluded_sha256, cell: unrecorded, by}`: complete lines before `offset` that do not parse are excluded from parsing from then on. Nothing is
+   moved or deleted. Every parsed open run stays open and needs its own release. A corrupt line may have been a `start` or `spawned` record of a live cell,
+   so quarantine carries the same `cell: unrecorded` assertion as 1-3.2 (exit 0; refused with exit 1 while any parsed open run is `CELL_ALIVE`).
+4. **A run whose cell is alive or hung** (`CELL_ALIVE`) has no in-tool way out: the recorded procedure is to stop the **process tree** outside the tool
+   (Windows: `taskkill /T /F /PID <cell_pid>` while the shell is alive, otherwise each descendant found by 1-2.4; POSIX: the same descendants), or a hung
+   entry, then release — the classification then reads `ABNORMAL_END`. Stopping processes stays a human act.
+5. `--by` must name equipment with `kind: human`, `status: active` in `bomdd/70-equipment.yaml`; **it is self-reported** (nothing authenticates the person
+   typing it).
+6. **What recovery is not:** it does not resume the cell. Restarting is a new launch after the release, decided afresh on the current tree through the
+   witness (R3). Resumption inside a cell is the cell's own contract; the operator layer re-enters at run granularity.
+
+### 1-4. Atomic commit of journal records — each record wholly present or treated as absent
+
+1. **Write:** one record = one JSON line (`ensure_ascii=True`) ending in `\n`, written by a single `os.write` on a descriptor opened with
+   `O_WRONLY | O_APPEND | O_CREAT | O_BINARY | O_NOINHERIT` (POSIX: `O_CLOEXEC`), then `os.fsync`. A short write or an error is a failure.
+   All journal writes happen while holding the lock (1-1), so writers never interleave.
+2. **Read:** the file is read as bytes and split on `b"\n"` only (not `splitlines()`). A final segment without a trailing `\n` is a torn record and is treated
+   as absent; the next writer, holding the lock, truncates the file to the last `\n` and commits a `repair` record `{truncated_bytes, sha256}`.
+   A torn `start` can only precede a spawn that never happened (1-5), so treating it as absent loses no running cell.
+3. **The interface to the others:** commit(record) → ok / failed; read() → records, torn tail, corrupt lines. Nothing else touches the file.
+4. **A complete line that does not parse** cannot come from bomdd-run (single writer, single write, under the lock, binary mode); it needs another writer
+   or a media error. It reads `JOURNAL_CORRUPT`; the way out is quarantine (1-3.3).
+
+### 1-5. The launching invocation's order (where the four meet)
+
+lock (1-1) → classify (1-2; an open run or a refusal stops here) → re-check `--report` (R10, now under the lock) → `decide()` →
+if ADVANCE, commit `start` `{run_id, entry_pid, entry_ctime, host, worktree_root, started_at}` (its failure turns the decision into `UNMEASURABLE`,
+code `JOURNAL_WRITE_FAILED`, stop type `MISSING_INPUT`, delivery operator) → write the ledger decision record (R4; if this fails after `start` was
+committed, commit `abort` `{run_id, reason}` and exit 2) → print the first line (R7) → `Popen` (same terminal session, so the cell's prompts pass through —
+R5) → commit `spawned` `{run_id, cell_pid, cell_ctime}` → wait → commit `end` `{run_id, cell_exit}` (retried 3 times) → write the ledger cell record with
+`journal_end: committed|failed` (one added field; R4's two-record shape and its readers are unchanged) → release the lock.
+
+- If `spawned` fails to commit, the entry still waits for its cell while holding the lock; the run then reads `UNKNOWN` until released.
+- If the wait is interrupted (`KeyboardInterrupt` or an exception), the entry stops the cell's process tree (as 1-3.4) and commits a non-closing
+  `interrupted` note; it does **not** commit `end`. The run stays open, the next invocation classifies it (normally `ABNORMAL_END`), and a human
+  releases it. (`subprocess.run` killed only the shell, which on Windows left the command running.)
+- **Refusals** before `decide()` (`ENTRY_ALIVE`, `LOCK_UNAVAILABLE`, an open run) write a ledger decision record like any other decision
+  (`decision` STOP/UNMEASURABLE, `stop_type` `RUN_IN_FLIGHT`, `cause`, and the open run's `run_id` where there is one) and print
+  `STOP|UNMEASURABLE <ECO> RUN_IN_FLIGHT(<cause>) <run_id prefix> → operator` (within 80 columns, R7).
+- **Ledger appends are serialized** (all of them, existing ones included): a short blocking OS lock on `<ledger path>.lock` (outside the worktree, like the
+  ledger — R4) is held around each append. Measured by the round-2 reviewer: three processes appending without it lost 1269 of 9000 lines and tore 24.
+  A lock not obtained within 10 s is a ledger write failure (the existing handling: no launch, exit 2). The ledger stays out of the in-flight judgement.
+- **Exit codes (R8 amended):** launching and dry runs unchanged; release and quarantine exit 0 = closed, 1 = refused, 2 = cannot measure or bad arguments.
+  Their first line: `RELEASED|QUARANTINED <ECO> <run_id or file> (<classified>) by <EQ>` or the refusal line above.
+
+### 1-6. Vocabulary and documents
+
+`RUN_IN_FLIGHT` is added to bomdd-job's stop vocabulary (not ledger-derivable; derived by the entry, like `INDEPENDENCE_FAIL`), to bomdd-run's
+delivery table (operator), and to operator-layer.md §2 (11 words). The core gets the word, its delivery, and the hand procedure an operator without the
+mechanism follows (§7): before launching a cell by hand, confirm that no other launch of the same change is running, and write the launch and its end in
+the change order. The mechanism sentence goes to the adapter A1.
+
+### 1-7. Selftests
+
+Each responsibility gets known-bad arms that go red for that responsibility's own reason (§3); the arms check the cause in the first line, not only its
+verdict prefix. Existing arms keep their verdicts and their reasons.
+
+### Declared limits
+
+- **POSIX is not measured on this machine.** The `flock` branch and `/proc` are exercised only where a POSIX environment runs the selftest; until then the
+  claim is Windows-only (V1 records which). A just-killed holder may read `ENTRY_ALIVE` briefly (the OS's unlock time is not bounded).
+- Locks on a git dir on a network or shared filesystem may not be honoured; such a setup is outside the design. `host` turns a foreign record into `UNKNOWN`.
+- Classification sees the shell and its descendants by parent pid. On POSIX a descendant orphaned by the shell's death is re-parented and is not seen;
+  on Windows a process that broke away from its parent chain by other means is not seen. `ABNORMAL_END` means "no recorded cell or found descendant
+  alive and the launch worktree's tree stable", not "nothing is running".
+- Between `Popen` returning and `spawned` being committed, an entry crash leaves a cell unrecorded; its release relies on the human's assertion
+  (`cell: unrecorded`), and a wrong assertion allows a duplicate launch.
+- If the entry dies after the cell exits but before `end`, the run reads `ABNORMAL_END` and its exit and report binding are lost on release; a `--report`
+  path that then exists makes the next launch `ARG_ERROR` (R10), and the operator moves it as evidence.
+- A sequential relaunch after a completed or released run is not refused (re-runs are legitimate; the journal keeps the history).
+- A dry run holding the lock for its classification makes a concurrent launch read `ENTRY_ALIVE` (a spurious refusal on the safe side; retry).
+- Deleting the lock file or the journal by hand is outside the trust boundary. The journal is clone-local. `--by` is self-reported.
+- The bomdd-run and bomdd-job selftests are not run in CI; they are run locally and recorded (V5).
+
+### Not changed
+
+- `bomdd-witness.py`, `self-conformance.py`, hooks, `.github`, the playbook, skills, `.claude/skills`, the templates other than operator-layer.md.
+- Machine distribution to product repositories (EXP-20260914-01 stays suspended).
+- **Shared file with ECO-112:** both change `bomdd-run.py`, `bomdd-job.py` and `operator-layer.md`. The designs are independent; manufacture is one
+  ECO at a time, and the second rebases its manufacture on the first's verified head.
+
+## 2. No-impact prediction (before manufacture; frozen at filing)
+
+- **The diff:** `method/tools/bomdd-run.py`, `method/tools/bomdd-job.py`, `method/templates/product-profile/operator-layer.md`,
+  `method/improvements.md`, this order, the register, and `bomdd/reports/eco-113-*/`.
+- **Not touched:** `method/tools/bomdd-witness.py`, `method/tools/self-conformance.py`, hooks, `.github`, the playbook, skills, `.claude/skills`.
+
+## 3. Acceptance (conditions; frozen at filing)
+
+required_gates: [V1, V2, V3, V4, V5, inspection]
+
+V6 (CI) and V8 (the diff window) are observed after the promotion decision and checked at closure; V7 is the gate named `inspection` (R11).
+(The line above is read by ECO-112's mechanism if ECO-112 is manufactured first; otherwise it is the order's statement of the set.)
+Every arm checks the cause or code in the first line and the ledger record, not only the verdict prefix.
+
+- **V1 — exclusion** (real processes): condition =
+  (a) a live entry holding the lock → a second launching invocation gets `ENTRY_ALIVE`, and its cell is not launched;
+  (b) the holder killed (TerminateProcess; SIGKILL on POSIX) → the lock can be taken within 5 s (polled);
+  (c) two concurrent launching invocations, and two with different `--ledger` values or from two worktrees → exactly one launches;
+  (d) the entry killed while its cell lives → the lock is free and the cell does not hold it; variant on Windows only: a cell with an inherited handle does
+      not hold it either (on POSIX an inherited descriptor would hold it, which is why the rule is `O_CLOEXEC`);
+  (e) a dry invocation while a cell runs → `ENTRY_ALIVE`;
+  (f) after a complete run the lock file still exists;
+  (g) a read-only lock file or an unwritable directory → `LOCK_UNAVAILABLE` (not `ENTRY_ALIVE`);
+  (h) the platform branch exercised is recorded (Windows measured; POSIX if run there).
+- **V2 — in-flight judgement:** condition =
+  (a) lock free, open run, `spawned` cell alive → `CELL_ALIVE`;
+  (b) cell dead, tree stable → `ABNORMAL_END`; (c) cell dead, tree changing → `UNKNOWN`;
+  (d) a live pid with a different creation time → not `CELL_ALIVE`;
+  (e) an open `start` with no `spawned` → `UNKNOWN`;
+  (f) classified from another worktree → the recorded root's tree is read; an unreadable root → `UNKNOWN`;
+  (g) another host → `UNKNOWN`;
+  (h) on Windows, `os.kill` patched to raise → classification completes; a process that exited with code 259 reads as not alive.
+- **V3 — recovery:** condition =
+  (a) release of `ABNORMAL_END` and of `UNKNOWN` commits a release record (with `cell: unrecorded` where it applies), and the next launch proceeds;
+  (b) release of `CELL_ALIVE` refused; release while another entry holds the lock → `ENTRY_ALIVE`;
+  (c) a wrong RUN_ID, a non-human `--by`, and `--release`/`--quarantine-journal` with any other option → `ARG_ERROR`;
+  (d) two concurrent releases → one release record;
+  (e) quarantine of a journal with a corrupt line commits a quarantine record (offset, sha256, `cell: unrecorded`) without moving the file; the parsed open
+      runs are still open afterwards and each needs its own release; refused while a parsed open run is `CELL_ALIVE`;
+  (f) the shell killed while its child command lives → `CELL_ALIVE` (the descendant is found); the tree stopped → `ABNORMAL_END`;
+  (g) the refusal record and line carry the open run's `run_id`.
+- **V4 — atomic records and the order:** condition =
+  (a) `start` commit failure (patched) → no spawn, `JOURNAL_WRITE_FAILED`, the ledger decision record and the first line say so;
+  (b) a ledger decision-record failure after `start` → `abort` committed, no spawn, exit 2;
+  (c) a torn final line → treated as absent; the next writer truncates it and commits a `repair` record with its sha256;
+  (d) `end` commit failure → retried; the ledger cell record carries `journal_end: failed`; the run reads open (classified);
+  (e) a short write → failure;
+  (f) a complete unparsable line → `JOURNAL_CORRUPT`; a record containing U+2028 or U+0085 reads as one record;
+  (g) on Windows, the journal's bytes contain no `\r`;
+  (h) an interrupted wait → the cell's process tree is stopped, an `interrupted` note is committed, no `end`, and the run reads open;
+  (j) three processes appending to one ledger concurrently → every line present and parsable;
+  (i) `--report` created between the first check and the lock → `ARG_ERROR` under the lock.
+- **V5**: condition = the existing selftests of bomdd-run, bomdd-job and bomdd-witness pass, with their reasons unchanged (run locally and recorded);
+  `git diff -- method/tools/bomdd-witness.py` is empty.
+- **V6**: condition = self-conformance exits 0, observed before each commit; CI green on each pushed revision.
+- **V7**: condition = independent inspection by EQ-002, ranges 境界探索 (the OS-lock replacement included) then 是正確認+回帰; ACCEPT, as the gate `inspection`.
+- **V8**: condition = inside the diff window, only the paths in §2.
+
+## 収束 receipt (converge self-application)
+
+### Loop 1
+
+- Round 1: 12 findings (6 material) — the pre-launch order unfixed (F1); refusal path and R4/R7 (F2); `journal_end` placed in a record written before it
+  (F3); errno 13 from open vs lock (F4); `CELL_ALIVE` with no way out, zombies, exit code 259 (F5); two release paths that reopen duplicates (F6);
+  the reason P3 holds, per platform, and the unlock time (F7); Windows text mode against the single write, `splitlines()` (F8); the `--report` race (F9);
+  option list and R8 for release (F10); `RUNNING` covering two facts (F11); `Popen` and interrupts, the operator-layer hand procedure (F12).
+  All repaired in this text.
+- Round 2: 5 findings (3 material) — the interrupt path killed only the shell and closed the run while the command lived (R2-1, measured); quarantine
+  moved the journal, dropping open runs, skipping `cell: unrecorded`, with a crash window (R2-2); unlocked ledger appends lose and tear lines (R2-3,
+  measured); refusals did not name the run (R2-4); the inherited-handle arm is Windows-only (R2-5). All repaired in this text.
+- Round 3: 4 findings (1 material) — **not repaired** (a repair would start a second loop, which only the user can authorize):
+  R3-1 the process-tree rule accepts children of a process that reused a dead parent's pid, so a run can read a false `CELL_ALIVE` and the recovery
+  procedure could stop unrelated processes; R3-2 V3(f) goes red on POSIX by design (re-parented orphans); R3-3 the interrupt path's ledger record,
+  exit code and line are unstated; R3-4 a candidate whose creation time cannot be read is not mapped to `UNKNOWN`.
+- **判定: 未収束** (round 軌跡: 12→5→4; material 6→3→1). Limit of 3 rounds reached. **No manufacture and no filing commit** until the user rules.
+- **起動経路**: 自発, under the user's split ruling "B".
+- **Round reviewer**: one fresh context (had not seen ECO-112's loops), resumed each round; read-only; ran its own probes on this machine
+  (lock errno values, inheritance, text-mode writes, killing a shell leaves its child, unlocked concurrent appends).
+- **DoD:** ✔ D1 (start-only never read as an abnormal end); ✔ D2 (concurrency, ledgers and worktrees; the human-asserted `cell: unrecorded` gap declared);
+  ✔ D3 (four responsibilities, named interfaces); ✘ D4 (a reused pid can hold a run in a false `CELL_ALIVE`, R3-1); ✘ D5 (V3(f) on POSIX, R3-2);
+  ✘ D6 (interrupt path output, R3-3); ✘ D7 (unreadable creation time, R3-4; and R3-1's procedure); ✔ D8.
+- **Where the findings come from:** round 1 mostly the order of steps and the OS-lock details; rounds 2-3 mostly the cell's liveness — the cell is a
+  process tree under a shell, and every rule that follows that tree by parent pid meets pid reuse. Exclusion (the OS lock) drew no finding after round 1.
+- **未収束事項:** R3-1 to R3-4 (unrepaired).

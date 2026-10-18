@@ -1,0 +1,610 @@
+[
+ {
+  "eco": "ECO-112",
+  "round": "L1R1",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T03:26:53.231Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 1
+  },
+  "report_ts": "2026-10-18T03:34:34.705Z",
+  "document": "112",
+  "file": "versions/ECO-112-L1R1.md",
+  "sha256": "3a67fb0f43dc10c3a79347ab01c81042926c1c81d476e773044956b8d5015d2d",
+  "basis": "write #27",
+  "status": "anchor"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L1R2",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T03:36:56.952Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 101
+  },
+  "report_ts": "2026-10-18T03:38:59.463Z",
+  "document": "112",
+  "file": "versions/ECO-112-L1R2.md",
+  "sha256": "b31f59a8c79042ba629d10d46cc93d732571d3863485af05e22892005077bc15",
+  "basis": "write #28",
+  "status": "anchor"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L1R3",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T03:40:30.401Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 113
+  },
+  "report_ts": "2026-10-18T03:41:49.130Z",
+  "document": "112",
+  "file": "versions/ECO-112-L1R3.md",
+  "sha256": "3de06ec113b5c4bb4cdd0b7f454cb20c3203d8093e40a5c2a1b0b1b9928d1695",
+  "basis": "write #29",
+  "status": "anchor"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L2R1",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T04:00:14.722Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 120
+  },
+  "report_ts": "2026-10-18T04:01:27.984Z",
+  "document": "112",
+  "file": "versions/ECO-112-L2R1.md",
+  "sha256": "85f0e65527ed513afa4b6f8a6d52abcd3849f2d049ff9375f3302164cea3df93",
+  "basis": "write #34",
+  "status": "anchor"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L1R1",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T04:00:14.782Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 1
+  },
+  "report_ts": "2026-10-18T04:08:18.670Z",
+  "document": "113",
+  "file": "versions/ECO-113-L1R1.md",
+  "sha256": "2e3ba455e8702ec5d52b7afc6f2032804e3c21d070f9c5ea935962fe861e7573",
+  "basis": "write #35",
+  "status": "anchor"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L2R2",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T04:02:05.260Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 136
+  },
+  "report_ts": "2026-10-18T04:02:53.402Z",
+  "document": "112",
+  "file": "versions/ECO-112-L2R2.md",
+  "sha256": "7fa709bb239914e2b53b16902ee71abdfd49e664c79bd5b5f481cf2dba483979",
+  "basis": "write #34 + replay to #38",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L2R3",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T04:03:15.718Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 143
+  },
+  "report_ts": "2026-10-18T04:03:53.046Z",
+  "document": "112",
+  "file": "versions/ECO-112-L2R3.md",
+  "sha256": "8cc0d5d993e4642564b84db884cb9d469a30cde5309910e771bbd0df170f3412",
+  "basis": "write #34 + replay to #41",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L1R2",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T04:11:33.029Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 69
+  },
+  "report_ts": "2026-10-18T04:13:22.695Z",
+  "document": "113",
+  "file": "versions/ECO-113-L1R2.md",
+  "sha256": "9b67168e27c6a2e15b9087ac05774c79d5dc33db8454929c691823d33a2c0e67",
+  "basis": "write #48",
+  "status": "anchor"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L1R3",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T04:14:26.947Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 82
+  },
+  "report_ts": "2026-10-18T04:15:28.583Z",
+  "document": "113",
+  "file": "versions/ECO-113-L1R3.md",
+  "sha256": "e0b35a880ab1bb46c2313bf170dc38e799899e9f71207e93938339f455a4fda2",
+  "basis": "write #48 + replay to #66",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L3R1",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T04:36:06.021Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 150
+  },
+  "report_ts": "2026-10-18T04:37:46.474Z",
+  "document": "112",
+  "file": "versions/ECO-112-L3R1.md",
+  "sha256": "068bc2d2b946fd2e9269170ea060de9facc9ee8cc85b4e14d37f4741586e75b6",
+  "basis": "checkpoint 6035726b6a9bc78f@v3 + replay to #77",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L3R2",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T04:38:31.106Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 170
+  },
+  "report_ts": "2026-10-18T04:39:17.055Z",
+  "document": "112",
+  "file": "versions/ECO-112-L3R2.md",
+  "sha256": "03fc774bec67259a8623b2ecc5183250ca6bc43c4074a927b15b21fb8474c696",
+  "basis": "checkpoint 6035726b6a9bc78f@v3 + replay to #85",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L3R3",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T04:39:51.181Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 180
+  },
+  "report_ts": "2026-10-18T04:40:33.715Z",
+  "document": "112",
+  "file": "versions/ECO-112-L3R3.md",
+  "sha256": "635623f21562f8f130e34afa6e1043c8eb4055e419d92bd6ed9598a883d454a3",
+  "basis": "checkpoint 6035726b6a9bc78f@v3 + replay to #91",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L4R1",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T04:45:17.222Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 188
+  },
+  "report_ts": "2026-10-18T04:45:53.352Z",
+  "document": "112",
+  "file": "versions/ECO-112-L4R1.md",
+  "sha256": "771cfa069d970cc97c394254ca3ca8070e46dd0e0defbfaf4910a4ca7cbbe087",
+  "basis": "checkpoint 6035726b6a9bc78f@v4 + replay to #102",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L4R2",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T04:47:46.357Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 206
+  },
+  "report_ts": "2026-10-18T04:48:00.386Z",
+  "document": "112",
+  "file": "versions/ECO-112-L4R2.md",
+  "sha256": "b16c7aa6e63645597a09fc7a7a3ad736e52a87e7c1311ff793419a6c32a14017",
+  "basis": "checkpoint 6035726b6a9bc78f@v4 + replay to #109",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L2R1",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T04:47:46.507Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 89
+  },
+  "report_ts": "2026-10-18T04:50:45.238Z",
+  "document": "113",
+  "file": "versions/ECO-113-L2R1.md",
+  "sha256": "eccfee95d7c8a16f5e2d67fbebc019533516a82c0b3dfc8cde7f9208e32027ae",
+  "basis": "write #110",
+  "status": "anchor"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L4R3",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T04:48:09.022Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 218
+  },
+  "report_ts": "2026-10-18T04:48:34.774Z",
+  "document": "112",
+  "file": "versions/ECO-112-L4R3.md",
+  "sha256": "7011242c25dcf93f6ed3c398911f385ac4517e771efbfee1be756d4cf6263867",
+  "basis": "checkpoint 6035726b6a9bc78f@v4 + replay to #111",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L2R2",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T04:52:36.477Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 109
+  },
+  "report_ts": "2026-10-18T04:54:27.114Z",
+  "document": "113",
+  "file": "versions/ECO-113-L2R2.md",
+  "sha256": "9f9cf4dd38aa7efd6ed80ae96baae3be851147816e2728cf71add2a1ca4b77b4",
+  "basis": "write #110 + replay to #122",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L2R3",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T04:55:05.170Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 122
+  },
+  "report_ts": "2026-10-18T04:55:51.065Z",
+  "document": "113",
+  "file": "versions/ECO-113-L2R3.md",
+  "sha256": "1a571a03dead66381efdda144d0f85a330ecce7ad0f829cae2555901b724be70",
+  "basis": "write #110 + replay to #127",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L5R1",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T05:43:23.958Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 226
+  },
+  "report_ts": "2026-10-18T05:44:13.465Z",
+  "document": "112",
+  "file": "versions/ECO-112-L5R1.md",
+  "sha256": "d8c78c2700a80c72b74a9759c07e9c3db1be9c647844adc2ada905268b2f718b",
+  "basis": "checkpoint 6035726b6a9bc78f@v5 + replay to #133",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L3R1",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T05:43:24.160Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 132
+  },
+  "report_ts": "2026-10-18T05:44:50.900Z",
+  "document": "113",
+  "file": "versions/ECO-113-L3R1.md",
+  "sha256": "86445c863adfe943bc89a51a8e096088076eae55daf717b7cc4133d6fcd4e0ca",
+  "basis": "checkpoint 7789ce16d0a36d94@v4 + replay to #138",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L5R2",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T05:44:30.542Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 233
+  },
+  "report_ts": "2026-10-18T05:44:53.007Z",
+  "document": "112",
+  "file": "versions/ECO-112-L5R2.md",
+  "sha256": "32a2196dffddbe4d0683c25361e0a9b7d1edeec45f58707d2d1710e21b646838",
+  "basis": "checkpoint 6035726b6a9bc78f@v5 + replay to #142",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L5R3",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T05:46:29.971Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 241
+  },
+  "report_ts": "2026-10-18T05:46:44.543Z",
+  "document": "112",
+  "file": "versions/ECO-112-L5R3.md",
+  "sha256": "507a5cf933bc9bf7f29dd4ddd78bdfef91643043afb3fd2cdc99c8b7a56b4978",
+  "basis": "checkpoint 6035726b6a9bc78f@v5 + replay to #157",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L3R2",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T05:46:30.156Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 143
+  },
+  "report_ts": "2026-10-18T05:47:05.007Z",
+  "document": "113",
+  "file": "versions/ECO-113-L3R2.md",
+  "sha256": "03b147af0781fe75ad3d6c90fae9b9ff73cd57652c7092d774855c92f5eec9f2",
+  "basis": "checkpoint 7789ce16d0a36d94@v4 + replay to #158",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L3R3",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T05:47:43.209Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 150
+  },
+  "report_ts": "2026-10-18T05:48:13.298Z",
+  "document": "113",
+  "file": "versions/ECO-113-L3R3.md",
+  "sha256": "0f75574d4ba83768c67b1e62998d1474967621862433c4cf89afa253d0863405",
+  "basis": "checkpoint 7789ce16d0a36d94@v4 + replay to #166",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "L5R4",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T09:19:34.684Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 254
+  },
+  "report_ts": "2026-10-18T09:20:22.032Z",
+  "document": "112",
+  "file": "versions/ECO-112-L5R4.md",
+  "sha256": "a415b0a76d5bcdc1aaf232e3615dc757cda7bc60813337cfab9e8d0ac6171a07",
+  "basis": "checkpoint 6035726b6a9bc78f@v6",
+  "status": "anchor"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L4R1",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T09:20:21.121Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 160
+  },
+  "report_ts": "2026-10-18T09:21:04.469Z",
+  "document": "113",
+  "file": "versions/ECO-113-L4R1.md",
+  "sha256": "dfec80141c57b0d4a44855ab2439a10d4605608029ee1396f2da11568e668ca0",
+  "basis": "checkpoint 7789ce16d0a36d94@v5 + replay to #175",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L4R2",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T09:21:32.371Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 167
+  },
+  "report_ts": "2026-10-18T09:21:59.418Z",
+  "document": "113",
+  "file": "versions/ECO-113-L4R2.md",
+  "sha256": "be7211fcb6f2c23a9e195860c71ddf78594751cb75832af038adfdb948b7b02d",
+  "basis": "checkpoint 7789ce16d0a36d94@v5 + replay to #182",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L4R3",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T09:22:35.214Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 174
+  },
+  "report_ts": "2026-10-18T09:23:08.414Z",
+  "document": "113",
+  "file": "versions/ECO-113-L4R3.md",
+  "sha256": "e8dea94cfd1d868bbbad32b465308bf11b2143ee6488405c308c82e376132137",
+  "basis": "checkpoint 7789ce16d0a36d94@v5 + replay to #185",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L5R1",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T10:48:05.111Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 183
+  },
+  "report_ts": "2026-10-18T10:50:10.797Z",
+  "document": "113s",
+  "file": "versions/ECO-113-L5R1.md",
+  "sha256": "440f695a6658d73e8773cd678e1244ccfb8960482877292b2c5b7cf8dd4ee5cf",
+  "basis": "checkpoint 6aec2b20f6061e17@v1 + replay to #227 (shell)",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L5R2",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T10:53:58.444Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 206
+  },
+  "report_ts": "2026-10-18T10:55:35.868Z",
+  "document": "113s",
+  "file": "versions/ECO-113-L5R2.md",
+  "sha256": "0951faff12d8d7a983f915a6c25f986e62211157bb7a504712f7c756484b3cf8",
+  "basis": "checkpoint 6aec2b20f6061e17@v1 + replay to #240",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-113",
+  "round": "L5R3",
+  "agent": "a077efbbed3792cf1",
+  "request_ts": "2026-10-18T10:56:09.551Z",
+  "request_source": {
+   "file": "agent-a077efbbed3792cf1.jsonl",
+   "line": 220
+  },
+  "report_ts": "2026-10-18T10:56:40.776Z",
+  "document": "113s",
+  "file": "versions/ECO-113-L5R3.md",
+  "sha256": "c1ead820257262cb9350c1690dba436fc845f469e46d7ef614930c6bc5d3d909",
+  "basis": "checkpoint 6aec2b20f6061e17@v1 + replay to #252",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "AR1",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T12:03:16.862Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 263
+  },
+  "report_ts": "2026-10-18T12:04:19.620Z",
+  "document": "112",
+  "file": "versions/ECO-112-AR1.md",
+  "sha256": "62fa4da41c46fbcc8b6cfd7779123d41cb0f26fd25bf6e67d561a51cd290ccbe",
+  "basis": "git ced3ffc + replay to #355 (shell)",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "AR2",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T12:05:20.437Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 275
+  },
+  "report_ts": "2026-10-18T12:05:44.130Z",
+  "document": "112",
+  "file": "versions/ECO-112-AR2.md",
+  "sha256": "1db015eda5b1647be7c4fbd8e422a60d41274877499640f34cc116b171e8f315",
+  "basis": "git ced3ffc + replay to #362",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "AR3",
+  "agent": "a193ea6a19b899f84",
+  "request_ts": "2026-10-18T12:06:29.337Z",
+  "request_source": {
+   "file": "agent-a193ea6a19b899f84.jsonl",
+   "line": 283
+  },
+  "report_ts": "2026-10-18T12:06:58.026Z",
+  "document": "112",
+  "file": "versions/ECO-112-AR3.md",
+  "sha256": "d4483f95384961ae8efb38f29430d905ae4ca3bcf238063f8c46bebc17834c35",
+  "basis": "git ced3ffc + replay to #366",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "A2R1",
+  "agent": "a46971f5ad39ce8d8",
+  "request_ts": "2026-10-18T12:19:08.413Z",
+  "request_source": {
+   "file": "agent-a46971f5ad39ce8d8.jsonl",
+   "line": 1
+  },
+  "report_ts": "2026-10-18T12:22:42.316Z",
+  "document": "112",
+  "file": "versions/ECO-112-A2R1.md",
+  "sha256": "aada5c39bb1ce2c0f25ef44feae29143312fb67ae1c81830a2367de9ee6f24b0",
+  "basis": "checkpoint 6035726b6a9bc78f@v9 + replay to #370",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "A2R2",
+  "agent": "a46971f5ad39ce8d8",
+  "request_ts": "2026-10-18T12:23:34.613Z",
+  "request_source": {
+   "file": "agent-a46971f5ad39ce8d8.jsonl",
+   "line": 58
+  },
+  "report_ts": "2026-10-18T12:24:15.918Z",
+  "document": "112",
+  "file": "versions/ECO-112-A2R2.md",
+  "sha256": "be511b9fe7c4a078dc16a5e30e569592d9c7424deff5d71bd51b3d1feed3f280",
+  "basis": "checkpoint 6035726b6a9bc78f@v9 + replay to #376",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "A2R3",
+  "agent": "a46971f5ad39ce8d8",
+  "request_ts": "2026-10-18T12:25:21.502Z",
+  "request_source": {
+   "file": "agent-a46971f5ad39ce8d8.jsonl",
+   "line": 66
+  },
+  "report_ts": "2026-10-18T12:25:37.972Z",
+  "document": "112",
+  "file": "versions/ECO-112-A2R3.md",
+  "sha256": "8357f04c0a3ccff369f3f2274c193a6167765d91925590722eb1fd30b5f819f4",
+  "basis": "checkpoint 6035726b6a9bc78f@v9 + replay to #387",
+  "status": "confirmed"
+ },
+ {
+  "eco": "ECO-112",
+  "round": "A2R4",
+  "agent": "a46971f5ad39ce8d8",
+  "request_ts": "2026-10-18T12:59:14.622Z",
+  "request_source": {
+   "file": "agent-a46971f5ad39ce8d8.jsonl",
+   "line": 74
+  },
+  "report_ts": "2026-10-18T12:59:38.999Z",
+  "document": "112",
+  "file": "versions/ECO-112-A2R4.md",
+  "sha256": "fbca47b6ac5c82ac861d4528e1516fbd21a3c854b222bc995f73913bd79d21d3",
+  "basis": "checkpoint 6035726b6a9bc78f@v10 + replay to #397",
+  "status": "confirmed"
+ }
+]

@@ -1,0 +1,7 @@
+# positive control: rebuild_versions.py --drop-edit 38 (edit #38 changes ECO-112 between L2R1 and L2R2)
+reviewed versions known: 36 / 38
+  ECO-112 L2R2  unknown   write #34 + replay to #37
+  ECO-112 L2R3  unknown   write #34 + replay to #41
+
+# the same inputs without the drop
+reviewed versions known: 38 / 38

@@ -1,0 +1,227 @@
+# Change Order — ECO-112 (the operator layer's three gaps: check results read by the advance decision, the factory brief kept and re-fetchable, in-flight runs classified and duplicate launches refused)
+
+> Ruling: user, 2026-10-18, "1:A 2:A 3:A" on the evaluation of an external proposal ("AI製造と外部ワークフロー制御の分離").
+> The proposal's skeleton (the AI manufactures and reports; something outside decides from the ledger whether to advance) is the operator layer
+> BomDD built and ran in ECO-062 to ECO-074. The three real needs (a deterministic control plan, the context given to manufacture, restart after
+> an abnormal end) each map to one missing line in that layer. This ECO adds those three lines and nothing else.
+>
+> Conditions the user added to the design's completion conditions (verbatim in substance):
+> - ① Not only the mapping between control-plan row IDs and checkers: **the check results must actually be read by the advance decision**, and that is an acceptance condition.
+> - ② Besides the factory brief's SHA-256, **keep a reference from which the original content can be re-fetched**.
+> - ③ When only a start record exists, **do not conclude an abnormal end**; distinguish running / abnormal end / unknown. **Prevent duplicate launches.**
+> - Design convergence is judged by the default rule (two consecutive rounds with zero new findings). **No manufacture while unconverged.**
+> - **No new workflow engine, no LLM wiki, no context access control.** Use the existing operator layer and fill only the gaps found.
+>
+> Manufacture starts on the user's instruction after the design has converged. Records are English-primary.
+
+## Equipment
+
+- Filing and design: requested/resolved `claude-opus-5-5`, Claude Code (Claude Agent SDK), provenance **self-reported**.
+- producer: EQ-004
+- inspector: EQ-002
+- Converge round reviewer: a fresh context of the same model (context independence), read-only, resumed each round.
+- Independent inspection: EQ-002 (Codex), because the change is machine behaviour in the advance decision (precedent: ECO-062, ECO-072 to ECO-074).
+
+## 0. Basis (measured at baseline `3a9de06`)
+
+- **G1 — the advance decision does not read which checks were run.** `bomdd-run.py` decides ADVANCE when the witness verifies
+  (every declared gate's declared exit is 0), the job's stop type is NONE and, for a launch, independence holds (R3, R9). Nothing compares the
+  witness's gate names with the checks the ECO declared: a witness holding one gate `self-conformance=0` advances an ECO whose acceptance lists
+  V1 to V4. The gate name is a free string (`bomdd-witness.py:103-114`, `:373-388`). No tool under `method/tools/` reads a control plan
+  (grep: 0 hits). Verified promotion is decided by a dry run with the job in state verified (R11, `bomdd-run.py:216`).
+- **G2 — the brief is not kept.** The run ledger's decision record holds the worktree tree and the cell command
+  (`bomdd-run.py:185-188`); the cell record holds the report's sha256 (R10, `:283-290`). The brief a cell reads is not hashed or kept.
+  Briefs are kept outside the worktree at launch time, because an untracked brief inside it changes the tree and the witness stops with TREE_MISMATCH
+  (ECO-102 lesson).
+- **G3 — a start without an end is not read, and nothing stops a second launch.** The decision record is written before launch and the cell record after
+  the cell ends (R4); the cell runs under a blocking `subprocess.run(..., shell=True)` (`bomdd-run.py:320`), so no child pid is known while it runs.
+  If the entry dies mid-cell, the ledger holds a decision with no cell record; the next invocation does not read the ledger and launches again.
+  Two concurrent invocations for the same ECO both launch. The ledger path is free (`--ledger`) and defaults under the per-worktree git dir, so two
+  worktrees of one clone keep separate ledgers.
+- **Open ECOs at baseline:** ECO-079 (implemented) only. No register entry has `required_gates`.
+
+## 1. Change request
+
+### 1-1. Check results read by the advance decision (G1, user condition ①)
+
+1. **The declared set:** a register entry may carry `required_gates: [ID, ...]` — the check IDs whose results the promotion decision must read
+   (control-plan row IDs `CP-*` in a product; the order's acceptance IDs `V*` and `inspection` in this repository). The order's acceptance section
+   carries the same list on one line, `required_gates: [ID, ...]`. **The order is the ruling record and the register field is its machine copy;
+   bomdd-job requires them to be equal.** Changing the set after filing means changing the order's line (with the ruling that changes the acceptance
+   written next to it) and the register field together. The register template (`method/templates/60-change-register.yaml`) documents the field.
+2. **bomdd-job** projects `required_gates` with its source coordinate. Absent in both → `null`, source `none`. Not a list of non-empty strings,
+   a duplicate ID, the order's line absent or unparsable while the field is present (or the reverse), or the two lists not equal as sets →
+   `LEDGER_INCONSISTENT` (derivable from the ledger; the job and the entry agree).
+3. **bomdd-run `decide()`**, when the job's state is verified (the same anchor as R11 — the promotion decision), after the witness verifies ADVANCE:
+   - every ID must equal (exact string) the name of a gate in the witness; an ID with no gate → `UNMEASURABLE`, code `REQUIRED_GATE_MISSING`
+     (names the IDs), stop type `MISSING_INPUT`, delivery operator;
+   - field absent or empty → `UNMEASURABLE`, code `GATES_UNDECLARED`, stop type `MISSING_INPUT`, delivery operator.
+   A red gate is already refused by the witness (all gates must exit 0). The decision record carries `required_gates` and the matched gate names.
+   Gates beyond the required set are allowed (they must still exit 0). In other states the set is not checked, so factory and inspection cells launch
+   before the gates exist.
+4. **What "read" means (declared):** the decision reads each required gate's **declared** exit in the witness. It does not re-run the check (witness W2,
+   limit (2)); re-measurement stays the acceptance side's duty. The control plan's rows keep `fixture` and `oracle` as the mapping to the checker;
+   the only new convention is that a row's witness gate is named by the row's `id`.
+5. **operator-layer.md:** the core gets the description convention only (a gate is named by its check row ID; the register's `required_gates`, equal
+   to the order's line, lists them; an absent field is not a pass). The sentence that a mechanism reads them goes to the adapter A1 (the core claims
+   no mechanism, §7).
+
+### 1-2. The brief kept and re-fetchable (G2, user condition ②)
+
+1. **bomdd-run `--brief PATH|none`**, required with `--cell` (absent → `ARG_ERROR`, no launch). `none` declares a cell with no brief and is recorded;
+   `none` together with `--report` → `ARG_ERROR` (a reporting cell is an inspection or factory cell and has a brief).
+2. Before launch, for a path: read the bytes, compute sha256, write a copy to the content-addressed store `<git-common-dir>/bomdd-run/briefs/<sha256>`
+   (one store per clone, whatever `--ledger` says and whichever worktree runs; outside every worktree). An existing file with that name is re-hashed
+   and must match. The stored copy is re-read and compared. Any failure → no launch (`UNMEASURABLE`, code `BRIEF_UNREADABLE` or
+   `BRIEF_STORE_FAILED`, stop type `MISSING_INPUT`, delivery operator).
+3. The decision record and the journal's `start` record (1-3) carry `brief: {path, sha256, size, store_ref}`; `store_ref` is the stored copy's path —
+   the reference from which the original bytes are re-fetched on this clone. The cell receives `BOMDD_BRIEF` = that path.
+4. **The lasting home is the repository, checked at promotion:** when the job's state is verified, `decide()` reads this ECO's journal; every brief
+   recorded in a `start` record must exist as a tracked file under `bomdd/reports/` with the same sha256 in the current tree; otherwise
+   `UNMEASURABLE`, code `BRIEF_NOT_COMMITTED` (names the sha256 prefixes), stop type `MISSING_INPUT`, delivery operator.
+5. The command string is not altered (R5). Whether the cell actually read the declared brief is not proven by the record (declared).
+
+### 1-3. In-flight runs classified; duplicate launches refused (G3, user condition ③)
+
+1. **One source, one fixed place:** the run journal `<git-common-dir>/bomdd-run/<ECO>.runs.jsonl` (append-only, whatever `--ledger` says and
+   whichever worktree runs) is the source of in-flight state: a `start` with no `end` and no `release` for its `run_id` is an open run.
+   **The mutex** `<git-common-dir>/bomdd-run/<ECO>.mutex` is only a critical-section lock; it holds no state. Only bomdd-run writes either.
+2. **Mutex:** created with exclusive create, and `{pid, ctime, host}` written in the same open before closing; held across the steps marked (M) below.
+   On `FileExistsError`: an empty or partial file is re-read for up to 5 s; a holder on this host whose process is gone (pid gone, or a different
+   creation time) is broken (the mutex is removed and re-created) and the break is recorded in the journal; a live holder is waited for up to 60 s;
+   still held, or a holder on another host, or a holder that cannot be read → `UNMEASURABLE`, `RUN_IN_FLIGHT`, cause `UNKNOWN`, exit 2.
+3. **Launching invocation (`--cell`), in order:** (M) classify (below) — an open run stops here; (M) `decide()`; not ADVANCE → release the mutex and exit;
+   (M) append `start` `{run_id, entry_pid, entry_ctime, host, worktree_root, brief, started_at}`; (M) spawn the cell with `Popen` (same terminal session,
+   so the cell's prompts pass through — R5/R7); (M) append `spawned` `{run_id, cell_pid, cell_ctime}`; release the mutex; wait;
+   write the cell record to the ledger; (M) append `end` `{run_id, cell_exit}`.
+   A dry invocation takes the mutex only to classify, and stops if a run is open.
+4. **Classification** of an open run (no class launches):
+   - `RUNNING` — this host, and the entry or the cell (pid with the recorded creation time) is alive → `STOP`, stop type `RUN_IN_FLIGHT`, exit 1;
+   - `ABNORMAL_END` — this host, neither is alive, and the tree of the recorded `worktree_root` is identical across two reads 15 s apart →
+     `STOP`, `RUN_IN_FLIGHT`, exit 1;
+   - `UNKNOWN` — another host; a creation time or liveness that cannot be read; the recorded worktree that cannot be read; a tree that changed between
+     the reads; a journal line that cannot be parsed → `UNMEASURABLE`, `RUN_IN_FLIGHT`, exit 2.
+   A start without an end is therefore never read as an abnormal end by itself. Delivery: operator.
+5. **Liveness:** POSIX `os.kill(pid, 0)` plus the process start time from the OS; Windows `OpenProcess` + `GetExitCodeProcess` + `GetProcessTimes`.
+   **`os.kill` is never called on Windows** (signal 0 there is `CTRL_C_EVENT` to the console group). A reused pid has a different creation time and
+   reads as gone, not as running.
+6. **Release:** `bomdd-run.py ECO --release RUN_ID --by EQ-NNN` (no other option; `--cell`, `--brief`, `--report`, `--range`, `--ledger` with it →
+   `ARG_ERROR`). It does not run `decide()`. (M) it re-classifies the open run named by RUN_ID: `RUNNING` refused (exit 1); `ABNORMAL_END` and
+   `UNKNOWN` released by appending `release` `{run_id, classified, cause, tree, by}` (exit 0). A RUN_ID that is not an open run → `ARG_ERROR`, exit 2.
+   Under the mutex, two concurrent releases produce one `release` record. `--by` must name equipment with `kind: human`, `status: active` in
+   `bomdd/70-equipment.yaml`; **it is self-reported** (nothing authenticates the person typing it), recorded with the classification and the tree.
+7. **Vocabulary:** `RUN_IN_FLIGHT` is added to bomdd-job's stop vocabulary (not ledger-derivable; derived by the entry, like `INDEPENDENCE_FAIL`),
+   to bomdd-run's delivery table (operator), and to operator-layer.md §2 (11 words).
+
+### 1-4. Selftests
+
+Each rule above gets a known-bad arm that goes red for that rule's own reason (§3). The selftest fixtures (ECO-900 to ECO-905) are given
+`required_gates` where their state is verified; existing arms keep their verdicts.
+
+### Declared limits
+
+- The decision reads declared exits, not re-measured ones (1-1.4). Whether `required_gates` is the right set is the filer's and the inspector's judgement.
+- ECO-079 (open, no field) stops with `GATES_UNDECLARED` at its promotion until its owner writes the field and the order's line.
+- Classification sees the entry and the cell's shell; a grandchild that outlives the shell is not seen. `ABNORMAL_END` means "no recorded process alive
+  and the launch worktree's tree stable", not "nothing is running" — hence release is a recorded act, and `--by` is self-reported.
+- If the entry dies after the cell exits but before the cell record, release loses the exit and the report binding; a `--report` path that then exists
+  makes the next launch `ARG_ERROR` (R10), and the operator moves it as evidence.
+- A sequential relaunch after a completed run is not refused (re-runs are legitimate; the journal keeps the history).
+- Deleting the journal by hand is outside the trust boundary (like deleting the witness, ECO-046). The journal and the brief store are clone-local;
+  on another clone the promotion's brief check has no journal to read and checks nothing.
+- Concurrent dry runs append to the ledger while a cell runs; a torn ledger line fails closed (the ledger is not the in-flight source).
+- The bomdd-run and bomdd-job selftests are not run in CI (CI runs the witness selftest); they are run locally and recorded (V4).
+
+### Not changed
+
+- `bomdd-witness.py`, `self-conformance.py`, hooks, `.github`, the playbook, skills, `.claude/skills`, the control-plan template.
+- Machine distribution to product repositories (EXP-20260914-01 stays suspended). Products get the register-template comment and the operator-layer
+  text through the kit as usual.
+- No scheduler, workflow engine, LLM wiki or context access control (user condition).
+
+## 2. No-impact prediction (before manufacture; frozen at filing)
+
+- **The diff:** `method/tools/bomdd-run.py`, `method/tools/bomdd-job.py`, `method/templates/60-change-register.yaml`,
+  `method/templates/product-profile/operator-layer.md`, `method/improvements.md`, this order, the register, and `bomdd/reports/eco-112-*/`
+  (briefs and reports).
+- **Not touched:** `method/tools/bomdd-witness.py`, `method/tools/self-conformance.py`, hooks, `.github`, the playbook, skills, `.claude/skills`,
+  `method/templates/33-control-plan.yaml`.
+
+## 3. Acceptance (conditions; frozen at filing)
+
+required_gates: [V1, V2, V3, V4, inspection]
+
+V5 (CI on the pushed revision) and V7 (the diff window up to the closing commit) can only be observed after the promotion decision and are checked at
+closure as before; V6 is the gate named `inspection` (R11).
+
+- **V1** (user condition ①): condition = selftest arms:
+  (a) verified job, `required_gates [V1, V2]`, gates V1=0 and V2=0 → ADVANCE;
+  (b) gates V1=0 only → exit 2, `REQUIRED_GATE_MISSING` naming V2; the decision record lists required and matched;
+  (c) field absent → `GATES_UNDECLARED`;
+  (d) a gate named `v2` → V2 missing;
+  (e) a job not in state verified with V2 missing → the cell launches (the set gates promotion only);
+  (f) bomdd-job: the order's line and the register field differ, or one is missing → `LEDGER_INCONSISTENT`;
+  (g) regression: gates V1=0, V2=1 → `STOP GATE_FAIL`.
+  **And the real run:** ECO-112's verified promotion is decided by bomdd-run (dry) with the five gates above, and its decision record lists all five
+  IDs as matched (recorded at closure).
+- **V2** (user condition ②): condition = selftest arms: the decision and start records' sha256 equals the brief's; `store_ref` exists and its bytes
+  equal the brief; an existing store file with other bytes → `BRIEF_STORE_FAILED`; a missing brief → `BRIEF_UNREADABLE`; `--cell` without `--brief`
+  and `--brief none` with `--report` → `ARG_ERROR`; `--brief none` without `--report` recorded as none; two worktrees (or two `--ledger` values) store
+  into the same place; at promotion, a launched brief with no committed copy → `BRIEF_NOT_COMMITTED`, and with one → passes.
+  **And the real run:** the independent-inspection cells for this ECO run with `--brief`; each brief is re-fetched from `store_ref` with a matching sha256,
+  and the promotion decision passes the committed-copy check.
+- **V3** (user condition ③): condition = selftest arms:
+  (a) an open run whose entry or cell is alive on this host → `RUNNING`, no launch;
+  (b) dead processes and a stable tree → `ABNORMAL_END`, no launch; `--release ... --by` a human EQ appends a release record, and the next run launches;
+  (c) dead processes and a tree that changes between the reads → `UNKNOWN`, and it can be released;
+  (d) another host → `UNKNOWN`; (e) an unparsable journal line → `UNKNOWN`; (f) a live pid with a different creation time → not `RUNNING`;
+  (g) the recorded worktree root differs from the classifying worktree → its own tree is read; unreadable → `UNKNOWN`;
+  (h) two concurrent launching invocations, and two with different `--ledger` values or worktrees → exactly one launches;
+  (i) A finishes before B takes the mutex → B decides on the current tree (B's decision record is after A's `end`);
+  (j) a stale mutex whose holder is gone is broken and recorded; a live holder past 60 s → `UNKNOWN`;
+  (k) release of `RUNNING` refused; a wrong RUN_ID, a non-human `--by`, and `--release` with any other option → `ARG_ERROR`; two concurrent releases → one record;
+  (l) `os.kill` patched to raise on Windows: classification still completes (it is never called there).
+- **V4**: condition = the existing selftests of bomdd-run, bomdd-job and bomdd-witness pass (run locally and recorded);
+  `git diff -- method/tools/bomdd-witness.py` is empty.
+- **V5**: condition = self-conformance exits 0, observed before each commit; CI green on each pushed revision.
+- **V6**: condition = independent inspection by EQ-002, ranges 境界探索 then 是正確認+回帰; ACCEPT, as the gate `inspection` (R11).
+- **V7**: condition = inside the diff window, only the paths in §2.
+
+## 収束 receipt (converge self-application)
+
+- **判定: 未収束** (round 軌跡: 15→11→6; material 11→7→2). The limit of 3 rounds was reached without two consecutive rounds of zero.
+  Per the user's condition, **no manufacture and no filing commit** until the user rules (打ち切り採用 / 延長 / 差し戻し).
+  The round-3 findings are **not repaired** in this text (a repair would start round 4, which only the user can authorize).
+- **起動経路**: 自発 (process-equipment design), with the user's explicit condition on the convergence rule.
+- **Round reviewer**: one fresh context of the same model, resumed each round; read-only; verified §0 against the code (round 1: all cited lines match).
+- **DoD** (fixed before the draft):
+  - ✔ D1 results read by the promotion decision, with a real run in the acceptance (round 3: order of the R11 check against the set check open, R3-5);
+  - ✔ D2 sha256 + `store_ref` + the committed copy checked at promotion;
+  - ✘ D3 running / abnormal end / unknown distinguished, but a duplicate launch remains possible through a two-breaker race on the stale mutex (R3-1), and two states cannot be cleared (R3-2);
+  - ✔ D4 inside the existing operator layer; no engine, wiki or context access control; no machine distribution;
+  - ✘ D5 the freeze of `required_gates` after filing has no anchor (R3-4, minor; the half of round-1 F8 not repaired);
+  - ✔ D6 a known-bad arm per rule (round 3 adds two arms still missing: two breakers, the two stuck states);
+  - ✘ D7 how bomdd-job finds the order's line is unspecified (R3-6);
+  - ✔ D8 consistent with R4, R5, R7, R8, W5 and operator-layer §7 after the round-1 and round-2 repairs;
+  - ✘ D9 failure paths of the journal writes undeclared (R3-3).
+- **周回** (each round's new findings):
+  - **Round 1, 15 (11 material).** Lock placement under `--ledger` (F1); lock taken after `decide()` (F2); the ledger's open start never read (F3);
+    pid reuse (F4); grandchildren (F5); dry runs not checking the set (F6); "results read" over-claimed (F7); the set's freeze and agreement (F8);
+    ECO-112's own set underdetermined (F9); the brief store clone-local (F10); exit and stop-type mapping (F11); core vs adapter (F12);
+    Windows `os.kill` wording (F13); missing arms (F14); undeclared limits (F15).
+  - **Round 2, 11 (7 material).** The set blocked inspection cells (R2-1); the git-history freeze could never pass a ruled change (R2-2);
+    two UNKNOWN shapes unreleasable (R2-3); the tree check read the wrong worktree (R2-4); `--by` unauthenticated (R2-5); the brief's lasting home
+    without a mechanism (R2-6); the lock empty during `decide()` (R2-7); POSIX session vs prompts (R2-8); freeze derived outside bomdd-job (R2-9);
+    `--release` option combinations (R2-10); `--brief none` with `--report` (R2-11).
+  - **Round 3, 6 (2 material).** R3-1 two breakers of a stale mutex both launch; R3-2 an empty mutex and a torn journal line stay UNKNOWN forever;
+    R3-3 journal write failure paths; R3-4 freeze after filing unanchored (UNREPAIRED F8 half); R3-5 order of the R11 and set checks for `inspection`;
+    R3-6 locating the order's `required_gates:` line.
+- **Where the findings come from:** item ③ (in-flight runs) produced 8, 6 and 3 of the findings in rounds 1-3 and both round-3 material ones;
+  ① and ② are down to minor findings. The round-3 material findings both come from implementing a cross-process mutex by hand (create, read, break).
+- **A lever not yet in the draft (choice set, failure type ⑦):** an OS file lock held by the entry for the whole run (`msvcrt.locking` on Windows,
+  `fcntl.flock` on POSIX) is released by the OS when the process dies. It would remove the hand-made break step and its states (R3-1, R3-2a): a lock that
+  cannot be taken means the entry is alive (`RUNNING`), and a lock that can be taken with an open start in the journal means the entry is gone (then the
+  cell and the tree are classified). Unreviewed.
+- **Claims checked:** §0 citations (`bomdd-run.py:185-188, :216, :283-290, :320`; `bomdd-witness.py:103-114, :313-317, :373-388`); no tool reads a control
+  plan; ECO-079 the only open entry; no entry has `required_gates`; `os.kill` signal 0 on Windows is `CTRL_C_EVENT`.
+- **未収束事項:** R3-1 to R3-6 (unrepaired); the OS-lock lever (unreviewed).

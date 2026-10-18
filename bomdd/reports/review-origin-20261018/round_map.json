@@ -1,0 +1,10 @@
+{
+  "_note": "Which reviewer report is which loop and round. Source: the orders' convergence receipts (round counts per loop) matched to each reviewer's report sequence; the per-report finding counts equal the receipts' round counts (checked by measure_origin.py).",
+  "a193ea6a19b899f84": {"eco": "ECO-112", "rounds": ["L1R1", "L1R2", "L1R3", "L2R1", "L2R2", "L2R3", "L3R1", "L3R2", "L3R3", "L4R1", "L4R2", "L4R3", "L5R1", "L5R2", "L5R3", "L5R4", "AR1", "AR2", "AR3"]},
+  "a46971f5ad39ce8d8": {"eco": "ECO-112", "rounds": ["A2R1", "A2R2", "A2R3", "A2R4"]},
+  "a077efbbed3792cf1": {"eco": "ECO-113", "rounds": ["L1R1", "L1R2", "L1R3", "L2R1", "L2R2", "L2R3", "L3R1", "L3R2", "L3R3", "L4R1", "L4R2", "L4R3", "L5R1", "L5R2", "L5R3"]},
+  "receipt_counts": {
+    "ECO-112": [15, 11, 6, 4, 2, 3, 2, 2, 3, 1, 0, 1, 2, 1, 0, 0, 2, 2, 1, 4, 1, 0, 0],
+    "ECO-113": [12, 5, 4, 5, 5, 4, 4, 3, 2, 1, 0, 1, 3, 0, 1]
+  }
+}
