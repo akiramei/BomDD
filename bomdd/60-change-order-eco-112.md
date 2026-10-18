@@ -85,9 +85,27 @@ promotion decision (user condition ①), **B** the brief (user condition ②), *
   `os.replace` it to the final name; a failed replace is accepted if the final name now exists and re-hashes to its name; re-read the stored file and
   compare. Any failure → the decision becomes `UNMEASURABLE` before the decision record is written (code `BRIEF_UNREADABLE`, `BRIEF_NOT_LF` or
   `BRIEF_STORE_FAILED`, stop type `MISSING_INPUT`, delivery operator), and nothing launches.
-- **B3 — the record.** The decision record carries `brief: {path, sha256, size, store_ref}`; `store_ref` is the stored file's path, the reference from
-  which the original bytes are re-fetched on this clone. The cell receives `BOMDD_BRIEF` = that path. The store directory's 64-hex files are the set of
-  briefs launched for the ECO on this clone (no index file).
+  **Rollback (amendment, IA-01):** the invocation notes whether **it created** the stored file (the final name did not exist when it looked, and its own
+  `os.replace` put it there). If one of two steps fails after storing — the execution copy (B3) or the decision record (the existing ledger-failure
+  path) — nothing launches and the invocation removes the stored file **only if it created it**; a file that already existed is left as it was. If the
+  rollback's removal fails, the invocation prints, after its existing first line, the line `brief left in store: <sha256 prefix> (<OS error>)`, and the
+  exit stays 2. A cell that fails to start after the decision record is written (`cell_exit: "OSError: …"` in its cell record) is not rolled back; it
+  was launched (bomdd-run R8) and its brief stays in the store. **In both cases the brief left in the store is resolved the same way:** B4 demands its
+  committed copy at promotion, and committing the brief under `bomdd/reports/` satisfies it (it adds evidence and removes nothing). No removal by hand is
+  part of the procedure.
+- **B3 — the record, and two copies (amendment, IA-02).** The decision record carries `brief: {path, sha256, size, store_ref}`; `store_ref` is the
+  stored file's path — the **archival copy**, the reference from which the original bytes are re-fetched on this clone. The cell is **never** given
+  `store_ref`: after storing and before the decision record, the invocation writes an **execution copy** — the same bytes in a new file inside a fresh
+  temporary directory outside the worktree and outside the store — re-hashes it, and passes that file as `BOMDD_BRIEF`. After the cell exits — or when
+  nothing launches after the execution copy's directory was created (B2's rollback cases, a failed write of the copy included) — the execution copy and
+  its directory are removed (a removal failure is ignored; the OS temporary area holds it). A failure to write or re-hash the execution
+  copy → `UNMEASURABLE`, `BRIEF_STORE_FAILED`, recorded in the decision record, no launch, and B2's rollback applies. Whatever the cell does to the file
+  it was given, the archival copy is untouched. The store directory's 64-hex files are the set of briefs **stored** for the ECO on this clone (no index
+  file). A stored brief is evidence that it was stored, not that a cell launched with it: it may have been left by a failed rollback (B2). Whether a
+  cell launched with a brief is read from the ledger, never from the store: a decision record with `decision: ADVANCE` and a `cell` whose
+  `brief.sha256` names it (written before the launch, R4) records that the launch was committed; its cell record (`event: cell`) records the cell's
+  end or a spawn failure. A missing cell record means the end was not recorded (the cell is still running, the entry stopped before the cell started, or
+  the append failed), not that the cell never launched.
 - **B4 — the committed copy, checked at promotion.** When the job's state is verified, after G3, `decide()` lists the ECO's store directory, takes only
   64-hex names and re-hashes each (bytes not matching the name → `BRIEF_STORE_FAILED`); other entries (left-over `.tmp-*`) are ignored and listed in the
   decision record. Every stored brief must exist in the tree the decision binds (the witness-verified worktree tree, `rec.tree`) under `bomdd/reports/`
@@ -95,7 +113,8 @@ promotion decision (user condition ①), **B** the brief (user condition ②), *
   `BRIEF_NOT_COMMITTED` (naming the sha256 prefixes); a store directory that cannot be listed → `BRIEF_STORE_FAILED`; stop type `MISSING_INPUT`,
   delivery operator. The decision record gets `brief_copies: [{sha256, path, tree}]`. **The lasting reference is `{sha256, path}`**; `tree` only binds
   the pair to this decision (an unreferenced tree object can be pruned). The decision record is clone-local, so **at closure the order's closure section
-  (the canonical record) copies the `{sha256, path}` pairs** — for every ECO whose cells ran with a brief.
+  (the canonical record) copies the `{sha256, path}` pairs** of the stored briefs — for every ECO whose promotion decision lists `brief_copies` (its
+  store held a brief at promotion). The list says what was stored and committed, not what launched (B3).
 - **B5 — the command.** The command string is not altered (R5).
 
 ### O — output
@@ -141,10 +160,15 @@ arms (`kb-ledger-unwritable`, `kb-ledger-inside`) pass today for another reason 
 - **L2 (G1, G2):** a change of the set after filing is not detected mechanically — bomdd-job checks that the order and the register agree, not that they
   still say what they said at filing; a change to both without a ruling is caught only by reading the order's history (inspection, diff audit).
 - **L3 (G3):** ECO-079 (open, no field) stops with `GATES_UNDECLARED` at its promotion until its owner writes the field and the order's line.
-- **L4 (B2, B4):** the store is clone-local; on another clone B4 sees an empty store and checks nothing. A brief deleted from the store by hand is outside
-  the trust boundary (like deleting the witness, ECO-046).
+- **L4 (B2, B3, B4):** the store is clone-local; on another clone B4 sees an empty store and checks nothing. The cell is handed an execution copy, so a
+  cell that deletes or changes what it was given loses nothing (V2(i)). A brief deleted from the store by hand — or by a cell that seeks out
+  `<git-common-dir>/bomdd-run/briefs/` on purpose — is outside the trust boundary (like deleting the witness, ECO-046); B4 then sees fewer stored
+  briefs and checks only those.
+- **L10 (B2's rollback):** until ECO-113's exclusion exists, two concurrent launches of one ECO with the same brief can race on the stored file: if the one
+  that created it then fails before its cell starts, its rollback removes a file the other launch's cell was recorded with. The other cell still has its
+  own execution copy; the archival copy of that brief is then missing from the store, and B4 does not check it (L4).
 - **L5 (B2):** on Windows, `os.replace` onto a store file another invocation holds open can fail; B2's accept-if-it-now-matches covers the same-bytes
-  case, and anything else fails closed. This is the one place where ①② meet concurrency, which is ECO-113's.
+  case, and anything else fails closed. This is one of two places (with L10) where ①② meet concurrency, which is ECO-113's.
 - **L6 (B5):** whether the cell actually read the declared brief is not proven by the record.
 - **L7 (T1-T5):** the bomdd-run and bomdd-job selftests are not run in CI (CI runs the witness selftest); they are run locally and recorded (V3).
 - **L8:** in-flight runs and duplicate launches are ECO-113's.
@@ -195,7 +219,17 @@ promotion decision): V4, V6, V7, V8. Each item below lists what is observed and 
       `BRIEF_NOT_COMMITTED`; a copy in the bound tree → passes and `brief_copies` names its path and tree; a store file whose bytes do not match its
       name → `BRIEF_STORE_FAILED`; a left-over `.tmp-*` file is ignored and listed;
   (f) **real cells, before promotion:** the independent-inspection cells for this ECO run with `--brief`, and each brief re-fetched from its `store_ref`
-      has the sha256 the ledger records.
+      has the sha256 the ledger records;
+  (g) **rollback (IA-01):** a real brief with an unwritable ledger → no launch, exit 2, and no stored file for that brief afterwards; the same with the
+      brief already in the store before that invocation → the stored file is still there with its bytes; the execution copy failing (patched) → no launch,
+      `BRIEF_STORE_FAILED` in the decision record, and no stored file created by that invocation is left; in each case no execution copy or its
+      directory is left;
+  (h) **rollback failure:** the removal failing (patched) → the line `brief left in store: <sha256 prefix> (…)` after the first line, exit 2, and the file
+      still in the store;
+  (i) **two copies (IA-02):** the cell's `BOMDD_BRIEF` is not `store_ref` and lies outside the worktree and the store, with the brief's bytes; a cell that
+      deletes `BOMDD_BRIEF` → the archival copy is still in the store with its bytes, and the next promotion still demands its committed copy
+      (`BRIEF_NOT_COMMITTED` until it is committed);
+  (j) the execution copy and its directory are gone after the cell exits.
 - **V3 — T1-T6:** condition = the existing selftests of bomdd-run, bomdd-job and bomdd-witness pass (run locally and recorded);
   `git diff -- method/tools/bomdd-witness.py` is empty; the V3 instrument `bomdd/reports/eco-112-arm-inventory/arm_inventory_v2.py`
   (sha256 `7abaa223…`, fixed at filing), run on the manufactured `bomdd-run.py`, **exits 0 (PASS)** — which requires its unmutated baseline to be clean
@@ -382,3 +416,66 @@ comment; operator-layer.md — G5 (core §6.1, adapter A1).
   Round reviewer for every loop: one fresh context of the same model, resumed each round, read-only (context independence; not the independent
   inspection, which is V5).
 - **未収束事項:** none.
+
+### Amendment loop A (user ruling "1:A", 2026-10-18, after inspection r1: amend B2, B3 and L4 only; converge by the default rule; then repair and r2)
+
+- **Scope of the amendment:** B2 (rollback limited to the stored file this invocation created; the removal-failure line and exit; the way out), B3 (an
+  archival copy in the store and a separate execution copy for the cell), L4 (rewritten), L10 (new, the concurrency limit of the rollback), and the
+  acceptance observations V2(g)-(j). Every other rule and acceptance item is unchanged. No new mechanism: the rollback and the execution copy use the
+  files B2 already writes.
+- **Round 1, 2 (minor).** AR1-1 [new defect from the amendment] the hand way out ("no decision record names its sha256") is barred by the refused
+  invocation's own record → "no **ADVANCE** decision record". AR1-2 [new defect from the amendment] "anything after storing fails before the cell starts"
+  was wider than its two cases; a spawn failure was not covered → the sentence names the two cases, and a spawn failure is stated to keep the brief
+  (resolved by committing it). The reviewer confirmed that B2 and B3 repair IA-01 and IA-02 and that L4 and L10 hold.
+- **Round 2, 2 (minor).** AR2-1 [new defect from the amendment] "If that removal fails" came to point at the spawn failure → "If the rollback's removal
+  fails", and the sentences reordered. AR2-2 [new defect from the amendment] the hand way out searched "the" decision records, which are spread over
+  worktrees and `--ledger` paths → **the hand removal is dropped**: a brief left in the store (rollback failure or spawn failure) is resolved by committing
+  it under `bomdd/reports/`, which B4 accepts and which removes nothing; no ledger search is needed. The loop cannot reach two rounds of zero any more
+  (2→2→?); round 3 is run for the trajectory.
+- **Round 3, 1 (minor) — not repaired** (a repair would start a second amendment loop). AR3-1 [new defect from the amendment] B3 still calls the store's
+  64-hex files "the set of briefs launched for the ECO on this clone"; after a failed rollback a stored brief can be one that never launched, and the
+  closure section's `{sha256, path}` list would not tell the two apart (fails closed: committing it resolves B4). Suggested wording: "the briefs stored for
+  the ECO on this clone: launched, or left by a failed rollback (B2)". The reviewer found the rest of the amendment consistent.
+- **判定: 未収束** (round 軌跡: 2→2→1; material 0→0→0). Limit of 3 rounds reached. **No repair manufacture** until the user rules.
+- **Classes in this loop:** new defect from the amendment 5 (AR1-1, AR1-2, AR2-1, AR2-2, AR3-1); existing design defect 0; inconsistency from duplicated text 0.
+- **V3's first run on the manufactured tool (for the acceptance, not this loop):** the pinned instrument read **FAIL** — 68 `--cell` calls, 65 OWN,
+  2 MASKED (`b-refused-stores-nothing` judged its three calls together after the third), 1 CRASH (`b-store` read a previous record whose `brief` is the
+  string "none"); no static/dynamic gap; the baseline clean. Both are T2 defects in the new selftest arms, to be repaired with IA-01/IA-02, and V3 re-run.
+- **未収束事項:** AR3-1 (unrepaired).
+
+### Amendment loop A2 (user ruling "A", 2026-10-18: repair AR3-1 and extend; scope B2, B3, L4 and the references they directly affect; default rule)
+
+- **The ruling's terms:** B3 defines the store's briefs as the set **stored**, not launched; a brief's existence and the fact that a cell launched are kept
+  apart, and a launch is judged from the launch records. After two consecutive zero rounds: converge, then repair manufacture (IA-01, IA-02) and
+  inspection r2. V3's three items are classified by cause and repaired, and V3 re-run; the acceptance is not settled before V3 passes.
+- **AR3-1 repaired** before round 1: B3's last sentences (stored, not launched; the launch is read from the ledger) and B4's closure sentence (the list
+  says what was stored and committed, not what launched). The reviewer confirmed it resolved in all three rounds.
+- **Round 1, 4 (minor).** A1R1-1 [new defect from the amendment] B3's launch sentence named a field `verdict` (the decision record's field is
+  `decision`) and read a missing cell record as "never launched", though the cell record is the cell's end (R4) and its append can fail while the entry
+  exits 0 → the ADVANCE record with `cell` records that the launch was committed; a missing cell record means the end was not recorded. A1R1-2 [new defect
+  from the amendment] L5's "the one place where ①② meet concurrency" was contradicted by the new L10 → "one of two places (with L10)". A1R1-3 [new
+  defect from the amendment] B4's closure duty fired "for every ECO whose cells ran with a brief" while it copies the stored briefs, which can now differ
+  → "for every ECO whose promotion decision lists `brief_copies`". A1R1-4 [new defect from the amendment] the execution copy was removed only "after the
+  cell exits", leaving its fate open when the decision record fails → also when nothing launches; V2(g) observes it.
+- **Round 2, 1 (minor).** A1R2-1 [new defect from the amendment, from the A1R1-4 repair] "after the execution copy was written" missed a failed write of
+  the copy itself → "after the execution copy's directory was created (B2's rollback cases, a failed write of the copy included)"; V2(g) says "no
+  execution copy or its directory is left".
+- **Round 3, 0.** The reviewer re-read the whole amended scope against the code and the rest of the order.
+- **判定: 未収束** (round 軌跡: 4→1→0; material 0→0→0). The 3-round limit is reached without two consecutive zero rounds; round 3's zero is on text
+  changed after round 2. **No repair manufacture** until the user rules.
+- **Classes in this loop:** new defect from the amendment 5 (A1R1-1 to A1R1-4, A1R2-1); existing design defect 0; inconsistency from duplicated text 0.
+- **For the repair manufacture (the reviewer's pointers, not findings against the order):** three places in `bomdd-run.py` still carry the old meaning
+  "stored = launched" or "the cell gets store_ref" — the R13 header ("cell に BOMDD_BRIEF= store_ref"), the `committed_copies` comment ("この clone で起動
+  したブリーフはない"), and `launch()`'s `BOMDD_BRIEF=brief.get("store_ref")`. They are repaired with IA-01 and IA-02.
+- **V3's three items, by cause (for the repair manufacture):** both causes are T2 defects in the new selftest arms, not in the design or the instrument.
+  (1) Two MASKED: `b-refused-stores-nothing` checked its three calls' exits together after the third, so a failure of the first or the second was
+  appended after the next call and counted as that call's → each call is checked right after it. (2) One CRASH: `b-store` read the ledger's last
+  decision record without checking that this call wrote one; with the call refused, it read an earlier record whose `brief` is the string "none" and
+  called `.get` on it → the arm checks that its call added a decision record, and reads `brief` only as a mapping.
+- **未収束事項:** a second zero round on the unchanged text is owed.
+- **User ruling "A" (2026-10-18):** one more round on the unchanged text (as for loop 5); 0 new findings → converged as two consecutive zero rounds; a
+  finding → the ordinary 未収束 handling. Between rounds 3 and 4 the only edit to the design text is a line break in V2(g) (no word changed).
+- **Round 4, 0.** The reviewer confirmed the text word for word as in round 3 and re-read the whole amended scope against the code.
+- **判定: 収束** (rounds 3 and 4: two consecutive zero rounds, by the user's ruling "A"; round 軌跡 4→1→0→0). **起動経路**: 自発, under the user's
+  rulings recorded above. Round reviewer: one fresh context of the same model, resumed each round, read-only (context independence; not V5).
+- **未収束事項:** none. Next: repair manufacture (IA-01, IA-02, the three pointers above, V3's two causes), then V3 re-run and inspection r2.
