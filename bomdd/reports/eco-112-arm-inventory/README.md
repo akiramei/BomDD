@@ -65,5 +65,9 @@ was meant to; (4) record the result as design evidence, then resume review.
 |---|---|
 | `arm_inventory.py` | `c2cec1d80005b39278c95aa002056ae73b48bb5659336c095d545e87a19fb649` |
 | `arm-inventory.json` | `bac000ad6f4482e826e013988acb86afaca1501c8f2657dd0ed875cef6e66bb5` |
-| `summary.txt` | `5e67d9027cd52c1b3b4886a6b91bbffa62ce5e0708427f14f8d1f2560c4a3b53` |
+| `summary.txt` (LF; see the note below) | `d21f266ce8a0f607196bb2c2f28f2fc12b20de925a5debdac0dcd434601dc0b6` |
 | `arm_inventory_v2.py` (the V3 instrument; not yet run) | `7abaa22324ccd7b07ce73c317142938b1fbc5777653519edc77b74073ee2e6e1` |
+
+Note (2026-10-18, after the filing commit): `summary.txt` was first written with CRLF line ends (a redirected `print` on Windows), and the filing
+commit recorded the CRLF bytes' sha256 (`5e67d902…`) while the repository's `eol=lf` rule committed LF. The file was normalised to LF and the table
+now gives the committed bytes' sha256. The content is otherwise unchanged (`git diff` of the file is empty).
