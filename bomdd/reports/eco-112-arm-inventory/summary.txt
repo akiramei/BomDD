@@ -1,0 +1,43 @@
+baseline rc 0 calls 73 | ADVANCE OK: selftest PASS(起動4/dry2/kb5/job1/不能3/独立性9/報告27/gate6/構文5/台帳3/引数13/表)
+cell calls 56
+cross {"static_not_executed": [], "dynamic_not_in_static": []}
+  line 552 {'static_cell_sites': 1, 'kind': 'builder', 'dynamic_calls': 17}
+  line 583 {'static_cell_sites': 1, 'kind': 'list', 'dynamic_calls': 1}
+  line 640 {'static_cell_sites': 1, 'kind': 'list', 'dynamic_calls': 12}
+  line 677 {'static_cell_sites': 1, 'kind': 'list', 'dynamic_calls': 1}
+  line 682 {'static_cell_sites': 1, 'kind': 'list', 'dynamic_calls': 1}
+  line 689 {'static_cell_sites': 1, 'kind': 'list', 'dynamic_calls': 1}
+  line 709 {'static_cell_sites': 10, 'kind': 'loop', 'dynamic_calls': 10}
+  line 723 {'static_cell_sites': 3, 'kind': 'loop', 'dynamic_calls': 3}
+  line 732 {'static_cell_sites': 1, 'kind': 'list', 'dynamic_calls': 5}
+  line 742 {'static_cell_sites': 1, 'kind': 'list', 'dynamic_calls': 1}
+  line 748 {'static_cell_sites': 1, 'kind': 'list', 'dynamic_calls': 1}
+  line 758 {'static_cell_sites': 3, 'kind': 'loop', 'dynamic_calls': 3}
+verdicts Counter({'OWN': 29, 'MASKED': 26, 'CRASH': 1})
+MASKED 9 line 552 arm kb-no-eco ['ECO-999', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002'] | base: UNMEASURABLE ECO-999 job:MISSING_INPUT → operator @- | other_fails 0 | 
+MASKED 32 line 677 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --report の宛先が既に存在する: reports/stale.m | other_fails 0 | 
+MASKED 33 line 682 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --report の宛先が既に存在する: reports/dirtarg | other_fails 0 | 
+CRASH 34 line 689 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: ADVANCE ECO-900 OK → next · launching @f75e93f930a9 | other_fails 0 | FileNotFoundError: [WinError 2] 指定されたファイルが見つかりません。: 'C:\\Users\\akira\\AppData\\Local\\Temp\\tmpm6gfxs9k\\reports\\r7.md
+MASKED 35 line 709 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --report には --range 境界探索|是正確認+回帰 が必須 | other_fails 0 | 
+MASKED 36 line 709 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --range の語彙外: '探索' | other_fails 0 | 
+MASKED 37 line 709 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--range'] | base: UNMEASURABLE ARG_ERROR: --range は --report と組で指定する | other_fails 0 | 
+MASKED 38 line 709 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --report はリポ相対パ…AppData\\Local\\Temp | other_fails 0 | 
+MASKED 39 line 709 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可) | other_fails 0 | 
+MASKED 40 line 709 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --report を .git 配下に置けない(commit できる場所 | other_fails 0 | 
+MASKED 41 line 709 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可) | other_fails 0 | 
+MASKED 42 line 709 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可) | other_fails 0 | 
+MASKED 43 line 709 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可) | other_fails 0 | 
+MASKED 45 line 709 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-002', '--report'] | base: UNMEASURABLE ARG_ERROR: --report に値がない | other_fails 0 | 
+MASKED 47 line 723 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>'] | base: UNMEASURABLE ARG_ERROR: --cell には --executor EQ-NNN が必須(独立性判 | other_fails 0 | 
+MASKED 48 line 723 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'EQ-1'] | base: UNMEASURABLE ARG_ERROR: --executor の構文不正(EQ-NNN): 'EQ-1' | other_fails 0 | 
+MASKED 49 line 723 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '--executor', 'eq-002'] | base: UNMEASURABLE ARG_ERROR: --executor の構文不正(EQ-NNN): 'eq-002' | other_fails 0 | 
+MASKED 50 line 732 _selftest_body None ['ECO-/../../../x', '--ledger', '<path>', '--cell', '<cell>'] | base: UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO- | other_fails 0 | 
+MASKED 51 line 732 _selftest_body None ['ECO-900/../x', '--ledger', '<path>', '--cell', '<cell>'] | base: UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO- | other_fails 0 | 
+MASKED 52 line 732 _selftest_body None ['..', '--ledger', '<path>', '--cell', '<cell>'] | base: UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): '..' | other_fails 0 | 
+MASKED 53 line 732 _selftest_body None ['ECO-900 x', '--ledger', '<path>', '--cell', '<cell>'] | base: UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO- | other_fails 0 | 
+MASKED 54 line 732 _selftest_body None ['ECO_900', '--ledger', '<path>', '--cell', '<cell>'] | base: UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO_ | other_fails 0 | 
+MASKED 55 line 742 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>'] | base: UNMEASURABLE ARG_ERROR: --cell には --executor EQ-NNN が必須(独立性判 | other_fails 0 | 
+MASKED 56 line 748 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>'] | base: UNMEASURABLE ARG_ERROR: --cell には --executor EQ-NNN が必須(独立性判 | other_fails 0 | 
+MASKED 58 line 758 _selftest_body None ['--cell', '<cell>'] | base: UNMEASURABLE ARG_ERROR: ECO [--cell --executor --report --ra | other_fails 0 | 
+MASKED 59 line 758 _selftest_body None ['ECO-900', '--cell'] | base: UNMEASURABLE ARG_ERROR: --cell に値がない | other_fails 0 | 
+MASKED 64 line 758 _selftest_body None ['ECO-900', '--ledger', '<path>', '--cell', '<cell>', '<path>'] | base: UNMEASURABLE ARG_ERROR: 未知の引数: "C:\Pyth…|'+os.environ.get('B | other_fails 0 | 

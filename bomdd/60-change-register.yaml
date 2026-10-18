@@ -3519,3 +3519,34 @@ changes:
       unchanged / V3 self-conformance exit 0 before commit, CI green / V4 manufacturer's calibration only.
       Conditions are frozen at filing; results go to the closing section.
     producer: EQ-004
+  - id: ECO-112
+    title: the operator layer's two connection gaps - check results read by the promotion decision (required_gates), and the factory brief kept and re-fetchable (store + committed copy); filing only, design converged after five loops
+    date: 2026-10-18
+    origin: improvement
+    status: filed   # 2026-10-18 user "1:A 2:A 3:A" (evaluation of an external proposal) -> split "B" (item 3 to ECO-113) -> extensions "A", "1:A", "1:A", "1 (one extra round)" -> converge: converged (loop 5 rounds 3-4 zero) -> filing; manufacture waits for the user's instruction
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      An external proposal ("AI manufacturing separated from external workflow control") evaluated against the existing operator layer (ECO-062 to
+      ECO-074): its skeleton already exists; two real gaps remain for this ECO - the promotion decision does not read which checks were run (a witness
+      with one gate advances an ECO whose acceptance lists several), and the brief a cell reads is neither hashed nor kept. In-flight runs and duplicate
+      launches went to ECO-113 (user ruling "B").
+    order_ref: bomdd/60-change-order-eco-112.md
+    affected_refs: [method/tools/bomdd-run.py, method/tools/bomdd-job.py, method/templates/60-change-register.yaml, method/templates/product-profile/operator-layer.md, method/improvements.md]
+    no_impact_prediction: "(before manufacture; frozen at filing) bomdd-run.py, bomdd-job.py, the register template's comment, operator-layer.md, improvements.md, the order, the register and bomdd/reports/eco-112-*/. bomdd-witness.py, self-conformance.py, hooks, .github, the playbook, skills, .claude/skills and 33-control-plan.yaml untouched."
+    diff_audit:
+      baseline: "3a9de06"  # HEAD before filing
+      allowed_paths: [method/tools/bomdd-run.py, method/tools/bomdd-job.py, method/templates/60-change-register.yaml, method/templates/product-profile/operator-layer.md, method/improvements.md, bomdd/60-change-order-eco-112.md, bomdd/60-change-register.yaml, bomdd/reports/eco-112-arm-inventory/, bomdd/reports/eco-112-briefs/]
+    required_gates: [V1, V2, V3, inspection]   # the order's machine copy (G1); read by the promotion decision once ECO-112's G3 is manufactured
+    summary: >
+      G1-G5: a register field required_gates equal to one line in the order; bomdd-job projects it; at promotion bomdd-run reads each required gate's
+      declared exit by exact name (after R11; GATES_UNDECLARED / REQUIRED_GATE_MISSING). B1-B5: --brief PATH|none, a content-addressed store per ECO
+      under the git common dir, store_ref in the decision record, and at promotion every stored brief must exist in the bound tree under bomdd/reports/
+      ({sha256, path} as the lasting reference, copied into the closure section). O1 entry_code and first-line tags. T1-T6 selftests derived from a
+      recorded mechanical inventory (56 calls; 26 masked under mutation; two existing arms passing for another reason today). M1 ECO-112 first, then ECO-113.
+    verification: >
+      Gated: V1 (G1-G3, O1 arms), V2 (B1-B4 arms, real briefs re-fetched before promotion), V3 (existing selftests; the pinned instrument
+      arm_inventory_v2.py exits 0 - clean baseline, no gap, 0 MASKED, 0 CRASH), V5 = gate inspection (EQ-002, ACCEPT). At closure: V4 self-conformance
+      and CI, V6 diff window, V7 the promotion decision lists all four IDs as matched, V8 the closure section lists the {sha256, path} pairs.
+      Conditions are frozen at filing; results go to the closing section.
+    producer: EQ-004
+    inspector: EQ-002
