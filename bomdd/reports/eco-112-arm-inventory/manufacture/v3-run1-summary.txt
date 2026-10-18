@@ -1,0 +1,5 @@
+80/91 line 1026 -> CRASH
+88/91 line 1074 -> MASKED
+89/91 line 1076 -> MASKED
+SUMMARY {"verdict": "FAIL", "calls": 96, "cell_calls": 68, "targets": 68, "verdicts": {"OWN": 65, "CRASH": 1, "MASKED": 2}, "cross": {"static_not_executed": [], "dynamic_not_in_static": []}}
+exit=1

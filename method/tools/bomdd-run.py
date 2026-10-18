@@ -50,7 +50,10 @@
 #     判定レコードに required_gates と matched_gates。verified 以外では照合しない(製造・検査の cell は gate が揃う前に起動する)。
 #  R13 ブリーフ(ECO-112 B1-B5): --brief PATH|none は --cell と組で必須(既存の引数検査のすべての後)・none と --report は組めない。ADVANCE の
 #     起動でだけ <git-common-dir>/bomdd-run/briefs/<ECO>/<sha256> に置く(CR を含むものは BRIEF_NOT_LF・既存は再ハッシュ・一時ファイル+os.replace・
-#     再読込で照合)。判定レコードに brief {path, sha256, size, store_ref}・cell に BOMDD_BRIEF= store_ref。昇格判定(R12 の後)はストアの各ブリーフが
+#     再読込で照合)。判定レコードに brief {path, sha256, size, store_ref}(store_ref= 保管用の写し)。cell には store_ref を渡さず、一時ディレクトリの
+#     実行用コピーを BOMDD_BRIEF に渡す(書いて再ハッシュ・cell の終了後か起動しなかったときに消す・r1 IA-02)。保管の後に実行用コピーか判定レコードが
+#     失敗したら、この呼び出しが作った保管用の写しだけを取り除く(取り除けなければ 2 行目に brief left in store・exit 2・r1 IA-01)。ストアの
+#     ファイルは「保存された」ブリーフで、起動の有無は台帳(ADVANCE の判定レコードと cell レコード)で読む。昇格判定(R12 の後)はストアの各ブリーフが
 #     束縛された tree の bomdd/reports/ に同じ sha256 で在ることを要求(BRIEF_NOT_COMMITTED・BRIEF_STORE_FAILED)し brief_copies を記録する。
 #  R14 入口自身の理由(ECO-112 O1): entry_code 欄(code 欄は witness の CODE のまま)と 1 行目のタグ。
 #
@@ -72,6 +75,7 @@ import io
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -208,43 +212,84 @@ def brief_store_dir(common: Path, eco: str) -> Path:
     return common / "bomdd-run" / "briefs" / eco
 
 
-def store_brief(root: Path, common: Path | None, eco: str, brief: str) -> tuple[dict | None, str | None, str]:
-    """ECO-112 B2/B3: ブリーフを内容アドレスのストアへ置く。(record, entry_code, message)。失敗= (None, code, 理由)。"""
+def store_brief(root: Path, common: Path | None, eco: str, brief: str) -> tuple[dict | None, str | None, str, bool]:
+    """ECO-112 B2/B3: ブリーフを内容アドレスのストアへ置く。(record, entry_code, message, created)。失敗= (None, code, 理由, created)。
+    created= この呼び出しが最終名を作った(見たとき無く、自分の os.replace が置いた)— r1 IA-01 のロールバックが取り除いてよいのはこれだけ。"""
     src = Path(brief)
     src = src if src.is_absolute() else root / src
     try:
         data = src.read_bytes()
     except OSError as e:
-        return None, "BRIEF_UNREADABLE", f"ブリーフを読めない({e.__class__.__name__}): {_short_path(src)}"
+        return None, "BRIEF_UNREADABLE", f"ブリーフを読めない({e.__class__.__name__}): {_short_path(src)}", False
     if b"\r" in data:   # 本リポは `* text=auto eol=lf` — CRLF のブリーフは別のバイトで commit される
-        return None, "BRIEF_NOT_LF", f"ブリーフに CR がある(LF に限る): {_short_path(src)}"
+        return None, "BRIEF_NOT_LF", f"ブリーフに CR がある(LF に限る): {_short_path(src)}", False
     sha = _sha(data)
     if common is None:
-        return None, "BRIEF_STORE_FAILED", "git の共通ディレクトリを導出できない"
+        return None, "BRIEF_STORE_FAILED", "git の共通ディレクトリを導出できない", False
     d = brief_store_dir(common, eco)
     final = d / sha
+    created = False
     try:
         d.mkdir(parents=True, exist_ok=True)
         if final.exists():
             if _sha(final.read_bytes()) != sha:
-                return None, "BRIEF_STORE_FAILED", f"ストアの既存ファイルが名前と一致しない: {sha[:12]}"
+                return None, "BRIEF_STORE_FAILED", f"ストアの既存ファイルが名前と一致しない: {sha[:12]}", False
         else:
             tmp = d / f".tmp-{os.urandom(6).hex()}"
             tmp.write_bytes(data)
             try:
                 os.replace(tmp, final)
+                created = True
             except OSError:
                 try:
                     tmp.unlink()
                 except OSError:
                     pass
                 if not (final.exists() and _sha(final.read_bytes()) == sha):   # 同じバイトを並行に置いた場合だけ受け入れる
-                    return None, "BRIEF_STORE_FAILED", f"ストアへ置けない: {sha[:12]}"
+                    return None, "BRIEF_STORE_FAILED", f"ストアへ置けない: {sha[:12]}", False
         if _sha(final.read_bytes()) != sha:
-            return None, "BRIEF_STORE_FAILED", f"ストアの再読込が一致しない: {sha[:12]}"
+            return None, "BRIEF_STORE_FAILED", f"ストアの再読込が一致しない: {sha[:12]}", created
     except OSError as e:
-        return None, "BRIEF_STORE_FAILED", f"ストアへ置けない({e.__class__.__name__}): {sha[:12]}"
-    return {"path": str(brief), "sha256": sha, "size": len(data), "store_ref": str(final)}, None, ""
+        return None, "BRIEF_STORE_FAILED", f"ストアへ置けない({e.__class__.__name__}): {sha[:12]}", created
+    return {"path": str(brief), "sha256": sha, "size": len(data), "store_ref": str(final)}, None, "", created
+
+
+_exec_write = Path.write_bytes   # ECO-112 V2(g): selftest が実行用コピーの書き込み失敗を差し込む継ぎ目
+_unlink_stored = os.unlink       # ECO-112 V2(h): selftest がロールバックの取り除き失敗を差し込む継ぎ目
+
+
+def exec_copy(info: dict) -> tuple[str | None, str | None, str]:
+    """ECO-112 B3(r1 IA-02): cell に渡す実行用コピー — 保管用の写しと同じバイトの別ファイル(新しい一時ディレクトリ・作業木とストアの外)。
+    (path, dir, message)。失敗= (None, dir, 理由)— dir が作られていれば呼び出し側が消す。"""
+    d = None
+    try:
+        d = tempfile.mkdtemp(prefix="bomdd-brief-")
+        x = Path(d) / (Path(info["path"]).name or "brief")
+        _exec_write(x, Path(info["store_ref"]).read_bytes())
+        if _sha(x.read_bytes()) != info["sha256"]:
+            return None, d, f"実行用コピーの再ハッシュが一致しない: {info['sha256'][:12]}"
+        return str(x), d, ""
+    except OSError as e:
+        return None, d, f"実行用コピーを書けない({e.__class__.__name__}): {info['sha256'][:12]}"
+
+
+def remove_exec_copy(d: str | None) -> None:
+    """ECO-112 B3: 実行用コピーとそのディレクトリを消す(失敗は無視— OS の一時領域が持つ)。"""
+    if d:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def rollback_brief(info: dict | None, created: bool) -> str | None:
+    """ECO-112 B2(r1 IA-01): 起動しなかったとき、この呼び出しが作った保管用の写しだけを取り除く。取り除けなければ OS エラー名。"""
+    if not (info and created):
+        return None
+    try:
+        _unlink_stored(info["store_ref"])
+    except FileNotFoundError:
+        return None
+    except OSError as e:
+        return e.__class__.__name__
+    return None
 
 
 def committed_copies(root: Path, common: Path | None, eco: str, tree: str | None) -> tuple[dict, str | None, str]:
@@ -256,7 +301,7 @@ def committed_copies(root: Path, common: Path | None, eco: str, tree: str | None
     try:
         entries = sorted(d.iterdir(), key=lambda p: p.name)
     except FileNotFoundError:
-        return out, None, ""   # この clone で起動したブリーフはない(L4)
+        return out, None, ""   # この clone で保存されたブリーフはない(L4)
     except OSError as e:
         return out, "BRIEF_STORE_FAILED", f"ストアを列挙できない({e.__class__.__name__})"
     stored = {}
@@ -448,15 +493,15 @@ def _report_path_error(root: Path, git_dir: Path | None, report: str) -> str | N
     return None
 
 
-def launch(rec: dict, job: dict, cell: str, root: Path, report: str | None = None, rng: str | None = None) -> dict:
+def launch(rec: dict, job: dict, cell: str, root: Path, report: str | None = None, rng: str | None = None,
+           exec_brief: str | None = None) -> dict:
     """R5/R10: 3 条件成立時のみ呼ばれる。コマンドはそのまま・環境で job/witness/executor/report/brief を渡す・承認は起動先。台帳 2 行目のレコードを返す。"""
     with tempfile.NamedTemporaryFile("w", suffix=".json", prefix="bomdd-job-", delete=False, encoding="utf-8") as f:
         json.dump(job, f, ensure_ascii=False, indent=2)
         job_json = f.name
-    brief = rec.get("brief")
     env = dict(os.environ, BOMDD_JOB=rec["eco"], BOMDD_JOB_JSON=job_json, BOMDD_WITNESS=rec["receipt"], BOMDD_EXECUTOR=rec.get("executor") or "",
                BOMDD_REPORT=report or "", BOMDD_RANGE=rng or "",
-               BOMDD_BRIEF=brief.get("store_ref", "") if isinstance(brief, dict) else "")   # ECO-112 B3: ストアの写しのパス(none なら空)
+               BOMDD_BRIEF=exec_brief or "")   # ECO-112 B3(r1 IA-02): 実行用コピー(store_ref は渡さない・none なら空)
     ev = {"event": "cell", "run_id": rec["run_id"], "eco": rec["eco"], "cell": cell, "executor": rec.get("executor"),
           "started_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "cell_exit": None, "report": None}
     try:
@@ -608,11 +653,16 @@ def run(argv: list, root: Path, emit=None) -> int:
         emit("UNMEASURABLE ARG_ERROR: --brief none は --report と組にできない")
         return 2
     launching = rec["decision"] == "ADVANCE" and bool(cell)
+    info, created, exec_path, exec_dir = None, False, None, None
     if launching:   # ECO-112 B2/B3: ADVANCE の後・判定レコードと起動の前にだけストアへ置く(拒否された起動は何も置かない)
         if brief == "none":
             rec["brief"] = "none"
         else:
-            info, bcode, bmsg = store_brief(root, git_common_dir(root, witmod), eco, brief)
+            info, bcode, bmsg, created = store_brief(root, git_common_dir(root, witmod), eco, brief)
+            if not bcode:   # B3(r1 IA-02): cell には実行用コピーを渡す。書けなければ BRIEF_STORE_FAILED(B2 のロールバック)
+                exec_path, exec_dir, xmsg = exec_copy(info)
+                if exec_path is None:
+                    bcode, bmsg = "BRIEF_STORE_FAILED", xmsg
             if bcode:
                 rec.update(decision="UNMEASURABLE", stop_type="MISSING_INPUT", delivery=DELIVERY["MISSING_INPUT"],
                            entry_code=bcode, entry_detail=bmsg)
@@ -621,13 +671,27 @@ def run(argv: list, root: Path, emit=None) -> int:
                 rec["brief"] = info
     if launching:
         rec["cell"] = cell
+    left = None   # B2(r1 IA-01): 起動しないと決まったら、この呼び出しが作った保管用の写しだけを取り除き、実行用コピーを消す
+    if not launching:
+        remove_exec_copy(exec_dir)
+        left = rollback_brief(info, created)
     err = write_ledger(ledger, rec)   # R4/r1 IA-02: 判定レコードを起動の前に書く。書けなければ起動しない
     if err:
+        if launching:
+            remove_exec_copy(exec_dir)
+            left = rollback_brief(info, created)
         emit(_fit("UNMEASURABLE ARG_ERROR: " + err))
+        if left:
+            emit(_fit(f"brief left in store: {info['sha256'][:12]} ({left})"))
         return 2
     emit(summary_line(rec, launching))   # R7/r1 IA-03: 判定行を起動の前に出す
+    if left:
+        emit(_fit(f"brief left in store: {info['sha256'][:12]} ({left})"))
     if launching:
-        ev = launch(rec, job, cell, root, report, rng)   # R5/R10/R11
+        try:
+            ev = launch(rec, job, cell, root, report, rng, exec_path)   # R5/R10/R11
+        finally:
+            remove_exec_copy(exec_dir)   # B3: cell の終了後に実行用コピーを消す
         err2 = write_ledger(ledger, ev)
         emit(_fit(f"cell exit {ev['cell_exit']}" + (f" · 台帳追記失敗: {err2}" if err2 else "")))
         if report is not None:   # R10: 判定語の回収を 1 行で(入口の exit は R8 のまま 0・判定で行動しない)
@@ -1018,18 +1082,30 @@ def _selftest_body(td_cm, wd_cm) -> int:
         def last_dec(path=ledger):
             rs = [json.loads(ln) for ln in path.read_text(encoding="utf-8").splitlines()] if path.exists() else []
             return next((r for r in reversed(rs) if r.get("event") == "decision"), {})
+        def n_decs(path=ledger):
+            return sum(1 for ln in path.read_text(encoding="utf-8").splitlines() if '"event": "decision"' in ln) if path.exists() else 0
         prod("ECO-900", good["gates"])
         common_fx = git_common_dir(root, witmod)
-        cell_b = f'"{sys.executable}" -c "import pathlib,os; pathlib.Path(r\'{marker}\').write_text(os.environ.get(\'BOMDD_BRIEF\',\'\'))"'
-        if marker.exists():
-            marker.unlink()
+        store900 = brief_store_dir(common_fx, "ECO-900")
+        bseen = wout / "brief-seen.bin"
+        cell_b = f'"{sys.executable}" -c "import pathlib,os,shutil; b=os.environ.get(\'BOMDD_BRIEF\',\'\'); pathlib.Path(r\'{marker}\').write_text(b); b and shutil.copyfile(b, r\'{bseen}\')"'
+        for f_ in (marker, bseen):
+            if f_.exists():
+                f_.unlink()
+        n0 = n_decs()
         rc_b, out_b = call(["ECO-900", "--ledger", str(ledger), "--cell", cell_b, "--brief", str(brief_fx), "--executor", "EQ-002"])
-        bi = last_dec().get("brief") or {}
+        db = last_dec() if n_decs() == n0 + 1 else {}   # T2: この呼び出しの判定レコードだけを読む(V3 run 1 の CRASH)
+        bi = db.get("brief") if isinstance(db.get("brief"), dict) else {}
         sref = Path(bi.get("store_ref") or "nowhere")
-        if (rc_b != 0 or bi.get("sha256") != hashlib.sha256(brief_fx.read_bytes()).hexdigest() or bi.get("size") != len(brief_fx.read_bytes())
-                or not sref.is_file() or sref.read_bytes() != brief_fx.read_bytes() or sref.parent != brief_store_dir(common_fx, "ECO-900")
-                or not marker.exists() or marker.read_text(encoding="utf-8") != str(sref)):
-            fails.append(f"b-store: exit {rc_b} / {bi} / BOMDD_BRIEF {marker.read_text(encoding='utf-8') if marker.exists() else None} :: {out_b[:1]}")
+        seen = marker.read_text(encoding="utf-8") if marker.exists() else ""
+        if (not db or rc_b != 0 or bi.get("sha256") != hashlib.sha256(brief_fx.read_bytes()).hexdigest() or bi.get("size") != len(brief_fx.read_bytes())
+                or not sref.is_file() or sref.read_bytes() != brief_fx.read_bytes() or sref.parent != store900):
+            fails.append(f"b-store: exit {rc_b} / record {bool(db)} / {bi} :: {out_b[:1]}")
+        if (not seen or Path(seen) == sref or _under(Path(seen), root) or _under(Path(seen), store900)
+                or not bseen.exists() or bseen.read_bytes() != brief_fx.read_bytes()):   # V2(i): store_ref でない実行用コピー
+            fails.append(f"b-exec-copy: BOMDD_BRIEF {seen!r} / store_ref {sref} / bytes {bseen.exists()} :: {out_b[:1]}")
+        if seen and (Path(seen).exists() or Path(seen).parent.exists()):   # V2(j): cell の終了後に消える
+            fails.append(f"b-exec-copy-removed: 残っている {seen}")
         if dec_good.get("brief") != "none":
             fails.append(f"b-none-recorded: known-good の brief が none でない: {dec_good.get('brief')}")
         bmm = wout / "brief-mm.md"
@@ -1071,24 +1147,101 @@ def _selftest_body(td_cm, wd_cm) -> int:
         b2.write_bytes(b"second brief\n")
         sha2 = hashlib.sha256(b2.read_bytes()).hexdigest()
         wpath.write_text(json.dumps(dict(good, tree=good["tree"][:-4] + ("0000" if good["tree"][-4:] != "0000" else "1111"))), encoding="utf-8")
-        rc_r1, _ = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(b2), "--executor", "EQ-002"])
+        rc_r1, out_r1 = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(b2), "--executor", "EQ-002"])
+        if rc_r1 != 1 or not out_r1 or not out_r1[0].startswith("STOP ") or (store900 / sha2).exists():   # T2: 呼び出しごとに直後で見る
+            fails.append(f"b-refused-stores-nothing (witness STOP): exit {rc_r1} / stored {(store900 / sha2).exists()} :: {out_r1[:1]}")
         prod("ECO-900", good["gates"])
-        rc_r2, _ = call(["ECO-902", "--ledger", str(ledger), "--cell", cell, "--brief", str(b2), "--executor", "EQ-002"])
-        rc_r3, _ = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(b2), "--executor", "EQ-001"])
-        stored2 = [e for e in ("ECO-900", "ECO-902") if (brief_store_dir(common_fx, e) / sha2).exists()]
-        if (rc_r1, rc_r2, rc_r3) != (1, 1, 1) or stored2:
-            fails.append(f"b-refused-stores-nothing: exits {(rc_r1, rc_r2, rc_r3)} / stored in {stored2}")
+        rc_r2, out_r2 = call(["ECO-902", "--ledger", str(ledger), "--cell", cell, "--brief", str(b2), "--executor", "EQ-002"])
+        if rc_r2 != 1 or not out_r2 or not out_r2[0].startswith("STOP ") or (brief_store_dir(common_fx, "ECO-902") / sha2).exists():
+            fails.append(f"b-refused-stores-nothing (job STOP): exit {rc_r2} :: {out_r2[:1]}")
+        rc_r3, out_r3 = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(b2), "--executor", "EQ-001"])
+        if rc_r3 != 1 or not out_r3 or "INDEPENDENCE_FAIL" not in out_r3[0] or (store900 / sha2).exists():
+            fails.append(f"b-refused-stores-nothing (INDEPENDENCE_FAIL): exit {rc_r3} :: {out_r3[:1]}")
+        # --- r1 IA-01 / IA-02(V2(g)-(i)): ロールバックは自分が作った保管用の写しだけ・実行用コピーは残らない・cell が消しても保管用は残る ---
+        tmp_root = Path(tempfile.gettempdir())
+
+        def exec_dirs():
+            try:
+                return {e_.name for e_ in tmp_root.iterdir() if e_.name.startswith("bomdd-brief-")}
+            except OSError:
+                return set()
+
+        def fresh(name, data):
+            f_ = wout / name
+            f_.write_bytes(data)
+            return f_, hashlib.sha256(data).hexdigest()
+
+        g_ = globals()
+
+        def boom(*a, **k):
+            raise PermissionError("patched")
+        brb, sha_rb = fresh("brief-rb.md", b"rollback brief\n")
+        if marker.exists():
+            marker.unlink()
+        x0 = exec_dirs()
+        rc_g1, out_g1 = call(["ECO-900", "--ledger", str(bad_ledger), "--cell", cell, "--brief", str(brb), "--executor", "EQ-002"])
+        if (rc_g1 != 2 or marker.exists() or len(out_g1) != 1 or "台帳を書けない" not in out_g1[0] or (store900 / sha_rb).exists()
+                or exec_dirs() - x0):
+            fails.append(f"b-rollback-ledger: exit {rc_g1} / stored {(store900 / sha_rb).exists()} / exec {sorted(exec_dirs() - x0)} :: {out_g1[:2]}")
+        bex, sha_ex = fresh("brief-ex.md", b"already stored brief\n")
+        _i, c_ex, _m, _c = store_brief(root, common_fx, "ECO-900", str(bex))
+        x0 = exec_dirs()
+        rc_g2, out_g2 = call(["ECO-900", "--ledger", str(bad_ledger), "--cell", cell, "--brief", str(bex), "--executor", "EQ-002"])
+        if (c_ex or rc_g2 != 2 or not out_g2 or "台帳を書けない" not in out_g2[0] or not (store900 / sha_ex).is_file()
+                or (store900 / sha_ex).read_bytes() != bex.read_bytes() or exec_dirs() - x0):
+            fails.append(f"b-rollback-existing: exit {rc_g2} / kept {(store900 / sha_ex).is_file()} :: {out_g2[:2]}")
+        bxw, sha_xw = fresh("brief-xw.md", b"execution copy fails\n")
+        keep_ = g_["_exec_write"]
+        g_["_exec_write"] = boom
+        try:
+            if marker.exists():
+                marker.unlink()
+            x0, n0 = exec_dirs(), n_decs()
+            rc_g3, out_g3 = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(bxw), "--executor", "EQ-002"])
+        finally:
+            g_["_exec_write"] = keep_
+        d_g3 = last_dec() if n_decs() == n0 + 1 else {}
+        if (not d_g3 or rc_g3 != 2 or marker.exists() or d_g3.get("entry_code") != "BRIEF_STORE_FAILED" or not out_g3
+                or "BRIEF_STORE_FAILED" not in out_g3[0] or (store900 / sha_xw).exists() or exec_dirs() - x0):
+            fails.append(f"b-rollback-exec-copy: exit {rc_g3} / {d_g3.get('entry_code')} / stored {(store900 / sha_xw).exists()} :: {out_g3[:1]}")
+        bfl, sha_fl = fresh("brief-fl.md", b"removal fails\n")
+        keep_ = g_["_unlink_stored"]
+        g_["_unlink_stored"] = boom
+        try:
+            if marker.exists():
+                marker.unlink()
+            rc_h, out_h = call(["ECO-900", "--ledger", str(bad_ledger), "--cell", cell, "--brief", str(bfl), "--executor", "EQ-002"])
+        finally:
+            g_["_unlink_stored"] = keep_
+        if (rc_h != 2 or marker.exists() or len(out_h) != 2 or "台帳を書けない" not in out_h[0]
+                or out_h[1] != f"brief left in store: {sha_fl[:12]} (PermissionError)" or not (store900 / sha_fl).is_file()):
+            fails.append(f"b-rollback-fails: exit {rc_h} / kept {(store900 / sha_fl).is_file()} :: {out_h[:2]}")
+        (store900 / sha_fl).unlink(missing_ok=True)
+        bdl, sha_dl = fresh("brief-del.md", b"the cell deletes its brief\n")
+        cell_del = f'"{sys.executable}" -c "import pathlib,os; b=os.environ[\'BOMDD_BRIEF\']; pathlib.Path(r\'{marker}\').write_text(b); os.remove(b)"'
+        if marker.exists():
+            marker.unlink()
+        n0 = n_decs()
+        rc_i, out_i = call(["ECO-900", "--ledger", str(ledger), "--cell", cell_del, "--brief", str(bdl), "--executor", "EQ-002"])
+        d_i = last_dec() if n_decs() == n0 + 1 else {}
+        seen_i = marker.read_text(encoding="utf-8") if marker.exists() else ""
+        _cc, code_i, msg_i = committed_copies(root, common_fx, "ECO-900", d_i.get("tree"))
+        if (not d_i or rc_i != 0 or not seen_i or Path(seen_i) == store900 / sha_dl or not (store900 / sha_dl).is_file()
+                or (store900 / sha_dl).read_bytes() != bdl.read_bytes() or code_i != "BRIEF_NOT_COMMITTED" or sha_dl[:12] not in msg_i):
+            fails.append(f"b-cell-deletes-brief: exit {rc_i} / kept {(store900 / sha_dl).is_file()} / {code_i} :: {out_i[:1]}")
         ledger2 = wout / "ledger-2.jsonl"
+        n0 = n_decs(ledger2)
         rc_l2, _ = call(["ECO-900", "--ledger", str(ledger2), "--cell", cell, "--brief", str(brief_fx), "--executor", "EQ-002"])
-        if rc_l2 != 0 or (last_dec(ledger2).get("brief") or {}).get("store_ref") != str(sref):
-            fails.append(f"b-other-ledger-same-store: exit {rc_l2} / {last_dec(ledger2).get('brief')}")
+        b_l2 = last_dec(ledger2).get("brief") if n_decs(ledger2) == n0 + 1 else None   # T2: この呼び出しの判定レコードだけを読む
+        if rc_l2 != 0 or not isinstance(b_l2, dict) or b_l2.get("store_ref") != str(sref):
+            fails.append(f"b-other-ledger-same-store: exit {rc_l2} / {b_l2}")
         wt = wout / "wt"
         if witmod._git(root, "worktree", "add", "-q", str(wt), env=env).returncode != 0 or git_common_dir(wt, witmod) != common_fx:
             fails.append(f"b-worktree-same-store: {git_common_dir(wt, witmod)} != {common_fx}")
         # 昇格時(B4): ECO-906 のストアに 1 本 → 束縛された tree に写しがなければ BRIEF_NOT_COMMITTED・在れば通る
         b906 = wout / "brief-906.md"
         b906.write_bytes(b"brief for ECO-906\n")
-        info906, code906, _ = store_brief(root, common_fx, "ECO-906", str(b906))
+        info906, code906, _, _ = store_brief(root, common_fx, "ECO-906", str(b906))
         if code906:
             fails.append(f"b-promotion fixture: {code906}")
         d_p, o_p = r11("b-promotion-not-committed", "ECO-906", g_ok, 2, "UNMEASURABLE", "operator", "MISSING_INPUT")

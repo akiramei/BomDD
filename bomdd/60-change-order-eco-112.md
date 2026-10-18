@@ -296,6 +296,40 @@ comment; operator-layer.md — G5 (core §6.1, adapter A1).
     hands the path. **The defect is in the design (B3 + B4).**
 - **Not repaired yet:** both repairs change rule text of the converged design (B2, B3, L4); the user rules how they are made.
 
+## 6. Repair manufacture (2026-10-18, user ruling "A": after the amendment converged)
+
+**Inputs fixed** (sha256 prefixes; `git show <rev>:<path>`): the design — this order at `e394af0` (`319a97a47fe2`), the amendment converged (4→1→0→0,
+receipt "Amendment loop A2"); the tool — `bomdd-run.py` at `f2d91d4` (`bfea9b4d6d3d`, unchanged up to `e394af0`); the V3 instrument unchanged
+(`7abaa22324cc`). Only `bomdd-run.py` changes; ECO-113's undecided changes are not mixed in.
+
+**What changed, by rule:**
+- **B2 (IA-01):** `store_brief` also returns whether this invocation created the stored file (`created`; the accepted-failed-replace case is not);
+  `rollback_brief` removes the stored file only when it was created, and returns the OS error's name when the removal fails; `run()` rolls back when
+  the execution copy fails (before the decision record) or when the decision record cannot be written, and then prints
+  `brief left in store: <12 hex> (<error>)` after the first line, exit 2. A spawn failure is not rolled back.
+- **B3 (IA-02):** `exec_copy` writes the brief's bytes into a fresh `bomdd-brief-*` directory under the OS temporary area and re-hashes it; a failure →
+  `BRIEF_STORE_FAILED` (B2's rollback). `launch()` passes that file as `BOMDD_BRIEF` (never `store_ref`); `run()` removes the copy and its directory
+  after the cell (in a `finally`) and on every path that does not launch.
+- **The reviewer's three pointers:** header R13 rewritten (archival copy vs execution copy; the rollback; stored, not launched); the `committed_copies`
+  comment now says "保存された"; `launch()` no longer reads `store_ref`.
+- **V3's two causes (T2):** `b-store` reads the decision record only when its call added one and reads `brief` only as a mapping (the CRASH);
+  `b-refused-stores-nothing` checks each of its three calls right after it, each with its own reason (the two MASKED). The same unguarded read of the
+  last record was found in one more arm, `b-other-ledger-same-store` (OWN in run 1, but the same cause); it is guarded the same way.
+- **New arms (V2(g)-(j)):** `b-rollback-ledger` (g, created → removed), `b-rollback-existing` (g, already stored → kept with its bytes),
+  `b-rollback-exec-copy` (g, the copy's write patched to fail → `BRIEF_STORE_FAILED` recorded, nothing stored left), `b-rollback-fails` (h, the removal
+  patched to fail → the second line, the file kept), `b-exec-copy` (i, `BOMDD_BRIEF` is not `store_ref`, outside the worktree and the store, same bytes),
+  `b-cell-deletes-brief` (i, the cell deletes `BOMDD_BRIEF` → the archival copy kept, `BRIEF_NOT_COMMITTED` names it), `b-exec-copy-removed` (j). The
+  three (g) arms also check that no new `bomdd-brief-*` directory is left.
+
+**Acceptance measured before the repair commit** (evidence: `bomdd/reports/eco-112-arm-inventory/manufacture/repair/`):
+- **V1, V2 — selftest arms PASS:** bomdd-run `ADVANCE OK: selftest PASS…` (all earlier arms and the new ones); bomdd-job and bomdd-witness PASS;
+  `git diff -- method/tools/bomdd-witness.py` empty.
+- **Rule mutations, 9/9 detected** (`repair/rule_mutations.py`, the four earlier and five new): the rollback removing a file it did not create →
+  `b-rollback-existing`; the rollback switched off → `b-rollback-ledger`; the second line dropped → `b-rollback-fails`; `BOMDD_BRIEF` = `store_ref` →
+  `b-exec-copy`; the copy never removed → `b-exec-copy-removed`.
+- **V3's first run (before the repair):** FAIL, recorded as `manufacture/v3-run1-arm-inventory.json` (`b18d908a147f`) and `v3-run1-summary.txt`
+  (`24ae76a6a9a1`). **V3 is re-run on the repaired tool after this commit; the acceptance is not settled before it passes** (user ruling).
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (before the split; ①②③ together)
