@@ -329,6 +329,12 @@ receipt "Amendment loop A2"); the tool — `bomdd-run.py` at `f2d91d4` (`bfea9b4
   `b-exec-copy`; the copy never removed → `b-exec-copy-removed`.
 - **V3's first run (before the repair):** FAIL, recorded as `manufacture/v3-run1-arm-inventory.json` (`b18d908a147f`) and `v3-run1-summary.txt`
   (`24ae76a6a9a1`). **V3 is re-run on the repaired tool after this commit; the acceptance is not settled before it passes** (user ruling).
+- **V3's re-run (run 2, after the repair commit) — PASS.** The pinned instrument (`7abaa22324cc`, extracted from `4d2c05f`) on the repaired
+  `bomdd-run.py` (sha256 `69e849630f90…`, the bytes of `4d2c05f`, unchanged since): exit 0; baseline clean; 101 calls, 73 with `--cell`, 73 targets,
+  **73 OWN, 0 MASKED, 0 CRASH**; no static/dynamic gap. Evidence: `repair/v3-run2-arm-inventory.json` (`5d65f538842c`), `repair/v3-run2-summary.txt`
+  (`ccba23787ade`). The run was measured from a copy of the committed tools outside the worktree; it overlapped inspection r2 (see §7's limit), which
+  can only add failures, so it cannot make a call read OWN that would otherwise be MASKED: a failure of the V2(g) arms is counted in their own calls'
+  windows, never in another call's.
 
 ## 7. Independent inspection r2 (2026-10-18, EQ-002, range 是正確認+回帰) — REJECT IA-03; IA-01 and IA-02 repaired
 

@@ -1,0 +1,4614 @@
+{
+ "source": "C:\\Users\\akira\\AppData\\Local\\Temp\\claude\\C--Users-akira-source-repos-BomDD\\98c0182d-ade5-422d-ac43-d4b21ef32d72\\scratchpad\\eco112-v3\\run2\\tools\\bomdd-run.py",
+ "source_sha256": "69e849630f907018f97125f61cb9bc2e735456a4d07bc36f2d36a2b65f30627e",
+ "static_sites": [
+  {
+   "call_line": 829,
+   "kind": "list",
+   "site_lines": [
+    829
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 923,
+   "kind": "list",
+   "site_lines": [
+    923
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 928,
+   "kind": "list",
+   "site_lines": [
+    928
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 935,
+   "kind": "list",
+   "site_lines": [
+    935
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1000,
+   "kind": "list",
+   "site_lines": [
+    1000
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1006,
+   "kind": "list",
+   "site_lines": [
+    1006
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1077,
+   "kind": "list",
+   "site_lines": [
+    1077
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1096,
+   "kind": "list",
+   "site_lines": [
+    1096
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1150,
+   "kind": "list",
+   "site_lines": [
+    1150
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1154,
+   "kind": "list",
+   "site_lines": [
+    1154
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1157,
+   "kind": "list",
+   "site_lines": [
+    1157
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1182,
+   "kind": "list",
+   "site_lines": [
+    1182
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1189,
+   "kind": "list",
+   "site_lines": [
+    1189
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1225,
+   "kind": "list",
+   "site_lines": [
+    1225
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1234,
+   "kind": "list",
+   "site_lines": [
+    1234
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 796,
+   "kind": "builder",
+   "site_lines": [
+    796
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 886,
+   "kind": "list",
+   "site_lines": [
+    886
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 962,
+   "kind": "loop",
+   "site_lines": [
+    947,
+    948,
+    949,
+    950,
+    951,
+    952,
+    953,
+    954,
+    955,
+    956,
+    957
+   ],
+   "cell_sites": 10,
+   "loop_elements": 11
+  },
+  {
+   "call_line": 981,
+   "kind": "loop",
+   "site_lines": [
+    974,
+    975,
+    976
+   ],
+   "cell_sites": 3,
+   "loop_elements": 3
+  },
+  {
+   "call_line": 990,
+   "kind": "list",
+   "site_lines": [
+    990
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1022,
+   "kind": "loop",
+   "site_lines": [
+    1014,
+    1014,
+    1014,
+    1014,
+    1014,
+    1015,
+    1015,
+    1016,
+    1017,
+    1017
+   ],
+   "cell_sites": 3,
+   "loop_elements": 10
+  },
+  {
+   "call_line": 1034,
+   "kind": "list",
+   "site_lines": [
+    1034
+   ],
+   "cell_sites": 0
+  },
+  {
+   "call_line": 1126,
+   "kind": "loop",
+   "site_lines": [
+    1119,
+    1120,
+    1121
+   ],
+   "cell_sites": 3,
+   "loop_elements": 3
+  },
+  {
+   "call_line": 1142,
+   "kind": "loop",
+   "site_lines": [
+    1133,
+    1134,
+    1135,
+    1136
+   ],
+   "cell_sites": 3,
+   "loop_elements": 4
+  },
+  {
+   "call_line": 1200,
+   "kind": "list",
+   "site_lines": [
+    1200
+   ],
+   "cell_sites": 1
+  },
+  {
+   "call_line": 1213,
+   "kind": "list",
+   "site_lines": [
+    1213
+   ],
+   "cell_sites": 1
+  }
+ ],
+ "baseline": {
+  "rc": 0,
+  "report_first_line": "ADVANCE OK: selftest PASS(起動4/dry2/kb5/job1/不能3/独立性9/報告27/gate6/構文5/台帳3/引数13/表)",
+  "calls": [
+   {
+    "idx": 0,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "known-good",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 1,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "dry",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · dry @33ae066bc72c"
+   },
+   {
+    "idx": 2,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "kb-tree",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 TREE_MISMATCH → operator @33ae066bc72c"
+   },
+   {
+    "idx": 3,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "kb-other-job",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 IDENTITY_MISMATCH → operator @33ae066bc72c"
+   },
+   {
+    "idx": 4,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "kb-fail",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 GATE_FAIL → factory @33ae066bc72c"
+   },
+   {
+    "idx": 5,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "kb-missing",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 GATES_MISSING → operator @33ae066bc72c"
+   },
+   {
+    "idx": 6,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "kb-stop",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 STOP_TYPE(NORMATIVE_RULING) → human @33ae066bc72c"
+   },
+   {
+    "idx": 7,
+    "func": "_selftest_body",
+    "caller_line": 829,
+    "arm": null,
+    "argv": [
+     "ECO-902",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-902 job:LEDGER_INCONSISTENT → ledger-owner @33ae066bc72c"
+   },
+   {
+    "idx": 8,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "kb-absent",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-900 WITNESS_UNREADABLE → operator @33ae066bc72c"
+   },
+   {
+    "idx": 9,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "kb-no-eco",
+    "argv": [
+     "ECO-999",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-999 job:MISSING_INPUT → operator @-"
+   },
+   {
+    "idx": 10,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "ind-same-id",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-001"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 INDEPENDENCE_FAIL(SAME_ID) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 11,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "ind-same-lineage",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-003"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 INDEPENDENCE_FAIL(SAME_LINEAGE) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 12,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "ind-axis-unknown",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-004"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 INDEPENDENCE_FAIL(AXIS_UNKNOWN:model) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 13,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "ind-executor-unknown",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-999"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 INDEPENDENCE_FAIL(EXECUTOR_UNKNOWN) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 14,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "ind-one-axis-differs",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-005"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 15,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "ind-case-only",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-006"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 INDEPENDENCE_FAIL(SAME_LINEAGE) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 16,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "ind-producer-undeclared",
+    "argv": [
+     "ECO-903",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-903 INDEPENDENCE_FAIL(PRODUCER_UNDECLARED) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 17,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "ind-dry-no-executor",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · dry @33ae066bc72c"
+   },
+   {
+    "idx": 18,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "ind-dry-same-id",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--executor",
+     "EQ-001"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 INDEPENDENCE_FAIL(SAME_ID) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 19,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "ind-ledger-missing",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 job:MISSING_INPUT → operator @1f49dc313741"
+   },
+   {
+    "idx": 20,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-accept-header",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 21,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-reject-noheader",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 22,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-unmeasurable",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 23,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-missing",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 24,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-unparsed-summary",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 25,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-unparsed-fence",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 26,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-unparsed-two-headers",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 27,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-unparsed-lowercase",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 28,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-unparsed-prefix",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 29,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-empty",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 30,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-unparsed-leading-space",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 31,
+    "func": "rep_arm",
+    "caller_line": 886,
+    "arm": "rep-unparsed-bom",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r.md",
+     "--range",
+     "是正確認+回帰"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 32,
+    "func": "_selftest_body",
+    "caller_line": 923,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/stale.md",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report の宛先が既に存在する: reports/stale.md"
+   },
+   {
+    "idx": 33,
+    "func": "_selftest_body",
+    "caller_line": 928,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/dirtarget",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report の宛先が既に存在する: reports/dirtarget"
+   },
+   {
+    "idx": 34,
+    "func": "_selftest_body",
+    "caller_line": 935,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/r7.md",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 35,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/x.md"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report には --range 境界探索|是正確認+回帰 が必須"
+   },
+   {
+    "idx": 36,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/x.md",
+     "--range",
+     "探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --range の語彙外: '探索'"
+   },
+   {
+    "idx": 37,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --range は --report と組で指定する"
+   },
+   {
+    "idx": 38,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "<path>",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パ…AppData\\\\Local\\\\Temp\\\\tmpwzsw5g6a\\\\x.md'"
+   },
+   {
+    "idx": 39,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/../x.md",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可): 'reports/../x.md'"
+   },
+   {
+    "idx": 40,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     ".git/x.md",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report を .git 配下に置けない(commit できる場所に限る)"
+   },
+   {
+    "idx": 41,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     " reports/x.md",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可): ' reports/x.md'"
+   },
+   {
+    "idx": 42,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "/reports/x.md",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可): '/reports/x.md'"
+   },
+   {
+    "idx": 43,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports//x.md",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可): 'reports//x.md'"
+   },
+   {
+    "idx": 44,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/x.md",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report は --cell と組で指定する"
+   },
+   {
+    "idx": 45,
+    "func": "_selftest_body",
+    "caller_line": 962,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002",
+     "--report"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report に値がない"
+   },
+   {
+    "idx": 46,
+    "func": "arm",
+    "caller_line": 796,
+    "arm": "rep-none-regression",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 47,
+    "func": "_selftest_body",
+    "caller_line": 981,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --cell には --executor EQ-NNN が必須(独立性判定)"
+   },
+   {
+    "idx": 48,
+    "func": "_selftest_body",
+    "caller_line": 981,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-1"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --executor の構文不正(EQ-NNN): 'EQ-1'"
+   },
+   {
+    "idx": 49,
+    "func": "_selftest_body",
+    "caller_line": 981,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "eq-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --executor の構文不正(EQ-NNN): 'eq-002'"
+   },
+   {
+    "idx": 50,
+    "func": "_selftest_body",
+    "caller_line": 990,
+    "arm": null,
+    "argv": [
+     "ECO-/../../../x",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO-/../../../x'"
+   },
+   {
+    "idx": 51,
+    "func": "_selftest_body",
+    "caller_line": 990,
+    "arm": null,
+    "argv": [
+     "ECO-900/../x",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO-900/../x'"
+   },
+   {
+    "idx": 52,
+    "func": "_selftest_body",
+    "caller_line": 990,
+    "arm": null,
+    "argv": [
+     "..",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): '..'"
+   },
+   {
+    "idx": 53,
+    "func": "_selftest_body",
+    "caller_line": 990,
+    "arm": null,
+    "argv": [
+     "ECO-900 x",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO-900 x'"
+   },
+   {
+    "idx": 54,
+    "func": "_selftest_body",
+    "caller_line": 990,
+    "arm": null,
+    "argv": [
+     "ECO_900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO_900'"
+   },
+   {
+    "idx": 55,
+    "func": "_selftest_body",
+    "caller_line": 1000,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: 台帳を書けない(PermissionError): …p\\tmpwzsw5g6a\\ledger-as-dir"
+   },
+   {
+    "idx": 56,
+    "func": "_selftest_body",
+    "caller_line": 1006,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: 台帳を作業木内に置けない(自己参照): …mp\\tmple8i0s77\\ledger.jsonl"
+   },
+   {
+    "idx": 57,
+    "func": "_selftest_body",
+    "caller_line": 1022,
+    "arm": null,
+    "argv": [],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: ECO [--cell --executor --brief --report --range]"
+   },
+   {
+    "idx": 58,
+    "func": "_selftest_body",
+    "caller_line": 1022,
+    "arm": null,
+    "argv": [
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: ECO [--cell --executor --brief --report --range]"
+   },
+   {
+    "idx": 59,
+    "func": "_selftest_body",
+    "caller_line": 1022,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--brief",
+     "none",
+     "--cell"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --cell に値がない"
+   },
+   {
+    "idx": 60,
+    "func": "_selftest_body",
+    "caller_line": 1022,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --ledger に値がない"
+   },
+   {
+    "idx": 61,
+    "func": "_selftest_body",
+    "caller_line": 1022,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--receipt",
+     "x"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: 未知の引数: --receipt x"
+   },
+   {
+    "idx": 62,
+    "func": "_selftest_body",
+    "caller_line": 1022,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "extra"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: 未知の引数: extra"
+   },
+   {
+    "idx": 63,
+    "func": "_selftest_body",
+    "caller_line": 1022,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--bogus"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: 未知の引数: --bogus"
+   },
+   {
+    "idx": 64,
+    "func": "_selftest_body",
+    "caller_line": 1022,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--brief",
+     "none",
+     "--cell",
+     "<cell>",
+     "<path>"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: 未知の引数: \"C:\\Pyth…|'+os.environ.get('BOMDD_EXECUTOR',''))\""
+   },
+   {
+    "idx": 65,
+    "func": "_selftest_body",
+    "caller_line": 1022,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: 未知の引数: C:\\Users…Data\\Local\\Temp\\tmpwzsw5g6a\\ledger.jsonl"
+   },
+   {
+    "idx": 66,
+    "func": "_selftest_body",
+    "caller_line": 1022,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --ledger が重複"
+   },
+   {
+    "idx": 67,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "insp-verified-gate-ok",
+    "argv": [
+     "ECO-904",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-904 OK → next · dry @33ae066bc72c"
+   },
+   {
+    "idx": 68,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "insp-verified-gate-missing",
+    "argv": [
+     "ECO-904",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-904 INSPECTION_MISSING → operator @33ae066bc72c"
+   },
+   {
+    "idx": 69,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "insp-verified-gate-fail",
+    "argv": [
+     "ECO-904",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-904 GATE_FAIL → factory @33ae066bc72c"
+   },
+   {
+    "idx": 70,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "insp-verified-gate-unmeasurable",
+    "argv": [
+     "ECO-904",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-904 GATE_FAIL → factory @33ae066bc72c"
+   },
+   {
+    "idx": 71,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "insp-verified-no-inspector",
+    "argv": [
+     "ECO-905",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-905 OK → next · dry @33ae066bc72c"
+   },
+   {
+    "idx": 72,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "insp-decided-inspector",
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · dry @33ae066bc72c"
+   },
+   {
+    "idx": 73,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "g3-all-matched",
+    "argv": [
+     "ECO-906",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-906 OK → next · dry @33ae066bc72c"
+   },
+   {
+    "idx": 74,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "g3-missing",
+    "argv": [
+     "ECO-906",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-906 REQUIRED_GATE_MISSING(V2) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 75,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "g3-undeclared",
+    "argv": [
+     "ECO-907",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-907 GATES_UNDECLARED → operator @33ae066bc72c"
+   },
+   {
+    "idx": 76,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "g3-case",
+    "argv": [
+     "ECO-906",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-906 REQUIRED_GATE_MISSING(V2) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 77,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "g3-no-inspector-inspection",
+    "argv": [
+     "ECO-909",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-909 REQUIRED_GATE_MISSING(inspection) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 78,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "g3-regression-gate-fail",
+    "argv": [
+     "ECO-906",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-906 GATE_FAIL → factory @33ae066bc72c"
+   },
+   {
+    "idx": 79,
+    "func": "_selftest_body",
+    "caller_line": 1077,
+    "arm": null,
+    "argv": [
+     "ECO-908",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-908 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 80,
+    "func": "_selftest_body",
+    "caller_line": 1096,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 81,
+    "func": "_selftest_body",
+    "caller_line": 1126,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-900 BRIEF_STORE_FAILED → operator @33ae066bc72c"
+   },
+   {
+    "idx": 82,
+    "func": "_selftest_body",
+    "caller_line": 1126,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-900 BRIEF_UNREADABLE → operator @33ae066bc72c"
+   },
+   {
+    "idx": 83,
+    "func": "_selftest_body",
+    "caller_line": 1126,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-900 BRIEF_NOT_LF → operator @33ae066bc72c"
+   },
+   {
+    "idx": 84,
+    "func": "_selftest_body",
+    "caller_line": 1142,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --cell には --brief PATH|none が必須"
+   },
+   {
+    "idx": 85,
+    "func": "_selftest_body",
+    "caller_line": 1142,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--brief",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --brief は --cell と組で指定する"
+   },
+   {
+    "idx": 86,
+    "func": "_selftest_body",
+    "caller_line": 1142,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "none",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "reports/bn.md",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --brief none は --report と組にできない"
+   },
+   {
+    "idx": 87,
+    "func": "_selftest_body",
+    "caller_line": 1142,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--executor",
+     "EQ-002",
+     "--report",
+     "/abs.md",
+     "--range",
+     "境界探索"
+    ],
+    "has_cell": true,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可): '/abs.md'"
+   },
+   {
+    "idx": 88,
+    "func": "_selftest_body",
+    "caller_line": 1150,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 TREE_MISMATCH → operator @33ae066bc72c"
+   },
+   {
+    "idx": 89,
+    "func": "_selftest_body",
+    "caller_line": 1154,
+    "arm": null,
+    "argv": [
+     "ECO-902",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-902 job:LEDGER_INCONSISTENT → ledger-owner @33ae066bc72c"
+   },
+   {
+    "idx": 90,
+    "func": "_selftest_body",
+    "caller_line": 1157,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-001"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 1,
+    "first_line": "STOP ECO-900 INDEPENDENCE_FAIL(SAME_ID) → operator @33ae066bc72c"
+   },
+   {
+    "idx": 91,
+    "func": "_selftest_body",
+    "caller_line": 1182,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: 台帳を書けない(PermissionError): …p\\tmpwzsw5g6a\\ledger-as-dir"
+   },
+   {
+    "idx": 92,
+    "func": "_selftest_body",
+    "caller_line": 1189,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: 台帳を書けない(PermissionError): …p\\tmpwzsw5g6a\\ledger-as-dir"
+   },
+   {
+    "idx": 93,
+    "func": "_selftest_body",
+    "caller_line": 1200,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-900 BRIEF_STORE_FAILED → operator @33ae066bc72c"
+   },
+   {
+    "idx": 94,
+    "func": "_selftest_body",
+    "caller_line": 1213,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ARG_ERROR: 台帳を書けない(PermissionError): …p\\tmpwzsw5g6a\\ledger-as-dir"
+   },
+   {
+    "idx": 95,
+    "func": "_selftest_body",
+    "caller_line": 1225,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 96,
+    "func": "_selftest_body",
+    "caller_line": 1234,
+    "arm": null,
+    "argv": [
+     "ECO-900",
+     "--ledger",
+     "<path>",
+     "--cell",
+     "<cell>",
+     "--brief",
+     "<path>",
+     "--executor",
+     "EQ-002"
+    ],
+    "has_cell": true,
+    "has_brief": true,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c"
+   },
+   {
+    "idx": 97,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "b-promotion-not-committed",
+    "argv": [
+     "ECO-906",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-906 BRIEF_NOT_COMMITTED → operator @33ae066bc72c"
+   },
+   {
+    "idx": 98,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "b-promotion-copy",
+    "argv": [
+     "ECO-906",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 0,
+    "first_line": "ADVANCE ECO-906 OK → next · dry @59034233f1a1"
+   },
+   {
+    "idx": 99,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "b-promotion-head-only",
+    "argv": [
+     "ECO-906",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-906 BRIEF_NOT_COMMITTED → operator @5fa12e81c8bc"
+   },
+   {
+    "idx": 100,
+    "func": "r11",
+    "caller_line": 1034,
+    "arm": "b-promotion-store-mismatch",
+    "argv": [
+     "ECO-906",
+     "--ledger",
+     "<path>"
+    ],
+    "has_cell": false,
+    "has_brief": false,
+    "fails_at_entry": 0,
+    "rc": 2,
+    "first_line": "UNMEASURABLE ECO-906 BRIEF_STORE_FAILED → operator @59034233f1a1"
+   }
+  ]
+ },
+ "cross_check": {
+  "static_call_lines_with_cell": [
+   796,
+   829,
+   886,
+   923,
+   928,
+   935,
+   962,
+   981,
+   990,
+   1000,
+   1006,
+   1022,
+   1077,
+   1096,
+   1126,
+   1142,
+   1150,
+   1154,
+   1157,
+   1182,
+   1189,
+   1200,
+   1213,
+   1225,
+   1234
+  ],
+  "dynamic_call_lines_with_cell": [
+   796,
+   829,
+   886,
+   923,
+   928,
+   935,
+   962,
+   981,
+   990,
+   1000,
+   1006,
+   1022,
+   1077,
+   1096,
+   1126,
+   1142,
+   1150,
+   1154,
+   1157,
+   1182,
+   1189,
+   1200,
+   1213,
+   1225,
+   1234
+  ],
+  "static_not_executed": [],
+  "dynamic_not_in_static": [],
+  "per_line": {
+   "796": {
+    "static_cell_sites": 1,
+    "kind": "builder",
+    "dynamic_calls": 17
+   },
+   "829": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "886": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 12
+   },
+   "923": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "928": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "935": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "962": {
+    "static_cell_sites": 10,
+    "kind": "loop",
+    "dynamic_calls": 10
+   },
+   "981": {
+    "static_cell_sites": 3,
+    "kind": "loop",
+    "dynamic_calls": 3
+   },
+   "990": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 5
+   },
+   "1000": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1006": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1022": {
+    "static_cell_sites": 3,
+    "kind": "loop",
+    "dynamic_calls": 3
+   },
+   "1077": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1096": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1126": {
+    "static_cell_sites": 3,
+    "kind": "loop",
+    "dynamic_calls": 3
+   },
+   "1142": {
+    "static_cell_sites": 3,
+    "kind": "loop",
+    "dynamic_calls": 3
+   },
+   "1150": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1154": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1157": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1182": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1189": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1200": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1213": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1225": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   },
+   "1234": {
+    "static_cell_sites": 1,
+    "kind": "list",
+    "dynamic_calls": 1
+   }
+  }
+ },
+ "mutation": [
+  {
+   "idx": 0,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "known-good",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "known-good: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "known-good: exit 2 / decision None(期待 0/ADVANCE) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "known-good: delivery None != next",
+    "known-good: 起動されなかった(期待 起動)",
+    "known-good: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "known-good: 台帳 2 行目 None/None / 判定行 ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "known-good: 出力が 判定行+cell exit 行 でない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 1,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 2,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "kb-tree",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 TREE_MISMATCH → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-tree: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-tree: exit 2 / decision ADVANCE(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-tree: delivery next != operator",
+    "kb-tree: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 3,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "kb-other-job",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 IDENTITY_MISMATCH → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-other-job: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-other-job: exit 2 / decision STOP(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-other-job: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 4,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "kb-fail",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 GATE_FAIL → factory @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-fail: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-fail: exit 2 / decision STOP(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-fail: delivery operator != factory",
+    "kb-fail: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 5,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "kb-missing",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 GATES_MISSING → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-missing: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-missing: exit 2 / decision STOP(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-missing: delivery factory != operator",
+    "kb-missing: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 6,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "kb-stop",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 STOP_TYPE(NORMATIVE_RULING) → human @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-stop: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-stop: exit 2 / decision STOP(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-stop: delivery operator != human",
+    "kb-stop: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 7,
+   "caller_line": 829,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-902",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-902 job:LEDGER_INCONSISTENT → ledger-owner @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-job-stop: exit 2 / STOP / human / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 8,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "kb-absent",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ECO-900 WITNESS_UNREADABLE → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-absent: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-absent: exit 2 / decision STOP(期待 2/UNMEASURABLE) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "kb-absent: delivery ledger-owner != operator"
+   ],
+   "other_fails": 2,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 9,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "kb-no-eco",
+   "argv": [
+    "ECO-999",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ECO-999 job:MISSING_INPUT → operator @-",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-no-eco: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 10,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "ind-same-id",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-001"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 INDEPENDENCE_FAIL(SAME_ID) → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-same-id: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-same-id: exit 2 / decision UNMEASURABLE(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-same-id: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-same-id: None / MISSING_INPUT :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 11,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "ind-same-lineage",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-003"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 INDEPENDENCE_FAIL(SAME_LINEAGE) → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-same-lineage: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-same-lineage: exit 2 / decision STOP(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-same-lineage: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-same-lineage: {'cause': 'SAME_ID', 'detail': 'producer と executor が同一 EQ-001', 'axes': {}}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 12,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "ind-axis-unknown",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-004"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 INDEPENDENCE_FAIL(AXIS_UNKNOWN:model) → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-axis-unknown: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-axis-unknown: exit 2 / decision STOP(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-axis-unknown: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-axis-unknown: {'cause': 'SAME_LINEAGE', 'detail': 'model・harness・account_lineage がすべて一致', 'axes': {'model': True, 'harness': True, 'account_lineage': True}}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 13,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "ind-executor-unknown",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-999"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 INDEPENDENCE_FAIL(EXECUTOR_UNKNOWN) → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-executor-unknown: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-executor-unknown: exit 2 / decision STOP(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-executor-unknown: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-executor-unknown: {'cause': 'AXIS_UNKNOWN:model', 'detail': '軸 model が unknown(照合不能を通過にしない)', 'axes': {}}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 14,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "ind-one-axis-differs",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-005"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-one-axis-differs: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-one-axis-differs: exit 2 / decision STOP(期待 0/ADVANCE) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-one-axis-differs: delivery operator != next",
+    "ind-one-axis-differs: 起動されなかった(期待 起動)",
+    "ind-one-axis-differs: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-one-axis-differs: {'cause': 'EXECUTOR_UNKNOWN', 'detail': 'executor EQ-999 が設備台帳にない', 'axes': {}} / producer EQ-001"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 15,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "ind-case-only",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-006"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 INDEPENDENCE_FAIL(SAME_LINEAGE) → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-case-only: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-case-only: exit 2 / decision ADVANCE(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-case-only: delivery next != operator",
+    "ind-case-only: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-case-only: {'cause': None, 'detail': '独立(3 軸のいずれかが異なる)', 'axes': {'model': True, 'harness': True, 'account_lineage': False}}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 16,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "ind-producer-undeclared",
+   "argv": [
+    "ECO-903",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-903 INDEPENDENCE_FAIL(PRODUCER_UNDECLARED) → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-producer-undeclared: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-producer-undeclared: exit 2 / decision STOP(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-producer-undeclared: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-producer-undeclared: {'cause': 'SAME_LINEAGE', 'detail': 'model・harness・account_lineage がすべて一致', 'axes': {'model': True, 'harness': True, 'account_lineage': True}} :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 19,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "ind-ledger-missing",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 job:MISSING_INPUT → operator @1f49dc313741",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-ledger-missing: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-ledger-missing: exit 2 / decision STOP(期待 1/STOP) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-ledger-missing: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "ind-ledger-missing: NONE :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 20,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-accept-header",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-accept-header: exit 2 / verdict None / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-accept-header: sha256/exists/size が実ファイルと一致しない: {}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 21,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-reject-noheader",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-reject-noheader: exit 2 / verdict ACCEPT / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-reject-noheader: sha256/exists/size が実ファイルと一致しない: {'path': 'reports/r.md', 'exists': True, 'size': 31, 'sha256': 'e0fd95d4680f9c94d4eba497d9dedb28f74c4e2cb9db4664e5aa2e98c7079725', 'verdict': 'ACCEPT', 'verdict_line': 'ACCEPT', 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 22,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-unmeasurable",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-unmeasurable: exit 2 / verdict REJECT / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-unmeasurable: sha256/exists/size が実ファイルと一致しない: {'path': 'reports/r.md', 'exists': True, 'size': 26, 'sha256': 'de804ee5262ae5abce2deaff4fa3fa16b1325f3614958b40b4a1b0b445a51910', 'verdict': 'REJECT', 'verdict_line': 'REJECT — 理由: IA-01', 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 23,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-missing",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-missing: exit 2 / verdict UNMEASURABLE / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-missing: MISSING の記録が不正: {'path': 'reports/r.md', 'exists': True, 'size': 80, 'sha256': '66c46baee1ff928ad6a654a58ac54cc764a99e4bcd7ae001dc0a56675eff8b95', 'verdict': 'UNMEASURABLE', 'verdict_line': 'UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE): x', 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 24,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-unparsed-summary",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-unparsed-summary: exit 2 / verdict MISSING / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-unparsed-summary: sha256/exists/size が実ファイルと一致しない: {'path': 'reports/r.md', 'exists': False, 'size': None, 'sha256': None, 'verdict': 'MISSING', 'verdict_line': None, 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 25,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-unparsed-fence",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-unparsed-fence: exit 2 / verdict UNPARSED / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-unparsed-fence: sha256/exists/size が実ファイルと一致しない: {'path': 'reports/r.md', 'exists': True, 'size': 30, 'sha256': '57d17476069ff0451105917d484514564cf4e9aa560eb5939bffcd5a734136fb', 'verdict': 'UNPARSED', 'verdict_line': '要約: 問題なし', 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 26,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-unparsed-two-headers",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-unparsed-two-headers: exit 2 / verdict UNPARSED / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-unparsed-two-headers: sha256/exists/size が実ファイルと一致しない: {'path': 'reports/r.md', 'exists': True, 'size': 18, 'sha256': 'a62de4428f9534881239aaef3b7fe5d3ac11433bcb6a4c74cc3b10c18c4814b9', 'verdict': 'UNPARSED', 'verdict_line': '```', 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 27,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-unparsed-lowercase",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-unparsed-lowercase: exit 2 / verdict UNPARSED / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-unparsed-lowercase: sha256/exists/size が実ファイルと一致しない: {'path': 'reports/r.md', 'exists': True, 'size': 49, 'sha256': 'bad9eaaee9486dddbeb6e5dda48fd8e15b37ca9d152f540a3389c500dd77cf4c', 'verdict': 'UNPARSED', 'verdict_line': '[DECIDE / BLOCKED]', 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 28,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-unparsed-prefix",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-unparsed-prefix: exit 2 / verdict UNPARSED / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-unparsed-prefix: sha256/exists/size が実ファイルと一致しない: {'path': 'reports/r.md', 'exists': True, 'size': 8, 'sha256': 'c581efc4ff0c1dd884310473f2dc6b4c0912bf9ae4303ddfd9e89034663096ac', 'verdict': 'UNPARSED', 'verdict_line': 'accept', 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 29,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-empty",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-empty: exit 2 / verdict UNPARSED / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-empty: sha256/exists/size が実ファイルと一致しない: {'path': 'reports/r.md', 'exists': True, 'size': 16, 'sha256': '411220c1207b770035b837b0709b9e89fcea9036403c3f44f5028ae64cc14ece', 'verdict': 'UNPARSED', 'verdict_line': 'ACCEPTED by me', 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 30,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-unparsed-leading-space",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-unparsed-leading-space: exit 2 / verdict UNPARSED / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-unparsed-leading-space: sha256/exists/size が実ファイルと一致しない: {'path': 'reports/r.md', 'exists': True, 'size': 0, 'sha256': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 'verdict': 'UNPARSED', 'verdict_line': None, 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 31,
+   "caller_line": 886,
+   "func": "rep_arm",
+   "arm": "rep-unparsed-bom",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r.md",
+    "--range",
+    "是正確認+回帰"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-unparsed-bom: exit 2 / verdict UNPARSED / out ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-unparsed-bom: sha256/exists/size が実ファイルと一致しない: {'path': 'reports/r.md', 'exists': True, 'size': 10, 'sha256': '1adbdc8bcc8d177110dfd48bfe87fdd32e792b542a34af40368c6db28b0157d5', 'verdict': 'UNPARSED', 'verdict_line': '  ACCEPT', 'range': '是正確認+回帰'}"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 32,
+   "caller_line": 923,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/stale.md",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report の宛先が既に存在する: reports/stale.md",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "IA-02 stale: exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 33,
+   "caller_line": 928,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/dirtarget",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report の宛先が既に存在する: reports/dirtarget",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "IA-06 dir: exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 34,
+   "caller_line": 935,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/r7.md",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "IA-01: cell exit 7 の扱い: exit 2 / 0 / ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 35,
+   "caller_line": 962,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/x.md"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report には --range 境界探索|是正確認+回帰 が必須",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-arg 'reports/x.md': exit 2(期待の理由 '--report には --range'):: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 36,
+   "caller_line": 962,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/x.md",
+    "--range",
+    "探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --range の語彙外: '探索'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-arg '探索': exit 2(期待の理由 '--range の語彙外'):: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 37,
+   "caller_line": 962,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --range は --report と組で指定する",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-arg '境界探索': exit 2(期待の理由 '--range は --report と組'):: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 38,
+   "caller_line": 962,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "<path>",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パ…AppData\\\\Local\\\\Temp\\\\tmpwzsw5g6a\\\\x.md'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-arg '境界探索': exit 2(期待の理由 '--report はリポ相対パ'):: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 39,
+   "caller_line": 962,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/../x.md",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可): 'reports/../x.md'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-arg '境界探索': exit 2(期待の理由 '--report はリポ相対パス'):: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 40,
+   "caller_line": 962,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    ".git/x.md",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report を .git 配下に置けない(commit できる場所に限る)",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-arg '境界探索': exit 2(期待の理由 '--report を .git 配下に置けない'):: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 41,
+   "caller_line": 962,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    " reports/x.md",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可): ' reports/x.md'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-arg '境界探索': exit 2(期待の理由 '--report はリポ相対パス'):: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 42,
+   "caller_line": 962,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "/reports/x.md",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可): '/reports/x.md'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-arg '境界探索': exit 2(期待の理由 '--report はリポ相対パス'):: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 43,
+   "caller_line": 962,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports//x.md",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可): 'reports//x.md'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-arg '境界探索': exit 2(期待の理由 '--report はリポ相対パス'):: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 45,
+   "caller_line": 962,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002",
+    "--report"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report に値がない",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-arg '--report': exit 2(期待の理由 '--report に値がない'):: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 46,
+   "caller_line": 796,
+   "func": "arm",
+   "arm": "rep-none-regression",
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "rep-none-regression: この呼び出しの判定レコードが台帳にない :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-none-regression: exit 2 / decision ADVANCE(期待 0/ADVANCE) :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-none-regression: 起動されなかった(期待 起動)",
+    "rep-none-regression: 1 行目が decision で始まらない: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "rep-none-regression: {'path': 'reports/r7.md', 'exists': True, 'size': 41, 'sha256': 'bcf7dea3e95a3d0a2b6a6a9fa3629e462023ebe4e784865d31ed32e7a60a89d6', 'verdict': 'REJECT', 'verdict_line': 'REJECT — IA-01', 'range': '境界探索'} / ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 47,
+   "caller_line": 981,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --cell には --executor EQ-NNN が必須(独立性判定)",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-arg ['--brief', 'none']: exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 48,
+   "caller_line": 981,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-1"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --executor の構文不正(EQ-NNN): 'EQ-1'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-arg ['--executor', 'EQ-1']: exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 49,
+   "caller_line": 981,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "eq-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --executor の構文不正(EQ-NNN): 'eq-002'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "ind-arg ['--executor', 'eq-002']: exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 50,
+   "caller_line": 990,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-/../../../x",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO-/../../../x'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-eco-syntax 'ECO-/../../../x': exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 51,
+   "caller_line": 990,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900/../x",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO-900/../x'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-eco-syntax 'ECO-900/../x': exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 52,
+   "caller_line": 990,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "..",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): '..'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-eco-syntax '..': exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 53,
+   "caller_line": 990,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900 x",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO-900 x'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-eco-syntax 'ECO-900 x': exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 54,
+   "caller_line": 990,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO_900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): 'ECO_900'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-eco-syntax 'ECO_900': exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 55,
+   "caller_line": 1000,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: 台帳を書けない(PermissionError): …p\\tmpwzsw5g6a\\ledger-as-dir",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-ledger-unwritable: exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument'](起動してはならない)"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 56,
+   "caller_line": 1006,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: 台帳を作業木内に置けない(自己参照): …mp\\tmple8i0s77\\ledger.jsonl",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "kb-ledger-inside: exit 2 / 存在 False / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 58,
+   "caller_line": 1022,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: ECO [--cell --executor --brief --report --range]",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "arg ['--cell', 'x', '--brief', 'none']: exit 2 :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 59,
+   "caller_line": 1022,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--brief",
+    "none",
+    "--cell"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --cell に値がない",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "arg ['ECO-900', '--brief', 'none', '--cell']: exit 2 :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 64,
+   "caller_line": 1022,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--brief",
+    "none",
+    "--cell",
+    "<cell>",
+    "<path>"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: 未知の引数: \"C:\\Pyth…|'+os.environ.get('BOMDD_EXECUTOR',''))\"",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "arg ['ECO-900', '--ledger', 'C:\\\\Users\\\\akira\\\\AppData\\\\Local\\\\Temp\\\\tmp0ys57q45\\\\ledger.jsonl', '--brief', 'none', '--cell', '\"C:\\\\Python313\\\\python.exe\" -c \"import pathlib,os; pathlib.Path(r\\'C:\\\\Users\\\\akira\\\\AppData\\\\Local\\\\Temp\\\\tmp0ys57q45\\\\launched.txt\\').write_text(os.environ.get(\\'BOMDD_JOB\\',\\'\\')+\\'|\\'+os.environ.get(\\'BOMDD_WITNESS\\',\\'\\')+\\'|\\'+os.environ.get(\\'BOMDD_EXECUTOR\\',\\'\\'))\"', '\"C:\\\\Python313\\\\python.exe\" -c \"import pathlib,os; pathlib.Path(r\\'C:\\\\Users\\\\akira\\\\AppData\\\\Local\\\\Temp\\\\tmp0ys57q45\\\\launched.txt\\').write_text(os.environ.get(\\'BOMDD_JOB\\',\\'\\')+\\'|\\'+os.environ.get(\\'BOMDD_WITNESS\\',\\'\\')+\\'|\\'+os.environ.get(\\'BOMDD_EXECUTOR\\',\\'\\'))\"']: exit 2 :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 79,
+   "caller_line": 1077,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-908",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-908 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "g3-not-verified-launches: exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 80,
+   "caller_line": 1096,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-store: exit 2 / record False / {} :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']",
+    "b-exec-copy: BOMDD_BRIEF '' / store_ref nowhere / bytes False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 1,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 81,
+   "caller_line": 1126,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ECO-900 BRIEF_STORE_FAILED → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-fail BRIEF_STORE_FAILED: exit 2 / None / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 82,
+   "caller_line": 1126,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ECO-900 BRIEF_UNREADABLE → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-fail BRIEF_UNREADABLE: exit 2 / BRIEF_STORE_FAILED / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 83,
+   "caller_line": 1126,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ECO-900 BRIEF_NOT_LF → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-fail BRIEF_NOT_LF: exit 2 / BRIEF_UNREADABLE / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 84,
+   "caller_line": 1142,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --cell には --brief PATH|none が必須",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-arg '--brief PATH|none が必須': exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 86,
+   "caller_line": 1142,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "none",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "reports/bn.md",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --brief none は --report と組にできない",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-arg '--brief none は --report と組にできない': exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 87,
+   "caller_line": 1142,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--executor",
+    "EQ-002",
+    "--report",
+    "/abs.md",
+    "--range",
+    "境界探索"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: --report はリポ相対パス(絶対・`..`・空要素・前後空白不可): '/abs.md'",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-arg '--report はリポ相対パ': exit 2 / 起動 False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 88,
+   "caller_line": 1150,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 TREE_MISMATCH → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-refused-stores-nothing (witness STOP): exit 2 / stored False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 89,
+   "caller_line": 1154,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-902",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-902 job:LEDGER_INCONSISTENT → ledger-owner @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-refused-stores-nothing (job STOP): exit 2 :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 90,
+   "caller_line": 1157,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-001"
+   ],
+   "baseline_rc": 1,
+   "baseline_first_line": "STOP ECO-900 INDEPENDENCE_FAIL(SAME_ID) → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-refused-stores-nothing (INDEPENDENCE_FAIL): exit 2 :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 91,
+   "caller_line": 1182,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: 台帳を書けない(PermissionError): …p\\tmpwzsw5g6a\\ledger-as-dir",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-rollback-ledger: exit 2 / stored False / exec [] :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 92,
+   "caller_line": 1189,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: 台帳を書けない(PermissionError): …p\\tmpwzsw5g6a\\ledger-as-dir",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-rollback-existing: exit 2 / kept True :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 93,
+   "caller_line": 1200,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ECO-900 BRIEF_STORE_FAILED → operator @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-rollback-exec-copy: exit 2 / None / stored False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 94,
+   "caller_line": 1213,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 2,
+   "baseline_first_line": "UNMEASURABLE ARG_ERROR: 台帳を書けない(PermissionError): …p\\tmpwzsw5g6a\\ledger-as-dir",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-rollback-fails: exit 2 / kept False :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 95,
+   "caller_line": 1225,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-cell-deletes-brief: exit 2 / kept False / BRIEF_STORE_FAILED :: ['UNMEASURABLE ARG_ERROR(INSTRUMENT_MUTATION): refused by the inventory instrument']"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  },
+  {
+   "idx": 96,
+   "caller_line": 1234,
+   "func": "_selftest_body",
+   "arm": null,
+   "argv": [
+    "ECO-900",
+    "--ledger",
+    "<path>",
+    "--cell",
+    "<cell>",
+    "--brief",
+    "<path>",
+    "--executor",
+    "EQ-002"
+   ],
+   "baseline_rc": 0,
+   "baseline_first_line": "ADVANCE ECO-900 OK → next · launching @33ae066bc72c",
+   "selftest_rc": 1,
+   "crash": null,
+   "own_fails": [
+    "b-other-ledger-same-store: exit 2 / None"
+   ],
+   "other_fails": 0,
+   "verdict": "OWN"
+  }
+ ]
+}
