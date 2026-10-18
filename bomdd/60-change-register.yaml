@@ -3523,7 +3523,7 @@ changes:
     title: the operator layer's two connection gaps - check results read by the promotion decision (required_gates), and the factory brief kept and re-fetchable (store + committed copy); filing only, design converged after five loops
     date: 2026-10-18
     origin: improvement
-    status: filed   # 2026-10-18 user "1:A 2:A 3:A" (evaluation of an external proposal) -> split "B" (item 3 to ECO-113) -> extensions "A", "1:A", "1:A", "1 (one extra round)" -> converge: converged (loop 5 rounds 3-4 zero) -> filing; manufacture waits for the user's instruction
+    status: implemented   # 2026-10-18 manufactured (user "1:A": manufacture approved); filed earlier the same day after user "1:A 2:A 3:A" (evaluation of an external proposal) -> split "B" (item 3 to ECO-113) -> extensions "A", "1:A", "1:A", "1 (one extra round)" -> converge: converged (loop 5 rounds 3-4 zero) -> filing; manufacture waits for the user's instruction
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       An external proposal ("AI manufacturing separated from external workflow control") evaluated against the existing operator layer (ECO-062 to

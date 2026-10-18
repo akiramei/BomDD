@@ -8713,3 +8713,15 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
 
 **Observation**: in three successive template ECOs, every converge round kept finding interaction defects (ECO-108: 16→7→3→2; ECO-110: 11→5→2; ECO-111: 10→4→2). What ended them was narrowing the scope and the user's filing rulings, not convergence.
 
+
+## 2026-10-18 BomDD self-application — an external proposal ("AI manufacturing separated from external workflow control") evaluated; ECO-112 (gates read by the promotion decision, the brief kept) manufactured; ECO-113 (in-flight runs) still in design
+
+**Source**: a proposal brought by the user (its author does not know BomDD in detail). The skeleton it proposes — the AI manufactures and reports, something outside decides from the ledger whether to advance — is the operator layer (ECO-062 to ECO-074). Three real needs remained: the promotion decision reading which checks ran, the brief given to a cell kept and re-fetchable, and in-flight runs / duplicate launches. User rulings: "1:A 2:A 3:A", split "B" (item 3 to ECO-113), then extensions with "remove the common cause first" conditions.
+
+**Destination**: ECO-112 (`bomdd-run.py` R12-R14, `bomdd-job.py` (7), the register template comment, operator-layer.md §6.1 and adapter A1). ECO-113 is not filed (its design has not converged).
+
+**Observation (convergence)**: two causes of non-convergence were removed by mechanical means at the user's instruction, and each stopped its class of finding: arms listed from memory → a static/dynamic inventory with a per-call mutation (ECO-112 evidence); one rule written in several places → a rule register with IDs (both orders). See memory note "converge-common-cause-first".
+
+- [watch 1/3] OBS-20261018-01 — **bomdd-job reads an order's closure only from a Japanese heading (`CLOSE_HEAD_RE` needs クローズ), so an English-primary record's "## 5. Closure (…, verified)" is not seen: ECO-110 and ECO-111 project as `LEDGER_INCONSISTENT` ("register.status=verified だが order にクローズ節(verified)がない") — measured with bomdd-job at `3a9de06`, before ECO-112**. The operator layer's promotion decision therefore stops on every English-closed ECO. ECO-112 works around it by putting クローズ in its own closure heading; the reader itself is not changed (outside ECO-112's design). 2 例目の条件= another English-closed ECO read as LEDGER_INCONSISTENT by the entry, or a ruling to fix the reader
+  source: ECO-112 manufacture (2026-10-18)
+  evidence: `python method/tools/bomdd-job.py ECO-111 --json` at 3a9de06 and after ECO-112 (stop_type LEDGER_INCONSISTENT both)

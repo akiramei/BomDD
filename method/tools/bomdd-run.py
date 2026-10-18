@@ -44,6 +44,15 @@
 #     env BOMDD_RANGE)。job.state が verified かつ job.independent_inspection.required(配員欄に inspector)のとき、witness に name=inspection の
 #     gate(bomdd-witness produce --inspection-from-ledger が台帳から導出)が無ければ STOP INSPECTION_MISSING → operator(独立検査の結果回収)。
 #     gate の exit≠0 は witness 側の GATE_FAIL(→ factory)。verified 以外・inspector 宣言なしは従来どおり。register は動かさない(入口は止めるだけ)。
+#  R12 必須の検査の結果を昇格判定が読む(ECO-112 G1-G4): job.state が verified のとき、witness の ADVANCE と R11 の後に、register の
+#     required_gates(order の required_gates: 行と一致することを bomdd-job が保証)の各 ID が witness の gate 名と完全一致すること。欄なし/空=
+#     UNMEASURABLE GATES_UNDECLARED、欠け= UNMEASURABLE REQUIRED_GATE_MISSING(ID を名指し)。読むのは申告の exit(G4・W2)— 再実行しない。
+#     判定レコードに required_gates と matched_gates。verified 以外では照合しない(製造・検査の cell は gate が揃う前に起動する)。
+#  R13 ブリーフ(ECO-112 B1-B5): --brief PATH|none は --cell と組で必須(既存の引数検査のすべての後)・none と --report は組めない。ADVANCE の
+#     起動でだけ <git-common-dir>/bomdd-run/briefs/<ECO>/<sha256> に置く(CR を含むものは BRIEF_NOT_LF・既存は再ハッシュ・一時ファイル+os.replace・
+#     再読込で照合)。判定レコードに brief {path, sha256, size, store_ref}・cell に BOMDD_BRIEF= store_ref。昇格判定(R12 の後)はストアの各ブリーフが
+#     束縛された tree の bomdd/reports/ に同じ sha256 で在ることを要求(BRIEF_NOT_COMMITTED・BRIEF_STORE_FAILED)し brief_copies を記録する。
+#  R14 入口自身の理由(ECO-112 O1): entry_code 欄(code 欄は witness の CODE のまま)と 1 行目のタグ。
 #
 # 使い方:
 #   python bomdd-run.py ECO-067                      # dry: 検証+台帳
@@ -72,7 +81,9 @@ from pathlib import Path
 TOOLS_DIR = Path(__file__).resolve().parent
 ECO_RE = re.compile(r"^(ECO|CAPA)-[A-Za-z0-9]+(-[A-Za-z0-9]+)*$")   # r1 IA-01: 区切り文字・親参照を含まない
 WIDTH = 80
-KNOWN_OPTS = ("--cell", "--ledger", "--executor", "--report", "--range")
+KNOWN_OPTS = ("--cell", "--ledger", "--executor", "--report", "--range", "--brief")
+SHA_NAME_RE = re.compile(r"^[0-9a-f]{64}$")   # ECO-112 B2/B4: ストアのファイル名= 内容の sha256
+REPORTS_PREFIX = "bomdd/reports/"              # ECO-112 B4: ブリーフの恒久の置き場(束縛された tree の中)
 RANGES = ("境界探索", "是正確認+回帰")   # R11: round の目的(playbook §3)
 VERDICT_RE = re.compile(r"^(ACCEPT|REJECT|UNMEASURABLE)\b")   # R10: 判定語の契約(大小文字を区別・固定語彙)
 EQ_ID_RE = re.compile(r"^EQ-\d{3}$")
@@ -180,12 +191,121 @@ def check_independence(root: Path, job: dict, executor: str, jobmod) -> tuple[st
     return None, "独立(3 軸のいずれかが異なる)", axes
 
 
+def _sha(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def git_common_dir(root: Path, witmod) -> Path | None:
+    """ECO-112 B2: `git rev-parse --git-common-dir`(worktree が複数でも 1 つ)。導出不能= None。"""
+    r = witmod._git(root, "rev-parse", "--git-common-dir")
+    if getattr(r, "returncode", 1) != 0 or not (r.stdout or "").strip():
+        return None
+    p = Path(r.stdout.strip())
+    return (p if p.is_absolute() else (root / p)).resolve()
+
+
+def brief_store_dir(common: Path, eco: str) -> Path:
+    return common / "bomdd-run" / "briefs" / eco
+
+
+def store_brief(root: Path, common: Path | None, eco: str, brief: str) -> tuple[dict | None, str | None, str]:
+    """ECO-112 B2/B3: ブリーフを内容アドレスのストアへ置く。(record, entry_code, message)。失敗= (None, code, 理由)。"""
+    src = Path(brief)
+    src = src if src.is_absolute() else root / src
+    try:
+        data = src.read_bytes()
+    except OSError as e:
+        return None, "BRIEF_UNREADABLE", f"ブリーフを読めない({e.__class__.__name__}): {_short_path(src)}"
+    if b"\r" in data:   # 本リポは `* text=auto eol=lf` — CRLF のブリーフは別のバイトで commit される
+        return None, "BRIEF_NOT_LF", f"ブリーフに CR がある(LF に限る): {_short_path(src)}"
+    sha = _sha(data)
+    if common is None:
+        return None, "BRIEF_STORE_FAILED", "git の共通ディレクトリを導出できない"
+    d = brief_store_dir(common, eco)
+    final = d / sha
+    try:
+        d.mkdir(parents=True, exist_ok=True)
+        if final.exists():
+            if _sha(final.read_bytes()) != sha:
+                return None, "BRIEF_STORE_FAILED", f"ストアの既存ファイルが名前と一致しない: {sha[:12]}"
+        else:
+            tmp = d / f".tmp-{os.urandom(6).hex()}"
+            tmp.write_bytes(data)
+            try:
+                os.replace(tmp, final)
+            except OSError:
+                try:
+                    tmp.unlink()
+                except OSError:
+                    pass
+                if not (final.exists() and _sha(final.read_bytes()) == sha):   # 同じバイトを並行に置いた場合だけ受け入れる
+                    return None, "BRIEF_STORE_FAILED", f"ストアへ置けない: {sha[:12]}"
+        if _sha(final.read_bytes()) != sha:
+            return None, "BRIEF_STORE_FAILED", f"ストアの再読込が一致しない: {sha[:12]}"
+    except OSError as e:
+        return None, "BRIEF_STORE_FAILED", f"ストアへ置けない({e.__class__.__name__}): {sha[:12]}"
+    return {"path": str(brief), "sha256": sha, "size": len(data), "store_ref": str(final)}, None, ""
+
+
+def committed_copies(root: Path, common: Path | None, eco: str, tree: str | None) -> tuple[dict, str | None, str]:
+    """ECO-112 B4: ストアの各ブリーフが束縛された tree の bomdd/reports/ に同じ sha256 で在るか。(結果, entry_code, message)。"""
+    out = {"copies": [], "ignored": []}
+    if common is None or not tree:
+        return out, "BRIEF_STORE_FAILED", "git の共通ディレクトリまたは tree を導出できない"
+    d = brief_store_dir(common, eco)
+    try:
+        entries = sorted(d.iterdir(), key=lambda p: p.name)
+    except FileNotFoundError:
+        return out, None, ""   # この clone で起動したブリーフはない(L4)
+    except OSError as e:
+        return out, "BRIEF_STORE_FAILED", f"ストアを列挙できない({e.__class__.__name__})"
+    stored = {}
+    for e in entries:
+        if not SHA_NAME_RE.match(e.name):
+            out["ignored"].append(e.name)
+            continue
+        try:
+            data = e.read_bytes()
+        except OSError as x:
+            return out, "BRIEF_STORE_FAILED", f"ストアのファイルを読めない({x.__class__.__name__}): {e.name[:12]}"
+        if _sha(data) != e.name:
+            return out, "BRIEF_STORE_FAILED", f"ストアのファイルが名前と一致しない: {e.name[:12]}"
+        stored[e.name] = len(data)
+    if not stored:
+        return out, None, ""
+    try:
+        ls = subprocess.run(["git", "-C", str(root), "ls-tree", "-r", "-l", tree, "--", REPORTS_PREFIX], capture_output=True)
+    except OSError:
+        return out, "BRIEF_STORE_FAILED", "git を起動できない"
+    if ls.returncode != 0:
+        return out, "BRIEF_STORE_FAILED", "git ls-tree が失敗した"
+    found = {}
+    sizes = set(stored.values())
+    for raw in ls.stdout.decode("utf-8", errors="replace").splitlines():
+        meta, _, path = raw.partition("\t")
+        parts = meta.split()
+        if len(parts) != 4 or parts[1] != "blob" or not parts[3].isdigit() or int(parts[3]) not in sizes:
+            continue
+        blob = subprocess.run(["git", "-C", str(root), "cat-file", "blob", parts[2]], capture_output=True)
+        if blob.returncode == 0:
+            found.setdefault(_sha(blob.stdout), []).append(path)
+    missing = [s for s in stored if s not in found]
+    for s in stored:
+        for p in found.get(s, []):
+            out["copies"].append({"sha256": s, "path": p, "tree": tree})
+    if missing:
+        return out, "BRIEF_NOT_COMMITTED", "commit 済みの写しがない: " + ",".join(s[:12] for s in missing)
+    return out, None, ""
+
+
 def decide(root: Path, eco: str, jobmod, witmod, executor: str | None = None) -> tuple[dict, dict | None]:
     """R1〜R3・R6・R9: 判定レコード(台帳 1 行目の元)。起動はしない。"""
     rec = {"event": "decision", "run_id": datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ"), "eco": eco,
            "receipt": None, "job_state": None, "job_stop_type": None, "verifier_line": None, "verifier_exit": None,
            "code": None, "decision": None, "stop_type": None, "delivery": None, "cell": None, "tree": None,
-           "executor": executor, "producer": None, "independence": None, "report": None, "inspection": None}
+           "executor": executor, "producer": None, "independence": None, "report": None, "inspection": None,
+           "entry_code": None, "entry_detail": None, "required_gates": None, "matched_gates": None, "brief": None,
+           "brief_copies": None, "brief_store_ignored": None}
     jobs, _ = jobmod.select([eco], root)
     job = next((j for j in jobs if _job_value(j, "eco") == eco), None) or (jobs[0] if jobs else None)
     if job is None:
@@ -246,6 +366,28 @@ def decide(root: Path, eco: str, jobmod, witmod, executor: str | None = None) ->
     if rec["inspection"].get("required") and rec["inspection"].get("gate") is None:   # R11: verified 昇格には inspection gate が要る(台帳から導出したもの)
         rec.update(decision="STOP", stop_type="INSPECTION_MISSING", delivery=DELIVERY["INSPECTION_MISSING"])
         return rec, job
+    if rec["job_state"] == "verified":   # ECO-112 G3: 昇格判定は必須の検査 ID の結果を名前で読む(R11 の後・申告の exit を読む= G4)
+        def _unmeasurable(code, detail):
+            rec.update(decision="UNMEASURABLE", stop_type="MISSING_INPUT", delivery=DELIVERY["MISSING_INPUT"],
+                       entry_code=code, entry_detail=detail)
+            return rec, job
+        required = _job_value(job, "required_gates")
+        rec["required_gates"] = required
+        if not required:
+            return _unmeasurable("GATES_UNDECLARED", "register に required_gates がない")
+        try:
+            names = {g.get("name") for g in (json.loads(path.read_text(encoding="utf-8")).get("gates") or []) if isinstance(g, dict)}
+        except (OSError, ValueError):
+            names = set()
+        rec["matched_gates"] = [i for i in required if i in names]
+        missing = [i for i in required if i not in names]
+        if missing:
+            return _unmeasurable("REQUIRED_GATE_MISSING", ",".join(missing))
+        common = git_common_dir(root, witmod)   # ECO-112 B4: ストアの各ブリーフが束縛された tree に commit 済みで在る
+        res, bcode, bmsg = committed_copies(root, common, eco, rec["tree"])
+        rec["brief_copies"], rec["brief_store_ignored"] = res["copies"], res["ignored"]
+        if bcode:
+            return _unmeasurable(bcode, bmsg)
     if executor is not None:   # R9: job・receipt が ADVANCE のときだけ独立性を照合(先行する停止理由を隠さない)
         cap = _job_value(job, "required_capability")
         rec["producer"] = cap.get("producer") if isinstance(cap, dict) else None
@@ -307,12 +449,14 @@ def _report_path_error(root: Path, git_dir: Path | None, report: str) -> str | N
 
 
 def launch(rec: dict, job: dict, cell: str, root: Path, report: str | None = None, rng: str | None = None) -> dict:
-    """R5/R10: 3 条件成立時のみ呼ばれる。コマンドはそのまま・環境で job/witness/executor/report を渡す・承認は起動先。台帳 2 行目のレコードを返す。"""
+    """R5/R10: 3 条件成立時のみ呼ばれる。コマンドはそのまま・環境で job/witness/executor/report/brief を渡す・承認は起動先。台帳 2 行目のレコードを返す。"""
     with tempfile.NamedTemporaryFile("w", suffix=".json", prefix="bomdd-job-", delete=False, encoding="utf-8") as f:
         json.dump(job, f, ensure_ascii=False, indent=2)
         job_json = f.name
+    brief = rec.get("brief")
     env = dict(os.environ, BOMDD_JOB=rec["eco"], BOMDD_JOB_JSON=job_json, BOMDD_WITNESS=rec["receipt"], BOMDD_EXECUTOR=rec.get("executor") or "",
-               BOMDD_REPORT=report or "", BOMDD_RANGE=rng or "")
+               BOMDD_REPORT=report or "", BOMDD_RANGE=rng or "",
+               BOMDD_BRIEF=brief.get("store_ref", "") if isinstance(brief, dict) else "")   # ECO-112 B3: ストアの写しのパス(none なら空)
     ev = {"event": "cell", "run_id": rec["run_id"], "eco": rec["eco"], "cell": cell, "executor": rec.get("executor"),
           "started_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "cell_exit": None, "report": None}
     try:
@@ -357,6 +501,8 @@ def summary_line(rec: dict, launching: bool) -> str:
     ind = rec.get("independence") or {}
     if ind.get("cause") and rec["decision"] != "ADVANCE":   # R9
         tag = f"INDEPENDENCE_FAIL({ind['cause']})" if rec["stop_type"] == "INDEPENDENCE_FAIL" else f"MISSING_INPUT({ind['cause']})"
+    if rec.get("entry_code"):   # ECO-112 O1: 入口自身の理由(witness の OK と読ませない・code 欄は witness のまま)
+        tag = rec["entry_code"] + (f"({rec['entry_detail']})" if rec["entry_code"] == "REQUIRED_GATE_MISSING" and rec.get("entry_detail") else "")
     tree = (rec["tree"] or "")[:12] or "-"
     if rec["decision"] != "ADVANCE":   # 起動できるのは ADVANCE だけなので「未起動」は書かない
         return _fit(f"{rec['decision']} {rec['eco']} {tag} → {rec['delivery']} @{tree}")
@@ -376,7 +522,7 @@ def run(argv: list, root: Path, emit=None) -> int:
     """入口本体。emit(line) で標準出力の各行を出す(1 行目= 判定行・R7)。返り値= 終了コード(R8)。"""
     emit = emit or (lambda s: None)
     if not argv or argv[0].startswith("--"):
-        emit("UNMEASURABLE ARG_ERROR: ECO [--cell --executor --report --range] [--ledger]")
+        emit("UNMEASURABLE ARG_ERROR: ECO [--cell --executor --brief --report --range]")
         return 2
     eco = argv[0]
     if not ECO_RE.match(eco):   # r1 IA-01
@@ -450,7 +596,29 @@ def run(argv: list, root: Path, emit=None) -> int:
     if witmod._inside_worktree(ledger, root, git_dir):  # R4: 自己参照の拒否
         emit(_fit(f"UNMEASURABLE ARG_ERROR: 台帳を作業木内に置けない(自己参照): {_short_path(ledger)}"))
         return 2
+    # ECO-112 B1: --brief の検査は既存の引数検査のすべての後(欠けた --brief が他の引数の誤りを隠さない)
+    brief = opts.get("--brief")
+    if brief is not None and not cell:
+        emit("UNMEASURABLE ARG_ERROR: --brief は --cell と組で指定する")
+        return 2
+    if cell and brief is None:
+        emit("UNMEASURABLE ARG_ERROR: --cell には --brief PATH|none が必須")
+        return 2
+    if brief == "none" and report is not None:
+        emit("UNMEASURABLE ARG_ERROR: --brief none は --report と組にできない")
+        return 2
     launching = rec["decision"] == "ADVANCE" and bool(cell)
+    if launching:   # ECO-112 B2/B3: ADVANCE の後・判定レコードと起動の前にだけストアへ置く(拒否された起動は何も置かない)
+        if brief == "none":
+            rec["brief"] = "none"
+        else:
+            info, bcode, bmsg = store_brief(root, git_common_dir(root, witmod), eco, brief)
+            if bcode:
+                rec.update(decision="UNMEASURABLE", stop_type="MISSING_INPUT", delivery=DELIVERY["MISSING_INPUT"],
+                           entry_code=bcode, entry_detail=bmsg)
+                launching = False
+            else:
+                rec["brief"] = info
     if launching:
         rec["cell"] = cell
     err = write_ledger(ledger, rec)   # R4/r1 IA-02: 判定レコードを起動の前に書く。書けなければ起動しない
@@ -497,9 +665,14 @@ def _selftest_body(td_cm, wd_cm) -> int:
                 return _report(["fixture: git init 不能"])
         (root / "bomdd").mkdir()
         (root / "bomdd" / "open.md").write_text("# Change Order — ECO-900\n\n## 担当設備\n\n- producer: EQ-001\n- inspector: EQ-002\n\n## 3. 受入\n- 検討中\n", encoding="utf-8")
-        (root / "bomdd" / "closed-insp.md").write_text("# Change Order — ECO-904\n\n## 担当設備\n\n- producer: EQ-001\n- inspector: EQ-002\n\n## 6. クローズ(2026-09-12・verified)\n- PASS\n", encoding="utf-8")
+        (root / "bomdd" / "closed-insp.md").write_text("# Change Order — ECO-904\n\n## 担当設備\n\n- producer: EQ-001\n- inspector: EQ-002\n\nrequired_gates: [g, inspection]\n\n## 6. クローズ(2026-09-12・verified)\n- PASS\n", encoding="utf-8")
         (root / "bomdd" / "nocap.md").write_text("# Change Order — ECO-903\n\n## 3. 受入\n- 検討中\n", encoding="utf-8")
-        (root / "bomdd" / "closed.md").write_text("# Change Order — ECO-902\n\n## 6. クローズ(2026-09-03・verified)\n- PASS\n", encoding="utf-8")
+        (root / "bomdd" / "closed.md").write_text("# Change Order — ECO-902\n\nrequired_gates: [g]\n\n## 6. クローズ(2026-09-03・verified)\n- PASS\n", encoding="utf-8")
+        # ECO-112 G3/B4: verified の昇格判定の fixture(906= 集合 [V1, V2]・907= 欄なし・908= decided で集合あり・909= inspector なしで inspection を要求)
+        (root / "bomdd" / "closed-g.md").write_text("# Change Order — ECO-906\n\nrequired_gates: [V1, V2]\n\n## 6. クローズ(2026-10-18・verified)\n- PASS\n", encoding="utf-8")
+        (root / "bomdd" / "closed-nog.md").write_text("# Change Order — ECO-907\n\n## 6. クローズ(2026-10-18・verified)\n- PASS\n", encoding="utf-8")
+        (root / "bomdd" / "open-g.md").write_text("# Change Order — ECO-908\n\n## 担当設備\n\n- producer: EQ-001\n\nrequired_gates: [V1, V2]\n\n## 3. 受入\n- 検討中\n", encoding="utf-8")
+        (root / "bomdd" / "closed-gi.md").write_text("# Change Order — ECO-909\n\nrequired_gates: [inspection]\n\n## 6. クローズ(2026-10-18・verified)\n- PASS\n", encoding="utf-8")
         eqp = root / "bomdd" / "70-equipment.yaml"
         EQ_TXT = ("equipment:\n"
                   "  - {id: EQ-001, kind: ai-model, model: m1, harness: h1, account_lineage: a1}\n"
@@ -512,10 +685,14 @@ def _selftest_body(td_cm, wd_cm) -> int:
         reg = root / "bomdd" / "60-change-register.yaml"
         reg.write_text("changes:\n"
                        "  - {id: ECO-900, title: t, status: decided, order_ref: bomdd/open.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
-                       "  - {id: ECO-902, title: t2, status: in-progress, order_ref: bomdd/closed.md}\n"
+                       "  - {id: ECO-902, title: t2, status: in-progress, order_ref: bomdd/closed.md, required_gates: [g]}\n"
                        "  - {id: ECO-903, title: t3, status: decided, order_ref: bomdd/nocap.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
-                       "  - {id: ECO-904, title: t4, status: verified, order_ref: bomdd/closed-insp.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
-                       "  - {id: ECO-905, title: t5, status: verified, order_ref: bomdd/closed.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
+                       "  - {id: ECO-904, title: t4, status: verified, order_ref: bomdd/closed-insp.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}, required_gates: [g, inspection]}\n"
+                       "  - {id: ECO-905, title: t5, status: verified, order_ref: bomdd/closed.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}, required_gates: [g]}\n"
+                       "  - {id: ECO-906, title: t6, status: verified, order_ref: bomdd/closed-g.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}, required_gates: [V1, V2]}\n"
+                       "  - {id: ECO-907, title: t7, status: verified, order_ref: bomdd/closed-nog.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}}\n"
+                       "  - {id: ECO-908, title: t8, status: decided, order_ref: bomdd/open-g.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}, required_gates: [V1, V2]}\n"
+                       "  - {id: ECO-909, title: t9, status: verified, order_ref: bomdd/closed-gi.md, affected_refs: [a.py], diff_audit: {baseline: abc, allowed_paths: [a.py]}, required_gates: [inspection]}\n"
                        "  - {id: 'ECO-/../../../x', title: t3, status: decided, order_ref: bomdd/open.md}\n", encoding="utf-8")
         witmod._git(root, "add", "-A", env=env)
         if witmod._git(root, "commit", "-q", "-m", "init", env=env).returncode != 0:
@@ -529,6 +706,8 @@ def _selftest_body(td_cm, wd_cm) -> int:
         marker = wout / "launched.txt"
         cell = f'"{sys.executable}" -c "import pathlib,os; pathlib.Path(r\'{marker}\').write_text(os.environ.get(\'BOMDD_JOB\',\'\')+\'|\'+os.environ.get(\'BOMDD_WITNESS\',\'\')+\'|\'+os.environ.get(\'BOMDD_EXECUTOR\',\'\'))"'
         ledger = wout / "ledger.jsonl"
+        brief_fx = wout / "brief.md"   # ECO-112 T1: 報告する cell(--report)に渡すブリーフの fixture(LF)
+        brief_fx.write_bytes(b"factory brief fixture\n")
 
         def call(argv):
             out = []
@@ -549,9 +728,12 @@ def _selftest_body(td_cm, wd_cm) -> int:
                     wpath.unlink()
             else:
                 wpath.write_text(json.dumps(w), encoding="utf-8")
-            rc, out = call([eco, "--ledger", str(ledger)] + (["--cell", cell] if use_cell else []) + (["--executor", executor] if executor else []))
+            n_dec = sum(1 for ln in ledger.read_text(encoding="utf-8").splitlines() if '"event": "decision"' in ln) if ledger.exists() else 0
+            rc, out = call([eco, "--ledger", str(ledger)] + (["--cell", cell, "--brief", "none"] if use_cell else []) + (["--executor", executor] if executor else []))
             recs = [json.loads(ln) for ln in ledger.read_text(encoding="utf-8").splitlines()] if ledger.exists() else []
             dec = next((r for r in reversed(recs) if r.get("event") == "decision"), {})
+            if sum(1 for r in recs if r.get("event") == "decision") != n_dec + 1:   # ECO-112 T2: この呼び出しの判定レコードが在る(前の行を読まない)
+                fails.append(f"{name}: この呼び出しの判定レコードが台帳にない :: {out[:1]}")
             if rc != want_rc or dec.get("decision") != want_dec:
                 fails.append(f"{name}: exit {rc} / decision {dec.get('decision')}(期待 {want_rc}/{want_dec}) :: {out[:1]}")
             if dec.get("delivery") != want_delivery:
@@ -580,7 +762,7 @@ def _selftest_body(td_cm, wd_cm) -> int:
         witmod.default_path(git_dir, "ECO-902").write_text(json.dumps(w902), encoding="utf-8")
         if marker.exists():
             marker.unlink()
-        rc902, out902 = call(["ECO-902", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002"])
+        rc902, out902 = call(["ECO-902", "--ledger", str(ledger), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
         dec902 = last_rec()
         if rc902 != 1 or dec902.get("decision") != "STOP" or dec902.get("delivery") != "ledger-owner" or marker.exists():
             fails.append(f"kb-job-stop: exit {rc902} / {dec902.get('decision')} / {dec902.get('delivery')} / 起動 {marker.exists()} :: {out902[:1]}")
@@ -637,7 +819,7 @@ def _selftest_body(td_cm, wd_cm) -> int:
             else:
                 src.write_text(content, encoding="utf-8")
                 c = cell_rep
-            rc_r, out_r = call(["ECO-900", "--ledger", str(ledger), "--cell", c, "--executor", "EQ-002", "--report", "reports/r.md", "--range", "是正確認+回帰"])
+            rc_r, out_r = call(["ECO-900", "--ledger", str(ledger), "--cell", c, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", "reports/r.md", "--range", "是正確認+回帰"])
             ev_r = last_rec()
             rpt = ev_r.get("report") or {}
             if rc_r != 0 or ev_r.get("event") != "cell" or rpt.get("verdict") != want_verdict or rpt.get("range") != "是正確認+回帰" or len(out_r) != 3 or not out_r[2].startswith(want_line3):
@@ -674,41 +856,48 @@ def _selftest_body(td_cm, wd_cm) -> int:
         n_st = len(ledger.read_text(encoding="utf-8").splitlines())
         if marker.exists():
             marker.unlink()
-        rc_st, out_st = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002", "--report", "reports/stale.md", "--range", "境界探索"])
-        if rc_st != 2 or not out_st[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists() or len(ledger.read_text(encoding="utf-8").splitlines()) != n_st:
+        rc_st, out_st = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", "reports/stale.md", "--range", "境界探索"])
+        if rc_st != 2 or not out_st[0].startswith("UNMEASURABLE ARG_ERROR") or "既に存在する" not in out_st[0] or marker.exists() or len(ledger.read_text(encoding="utf-8").splitlines()) != n_st:
             fails.append(f"IA-02 stale: exit {rc_st} / 起動 {marker.exists()} :: {out_st[:1]}")
         (root / "reports" / "stale.md").unlink()
         (root / "reports" / "dirtarget").mkdir()   # r2 IA-06: 同名ディレクトリも起動前拒否
-        rc_dt, out_dt = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002", "--report", "reports/dirtarget", "--range", "境界探索"])
-        if rc_dt != 2 or not out_dt[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists() or len(ledger.read_text(encoding="utf-8").splitlines()) != n_st:
+        rc_dt, out_dt = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", "reports/dirtarget", "--range", "境界探索"])
+        if rc_dt != 2 or not out_dt[0].startswith("UNMEASURABLE ARG_ERROR") or "既に存在する" not in out_dt[0] or marker.exists() or len(ledger.read_text(encoding="utf-8").splitlines()) != n_st:
             fails.append(f"IA-06 dir: exit {rc_dt} / 起動 {marker.exists()} :: {out_dt[:1]}")
         (root / "reports" / "dirtarget").rmdir()
         # r1 IA-01(R8 明確化): cell exit≠0 でも報告は束ねられ、入口 exit は 0(起動した)・3 行の順
         src.write_text("[INFORM / COMPLETE]\n\nREJECT — IA-01\n", encoding="utf-8")
         cell_rep7 = f'"{sys.executable}" -c "import os,shutil,sys; shutil.copy(r\'{src}\', os.environ[\'BOMDD_REPORT\']); sys.exit(7)"'
-        rc7, out7 = call(["ECO-900", "--ledger", str(ledger), "--cell", cell_rep7, "--executor", "EQ-002", "--report", "reports/r7.md", "--range", "境界探索"])
+        rc7, out7 = call(["ECO-900", "--ledger", str(ledger), "--cell", cell_rep7, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", "reports/r7.md", "--range", "境界探索"])
         ev7 = last_rec()
         if rc7 != 0 or ev7.get("cell_exit") != 7 or (ev7.get("report") or {}).get("verdict") != "REJECT" or len(out7) != 3 or not out7[1].startswith("cell exit 7") or not out7[2].startswith("report REJECT sha256:"):
             fails.append(f"IA-01: cell exit 7 の扱い: exit {rc7} / {ev7.get('cell_exit')} / {out7}")
-        (root / "reports" / "r7.md").unlink()
+        (root / "reports" / "r7.md").unlink(missing_ok=True)   # ECO-112 T3: 拒否された呼び出しは報告を書かない — 自分の検査が報告する(落ちない)
         # --report の構文・所在: 絶対 / `..` / .git 配下 / 前後空白 / 空 / --cell なし → ARG_ERROR・起動しない・台帳不変
         n_before_r = len(ledger.read_text(encoding="utf-8").splitlines())
-        for bad_rep in (["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "reports/x.md"],   # R11: --range なし
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "reports/x.md", "--range", "探索"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--range", "境界探索"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", str(wout / "x.md"), "--range", "境界探索"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "reports/../x.md", "--range", "境界探索"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", ".git/x.md", "--range", "境界探索"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", " reports/x.md", "--range", "境界探索"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "/reports/x.md", "--range", "境界探索"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report", "reports//x.md", "--range", "境界探索"],
+        # ECO-112 T2: 各要素は自分の理由の文言で照合する(frags は要素と同じ順)
+        rep_frags = ("--report には --range", "--range の語彙外", "--range は --report と組", "--report はリポ相対パ", "--report はリポ相対パス",
+                     "--report を .git 配下に置けない", "--report はリポ相対パス", "--report はリポ相対パス", "--report はリポ相対パス",
+                     "--report は --cell と組", "--report に値がない")
+        n_rep = 0
+        for bad_rep in (["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", "reports/x.md"],   # R11: --range なし
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", "reports/x.md", "--range", "探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--brief", "none", "--executor", "EQ-002", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", str(wout / "x.md"), "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", "reports/../x.md", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", ".git/x.md", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", " reports/x.md", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", "/reports/x.md", "--range", "境界探索"],
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", "reports//x.md", "--range", "境界探索"],
                         ["ECO-900", "--ledger", str(ledger), "--executor", "EQ-002", "--report", "reports/x.md", "--range", "境界探索"],
-                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--executor", "EQ-002", "--report"]):
+                        ["ECO-900", "--ledger", str(ledger), "--cell", cell_norep, "--brief", str(brief_fx), "--executor", "EQ-002", "--report"]):
             if marker.exists():
                 marker.unlink()
+            frag = rep_frags[n_rep]
+            n_rep += 1
             rc_x, out_x = call(bad_rep)
-            if rc_x != 2 or not out_x or not out_x[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists():
-                fails.append(f"rep-arg {bad_rep[-1]!r}: exit {rc_x} :: {out_x[:1]}")
+            if rc_x != 2 or not out_x or not out_x[0].startswith("UNMEASURABLE ARG_ERROR") or frag not in out_x[0] or marker.exists():
+                fails.append(f"rep-arg {bad_rep[-1]!r}: exit {rc_x}(期待の理由 {frag!r}):: {out_x[:1]}")
         if len(ledger.read_text(encoding="utf-8").splitlines()) != n_before_r:
             fails.append("rep-arg: 不正 --report で台帳に書いた")
         # --report なしの既存経路は不変(cell 行に report=None・出力 2 行)
@@ -716,12 +905,17 @@ def _selftest_body(td_cm, wd_cm) -> int:
         if last_rec().get("report") is not None or len(o_nr) != 2:
             fails.append(f"rep-none-regression: {last_rec().get('report')} / {o_nr}")
         # --cell に --executor なし / 構文外 → ARG_ERROR・起動しない
-        for bad_ex in (["ECO-900", "--ledger", str(ledger), "--cell", cell], ["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-1"],
-                       ["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "eq-002"]):
+        ex_frags = ("--executor EQ-NNN が必須", "--executor の構文不正", "--executor の構文不正")
+        n_ex = 0
+        for bad_ex in (["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", "none"],
+                       ["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", "none", "--executor", "EQ-1"],
+                       ["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", "none", "--executor", "eq-002"]):
             if marker.exists():
                 marker.unlink()
+            frag = ex_frags[n_ex]
+            n_ex += 1
             rc_e, out_e = call(bad_ex)
-            if rc_e != 2 or not out_e or not out_e[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists():
+            if rc_e != 2 or not out_e or not out_e[0].startswith("UNMEASURABLE ARG_ERROR") or frag not in out_e[0] or marker.exists():
                 fails.append(f"ind-arg {bad_ex[-2:]}: exit {rc_e} / 起動 {marker.exists()} :: {out_e[:1]}")
         # r1 IA-01: ECO の構文(区切り・親参照)は ARG_ERROR・起動しない・台帳も書かない
         wpath.write_text(json.dumps(good), encoding="utf-8")
@@ -729,8 +923,8 @@ def _selftest_body(td_cm, wd_cm) -> int:
             marker.unlink()
         n_before = len(ledger.read_text(encoding="utf-8").splitlines())
         for bad_eco in ("ECO-/../../../x", "ECO-900/../x", "..", "ECO-900 x", "ECO_900"):
-            rc_t, out_t = call([bad_eco, "--ledger", str(ledger), "--cell", cell])
-            if rc_t != 2 or not out_t or not out_t[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists():
+            rc_t, out_t = call([bad_eco, "--ledger", str(ledger), "--cell", cell, "--brief", "none"])
+            if rc_t != 2 or not out_t or not out_t[0].startswith("UNMEASURABLE ARG_ERROR") or "ECO の構文不正" not in out_t[0] or marker.exists():
                 fails.append(f"kb-eco-syntax {bad_eco!r}: exit {rc_t} / 起動 {marker.exists()} :: {out_t[:1]}")
         if len(ledger.read_text(encoding="utf-8").splitlines()) != n_before:
             fails.append("kb-eco-syntax: 不正 ECO で台帳に書いた")
@@ -739,24 +933,30 @@ def _selftest_body(td_cm, wd_cm) -> int:
         bad_ledger.mkdir()
         if marker.exists():
             marker.unlink()
-        rc_bl, out_bl = call(["ECO-900", "--ledger", str(bad_ledger), "--cell", cell])
-        if rc_bl != 2 or marker.exists() or not out_bl[0].startswith("UNMEASURABLE"):
+        rc_bl, out_bl = call(["ECO-900", "--ledger", str(bad_ledger), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])   # ECO-112 T3: 自分の理由に届く
+        if rc_bl != 2 or marker.exists() or not out_bl[0].startswith("UNMEASURABLE") or "台帳を書けない" not in out_bl[0]:
             fails.append(f"kb-ledger-unwritable: exit {rc_bl} / 起動 {marker.exists()} :: {out_bl[:1]}(起動してはならない)")
         # 台帳を作業木内に置く → 拒否(自己参照)・起動しない
         if marker.exists():
             marker.unlink()
-        rc_in, out_in = call(["ECO-900", "--ledger", str(root / "ledger.jsonl"), "--cell", cell])
-        if rc_in != 2 or (root / "ledger.jsonl").exists() or marker.exists():
+        rc_in, out_in = call(["ECO-900", "--ledger", str(root / "ledger.jsonl"), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])   # ECO-112 T3
+        if rc_in != 2 or (root / "ledger.jsonl").exists() or marker.exists() or "作業木内に置けない" not in (out_in[0] if out_in else ""):
             fails.append(f"kb-ledger-inside: exit {rc_in} / 存在 {(root / 'ledger.jsonl').exists()} / 起動 {marker.exists()} :: {out_in[:1]}")
         # 引数不正・未知オプション(r1 IA-01 補足)— 全て ARG_ERROR・起動しない
         # r2 IA-01: オプション値と同じ文字列の余分な位置引数・オプションの重複も ARG_ERROR
-        for bad in ([], ["--cell", "x"], ["ECO-900", "--cell"], ["ECO-900", "--ledger"], ["ECO-900", "--receipt", "x"], ["ECO-900", "extra"],
-                    ["ECO-900", "--ledger", str(ledger), "--bogus"], ["ECO-900", "--ledger", str(ledger), "--cell", cell, cell],
+        arg_frags = ("ECO [--cell", "ECO [--cell", "--cell に値がない", "--ledger に値がない", "未知の引数", "未知の引数", "未知の引数", "未知の引数",
+                     "未知の引数", "--ledger が重複")
+        n_arg = 0
+        for bad in ([], ["--cell", "x", "--brief", "none"], ["ECO-900", "--brief", "none", "--cell"], ["ECO-900", "--ledger"], ["ECO-900", "--receipt", "x"],
+                    ["ECO-900", "extra"], ["ECO-900", "--ledger", str(ledger), "--bogus"],
+                    ["ECO-900", "--ledger", str(ledger), "--brief", "none", "--cell", cell, cell],
                     ["ECO-900", "--ledger", str(ledger), str(ledger)], ["ECO-900", "--ledger", str(ledger), "--ledger", str(ledger)]):
             if marker.exists():
                 marker.unlink()
+            frag = arg_frags[n_arg]
+            n_arg += 1
             rc_b, out_b = call(bad)
-            if rc_b != 2 or not out_b or not out_b[0].startswith("UNMEASURABLE ARG_ERROR") or marker.exists():
+            if rc_b != 2 or not out_b or not out_b[0].startswith("UNMEASURABLE ARG_ERROR") or frag not in out_b[0] or marker.exists():
                 fails.append(f"arg {bad}: exit {rc_b} :: {out_b[:1]}")
         # --- R11(ECO-074): verified 昇格には inspection gate が要る ---
         gate_ok = {"name": "inspection", "exit": 0, "source": "reports/r.md", "verdict": "ACCEPT", "range": "是正確認+回帰"}
@@ -788,6 +988,132 @@ def _selftest_body(td_cm, wd_cm) -> int:
         # 非 verified+inspector(ECO-900)は gate 不要(既存の known-good 腕が ADVANCE している= 後方互換)
         wpath.write_text(json.dumps(good), encoding="utf-8")
         d_f, _ = r11("insp-decided-inspector", "ECO-900", good["gates"], 0, "ADVANCE", "next")
+        # --- ECO-112 G3(R12): verified の昇格判定は必須の検査 ID を名前で読む(V1)---
+        g_ok = [{"name": "V1", "exit": 0, "source": "x"}, {"name": "V2", "exit": 0, "source": "x"}]
+        d_g, o_g = r11("g3-all-matched", "ECO-906", g_ok, 0, "ADVANCE", "next")
+        if d_g.get("required_gates") != ["V1", "V2"] or d_g.get("matched_gates") != ["V1", "V2"] or d_g.get("entry_code") is not None:
+            fails.append(f"g3-all-matched: {d_g.get('required_gates')} / {d_g.get('matched_gates')} / {d_g.get('entry_code')}")
+        d_g, o_g = r11("g3-missing", "ECO-906", g_ok[:1], 2, "UNMEASURABLE", "operator", "MISSING_INPUT")
+        if (d_g.get("entry_code") != "REQUIRED_GATE_MISSING" or d_g.get("matched_gates") != ["V1"] or d_g.get("code") != "OK"
+                or not o_g or "REQUIRED_GATE_MISSING(V2)" not in o_g[0]):
+            fails.append(f"g3-missing: {d_g.get('entry_code')} / {d_g.get('matched_gates')} / code {d_g.get('code')} :: {o_g[:1]}")
+        d_g, o_g = r11("g3-undeclared", "ECO-907", g_ok, 2, "UNMEASURABLE", "operator", "MISSING_INPUT")
+        if d_g.get("entry_code") != "GATES_UNDECLARED" or d_g.get("code") != "OK" or not o_g or "GATES_UNDECLARED" not in o_g[0]:
+            fails.append(f"g3-undeclared: {d_g.get('entry_code')} / code {d_g.get('code')} :: {o_g[:1]}")
+        d_g, _ = r11("g3-case", "ECO-906", [g_ok[0], {"name": "v2", "exit": 0, "source": "x"}], 2, "UNMEASURABLE", "operator", "MISSING_INPUT")
+        if d_g.get("entry_code") != "REQUIRED_GATE_MISSING" or d_g.get("entry_detail") != "V2":
+            fails.append(f"g3-case: {d_g.get('entry_code')} / {d_g.get('entry_detail')}")
+        d_g, _ = r11("g3-no-inspector-inspection", "ECO-909", [{"name": "g", "exit": 0, "source": "x"}], 2, "UNMEASURABLE", "operator", "MISSING_INPUT")
+        if d_g.get("entry_code") != "REQUIRED_GATE_MISSING" or d_g.get("entry_detail") != "inspection":
+            fails.append(f"g3-no-inspector-inspection: {d_g.get('entry_code')} / {d_g.get('entry_detail')}")
+        r11("g3-regression-gate-fail", "ECO-906", [g_ok[0], dict(g_ok[1], exit=1)], 1, "STOP", "factory", "VERIFICATION_FAIL")
+        prod("ECO-908", [{"name": "g", "exit": 0, "source": "x"}])   # decided: 集合は照合しない — gate が揃う前に cell が起動する
+        if marker.exists():
+            marker.unlink()
+        rc_g8, out_g8 = call(["ECO-908", "--ledger", str(ledger), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+        if rc_g8 != 0 or not marker.exists() or last_rec().get("event") != "cell":
+            fails.append(f"g3-not-verified-launches: exit {rc_g8} / 起動 {marker.exists()} :: {out_g8[:1]}")
+
+        # --- ECO-112 B1-B4(R13): ブリーフの保存・再取得・昇格時の commit 済みの写し(V2)---
+        def last_dec(path=ledger):
+            rs = [json.loads(ln) for ln in path.read_text(encoding="utf-8").splitlines()] if path.exists() else []
+            return next((r for r in reversed(rs) if r.get("event") == "decision"), {})
+        prod("ECO-900", good["gates"])
+        common_fx = git_common_dir(root, witmod)
+        cell_b = f'"{sys.executable}" -c "import pathlib,os; pathlib.Path(r\'{marker}\').write_text(os.environ.get(\'BOMDD_BRIEF\',\'\'))"'
+        if marker.exists():
+            marker.unlink()
+        rc_b, out_b = call(["ECO-900", "--ledger", str(ledger), "--cell", cell_b, "--brief", str(brief_fx), "--executor", "EQ-002"])
+        bi = last_dec().get("brief") or {}
+        sref = Path(bi.get("store_ref") or "nowhere")
+        if (rc_b != 0 or bi.get("sha256") != hashlib.sha256(brief_fx.read_bytes()).hexdigest() or bi.get("size") != len(brief_fx.read_bytes())
+                or not sref.is_file() or sref.read_bytes() != brief_fx.read_bytes() or sref.parent != brief_store_dir(common_fx, "ECO-900")
+                or not marker.exists() or marker.read_text(encoding="utf-8") != str(sref)):
+            fails.append(f"b-store: exit {rc_b} / {bi} / BOMDD_BRIEF {marker.read_text(encoding='utf-8') if marker.exists() else None} :: {out_b[:1]}")
+        if dec_good.get("brief") != "none":
+            fails.append(f"b-none-recorded: known-good の brief が none でない: {dec_good.get('brief')}")
+        bmm = wout / "brief-mm.md"
+        bmm.write_bytes(b"mismatch brief\n")
+        mm_store = brief_store_dir(common_fx, "ECO-900") / hashlib.sha256(bmm.read_bytes()).hexdigest()
+        mm_store.write_bytes(b"other bytes\n")
+        bcr = wout / "brief-crlf.md"
+        bcr.write_bytes(b"line one\r\nline two\r\n")
+        b_frags = ("BRIEF_STORE_FAILED", "BRIEF_UNREADABLE", "BRIEF_NOT_LF")
+        n_b = 0
+        for bad_b in (["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(bmm), "--executor", "EQ-002"],
+                      ["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(wout / "no-such-brief.md"), "--executor", "EQ-002"],
+                      ["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(bcr), "--executor", "EQ-002"]):
+            if marker.exists():
+                marker.unlink()
+            frag = b_frags[n_b]
+            n_b += 1
+            rc_x, out_x = call(bad_b)
+            dx = last_dec()
+            if rc_x != 2 or marker.exists() or dx.get("entry_code") != frag or dx.get("decision") != "UNMEASURABLE" or not out_x or frag not in out_x[0]:
+                fails.append(f"b-fail {frag}: exit {rc_x} / {dx.get('entry_code')} / 起動 {marker.exists()} :: {out_x[:1]}")
+        mm_store.unlink()
+        ba_frags = ("--brief PATH|none が必須", "--brief は --cell と組", "--brief none は --report と組にできない", "--report はリポ相対パ")
+        n_ba = 0
+        for bad_ba in (["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002"],
+                       ["ECO-900", "--ledger", str(ledger), "--brief", str(brief_fx)],
+                       ["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", "none", "--executor", "EQ-002", "--report", "reports/bn.md", "--range", "境界探索"],
+                       ["ECO-900", "--ledger", str(ledger), "--cell", cell, "--executor", "EQ-002", "--report", "/abs.md", "--range", "境界探索"]):
+            if marker.exists():
+                marker.unlink()
+            frag = ba_frags[n_ba]
+            n_ba += 1
+            n_before_ba = len(ledger.read_text(encoding="utf-8").splitlines())
+            rc_x, out_x = call(bad_ba)
+            if (rc_x != 2 or marker.exists() or not out_x or not out_x[0].startswith("UNMEASURABLE ARG_ERROR") or frag not in out_x[0]
+                    or len(ledger.read_text(encoding="utf-8").splitlines()) != n_before_ba):
+                fails.append(f"b-arg {frag!r}: exit {rc_x} / 起動 {marker.exists()} :: {out_x[:1]}")
+        b2 = wout / "brief-2.md"
+        b2.write_bytes(b"second brief\n")
+        sha2 = hashlib.sha256(b2.read_bytes()).hexdigest()
+        wpath.write_text(json.dumps(dict(good, tree=good["tree"][:-4] + ("0000" if good["tree"][-4:] != "0000" else "1111"))), encoding="utf-8")
+        rc_r1, _ = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(b2), "--executor", "EQ-002"])
+        prod("ECO-900", good["gates"])
+        rc_r2, _ = call(["ECO-902", "--ledger", str(ledger), "--cell", cell, "--brief", str(b2), "--executor", "EQ-002"])
+        rc_r3, _ = call(["ECO-900", "--ledger", str(ledger), "--cell", cell, "--brief", str(b2), "--executor", "EQ-001"])
+        stored2 = [e for e in ("ECO-900", "ECO-902") if (brief_store_dir(common_fx, e) / sha2).exists()]
+        if (rc_r1, rc_r2, rc_r3) != (1, 1, 1) or stored2:
+            fails.append(f"b-refused-stores-nothing: exits {(rc_r1, rc_r2, rc_r3)} / stored in {stored2}")
+        ledger2 = wout / "ledger-2.jsonl"
+        rc_l2, _ = call(["ECO-900", "--ledger", str(ledger2), "--cell", cell, "--brief", str(brief_fx), "--executor", "EQ-002"])
+        if rc_l2 != 0 or (last_dec(ledger2).get("brief") or {}).get("store_ref") != str(sref):
+            fails.append(f"b-other-ledger-same-store: exit {rc_l2} / {last_dec(ledger2).get('brief')}")
+        wt = wout / "wt"
+        if witmod._git(root, "worktree", "add", "-q", str(wt), env=env).returncode != 0 or git_common_dir(wt, witmod) != common_fx:
+            fails.append(f"b-worktree-same-store: {git_common_dir(wt, witmod)} != {common_fx}")
+        # 昇格時(B4): ECO-906 のストアに 1 本 → 束縛された tree に写しがなければ BRIEF_NOT_COMMITTED・在れば通る
+        b906 = wout / "brief-906.md"
+        b906.write_bytes(b"brief for ECO-906\n")
+        info906, code906, _ = store_brief(root, common_fx, "ECO-906", str(b906))
+        if code906:
+            fails.append(f"b-promotion fixture: {code906}")
+        d_p, o_p = r11("b-promotion-not-committed", "ECO-906", g_ok, 2, "UNMEASURABLE", "operator", "MISSING_INPUT")
+        if d_p.get("entry_code") != "BRIEF_NOT_COMMITTED" or not o_p or "BRIEF_NOT_COMMITTED" not in o_p[0]:
+            fails.append(f"b-promotion-not-committed: {d_p.get('entry_code')} :: {o_p[:1]}")
+        copy906 = root / "bomdd" / "reports" / "eco-906" / "brief.md"
+        copy906.parent.mkdir(parents=True, exist_ok=True)
+        copy906.write_bytes(b906.read_bytes())
+        (brief_store_dir(common_fx, "ECO-906") / ".tmp-left").write_bytes(b"x")
+        d_p, _ = r11("b-promotion-copy", "ECO-906", g_ok, 0, "ADVANCE", "next")
+        if (d_p.get("brief_copies") != [{"sha256": info906["sha256"], "path": "bomdd/reports/eco-906/brief.md", "tree": d_p.get("tree")}]
+                or d_p.get("brief_store_ignored") != [".tmp-left"]):
+            fails.append(f"b-promotion-copy: {d_p.get('brief_copies')} / ignored {d_p.get('brief_store_ignored')}")
+        witmod._git(root, "add", "-A", env=env)
+        witmod._git(root, "commit", "-q", "-m", "copy", env=env)
+        copy906.write_bytes(b"changed after commit\n")
+        d_p, _ = r11("b-promotion-head-only", "ECO-906", g_ok, 2, "UNMEASURABLE", "operator", "MISSING_INPUT")
+        if d_p.get("entry_code") != "BRIEF_NOT_COMMITTED":
+            fails.append(f"b-promotion-head-only: HEAD にだけ在る写しを通した: {d_p.get('entry_code')}")
+        copy906.write_bytes(b906.read_bytes())
+        (brief_store_dir(common_fx, "ECO-906") / ("f" * 64)).write_bytes(b"not its name\n")
+        d_p, _ = r11("b-promotion-store-mismatch", "ECO-906", g_ok, 2, "UNMEASURABLE", "operator", "MISSING_INPUT")
+        if d_p.get("entry_code") != "BRIEF_STORE_FAILED":
+            fails.append(f"b-promotion-store-mismatch: {d_p.get('entry_code')}")
+        (brief_store_dir(common_fx, "ECO-906") / ("f" * 64)).unlink()
         # 台帳の形(全レコードに event・decision 行に verifier_line と decision)
         recs = [json.loads(ln) for ln in ledger.read_text(encoding="utf-8").splitlines()]
         decs = [r for r in recs if r.get("event") == "decision"]

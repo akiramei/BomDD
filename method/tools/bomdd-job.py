@@ -41,6 +41,9 @@
 #       停止語彙不変・gate 化しない)。receipt_author_role は register の同名欄(任意・観測欄: 受入時の較正 receipt を書いた役割)
 #       をそのまま射影する— 欄なし= null(停止しない)。役割の**禁止**は導出しない(禁止はリポ面で観測できる項目
 #       〔allowed_paths・commit・register 遷移・receipt 著者〕にのみ置く— playbook §8.5)。roles 欠落・語彙外・重複は MAP_INVALID。
+#   (7) ECO-112(G2): required_gates は register の同名欄(機械の写し)と order の `required_gates:` 行(行頭・fence/HTML コメント外に
+#       1 本・裁定の記録)を集合として照合して射影する。両方なし= null(停止しない)。片方だけ・行が 2 本以上・形状不正(非空文字列の重複なし
+#       list でない)・集合の不一致は LEDGER_INCONSISTENT。起票後に両方を同時に変えても検出しない(ECO-112 L2)。読むのは入口(bomdd-run R12)。
 
 import io
 import json
@@ -77,6 +80,7 @@ EQUIP_HEAD_RE = re.compile(r"担当設備|equipment", re.I)
 INDEPENDENCE_AXES = ("model", "harness", "account_lineage")
 CLOSE_HEAD_RE = re.compile(r"^[ \t]{0,3}#{2,6}[ \t]+\d+\.[ \t]*クローズ[^\n]*verified", re.M)
 FENCE_RE = re.compile(r"^[ \t]{0,3}(```|~~~)[^\n]*\n.*?(?:^[ \t]{0,3}\1[ \t]*$|\Z)", re.S | re.M)
+REQ_GATES_LINE_RE = re.compile(r"^required_gates:([^\n]*)$", re.M)   # ECO-112 G1: column 0・fence と HTML コメントの外
 
 # --- ECO-064(F1): activation-map と receipt 突合 -------------------------------------------
 # 対応表の正本= method/templates/product-profile/skills/activation-map.yaml(契約の所在参照のみ・転写しない)。
@@ -385,6 +389,44 @@ def resolve_capability(order_text: str, root: Path):
     return value, src, None, None
 
 
+def _gate_list(v):
+    """G2: 非空文字列の list で重複なし → list。それ以外 → None。"""
+    if not isinstance(v, list) or not v or not all(isinstance(x, str) and x.strip() and x == x.strip() for x in v):
+        return None
+    return v if len(set(v)) == len(v) else None
+
+
+def resolve_required_gates(entry: dict, order_text: str | None):
+    """ECO-112 G1/G2: (value, source, stop, reason)。register の required_gates(機械の写し)と order の `required_gates:` 行(裁定の記録)が
+    集合として一致することを要求する。両方なし= (None, none…, None, None)。不一致・形状不正・行の重複 → LEDGER_INCONSISTENT。"""
+    has_field = "required_gates" in entry
+    lines = []
+    if order_text is not None:
+        lines = REQ_GATES_LINE_RE.findall(HTML_COMMENT_RE.sub("", FENCE_RE.sub("", order_text)))
+    if not has_field and not lines:
+        return None, "none(G1: register に required_gates なし・order に required_gates: 行なし)", None, None
+    src = "register の required_gates(機械の写し)= order の required_gates: 行(裁定の記録・column 0・fence/HTML コメント外)"
+    if len(lines) > 1:
+        return None, src, "LEDGER_INCONSISTENT", f"order に required_gates: 行が {len(lines)} 本ある(1 本に限る)"
+    if not has_field:
+        return None, src, "LEDGER_INCONSISTENT", "order に required_gates: 行があるが register に required_gates がない"
+    if not lines:
+        return None, src, "LEDGER_INCONSISTENT", "register に required_gates があるが order に required_gates: 行がない"
+    reg = _gate_list(entry.get("required_gates"))
+    if reg is None:
+        return None, src, "LEDGER_INCONSISTENT", f"register の required_gates が非空文字列の重複なし list でない: {entry.get('required_gates')!r}"
+    try:
+        parsed = yaml.safe_load(lines[0]) if yaml is not None else None
+    except yaml.YAMLError:
+        parsed = None
+    ordl = _gate_list(parsed)
+    if ordl is None:
+        return None, src, "LEDGER_INCONSISTENT", f"order の required_gates: 行を非空文字列の重複なし list として読めない: {lines[0].strip()!r}"
+    if set(reg) != set(ordl):
+        return None, src, "LEDGER_INCONSISTENT", f"register {sorted(reg)} と order {sorted(ordl)} の required_gates が一致しない"
+    return list(reg), src, None, None
+
+
 def load_register(path: Path):
     if yaml is None:
         return None, "PyYAML 不在"
@@ -419,6 +461,7 @@ def project(entry: dict, root: Path, register_rel: str, amap=None, map_err: str 
         "forbidden": _field(None, "none(F3: order「採らない」は散文 — 転写しない)"),
         "expected_outputs": _field(None, "none(F4: order §1 は散文 — 転写しない)"),
         "independent_inspection": _field(None, "none(F6: 配員欄に inspector なし — verification 散文は転写しない)"),
+        "required_gates": _field(None, "none(G1: order 不在のため未照合)" if "required_gates" in entry else "none(G1: register に required_gates なし)"),
         "stop_vocabulary": _field(list(STOP_VOCABULARY), "bomdd-job.py 固定値(F5)"),
         "stop_derivable_from_ledger": _field(list(DERIVABLE_FROM_LEDGER), "bomdd-job.py 固定値(被覆宣言)"),
     }
@@ -448,6 +491,11 @@ def project(entry: dict, root: Path, register_rel: str, amap=None, map_err: str 
                                                         "order 配員欄 inspector(ECO-074: verified 昇格には witness の inspection gate〔台帳から導出〕が要る)")
             if stop == "NONE" and cap_stop:
                 stop, reason = cap_stop, cap_reason
+            # ECO-112 G2: required_gates(register と order の一致)。台帳由来の停止が先(既存の停止を上書きしない)
+            rg, rg_src, rg_stop, rg_reason = resolve_required_gates(entry, order_text)
+            job["required_gates"] = _field(rg, rg_src)
+            if stop == "NONE" and rg_stop:
+                stop, reason = rg_stop, rg_reason
     job["stop_type"] = _field(stop, f"導出: {reason}")
 
     # ECO-064(F1): required_skills(activation-map)・skills_observed(order の receipt 見出し)・skills_missing(差・情報欄)
@@ -590,6 +638,29 @@ def _selftest_body(td_cm) -> int:
             fails.append(f"IA-03: 担当設備節の下位見出しは節内・次の同位見出し以降は節外 であるべき: {js2['required_capability']}")
         if js2["independent_inspection"]["value"] is not None:   # ECO-074 F6: inspector なしは null のまま
             fails.append(f"F6: inspector なしで independent_inspection が null でない: {js2['independent_inspection']}")
+        # --- ECO-112 G2: required_gates(register の写し = order の required_gates: 行)---
+        gdir = root / "bomdd"
+        (gdir / "g-ok.md").write_text("# ECO-920\n\nrequired_gates: [V1, V2]\n\n```\nrequired_gates: [X]\n```\n<!--\nrequired_gates: [Y]\n-->\n"
+                                      "prose `required_gates: [Z]` mid-line\n", encoding="utf-8")
+        (gdir / "g-two.md").write_text("# ECO-921\n\nrequired_gates: [V1]\nrequired_gates: [V1]\n", encoding="utf-8")
+        (gdir / "g-bad.md").write_text("# ECO-922\n\nrequired_gates: V1 and V2\n", encoding="utf-8")
+        (gdir / "g-none.md").write_text("# ECO-923\n\nno line here\n", encoding="utf-8")
+        mg = lambda i, o, **kw: dict({"id": i, "title": "t", "status": "decided", "order_ref": o}, **kw)  # noqa: E731
+        g_cases = (("g-equal", mg("ECO-920", "bomdd/g-ok.md", required_gates=["V2", "V1"]), "NONE", ["V2", "V1"]),
+                   ("g-differ", mg("ECO-920", "bomdd/g-ok.md", required_gates=["V1"]), "LEDGER_INCONSISTENT", None),
+                   ("g-field-missing", mg("ECO-920", "bomdd/g-ok.md"), "LEDGER_INCONSISTENT", None),
+                   ("g-line-missing", mg("ECO-923", "bomdd/g-none.md", required_gates=["V1"]), "LEDGER_INCONSISTENT", None),
+                   ("g-two-lines", mg("ECO-921", "bomdd/g-two.md", required_gates=["V1"]), "LEDGER_INCONSISTENT", None),
+                   ("g-unparsable", mg("ECO-922", "bomdd/g-bad.md", required_gates=["V1", "V2"]), "LEDGER_INCONSISTENT", None),
+                   ("g-dup", mg("ECO-920", "bomdd/g-ok.md", required_gates=["V1", "V1", "V2"]), "LEDGER_INCONSISTENT", None),
+                   ("g-not-strings", mg("ECO-920", "bomdd/g-ok.md", required_gates=["V1", 2]), "LEDGER_INCONSISTENT", None),
+                   ("g-both-absent", mg("ECO-923", "bomdd/g-none.md"), "NONE", None))
+        for gname, gentry, gwant, gval in g_cases:
+            gj = project(gentry, root, "bomdd/60-change-register.yaml")
+            if gj["stop_type"]["value"] != gwant or gj["required_gates"]["value"] != gval:
+                fails.append(f"G2 {gname}: stop {gj['stop_type']['value']} / gates {gj['required_gates']['value']}(期待 {gwant} / {gval})")
+            if gwant == "LEDGER_INCONSISTENT" and "required_gates" not in gj["stop_type"]["source"]:
+                fails.append(f"G2 {gname}: 停止の理由が required_gates を名指ししない: {gj['stop_type']['source']}")
         # r1 IA-01: 未選択 entry の 3 軸が非文字列 → 台帳不正(MISSING_INPUT)
         (root / "bomdd" / "70-equipment.yaml").write_text(
             "equipment:\n  - {id: EQ-001, model: m1, harness: h1, account_lineage: a1}\n  - {id: EQ-002, model: m2, harness: h2, account_lineage: a2}\n"

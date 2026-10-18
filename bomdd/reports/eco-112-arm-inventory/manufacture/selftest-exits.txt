@@ -1,0 +1,3 @@
+bomdd-witness exit=0
+bomdd-job exit=0
+bomdd-run exit=0

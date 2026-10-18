@@ -1,0 +1,6 @@
+G3-off: exit 1, red True, names 'g3-' True :: STOP SELFTEST_FAIL: 16 件
+B4-off: exit 1, red True, names 'b-promotion' True :: STOP SELFTEST_FAIL: 7 件
+LF-off: exit 1, red True, names 'BRIEF_NOT_LF' True :: STOP SELFTEST_FAIL: 1 件
+B1-first: exit 1, red True, names '--report はリポ相対パ' True :: STOP SELFTEST_FAIL: 1 件
+rule mutations PASS
+exit=0

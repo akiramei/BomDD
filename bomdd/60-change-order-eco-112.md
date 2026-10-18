@@ -209,6 +209,41 @@ promotion decision): V4, V6, V7, V8. Each item below lists what is observed and 
 - **V8 (closure; V2's real run)**: condition = that same promotion decision passed B4 for every brief in ECO-112's store, and, as B4 requires, the closure
   section of this order lists their `{sha256, path}` pairs, each pair checked against the committed file.
 
+## 4. Manufacture (2026-10-18, user "1:A": manufacture approved)
+
+**Inputs fixed** (sha256 prefixes; `git show <rev>:<path>`):
+- the design: this order at `d762270` (`5b9e89cb5e0a`), filed and converged; the register entry at `d762270`;
+- the tools at the filing baseline `3a9de06`: `bomdd-run.py` `b028bc534e0e`, `bomdd-job.py` `b17fc26ffb12`, `bomdd-witness.py` unchanged;
+  the templates `60-change-register.yaml` `d011a2ad9760`, `product-profile/operator-layer.md` `8647981f35bb`;
+- the V3 instrument `bomdd/reports/eco-112-arm-inventory/arm_inventory_v2.py` `7abaa22324cc` (fixed at filing).
+- **ECO-113's undecided changes are not mixed in**: its draft order was moved outside the worktree before manufacture started and stays there; no
+  ECO-113 rule (lock, journal, Job Object, `RUN_IN_FLIGHT`) is in this diff.
+
+**What changed, by rule:** `bomdd-job.py` — G2 (`resolve_required_gates`, the `required_gates` field, header (7)); `bomdd-run.py` — G3 and G4 in `decide()`
+after R11 (header R12), B1 in `run()` after every existing argument check, B2/B3 (`store_brief`, `BOMDD_BRIEF`), B4 (`committed_copies`, after G3),
+B5 (the command is passed unaltered as before), O1 (`entry_code`, the first-line tag; header R14), T1-T4 in the selftest; the register template — G1's
+comment; operator-layer.md — G5 (core §6.1, adapter A1).
+
+**Acceptance measured before the manufacture commit** (evidence: `bomdd/reports/eco-112-arm-inventory/manufacture/`):
+- **V1 (G1-G3, O1) — PASS (selftest arms).** bomdd-run: `g3-all-matched`, `g3-missing` (first line `REQUIRED_GATE_MISSING(V2)`, `code` still `OK`),
+  `g3-undeclared`, `g3-case`, `g3-no-inspector-inspection`, `g3-regression-gate-fail`, `g3-not-verified-launches`; R11 first (`insp-verified-gate-missing`).
+  bomdd-job: nine G2 arms (equal / differ / field missing / line missing / two lines / unparsable / duplicate / not strings / both absent; lines inside a
+  fence, an HTML comment or mid-line are not read).
+- **V2 (B1-B4) — selftest arms PASS:** `b-store` (sha256, size, `store_ref` bytes, `BOMDD_BRIEF`), `b-none-recorded`, `b-fail` × 3
+  (`BRIEF_STORE_FAILED`, `BRIEF_UNREADABLE`, `BRIEF_NOT_LF`), `b-arg` × 4 (no `--brief`; `--brief` without `--cell`; `none` with `--report`; the two-fault
+  call answering with the `--report` reason), `b-refused-stores-nothing` (witness STOP, job STOP, INDEPENDENCE_FAIL), `b-other-ledger-same-store`,
+  `b-worktree-same-store`, `b-promotion-not-committed`, `b-promotion-copy` (`brief_copies`, the ignored `.tmp-left`), `b-promotion-head-only`,
+  `b-promotion-store-mismatch`. V2(f), the real cells, is observed with the independent inspection.
+- **Rule mutations (T4's "red for its own reason"), 4/4 detected:** G3 switched off → 16 failures naming `g3-`; B4 switched off → 7 naming
+  `b-promotion`; the CR refusal off → `BRIEF_NOT_LF`; the `--brief` check moved before the other argument checks → the two-fault arm. (The first attempt
+  at the last one inserted the check after the `--report` checks, so it was no mutation; corrected and re-run.)
+- **V3 — the existing selftests PASS:** bomdd-run (`ADVANCE OK: selftest PASS…`), bomdd-job, bomdd-witness; `git diff -- method/tools/bomdd-witness.py`
+  empty. **The pinned instrument's run on the manufactured `bomdd-run.py` is still running** (91 targets, about 2-3 hours); its result is recorded in a
+  later commit, before the promotion decision.
+- **Found during manufacture (recorded, not in this ECO's design):** OBS-20261018-01 — bomdd-job finds an order's closure only under a Japanese heading
+  (クローズ), so the English-primary ECO-110 and ECO-111 already project as `LEDGER_INCONSISTENT` at `3a9de06`. This order's closure heading therefore
+  carries クローズ, so that its own promotion (V7) is not stopped by that reader.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (before the split; ①②③ together)

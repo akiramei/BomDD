@@ -33,3 +33,6 @@ changes:
     #                                 # inspector= 独立検査官の較正 / human。verified 時に記す。gate にしない(自己較正と独立較正の差が実測されてから昇格を判断)
     # producer: EQ-001               # 任意・記述欄(BomDD ECO-081): 製造担当の設備 ID(bomdd/70-equipment.yaml に登録した id・規約は bomdd/operator-layer.md §5)
     # inspector: EQ-002              # 任意・記述欄(同上): 独立検査併用時の検査官設備 ID。製品リポでは機械的な導出・検証・強制は存在しない(operator-layer.md §7)
+    # required_gates: [CP-X-001, inspection]   # 任意・記述欄(BomDD ECO-112): 昇格判定が結果を読む検査行の ID(製品では Control Plan の行 ID・独立検査は inspection)。
+    #                                 # 変更指示書の required_gates: 行(行頭・fence/HTML コメントの外に 1 本)と同じ集合にする — 指示書が裁定の記録、本欄は機械の写し。
+    #                                 # 起票後に変えるなら、受入を変える裁定を指示書に書いて両方を同時に直す。欄がないことは合格ではない(operator-layer.md §6.1)
