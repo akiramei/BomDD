@@ -1,0 +1,4 @@
+reports logged by the hook: 3 | in the transcripts: 3 | equal per agent, in order: True
+stored 7326ece99f20 re-hash equals name: True 135 bytes
+stored 7da7633c9f3c re-hash equals name: True 71488 bytes
+stored fda2e1a8c52a re-hash equals name: True 236 bytes

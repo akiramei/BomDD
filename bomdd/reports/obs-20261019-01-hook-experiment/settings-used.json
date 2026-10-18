@@ -1,0 +1,36 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Agent|SendMessage|Read|Bash|SubagentHandback",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -B \"C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-BomDD/98c0182d-ade5-422d-ac43-d4b21ef32d72/scratchpad/hookexp/review_snapshot_hook.py\" PreToolUse"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -B \"C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-BomDD/98c0182d-ade5-422d-ac43-d4b21ef32d72/scratchpad/hookexp/review_snapshot_hook.py\" PostToolUse"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -B \"C:/Users/akira/AppData/Local/Temp/claude/C--Users-akira-source-repos-BomDD/98c0182d-ade5-422d-ac43-d4b21ef32d72/scratchpad/hookexp/review_snapshot_hook.py\" SubagentStop"
+          }
+        ]
+      }
+    ]
+  }
+}
