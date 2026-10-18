@@ -336,6 +336,98 @@ the sentence in its adapter section A1 — prose, checked by the independent ins
 - **V7**: condition = independent inspection by EQ-002, ranges 境界探索 (the OS lock and the OS job included) then 是正確認+回帰; ACCEPT, as the gate `inspection`.
 - **V8 (closure)**: condition = inside the diff window, only the paths in §2.
 
+## /preflight receipt (start path: self-triggered — applying the filed design, 2026-10-19)
+
+- **Classification:** continuation (applying a filed design; the user's instruction 2026-10-19: manufacture ECO-113 after confirming ECO-112 verified,
+  the filed design fixed, the existing manufacture, inspection and acceptance procedure, no widening of scope).
+- **Minimum contract:**
+  - baseline — the order unchanged since filing `3c7781c` (`git log` shows that commit only; sha256 `aaa0358a3668` at `2271102`) and the tools at
+    ECO-112's verified bytes (`bomdd-run.py` `69e849630f90`, the bytes V3 run 2 measured; `bomdd-job.py` `823eafd97d6f`; `operator-layer.md`
+    `589082d8dc48`; no tool change in `5ddd428..2271102`): **confirmed**;
+  - current work state — ECO-112 `verified` (register, and `bomdd-job.py ECO-112` projects state verified with stop NONE); ECO-113 `filed`, stop NONE:
+    **confirmed**;
+  - unresolved items — L5R3-1 corrected at filing; OBS-20261018-01/-02/-03 recorded outside this ECO (user: follow the recorded handling, do not widen the
+    scope): **confirmed**;
+  - handoff state — reconstructable from the order, the register and git: **confirmed**;
+  - acceptance target — §3 (V1-V8, frozen at filing): **confirmed**.
+- **Discovered (not in the minimum contract):**
+  - **the diff window:** the register's `diff_audit.baseline` is `f2d91d4`, so `f2d91d4..head` holds ECO-112's later commits and three record commits
+    (`597e842`, `7a107bf`, `2271102`), whose paths are outside §2 — V8 read literally fails at closure. This is OBS-20261018-02's second case; ECO-112's
+    ruling was for ECO-112 only, so V8's reading for ECO-113 is the user's (asked at closure, not decided here): **contradicted** (for V8 only);
+  - `allowed_paths` lists two of §2's `bomdd/reports/eco-113-*/` folders; the manufacture adds `eco-113-manufacture/` and `eco-113-briefs/` (inside §2):
+    **stale**, corrected in the register;
+  - Codex runs with its process tree inside a kill-on-close job (probe 2026-10-19, read-only sandbox: exit 0): **confirmed** for the inspection cell.
+- **Start decision: PROCEED_WITH_LIMITS** — manufacture, acceptance V1-V5 and the inspection proceed; V8's reading waits for the user. Overrides: none.
+
+## 4. Manufacture (2026-10-19, user instruction: manufacture after ECO-112 verified)
+
+**Inputs fixed:** the design — this order at `3c7781c` (unchanged up to `2271102`), filed by the user's exception ruling; the register entry at
+`2271102`; the tools at `2271102` (= ECO-112's verified bytes, above). ECO-112 M1 is met: ECO-112 was verified first (`5ddd428`) and this manufacture is
+built on it. OBS-20261019-01 (review snapshots) stays on hold (user), and nothing of it is in this diff.
+
+**What changed, by rule:**
+- `bomdd-run.py` — header R15 (an index to §1; the rules stay here). X: `lock_file`, `acquire_lock`, `release_lock`. W: `_job_create`,
+  `_job_configure`, `_job_assign`, `_snapshot_threads` (used only by the resume), `_job_resume`, `_job_close`, `_job_query`, `_identity` /
+  `_appcontainer` (W5), the `_win_branch` switch (W6). J: `journal_read`, `open_runs`, `classify_run`, `judge`. A: `journal_commit` (the torn tail
+  repaired by the next writer), `_ledger_lock` in `write_ledger` (A5). R: `_recover` (`--release`, `--quarantine-journal`). S/O: `run()` is now a
+  wrapper — `_run()` for the body, `_teardown()` (W3: the job handle, the lock, the execution copy and the job view on every exit) and O3's
+  `INTERNAL_ERROR`; `_run()` follows S1 (the ledger-path checks moved before the lock; the lock; classification; the `--report` re-check;
+  `decide()`; S1.1-S1.6; S2; S3); `_refuse()`, `in_flight_rec()`, `in_flight_line()` (S4); `IN_FLIGHT_VERDICT` (O1); `RUN_IN_FLIGHT` in `DELIVERY`
+  (O2). `launch()` became `cell_env()` and `cell_record()` (the cell is started at S1.1 on Windows and at S1.5 on POSIX). T1/T2: the selftest block
+  `ECO-113(R15)` (in `_selftest_body`, through `call`; the arms that need separate processes start `bomdd-run.py` as a child), the fixture's human
+  equipment `EQ-007` (R4), `vocabulary_mismatch()` (V4(l)), and the PASS report's second line naming the platform branch (V1(g)).
+- `bomdd-job.py` — `RUN_IN_FLIGHT` in `STOP_VOCABULARY` (O2; not ledger-derivable).
+- `operator-layer.md` — §2: 11 words and the `RUN_IN_FLIGHT` row; §7: the hand procedure; adapter A1: the mechanism sentence (O2).
+- The register — status `implemented`; `allowed_paths` adds `bomdd/reports/eco-113-manufacture/` and `bomdd/reports/eco-113-briefs/` (inside §2).
+
+**Manufacture choices where the rule text leaves the detail open** (each kept consistent with the cited rule; none changes a rule or an acceptance item):
+1. **Recovery records go to the journal only.** R1 gives `--release` and `--quarantine-journal` no `--ledger`; they write no ledger record, and a refusal
+   prints S4's line (O1's release/quarantine exits).
+2. **Release is refused while the journal has a corrupt line** (`JOURNAL_CORRUPT`, exit 2): S4's way out for that row is quarantine first, then release.
+3. **Quarantine's `offset`** is the byte just past the last corrupt line, and `excluded_sha256` is the sha256 of the excluded lines' bytes in order. A
+   quarantine with no corrupt line is `ARG_ERROR`.
+4. **On Windows the cell's `Popen` is part of S1.1** (W2 starts it suspended there), so a `Popen` failure is W4's `JOB_UNAVAILABLE`, nothing has run,
+   and ECO-112's B2 rolls the brief back like any refused launch. On POSIX `Popen` stays at S1.5, after the decision record, and a spawn failure is
+   recorded in the cell record as before.
+5. **S2 and S3 cell records carry no report binding** (`report: null`): the cell did not complete, and a `MISSING` verdict must not become the ledger's
+   last cell record with a report (the inspection gate reads that record — bomdd-run R11).
+6. **The line shows the whole `run_id`** (23 characters, within 80 columns for `ECO-NNN`), because `--release` needs the whole id; S4 says "prefix".
+7. **`end` is attempted once and retried 3 times** (S1.6: "retried 3 times").
+8. **The O3 line names `-`** when the first argument is not a valid ECO id.
+9. **A job name that already exists** (`ERROR_ALREADY_EXISTS`) is a W4 failure, never a shared job.
+10. **`unknown_because`** is the name of the key (`host`, `session`, `appcontainer`) when a value differs or cannot be read, `POSIX`, or
+    `job query error`; it is recorded for the first `UNKNOWN` run.
+
+**Acceptance measured before the manufacture commit** (evidence: `bomdd/reports/eco-113-manufacture/`):
+- **V1-V4 — PASS (selftest arms).** `bomdd-run.py --selftest` exit 0; its second line names the branch exercised: `msvcrt.locking + Job Object
+  (Windows)` (V1(g)). The arms that need separate processes start `bomdd-run.py` as child entries on the selftest's own temporary repository: a live
+  holder and a dry run read `ENTRY_ALIVE` (V1(a)(d)); the killed holder frees the lock within 5 s, its cell's child command stops, the job is gone and the
+  run reads `ABNORMAL_END` (V1(b), V2(a)); two concurrent launches — same ledger, two ledgers, two worktrees — launch exactly one cell each time (V1(c));
+  a process holding a handle to the job keeps the cell alive (`CELL_ALIVE`) until it closes the handle (V2(b)); two concurrent releases write one
+  record (V3(d)); three processes append 900 ledger lines and all 900 parse (V4(j)). The map from every acceptance item to its arms is
+  `bomdd/reports/eco-113-manufacture/README.md`. **POSIX is not measured** (L1): the POSIX branch was exercised only as Windows with the branch switched
+  off (V2(e)); `flock` and the POSIX `Popen` path did not run.
+- **V5 — PASS.** The existing arms keep their verdicts (the first line of the bomdd-run selftest is unchanged); bomdd-job and bomdd-witness selftests
+  exit 0; `git diff -- method/tools/bomdd-witness.py` is empty.
+- **Rule mutations (T1, "red for its own reason"): 20/20 detected.** One rule broken per case — X2 ×2, W1, W3, W4, J2 ×3, R2 ×2, R3, A1, A2, A5, S1, S1.6, S3,
+  S4, O3, O2 — and each turned the selftest red with the rule's own arm named (`rule-mutations.txt`). **ECO-112's nine rule mutations re-run on the
+  manufactured tools: 9/9 detected, each naming its own arm** (`rule-mutations-eco-112.txt`).
+- **V7 / real cells:** observed with the independent inspection, whose cell is launched through the manufactured entry.
+
+**Found during manufacture (recorded; no rule changed):**
+- **Two arms first passed for the wrong reason, found by the rule mutations and corrected before this commit:** the S1.6 arm compared the number of
+  `end` attempts with the code's own constant (`1 + END_RETRIES`), so a mutation of the constant was not caught — it now expects the order's number (4);
+  and the O2 case first removed the word from bomdd-run's table, which crashes the selftest's own line builder (a crash, not a reason) — the case now
+  removes it from bomdd-job's vocabulary, the other side V4(l) names. Both are instrument defects of this manufacture, attributed to the arms, not to
+  the rules.
+- **A broken job leaks suspended cells.** With kill-on-close removed (W1) or the handle left open (W3), the mutated selftest leaves suspended `cmd.exe`
+  cells; they hold inherited handles, so the first mutation driver (reading through a pipe) waited until its timeout. This is the failure W1-W3
+  prevent; the driver now writes to files, and the selftest reports a fixture-cleanup failure as a finding instead of a traceback. The leaked cells
+  were resumed by hand and ended (they hold no lock).
+- **Codex runs inside a kill-on-close job:** a probe (2026-10-19) placed `codex exec` (read-only sandbox) in such a job the way the entry places a cell:
+  exit 0, output as asked. L5 (no breakaway) therefore did not stop the inspection cell in that probe; the workspace-write sandbox is observed with r1.
+- **The diff window (V8):** see the preflight receipt — asked at closure.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1

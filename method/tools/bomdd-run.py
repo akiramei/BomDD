@@ -56,12 +56,27 @@
 #     ファイルは「保存された」ブリーフで、起動の有無は台帳(ADVANCE の判定レコードと cell レコード)で読む。昇格判定(R12 の後)はストアの各ブリーフが
 #     束縛された tree の bomdd/reports/ に同じ sha256 で在ることを要求(BRIEF_NOT_COMMITTED・BRIEF_STORE_FAILED)し brief_copies を記録する。
 #  R14 入口自身の理由(ECO-112 O1): entry_code 欄(code 欄は witness の CODE のまま)と 1 行目のタグ。
+#  R15 実行中の起動(ECO-113 X/W/J/R/A/S/O — 規則の正本は order §1。ここは所在の索引):
+#     X 排他= <git-common-dir>/bomdd-run/<ECO>.lock の OS ロック(msvcrt.locking LK_NBLCK / flock LOCK_NB)。衝突だけが ENTRY_ALIVE、
+#       それ以外の失敗は LOCK_UNAVAILABLE。起動は戻るまで・回復は全体・dry は分類のあいだだけ保持する。
+#     W 所有(Windows)= cell を CREATE_SUSPENDED で起動し、名前つきの kill-on-close Job Object へハンドルで入れてから再開する。入口は
+#       job の外。入口が唯一のハンドルを持ち、run() のどの出口でも閉じる(閉じれば OS が job の全プロセスを終わらせる)。POSIX は job なし。
+#     J 判定= run journal <git-common-dir>/bomdd-run/<ECO>.runs.jsonl の開いた実行(start があり end/abort/release がない)を job の存在で
+#       ABNORMAL_END / CELL_ALIVE / UNKNOWN に、壊れた行を JOURNAL_CORRUPT に分類する(最も厳しいものを報告・pid は使わない)。
+#     R 回復= --release RUN_ID --by EQ-NNN / --quarantine-journal --by EQ-NNN(人の行為を記録するだけ・何も止めない)。
+#     A 記録= journal は 1 レコード 1 行・1 回の os.write・binary・fsync・ロック下。末尾の切れた行は無いものとし次の書き手が切り詰めて
+#       repair を記録する。台帳の追記は <台帳>.lock の短い OS ロック(10 秒)の下。
+#     S 起動の順= 引数検査(台帳パスを含む)→ ロック → 分類 → --report の再検査 → decide() → job・start・判定レコード・1 行目・再開・待機。
+#       decide() の前の拒否は停止種別 RUN_IN_FLIGHT(order S4 の表)。
+#     O 終了コード= O1。run() の外へ出た想定外の例外は INTERNAL_ERROR(exit 2・O3)。
 #
 # 使い方:
 #   python bomdd-run.py ECO-067                      # dry: 検証+台帳
 #   python bomdd-run.py ECO-067 --cell "codex exec ..." --executor EQ-002   # ADVANCE かつ独立なときだけ起動
 #   python bomdd-run.py ECO-067 --cell "codex exec -o bomdd/reports/x.md ..." --executor EQ-002 --report bomdd/reports/x.md
 #   python bomdd-run.py ECO-067 --ledger PATH         # 台帳の場所(作業木外のみ)
+#   python bomdd-run.py ECO-067 --release RUN_ID --by EQ-003      # 開いた実行を閉じる(人が、その実行のプロセスが無いと表明する)
+#   python bomdd-run.py ECO-067 --quarantine-journal --by EQ-003  # journal の壊れた行を以後の読み取りから外す(何も動かさない)
 #   python bomdd-run.py --selftest                    # known-good 1 腕は起動し known-bad 腕は起動しない(痕跡で判定)
 #
 # 検出力の限界(宣言):
@@ -69,18 +84,31 @@
 #   (2) receipt の申告値(gates.exit)は再実測しない(bomdd-witness W2 と同じ)。
 #   (3) 承認の有無は起動先ハーネスの設定に依存する — 本ツールは承認を作らない・迂回もしない。
 
+import errno
 import hashlib
 import importlib.util
 import io
 import json
 import os
+import platform
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
+import time
+import traceback
 from datetime import datetime, timezone
 from pathlib import Path
+
+IS_WIN = os.name == "nt"
+if IS_WIN:
+    import ctypes
+    import ctypes.wintypes as _wt
+    import msvcrt
+else:  # pragma: no cover - POSIX branch (ECO-113 L1)
+    import fcntl
 
 TOOLS_DIR = Path(__file__).resolve().parent
 ECO_RE = re.compile(r"^(ECO|CAPA)-[A-Za-z0-9]+(-[A-Za-z0-9]+)*$")   # r1 IA-01: 区切り文字・親参照を含まない
@@ -104,6 +132,7 @@ DELIVERY = {
     "MISSING_INPUT": "operator",
     "INDEPENDENCE_FAIL": "operator",   # R9(ECO-072): 配員のやり直し
     "INSPECTION_MISSING": "operator",  # R11(ECO-074): 独立検査の結果回収
+    "RUN_IN_FLIGHT": "operator",       # R15(ECO-113 O2): 実行中の起動・終わりを記録しない実行・journal の欠陥
 }
 # witness 側の CODE(bomdd-witness W6)→ 配送先。receipt 自体の欠陥は運転員へ・検査赤は工場へ・stop_type は表へ。
 WITNESS_DELIVERY = {
@@ -343,14 +372,416 @@ def committed_copies(root: Path, common: Path | None, eco: str, tree: str | None
     return out, None, ""
 
 
+# --- ECO-113: 実行中の起動(X 排他 / W 所有 / J 判定 / R 回復 / A 記録)— 規則の正本は order §1 ---------------------------
+RUN_IN_FLIGHT = "RUN_IN_FLIGHT"
+# O1: decide() の前の拒否理由(S4 の表の行)→ (判定語, 終了コード)。REPORT_EXISTS は R10 の ARG_ERROR のまま(記録なし)。
+IN_FLIGHT_VERDICT = {"ENTRY_ALIVE": ("STOP", 1), "ABNORMAL_END": ("STOP", 1), "CELL_ALIVE": ("STOP", 1),
+                     "LOCK_UNAVAILABLE": ("UNMEASURABLE", 2), "JOURNAL_UNREADABLE": ("UNMEASURABLE", 2),
+                     "UNKNOWN": ("UNMEASURABLE", 2), "JOURNAL_CORRUPT": ("UNMEASURABLE", 2)}
+CLASS_ORDER = ("ABNORMAL_END", "UNKNOWN", "CELL_ALIVE", "JOURNAL_CORRUPT")   # J2: 後ほど厳しい(最も厳しいものを報告)
+CLOSING_EVENTS = ("end", "abort", "release")   # J1: これのない start が開いた実行(interrupted は閉じない)
+RECOVERY_OPTS = ("--release", "--quarantine-journal")   # R1
+END_RETRIES = 3            # S1.6: end の commit の再試行回数
+LEDGER_LOCK_SECONDS = 10   # A5
+CREATE_SUSPENDED = 0x00000004
+_O_LOCAL = (os.O_BINARY | os.O_NOINHERIT) if IS_WIN else os.O_CLOEXEC   # X2/A1: 子へ継承しない・改行を変換しない
+
+
+def _oserr(e: OSError) -> str:
+    return f"{e.__class__.__name__}({e.errno})" if getattr(e, "errno", None) is not None else e.__class__.__name__
+
+
+def _now() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
+
+
+def _checkpoint(name: str) -> None:
+    """selftest の継ぎ目(V2(g)・V4(i)・V4(m)): 名前つきの地点で例外や競合を差し込む。本番では何もしない。"""
+    return None
+
+
+def _wait(proc) -> int:
+    """S1.6 の待機(V4(h) の継ぎ目)。"""
+    return proc.wait()
+
+
+def _jread(path) -> bytes:
+    """A2/A3 の読み取り(V4(o) の継ぎ目)。"""
+    return Path(path).read_bytes()
+
+
+_jwrite = os.write   # A1 の 1 回の書き込み(V4(a)(d)(e) の継ぎ目)
+_win_branch = IS_WIN  # W6/V2(e): Windows の分岐を切った状態を selftest が作る継ぎ目
+
+if IS_WIN:
+    _k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    _adv = ctypes.WinDLL("advapi32", use_last_error=True)
+    for _n, _res, _args in (
+            ("CreateJobObjectW", _wt.HANDLE, [ctypes.c_void_p, _wt.LPCWSTR]),
+            ("SetInformationJobObject", _wt.BOOL, [_wt.HANDLE, ctypes.c_int, ctypes.c_void_p, _wt.DWORD]),
+            ("AssignProcessToJobObject", _wt.BOOL, [_wt.HANDLE, _wt.HANDLE]),
+            ("OpenJobObjectW", _wt.HANDLE, [_wt.DWORD, _wt.BOOL, _wt.LPCWSTR]),
+            ("QueryInformationJobObject", _wt.BOOL, [_wt.HANDLE, ctypes.c_int, ctypes.c_void_p, _wt.DWORD, ctypes.c_void_p]),
+            ("IsProcessInJob", _wt.BOOL, [_wt.HANDLE, _wt.HANDLE, ctypes.POINTER(_wt.BOOL)]),
+            ("CloseHandle", _wt.BOOL, [_wt.HANDLE]),
+            ("CreateToolhelp32Snapshot", _wt.HANDLE, [_wt.DWORD, _wt.DWORD]),
+            ("OpenThread", _wt.HANDLE, [_wt.DWORD, _wt.BOOL, _wt.DWORD]),
+            ("ResumeThread", _wt.DWORD, [_wt.HANDLE]),
+            ("GetCurrentProcess", _wt.HANDLE, []),
+            ("ProcessIdToSessionId", _wt.BOOL, [_wt.DWORD, ctypes.POINTER(_wt.DWORD)]),
+            ("LocalFree", ctypes.c_void_p, [ctypes.c_void_p])):
+        getattr(_k32, _n).restype, getattr(_k32, _n).argtypes = _res, _args
+    for _n, _res, _args in (
+            ("OpenProcessToken", _wt.BOOL, [_wt.HANDLE, _wt.DWORD, ctypes.POINTER(_wt.HANDLE)]),
+            ("GetTokenInformation", _wt.BOOL, [_wt.HANDLE, ctypes.c_int, ctypes.c_void_p, _wt.DWORD, ctypes.POINTER(_wt.DWORD)]),
+            ("ConvertSidToStringSidW", _wt.BOOL, [ctypes.c_void_p, ctypes.POINTER(_wt.LPWSTR)])):
+        getattr(_adv, _n).restype, getattr(_adv, _n).argtypes = _res, _args
+
+    class _BASIC(ctypes.Structure):   # JOBOBJECT_BASIC_LIMIT_INFORMATION
+        _fields_ = [("PerProcessUserTimeLimit", ctypes.c_int64), ("PerJobUserTimeLimit", ctypes.c_int64), ("LimitFlags", _wt.DWORD),
+                    ("MinimumWorkingSetSize", ctypes.c_size_t), ("MaximumWorkingSetSize", ctypes.c_size_t), ("ActiveProcessLimit", _wt.DWORD),
+                    ("Affinity", ctypes.c_size_t), ("PriorityClass", _wt.DWORD), ("SchedulingClass", _wt.DWORD)]
+
+    class _EXT(ctypes.Structure):     # JOBOBJECT_EXTENDED_LIMIT_INFORMATION
+        _fields_ = [("Basic", _BASIC), ("IoInfo", ctypes.c_uint64 * 6), ("ProcessMemoryLimit", ctypes.c_size_t),
+                    ("JobMemoryLimit", ctypes.c_size_t), ("PeakProcessMemoryUsed", ctypes.c_size_t), ("PeakJobMemoryUsed", ctypes.c_size_t)]
+
+    class _ACCT(ctypes.Structure):    # JOBOBJECT_BASIC_ACCOUNTING_INFORMATION
+        _fields_ = [("Times", ctypes.c_int64 * 4), ("TotalPageFaultCount", _wt.DWORD), ("TotalProcesses", _wt.DWORD),
+                    ("ActiveProcesses", _wt.DWORD), ("TotalTerminatedProcesses", _wt.DWORD)]
+
+    class _THREADENTRY32(ctypes.Structure):
+        _fields_ = [("dwSize", _wt.DWORD), ("cntUsage", _wt.DWORD), ("th32ThreadID", _wt.DWORD), ("th32OwnerProcessID", _wt.DWORD),
+                    ("tpBasePri", _wt.LONG), ("tpDeltaPri", _wt.LONG), ("dwFlags", _wt.DWORD)]
+
+    _k32.Thread32First.restype = _k32.Thread32Next.restype = _wt.BOOL
+    _k32.Thread32First.argtypes = _k32.Thread32Next.argtypes = [_wt.HANDLE, ctypes.POINTER(_THREADENTRY32)]
+    _INVALID_HANDLE = ctypes.c_void_p(-1).value
+
+
+def _winerr(where: str) -> OSError:
+    code = ctypes.get_last_error()
+    return OSError(errno.EIO, f"{where} failed (winerror {code})")
+
+
+def _job_create(name: str):
+    """W1: 名前つきの job を作る。同名が既にあれば(別の実行のもの)失敗にする。"""
+    ctypes.set_last_error(0)
+    h = _k32.CreateJobObjectW(None, name)
+    if not h:
+        raise _winerr("CreateJobObjectW")
+    if ctypes.get_last_error() == 183:   # ERROR_ALREADY_EXISTS
+        _k32.CloseHandle(h)
+        raise OSError(errno.EEXIST, "job name already exists")
+    return h
+
+
+def _job_configure(h) -> None:
+    """W1: JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE だけを立てる(breakaway は許さない)。"""
+    ext = _EXT()
+    ext.Basic.LimitFlags = 0x00002000
+    if not _k32.SetInformationJobObject(h, 9, ctypes.byref(ext), ctypes.sizeof(ext)):
+        raise _winerr("SetInformationJobObject")
+
+
+def _job_assign(h, proc) -> None:
+    """W2: Popen が持つプロセスのハンドルで job に入れる(pid では入れない)。"""
+    if not _k32.AssignProcessToJobObject(h, int(proc._handle)):
+        raise _winerr("AssignProcessToJobObject")
+
+
+def _snapshot_threads(pid: int) -> list:
+    """W2 の再開だけが使う: そのプロセスのスレッド ID(入口がハンドルを持つあいだ pid は再利用されない)。判定では使わない。"""
+    snap = _k32.CreateToolhelp32Snapshot(0x00000004, 0)   # TH32CS_SNAPTHREAD
+    if not snap or snap == _INVALID_HANDLE:
+        raise _winerr("CreateToolhelp32Snapshot")
+    tids = []
+    try:
+        te = _THREADENTRY32()
+        te.dwSize = ctypes.sizeof(te)
+        ok = _k32.Thread32First(snap, ctypes.byref(te))
+        while ok:
+            if te.th32OwnerProcessID == pid:
+                tids.append(te.th32ThreadID)
+            ok = _k32.Thread32Next(snap, ctypes.byref(te))
+    finally:
+        _k32.CloseHandle(snap)
+    return tids
+
+
+def _job_resume(proc) -> None:
+    """S1.5: 停止状態で作った cell のスレッドを再開する。1 本も再開できなければ失敗(S2)。"""
+    tids = _snapshot_threads(proc.pid)
+    if not tids:
+        raise OSError(errno.ESRCH, "no thread to resume")
+    for tid in tids:
+        th = _k32.OpenThread(0x0002, False, tid)   # THREAD_SUSPEND_RESUME
+        if not th:
+            raise _winerr("OpenThread")
+        try:
+            if _k32.ResumeThread(th) == 0xFFFFFFFF:
+                raise _winerr("ResumeThread")
+        finally:
+            _k32.CloseHandle(th)
+
+
+def _job_close(h) -> None:
+    """W3: 唯一のハンドルを閉じる — OS が job に残る全プロセスを終わらせ、job は無くなる。"""
+    _k32.CloseHandle(h)
+
+
+def _job_query(name: str) -> tuple[str, int | None]:
+    """J2: job の存在だけを見る。("gone", None) / ("active", 稼働プロセス数) / ("error", winerror)。"""
+    h = _k32.OpenJobObjectW(0x0004, False, name)   # JOB_OBJECT_QUERY
+    if not h:
+        code = ctypes.get_last_error()
+        return ("gone", None) if code == 2 else ("error", code)   # ERROR_FILE_NOT_FOUND
+    try:
+        a = _ACCT()
+        if not _k32.QueryInformationJobObject(h, 1, ctypes.byref(a), ctypes.sizeof(a), None):
+            return "error", ctypes.get_last_error()
+        return "active", int(a.ActiveProcesses)
+    finally:
+        _k32.CloseHandle(h)
+
+
+def _in_job(name: str) -> bool | None:
+    """V2(g): この(呼び出し側の)プロセスがその job に入っているか。開けなければ None。"""
+    h = _k32.OpenJobObjectW(0x0004, False, name)
+    if not h:
+        return None
+    try:
+        res = _wt.BOOL()
+        if not _k32.IsProcessInJob(_k32.GetCurrentProcess(), h, ctypes.byref(res)):
+            return None
+        return bool(res.value)
+    finally:
+        _k32.CloseHandle(h)
+
+
+def _appcontainer() -> str | None:
+    """W5: トークンの AppContainer SID(AppContainer でなければ "none")。読めなければ None。"""
+    tok = _wt.HANDLE()
+    if not _adv.OpenProcessToken(_k32.GetCurrentProcess(), 0x0008, ctypes.byref(tok)):   # TOKEN_QUERY
+        return None
+    try:
+        flag, ret = _wt.DWORD(), _wt.DWORD()
+        if not _adv.GetTokenInformation(tok, 29, ctypes.byref(flag), ctypes.sizeof(flag), ctypes.byref(ret)):   # TokenIsAppContainer
+            return None
+        if not flag.value:
+            return "none"
+        need = _wt.DWORD()
+        _adv.GetTokenInformation(tok, 31, None, 0, ctypes.byref(need))   # TokenAppContainerSid
+        buf = ctypes.create_string_buffer(max(need.value, 8))
+        if not _adv.GetTokenInformation(tok, 31, buf, need.value, ctypes.byref(need)):
+            return None
+        psid = ctypes.c_void_p.from_buffer(buf).value
+        s = _wt.LPWSTR()
+        if not psid or not _adv.ConvertSidToStringSidW(psid, ctypes.byref(s)):
+            return None
+        try:
+            return s.value
+        finally:
+            _k32.LocalFree(s)
+    finally:
+        _k32.CloseHandle(tok)
+
+
+def _identity() -> dict:
+    """W5: 名前空間の鍵(host・Windows session・AppContainer)。読めない値は None(判定で UNKNOWN)。"""
+    host = platform.node() or None
+    if not IS_WIN:
+        return {"host": host, "session": None, "appcontainer": None}
+    sess = _wt.DWORD()
+    session = int(sess.value) if _k32.ProcessIdToSessionId(os.getpid(), ctypes.byref(sess)) else None
+    return {"host": host, "session": session, "appcontainer": _appcontainer()}
+
+
+def run_dir(common: Path) -> Path:
+    return common / "bomdd-run"
+
+
+def lock_file(common: Path, eco: str) -> Path:
+    return run_dir(common) / f"{eco}.lock"   # X1: clone ごとに 1 つ(--ledger・worktree に依らない)・消さない
+
+
+def journal_file(common: Path, eco: str) -> Path:
+    return run_dir(common) / f"{eco}.runs.jsonl"   # J1
+
+
+def acquire_lock(common: Path | None, eco: str) -> tuple[int | None, str | None, str | None]:
+    """X2: (fd, cause, error)。ロック呼び出しの衝突だけが ENTRY_ALIVE。os.open・ディレクトリ・その他の失敗は LOCK_UNAVAILABLE。"""
+    if common is None:
+        return None, "LOCK_UNAVAILABLE", "git"
+    p = lock_file(common, eco)
+    try:
+        p.parent.mkdir(parents=True, exist_ok=True)
+        fd = os.open(str(p), os.O_RDWR | os.O_CREAT | _O_LOCAL, 0o666)
+    except OSError as e:
+        return None, "LOCK_UNAVAILABLE", _oserr(e)
+    try:
+        if IS_WIN:
+            os.lseek(fd, 0, os.SEEK_SET)
+            msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)
+        else:  # pragma: no cover
+            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError as e:
+        os.close(fd)
+        conflict = (e.errno == errno.EACCES) if IS_WIN else (e.errno in (errno.EWOULDBLOCK, errno.EAGAIN))
+        return None, ("ENTRY_ALIVE" if conflict else "LOCK_UNAVAILABLE"), _oserr(e)
+    return fd, None, None
+
+
+def release_lock(fd: int | None) -> None:
+    """X3: ハンドルを閉じれば OS が解放する(Windows は先に明示で解く)。"""
+    if fd is None:
+        return
+    try:
+        if IS_WIN:
+            os.lseek(fd, 0, os.SEEK_SET)
+            msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+    except OSError:
+        pass
+    finally:
+        os.close(fd)
+
+
+def _jline(rec: dict) -> bytes:
+    return (json.dumps(rec, ensure_ascii=True) + "\n").encode("ascii")   # A1: 1 レコード= 1 行(U+2028 等もエスケープ)
+
+
+def _write_line(fd: int, line: bytes) -> None:
+    n = _jwrite(fd, line)
+    if n != len(line):   # A1: 短い書き込みは失敗
+        raise OSError(errno.EIO, f"short write {n}/{len(line)}")
+
+
+def journal_commit(path: Path, rec: dict) -> str | None:
+    """A1/A2: 1 回の os.write+fsync(binary・継承しない・追記)。末尾の切れた行は先に切り詰めて repair を記録する。失敗= 理由。ロック下でだけ呼ぶ。"""
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            data = _jread(path)
+        except FileNotFoundError:
+            data = b""
+        keep = data.rfind(b"\n") + 1
+        torn = data[keep:]
+        fd = os.open(str(path), os.O_WRONLY | os.O_APPEND | os.O_CREAT | _O_LOCAL, 0o666)
+        try:
+            if torn:
+                os.ftruncate(fd, keep)
+                _write_line(fd, _jline({"event": "repair", "eco": rec.get("eco"), "truncated_bytes": len(torn), "sha256": _sha(torn), "at": _now()}))
+            _write_line(fd, _jline(rec))
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+    except OSError as e:
+        return _oserr(e)
+    return None
+
+
+def journal_read(path: Path) -> tuple[list | None, bytes, list, list, str | None]:
+    """A2/A3/A4: (records [(offset, rec)], torn tail, corrupt [(offset, bytes)], excluded [(offset, bytes)], error)。
+    b"\\n" だけで分ける。改行のない最後の区間は無いものとする。quarantine の offset より前の壊れた行は以後読まない(R3)。
+    存在しない journal はレコードなし。存在して読めない(OSError)は error(JOURNAL_UNREADABLE)。"""
+    try:
+        data = _jread(path)
+    except FileNotFoundError:
+        return [], b"", [], [], None
+    except OSError as e:
+        return None, b"", [], [], _oserr(e)
+    parts = data.split(b"\n")
+    recs, bad, pos = [], [], 0
+    for seg in parts[:-1]:
+        try:
+            r = json.loads(seg.decode("ascii"))
+            if not isinstance(r, dict):
+                raise ValueError("not an object")
+            recs.append((pos, r))
+        except ValueError:   # UnicodeDecodeError と JSONDecodeError を含む
+            bad.append((pos, seg + b"\n"))
+        pos += len(seg) + 1
+    qoff = max((r["offset"] for _, r in recs if r.get("event") == "quarantine" and isinstance(r.get("offset"), int)), default=-1)
+    return recs, parts[-1], [b for b in bad if b[0] >= qoff], [b for b in bad if b[0] < qoff], None
+
+
+def open_runs(recs: list) -> list:
+    """J1: start があり、その run_id の end / abort / release がない実行(journal の順)。"""
+    starts, closed = {}, set()
+    for _, r in recs:
+        rid = r.get("run_id")
+        if not isinstance(rid, str):
+            continue
+        if r.get("event") == "start":
+            starts.setdefault(rid, r)
+        elif r.get("event") in CLOSING_EVENTS:
+            closed.add(rid)
+    return [r for rid, r in starts.items() if rid not in closed]
+
+
+def classify_run(start: dict, ident: dict) -> tuple[str, str]:
+    """J2: 開いた実行 1 件の分類と理由。入口はもう居ない(居れば X2 が拒否した)— job の存在だけで判定し、pid は使わない。"""
+    if not _win_branch:
+        return "UNKNOWN", "POSIX"
+    for k in ("host", "session", "appcontainer"):
+        if start.get(k) is None or ident.get(k) is None or start.get(k) != ident.get(k):
+            return "UNKNOWN", k
+    name = start.get("job_name")
+    if not isinstance(name, str) or not name:
+        return "UNKNOWN", "job query error"
+    state, n = _job_query(name)
+    if state == "gone":
+        return "ABNORMAL_END", "job not found"
+    if state == "error":
+        return "UNKNOWN", "job query error"
+    return ("ABNORMAL_END", "job empty") if n == 0 else ("CELL_ALIVE", f"job active {n}")
+
+
+def judge(recs: list, corrupt: list, ident: dict) -> tuple[str | None, dict, str | None, list]:
+    """J2: (報告する理由, S4 の行の追加欄, 行に出す run_id, 分類済みの開いた実行)。開いた実行はすべて分類し、最も厳しいものを報告する。"""
+    runs = []
+    for s in open_runs(recs):
+        cls, because = classify_run(s, ident)
+        runs.append({"run_id": s["run_id"], "class": cls, "because": because})
+    listed = [{"run_id": r["run_id"], "class": r["class"]} for r in runs]
+    if corrupt:
+        return "JOURNAL_CORRUPT", {"corrupt_offset": corrupt[0][0], "open_runs": listed}, None, runs
+    if not runs:
+        return None, {}, None, runs
+    cause = max((r["class"] for r in runs), key=CLASS_ORDER.index)
+    first = runs[0] if cause == "ABNORMAL_END" else next(r for r in runs if r["class"] == cause)
+    extra = {"open_runs": listed}
+    if cause == "UNKNOWN":
+        extra["unknown_because"] = first["because"]
+    return cause, extra, first["run_id"], runs
+
+
+def in_flight_line(eco: str, cause: str, rid: str | None = None) -> str:
+    """S4: `<VERDICT> <ECO> RUN_IN_FLIGHT(<cause>) <run_id or -> → operator`(80 桁以内)。"""
+    return _fit(f"{IN_FLIGHT_VERDICT[cause][0]} {eco} {RUN_IN_FLIGHT}({cause}) {rid or '-'} → {DELIVERY[RUN_IN_FLIGHT]}")
+
+
+def _blank_rec(eco: str, executor: str | None) -> dict:
+    """台帳の判定レコードの形(decide() と S4 の拒否で同じ)。"""
+    return {"event": "decision", "run_id": datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ"), "eco": eco,
+            "receipt": None, "job_state": None, "job_stop_type": None, "verifier_line": None, "verifier_exit": None,
+            "code": None, "decision": None, "stop_type": None, "delivery": None, "cell": None, "tree": None,
+            "executor": executor, "producer": None, "independence": None, "report": None, "inspection": None,
+            "entry_code": None, "entry_detail": None, "required_gates": None, "matched_gates": None, "brief": None,
+            "brief_copies": None, "brief_store_ignored": None}
+
+
+def in_flight_rec(eco: str, executor: str | None, cause: str, extra: dict) -> dict:
+    """S4: 拒否の判定レコード — decision(O1)・stop_type RUN_IN_FLIGHT・cause と、その行の追加欄だけ。"""
+    rec = _blank_rec(eco, executor)
+    rec.update(decision=IN_FLIGHT_VERDICT[cause][0], stop_type=RUN_IN_FLIGHT, delivery=DELIVERY[RUN_IN_FLIGHT], cause=cause)
+    rec.update(extra)
+    return rec
+
+
 def decide(root: Path, eco: str, jobmod, witmod, executor: str | None = None) -> tuple[dict, dict | None]:
     """R1〜R3・R6・R9: 判定レコード(台帳 1 行目の元)。起動はしない。"""
-    rec = {"event": "decision", "run_id": datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ"), "eco": eco,
-           "receipt": None, "job_state": None, "job_stop_type": None, "verifier_line": None, "verifier_exit": None,
-           "code": None, "decision": None, "stop_type": None, "delivery": None, "cell": None, "tree": None,
-           "executor": executor, "producer": None, "independence": None, "report": None, "inspection": None,
-           "entry_code": None, "entry_detail": None, "required_gates": None, "matched_gates": None, "brief": None,
-           "brief_copies": None, "brief_store_ignored": None}
+    rec = _blank_rec(eco, executor)
     jobs, _ = jobmod.select([eco], root)
     job = next((j for j in jobs if _job_value(j, "eco") == eco), None) or (jobs[0] if jobs else None)
     if job is None:
@@ -493,39 +924,57 @@ def _report_path_error(root: Path, git_dir: Path | None, report: str) -> str | N
     return None
 
 
-def launch(rec: dict, job: dict, cell: str, root: Path, report: str | None = None, rng: str | None = None,
-           exec_brief: str | None = None) -> dict:
-    """R5/R10: 3 条件成立時のみ呼ばれる。コマンドはそのまま・環境で job/witness/executor/report/brief を渡す・承認は起動先。台帳 2 行目のレコードを返す。"""
+def cell_env(rec: dict, job: dict, root: Path, report: str | None = None, rng: str | None = None,
+             exec_brief: str | None = None) -> tuple[dict, str]:
+    """R5/R10: cell の環境(job/witness/executor/report/brief)と job ビューの一時ファイル。コマンドは加工しない・承認は起動先。"""
     with tempfile.NamedTemporaryFile("w", suffix=".json", prefix="bomdd-job-", delete=False, encoding="utf-8") as f:
         json.dump(job, f, ensure_ascii=False, indent=2)
         job_json = f.name
     env = dict(os.environ, BOMDD_JOB=rec["eco"], BOMDD_JOB_JSON=job_json, BOMDD_WITNESS=rec["receipt"], BOMDD_EXECUTOR=rec.get("executor") or "",
                BOMDD_REPORT=report or "", BOMDD_RANGE=rng or "",
                BOMDD_BRIEF=exec_brief or "")   # ECO-112 B3(r1 IA-02): 実行用コピー(store_ref は渡さない・none なら空)
-    ev = {"event": "cell", "run_id": rec["run_id"], "eco": rec["eco"], "cell": cell, "executor": rec.get("executor"),
-          "started_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "cell_exit": None, "report": None}
+    return env, job_json
+
+
+def cell_record(rec: dict, cell: str) -> dict:
+    """台帳 2 行目(event= cell)の形。journal_end は ECO-113 S1.6 で足した 1 欄。"""
+    return {"event": "cell", "run_id": rec["run_id"], "eco": rec["eco"], "cell": cell, "executor": rec.get("executor"),
+            "started_at": None, "cell_exit": None, "report": None, "journal_end": None}
+
+
+def _ledger_lock(path: Path) -> int:
+    """A5: <台帳>.lock の短い排他(Windows LK_LOCK は 1 秒ごと 10 回で EDEADLK・POSIX は 10 秒まで再試行)。失敗は OSError。"""
+    fd = os.open(str(path) + ".lock", os.O_RDWR | os.O_CREAT | _O_LOCAL, 0o666)
     try:
-        sys.stdout.flush()
-        r = subprocess.run(cell, shell=True, cwd=str(root), env=env)
-        ev["cell_exit"] = r.returncode
-    except OSError as e:
-        ev["cell_exit"] = f"OSError: {e.__class__.__name__}"
-    finally:
-        try:
-            os.unlink(job_json)
-        except OSError:
-            pass
-    if report:   # R10: cell 終了後に報告を束ねる(cell が書いたものを読むだけ・解釈しない)
-        ev["report"] = bind_report(root, report, rng)
-    return ev
+        if IS_WIN:
+            os.lseek(fd, 0, os.SEEK_SET)
+            msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
+        else:  # pragma: no cover
+            deadline = time.monotonic() + LEDGER_LOCK_SECONDS
+            while True:
+                try:
+                    fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    break
+                except OSError as e:
+                    if e.errno not in (errno.EWOULDBLOCK, errno.EAGAIN) or time.monotonic() > deadline:
+                        raise
+                    time.sleep(0.05)
+    except OSError:
+        os.close(fd)
+        raise
+    return fd
 
 
 def write_ledger(path: Path, rec: dict) -> str | None:
-    """R4: 追記のみ。失敗は理由文字列(exit 2 側)。"""
+    """R4: 追記のみ(A5: 追記ごとに台帳の短い OS ロックを持つ)。失敗は理由文字列(exit 2 側)。"""
     try:
         path.parent.mkdir(parents=True, exist_ok=True)
-        with path.open("a", encoding="utf-8", newline="\n") as f:
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        fd = _ledger_lock(path)
+        try:
+            with path.open("a", encoding="utf-8", newline="\n") as f:
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        finally:
+            release_lock(fd)
         return None
     except OSError as e:
         return f"台帳を書けない({e.__class__.__name__}): {_short_path(path)}"
@@ -564,8 +1013,54 @@ def _opt(argv: list, flag: str):
 
 
 def run(argv: list, root: Path, emit=None) -> int:
-    """入口本体。emit(line) で標準出力の各行を出す(1 行目= 判定行・R7)。返り値= 終了コード(R8)。"""
+    """入口本体。emit(line) で標準出力の各行を出す(1 行目= 判定行・R7)。返り値= 終了コード(R8・ECO-113 O1)。
+    ECO-113 W3: job ができたら run() のどの出口でも(例外でも)ハンドルを閉じる。O3: 外へ出た想定外の例外は INTERNAL_ERROR・exit 2。"""
     emit = emit or (lambda s: None)
+    st = {"job": None, "lock": None, "exec_dir": None, "job_json": None}
+    try:
+        try:
+            return _run(argv, root, emit, st)
+        finally:
+            _teardown(st)
+    except (Exception, KeyboardInterrupt) as e:   # O3: S3 の待機の外。台帳には書かない(台帳が失敗の原因でありうる)
+        traceback.print_exc(file=sys.stderr)
+        eco = argv[0] if argv and isinstance(argv[0], str) and ECO_RE.match(argv[0]) else "-"
+        emit(_fit(f"UNMEASURABLE {eco} INTERNAL_ERROR({e.__class__.__name__}) → operator"))
+        return 2
+
+
+def _close_job(st: dict) -> None:
+    """W3: job のハンドルを閉じる(1 回だけ)。"""
+    h, st["job"] = st.get("job"), None
+    if h is not None:
+        _job_close(h)
+
+
+def _teardown(st: dict) -> None:
+    _close_job(st)
+    if st.get("job_json"):
+        try:
+            os.unlink(st["job_json"])
+        except OSError:
+            pass
+        st["job_json"] = None
+    remove_exec_copy(st.get("exec_dir"))   # ECO-112 B3: 実行用コピーは出口で必ず消す
+    st["exec_dir"] = None
+    lk, st["lock"] = st.get("lock"), None
+    release_lock(lk)
+
+
+def _refuse(ledger: Path, eco: str, executor: str | None, cause: str, extra: dict, rid: str | None, emit) -> int:
+    """S4: 拒否は判定レコード 1 件と 1 行。レコードが書けなければ既存の台帳失敗の行・exit 2(台帳の失敗が行の判定に勝つ)。"""
+    err = write_ledger(ledger, in_flight_rec(eco, executor, cause, extra))
+    if err:
+        emit(_fit("UNMEASURABLE ARG_ERROR: " + err))
+        return 2
+    emit(in_flight_line(eco, cause, rid))
+    return IN_FLIGHT_VERDICT[cause][1]
+
+
+def _run(argv: list, root: Path, emit, st: dict) -> int:
     if not argv or argv[0].startswith("--"):
         emit("UNMEASURABLE ARG_ERROR: ECO [--cell --executor --brief --report --range]")
         return 2
@@ -573,6 +1068,8 @@ def run(argv: list, root: Path, emit=None) -> int:
     if not ECO_RE.match(eco):   # r1 IA-01
         emit(_fit(f"UNMEASURABLE ARG_ERROR: ECO の構文不正(ECO-NNN / CAPA-NNN): {eco!r}"))
         return 2
+    if any(a in RECOVERY_OPTS for a in argv[1:]):   # ECO-113 R1: 回復は別の経路(decide() を通らない・起動しない)
+        return _recover(argv, eco, root, emit, st)
     # r2 IA-01: 位置で逐次パースする(値集合で「消費済み」と見なすと、オプション値と同じ文字列の余分引数が素通りする)
     opts, unknown, stray, i = {}, [], [], 1
     while i < len(argv):
@@ -616,18 +1113,16 @@ def run(argv: list, root: Path, emit=None) -> int:
         emit(_fit(f"UNMEASURABLE ARG_ERROR: --range の語彙外: {rng!r}"))
         return 2
     jobmod, witmod = _load("bomdd-job"), _load("bomdd-witness")
-    _, git_dir0, _ = witmod.worktree_tree(root)
+    _, git_dir, _ = witmod.worktree_tree(root)
     if report is not None:
-        perr = _report_path_error(root, git_dir0, report)
+        perr = _report_path_error(root, git_dir, report)
         if perr:
             emit(_fit("UNMEASURABLE ARG_ERROR: " + perr))
             return 2
         if (root / report).exists():   # r1 IA-02 / r2 IA-06: 既存物(ファイル・ディレクトリ)を今回の cell の報告と取り違えない(fail-closed)
             emit(_fit(f"UNMEASURABLE ARG_ERROR: --report の宛先が既に存在する: {report}"))
             return 2
-    rec, job = decide(root, eco, jobmod, witmod, executor)
-    rec["report"] = report
-    _, git_dir, _ = witmod.worktree_tree(root)
+    # ECO-113 S1: 台帳パスの導出と R4 の検査はロックの前へ(拒否は従来どおり・記録なし)
     if ledger_s:
         ledger = Path(ledger_s)
     elif git_dir is not None:
@@ -652,15 +1147,38 @@ def run(argv: list, root: Path, emit=None) -> int:
     if brief == "none" and report is not None:
         emit("UNMEASURABLE ARG_ERROR: --brief none は --report と組にできない")
         return 2
+    # ECO-113 S1: ロック(X2)→ 分類(J2)。拒否は S4。
+    _checkpoint("before_lock")
+    common = git_common_dir(root, witmod)
+    fd, cause, lerr = acquire_lock(common, eco)
+    if cause:
+        return _refuse(ledger, eco, executor, cause, {} if cause == "ENTRY_ALIVE" else {"lock_error": lerr}, None, emit)
+    st["lock"] = fd
+    jpath = journal_file(common, eco)
+    recs, _torn, corrupt, _excluded, jerr = journal_read(jpath)
+    if jerr:
+        return _refuse(ledger, eco, executor, "JOURNAL_UNREADABLE", {"journal_error": jerr}, None, emit)
+    ident = _identity()
+    cause, extra, rid, _runs = judge(recs, corrupt, ident)
+    if cause:
+        return _refuse(ledger, eco, executor, cause, extra, rid, emit)
+    if not cell:   # X3: dry は分類のあいだだけロックを持つ
+        lk, st["lock"] = st["lock"], None
+        release_lock(lk)
+    if report is not None and (root / report).exists():   # S1: R10 の再検査(ロック下)— REPORT_EXISTS は ARG_ERROR のまま・記録なし
+        emit(_fit(f"UNMEASURABLE ARG_ERROR: --report の宛先が既に存在する: {report}"))
+        return 2
+    rec, job = decide(root, eco, jobmod, witmod, executor)
+    rec["report"] = report
     launching = rec["decision"] == "ADVANCE" and bool(cell)
-    info, created, exec_path, exec_dir = None, False, None, None
+    info, created, exec_path = None, False, None
     if launching:   # ECO-112 B2/B3: ADVANCE の後・判定レコードと起動の前にだけストアへ置く(拒否された起動は何も置かない)
         if brief == "none":
             rec["brief"] = "none"
         else:
             info, bcode, bmsg, created = store_brief(root, git_common_dir(root, witmod), eco, brief)
             if not bcode:   # B3(r1 IA-02): cell には実行用コピーを渡す。書けなければ BRIEF_STORE_FAILED(B2 のロールバック)
-                exec_path, exec_dir, xmsg = exec_copy(info)
+                exec_path, st["exec_dir"], xmsg = exec_copy(info)
                 if exec_path is None:
                     bcode, bmsg = "BRIEF_STORE_FAILED", xmsg
             if bcode:
@@ -669,44 +1187,224 @@ def run(argv: list, root: Path, emit=None) -> int:
                 launching = False
             else:
                 rec["brief"] = info
+    win = _win_branch
+    proc, env = None, None
+    if launching:
+        env, st["job_json"] = cell_env(rec, job, root, report, rng, exec_path)
+        job_name = f"Local\\BomDD-run-{eco}-{rec['run_id']}" if win else None
+        if win:   # S1.1: job を作り(W1)、cell を停止状態で起動してハンドルで入れる(W2)。失敗は W4
+            try:
+                st["job"] = _job_create(job_name)
+                _job_configure(st["job"])
+                sys.stdout.flush()
+                proc = subprocess.Popen(cell, shell=True, cwd=str(root), env=env, creationflags=CREATE_SUSPENDED)
+                try:
+                    _job_assign(st["job"], proc)
+                except OSError:
+                    proc.kill()   # W4: 停止状態の cell は何も実行していない — ハンドルで終わらせる
+                    proc.wait()
+                    raise
+            except OSError as e:
+                _close_job(st)
+                rec.update(decision="UNMEASURABLE", stop_type="MISSING_INPUT", delivery=DELIVERY["MISSING_INPUT"],
+                           entry_code="JOB_UNAVAILABLE", entry_detail=_oserr(e))
+                launching, proc = False, None
+            else:
+                _checkpoint("assigned")
+        if launching:   # S1.2: start を commit(A1)。失敗は JOURNAL_WRITE_FAILED
+            start = {"event": "start", "eco": eco, "run_id": rec["run_id"], "job_name": job_name, "entry_pid": os.getpid(),
+                     "host": ident["host"], "session": ident["session"], "appcontainer": ident["appcontainer"], "started_at": _now()}
+            jw = journal_commit(jpath, start)
+            if jw:
+                _close_job(st)   # W3: OS が停止状態の cell を終わらせる
+                rec.update(decision="UNMEASURABLE", stop_type="MISSING_INPUT", delivery=DELIVERY["MISSING_INPUT"],
+                           entry_code="JOURNAL_WRITE_FAILED", entry_detail=jw)
+                launching, proc = False, None
     if launching:
         rec["cell"] = cell
     left = None   # B2(r1 IA-01): 起動しないと決まったら、この呼び出しが作った保管用の写しだけを取り除き、実行用コピーを消す
     if not launching:
-        remove_exec_copy(exec_dir)
+        remove_exec_copy(st["exec_dir"])
+        st["exec_dir"] = None
         left = rollback_brief(info, created)
-    err = write_ledger(ledger, rec)   # R4/r1 IA-02: 判定レコードを起動の前に書く。書けなければ起動しない
+    err = write_ledger(ledger, rec)   # R4/r1 IA-02・S1.3: 判定レコードを起動の前に書く。書けなければ起動しない
     if err:
-        if launching:
-            remove_exec_copy(exec_dir)
+        if launching:   # S1.3 の失敗: job を閉じ(cell は再開前に終わる)、abort を commit
+            _close_job(st)
+            journal_commit(jpath, {"event": "abort", "eco": eco, "run_id": rec["run_id"], "reason": err, "at": _now()})
+            remove_exec_copy(st["exec_dir"])
+            st["exec_dir"] = None
             left = rollback_brief(info, created)
         emit(_fit("UNMEASURABLE ARG_ERROR: " + err))
         if left:
             emit(_fit(f"brief left in store: {info['sha256'][:12]} ({left})"))
         return 2
-    emit(summary_line(rec, launching))   # R7/r1 IA-03: 判定行を起動の前に出す
+    _checkpoint("first_line")   # V4(m): S1.4 の中の地点
+    emit(summary_line(rec, launching))   # R7/r1 IA-03・S1.4: 判定行を起動の前に出す
     if left:
         emit(_fit(f"brief left in store: {info['sha256'][:12]} ({left})"))
-    if launching:
+    if not launching:
+        return {"ADVANCE": 0, "STOP": 1, "UNMEASURABLE": 2}[rec["decision"]]
+    ev = cell_record(rec, cell)   # S1.5: ここより前に cell のプロセスは何も実行していない
+    ev["started_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    if win:
         try:
-            ev = launch(rec, job, cell, root, report, rng, exec_path)   # R5/R10/R11
-        finally:
-            remove_exec_copy(exec_dir)   # B3: cell の終了後に実行用コピーを消す
-        err2 = write_ledger(ledger, ev)
-        emit(_fit(f"cell exit {ev['cell_exit']}" + (f" · 台帳追記失敗: {err2}" if err2 else "")))
-        if report is not None:   # R10: 判定語の回収を 1 行で(入口の exit は R8 のまま 0・判定で行動しない)
-            rp = ev["report"] or {}
-            sha = (rp.get("sha256") or "")[:12]
-            emit(_fit(f"report {rp.get('verdict')} " + (f"sha256:{sha} " if sha else "(no file) ") + f"({rec.get('executor')})"))
+            _job_resume(proc)
+        except OSError:   # S2: 再開の失敗 — job を閉じれば OS が停止状態の cell を終わらせる
+            _close_job(st)
+            ev["cell_exit"] = "RESUME_FAILED"
+            jw = journal_commit(jpath, {"event": "end", "eco": eco, "run_id": rec["run_id"], "cell_exit": "RESUME_FAILED", "at": _now()})
+            ev["journal_end"] = "failed" if jw else "committed"
+            err2 = write_ledger(ledger, ev)
+            emit(_fit("cell not started (RESUME_FAILED)" + (f" · 台帳追記失敗: {err2}" if err2 else "")))
+            return 2
+    else:   # S1.5(POSIX・W6): ここで Popen(job なし・停止状態なし)
+        try:
+            sys.stdout.flush()
+            proc = subprocess.Popen(cell, shell=True, cwd=str(root), env=env)
+        except OSError as e:
+            proc, ev["cell_exit"] = None, f"OSError: {e.__class__.__name__}"
+    _checkpoint("resumed")
+    if proc is not None:
+        try:
+            ev["cell_exit"] = _wait(proc)
+        except (Exception, KeyboardInterrupt):   # S3: 待機の中断 — 閉じない interrupted の記録・exit 2
+            journal_commit(jpath, {"event": "interrupted", "eco": eco, "run_id": rec["run_id"], "at": _now()})
+            ev.update(cell_exit="interrupted", journal_end="none")
+            err2 = write_ledger(ledger, ev)
+            emit(_fit("cell interrupted" + (f" · 台帳追記失敗: {err2}" if err2 else "")))
+            _close_job(st)   # OS が cell のツリーを終わらせる。次回は ABNORMAL_END(J2)
+            return 2
+    _checkpoint("after_wait")
+    jw = None
+    for _attempt in range(1 + END_RETRIES):   # S1.6: end の commit(再試行 3 回)
+        jw = journal_commit(jpath, {"event": "end", "eco": eco, "run_id": rec["run_id"], "cell_exit": ev["cell_exit"], "at": _now()})
+        if not jw:
+            break
+    ev["journal_end"] = "failed" if jw else "committed"
+    if report:   # R10: cell 終了後に報告を束ねる(cell が書いたものを読むだけ・解釈しない)
+        ev["report"] = bind_report(root, report, rng)
+    _checkpoint("cell_record")
+    err2 = write_ledger(ledger, ev)
+    _close_job(st)   # W3
+    emit(_fit(f"cell exit {ev['cell_exit']}" + (f" · 台帳追記失敗: {err2}" if err2 else "")))
+    if report is not None:   # R10: 判定語の回収を 1 行で(入口の exit は R8 のまま 0・判定で行動しない)
+        rp = ev["report"] or {}
+        sha = (rp.get("sha256") or "")[:12]
+        emit(_fit(f"report {rp.get('verdict')} " + (f"sha256:{sha} " if sha else "(no file) ") + f"({rec.get('executor')})"))
+    return 0
+
+
+def _recover(argv: list, eco: str, root: Path, emit, st: dict) -> int:
+    """ECO-113 R1-R5: --release RUN_ID --by EQ-NNN / --quarantine-journal --by EQ-NNN。decide() を通らず、起動せず、何も止めない。
+    出口: 0= 閉じた・1= 拒否(ENTRY_ALIVE / CELL_ALIVE)・2= 測定不能・引数不正。台帳(--ledger)は使わない — 記録は journal だけ。"""
+    rid, quar, by, other, i = None, False, None, [], 1
+    while i < len(argv):
+        a = argv[i]
+        if a in ("--release", "--by"):
+            if i + 1 >= len(argv) or argv[i + 1].startswith("--"):
+                emit(f"UNMEASURABLE ARG_ERROR: {a} に値がない")
+                return 2
+            if (a == "--release" and rid is not None) or (a == "--by" and by is not None):
+                emit(f"UNMEASURABLE ARG_ERROR: {a} が重複")
+                return 2
+            if a == "--release":
+                rid = argv[i + 1]
+            else:
+                by = argv[i + 1]
+            i += 2
+            continue
+        if a == "--quarantine-journal":
+            if quar:
+                emit("UNMEASURABLE ARG_ERROR: --quarantine-journal が重複")
+                return 2
+            quar = True
+        else:
+            other.append(a)
+        i += 1
+    if other:   # R1: 他のオプションと組めない(--cell・--executor・--report・--range・--ledger・--brief を含む)
+        emit(_fit(f"UNMEASURABLE ARG_ERROR: 回復は --by のほかのオプションと組めない: {other[0]}"))
+        return 2
+    if rid is not None and quar:
+        emit("UNMEASURABLE ARG_ERROR: --release と --quarantine-journal は同時に指定できない")
+        return 2
+    if by is None or not EQ_ID_RE.match(by):
+        emit(_fit(f"UNMEASURABLE ARG_ERROR: 回復には --by EQ-NNN が必須(人の行為の記録): {by!r}"))
+        return 2
+    jobmod, witmod = _load("bomdd-job"), _load("bomdd-witness")
+    eq, eq_err = jobmod.load_equipment(root)
+    if eq is None:
+        emit(_fit(f"UNMEASURABLE ARG_ERROR: 設備台帳を読めない: {eq_err}"))
+        return 2
+    ent = eq.get(by) or {}
+    if ent.get("kind") != "human" or ent.get("status") != "active":   # R4: 自己申告
+        emit(_fit(f"UNMEASURABLE ARG_ERROR: --by は kind: human・status: active の設備に限る: {by}"))
+        return 2
+    common = git_common_dir(root, witmod)
+    fd, cause, _lerr = acquire_lock(common, eco)   # R2/R3: ロックを取る
+    if cause:
+        emit(in_flight_line(eco, cause))
+        return IN_FLIGHT_VERDICT[cause][1]
+    st["lock"] = fd
+    jpath = journal_file(common, eco)
+    recs, _torn, corrupt, _excluded, jerr = journal_read(jpath)
+    if jerr:
+        emit(in_flight_line(eco, "JOURNAL_UNREADABLE"))
+        return 2
+    _cause, _extra, _rid, runs = judge(recs, [], _identity())   # 解析できた開いた実行を分類し直す(J2)
+    if quar:   # R3: 壊れた行を以後の解析から外す。何も動かさず消さない。CELL_ALIVE があるあいだは拒否
+        if not corrupt:
+            emit("UNMEASURABLE ARG_ERROR: 隔離する壊れた行がない")
+            return 2
+        alive = next((r for r in runs if r["class"] == "CELL_ALIVE"), None)
+        if alive:
+            emit(in_flight_line(eco, "CELL_ALIVE", alive["run_id"]))
+            return 1
+        offset = corrupt[-1][0] + len(corrupt[-1][1])   # この位置より前の壊れた行を外す
+        q = {"event": "quarantine", "eco": eco, "offset": offset, "excluded_sha256": _sha(b"".join(b for _, b in corrupt)), "by": by, "at": _now()}
+        if journal_commit(jpath, q):
+            emit(_fit(f"UNMEASURABLE {eco} MISSING_INPUT(JOURNAL_WRITE_FAILED) → operator"))
+            return 2
+        emit(_fit(f"QUARANTINED {eco} {offset} (JOURNAL_CORRUPT) by {by}"))
         return 0
-    return {"ADVANCE": 0, "STOP": 1, "UNMEASURABLE": 2}[rec["decision"]]
+    if corrupt:   # 出口は R3(隔離)が先
+        emit(in_flight_line(eco, "JOURNAL_CORRUPT"))
+        return 2
+    run_ = next((r for r in runs if r["run_id"] == rid), None)
+    if run_ is None:
+        emit(_fit(f"UNMEASURABLE ARG_ERROR: RUN_ID は開いている実行でない: {rid}"))
+        return 2
+    if run_["class"] == "CELL_ALIVE":   # R2: 拒否
+        emit(in_flight_line(eco, "CELL_ALIVE", rid))
+        return 1
+    rel = {"event": "release", "eco": eco, "run_id": rid, "classified": run_["class"], "cause": run_["because"], "by": by, "at": _now()}
+    if run_["class"] == "UNKNOWN":
+        rel["cell"] = "unverified"   # 解放する人が、その実行のプロセスが動いていないと表明する
+    if journal_commit(jpath, rel):
+        emit(_fit(f"UNMEASURABLE {eco} MISSING_INPUT(JOURNAL_WRITE_FAILED) → operator"))
+        return 2
+    emit(_fit(f"RELEASED {eco} {rid} ({run_['class']}) by {by}"))
+    return 0
 
 
 # --- selftest: 一時 git リポ(実リポ非接触)で known-good は起動し known-bad は起動しない ---------------------
+_CLEANUP_FAILS: list = []
+
+
+class _FixtureDir(tempfile.TemporaryDirectory):
+    """ECO-113 W3: 片付けの失敗(cell のプロセスが実行より長く生きてファイルを掴む)を traceback でなく selftest の所見にする。"""
+
+    def __exit__(self, *exc):
+        try:
+            self.cleanup()
+        except OSError as e:
+            _CLEANUP_FAILS.append(f"fixture cleanup: {e.__class__.__name__} — cell のプロセスが実行より長く生きた(W3)")
+
+
 def selftest() -> int:
     # ECO-068: selftest 自身の前提(OS temp・git)不在は traceback でなく UNMEASURABLE の 1 行・exit 2
     try:
-        td_cm, wd_cm = tempfile.TemporaryDirectory(), tempfile.TemporaryDirectory()
+        td_cm, wd_cm = _FixtureDir(), _FixtureDir()
     except OSError as e:
         print(f"UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE): selftest の前提不在 — {e.__class__.__name__}: {str(e)[:120]}")
         return 2
@@ -744,7 +1442,8 @@ def _selftest_body(td_cm, wd_cm) -> int:
                   "  - {id: EQ-003, kind: ai-model, model: m1, harness: h1, account_lineage: a1}\n"
                   "  - {id: EQ-004, kind: ai-model, model: unknown, harness: h4, account_lineage: a4}\n"
                   "  - {id: EQ-005, kind: ai-model, model: m1, harness: h1, account_lineage: a5}\n"
-                  "  - {id: EQ-006, kind: ai-model, model: M1, harness: '  h1  ', account_lineage: A1}\n")
+                  "  - {id: EQ-006, kind: ai-model, model: M1, harness: '  h1  ', account_lineage: A1}\n"
+                  "  - {id: EQ-007, kind: human, model: h7, harness: t7, account_lineage: p7, status: active}\n")   # ECO-113 R4: 回復の --by
         eqp.write_text(EQ_TXT, encoding="utf-8")
         reg = root / "bomdd" / "60-change-register.yaml"
         reg.write_text("changes:\n"
@@ -1267,6 +1966,605 @@ def _selftest_body(td_cm, wd_cm) -> int:
         if d_p.get("entry_code") != "BRIEF_STORE_FAILED":
             fails.append(f"b-promotion-store-mismatch: {d_p.get('entry_code')}")
         (brief_store_dir(common_fx, "ECO-906") / ("f" * 64)).unlink()
+        # --- ECO-113(R15): 実行中の起動 — X 排他 / W 所有 / J 判定 / R 回復 / A 記録 / S 順序 / O 出口(order §3 V1-V4)---
+        prod("ECO-900", good["gates"])
+        jp, lockp = journal_file(common_fx, "ECO-900"), lock_file(common_fx, "ECO-900")
+        IDN = _identity()
+        lg = wout / "ledger-113.jsonl"   # ECO-113 の腕の台帳(既存の台帳の形の検査に混ぜない)
+        BLANK = set(_blank_rec("ECO-900", None))
+        RUN_PY = str(TOOLS_DIR / "bomdd-run.py")
+        OPEN_CLS = "ABNORMAL_END" if IS_WIN else "UNKNOWN"   # 入口の居ない開いた実行の分類(POSIX は job がない= L1)
+
+        def jrecs():
+            r_ = journal_read(jp)[0]
+            return [x for _, x in (r_ or [])]
+
+        def jcount(event, rid_=None):
+            return sum(1 for x in jrecs() if x.get("event") == event and (rid_ is None or x.get("run_id") == rid_))
+
+        def last_start():
+            return next((x for x in reversed(jrecs()) if x.get("event") == "start"), {})
+
+        def recs_of(path):
+            return [json.loads(ln) for ln in path.read_text(encoding="utf-8").splitlines()] if path.exists() else []
+
+        def row(name, rc_, out_, cause, extra_keys, rid_, n_before, path=lg):
+            """V4(n)/(k): S4 の行 — 判定レコードの追加欄はその行のものだけ・行の形・O1 の判定語と exit。"""
+            want_v, want_rc = IN_FLIGHT_VERDICT[cause]
+            rs_ = recs_of(path)
+            d_ = rs_[-1] if len(rs_) == n_before + 1 else {}
+            extra_ = set(d_) - BLANK - {"cause"}
+            if (rc_ != want_rc or not out_ or out_[0] != in_flight_line("ECO-900", cause, rid_) or d_.get("cause") != cause
+                    or d_.get("decision") != want_v or d_.get("stop_type") != "RUN_IN_FLIGHT" or d_.get("delivery") != "operator"
+                    or extra_ != set(extra_keys)):
+                fails.append(f"{name}: exit {rc_} / cause {d_.get('cause')} / 欄 {sorted(extra_)} :: {out_[:1]}")
+            return d_
+
+        def dry(path=lg):
+            n_ = len(recs_of(path))
+            rc_, out_ = call(["ECO-900", "--ledger", str(path)])
+            return rc_, out_, n_
+
+        def craft(**over):
+            """J1: journal にだけ在る開いた実行(入口は居ない・job は無い)。"""
+            rid_ = f"crafted-{os.urandom(4).hex()}"
+            s_ = {"event": "start", "eco": "ECO-900", "run_id": rid_, "job_name": f"Local\\BomDD-run-ECO-900-{rid_}", "entry_pid": 0,
+                  "host": IDN["host"], "session": IDN["session"], "appcontainer": IDN["appcontainer"], "started_at": _now()}
+            s_.update(over)
+            if journal_commit(jp, s_):
+                fails.append(f"craft: journal に書けない {rid_}")
+            return rid_
+
+        def release(name, rid_, want_cls):
+            rc_, out_ = call(["ECO-900", "--release", rid_, "--by", "EQ-007"])
+            rel_ = [x for x in jrecs() if x.get("event") == "release" and x.get("run_id") == rid_]
+            if (rc_ != 0 or out_[:1] != [f"RELEASED ECO-900 {rid_} ({want_cls}) by EQ-007"] or len(rel_) != 1
+                    or rel_[0].get("classified") != want_cls or (rel_[0].get("cell") == "unverified") != (want_cls == "UNKNOWN")):
+                fails.append(f"{name}: release exit {rc_} / records {rel_} :: {out_[:1]}")
+
+        n_child = [0]
+
+        def child(args, cwd=root):
+            """別プロセスの入口。出力はファイルへ(パイプは cell に継承され、生き残った cell が EOF を止めるため)。"""
+            n_child[0] += 1
+            out_p = wout / f"child-{n_child[0]}.out"
+            with open(out_p, "wb") as f_:
+                p_ = subprocess.Popen([sys.executable, RUN_PY] + args, cwd=str(cwd), stdout=f_, stderr=subprocess.STDOUT)
+            p_.out_path = out_p
+            return p_
+
+        def child_out(p_, secs):
+            p_.wait(secs)
+            return p_.out_path.read_bytes().decode("utf-8", errors="replace")
+
+        def wait_for(pred, secs=15.0):
+            end_ = time.monotonic() + secs
+            while time.monotonic() < end_:
+                if pred():
+                    return True
+                time.sleep(0.05)
+            return False
+
+        def read_or_none(p_):
+            try:
+                return p_.read_text(encoding="utf-8")
+            except OSError:
+                return None
+
+        def advancing(p_):
+            a_ = read_or_none(p_)
+            time.sleep(0.7)
+            b_ = read_or_none(p_)
+            return a_ is not None and b_ is not None and a_ != b_
+
+        def lock_free():
+            fd_, _c, _e = acquire_lock(common_fx, "ECO-900")
+            if fd_ is None:
+                return False
+            release_lock(fd_)
+            return True
+
+        def raise_at(point):
+            def f_(name):
+                if name == point:
+                    raise RuntimeError("patched")
+            return f_
+
+        job_names = []
+        keep_create = g_["_job_create"]
+
+        def recording_create(name):
+            job_names.append(name)
+            return keep_create(name)
+
+        loopf, appf, seenf, holdf, ledf = (wout / "loop.py", wout / "append.py", wout / "seen.py", wout / "holdjob.py", wout / "ledger_append.py")
+        loopf.write_text("import pathlib, sys, time\np = pathlib.Path(sys.argv[1]); stop = pathlib.Path(sys.argv[2])\n"
+                         "for i in range(1200):\n    p.write_text(str(i))\n    if stop.exists():\n        break\n    time.sleep(0.1)\n", encoding="utf-8")
+        appf.write_text("import sys, time\nopen(sys.argv[1], 'a').write('x\\n')\ntime.sleep(2.5)\n", encoding="utf-8")
+        seenf.write_text("import json, sys\nlg, jp, out = sys.argv[1:4]\nrecs = [json.loads(l) for l in open(lg, encoding='utf-8').read().splitlines()]\n"
+                         "d = recs[-1]\nj = open(jp, 'rb').read().decode('ascii', 'replace')\n"
+                         "ok = d.get('event') == 'decision' and bool(d.get('cell')) and ('\"run_id\": \"%s\"' % d.get('run_id')) in j\n"
+                         "open(out, 'w').write('ok' if ok else 'bad')\n", encoding="utf-8")
+        holdf.write_text("import ctypes, sys\nk = ctypes.WinDLL('kernel32', use_last_error=True)\nk.OpenJobObjectW.restype = ctypes.c_void_p\n"
+                         "k.OpenJobObjectW.argtypes = [ctypes.c_uint32, ctypes.c_int, ctypes.c_wchar_p]\nh = k.OpenJobObjectW(0x0004, 0, sys.argv[1])\n"
+                         "print('HELD' if h else 'FAIL %d' % ctypes.get_last_error(), flush=True)\nsys.stdin.read()\n", encoding="utf-8")
+        ledf.write_text("import importlib.util, sys\nfrom pathlib import Path\n"
+                        "spec = importlib.util.spec_from_file_location('bomdd_run_child', sys.argv[1]); m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)\n"
+                        "for i in range(int(sys.argv[4])):\n    e = m.write_ledger(Path(sys.argv[2]), {'event': 'x', 'w': sys.argv[3], 'i': i, 'pad': 'y' * 300})\n"
+                        "    if e:\n        print(e)\n        sys.exit(1)\n", encoding="utf-8")
+        counter, stopf, launches = wout / "counter.txt", wout / "stop.txt", wout / "launches.txt"
+        slow = f'"{sys.executable}" "{loopf}" "{counter}" "{stopf}"'
+        cell_app = f'"{sys.executable}" "{appf}" "{launches}"'
+        lg_a = wout / "ledger-a.jsonl"
+
+        # V1(a)(d)(b) / V2(a) / V3(a)(b): 生きている入口がロックを持つ → 別の起動・dry・解放は ENTRY_ALIVE。入口を殺すと cell も止まり ABNORMAL_END
+        for f_ in (counter, stopf):
+            f_.unlink(missing_ok=True)
+        ch_a = child(["ECO-900", "--ledger", str(lg_a), "--cell", slow, "--brief", "none", "--executor", "EQ-002"])
+        if not wait_for(counter.exists):
+            fails.append(f"v1 fixture: 子の cell が始まらない :: {ch_a.poll()}")
+        else:
+            if marker.exists():
+                marker.unlink()
+            n0 = len(recs_of(lg))
+            rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+            row("v1a-entry-alive", rc_x, out_x, "ENTRY_ALIVE", (), None, n0)
+            if marker.exists():
+                fails.append("v1a-entry-alive: 別の入口がロックを持つあいだに起動した")
+            rc_x, out_x, n0 = dry()
+            row("v1d-dry-while-running", rc_x, out_x, "ENTRY_ALIVE", (), None, n0)
+            rc_x, out_x = call(["ECO-900", "--release", "any-run", "--by", "EQ-007"])
+            if rc_x != 1 or out_x[:1] != [in_flight_line("ECO-900", "ENTRY_ALIVE")]:
+                fails.append(f"v3b-release-entry-alive: exit {rc_x} :: {out_x[:1]}")
+            st_a = last_start()
+            rid_a = st_a.get("run_id")
+            if IS_WIN:
+                ch_a.kill()
+                ch_a.wait(30)
+                if not wait_for(lock_free, 5.0):
+                    fails.append("v1b-lock-after-kill: 入口を殺した後 5 秒以内にロックを取れない")
+                if advancing(counter):
+                    fails.append("v2a-entry-killed: 入口を殺しても cell の子コマンドが進む")
+                if _job_query(st_a.get("job_name") or "x")[0] != "gone":
+                    fails.append(f"v2a-entry-killed: job が残る {_job_query(st_a.get('job_name') or 'x')}")
+                rc_x, out_x, n0 = dry()
+                d_x = row("v2a-abnormal-end", rc_x, out_x, "ABNORMAL_END", ("open_runs",), rid_a, n0)
+                if d_x.get("open_runs") != [{"run_id": rid_a, "class": "ABNORMAL_END"}]:
+                    fails.append(f"v2a-abnormal-end: open_runs {d_x.get('open_runs')}")
+                release("v3a-release-abnormal-end", rid_a, "ABNORMAL_END")
+                if marker.exists():
+                    marker.unlink()
+                rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+                if rc_x != 0 or not marker.exists():
+                    fails.append(f"v3a-next-launch: 解放の後の起動が進まない: exit {rc_x} :: {out_x[:1]}")
+            else:  # pragma: no cover
+                stopf.write_text("x")
+                ch_a.wait(60)
+        # V1(c): 同時の 2 起動 / 別の --ledger / 2 つの worktree → どれも 1 つだけ起動する
+        _t, wt_git, _e = witmod.worktree_tree(wt)
+        if wt_git is not None:
+            rc_w, m_w, _ = witmod.produce(wt, "ECO-900", good["gates"], "NONE", witmod.default_path(wt_git, "ECO-900"), "selftest")
+            if rc_w != 0:
+                fails.append(f"v1c fixture: worktree の受領証 {m_w}")
+        for name_, a1, a2, cwd2 in (
+                ("v1c-same-ledger", ["ECO-900", "--ledger", str(wout / "lc.jsonl"), "--cell", cell_app, "--brief", "none", "--executor", "EQ-002"],
+                 ["ECO-900", "--ledger", str(wout / "lc.jsonl"), "--cell", cell_app, "--brief", "none", "--executor", "EQ-002"], root),
+                ("v1c-other-ledger", ["ECO-900", "--ledger", str(wout / "lc1.jsonl"), "--cell", cell_app, "--brief", "none", "--executor", "EQ-002"],
+                 ["ECO-900", "--ledger", str(wout / "lc2.jsonl"), "--cell", cell_app, "--brief", "none", "--executor", "EQ-002"], root),
+                ("v1c-two-worktrees", ["ECO-900", "--cell", cell_app, "--brief", "none", "--executor", "EQ-002"],
+                 ["ECO-900", "--cell", cell_app, "--brief", "none", "--executor", "EQ-002"], wt)):
+            launches.unlink(missing_ok=True)
+            pr_ = [child(a1), child(a2, cwd2)]
+            outs_ = [child_out(p_, 120) for p_ in pr_]
+            rcs_ = [p_.returncode for p_ in pr_]
+            n_l = len(launches.read_text(encoding="utf-8").splitlines()) if launches.exists() else 0
+            loser = outs_[rcs_.index(1)] if 1 in rcs_ else ""
+            if n_l != 1 or sorted(rcs_) != [0, 1] or "RUN_IN_FLIGHT(ENTRY_ALIVE)" not in loser:
+                fails.append(f"{name_}: 起動 {n_l} 回 / exit {rcs_} :: {[o_.splitlines()[:1] for o_ in outs_]}")
+        if not lockp.is_file():   # V1(e)
+            fails.append("v1e-lock-file-kept: 完了した実行の後にロックファイルがない")
+        # V1(f) / V4(n) LOCK_UNAVAILABLE: 読み取り専用のロックファイル・書けないディレクトリは ENTRY_ALIVE でない
+        os.chmod(lockp, stat.S_IREAD)
+        try:
+            rc_x, out_x, n0 = dry()
+        finally:
+            os.chmod(lockp, stat.S_IREAD | stat.S_IWRITE)
+        d_x = row("v1f-readonly-lock", rc_x, out_x, "LOCK_UNAVAILABLE", ("lock_error",), None, n0)
+        rd_, moved_ = run_dir(common_fx), run_dir(common_fx).with_name("bomdd-run.moved")
+        rd_.rename(moved_)
+        rd_.write_text("not a directory\n", encoding="utf-8")
+        try:
+            rc_x, out_x, n0 = dry()
+        finally:
+            rd_.unlink()
+            moved_.rename(rd_)
+        row("v1f-unwritable-dir", rc_x, out_x, "LOCK_UNAVAILABLE", ("lock_error",), None, n0)
+
+        if IS_WIN:
+            # V2(b) / V3(b)(e)(f) / V4(n) CELL_ALIVE・JOURNAL_CORRUPT: 別のプロセスが job のハンドルを持つと、入口を殺しても cell は動き続ける
+            for f_ in (counter, stopf):
+                f_.unlink(missing_ok=True)
+            ch_b = child(["ECO-900", "--ledger", str(lg_a), "--cell", slow, "--brief", "none", "--executor", "EQ-002"])
+            if not wait_for(counter.exists):
+                fails.append("v2b fixture: 子の cell が始まらない")
+            st_b = last_start()
+            rid_b = st_b.get("run_id")
+            hold = subprocess.Popen([sys.executable, str(holdf), st_b.get("job_name") or "x"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+            held = hold.stdout.readline().strip()
+            ch_b.kill()
+            ch_b.wait(30)
+            wait_for(lock_free, 5.0)
+            if held != "HELD" or not advancing(counter):
+                fails.append(f"v2b-cell-alive: 持ち手 {held} / cell が止まった")
+            rc_x, out_x, n0 = dry()
+            d_x = row("v2b-cell-alive", rc_x, out_x, "CELL_ALIVE", ("open_runs",), rid_b, n0)
+            rc_x, out_x = call(["ECO-900", "--release", rid_b, "--by", "EQ-007"])
+            if rc_x != 1 or out_x[:1] != [in_flight_line("ECO-900", "CELL_ALIVE", rid_b)] or jcount("release", rid_b):
+                fails.append(f"v3b-release-cell-alive: exit {rc_x} :: {out_x[:1]}")
+            size_c = jp.stat().st_size
+            with open(jp, "ab") as f_:
+                f_.write(b"not json\n")
+            nq = jcount("quarantine")
+            rc_x, out_x = call(["ECO-900", "--quarantine-journal", "--by", "EQ-007"])
+            if rc_x != 1 or out_x[:1] != [in_flight_line("ECO-900", "CELL_ALIVE", rid_b)] or jcount("quarantine") != nq:
+                fails.append(f"v3e-quarantine-cell-alive: exit {rc_x} :: {out_x[:1]}")
+            if not advancing(counter):
+                fails.append("v3f-nothing-stopped: 回復の経路が cell を止めた")
+            rc_x, out_x, n0 = dry()
+            d_x = row("v4n-journal-corrupt-cell-alive", rc_x, out_x, "JOURNAL_CORRUPT", ("corrupt_offset", "open_runs"), None, n0)
+            if d_x.get("corrupt_offset") != size_c or d_x.get("open_runs") != [{"run_id": rid_b, "class": "CELL_ALIVE"}]:
+                fails.append(f"v4n-journal-corrupt-cell-alive: {d_x.get('corrupt_offset')} != {size_c} / {d_x.get('open_runs')}")
+            hold.stdin.close()
+            hold.wait(30)
+            time.sleep(0.5)
+            if advancing(counter):
+                fails.append("v2b-holder-closed: 持ち手が閉じても cell が動く")
+            size_q = jp.stat().st_size
+            rc_x, out_x = call(["ECO-900", "--quarantine-journal", "--by", "EQ-007"])
+            q_ = [x for x in jrecs() if x.get("event") == "quarantine"]
+            if (rc_x != 0 or not out_x or not out_x[0].startswith("QUARANTINED ECO-900 ") or len(q_) != nq + 1 or jp.stat().st_size <= size_q
+                    or q_[-1].get("excluded_sha256") != _sha(b"not json\n") or q_[-1].get("by") != "EQ-007"):
+                fails.append(f"v3e-quarantine: exit {rc_x} / {q_[-1:]} :: {out_x[:1]}")
+            rc_x, out_x, n0 = dry()
+            row("v3e-parsed-run-stays-open", rc_x, out_x, "ABNORMAL_END", ("open_runs",), rid_b, n0)
+            release("v3e-release-after-quarantine", rid_b, "ABNORMAL_END")
+            # V2(c): job の作成・設定・割り当ての失敗 → JOB_UNAVAILABLE・start なし・job なし・cell は何も実行しない
+            for nm in ("_job_create", "_job_configure", "_job_assign"):
+                keep_ = g_[nm]
+                g_[nm] = boom
+                try:
+                    if marker.exists():
+                        marker.unlink()
+                    n0, s0 = n_decs(lg), jcount("start")
+                    rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+                finally:
+                    g_[nm] = keep_
+                d_x = last_dec(lg) if n_decs(lg) == n0 + 1 else {}
+                time.sleep(0.3)
+                if (rc_x != 2 or d_x.get("entry_code") != "JOB_UNAVAILABLE" or d_x.get("cell") is not None or not out_x
+                        or not out_x[0].startswith("UNMEASURABLE ECO-900 JOB_UNAVAILABLE") or jcount("start") != s0 or marker.exists()
+                        or _job_query(f"Local\\BomDD-run-ECO-900-{d_x.get('run_id')}")[0] != "gone"):
+                    fails.append(f"v2c-{nm}: exit {rc_x} / {d_x.get('entry_code')} / 起動 {marker.exists()} :: {out_x[:1]}")
+            # V2(d) / V4(n) UNKNOWN: job の照会が not-found 以外で失敗・session・appcontainer・host が違う
+            keep_ = g_["_job_query"]
+            g_["_job_query"] = lambda name: ("error", 5)
+            try:   # 解放は分類し直す(R2)— 照会の失敗を差し込んだまま解放する
+                r_ = craft()
+                rc_x, out_x, n0 = dry()
+                d_x = row("v2d-job-query-error", rc_x, out_x, "UNKNOWN", ("open_runs", "unknown_because"), r_, n0)
+                release("v3a-release-unknown", r_, "UNKNOWN")
+            finally:
+                g_["_job_query"] = keep_
+            if d_x.get("unknown_because") != "job query error":
+                fails.append(f"v2d-job-query-error: {d_x.get('unknown_because')}")
+            for key_, val_ in (("session", -1), ("appcontainer", "S-1-15-2-0"), ("host", "another-host")):
+                r_ = craft(**{key_: val_})
+                rc_x, out_x, n0 = dry()
+                d_x = row(f"v2d-other-{key_}", rc_x, out_x, "UNKNOWN", ("open_runs", "unknown_because"), r_, n0)
+                if d_x.get("unknown_because") != key_:
+                    fails.append(f"v2d-other-{key_}: {d_x.get('unknown_because')}")
+                release(f"v2d-release-{key_}", r_, "UNKNOWN")
+            # V2(g): 入口(selftest)は job の外・ハンドルも残さない / 0 プロセスの job は ABNORMAL_END / 割り当て後・再開前の例外は O3 で job なし
+            seen_ = {}
+
+            def probe(name):
+                if name == "resumed":
+                    s_ = last_start()
+                    seen_.update(name=s_.get("job_name"), inside=_in_job(s_.get("job_name") or "x"), q=_job_query(s_.get("job_name") or "x"))
+            keep_ = g_["_checkpoint"]
+            g_["_checkpoint"] = probe
+            try:
+                rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+            finally:
+                g_["_checkpoint"] = keep_
+            if rc_x != 0 or seen_.get("inside") is not False or (seen_.get("q") or ("",))[0] != "active" or _job_query(seen_.get("name") or "x")[0] != "gone":
+                fails.append(f"v2g-entry-outside: exit {rc_x} / {seen_}")
+            nm0 = f"Local\\BomDD-selftest-empty-{os.urandom(4).hex()}"
+            h0 = _job_create(nm0)
+            try:
+                r_ = craft(job_name=nm0)
+                rc_x, out_x, n0 = dry()
+            finally:
+                _job_close(h0)
+            d_x = row("v2g-empty-job", rc_x, out_x, "ABNORMAL_END", ("open_runs",), r_, n0)
+            release("v2g-release-empty-job", r_, "ABNORMAL_END")
+            err_buf, keep_err = io.StringIO(), sys.stderr
+            job_names.clear()
+            g_["_checkpoint"], g_["_job_create"], sys.stderr = raise_at("assigned"), recording_create, err_buf
+            try:
+                if marker.exists():
+                    marker.unlink()
+                s0 = jcount("start")
+                rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+            finally:
+                g_["_checkpoint"], g_["_job_create"], sys.stderr = keep_, keep_create, keep_err
+            time.sleep(0.3)
+            if (rc_x != 2 or out_x[-1:] != ["UNMEASURABLE ECO-900 INTERNAL_ERROR(RuntimeError) → operator"] or "Traceback" not in err_buf.getvalue()
+                    or not job_names or _job_query(job_names[-1])[0] != "gone" or marker.exists() or jcount("start") != s0):
+                fails.append(f"v2g-exception-before-resume: exit {rc_x} / jobs {job_names} :: {out_x}")
+            # V2(h): 再開の失敗 → S2 の 2 行目・cell レコード・end・exit 2・job なし
+            job_names.clear()
+            keep_ = g_["_job_resume"]
+            g_["_job_resume"], g_["_job_create"] = boom, recording_create
+            try:
+                if marker.exists():
+                    marker.unlink()
+                rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+            finally:
+                g_["_job_resume"], g_["_job_create"] = keep_, keep_create
+            ev_ = (recs_of(lg) or [{}])[-1]
+            end_ = next((x for x in reversed(jrecs()) if x.get("event") == "end"), {})
+            time.sleep(0.3)
+            if (rc_x != 2 or out_x[1:] != ["cell not started (RESUME_FAILED)"] or ev_.get("event") != "cell" or ev_.get("cell_exit") != "RESUME_FAILED"
+                    or end_.get("cell_exit") != "RESUME_FAILED" or end_.get("run_id") != ev_.get("run_id") or marker.exists()
+                    or not job_names or _job_query(job_names[-1])[0] != "gone"):
+                fails.append(f"v2h-resume-failed: exit {rc_x} / {ev_.get('cell_exit')} / end {end_.get('cell_exit')} :: {out_x}")
+
+        # V2(e): Windows の分岐を切る(POSIX と同じ)→ 入口の居ない開いた実行は UNKNOWN・cell は 1 行目の後に Popen
+        keep_ = g_["_win_branch"]
+        g_["_win_branch"] = False
+        try:
+            r_ = craft(job_name=None)
+            rc_x, out_x, n0 = dry()
+            d_x = row("v2e-posix-unknown", rc_x, out_x, "UNKNOWN", ("open_runs", "unknown_because"), r_, n0)
+            if d_x.get("unknown_because") != "POSIX":
+                fails.append(f"v2e-posix-unknown: {d_x.get('unknown_because')}")
+            release("v2e-release", r_, "UNKNOWN")
+            seen_p = wout / "posix-seen.txt"
+            seen_p.unlink(missing_ok=True)
+            cell_seen = f'"{sys.executable}" "{seenf}" "{lg}" "{jp}" "{seen_p}"'
+            rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell_seen, "--brief", "none", "--executor", "EQ-002"])
+            st_p = last_start()
+            if rc_x != 0 or read_or_none(seen_p) != "ok" or st_p.get("job_name") is not None or jcount("end", st_p.get("run_id")) != 1:
+                fails.append(f"v2e-popen-after-first-line: exit {rc_x} / seen {read_or_none(seen_p)} / job {st_p.get('job_name')} :: {out_x[:1]}")
+        finally:
+            g_["_win_branch"] = keep_
+        # V2(f): 分類は pid による生存確認を呼ばない(os.kill とスナップショットを例外にしても分類できる)
+        r_ = craft()
+        keep_kill, keep_snap = os.kill, g_["_snapshot_threads"]
+        os.kill, g_["_snapshot_threads"] = boom, boom
+        try:
+            rc_x, out_x, n0 = dry()
+        finally:
+            os.kill, g_["_snapshot_threads"] = keep_kill, keep_snap
+        row("v2f-no-pid", rc_x, out_x, OPEN_CLS, ("open_runs",) if IS_WIN else ("open_runs", "unknown_because"), r_, n0)
+        release("v2f-release", r_, OPEN_CLS)
+        # V2(i): journal にだけ在る開いた実行は、空の台帳でも分類される(台帳は読まない)
+        r_ = craft()
+        lg_e = wout / "ledger-empty.jsonl"
+        rc_x, out_x, n0 = dry(lg_e)
+        row("v2i-journal-only", rc_x, out_x, OPEN_CLS, ("open_runs",) if IS_WIN else ("open_runs", "unknown_because"), r_, n0, lg_e)
+        # V3(c): RUN_ID の誤り・人でない --by・他のオプション → ARG_ERROR(それぞれの文言)
+        for argv_, frag in ((["ECO-900", "--release", "no-such-run", "--by", "EQ-007"], "開いている実行でない"),
+                            (["ECO-900", "--release", r_, "--by", "EQ-002"], "kind: human"),
+                            (["ECO-900", "--release", r_, "--by", "EQ-007", "--ledger", str(lg)], "ほかのオプションと組めない"),
+                            (["ECO-900", "--quarantine-journal", "--by", "EQ-007", "--executor", "EQ-002"], "ほかのオプションと組めない")):
+            n_rel = jcount("release") + jcount("quarantine")
+            rc_x, out_x = call(argv_)
+            if rc_x != 2 or not out_x or not out_x[0].startswith("UNMEASURABLE ARG_ERROR") or frag not in out_x[0] or jcount("release") + jcount("quarantine") != n_rel:
+                fails.append(f"v3c-arg {frag!r}: exit {rc_x} :: {out_x[:1]}")
+        release("v2i-release", r_, OPEN_CLS)
+        # V3(d): 同時の 2 解放 → 解放レコードは 1 件
+        r_ = craft()
+        pr_ = [child(["ECO-900", "--release", r_, "--by", "EQ-007"]) for _ in range(2)]
+        outs_ = [child_out(p_, 60) for p_ in pr_]
+        if jcount("release", r_) != 1 or sum(o_.startswith("RELEASED ") for o_ in outs_) != 1:
+            fails.append(f"v3d-concurrent-release: records {jcount('release', r_)} :: {[o_.splitlines()[:1] for o_ in outs_]}")
+        # V4(a): start の commit の失敗 → 起動しない・JOURNAL_WRITE_FAILED(判定レコードと 1 行目)
+        keep_w = g_["_jwrite"]
+        job_names.clear()
+        g_["_jwrite"], g_["_job_create"] = boom, recording_create
+        try:
+            if marker.exists():
+                marker.unlink()
+            n0, s0 = n_decs(lg), jcount("start")
+            rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+        finally:
+            g_["_jwrite"], g_["_job_create"] = keep_w, keep_create
+        d_x = last_dec(lg) if n_decs(lg) == n0 + 1 else {}
+        time.sleep(0.3)
+        if (rc_x != 2 or d_x.get("entry_code") != "JOURNAL_WRITE_FAILED" or not out_x or not out_x[0].startswith("UNMEASURABLE ECO-900 JOURNAL_WRITE_FAILED")
+                or marker.exists() or jcount("start") != s0 or (IS_WIN and (not job_names or _job_query(job_names[-1])[0] != "gone"))):
+            fails.append(f"v4a-start-commit-failed: exit {rc_x} / {d_x.get('entry_code')} / 起動 {marker.exists()} :: {out_x[:1]}")
+        # V4(b): start の後に判定レコードが書けない → abort・起動しない・exit 2
+        if marker.exists():
+            marker.unlink()
+        rc_x, out_x = call(["ECO-900", "--ledger", str(bad_ledger), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+        st_x = last_start()
+        if rc_x != 2 or marker.exists() or jcount("abort", st_x.get("run_id")) != 1 or not out_x or "台帳を書けない" not in out_x[0]:
+            fails.append(f"v4b-ledger-after-start: exit {rc_x} / abort {jcount('abort', st_x.get('run_id'))} :: {out_x[:1]}")
+        # V4(c): 改行のない最後の行は無いもの → 次の書き手が切り詰めて repair(sha256)を記録
+        torn_b = b'{"event": "start", "run_id": "torn'
+        with open(jp, "ab") as f_:
+            f_.write(torn_b)
+        rc_x, out_x, n0 = dry()
+        if rc_x != 0 or not out_x or not out_x[0].startswith("ADVANCE "):
+            fails.append(f"v4c-torn-absent: exit {rc_x} :: {out_x[:1]}")
+        rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+        data_ = jp.read_bytes()
+        rep_ = [x for x in jrecs() if x.get("event") == "repair"]
+        if (rc_x != 0 or torn_b in data_ or not data_.endswith(b"\n") or not rep_ or rep_[-1].get("truncated_bytes") != len(torn_b)
+                or rep_[-1].get("sha256") != _sha(torn_b)):
+            fails.append(f"v4c-torn-repaired: exit {rc_x} / repair {rep_[-1:]}")
+        # V4(d): end の commit の失敗 → 再試行・cell レコードに journal_end: failed・実行は開いたまま
+        tries = []
+
+        def failing_end(fd, b):
+            if b'"event": "end"' in b:
+                tries.append(1)
+                raise OSError(errno.EIO, "patched")
+            return keep_w(fd, b)
+        g_["_jwrite"] = failing_end
+        try:
+            rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+        finally:
+            g_["_jwrite"] = keep_w
+        ev_, st_x = (recs_of(lg) or [{}])[-1], last_start()
+        if rc_x != 0 or ev_.get("event") != "cell" or ev_.get("journal_end") != "failed" or len(tries) != 4:   # S1.6: 1 回+再試行 3 回(order の数で照合する)
+            fails.append(f"v4d-end-failed: exit {rc_x} / {ev_.get('journal_end')} / tries {len(tries)}")
+        rc_x, out_x, n0 = dry()
+        row("v4d-run-open", rc_x, out_x, OPEN_CLS, ("open_runs",) if IS_WIN else ("open_runs", "unknown_because"), st_x.get("run_id"), n0)
+        release("v4d-release", st_x.get("run_id"), OPEN_CLS)
+        # V4(e): 短い書き込みは失敗(start)→ 残った切れ端は次の書き手が直す
+        g_["_jwrite"] = lambda fd, b: keep_w(fd, b[: len(b) // 2])
+        try:
+            if marker.exists():
+                marker.unlink()
+            rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+        finally:
+            g_["_jwrite"] = keep_w
+        short_tail = not jp.read_bytes().endswith(b"\n")
+        if rc_x != 2 or not out_x or "JOURNAL_WRITE_FAILED" not in out_x[0] or marker.exists() or not short_tail:
+            fails.append(f"v4e-short-write: exit {rc_x} / 切れ端 {short_tail} :: {out_x[:1]}")
+        n_rep = jcount("repair")
+        rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+        if rc_x != 0 or jcount("repair") != n_rep + 1 or not jp.read_bytes().endswith(b"\n"):
+            fails.append(f"v4e-short-write-repaired: exit {rc_x} / repair {jcount('repair') - n_rep}")
+        # V4(f) / V4(n) JOURNAL_CORRUPT: 完全な壊れた行 → JOURNAL_CORRUPT(位置)→ 隔離で抜ける / U+2028・U+0085 は 1 レコード
+        size_f = jp.stat().st_size
+        with open(jp, "ab") as f_:
+            f_.write(b"garbage line\n")
+        rc_x, out_x, n0 = dry()
+        d_x = row("v4f-journal-corrupt", rc_x, out_x, "JOURNAL_CORRUPT", ("corrupt_offset", "open_runs"), None, n0)
+        if d_x.get("corrupt_offset") != size_f or d_x.get("open_runs") != []:
+            fails.append(f"v4f-journal-corrupt: offset {d_x.get('corrupt_offset')} != {size_f} / {d_x.get('open_runs')}")
+        rc_x, out_x = call(["ECO-900", "--release", "any-run", "--by", "EQ-007"])
+        if rc_x != 2 or out_x[:1] != [in_flight_line("ECO-900", "JOURNAL_CORRUPT")]:
+            fails.append(f"v4f-release-refused-while-corrupt: exit {rc_x} :: {out_x[:1]}")
+        rc_x, out_x = call(["ECO-900", "--quarantine-journal", "--by", "EQ-007"])
+        rc_y, out_y, n0 = dry()
+        if rc_x != 0 or not out_x or not out_x[0].startswith("QUARANTINED ECO-900 ") or rc_y != 0:
+            fails.append(f"v4f-quarantined: exit {rc_x}/{rc_y} :: {out_x[:1]} {out_y[:1]}")
+        n_before = len(jrecs())
+        sep = "a\u2028b\u0085c\u2029d"
+        cm_ = journal_commit(jp, {"event": "note", "eco": "ECO-900", "text": sep})
+        after_, _t2, cor_, _x2, _e2 = journal_read(jp)
+        if cm_ or len(after_) != n_before + 1 or after_[-1][1].get("text") != sep or cor_:
+            fails.append(f"v4f-line-separators: {len(after_ or []) - n_before} レコード / corrupt {len(cor_)}")
+        if IS_WIN and b"\r" in jp.read_bytes():   # V4(g)
+            fails.append("v4g-no-cr: journal に CR がある")
+        # V4(h): 待機の中断 → interrupted・cell レコード(interrupted / none)・cell interrupted・exit 2・次回は開いた実行
+        def kb(p_):
+            raise KeyboardInterrupt
+        keep_ = g_["_wait"]
+        g_["_wait"] = kb
+        try:
+            rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+        finally:
+            g_["_wait"] = keep_
+        ev_, st_x = (recs_of(lg) or [{}])[-1], last_start()
+        if (rc_x != 2 or out_x[1:] != ["cell interrupted"] or ev_.get("cell_exit") != "interrupted" or ev_.get("journal_end") != "none"
+                or jcount("interrupted", st_x.get("run_id")) != 1):
+            fails.append(f"v4h-interrupted: exit {rc_x} / {ev_.get('cell_exit')} / {ev_.get('journal_end')} :: {out_x}")
+        time.sleep(0.3)
+        rc_x, out_x, n0 = dry()
+        row("v4h-run-open", rc_x, out_x, OPEN_CLS, ("open_runs",) if IS_WIN else ("open_runs", "unknown_because"), st_x.get("run_id"), n0)
+        release("v4h-release", st_x.get("run_id"), OPEN_CLS)
+        # V4(i) / V4(n) REPORT_EXISTS: 最初の検査とロックのあいだに --report ができた → ロック下で ARG_ERROR・記録なし
+        rp_i = root / "reports" / "ri.md"
+
+        def make_report(name):
+            if name == "before_lock":
+                rp_i.write_text("ACCEPT\n", encoding="utf-8")
+        keep_ = g_["_checkpoint"]
+        g_["_checkpoint"] = make_report
+        try:
+            if marker.exists():
+                marker.unlink()
+            n0 = len(recs_of(lg))
+            rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", str(brief_fx), "--executor", "EQ-002", "--report", "reports/ri.md", "--range", "境界探索"])
+        finally:
+            g_["_checkpoint"] = keep_
+        if (rc_x != 2 or out_x[:1] != ["UNMEASURABLE ARG_ERROR: --report の宛先が既に存在する: reports/ri.md"] or marker.exists()
+                or len(recs_of(lg)) != n0):
+            fails.append(f"v4i-report-exists-under-lock: exit {rc_x} / 記録 {len(recs_of(lg)) - n0} :: {out_x[:1]}")
+        rp_i.unlink(missing_ok=True)
+        # V4(j): 3 プロセスが同じ台帳へ同時に追記 → 全行が在り解析できる
+        lg_j = wout / "ledger-concurrent.jsonl"
+        pr_ = [subprocess.Popen([sys.executable, str(ledf), RUN_PY, str(lg_j), str(w_), "300"]) for w_ in range(3)]
+        rcs_ = [p_.wait(180) for p_ in pr_]
+        got_ = set()
+        bad_lines = 0
+        for ln_ in (lg_j.read_text(encoding="utf-8").split("\n")[:-1] if lg_j.exists() else []):
+            try:
+                o_ = json.loads(ln_)
+                got_.add((o_["w"], o_["i"]))
+            except (ValueError, KeyError):
+                bad_lines += 1
+        if rcs_ != [0, 0, 0] or len(got_) != 900 or bad_lines:
+            fails.append(f"v4j-ledger-concurrent: exit {rcs_} / 行 {len(got_)} / 壊れ {bad_lines}")
+        # V4(l): RUN_IN_FLIGHT は job の停止語彙と配送先表の両方に在り、片側から外すと照合が落ちる
+        vocab_ = set(_load("bomdd-job").STOP_VOCABULARY)
+        if ("RUN_IN_FLIGHT" not in vocab_ or DELIVERY.get("RUN_IN_FLIGHT") != "operator" or vocabulary_mismatch(set(DELIVERY), vocab_)
+                or not vocabulary_mismatch(set(DELIVERY) - {"RUN_IN_FLIGHT"}, vocab_) or not vocabulary_mismatch(set(DELIVERY), vocab_ - {"RUN_IN_FLIGHT"})):
+            fails.append("v4l-vocabulary: RUN_IN_FLIGHT の結線(語彙・配送先・照合の陽性対照)")
+        # V4(m): O3 — 3 地点の例外 → INTERNAL_ERROR・exit 2・traceback・job なし。S1.4 と待機の後は開いたまま・end の後は閉じて cell レコードなし
+        keep_err0 = sys.stderr
+        for point, stays_open in (("first_line", True), ("after_wait", True), ("cell_record", False)):
+            err_buf = io.StringIO()
+            job_names.clear()
+            keep_ = g_["_checkpoint"]
+            g_["_checkpoint"], g_["_job_create"], sys.stderr = raise_at(point), recording_create, err_buf
+            try:
+                n_cell = sum(1 for r in recs_of(lg) if r.get("event") == "cell")
+                rc_x, out_x = call(["ECO-900", "--ledger", str(lg), "--cell", cell, "--brief", "none", "--executor", "EQ-002"])
+            finally:
+                g_["_checkpoint"], g_["_job_create"], sys.stderr = keep_, keep_create, keep_err0
+            st_x = last_start()
+            time.sleep(0.3)
+            if (rc_x != 2 or out_x[-1:] != ["UNMEASURABLE ECO-900 INTERNAL_ERROR(RuntimeError) → operator"] or "Traceback" not in err_buf.getvalue()
+                    or (IS_WIN and (not job_names or _job_query(job_names[-1])[0] != "gone"))):
+                fails.append(f"v4m-{point}: exit {rc_x} / jobs {job_names} :: {out_x}")
+            if stays_open:
+                rc_y, out_y, n0 = dry()
+                row(f"v4m-{point}-open", rc_y, out_y, OPEN_CLS, ("open_runs",) if IS_WIN else ("open_runs", "unknown_because"), st_x.get("run_id"), n0)
+                release(f"v4m-{point}-release", st_x.get("run_id"), OPEN_CLS)
+            elif jcount("end", st_x.get("run_id")) != 1 or sum(1 for r in recs_of(lg) if r.get("event") == "cell") != n_cell:
+                fails.append(f"v4m-{point}: end {jcount('end', st_x.get('run_id'))} / cell レコードが増えた")
+        # V4(o) / V4(n) JOURNAL_UNREADABLE: 在るが読めない journal
+        keep_ = g_["_jread"]
+        g_["_jread"] = boom
+        try:
+            rc_x, out_x, n0 = dry()
+        finally:
+            g_["_jread"] = keep_
+        row("v4o-journal-unreadable", rc_x, out_x, "JOURNAL_UNREADABLE", ("journal_error",), None, n0)
+        # V4(p): 拒否のレコードが書けない → 既存の台帳失敗の行・exit 2
+        r_ = craft()
+        rc_x, out_x = call(["ECO-900", "--ledger", str(bad_ledger)])
+        if rc_x != 2 or not out_x or not out_x[0].startswith("UNMEASURABLE ARG_ERROR: 台帳を書けない"):
+            fails.append(f"v4p-refusal-unwritable: exit {rc_x} :: {out_x[:1]}")
+        # V4(q): 分類の違う 2 つの開いた実行 → より厳しい方を報告し、open_runs は両方
+        r2_ = craft(host="another-host")
+        rc_x, out_x, n0 = dry()
+        d_x = row("v4q-precedence", rc_x, out_x, "UNKNOWN", ("open_runs", "unknown_because"), r2_ if IS_WIN else r_, n0)
+        if d_x.get("open_runs") != [{"run_id": r_, "class": OPEN_CLS}, {"run_id": r2_, "class": "UNKNOWN"}]:
+            fails.append(f"v4q-precedence: {d_x.get('open_runs')}")
+        release("v4q-release-1", r_, OPEN_CLS)
+        release("v4q-release-2", r2_, "UNKNOWN")
+        rc_x, out_x, n0 = dry()
+        if rc_x != 0:   # 腕の後始末: 開いた実行が残っていない
+            fails.append(f"eco113-cleanup: 開いた実行が残る :: {out_x[:1]}")
         # 台帳の形(全レコードに event・decision 行に verifier_line と decision)
         recs = [json.loads(ln) for ln in ledger.read_text(encoding="utf-8").splitlines()]
         decs = [r for r in recs if r.get("event") == "decision"]
@@ -1275,21 +2573,28 @@ def _selftest_body(td_cm, wd_cm) -> int:
         # 配送先表の自己整合(job 語彙と 1 対 1)
         jobmod = _load("bomdd-job")
         vocab = set(getattr(jobmod, "STOP_VOCABULARY", ()) or ())
-        if vocab and set(DELIVERY) != vocab:
-            fails.append(f"DELIVERY と job の停止語彙が一致しない: {sorted(set(DELIVERY) ^ vocab)}")
+        if vocab and vocabulary_mismatch(set(DELIVERY), vocab):
+            fails.append(f"DELIVERY と job の停止語彙が一致しない: {vocabulary_mismatch(set(DELIVERY), vocab)}")
         if set(WITNESS_DELIVERY) != set(witmod.CODES):
             fails.append(f"WITNESS_DELIVERY と witness の CODES が一致しない: {sorted(set(WITNESS_DELIVERY) ^ set(witmod.CODES))}")
         # r1 IA-04: selftest 自身の報告行も 80 桁以内
         for txt in (_report_text([]), _report_text(["x"])):
             if len(txt.splitlines()[0]) > WIDTH:
                 fails.append(f"selftest 報告行が {WIDTH} 桁超: {txt.splitlines()[0]}")
-    return _report(fails)
+    return _report(fails + _CLEANUP_FAILS)
+
+
+def vocabulary_mismatch(delivery: set, vocab: set) -> list:
+    """R6/ECO-113 O2: 配送先表と job の停止語彙の差(1 対 1 なら空)。"""
+    return sorted(delivery ^ vocab)
 
 
 def _report_text(fails) -> str:
     if fails:
         return f"STOP SELFTEST_FAIL: {len(fails)} 件\n  " + "\n  ".join(fails)
-    return "ADVANCE OK: selftest PASS(起動4/dry2/kb5/job1/不能3/独立性9/報告27/gate6/構文5/台帳3/引数13/表)"
+    branch = "msvcrt.locking + Job Object (Windows)" if IS_WIN else "fcntl.flock, no job (POSIX, ECO-113 L1)"
+    return ("ADVANCE OK: selftest PASS(起動4/dry2/kb5/job1/不能3/独立性9/報告27/gate6/構文5/台帳3/引数13/表)\n"
+            f"  ECO-113 V1-V4 PASS · branch: {branch}")   # V1(g): 通った分岐を記録する
 
 
 def _report(fails) -> int:

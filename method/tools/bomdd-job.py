@@ -68,6 +68,7 @@ STOP_VOCABULARY = (
     "MISSING_INPUT",         # 欠測(order 不在・register 不能)— 測定不能は合格ではない
     "INDEPENDENCE_FAIL",     # ⑦ 独立性不成立(producer と executor が同一 id / 3 軸一致 / 軸 unknown)→ 運転員(配員のやり直し)。入口が導出・ECO-072
     "INSPECTION_MISSING",    # ⑧ verified かつ inspector 宣言なのに witness に inspection gate がない → 運転員(独立検査の結果回収)。入口が導出・ECO-074
+    "RUN_IN_FLIGHT",         # ⑨ 同じ変更の別の起動が実行中・終わりを記録しない実行が残る・run journal の欠陥 → 運転員。入口が導出(台帳から導出しない)・ECO-113
 )
 DERIVABLE_FROM_LEDGER = ("NONE", "LEDGER_INCONSISTENT", "MISSING_INPUT")
 
