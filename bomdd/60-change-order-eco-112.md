@@ -330,6 +330,25 @@ receipt "Amendment loop A2"); the tool — `bomdd-run.py` at `f2d91d4` (`bfea9b4
 - **V3's first run (before the repair):** FAIL, recorded as `manufacture/v3-run1-arm-inventory.json` (`b18d908a147f`) and `v3-run1-summary.txt`
   (`24ae76a6a9a1`). **V3 is re-run on the repaired tool after this commit; the acceptance is not settled before it passes** (user ruling).
 
+## 7. Independent inspection r2 (2026-10-18, EQ-002, range 是正確認+回帰) — REJECT IA-03; IA-01 and IA-02 repaired
+
+- **Launched through the repaired entry** on `4d2c05f` (CI 39131152252 success; witness tree `4f3c9d6c71cc`, gate self-conformance): the entry stored
+  the brief (`4112b156…`, 5439 bytes; committed copy `bomdd/reports/eco-112-briefs/inspection-brief-r2.md`, same sha256) and the cell read an
+  **execution copy** through `BOMDD_BRIEF`; after the cell no execution-copy directory named after that brief was left in the OS temporary area —
+  **V2(f) and V2(j) observed on a real cell**. Report `inspection-r2.md` (`e47724ba…`); the ledger's cell record binds it
+  (`report REJECT sha256:e47724ba7d0a (EQ-002)`). The inspector re-ran the three selftests (exit 0) and the nine rule mutations (all detected), and probed
+  B3 with a throwaway repository of its own (the cell deleting `BOMDD_BRIEF`: copy and directory removed, archival copy kept, B4 `BRIEF_NOT_COMMITTED`).
+- **PASS:** IA-01 repaired (B2), IA-02 repaired (B3), stored-not-launched consistency, the selftest and mutations, regression (G1-G5, B1, B4, B5, O1,
+  T1-T6). **FAIL:** scope and records, through one blocking finding:
+  - **IA-03** — the range the brief named, `f2d91d4..4d2c05f`, contains ECO-113's filing commit `3c7781c` (its order and `bomdd/reports/eco-113-*`, with
+    the lock, journal and Job Object rules as text), outside §2's paths; ECO-112's own commits in that range stay inside §2, and no ECO-113 mechanism is in
+    `bomdd-run.py`. The same question reaches V6 at closure: ECO-112's diff window (`3a9de06`..head) holds that commit too. **Cause: the window
+    convention has no rule for another ECO's commit inside a window, and the brief applied the window literally** — not a defect of the repair.
+- **Not repaired yet:** how the window treats ECO-113's commit is a reading of the acceptance (V6), frozen at filing; the user rules it.
+- **Observed, recorded as a limit of the selftest (no change):** the three V2(g) arms count `bomdd-brief-*` directories in the OS temporary area, which
+  other processes share; a concurrent selftest or launch can make them red without cause (never green). The rule mutation that disables the copy's removal
+  leaves its directories there by design.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (before the split; ①②③ together)
