@@ -43,6 +43,15 @@ cases = {
     # O — output
     "O3-exit-1": ('        emit(_fit(f"UNMEASURABLE {eco} INTERNAL_ERROR({e.__class__.__name__}) → operator"))\n        return 2',
                   '        emit(_fit(f"UNMEASURABLE {eco} INTERNAL_ERROR({e.__class__.__name__}) → operator"))\n        return 1', "v4m-"),
+    # A4 (amendment 1:A, V4(f)): one mutation per clause — each check removed must be caught on that clause's own arm
+    "A4i-not-object": ("        if not isinstance(r, dict):   # A4 (i)\n            bad.append((off, line))\n            continue\n", "", "v4f-not-object"),
+    "A4ii-run-id": ("            if not isinstance(rid, str) or not rid:   # A4 (ii)", "            if False:   # A4 (ii)", "v4f-run-id"),
+    "A4iii-order": ('            if (ev == "start" and rid in opened) or (ev != "start" and rid not in started):   # A4 (iii)',
+                    "            if False:   # A4 (iii)", "v4f-close-before-start"),
+    "A4iv-integer": ("    if not isinstance(q, int) or isinstance(q, bool):   # A4 (iv)", "    if False:   # A4 (iv)", "v4f-q-integer"),
+    "A4iv-position": ("    if q < 0 or q > off:   # A4 (iv)", "    if False:   # A4 (iv)", "v4f-q-position"),
+    "A4iv-boundary": ('    if q > 0 and data[q - 1:q] != b"\\n":   # A4 (iv)', "    if False:   # A4 (iv)", "v4f-q-boundary"),
+    "A4iv-digest": ('    if r.get("excluded_sha256") != _sha(b"".join(b for o, b in bad if o < q)):   # A4 (iv)', "    if False:   # A4 (iv)", "v4f-q-digest"),
     # the word removed from bomdd-job's vocabulary (removing it from bomdd-run's DELIVERY breaks the line builder itself — a crash, not a reason)
     "O2-vocabulary": ('    "RUN_IN_FLIGHT",         # ⑨', '    # ⑨', "DELIVERY と job の停止語彙が一致しない", "bomdd-job.py"),
 }

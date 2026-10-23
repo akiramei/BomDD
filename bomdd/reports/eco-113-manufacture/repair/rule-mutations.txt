@@ -1,0 +1,29 @@
+X2-no-lock: exit 1, red True, names 'v1a-entry-alive' True :: STOP SELFTEST_FAIL: 18 件
+X2-open-error-is-alive: exit 1, red True, names 'v1f-readonly-lock' True :: STOP SELFTEST_FAIL: 2 件
+W1-no-kill-on-close: exit 1, red True, names 'v2a-entry-killed' True :: STOP SELFTEST_FAIL: 13 件
+W3-handle-not-closed: exit 1, red True, names 'v2g-' True :: STOP SELFTEST_FAIL: 17 件
+W4-code: exit 1, red True, names 'v2c-' True :: STOP SELFTEST_FAIL: 3 件
+J2-not-found-is-alive: exit 1, red True, names 'v2a-abnormal-end' True :: STOP SELFTEST_FAIL: 117 件
+J2-no-namespace-key: exit 1, red True, names 'v2d-other-' True :: STOP SELFTEST_FAIL: 12 件
+J2-precedence-reversed: exit 1, red True, names 'v4q-precedence' True :: STOP SELFTEST_FAIL: 1 件
+R2-release-cell-alive: exit 1, red True, names 'v3b-release-cell-alive' True :: STOP SELFTEST_FAIL: 7 件
+R2-no-unverified: exit 1, red True, names 'v3a-release-unknown' True :: STOP SELFTEST_FAIL: 6 件
+R3-quarantine-cell-alive: exit 1, red True, names 'v3e-quarantine-cell-alive' True :: STOP SELFTEST_FAIL: 4 件
+A1-short-write-accepted: exit 1, red True, names 'v4e-short-write' True :: STOP SELFTEST_FAIL: 1 件
+A2-torn-not-repaired: exit 1, red True, names 'v4c-torn-repaired' True :: STOP SELFTEST_FAIL: 7 件
+A5-ledger-unlocked: exit 1, red True, names 'v4j-ledger-concurrent' True :: STOP SELFTEST_FAIL: 1 件
+S1-report-recheck-off: exit 1, red True, names 'v4i-report-exists-under-lock' True :: STOP SELFTEST_FAIL: 1 件
+S1.6-no-retry: exit 1, red True, names 'v4d-end-failed' True :: STOP SELFTEST_FAIL: 1 件
+S3-interrupt-closes: exit 1, red True, names 'v4h-' True :: STOP SELFTEST_FAIL: 3 件
+S4-entry-alive-fields: exit 1, red True, names 'v1a-entry-alive' True :: STOP SELFTEST_FAIL: 2 件
+O3-exit-1: exit 1, red True, names 'v4m-' True :: STOP SELFTEST_FAIL: 4 件
+A4i-not-object: exit 1, red True, names 'v4f-not-object' True :: STOP SELFTEST_FAIL: 126 件
+A4ii-run-id: exit 1, red True, names 'v4f-run-id' True :: STOP SELFTEST_FAIL: 43 件
+A4iii-order: exit 1, red True, names 'v4f-close-before-start' True :: STOP SELFTEST_FAIL: 11 件
+A4iv-integer: exit 1, red True, names 'v4f-q-integer' True :: STOP SELFTEST_FAIL: 64 件
+A4iv-position: exit 1, red True, names 'v4f-q-position' True :: STOP SELFTEST_FAIL: 2 件
+A4iv-boundary: exit 1, red True, names 'v4f-q-boundary' True :: STOP SELFTEST_FAIL: 2 件
+A4iv-digest: exit 1, red True, names 'v4f-q-digest' True :: STOP SELFTEST_FAIL: 2 件
+O2-vocabulary: exit 1, red True, names 'DELIVERY と job の停止語彙が一致しない' True :: STOP SELFTEST_FAIL: 2 件
+rule mutations PASS
+exit=0

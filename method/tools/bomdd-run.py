@@ -680,10 +680,25 @@ def journal_commit(path: Path, rec: dict) -> str | None:
     return None
 
 
+def _quarantine_fault(r: dict, off: int, data: bytes, bad: list) -> str | None:
+    """A4 (iv): 隔離の記録の検査。不正なら理由、正しければ None(除く行は bad の offset より前のもの)。"""
+    q = r.get("offset")
+    if not isinstance(q, int) or isinstance(q, bool):   # A4 (iv): offset が整数でない
+        return "offset not an integer"
+    if q < 0 or q > off:   # A4 (iv): 自分の位置より後
+        return "offset past its own position"
+    if q > 0 and data[q - 1:q] != b"\n":   # A4 (iv): 行の境目でない
+        return "offset not at a line boundary"
+    if r.get("excluded_sha256") != _sha(b"".join(b for o, b in bad if o < q)):   # A4 (iv): 除く行の sha256 と合わない
+        return "digest mismatch"
+    return None
+
+
 def journal_read(path: Path) -> tuple[list | None, bytes, list, list, str | None]:
-    """A2/A3/A4: (records [(offset, rec)], torn tail, corrupt [(offset, bytes)], excluded [(offset, bytes)], error)。
-    b"\\n" だけで分ける。改行のない最後の区間は無いものとする。quarantine の offset より前の壊れた行は以後読まない(R3)。
-    存在しない journal はレコードなし。存在して読めない(OSError)は error(JOURNAL_UNREADABLE)。"""
+    """A2/A3/A4/J1: (records [(offset, rec)], torn tail, corrupt [(offset, bytes)], excluded [(offset, bytes)], error)。
+    b"\\n" だけで分け、改行のない最後の区間は無いものとする。**順に読む**(ECO-113 修正 1:A): start が run_id を開き、後の end / abort /
+    release が閉じる。読めない行と不正なレコード(A4 (i)-(iv))は corrupt(何も開かず閉じない)。正しい quarantine はそれより前の
+    corrupt を以後外す(R3)。records は正しいレコードだけ。存在しない journal はレコードなし。読めない(OSError)は error。"""
     try:
         data = _jread(path)
     except FileNotFoundError:
@@ -691,32 +706,53 @@ def journal_read(path: Path) -> tuple[list | None, bytes, list, list, str | None
     except OSError as e:
         return None, b"", [], [], _oserr(e)
     parts = data.split(b"\n")
-    recs, bad, pos = [], [], 0
+    recs, bad, excluded, opened, started, pos = [], [], [], set(), set(), 0
     for seg in parts[:-1]:
+        off, line = pos, seg + b"\n"
+        pos += len(line)
         try:
             r = json.loads(seg.decode("ascii"))
-            if not isinstance(r, dict):
-                raise ValueError("not an object")
-            recs.append((pos, r))
         except ValueError:   # UnicodeDecodeError と JSONDecodeError を含む
-            bad.append((pos, seg + b"\n"))
-        pos += len(seg) + 1
-    qoff = max((r["offset"] for _, r in recs if r.get("event") == "quarantine" and isinstance(r.get("offset"), int)), default=-1)
-    return recs, parts[-1], [b for b in bad if b[0] >= qoff], [b for b in bad if b[0] < qoff], None
+            bad.append((off, line))
+            continue
+        if not isinstance(r, dict):   # A4 (i)
+            bad.append((off, line))
+            continue
+        ev = r.get("event")
+        if ev == "start" or ev in CLOSING_EVENTS:
+            rid = r.get("run_id")
+            if not isinstance(rid, str) or not rid:   # A4 (ii)
+                bad.append((off, line))
+                continue
+            if (ev == "start" and rid in opened) or (ev != "start" and rid not in started):   # A4 (iii): J1 の順を破る
+                bad.append((off, line))
+                continue
+            if ev == "start":
+                opened.add(rid)
+                started.add(rid)
+            else:
+                opened.discard(rid)   # 閉じた実行への 2 度目の closing は何も閉じない(J1)
+        elif ev == "quarantine":
+            if _quarantine_fault(r, off, data, bad):
+                bad.append((off, line))   # 不正な隔離は何も外さない
+                continue
+            excluded += [b for b in bad if b[0] < r["offset"]]
+            bad = [b for b in bad if b[0] >= r["offset"]]
+        recs.append((off, r))   # それ以外のレコード(repair・interrupted・ほかの event)は何も開かず閉じない
+    return recs, parts[-1], bad, excluded, None
 
 
 def open_runs(recs: list) -> list:
-    """J1: start があり、その run_id の end / abort / release がない実行(journal の順)。"""
-    starts, closed = {}, set()
+    """J1: 順に読んで、後の closing に閉じられていない start(journal の順)。recs は journal_read が正しいと読んだレコードだけ。"""
+    runs = {}
     for _, r in recs:
-        rid = r.get("run_id")
-        if not isinstance(rid, str):
-            continue
-        if r.get("event") == "start":
-            starts.setdefault(rid, r)
-        elif r.get("event") in CLOSING_EVENTS:
-            closed.add(rid)
-    return [r for rid, r in starts.items() if rid not in closed]
+        rid, ev = r.get("run_id"), r.get("event")
+        if ev == "start":
+            runs.pop(rid, None)
+            runs[rid] = r
+        elif ev in CLOSING_EVENTS:
+            runs.pop(rid, None)
+    return list(runs.values())
 
 
 def classify_run(start: dict, ident: dict) -> tuple[str, str]:
@@ -1975,8 +2011,16 @@ def _selftest_body(td_cm, wd_cm) -> int:
         RUN_PY = str(TOOLS_DIR / "bomdd-run.py")
         OPEN_CLS = "ABNORMAL_END" if IS_WIN else "UNKNOWN"   # 入口の居ない開いた実行の分類(POSIX は job がない= L1)
 
+        def jread_safe():
+            """selftest が reader を直接呼ぶ所の囲い: reader の例外は selftest の落下でなく、腕の所見になる(規則の変異が名指しされるように)。"""
+            try:
+                return journal_read(jp)
+            except Exception as e_:
+                fails.append(f"journal_read raised {e_.__class__.__name__}: {str(e_)[:80]}")
+                return None, b"", [(-1, b"raised")], [], None
+
         def jrecs():
-            r_ = journal_read(jp)[0]
+            r_ = jread_safe()[0]
             return [x for _, x in (r_ or [])]
 
         def jcount(event, rid_=None):
@@ -2458,11 +2502,117 @@ def _selftest_body(td_cm, wd_cm) -> int:
         n_before = len(jrecs())
         sep = "a\u2028b\u0085c\u2029d"
         cm_ = journal_commit(jp, {"event": "note", "eco": "ECO-900", "text": sep})
-        after_, _t2, cor_, _x2, _e2 = journal_read(jp)
+        after_, _t2, cor_, _x2, _e2 = jread_safe()
+        after_ = after_ or []
         if cm_ or len(after_) != n_before + 1 or after_[-1][1].get("text") != sep or cor_:
             fails.append(f"v4f-line-separators: {len(after_ or []) - n_before} レコード / corrupt {len(cor_)}")
         if IS_WIN and b"\r" in jp.read_bytes():   # V4(g)
             fails.append("v4g-no-cr: journal に CR がある")
+        # V4(f)/(q)(ECO-113 修正 1:A): journal は順に読み、不正なレコード(A4 (i)-(iv))は JOURNAL_CORRUPT — 何も開かず閉じず、不正な隔離は何も外さない
+        def jraw(*lines):
+            with open(jp, "ab") as f_:
+                for ln_ in lines:
+                    f_.write(ln_ if isinstance(ln_, bytes) else _jline(ln_))
+
+        def jsize():
+            return jp.stat().st_size if jp.exists() else 0
+
+        def corrupt_offs():
+            return [o_ for o_, _b in (jread_safe()[2] or [])]
+
+        def quarantine_clean(name):
+            rc_, out_ = call(["ECO-900", "--quarantine-journal", "--by", "EQ-007"])
+            if rc_ != 0 or corrupt_offs():
+                fails.append(f"{name}: 隔離で片付かない exit {rc_} / corrupt {corrupt_offs()} :: {out_[:1]}")
+
+        def only_fault(name, at, open_list=()):
+            """不正が 1 件だけ: reader の corrupt はそのレコード・拒否は JOURNAL_CORRUPT で corrupt_offset はそのレコード。"""
+            if corrupt_offs() != [at]:
+                fails.append(f"{name}: reader の corrupt {corrupt_offs()} != [{at}]")
+            rc_, out_, n_ = dry()
+            d_ = row(name, rc_, out_, "JOURNAL_CORRUPT", ("corrupt_offset", "open_runs"), None, n_)
+            if d_.get("corrupt_offset") != at or d_.get("open_runs") != list(open_list):
+                fails.append(f"{name}: corrupt_offset {d_.get('corrupt_offset')} != {at} / open_runs {d_.get('open_runs')}")
+
+        at = jsize()
+        jraw(b"[1, 2]\n")   # A4 (i): 解析できるがオブジェクトでない
+        only_fault("v4f-not-object", at)
+        quarantine_clean("v4f-not-object")
+        for ev_, rid_ in (("start", 5), ("end", 5), ("abort", 5), ("release", 5), ("start", "")):   # A4 (ii)
+            at = jsize()
+            jraw({"event": ev_, "eco": "ECO-900", "run_id": rid_})
+            only_fault(f"v4f-run-id-{ev_}-{rid_!r}", at)
+            quarantine_clean(f"v4f-run-id-{ev_}")
+        r_ = craft()   # A4 (iii): 開いている run_id の 2 度目の start
+        at = jsize()
+        jraw({"event": "start", "eco": "ECO-900", "run_id": r_, "job_name": "second"})
+        only_fault("v4f-duplicate-start", at, [{"run_id": r_, "class": OPEN_CLS}])
+        quarantine_clean("v4f-duplicate-start")
+        rc_x, out_x, n0 = dry()
+        row("v4f-duplicate-start-first-open", rc_x, out_x, OPEN_CLS, ("open_runs",) if IS_WIN else ("open_runs", "unknown_because"), r_, n0)
+        release("v4f-duplicate-start-release", r_, OPEN_CLS)
+        r_ = f"crafted-{os.urandom(4).hex()}"   # A4 (iii): その run_id の start より前の closing(r1 の再現: release(r) の後に start(r))
+        at = jsize()
+        jraw({"event": "release", "eco": "ECO-900", "run_id": r_, "by": "EQ-007"})
+        craft_start = {"event": "start", "eco": "ECO-900", "run_id": r_, "job_name": f"Local\\BomDD-run-ECO-900-{r_}", "entry_pid": 0,
+                       "host": IDN["host"], "session": IDN["session"], "appcontainer": IDN["appcontainer"], "started_at": _now()}
+        jraw(craft_start)
+        only_fault("v4f-close-before-start", at, [{"run_id": r_, "class": OPEN_CLS}])
+        quarantine_clean("v4f-close-before-start")
+        rc_x, out_x, n0 = dry()
+        row("v4f-close-before-start-open", rc_x, out_x, OPEN_CLS, ("open_runs",) if IS_WIN else ("open_runs", "unknown_because"), r_, n0)
+        release("v4f-close-before-start-release", r_, OPEN_CLS)
+        at = jsize()   # A4 (iv): offset が整数でない
+        jraw({"event": "quarantine", "eco": "ECO-900", "offset": "0", "excluded_sha256": _sha(b""), "by": "EQ-007"})
+        only_fault("v4f-q-integer", at)
+        quarantine_clean("v4f-q-integer")
+        u_ = b"unparsable line u\n"
+        # A4 (iv): 自分の位置より後の offset — 前に読めない行 U、offset は後ろの正しい行の終わり(行の境目)、digest は U(位置の検査だけが不正にする)
+        at = jsize()
+        note_ = _jline({"event": "note", "eco": "ECO-900"})
+        x_ = 0
+        for _i in range(5):
+            q_ = _jline({"event": "quarantine", "eco": "ECO-900", "offset": x_, "excluded_sha256": _sha(u_), "by": "EQ-007"})
+            x_ = at + len(u_) + len(q_) + len(note_)
+        q_ = _jline({"event": "quarantine", "eco": "ECO-900", "offset": x_, "excluded_sha256": _sha(u_), "by": "EQ-007"})
+        jraw(u_, q_, note_)
+        if corrupt_offs() != [at, at + len(u_)]:
+            fails.append(f"v4f-q-position: corrupt {corrupt_offs()} != {[at, at + len(u_)]}(U は残り、隔離も不正)")
+        quarantine_clean("v4f-q-position")
+        at = jsize()   # A4 (iv): 行の境目でない offset(U の途中)・digest は offset より前に始まる行 U
+        q_ = _jline({"event": "quarantine", "eco": "ECO-900", "offset": at + 2, "excluded_sha256": _sha(u_), "by": "EQ-007"})
+        jraw(u_, q_)
+        if corrupt_offs() != [at, at + len(u_)]:
+            fails.append(f"v4f-q-boundary: corrupt {corrupt_offs()} != {[at, at + len(u_)]}")
+        quarantine_clean("v4f-q-boundary")
+        at = jsize()   # A4 (iv): 行の境目にあり digest だけが合わない
+        q_ = _jline({"event": "quarantine", "eco": "ECO-900", "offset": at + len(u_), "excluded_sha256": _sha(b"other bytes\n"), "by": "EQ-007"})
+        jraw(u_, q_)
+        if corrupt_offs() != [at, at + len(u_)]:
+            fails.append(f"v4f-q-digest: corrupt {corrupt_offs()} != {[at, at + len(u_)]}")
+        quarantine_clean("v4f-q-digest")
+        at = jsize()   # r1 の再現: offset 999999 の隔離は後ろの壊れた行を隠さない
+        q_ = _jline({"event": "quarantine", "eco": "ECO-900", "offset": 999999, "excluded_sha256": _sha(b"junk\n"), "by": "EQ-007"})
+        jraw(q_, b"junk\n")
+        if corrupt_offs() != [at, at + len(q_)]:
+            fails.append(f"v4f-q-r1-probe: corrupt {corrupt_offs()} != {[at, at + len(q_)]}")
+        quarantine_clean("v4f-q-r1-probe")
+        r_ = craft()   # 閉じた実行への 2 度目の end は JOURNAL_CORRUPT でない(S1.6 の再試行)
+        jraw({"event": "end", "eco": "ECO-900", "run_id": r_, "cell_exit": 0}, {"event": "end", "eco": "ECO-900", "run_id": r_, "cell_exit": 0})
+        rc_x, out_x, n0 = dry()
+        if rc_x != 0 or corrupt_offs() or any(s_.get("run_id") == r_ for s_ in open_runs(jread_safe()[0] or [])):
+            fails.append(f"v4f-repeated-end: exit {rc_x} / corrupt {corrupt_offs()} :: {out_x[:1]}")
+        # V4(q): 閉じた後に再び使われた run_id は新しい実行を開き、ほかと同じく分類される
+        r_ = craft()
+        release("v4q-reuse-first-release", r_, OPEN_CLS)
+        jraw(dict(craft_start, run_id=r_, job_name=f"Local\\BomDD-run-ECO-900-{r_}"))
+        rc_x, out_x, n0 = dry()
+        d_x = row("v4q-reuse-opens", rc_x, out_x, OPEN_CLS, ("open_runs",) if IS_WIN else ("open_runs", "unknown_because"), r_, n0)
+        if d_x.get("open_runs") != [{"run_id": r_, "class": OPEN_CLS}]:
+            fails.append(f"v4q-reuse-opens: open_runs {d_x.get('open_runs')}")
+        rc_x, out_x = call(["ECO-900", "--release", r_, "--by", "EQ-007"])
+        if rc_x != 0 or jcount("release", r_) != 2:
+            fails.append(f"v4q-reuse-release: exit {rc_x} / releases {jcount('release', r_)} :: {out_x[:1]}")
         # V4(h): 待機の中断 → interrupted・cell レコード(interrupted / none)・cell interrupted・exit 2・次回は開いた実行
         def kb(p_):
             raise KeyboardInterrupt

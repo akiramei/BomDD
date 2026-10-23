@@ -493,6 +493,39 @@ built on it. OBS-20261019-01 (review snapshots) stays on hold (user), and nothin
 - **Not repaired yet:** both repairs change rule text of the filed design (J1, J2, A4, L11); the user rules how they are made (the user's condition:
   stop and ask before adding a mechanism or changing an acceptance item).
 
+## 6. Repair manufacture (2026-10-24, user ruling "1:A", after amendment loop A2 converged)
+
+**Inputs fixed** (sha256 prefixes; `git show <rev>:<path>`): the design — this order at `860097d` (`78f995207b9e`), the amendment converged (loop A 7→2→1
+unconverged → user "A": the common cause removed → loop A2 1→0→0); the tool — `bomdd-run.py` at `2752d18` (`5f27e777e39f`, unchanged up to `860097d`).
+Only `bomdd-run.py` and this ECO's evidence change.
+
+**What changed, by rule:**
+- **J1, A4 (IA-01, IA-02):** `journal_read` reads the journal in order. A `start` opens its `run_id`, a later closing record closes it, a closing record
+  for a closed run closes nothing, and a `start` after close opens a new run. The invalid records of A4 (i)-(iv) go to the corrupt lines and open
+  and close nothing: not an object; a `run_id` that is not a non-empty string; a second `start` for an open id; a closing record with no earlier
+  `start`; a quarantine whose `offset` is not an integer, lies past its own position, is not at a line boundary, or whose digest is not the sha256 of
+  the corrupt lines before `offset` (each with its `\n`). Only a valid quarantine excludes, in order. `_quarantine_fault` holds (iv)'s four checks.
+  `journal_read` returns only valid records.
+- `open_runs` reads those records in order (no global "closed" set any more). `judge`, `_recover` and the S4 rows are unchanged; `corrupt_offset` is
+  the first corrupt line or invalid record (A4). R3's quarantine (offset just past the last corrupt line, the digest of the corrupt lines in order) is
+  valid under A4 (iv) by construction.
+- **Selftest (V4(f), V4(q)):** arms `v4f-not-object`, `v4f-run-id-*` (a `start`, `end`, `abort` and `release` with `run_id` 5, and a `start` with an
+  empty id), `v4f-duplicate-start` (the first `start` stays open), `v4f-close-before-start` (the r1 probe: the release is corrupt, `r` opens), `v4f-q-integer`,
+  `v4f-q-position`, `v4f-q-boundary`, `v4f-q-digest` (each built so that only its own check makes the quarantine invalid), `v4f-q-r1-probe` (offset 999999
+  hides nothing), `v4f-repeated-end`, `v4q-reuse-opens`; each invalid journal is then quarantined by R3 and must read clean.
+
+**Acceptance measured before the repair commit** (evidence: `bomdd/reports/eco-113-manufacture/repair/`):
+- **V1-V5 — PASS:** the bomdd-run selftest exit 0 (all earlier arms and the new ones); bomdd-job and bomdd-witness exit 0;
+  `git diff -- method/tools/bomdd-witness.py` empty.
+- **Rule mutations: 27/27 ECO-113 cases and 9/9 ECO-112 cases detected, each on its own arm.** The seven V4(f) requires — A4 (i), (ii), (iii), and (iv)'s integer, position, boundary and digest checks — each
+  removed in a copy and caught on its own arm, with the 20 earlier ECO-113 cases and ECO-112's 9 re-run on the repaired tool.
+- **r1's probes on the repaired reader:** `release(r)` then `start(r)` → `r` open, the release corrupt; two starts → the first open, the second
+  corrupt; offset 999999 before a corrupt line → 2 corrupt, 0 excluded.
+- **Found during the repair (an instrument defect of the arms, attributed to the selftest, not to the rules):** the first run of the A4 (i) and A4 (iv)
+  integer mutations crashed the selftest instead of failing an arm, because the selftest's own helpers called `journal_read` directly, outside
+  `run()`'s O3 handler. They now go through one guard (`jread_safe`), which turns a reader exception into a named failure; both mutations then turned
+  the selftest red on their own arms.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1
