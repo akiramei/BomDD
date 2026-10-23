@@ -30,6 +30,20 @@
 > omission: enumerate every S4 refusal reason and check mechanically that each has its ledger record, line and recovery rule. Keep the existing
 > mechanisms; add no new state-management mechanism; keep the default convergence rule; no manufacture before convergence.
 >
+> Amendment ruling: user, 2026-10-24, "1:A 2:a" after inspection r1 (REJECT IA-01, IA-02; §5). **1:A** — the journal is read in order and invalid
+> records stop classification as `JOURNAL_CORRUPT`; the amendment covers J1, J2's claim sentence, A4, L11 and the acceptance observations V4(f) and
+> V4(q) (an acceptance change the user saw before ruling), with the references they directly affect (J2's `JOURNAL_CORRUPT` bullet, A3's
+> interface, R3's exclusion, the coverage line); S4's table (reasons and ways out) is unchanged; no
+> new state or mechanism; the amended text converges by the default rule (two consecutive rounds with zero new findings, limit 3) before the repair is
+> manufactured; then inspection r2 (是正確認+回帰). **2:a** — V8's diff window is ruled for ECO-113 as an exception by ECO-112's method (§8 of
+> ECO-112): the commits that are not ECO-113's are excluded with their reasons, non-interference is checked by diff, ECO-113's change set is enumerated
+> in full as r2's target, and OBS-20261018-02 records its second case; not a general rule.
+>
+> Extension ruling: user, 2026-10-24, "A" after amendment loop A ended unconverged (7→2→1; every finding of rounds 2 and 3 in V4(f)'s prose recipes
+> for building the quarantine arms). Remove the common cause first: V4(f) states what is observed, not how an arm is built; that each A4 check is
+> needed is shown by T1's rule mutations, one per clause; then a new loop by the default rule (two consecutive rounds with zero new findings,
+> limit 3).
+>
 > Records are English-primary.
 
 ## Equipment
@@ -108,8 +122,11 @@ run), **A** records (commit and read lines). **S** is the launch sequence, **O**
 
 ### J — judgement
 
-- **J1 — the source.** The run journal `<git-common-dir>/bomdd-run/<ECO>.runs.jsonl`, read only through A2. An open run is a `start` record with no
-  `end`, `abort` or `release` for its `run_id`. The ledger (`--ledger`) is not read for this.
+- **J1 — the source.** The run journal `<git-common-dir>/bomdd-run/<ECO>.runs.jsonl`, read only through A2, **in order** (amendment 1:A). A `start`
+  record opens its `run_id`; a later `end`, `abort` or `release` record with that `run_id` closes it; an open run is a `start` that no later closing
+  record has closed. A closing record for a `run_id` that is already closed closes nothing (S1.6 may write `end` again); a `start` for a `run_id` that
+  was closed earlier opens a new run. Two records break this order and are invalid (A4): a second `start` for a `run_id` that is still open, and a
+  closing record for a `run_id` that no earlier `start` opened. An invalid record opens and closes nothing. The ledger (`--ledger`) is not read for this.
 - **J2 — the classes.** Only while holding the lock (X3). No open run → proceed. An open run means its entry is gone (else X2 would have refused); it is
   classified by its job, named in its `start` record:
   - `ABNORMAL_END` — Windows; host, `session` and `appcontainer` equal to the classifier's; and opening the job by name fails with
@@ -117,8 +134,9 @@ run), **A** records (commit and read lines). **S** is the launch sequence, **O**
   - `CELL_ALIVE` — the job exists with active processes (while the OS is still ending them, or because another process holds a handle to it, which keeps
     kill-on-close from firing);
   - `UNKNOWN` — POSIX; a host, `session` or `appcontainer` that differs or cannot be read; any other error from opening or querying the job;
-  - `JOURNAL_CORRUPT` — a complete line that does not parse (A4).
-  A start without an end is never read as an abnormal end by itself. **Every open run is classified**; the reported class is the most restrictive
+  - `JOURNAL_CORRUPT` — a complete line that does not parse, or an invalid record (A4).
+  A start without an end is never read as an abnormal end by itself. **Every open run that J1 reads is classified**, and an invalid record (A4) is never
+  skipped: it is `JOURNAL_CORRUPT` (amendment 1:A); the reported class is the most restrictive
   present — `JOURNAL_CORRUPT` > `CELL_ALIVE` > `UNKNOWN` > `ABNORMAL_END` — and the record lists every open run with its class (S4). Verdicts and exits: O1.
 
 ### R — recovery
@@ -129,7 +147,8 @@ run), **A** records (commit and read lines). **S** is the launch sequence, **O**
   `release` record `{run_id, classified, cause, by}`, with `cell: unverified` for `UNKNOWN` (the person releasing asserts that no process of the run is
   running). A RUN_ID that is not an open run → `ARG_ERROR`.
 - **R3 — quarantine** (the way out of `JOURNAL_CORRUPT`). Takes the lock and commits into the same journal a `quarantine` record
-  `{offset, excluded_sha256, by}`; complete lines before `offset` that do not parse are excluded from parsing from then on. Nothing is moved or deleted;
+  `{offset, excluded_sha256, by}` as A4 (iv) defines it; a valid quarantine excludes, from then on, the lines A4 (iv) names (unparsable lines and
+  invalid records before `offset`), and an invalid one excludes nothing. Nothing is moved or deleted;
   every parsed open run stays open and needs its own release. Refused while any parsed open run is `CELL_ALIVE`.
 - **R4 — `--by`.** Must name equipment with `kind: human`, `status: active` in `bomdd/70-equipment.yaml`; it is self-reported.
 - **R5 — what recovery is not.** It does not resume or stop anything. Restarting is a new launch after the release, decided afresh on the current tree
@@ -143,11 +162,17 @@ run), **A** records (commit and read lines). **S** is the launch sequence, **O**
 - **A2 — journal read.** Bytes split on `b"\n"` only. A final segment without `\n` is a torn record, treated as absent; the next writer, holding the lock,
   truncates the file to the last `\n` and commits a `repair` record `{truncated_bytes, sha256}`. A torn `start` precedes no started cell (S1 resumes or
   starts the cell only after `start` is committed).
-- **A3 — the interface.** commit(record) → ok / failed; read() → records, torn tail, corrupt lines — or an error: a journal that exists but cannot be
+- **A3 — the interface.** commit(record) → ok / failed; read() → records, torn tail, corrupt lines (the unparsable lines and invalid records, A4, read in order and after valid quarantines) — or an error: a journal that exists but cannot be
   read (an `OSError`) → cause `JOURNAL_UNREADABLE`; its way out is fixing the environment. A journal that does not exist has no records. Nothing else
   touches the journal.
-- **A4 — a complete unparsable line** cannot come from bomdd-run (single writer, single write, under the lock, binary mode); it makes J2's
-  `JOURNAL_CORRUPT`, and the way out is R3.
+- **A4 — a complete unparsable line or an invalid record** cannot come from bomdd-run: it writes no unparsable line (single writer, single write,
+  under the lock, binary mode) and no invalid record (a `start` only after J2 found no open run, S1; a closing record only after its own `start`,
+  S1.3, S1.6, S2, R2; a `quarantine` from its own read under the lock, R3). It makes J2's `JOURNAL_CORRUPT`, and the way out is R3. For R3 and for S4's `corrupt_offset`, an invalid record counts as a line that does not parse. **Invalid records** (amendment 1:A):
+  (i) a line that parses but is not a JSON object; (ii) a `start`, `end`, `abort` or `release` whose `run_id` is not a non-empty string; (iii) a record
+  that breaks J1's order; (iv) a `quarantine` whose `offset` is not an integer, is not at a line boundary, or lies after the quarantine record's own
+  position, or whose `excluded_sha256` is not the sha256 of the lines it excludes (the not-yet-excluded unparsable lines and invalid records before
+  `offset`, in file order, each with its terminating `\n`, concatenated) — such a quarantine excludes nothing. Every other record — `repair`, `interrupted`, any other `event` value, a non-string `event`, a record with no `event`, a near-miss such as
+  `"Start"` — opens and closes nothing.
 - **A5 — ledger appends.** Every ledger append (existing ones included) holds a short blocking OS lock on `<ledger path>.lock` (outside the worktree,
   like the ledger — bomdd-run R4); not obtained within 10 s → a ledger write failure (the existing handling).
 
@@ -246,7 +271,11 @@ run), **A** records (commit and read lines). **S** is the launch sequence, **O**
   a `--report` path that then exists makes the next launch `ARG_ERROR` (bomdd-run R10), and the operator moves it as evidence.
 - **L10 (J2, X3):** a sequential relaunch after a completed or released run is not refused; a dry run's classification can make a concurrent launch read
   `ENTRY_ALIVE`.
-- **L11 (X1, J1, R4):** deleting the lock file or the journal by hand is outside the trust boundary; the journal is clone-local; `--by` is self-reported.
+- **L11 (X1, J1, A4, R4):** deleting the lock file or the journal, or writing records into the journal, by hand is outside the trust boundary; the
+  journal is clone-local; `--by` is self-reported. What the reader guarantees for records it did not write is fail-closed reading (A4: an invalid
+  record is `JOURNAL_CORRUPT`, never skipped), not detection of a forgery: a well-formed `end` or `release` written by hand closes a run, a
+  well-formed `quarantine` with a matching digest excludes lines, and a record A4 counts as "every other record" (a missing or near-miss `event`)
+  opens and closes nothing (amendment 1:A).
 - **L12 (T1):** the bomdd-run and bomdd-job selftests are not run in CI; they are run locally and recorded (V5).
 
 ### Not changed
@@ -270,7 +299,7 @@ closure:** V6 (CI), V8 (the diff window). Each item lists what is observed and w
 or code in the first line and the ledger record (T1).
 
 **Coverage (T1) — the one place that maps rules to items:** X1, X2, X3 → V1(a)-(g). W1 → V2(a), (g); W2 → V2(a), (f); W3 → V2(a), (b), (c), (g), (h);
-W4 → V2(c); W5 → V2(d); W6 → V2(e). J1 → V2(i); J2 → V2(a), (b), (d), (e), (g), V4(q). R1 → V3(c); R2 → V3(a), (b), (d); R3 → V3(e); R4 → V3(c).
+W4 → V2(c); W5 → V2(d); W6 → V2(e). J1 → V2(i), V4(f), (q); J2 → V2(a), (b), (d), (e), (g), V4(q). R1 → V3(c); R2 → V3(a), (b), (d); R3 → V3(e); R4 → V3(c).
 A1 → V4(a), (d), (e), (g); A2 → V4(c), (f); A3 → V4(o); A4 → V4(f); A5 → V4(j). S1 → V4(a), (b), (i), V2(c), (e); S2 → V2(h); S3 → V4(h); S4 → V4(n), (p).
 O1 → V4(k); O3 → V4(m), V2(g); O2's code half (the word in bomdd-job's vocabulary and bomdd-run's delivery table) → V4(l).
 Without an arm of their own: A3's normal outcomes (the interface; exercised through every A1/A2 arm — its error outcome is V4(o)); R5 (a statement of what recovery does not do; V3(a)'s relaunch goes
@@ -315,6 +344,14 @@ the sentence in its adapter section A1 — prose, checked by the independent ins
   (c) a torn final line → treated as absent; the next writer truncates it and commits a `repair` record with its sha256;
   (d) `end` commit failure → retried; the ledger cell record carries `journal_end: failed`; the run reads open;
   (e) a short write → failure; (f) a complete unparsable line → `JOURNAL_CORRUPT`; a record containing U+2028 or U+0085 reads as one record;
+      each kind of invalid record (A4 (i)-(iv)) → `JOURNAL_CORRUPT` (the refusal, and the record among the reader's corrupt lines): a parsed line
+      that is not an object; a `start`, an `end`, an `abort` and a `release` whose `run_id` is not a string or is empty; a second `start` for an open
+      `run_id`; a closing record before any `start` of its `run_id` (the r1 probe: `release(r)` then `start(r)`; after a quarantine `r` reads open);
+      a quarantine whose `offset` is not an integer, is past its own position (the r1 probe's offset 999999), is not at a line boundary, or whose
+      digest does not match — an invalid quarantine excludes nothing, so a corrupt line it names stays a corrupt line; a repeated `end` for a
+      closed run is not `JOURNAL_CORRUPT`. **That each of A4's checks is needed is shown by T1's rule mutations** (manufacture evidence), one per
+      clause — A4 (i), (ii), (iii), and (iv)'s integer, position, boundary and digest checks: with that check removed from a copy, the selftest goes
+      red on that clause's own arm (amendment 1:A, extension "A");
   (g) on Windows, the journal's bytes contain no `\r`;
   (h) an interrupted wait → an `interrupted` note, the ledger cell record with `cell_exit: interrupted` and `journal_end: none`, the line
       `cell interrupted`, exit 2, and `ABNORMAL_END` next time;
@@ -329,7 +366,7 @@ the sentence in its adapter section A1 — prose, checked by the independent ins
       row's extra fields (none for `ENTRY_ALIVE`; no record at all for `REPORT_EXISTS`) and its line is the row's line, with the run's prefix or `-`.
   (o) A3's error: a journal that exists but cannot be read (patched) → `JOURNAL_UNREADABLE`, and the record carries `journal_error`;
   (p) S4's ledger failure: a refusal whose record cannot be written (patched) → the existing ledger-failure line, exit 2;
-  (q) J2's precedence: two open runs of different classes → the reported class is the more restrictive one, and `open_runs` lists both.
+  (q) J2's precedence: two open runs of different classes → the reported class is the more restrictive one, and `open_runs` lists both; a `run_id` reused after its run was closed opens a new run that is classified like any other (amendment 1:A).
 - **V5**: condition = the existing selftests of bomdd-run, bomdd-job and bomdd-witness pass, with their reasons unchanged (run locally and recorded);
   `git diff -- method/tools/bomdd-witness.py` is empty.
 - **V6 (closure)**: condition = self-conformance exits 0, observed before each commit; CI green on each pushed revision.
@@ -614,3 +651,57 @@ built on it. OBS-20261019-01 (review snapshots) stays on hold (user), and nothin
     the original PASS and the five known-bad copies FAIL.
 - **Evidence filed** in `bomdd/reports/eco-113-refusal-matrix/`: `refusal_matrix.py` `e3a5e001e97df9db…`, `calibrate_matrix.py` `cc41a24bd0ce492a…`,
   `refusal-matrix.md` `876091c7dc3ea920…`, `record_check.py` `ea73be045afb71d4…`; the OS probes cited in §0 in `bomdd/reports/eco-113-probes/`.
+
+### Amendment loop A (user ruling "1:A", 2026-10-24, after inspection r1: J1, J2's claim sentence, A4, L11, V4(f), V4(q) and their direct references; default rule)
+
+- **判定: 未収束** (round 軌跡: 7→2→1; material 2→1→1). Limit of 3 rounds reached without two consecutive rounds with zero findings. **No repair
+  manufacture and no commit of the amended text** until the user rules (extension / adoption / return of the design).
+- **起動経路:** the user's ruling (1:A names the default convergence rule); reviewer = a fresh context of the same model that has not seen the earlier
+  loops, read-only, resumed each round.
+- **DoD (fixed before round 1):** D1 every case of r1's findings and probes is read by a rule; D2 each new invalid-record rule has an acceptance
+  observation that goes red for its own reason; D3 no record sequence bomdd-run itself writes is read as `JOURNAL_CORRUPT` or misclassified; D4 one
+  canonical place per changed rule, no restatement or contradiction; D5 no new state or mechanism, nothing outside the ruled scope but direct
+  references; D6 the ruling paragraph matches the text.
+- **Round 1, 7 (2 material).** V4(f) had no observation for three A4 clauses (an offset that is not an integer; `run_id` on `end`/`abort`/`release`;
+  the empty `run_id`) [new defect from the amendment, material]; V4(f)'s quarantine observations could not be met as written (`corrupt_offset` is
+  owned by an earlier line) [new, material]; A4(iv)'s digest bytes unstated [new, minor]; J2 restated A4 in narrower words [duplicated text, minor];
+  "never skipped" claimed more than A4 defines (a missing or near-miss `event`) [new, minor]; R3 and A3 still read as before [duplicated text, minor];
+  A4's reason did not support its claim [existing design defect — the reason was carried over unchanged from before the amendment, minor]. All repaired.
+- **Round 2, 2 (1 material).** V4(f)'s offset arms were not isolated: the r1 probe's quarantine carries a wrong digest, so a reader without the position
+  check still flags it [new, material]; the missing/near-miss `event` rule sat in L11, not A4 [duplicated text, minor]. Both repaired.
+- **Round 3, 1 (material).** The repaired position arm is still not isolated: offset 999999 is also past the end and so not at a line boundary, and
+  "the digest of the corrupt line that follows it" matches only a whole-file reader, not the in-order reader the amendment requires [new defect from
+  the round-2 repair]. The reviewer gave a construction that isolates it (an unparsable line before the quarantine; `offset` at a real line boundary
+  after the quarantine's own position with no corrupt line between; the earlier line's digest): correct reader → the line still corrupt; position check
+  removed → the line excluded. **Not repaired** (a repair would start a fourth round).
+- **The rules drew no finding in rounds 2 and 3.** D1, D3, D4, D5 and D6 held in round 3; every finding of rounds 2 and 3 is in V4(f)'s prose recipes for
+  building the quarantine arms (D2). **Common cause:** the acceptance text specifies how to build mutation-resistant arms, a job T1 and the
+  manufacture's rule mutations already do (each rule broken in a copy; the selftest must go red on that rule's own arm).
+- **Classes in this loop:** new defect from the amendment 6 (round 1: 4, round 2: 1, round 3: 1); inconsistency from duplicated text 3; existing design
+  defect 1 (round 1); 10 in all.
+- **Verified claims (selection):** r1's probes reproduced on `2752d18` (§5); the reviewer's reference readers (in-order, each A4 check switchable) in
+  its own scratch directory; D3's sequences (repeated `end`, `abort`, `interrupted` then release, reuse after close, torn tail, `repair`, `note`, R3's
+  successive quarantines, a hand-made invalid quarantine followed by R3) read clean under the amended rules.
+- **未収束事項:** round 3's finding (the position arm's construction), unrepaired.
+
+### Amendment loop A2 (user ruling "A", 2026-10-24: extension after removing the common cause — V4(f) observations only, each A4 check shown needed by rule mutations)
+
+- **判定: 収束** (round 軌跡: 1→0→0; material 0→0→0). Two consecutive rounds with zero new findings.
+- **起動経路:** the user's extension ruling; the same reviewer as loop A (fresh context that has not seen the earlier loops, read-only, resumed).
+- **DoD:** loop A's D1-D6, unchanged; D2 read with V4(f)'s mutation requirement as the measured form of "red for its own reason".
+- **The common cause removed before round 1:** V4(f) no longer prescribes how an arm is built; it lists the observations (each A4 kind → `JOURNAL_CORRUPT`,
+  an invalid quarantine excludes nothing, a repeated `end` is not corrupt) and requires one rule mutation per A4 clause — (i), (ii), (iii), and (iv)'s
+  integer, position, boundary and digest checks — each caught on its own arm. Loop A's round-3 finding (the position arm) is thereby a manufacture duty:
+  the mutation that removes the position check must be caught, however the arm is built.
+- **Round 1, 1 (minor, a record).** Loop A's receipt counted 9 classes for 10 findings (round 1's seventh tagged "wording") [new defect, a record] →
+  classed as an existing design defect (A4's reason was carried over unchanged), the class line now 6 + 3 + 1 = 10. The rules and V4(f) drew none.
+- **Round 2, 0.** D1-D6 re-checked on the whole amendment; the receipt adds up.
+- **Round 3, 0.** Thirteen journal sequences not tried before, through the reviewer's in-order reference reader (each A4 check switchable): an invalid
+  record followed by one that could look out of order because of it (`start("")` then `end("")` — both corrupt, nothing open after R3); a closing record
+  whose id matches an invalid `start` (it closes the first, valid `start`); interleaved runs with two ids; closing a closed run (`abort` after `end`);
+  a partial quarantine; a second quarantine at the same offset (an already-excluded line's digest → invalid; the empty digest → a valid no-op); a no-op
+  quarantine at offset 0. Every result follows J1 and A4.
+- **Verified claims (selection):** D3's sequences read clean (repeated `end`, `abort`, `interrupted` then release, reuse after close, interleaved ids,
+  torn tail, `repair`, `note`, successive R3 quarantines, a retried release or quarantine after a failed fsync); the mutation requirement can be met for
+  every listed check (the reviewer's position arm: corrupt lines [34, 39] with the check, [] without).
+- **未収束事項:** なし.
