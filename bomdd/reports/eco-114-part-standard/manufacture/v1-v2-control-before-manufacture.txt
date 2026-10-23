@@ -1,0 +1,31 @@
+[FAIL] V1 canonical place for P2 appears once in the playbook — '**外向きの約束(candidate・ECO-114)**' x0
+[FAIL] V1 canonical place for P1 P3 P4 C1 A2 appears once in the playbook — '**部品規格(candidate・ECO-114)**' x0
+[FAIL] V1 canonical place for O1 O2 O4 appears once in the playbook — '**Phase 3 の順序と担当(candidate・ECO-114)**' x0
+[FAIL] V1 canonical place for O3 A1 appears once in the playbook — '**A1 構造の解決**' x0
+[FAIL] V1 §4.5 部品規格 states **P1 形**
+[FAIL] V1 §4.5 部品規格 states **P3 約束を足す・変える**
+[FAIL] V1 §4.5 部品規格 states **P4 導出に残るもの**
+[FAIL] V1 §4.5 部品規格 states **C1 行が規格を検査する**
+[FAIL] V1 §4.5 部品規格 states **A2 単位をまとめて測る行**
+[FAIL] V1 G3 states A1's seven clauses
+[FAIL] V1 G3's question gains the unit-alone question
+[FAIL] V1 §9 roles table carries O4's split
+[FAIL] V1 §4.5 M-BOM line names part_standard
+[FAIL] V1 the prompt's step order equals §4.6's (copy) — playbook [] / prompt [('1', 'E-BOM'), ('2', 'FMEA'), ('3', 'K-BOM'), ('5', 'M-BOM')]
+[FAIL] V1 the prompt names the owners (設計者 1-3, 統括 AI 4-6) and points at §4.6
+[FAIL] V1 the prompt's G3 runs A1 and C1 first and asks the unit-alone question
+[FAIL] V1 32's four-class comment carries P4's extension (copy)
+[FAIL] V1 method/templates/30-ebom.yaml carries the fields and the place comments — missing ['interfaces:', 'IF-<NAME>-01', 'boundary:', 'playbook §4.1「外向きの約束」']
+[FAIL] V1 method/templates/32-mbom.yaml carries the fields and the place comments — missing ['part_standard:', 'provides:', 'requires:', 'ruled_ref:', 'form:', 'target:', 'playbook §4.5「部品規格」', 'assembly:', 'assembly_reason:', 'ebom_ref:', 'playbook §4.6']
+[FAIL] V1 method/templates/33-control-plan.yaml carries the fields and the place comments — missing ['part_standard_refs:', 'playbook §4.5「部品規格」C1']
+[FAIL] V2-fields 30 items[0].interfaces.provides[0].{id,refs,boundary}
+[FAIL] V2-fields 30 items[0].interfaces.requires
+[FAIL] V2-fields 32 units[0].part_standard.provides[0].{id,kind,ruled_ref,form}
+[FAIL] V2-fields 32 units[0].part_standard.requires[0].{id,target}
+[FAIL] V2-fields 32 mbom.assembly.{acceptance_refs,assembly_reason}
+[FAIL] V2-fields 32 fmea[0].ebom_ref
+[PASS] V2-fields 32 procurement at the top level
+[FAIL] V2-fields 33 characteristics[0].part_standard_refs
+[PASS] V2-fields the rehearsal script reads exactly these field names
+V1 FAIL
+V2-fields FAIL

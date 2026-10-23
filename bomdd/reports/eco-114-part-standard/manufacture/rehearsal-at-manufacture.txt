@@ -1,0 +1,52 @@
+== ViewPrism2 at 504921a, as it is: 0 failures []
+== ViewTube E/M at c214dec0, control plan at fc35bf1d, as it is: 0 failures []
+== rehearsal-bom.yaml unchanged: 0 failures []
+   run twice, identical: True
+== allowed — a harness with no ebom_refs requires an E-item unit's PS- entry: NO FAILURE; clauses []
+== allowed — a provider connected only through graph_edges.consumers: NO FAILURE; clauses []
+== allowed — one unit realizes both the providing and the consuming item (A1 5's exemption): NO FAILURE; clauses []
+== allowed — a procurement: target with a procurement entry: NO FAILURE; clauses []
+== A1-4 — a unit with no ebom_refs that takes an E-item unit's PS- is required by an E-item unit (relay): OWN CLAUSE REPORTED; clauses ['A1-4']
+   - A1-4 PS-M-GRAPH-003-R03: PS-M-HARNESS-X-P01: relays through M-HARNESS-X, a unit with no ebom_refs that takes from E items
+== A1-4 — a unit with no ebom_refs that takes an IF- is required by an E-item unit (relay): OWN CLAUSE REPORTED; clauses ['A1-4']
+   - A1-4 PS-M-GRAPH-003-R03: PS-M-HARNESS-X-P01: relays through M-HARNESS-X, a unit with no ebom_refs that takes from E items
+== A1-4 — a relay through two units with no ebom_refs: OWN CLAUSE REPORTED; clauses ['A1-4']
+   - A1-4 PS-M-GRAPH-003-R03: PS-M-HARNESS-Z-P01: relays through M-HARNESS-Z, a unit with no ebom_refs that takes from E items
+== A1-1 — a target that names a requires entry (no provides entry): OWN CLAUSE REPORTED; clauses ['A1-1', 'A1-5', 'A1-6']
+   - A1-1 PS-M-GRAPH-003-R02: target 'PS-M-EVAL-002-R01' names no entry
+   - A1-5 E-GRAPH-003: no unit realizing E-GRAPH-003 requires IF-EVAL-002-01
+   - A1-6 M-GRAPH-003: depends_on ['M-CORE-001', 'M-EVAL-002'] != resolved ['M-CORE-001']
+== A1-3 — a unit with no ebom_refs carries a ruled_ref: OWN CLAUSE REPORTED; clauses ['A1-3', 'C1']
+   - A1-3 PS-M-INFRA-Y-P01: ruled_ref IF-EVAL-002-01 is not an IF- of the unit's E items
+   - C1 PS-M-INFRA-Y-P01: listed by no row
+== P1 — two entries of one unit with the same ID: OWN CLAUSE REPORTED; clauses ['P1']
+   - P1 M-EVAL-002: entry IDs not unique
+== C1 — a part_standard_refs naming no provides entry: OWN CLAUSE REPORTED; clauses ['C1']
+   - C1 CP-NFR-001: part_standard_refs PS-NONE-P01 names no provides entry
+== C1 — a provides entry listed by no row: OWN CLAUSE REPORTED; clauses ['C1']
+   - C1 PS-M-EVAL-002-P01: listed by no row
+== C1 — listed only by a row outside the unit's acceptance_refs: OWN CLAUSE REPORTED; clauses ['C1']
+   - C1 PS-M-EVAL-002-P01: listed only by rows outside M-EVAL-002's acceptance_refs: ['CP-GRAPH-002']
+== A1-1 — a requires target naming no entry: OWN CLAUSE REPORTED; clauses ['A1-1', 'A1-5', 'A1-6']
+   - A1-1 PS-M-GRAPH-003-R02: IF-NONE-01 names no IF-
+   - A1-5 E-GRAPH-003: no unit realizing E-GRAPH-003 requires IF-EVAL-002-01
+   - A1-6 M-GRAPH-003: depends_on ['M-CORE-001', 'M-EVAL-002'] != resolved ['M-CORE-001']
+== A1-2 — an IF- realized by no unit (nothing requires it): OWN CLAUSE REPORTED; clauses ['A1-2']
+   - A1-2 IF-EVAL-002-02: realized by 0 units
+== A1-2 — an IF- realized by two units (nothing requires it): OWN CLAUSE REPORTED; clauses ['A1-2']
+   - A1-2 IF-EVAL-002-02: realized by 2 units
+== A1-3 — a ruled_ref naming no IF-: OWN CLAUSE REPORTED; clauses ['A1-3']
+   - A1-3 PS-M-GRAPH-003-P01: ruled_ref IF-NONE-01 is not an IF- of the unit's E items
+== A1-4 — M-GRAPH-003 requires a PS- entry of M-EVAL-002: OWN CLAUSE REPORTED; clauses ['A1-4']
+   - A1-4 PS-M-GRAPH-003-R03: PS-M-EVAL-002-P01 crosses E items without a ruling
+== A1-5 — E-GRAPH-003's interfaces.requires with no unit requires: OWN CLAUSE REPORTED; clauses ['A1-5', 'A1-6']
+   - A1-5 E-GRAPH-003: no unit realizing E-GRAPH-003 requires IF-EVAL-002-01
+   - A1-6 M-GRAPH-003: depends_on ['M-CORE-001', 'M-EVAL-002'] != resolved ['M-CORE-001']
+== A1-6 — M-GRAPH-003's depends_on naming a unit it does not require: OWN CLAUSE REPORTED; clauses ['A1-6']
+   - A1-6 M-GRAPH-003: depends_on ['M-CORE-001', 'M-EVAL-002', 'M-SLN-000'] != resolved ['M-CORE-001', 'M-EVAL-002']
+== A1-1 — a procurement: target with no procurement entry: OWN CLAUSE REPORTED; clauses ['A1-1']
+   - A1-1 PS-M-EVAL-002-R02: procurement:Foo has no procurement entry
+== A1-1 — an IF- required by a unit whose E items do not require it: OWN CLAUSE REPORTED; clauses ['A1-1']
+   - A1-1 PS-M-SLN-000-R02: IF-EVAL-002-01 is not required by any of the unit's E items
+== A1-7 — an interfaces.requires whose provider is not connected: OWN CLAUSE REPORTED; clauses ['A1-7']
+   - A1-7 E-GRAPH-003: IF-EVAL-002-01: E-EVAL-002 is not connected to E-GRAPH-003

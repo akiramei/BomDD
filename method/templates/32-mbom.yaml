@@ -25,8 +25,16 @@ mbom:
         path: <例 src/Project.Core>
         type: <例 dotnet-classlib>
       planned_output_artifact_ref: <例 src/Project.Core>
-      interface_contract:               # 公開契約(表面ユニットは特に厚く)
-        <key>: <value>
+      part_standard:                    # candidate(ECO-114・playbook §4.5「部品規格」): この単位の部品規格。規格を持たない既存の単位は従来の
+                                        # interface_contract(<key>: <value>)のまま、触れる変更が来るまで残す
+        provides:
+          - id: PS-M-<NAME>-001-P01     # 単位の中で provides / requires を通して一意
+            kind: api                   # api | data | event | file | process
+            ruled_ref: IF-<NAME>-01     # 外向きの約束なら E-BOM の IF- を指すだけ(文を書かない)。外向きでない境界は ruled_ref の代わりに statement
+            form: <例 IReadOnlySet<string> Evaluate(IEnumerable<ImageWithTags>, IReadOnlyList<ViewCondition>)>   # 任意: 抽象的な裁定を実現する具体形(作り方の決定)
+        requires:
+          - id: PS-M-<NAME>-001-R01
+            target: <PS-<UNIT>-Pnn | IF-<ITEM>-NN | procurement:<package> | platform:<name>>
       display_contract:                 # UI/帳票 surface の場合(30-ebom.yaml display_contracts から転記)
         refs:
           - DC-<SCREEN>-001
@@ -38,6 +46,8 @@ mbom:
                                         # ID だけの行は可)。設計の内容なのに裁定層に無い句は人へ戻して裁定層へ書き戻す。どう作るかの句は manufacturing_decisions へ。
                                         # 記録(実測値・レビューの所見・検査していないことの注記・由来)は設計の内容でも作り方でもない— 正本は変更記録(ECO 本文・台帳)。行には由来の ECO 番号の参照だけを
                                         # 残し、検査していないことの注記は 33 の検査行の known_limits へ(candidate・ECO-102・playbook §4.5 ④)
+                                        # (candidate・ECO-114・playbook §4.5「部品規格」P4 の拡張の写し)この 4 分類を部品規格に広げ、interface_contract の扱いを、
+                                        # 新しく規格を書く単位について決める: 外向きの約束は裁定層(E-BOM の IF-)、外向きでない単位間の境界は作り方の決定(③)
         - <例 INV-003: シーク後の音声時刻は絶対時刻基準(seekBase)>
         - <例 INV-004: booking id は bk_ prefix + 16hex の内容ハッシュ>
       manufacturing_decisions: []       # candidate(ECO-098): どう作るかの決定(並行制御・ライブラリの使い方・分割)。K-BOM にある決定は K の参照として書く
@@ -46,7 +56,7 @@ mbom:
         - CP-<NAME>-001
       fmea_refs:
         - FMEA-001
-      depends_on: []
+      depends_on: []                    # (ECO-114)part_standard を持つ単位で空でなければ、requires が解決する単位の集合に等しい(playbook §4.6 G3 の A1 6)
       routing_refs:
         - ROUTE-MANUFACTURE-<NAME>-001
       trace_links:
@@ -71,6 +81,10 @@ mbom:
       acceptance_refs:
         - CP-HARNESS-SELFTEST-001
 
+  assembly:                             # candidate(ECO-114・playbook §4.5「部品規格」A2): 複数の単位をまとめて測る Control Plan の行
+    acceptance_refs: []                 # 端から端までの治具の行・単位どうしの振る舞いを対象にする golden の行。Phase 3 の手順 5 で統括 AI が選ぶ(固定オラクル 41 は行ではない)
+    assembly_reason: ~                  # acceptance_refs を空にするときの理由
+
 # 調達部品表(製造業 M-BOM の購入部品に相当 — gap-analysis §B1)
 # ここに無いパッケージを使う判断は ずる報告対象(work order に明示)。
 # 本物の SBOM(Software Bill of Materials)・ライセンス管理への輸出元になる
@@ -87,6 +101,7 @@ procurement:
 
 fmea:
   - fmea_id: FMEA-001
+    ebom_ref: E-<NAME>-001              # (ECO-114)書いた対象の E 品目。FMEA は Phase 3 の手順 2 で、unit と targeted_by は手順 4・5 で埋める(playbook §4.6)
     unit: M-<NAME>-001
     failure_mode: <故障モード(Phase 1 の反例を種に)>
     effect: <影響>

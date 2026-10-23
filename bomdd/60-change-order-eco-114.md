@@ -241,6 +241,36 @@ required_gates: [V1, V2, inspection]
 - **V3 — independent inspection** (EQ-002): the text against §1, and V2's evidence.
 - **V4 — self-conformance exit 0 before each commit; CI success on each pushed tip.**
 
+## 4. Manufacture (2026-10-24, user "1:A": manufacture now)
+
+**Inputs fixed** (sha256 prefixes of the files at the filing commit `25bea38`, `git show 25bea38:<path>`): `method/bomdd-playbook-v1.md` `eb52d1200143`,
+`method/templates/30-ebom.yaml` `b203de2c40f2`, `32-mbom.yaml` `9d5a58b4466f`, `33-control-plan.yaml` `838ee238911e`, `method/prompts/phase3-design.md`
+`efbfbb76e75f`; the design: this order at `25bea38`. ECO-115's held draft (committed as a record in `afabdb1`) is not mixed in: no rule of it is in this diff.
+
+**What changed, by rule:**
+- playbook §4.1 — new item "外向きの約束" (P2); §4.5 — the M-BOM line names `part_standard`, `:361`'s unmeasured item points at the new item, and the new
+  item "部品規格" (P1, P3, P4 with its extension, C1, A2, their limits); §4.6 — new item "Phase 3 の順序と担当" (O1, O2) before G3, and G3's question and
+  "A1 構造の解決" (O3, A1's seven clauses and scope); §9's roles table (O4).
+- `30-ebom.yaml` — `interfaces` (`provides` with `IF-`, `refs`, `boundary`; `requires`) and a checklist line; `32-mbom.yaml` — `part_standard` (provides
+  with `ruled_ref`/`statement` and `form`; requires with `target`) in place of `interface_contract` for a unit that has it, `mbom.assembly`
+  (`acceptance_refs`, `assembly_reason`), the FMEA row's `ebom_ref`, the `depends_on` comment, and the copy of P4's extension in the four-class comment;
+  `33-control-plan.yaml` — `part_standard_refs`.
+- `method/prompts/phase3-design.md` — the six steps in O1's order with owners (a copy of §4.6, pointing at it), and G3 running A1 and C1 first with the
+  unit-alone question.
+- `method/improvements.md` — the 2026-10-24 section with EXP-20261024-01 (the MoviePad re-manufacture trial) and OBS-20261024-01 (ViewTube's Control
+  Plan unparsable since `cfd00433`).
+
+**Acceptance measured before the manufacture commit** (evidence: `bomdd/reports/eco-114-part-standard/manufacture/`):
+- **V1 — PASS.** `check_v1_v2.py`: each canonical place once (4 headings), §4.5's five rule labels, A1's seven clauses, G3's question, §9's split, the
+  prompt's step order equal to §4.6's, its owners and G3, 32's copy of P4's extension, and every listed template field with its place comment. Positive
+  control: the same script on the filing tree `25bea38` gives V1 FAIL (27 of 29 checks fail).
+- **V2 — PASS (re-run on the manufactured field names).** The templates parse and carry every path the rehearsal reads (V2-fields PASS; FAIL on the
+  control tree); `run_rehearsal.py` re-run gives output byte-identical to the filing's `rehearsal.txt`: both real BOMs no failure, 4 allowed changes no
+  failure, 19 known-bad changes each reporting its own clause.
+- **Instrument defects found and corrected before the outputs above** (`check_v1_v2.py`): the step-order check matched a "3. K-BOM" elsewhere in the
+  playbook; on the control tree it stopped with a traceback instead of reporting FAIL. Attribution: this ECO's own instrument.
+- **V3 (inspection) and V4 (CI on this commit)** follow.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (before the split; the part standard and the advance decision together)

@@ -3585,7 +3585,7 @@ changes:
     title: the part standard - each M-BOM unit's provides and requires, external promises (IF-) in the E-BOM, the Phase 3 order and owners, and assembly resolution and rows; filing only, adopted by the user's cut-off ruling (design unconverged under the converge rule)
     date: 2026-10-24
     origin: improvement
-    status: filed   # 2026-10-24 user "A" (filing and design) -> loop 1 26->8->8 unconverged -> user "A" split (advance decision to ECO-115) -> loop 2 18->12 unconverged -> user "A" extension, rules run on real data first -> loop 3 8->3 (material 1->0) unconverged -> user "1:A" cut-off adoption with the three minor findings repaired -> filing; manufacture waits for the user
+    status: implemented   # 2026-10-24 manufactured (user "1:A": manufacture now; V1, V2 PASS before the commit); filed: user "A" (filing and design) -> loop 1 26->8->8 unconverged -> user "A" split (advance decision to ECO-115) -> loop 2 18->12 unconverged -> user "A" extension, rules run on real data first -> loop 3 8->3 (material 1->0) unconverged -> user "1:A" cut-off adoption with the three minor findings repaired -> filing (25bea38)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       The user's evaluation of an external discussion (M-BOM / Control Plan, part contracts, the roles between E-BOM and M-BOM in a car maker): a work

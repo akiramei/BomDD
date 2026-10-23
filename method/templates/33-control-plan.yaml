@@ -31,6 +31,8 @@ control_plan:
       on_fail:                          # candidate(ECO-098): 落ちたときの振り分け。違反と測定不能を分ける(playbook §4.4)
         red: product-fix                #   product-fix(製品修正)| instrument-recovery(測定系復旧)| human-approval(人の承認)
         unmeasurable: instrument-recovery
+      part_standard_refs: []            # candidate(ECO-114・playbook §4.5「部品規格」C1): この行が一部でも測る M-BOM の provides 項目の ID(例 [PS-M-<NAME>-001-P01])。
+                                        # 測らない項目は挙げない。挙げた項目のうち測らない部分は known_limits に項目の ID を付けて書く
       invariant_refs: []                # candidate(ECO-086): この行が検査する仕様 §3 の不変条件 ID(例 [INV-003])。
                                         # 部品に不変条件があるのに空= その不変条件は検査行に届いていない。検査しない不変条件は
                                         # 20-spec §3 の「検査する CP」列に理由を書く(部品に検査行が 1 本あることは不変条件ごとの検査を意味しない)

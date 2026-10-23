@@ -1,0 +1,31 @@
+[PASS] V1 canonical place for P2 appears once in the playbook — '**外向きの約束(candidate・ECO-114)**' x1
+[PASS] V1 canonical place for P1 P3 P4 C1 A2 appears once in the playbook — '**部品規格(candidate・ECO-114)**' x1
+[PASS] V1 canonical place for O1 O2 O4 appears once in the playbook — '**Phase 3 の順序と担当(candidate・ECO-114)**' x1
+[PASS] V1 canonical place for O3 A1 appears once in the playbook — '**A1 構造の解決**' x1
+[PASS] V1 §4.5 部品規格 states **P1 形**
+[PASS] V1 §4.5 部品規格 states **P3 約束を足す・変える**
+[PASS] V1 §4.5 部品規格 states **P4 導出に残るもの**
+[PASS] V1 §4.5 部品規格 states **C1 行が規格を検査する**
+[PASS] V1 §4.5 部品規格 states **A2 単位をまとめて測る行**
+[PASS] V1 G3 states A1's seven clauses
+[PASS] V1 G3's question gains the unit-alone question
+[PASS] V1 §9 roles table carries O4's split
+[PASS] V1 §4.5 M-BOM line names part_standard
+[PASS] V1 the prompt's step order equals §4.6's (copy) — playbook [('1', 'E-BOM'), ('2', 'FMEA と沈黙掃討'), ('3', 'K-BOM'), ('4', 'M-BOM'), ('5', 'Control Plan'), ('6', 'Routing と作業指示書')] / prompt [('1', 'E-BOM'), ('2', 'FMEA'), ('3', 'K-BOM'), ('4', 'M-BOM'), ('5', 'Control Plan'), ('6', 'Routing')]
+[PASS] V1 the prompt names the owners (設計者 1-3, 統括 AI 4-6) and points at §4.6
+[PASS] V1 the prompt's G3 runs A1 and C1 first and asks the unit-alone question
+[PASS] V1 32's four-class comment carries P4's extension (copy)
+[PASS] V1 method/templates/30-ebom.yaml carries the fields and the place comments
+[PASS] V1 method/templates/32-mbom.yaml carries the fields and the place comments
+[PASS] V1 method/templates/33-control-plan.yaml carries the fields and the place comments
+[PASS] V2-fields 30 items[0].interfaces.provides[0].{id,refs,boundary}
+[PASS] V2-fields 30 items[0].interfaces.requires
+[PASS] V2-fields 32 units[0].part_standard.provides[0].{id,kind,ruled_ref,form}
+[PASS] V2-fields 32 units[0].part_standard.requires[0].{id,target}
+[PASS] V2-fields 32 mbom.assembly.{acceptance_refs,assembly_reason}
+[PASS] V2-fields 32 fmea[0].ebom_ref
+[PASS] V2-fields 32 procurement at the top level
+[PASS] V2-fields 33 characteristics[0].part_standard_refs
+[PASS] V2-fields the rehearsal script reads exactly these field names
+V1 PASS
+V2-fields PASS

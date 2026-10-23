@@ -52,6 +52,12 @@ ebom:
       design_system_refs: []            # UI-CAD surface の場合 E-DESIGN-* / K-DESIGN-* を参照
       depends_on: []
       dependency_rationale: <depends_on がある場合、その理由>
+      interfaces:                       # candidate(ECO-114・playbook §4.1「外向きの約束」): 別の E 品目・製品の外の利用者が当てにする境界だけ。人が裁定する
+        provides:
+          - id: IF-<NAME>-01
+            refs: [<例 OC-1>]          # 境界・振る舞いを述べる仕様 §2 / §3 の ID
+            boundary: ~                 # refs が述べていないことだけ(例: 振る舞いが述べられている型の名前)。refs の言い直しを書かない
+        requires: []                    # 利用する IF- の ID。提供側とは depends_on か提供側の graph_edges.consumers でつながる
       graph_edges:                      # woven(横断)部品のみ
         owner: ~
         consumers: []
@@ -125,3 +131,4 @@ nfr_targets:
 #   - surface item は requirement_refs / display_contract_refs / kbom_refs のいずれかを持つ
 #   - 各 item は acceptance_refs を持つ
 #   - M-BOM へ渡す予定の item は planned_output_artifact_ref または M-BOM unit への TraceLink を持つ
+#   - (candidate・ECO-114)interfaces の IF- はちょうど 1 つの M-BOM unit が実現する。どの unit も実現しない item(Design System の部品など)は IF- を持たない(playbook §4.1・G3 の A1)
