@@ -541,6 +541,90 @@ Only `bomdd-run.py` and this ECO's evidence change.
 - **The inspector's stated limits:** no network or CI query; of the 36 mutation cases two were re-run, the rest judged from the committed evidence and
   the full selftests; no `bomdd-run.py ECO-113` call on the real repository; the run state files kept their sizes and sha256 during the inspection.
 
+## 8. クローズ (closure, 2026-10-24, verified)
+
+The acceptance commit after `7a7df00` holds records only (this section, the register entry, the diff-window evidence). Results by acceptance item:
+
+- **V1 — PASS (exclusion).** The selftest arms `v1a`-`v1f` with child entries on the selftest's own repository (live holder, kill, concurrent launches
+  on one ledger, two ledgers and two worktrees, dry while running, the kept lock file, a read-only lock file and an unwritable directory); V1(g) the
+  branch `msvcrt.locking + Job Object (Windows)` in the PASS report (§4, §6). On the real repository a dry invocation during each inspection cell read
+  `STOP ECO-113 RUN_IN_FLIGHT(ENTRY_ALIVE)` (§5). **POSIX `flock` not measured (L1).**
+- **V2 — PASS (ownership and judgement).** The arms `v2a`-`v2i`; on the real cells (r1, r2) the Codex cell ran inside its kill-on-close job and the
+  journal holds its `start` and `end` (§5, §7).
+- **V3 — PASS (recovery).** The arms `v3a`-`v3f`; no recovery path stops a process.
+- **V4 — PASS (records, sequence and output).** The arms `v4a`-`v4q`, including the amended V4(f)/(q) observations; the mutation requirement of V4(f):
+  one mutation per A4 clause, each caught on its own arm (`repair/rule-mutations.txt`: 27/27 with the earlier 20).
+- **V5 — PASS.** The existing arms of the three selftests keep their verdicts (exit 0 on the final tools, unchanged since `fcd9fd7`); ECO-112's nine
+  rule mutations still caught; `git diff 2271102..7a7df00 -- method/tools/bomdd-witness.py` is empty.
+- **V7 — PASS (the gate `inspection`).** EQ-002: r1 境界探索 REJECT IA-01, IA-02 (§5) → the amendment (user "1:A", loops A and A2) and the repair (§6)
+  → r2 是正確認+回帰 **ACCEPT** (§7), read as the gate `inspection` from the ledger's last cell record with a report.
+- **V6 — PASS:** self-conformance exit 0 before each commit (the pre-push witness admits a push only after a PASS); CI success on the tip of every
+  push: `2752d18` 39166932515, `9163625` 39168158174, `860097d` 39983003321, `fcd9fd7` 39992744236, `7a7df00` 39994541885. This commit's run is observed
+  after push.
+- **V8 — PASS, under the exception ruling (2:a):** `bomdd/reports/eco-113-briefs/diff-window/diff_window.py` on `f2d91d4..7a7df00`
+  (`diff-window.md`, `db3fdf427638`): 6 ECO-113 commits, 38 paths, all inside §2's paths and the register's `allowed_paths`; ECO-112's commits and the
+  three record commits excluded with their reasons; none touches ECO-113's records or register entry, all precede the manufacture, and the tools at the
+  manufacture's input equal §4's bytes. Positive control (`--control-include 597e842`, `control-include-597e842.md`, `acb58cbc95ca`): FAIL on C3 and C4.
+- **The promotion decision** (bomdd-run under ECO-112's G3, dry, on the tree of this closure): decision record `run_id 20261023T172403.153445Z`, tree `599b55fe1b9b`, `ADVANCE OK`; J2 found no open run and no
+  corrupt line; `required_gates` = `matched_gates` = [V1, V2, V3, V4, V5, inspection]; the gate `inspection` derived from the ledger (r2, ACCEPT, 是正確認+回帰,
+  `46d3bc80…`), not declared; B4 passed for every brief in ECO-113's store (2 stored, 0 ignored): `brief_copies` names a committed copy for each,
+  and each pair below was checked against the file (same sha256).
+- **The `{sha256, path}` pairs of ECO-113's stored briefs (ECO-112 B4; the lasting reference):**
+  - `787a5502bf69613e9f069283c1cc0daf52f655b4b939762c66c1f1f92cd660da` — `bomdd/reports/eco-113-briefs/inspection-brief-r1.md` (r1, launched)
+  - `cf54e2e6da0abc796a0365d20aa8f18e8e4d283a127c0a3b8ec2ef83b590e7eb` — `bomdd/reports/eco-113-briefs/inspection-brief-r2.md` (r2, launched)
+- **Declared limits that stay:** L1-L12 as in §1 (L11 as amended); OBS-20261018-02's second case (the window) and OBS-20261018-03 (the V2(g) arms'
+  shared temporary area) stay recorded outside this ECO; OBS-20261019-01 (review snapshots) stays on hold (user).
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer)
+
+- **The claim (one sentence).** bomdd-run lets one launch of an ECO run per clone at a time, places the cell in a kill-on-close job on Windows, reads
+  the run journal in order and stops with `RUN_IN_FLIGHT` on any open run or invalid record, records recovery as human acts that stop nothing, and the
+  selftest arms that show this each fail for their own reason.
+- **査定した主張と判定** (claims assessed; measurement × evidence):
+  - "Exclusion and ownership work with real processes": **observed / eligible** on Windows — child entries killed and concurrent in the selftest; two
+    real inspection cells inside their jobs with a concurrent dry refusal. **POSIX: unknown (not run; L1)** — no qualification is given to the POSIX
+    branch; V2(e) ran it only as Windows with the branch switched off.
+  - "The journal is read in order and invalid records stop classification" (IA-01, IA-02): **observed / eligible.** r1's probes reproduced before and
+    re-run after the repair; one rule mutation per A4 clause, each red on its own arm; r2 re-ran two of them independently.
+  - "Each arm fails for its own reason" (T1): **observed / conditionally eligible** — 27 mutations (one per rule clause listed in
+    `rule_mutations.py`) each named their arm; rules without a mutation of their own (W2's suspended start, W5's key reading, X3's hold times, S1's order
+    of the ledger-path checks) are covered by arms but not by a mutation.
+  - "V8 under the exception ruling": **observed / conditionally eligible** — attribution by commit subject tags and a named list of three record
+    commits (self-declared); r2 checked it against the diffs; not measured: a tag that misstates its ECO in a way the diff does not show.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): 5, all in this ECO's own instruments, none in the rules.
+  - (1) The S1.6 arm compared the number of `end` attempts with the code's own constant, so a mutation of the constant was not caught; (2) the O2 case
+    removed the word from bomdd-run's table, which crashed the selftest's line builder (§4). Attribution: the manufacture's arms and the mutation case;
+    corrected before the manufacture commit.
+  - (3) The mutation driver read the selftest through a pipe, which cells leaked by the W1/W3 mutations kept open (§4). Attribution: the driver; it now
+    writes to files.
+  - (4) Two A4 mutations crashed the selftest through its own direct reader calls (§6). Attribution: the selftest helpers; guarded (`jread_safe`).
+  - (5) The design's V4(f) prose recipes for building arms were the common cause of loop A's later findings (receipt "Amendment loop A").
+    Attribution: the acceptance text (an instrument of the design); removed by the user's extension ruling.
+  - Inspection r1's two findings (IA-01, IA-02) were design defects (J1's definition, A4's shape), found by the independent inspection after the
+    producer's checks had passed — the producer's self-assessment was blind to them.
+- **宣言した検出力の限界** (declared limits of detection):
+  - POSIX (`flock`, `Popen` at S1.5 on a real POSIX system) is not measured.
+  - The real-repository observations are two inspection cells on one Windows host; `CELL_ALIVE`, `ABNORMAL_END`, `UNKNOWN`, `JOURNAL_CORRUPT` and the
+    recovery commands are measured on the selftest's fixture, not on a real ECO's journal.
+  - A forged well-formed record (L11) is not detectable by design; timing windows narrower than the arms' (L2, L6, L9) are declared, not exercised.
+  - The self-assessment is the producer's own; the independent inspections (r1, r2) and the review loops are the outside checks.
+- **Battery, row by row:**
+  - **Q1 asked.** Arm names, the README's item→arm map and `diff_window.py`'s header against their code (r2 items 4, 6).
+  - **Q2 asked.** Known-bad / known-good in pairs: 27 + 9 rule mutations (labels from the order's rules), r1's probes before and after the repair, the
+    diff check's positive control.
+  - **Q3 asked.** Each rule fails alone: every mutation names its own arm; the A4 checks one by one.
+  - **Q4 asked.** The arms run on real processes and on the real store, journal and ledger formats (no declared-only fixture).
+  - **Q5 asked.** `UNKNOWN`, `LOCK_UNAVAILABLE`, `JOURNAL_UNREADABLE` and `JOURNAL_CORRUPT` are exit 2 (never a pass); a selftest crash is not a pass
+    (the driver counts only a `STOP SELFTEST_FAIL` that names the arm).
+  - **Q6 asked.** Each commit after self-conformance exit 0; each report after CI was observed; each mutation run's result read before its evidence was
+    filed.
+  - **Q7 asked.** Positive controls for the selftest (mutations), the reader (r1's probes) and the diff check (`--control-include`).
+  - **Q8 asked.** Every refusal has a recorded way out (S4's table; release, quarantine); none is silent.
+  - **Q9 asked.** The tool bytes the mutations measured (`a114d971b61f`) equal `fcd9fd7`'s; the stored briefs equal their committed copies.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** Launching, dry and recovery invocations, Windows and the switched-off branch, and each refusal reason are measured by separate arms.
+- **What this closure does not support:** a product effect beyond this repository (no distribution is filed); POSIX behaviour.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1

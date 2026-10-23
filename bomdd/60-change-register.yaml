@@ -3555,7 +3555,7 @@ changes:
     title: in-flight runs - exclusion by an OS file lock, the cell owned by a kill-on-close Job Object, judgement by the job's existence (no pid), recovery by a recorded release, atomic journal records; filing only, by the user's exception ruling (design findings zero in two consecutive rounds; the verdict under the converge rule stays unconverged)
     date: 2026-10-18
     origin: improvement
-    status: implemented   # 2026-10-19 manufactured (user instruction: manufacture after ECO-112 verified, the filed design fixed); filed 2026-10-18 after split from ECO-112 by user "B" -> extensions 2:A (x4) with conditions -> loop 5 3->0->1 (the last a receipt record) -> user "2:OTHER": record fixed and checked mechanically, filed as an exception ruling
+    status: verified   # 2026-10-24 r2 ACCEPT -> promotion decided by bomdd-run under G3 -> verified (closure: order section 8); 2026-10-19 manufactured 2752d18 (user instruction) -> r1 REJECT IA-01, IA-02 -> user "1:A 2:a": amendment loop A 7->2->1 unconverged -> user "A": common cause removed, loop A2 1->0->0 (860097d) -> repair fcd9fd7 -> r2 ACCEPT; V8 under the exception ruling 2:a; filed 2026-10-18 after split from ECO-112 by user "B" -> extensions 2:A (x4) with conditions -> loop 5 3->0->1 (the last a receipt record) -> user "2:OTHER": record fixed and checked mechanically, filed as an exception ruling
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       Item 3 of the evaluation of an external proposal ("AI manufacturing separated from external workflow control"): a start without an end is not
@@ -3566,6 +3566,7 @@ changes:
     no_impact_prediction: "(before manufacture; frozen at filing) bomdd-run.py, bomdd-job.py, operator-layer.md, improvements.md, the order, the register and bomdd/reports/eco-113-*/. bomdd-witness.py, self-conformance.py, hooks, .github, the playbook, skills and .claude/skills untouched."
     diff_audit:
       baseline: "f2d91d4"  # HEAD before this filing (ECO-112's manufacture); ECO-113 is manufactured after ECO-112 is verified (ECO-112 M1)
+      head: "7a7df00"      # diff audited under the user's exception ruling 2:a (order section 8, V8): ECO-113's commits only, ECO-112's and three record commits excluded with their reasons; the acceptance commit holds records only
       allowed_paths: [method/tools/bomdd-run.py, method/tools/bomdd-job.py, method/templates/product-profile/operator-layer.md, method/improvements.md, bomdd/60-change-order-eco-113.md, bomdd/60-change-register.yaml, bomdd/reports/eco-113-refusal-matrix/, bomdd/reports/eco-113-probes/, bomdd/reports/eco-113-manufacture/, bomdd/reports/eco-113-briefs/]   # the last two added at manufacture, inside order section 2's bomdd/reports/eco-113-*/
     required_gates: [V1, V2, V3, V4, V5, inspection]   # the order's machine copy (ECO-112 G1)
     summary: >
