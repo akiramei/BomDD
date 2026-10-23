@@ -1,0 +1,6 @@
+ViewPrism2 bomdd/cp_results.py --json at 504921a on the stored tests/ViewPrism2.Tests/TestResults/cp-results.xml (read-only)
+xml_sha256 82c0258c98cf1643ced50d396eb09b0cfac01e583f401d5412027e51db3fdb4c
+totals {'total': 977, 'passed': 977, 'failed': 0, 'skipped': 0, 'not-run': 0, 'errors': 0}
+origin [{'assembly': 'ViewPrism2.Tests.dll', 'config': 'Debug', 'finished': '2026-10-13T21:06:42.5775073+09:00'}]
+rows 64; categories {'合格': 57, '未実行(検査なし)': 4, '未実行(人の承認で検査)': 3}
+the output names the result file (sha256) and its configuration and finish time; it does not name the commit or build the results were measured on

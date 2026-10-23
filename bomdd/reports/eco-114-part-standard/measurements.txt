@@ -1,0 +1,23 @@
+== ViewPrism2 at 504921a33e7beb68ce2112817b01a44b664a82f7
+  E-BOM items: 44; with non-empty depends_on: 38; with graph_edges owner/consumers: 6
+  E-BOM item keys named provides/requires/interface*/signature: {'interface_contracts': 5}
+  M-BOM units: 44; with interface_contract: 38; non-dict interface_contract: 0
+  M-BOM interface_contract keys named provides/requires/signature: {'signature': 3}; units with signature: ['M-EVAL-002', 'M-SORT-004', 'M-CACHE-009']
+  M-BOM interface_contract distinct keys: 147; most common: [('entry', 5), ('purity', 4), ('signature', 3), ('schema', 3), ('startup', 3), ('warnings', 2), ('path', 2), ('errors', 2)]
+  M-BOM units with non-empty depends_on: 0; with non-empty acceptance_refs: 38
+  control plan mentions of 'interface' (case-insensitive, raw text): 0
+  control plan rows: 65; rows with on_fail: 2; with when: 2; with requirement_refs: 2; with invariant_refs: 1
+  approver automated: 43; depth exactly G: 13
+== ViewTube at c214dec07e7340ecffa1ede089d6ee4acdedcebe
+  E-BOM items: 32; with non-empty depends_on: 12; with graph_edges owner/consumers: 32
+  E-BOM item keys named provides/requires/interface*/signature: none
+  M-BOM units: 12; with interface_contract: 12; non-dict interface_contract: 0
+  M-BOM interface_contract keys named provides/requires/signature: none; units with signature: []
+  M-BOM interface_contract distinct keys: 4; most common: [('errors', 12), ('async', 12), ('nullability', 12), ('required_action_bindings', 3)]
+  M-BOM units with non-empty depends_on: 2; with non-empty acceptance_refs: 12
+  control plan mentions of 'interface' (case-insensitive, raw text): 0
+  control plan: does not parse as YAML (line 129, column 148)
+  control plan revisions checked (newest first): 40; parse: 5; do not parse: 35
+  newest 893141f1: line 129, column 148; oldest checked d0ed9eaf: parses
+  stops parsing at cfd00433 (previous revision fc35bf1d parses): 2026-10-06 accept(eco-vt-232): approved — the restore prepares the candidate on a staged copy before anything opens the active catalog, so a failure before the 
+  revisions newer than the newest parsing one (fc35bf1d): 35, of which parse: 0

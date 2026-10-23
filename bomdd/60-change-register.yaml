@@ -3581,3 +3581,33 @@ changes:
       closing section.
     producer: EQ-004
     inspector: EQ-002
+  - id: ECO-114
+    title: the part standard - each M-BOM unit's provides and requires, external promises (IF-) in the E-BOM, the Phase 3 order and owners, and assembly resolution and rows; filing only, adopted by the user's cut-off ruling (design unconverged under the converge rule)
+    date: 2026-10-24
+    origin: improvement
+    status: filed   # 2026-10-24 user "A" (filing and design) -> loop 1 26->8->8 unconverged -> user "A" split (advance decision to ECO-115) -> loop 2 18->12 unconverged -> user "A" extension, rules run on real data first -> loop 3 8->3 (material 1->0) unconverged -> user "1:A" cut-off adoption with the three minor findings repaired -> filing; manufacture waits for the user
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      The user's evaluation of an external discussion (M-BOM / Control Plan, part contracts, the roles between E-BOM and M-BOM in a car maker): a work
+      instruction issued from the M-BOM needs a criterion for its result, and a part needs a standard to be usable by the next process. Measured: the
+      template's interface_contract is free form in the derived layer, no Control Plan row verifies it, and Phase 3 makes the Control Plan before the M-BOM
+      with no step or owner for part and interface design. The advance decision (the user's condition (ii)) was split to ECO-115 by the user's "A".
+    order_ref: bomdd/60-change-order-eco-114.md
+    affected_refs: [method/bomdd-playbook-v1.md, method/templates/30-ebom.yaml, method/templates/32-mbom.yaml, method/templates/33-control-plan.yaml, method/prompts/phase3-design.md, method/improvements.md]
+    no_impact_prediction: "(before manufacture; frozen at filing) the playbook (4.1, 4.5, 4.6, 9's roles table), 30-ebom.yaml, 32-mbom.yaml, 33-control-plan.yaml (part_standard_refs only), phase3-design.md, improvements.md, the order, the register and bomdd/reports/eco-114-*/. method/tools, method/schemas, method/contracts, product-profile, process-core, .claude/skills, hooks, .github, 40-work-order.md, 50-as-built.yaml and both product repositories untouched."
+    diff_audit:
+      baseline: "be96698"  # HEAD before this filing (ECO-113's acceptance)
+      allowed_paths: [method/bomdd-playbook-v1.md, method/templates/30-ebom.yaml, method/templates/32-mbom.yaml, method/templates/33-control-plan.yaml, method/prompts/phase3-design.md, method/improvements.md, bomdd/60-change-order-eco-114.md, bomdd/60-change-register.yaml, bomdd/reports/eco-114-part-standard/]
+    required_gates: [V1, V2, inspection]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      P1-P4 a unit's part_standard (provides with ruled_ref or statement and an optional concrete form; requires with a target), external promises as IF-
+      entries in the providing E item's interfaces (refs to spec IDs, boundary only for what they do not state), what stays derived, units with no
+      ebom_refs that cannot relay. O1-O4 Phase 3 order E-BOM, FMEA, K-BOM, M-BOM, Control Plan, Routing; owners; G3's question; the roles table by layer.
+      C1 every provides entry listed by a measuring row in its unit's acceptance_refs. A1 seven resolution clauses read from the BOM files, scoped to units
+      with a standard (the lazy rule); A2 mbom.assembly.acceptance_refs. M1 text and templates only; distribution separate.
+    verification: >
+      Gated: V1 the text (each rule once in its canonical place, copies matching, the listed fields), V2 the rehearsal re-run on the manufactured templates'
+      field names (both real BOMs no failure; 4 allowed changes no failure; 19 known-bad changes each reporting its own clause), V3 = gate inspection
+      (EQ-002). At closure: V4 self-conformance and CI. Conditions are frozen at filing; results go to the closing section.
+    producer: EQ-004
+    inspector: EQ-002

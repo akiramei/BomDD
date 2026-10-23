@@ -1,0 +1,51 @@
+== ViewPrism2 at HEAD 504921a33e7beb68ce2112817b01a44b664a82f7
+  E items 44; M units 44; CP rows 65; M-BOM top keys ['manufacturing_units']
+  units by ebom_refs count (0/1/2+): 6/29/9; with 0: ['M-UI-016', 'M-HARNESS-015', 'M-CAPTURE-HARNESS-052', 'M-GOLDEN-HARNESS-039', 'M-ORACLE-030', 'M-INFRA-031']
+  E items by realizing-unit count (0/1/2+): 1/36/7; with 0: ['E-WORKSPACE-042']
+  unit ebom_refs naming no E item: []
+  units with empty acceptance_refs: ['M-UI-016', 'M-UI-SIMILARITY-023', 'M-HARNESS-015', 'M-CAPTURE-HARNESS-052', 'M-ORACLE-030', 'M-INFRA-031']
+  CP rows by naming-unit count (0/1/2+): 15/41/9
+  E connections: depends_on edges 101; graph_edges consumer edges (consumer, holder) 31; in both 19; items with non-empty consumers 6
+  M-BOM units with non-empty depends_on: 0
+  row approver forms: {'scalar': 57, 'absent': 8}
+  row when forms: {'absent': 63, 'scalar': 2}
+  row on_fail forms: {'absent': 63, 'map(red,unmeasurable)': 1, 'map(dependency-update,red,unmeasurable)': 1}
+  row status forms: {'absent': 64, 'scalar': 1}
+  row verifies forms: {'absent': 65}
+  row level forms: {'absent': 65}
+  control plan header keys: ['depth_ladder', 'part_kind_gates']
+  retired rows: ['CP-UI-G3']; named by a unit: []
+== ViewTube E/M at HEAD c214dec07e7340ecffa1ede089d6ee4acdedcebe, control plan at fc35bf1d
+  E items 32; M units 12; CP rows 41; M-BOM top keys ['manufacturing_units']
+  units by ebom_refs count (0/1/2+): 0/6/6; with 0: []
+  E items by realizing-unit count (0/1/2+): 10/22/0; with 0: ['E-DESIGN-COLOR-001', 'E-DESIGN-TYPE-001', 'E-DESIGN-SPACE-001', 'E-DESIGN-CARD-001', 'E-DESIGN-CTA-001', 'E-DESIGN-CHIP-001', 'E-DESIGN-ICONBUTTON-001', 'E-DESIGN-TREE-001', 'E-DESIGN-STATEPANEL-001', 'E-DESIGN-SECTION-001']
+  unit ebom_refs naming no E item: []
+  units with empty acceptance_refs: []
+  CP rows by naming-unit count (0/1/2+): 13/4/24
+  E connections: depends_on edges 20; graph_edges consumer edges (consumer, holder) 47; in both 0; items with non-empty consumers 12
+  M-BOM units with non-empty depends_on: 2
+  row approver forms: {'scalar': 39, 'absent': 2}
+  row when forms: {'absent': 41}
+  row on_fail forms: {'absent': 41}
+  row status forms: {'absent': 41}
+  row verifies forms: {'list[6]': 4, 'list[2]': 9, 'list[5]': 1, 'list[7]': 3, 'list[4]': 3, 'list[1]': 20, 'list[11]': 1}
+  row level forms: {'absent': 41}
+  control plan header keys: ['coverage', 'depth_ladder', 'measurement_profile_ref']
+  retired rows: []; named by a unit: []
+== templates (BomDD working tree)
+  E items 2; M units 2; CP rows 4; M-BOM top keys ['manufacturing_units']
+  units by ebom_refs count (0/1/2+): 1/1/0; with 0: ['M-ACCEPTANCE-HARNESS-001']
+  E items by realizing-unit count (0/1/2+): 1/1/0; with 0: ['E-CHECKOUT-SUMMARY-001']
+  unit ebom_refs naming no E item: []
+  units with empty acceptance_refs: []
+  CP rows by naming-unit count (0/1/2+): 3/1/0
+  E connections: depends_on edges 0; graph_edges consumer edges (consumer, holder) 0; in both 0; items with non-empty consumers 0
+  M-BOM units with non-empty depends_on: 0
+  row approver forms: {'scalar': 4}
+  row when forms: {'scalar': 1, 'absent': 3}
+  row on_fail forms: {'map(red,unmeasurable)': 1, 'absent': 3}
+  row status forms: {'absent': 4}
+  row verifies forms: {'list[2]': 2, 'list[1]': 2}
+  row level forms: {'absent': 4}
+  control plan header keys: ['depth_ladder']
+  retired rows: []; named by a unit: []

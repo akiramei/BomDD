@@ -1,0 +1,966 @@
+{
+ "xml": "C:\\Users\\akira\\source\\repos\\ViewPrism2\\tests\\ViewPrism2.Tests\\TestResults\\cp-results.xml",
+ "xml_sha256": "82c0258c98cf1643ced50d396eb09b0cfac01e583f401d5412027e51db3fdb4c",
+ "totals": {
+  "total": 977,
+  "passed": 977,
+  "failed": 0,
+  "skipped": 0,
+  "not-run": 0,
+  "errors": 0
+ },
+ "origin": [
+  {
+   "assembly": "ViewPrism2.Tests.dll",
+   "config": "Debug",
+   "finished": "2026-10-13T21:06:42.5775073+09:00"
+  }
+ ],
+ "rows": [
+  {
+   "id": "CP-UTIL-005",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "共通ユーティリティ(ID・日時・ハッシュ・パス正規化・サイズ整形)が正規形を厳守する",
+   "tests": 13,
+   "pass": 13,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-EVAL-001",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "条件評価器が演算子 5 種・AND 結合・全エッジケース規則(仕様 §2.3)を満たす",
+   "tests": 27,
+   "pass": 27,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-GRAPH-002",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "NodeGraph 構築・パス→条件変換・ホームタグ解決が仕様 §2.4 と一致する",
+   "tests": 19,
+   "pass": 19,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-SORT-003",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "整列器が field×direction・安定性・OrdinalIgnoreCase を満たす",
+   "tests": 7,
+   "pass": 7,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-SCAN-004",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "スキャン判定・遷移表・再リンクが仕様 §2.1 と一致する",
+   "tests": 57,
+   "pass": 57,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-TAG-011",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "タグ管理(検証・UPSERT・バッチ原子性・カスケード・使用中削除ガード=ECO-045)が仕様 §2.2 と一致する",
+   "tests": 21,
+   "pass": 21,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-VIEW-012",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "ビュー管理(CRUD・modified_at 規則・一覧・階層ノード)が仕様 §2.3/2.4 と一致する",
+   "tests": 27,
+   "pass": 27,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-COLPICKER-025",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "列ピッカー共通 VM(SC-COLUMN-PICKER-001・ColumnPickerViewModel)の決定論が ECO-025 β-2/DRY と一致する",
+   "tests": 7,
+   "pass": 7,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-NFR-026",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "中央ブラウズの性能不変条件(ECO-026/058)=画像タブの一覧再構築・件数計算・タグ列引き・サムネ資源と、作業タブgrid/listの可視範囲実体化が退行しない",
+   "tests": 5,
+   "pass": 5,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-STARTUP-028",
+   "category": "未実行(検査なし)",
+   "depth": "unit",
+   "characteristic": "ECO-064/REQ-088 大規模profile起動=shell-first + collection catalog/content二段loading + 選択collection限定query + error/retry + 遅延結果破棄",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-SIMSESSION-029",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "ECO-066/REQ-089/IMG-020 類似画像検索の単一active session、phase/count進捗、明示/自動cancel、latest-wins結果公開、途中cache再利用が両整理surfaceで一致する",
+   "tests": 6,
+   "pass": 6,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-TOOLBAR-RESPONSIVE-027",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "画像タブ ツールバー狭幅レスポンシブ収納(IMG-014/ECO-027)の段階/回り込み状態計算と表示列モードゲートが退行しない",
+   "tests": 13,
+   "pass": 13,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-DB-006",
+   "category": "合格",
+   "depth": "L2",
+   "characteristic": "スキーマ・PRAGMA・マイグレーション契約が仕様 §2.0・REQ-003・REQ-004 と一致する((ECO-145)REQ-005= DB ファイルの場所は本行では検査しない・パスの大文字小文字無視は REQ-010 / REQ-014)",
+   "tests": 8,
+   "pass": 8,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-THUMB-007",
+   "category": "合格",
+   "depth": "L2",
+   "characteristic": "サムネイル生成・キャッシュ・失敗時動作が REQ-040 と一致し、EXIF Orientation の表示系適用(REQ-085/ECO-049)で正立生成・実効寸法・キャッシュ世代移行を満たす。(ECO-144)保守上の約束 REQ-104(宣言された結合= 版の一致)・REQ-105(キャッシュ継続・世代移行)・REQ-106(壊れた画像での継続)を本行の vector で検査する。観点(ECO-144 accept)= 本行は複数の約束・18 テストを束ねるため、1 vector の治具が不能(Skip)でも行の区分は合格のまま(実行単位の skip 件数にだけ出る— ECO-144 リハーサル実績)。約束単位の測定不能を行で見せるには行の分割か内訳の表示が要る(方法論側で判断)。観点(ECO-145 accept)= 行は割らず、cp_results の「裁定層の ID ごとの結果」で見る(テストの trait req・本行の requirement_refs)— trait の対応が誤っていれば表は誤った ID を合格と出す(潜伏実績= 破損キャッシュのテストを REQ-106 に当てた対応を、ECO-144 の人の意味審査は合とし、ECO-145 の異系統の検査官が否とした)。ID のテストの一部だけが Skip のときは合格のまま",
+   "tests": 18,
+   "pass": 18,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-CACHE-008",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "画像メモリキャッシュの LRU・TTL・上限が REQ-045 と一致する",
+   "tests": 4,
+   "pass": 4,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-SET-009",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "設定ストアのラウンドトリップ・破損耐性が REQ-052 と一致する",
+   "tests": 22,
+   "pass": 22,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-I18N-010",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "i18n 解決器のフォールバック・補間が REQ-050 と一致する",
+   "tests": 29,
+   "pass": 29,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-NFR-001",
+   "category": "合格",
+   "depth": "L3",
+   "characteristic": "条件評価 1,000 画像(各 5 タグ)× 3 条件 ≦ 200ms(NFR-001)",
+   "tests": 1,
+   "pass": 1,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-L1-SMOKE",
+   "category": "合格",
+   "depth": "L1",
+   "characteristic": "ビルド+起動+golden 対象経路のスモーク(unit 緑のまま表面全滅の盲点対策。v1.3/ECO-002 P1-6 で経路を深化)",
+   "tests": 2,
+   "pass": 2,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-ROBUST-001",
+   "category": "合格",
+   "depth": "L2",
+   "characteristic": "UI 未処理例外の封じ込め — プロセス生存+スタック全文ログ+非モーダル通知(NFR-002・v1.3/ECO-002 DF-1)",
+   "tests": 4,
+   "pass": 4,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-TAGUI-013",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "タグ付与ロジック(REQ-046・FMEA-014)。ECO-024 で原典 TaggingPanelViewModel を撤去し、検証は Core(TagService 原子バッチ)+ 画像タブ インライン付与(ImageTabViewModel)へ再帰属",
+   "tests": 2,
+   "pass": 2,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-VIEWER-014",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "ビューア計算核(ペアリング・送り・追跡・高さ統一・位置記憶)が仕様 §2.9・OC-9〜13 と一致する",
+   "tests": 42,
+   "pass": 42,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-TAGCTRL-024",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "タグ制御配置核(アクション解決・ページプラン構築・ナビゲーション)が仕様 §2.12・OC-23/24/25 と一致する",
+   "tests": 28,
+   "pass": 28,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-GF-015",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "条件サマリ整形(GF-05・REQ-060(e))が仕様 §2.6 の i18n テンプレートと一致する",
+   "tests": 7,
+   "pass": 7,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-PHASH-016",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "pHash 計算とハミング距離・類似度%変換が仕様 §2.10.1-2・OC-14/15 と一致する(決定的)",
+   "tests": 24,
+   "pass": 24,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-SIM-017",
+   "category": "合格",
+   "depth": "unit + L2(スキーマ)",
+   "characteristic": "類似検索エンジンと特徴量・類似度キャッシュ(無効化・正規化・スキーマ)が仕様 §2.10.3-4・OC-16/18 と一致する",
+   "tests": 24,
+   "pass": 24,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-DUPQUALITY-030",
+   "category": "合格",
+   "depth": "unit + L2(schema) + golden",
+   "characteristic": "ECO-067/REQ-090/IMG-021 pHash粗候補と同一原画像由来の重複関係検証を分離し、100%境界・局所差・削除安全性を守る",
+   "tests": 7,
+   "pass": 7,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-MERGE-018",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "マージ計算・マージサービスのタグ集約・status 遷移・原子性が仕様 §2.10.5・OC-17 と一致する",
+   "tests": 19,
+   "pass": 19,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-MERGE-001",
+   "category": "合格",
+   "depth": "L3",
+   "characteristic": "マージの物理非破壊 — 操作前後でユーザー画像ファイルが不変(INV-009 実アクション初適用・L3 物理差分)",
+   "tests": 1,
+   "pass": 1,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-PHASH-ADAPTER-019",
+   "category": "合格",
+   "depth": "unit/L2/L3",
+   "characteristic": "pHash adapter 世代交代の安全性(P-09)— production=scaled-decode・値混在禁止・2 層オラクル・退行ガード",
+   "tests": 3,
+   "pass": 3,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-CRITERIA-019",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "criteria 条件検索(REQ-068)が指定条件のみ AND・status 用途別・安定順・空条件非実行で絞り込む",
+   "tests": 9,
+   "pass": 9,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-RELINK-019",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "relink(REQ-069)が候補=pending∪untagged-normal・タグ付き拒否・missing 側 ID 不変・候補消費削除で確定する",
+   "tests": 6,
+   "pass": 6,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-TRASH-020",
+   "category": "合格",
+   "depth": "unit/L2",
+   "characteristic": "トラッシュ復元(REQ-070)の存在分岐と完全削除(REQ-071)の CASCADE・deleted 限定が仕様どおり",
+   "tests": 6,
+   "pass": 6,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-TRASH-001",
+   "category": "合格",
+   "depth": "L3",
+   "characteristic": "トラッシュ復元・完全削除の物理非破壊 — 操作前後でユーザー画像ファイルが不変(INV-009 第 2 の実アクション・L3 物理差分)",
+   "tests": 3,
+   "pass": 3,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-TRASH-022",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "削除モードの「ゴミ箱へ移動」(ECO-018 / TrashService.DeleteToTrashAsync)= ユーザー起点のソフト削除(normal→deleted)。normal 限定・status 更新のみ(タグ/ID/特徴量不変)・物理非破壊(INV-009)。復元(T6/T7)で戻せる入口",
+   "tests": 3,
+   "pass": 3,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-WORKSPACE-028",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "作業スペースの Core 規律(ECO-020 / WorkspaceService)— デフォルト常に厳密1つ(INV-W1)・件数/一覧は normal のみ(INV-W2)・デフォルトはリネーム不可(INV-W3)・add/move は所属の論理操作のみで物理非破壊(INV-W4)・移動は原子(INV-W5)。受け渡し AddImagesToDefault=画像タブ作業「追加」の行き先(DOM-0026)",
+   "tests": 10,
+   "pass": 10,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-RELEASE-018",
+   "category": "合格",
+   "depth": "unit/L2/history/G",
+   "characteristic": "公開候補に私有端末識別子・実画像識別子・未承認 media/文書/archive・主要 secret 形式が存在せず、機械 fixture の seed が架空データだけで構成される。公開受入の実機起動は VIEWPRISM2_DATA_DIR の使い捨て空プロファイルへ隔離し、既存ユーザープロファイル由来のコレクション・画像・実端末パスが出ないことを確認する(ECO-057/GF-057-01: 通常起動を golden に用いた初回手順が実プロファイルを読み、repo 外の私有データを表示した潜伏実績)",
+   "tests": 1,
+   "pass": 1,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-SNAPSHOT-031",
+   "category": "合格",
+   "depth": "unit/L2",
+   "characteristic": "カタログDBスナップショット(REQ-092)の作成・検証・一覧・復元前検証・復元予約・起動時差し替えが仕様どおり: .partial→quick_check/foreign_key_check→SHA-256→アトミック確定、検証済みのみ復元可、未知migration拒否、予約一回限り、失敗時退避DBフォールバック",
+   "tests": 8,
+   "pass": 8,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-PACKAGE-032",
+   "category": "合格",
+   "depth": "unit/L2",
+   "characteristic": "コレクション論理パッケージ(REQ-093)の書き出し/取り込みが仕様どおり: .partial→構造検証→アトミック確定・正規形値・依存閉包、タグ照合5段(永続マッピング/UUID+型変更競合/意味定義完全一致+対応保存/UUID維持新規/名前競合4択)、画像5状態(missing参照登録・規則3a接続)、追加型マージ、厳格拒否=DB無変更、全ロールバック、鮮度再検証、過半ガード、migration008、⋯メニュー配線",
+   "tests": 20,
+   "pass": 20,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-AXAML-LINT-117",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "ScrollViewer.Padding 禁止則(K-AVALONIA/ECO-117)が src 全 .axaml で維持される — Avalonia の ScrollViewer.Padding は Viewport から引かれず Extent とも一致せず、内容末尾が Padding.Top のぶんスクロール到達不能になる(実測 16→16px/14→14px/18→18px= ECO-116/117 の三点確認)。余白は内容側要素の Margin で持つ",
+   "tests": 2,
+   "pass": 2,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-REGISTRY-LINT-122",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "UI 部品表(../ViewPrismUI/docs/04_component_registry.md)適合の機械維持(ECO-122・恒久運用 2026-07-20 柱5=lint/視覚 probe の照合先は部品表の契約)— ①契約値写像 RegistryContract(tests 内単一ファイル・CMP-ID+部品表出典コメント・登載基準=トークン所掌の一致+Standard 基幹値)を lint/Gf* 視覚 probe が参照し、部品契約の改版が probe へ自動波及する ②CMP-006 PopoverMenu 第1トランシェ= 検査A(Popup 面 Border の popupMenu クローム委譲=恒久運用柱1)+検査B(クローム属性の局所上書き禁止=柱2・ECO-119 型の機械化)",
+   "tests": 6,
+   "pass": 6,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-RECOMPUTE-LINT-125",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "Recompute 結合点の台帳維持(ECO-125)— 26万件経路の欠陥7例(064/062/113/114/115/118/124)は全て母集合パイプラインへの不要/過剰結合の事後発見で、経路種別軸の棚卸し(ECO-114 モード/ECO-115 パネル)は軸の谷間を残した(ECO-124 教訓1=破れは経路単位・棚卸しは軸単位)。列挙軸を結合点そのものへ切替え、両タブ live VM の Recompute() 直呼びサイトを「ファイル:メソッド→件数」で全数 pin(全エントリ分類根拠つき= A 正当/A' 規模前提つき/C 条件付き=cheat-log 予告記帳)。新規の直呼び結合は fail して分類を強制する",
+   "tests": 2,
+   "pass": 2,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G1",
+   "category": "合格",
+   "depth": "G",
+   "characteristic": "シェル(タブ構成+コレクションスコープ)+画像タブ surface(E-UI-BROWSE-022 のグリッド/リスト、E-UI-AXIS-NAV-040 のFS/タグビュー軸、E-UI-MODE-041 の文脈モード入口)の描画と操作(G-1・v1.3+ECO-016)+**作業タブ(E-UI-WORKSPACE-043)のグリッド⇔リスト切替の即時反映(ECO-038 再発防止: 派生プロパティ通知漏れで切替不能が導入時から潜伏・再読込の遅延反映がマスキングした実績)**+**(ECO-050)作業タブ整理の類似しきい値初期値=仕様値 70(90=転写ドリフトが導入時から潜伏・機械側は CpUi050 pin テストで恒久封止)**+**(ECO-055)作業タブ整理トレイの条件検索も属性一致トグル 5 種の全数+マージ先必須(CP-UI-G9 側と同観点。転写ドリフト防止は共有写像 OrganizeCriteria+CpUi055CriteriaTests が両タブ pin)**+**(ECO-056)作業タブ整理トレイも v2 3 ゾーン+マージ先解除+グリッドへ+モック詳細突合(CP-UI-G9 側 ①〜⑤ と同一部品・同観点 — work_tab.md L95 が権威。機械側は CpUi056 の作業タブ解除 fact が pin)**+**(ECO-058)256×192ウォームキャッシュ10,000件の作業スペースを開き、grid/list双方への切替完了・スクロール/選択操作可能・応答なしや件数比例の数GiB増加を再発させない。潜伏実績=WorkTabはECO-020/021導入時から非仮想のまま、ECO-026がImageTabだけを是正してread-acrossを漏らし、10,000件でPrivate 6,698.4MiB以上・切替未完了まで潜伏。CP-NFR-026 headless実体化数ガード+P-01実測+M-GOLDEN-HARNESS-039隔離goldenで封止する。固定メモリ上限・固定時間閾値は設定せず、実測値はP-01へ探索値として記録)**+**(ECO-060/REQ-086)管理windowを閉じても画像タブのスキャン中表示とfully-hashed batchの取込順appendが継続し、完了時だけ最新sortを全件適用。機械側はCpUiEco060ProgressiveScanTestsで512+1件の途中/完了遷移をpin**+**(ECO-062/REQ-087)作業タブの類似検索は現workspace画像だけをCore前段の明示候補とし、別workspace/collectionを計算後に落とす後段filterへ退行しない。26万件collection全走査がECO-060 golden後に顕在化した実績。画像タブ側のFS/view境界はCP-UI-G9、機械側の候補外reader/cache非接触はCP-SIM-017で封止**+**(ECO-063/REQ-037)画像タブでタグビューを選択またはcollection切替で再loadした直後、保存済みhome_tag_idをrootからのpathへ解決し、パンくず・画像集合・下位chipがhome文脈から始まる。null/参照切れ/ホーム解除はroot。新ImageTab M3b初版45a6c77から_viewPath.Clear固定で潜伏し、Core単体home解決が緑のためsurface未配線をマスキングした実績。機械側はCpUiG1CollectionScopeTestsでview選択+collection再loadをpin**+**(ECO-064/REQ-088/IMG-019)大規模profileのcold startでshellが先に表示され、window移動/resize・タブ・設定がloading中も応答する。左catalog「コレクションを読み込み中…」→行+件数、中央content「画像を読み込み中…」→画像の二段遷移とし、途中に未選択/0件を誤表示しない。content中のcollection切替で旧結果へ戻らず、ready後はLastCollection/FS-view/home/grid-list/scan表示を再確認する。M3a初版6f7b4f9から全normal+全image_tags eager取得が潜伏し、仮想化CPがDB materialize境界をマスキングした実績。機械側はCP-STARTUP-028で全件API 0・選択scope・error/retry・遅延結果破棄をpin**+**(ECO-066/REQ-089/IMG-020)作業タブ整理の類似検索も固定150px領域をpreparing/comparing/cancellingの文言+件数+barへ置換し、同位置CTA=探す→停止→停止中。明示停止/整理終了/target・workspace・mode・new search/window終了で旧結果が復活せず、初回cancel=grid・再検索cancel=直前completed保持、条件検索と非表示裏面に停止状態を残さない。潜伏実績=WorkTab複製実装f211fa9からSearching boolは描画・cancelへ未配線で、reset後も旧Taskが無条件公開する構造が画像タブと同時に潜伏。機械側CP-SIMSESSION-029で世代拒否・単調進捗・cache再利用をpin**+**(ECO-067/REQ-090/IMG-021)作業タブでも画像タブと同じ単一連続一致度N%=min(pHash大局score,detail score)を表示し、70→80→70で同じ結果下限を再現する。内部の類似/部分重複分類は表示値を固定せず自動削除/投入しない。潜伏実績=pHash距離0→100、関係語彙のみ、関係+%二重表示、固定関係帯による99/49の崖がgolden4往復で順次顕在化。機械側CP-DUPQUALITY-030でexact100・局所差連続score・verifier世代再検証をpin**+**(ECO-068/REQ-041/044)作業タブのgrid/list双方で通常閲覧画像をダブルクリックすると、現workspaceのtag絞り込み+現在sort表示順とクリック画像startIndexでviewerを起動する。single clickとタグ編集/作業/整理/削除mode中は起動しない。潜伏実績=作業タブ複製実装f211fa9からClickCount/DoubleClickDetector転送とVM閲覧分岐が欠落し、StubWindowService空実装と共有検出器単体testがsurface未配線をマスキング。機械側CpUiG1WorkTabTestsでordered/startIndex/非起動modeをpin。maintainer実機golden(2026-07-11)でgrid/list、tag絞り込み+名前/日付/サイズsort、各文脈mode終了往復、画像タブ/viewer各mode回帰まで承認**+**(ECO-069/REQ-074/081/FL-003案A)作業タブsortは基本3列name/size/modified_date限定のv2。grid=並び替え+badge+popup内方向+chip解除+tile補助値、list=clickable header+chip解除、列/方向grid-list共有、未sort名前昇順。旧固定menu+別方向button禁止。潜伏実績=ECO-025 72e47c3がImageTabだけを製造し、2026-07-04に別裁定へdefer後CP/backlogで閉じずf211fa9旧UIが残留。機械側CpUiG1WorkTabTestsでheadless chrome+基本3候補/解除/共有/tile/viewer順をpin。maintainer実機golden(2026-07-12)でgrid/listのv2基本3列、popup内方向、chip解除、tile値、grid-list-viewer順共有、再起動時sort解除と表示形式保持、各mode/画像タブ回帰まで承認**+**(ECO-070/REQ-081/FL-003案A)FS軸の同階層はfolder群→画像群を不変とし群別sort。folderは選択列にかかわらず名前+現在方向、画像は選択列+方向。scan中は両群取込順append、明示sortは完了時適用。潜伏実績=実データ版45a6c77からfolderだけOrdinalIgnoreCase固定昇順、ECO-025 v2 72e47c3がfile列だけを刷新し、既存testsが!IsFolderでfolder行を除外してマスキング。機械側CpUiG1ImageTabSelectionTestsでmixed folder/fileのtype-primary+名前/size方向exactをpin。maintainer実機golden(2026-07-12)でgrid/listのfolder先、名前/size/date群別方向、folder架空値なし、folder移動/パンくず/tag絞り込み、scan中append→完了sort、タグビュー/WorkTab/viewer/各mode回帰まで承認**+**(ECO-079/REQ-051/K-AVALONIA)画像/作業タブの全文言(コレクション/作業スペース見出し・ツールバー・タグ編集/整理/作業/削除の各モード入口と『○○を終了』・表示軸(システム定義『ファイルシステム』=翻訳対象/ユーザー定義ビュー名=非翻訳)・リスト列見出し(名前/サイズ/更新日)・整理トレイ(マージ実行/停止/一致度N%以上/件数)・ゴミ箱・タグ追加(種別ラベル/候補ヒント)・件数『N項目/N枚』)が言語切替(ja⇔en)で即時追随する。潜伏実績=製造時(画像タブ bcd861d『モック準拠』)に XAML 直書き**および VM 算出プロパティ直書き**で i18n 未配線、既定ロケール ja(REQ-050)で通常運用は日本語=区別不能、かつ**歴代 golden が全て ja 実施**のため英語切替まで不可視(golden の谷間)。sibling の TagsTabView が i18n 化済み(Loc プロキシ+DF-3)だったことがマスキング。第1回 fix は XAML のみ是正し VM 層(モードボタン/軸/列見出し=EditButtonLabel/AxisLabel/BasicColLabel 等)が en 固着=GF-079-01 で顕在化。機械側は CpI18n010XamlLintTests(両 axaml の非コメント直書き JP=0)+タブ VM lint(live VM 4ファイルの直書き JP リテラル=0)+CpI18n010TabVmLabelTests(実 loc で ja⇔en 切替=モードボタン/軸/列見出しの英語化)+CpI18n010TabKeysTests(束ねキーの ja/en 解決)で pin。**golden は ja/en 双方で実施すること(単一言語 golden は i18n 未配線をマスキングする)**。maintainer 実機 golden(2026-07-13)で ja⇔en 切替のツールバー/各モード/軸/列見出し/整理トレイ/ゴミ箱/タグ追加/件数、ja 復帰時の視覚不変、en 表示のはみ出し/切れまで承認**+**(ECO-095/REQ-050)デフォルト作業スペースの名前(サイドバー行/中央ヘッダー/移動先メニュー)も言語切替で追随=is_default 行は DB 名でなく表示時解決(Loc common.default)。潜伏実績=Core シード定数「デフォルト」が DB へ永続化され表示が DB 値直のため切替不追随(i18n 漏れの第 3 の様態=永続データ焼き込み。混入 f211fa9・ECO-079 の 2 層走査は XAML/VM のみで Core シードが谷間・ECO-094 golden の en 切替検査で初可視化=バッジだけ英語化し名前が残る非対称が手掛かり)。回転降格した旧デフォルト(時刻名)はユーザーデータ=非翻訳で不変。機械側は CpI18n095 で pin**+**(ECO-097/REQ-041/IMG-025案A)FSタグ絞り込み変更時に選択を可視画像集合との交差へ縮退し、解除で除外済み選択を復活させない。タグ編集/作業/削除3モードをCpUiG1ImageTabSelectionTestsでpin。潜伏実績=画像タブM3a初版6f7b4f9からfilter更新とItems再構築だけで_selectedを縮退せず、絞り込みで対象自体が画面から消えるため通常goldenでは誤操作対象を視認できず、選択寿命ベクタ欠落がマスキング。maintainer実機golden(2026-07-16)で3モードの非表示画像除外、解除後の非復活、タグ/作業/ゴミ箱操作対象を承認**+**(ECO-098)画像タブの削除実行とゴミ箱open/操作後reloadは全status GetByFolderAsyncを呼ばず、ゴミ箱一覧は選択collection+deleted専用queryだけを消費する。normal少数+missing多数+deleted少数および別collection deletedをfixtureにし、対象非混入・file_name安定順・専用API exact呼出をCpUiG1TrashPopupTestsでpin。潜伏実績=ECO-019初版からVM後段filterで結果は正しく、小fixtureが過剰materializeをマスキング。実profileはnormal 6/missing 262,045で約1.1秒停止。maintainer実機golden(2026-07-16)でnormal 6+hidden missing 26万級collectionの削除/open/復元/完全削除後再表示、deleted対象/件数/file_name順、画像ファイル物理非破壊、視覚不変を承認**+**(ECO-109/VC-FL-1〜4)ファイル一覧 並び替えUI(メニュー/ソートチップ/バッジ/リスト型別セル/タイルソート項目)は mock 精緻化改版(2026-07-17)の視覚契約へ追随=メニュー幅252・候補行38px(基本=列グリフ灰ボックス/タグ=色ドット)・種別チップkind別配色(基本灰/数値緑/テキスト青/シンプル紫)・アクティブ行太字#2459CF+行末矢印・昇降セグメント全幅2分割(区切り線上)・ソートチップ全体クリック解除(radius9/青太字/title)・バッジ青地太字・開時トリガー枠濃色・非アクティブ列ヘッダー矢印なし(旧⇅撤去)・simpleセル=ドット8px+タグ色✓。並び替えメニューはImageTab/WorkTabの同型複製surface=両面同時追随(片面是正は面間非対称を作る=ECO-108教訓のread-across)。**GF-109-01刻印=端寄せ/中央寄せの整列は存在検査で代用できない — 距離の実測(TranslatePoint/Bounds)で検査する。Left系コンテンツ整列下のDock=Rightは自然幅縮退で『内容の右端』へ退化し沈黙する(R7並置も矢印の存在/回転のみ見て配置を素通りした実績=2026-07-18 maintainer実機指摘)**。golden承認済み許容差分(2026-07-18 maintainer)=タグ色ドットhalo(mock boxShadow 20%α)非転写・popupMenu枠色CardBorderBrush #E8EBF0(mock #e3e7ee)・メニュー見出し/非アクティブラベル文字色=既存リソース維持+アイコン塗りシルエット/ツールバーボタン高40=歴代言語 — 以後のgoldenで差分扱いしない。機械側=GfSortMenuVisualParityTests(VC-FL-1/2両面+行末距離probe)でpin**+**(ECO-110/CAD image_tab.md layoutInvariant「右ペインの開閉が中央を壊さない」精緻化2026-07-18)グリッド表示で文脈モード(タグ編集/整理)の右ペイン開閉により中央幅が変わっても、開閉直前の先頭完全可視アイテムをビューポート先頭付近へ維持する(保存対象=可視コンテンツ。ピクセルオフセット保持は充足でない)。先頭(未スクロール)表示中の開閉は無補正。潜伏実績=画像タブM3a初版からアンカー処理皆無だが、mockはブラウザ既定のCSS scroll anchoring(overflow-anchor:auto)が無記述のまま自然充足していたため転写対象として不可視=CAD行87の保存対象曖昧と併走して潜伏(2026-07-18 maintainer UX所見で顕在化・裁定=案A/適用範囲は右ペイン開閉のみ)。実装注意=モード切替はRecomputeでItems再構築後に一括通知(string.Empty)するため通知時点の状態実測は不成立 — View側でレイアウト確定ごとに常時追跡し、開閉エッジで採用・一度きり復元。機械側=CpUiG1GridScrollAnchorTestsで開(edit/organize)/閉/先頭ガードをpin**+**(ECO-112/REQ-099/VC-IMG-11〜13・IMG-026裁定2026-07-19)画像タブ ファイル操作モード=⋯メニュー入口の第5排他選択系モード(参照系・右ペインなし)。出し分け=0件:終了のみ/1件:パスをコピー(バッジ1)+ファイルの場所を開く/2件以上:コピー(バッジN)のみ。選択視覚=チェック(青塗り+白✓)+青リング・番号バッジなし・リスト行はタグ編集と同型。コピー=表示順・OSネイティブ改行・末尾改行なし。フィードバック=ボタン内一時表示約2秒(解除遷移=タイマ/モード離脱/選択・母集合変化の全列挙=ECO-104教訓の適用)。潜伏実績(R8先取り2026-07-19)=復帰タイマをコマンド本体に置くとAsyncRelayCommandの並行実行禁止で表示中2秒間ボタンが:disabled化しフィードバック文言がグレーアウト(fire-and-forgetタイマ分離で是正。R7撮影面の谷間だったフィードバック状態はimpl-fileops-tb-copied面の新設で封止=R8独立レビューが実装同一コンテキストの盲点を先取りした実例)。golden承認済み許容差分(2026-07-19 maintainer)=コピー件数バッジ角丸radius6(mock≈円形。delMoveBadge同型=アプリ内実行系バッジの一貫)/⋯メニュー行高の面内差(ファイル操作行42=VC-IMG-11③契約・既存行≒37=ECO-018/077歴代golden面)— 以後のgoldenで差分扱いしない。機械側=CpUiG1FileOpsModeTests(挙動10=排他/出し分け/コピー書式/フィードバック遷移/場所を開くガード)+GfFileOpsVisualParityTests(VC-IMG-11〜13)でpin**+**(ECO-113)選択系モード(タグ編集/作業/削除/ファイル操作)の選択クリックは母集合サイズ非比例=クリック経路で母集合列挙(全件条件評価+全件ソート=AllLoadedImagesInContext)を呼ばない(SHIFT範囲・ビューア起動・パスをコピーの操作時のみ許容)。潜伏実績=ToggleSelect先頭の無条件全列挙(M3a初版6f7b4f9から約1ヶ月)+RefreshSelectionMarkersの全Items走査(e39d68a=旧perf是正の残余)+BuildContextPanelsの2回目全ソート — 通常規模では体感不能で26万件ビューの実機観測(2026-07-19)まで潜伏。26万件級はECO-064(起動)/ECO-062(類似検索)で既出だが選択経路は両スコープ外=規模系NFRは経路ごとに独立して破れる。機械側=CpUiG1ImageTabSelectionTests構造probe3本(計器ContextEnumerationCount=ECO-058方式・固定時間閾値なし)+CpUiEco060ProgressiveScanTests(スキャン段階公開×entry解決=R8所見1)でpin。検出限界の宣言=差分更新(RefreshSelectionMarkers)とEntryById辞書化の性能退行は計器観測外(意味論は既存テストが差分経路で検証・再発時は同型計器を該当サイトへ)**+**(ECO-114)モード開始/終了(タグ編集/整理/作業/削除/ファイル操作・両タブ)は母集合パイプライン(全件条件評価/チップ再計算/全件ソート/Items再構築/CollectionChanged)を通らない=在庫ItemsのO(表示件数)フラグパス1本(ECO-026/#2「切替でItemsを作り直さない」のモード遷移版)。潜伏実績=全モードコマンドの末尾Recompute結合はM3a初版6f7b4f9から(ECO-113クローズ当日に同じ26万件ビューの隣接経路として顕在化=教訓「規模系NFRは経路ごとに独立して破れる」の即日実証)。golden承認済み挙動差分(2026-07-19 maintainer)=モード開始/終了でスクロール位置が維持される(旧=全再構築でリセット。ECO-110可視コンテンツ維持契約と同方向の改善)— 以後のgoldenで差分扱いしない。機械側=CpUiG1ModeTransitionTests(Items/Chipsインスタンス同一性=再構築されない構造証拠・ECO-058方式)+CpUiG1WorkTabTests同型probe(全5コマンド往復=R8所見1のToggleWork取りこぼし検出実績)でpin**+**(ECO-115)タグ編集右ペインのパネル状態変更(現在のタグ⇄タグ追加のタブ切替・行展開/畳み)はパネルのみ部分再構築(BuildContextPanels)=Items/チップ/件数の母集合パイプラインを通らない(ECO-114 契約の適用範囲拡張)。潜伏実績=TabCurrent/TabAdd/ClickAddRow の3サイトが M3a 初版 6f7b4f9 から全面 Recompute(正解様式は同一ファイルのAddQuery setter=ECO-041 と WorkTab 同サイトに既在=面間非対称の逸脱側が ImageTab という逆向きの型)。ECO-114 R8 レビューで cheat-log へ予告記帳→翌症状観測で分離起票=残余の予告記帳が診断を即決させた実例。機械側=CpUiG1ModeTransitionTests(4遷移の Items/Chips インスタンス同一性+展開意味論)でpin**+**(ECO-116)タグ編集パネルの本体スクロールは末尾に到達する — タグ追加/現在のタグの両タブを最下端まで送ったとき最後のタグ行・ピルが完全に見え、行展開でコンテンツが伸びた後も同じ(画像タブ/作業タブの4サーフェス)。CAD image_tab.md 行101/103/107「ペインごと単一スクロール本体(overflow:auto)」の到達性は定義に含まれる。潜伏実績=ScrollViewer.Padding は Viewport に引かれず Extent とも一致しないため内容末尾が Padding.Top のぶん到達不能(実測 Padding=16 一律→16px / 16,14,16,20→14px)。4サイトとも bcd861d/f211fa9 の製造時から潜伏し、**同じ禁止則が ViewerWindow.axaml/ViewEditDialog.axaml に注意書き済み(2026-07-01/02)だったが先行製造済みの違反サイトへの遡及掃射がなく潜伏し続けた**(ECO-117 R8 が「再発」表現の時系列誤りを訂正=8サイトは全数 2026-06-16〜29 混入)。検査の谷間=右ペイン受入に「末尾に到達する」観点が無く、ECO-037 は同容器の幅だけを刻んでいた。機械側=CpUiG1TagPanelScrollTests(4サーフェスの到達性を内容末尾で判定+内寄せ量16/14の視覚不変pin)でpin**+**(ECO-117)ゴミ箱ポップアップ(画像タブ/作業タブ)も本体スクロールが末尾に到達する(同クラス残存の掃討=実測18px到達不能→是正。タグタブ2リストは Top=0 で症状なし・余白一致を実測確認)。機械側=CpUiG1TrashPopupScrollTests(2面の到達性+内寄せ18の視覚不変pin)+CP-AXAML-LINT-117(欠陥クラス自体のゼロ基線lint)でpin**+**(ECO-118)タグ付与/剥奪(シンプル行/候補値チップ/数値セル/連番/現在タグ✕)が26万件ビューでも即時=変更コストは選択規模比例(母集合スコープの DB 再読・全 ImageEntry/ImageItemVM 再構築を通らない差分経路)。意味論は全面再計算と同一(チップ件数追随・REQ-094 未分類離脱+専用空状態・FS フィルタ離脱・ドット/Added/現在のタグ反映)。fallback=表示外選択混在(ゴースト)/大選択256超/タグ列ソート中は全面経路=旧挙動と同一。潜伏実績=6f7b4f9(M3a 初版)から約1ヶ月=26万件経路の6経路目(064/062/113/114/115/118)。ECO-115 が「データ変化=Recompute 正当」で対象外へ送った残余=正当なのは意味論であり O(母集合) 実装コストではない、という切り分けの精密化。R8 が設計根拠不変条件「選択⊆表示」を差分経路自身の leave が破る enter 欠落を実測で捕捉→fallback で是正した実績。機械側=CpUiG1TagApplyDeltaTests(spy=母集合スコープ API 0呼+非影響 VM インスタンス同一性+意味論7本)でpin**+**(ECO-119)タグ編集パネルは下部 docked アクションを持たない(付与は行クリック/展開しての候補値・値セルのクリックで即時確定=CAD「タグ追加」節が正典・原器 dc.html にも下部固定領域なし)。docked を持つのは整理トレイ「マージを実行」と作業モード「別スペースへ移動」のみ。潜伏実績= CAD image_tab.md 行107 が e1bc4e3(2026-07-02 layoutInvariant 横展開)で存在しない「タグ編集の docked 付与操作」を実例に作話し 18 日潜伏(実装は同行から「ヘッダ固定/本体スクロール」だけを読み取り充足したため golden で問題化せず)。是正= CAD 行107 改稿(ViewPrismUI c9b5667)+テンプレートへ「実例は原器で裏取り・不在なら『持たない』と明記」を義務化**+**(ECO-123)ポップオーバーメニューの幅は部品表 CMP-006 のインスタンス契約値(表示軸240/⋯208/並び替え252/移動先240)に一致し、同型インスタンスの面間複製は同値。潜伏実績=表示軸メニュー260(45a6c77 M3b 製造時混入・mock 実測240・260 は mock に不在の転写ドリフト・潜伏約1ヶ月)/作業タブ ⋯メニュー200(f211fa9 複製時混入=ECO-112 R3 予告)が、歴代 golden のメニュー幅非実測(既存 probe は並び替え252のみ pin)にマスクされ潜伏。機械側=GfPopoverMenuInstanceWidthTests が契約4値の全数を pin(期待値は ECO-122 で部品表写像 RegistryContract 参照へ移行済み=契約改版が probe へ自動波及)**+**(ECO-124)左ペイン(コレクション)開閉は母集合パイプライン非通過=26万件ビューでも即時(サイドバー状態の通知のみ+ClearCopyFeedback 明示継承=解除遷移の維持)。潜伏実績=ToggleSidebar の Recompute 無条件結合が 6f7b4f9(M3a 初版)から約1ヶ月潜伏(通常規模で体感不能+ECO-114/115 の経路棚卸しがモードコマンド/パネルサイト限定でサイドバーは両スコープ外=規模系NFR経路の7例目 064/062/113/114/115/118/124。WorkTab は製造時から通知のみ=面間非対称の逸脱側が ImageTab)。golden 承認済み挙動差分(2026-07-21 maintainer・基準4=①許容)=開閉時のスクロール位置は先頭リセットせず残存し列数変化で表示内容がずれる(無アンカードリフト。ECO-110 アンカーの左ペイン拡張=サブ裁定 a の予約は未行使のまま=将来症状が出たら拡張裁定)— 以後の golden で差分扱いしない。機械側=CpUiG1ModeTransitionTests(サイドバー往復の Items/Chips インスタンス同一性+64/276 CAD 値 pin)+CpUiG1FileOpsModeTests(サイドバー開閉=フィードバック解除遷移)でpin**+**(ECO-125)整理モードの検索候補追加・別の整理を続ける・他コレクションのスキャン開始も母集合パイプライン非通過=26万件でも即時(結合点棚卸しの B 3サイト是正)。表示中コレクション自身のスキャン開始は Recompute 残置(取込順固定=ECO-060 の即時実現が必要=R8 所見3)。潜伏実績= AddCandidateToTargets はグリッドクリック側5サイト(ECO-113 是正)と同一意味論なのに検索パネル側だけ全面 Recompute の面内非対称・ContinueOrganize/ScanStarted も 6f7b4f9 製造時結合=事後の症状観測でなく結合点軸の全数分類(第一印象 B=0 を全数調査が覆した)で予防発見。機械側=CpUiG1OrganizeTests(候補追加/続ける=Items インスタンス同一性+マーカー意味論)+CpUiEco060ProgressiveScanTests(別コレクション Started の単離)+CP-RECOMPUTE-LINT-125(台帳=新規結合に分類を強制)でpin**+**(ECO-130/REQ-100)再スキャンは二段階: 差分計算中とサマリー破棄・キャンセル・✕クローズで DB 完全無変更(last_scan 含む)・適用時のみ一括反映。missing 率カードの色(1%/50%)は情報表示のみ=レッドでも適用ボタンは有効(色による操作制限の再導入禁止)。確認強度(100=内訳導線/1,000=確認ダイアログ)・件数入り適用 CTA=変更合計と一致。適用中・SC-6 確認中はクローズをブロック(「破棄と報告しつつ適用完走」の誤報防止=R8 是正実績: 適用中✕/確認再入/フォルダ管理 sibling 活性/適用例外の 4 穴が初版に同時内包)。初回スキャンは従来の一段階+段階的公開のまま(SCAN-001)。golden 承認済み許容差分(2026-07-21)= 幅 640 統一(mock 作画 480)・SC-4 の作業量 callout 表示(mock 未作画)・遷移語彙は 129 前の判定準拠(129 で mock の pending 語彙へ収束)。機械側= CpScanStagingTests(DB 無変更/パリティ/破棄・キャンセル/適用失敗=Result)+CpScanSummaryLogicTests(色段/確認強度)+CpScanSummaryLifecycleTests(クローズブロック/再入)+GfScanSummaryVisualParityTests(レッドでも適用有効ほか 7 本)でpin**+**(ECO-136)missing 率カード/tier の分子は「適用後の総 missing 数」(既存 missing 行数 − 再出現 + 今回 missing 化 normal/pending→missing)であり、今回 delta(MissingTotal)ではない。既存 missing が残った状態で再スキャンすると delta 分子は率を過小表示する(空フォルダなのに 100% にならない=率カード導入 ECO-130 から潜伏・mock 例示 SC-3/4 が全損 delta≈total 前提でマスク)。遷移サマリー行(normal→missing)は delta 表示のまま・分母 ManagedTotal 不変・後方互換(PreexistingMissing=0 で total==delta=既存 capture 不変)。機械側=CpScanMissingRateTests(VM 率反転 Yellow→Red/空フォルダ E2E=TotalMissingAfterApply==ManagedTotal/再出現差し引き)で pin**+**(ECO-129/REQ-101)pending=「存在するが未裁定」の管理状態(v5.0): 内容変更/再スキャン新規/missing 再出現→pending(初回スキャンのみ normal=登録行為が裁定)・pending は無絞り込み FS ブラウズに未裁定バッジ(琥珀破線)で並置し、タグチップ絞り込み/ビュー軸/NodeGraph 値抽出/類似候補/エクスポート/作業タブ/件数バッジは normal のみ(INV-010 v5.0)・裁定は⋯メニュー「未裁定の画像… N」→ダイアログの 4 操作(受け入れる=T13/別画像として扱う=T14 原子的行置換/削除する=T15/保留)+候補つき新規は青カード「修復で再リンク…」(T4 タグ引き継ぎ)・修復を開くだけでは DB・一覧無変更(無同意一段階スキャン撤去)・pending は全モード操作(選択/整理/作業/削除/ファイル操作)対象外=選択段で封鎖。**潜伏実績(GF-129-01)=裁定ダイアログ閉じ後の再読込(ReloadImagesAsync)が normal のみ再取得し pending 母集合が stale 残存 → 全件裁定後も⋯メニュー件数と一覧バッジが残り、裁定済み画像が fresh normal と stale pending の両母集合へ重複=SortFiles の ToDictionary(ID キー)で duplicate key 例外(ソート経路によりクラッシュ)まで内包して gate② 実機で顕在化。母集合の取得サイトを拡張したら全再読込経路へ read-across する(LoadContentAsync だけ拡張し軽量再読込が谷間=消費サイト棚卸しの残穴)**。golden 承認済み許容差分(2026-07-21 maintainer・§9 基準9 判断材料5点)= タイトルバー=Window.Title(L1)/プレビュー=プレースホルダ地(クローム比較)/比較テーブル=現在値のみ(過去状態を厳密保存しない原則・mock の旧→新 2 値は作画=CAD as-built 注記)/リスト行の未裁定チップ=行末(名前セルは列テンプレート内)/由来チップ「再出現」=mock 3 種にない 4 種目(spec T11 由来)— 以後の golden で差分扱いしない。機械側= CpPendingSemanticsTests(判定規則 v5.0 8 本+裁定 3 遷移+T14 原子性)+CpUiG1PendingGuardTests(並置バッジ/モード操作ガード/裁定後再読込の鮮度=GF-129-01 probe)+GfPendingReviewVisualParityTests(PD-2〜4 視覚契約)でpin**+**(ECO-133/REQ-100)二段階スキャンの適用が失敗したら同一 staging の再試行を封鎖し再スキャン(差分再計算)へ導く=ApplyCoreAsync は 512 件独立トランザクションで部分適用があり得る(残余は次回スキャンが収束)ため、失敗した staging の再 Apply は既 INSERT 行への再 INSERT が UNIQUE 衝突で残余へ到達不能。失敗時 CanApply=false+_applyFailed ガード(ボタン無効化+コマンド経路の二重封鎖)+scan.applyFailedRescan 誘導文言・PresentSummary(新差分)で _applyFailed リセット。**潜伏実績=ECO-130 R8 で「適用例外→throw せず Result+Summary 復帰」は処置したが、Summary 復帰が CanApply 真のまま=同一 stale staging を再試行可能にした残穴(Codex review 6fa8834..HEAD P2 が静的検出→R5 で UNIQUE 衝突 Add 注入により実 DB 失敗を再現)。失敗回復の状態遷移は「元の面へ戻す」だけでなく「その stage が再実行可能か」まで設計する(read-across=ECO-130 の適用ライフサイクル境界の次の穴)**。機械側=CpScanApplyRetryGuardTests(実 ScanService+TempDb で UNIQUE 衝突注入→失敗後 CanApply=false+再試行 no-op)でpin**+**(ECO-131/GF-128-01)作業タブでの status 変更(削除/復元/裁定/マージ)は画像タブへ切り替えたとき母集合(_allNormal/_allPending)へ反映される=作業タブ入場で content-stale を立て、画像タブ復帰で RefreshContentAsync(母集合再読込=OpenPendingReview 同経路)。**二重管理ではない(images.status 単一列)=クロスタブ・キャッシュ不整合**。潜伏実績=画像タブの母集合が作業タブ変更で無効化されない構造欠陥(タブ切替の再読込は _imagesTabStale がタグタブ変更限定+ReloadTagCatalogAsync が母集合非取得・作業タブ側は無条件 RefreshAsync で健全=非対称)を ECO-128 の復元→pending が顕在化(旧 T6=normal が古い normal と偶然一致してマスク=ECO-087 型)。**R8 所見=RefreshContentAsync を対話中シェルから fire-and-forget したことで ReloadImagesAsync の await 中コレクション切替と競合(別コレクション母集合で上書き)→ ReloadImagesAsync に世代/コレクション ガード追加(LoadContentAsync 同規律)=既存の内部再読込を対話中 fire-and-forget 経路へ転用するとモーダル閉後前提の無ガードが競合化する read-across**。機械側=CpUiG1CrossTabRefreshTests(外部 status 変更→母集合鮮度回復+シェル配線)+CpUiG1CollectionScopeTests(TCS ゲートで await 中切替の非上書き=世代ガード)でpin**+**(ECO-128/T6')ゴミ箱復元は物理存在でも normal へ自動昇格せず pending(origin=Restored)へ倒す=復元の責務は deleted 除外の解除まで(「未裁定を削除→復元」の自動受入れ防止・INV-013 v5.0)。不在時 missing(T7 不変)。復元 pending は §2.11.7 の裁定導線で normal 化・作業タブでは normal 限定(INV-W2)ゆえ現れず裁定は画像タブで(作業タブ pending 導線不在は別 ECO 候補)。**凍結オラクル処置(gate① 裁定=skip 化+刻印+新規行)= S-29(復元→Normal を exact pin)を skip 化→新規 S-43。gate① 見積り不足の顕在化=S-26(物理非破壊 L3)も復元→Normal を pin して衝突と判明→同処置を機械適用(S-26 skip 化→新規 S-44)。凍結 skip 2→4 件。教訓=旧意味論を pin する凍結オラクルの棚卸しは全 depth 横断(L3 物理差分も status を incidental に pin)=grep は status enum の全登場箇所で**。機械側=CpTrash020/CpTrash001(復元→pending+origin)+S-43(unit)+S-44(L3 物理非破壊)でpin****+(ECO-141/2026-07-24)****外部 UI ライブラリの版更新は『unit/視覚 probe が全緑』でも実機 golden を省略しない**: Avalonia 12.0.4→12.1.1(minor)で Gf 視覚パリティ 43 件は全緑(レイアウト数値契約は不変)だったが、**同一 UI コードのまま Avalonia だけ差し替えた対照実験**(CaptureHarness で両版撮影→PNG 比較)では **29 面中 24 面に画素差・寸法差 0**= グリフラスタライズ/アンチエイリアス/色ブレンド層の drift を実測した。S-BOM(53-service-bom.yaml)が K-AVALONIA へ `reinspect_depth: G`「描画/バインディング/入力の劣化は unit に出ず golden/L1 で顕在化(ECO-002 実証)」と記帳していた**とおりの事象**であり、ECO-134 前例(挙動 bit 一致で実機 golden 不要化)は**同一ライブラリ版での性能是正**への裁定なのでレンダラ版更新へ転用してはならない。潜伏危険=数値レイアウト検査だけを根拠に n/a を提案すると描画劣化が無検査で出荷される(本 ECO では独立レビュー〔R8 M-1〕が S-BOM 記帳との矛盾を指摘して阻止)。**版更新 ECO の golden 判定手順=①Gf 等の機械検査 ②CaptureHarness で旧版/新版の対照撮影+PNG 差分 ③差分ゼロなら n/a 提案可・差分ありは実機 golden**。**+(ECO-141)ハーネスの故障封じ込め契約**: `CpHarnessEco083Tests` は **内部フィールド(`HeadlessUnitTestSession._dispatchTask`)の pin から挙動契約の pin へ置換**した(cleanup 段/work item 本体の例外がいずれも当該 Dispatch へ surface しセッションが生存すること)。上流 #21781(我々の報告 #21770 の修正)で故障増幅が解消されたため ECO-083 の FailFast 監視を撤去したが、**撤去は変更ログでなく実測で裏取り**した(陽性対照 12.1.0=永久ハング再現/12.1.1=封じ込め)。**封じ込めは外部到達 2 経路に限る**(consumer loop の catch は両版とも OperationCanceledException のみ=IL 実測)、かつ**撤去により原因例外全文の即時顕在化は失われ**再発時の一次証拠は HangDump の mini ダンプ経由へ後退する(ECO-082/083 の真因確定はこの即時顕在化が決め手だった)。私的 API に依存する防御を置くときは**その前提を機械 pin し、撤去時は前提の消滅を挙動で実証する**。",
+   "tests": 177,
+   "pass": 177,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-PENDING-AUTO-035",
+   "category": "未実行(検査なし)",
+   "depth": "unit+G",
+   "characteristic": "ECO-139/GF-139-01/PEND-003 再裁定: 一意な高信頼サブセットの確認つき原子一括再リンクと PD-5/PD-6 件数パリティ",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-INTEGRITY-036",
+   "category": "合格",
+   "depth": "unit+G",
+   "characteristic": "ECO-140: 統合裁定面(要確認の画像)= 事象 3 分類・混在一括自動裁定(移動= T4 relink/再出現= T13 accept)・裁定時 hash 再計算(scan 非接触)・relink 選別+確定の E-RELINK-007 一本化・入口統合。+(ECO-142)事象カウント経路の計算量= missing 母集合規模の相関プローブ×行取得を許さない(潜伏実績: fb5173c から 10 日潜伏。受入 TempDb の小規模母集団では計算量差が観測不能で、実機の 26 万 missing 残留コレクションの切替遅延で顕在= 集計 SQL の受入は駆動側/plan 形状も pin する)",
+   "tests": 56,
+   "pass": 56,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G2",
+   "category": "合格",
+   "depth": "G",
+   "characteristic": "リスト表示の列構成・行選択(G-2)",
+   "tests": 23,
+   "pass": 23,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G4",
+   "category": "合格",
+   "depth": "G",
+   "characteristic": "ビューアの起動経路・フィット表示・端停止・背景クリック閉じる(G-4・v1.3)",
+   "tests": 20,
+   "pass": 20,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G5",
+   "category": "未実行(人の承認で検査)",
+   "depth": "G",
+   "characteristic": "ja/en 切替の即時反映・生キー露出なし(G-5)",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G6",
+   "category": "合格",
+   "depth": "G",
+   "characteristic": "タグタブ 3 ペイン(ビュー管理・階層エディタ・タグパレット+ダイアログ)(G-6・v1.2)+**(ECO-045/TAG-008)使用中タグ定義の削除拒否= 付与済み/ビュー配置済みタグの削除は拒否理由表示・定義と参照は無傷・未使用タグは削除成功(未確定仕様の仮置き=無条件削除+カスケードが V1 から稼働していた実績。golden 基準は実機到達可能な操作で書く — 子ルート化境界はタグ定義階層の編集 UI 不在で実機到達不能と判明し S-38 機械ガードへ振替の実績)。DB ガード×未保存編集状態(dirty エディタ)の谷間は ECO-046 で掃射済= **未保存の階層編集に載っているタグの削除は確認ダイアログの前に拒否・理由提示(ECO-046/U-a 再発防止: DB 参照ガードだけでは未コミット編集を関知できず、削除成功→保存で FK 違反の未処理例外『予期しないエラー』が ECO-045 golden 中に顕在化した実績。キャンセル後は削除可・保存後は TagInUse=DB ガード委譲・保存回帰も確認)**+**(ECO-063)タグタブでnested nodeをホーム設定・保存し、画像タブで当該viewを選択するとそのnodeから開始し、パンくずhomeでrootへ戻れる。ホーム解除後はroot開始。保存unitだけでなく設定→消費surface往復をgoldenで確認する(新ImageTabへのsurface置換時にV1 golden観点を機械移管せず18日超潜伏した実績)**+**(ECO-099/mock v3 2026-07-16)配置モデル統一+行操作集約の検査次元= VC-TAG-12(配置中の状態切替一式①〜⑦。特に⑤非配置時に挿入ポイント/＋子にする/帯が一切残らない・⑦配置中は⋯/家アイコン非表示=行操作の一時停止)・VC-TAG-13(⋯メニュー構成5項目・削除のみ警告色・Popupがツリーカード境界の外へ重なる・HOME淡青/条件琥珀チップ非対話・条件チップ幅上限150+省略+ツールチップ=TAG-015③)・VC-TAG-14(行ホバーのみ家ゴースト出現・非ホバー時の行不変・title=現ホーム行「ホームを解除」/他行「ホームに設定（他の行から移動）」・排他移動と現ホーム行解除・⋯メニュー経路は設定のみで併存)。配置=挿入ポイント(兄弟/子リスト末尾/ルート末尾)+＋子にする(子+自動展開)・実行/Esc/帯/再クリックで解除+配置ノード選択・ビュー切替持ち越しなし。「配置から削除」は確認なし即時(TAG-015④=定義残存+バッチ編集の二重低破壊)・「名前を変更」はインライン従来契約(TAG-015①)。機械側=CpUiG6PlacementTests(状態遷移/挿入位置/排他ホーム/一時停止/残存なし/チップ幅上限をpin)。golden承認済み許容差分(2026-07-16 maintainer)=ガイダンスカード文中強調の平文化(copy逐語一致)・色ドットリングの16%α塗り近似・＋子にするの子行表示(prose「各行末」適合=mockは2階層プロトタイプ制約)・パレット幅300/name昇順(as-built/REQ-029)—以後のgoldenで差分扱いしない**+**(ECO-100/TAG-014)並べ替え・付け替えD&Dの検査次元= ドラッグ中の挿入表示がクリック配置(P2-placing)と同一(要素・様式とも。差分=帯copy「移動中」と元行減光のみ)・禁止位置(移動元の自身/子孫)は挿入表示を出さない(非表示・自身の直前は可視でno-op)・Esc/有効位置外=キャンセルでツリー不変・終了後に表示が一切残らない(VC-TAG-12⑤同型)・サブツリーごと移動+per-placement状態(別名/条件/展開モード/HOME)随伴・ドラッグ中も⋯/家非表示(一時停止同型)・移動と配置の排他。機械側=CpUiG6DndMoveTests(移動意味論/循環拒否/同位置no-op/状態随伴/禁止位置非表示/終了後残存なし)。golden承認済み(2026-07-16 maintainer)=移動中帯copy「「{タグ名}」を移動中 — 光った位置にドロップ」+ドラッグ元行の減光0.55を裁定承認—以後のgoldenで差分扱いしない**+**(ECO-101)入力堅牢性= 挿入ポイント/＋子にするは左ボタンのみ実行(右/中クリックで階層不変)・ボタン非押下のポインター移動でドラッグを開始しない(キャプチャ喪失で残留した押下状態の自己回復+PointerCaptureLost での状態クリア)・無変更操作(現ホーム行への再設定)はダーティにしない。潜伏実績=ECO-099/100 の golden(左クリック正常系+Esc のみ)と機械probe(VMコマンド直接実行)の双方が入力イベント層のボタン種別・キャプチャ喪失を未検査=1日で混入検出(maintainerソースレビュー)。機械側=CpUiG6InputRobustnessTests(headless実マウスイベントで右クリック非破壊・非押下移動の非発火・既存配置モード無傷・クリック経路pin)。headlessセッションはポインタ押下状態をテスト間で共有する—マウスを使うテストは Down/Up を必ず対にする(M-HARNESS 注意)**+**(ECO-102)dirty中のタグ定義変更の反映= 未保存編集中にパレットでタグを改名/色変更/数値範囲変更しても中央ペインの既存ノード・配置中タグ(帯)が最新定義へ即追随し、ツリー構造/別名/条件/HOME/ダーティ状態は不変(構造の保護と表示の鮮度の分離=案A)。潜伏実績=dirtyガード(c103967・2026-06-11初期製造)が表示鮮度まで一括スキップし1か月超潜伏(golden手順にdirty中のタグ編集往復が無い+非dirty時は全再ロードで正しいためマスク。ECO-046のdirty中削除面と対になる編集面の谷間)。機械側=CpUiG6DirtyRebindTests(改名/色/数値範囲の即追随・構造/dirty不変・保存回帰・placing帯追随・非dirty従来経路pin)**+**(ECO-103/mock v4)保存モデルの検査次元= VC-TAG-16①〜⑥: dirty中のみ未保存3表示(ナビ琥珀ドット+title/ヘッダ「未保存の変更」チップ/フローティング保存バー=ダーク地・破棄ゴースト+保存アクセント✓)・**⑤クリーン時にバー/チップ/ドットが一切残らない**・**⑥dirty中の別ビュー選択/他タブ遷移/ビュー操作(新規・リネーム・削除=TAG-016(i))が遷移してしまわない**(ブロック+attention=琥珀ボーダー+「移動する前に、保存するか破棄してください」+shake相当・700ms復帰・確認ダイアログを出さない=旧方式撤去)・保存=緑トースト1.8s自動消滅・破棄=確認なし復元+配置モードクリア・保存失敗=バーattention維持+失敗理由(自動復帰なし=TAG-016(iv))・アプリ終了=ConfirmDialog2択(TAG-016(iii))・設定/パレット検索=通過可(TAG-016(ii))。旧ヘッダ保存/キャンセルの完全撤去(死んだi18nキー・接続先なし)。潜伏対策の由来=v4正典化によりECO-099許容差分から除外された初のケース(許容差分は恒久でなくCAD改版で失効し得る)。機械側=CpUiG6SaveBarTests(ガード4経路/破棄無確認/トースト/失敗attention/3表示のheadless実描画)。**GF-103-01/02 刻印(golden 1巡目所見・2026-07-17)= ①保存バーの破棄/保存ボタン文言は高さ34内で縦中央 — 検査は**グリフ実高(TextLayout.Height)基準**の中心比較で行う(Bounds中心比較はStretchされたTextBlockを素通りする=GF-091-01の予言どおり実測で確認。固定高+Padding縦0の新設ボタンスタイルはVerticalContentAlignment=Center明示がECO-040規約 — 本件で再発N=3=040→GF-091-01→GF-103-01・cheat-logで昇格判定DUE)②バー琥珀ドットは8px本体+3pxハローリング(22%α。mockのbox-shadowは素通しされやすい=VC-TAG-16②へ検査粒度追記済み。ナビunsavedDotと同一リング様式)。golden承認済み裁定(2026-07-17 maintainer)= vpRise/vpShakeのStyle.Animations近似・en copy 9キー・TAG-016(iii)=ConfirmDialog 2択様式 — 以後のgoldenで差分扱いしない**+**(ECO-104)保存バー表示状態の交差ケース= ①トーストはクリーン状態の一時確認 — dirty遷移(1.8s内の再編集)・再読込・ビュー切替で即時消滅(「保存しました」×「未保存の変更があります」の矛盾掲示・前ビューの成功トーストの新ビュー持ち越しは不可。解除経路をタイマのみにしない=状態遷移側にも解除責務)②保存失敗理由は権威値(SaveErrorCode)で保持し表示時に現在ロケール解決 — dirty中の言語切替でバー文言が即追随(潜伏実績=ECO-103 fix 当日混入・レビュー検出。既存probeが保存/失敗を単線検査し交差ケース〔保存↔再編集/ビュー切替・表示中ロケール切替〕を未検査だった)。機械側=CpUiG6SaveBarTests 2本追加(タイマ凍結で状態遷移側の解除責務を分離検査・ja↔en往復)。**golden基準の教訓再犯記録= 当初基準③〔保存失敗の作為〕はECO-046ガードで実機到達不能(ECO-045「golden基準は実機到達可能な操作で書く」の再犯・ECO-104 §6振替記録)— 到達不能な検査面は機械プローブへ振替し、goldenは同機構の到達可能面で書く**+**(ECO-106)タグパレット常駐メッセージのロケール追随= 削除拒否(error.tagInUnsavedEdit)/削除失敗(TagInUse等)のメッセージは表示中の言語切替で即追随する — 権威値はi18nキー(StatusMessageKey・ErrorCode由来はErrorMessages.KeyOf)で保持し表示時に現在ロケール解決(潜伏実績=ECO-046 9a0f3c6 混入・12日潜伏。静的i18n lintはキー消費のみ検査し解決タイミングが死角+goldenの単一ロケール実施でマスク — ECO-104 golden の言語切替基準が偶然照らした。同アンチパターンが保存バー〔ECO-104〕とパレット〔本件〕で2面連続顕在化=「常駐メッセージ(次のユーザー操作まで再解決機会がない表示)」が脆弱クラス。lint第3次元〔解決タイミング〕として拡充候補へ記帳済み)。機械側=CpUiG6HierarchyEditorTests(実アセットja↔en往復)**+**(ECO-126)確認ダイアログ(ConfirmDialog=全10サイト共有)は CMP-011/L2 準拠= ボタンテキスト中央揃え・キャンセル=secondary(白 outline #D6E0EE)・破壊系 CTA=destructive(#d83a3f 塗り+枠 #c4282d+白文字)・非破壊系=primary(Accent 塗り)・ラベルは動詞(REG-C5「はい/いいえ」禁止= ConfirmAsync の confirmLabel 必須引数で型強制)。終了確認は ECO-103 裁定文言「破棄して終了/戻る」(従来ははい/いいえに退化していた)。潜伏実績= Phase 4 初期製造(1446321)から全確認面がはい/いいえ+テーマ既定グレー+左寄せのまま約1ヶ月潜伏(共通言語 L2 は ECO-073 で確立したが legacy 面への遡及掃射なし=ECO-117 と同構造。CAD 側 03 マトリクスへの検査行追加+CMP-011 部品登録+REG-C5 裁定=2026-07-21 の正典化を受けた実装追随)。機械側= GfConfirmDialogVisualParityTests(中央揃え/secondary/destructive/primary/動詞・戻る=契約5本。mock なし面につき captures 並置の代替= 実測 pin)+CpRegistryLintTests 検査C(クラス無し生 Button の件数台帳=再発は分類を強制)でpin**",
+   "tests": 49,
+   "pass": 49,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G7",
+   "category": "未実行(人の承認で検査)",
+   "depth": "G",
+   "characteristic": "タグ付与パネル(現在タグ/追加/適用・固定値/連番)(G-7・v1.2)+**ピル埋込 TextBox(タグ追加検索等)のテキスト/カレット整列= 垂直中央+フォーカス枠に密着しない左余白(ECO-040 再発防止: Padding=0 上書き×VerticalContentAlignment 未指定で −7.5px 上寄り+0px 左密着が製造時から潜伏・検索未配線で入力機会が無くマスキングされた実績。同型の整理トレイ条件入力×画像/作業タブも同観点= headless 回帰 GfPillTextBoxCaretAlignTests が恒久ガード)**+**タグ追加検索の絞り込み動作= 部分一致(trim/大小無視)・空グループ消滅・クリア全復帰・絞り込み後の付与が正常(ECO-041 再発防止: UI 殻だけ描画され機能が未配線でも視覚検査は通ってしまう実績= 18 日潜伏。入力系 UI は golden で必ず 1 回操作して結果を見る)**",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G8",
+   "category": "合格",
+   "depth": "G",
+   "characteristic": "ビューア拡張(モード切替・位置記憶・scroll・spread 右/左・表示設定・永続化・ロード失敗耐性)(G-8・v2.0)+**(ECO-049/REQ-085)EXIF Orientation 付き実画像の正立表示(サムネ・フルサイズとも)と解像度の実効寸法。V1〜v4.0 は横倒しが『仕様どおり』として潜伏した実績(沈黙次元裁定「原典も未適用」がコード上の意で、原典 Electron は Chromium 既定により表示は正立=挙動等価性の隠れ回帰)。読込経路差し替え時は全ビューアモード(normal/scroll/spread/タグ制御)の裏面検査を含める(ECO-037 教訓)**+**(ECO-071/REQ-091/IMG-022案A+golden補正)viewer canvasのwheel下=logical Next/上=Prev。Fit/spreadはpage、Width/Originalはevent前offsetでpan優先+既に端の外向き次eventだけpage。Width/Originalのwheel Next先頭/Prev末尾へload/layout確定後に着地し、button/key/seekは不変。scroll/drawer/mapping modalはcontent scroll、horizontal無視。Loop V2初版415cecaでnormal/spread wheelを明示除外しprovider不在、初回fix後goldenでPrev先頭着地が顕在化した実績。機械側CpUiG4ViewerTestsでhandler存在+mode/fit/offset/delta/landing決定表をpin。maintainer実機golden(2026-07-12)でWidth/Originalの縦長画像往復=Next先頭/Prev末尾、viewport内、button/key/seek非漏出、Fit/spread/scroll/overlay回帰なしまで承認**",
+   "tests": 2,
+   "pass": 2,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G11",
+   "category": "合格",
+   "depth": "G",
+   "characteristic": "タグ制御モード(設定トグル・マッピングモーダル表示パリティ・見開きでの skip/force/spread/empty 配置・ON とマッピングの復元)(G-11・ECO-022)。**表示パリティ=提示フィールドに限らずモーダル クローム全体をモック突合**: ヘッダ(タグアイコンバッジ+タイトル+説明+X)/ 行のカード化+アクション固定色アイコンバッジ / **行順(モック順=左固定→右固定→占有→skip→左空白→右空白)** / **常時 docked フッター(補足文+既定に戻す+完了 cta)** / 全体オーバーレイ。設定ドロワーは ScrollViewer が有界でカード末尾まで到達可(GF-TAGCTRL-01)。フッター補足文が右端で切れない(GF-TAGCTRL-03)。(FMEA-037=クローム脱漏ガード・2026-07-01 追加)",
+   "tests": 2,
+   "pass": 2,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G9",
+   "category": "合格",
+   "depth": "G",
+   "characteristic": "類似検索 UI(閾値・精度モード非表示・結果%降順)+マージ(タグ集約。**ECO-052 裁定 b: 事前プレビュー・非破壊個別明示は非搭載が正 — チェックリストは §2.6 G-9 の v4.1 as-built 版を用いる(旧モーダル手順のまま暗黙スキップされていた実績=ECO-014 M4 漏れ)**)+**マージ完了パネル(統合しました+DoneSummary+続行 — ECO-037 再発防止: 導入後の右ペイン改変で幅自己参照により不可視化した実績)**+トラッシュ(deleted 閲覧)+物理非破壊の目視(G-9・v3.0)+**(ECO-044/IMG-011)タグ統合チェック非搭載=常時 union(見せかけトグル=切替可能だが Core は常に union が導入時から存在した実績・ECO-041『未配線 UI』同族)・「取り消す」=ログに基づく補償 Undo の往復(source 一覧復帰+タグ復元)と条件破れ時の不活性+理由表示。作業タブの整理トレイも同観点(CP-UI-G1 側から参照)**+**(ECO-048/REQ-084)回転・鏡像複製の検出。golden 入力は必ずピクセル実変換の複製で作る(EXIF タグ方式の回転はピクセル不変=検査を無効化した実績・51 R3)・確認閾値は仕様既定 70(scaled-decode の経路系統誤差により回転/異フォーマット複製は 70 台に落ち得る実績・51 R3 #2/#3)**+**(ECO-050)しきい値スライダー初期値=仕様値 70(80=工場仮置きの逸脱が ECO-014 から潜伏・「既定値がどの検査面にもない」様式。機械側は CpUi050 pin テストで恒久封止)**+**(ECO-054)異フォーマット複製(png×jpg)が 90 点台で検出される(scaled-decode の経路系統誤差 -18 点が「仕様どおり」として潜伏し、ユーザーの直感乖離所見で顕在化した実績。機械側は S-42 経路一貫性で恒久封止)**+**(ECO-055)条件検索=マージ先との属性一致トグル 5 種(ハッシュ値/拡張子/サイズ/ファイル名/更新日)の全数表示・マージ先必須∧条件 1 つ以上で「似た画像を探す」が**即**活性=タブ往復不要(①自由入力 2 欄=意味論取り違え+3 条件欠落が ECO-014 から潜伏した実績=『全数がどの検査面にもない』様式・旧コードの「M2 で結線」宣言が未実施のまま残存 ②GF-055-01=ホスト転送セッターの通知漏れ= ECO-038 同型を是正実装自身が再発し、タブ切替の一括通知で直る遅延反映がマスキングした実績。機械側は CpUi055CriteriaTests の写像全数 pin+ホスト通知回帰で恒久封止)**+**(ECO-056)整理トレイの v2 モック並置突合= ①3 ゾーン固定(整理対象を大量に積んでもマージ先と実行ボタンがスクロールアウトしない=内部スクロールは対象リストのみ) ②マージ先解除 ✕(対象保持・実行/検索不活性) ③検索結果ヘッダ「グリッドへ」で戻れる(v1 CAD 定義が 51ad8ee から欠落=戻る手段が整理終了のみだった 18 日超の潜伏実績) ④モック詳細(タブ「条件検索」「類似画像検索」順・「探す」文言・条件 2 列チェック行・タイル=チェック+右上バッジ 宛先=緑/対象=青)の並置突合 — 51ad8ee ロットの逸脱 6 点が「詳細突合が観点に無い」ため歴代 golden を素通しした実績 ⑤タブ切替で検索パネル高さ不変(150px 固定)かつ画像一覧がちらつかない(GF-056-02=SetSearchMethod の Recompute 過剰再構築が潜伏)・checked 行ラベルの視認性(GF-056-02=Fluent :checked のテンプレート内白文字化)。機械側は CpUi056OrganizeV2Tests(導線 3+高さ不変+CollectionChanged 0 回+Foreground 実測)で恒久封止**+**(ECO-060/REQ-086)スキャン中の類似方式は不完全な部分母集合を検索せず「スキャン完了後に利用できます」を表示し、完了後に再活性。条件方式は公開済みnormalへ利用可。機械側はCpUiEco060ProgressiveScanTestsで実行非到達と案内をpin**+**(ECO-062/REQ-087/IMG-018)類似候補は検索実行時の閲覧文脈へ先行限定: FS=マージ先と親relative_path完全一致の直下のみ(subfolder除外・tag chip非影響・現在folder外targetは0)、view=現在node path。26万件collection全走査がECO-060 golden後に顕在化した実績。閾値/結果順/候補追加/merge/Undo/scan gateの裏面も再検査し、機械側はCP-SIM-017のscope外reader/cache非接触で封止**+**(ECO-066/REQ-089/IMG-020)画像タブ整理の類似検索は固定150px設定領域をpreparing/comparing/cancellingの文言+件数+barへ置換し、同位置CTA=探す→停止→停止中。明示停止/整理終了/target・collection・FS folder・view node・mode・new search・window終了で旧結果/検索中表示が復活せず、初回cancel=grid・再検索cancel=直前completed保持、cancelを0件/失敗表示にしない。条件検索と検索パネル非表示の裏面も再検査する。潜伏実績=ImageTab整理初版3176685からCoreのprogress/ct受口がsurface未配線で、ResetStateは表示boolだけを戻し旧Task完了を無条件公開していた。機械側CP-SIMSESSION-029で世代拒否・単調進捗・cache再利用をpin**+**(ECO-067/REQ-090/IMG-021)画像タブの結果badgeは単一の連続一致度N%=min(pHash大局score,detail score)。正規化画素exactだけ100、表情/局所内容差は100禁止だが関係固定帯で49以下へ落とさず70%検索へ複数残り得る。70→80→95で段階的に絞れ、70へ戻せる。内部類似/部分重複は自動削除/投入なし。潜伏実績=pHash距離0の表情差100→語彙のみ→関係+%二重判断→固定帯99/49で70%検索1件、という4回のgolden不合格。機械側CP-DUPQUALITY-030で合成局所差・pHash距離0・v2→v3 cache再検証をpin**",
+   "tests": 3,
+   "pass": 3,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-TRASH-021",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "(ECO-005/T9)除外 TrashService.ExcludeAsync は missing→deleted のみ行う: missing を deleted へ(status 更新のみ・物理非破壊)、normal/pending/deleted の除外は ValidationError(missing 限定)",
+   "tests": 3,
+   "pass": 3,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-REPAIR-AUTOALL-023",
+   "category": "未実行(検査なし)",
+   "depth": "unit",
+   "characteristic": "(ECO-005)RepairViewModel.AutoRepairAllAsync は auto-repairable(候補ちょうど1件)な missing のみ relink し、候補2件以上/0件は修復しない・タグ付き拒否はスキップして成功数を返す(一括が1件失敗で止まらない)。**(ECO-140)superseded — RepairViewModel/CpUiRepairViewModelTests は撤去済み。auto-repairable 判定・失敗スキップ単発・タグ付き除外の意味論は E-RELINK-007(RelinkService 選別+単発確定)へ移管し検査実体は CP-INTEGRITY-036(CpIntegrityReviewTests/CpRelinkUnifiedBatchTests)。本エントリは歴史記録**",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-DISPLAY-PARITY-022",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "(ECO-004→ECO-007 改訂)表示パリティの VM フィールド公開: RelinkCandidateViewModel.AbsolutePath/FileName(A-1)・グリッド項目 VM の SizeText(A-2)・TrashItemViewModel.SizeText(A-3)。(ECO-007/E1)ViewRowViewModel は TagCount を公開し ★(IsFavorite)を行表示しない・Description は tooltip 用に公開(A-4 改訂)。(ECO-007/E2)タグパレット行 VM は Description を行に出さない(A-5 撤回)。(ECO-007/E5/DC-TAGPREVIEW-001)タグ作成ダイアログの付与プレビュー整形ヘルパ(核側)が種別別の付与表現を返す(視覚描画は各 golden)",
+   "tests": 17,
+   "pass": 17,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-REPAIR-CARD-021",
+   "category": "未実行(検査なし)",
+   "depth": "unit",
+   "characteristic": "(ECO-003)再リンク候補 VM が表示パリティの判断材料を公開する=RelinkCandidateViewModel が FileName・AbsolutePath(collection root+relative)・SizeText・ModifiedText を備える(視覚描画は CP-UI-G10/golden)。**(ECO-140)superseded — 候補カード 5 要素パリティ(GF-V4-04)は統合裁定面の候補提示へ継承し検査実体は CP-INTEGRITY-036。CpUiRepairViewModelTests は撤去済み・本エントリは歴史記録**",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G10",
+   "category": "未実行(人の承認で検査)",
+   "depth": "G",
+   "characteristic": "修復ライフサイクル UI(criteria 検索・relink 候補提示/確定・**候補カードの表示パリティ=サムネイル+ファイル名+パス+サイズ+更新日時を原典 AdvancedRepairModal とフィールド単位で突合**・トラッシュ復元/完全削除・非破壊明示文言・タグ付き候補のマージ案内・復元の missing 化表示)の目視(G-10・v4.0/ECO-003 で表示パリティ項目を追加)+**(ECO-075/GF-075-01)大量 missing(数十万行=ECO-073 の参照登録規模)でも修復が開けて UI が応答する: Load・missing 選択の候補探索・自動修復・すべて自動修復のいずれも固まらない。潜伏実績=missing ごとの候補探索が毎回フォルダ全行×2 をロード(O(M×N))+26万件逐次 Add+UI スレッド同期完了が、修復導入(ECO-005)から少数 missing 前提のまま潜伏し、ECO-073 の missing 大量登録で顕在化(『スキャン中のまま』に見えたのは UI フリーズで完了バッジが再描画されなかったため)。機械側は CpUiRepairViewModelTests の性能 probe(単一ロード相当時間+非同期ブロック検査)で恒久封止**。**(ECO-140)superseded — 修復ダイアログ面は E-UI-INTEGRITY-050 へ統合(実機 golden の検査面は CP-INTEGRITY-036 側)。ECO-075/GF-075-01 応答性プローブは CpIntegrityReviewTests の ECO075 移植 2 本へ引き継ぎ(R8 独立レビュー所見 Med(b) の是正)。本エントリは歴史記録**",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G13",
+   "category": "合格",
+   "depth": "G",
+   "characteristic": "コレクション書き出し/取り込み UI(G-13・ECO-073/REQ-093): 設定▸データとバックアップ(E-1)の移送2行カード入口(SS-001再裁定2026-07-13=M5・ECO-077。書き出す=緑上矢印トレイ[選ぶ…]→B-1/取り込む=青下矢印トレイ[ファイルを選ぶ…]→B-2 picker自動起動。**⋯メニューは「設定でバックアップ・移送…」誘導1項目のみ=実体2項目を置かない(VC-8=淡紫ハイライト+太字・区切り線下)・誘導は節選択オープン+閉じ後に表示中コレクション再読込**。コレクション文脈消失の後継=書き出し対象はB-1内選択(既定先頭・既定出力先追随)・取り込み先はB-2内選択(gate①案A・既定未選択・選択までCanProceed不活性=互換OKとAND)。機械側pin=GfEntryE1VisualParityTests VC-8+CpUiEco077EntryTests)→B-1(コレクション選択=カード内名前太字+シェブロン+件数淡色・出力先既定名 <名前>.viewprism2-collection.json・画像非含有callout・実進捗 done/total・キャンセル)→B-2(stepper・取り込み先コレクションカード・互換OK概要=名前/画像数/タグ数/作成日時/app_version・互換NG別面=format_version判定)→B-3(追加型マージバナー・タグ計画件数・競合行4択=中止/スキップ/別名/既存へ割当(型互換のみ)・解決済みバッジ+要約・画像5状態タイル+検算・未解決一覧+missing登録説明・過半警告+確認チェック・未解決競合中は実行不可)→B-4(件数4タイル・missing登録一覧・完了)→取り込み後に画像タブへ missing 行と付与が反映。書き出し→別状態ライブラリへの取り込み往復と、2回目取り込みの冪等表示。CAD=snapshot_export_import B-1〜B-4+captures との視覚並置(GF-072-01 教訓の水平展開)。V1差分=B-3取り込み先ルート変更・場所を指定は非搭載(32-mbom 沈黙次元に裁定記録・maintainer確認対象)+**(GF-073-01〜08 潜伏実績・再発防止)①ダイアログ共通言語(タイトル=Window.Titleのみ/ボタン中央揃え/二次操作=白outline/カード=グリフ+名前太字+副情報淡色の2行構成/callout=グリフ+太字リード)と面別転写(B-2ファイルカード+概要テーブル右寄せ太字+日時整形・stepper=番号バッジで**B-2〜B-4 の全可視面に表示(ECO-076/CAD mock 改版 5fdf4464=旧契約『B-2限定可視』の改訂: 到達済み/現在=青塗り丸+白数字+青ラベル・未到達=灰・接続線は到達区間のみ青・B-4 到達=バッジ4が緑塗り丸+白チェック+緑ラベル。書き出しB-1は単段のためstepperなし。CAD視覚契約チェックリストVC-1〜VC-4と captures 並置で検査・機械側はGfPackageVisualParityTestsのVC probe 4本でpin。潜伏実績2026-07-13=①検査器が旧契約を pin していても CAD 改版で契約ごと反転する — 追随 ECO は pin テスト改訂+VC probe 先行生成を対で行う ②golden 初回所見『B-3/B-4 で stepper 非表示』は fix 未含有の main 旧ビルドで実施された偽不合格(fix は worktree ブランチのみ・B-2 は新旧同一見えで取り違えを隠蔽)— golden はビルド出自(fix コミット含有)を確認してから)**+面別Window.Title・B-3=タグチップ/競合カード状態色+選択ボタン青塗り/タイル配色+検算行/広幅2カラム)は captures 並置で全面突合する — 個別画面検査からの水平展開漏れが4回連鎖した実績(GF-01書き出し→02callout→03取り込みカード→04stepper→07 B-3)。機械側 GfPackageVisualParityTests(headless実レイアウト)で恒久pin ②同一ライブラリ内の別コレクション取込が成功する(GF-05=missing登録のID衝突ガードが取り込み先限定でPKはライブラリ全域・fixture別DB2基の検査面欠落実績)・失敗時に生SQLエラーを見せない ③実行/プレビュー中もUI応答(GF-06=同期処理のUIスレッド到達でB-4が背面落ちした実績) ④項目6(移動検出)は同一コレクション再取込では構造的に発火しない(id一致優先→「一致」+修復導線が正)=旧手順は検査手順の欠陥だった実績(GF-08・挙動固定2本で封止)**+**(ECO-074/案A裁定)置き場所管理: 書き出し既定出力先=<文書>/ViewPrism2/collections+保存/選択 picker とも管理フォルダ起点(逸脱先を覚えない)・取り込みは表示直後に picker 自動起動(未選択は定常状態でない)・キャンセル残留はプレースホルダ(空白カード禁止)。潜伏実績=置き場所が要求の沈黙次元(CAD mock の D:\\export はプレースホルダ・書き出し既定 MyDocuments は実装の発明)で、A層 SS-002 の管理フォルダ概念が B層設計へ read-across されなかった。機械側 CpPackage074Tests で恒久pin**",
+   "tests": 11,
+   "pass": 11,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-UI-G12",
+   "category": "合格",
+   "depth": "G",
+   "characteristic": "スナップショット管理 UI(G-12・ECO-072/REQ-092): 設定▸データとバックアップ節(E-1)の入口(SS-001再裁定2026-07-13=M5・ECO-077。左ナビ選択=淡青背景+青文字・スナップショット行カード=DB円筒グリフ濃紺+名前太字+副情報L8「最終作成 yyyy/MM/dd HH:mm ・ N 件」・0件=placeholder最小「0 件」=SS-004暫定・[開く]=白outline青文字。**E-1視覚契約VC-5〜VC-7はCAD visualContract節から先行生成した GfEntryE1VisualParityTests でpin**・A-1閉じ後にサマリ再計算)→A-1(作成CTA・保存先変更・作成中進捗=件数+不確定バー+キャンセル・一覧=日時/app_version/サイズ/検証状態・検証待ち行の復元無効・空状態)→A-2(取り消し不可警告・対象情報カード・再起動/自動ロールバック/画像非含有の注意3項・危険CTA)→復元予約→自動再起動→復元適用の一連と、破損スナップショット復元時の退避DBフォールバック起動+ステータス報告。両画面の「画像ファイルは含まれません」明示(M3)と自動バックアップ語彙の非表示(M2)。CAD=ViewPrismUI docs/screens/snapshot_export_import.md(mock 権威)との視覚突合+**(GF-072-01)mock並置での視覚言語突合=カード/表ヘッダ+行グリフ/状態バッジ(緑✓・黄時計)/+CTA/青outline復元。潜伏実績=prose CADが領域/状態/文言までを規定し視覚言語を拘束契約に落とさず、CADにサーフェス別キャプチャが非同梱で実装者が視覚原器を持たないまま既存SettingsWindow流儀で行間を埋めて平板化(初回golden で顕在化)。機械側GfSnapshotVisualParityTests(headless実レイアウト)がヘッダ/バッジ配色/グリフ/+CTA/青outlineをpin、CAD側はcaptures同梱手順(ViewPrismUI CLAUDE.md/b8389f9)で恒久化**",
+   "tests": 5,
+   "pass": 5,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-DISPMODE-084",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "ビュー軸の表示モード「すべて/未分類」(ECO-084/REQ-094): display(N)=matched(N)−⋃matched(直下の子)・ルート未分類=未分類発見器・チップ件数のモード追随(表示と数字一致)・タグ付与後の再読込で未分類から抜け 0 件は専用空状態(汎用 ShowEmptyMessage と非重複)・ビュー毎最終選択モードの settings 記憶と復元(viewDisplayModes・列挙外は既定すべて・DB/パッケージ非搬送=裁定①)・選択母集合/ビューアー順も表示集合に一致。UI=セグメントはビュー軸のみ表示・FS 軸非表示・狭幅でも可視+ラベル畳みなし(収納対象外=CAD 契約)・active クラスがトグルに追随(視覚言語は segBtn 共有部品=golden 済に委譲)。probe は CAD visualContract VC-IMG-1〜5 から生成(R7)。**golden 承認(2026-07-14 maintainer 実機)**: 表示モード機能一式+セグメント日英の収まり(GF-084-01 是正後)。**潜伏実績(GF-084-01)=共有部品の取り違え**: テキストラベルのセグメントにアイコン用固定幅部品(segBtn Width=38)を流用し、en クリップ・ja 密着が R7 並置を素通し(並置の検査次元に「文字量の収まり(特に en)」が無かった)— テキストを載せる部品は内容幅+余白(segBtnText 系)を使い、視覚 probe は日英両ロケールで余白を実測する",
+   "tests": 9,
+   "pass": 9,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-DEFEXP-086",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "定義値展開モード+閉じた値集合(ECO-086/REQ-095/096): 階層ノードの expansion_mode 4 値(manual/observed=既定/defined/defined_and_observed)+hide_empty_values・textual の value_domain(suggest=既定/closed)。defined=定義値(textual=predefined_values 定義順/numeric=min..max step 刻み decimal 生成)を付与 0 件でも生成(一体型統合なし=構造安定)・defined_and_observed=定義順先+観測のみ値を末尾序数(裁定 f)・closed の定義外付与値=未定義値として検出(defined でも末尾に追加=到達性維持・裁定 b/c)・condition_type は生成後の値集合へ適用(裁定 a=直交)・定義不能(候補値 0/定義域欠落/step≤0/生成数>256)=DefinedValuesUnavailable 警告+observed フォールバック(裁定 e)・既定/3 引数 BuildGraph=REQ-035 と同値(完全互換)・パス→条件は不変(値ノード=equals・numeric は数値比較)。定義値供給は ITagDefinedValueSource=観測値契約(ITagValueSource/INV-010)と別系統。UI=タグ編集「値の扱い」セグメント+説明追随(VC-TAG-1)・配置タグの設定ダイアログ=展開+条件 2 セクション+0件隠す+琥珀警告(VC-TAG-2)・行の紫バッジ=非既定のみ(VC-TAG-3)・ビュー軸チップ=0 件淡色 #8a93a2/未定義値=琥珀破線+「未定義」バッジ(VC-IMG-6)・多段リーフ 4 段パス(VC-IMG-7)・hide_empty=表示のみスキップ(構築・意味論不変)。**golden 承認(2026-07-14 maintainer 実機)**: タグ編集の値の扱い(GF-086-01 是正後)・配置タグの設定(展開モード 2×2/0件隠す/警告)・ビュー軸の定義値展開(定義順・0件淡色・未定義値・多段)・既存ビュー互換・en 切替。**潜伏実績 2 件**: (GF-086-01)①CAD layoutInvariant のボディ単一スクロール不在=「内容固定高」前提(GF-01)が種別別設定の増加で破れ本体が固定領域へ重なり描画 ②segmentTab 部品(左右 Padding 0・等分 Stretch 前提)を内容幅で流用し密着=GF-084-01 と同型が別部品で再発 — 初版 probe が余白を実測せず素通し(検査は幅比較でなく余白実測で書く)。read-across で配置タグ設定の en はみ出し(437px>400)も検出是正。(golden 2/6)ダイアログ全面の mock 乖離は ECO-007 転写の既存面欠陥=ECO-087 へ R3 分離(R7 並置は新設要素限定でなく面全体で差分全列挙する)。**ECO-096 潜伏実績(2026-07-16)**: ECO-022 の軽量再読込がタグ台帳・ビュー一覧・画像タグだけを差し替え、選択中ビューの派生 graph(_viewRoot)を再構築しなかったため、ECO-086 の hide_empty/別名/構造保存が別ビュー再選択まで旧表示のまま潜伏した。再発防止=永続変更後の stale 再読込は一次台帳と派生 graph を一つの整合単位で再構築し、現在 path を論理 identity へ再束縛する。同一ビューの保存後即時反映・別名追随・削除 path 縮退を probe で固定。**golden 承認(2026-07-16 maintainer 実機・ECO-096)**: 画像タブ復帰だけで0件ノード消失・別ビュー往復不要・現在ビュー/階層位置/表示モード維持",
+   "tests": 26,
+   "pass": 26,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-TAGDLG-087",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "タグ作成/編集ダイアログの mock 忠実化(ECO-087・CAD VC-TAG-4〜8=tag_tab.md d432596): 幅 768・4 段クローム(ヘッダ/2 カラムボディ=左 316px 基本情報+縦区切り+右 種別別設定/固定プレビュー帯/docked フッター)。ヘッダ=タグアイコンバッジ+タイトル+種別で追随するサブタイトル(作成時のみ=mock は作成を定義・編集は非表示で発明回避)+X。テキスト型=「選択肢を追加」+入力+強調追加(入力空は非活性)・「登録済みの選択肢 (N)」件数ヘッダ+ドラッグ注記・ピル行(ハンドル+ラベル+×削除)・0 件は破線プレースホルダ・↑↓/削除ボタン列は撤去(D&D+×へ集約=mock 準拠。VM の Move コマンドは unit 用に存続)。数値型=定義域+プリセット 3 チップ(★1–5/%0–100/pt0–10)+ⓘ情報カード。シンプル型=用途説明カード(「あとから種別変更可」の一文は ECO-008 により転写しない=意図的差分)。説明=複数行 textarea。ボディ単一スクロール(GF-086-01)・値の扱いセグメント(ECO-086)は維持。文言は全て Loc 経由(ECO-080 lint)。**golden 承認(2026-07-14 maintainer 実機)**: 2 カラム形態・種別サブタイトル追随・選択肢ピル行(ハンドル D&D 並べ替え・×削除・件数追随・0 件破線)・数値プリセット・シンプル用途カード・en 切替。**潜伏実績(GF-087-01)=D&D の選択競合**: ListBox のクラスハンドラが未選択項目の押下を選択更新で e.Handled=true にし、行バブル頼みの XAML PointerPressed へ届かず未選択行は D&D 不開始(選択済み行は 2 度目で動く)。↑↓ボタン+選択視覚がマスクし ECO-087 の mock 準拠撤去で顕在化 — 是正=ドラッグハンドル(⠿)を direct ハンドラの明示起点(Handled で選択と分離)+行掴み(選択済みのみ)併存。教訓=バブル頼みのジェスチャ開始はクラスハンドラの handled と競合する — 操作の起点は専用要素の direct ハンドラで持つ・代替導線(↑↓)の撤去は マスクしていた欠陥を顕在化させる(撤去前に主経路の実機確認)。**ECO-093=プレビュー帯の候補値要約(2026-07-15・案 B 裁定・CAD VC-TAG-11=VPUI afc8878)**: テキスト型プレビューは**先頭 3 件+非対話「ほか N 件」**(N=非表示数・chip.moreItems 共通キー)— 帯は単一行を保ち右ドック説明文と重ならない。少数件(3 件以下)は従来視覚不変。**潜伏実績**= PreviewChips が全候補値を横 StackPanel(折返し/クリップなし)で列挙し 47 件級で説明文と重なり判読不能 — 混入 ECO-007/E5 初版・潜伏機序= ECO-088 族(少数件は 1 行に収まる機能等価潜伏)。**ECO-089 の WrapPanel 全数走査は「折返し意図のない横 StackPanel の溢れ封じ込め」を検査次元に含まず素通り**した(閉包走査は真因様式と同型のみを掬う — 溢れ封じ込め一般は別の走査軸)。**golden 承認(2026-07-15 maintainer 実機・ECO-093)**: 47 件級=先頭 3 件+ほか 44 件・単一行・説明文と非交差・候補値編集で N 追随・少数件不変・en",
+   "tests": 9,
+   "pass": 9,
+   "fail": 0,
+   "skip_or_not_run": 0
+  },
+  {
+   "id": "CP-CHIPWRAP-088",
+   "category": "合格",
+   "depth": "unit",
+   "characteristic": "画像タブ チップ行のオーバーフロー挙動(ECO-088・CAD VC-IMG-8=image_tab.md 遡及): チップ数が可視幅を超えたら折返し(mock タグチップ行コンテナ=flex-wrap:wrap が正典)で全チップが可視幅内に配置される — クリップ切り捨て・手がかりなしオーバーフロー不可。1 行に収まる場合の配置は不変(既存 golden の視覚)。多段時の行間= LineSpacing 8(mock gap:8 転写・1 行時は不作動)。**真因(是正済み)**= WrapPanel(flex-wrap の正しい転写)が Orientation=Horizontal の StackPanel 内で無限幅測定され折返し契機を得られず親 Border でクリップ — 混入 bcd861d(2026-06-17 チップ行初版)・潜伏 28 日。**マスキング**=チップ数が常に 1 行に収まる少数(mock デモ 5 件級・ECO-086 golden も同規模で素通り=機能等価潜伏)。47 件級(定義値展開=REQ-095/096 の起票動機の規模)で初可視化: 最大化 2896px=20/47 件・幅 1400px=8/47 件のみ・ホイール/水平ホイール不動=到達不能を実機実測(2026-07-15 スクラッチ DB)。**golden 承認(2026-07-15 maintainer 実機)**: 47 件級の複数行折返し(全数到達)・狭幅での行数追随・1 行時(少数チップ・FS 軸絞り込み)の視覚不変・多段時 2 行目開始位置=ヒント列の右(Grid)を許容(mock 多段未定義=最終形は IMG-023 裁定)・en 切替。教訓=部品(WrapPanel)の転写が正しくても親コンテナの測定意味論が契約を殺す — レイアウト部品の適用条件(有限幅測定)は導入コンテナ込みで検査する(GF-084-01/086-01 の部品適用条件系譜の 3 例目)。検査 fixture の規模は「起票動機の規模」で張る(ECO-086 受入は候補値 3 件へ簡略した fixture で規模次元が抜けた=デモ規模は本番規模を代表しない)。折返し後の行数上限・行内スクロール・多量時絞り込み導線は IMG-023(CAD 未確定)=本 CP の範囲外。**ECO-089=同型残存 2 面の閉包是正(2026-07-15)**: 起票時の全数走査(WrapPanel 14 箇所)で横 StackPanel 直下の残存を 2 面特定 — 面A=タグパレット候補値行(TagsTabView・混入 3536ffb・潜伏 29 日。カードが押し広がり編集/削除アイコン可視 12/28px=maintainer 実機)/面B=作業タブチップ行(WorkTabView・混入 f211fa9・潜伏 16 日=ECO-088 是正面と同一構造)。ECO-088 の**read-across 漏れ**(真因様式を特定したのに同型全数走査を是正範囲に含めず)の実証+閉包。VC-TAG-9/VC-WORK-1 遡及。面A は Grid 化のみで回復(外側 ScrollViewer の無限幅疑いは probe で否定)。**golden 承認(2026-07-15 maintainer 実機・ECO-089)**: 面A=職種カードの編集/削除アイコン定位置+候補値の複数行折返し全数可視+少数カード(地域/性別)不変+折返し 2 行目=ラベル列の右を許容(ECO-088 と同型の裁定)/面B=作業タブ多量チップの折返し+少数不変/en 切替。**ECO-090=共通ベクトル拡張(暫定統制・2026-07-15)**: 画像タブ/作業タブのチップ行は同一意味論の同期実装(E-UI-AXIS-NAV-040⇔E-UI-WORKSPACE-043 の双方向宣言=30-ebom)— DRY 統合(ECO-091/092 golden 後)までの中間措置として**同一テストベクトルを両タブへ流す受入共通化**(コードは共通化しない)。ベクトル=1 件/5 件(mock デモ規模)/折返し境界(実行時較正=47 件描画の 1 行目件数 R を測り R 件=1 行・R+1 件=2 行)/47 件(起票動機規模)/長ラベル 8 件(24 字級込み)/狭幅 900px(ECO-027 収納発火幅と干渉しない値)。新次元は現行実装で全緑=新欠陥なし(是正なしの検査拡張)。**ECO-090 クローズ(2026-07-15・golden n/a=src 無変更・機械受入クローズを maintainer 承認)**: 再発防止観点=同期実装(別ファイル同型 2 面)は「一方だけ直す」構造が台帳から見えない限り再発する(ECO-088→089 で片側修正漏れが実害化・潜伏 16 日)— 統合(DRY)前でも E-BOM 双方向宣言+共通受入ベクトルで先に閉じる。本 CP の共通ベクトルは ECO-091(容量・到達性契約)の受入基盤を兼ねる。**ECO-091=容量・到達性契約の実装(2026-07-15・IMG-023A=A-b/B=B-a 裁定・CAD VC-IMG-9/10+VC-WORK-2/3=VPUI 17dc9f3)**: チップ行は**最大 2 行**(行内スクロールなし)・溢れは 2 行目末尾**「ほか N 件」→ポップオーバー**(検索+全項目一覧・内部スクロール許容)・N=非表示項目数(会計一致)・幅変更で再計算(選択/ナビ不変)・FS 軸/作業タブは折畳み時も **active+「クリア」を通常領域に維持**(優先配置後は定義順)・view 軸=全ノード到達(ポップオーバー内含む)・選択で閉じてナビ/単一選択反映・キーボード契約(「ほか N 件」フォーカス対象→検索欄→一覧・**Escape で閉じて「ほか N 件」へフォーカス復帰**)・継続行は吊り下げ(B-a 正式追認=Grid 構造不変)。実装=ChipStripViewModel(意味論単一実装・両ホスト VM が合成)+ChipRowOverflow(純計算=unit 検査可能)+実測供給は各 View の LayoutUpdated(ECO-027 流儀)。**mock 実測アルゴリズムの Avalonia 移植の罠を回避**: 行判定許容差 6px(「ほか N 件」高さ僅差)+幅変化時は未折畳みなら同一パス計測(折畳み解除時のみ次パス=作業タブで追加レイアウトパスが来ず計測不達だった実測に対処)。折返しのみだった旧契約の probe(088 47 件/089 面B 47 件/090 47 件系・境界)は容量契約へ改訂(可視+N=全数・最大 2 行)。**golden 承認(2026-07-15 maintainer 実機・ECO-091)**: 47 件級の最大 2 行+「ほか N 件」・ポップオーバー(検索/選択/Escape)・少数チップ視覚不変・active/クリア残留・幅変更再計算・en 切替・両タブ同一契約(裁定 §7 受入条件 1〜9)+**候補差分の裁定=通常領域チップ自体の非フォーカスを許容**(キーボード契約の明文範囲=「ほか N 件」+ポップオーバー内)。**潜伏実績(GF-091-01)=Stretch コンテンツの上寄り**: Button 既定 VerticalContentAlignment=Stretch でラベルがボタン内容域に伸びグリフ上端描画=上寄りの見え。**中心一致の layout probe は Stretch を素通りする**(ボックス中心は一致)— 検査次元を「ラベルボックスが内容サイズ(非 Stretch・高さ≤24px)」へ拡張し是正前赤 2/2(30.0px)→ VerticalContentAlignment=Center 明示で緑。垂直整列検査は中心比較+非 Stretch の対で張る。**ECO-092=パレット候補値プレビューの容量契約(2026-07-15・TAG-013=T-a 裁定・CAD VC-TAG-10=VPUI 17dc9f3)**: 候補値=操作対象でなく**閲覧プレビュー** — 領域は最大 2 行・溢れは**非対話の「ほか N 件」**(TextBlock・件数のみ・クリック/ホバー/カーソル等の操作可能に見える表現なし・展開/ポップオーバーなし)・N=非表示数・**定義順維持**(動的並べ替えなし)・長い値は**チップ幅上限 130px+省略+ツールチップ**(完全文字列)・全数確認/編集は鉛筆→編集ダイアログ一本化(ECO-087)。**IMG-023A/B(ECO-091=操作面)とは別契約**(裁定の明示事項=決定をコピーしない)。実装=TagPaletteRowViewModel の折畳み状態(ChipRowOverflow 再利用・実測供給は TagsTabView.EvaluateCandidateRows)。操作対象化する場合は TAG-013 再裁定。**golden 承認(2026-07-15 maintainer 実機・ECO-092)**: 47 件級カードの最大 2 行+非対話ほか N 件・長候補値の省略+ツールチップ・少数カード視覚不変・パレット検索共存・en 切替(GF-092-02 是正後の応答正常を含む)。**潜伏実績(GF-092-02)=折畳み×スクロールバーの発振**: パレットは ScrollViewer 内 — 折畳み(出力)がカード高さ→バー出没→実測幅(入力)を ±16px 級で離散変化させ、0.5px 閾値の幅リセットと無限発振(en 切替でのみ顕在化=言語依存の境界条件・headless 機械受入はバー出没を再現せず捕まらない)。是正=バー幅より大きいヒステリシス 24px(ECO-027 WrapHysteresis 様式)。**実測フィードバック型レイアウトは「自身の出力が入力を変える」経路を列挙してから閾値を設計する**。**ECO-094=共有部品化(LabeledChipStrip=SC-CHIPSTRIP-001・2026-07-15)**: ECO-090 の暫定統制(2 面コピペ+read-across 必須記録)を**構造的 DRY で置換** — プレゼンテーション層(XAML チップ行ブロック+実測供給 EvaluateChipRow=Vm 型/コメント以外バイト一致の重複)を共有 UserControl へ単一化(ホスト契約= IChipStripHost・DataContext 継承= SC-COLUMN-PICKER-001 流儀・VM 意味論 ChipStripViewModel/ChipRowOverflow は不変)。チップ item テンプレートは richer 版(画像タブ=未定義値破線枠/ナビ chevron)へ統一 — IsUndef/IsNav=false の面では不活性=作業タブ視覚不変(作業タブのチップ工場は Neutral/Colored(isNav:false) のみ=実測)。**構造 probe(両タブのチップ行が共有部品で実現されている=CpUi094)が DRY 後退(再コピペ化)を恒久検出**。視覚不変の実測=既存幾何 probe(088〜091 系)全数無改変緑+R7 差分全列挙 4 次元不変・転写漏れ 0。golden 承認(2026-07-15 maintainer 実機): 両タブの意匠・47 件級折畳み・ポップオーバー・幅変更再計算・en 切替の不変を再承認",
+   "tests": 37,
+   "pass": 37,
+   "fail": 0,
+   "skip_or_not_run": 0
+  }
+ ],
+ "retired": [
+  {
+   "id": "CP-UI-G3",
+   "retired_by": "ECO-023",
+   "tests": 0,
+   "fail": 0
+  }
+ ],
+ "orphans": [
+  [
+   "CP-VIEWER-DIMCACHE",
+   5,
+   0
+  ],
+  [
+   "CP-VIEWER-IMPROVE",
+   7,
+   0
+  ]
+ ],
+ "ruled_ids": [
+  {
+   "id": "INV-009",
+   "category": "未実行(検査なし)",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-THUMB-007"
+   ],
+   "ebom_items": [
+    "E-THUMB-020"
+   ],
+   "via_rows": {
+    "E-THUMB-020": [
+     "CP-THUMB-007"
+    ]
+   }
+  },
+  {
+   "id": "INV-W1",
+   "category": "未実行(検査なし)",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [],
+   "ebom_items": [
+    "E-DB-010"
+   ],
+   "via_rows": {
+    "E-DB-010": [
+     "CP-DB-006"
+    ]
+   }
+  },
+  {
+   "id": "REQ-005",
+   "category": "未実行(検査なし)",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [],
+   "ebom_items": [
+    "E-DB-010"
+   ],
+   "via_rows": {
+    "E-DB-010": [
+     "CP-DB-006"
+    ]
+   }
+  },
+  {
+   "id": "REQ-063",
+   "category": "未実行(検査なし)",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [],
+   "ebom_items": [
+    "E-SIMCACHE-033"
+   ],
+   "via_rows": {
+    "E-SIMCACHE-033": [
+     "CP-DB-006"
+    ]
+   }
+  },
+  {
+   "id": "REQ-084",
+   "category": "未実行(検査なし)",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [],
+   "ebom_items": [
+    "E-SIMCACHE-033"
+   ],
+   "via_rows": {
+    "E-SIMCACHE-033": [
+     "CP-DB-006"
+    ]
+   }
+  },
+  {
+   "id": "REQ-090",
+   "category": "未実行(検査なし)",
+   "tests": 0,
+   "pass": 0,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [],
+   "ebom_items": [
+    "E-SIMCACHE-033"
+   ],
+   "via_rows": {
+    "E-SIMCACHE-033": [
+     "CP-DB-006"
+    ]
+   }
+  },
+  {
+   "id": "REQ-003",
+   "category": "合格",
+   "tests": 1,
+   "pass": 1,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-DB-006"
+   ],
+   "ebom_items": [
+    "E-DB-010"
+   ],
+   "via_rows": {
+    "E-DB-010": [
+     "CP-DB-006"
+    ]
+   }
+  },
+  {
+   "id": "REQ-004",
+   "category": "合格",
+   "tests": 3,
+   "pass": 3,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-DB-006"
+   ],
+   "ebom_items": [
+    "E-DB-010"
+   ],
+   "via_rows": {
+    "E-DB-010": [
+     "CP-DB-006"
+    ]
+   }
+  },
+  {
+   "id": "REQ-010",
+   "category": "合格",
+   "tests": 3,
+   "pass": 3,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-DB-006"
+   ],
+   "ebom_items": [],
+   "via_rows": {}
+  },
+  {
+   "id": "REQ-014",
+   "category": "合格",
+   "tests": 1,
+   "pass": 1,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-DB-006"
+   ],
+   "ebom_items": [],
+   "via_rows": {}
+  },
+  {
+   "id": "REQ-028",
+   "category": "合格",
+   "tests": 1,
+   "pass": 1,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-DB-006"
+   ],
+   "ebom_items": [
+    "E-DB-010"
+   ],
+   "via_rows": {
+    "E-DB-010": [
+     "CP-DB-006"
+    ]
+   }
+  },
+  {
+   "id": "REQ-040",
+   "category": "合格",
+   "tests": 8,
+   "pass": 8,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-THUMB-007"
+   ],
+   "ebom_items": [
+    "E-THUMB-020"
+   ],
+   "via_rows": {
+    "E-THUMB-020": [
+     "CP-THUMB-007"
+    ]
+   }
+  },
+  {
+   "id": "REQ-085",
+   "category": "合格",
+   "tests": 6,
+   "pass": 6,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-THUMB-007"
+   ],
+   "ebom_items": [
+    "E-THUMB-020"
+   ],
+   "via_rows": {
+    "E-THUMB-020": [
+     "CP-THUMB-007"
+    ]
+   }
+  },
+  {
+   "id": "REQ-104",
+   "category": "合格",
+   "tests": 3,
+   "pass": 3,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-THUMB-007"
+   ],
+   "ebom_items": [
+    "E-THUMB-020"
+   ],
+   "via_rows": {
+    "E-THUMB-020": [
+     "CP-THUMB-007"
+    ]
+   }
+  },
+  {
+   "id": "REQ-105",
+   "category": "合格",
+   "tests": 2,
+   "pass": 2,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-THUMB-007"
+   ],
+   "ebom_items": [
+    "E-THUMB-020"
+   ],
+   "via_rows": {
+    "E-THUMB-020": [
+     "CP-THUMB-007"
+    ]
+   }
+  },
+  {
+   "id": "REQ-106",
+   "category": "合格",
+   "tests": 1,
+   "pass": 1,
+   "fail": 0,
+   "skip_or_not_run": 0,
+   "rows": [
+    "CP-THUMB-007"
+   ],
+   "ebom_items": [
+    "E-THUMB-020"
+   ],
+   "via_rows": {
+    "E-THUMB-020": [
+     "CP-THUMB-007"
+    ]
+   }
+  }
+ ],
+ "ruled_orphans": []
+}

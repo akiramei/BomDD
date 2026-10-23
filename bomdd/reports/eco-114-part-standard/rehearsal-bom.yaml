@@ -1,0 +1,88 @@
+# ECO-114 design evidence: a rehearsal BOM in the new template shape, written from ViewPrism2's entries at 504921a for E-DOMAIN-001,
+# E-EVAL-002, E-GRAPH-003 and the units M-SLN-000, M-CORE-001, M-EVAL-002, M-GRAPH-003 (ViewPrism2 itself is not written).
+# The boundaries are taken from the units' interface_contract and the spec's OC-1 (20-spec.md:712); the forms are this rehearsal's.
+ebom:
+  ebom:
+    items:
+      - id: E-DOMAIN-001
+        depends_on: []
+        interfaces:
+          provides:
+            - id: IF-DOMAIN-001-01
+              refs: [OC-1]
+              boundary: the domain types the evaluator's input is made of (OC-1 states the behaviour, not the types)
+      - id: E-EVAL-002
+        depends_on: [E-DOMAIN-001]
+        interfaces:
+          provides:
+            - id: IF-EVAL-002-01
+              refs: [OC-1]
+          requires: [IF-DOMAIN-001-01]
+      - id: E-GRAPH-003
+        depends_on: [E-DOMAIN-001, E-EVAL-002]
+        interfaces:
+          requires: [IF-DOMAIN-001-01, IF-EVAL-002-01]
+mbom:
+  mbom:
+    assembly:
+      acceptance_refs: []
+      assembly_reason: rehearsal
+    manufacturing_units:
+      - id: M-SLN-000
+        ebom_refs: [E-DOMAIN-001]
+        acceptance_refs: [CP-L1-SMOKE]
+        part_standard:
+          provides:
+            - id: PS-M-SLN-000-P01
+              kind: process
+              statement: the solution builds the four projects of ADR-0002 and the app starts (CP-L1-SMOKE's subject)
+          requires:
+            - id: PS-M-SLN-000-R01
+              target: platform:net10.0
+      - id: M-CORE-001
+        ebom_refs: [E-DOMAIN-001, E-HASH-006]
+        acceptance_refs: [CP-UTIL-005]
+        part_standard:
+          provides:
+            - id: PS-M-CORE-001-P01
+              kind: data
+              ruled_ref: IF-DOMAIN-001-01
+              form: ViewPrism2.Core.Models.ImageWithTags; ViewCondition
+          requires: []
+      - id: M-EVAL-002
+        ebom_refs: [E-EVAL-002]
+        acceptance_refs: [CP-EVAL-001, CP-NFR-001]
+        depends_on: [M-CORE-001]
+        part_standard:
+          provides:
+            - id: PS-M-EVAL-002-P01
+              kind: api
+              ruled_ref: IF-EVAL-002-01
+              form: IReadOnlySet<string> Evaluate(IEnumerable<ImageWithTags>, IReadOnlyList<ViewCondition>)
+          requires:
+            - id: PS-M-EVAL-002-R01
+              target: IF-DOMAIN-001-01
+      - id: M-GRAPH-003
+        ebom_refs: [E-GRAPH-003]
+        acceptance_refs: [CP-GRAPH-002]
+        depends_on: [M-CORE-001, M-EVAL-002]
+        part_standard:
+          provides:
+            - id: PS-M-GRAPH-003-P01
+              kind: api
+              statement: the axis graph built from the evaluator's results (CP-GRAPH-002's subject)
+          requires:
+            - id: PS-M-GRAPH-003-R01
+              target: IF-DOMAIN-001-01
+            - id: PS-M-GRAPH-003-R02
+              target: IF-EVAL-002-01
+  procurement:
+    - package: Microsoft.Extensions.DependencyInjection
+cp:
+  control_plan:
+    characteristics:
+      - {id: CP-L1-SMOKE, approver: automated+human:maintainer, part_standard_refs: [PS-M-SLN-000-P01]}
+      - {id: CP-UTIL-005, approver: automated, part_standard_refs: [PS-M-CORE-001-P01]}
+      - {id: CP-EVAL-001, approver: automated, part_standard_refs: [PS-M-EVAL-002-P01]}
+      - {id: CP-NFR-001, approver: automated}
+      - {id: CP-GRAPH-002, approver: automated, part_standard_refs: [PS-M-GRAPH-003-P01]}
