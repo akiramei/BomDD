@@ -526,6 +526,21 @@ Only `bomdd-run.py` and this ECO's evidence change.
   `run()`'s O3 handler. They now go through one guard (`jread_safe`), which turns a reader exception into a named failure; both mutations then turned
   the selftest red on their own arms.
 
+## 7. Independent inspection r2 (2026-10-24, EQ-002, range 是正確認+回帰) — ACCEPT
+
+- **Launched through the repaired entry** on `fcd9fd7` (CI 39992744236 success; witness tree `6fd9b0718db9`, gate self-conformance). Brief `cf54e2e6…`
+  (stored; committed copy `bomdd/reports/eco-113-briefs/inspection-brief-r2.md`, same sha256); report `inspection-r2.md` (`46d3bc80…`); the ledger's
+  cell record binds it (`report ACCEPT sha256:46d3bc80b021 (EQ-002)`, range 是正確認+回帰, `journal_end: committed`). The journal holds `start` and
+  `end` for run `20261023T171328.949538Z`; the Codex cell ran inside its job (workspace-write sandbox) and exited 0.
+- **All seven items PASS; findings: none.** IA-01 repaired (the in-order reader; `A4iii-order` re-run by the inspector, caught on
+  `v4f-close-before-start`); IA-02 repaired (A4 (i), (ii), (iv); `A4iv-digest` re-run, caught on `v4f-q-digest`); the amended text against the code (J1,
+  J2, R3, A3, A4, L11; S4's `corrupt_offset`); the acceptance evidence (V4(f)/(q) arms, 27/27 + 9/9 mutations as recorded); regression (the three
+  selftests re-run, exit 0; `git diff 2271102..fcd9fd7 -- method/tools/bomdd-witness.py` empty); the scope under the exception ruling
+  (`diff_window.py . f2d91d4 fcd9fd7` PASS, five ECO-113 commits, 36 paths; positive control `--control-include 597e842` FAIL); the records (§5, §6, the
+  two amendment receipts, the register).
+- **The inspector's stated limits:** no network or CI query; of the 36 mutation cases two were re-run, the rest judged from the committed evidence and
+  the full selftests; no `bomdd-run.py ECO-113` call on the real repository; the run state files kept their sizes and sha256 during the inspection.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1
