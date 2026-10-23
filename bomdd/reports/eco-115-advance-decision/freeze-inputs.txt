@@ -1,0 +1,10 @@
+== ViewPrism2 at 504921a33e7beb68ce2112817b01a44b664a82f7
+  bomdd/40-work-order.md: tracked True; last changed d74f3c3 2026-06-14
+    frozen-revision lines '- 対象 BOM tag/commit:': 0 []
+  bomdd/50-as-built.yaml: tracked True; last changed 9097799 2026-07-12
+    entries with mbom_ref: 0; with control_plan_ref: 0; with work_order_ref: 0
+== ViewTube at c214dec07e7340ecffa1ede089d6ee4acdedcebe
+  bomdd/40-work-order.md: tracked True; last changed 0674b242 2026-08-05
+    frozen-revision lines '- 対象 BOM tag/commit:': 0 []
+  bomdd/50-as-built.yaml: tracked True; last changed a9b71406 2026-07-25
+    entries with mbom_ref: 4; with control_plan_ref: 5; with work_order_ref: 7

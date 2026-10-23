@@ -1,0 +1,12 @@
+== ViewPrism2 at 504921a33e7beb68ce2112817b01a44b664a82f7
+  units: 44; units with empty acceptance_refs: ['M-UI-016', 'M-UI-SIMILARITY-023', 'M-HARNESS-015', 'M-CAPTURE-HARNESS-052', 'M-ORACLE-030', 'M-INFRA-031']
+  mbom keys: ['manufacturing_units']
+  rows named by some unit: 50; of them outside I2: 18; by field: {'approver': 17, 'on_fail': 1}
+  named rows that are retired: []
+  units whose named rows are all within I2: 18
+== ViewTube at fc35bf1d
+  units: 12; units with empty acceptance_refs: []
+  mbom keys: ['manufacturing_units']
+  rows named by some unit: 28; of them outside I2: 9; by field: {'approver': 9}
+  named rows that are retired: []
+  units whose named rows are all within I2: 5
