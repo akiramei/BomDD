@@ -8750,6 +8750,17 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
 - [open] EXP-20261024-01 — **Does ECO-114's part standard hold, and can ECO-115's advance decision run, on a product made by the full procedure?** The user's AGREE (2026-10-24): re-manufacture MoviePad by BomDD from Phase 1 — requirements, spec and mocks written anew, the E-BOM re-created (the finished app and the old loop slices may be referred to), the factory isolated from MoviePad's source, core logic plus one surface first, in a place apart from MoviePad's own ECO line. Measure: (a) whether every unit gets a part standard that A1 and C1 pass, and how far the new E-BOM's part boundaries match the original code's folders and classes (copying bias); (b) whether per-delivery records (issued work orders, frozen revisions, As-Built references) exist for ECO-115's decision, which is then redesigned from that result. Not started; start, place and scope are the user's.
   source: ECO-114 / ECO-115 (2026-10-24)
   evidence: bomdd/60-change-order-eco-114.md; bomdd/reports/eco-115-advance-decision/draft-order.md and freeze-inputs.txt
+  amended 2026-10-24 (the user's "1:A" after a second external analysis): (b) is the **first trial's own purpose** and comes before (a)'s judgement
+    of the advance decision. The first trial measures whether this chain is left as real records:
+      the issued work order's frozen revision → the BOM and CP revisions that order refers to → the delivered unit → the acceptance evidence that
+      measured that unit
+    In freeze-inputs.txt, neither ViewPrism2 nor ViewTube has a single frozen-revision line in its work order. The first trial does not judge
+    whether to advance. ECO-115 is redesigned from what it finds. After the redesign, two things are calibrated separately (EXP-20261024-02
+    difference ②):
+      ① a broken connection is detected by its CP row
+      ② that row's failure is what stops the official decision
+    A stop for another reason (a missing approval, a malformed record) is not evidence of ②. The decision concerns entering Phase 5, not the
+    human's final acceptance. A control plan that does not parse cannot be the decision's input (the case was ViewTube, repaired by ECO-VT-268).
 - [recovered 2026-10-24 via ViewTube ECO-VT-268 (applied a6314a87)] OBS-20261024-01 — **ViewTube's `bomdd/33-control-plan.yaml` has not parsed as YAML since `cfd00433` (2026-10-06, ECO-VT-232's acceptance commit): 35 revisions in a row; ViewTube's validator only hashes the file, so no check has noticed.** A Control Plan that does not parse cannot be any machine's input; repairing it is a ViewTube ECO.
   source: ECO-114 basis (2026-10-24)
   evidence: bomdd/reports/eco-114-part-standard/measurements.txt (`measure.py`, the last 40 revisions)
