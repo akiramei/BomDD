@@ -8761,6 +8761,16 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
       ② that row's failure is what stops the official decision
     A stop for another reason (a missing approval, a malformed record) is not evidence of ②. The decision concerns entering Phase 5, not the
     human's final acceptance. A control plan that does not parse cannot be the decision's input (the case was ViewTube, repaired by ECO-VT-268).
+  started 2026-10-24: product `MoviePad-Remake`, scaffolded by bomdd-init `--no-gui` at method `6ffc0cc`. It is local only: the private
+    GitHub repository was not created, because the session's permission check refused the creation. G0 is `d0d06ca`. The user's start
+    decisions:
+    - The finished MoviePad at `126eae9` is the authority for what to build. Requirements, specification and K-BOM are derived, not ruled.
+    - The E-BOM's boundaries are delegated to the E-BOM AI, with an ADR for each decision. ECO-114's human-ruling step is therefore not exercised.
+    - The first scope is core logic and export, with English records.
+    - The factory runs on the same machine, with the isolation limit declared.
+    Measures M1 to M6 are pre-registered in the product's `bomdd/reports/exp-20261024-01/preregistration.md`. The chain checker is
+    calibrated 5/5. Pre-trial observation: the As-Built template has no field for the delivered commit, so the unit's only identity is
+    `artifacts_sha256`.
 - [recovered 2026-10-24 via ViewTube ECO-VT-268 (applied a6314a87)] OBS-20261024-01 — **ViewTube's `bomdd/33-control-plan.yaml` has not parsed as YAML since `cfd00433` (2026-10-06, ECO-VT-232's acceptance commit): 35 revisions in a row; ViewTube's validator only hashes the file, so no check has noticed.** A Control Plan that does not parse cannot be any machine's input; repairing it is a ViewTube ECO.
   source: ECO-114 basis (2026-10-24)
   evidence: bomdd/reports/eco-114-part-standard/measurements.txt (`measure.py`, the last 40 revisions)
