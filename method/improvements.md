@@ -8769,6 +8769,23 @@ evidence. **Unresolved mismatch:** this entry decides "meaning (back to the huma
 tolerance changes; ECO-114 (§4.5 P2/P3) decides by whether a boundary crosses E items — an internal boundary whose change alters an acceptance
 expectation is human here and the AI's there.
 
+**Correction (2026-10-24, appended; the sentence above is kept as written).** There is no mismatch. ECO-114 states that it does not change "the
+ruling-layer / derived-layer split and its return paths (§4.5)" (`bomdd/60-change-order-eco-114.md`, "Not changed"). Two questions are therefore
+decided by two different things:
+- Where a contract lives is decided by the E-item boundary (P2/P3).
+- Who decides a change is decided by §4.5: a change that alters a ruled decision, promise or constraint goes to the human even when it is internal
+  to an E item, and choosing how to build while keeping them is the AI's.
+P4's "an internal boundary is a manufacturing decision" holds only inside that.
+
+The finding came from a second external analysis the user brought to this session on 2026-10-24, together with a three-way reading of a changed
+test expectation:
+- a changed promise is the human's;
+- a corrected misderivation is the AI's correction;
+- an internal re-expression that keeps the promise is the AI's derivation, with the fixed oracle's protection unchanged.
+
+That reading is a candidate for the method text at the next change to §4.5, not adopted. The user AGREEd to correcting the record and to holding
+the reading as a candidate.
+
 - [open] EXP-20261024-02 — **Does making connection responsibility explicit reduce consumer-side unwired misses?** Hypothesis: adding explicit connection
   responsibility to oracle-first (playbook §4.4), call-site inspection (`61-impact-analysis.md` §1.2) and the hub ledger (§1.4) reduces misses where the
   consumer side was never wired. Not started until the restart condition holds: real work applies R1-R5 and meets an unresolved ID.
