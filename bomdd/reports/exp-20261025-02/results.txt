@@ -1,0 +1,43 @@
+calibration arm 1 (synthetic fixture): OK got {"M-A -> M-B": "declared-used", "M-A -> M-C": "undeclared", "M-B -> M-C": "declared-unused"}; A->C found at ['src/A/Alpha.cs:Gamma']
+calibration arm 2 (delivery + one undeclared reference in History.cs): OK difference from the unaltered scan {"M-HISTORY-001 -> M-DOCUMENT-001": "undeclared"}
+== delivery f30d771
+   unit M-DOCUMENT-001: 3 file(s)
+   unit M-EXPORT-001: 4 file(s)
+   unit M-EXPORT-CLOCK-001: 2 file(s)
+   unit M-EXPORT-COPY-001: 2 file(s)
+   unit M-HISTORY-001: 1 file(s)
+   unit M-MEDIA-TOOLS-001: 2 file(s)
+   unit M-OUTPUT-SETTINGS-001: 1 file(s)
+   unit M-PROBE-001: 2 file(s)
+   unit M-SELF-ACCEPTANCE-001: 11 file(s)
+   unowned .cs files: ['tools/harness-runner/Runner.cs']
+   files owned by two units: []
+   type names declared in two units (not attributed): []
+   units whose depends_on differs from their resolved requires: []
+== production units (src/)
+   declared-used    M-EXPORT-001 -> M-DOCUMENT-001   [src/MoviePad.Core/Export/ExportRequest.cs:EditDocument, src/MoviePad.Core/Export/Exporter.cs:KeptPiece]
+   declared-used    M-EXPORT-001 -> M-EXPORT-CLOCK-001   [src/MoviePad.Core/Export/Exporter.cs:ClockPlan, src/MoviePad.Core/Export/Exporter.cs:ClockRun, src/MoviePad.Core/Export/Exporter.cs:ExportClock, src/MoviePad.Core/Export/Exporter.cs:Rational]
+   declared-used    M-EXPORT-001 -> M-EXPORT-COPY-001   [src/MoviePad.Core/Export/Exporter.cs:CopyEligibility]
+   declared-used    M-EXPORT-001 -> M-MEDIA-TOOLS-001   [src/MoviePad.Core/Export/Exporter.cs:MediaTools, src/MoviePad.Core/Export/Exporter.cs:ToolResult]
+   declared-used    M-EXPORT-001 -> M-PROBE-001   [src/MoviePad.Core/Export/ExportRequest.cs:ClipInfo]
+   declared-used    M-EXPORT-CLOCK-001 -> M-DOCUMENT-001   [src/MoviePad.Core/Export/ExportClock.cs:EditDocument, src/MoviePad.Core/Export/ExportClock.cs:KeptPiece]
+   declared-used    M-EXPORT-CLOCK-001 -> M-PROBE-001   [src/MoviePad.Core/Export/ExportClock.cs:ClipInfo]
+   declared-used    M-EXPORT-COPY-001 -> M-DOCUMENT-001   [src/MoviePad.Core/Export/CopyEligibility.cs:EditDocument]
+   declared-used    M-EXPORT-COPY-001 -> M-MEDIA-TOOLS-001   [src/MoviePad.Core/Export/KeyframeLookup.cs:MediaTools, src/MoviePad.Core/Export/KeyframeLookup.cs:ToolResult]
+   declared-used    M-EXPORT-COPY-001 -> M-PROBE-001   [src/MoviePad.Core/Export/CopyEligibility.cs:ClipInfo, src/MoviePad.Core/Export/KeyframeLookup.cs:ClipInfo]
+   declared-used    M-OUTPUT-SETTINGS-001 -> M-DOCUMENT-001   [src/MoviePad.Core/Output/OutputSettings.cs:TimeMath]
+   declared-used    M-OUTPUT-SETTINGS-001 -> M-PROBE-001   [src/MoviePad.Core/Output/OutputSettings.cs:ClipInfo]
+   declared-used    M-PROBE-001 -> M-MEDIA-TOOLS-001   [src/MoviePad.Core/Media/MediaProbe.cs:MediaTools, src/MoviePad.Core/Media/MediaProbe.cs:ToolResult]
+   counts: {"declared-used": 13}
+== self-acceptance unit (test/), reported apart
+   undeclared       M-SELF-ACCEPTANCE-001 -> M-DOCUMENT-001   [test/MoviePad.Core.Tests/M_DOCUMENT_001_Tests.cs:EditDocument, test/MoviePad.Core.Tests/M_DOCUMENT_001_Tests.cs:KeptPiece, test/MoviePad.Core.Tests/M_DOCUMENT_001_Tests.cs:Region, test/MoviePad.Core.Tests/M_DOCUMENT_001_Tests.cs:TimeMath, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:EditDocument, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:KeptPiece, … (13 in all)]
+   undeclared       M-SELF-ACCEPTANCE-001 -> M-EXPORT-001   [test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ExportErrorKind, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ExportFormat, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ExportFormats, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ExportProgress, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ExportRequest, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ExportResult, … (7 in all)]
+   undeclared       M-SELF-ACCEPTANCE-001 -> M-EXPORT-CLOCK-001   [test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ClockPlan, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ClockRun, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ExportClock, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:Rational, test/MoviePad.Core.Tests/M_EXPORT_CLOCK_001_Tests.cs:ClockPlan, test/MoviePad.Core.Tests/M_EXPORT_CLOCK_001_Tests.cs:ExportClock, … (7 in all)]
+   undeclared       M-SELF-ACCEPTANCE-001 -> M-EXPORT-COPY-001   [test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:CopyEligibility, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:KeyframeLookup, test/MoviePad.Core.Tests/M_EXPORT_COPY_001_Tests.cs:CopyEligibility, test/MoviePad.Core.Tests/M_EXPORT_COPY_001_Tests.cs:KeyframeLookup]
+   undeclared       M-SELF-ACCEPTANCE-001 -> M-HISTORY-001   [test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:History, test/MoviePad.Core.Tests/M_HISTORY_001_Tests.cs:History]
+   undeclared       M-SELF-ACCEPTANCE-001 -> M-MEDIA-TOOLS-001   [test/MoviePad.Core.Tests/ExportTestMedia.cs:MediaTools, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:MediaTools, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ToolResult, test/MoviePad.Core.Tests/M_EXPORT_COPY_001_Tests.cs:MediaTools, test/MoviePad.Core.Tests/M_MEDIA_TOOLS_001_Tests.cs:MediaTools, test/MoviePad.Core.Tests/M_MEDIA_TOOLS_001_Tests.cs:ToolResult, … (8 in all)]
+   undeclared       M-SELF-ACCEPTANCE-001 -> M-OUTPUT-SETTINGS-001   [test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:OutputSettings, test/MoviePad.Core.Tests/M_OUTPUT_SETTINGS_001_Tests.cs:OutputSettings]
+   undeclared       M-SELF-ACCEPTANCE-001 -> M-PROBE-001   [test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:ClipInfo, test/MoviePad.Core.Tests/M_EXPORT_001_Tests.cs:MediaProbe, test/MoviePad.Core.Tests/M_EXPORT_CLOCK_001_Tests.cs:ClipInfo, test/MoviePad.Core.Tests/M_EXPORT_COPY_001_Tests.cs:ClipInfo, test/MoviePad.Core.Tests/M_OUTPUT_SETTINGS_001_Tests.cs:ClipInfo, test/MoviePad.Core.Tests/M_PROBE_001_Tests.cs:ClipInfo, … (7 in all)]
+   declared-unused  M-SELF-ACCEPTANCE-001 -> M-SOLUTION-001
+   counts: {"declared-unused": 1, "undeclared": 8}
+== run twice, byte-identical JSON: True

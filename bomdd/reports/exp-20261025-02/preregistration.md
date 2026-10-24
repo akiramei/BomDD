@@ -34,6 +34,14 @@ the part standards (`bomdd/32-mbom.yaml` at `f30d771`, equal to `bom-v4`) do not
 7. **Reading.** Zero `undeclared` among production units → ECO-114's declarations held on this delivery (one product, one delivery). Any → A1/C1's
    limit is measured on a real delivery; whether a check belongs in the part standard is a separate decision. No gate is added by this EXP.
 
+## Amendment before any scan (2026-10-25, after `9f31cdd`, still before the delivery is read)
+
+The delivery's `src/` has interpolated strings (`$"…"`; 34 lines in `Exporter.cs`, counted by `git grep`, not scanned); a first draft of the scanner
+blanked their `{…}` holes too, which item 2 does not say and which would hide references. The scanner keeps holes as code. The synthetic fixture
+gains a fourth unit (M-D, type `Delta`, no requires) and its expected output is unchanged: in M-A, `Gamma`'s only code reference is inside an
+interpolation hole (must count: M-A → M-C `undeclared`), and `Delta` appears only in that string's text and an escaped `{{Delta}}` (must not count:
+no M-A → M-D pair). The delivery has no raw string literals (`"""`; `git grep`), which the scanner does not handle.
+
 ## Limits declared now
 
 - Type names only: a dependency through an extension method called without its type name, through reflection, or through a string (a file path,

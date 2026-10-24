@@ -8918,7 +8918,7 @@ the result depends on unmeasured cost coefficients; graph completeness is not sh
   source: the user's module-partition simulation (2026-10-25); this session's evaluation, point (2)
   origin: external(user の模擬実験)
   evidence: method/improvements.md (this section)
-- [open] EXP-20261025-02 — **Does the built code have cross-unit dependencies the part standards do not declare?** On MoviePad-Remake delivery 1
+- [recovered 2026-10-25 via bomdd/reports/exp-20261025-02 (run on the user's "EXP-20261025-02 から始めて")] EXP-20261025-02 — **Does the built code have cross-unit dependencies the part standards do not declare?** On MoviePad-Remake delivery 1
   (`f30d771`): map each source file to its M unit by `artifact`, find references from one unit's files to types declared in another unit's files,
   and compare with each unit's `part_standard.requires` (and the M-BOM's `depends_on`). Calibrated before use: a known-bad copy with one reference
   added across units that no `requires` names must be reported; a copy with one declared `requires` removed must be reported as declared-but-unused
@@ -8929,3 +8929,19 @@ the result depends on unmeasured cost coefficients; graph completeness is not sh
   source: the user's module-partition simulation (2026-10-25); this session's evaluation, point (3)
   origin: external(user の模擬実験)
   evidence: method/improvements.md (this section); related: bomdd/60-change-order-eco-114.md (A1, C1, L1)
+  result (2026-10-25): **no undeclared cross-unit dependency in the production units** — 13 cross-unit dependencies, all declared; no declared
+    `requires` unused. Calibrated first: a synthetic fixture with known labels, and the delivery with one undeclared reference added (found, and the
+    only difference). File → unit had to use `planned_output_artifact_ref`, because `artifact.path` is shared (pre-registered before the scan). The
+    self-acceptance unit uses all 8 production units and declares none (reported apart). One product, one delivery; type names only.
+    evidence: bomdd/reports/exp-20261025-02/ (preregistration.md, results.md, results.txt)
+- [watch 1/3] OBS-20261025-01 — **An M unit's `artifact.path` does not identify its files.** In MoviePad-Remake's M-BOM, 5 of 10 units share a folder
+  with another unit (three Export units, two Media units), and one unit's file sits in another unit's folder. Ownership was recoverable only from
+  `planned_output_artifact_ref`, in a short form (bare file names read against the first entry's folder) that the template does not define. A tool
+  or reviewer reading `artifact` alone mis-assigns files — and EXP-20261025-01 overlays groupings on files, so it needs a defined file → unit map.
+  source: EXP-20261025-02 (2026-10-25)
+  evidence: bomdd/reports/exp-20261025-02/preregistration.md item 1, results.md finding 1
+- [watch 1/3] OBS-20261025-02 — **A self-acceptance (test) unit consumes every unit and declares none; ECO-114 is silent on it.** ECO-114 makes a consuming
+  unit name what it uses (`requires`); MoviePad-Remake's M-SELF-ACCEPTANCE-001 references all 8 production units and requires only the solution
+  unit. Whether a test unit must declare its uses, or is exempt by kind, is not decided.
+  source: EXP-20261025-02 (2026-10-25)
+  evidence: bomdd/reports/exp-20261025-02/results.txt (the self-acceptance section)
