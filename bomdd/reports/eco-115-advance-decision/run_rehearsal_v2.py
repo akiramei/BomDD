@@ -140,8 +140,9 @@ WO = f"# Work Order\n- 対象 BOM tag/commit: {FROZEN}\n- Routing ref: `bomdd/34
 
 LATER = "4" * 40           # synthetic commit after the work order's issue, before the delivery
 OTHER = "5" * 40           # synthetic commit on another line of history
-HISTORY = [FROZEN, ISSUED, LATER, REV]
-TAGS = {"bom-x": FROZEN, "bom-late": LATER}
+EARLY = "8" * 40           # synthetic commit before the freeze, with an older BOM
+HISTORY = [EARLY, FROZEN, ISSUED, LATER, REV]
+TAGS = {"bom-x": FROZEN, "bom-late": LATER, "bom-back": EARLY}
 
 
 def stub_resolve(rev):
@@ -152,7 +153,15 @@ def stub_resolve(rev):
 # exercises the ancestry rules; git=None is its own case (input-defect, L8)
 GIT_STUB = {"resolve": stub_resolve,
             "is_ancestor": lambda a, b: a in HISTORY and b in HISTORY and HISTORY.index(a) <= HISTORY.index(b),
-            "tree": lambda c: TREE if c == REV else ("6" * 40 if c in HISTORY else None)}
+            "tree": lambda c: TREE if c == REV else ("6" * 40 if c in HISTORY else None),
+            "show": lambda c, path: f"{path} at the synthetic BOM" if c in HISTORY else None}
+# round 2 L4E2-1: in the stub every commit of HISTORY holds the same BOM except EARLY (an older one); run_case overrides show for that
+
+
+def stub_with(early_differs):
+    if not early_differs:
+        return GIT_STUB
+    return dict(GIT_STUB, show=lambda c, path: f"{path} at an older BOM" if c == EARLY else GIT_STUB["show"](c, path))
 
 
 def frozen_entry(rev, recs, issued=ISSUED):
@@ -163,7 +172,7 @@ def frozen_entry(rev, recs, issued=ISSUED):
 
 def run_case(td, change):
     mbom, cp, tests = base()
-    ctx = {"mbom_text": None, "cp_text": None, "delivered_texts": None, "entry_edit": None, "evidence": None, "wo_text": None, "no_file": False, "no_git": False}
+    ctx = {"mbom_text": None, "cp_text": None, "delivered_texts": None, "entry_edit": None, "evidence": None, "wo_text": None, "no_file": False, "no_git": False, "early_differs": True}
     change(mbom, cp, tests, ctx)
     ev = ctx["evidence"] if ctx["evidence"] is not None else xml(tests)
     path = os.path.join(td, "ev.xml")
@@ -180,7 +189,7 @@ def run_case(td, change):
     if ctx["entry_edit"]:
         ctx["entry_edit"](entry)
     wo = ctx["wo_text"] if ctx["wo_text"] is not None else WO
-    return rd.decide(wo, mt, ct, entry, td, ctx["delivered_texts"] or (mt, ct), None if ctx["no_git"] else GIT_STUB)
+    return rd.decide(wo, mt, ct, entry, td, ctx["delivered_texts"] or (mt, ct), None if ctx["no_git"] else stub_with(ctx["early_differs"]))
 
 
 def setv(**kw):
@@ -218,15 +227,25 @@ CASES = [
     ("I3a frozen revision given as a tag git cannot resolve", setv(wo_text="- 対象 BOM tag/commit: v1.2\n"), ("input-defect", "cannot be resolved to a commit")),
     ("I3a (v2) frozen revision given as a tag that resolves to frozen_commit, in backticks", setv(wo_text="- 対象 BOM tag/commit: `bom-x`\n"),
      ("advances", None)),
+    ("I3a (v2) git unavailable, with a row approver outside I2: both listed (round 2 L4E2-3)", lambda m, c, t, ctx: (ctx.update(no_git=True), row(c, "CP-A").update(approver="maintainer")),
+     ("input-defect", "approver 'maintainer' outside I2")),
     ("I3a (v2) git unavailable", setv(no_git=True), ("input-defect", "git is not available")),
-    ("I3a (v2) frozen_commit on another line of history",
+    ("I3a (v2) frozen_commit on another line of history (multi-reason: implied by freeze <= issue)",
      lambda m, c, t, ctx: ctx.update(wo_text=f"- 対象 BOM tag/commit: {OTHER}\n", entry_edit=lambda e: e.update(
          frozen_commit=OTHER, mbom_ref=f"bomdd/32-mbom.yaml@{OTHER}", control_plan_ref=f"bomdd/33-control-plan.yaml@{OTHER}")),
-     ("input-defect", "frozen_commit is not an ancestor of the delivered commit")),
+     ("input-defect", "the freeze must precede the issue")),
     ("I3a (v2) the freeze after the issue (a tag moved to a later commit before receipt)",
      lambda m, c, t, ctx: ctx.update(wo_text="- 対象 BOM tag/commit: bom-late\n", entry_edit=lambda e: e.update(
          frozen_commit=LATER, mbom_ref=f"bomdd/32-mbom.yaml@{LATER}", control_plan_ref=f"bomdd/33-control-plan.yaml@{LATER}")),
      ("input-defect", "the freeze must precede the issue")),
+    ("I3a (v2) a tag moved back to a commit with an older BOM (round 2 L4E2-1)",
+     lambda m, c, t, ctx: ctx.update(wo_text="- 対象 BOM tag/commit: bom-back\n", entry_edit=lambda e: e.update(
+         frozen_commit=EARLY, mbom_ref=f"bomdd/32-mbom.yaml@{EARLY}", control_plan_ref=f"bomdd/33-control-plan.yaml@{EARLY}")),
+     ("input-defect", "the BOM changed between the freeze and the issue")),
+    ("I3a (v2) a freeze before the issue with the same BOM advances",
+     lambda m, c, t, ctx: ctx.update(early_differs=False, wo_text="- 対象 BOM tag/commit: bom-back\n", entry_edit=lambda e: e.update(
+         frozen_commit=EARLY, mbom_ref=f"bomdd/32-mbom.yaml@{EARLY}", control_plan_ref=f"bomdd/33-control-plan.yaml@{EARLY}")),
+     ("advances", None)),
     ("I3a (v2) the work order's commit outside the delivered history",
      lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.update(work_order_ref=f"bomdd/40-work-order.md@{OTHER}")),
      ("input-defect", "the work order's commit is not an ancestor of the delivered commit")),
@@ -243,10 +262,10 @@ CASES = [
     ("I3a no work_order_ref", lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.pop("work_order_ref")), ("input-defect", "no work_order_ref")),
     ("I3a (v2) no frozen_commit in the entry", lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.pop("frozen_commit")),
      ("input-defect", "no frozen_commit")),
-    ("I3a (v2) the frozen revision is the delivered commit, line and refs agreeing",
+    ("I3a (v2) the frozen revision is the delivered commit, line and refs agreeing (multi-reason: implied by freeze <= issue)",
      lambda m, c, t, ctx: ctx.update(wo_text=f"- 対象 BOM tag/commit: {REV}\n", entry_edit=lambda e: e.update(
          frozen_commit=REV, mbom_ref=f"bomdd/32-mbom.yaml@{REV}", control_plan_ref=f"bomdd/33-control-plan.yaml@{REV}")),
-     ("input-defect", "frozen_commit is the delivered commit")),
+     ("input-defect", "the freeze must precede the issue")),
     ("I3a work order read from the delivered commit",
      lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.update(work_order_ref=f"bomdd/40-work-order.md@{REV}")),
      ("input-defect", "work_order_ref names the delivered commit")),
@@ -300,9 +319,9 @@ CASES = [
      ("holds", ("CP-A", "unmeasurable", "1: the evidence names more than one measured unit"))),
     ("D1-1 evidence with no checks", setv(evidence=xml([])), ("holds", ("CP-A", "unmeasurable", "1: evidence holds no check"))),
     ("D1-1 (v2) a failed check no row owns (no cp trait)", add_test("Fail", []),
-     ("holds", ("CP-A", "unmeasurable", "1: the evidence reports a failure no counted row owns"))),
+     ("holds", ("CP-A", "unmeasurable", "1: the evidence reports a failure no counted row owns", "control-plan-fix"))),
     ("D1-1 (v2) a failed check of a row named by no unit", add_test("Fail", ["CP-UNNAMED"]),
-     ("holds", ("CP-B", "unmeasurable", "1: the evidence reports a failure no counted row owns"))),
+     ("holds", ("CP-B", "unmeasurable", "1: the evidence reports a failure no counted row owns", "control-plan-fix"))),
     ("D1-1 unmapped outcome term", add_test("Inconclusive", ["CP-A"]), ("holds", ("CP-A", "unmeasurable", "1: outcome term 'Inconclusive' not in check_mapping"))),
     ("D1-2 failed check", add_test("Fail", ["CP-A"]), ("holds", ("CP-A", "violation", "2"))),
     ("D1-3 all checks skipped", lambda m, c, t, ctx: t.__setitem__(0, ("Skip", ["CP-A"])), ("holds", ("CP-A", "unmeasurable", "3"))),
@@ -363,7 +382,8 @@ def main():
         gitcb = {"resolve": lambda rev: (lambda p: p.stdout.decode().strip() if p.returncode == 0 else None)(
                      run_git("rev-parse", "--verify", "--quiet", f"{rev}^{{commit}}")),
                  "is_ancestor": lambda a, b: run_git("merge-base", "--is-ancestor", a, b).returncode == 0,
-                 "tree": lambda c: (lambda p: p.stdout.decode().strip() if p.returncode == 0 else None)(run_git("rev-parse", f"{c}^{{tree}}"))}
+                 "tree": lambda c: (lambda p: p.stdout.decode().strip() if p.returncode == 0 else None)(run_git("rev-parse", f"{c}^{{tree}}")),
+                 "show": lambda c, path: (lambda p: p.stdout.decode("utf-8") if p.returncode == 0 else None)(run_git("show", f"{c}:{path}"))}
         mtext_f, ctext_f = show(vp2, "bomdd/32-mbom.yaml", ISSUED_VP2), show(vp2, "bomdd/33-control-plan.yaml", ISSUED_VP2)
         assert (mtext_f, ctext_f) == (mtext, ctext), "the BOM differs between f697a82 and 504921a"
         d0 = rd.decide(wo, mtext, ctext, frozen_entry(ISSUED_VP2, [], ISSUED_VP2), td, (mtext, ctext), gitcb)

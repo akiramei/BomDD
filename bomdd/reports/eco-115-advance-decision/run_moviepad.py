@@ -49,7 +49,8 @@ def main():
     say = lines.append
     gitcb = {"resolve": lambda rev: full(repo, rev),
              "is_ancestor": lambda a, b: git(repo, "merge-base", "--is-ancestor", a, b)[0] == 0,
-             "tree": lambda c: (lambda r: r[1].decode().strip() if r[0] == 0 else None)(git(repo, "rev-parse", f"{c}^{{tree}}"))}
+             "tree": lambda c: (lambda r: r[1].decode().strip() if r[0] == 0 else None)(git(repo, "rev-parse", f"{c}^{{tree}}")),
+             "show": lambda c, path: show(repo, c, path)}
     wo_full, delivered, frozen = full(repo, WO_COMMIT), full(repo, DELIVERED_COMMIT), full(repo, TAG)
     tree = git(repo, "rev-parse", f"{DELIVERED_COMMIT}^{{tree}}")[1].decode().strip()
     wo_text = show(repo, wo_full, "bomdd/40-work-order.md")
@@ -125,9 +126,9 @@ def main():
         v3 = full(repo, "bom-v3")
         say("== M2 known-bad freezes on the migrated copy (I3a; each must be input-defect with its stated reason among those listed):")
         cases = [
-            ("frozen_commit is the delivered commit", {"frozen_commit": delivered, "mbom_ref": f"bomdd/32-mbom.yaml@{delivered}",
-                                                       "control_plan_ref": f"bomdd/33-control-plan.yaml@{delivered}"}, wo_text,
-             "frozen_commit is the delivered commit"),
+            ("frozen_commit is the delivered commit (caught by freeze <= issue, which implies it; round 2 L4E2-2)",
+             {"frozen_commit": delivered, "mbom_ref": f"bomdd/32-mbom.yaml@{delivered}",
+              "control_plan_ref": f"bomdd/33-control-plan.yaml@{delivered}"}, wo_text, "the freeze must precede the issue"),
             ("the work order read at a commit after the delivery (e1d71b3, its text as there)",
              {"work_order_ref": f"bomdd/40-work-order.md@{later}"}, wo_later, "the work order's commit is not an ancestor"),
             ("frozen_commit recorded as bom-v3 while the line names bom-v4", {"frozen_commit": v3, "mbom_ref": f"bomdd/32-mbom.yaml@{v3}",
@@ -142,6 +143,18 @@ def main():
             r = rd.decide(wo, mbom, cp_m, e, td, (d_mbom, cp_m), gitcb)
             ok = r["result"] == "input-defect" and expect in json.dumps(r)
             say(f"   {'OK' if ok else 'MISSED'} {name}: {r['result']} {json.dumps(r.get('defects'))}")
+        # round 2 L4E2-1, on this repository's git: the factory moves bom-v4 back to bom-v3's commit and delivers bom-v3's BOM, so the line,
+        # frozen_commit, both refs and the delivered copies all agree on bom-v3 (the resolve callback answers as the moved tag would)
+        moved = dict(gitcb, resolve=lambda rev: v3 if rev == TAG else gitcb["resolve"](rev))
+        mbom3, cp3 = show(repo, v3, "bomdd/32-mbom.yaml"), show(repo, v3, "bomdd/33-control-plan.yaml")
+        cp3_doc = yaml.safe_load(cp3)
+        cp3_doc["control_plan"]["check_mapping"] = cp_doc["control_plan"]["check_mapping"]
+        cp3_m = yaml.safe_dump(cp3_doc, allow_unicode=True, sort_keys=False)
+        e = copy.deepcopy(entry)
+        e.update({"frozen_commit": v3, "mbom_ref": f"bomdd/32-mbom.yaml@{v3}", "control_plan_ref": f"bomdd/33-control-plan.yaml@{v3}"})
+        r = rd.decide(wo_text, mbom3, cp3_m, e, td, (mbom3, cp3_m), moved)
+        ok = r["result"] == "input-defect" and "the BOM changed between the freeze and the issue" in json.dumps(r)
+        say(f"   {'OK' if ok else 'MISSED'} bom-v4 moved back to bom-v3's commit, bom-v3's BOM delivered: {r['result']} {json.dumps(r.get('defects'))}")
         # M3: known-bad evidence lines on the migrated, stamped copy (D1)
         say("== M3 known-bad evidence lines (D1; each changes only compare.txt, its sha256 recomputed):")
         lines3 = [

@@ -77,17 +77,20 @@ stored results sha256 82c0258c98cf1643ced50d396eb09b0cfac01e583f401d5412027e51db
    OK     I3a work order with two frozen-revision lines: input-defect [["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
    OK     I3a frozen revision given as a tag git cannot resolve: input-defect [["work-order-fix", "the frozen revision 'v1.2' cannot be resolved to a commit"]]
    OK     I3a (v2) frozen revision given as a tag that resolves to frozen_commit, in backticks: advances {}
-   OK     I3a (v2) git unavailable: input-defect [["record-fix", "git is not available to the decision (L8)"]]
-   OK     I3a (v2) frozen_commit on another line of history: input-defect [["work-order-fix", "frozen_commit is not an ancestor of the delivered commit"], ["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"]]
+   OK     I3a (v2) git unavailable, with a row approver outside I2: both listed (round 2 L4E2-3): input-defect [["control-plan-fix", "row CP-A approver 'maintainer' outside I2"], ["record-fix", "git is not available to the decision (L8); the git-dependent checks were not made"]]
+   OK     I3a (v2) git unavailable: input-defect [["record-fix", "git is not available to the decision (L8); the git-dependent checks were not made"]]
+   OK     I3a (v2) frozen_commit on another line of history (multi-reason: implied by freeze <= issue): input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"], ["work-order-fix", "the Control Plan at the work order's commit differs from froz
    OK     I3a (v2) the freeze after the issue (a tag moved to a later commit before receipt): input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"]]
-   OK     I3a (v2) the work order's commit outside the delivered history: input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"], ["work-order-fix", "the work order's commit is not an ancestor of the delivered c
+   OK     I3a (v2) a tag moved back to a commit with an older BOM (round 2 L4E2-1): input-defect [["work-order-fix", "the Control Plan at the work order's commit differs from frozen_commit's; the BOM changed between the freeze and the issue"], ["work-order-fix", "the M-BOM at the work order's com
+   OK     I3a (v2) a freeze before the issue with the same BOM advances: advances {}
+   OK     I3a (v2) the work order's commit outside the delivered history: input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"], ["work-order-fix", "the Control Plan at the work order's commit differs from froz
    OK     I3a (v2) delivered.tree is not the delivered commit's tree: input-defect [["record-fix", "delivered.tree is not the delivered commit's tree"]]
    OK     I3a (v2) a line format whose row_key lacks the group outcome: input-defect [["control-plan-fix", "check_mapping absent or outside I2"]]
    OK     I3a entry's control_plan_ref naming another revision: input-defect [["record-fix", "the entry's control_plan_ref does not name frozen_commit"]]
    OK     I3a entry's mbom_ref naming another revision: input-defect [["record-fix", "the entry's mbom_ref does not name frozen_commit"]]
    OK     I3a no work_order_ref: input-defect [["record-fix", "the entry has no work_order_ref '<path>@<40-hex commit>'"]]
    OK     I3a (v2) no frozen_commit in the entry: input-defect [["record-fix", "the entry has no frozen_commit (40-hex), resolved at receipt"]]
-   OK     I3a (v2) the frozen revision is the delivered commit, line and refs agreeing: input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"], ["work-order-fix", "frozen_commit is the delivered commit; it must precede the wo
+   OK     I3a (v2) the frozen revision is the delivered commit, line and refs agreeing (multi-reason: implied by freeze <= issue): input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"]]
    OK     I3a work order read from the delivered commit: input-defect [["record-fix", "work_order_ref names the delivered commit; the work order is read as issued, not from the delivery"]]
    OK     I3a duplicate unit ID: input-defect [["bom-fix", "duplicate unit IDs"]]
    OK     I3a duplicate row ID: input-defect [["control-plan-fix", "duplicate row IDs"]]
@@ -120,8 +123,8 @@ stored results sha256 82c0258c98cf1643ced50d396eb09b0cfac01e583f401d5412027e51db
    OK     D1-1 (v2) the evidence names no measured unit: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: the evidence does not name what it measured"}, "CP-B": {"category": "unmeasurable", "result": "bl
    OK     D1-1 (v2) the evidence names two measured units: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: the evidence names more than one measured unit"}, "CP-B": {"category": "unmeasurable", "result": 
    OK     D1-1 evidence with no checks: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: evidence holds no check"}, "CP-B": {"category": "unmeasurable", "result": "blocked", "route": "in
-   OK     D1-1 (v2) a failed check no row owns (no cp trait): holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: the evidence reports a failure no counted row owns"}, "CP-B": {"category": "unmeasurable", "resul
-   OK     D1-1 (v2) a failed check of a row named by no unit: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: the evidence reports a failure no counted row owns"}, "CP-B": {"category": "unmeasurable", "resul
+   OK     D1-1 (v2) a failed check no row owns (no cp trait): holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "control-plan-fix", "test": "1: the evidence reports a failure no counted row owns"}, "CP-B": {"category": "unmeasurable", "result":
+   OK     D1-1 (v2) a failed check of a row named by no unit: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "control-plan-fix", "test": "1: the evidence reports a failure no counted row owns"}, "CP-B": {"category": "unmeasurable", "result":
    OK     D1-1 unmapped outcome term: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: outcome term 'Inconclusive' not in check_mapping"}, "CP-B": {"category": "unmeasurable", "result"
    OK     D1-2 failed check: holds {"CP-A": {"category": "violation", "result": "fail", "route": "product-fix", "test": "2"}}
    OK     D1-3 all checks skipped: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "3"}}

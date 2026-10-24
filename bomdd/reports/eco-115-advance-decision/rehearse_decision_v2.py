@@ -23,6 +23,7 @@ DEFAULT_ROUTE = {"violation": "product-fix", "unmeasurable": "instrument-recover
 RESULT = {"pass": "pass", "violation": "fail", "unmeasurable": "blocked", "no-check": "not-run"}
 # v2: measured_on is no longer a record field — the evidence itself names what it measured (check_mapping's identity), and D1
 # test 1 compares that with delivered (EXP-20261024-01: the comparator's output named no unit, M1 L4)
+UNOWNED = "1: the evidence reports a failure no counted row owns"
 RECORD_FIELDS = ("cp_ref", "evidence_path", "evidence_sha256", "format", "observed_at")
 
 
@@ -61,24 +62,28 @@ def i3a(mbom_text, cp_text, delivered_texts=None, work_order_text=None, entry=No
     work_order_text and entry None: the freeze checks are not made (library use by the drivers' record builder only).
     v2 (redesign after EXP-20261024-01): the work order's line may name a tag or a commit; the receiving side records the
     commit it resolved to as the entry's frozen_commit at receipt. git is required (L8): {"resolve": rev -> 40-hex or None,
-    "is_ancestor": (a, b) -> bool, "tree": commit -> 40-hex or None}; without it the decision is input-defect. delivered is
-    checked here, before the freeze checks that read it (round 1 L4E1-7). The line must resolve to frozen_commit;
-    frozen_commit is an ancestor of, or equal to, the work order's commit (the freeze precedes the issue, L4E1-3), and both
-    are ancestors of the delivered commit and differ from it; delivered.tree is the delivered commit's tree (L4E1-4)."""
+    "is_ancestor": (a, b) -> bool, "tree": commit -> 40-hex or None, "show": (commit, path) -> text or None}; without it
+    the git-dependent checks are not made and the decision is input-defect, the other checks still listed (round 2 L4E2-3).
+    delivered is checked here, before the freeze checks that read it (round 1 L4E1-7). The line must resolve to frozen_commit;
+    frozen_commit is an ancestor of, or equal to, the work order's commit (the freeze precedes the issue, L4E1-3), and the
+    M-BOM and Control Plan at the work order's commit are byte-equal to those at frozen_commit (no BOM change between the
+    freeze and the issue — a tag moved back, round 2 L4E2-1); the work order's commit is an ancestor of the delivered commit
+    and differs from it, which with freeze <= issue implies the same of frozen_commit (round 2 L4E2-2: not checked twice);
+    delivered.tree is the delivered commit's tree (L4E1-4)."""
     mbom_doc, e1 = parse(mbom_text, "bom-fix", "M-BOM")
     cp_doc, e2 = parse(cp_text, "control-plan-fix", "Control Plan")
     defects = [e for e in (e1, e2) if e]
     if work_order_text is not None:
         entry = entry or {}
         if not git:
-            return defects + [("record-fix", "git is not available to the decision (L8)")], None, None, None, None
+            defects.append(("record-fix", "git is not available to the decision (L8); the git-dependent checks were not made"))
         wref = REF.fullmatch(str(entry.get("work_order_ref", "")))
         delivered = entry.get("delivered")
         dcommit = delivered["commit"] if delivered_ok(delivered) else None
         frozen = str(entry.get("frozen_commit", ""))
         if dcommit is None:
             defects.append(("record-fix", f"delivered {delivered!r} missing or outside I2"))
-        elif git["tree"](dcommit) != delivered["tree"]:
+        elif git and git["tree"](dcommit) != delivered["tree"]:
             defects.append(("record-fix", "delivered.tree is not the delivered commit's tree"))
         if not wref:
             defects.append(("record-fix", "the entry has no work_order_ref '<path>@<40-hex commit>'"))
@@ -90,24 +95,28 @@ def i3a(mbom_text, cp_text, delivered_texts=None, work_order_text=None, entry=No
         if rev is None:
             defects.append(("work-order-fix", "the work order has no single '対象 BOM tag/commit' line"))
         elif HEX40.fullmatch(frozen):
-            resolved = git["resolve"](rev)
-            if resolved is None:
-                defects.append(("work-order-fix", f"the frozen revision {rev!r} cannot be resolved to a commit"))
-            elif resolved != frozen:
-                defects.append(("work-order-fix", f"the frozen revision {rev!r} resolves to {resolved[:8]}, not the recorded frozen_commit"))
+            refs = {}
             for key in ("mbom_ref", "control_plan_ref"):
                 m = REF.fullmatch(str(entry.get(key, "")))
                 if not m or m.group(2) != frozen:
                     defects.append(("record-fix", f"the entry's {key} does not name frozen_commit"))
+                else:
+                    refs[key] = m.group(1)
             issued = wref.group(2) if wref else None
-            if issued and frozen != issued and not git["is_ancestor"](frozen, issued):
-                defects.append(("work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"))
-            if dcommit:
-                if frozen == dcommit:
-                    defects.append(("work-order-fix", "frozen_commit is the delivered commit; it must precede the work"))
-                for label, commit in (("frozen_commit", frozen), ("the work order's commit", issued)):
-                    if commit is not None and commit != dcommit and not git["is_ancestor"](commit, dcommit):
-                        defects.append(("work-order-fix", f"{label} is not an ancestor of the delivered commit"))
+            if git:
+                resolved = git["resolve"](rev)
+                if resolved is None:
+                    defects.append(("work-order-fix", f"the frozen revision {rev!r} cannot be resolved to a commit"))
+                elif resolved != frozen:
+                    defects.append(("work-order-fix", f"the frozen revision {rev!r} resolves to {resolved[:8]}, not the recorded frozen_commit"))
+                if issued and frozen != issued:
+                    if not git["is_ancestor"](frozen, issued):
+                        defects.append(("work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"))
+                    for key, what in (("mbom_ref", "M-BOM"), ("control_plan_ref", "Control Plan")):
+                        if key in refs and git["show"](issued, refs[key]) != git["show"](frozen, refs[key]):
+                            defects.append(("work-order-fix", f"the {what} at the work order's commit differs from frozen_commit's; the BOM changed between the freeze and the issue"))
+                if issued and dcommit and issued != dcommit and not git["is_ancestor"](issued, dcommit):
+                    defects.append(("work-order-fix", "the work order's commit is not an ancestor of the delivered commit"))
     if delivered_texts is not None:
         for got, frozen, what in ((delivered_texts[0], mbom_text, "M-BOM"), (delivered_texts[1], cp_text, "Control Plan")):
             if got is None:
@@ -297,7 +306,7 @@ def decide(work_order_text, mbom_text, cp_text, entry, base, delivered_texts, gi
         elif unit != delivered:
             cat, test = "unmeasurable", "1: the evidence measured another unit than delivered"
         elif any("failed" in v for k, v in checks.items() if k not in counted):
-            cat, test = "unmeasurable", "1: the evidence reports a failure no counted row owns"
+            cat, test = "unmeasurable", UNOWNED
         else:
             mine = checks.get(r, [])
             if "failed" in mine:
@@ -309,7 +318,11 @@ def decide(work_order_text, mbom_text, cp_text, entry, base, delivered_texts, gi
             else:
                 cat, test = "pass", "5"
         route = None
-        if cat != "pass":
+        if test == UNOWNED:
+            # round 2 L4E2-4: the failure belongs to no counted row, so neither the row's on_fail nor instrument-recovery fits; the fix
+            # is to give that check an owner row in the Control Plan, after which a new delivery decides it as that row's violation
+            route = "control-plan-fix"
+        elif cat != "pass":
             f = by_id[r].get("on_fail") or {}
             route = f.get("red") if cat == "violation" else f.get("unmeasurable") if cat == "unmeasurable" else None
             route = route or DEFAULT_ROUTE[cat]

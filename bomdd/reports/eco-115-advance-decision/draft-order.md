@@ -6,7 +6,8 @@
 > register entry, and the ECO number is reserved for it.
 >
 > **Redesign (user "2:A", 2026-10-24, after EXP-20261024-01's first trial):** the rules below are edited in place from MoviePad-Remake delivery 1's
-> real records (B5); what changed and why is loop 4 of the receipt. Still not filed: filing waits for the user's ruling on loop 4.
+> real records (B5); what changed and why is loop 4 of the receipt. Loop 4 ended unconverged (8→4); the user's "A" adopted it by cut-off with
+> round 2's findings repaired. Still not filed: next it is checked on MoviePad-Remake's second delivery, and filing follows that.
 
 > Ruling: user, 2026-10-24, "A" (split) after [ECO-114](../../60-change-order-eco-114.md)'s first design loop ended unconverged at its limit (26→8→8;
 > material 20→3→4). Every material finding of rounds 2 and 3 was in the advance decision, and each was a case where the decision read a Control Plan
@@ -117,7 +118,9 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   `commit`; the entry's `work_order_ref` is within I2 and names a commit other than the delivered one; the entry
   has `frozen_commit`; the work order read at `work_order_ref` has exactly one frozen-revision line, and its value resolves to `frozen_commit`; the
   entry's `mbom_ref` and `control_plan_ref` name `frozen_commit`; `frozen_commit` is the work order's commit or an ancestor of it (the freeze
-  precedes the issue); `frozen_commit` is not the delivered commit, and it and the work order's commit are both ancestors of the delivered commit;
+  precedes the issue), and the M-BOM and the Control Plan at the work order's commit are byte-equal to those at `frozen_commit` (no BOM change
+  between the freeze and the issue, so a tag moved back to an older BOM is caught); the work order's commit is an ancestor of the delivered commit
+  (with the clauses above, this makes `frozen_commit` an ancestor of the delivered commit and not the delivered commit — not checked again);
   the M-BOM and the Control Plan at `frozen_commit` parse; the delivery's copies of both are byte-equal to
   them, and a delivery without a copy at that path differs (a factory does not change its own acceptance — B2; all three products keep their BOM in
   the delivered repository);
@@ -155,7 +158,9 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   `on_fail` value for `red` (when `violation`) or `unmeasurable` (when `unmeasurable`) where present; otherwise `violation` → product-fix,
   `unmeasurable` → instrument-recovery, `no-check` → control-plan-fix. An `input-defect` routes to the file that failed: control-plan-fix (Control Plan),
   bom-fix (M-BOM), work-order-fix (the frozen-revision line), record-fix (the As-Built entry), or product-fix (a delivery whose copies differ from the
-  frozen revision). A row named by several units is one row, decided once.
+  frozen revision). A row named by several units is one row, decided once. A row made `unmeasurable` by a failure no counted row owns (D1 test 1)
+  routes to control-plan-fix whatever its `on_fail`: the failure is not the row's, and the fix is to give the failing check an owner row, after
+  which a new delivery decides it as that row's `violation`.
 - **D3 (what follows).** `advances`: the individual enters Phase 5, and the designer side runs it. `holds` or `input-defect`: the individual does not
   enter Phase 5 through D. Its routes are done and the result is a **new delivery** — a new commit and tree with its own As-Built entry and, where a
   Control Plan or M-BOM was fixed, a work order naming the new frozen revision — decided afresh. This holds for every route, including record-fix,
@@ -190,7 +195,7 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   row's checks gives `no-check` (route control-plan-fix) where the instrument is at fault. The other way, D1 test 1 is strict: one failed check no
   counted row owns — a test without the row trait, a row named by no unit, or a line such as compare.py's own "FAIL spec-checks.json missing …"
   (MoviePad-Remake `compare.py:211-213`) — makes every counted row citing that file `unmeasurable`, including rows whose own checks passed; a passed
-  check no row owns is ignored.
+  check no row owns is ignored. Such rows route to control-plan-fix (D2), not to instrument-recovery.
 - **L2 (D2, coverage).** D counts rows, not ruled IDs: a ruled ID (REQ / INV) with no counted row can sit under an advancing individual. Coverage stays with
   the per-ID table (§4.4:176-183) and the spec §3 rule that each INV names its row or a reason (ECO-086). Rows named by no unit and not in `assembly` are
   listed and not decided (ViewPrism2 15, ViewTube 13).
@@ -200,7 +205,8 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   catches later edits only. D is applied by the receiving AI without a tool until a product ships one; only the rehearsal checks the rules can be
   applied as written. On the freeze, D now proves that `frozen_commit` precedes or equals the work order's issue commit, that both are in the
   delivered commit's history and are not the delivered commit, that `delivered.tree` is that commit's tree, and that the delivery carries the frozen
-  revision's M-BOM and Control Plan byte for byte — so a tag moved after the issue is caught (I3a). It does not prove that the work order was issued
+  revision's M-BOM and Control Plan byte for byte, and that the BOM did not change between the freeze and the issue — so a tag moved after the
+  issue, or moved back to an older BOM, is caught (I3a). A tag moved back to a commit with the same BOM bytes passes, and decides the same. It does not prove that the work order was issued
   before the factory started, nor that the factory read nothing else: a factory's own commits made after the issue are also ancestors of the delivered
   commit (in MoviePad-Remake the designer committed the factory's work in one commit, so the question did not arise).
 - **L4 (I0, human part).** Rows or row parts with a human approver are not decided by D; an individual can enter Phase 5 with them open, and they are decided
@@ -230,7 +236,7 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
 - **L8 (I1, I2, git).** D requires git: `delivered` is `{commit, tree}` and the freeze is checked by commit and ancestry. The non-git form
   (`{content_sha256}`) is removed — it could never pass a commit-only freeze (L3E2-4). A product that does not deliver through git has no advance
   decision until a form for it is designed. A receiving side without git gets `input-defect` (route record-fix: the receipt is redone where git is),
-  never a decision with the freeze checks skipped.
+  never a decision with the freeze checks skipped; the other I3a checks still run and are listed with it.
 
 ### Not changed
 
@@ -264,7 +270,8 @@ Changed: the files in M1, this order, the register and `bomdd/reports/eco-115-*/
   - Known-bad freezes on MoviePad-Remake's real records (`rehearsal-moviepad.txt` M2), each `input-defect` with its own reason among those it lists:
     `frozen_commit` set to the delivered commit (which necessarily also follows the issue and differs from what the line resolves to); the work order
     read at a commit after the delivery, with its text there (not an ancestor); `frozen_commit` recorded as `bom-v3` while the line names `bom-v4`;
-    `delivered.tree` not the delivered commit's tree.
+    `delivered.tree` not the delivered commit's tree; `bom-v4` moved back to `bom-v3`'s commit with `bom-v3`'s BOM delivered (the line, `frozen_commit`,
+    the refs and the copies all agreeing — the BOM at the issue commit differs).
   - Known-bad evidence lines on the same records (M3, D1): a `FAIL` line for one row gives that row `violation` (test 2); an `ERROR` line gives
     `unmeasurable` (test 1, an unmapped term); compare.py's own `FAIL spec-checks.json missing …` line gives every counted row `unmeasurable`
     (test 1, a failure no counted row owns).
@@ -273,20 +280,23 @@ Changed: the files in M1, this order, the register and `bomdd/reports/eco-115-*/
     - I3a: the Control Plan unparsable; the M-BOM unparsable; the delivery's Control Plan differing from the frozen revision, its M-BOM differing, and
       a delivery without its Control Plan; the work order without a frozen-revision line, with two, and with a tag that cannot be resolved; the
       entry's `mbom_ref` and its `control_plan_ref` each naming another revision; no `work_order_ref`; a `work_order_ref` naming the delivered
-      commit; no `frozen_commit`; a frozen revision that is the delivered commit, with the line and both refs agreeing; a duplicate unit ID; a
+      commit; no `frozen_commit`; a frozen revision that is the delivered commit, with the line and both refs agreeing (caught by freeze ≤ issue,
+      which implies it — a multi-reason case); a duplicate unit ID; a
       duplicate row ID; a unit with empty `acceptance_refs`; `assembly` absent; `assembly` empty without `assembly_reason`; no row named (the units and the
       assembly list emptied together — the one way to name no row); a named row missing; a named row retired; an `approver` of `maintainer` and one
       absent; an
       `on_fail` with the key `dependency-update` and one with the value `human-approval`; a `status` of `draft`; `check_mapping` absent; an `outcomes`
       value outside the four; a format without `identity`; an `identity` without the group `tree`; a `line` format whose `row_key` lacks the group
-      `outcome`; git unavailable; no `delivered`; a malformed `delivered`; a `delivered.tree` that is not its commit's tree; `frozen_commit` on another
-      line of history; the freeze after the issue (the line's tag moved to a later commit); the work order's commit outside the delivered history.
+      `outcome`; git unavailable, alone and with a row `approver` outside I2 (both listed); no `delivered`; a malformed `delivered`; a
+      `delivered.tree` that is not its commit's tree; `frozen_commit` on another line of history (multi-reason, as above); the freeze after the issue
+      (the line's tag moved to a later commit); a tag moved back to a commit with an older BOM, and the same with the same BOM (advances); the work
+      order's commit outside the delivered history.
       With git (a stub history in the synthetic runs), a tag in backticks that resolves to `frozen_commit` advances.
     - I3b: a counted row with no decision record; two decision records for one row; a record without
       `evidence_sha256`; a record whose `format` `check_mapping` does not name; a decision record for a row that is not counted.
     - D1: an unreadable evidence file; no evidence file (`evidence_sha256: none`); a changed sha256; evidence naming another measured unit, none, and
       two; an evidence file with no checks; a check with an unmapped outcome term; a failed check with no row trait, and one of a row named by no
-      unit (each makes every counted row `unmeasurable`); a failed check (test 2); all checks of a row skipped (test 3); no check for a row (test 4).
+      unit (each makes every counted row `unmeasurable`, route control-plan-fix); a failed check (test 2); all checks of a row skipped (test 3); no check for a row (test 4).
     - D0/D2: a `human:<role>` row is listed, not decided, and the individual advances; an `automated+human:<role>` row is decided by its automated part;
       an `assembly` row with a failed check holds; every named row `human:<role>` advances with all listed; a row named by two units with one failed check
       is one `violation`; a `source: phase5` record is not read.
@@ -467,3 +477,14 @@ Changed: the files in M1, this order, the register and `bomdd/reports/eco-115-*/
   of a tag moved back; the rest are consequences of round 1's repairs. The material count fell 6→1 and every finding came with a cheap direction.
 - **DoD at round 2:** ✔ D2a, D2b, D6; ✘ D2 (L4E2-1), D5 and D7 (L4E2-2), D8 (L4E2-4's route undeclared against its rule).
 - **未収束事項:** L4E2-1 to L4E2-4 (unrepaired).
+- **User ruling "A", 2026-10-24: cut-off adoption.** Round 2's four findings are repaired by the directions offered, with no further reading round;
+  the design phase closes **unconverged by reading** and is checked next on real data — MoviePad-Remake's second delivery (EXP-20261024-01: redesign
+  and calibration are separate steps). Not filed; filing follows that calibration.
+  - L4E2-1: I3a — the M-BOM and Control Plan at the issue commit byte-equal to those at `frozen_commit` (the `show` callback); L3. Cases: synthetic
+    (a tag moved back with an older BOM → `input-defect`; with the same BOM → `advances`) and real (`bom-v4` moved back to `bom-v3`'s commit with
+    `bom-v3`'s BOM delivered → `input-defect`, `rehearsal-moviepad.txt` M2).
+  - L4E2-2: I3a's two implied clauses removed from the text and the script; their cases relabelled multi-reason, caught by freeze ≤ issue.
+  - L4E2-3: with git missing, the git-dependent checks are skipped and the rest still listed (L8); case with an `approver` outside I2 alongside.
+  - L4E2-4: D2 and L1 — a failure no counted row owns routes to control-plan-fix; the two synthetic cases check the route.
+  - Rehearsal: 68 synthetic cases and 7 inputs outside I1 all as expected; ViewPrism2's real data unchanged in outcome; MoviePad-Remake M2 5/5,
+    M3 3/3; each run twice, byte-identical. The repairs were not re-read by a reviewer (the ruling's accepted cost); their check is the next delivery.
