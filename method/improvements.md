@@ -8873,3 +8873,59 @@ the reading as a candidate.
   source: the same external joint analysis (difference ③), 2026-10-24
   origin: external(外部 AI との合同分析)
   evidence: method/improvements.md (this section)
+
+## 2026-10-25 External — the user's module-partition simulation (E-BOM → M-BOM / Control Plan): two experiments recorded, not started
+
+**Source**: a simulation the user ran and brought to this session (2026-10-25). Three fictitious business systems (orders, HR, accounting) with 11-12
+nodes each, 12 change scenarios, four partition methods (process order, information hiding, observation-point slicing, two cones with replaceable
+units) and two negative controls (one unit, every node its own unit), scored on change-site recall (50), rebuild-scope confinement (30) and declared
+boundary contracts (20), then a cost sensitivity and 144 single-edge deletions per method. The user's files are kept outside the repository
+(`BomDD_module_simulation_report_20261024.md` sha256 `636892ad…808e64`, `BomDD_module_simulation_package_20261024.zip` sha256 `5b0afca8…667054`).
+Its own reading: the single score rewards the every-node split (95.2 of 100), so the scorer is not calibrated; the three axes must be measured apart;
+the result depends on unmeasured cost coefficients; graph completeness is not shown by the capture score.
+
+**Evaluation (this session; the user AGREEd)**: three points carry into the method, the method ranking does not.
+- Carried: (1) a partition-quality measure gets both extremes as known-bad arms from the start (calibrate Q2 applied to the split measure, the gap
+  "no measure of a good split" named after EXP-20261024-01); (2) recall, confinement and boundary cost are measured apart, on real change history
+  instead of a constructed answer; (3) the completeness of the dependency graph is its own acceptance condition — ECO-114's A1/C1 check that the
+  declarations agree with each other, not that the built code has no undeclared cross-unit dependency.
+- Not carried: the ranking among methods. Read in `simulate.py:84-108`: the two-cone method and the every-node control share one prediction rule
+  (two steps outward) while the others use one step or a reverse slice, so the methods differ in their prediction rules more than in their
+  partitions; the predictor is given each scenario's change type (cross-cutting state or not), which is close to the answer; the answer, partitions
+  and rules were made by one author (labels not independent of the instrument).
+- Cross-cutting state (audit) was missed by both process order and information hiding — a concrete case for the open question on cross-cutting
+  concerns (an E item for the cross-cutting record, with who writes to it declared).
+
+**Feasibility measured before recording** (scratch counts, `git show` read-only, 2026-10-25):
+- ViewTube keeps a per-ECO impact record (`bomdd/process/change-impact/ECO-VT-*.yaml`, 205 files) listing predicted consumer paths with a disposition;
+  170 of them name paths outside `bomdd/`, `.agents/`, `.claude/`, `test-results/` and `docs/` (480 such consumers with disposition `change`; this
+  rough filter still counts tool and validator paths); 494 commits carry a `BomDD-ECO-Fix` trailer. Its M-BOM has 12 units with `artifact` paths.
+- ViewPrism2's register (147 ECOs) records `impacted_bom` as free text mixing E items, CP rows and spec sections, and names no M unit; its M-BOM has
+  44 units, 43 with `artifact`. A file-level prediction is not recorded there.
+- MoviePad-Remake: 10 units, each with `artifact` and `part_standard` (`provides` / `requires`), all in one C# project.
+
+- [open] EXP-20261025-01 — **On real change history, how do partitions differ in rebuild scope and boundary cost, and how good was the recorded
+  impact prediction?** The actual diff of an ECO is a set of files and does not depend on how the M-BOM groups files into units, so any grouping can
+  be laid over the same history: the product's own M-BOM, its folders, one unit per file and one unit for everything (the last two as the known-bad
+  arms the simulation lacked as calibrated controls). Per ECO and grouping: units touched by the fix diff; files inside touched units that the diff
+  did not change (confinement); boundaries of touched units (cost proxy). Separately, recall and over-inclusion of the ECO's own predicted consumers
+  against its fix diff (ViewTube only — ViewPrism2 records no file-level prediction). Fixed before results are read: the ECO set (ViewTube ECOs with
+  a change-impact record and a fix commit, product paths only), the path filter, the measures, and the reading: a grouping that wins on every
+  measure against both arms is evidence for it in this product only; if every grouping ties with the arms, the measures do not discriminate and no
+  partition rule is drawn from them. Limits declared now: one product's history, shaped by its actual code structure; cost coefficients are not
+  measured by this EXP (factory time and tokens per unit are a later EXP); the prediction is the ECO author's, not a partition rule's. No change to
+  the method or any product; read-only. Not started; start is the user's.
+  source: the user's module-partition simulation (2026-10-25); this session's evaluation, point (2)
+  origin: external(user の模擬実験)
+  evidence: method/improvements.md (this section)
+- [open] EXP-20261025-02 — **Does the built code have cross-unit dependencies the part standards do not declare?** On MoviePad-Remake delivery 1
+  (`f30d771`): map each source file to its M unit by `artifact`, find references from one unit's files to types declared in another unit's files,
+  and compare with each unit's `part_standard.requires` (and the M-BOM's `depends_on`). Calibrated before use: a known-bad copy with one reference
+  added across units that no `requires` names must be reported; a copy with one declared `requires` removed must be reported as declared-but-unused
+  only if that is a defect by ECO-114's rules (decided before results are read). Reading: zero undeclared references → ECO-114's declarations held on
+  this delivery (one product, one delivery); any → A1/C1's limit is measured, and whether a check belongs in the part standard is a separate
+  decision (no gate is added by this EXP). Limits: one C# project, so references are found by type names in source, not by project references;
+  reflection and string-based lookups are not seen. No change to the method or the product; read-only. Not started; start is the user's.
+  source: the user's module-partition simulation (2026-10-25); this session's evaluation, point (3)
+  origin: external(user の模擬実験)
+  evidence: method/improvements.md (this section); related: bomdd/60-change-order-eco-114.md (A1, C1, L1)
