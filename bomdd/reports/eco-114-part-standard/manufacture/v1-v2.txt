@@ -57,6 +57,38 @@
 [PASS] V1 A1 G3: 1 つの単位が両方の品目を実現する場合を除く
 [PASS] V1 A1 G3: 空でなければ、その `requires` が解決する単位の集合に等しい
 [PASS] V1 A1 G3: 提供側が §4.1 のとおり利用側とつながっている
+[PASS] V1 P1 部品規格: その単位では `interface_contract` に代わる
+[PASS] V1 P1 部品規格: `statement` は境界(シンボルとシグネチャ・スキーマ・イベント・ファイル形式・コマンドライン)と、そこでの結果・エラー・副作用
+[PASS] V1 P1 部品規格: `form` は作り方の決定(下の ③)で、約束は裁定の文のまま
+[PASS] V1 P2 P2: どの境界が外向きかは、E-BOM の版の確定とともに人が裁定する
+[PASS] V1 O1 O: 設計 AI が案を作り、人が E-BOM の版の確定とともに裁定する
+[PASS] V1 O1 O: FMEA の行は書いた対象の E 品目を `ebom_ref` に持ち、`unit` と `targeted_by` は手順 4・5 で埋める
+[PASS] V1 O1 O: 各単位の `acceptance_refs` と `mbom.assembly.acceptance_refs` をここで埋める
+[PASS] V1 O1 O: Control Plan は従来どおり製造の前に作る
+[PASS] V1 O2 O: と G3 の A1 を
+[PASS] V1 O2 O: 外向きの約束を足すか変えないと成り立たないなら §4.5 の P3(人へ戻す)
+[PASS] V1 O2 O: 導出の項目が測れないなら統括 AI がその項目を書き直す
+[PASS] V1 O3 G3: ドライランの前に、統括 AI が §4.5 の C1 と次の **A1 構造の解決**
+[PASS] V1 C1 部品規格: 測らない項目は挙げない
+[PASS] V1 C1 部品規格: 提供する単位の `acceptance_refs` にある行のどれかに挙げられる
+[PASS] V1 C1 部品規格: どの行も測れない項目は、`IF-` なら P3 で人へ戻し、導出の項目なら統括 AI が書き直す
+[PASS] V1 A1 G3: 節 2 はすべての `IF-` に
+[PASS] V1 A1 G3: 節 5・7 はすべての E-BOM の `interfaces.requires` に
+[PASS] V1 A1 G3: 5 は利用側の品目を実現する単位のどれかが `part_standard` を持つ場合だけ
+[PASS] V1 A1 G3: 規格を持たない単位と `interfaces` を持たない品目からは何も落ちない
+[PASS] V1 A1 G3: ただし要求する単位が `ebom_refs` を持たないか、その単位のE 品目のどれかがその `IF-` を提供・要求している場合だけ
+[PASS] V1 A1 G3: M-BOM の最上位の `procurement` の項目へ
+[PASS] V1 A1 G3: それ以外の `target` は落ちる
+[PASS] V1 A1 G3: `ebom_refs` に提供する品目を含み、その `ruled_ref` を持つ `provides` を持つ単位
+[PASS] V1 A1 G3: 2 つの単位が E 品目を共有するか、提供側が `ebom_refs` を持たない場合だけ
+[PASS] V1 A1 G3: 直接か `ebom_refs` を持たない別の単位を経て
+[PASS] V1 A1 G3: 遅延の規則は要求される項目を覆わない
+[PASS] V1 A2 部品規格: Phase 3 の手順 5 で統括 AI が選んで記録する
+[PASS] V1 A2 部品規格: どこに挙げられても 1 行
+[PASS] V1 A2 部品規格: 自動の部分は受け取る側
+[PASS] V1 A2 部品規格: 人の部分は Phase 5 に残る
+[PASS] V1 A2 部品規格: G3 の A1 はどれも置き換えない
+[PASS] V1 O3 prompt: ドライランの前に、統括 AI が playbook §4.6 G3 の **A1 構造の解決**(7 節)と §4.5 の C1 を確かめ直す
 [PASS] V1 O1 prompt: 手順 1〜3 = 設計者
 [PASS] V1 O1 prompt: 手順 4〜6 = 統括 AI
 [PASS] V1 O1 prompt: 固定オラクルと探索プローブ = 設計者側

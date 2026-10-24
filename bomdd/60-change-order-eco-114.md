@@ -197,6 +197,9 @@ the map lists as copies repeat it for their reader and must match the canonical 
   two or more units).
 - **L4 (scale).** Designed from two products' BOMs; rehearsed on four ViewPrism2 units (V2); the cost of writing standards for every unit is not measured,
   and units without a standard stay as they are until touched (M1).
+- **L6 (V1).** The English rule register and the Japanese method text cannot be compared mechanically; V1's checker watches a named list of clauses
+  (each with a removal that fails its rule), and the completeness of the text against §1 beyond that list is the independent inspection's reading
+  (user ruling "C" on inspection r2's IA-05, 2026-10-24).
 - **L5 (copies outside M1).** `interface_contract` is also named in `method/contracts/plm-ready-contract.md:76`, `method/product-schema-candidates.md:70`,
   `method/schemas/draft/id-grammar.draft.yaml:33` and `method/gap-analysis-v1.md:49`; they are not changed here and describe units without a standard.
 
@@ -221,7 +224,9 @@ required_gates: [V1, V2, inspection]
   naming the canonical place. The templates carry P1's fields (`part_standard`, `provides` with `form`, `requires` with `target`), `interfaces` with
   `IF-` IDs and their `refs` and `boundary`, `mbom.assembly` with `assembly_reason`, the FMEA row's `ebom_ref`, and `part_standard_refs`; the prompt carries O1's order and owners and O3; §9's table carries O4.
   "Says the same" is checked clause by clause: each rule's clauses (§1) are present in the canonical text, and each copy holds its canonical text's
-  clauses; removing one clause from the canonical text or from a copy fails V1 for that rule (r1's IA-03).
+  clauses; removing one clause from the canonical text or from a copy fails V1 for that rule (r1's IA-03). The clause list is named evidence, not a
+  derivation of §1: whether the method text says everything §1 says beyond the list is the independent inspection's reading (user ruling "C" on r2's
+  IA-05; L6).
 - **V2 — the standard and its checks on real units (rehearsal; evidence only, read-only on ViewPrism2).** Copies of ViewPrism2's E-BOM and M-BOM entries for
   `E-DOMAIN-001`, `E-EVAL-002` and `E-GRAPH-003` and the units `M-SLN-000`, `M-CORE-001`, `M-EVAL-002` and `M-GRAPH-003`, with their Control Plan rows,
   get part standards, `interfaces` and an `mbom.assembly` written to the new templates under the report folder (the domain types as an `IF-` of
@@ -334,6 +339,14 @@ acceptance text amended by this ruling).
 - **Not repaired yet.** Two ways, the second an acceptance change: extend the list to the clauses named (a later round may name more — a prose
   equivalence between the English order and the Japanese method text cannot be derived mechanically); or keep the list as named evidence and declare,
   as for C1's "measures" (2:A), that the completeness of the text against §1 is the inspection's reading. The user rules.
+
+## 8. Repair after inspection r2 (2026-10-24, user ruling "C")
+
+- **Ruling "C":** extend V1's clause list to the clauses r2 named, and declare that completeness beyond the list is the inspection's reading (V1's text
+  and L6 — an acceptance change by the ruling).
+- **What changed:** `check_v1_v2.py` gained 32 clauses (P1 3, P2 1, O1 4, O2 3, O3 2 — the canonical pre-G3 re-check and its copy in the prompt — C1 3,
+  A1 11, A2 5); V1 on the tree PASS; `--mutations` 96 of 96 caught (r2's in-memory probe, removing O3's pre-G3 re-check, is now among them); the filing
+  tree still fails. The order's V1 and L6. No method text changed.
 
 ## 収束 receipt (converge self-application)
 
