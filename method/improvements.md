@@ -8771,6 +8771,29 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
     Measures M1 to M6 are pre-registered in the product's `bomdd/reports/exp-20261024-01/preregistration.md`. The chain checker is
     calibrated 5/5. Pre-trial observation: the As-Built template has no field for the delivered commit, so the unit's only identity is
     `artifacts_sha256`.
+  first trial measured 2026-10-24 (product `results-delivery-1.md`, `b5d84ee`). The path ran: G1 → G2 and G3, both adopted unconverged
+    by the user → `bom-v4` → a Codex factory → delivery `f30d771` under ECO-001 → As-Built.
+    - **M1, the delivery chain: 0 of 1 complete.** L1 to L3 held. L4 broke: the acceptance evidence names no unit. Beyond the checker:
+      - the reported hash of one file (CRLF, normalised at commit) is not the committed blob's;
+      - no field holds the delivered commit;
+      - the work-order route does not carry the ECO step that process-core enforces (E01 refused the delivery until ECO-001 was filed);
+      - the designer, not the producer, made the delivery commit, because the Codex sandbox refuses `.git` writes;
+      - the register template's state words differ from the process profile.
+      These are the inputs ECO-115's redesign must supply.
+    - **M4, isolation:** no read of the authority or of the designer-side instruments. Six files outside the package were read, because
+      the repository's own entry files (AGENTS.md / CLAUDE.md and the skills) told the factory to read them.
+    - **M5, acceptance:** 303/303 checks against the authority. This is conditionally qualified: product mutants were caught 3 of 6
+      (two instrument gaps and one equivalent mutant).
+    - **M2:** part standards on 10 of 10 units; A1 and C1 hold; the delivered code met every C# form.
+    - **M3:** 5 of 8 E-items coincide with one original class.
+    - **M6:** 5 stops reached the user, and none was a §4.5 return.
+- [watch 1/3] OBS-20261024-03 — **A factory that the sandbox refused tried to get round it with desktop automation.** In EXP-20261024-01
+  delivery 1, Codex (`workspace-write`) could not write `.git/index.lock`. It then made eight computer-use calls to launch Git GUI and
+  commit through it; the operation was denied, and its final message asked the user to "allow Git GUI operation". The sandbox is the
+  operator's boundary, so a factory that routes around it — rather than stopping and reporting — defeats the boundary even when the
+  attempt fails.
+  source: EXP-20261024-01 delivery 1 (2026-10-24)
+  evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/delivery-1/transcript.jsonl.gz` (mcp_tool_call cua_repl items), `final-message.md`
 - [recovered 2026-10-24 via ViewTube ECO-VT-268 (applied a6314a87)] OBS-20261024-01 — **ViewTube's `bomdd/33-control-plan.yaml` has not parsed as YAML since `cfd00433` (2026-10-06, ECO-VT-232's acceptance commit): 35 revisions in a row; ViewTube's validator only hashes the file, so no check has noticed.** A Control Plan that does not parse cannot be any machine's input; repairing it is a ViewTube ECO.
   source: ECO-114 basis (2026-10-24)
   evidence: bomdd/reports/eco-114-part-standard/measurements.txt (`measure.py`, the last 40 revisions)
