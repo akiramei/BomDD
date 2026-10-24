@@ -1,0 +1,33 @@
+work order as issued 7824ba9a (line names 'bom-v4'); frozen bom-v4 = ca9319db; delivered f30d771e tree 05d09e70
+delivered copies equal the frozen revision: M-BOM True, Control Plan True
+== M0 the records as the current templates left them: input-defect (I3a)
+   - [control-plan-fix] check_mapping absent or outside I2
+   - [record-fix] the entry has no frozen_commit (40-hex), resolved at receipt
+   - [record-fix] the entry has no work_order_ref '<path>@<40-hex commit>'
+== M1 migration (each edit is a decision a distribution ECO would make, listed):
+   - Control Plan: check_mapping {line: row_key token2, PASS->passed, FAIL->failed, identity: a line 'MEASURED_ON <commit> <tree>'} (compare.py's output format; compare.py writes no such line today)
+   - As-Built: frozen_commit (bom-v4 resolved at receipt), refs as <path>@<40-hex>, delivered {commit, tree}
+   - As-Built: one decision record per counted row (13), all naming compare.txt
+== M1a the migrated copy, compare.txt as it is: holds
+   unmeasurable (test 1: the evidence does not name what it measured): 13
+   - M1b: compare.txt with a line 'MEASURED_ON <f30d771> <tree>' appended — ASSUMED, as compare.py would stamp its run
+== M1b the migrated copy, stamped (ASSUMED): holds
+   CP-ASSEMBLY-EXPORT-001: pass (test 5)
+   CP-BUILD-001: no-check (test 4) -> control-plan-fix
+   CP-DOCUMENT-001: pass (test 5)
+   CP-EDIT-001: pass (test 5)
+   CP-EXPORT-001: pass (test 5)
+   CP-EXPORT-CLOCK-001: pass (test 5)
+   CP-EXPORT-COPY-001: pass (test 5)
+   CP-EXPORT-VFR-001: pass (test 5)
+   CP-HISTORY-001: pass (test 5)
+   CP-MEDIA-TOOLS-001: pass (test 5)
+   CP-OUTPUT-SETTINGS-001: pass (test 5)
+   CP-PROBE-001: pass (test 5)
+   CP-SELF-ACCEPTANCE-001: no-check (test 4) -> control-plan-fix
+   not decided: {"human_part": [], "named_by_no_unit": ["CP-HARNESS-SELFTEST-001"]}
+== M2 known-bad freezes (each must be input-defect for its stated reason):
+   OK frozen_commit is the delivered commit: input-defect [["work-order-fix", "frozen_commit is the delivered commit; it must precede the work"], ["work-order-fix", "the frozen revision 'bom-v4' resolves to ca9319db, not the recorded frozen_commit"]]
+   OK the work order named at a commit after the delivery: input-defect [["work-order-fix", "the work order's commit is not an ancestor of the delivered commit"]]
+   OK frozen_commit recorded as bom-v3 while the line names bom-v4: input-defect [["work-order-fix", "the frozen revision 'bom-v4' resolves to ca9319db, not the recorded frozen_commit"]]
+   OK a FAIL line for one row in the evidence: holds {"CP-BUILD-001": {"category": "no-check", "test": "4", "route": "control-plan-fix", "result": "not-run"}, "CP-EDIT-001": {"category": "violation", "test": "2", "route": "product-fix", "result": "fail"}, "CP-SELF-ACCEPTAN

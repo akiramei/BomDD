@@ -4,6 +4,9 @@
 > lifted only by a new delivery), and the design stays **unconverged** and on hold. It is to be tried on real per-delivery records in a re-manufacture of
 > MoviePad by the full BomDD procedure (the user's AGREE, same day), and redesigned from that result. Nothing in this draft is in the method; it has no
 > register entry, and the ECO number is reserved for it.
+>
+> **Redesign (user "2:A", 2026-10-24, after EXP-20261024-01's first trial):** the rules below are edited in place from MoviePad-Remake delivery 1's
+> real records (B5); what changed and why is loop 4 of the receipt. Still not filed: filing waits for the user's ruling on loop 4.
 
 > Ruling: user, 2026-10-24, "A" (split) after [ECO-114](../../60-change-order-eco-114.md)'s first design loop ended unconverged at its limit (26→8→8;
 > material 20→3→4). Every material finding of rounds 2 and 3 was in the advance decision, and each was a case where the decision read a Control Plan
@@ -59,6 +62,14 @@ revision that parses.
   - ViewTube (41 rows at `fc35bf1d`): `approver` `automated` 22, `user` 8, none 2, and 9 distinct prose values (four name an independent reviewer or
     inspector); `on_fail` 0; `when` 0. 28 rows are named by some unit, of which 9 fall outside I2 (`approver`); 13 named by no unit.
   - ViewTube's control plan at HEAD does not parse as YAML; it stopped at `cfd00433` (ECO-114 report `measurements.txt`).
+    (Repaired since by ViewTube ECO-VT-268, applied `a6314a87`; this order's counts stay at `fc35bf1d`.)
+- **B5 — the first per-delivery records (MoviePad-Remake, EXP-20261024-01 delivery 1; `rehearsal-moviepad.txt`).** The work order issued at `7824ba9`
+  names the frozen revision as the tag `` `bom-v4` `` (written as Markdown code; the template says neither tag nor commit); `bom-v4` is `ca9319d`; the
+  delivery is `f30d771`, whose M-BOM and Control Plan are byte-equal to `bom-v4`'s. The As-Built entry (`50-as-built.yaml` at `e1d71b3`) has
+  `work_order_ref` as `<path>@7824ba9` (short), `mbom_ref` and `control_plan_ref` at the tag, no field holding the delivered commit, and one
+  `test_evidence_refs` entry naming `compare.txt`; **`compare.txt` does not name the commit or tree it measured** (the trial's M1 link L4). 13 rows
+  are counted; `CP-BUILD-001` and `CP-SELF-ACCEPTANCE-001` have no check in `compare.txt` (measured only by the factory's self-acceptance — the
+  product's As-Built note said otherwise and was corrected, `5540a38`); `CP-HARNESS-SELFTEST-001` is named by no unit.
 
 ## 1. Change request — the rule register
 
@@ -70,17 +81,20 @@ naming that item, and §4.4:170-171's sentence on `on_fail` refers to it instead
 - **I0 (place).** The decision sits between Phase 4 and Phase 5: at receipt of a delivery, before the designer side runs the fixed oracle and golden.
   It decides whether the delivered individual **enters Phase 5**. It decides the automated part of the Control Plan only; human judgement (golden, the
   human part of a row, the acceptance) stays in Phase 5, where its records are written (D4). §1's flow and §6.1 gain one line each naming it (M1).
-- **I1 (exactly these inputs).** The decision reads the M-BOM and the Control Plan **at the revision frozen for the work**: the commit named by the
+- **I1 (exactly these inputs).** The decision reads the M-BOM and the Control Plan **at the revision frozen for the work**: the revision named by the
   work order's one line `- 対象 BOM tag/commit: <revision>` (`40-work-order.md:5`), which the orchestrating AI writes before manufacture (Phase 3 step
-  6). The work order is read **as issued** — at the commit the As-Built entry's `work_order_ref` names (`50-as-built.yaml:11`), never from the delivered
-  tree, which carries its own copy — and the M-BOM and the Control Plan at the frozen commit, at the paths of the entry's `mbom_ref` and
-  `control_plan_ref`; the delivery's copies are compared, not read (I3a). That line is the only part of the work order the decision reads. It then reads:
+  6) as a tag or a commit. At receipt the receiving side resolves it to a commit and records that as the As-Built entry's `frozen_commit`; the decision
+  reads the BOM at `frozen_commit` (a tag can move later; the commit it named at receipt cannot — B5's `bom-v4`). The work order is read **as issued** —
+  at the commit the entry's `work_order_ref` names (`50-as-built.yaml:11`), never from the delivered tree, which carries its own copy — and the M-BOM
+  and the Control Plan at `frozen_commit`, at the paths of the entry's `mbom_ref` and `control_plan_ref`; the delivery's copies are compared, not read
+  (I3a). That line is the only part of the work order the decision reads. It then reads:
   1. the M-BOM: every unit's `acceptance_refs`, and `mbom.assembly.acceptance_refs` with `assembly_reason` (ECO-114 A2);
   2. the Control Plan: its header `check_mapping`, and for each row named in 1: `id`, `status`, `approver`, `on_fail`;
-  3. the As-Built entry the receiving side creates at receipt for this delivery: its `work_order_ref`, `mbom_ref` and `control_plan_ref`
-     (`50-as-built.yaml:11, :12, :14`), its
-     `delivered` identity, its decision records (`test_evidence_refs` entries with `source: decision`, I4), and the evidence files they name;
-  4. the delivery's copies of the M-BOM and the Control Plan at the frozen revision's paths.
+  3. the As-Built entry the receiving side creates at receipt for this delivery: its `frozen_commit`, `work_order_ref`, `mbom_ref` and
+     `control_plan_ref` (`50-as-built.yaml:11, :12, :14`), its `delivered` identity, its decision records (`test_evidence_refs` entries with
+     `source: decision`, I4), and the evidence files they name — including the measured unit each evidence file names (`check_mapping`'s `identity`);
+  4. the delivery's copies of the M-BOM and the Control Plan at the frozen revision's paths;
+  5. git: the commits above and their ancestry, in the repository that holds the delivery (D requires git — L8).
   Nothing else enters: not the rest of the work order, the factory's report or self-acceptance, not `when`, `depth`, `verifies`, `characteristic`, `oracle`,
   `evidence_output_ref`, the work order's or Routing's copies of `acceptance_refs`. Every named row is counted at every delivery (ECO-088's
   re-measurement); `when` keeps its meaning for other occasions and is not read here.
@@ -89,22 +103,28 @@ naming that item, and §4.4:170-171's sentence on `on_fail` refers to it instead
   - `on_fail`: absent, or a map whose keys are among `red`, `unmeasurable` and whose values are among `product-fix`, `instrument-recovery`,
     `control-plan-fix`.
   - `status`: absent or `retired`.
-  - `check_mapping`: a map from an evidence format name to `{row_key, outcomes}` — `row_key` names how a check names its row (ViewPrism2's xUnit: the
-    trait `cp`), `outcomes` maps each of the format's outcome terms to one of `passed`, `failed`, `skipped`, `not-run`.
-  - `delivered`: `{commit, tree}`, or `{content_sha256}` (a hash of the delivered files) where git is not used.
-  - the frozen revision: a 40-hex commit ID (a tag can move after the freeze); `work_order_ref`, `mbom_ref`, `control_plan_ref`: `<path>@<40-hex commit>`.
-- **I3a (input check before running anything).** The entry's `work_order_ref` is within I2 and names a commit other than the delivered one; the work
-  order read there has exactly one frozen-revision line, whose value is a commit ID; the entry's `mbom_ref` and `control_plan_ref` name that commit; the M-BOM and the Control Plan at it parse; the delivery's copies of both are byte-equal to them, and a delivery
-  without a copy at that path differs (a factory does not change its own acceptance — B2; both products keep their BOM in the delivered repository);
+  - `check_mapping`: a map from an evidence format name to `{row_key, outcomes, identity}` — `row_key` names how a check names its row (ViewPrism2's
+    xUnit: the trait `cp`; MoviePad-Remake's comparator lines: the second token), `outcomes` maps each of the format's outcome terms to one of
+    `passed`, `failed`, `skipped`, `not-run`, and `identity` is a regular expression with the named groups `commit` and `tree` that finds, in an
+    evidence file of that format, the unit the instrument measured (for example a line `MEASURED_ON <commit> <tree>` the instrument writes as it runs).
+  - `delivered`: `{commit, tree}`, both 40-hex.
+  - the frozen-revision line: a tag or a commit ID, written plainly or as Markdown code (the backticks are not part of it); `frozen_commit`: a
+    40-hex commit ID; `work_order_ref`, `mbom_ref`, `control_plan_ref`: `<path>@<40-hex commit>`.
+- **I3a (input check before running anything).** The entry's `work_order_ref` is within I2 and names a commit other than the delivered one; the entry
+  has `frozen_commit`; the work order read at `work_order_ref` has exactly one frozen-revision line, and its value resolves to `frozen_commit`; the
+  entry's `mbom_ref` and `control_plan_ref` name `frozen_commit`; `frozen_commit` is not the delivered commit, and it and the work order's commit are
+  both ancestors of the delivered commit; the M-BOM and the Control Plan at `frozen_commit` parse; the delivery's copies of both are byte-equal to
+  them, and a delivery without a copy at that path differs (a factory does not change its own acceptance — B2; all three products keep their BOM in
+  the delivered repository);
   unit IDs and row IDs are unique; every unit has a non-empty `acceptance_refs`;
   `mbom.assembly.acceptance_refs` is present (empty only with `assembly_reason`); at least one row is named; every named row exists and is not `retired`;
   every value of I1 1-2 is within I2. Any failure makes the decision `input-defect`, listing each failure with its route (D2); nothing is run.
 - **I3b (input check after the records).** `delivered` is present and within I2; every counted row (D0) has exactly one decision record, and no decision
-  record names a row that is not counted; every decision record has `cp_ref`, `evidence_path`, `evidence_sha256`, `format`, `measured_on` and
-  `observed_at`, with a `format` that `check_mapping` names. Any failure makes the decision `input-defect`, listing each failure; no row category is
+  record names a row that is not counted; every decision record has `cp_ref`, `evidence_path`, `evidence_sha256`, `format` and `observed_at`, with a
+  `format` that `check_mapping` names. Any failure makes the decision `input-defect`, listing each failure; no row category is
   computed.
 - **I4 (records).** The decision's records are the As-Built entry's `test_evidence_refs` entries with `source: decision`, one per counted row, with I3b's
-  fields (`measured_on`: the `delivered` identity the instrument ran on) and, written after D2, `result` (D4). Several rows may name the same evidence
+  fields and, written after D2, `result` (D4). The unit an instrument ran on is read from its evidence (`identity`), not written into the record. Several rows may name the same evidence
   file. An instrument that produced no evidence still gets its record, naming the file it should have written, with `evidence_sha256: none` (D1 test 1
   then routes to instrument-recovery). Phase 5 adds its own entries (`source: phase5`) for the human parts. Each delivery has its own As-Built entry and
   is decided once (D3).
@@ -117,8 +137,9 @@ naming that item, and §4.4:170-171's sentence on `on_fail` refers to it instead
   counted row its category and the D1 test that decided it, and the rows not decided — human-only rows, the human part of mixed rows, and rows named by no
   unit and not in `assembly`.
 - **D1 (row category; the first that holds).**
-  1. `unmeasurable` (evidence) — the row's evidence file cannot be read, its sha256 differs from the record, its `measured_on` is not `delivered`, it holds
-     no check at all, or it holds a check whose outcome term is not in `check_mapping`'s outcomes for its format;
+  1. `unmeasurable` (evidence) — the row's evidence file cannot be read, it holds no check at all, it holds a check whose outcome term is not in
+     `check_mapping`'s outcomes for its format, its sha256 differs from the record, or its format's `identity` finds in it no measured unit, more
+     than one, or one other than `delivered`;
   2. `violation` — the evidence holds at least one check for the row (by `row_key`) whose outcome maps to `failed`;
   3. `unmeasurable` (skipped) — the evidence holds checks for the row and all map to `skipped` or `not-run`;
   4. `no-check` — the evidence holds no check for the row;
@@ -146,11 +167,12 @@ naming that item, and §4.4:170-171's sentence on `on_fail` refers to it instead
 ### M — manufacture
 
 - **M1 (scope).** Text and templates only: `method/bomdd-playbook-v1.md` §1 (one line), §4.4 (new item "前進の判定"; `:170-171` refers to it), §6.1 (one
-  line), `method/templates/33-control-plan.yaml` (I2's values on `approver`, `on_fail`, `status`; header `check_mapping`; the `when` comment `:30`
-  rewritten to say that `when` names further occasions on which a row is measured and does not take a named row out of the advance decision),
-  `50-as-built.yaml` (`delivered`, `source`, `format`, `advance_decision`, I4's record fields, D4's derivation, and comments
-  on `work_order_ref`, `mbom_ref`, `control_plan_ref` giving I2's form), `40-work-order.md` (a comment on the frozen-revision line: a commit ID, read by the
-  decision as issued; no new field), `method/improvements.md`. No tool
+  line), `method/templates/33-control-plan.yaml` (I2's values on `approver`, `on_fail`, `status`; header `check_mapping` with `identity`; the `when`
+  comment `:30` rewritten to say that `when` names further occasions on which a row is measured and does not take a named row out of the advance
+  decision), `50-as-built.yaml` (`frozen_commit`, `delivered`, `source`, `format`, `advance_decision`, I4's record fields,
+  D4's derivation, and comments on `work_order_ref`, `mbom_ref`, `control_plan_ref` giving I2's form), `40-work-order.md` (a comment on the
+  frozen-revision line: a tag or a commit, resolved at receipt into the As-Built's `frozen_commit`, read by the decision as issued; no new field),
+  `method/improvements.md`. No tool
   under `method/tools/`; R-050 and ECO-088's rule are unchanged (D4 keeps their vocabulary). Distribution to the products is a separate ECO; there,
   existing Control Plans and M-BOMs must be brought within I2/I3a before D runs (not lazy). The rehearsal scripts are evidence under
   `bomdd/reports/eco-115-*/`; the method does not ship them.
@@ -163,12 +185,14 @@ naming that item, and §4.4:170-171's sentence on `on_fail` refers to it instead
 - **L2 (D2, coverage).** D counts rows, not ruled IDs: a ruled ID (REQ / INV) with no counted row can sit under an advancing individual. Coverage stays with
   the per-ID table (§4.4:170-176) and the spec §3 rule that each INV names its row or a reason (ECO-086). Rows named by no unit and not in `assembly` are
   listed and not decided (ViewPrism2 15, ViewTube 13).
-- **L3 (I4, D0, who writes).** `measured_on` and `evidence_sha256` are written by the one who ran the instrument, at the same time as the evidence; the
-  sha256 check catches later edits only, and nothing in an instrument's output proves `measured_on` (B3: ViewPrism2's stored results name no commit and
-  predate it). D is applied by the receiving AI without a tool until a product ships one; only the rehearsal checks the rules can be applied as written.
-  The frozen-revision line is written by the orchestrating AI before manufacture and `work_order_ref` by the receiving side; D reads the work order at that
-  commit and checks it is not the delivered one, but not that it precedes the factory's work (visible in git history, not checked by D) — a receiving side
-  that names a later commit is outside what D can see.
+- **L3 (I4, D0, D1, who writes).** The measured unit is now read from the evidence (`identity`) rather than from a field the receiving side writes, so
+  an evidence file that names no unit or another one is caught (B3, B5: neither ViewPrism2's stored results nor MoviePad-Remake's `compare.txt` names
+  one — both hold today). What remains: the stamp is written by the instrument itself, and nothing proves it ran on the tree it names; `evidence_sha256`
+  catches later edits only. D is applied by the receiving AI without a tool until a product ships one; only the rehearsal checks the rules can be
+  applied as written. On the freeze, D now proves that `frozen_commit` and the work order's issue commit are in the delivered commit's history and are
+  not the delivered commit, and that the delivery carries that revision's M-BOM and Control Plan byte for byte. It does not prove that the work order
+  was issued before the factory started, nor that the factory read nothing else: a factory's own earlier commits on the same line of history are
+  also ancestors (in MoviePad-Remake the designer committed the factory's work in one commit, so the question did not arise).
 - **L4 (I0, human part).** Rows or row parts with a human approver are not decided by D; an individual can enter Phase 5 with them open, and they are decided
   there. The template rule that a depth-G row has a human approver (`33-control-plan.yaml:41, :109`) is not checked by D (`depth` is not an input).
 - **L5 (I2, I3a, migration).** Today 18 of ViewPrism2's 50 named rows and 9 of ViewTube's 28 fall outside I2, 6 ViewPrism2 units have no `acceptance_refs`,
@@ -180,11 +204,21 @@ naming that item, and §4.4:170-171's sentence on `on_fail` refers to it instead
   `approver` values under I2; at migration they belong to independent inspection. The freeze inputs are missing too (`freeze-inputs.txt`): neither
   product's work order has the frozen-revision line, ViewPrism2's As-Built has no `work_order_ref`, `mbom_ref` or `control_plan_ref` (ViewTube's has some),
   and both deliver through ECOs that do not issue a work order per delivery — distribution must say where the issued work order of an ECO delivery is.
-  The rehearsal's real-data runs construct them (the frozen revision `504921a`, the work order as issued at its parent).
+  The rehearsal's real-data runs construct them (the frozen revision `b63897a`, the work order as issued at its parent `f697a82`, the delivery
+  `504921a`; v1 froze `504921a` itself, which v2's I3a refuses). MoviePad-Remake, made by the current templates, gives `input-defect` with 3 defects
+  (no `check_mapping`, no `frozen_commit`, a short `work_order_ref`), and every evidence file of all three products names no measured unit, so the
+  first delivery after migration holds on every counted row until the instruments stamp their runs (B5, `rehearsal-moviepad.txt` M0, M1a).
+  For MoviePad-Remake's two `no-check` rows, control-plan-fix means a product decision at migration: the receiving side's instrument also builds and
+  runs the tests and writes checks for those rows, or the rows lose their automated part (they are the factory's self-acceptance, which B2 says is not
+  a pass).
 - **L6 (D3, a hold; the user's ruling "2:A").** D gives a held individual no way into Phase 5 other than a new delivery, even when the route changed nothing
   the factory made (a record-fix of the receiving side's own typo costs a redelivery — the ruling's accepted cost). A product that accepts known defects today (ViewPrism2
   ECO-147) must decide at distribution how that acceptance meets D's hold; until then, D's hold and the known-defect acceptance are two separate facts.
-- **L7 (scale).** Designed from two products' Control Plans; rehearsed on ViewPrism2's real BOM and stored results and on synthetic inputs (V2).
+- **L7 (scale).** Designed from two products' Control Plans; rehearsed on ViewPrism2's real BOM and stored results, on MoviePad-Remake's first
+  per-delivery records (one delivery), and on synthetic inputs (V2).
+- **L8 (I1, I2, git).** D requires git: `delivered` is `{commit, tree}` and the freeze is checked by commit and ancestry. The non-git form
+  (`{content_sha256}`) is removed — it could never pass a commit-only freeze (L3E2-4). A product that does not deliver through git has no advance
+  decision until a form for it is designed.
 
 ### Not changed
 
@@ -202,28 +236,37 @@ Changed: the files in M1, this order, the register and `bomdd/reports/eco-115-*/
 
 - **V1 — the text.** Playbook §4.4 "前進の判定" states I0-I4 and D0-D4 once; §1 and §6.1 carry one line each naming it; `:170-171` refers to it; each
   template field of M1 carries a comment naming it; I2's values appear in the template comments exactly as in I2.
-- **V2 — the decision reads only its inputs (rehearsal; evidence only, read-only on ViewPrism2).** The rehearsal script under the report folder applies
-  I3a, I3b, D1, D2 and D4 and prints, for each row, the category and the deciding test; the design evidence of loop 2 (`rehearse_decision.py`,
-  `run_rehearsal.py`, `rehearsal-real.txt`) is its first run, and V2 re-runs it on the manufactured templates' field names.
-  - Real data as it is: ViewPrism2's M-BOM and Control Plan at `504921a` give `input-defect` (I3a), listing each row and unit outside I2/I3a.
-  - Real data migrated: a copy with the edits listed in the output. On the stored results with `measured_on` as the data show it (not `504921a`), every
-    counted row is `unmeasurable` by test 1 and the individual holds. On ViewPrism2's tests run on a clean copy of its HEAD made outside that repository
-    (so `measured_on` is known because the rehearsal ran it), the outcome is predicted from the stored results: `holds`, with `CP-STARTUP-028` and the two
-    rows whose absent `approver` was migrated to `automated` as `no-check`, and the other counted rows `pass` by test 5. Run twice, byte-identical.
+- **V2 — the decision reads only its inputs (rehearsal; evidence only, read-only on ViewPrism2 and MoviePad-Remake).** The rehearsal script under the report folder applies
+  I3a, I3b, D1, D2 and D4 and prints, for each row, the category and the deciding test; the design evidence of loop 4 (`rehearse_decision_v2.py`,
+  `run_rehearsal_v2.py`, `rehearsal-v2.txt`, `run_moviepad.py`, `rehearsal-moviepad.txt`) is its latest run (loops 2-3: the v1 files), and V2 re-runs it
+  on the manufactured templates' field names.
+  - Real data as it is: ViewPrism2's M-BOM and Control Plan at `504921a` give `input-defect` (I3a), listing each row and unit outside I2/I3a;
+    MoviePad-Remake's delivery 1 records give `input-defect` with their 3 defects (B5).
+  - Real data migrated: a copy with the edits listed in the output. On the stored results as they are, which name no measured unit, every counted row
+    is `unmeasurable` by test 1 and the individual holds (ViewPrism2 38 rows; MoviePad-Remake 13 rows). On ViewPrism2's tests run on a clean copy of
+    its HEAD made outside that repository, stamped by the run, the outcome is predicted from the stored results: `holds`, with `CP-STARTUP-028` and the
+    two rows whose absent `approver` was migrated to `automated` as `no-check`, and the other counted rows `pass` by test 5. On MoviePad-Remake's
+    comparator re-run on `f30d771` with its stamp, the outcome is predicted from `compare.txt` (`rehearsal-moviepad.txt` M1b, the stamp ASSUMED):
+    `holds`, with `CP-BUILD-001` and `CP-SELF-ACCEPTANCE-001` `no-check` and the other 11 counted rows `pass`; `CP-HARNESS-SELFTEST-001` is listed as
+    named by no unit (L2). Each run twice, byte-identical.
+  - Known-bad freezes on MoviePad-Remake's real records (`rehearsal-moviepad.txt` M2), each `input-defect` for its own reason: `frozen_commit` set to
+    the delivered commit; the work order named at a commit after the delivery (not an ancestor); `frozen_commit` recorded as `bom-v3` while the line
+    names `bom-v4`; and a `FAIL` line for one row gives that row `violation`.
   - Known-bad inputs on a synthetic M-BOM, Control Plan and evidence, each changing only that input (every evidence edit recomputes the record's sha256
     unless the case is the sha256), each giving its own outcome and naming its deciding test:
     - I3a: the Control Plan unparsable; the M-BOM unparsable; the delivery's Control Plan differing from the frozen revision, its M-BOM differing, and
-      a delivery without its Control Plan; the work order without a frozen-revision line, with two, and with a tag; the entry's `mbom_ref` and its
-      `control_plan_ref` each naming another revision; no `work_order_ref`; a `work_order_ref` naming the delivered commit; a duplicate unit ID; a
+      a delivery without its Control Plan; the work order without a frozen-revision line, with two, and with a tag that cannot be resolved; the
+      entry's `mbom_ref` and its `control_plan_ref` each naming another revision; no `work_order_ref`; a `work_order_ref` naming the delivered
+      commit; no `frozen_commit`; a frozen revision that is the delivered commit, with the line and both refs agreeing; a duplicate unit ID; a
       duplicate row ID; a unit with empty `acceptance_refs`; `assembly` absent; `assembly` empty without `assembly_reason`; no row named (the units and the
       assembly list emptied together — the one way to name no row); a named row missing; a named row retired; an `approver` of `maintainer` and one
       absent; an
       `on_fail` with the key `dependency-update` and one with the value `human-approval`; a `status` of `draft`; `check_mapping` absent; an `outcomes`
-      value outside the four.
+      value outside the four; a format without `identity`; an `identity` without the group `tree`.
     - I3b: no `delivered`; a malformed `delivered`; a counted row with no decision record; two decision records for one row; a record without
       `evidence_sha256`; a record whose `format` `check_mapping` does not name; a decision record for a row that is not counted.
-    - D1: an unreadable evidence file; no evidence file (`evidence_sha256: none`); a changed sha256; another `measured_on`; an evidence file with no
-      checks; a check with an unmapped outcome term; a failed check (test 2); all checks of a row skipped (test 3); no check for a row (test 4).
+    - D1: an unreadable evidence file; no evidence file (`evidence_sha256: none`); a changed sha256; evidence naming another measured unit, none, and
+      two; an evidence file with no checks; a check with an unmapped outcome term; a failed check (test 2); all checks of a row skipped (test 3); no check for a row (test 4).
     - D0/D2: a `human:<role>` row is listed, not decided, and the individual advances; an `automated+human:<role>` row is decided by its automated part;
       an `assembly` row with a failed check holds; every named row `human:<role>` advances with all listed; a row named by two units with one failed check
       is one `violation`; a `source: phase5` record is not read.
@@ -348,3 +391,26 @@ Changed: the files in M1, this order, the register and `bomdd/reports/eco-115-*/
   half of L3E2-3. Not repaired, left for the redesign: the check that the frozen commit is not the delivered one (L3E2-3), the non-git `delivered` form
   (L3E2-4). 3:A — the design is held unconverged and kept as this record; its trial is the MoviePad re-manufacture, whose real per-delivery records
   (issued work orders, frozen revisions, As-Built references) neither product has today (`freeze-inputs.txt`).
+
+### Loop 4 (redesign; user "2:A", 2026-10-24, after EXP-20261024-01's first trial; rounds counted afresh; limit 3 rounds)
+
+- **起動経路**: user ruling "2:A" (redesign ECO-115 from the trial), 2026-10-24.
+- **DoD:** unchanged (D2, D2a, D2b, D5-D8).
+- **Common cause removed first — real per-delivery records at the freeze boundary.** Every loop since the split found its material defects where D
+  proves the BOM it reads was not the factory's own, and no product had the records that boundary needs. MoviePad-Remake delivery 1 is the first set
+  (B5); the v2 rehearsal (`rehearse_decision_v2.py`) runs on it read-only (`run_moviepad.py`, `rehearsal-moviepad.txt`) before any round:
+  - X1: the records as the current templates left them are `input-defect` with 3 defects — the decision's inputs are not written by today's templates.
+  - X2: the work order names a tag in Markdown code; v1 required a 40-hex commit and could not read it. The line may name a tag; the receiving side
+    records the commit it resolved to (`frozen_commit`), and I3a checks the line still resolves to it (I1, I2, I3a).
+  - X3: `compare.txt` names no measured unit (the trial's L4 break); v1 trusted a `measured_on` the receiving side writes. Each format declares an
+    `identity` and D1 test 1 reads the unit from the evidence (I2, I4, D1, L3). The cost, measured: all three products' evidence names none today, so
+    every counted row holds until instruments stamp their runs (L5).
+  - X4: L3E2-3 (a frozen commit equal to the delivered one) is checked without git, and the ancestry of `frozen_commit` and the issue commit with git
+    (I3a); v1's own real-data construction was such a case and is rebuilt at `504921a`'s parent (L5; the BOM blobs are equal at both commits).
+  - X5: L3E2-4 (the non-git `delivered` form) is removed and D declared git-only (L8).
+  - X6: the redesigned decision on the real records holds on exactly `CP-BUILD-001` and `CP-SELF-ACCEPTANCE-001` (`no-check`), which the product's
+    As-Built said were judged by the comparator — a false record found by running D, corrected in the product (`5540a38`, `0066d2b`).
+  - Not in this ECO (R3; recorded separately): the work order's route lacks the ECO step the product's change management requires; a sandboxed factory
+    cannot commit; the register template's state words differ from the process profile; the As-Built's hash should be of the committed blob.
+  - Rehearsal: 63 synthetic cases and inputs outside I1 all as expected (`rehearsal-v2.txt`); the real data of both products, each run twice,
+    byte-identical.
