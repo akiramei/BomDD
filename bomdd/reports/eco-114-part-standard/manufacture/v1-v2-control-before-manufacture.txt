@@ -1,23 +1,76 @@
-[FAIL] V1 canonical place for P2 appears once in the playbook — '**外向きの約束(candidate・ECO-114)**' x0
-[FAIL] V1 canonical place for P1 P3 P4 C1 A2 appears once in the playbook — '**部品規格(candidate・ECO-114)**' x0
-[FAIL] V1 canonical place for O1 O2 O4 appears once in the playbook — '**Phase 3 の順序と担当(candidate・ECO-114)**' x0
-[FAIL] V1 canonical place for O3 A1 appears once in the playbook — '**A1 構造の解決**' x0
-[FAIL] V1 §4.5 部品規格 states **P1 形**
-[FAIL] V1 §4.5 部品規格 states **P3 約束を足す・変える**
-[FAIL] V1 §4.5 部品規格 states **P4 導出に残るもの**
-[FAIL] V1 §4.5 部品規格 states **C1 行が規格を検査する**
-[FAIL] V1 §4.5 部品規格 states **A2 単位をまとめて測る行**
-[FAIL] V1 G3 states A1's seven clauses
-[FAIL] V1 G3's question gains the unit-alone question
-[FAIL] V1 §9 roles table carries O4's split
-[FAIL] V1 §4.5 M-BOM line names part_standard
-[FAIL] V1 the prompt's step order equals §4.6's (copy) — playbook [] / prompt [('1', 'E-BOM'), ('2', 'FMEA'), ('3', 'K-BOM'), ('5', 'M-BOM')]
-[FAIL] V1 the prompt names the owners (設計者 1-3, 統括 AI 4-6) and points at §4.6
-[FAIL] V1 the prompt's G3 runs A1 and C1 first and asks the unit-alone question
-[FAIL] V1 32's four-class comment carries P4's extension (copy)
-[FAIL] V1 method/templates/30-ebom.yaml carries the fields and the place comments — missing ['interfaces:', 'IF-<NAME>-01', 'boundary:', 'playbook §4.1「外向きの約束」']
-[FAIL] V1 method/templates/32-mbom.yaml carries the fields and the place comments — missing ['part_standard:', 'provides:', 'requires:', 'ruled_ref:', 'form:', 'target:', 'playbook §4.5「部品規格」', 'assembly:', 'assembly_reason:', 'ebom_ref:', 'playbook §4.6']
-[FAIL] V1 method/templates/33-control-plan.yaml carries the fields and the place comments — missing ['part_standard_refs:', 'playbook §4.5「部品規格」C1']
+[FAIL] V1 P2 canonical heading '**外向きの約束(candidate・ECO-114)**' once
+[FAIL] V1 部品規格 canonical heading '**部品規格(candidate・ECO-114)**' once
+[FAIL] V1 O canonical heading '**Phase 3 の順序と担当(candidate・ECO-114)**' once
+[PASS] V1 G3 canonical heading '**ゲート G3' once
+[FAIL] V1 P2 P2: 別の E 品目、または製品の外の利用者が当てにするもの
+[FAIL] V1 P2 P2: E 品目の境界だけで決まり、製造単位の分け方では決まらない
+[FAIL] V1 P2 P2: `interfaces.provides` に置く `IF-<ITEM>-NN`
+[FAIL] V1 P2 P2: `refs`(境界やその振る舞いを述べる仕様 §2 / §3 の ID
+[FAIL] V1 P2 P2: `boundary`(それらの ID が述べていないことだけ
+[FAIL] V1 P2 P2: 参照した ID が述べていることを言い直さない
+[FAIL] V1 P2 P2: `interfaces.requires` にその `IF-` を挙げ
+[FAIL] V1 P2 P2: `graph_edges.consumers` が利用側を挙げる
+[FAIL] V1 P2 P2: `IF-` として繰り返さない
+[FAIL] V1 P2 P2: どの製造単位も実現しない E 品目
+[FAIL] V1 P2 P2: 導出層は `IF-` を足さない・落とさない・言い換えない
+[FAIL] V1 P1 部品規格: `provides` と `requires` の 2 つの一覧
+[FAIL] V1 P1 部品規格: `provides` は `PS-<UNIT>-Pnn`
+[FAIL] V1 P1 部品規格: `requires` は `PS-<UNIT>-Rnn`
+[FAIL] V1 P1 部品規格: `api` | `data` | `event` | `file` | `process`
+[FAIL] V1 P1 部品規格: `ruled_ref: IF-…`
+[FAIL] V1 P1 部品規格: `form`(裁定が抽象的にしか述べていないとき
+[FAIL] V1 P1 部品規格: `requires` の項目は `id` と `target` を持つ
+[FAIL] V1 P1 部品規格: `procurement:<package>`・`platform:<name>`
+[FAIL] V1 P1 部品規格: `display_contract.refs` に残し
+[FAIL] V1 P1 部品規格: 単位をまたいで共通の書き方
+[FAIL] V1 P3 部品規格: それは上の「人へ戻す 3 種」の「新しい約束」で、人へ戻す
+[FAIL] V1 P3 部品規格: 約束を変えない
+[FAIL] V1 P4 部品規格: `statement` 付きの `provides` として書く
+[FAIL] V1 P4 部品規格: `IF-` を実現しない
+[FAIL] V1 P4 部品規格: E 品目の間の境界を中継しない
+[FAIL] V1 P4 部品規格: P4 の拡張: これは上の 4 分類を部品規格に広げたもの
+[FAIL] V1 C1 部品規格: `part_standard_refs` に挙げ
+[FAIL] V1 C1 部品規格: 免除はない
+[FAIL] V1 C1 部品規格: その行の `known_limits` に項目の ID を付けて書く
+[FAIL] V1 C1 部品規格: 実在する `provides` の項目を指す
+[FAIL] V1 C1 部品規格: 行がその項目を**測っているか**は意味の判断
+[FAIL] V1 A2 部品規格: `mbom.assembly.acceptance_refs` に、複数の単位をまとめて測る Control Plan の行を挙げる
+[FAIL] V1 A2 部品規格: 空にするなら `assembly_reason` を書く
+[FAIL] V1 A2 部品規格: 固定オラクル(41)は Control Plan の行ではなく
+[FAIL] V1 O1 O: 1. E-BOM — 部品分けと外向きの約束
+[FAIL] V1 O1 O: 4. M-BOM — 製造単位とその部品規格
+[FAIL] V1 O1 O: 5. Control Plan — 統括 AI
+[FAIL] V1 O1 O: 6. Routing と作業指示書 — 統括 AI
+[FAIL] V1 O1 O: 固定オラクルと探索プローブは従来どおり設計者側
+[FAIL] V1 O2 O: 手順 4 で各単位の項目がそろっていること
+[FAIL] V1 O2 O: 手順 5 で §4.5 の C1 を確かめる
+[FAIL] V1 O4 O: Phase 3 の手順 1–3 と固定オラクル・探索プローブ
+[FAIL] V1 O4 O: Phase 3 の手順 4–6、ECO での導出のやり直し
+[FAIL] V1 O4 O: 担当は工程の手順でなく層で決まる
+[FAIL] V1 O4 O: 見てよいもの・見てはならないものは設計者と同じ
+[FAIL] V1 O3 G3: 単独に受け入れられるか
+[FAIL] V1 A1 G3: 節 1・3・4・6 は `part_standard` を持つ単位に
+[FAIL] V1 A1 G3: `platform:<name>` は書かれたとおりに受ける
+[FAIL] V1 A1 G3: ちょうど 1 つの単位が実現する
+[FAIL] V1 A1 G3: その単位の E 品目のどれかの `IF-` を指す
+[FAIL] V1 A1 G3: §4.5 P4: 中継しない
+[FAIL] V1 A1 G3: 1 つの単位が両方の品目を実現する場合を除く
+[FAIL] V1 A1 G3: 空でなければ、その `requires` が解決する単位の集合に等しい
+[FAIL] V1 A1 G3: 提供側が §4.1 のとおり利用側とつながっている
+[FAIL] V1 O1 prompt: 手順 1〜3 = 設計者
+[FAIL] V1 O1 prompt: 手順 4〜6 = 統括 AI
+[FAIL] V1 O1 prompt: 固定オラクルと探索プローブ = 設計者側
+[FAIL] V1 O3 prompt: 単独に受け入れられるか
+[FAIL] V1 A1 prompt: A1 構造の解決
+[FAIL] V1 O4 table9: Phase 3 の手順 1–3 と固定オラクル・探索プローブ
+[FAIL] V1 O4 table9: Phase 3 の手順 4–6、ECO での導出のやり直し
+[FAIL] V1 P4 t32: 4 分類を部品規格に広げ
+[FAIL] V1 P4 t32: P4 の拡張の写し
+[FAIL] V1 O1 the prompt's step order equals the canonical order
+[FAIL] V1 O4 §9: two rows, the orchestrating AI's columns 3-4 equal the designer's
+[FAIL] V1 fields method/templates/30-ebom.yaml carries the fields and the place comments — missing ['interfaces:', 'IF-<NAME>-01', 'boundary:', 'playbook §4.1「外向きの約束」']
+[FAIL] V1 fields method/templates/32-mbom.yaml carries the fields and the place comments — missing ['part_standard:', 'provides:', 'requires:', 'ruled_ref:', 'form:', 'target:', 'playbook §4.5「部品規格」', 'assembly:', 'assembly_reason:', 'ebom_ref:', 'playbook §4.6']
+[FAIL] V1 fields method/templates/33-control-plan.yaml carries the fields and the place comments — missing ['part_standard_refs:', 'playbook §4.5「部品規格」C1']
 [FAIL] V2-fields 30 items[0].interfaces.provides[0].{id,refs,boundary}
 [FAIL] V2-fields 30 items[0].interfaces.requires
 [FAIL] V2-fields 32 units[0].part_standard.provides[0].{id,kind,ruled_ref,form}
@@ -26,6 +79,5 @@
 [FAIL] V2-fields 32 fmea[0].ebom_ref
 [PASS] V2-fields 32 procurement at the top level
 [FAIL] V2-fields 33 characteristics[0].part_standard_refs
-[PASS] V2-fields the rehearsal script reads exactly these field names
-V1 FAIL
+V1 FAIL (rules ['A1', 'A2', 'C1', 'O', 'O1', 'O2', 'O3', 'O4', 'P1', 'P2', 'P3', 'P4', 'fields', '部品規格'])
 V2-fields FAIL

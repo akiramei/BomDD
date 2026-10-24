@@ -188,7 +188,9 @@ the map lists as copies repeat it for their reader and must match the canonical 
 - **L1 (A1, A2).** A resolved `requires` says the entry exists, not that the two sides behave together; integration stays with the assembly rows and Phase
   5 (B5).
 - **L2 (C1).** C1 says each `provides` entry is listed by a row that measures some part of it; it does not say the row tests the entry's whole meaning (as
-  §4.4:175's mapping limit).
+  §4.4:175's mapping limit). Whether a row measures an entry is a judgement of meaning, made by the orchestrating AI at step 5 and checked by the
+  independent inspection's reading; the BOM files show mechanically only that listed IDs exist and that each entry is listed by a row of its unit (user
+  ruling "2:A" on inspection r1's IA-04, 2026-10-24).
 - **L3 (P2, A1).** Reliance is read from the BOM (`interfaces`, `depends_on`, `graph_edges.consumers`, `requires`); a consumer the BOM does not name (code
   that calls a unit without a `requires`) is not seen, and an E-BOM connection with no `IF-` is not flagged. A1 4's grain is the E item: two units
   sharing one item may use each other's derived entries even when a provider's entry belongs to its other item (ViewPrism2: 7 items are realized by
@@ -218,11 +220,15 @@ required_gates: [V1, V2, inspection]
 - **V1 — the text.** For each row of §1's map: the rule appears once in its canonical place; each copy says the same; each listed field carries a comment
   naming the canonical place. The templates carry P1's fields (`part_standard`, `provides` with `form`, `requires` with `target`), `interfaces` with
   `IF-` IDs and their `refs` and `boundary`, `mbom.assembly` with `assembly_reason`, the FMEA row's `ebom_ref`, and `part_standard_refs`; the prompt carries O1's order and owners and O3; §9's table carries O4.
+  "Says the same" is checked clause by clause: each rule's clauses (§1) are present in the canonical text, and each copy holds its canonical text's
+  clauses; removing one clause from the canonical text or from a copy fails V1 for that rule (r1's IA-03).
 - **V2 — the standard and its checks on real units (rehearsal; evidence only, read-only on ViewPrism2).** Copies of ViewPrism2's E-BOM and M-BOM entries for
   `E-DOMAIN-001`, `E-EVAL-002` and `E-GRAPH-003` and the units `M-SLN-000`, `M-CORE-001`, `M-EVAL-002` and `M-GRAPH-003`, with their Control Plan rows,
   get part standards, `interfaces` and an `mbom.assembly` written to the new templates under the report folder (the domain types as an `IF-` of
   `E-DOMAIN-001` realized by `M-CORE-001`; `M-EVAL-002`'s evaluation as an `IF-` of `E-EVAL-002` required by `E-GRAPH-003`, with its signature as
-  `form`). A script there applies C1 and A1 and prints, for each failure, the clause and the entry. The design evidence of loop 3
+  `form`). A script there applies A1 and C1's reference part (each `provides` entry listed by a row in its unit's `acceptance_refs`; every listed ID an
+  existing entry — whether the row measures the entry is not checked by the script, L2; amended by the user's ruling "2:A" on r1's IA-04) and prints,
+  for each failure, the clause and the entry. The design evidence of loop 3
   (`rehearse_part.py`, `rehearsal-bom.yaml`, `run_rehearsal.py`, `rehearsal.txt`) is this rehearsal's first run; V2 re-runs it on the manufactured
   templates' field names.
   - Both products' real BOMs as they are (no unit has a standard): no failure (A1's scope; the lazy rule).
@@ -295,6 +301,25 @@ required_gates: [V1, V2, inspection]
   passes. The evidence supports reference integrity, not C1 as written.
 - **Not repaired yet.** IA-02 (the text) and IA-03 (the instrument) can be repaired inside the filed design. IA-01 needs a ruling on the diff window (as
   for ECO-112 and ECO-113), and IA-04 a ruling on C1 or on what V2 claims — both are the user's (a window exception; a rule or acceptance change).
+
+## 6. Repair after inspection r1 (2026-10-24, user ruling "1:A 2:A")
+
+**Rulings:** 1:A — IA-01 is settled for ECO-114 only, by ECO-113's method: the change set is ECO-114's commits, `afabdb1` (ECO-115's held draft) excluded
+with its reason (OBS-20261018-02's third case; a general rule is a separate question). 2:A — C1 stays as written; whether a row measures an entry is
+the orchestrating AI's judgement at step 5 and the inspection's reading, declared in L2 and in §4.5's limits; V2 claims only C1's reference part (the
+acceptance text amended by this ruling).
+
+**What changed, by finding:**
+- IA-02 — playbook §4.6 "Phase 3 の順序と担当" now states O4 (the roles by layer, the orchestrating AI's may-see / must-not-see equal to the designer's);
+  §9's row says it is the copy.
+- IA-03 — `check_v1_v2.py` checks each rule's clauses (64, taken from §1) in the canonical text and in each copy, §9's two rows' equal columns, and the
+  prompt's step order; `--mutations` removes each clause in turn: 64 of 64 caught (`manufacture/v1-mutations.txt`); V1 on the repaired tree PASS, on the
+  filing tree FAIL. V1's text in §3 says how "says the same" is checked.
+- IA-04 — §4.5's limits and this order's L2 state that "measures" is judged, not checked mechanically; V2 says what the script checks (2:A).
+- IA-01 — `bomdd/reports/eco-114-part-standard/diff-window/`: `be96698..5bc708a` PASS (3 ECO-114 commits, 26 paths, all allowed; `afabdb1` before the
+  manufacture, touching none of ECO-114's records or input files); positive control `--control-include afabdb1` FAIL (C4, C5). Measured again at
+  closure. `method/improvements.md`: OBS-20261018-02's third case (watch 3/3; the worklist marks it due for promotion review — the user's stop point).
+- Not changed: P1-P4, O1-O3, C1's rule text, A1, A2, the templates and the prompt.
 
 ## 収束 receipt (converge self-application)
 

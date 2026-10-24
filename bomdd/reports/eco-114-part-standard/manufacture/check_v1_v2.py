@@ -1,7 +1,10 @@
-"""ECO-114 acceptance V1 (the text) and V2's field-name check (the rehearsal reads the manufactured templates' field names), read-only.
+"""ECO-114 acceptance V1 (the text, clause by clause) and V2's field-name check (the rehearsal reads the manufactured templates' field names), read-only.
 
-Usage (from the repository root): python -B bomdd/reports/eco-114-part-standard/manufacture/check_v1_v2.py <out file>
-Prints nothing; writes one report whose last line is "V1 PASS"/"V1 FAIL" and "V2-fields PASS"/"V2-fields FAIL". Each check names what it read.
+Usage (from a tree's root):
+    python -B check_v1_v2.py <out file>               # V1 and V2-fields on the tree; last lines "V1 PASS|FAIL", "V2-fields PASS|FAIL"
+    python -B check_v1_v2.py --mutations <out file>   # for every clause: remove it from its file in memory and expect V1 to FAIL for that rule
+V1 (repaired after inspection r1's IA-03): each rule's clauses (the order's section 1) must be present in its canonical text, and each copy must hold
+its canonical text's clauses. Texts are compared with line breaks and their indentation removed. A missing heading or path is a FAIL, not a crash.
 """
 import re
 import sys
@@ -12,54 +15,143 @@ PB = "method/bomdd-playbook-v1.md"
 T30, T32, T33 = "method/templates/30-ebom.yaml", "method/templates/32-mbom.yaml", "method/templates/33-control-plan.yaml"
 P3 = "method/prompts/phase3-design.md"
 
+HEAD = {
+    "P2": ("**外向きの約束(candidate・ECO-114)**", "- **迷った境界の最小 BDR"),
+    "部品規格": ("**部品規格(candidate・ECO-114)**", "### 4.6"),
+    "O": ("**Phase 3 の順序と担当(candidate・ECO-114)**", "**ゲート G3"),
+    "G3": ("**ゲート G3", "### 4.7"),
+}
 
-def read(p):
-    return open(p, encoding="utf-8").read()
+# (rule, where, clause): where = a canonical section key above, or a copy ("prompt", "table9", "t32")
+CLAUSES = [
+    ("P2", "P2", "別の E 品目、または製品の外の利用者が当てにするもの"),
+    ("P2", "P2", "E 品目の境界だけで決まり、製造単位の分け方では決まらない"),
+    ("P2", "P2", "`interfaces.provides` に置く `IF-<ITEM>-NN`"),
+    ("P2", "P2", "`refs`(境界やその振る舞いを述べる仕様 §2 / §3 の ID"),
+    ("P2", "P2", "`boundary`(それらの ID が述べていないことだけ"),
+    ("P2", "P2", "参照した ID が述べていることを言い直さない"),
+    ("P2", "P2", "`interfaces.requires` にその `IF-` を挙げ"),
+    ("P2", "P2", "`graph_edges.consumers` が利用側を挙げる"),
+    ("P2", "P2", "`IF-` として繰り返さない"),
+    ("P2", "P2", "どの製造単位も実現しない E 品目"),
+    ("P2", "P2", "導出層は `IF-` を足さない・落とさない・言い換えない"),
+    ("P1", "部品規格", "`provides` と `requires` の 2 つの一覧"),
+    ("P1", "部品規格", "`provides` は `PS-<UNIT>-Pnn`"),   # the bare ID form occurs twice in the section; a first mutation run missed it
+    ("P1", "部品規格", "`requires` は `PS-<UNIT>-Rnn`"),
+    ("P1", "部品規格", "`api` | `data` | `event` | `file` | `process`"),
+    ("P1", "部品規格", "`ruled_ref: IF-…`"),
+    ("P1", "部品規格", "`form`(裁定が抽象的にしか述べていないとき"),
+    ("P1", "部品規格", "`requires` の項目は `id` と `target` を持つ"),
+    ("P1", "部品規格", "`procurement:<package>`・`platform:<name>`"),
+    ("P1", "部品規格", "`display_contract.refs` に残し"),
+    ("P1", "部品規格", "単位をまたいで共通の書き方"),
+    ("P3", "部品規格", "それは上の「人へ戻す 3 種」の「新しい約束」で、人へ戻す"),
+    ("P3", "部品規格", "約束を変えない"),
+    ("P4", "部品規格", "`statement` 付きの `provides` として書く"),
+    ("P4", "部品規格", "`IF-` を実現しない"),
+    ("P4", "部品規格", "E 品目の間の境界を中継しない"),
+    ("P4", "部品規格", "P4 の拡張: これは上の 4 分類を部品規格に広げたもの"),
+    ("C1", "部品規格", "`part_standard_refs` に挙げ"),
+    ("C1", "部品規格", "免除はない"),
+    ("C1", "部品規格", "その行の `known_limits` に項目の ID を付けて書く"),
+    ("C1", "部品規格", "実在する `provides` の項目を指す"),
+    ("C1", "部品規格", "行がその項目を**測っているか**は意味の判断"),
+    ("A2", "部品規格", "`mbom.assembly.acceptance_refs` に、複数の単位をまとめて測る Control Plan の行を挙げる"),
+    ("A2", "部品規格", "空にするなら `assembly_reason` を書く"),
+    ("A2", "部品規格", "固定オラクル(41)は Control Plan の行ではなく"),
+    ("O1", "O", "1. E-BOM — 部品分けと外向きの約束"),
+    ("O1", "O", "4. M-BOM — 製造単位とその部品規格"),
+    ("O1", "O", "5. Control Plan — 統括 AI"),
+    ("O1", "O", "6. Routing と作業指示書 — 統括 AI"),
+    ("O1", "O", "固定オラクルと探索プローブは従来どおり設計者側"),
+    ("O2", "O", "手順 4 で各単位の項目がそろっていること"),
+    ("O2", "O", "手順 5 で §4.5 の C1 を確かめる"),
+    ("O4", "O", "Phase 3 の手順 1–3 と固定オラクル・探索プローブ"),
+    ("O4", "O", "Phase 3 の手順 4–6、ECO での導出のやり直し"),
+    ("O4", "O", "担当は工程の手順でなく層で決まる"),
+    ("O4", "O", "見てよいもの・見てはならないものは設計者と同じ"),
+    ("O3", "G3", "単独に受け入れられるか"),
+    ("A1", "G3", "節 1・3・4・6 は `part_standard` を持つ単位に"),
+    ("A1", "G3", "`platform:<name>` は書かれたとおりに受ける"),
+    ("A1", "G3", "ちょうど 1 つの単位が実現する"),
+    ("A1", "G3", "その単位の E 品目のどれかの `IF-` を指す"),
+    ("A1", "G3", "§4.5 P4: 中継しない"),
+    ("A1", "G3", "1 つの単位が両方の品目を実現する場合を除く"),
+    ("A1", "G3", "空でなければ、その `requires` が解決する単位の集合に等しい"),
+    ("A1", "G3", "提供側が §4.1 のとおり利用側とつながっている"),
+    # copies
+    ("O1", "prompt", "手順 1〜3 = 設計者"),
+    ("O1", "prompt", "手順 4〜6 = 統括 AI"),
+    ("O1", "prompt", "固定オラクルと探索プローブ = 設計者側"),
+    ("O3", "prompt", "単独に受け入れられるか"),
+    ("A1", "prompt", "A1 構造の解決"),
+    ("O4", "table9", "Phase 3 の手順 1–3 と固定オラクル・探索プローブ"),
+    ("O4", "table9", "Phase 3 の手順 4–6、ECO での導出のやり直し"),
+    ("P4", "t32", "4 分類を部品規格に広げ"),
+    ("P4", "t32", "P4 の拡張の写し"),
+]
 
 
-def main():
-    out, ok = [], {"V1": True, "V2-fields": True}
+def norm(text):
+    return re.sub(r"[ \t]*\n[ \t#]*", "", text)
 
-    def check(group, name, cond, detail=""):
-        ok[group] &= bool(cond)
-        out.append(f"[{'PASS' if cond else 'FAIL'}] {group} {name}{(' — ' + detail) if detail else ''}")
 
-    pb, t30, t32, t33, p3 = (read(p) for p in (PB, T30, T32, T33, P3))
-    # canonical places, once each
-    for head, rules in (("**外向きの約束(candidate・ECO-114)**", "P2"), ("**部品規格(candidate・ECO-114)**", "P1 P3 P4 C1 A2"),
-                        ("**Phase 3 の順序と担当(candidate・ECO-114)**", "O1 O2 O4"), ("**A1 構造の解決**", "O3 A1")):
-        check("V1", f"canonical place for {rules} appears once in the playbook", pb.count(head) == 1, f"{head!r} x{pb.count(head)}")
-    for label in ("**P1 形**", "**P3 約束を足す・変える**", "**P4 導出に残るもの**", "**C1 行が規格を検査する**", "**A2 単位をまとめて測る行**"):
-        check("V1", f"§4.5 部品規格 states {label}", pb.count(label) == 1)
-    a1 = pb[pb.index("**A1 構造の解決**"):] if "**A1 構造の解決**" in pb else ""   # a missing heading is a FAIL, not a crash
-    check("V1", "G3 states A1's seven clauses", a1 and all(f"\n{n}. " in a1[:4000] for n in range(1, 8)))
-    check("V1", "G3's question gains the unit-alone question", "単独に受け入れられるか" in pb)
-    check("V1", "§9 roles table carries O4's split", "| 設計者(ユーザー+設計AI) | Phase 0–2, Phase 3 の手順 1–3" in pb and "| 統括 AI | M-BOM・Control Plan・Routing を導出するとき" in pb)
-    check("V1", "§4.5 M-BOM line names part_standard", "製造単位ごとに `part_standard`" in pb)
-    # copies match the canonical text
-    start = pb.find("**Phase 3 の順序と担当(candidate・ECO-114)**")
-    end = pb.find("**製造成立性**", start) if start >= 0 else -1
-    section = pb[start:end] if start >= 0 and end > start else ""   # only §4.6's item (a first run matched a "3. K-BOM" elsewhere — an instrument defect)
-    order_pb = re.findall(r"^(\d)\. (E-BOM|FMEA と沈黙掃討|K-BOM|M-BOM|Control Plan|Routing と作業指示書)", section, re.M)
+def section(pb, key):
+    start, end = HEAD[key]
+    i = pb.find(start)
+    j = pb.find(end, i + 1) if i >= 0 else -1
+    return pb[i:j] if i >= 0 and j > i else ""
+
+
+def texts(files):
+    pb = files[PB]
+    rows = [l for l in pb.splitlines() if l.startswith("| 設計者(ユーザー+設計AI)") or l.startswith("| 統括 AI")]
+    t = {k: section(pb, k) for k in HEAD}
+    t["prompt"] = files[P3]
+    t["table9"] = "\n".join(rows)
+    t["t32"] = files[T32]
+    return t
+
+
+def v1(files, out):
+    pb, t30, t32, t33, p3 = (files[p] for p in (PB, T30, T32, T33, P3))
+    failed = set()
+
+    def check(rule, name, cond):
+        if not cond:
+            failed.add(rule)
+        out.append(f"[{'PASS' if cond else 'FAIL'}] V1 {rule} {name}")
+
+    for key, (head, _) in HEAD.items():
+        check(key, f"canonical heading {head!r} once", pb.count(head) == 1)
+    t = texts(files)
+    for rule, where, clause in CLAUSES:
+        check(rule, f"{where}: {clause}", norm(clause) in norm(t[where]))
+    # O1 copy: the prompt's step order equals the canonical order
+    order_pb = re.findall(r"^(\d)\. (E-BOM|FMEA|K-BOM|M-BOM|Control Plan|Routing)", t["O"], re.M)
     order_p3 = re.findall(r"^(\d)\. \*\*(E-BOM|FMEA|K-BOM|M-BOM|Control Plan|Routing)", p3, re.M)
-    check("V1", "the prompt's step order equals §4.6's (copy)", [n for n, _ in order_pb] == [n for n, _ in order_p3] == list("123456")
-          and [s.split()[0] for _, s in order_pb] == [s.split()[0] for _, s in order_p3], f"playbook {order_pb} / prompt {order_p3}")
-    check("V1", "the prompt names the owners (設計者 1-3, 統括 AI 4-6) and points at §4.6",
-          "手順 1〜3 = 設計者" in p3 and "手順 4〜6 = 統括 AI" in p3 and "playbook §4.6「Phase 3 の順序と担当」" in p3)
-    check("V1", "the prompt's G3 runs A1 and C1 first and asks the unit-alone question", "A1 構造の解決" in p3 and "単独に受け入れられるか" in p3)
-    check("V1", "32's four-class comment carries P4's extension (copy)", "P4 の拡張の写し" in t32 and "interface_contract の扱いを" in t32)
-    # template fields with comments naming the canonical place
+    check("O1", "the prompt's step order equals the canonical order", order_pb == order_p3 and [n for n, _ in order_pb] == list("123456"))
+    # O4 copy: the 統括 AI row has the designer row's may-see / must-not-see
+    rows = t["table9"].splitlines()
+    check("O4", "§9: two rows, the orchestrating AI's columns 3-4 equal the designer's",
+          len(rows) == 2 and [c.strip() for c in rows[0].split("|")[3:5]] == [c.strip() for c in rows[1].split("|")[3:5]])
     for path, text, needles in ((T30, t30, ["interfaces:", "IF-<NAME>-01", "refs:", "boundary:", "playbook §4.1「外向きの約束」"]),
                                 (T32, t32, ["part_standard:", "provides:", "requires:", "ruled_ref:", "form:", "target:", "playbook §4.5「部品規格」",
                                             "assembly:", "assembly_reason:", "ebom_ref:", "playbook §4.6"]),
                                 (T33, t33, ["part_standard_refs:", "playbook §4.5「部品規格」C1"])):
         missing = [n for n in needles if n not in text]
-        check("V1", f"{path} carries the fields and the place comments", not missing, f"missing {missing}" if missing else "")
-    # V2's field names: the templates parse and the paths the rehearsal reads exist in them
-    d30, d32, d33 = (yaml.safe_load(t) for t in (t30, t32, t33))
-    item = d30["ebom"]["items"][0]
-    unit = d32["mbom"]["manufacturing_units"][0]
-    row = d33["control_plan"]["characteristics"][0]
+        check("fields", f"{path} carries the fields and the place comments{(' — missing ' + str(missing)) if missing else ''}", not missing)
+    return failed
+
+
+def v2_fields(files, out):
+    ok = True
+    try:
+        d30, d32, d33 = (yaml.safe_load(files[p]) for p in (T30, T32, T33))
+        item, unit, row = d30["ebom"]["items"][0], d32["mbom"]["manufacturing_units"][0], d33["control_plan"]["characteristics"][0]
+    except Exception:
+        out.append("[FAIL] V2-fields the templates parse and have their first item / unit / row")
+        return False
     probes = {
         "30 items[0].interfaces.provides[0].{id,refs,boundary}": lambda: {"id", "refs", "boundary"} <= set(item["interfaces"]["provides"][0]),
         "30 items[0].interfaces.requires": lambda: "requires" in item["interfaces"],
@@ -72,18 +164,59 @@ def main():
     }
     for name, probe in probes.items():
         try:
-            cond = probe()
-        except (KeyError, IndexError, TypeError):   # a missing path is a FAIL, not a crash
+            cond = bool(probe())
+        except (KeyError, IndexError, TypeError):
             cond = False
-        check("V2-fields", name, cond)
-    rehearsal = read("bomdd/reports/eco-114-part-standard/rehearse_part.py")
-    used = ["\"part_standard\"", "\"provides\"", "\"requires\"", "\"target\"", "\"ruled_ref\"", "\"interfaces\"", "\"part_standard_refs\"",
-            "\"acceptance_refs\"", "\"procurement\"", "\"depends_on\"", "\"graph_edges\"", "\"consumers\"", "\"ebom_refs\""]
-    check("V2-fields", "the rehearsal script reads exactly these field names", all(u in rehearsal for u in used))
-    out.append(f"V1 {'PASS' if ok['V1'] else 'FAIL'}")
-    out.append(f"V2-fields {'PASS' if ok['V2-fields'] else 'FAIL'}")
-    with open(sys.argv[1], "w", encoding="utf-8", newline="\n") as f:
-        f.write("\n".join(out) + "\n")
+        ok &= cond
+        out.append(f"[{'PASS' if cond else 'FAIL'}] V2-fields {name}")
+    return ok
+
+
+def load():
+    return {p: open(p, encoding="utf-8").read() for p in (PB, T30, T32, T33, P3)}
+
+
+def mutations(path):
+    files, out, missed = load(), [], 0
+    targets = {"P2": PB, "部品規格": PB, "O": PB, "G3": PB, "prompt": P3, "table9": PB, "t32": T32}
+    for rule, where, clause in CLAUSES:
+        f = targets[where]
+        mutated = dict(files)
+        base = files[f]
+        if where in HEAD:
+            sec = section(base, where)
+            mutated[f] = base.replace(sec, norm_remove(sec, clause)) if sec else base
+        elif where == "table9":
+            mutated[f] = "\n".join(norm_remove(l, clause) if (l.startswith("| 設計者") or l.startswith("| 統括 AI")) else l for l in base.splitlines())
+        else:
+            mutated[f] = norm_remove(base, clause)
+        changed = mutated[f] != base
+        failed = v1(mutated, [])
+        hit = changed and rule in failed
+        missed += not hit
+        out.append(f"{'CAUGHT' if hit else 'MISSED'} {rule} {where}: {clause}{'' if changed else ' (clause not found to remove)'}; V1 failed rules {sorted(failed)}")
+    out.append(f"mutations: {len(CLAUSES)}; caught: {len(CLAUSES) - missed}; missed: {missed}")
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(out) + "\n")
+
+
+def norm_remove(text, clause):
+    """Remove the clause's first occurrence even when the text breaks it across lines (the same normalisation the check uses)."""
+    pattern = r"[ \t]*\n?[ \t#]*".join(re.escape(ch) for ch in norm(clause))
+    return re.sub(pattern, "", text, count=1)
+
+
+def main():
+    if sys.argv[1] == "--mutations":
+        mutations(sys.argv[2])
+        return
+    files, out = load(), []
+    failed = v1(files, out)
+    ok2 = v2_fields(files, out)
+    out.append(f"V1 {'PASS' if not failed else 'FAIL'}" + (f" (rules {sorted(failed)})" if failed else ""))
+    out.append(f"V2-fields {'PASS' if ok2 else 'FAIL'}")
+    with open(sys.argv[1], "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(out) + "\n")
 
 
 if __name__ == "__main__":
