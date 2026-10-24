@@ -271,6 +271,31 @@ required_gates: [V1, V2, inspection]
   playbook; on the control tree it stopped with a traceback instead of reporting FAIL. Attribution: this ECO's own instrument.
 - **V3 (inspection) and V4 (CI on this commit)** follow.
 
+## 5. Independent inspection r1 (2026-10-24, EQ-002, range 境界探索) — REJECT IA-01, IA-02, IA-03, IA-04
+
+- **Launched through the operator entry** on `286d02c` (CI 40042223303 success; witness tree `9f383581e1fd`, gate self-conformance):
+  `bomdd-run.py ECO-114 --cell "codex exec -s workspace-write -m gpt-5.6-sol -C … -o …/inspection-r1.md - < %BOMDD_BRIEF%" --brief <brief outside the
+  worktree> --executor EQ-002 --report bomdd/reports/eco-114-part-standard/inspection-r1.md --range 境界探索`. Brief `c615d8bda30b…` (stored; committed copy
+  `bomdd/reports/eco-114-part-standard/inspection-brief-r1.md`, same sha256); report `inspection-r1.md` (`b49d9b942f26…`); the ledger's cell record binds
+  it (`REJECT`, `journal_end: committed`, run `20261023T235859.690037Z`).
+- **Items:** scope FAIL, each rule against the text FAIL, the rules against the rest of the method **PASS** (no contradiction with §4.4-§4.7, the package
+  and the oracle's owner, the existing template fields, or the measured BOM shapes), acceptance evidence FAIL, records FAIL. The rehearsal reproduced
+  byte-identically; all 12 README sha256 values match the committed bytes; the basis figures sampled match.
+- **IA-01 — blocking — the audited window holds another change.** `git diff 25bea38..286d02c` includes the 12 files of ECO-115's record commit `afabdb1`
+  (between the filing and the manufacture), outside ECO-114's `allowed_paths`; §4's "not mixed in" is true of the manufacture commit, not of the window
+  the brief named. Reproduced by the producer (`git diff --name-only 25bea38..286d02c`: 12 paths under `bomdd/reports/eco-115-advance-decision/`). This
+  is OBS-20261018-02's class (a third case after ECO-112 and ECO-113, each settled by the user's exception ruling for that ECO).
+- **IA-02 — blocking — O4 is not in its canonical place.** The map names §4.6 "Phase 3 の順序と担当" as O4's canonical place with §9 as a copy, but §4.6
+  only points at the roles table; the split by layer and the same may-see / must-not-see live only in §9.
+- **IA-03 — blocking — V1's checker does not compare rule substance.** `check_v1_v2.py` checks headings, labels, selected substrings, step numbers and
+  field names, not each rule's clauses against §1 or each copy against its canonical text; it passes despite IA-02, and its positive control (the filing
+  tree) shows only that absent text fails. Attribution: this ECO's instrument.
+- **IA-04 — blocking — the rehearsal does not implement C1's "measures".** `rehearse_part.py` checks that each `provides` ID is listed by a row in the
+  unit's `acceptance_refs` and that listed IDs exist; it never reads what a row measures or its `known_limits`, so an unrelated row citing an entry
+  passes. The evidence supports reference integrity, not C1 as written.
+- **Not repaired yet.** IA-02 (the text) and IA-03 (the instrument) can be repaired inside the filed design. IA-01 needs a ruling on the diff window (as
+  for ECO-112 and ECO-113), and IA-04 a ruling on C1 or on what V2 claims — both are the user's (a window exception; a rule or acceptance change).
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (before the split; the part standard and the advance decision together)
