@@ -321,6 +321,20 @@ acceptance text amended by this ruling).
   closure. `method/improvements.md`: OBS-20261018-02's third case (watch 3/3; the worklist marks it due for promotion review — the user's stop point).
 - Not changed: P1-P4, O1-O3, C1's rule text, A1, A2, the templates and the prompt.
 
+## 7. Independent inspection r2 (2026-10-24, EQ-002, range 是正確認+回帰) — REJECT IA-05
+
+- **Launched through the operator entry** on `faffcf9` (CI 40049535617 success; witness tree `92c40251340b`, gate self-conformance). Brief
+  `26cb1c95a3dd…` (stored; committed copy `bomdd/reports/eco-114-part-standard/inspection-brief-r2.md`); report `inspection-r2.md` (`1af6f9b5d190…`);
+  the ledger's cell record binds it (`REJECT`, `journal_end: committed`, run `20261024T012627.392469Z`).
+- **Items:** IA-01 under 1:A PASS (the window on ECO-114's commits passes C1-C5; the control fails); IA-02 PASS (§4.6 states O4; §9 a matching copy);
+  IA-04 under 2:A PASS; regression PASS (only §6's areas changed; all 18 README sha256 match; the rehearsal byte-identical). IA-03 FAIL through IA-05.
+- **IA-05 — blocking — V1's clause list does not cover every clause of §1.** The 64 listed clauses pass and each removal fails its rule, but the list
+  leaves clauses out (the inspector names some in P1, P2, O1, O2, O3, C1, A1, A2); an in-memory probe removing O3's "re-check A1 and C1 before G3" from
+  the canonical text still gave V1 PASS. The finding is about the checker's coverage: the inspector reports no clause missing from the method text.
+- **Not repaired yet.** Two ways, the second an acceptance change: extend the list to the clauses named (a later round may name more — a prose
+  equivalence between the English order and the Japanese method text cannot be derived mechanically); or keep the list as named evidence and declare,
+  as for C1's "measures" (2:A), that the completeness of the text against §1 is the inspection's reading. The user rules.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (before the split; the part standard and the advance decision together)
