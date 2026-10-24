@@ -348,6 +348,16 @@ acceptance text amended by this ruling).
   A1 11, A2 5); V1 on the tree PASS; `--mutations` 96 of 96 caught (r2's in-memory probe, removing O3's pre-G3 re-check, is now among them); the filing
   tree still fails. The order's V1 and L6. No method text changed.
 
+## 9. Independent inspection r3 (2026-10-24, EQ-002, range 是正確認+回帰) — ACCEPT
+
+- **Launched through the operator entry** on `c221153` (CI 40051091651 success; witness tree `21815ac3bdbb`, gate self-conformance). Brief
+  `e424f389fd25…` (stored; committed copy `bomdd/reports/eco-114-part-standard/inspection-brief-r3.md`); report `inspection-r3.md` (`750811b68f5c…`);
+  the ledger's cell record binds it (`ACCEPT`, `journal_end: committed`, run `20261024T014646.688736Z`).
+- **All three items PASS; findings: none.** IA-05 under "C" (the 32 clauses r2 named added; 96 of 96 removals caught; the filing tree fails; V1's text
+  and L6 carry the ruling). The method text read against §1 by the inspector: P1-P4, O1-O4, C1, A1 with its scope and lazy rule, and A2 stated in their
+  canonical places, the copies matching, no omission or contradiction. Regression: only §8's files changed; the diff window `be96698..c221153` PASS and
+  its control FAIL; the rehearsal byte-identical; 18 README sha256 match.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (before the split; the part standard and the advance decision together)
