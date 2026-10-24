@@ -8918,6 +8918,20 @@ the result depends on unmeasured cost coefficients; graph completeness is not sh
   source: the user's module-partition simulation (2026-10-25); this session's evaluation, point (2)
   origin: external(user の模擬実験)
   evidence: method/improvements.md (this section)
+  amended 2026-10-25 (the experimenter's reply to this session's evaluation, AGREEd by the user; the text above is kept as written):
+    - **The fix diff is not the answer.** A diff records what was changed, not what should have been: an ECO that forgot the consumer's wiring
+      (the home-setting case of EXP-20261024-02, latent about three weeks) has a diff without it, and a prediction that also leaves it out would
+      score well. Two measures, kept apart: (i) agreement of the prediction with the fix diff (cheap; what the prediction caught of the work done);
+      (ii) sufficiency against the required change — the diff plus the places a later ECO fixed because this one missed them (under-inclusion
+      notes such as ViewPrism2 ECO-002's "影響なし予測 under-inclusion 1件", origin analyses). (ii) is used only if enough such pairs exist:
+      **count them first**; too few → (ii) is not measured and (i) is reported alone, never as sufficiency.
+    - **The extremes are conditioned controls, not absolute bad.** One unit can be right when rebuilding is cheap and joining is expensive; every
+      file its own unit can be right when units are cheap to manage. A grouping is a known-bad arm only against conditions (an exchange policy,
+      boundary cost) **fixed before scoring**; choosing the conditions afterwards could make any grouping fail.
+    - **No counterfactual cost.** Laying the same diffs over another grouping does not give what the change would have cost had the product been
+      built with that grouping; the code itself was shaped by the actual structure.
+    - The same-day record correction: ViewTube keeps 205 per-ECO impact records (not a 260-entry register); ViewPrism2's 147 ECOs record no
+      file-level prediction (feasibility counts above).
 - [recovered 2026-10-25 via bomdd/reports/exp-20261025-02 (run on the user's "EXP-20261025-02 から始めて")] EXP-20261025-02 — **Does the built code have cross-unit dependencies the part standards do not declare?** On MoviePad-Remake delivery 1
   (`f30d771`): map each source file to its M unit by `artifact`, find references from one unit's files to types declared in another unit's files,
   and compare with each unit's `part_standard.requires` (and the M-BOM's `depends_on`). Calibrated before use: a known-bad copy with one reference
@@ -8934,6 +8948,12 @@ the result depends on unmeasured cost coefficients; graph completeness is not sh
     only difference). File → unit had to use `planned_output_artifact_ref`, because `artifact.path` is shared (pre-registered before the scan). The
     self-acceptance unit uses all 8 production units and declares none (reported apart). One product, one delivery; type names only.
     evidence: bomdd/reports/exp-20261025-02/ (preregistration.md, results.md, results.txt)
+  scope of the result, narrowed 2026-10-25 (the experimenter's reply, AGREEd by the user): the code-found dependencies minus the declared ones are
+    **candidates**, and none was found **among statically visible type references**; that is all the result says. Not seen: dependencies through
+    DI registration, event subscription, reflection, shared persistent state or messages (none of these exists in this library-only product, so the
+    scanner was not tested on them). And **a connection missing from both the M-BOM and the code is invisible to this comparison by construction**:
+    both sides agree on its absence. The home-setting kind of miss (a consumer never wired) is of that kind; only a requirement-side reference (a
+    consumer-side observation in the fixed oracle, a connection row of the Control Plan) can show it.
 - [watch 1/3] OBS-20261025-01 — **An M unit's `artifact.path` does not identify its files.** In MoviePad-Remake's M-BOM, 5 of 10 units share a folder
   with another unit (three Export units, two Media units), and one unit's file sits in another unit's folder. Ownership was recoverable only from
   `planned_output_artifact_ref`, in a short form (bare file names read against the first entry's folder) that the template does not define. A tool
@@ -8945,3 +8965,15 @@ the result depends on unmeasured cost coefficients; graph completeness is not sh
   unit. Whether a test unit must declare its uses, or is exempt by kind, is not decided.
   source: EXP-20261025-02 (2026-10-25)
   evidence: bomdd/reports/exp-20261025-02/results.txt (the self-acceptance section)
+- [open] EXP-20261025-03 — **Can the dependencies extracted from use cases and the E-BOM be checked for omissions independently of the M-BOM and the
+  code?** The experimenter's point, AGREEd by the user (2026-10-25): the dependency graph bounds partition quality — a partition method, however
+  good, keeps an edge the input graph lacks, and a comparison of the M-BOM with the code (EXP-20261025-02) agrees on an edge both lack. Only a
+  requirement-side reference shows such an omission (a consumer-side observation in the fixed oracle, a Control Plan connection row, a later ECO
+  that wired what an earlier one missed). **Before any design, count**: in ViewTube and ViewPrism2, the ECOs whose cause was a missing connection
+  later fixed, split into omissions present already in the E-BOM / use-case dependencies and omissions made in manufacture. Reading fixed now: if
+  most come from manufacture, this EXP is lowered behind connection responsibility (EXP-20261024-02); if many come from the extracted dependencies,
+  a way to check that extraction is designed next. Cost to watch: a requirement-side reference adds ruling-layer work for the human, against the
+  aim of having AI derive the M layer. Not started; start is the user's. Related: EXP-20261025-01 measure (ii) needs the same count.
+  source: the experimenter's reply to this session's evaluation of the module-partition simulation (2026-10-25), point 6
+  origin: external(user の模擬実験の実験者)
+  evidence: method/improvements.md (this section); bomdd/reports/exp-20261025-02/results.md ("Scope of the result")

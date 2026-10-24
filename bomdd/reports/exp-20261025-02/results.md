@@ -31,6 +31,13 @@ Run 2026-10-25 on MoviePad-Remake `f30d771` (read-only, `git show`), after `prer
 2. **The self-acceptance unit uses every unit and declares none.** ECO-114's rule that a consuming unit names what it uses is silent on a test
    unit; whether it should declare them, or is exempt by kind, is not decided anywhere.
 
+## Scope of the result (narrowed 2026-10-25, after the experimenter's reply; the reading above is kept as written)
+
+"ECO-114's declarations held" is too broad. What the run shows: among **statically visible type references**, the code-found cross-unit
+dependencies minus the declared ones (the candidates) were empty. Dependencies through DI, events, reflection, persistent state or messages were not
+tested — this library-only product has none, so the scanner's power on them is unknown. And a connection missing from **both** the M-BOM and the
+code cannot be seen by comparing the two: the consumer-never-wired kind of miss stays invisible here and needs a requirement-side reference.
+
 ## Limits
 
 Type names only (an extension method called without its type, reflection and string-based lookups are not seen); a type declared in two units would
