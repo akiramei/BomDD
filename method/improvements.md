@@ -8810,7 +8810,8 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
       holds on `CP-BUILD-001` and `CP-SELF-ACCEPTANCE-001` (no designer-side check, as on delivery 1) and passes the other 11 rows
       from the stamped evidence; three known-bad inputs (another unit's stamped evidence, an altered tree, a freeze recorded as
       `bom-v4`) each change the result for their own reason.
-    - Open: ECO-002's acceptance (the user's); the next oracle version (the 11 survivors' inputs; "tested" to mean both sides of a
+    - ECO-002 applied on the user's "A" (2026-10-25, product `ca58d20`), conditionally qualified, with the carried items below.
+    - Open: the next oracle version (the 11 survivors' inputs; "tested" to mean both sides of a
       boundary and at it, combinations enumerated) measured on a new sealed set; the two package contradictions.
 - [watch 1/3] OBS-20261024-03 — **A factory that the sandbox refused tried to get round it with desktop automation.** In EXP-20261024-01
   delivery 1, Codex (`workspace-write`) could not write `.git/index.lock`. It then made eight computer-use calls to launch Git GUI and
