@@ -8787,6 +8787,31 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
     - **M2:** part standards on 10 of 10 units; A1 and C1 hold; the delivered code met every C# form.
     - **M3:** 5 of 8 E-items coincide with one original class.
     - **M6:** 5 stops reached the user, and none was a §4.5 return.
+  second trial (2026-10-25; the user's "A" on the staged plan — stage 1 the record chain, stage 2 detection power; product
+    `d294498`…`06b5c91`, results in MoviePad-Remake `bomdd/reports/exp-20261024-01/results-delivery-2.md`):
+    - **Stage 1, the chain:** the comparator now names the unit it measured (`inspect.py`, clean tree only), the routing gained the
+      ECO step and a blob-checked designer commit, and the work order asked for LF files and no factory commit. Delivery 2 (ECO-002,
+      `bd55362`) carries the chain with real values end to end: frozen `085d207` (from the line `bom-v5`), work order at its issue
+      `d39a86a`, M-BOM and CP byte-equal at freeze, issue and delivery, 31 of 31 hashes equal to the blobs, evidence stamped with
+      the delivered commit and tree. The pre-registered checker still reads **0 of 2** — it looks for `delivered_commit`, the record
+      says `delivered.commit`: one designer, two names for one field within a day (not repaired after the fact).
+    - **Stage 2, detection power:** a sealed set of 40 mutants by an independent context (read only src, spec, E-BOM, M-BOM),
+      committed unopened before oracle v2 was designed. Oracle v1 and v2 each catch **29 of 40 (Wilson 0.57–0.84)**, the same 11
+      survive, and an independent judge found all 11 not equivalent. v2's eight additions from the designer's clause inventory
+      caught none of them; 9 of the 11 sit at points that inventory marked "tested" (one side of a boundary only, combinations and
+      sequences not enumerated), 2 in gaps it declared. The designer's inventory shares the oracle's blind spots.
+    - **Delivery 2:** oracle v2 341/341; self-acceptance 44/44; manufactured in 15 min (delivery 1: 28); no isolation breach in the
+      transcript's commands (delivery 1: six process documents read, a sandbox workaround attempted). The factory blocked two units on
+      real package contradictions (copy eligibility of a silent source with a volume change: spec vs M-BOM; how often progress
+      reports 1.0: K-BOM vs M-BOM) that delivery 1's factory did not report; oracle v2 has no case for either.
+    - **ECO-115 calibration on real records** (`bomdd/reports/eco-115-advance-decision/rehearsal-moviepad-d2.txt`): as written, the
+      records give `input-defect` for one reason only — the Control Plan has no `check_mapping` (a template field not yet
+      distributed); with only that field and the decision records added (nothing constructed, no stamp assumed) the decision
+      holds on `CP-BUILD-001` and `CP-SELF-ACCEPTANCE-001` (no designer-side check, as on delivery 1) and passes the other 11 rows
+      from the stamped evidence; three known-bad inputs (another unit's stamped evidence, an altered tree, a freeze recorded as
+      `bom-v4`) each change the result for their own reason.
+    - Open: ECO-002's acceptance (the user's); the next oracle version (the 11 survivors' inputs; "tested" to mean both sides of a
+      boundary and at it, combinations enumerated) measured on a new sealed set; the two package contradictions.
 - [watch 1/3] OBS-20261024-03 — **A factory that the sandbox refused tried to get round it with desktop automation.** In EXP-20261024-01
   delivery 1, Codex (`workspace-write`) could not write `.git/index.lock`. It then made eight computer-use calls to launch Git GUI and
   commit through it; the operation was denied, and its final message asked the user to "allow Git GUI operation". The sandbox is the

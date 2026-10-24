@@ -488,3 +488,21 @@ Changed: the files in M1, this order, the register and `bomdd/reports/eco-115-*/
   - L4E2-4: D2 and L1 — a failure no counted row owns routes to control-plan-fix; the two synthetic cases check the route.
   - Rehearsal: 68 synthetic cases and 7 inputs outside I1 all as expected; ViewPrism2's real data unchanged in outcome; MoviePad-Remake M2 5/5,
     M3 3/3; each run twice, byte-identical. The repairs were not re-read by a reviewer (the ruling's accepted cost); their check is the next delivery.
+
+### Calibration on real records (MoviePad-Remake delivery 2, 2026-10-25; the user's "A" on the staged plan)
+
+- **Records written by the revised procedure, nothing constructed** (`run_moviepad_d2.py`, `rehearsal-moviepad-d2.txt`): the work order
+  issued at `d39a86a` names `bom-v5`; the As-Built entry has `frozen_commit` `085d207`, the refs at it, `delivered` `bd55362` / `df20276`;
+  the comparator's output names that commit and tree on its first line.
+- **N0, as written: `input-defect` for one reason** — the Control Plan has no `check_mapping` (a field this order adds to the template; not
+  yet distributed). Every freeze and identity check of I3a passed on real values (delivery 1 needed every chain field constructed).
+- **N1, with only `check_mapping` and the decision records added:** `holds` — `CP-BUILD-001` and `CP-SELF-ACCEPTANCE-001` are `no-check`
+  (no designer-side check exists for them, as on delivery 1), the other 11 counted rows `pass` by test 5 from the stamped evidence;
+  run twice, byte-identical.
+- **N2, three known-bad inputs on N1, each for its own reason:** another unit's stamped evidence → test 1 "measured another unit";
+  `delivered.tree` altered → `input-defect` (record-fix); `frozen_commit` recorded as `bom-v4` → `input-defect` (the BOM changed between the
+  freeze and the issue; the line resolves to another commit).
+- **What this shows and does not:** the I-rules and D1's identity test work on real per-delivery records, and the only blocker left is a
+  template field. It does not show the decision on a delivery that should hold or fail for a product reason (delivery 2 passes every
+  oracle check), on a second product, or on records written by anyone but this designer. The two `no-check` rows are a standing
+  property of this product's Control Plan (factory self-acceptance only), to be decided at distribution (L5).

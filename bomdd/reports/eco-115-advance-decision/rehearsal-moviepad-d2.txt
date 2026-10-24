@@ -1,0 +1,26 @@
+records b53f048 entry AB-FORWARD-01-factory-02: frozen 085d207f, work order at d39a86a0 (line 'bom-v5'), delivered bd553626 tree df20276d; evidence bomdd/reports/exp-20261024-01/delivery-2/compare.txt first line MEASURED_ON bd5536268806…
+delivered copies equal the frozen revision: M-BOM True, Control Plan True
+== N0 the records as written: input-defect (I3a)
+   - [control-plan-fix] check_mapping absent or outside I2
+== N1 with only what distribution would add (nothing constructed, no stamp assumed):
+   - Control Plan: check_mapping for the comparator's line format (the template field ECO-115 adds)
+   - As-Built: one decision record per counted row (13), written by the receiving side at decision time
+== N1 result: holds (run twice, byte-identical JSON: True)
+   CP-ASSEMBLY-EXPORT-001: pass (test 5)
+   CP-BUILD-001: no-check (test 4) -> control-plan-fix
+   CP-DOCUMENT-001: pass (test 5)
+   CP-EDIT-001: pass (test 5)
+   CP-EXPORT-001: pass (test 5)
+   CP-EXPORT-CLOCK-001: pass (test 5)
+   CP-EXPORT-COPY-001: pass (test 5)
+   CP-EXPORT-VFR-001: pass (test 5)
+   CP-HISTORY-001: pass (test 5)
+   CP-MEDIA-TOOLS-001: pass (test 5)
+   CP-OUTPUT-SETTINGS-001: pass (test 5)
+   CP-PROBE-001: pass (test 5)
+   CP-SELF-ACCEPTANCE-001: no-check (test 4) -> control-plan-fix
+   not decided: {"human_part": [], "named_by_no_unit": ["CP-HARNESS-SELFTEST-001"]}
+== N2 known-bad inputs on N1 (each must change the result for its own reason):
+   OK a stamped evidence of another unit (stage1-check, names 0066d2b): holds ["1: the evidence measured another unit than delivered"]
+   OK delivered.tree altered by one digit: input-defect [["record-fix", "delivered.tree is not the delivered commit's tree"]]
+   OK frozen_commit recorded as bom-v4: input-defect [["work-order-fix", "the Control Plan at the work order's commit differs from frozen_commit's; the BOM changed between the freeze and the issue"], ["work-order-fix", "the frozen revision 'bom-v5' reso

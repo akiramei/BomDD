@@ -21,6 +21,8 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `rehearsal-v2.txt` | its output | `b9a9b9323b39881878ed09551a09e4ee0e14960554b8e4a59ad8d4dba23f99cd` |
 | `run_moviepad.py` | the decision on MoviePad-Remake delivery 1's real records (`git show`, read-only): M0 as they are, M1a/M1b a migrated copy (edits listed; M1b's stamp ASSUMED), M2 known-bad freezes, M3 known-bad evidence lines | `4f6ea4b7d69ea4659f6926ebcdfaa59a90da16f94d1effc396c94bd0d6a2b019` |
 | `rehearsal-moviepad.txt` | its output | `92d06b534d1077abc721a4730f6ebb7de40c184e72ab9057c87cbd7b551c7400` |
+| `run_moviepad_d2.py` | calibration on MoviePad-Remake delivery 2's real records (`b53f048`, AB-FORWARD-01-factory-02): N0 as written, N1 with only check_mapping and the decision records added, N2 three known-bad inputs | `c066ff03f77b7dc4ca5c5c359669d9ed9f889232ade5980b862325b4a55cafaf` |
+| `rehearsal-moviepad-d2.txt` | its output | `42328f3c21e7cb9176adba7e3a05d6986f429a17281376c33c08a1fb2bbe795c` |
 
 Commands (from this folder):
 
