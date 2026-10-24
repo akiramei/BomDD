@@ -8753,3 +8753,61 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
 - [watch 1/3] OBS-20261024-01 — **ViewTube's `bomdd/33-control-plan.yaml` has not parsed as YAML since `cfd00433` (2026-10-06, ECO-VT-232's acceptance commit): 35 revisions in a row; ViewTube's validator only hashes the file, so no check has noticed.** A Control Plan that does not parse cannot be any machine's input; repairing it is a ViewTube ECO.
   source: ECO-114 basis (2026-10-24)
   evidence: bomdd/reports/eco-114-part-standard/measurements.txt (`measure.py`, the last 40 revisions)
+
+## 2026-10-24 External — reinforcement between E-BOM and M-BOM / Control Plan: connection responsibility (recorded only)
+
+**Source**: a joint analysis with an external AI (four review rounds, not in this repository), brought by the user and recorded **only** — not a change to
+any canonical text, not the start of a trial, not a ruling. The operating rules the request states stay in force for it (no added code, instruments
+frozen, no paper review rounds; restart condition below). The entries are self-contained; nothing else of that discussion is recorded.
+
+**Relation to work already in the method** (added at the user's AGREE on the comparison, 2026-10-24): ECO-114 (verified `729b52f`) makes a consuming
+unit name what it uses (`requires`; G3's A1 clause 5) but checks only that the entry exists — its limit L1 says the two sides behaving together is not
+claimed; difference ① below addresses that limit. Difference ② is the calibration the held ECO-115 draft (the advance decision,
+`bomdd/reports/eco-115-advance-decision/draft-order.md`) would need; that draft's rehearsal is a replicated decision script, which ② says is not
+evidence. **Unresolved mismatch:** this entry decides "meaning (back to the human) / technical (the AI decides)" by whether an acceptance expectation or
+tolerance changes; ECO-114 (§4.5 P2/P3) decides by whether a boundary crosses E items — an internal boundary whose change alters an acceptance
+expectation is human here and the AI's there.
+
+- [open] EXP-20261024-02 — **Does making connection responsibility explicit reduce consumer-side unwired misses?** Hypothesis: adding explicit connection
+  responsibility to oracle-first (playbook §4.4), call-site inspection (`61-impact-analysis.md` §1.2) and the hub ledger (§1.4) reduces misses where the
+  consumer side was never wired. Not started until the restart condition holds: real work applies R1-R5 and meets an unresolved ID.
+  - Difference ① (the main trial's object): for a connection whose effect on the consumer side is a condition of the contract, the manufacturing
+    responsibility for that effect goes, by default, to the **consuming** manufacturing unit. Where the actual wiring, registration or notification lives
+    in another unit (a composition root and the like), that place must also be traceable from impact analysis; a concentration on a shared unit is a
+    hub-ledger item (registered by prediction rather than record → say it is a prediction). Two things are kept apart: the unit responsible for making the
+    contract hold, and the artifact that actually has to change. No new ledger, no dedicated unit. Mechanism hypothesis: in an ECO that touches the
+    consuming unit, the connection row (`method/control-plan.md`'s consumer-surface connection row) and the wiring work always enter its work order — if
+    that mechanism cannot be written, difference ① is only added prose.
+  - Difference ② (checked separately, as calibration): for a required check, confirm separately that a fault is detected as a failure, and that the
+    failure is used by the official advance decision to stop. The latter is confirmed on the real entry, configuration, evidence reading and decision
+    implementation — a replicated decision's success is not evidence; "it stopped somewhere" is not evidence. With calibration inputs meeting every other
+    condition, the target CP's normal result passes and its failure stops progress **for that CP as the reason**. Triage: not detected → fix the check's
+    content or observation point; detected yet advancing → fix the evidence hand-over, reading or decision. Premise: if the decision does not output a
+    reason per CP row, confirming needs a change to it; while frozen, record "not connected" and add no new gate.
+  - Scope of the claims (interpretation conditions of this EXP, not rules): consumer-side observation only at boundaries the contract needs, with depth
+    from the existing FMEA and acceptance rules (no blanket E2E), and never a weakening of acceptance's meaning to fit a cheaper check. Meaning vs
+    technical: a decision that changes the expected value or tolerance of an acceptance observation tied to a requirement or an existing ruling is meaning
+    (back to the human); otherwise technical (the AI decides and records). A missing acceptance row is not evidence of discretion (used with the silence
+    checklist); "existing tests still PASS" is not evidence that the meaning is unchanged. Determinism is claimed for the machine-judged part only; golden
+    (human) and R8 (AI review) judgements are outside.
+  - Trial design (fixed only after the restart condition holds; recorded here as design): conditions A = the current procedure (not an older one), A′ = A
+    plus a general instruction of the same length that does not mention connections (e.g. "check exhaustively") — the attention control, B = A plus
+    difference ①. Subjects: past ECOs that really missed something, of the **connection type**, **not used to form this proposal** (the home-setting
+    case — the consumer never read it, latent about three weeks — formed it, so it is for a working check only, not for the effect claim); **count the
+    candidate ECOs first** (scale-01's misses were mainly hub-type; too few connection-type cases means no trial). Inputs: the specification, BOM and
+    pre-change source of that time and the general procedure without case-specific answers; not given: the fixing diff, the cause analysis, lessons
+    naming the missed place. Each condition in its own fresh context, model and search budget equal; several trials per condition, compared as the rate
+    of catches. Fixed before results are opened: the granularity of the target place, the scoring, the over-inclusion and effort allowed, the number of
+    trials. Reading, fixed in advance: A and B both catch → no added effect shown in this case; A misses, B catches, A′ misses → difference ①'s
+    contribution under this condition; A′ also catches → an attention effect, not difference ①'s own; B catches by naming the whole system → not evidence
+    of better precision; B also misses → difference ① did not prevent it. No difference → no new rule.
+  source: an external joint analysis (four rounds), 2026-10-24; recorded at the user's request
+  origin: external(外部 AI との合同分析)
+  evidence: method/improvements.md (this section; the discussion is not in the repository); related: bomdd/60-change-order-eco-114.md L1 and A1,
+    bomdd/reports/eco-115-advance-decision/draft-order.md
+- [watch 1/3] OBS-20261024-02 — **Order of considering corrections after a miss: missing mapping → missing connection owner → only if it still remains,
+  reorganise the manufacturing units.** An order of considering corrective proposals, not three stages every correction must pass through. Its effect on
+  efficiency is not measured, so it does not enter the playbook text.
+  source: the same external joint analysis (difference ③), 2026-10-24
+  origin: external(外部 AI との合同分析)
+  evidence: method/improvements.md (this section)
