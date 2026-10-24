@@ -10,4 +10,7 @@ ECO-114's window `be96698..` (the register's `diff_audit.baseline`) holds ECO-11
 | `diff-window-to-r1.md` | `python -B diff_window.py . be96698 5bc708a` — PASS (3 ECO-114 commits, 26 paths, all allowed; `afabdb1` excluded, before the manufacture, touching none of ECO-114's records or inputs) | `927362f54259e1f411337a9835cbe462d724b44f76eec5fb5d2414d6033545ab` |
 | `control-include-afabdb1.md` | the same with `--control-include afabdb1` (the commit counted as ECO-114's on purpose) — FAIL on C4 and C5, the positive control | `0be77fa7cc94de19f98384aee53f36f6fd2072b15671eb7ed99b2db41c28d8f7` |
 
-The window is measured again at closure on the final head.
+| `diff-window.md` | at closure: `python -B diff_window.py . be96698 5ac2145` — PASS (7 ECO-114 commits, 35 paths, all allowed; `afabdb1` excluded) | `4bfaf0cfd52877e5c79ae16c8eef940a4693f474c8f70d1e2b0d5ff059aa5f9d` |
+| `control-include-afabdb1-final.md` | at closure, `--control-include afabdb1` — FAIL (the control) | `ce6c2351274a6563e8461f9ff72748349bc1dae60db74c66aac85c03296b5d25` |
+
+The acceptance commit after `5ac2145` holds records only (the closure section, the register entry, these files).

@@ -33,6 +33,7 @@
 
 - Filing and design: requested/resolved `claude-opus-5-5`, Claude Code (Claude Agent SDK), provenance **self-reported**.
 - producer: EQ-004
+- inspector: EQ-002
 - Converge round reviewer: a fresh context of the same model (context independence), read-only, resumed each round; loop 2 has a new context.
 - Independent inspection: EQ-002 (Codex), because the change redefines what the method's BOM states and who derives it (precedent: ECO-098).
 
@@ -357,6 +358,74 @@ acceptance text amended by this ruling).
   and L6 carry the ruling). The method text read against §1 by the inspector: P1-P4, O1-O4, C1, A1 with its scope and lazy rule, and A2 stated in their
   canonical places, the copies matching, no omission or contradiction. Regression: only §8's files changed; the diff window `be96698..c221153` PASS and
   its control FAIL; the rehearsal byte-identical; 18 README sha256 match.
+
+## 10. クローズ (closure, 2026-10-24, verified)
+
+The acceptance commit after `5ac2145` holds records only (this section, the register entry, the diff-window evidence). Results by acceptance item:
+
+- **V1 — PASS (the text).** `check_v1_v2.py` on the final tree: 96 named clauses present in their canonical places and copies, §9's rows, the prompt's
+  order, the template fields with their place comments; `--mutations` 96 of 96 caught; the filing tree `25bea38` fails. Completeness beyond the list was
+  read by the inspector in r3 (no omission or contradiction) — user ruling "C".
+- **V2 — PASS (the standard on real units).** The rehearsal re-run on the manufactured field names is byte-identical to the filing's: both products'
+  real BOMs give no failure, 4 allowed changes none, 19 known-bad changes each their own clause; V2 claims A1 and C1's reference part only (user ruling
+  "2:A"; whether a row measures an entry is judged, L2).
+- **V3 — PASS (the gate `inspection`).** EQ-002: r1 境界探索 REJECT IA-01 to IA-04 (§5) → repair under "1:A 2:A" (§6) → r2 是正確認+回帰 REJECT IA-05
+  (§7) → repair under "C" (§8) → r3 是正確認+回帰 **ACCEPT** (§9), read as the gate `inspection` from the ledger's last cell record with a report.
+- **V4 — PASS:** self-conformance exit 0 before each commit (the pre-push witness admits a push only after a PASS); CI success on the tip of every push:
+  `25bea38` 40036248353, `afabdb1` 40041426012 (ECO-115's record, in the window), `286d02c` 40042223303, `5bc708a` 40043205542, `faffcf9` 40049535617,
+  `45fcc66` 40050285583, `c221153` 40051091651, `5ac2145` 40051850314. This commit's run is observed after push.
+- **The diff window, under the exception ruling (1:A on r1's IA-01):** `bomdd/reports/eco-114-part-standard/diff-window/diff-window.md`
+  (`4bfaf0cfd528`): `be96698..5ac2145` PASS, 7 ECO-114 commits, 35 paths, all inside the register's `allowed_paths`; `afabdb1` excluded with its reason,
+  before the manufacture, touching none of ECO-114's records or input files. Positive control (`control-include-afabdb1-final.md`, `ce6c2351274a`): FAIL.
+- **The promotion decision** (bomdd-run under ECO-112's G3, dry, on the tree of this closure): **ADVANCE OK** (decision
+  `20261024T020546.994337Z`, tree `e5c5b01bded8`): `required_gates` = `matched_gates` = [V1, V2, inspection] — V1 and V2 from the witness gates
+  (`check_v1_v2.py` and the rehearsal re-run on that tree), `inspection` derived from the ledger (r3, ACCEPT, 是正確認+回帰, inspector EQ-002 required by
+  this order's equipment line); three stored briefs, each with its committed copy (`brief_copies` 3). The equipment line `inspector: EQ-002` was added
+  with this closure: without it the first dry run read the inspection as not required (R11), although the gate still matched by name.
+- **The `{sha256, path}` pairs of ECO-114's stored briefs (ECO-112 B4):**
+  - `c615d8bda30b859c88a3153cf690b0547a23605c0023d3b0f9fbdb220b7b3685` — `bomdd/reports/eco-114-part-standard/inspection-brief-r1.md` (r1)
+  - `26cb1c95a3dd0a7449257804406143141a125f376d43017bb0cf27f57971867d` — `bomdd/reports/eco-114-part-standard/inspection-brief-r2.md` (r2)
+  - `e424f389fd250eed15019788fdf21a9715480850e0df3ae07b5a370c5481c63f` — `bomdd/reports/eco-114-part-standard/inspection-brief-r3.md` (r3)
+- **Declared limits that stay:** L1-L6 as in §1; the design was adopted unconverged by the user's cut-off ruling (receipt, loop 3). Not done here and
+  recorded elsewhere: distribution to the products (a separate ECO); the MoviePad re-manufacture trial (EXP-20261024-01); ViewTube's unparsable Control
+  Plan (OBS-20261024-01); OBS-20261018-02 at 3/3, due for its promotion review (the user's stop point); ECO-115 held unconverged (record `afabdb1`).
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer)
+
+- **The claim (one sentence).** The method now states each unit's part standard (provides with ruled or derived boundaries, requires with targets),
+  external promises once in the E-BOM, the Phase 3 order with owners by layer, and assembly resolution checked from the BOM files at G3, and the evidence
+  shows the text says so and the resolution rules can be applied as written to real BOMs.
+- **査定した主張と判定** (claims assessed; measurement × evidence):
+  - "The text states the rules in their canonical places and the copies match": **observed / conditionally eligible** — 96 named clauses with a
+    removal each (96/96 caught) and a control; completeness beyond the list rests on the inspector's reading (r3), not on the instrument (L6).
+  - "A1 and C1's reference part apply as written to real BOMs": **observed / eligible** for the shapes in `shapes.txt` — both real BOMs (no failure,
+    the lazy scope), 4 allowed and 19 known-bad one-change cases on four ViewPrism2 units, byte-identical across filing, manufacture and r3.
+  - "A row measures the entries it lists" (C1): **unknown — not mechanically measurable (by ruling 2:A)**; no qualification given; it is the
+    orchestrating AI's judgement and the inspection's reading (L2).
+  - "The part standard makes a part usable by the next process in a real product": **unknown — not run** (no product has used it; EXP-20261024-01).
+- **検出した計器欠陥と帰属** (instrument defects found): 4, all in this ECO's own `check_v1_v2.py`: (1) a step-order match outside §4.6; (2) a traceback
+  instead of FAIL on the control tree (both before the manufacture commit); (3) labels and selected tokens instead of clauses, passing while O4 was
+  missing from its canonical place (r1 IA-03, found by the inspector); (4) a clause list not covering §1 (r2 IA-05, found by the inspector), and in its
+  repair a clause whose bare form occurred twice was missed by the first mutation run. Attribution: the producer's instrument; (3) and (4) were found
+  only by the independent inspection after the producer's checks had passed.
+- **宣言した検出力の限界:** the English register and the Japanese text cannot be compared mechanically (L6); "measures" is judged (L2); the rehearsal
+  covers four units of one product and both products' legacy BOMs only under the lazy scope; no product ECO has exercised the rules; the
+  self-assessment is the producer's own, the inspections r1-r3 and the converge reviewers are the outside checks.
+- **Battery, row by row:**
+  - **Q1 asked.** The checker's docstring and README against its code (r1 found the overclaim; repaired).
+  - **Q2 asked.** Known-bad / known-good in pairs: 96 clause removals; the filing tree as control; 19 known-bad and 4 allowed rehearsal cases; the diff
+    window's control.
+  - **Q3 asked.** Each clause fails alone (one removal per clause); each A1 clause has its own case.
+  - **Q4 asked.** The rehearsal reads the products' real BOMs and a rehearsal BOM written from real entries; no declared-only fixture.
+  - **Q5 asked.** A missing heading or path is FAIL, not a crash (repaired); "measures" is recorded as unknown, not as a pass.
+  - **Q6 asked.** Each commit after self-conformance exit 0; each inspection launched after CI success; each report read before its record.
+  - **Q7 asked.** Positive controls for the checker (the filing tree, the mutations), the rehearsal (known-bad cases) and the diff window.
+  - **Q8 NA.** No preventive gate is added by this ECO (A1 runs at G3 by the orchestrating AI; no mechanical gate).
+  - **Q9 asked.** The evidence READMEs' sha256 against the committed bytes (r1-r3 checked 18 each).
+  - **Q10 asked.** The limits above and L1-L6.
+  - **Q11 asked.** The rehearsal's real BOMs (legacy, no standard) and the rehearsal BOM (with standards) are measured as separate classes.
+- **What this closure does not support:** a product effect (no distribution is filed); that the rules are right for products other than the two
+  measured; ECO-115's advance decision.
 
 ## 収束 receipt (converge self-application)
 
