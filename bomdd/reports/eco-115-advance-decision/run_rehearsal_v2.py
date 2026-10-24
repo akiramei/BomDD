@@ -138,6 +138,23 @@ ISSUED = "2" * 40          # synthetic commit at which the work order was issued
 WO = f"# Work Order\n- 対象 BOM tag/commit: {FROZEN}\n- Routing ref: `bomdd/34-routing.yaml`\n"
 
 
+LATER = "4" * 40           # synthetic commit after the work order's issue, before the delivery
+OTHER = "5" * 40           # synthetic commit on another line of history
+HISTORY = [FROZEN, ISSUED, LATER, REV]
+TAGS = {"bom-x": FROZEN, "bom-late": LATER}
+
+
+def stub_resolve(rev):
+    return rev if rev in HISTORY or rev == OTHER else TAGS.get(rev)
+
+
+# round 1 L4E1-5: the synthetic cases run with git (a stub history FROZEN < ISSUED < LATER < REV, OTHER outside it), so the base case
+# exercises the ancestry rules; git=None is its own case (input-defect, L8)
+GIT_STUB = {"resolve": stub_resolve,
+            "is_ancestor": lambda a, b: a in HISTORY and b in HISTORY and HISTORY.index(a) <= HISTORY.index(b),
+            "tree": lambda c: TREE if c == REV else ("6" * 40 if c in HISTORY else None)}
+
+
 def frozen_entry(rev, recs, issued=ISSUED):
     return {"work_order_ref": f"bomdd/40-work-order.md@{issued}", "mbom_ref": f"bomdd/32-mbom.yaml@{rev}",
             "control_plan_ref": f"bomdd/33-control-plan.yaml@{rev}", "delivered": dict(DELIVERED), "test_evidence_refs": recs,
@@ -146,7 +163,7 @@ def frozen_entry(rev, recs, issued=ISSUED):
 
 def run_case(td, change):
     mbom, cp, tests = base()
-    ctx = {"mbom_text": None, "cp_text": None, "delivered_texts": None, "entry_edit": None, "evidence": None, "wo_text": None, "no_file": False}
+    ctx = {"mbom_text": None, "cp_text": None, "delivered_texts": None, "entry_edit": None, "evidence": None, "wo_text": None, "no_file": False, "no_git": False}
     change(mbom, cp, tests, ctx)
     ev = ctx["evidence"] if ctx["evidence"] is not None else xml(tests)
     path = os.path.join(td, "ev.xml")
@@ -163,7 +180,7 @@ def run_case(td, change):
     if ctx["entry_edit"]:
         ctx["entry_edit"](entry)
     wo = ctx["wo_text"] if ctx["wo_text"] is not None else WO
-    return rd.decide(wo, mt, ct, entry, td, ctx["delivered_texts"] or (mt, ct))
+    return rd.decide(wo, mt, ct, entry, td, ctx["delivered_texts"] or (mt, ct), None if ctx["no_git"] else GIT_STUB)
 
 
 def setv(**kw):
@@ -198,7 +215,25 @@ CASES = [
      ("input-defect", "no single '対象 BOM tag/commit' line")),
     ("I3a work order with two frozen-revision lines", setv(wo_text=WO + f"- 対象 BOM tag/commit: {FROZEN}\n"),
      ("input-defect", "no single '対象 BOM tag/commit' line")),
-    ("I3a frozen revision given as a tag, no git to resolve it", setv(wo_text="- 対象 BOM tag/commit: v1.2\n"), ("input-defect", "cannot be resolved to a commit")),
+    ("I3a frozen revision given as a tag git cannot resolve", setv(wo_text="- 対象 BOM tag/commit: v1.2\n"), ("input-defect", "cannot be resolved to a commit")),
+    ("I3a (v2) frozen revision given as a tag that resolves to frozen_commit, in backticks", setv(wo_text="- 対象 BOM tag/commit: `bom-x`\n"),
+     ("advances", None)),
+    ("I3a (v2) git unavailable", setv(no_git=True), ("input-defect", "git is not available")),
+    ("I3a (v2) frozen_commit on another line of history",
+     lambda m, c, t, ctx: ctx.update(wo_text=f"- 対象 BOM tag/commit: {OTHER}\n", entry_edit=lambda e: e.update(
+         frozen_commit=OTHER, mbom_ref=f"bomdd/32-mbom.yaml@{OTHER}", control_plan_ref=f"bomdd/33-control-plan.yaml@{OTHER}")),
+     ("input-defect", "frozen_commit is not an ancestor of the delivered commit")),
+    ("I3a (v2) the freeze after the issue (a tag moved to a later commit before receipt)",
+     lambda m, c, t, ctx: ctx.update(wo_text="- 対象 BOM tag/commit: bom-late\n", entry_edit=lambda e: e.update(
+         frozen_commit=LATER, mbom_ref=f"bomdd/32-mbom.yaml@{LATER}", control_plan_ref=f"bomdd/33-control-plan.yaml@{LATER}")),
+     ("input-defect", "the freeze must precede the issue")),
+    ("I3a (v2) the work order's commit outside the delivered history",
+     lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.update(work_order_ref=f"bomdd/40-work-order.md@{OTHER}")),
+     ("input-defect", "the work order's commit is not an ancestor of the delivered commit")),
+    ("I3a (v2) delivered.tree is not the delivered commit's tree", lambda m, c, t, ctx: ctx.update(
+        entry_edit=lambda e: e.update(delivered={"commit": REV, "tree": "7" * 40})), ("input-defect", "delivered.tree is not the delivered commit's tree")),
+    ("I3a (v2) a line format whose row_key lacks the group outcome", lambda m, c, t, ctx: c["control_plan"]["check_mapping"].update(
+        line={"row_key": r"(?P<row>\S+)", "outcomes": {"PASS": "passed"}, "identity": IDENTITY}), ("input-defect", "check_mapping")),
     ("I3a entry's control_plan_ref naming another revision",
      lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.update(control_plan_ref="bomdd/33-control-plan.yaml@" + "3" * 40)),
      ("input-defect", "control_plan_ref does not name frozen_commit")),
@@ -208,7 +243,7 @@ CASES = [
     ("I3a no work_order_ref", lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.pop("work_order_ref")), ("input-defect", "no work_order_ref")),
     ("I3a (v2) no frozen_commit in the entry", lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.pop("frozen_commit")),
      ("input-defect", "no frozen_commit")),
-    ("I3a (v2) the frozen revision is the delivered commit, line and refs agreeing, no git",
+    ("I3a (v2) the frozen revision is the delivered commit, line and refs agreeing",
      lambda m, c, t, ctx: ctx.update(wo_text=f"- 対象 BOM tag/commit: {REV}\n", entry_edit=lambda e: e.update(
          frozen_commit=REV, mbom_ref=f"bomdd/32-mbom.yaml@{REV}", control_plan_ref=f"bomdd/33-control-plan.yaml@{REV}")),
      ("input-defect", "frozen_commit is the delivered commit")),
@@ -242,8 +277,8 @@ CASES = [
      ("input-defect", "check_mapping")),
     ("I3a (v2) an identity without the group tree", lambda m, c, t, ctx: c["control_plan"]["check_mapping"]["xunit-v3"].update(
         identity=r"MEASURED_ON (?P<commit>[0-9a-f]{40})"), ("input-defect", "check_mapping")),
-    ("I3b no delivered", lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.pop("delivered")), ("input-defect", "delivered None")),
-    ("I3b malformed delivered", lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.update(delivered={"commit": REV})), ("input-defect", "delivered")),
+    ("I3a no delivered", lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.pop("delivered")), ("input-defect", "delivered None")),
+    ("I3a malformed delivered", lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.update(delivered={"commit": REV})), ("input-defect", "delivered")),
     ("I3b counted row with no record", lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e["test_evidence_refs"].pop(0)),
      ("input-defect", "has 0 decision records")),
     ("I3b two records for one row", lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e["test_evidence_refs"].append(dict(e["test_evidence_refs"][0]))),
@@ -264,6 +299,10 @@ CASES = [
     ("D1-1 (v2) the evidence names two measured units", lambda m, c, t, ctx: ctx.update(evidence=xml(t, [DELIVERED, {"commit": "3" * 40, "tree": TREE}])),
      ("holds", ("CP-A", "unmeasurable", "1: the evidence names more than one measured unit"))),
     ("D1-1 evidence with no checks", setv(evidence=xml([])), ("holds", ("CP-A", "unmeasurable", "1: evidence holds no check"))),
+    ("D1-1 (v2) a failed check no row owns (no cp trait)", add_test("Fail", []),
+     ("holds", ("CP-A", "unmeasurable", "1: the evidence reports a failure no counted row owns"))),
+    ("D1-1 (v2) a failed check of a row named by no unit", add_test("Fail", ["CP-UNNAMED"]),
+     ("holds", ("CP-B", "unmeasurable", "1: the evidence reports a failure no counted row owns"))),
     ("D1-1 unmapped outcome term", add_test("Inconclusive", ["CP-A"]), ("holds", ("CP-A", "unmeasurable", "1: outcome term 'Inconclusive' not in check_mapping"))),
     ("D1-2 failed check", add_test("Fail", ["CP-A"]), ("holds", ("CP-A", "violation", "2"))),
     ("D1-3 all checks skipped", lambda m, c, t, ctx: t.__setitem__(0, ("Skip", ["CP-A"])), ("holds", ("CP-A", "unmeasurable", "3"))),
@@ -312,28 +351,34 @@ def main():
     with tempfile.TemporaryDirectory() as td:
         open(os.path.join(td, "cp-results.xml"), "wb").write(raw)
         mtext, ctext = show(vp2, "bomdd/32-mbom.yaml"), show(vp2, "bomdd/33-control-plan.yaml")
-        # constructed (neither product's work order has the line; measure_freeze.py). v2: the frozen revision is 504921a's parent b63897a
-        # (v1 froze 504921a itself, the delivered commit — the case L3E2-3 named, which v2's I3a refuses), the work order is taken as issued
-        # at f697a82 (b63897a's parent, ECO-147's filing), and the delivery is 504921a. The M-BOM and the Control Plan are the same blobs at
-        # b63897a and 504921a (git rev-parse: 52d46d57, 0f1fc379), so the delivered copies are byte-equal by the data, not by construction.
-        wo = f"- 対象 BOM tag/commit: {PARENT}\n"
-        gitcb = {"resolve": lambda rev: rev if len(rev) == 40 else None,
-                 "is_ancestor": lambda a, b: subprocess.run(["git", "-C", vp2, "merge-base", "--is-ancestor", a, b]).returncode == 0}
-        mtext_f, ctext_f = show(vp2, "bomdd/32-mbom.yaml", PARENT), show(vp2, "bomdd/33-control-plan.yaml", PARENT)
-        assert (mtext_f, ctext_f) == (mtext, ctext), "the BOM differs between b63897a and 504921a"
-        d0 = rd.decide(wo, mtext, ctext, frozen_entry(PARENT, [], ISSUED_VP2), td, (mtext, ctext), gitcb)
+        # constructed (neither product's work order has the line; measure_freeze.py). v2: the frozen revision and the work order's issue are
+        # both f697a82 (ECO-147's filing; the freeze may equal the issue but not follow it — round 1 L4E1-3: v1's freeze at 504921a and the
+        # first v2 freeze at b63897a each followed the issue), and the delivery is 504921a. The M-BOM and the Control Plan are the same blobs at
+        # f697a82 and 504921a (asserted below), so the delivered copies are byte-equal by the data, not by construction.
+        wo = f"- 対象 BOM tag/commit: {ISSUED_VP2}\n"
+
+        def run_git(*args):
+            return subprocess.run(["git", "-C", vp2, *args], capture_output=True)
+
+        gitcb = {"resolve": lambda rev: (lambda p: p.stdout.decode().strip() if p.returncode == 0 else None)(
+                     run_git("rev-parse", "--verify", "--quiet", f"{rev}^{{commit}}")),
+                 "is_ancestor": lambda a, b: run_git("merge-base", "--is-ancestor", a, b).returncode == 0,
+                 "tree": lambda c: (lambda p: p.stdout.decode().strip() if p.returncode == 0 else None)(run_git("rev-parse", f"{c}^{{tree}}"))}
+        mtext_f, ctext_f = show(vp2, "bomdd/32-mbom.yaml", ISSUED_VP2), show(vp2, "bomdd/33-control-plan.yaml", ISSUED_VP2)
+        assert (mtext_f, ctext_f) == (mtext, ctext), "the BOM differs between f697a82 and 504921a"
+        d0 = rd.decide(wo, mtext, ctext, frozen_entry(ISSUED_VP2, [], ISSUED_VP2), td, (mtext, ctext), gitcb)
         summary("R0 ViewPrism2 at 504921a as it is", d0, out)
         m1, c1, edits = migrate(yaml.safe_load(mtext), yaml.safe_load(ctext))
         mt1, ct1 = dump(m1), dump(c1)
         out.append("== R1 edits of the migrated copy:")
         out.extend(f"   - {e}" for e in edits)
-        d1 = rd.decide(wo, mt1, ct1, frozen_entry(PARENT, records(m1, c1, "cp-results.xml", sha), ISSUED_VP2), td, (mt1, ct1), gitcb)
+        d1 = rd.decide(wo, mt1, ct1, frozen_entry(ISSUED_VP2, records(m1, c1, "cp-results.xml", sha), ISSUED_VP2), td, (mt1, ct1), gitcb)
         summary("R1a migrated copy, the stored results as they are (they name no measured unit)", d1, out)
         # v2: the measured unit is read from the evidence (check_mapping identity). The stored results name none; R1b appends an XML comment
         # naming 504921a, as an instrument stamping its run would — ASSUMED, design evidence only (the results were measured before 504921a).
         stamped = raw + ("\n" + stamp(DELIVERED) + "\n").encode()
         open(os.path.join(td, "cp-results-assumed.xml"), "wb").write(stamped)
-        e2 = frozen_entry(PARENT, records(m1, c1, "cp-results-assumed.xml", hashlib.sha256(stamped).hexdigest()), ISSUED_VP2)
+        e2 = frozen_entry(ISSUED_VP2, records(m1, c1, "cp-results-assumed.xml", hashlib.sha256(stamped).hexdigest()), ISSUED_VP2)
         d2 = rd.decide(wo, mt1, ct1, e2, td, (mt1, ct1), gitcb)
         summary("R1b migrated copy, the results stamped as measured on 504921a ASSUMED (design evidence only; not what the data show)", d2, out)
         out.append(f"   R-050 on R1b's records, in unit/CP pairs: {r050(m1, d2)}")

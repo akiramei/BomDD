@@ -48,7 +48,8 @@ def main():
     lines = []
     say = lines.append
     gitcb = {"resolve": lambda rev: full(repo, rev),
-             "is_ancestor": lambda a, b: git(repo, "merge-base", "--is-ancestor", a, b)[0] == 0}
+             "is_ancestor": lambda a, b: git(repo, "merge-base", "--is-ancestor", a, b)[0] == 0,
+             "tree": lambda c: (lambda r: r[1].decode().strip() if r[0] == 0 else None)(git(repo, "rev-parse", f"{c}^{{tree}}"))}
     wo_full, delivered, frozen = full(repo, WO_COMMIT), full(repo, DELIVERED_COMMIT), full(repo, TAG)
     tree = git(repo, "rev-parse", f"{DELIVERED_COMMIT}^{{tree}}")[1].decode().strip()
     wo_text = show(repo, wo_full, "bomdd/40-work-order.md")
@@ -75,10 +76,11 @@ def main():
         # M1: a migrated copy
         say("== M1 migration (each edit is a decision a distribution ECO would make, listed):")
         cp_doc = yaml.safe_load(cp)
-        cp_doc["control_plan"]["check_mapping"] = {"line": {"row_key": "token2", "outcomes": {"PASS": "passed", "FAIL": "failed"},
+        cp_doc["control_plan"]["check_mapping"] = {"line": {"row_key": r"(?P<outcome>[A-Z]+) (?P<row>\S+)(?: .*)?",
+                                                             "outcomes": {"PASS": "passed", "FAIL": "failed"},
                                                              "identity": r"(?m)^MEASURED_ON (?P<commit>[0-9a-f]{40}) (?P<tree>[0-9a-f]{40})$"}}
-        say("   - Control Plan: check_mapping {line: row_key token2, PASS->passed, FAIL->failed, identity: a line 'MEASURED_ON <commit> <tree>'}"
-            " (compare.py's output format; compare.py writes no such line today)")
+        say("   - Control Plan: check_mapping {line: row_key '<OUTCOME in capitals> <row> ...', PASS->passed, FAIL->failed,"
+            " identity: a line 'MEASURED_ON <commit> <tree>'} (compare.py's output format; compare.py writes no such line today)")
         cp_m = yaml.safe_dump(cp_doc, allow_unicode=True, sort_keys=False)
         entry = {k: v for k, v in entry0.items() if k not in ("test_evidence_refs",)}
         entry.update({"frozen_commit": frozen, "work_order_ref": f"bomdd/40-work-order.md@{wo_full}",
@@ -107,39 +109,59 @@ def main():
             rec["evidence_sha256"] = ev_sha
         say("   - M1b: compare.txt with a line 'MEASURED_ON <f30d771> <tree>' appended — ASSUMED, as compare.py would stamp its run")
         r1 = rd.decide(wo_text, mbom, cp_m, entry, td, (d_mbom, cp_m), gitcb)
-        say(f"== M1b the migrated copy, stamped (ASSUMED): {r1['result']}")
+        again = rd.decide(wo_text, mbom, cp_m, entry, td, (d_mbom, cp_m), gitcb)
+        say(f"== M1b the migrated copy, stamped (ASSUMED): {r1['result']}"
+            f" (run twice, byte-identical JSON: {json.dumps(r1, sort_keys=True) == json.dumps(again, sort_keys=True)})")
         for row, v in sorted((r1.get("rows") or {}).items()):
             say(f"   {row}: {v['category']} (test {v['test']}){' -> ' + v['route'] if v['route'] else ''}")
         say(f"   not decided: {json.dumps(r1.get('not_decided'))}")
         for route, text in r1.get("defects", []):
             say(f"   - [{route}] {text}")
 
-        # M2: known-bad freezes on the migrated copy
-        say("== M2 known-bad freezes (each must be input-defect for its stated reason):")
+        # M2: known-bad freezes on the migrated copy (I3a); each lists every reason it gives — a freeze at the delivered commit is
+        # necessarily also after the issue and not what the line resolves to, so its reasons cannot be isolated (round 1 L4E1-8)
+        later = full(repo, RECORDS_COMMIT)
+        wo_later = show(repo, later, "bomdd/40-work-order.md")
+        v3 = full(repo, "bom-v3")
+        say("== M2 known-bad freezes on the migrated copy (I3a; each must be input-defect with its stated reason among those listed):")
         cases = [
             ("frozen_commit is the delivered commit", {"frozen_commit": delivered, "mbom_ref": f"bomdd/32-mbom.yaml@{delivered}",
-                                                       "control_plan_ref": f"bomdd/33-control-plan.yaml@{delivered}"}, None, "frozen_commit is the delivered commit"),
-            ("the work order named at a commit after the delivery", {"work_order_ref": f"bomdd/40-work-order.md@{full(repo, RECORDS_COMMIT)}"}, None,
-             "the work order's commit is not an ancestor"),
-            ("frozen_commit recorded as bom-v3 while the line names bom-v4", {"frozen_commit": full(repo, "bom-v3"),
-                                                                             "mbom_ref": f"bomdd/32-mbom.yaml@{full(repo, 'bom-v3')}",
-                                                                             "control_plan_ref": f"bomdd/33-control-plan.yaml@{full(repo, 'bom-v3')}"}, None,
+                                                       "control_plan_ref": f"bomdd/33-control-plan.yaml@{delivered}"}, wo_text,
+             "frozen_commit is the delivered commit"),
+            ("the work order read at a commit after the delivery (e1d71b3, its text as there)",
+             {"work_order_ref": f"bomdd/40-work-order.md@{later}"}, wo_later, "the work order's commit is not an ancestor"),
+            ("frozen_commit recorded as bom-v3 while the line names bom-v4", {"frozen_commit": v3, "mbom_ref": f"bomdd/32-mbom.yaml@{v3}",
+                                                                             "control_plan_ref": f"bomdd/33-control-plan.yaml@{v3}"}, wo_text,
              "not the recorded frozen_commit"),
-            ("a FAIL line for one row in the evidence", {}, b"FAIL CP-EDIT-001 injected\n", "violation"),
+            ("delivered.tree not the delivered commit's tree", {"delivered": {"commit": delivered, "tree": full(repo, TAG + "^{tree}") or "0" * 40}},
+             wo_text, "delivered.tree is not the delivered commit's tree"),
         ]
-        for name, edit, extra, expect in cases:
+        for name, edit, wo, expect in cases:
             e = copy.deepcopy(entry)
             e.update(edit)
-            if extra:
-                bad = evidence + extra
-                ev.write_bytes(bad)
-                for rec in e["test_evidence_refs"]:
-                    rec["evidence_sha256"] = hashlib.sha256(bad).hexdigest()
+            r = rd.decide(wo, mbom, cp_m, e, td, (d_mbom, cp_m), gitcb)
+            ok = r["result"] == "input-defect" and expect in json.dumps(r)
+            say(f"   {'OK' if ok else 'MISSED'} {name}: {r['result']} {json.dumps(r.get('defects'))}")
+        # M3: known-bad evidence lines on the migrated, stamped copy (D1)
+        say("== M3 known-bad evidence lines (D1; each changes only compare.txt, its sha256 recomputed):")
+        lines3 = [
+            ("a FAIL line for one row", b"FAIL CP-EDIT-001 injected\n", ("CP-EDIT-001", "violation", "2")),
+            ("an outcome term not mapped (ERROR)", b"ERROR CP-EDIT-001 crashed\n", ("CP-EDIT-001", "unmeasurable", "1: outcome term 'ERROR' not in check_mapping")),
+            ("compare.py's own line when spec-checks.json is missing (compare.py:211-213)",
+             b"FAIL spec-checks.json missing from the observed directory (CP-MEDIA-TOOLS-001, CP-EXPORT-001 not measured)\n",
+             ("CP-EXPORT-001", "unmeasurable", "1: the evidence reports a failure no counted row owns")),
+        ]
+        for name, extra, (row, cat, test) in lines3:
+            bad = evidence + extra
+            ev.write_bytes(bad)
+            e = copy.deepcopy(entry)
+            for rec in e["test_evidence_refs"]:
+                rec["evidence_sha256"] = hashlib.sha256(bad).hexdigest()
             r = rd.decide(wo_text, mbom, cp_m, e, td, (d_mbom, cp_m), gitcb)
             ev.write_bytes(evidence)
-            text = json.dumps(r)
-            ok = expect in text and (r["result"] == "input-defect" or expect == "violation")
-            say(f"   {'OK' if ok else 'MISSED'} {name}: {r['result']} {json.dumps(r.get('defects') or {k: v for k, v in (r.get('rows') or {}).items() if v['category'] != 'pass'})[:220]}")
+            v = (r.get("rows") or {}).get(row, {})
+            ok = r["result"] == "holds" and v.get("category") == cat and v.get("test") == test
+            say(f"   {'OK' if ok else 'MISSED'} {name}: {r['result']}, {row} {v.get('category')} (test {v.get('test')})")
     Path(out_path).write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     print("\n".join(lines))
 

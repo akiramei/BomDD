@@ -16,11 +16,11 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `draft-order.md` | the ECO-115 design draft as held (not filed; D3 reverted to the ruling "2:A"), with its basis, rules, acceptance and the converge receipt of all loops | — |
 | `measure_freeze.py` | whether each product's work order has the frozen-revision line and its As-Built the references the freeze check reads (HEAD, `git show`) | `1d1454282329984fde3c164756f28a7ff8705f7eb4a1f91d87be93c86cec6424` |
 | `freeze-inputs.txt` | its output | `e530fc266debdc424010ee53e721adc5b8058080dd7f9f08e50b9c403d869967` |
-| `rehearse_decision_v2.py` | loop 4 (redesign after EXP-20261024-01): the decision as the draft now states it — `frozen_commit` resolved at receipt, ancestry and frozen ≠ delivered, `delivered` `{commit, tree}` only, `identity` read from the evidence, the `line` format | `472bff1744bbaa1ee95d3dfedf58c437cf219173120c501ff6657e468cfda5a8` |
-| `run_rehearsal_v2.py` | its driver on ViewPrism2 (the freeze constructed at `504921a`'s parent, ancestry on ViewPrism2's git) and the synthetic cases | `2dd7f364132ac454c87eb3635a1cd04a3fade8eb71336a126b8b3c26bc635eae` |
-| `rehearsal-v2.txt` | its output | `1f43596e4ce84cf6f42876818802e8720ac22c60854ca7843bffce845df1c035` |
-| `run_moviepad.py` | the decision on MoviePad-Remake delivery 1's real records (`git show`, read-only): M0 as they are, M1a/M1b a migrated copy (edits listed; M1b's stamp ASSUMED), M2 known-bad freezes | `9b830852637647fc4d7603bb7dd84586f1ce59ed92efd3c447509af5ca13cca3` |
-| `rehearsal-moviepad.txt` | its output | `a850c7e7dc5d82d5eb034b53748eab4c035d8a2b326d2c12a276348648b46f40` |
+| `rehearse_decision_v2.py` | loop 4 (redesign after EXP-20261024-01): the decision as the draft now states it — `frozen_commit` resolved at receipt, ancestry and frozen ≠ delivered, `delivered` `{commit, tree}` only, `identity` read from the evidence, the `line` format; after loop 4 round 1: git required, the tree checked, freeze ≤ issue, a failure no counted row owns | `d38d186443be1445f8180e1e568dce6e5ba04559ec06b449afaaa4e1fd8c3061` |
+| `run_rehearsal_v2.py` | its driver on ViewPrism2 (freeze = issue = `f697a82`, delivery `504921a`, ancestry and tree on ViewPrism2's git) and the synthetic cases on a stub git history and the synthetic cases | `b75db88392b679d6d58edcbba88e33895d425638d1acea7098cb0a29c30846d5` |
+| `rehearsal-v2.txt` | its output | `d2d0d1a8372bc2e6d9ec593a12ca747ed1d5be36dd791b88d78d6f17e6120aee` |
+| `run_moviepad.py` | the decision on MoviePad-Remake delivery 1's real records (`git show`, read-only): M0 as they are, M1a/M1b a migrated copy (edits listed; M1b's stamp ASSUMED), M2 known-bad freezes, M3 known-bad evidence lines | `acec1d58f2e2d9a30e39f11eea0d2fb29e252c59d95d218b758f7fab7aa48e9a` |
+| `rehearsal-moviepad.txt` | its output | `d8be43d1f443a8520f1fa2e9070161a71c797fc08728839c93f67fc60400d679` |
 
 Commands (from this folder):
 

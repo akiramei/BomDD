@@ -60,18 +60,26 @@ def i3a(mbom_text, cp_text, delivered_texts=None, work_order_text=None, entry=No
     """Input check before running anything. Returns (defects, units, assembly, rows_by_id, mapping).
     work_order_text and entry None: the freeze checks are not made (library use by the drivers' record builder only).
     v2 (redesign after EXP-20261024-01): the work order's line may name a tag or a commit; the receiving side records the
-    commit it resolved to as the entry's frozen_commit at receipt. git, when given, is {"resolve": rev -> 40-hex or None,
-    "is_ancestor": (a, b) -> bool}; with it, the line must still resolve to frozen_commit, and frozen_commit and the work
-    order's commit must both be ancestors of the delivered commit and differ from it. Without it (synthetic cases) a line
-    that is not a 40-hex commit cannot be checked and is a defect, as in v1."""
+    commit it resolved to as the entry's frozen_commit at receipt. git is required (L8): {"resolve": rev -> 40-hex or None,
+    "is_ancestor": (a, b) -> bool, "tree": commit -> 40-hex or None}; without it the decision is input-defect. delivered is
+    checked here, before the freeze checks that read it (round 1 L4E1-7). The line must resolve to frozen_commit;
+    frozen_commit is an ancestor of, or equal to, the work order's commit (the freeze precedes the issue, L4E1-3), and both
+    are ancestors of the delivered commit and differ from it; delivered.tree is the delivered commit's tree (L4E1-4)."""
     mbom_doc, e1 = parse(mbom_text, "bom-fix", "M-BOM")
     cp_doc, e2 = parse(cp_text, "control-plan-fix", "Control Plan")
     defects = [e for e in (e1, e2) if e]
     if work_order_text is not None:
         entry = entry or {}
+        if not git:
+            return defects + [("record-fix", "git is not available to the decision (L8)")], None, None, None, None
         wref = REF.fullmatch(str(entry.get("work_order_ref", "")))
-        dcommit = (entry.get("delivered") or {}).get("commit")
+        delivered = entry.get("delivered")
+        dcommit = delivered["commit"] if delivered_ok(delivered) else None
         frozen = str(entry.get("frozen_commit", ""))
+        if dcommit is None:
+            defects.append(("record-fix", f"delivered {delivered!r} missing or outside I2"))
+        elif git["tree"](dcommit) != delivered["tree"]:
+            defects.append(("record-fix", "delivered.tree is not the delivered commit's tree"))
         if not wref:
             defects.append(("record-fix", "the entry has no work_order_ref '<path>@<40-hex commit>'"))
         elif dcommit and wref.group(2) == dcommit:
@@ -82,7 +90,7 @@ def i3a(mbom_text, cp_text, delivered_texts=None, work_order_text=None, entry=No
         if rev is None:
             defects.append(("work-order-fix", "the work order has no single '対象 BOM tag/commit' line"))
         elif HEX40.fullmatch(frozen):
-            resolved = rev if HEX40.fullmatch(rev) else (git["resolve"](rev) if git else None)
+            resolved = git["resolve"](rev)
             if resolved is None:
                 defects.append(("work-order-fix", f"the frozen revision {rev!r} cannot be resolved to a commit"))
             elif resolved != frozen:
@@ -91,10 +99,13 @@ def i3a(mbom_text, cp_text, delivered_texts=None, work_order_text=None, entry=No
                 m = REF.fullmatch(str(entry.get(key, "")))
                 if not m or m.group(2) != frozen:
                     defects.append(("record-fix", f"the entry's {key} does not name frozen_commit"))
-            if frozen == dcommit:
-                defects.append(("work-order-fix", "frozen_commit is the delivered commit; it must precede the work"))
-            elif git and dcommit:
-                for label, commit in (("frozen_commit", frozen), ("the work order's commit", wref.group(2) if wref else None)):
+            issued = wref.group(2) if wref else None
+            if issued and frozen != issued and not git["is_ancestor"](frozen, issued):
+                defects.append(("work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"))
+            if dcommit:
+                if frozen == dcommit:
+                    defects.append(("work-order-fix", "frozen_commit is the delivered commit; it must precede the work"))
+                for label, commit in (("frozen_commit", frozen), ("the work order's commit", issued)):
                     if commit is not None and commit != dcommit and not git["is_ancestor"](commit, dcommit):
                         defects.append(("work-order-fix", f"{label} is not an ancestor of the delivered commit"))
     if delivered_texts is not None:
@@ -153,7 +164,8 @@ def i3a(mbom_text, cp_text, delivered_texts=None, work_order_text=None, entry=No
     mapping = cp.get("check_mapping")
     ok = isinstance(mapping, dict) and mapping and all(
         isinstance(m, dict) and isinstance(m.get("row_key"), str) and isinstance(m.get("outcomes"), dict)
-        and set(m["outcomes"].values()) <= OUTCOMES and identity_ok(m.get("identity")) for m in mapping.values())
+        and set(m["outcomes"].values()) <= OUTCOMES and identity_ok(m.get("identity"))
+        and (fmt != "line" or line_key_ok(m["row_key"])) for fmt, m in mapping.items())
     if not ok:
         defects.append(("control-plan-fix", "check_mapping absent or outside I2"))
     return defects, units, assembly, by_id, mapping
@@ -184,20 +196,31 @@ def delivered_ok(d):
     return isinstance(d, dict) and set(d) == {"commit", "tree"} and all(isinstance(v, str) and HEX40.fullmatch(v) for v in d.values())
 
 
+def line_key_ok(pattern):
+    """v2 (I2): for the 'line' format, row_key is a regular expression with the named groups outcome and row."""
+    try:
+        return isinstance(pattern, str) and {"outcome", "row"} <= set(re.compile(pattern).groupindex)
+    except re.error:
+        return False
+
+
 def read_line_checks(path, m):
-    """v2: the 'line' format — one check per line, '<OUTCOME> <row> <name...>' (MoviePad-Remake's compare.py output).
-    row_key 'token2' names the row by the line's second token; lines that do not start with an outcome term are not checks."""
+    """v2: the 'line' format (MoviePad-Remake's compare.py output) — every line row_key matches is a check, its outcome and
+    row read from the groups; an outcome term not in outcomes makes the file unmeasurable, as in xunit (round 1 L4E1-1)."""
     try:
         text = open(path, encoding="utf-8").read()
     except (OSError, UnicodeDecodeError) as e:
         return f"evidence unreadable ({type(e).__name__})"
     checks, total = {}, 0
     for line in text.splitlines():
-        parts = line.split()
-        if len(parts) < 2 or parts[0] not in m["outcomes"]:
+        found = re.fullmatch(m["row_key"], line)
+        if not found:
             continue
         total += 1
-        checks.setdefault(parts[1], []).append(m["outcomes"][parts[0]])
+        term = found.group("outcome")
+        if term not in m["outcomes"]:
+            return f"outcome term {term!r} not in check_mapping"
+        checks.setdefault(found.group("row"), []).append(m["outcomes"][term])
     if total == 0:
         return "evidence holds no check"
     return checks
@@ -220,9 +243,9 @@ def read_checks(path, fmt, mapping):
         term = t.get("result", "")
         if term not in m["outcomes"]:
             return f"outcome term {term!r} not in check_mapping"
-        for tr in t.iter("trait"):
-            if tr.get("name") == m["row_key"] and tr.get("value"):
-                checks.setdefault(tr.get("value"), []).append(m["outcomes"][term])
+        owners = [tr.get("value") for tr in t.iter("trait") if tr.get("name") == m["row_key"] and tr.get("value")]
+        for row in owners or [None]:   # None: a check no row owns (round 1 L4E1-2 reads its failures)
+            checks.setdefault(row, []).append(m["outcomes"][term])
     if total == 0:
         return "evidence holds no check"
     return checks
@@ -239,8 +262,6 @@ def decide(work_order_text, mbom_text, cp_text, entry, base, delivered_texts, gi
     delivered = entry.get("delivered")
     records = [x for x in entry.get("test_evidence_refs") or [] if x.get("source") == "decision"]
     defects = []
-    if not delivered_ok(delivered):
-        defects.append(("record-fix", f"delivered {delivered!r} missing or outside I2"))
     for x in records:
         if x.get("cp_ref") not in counted:
             defects.append(("record-fix", f"decision record for {x.get('cp_ref')}, which is not counted"))
@@ -275,6 +296,8 @@ def decide(work_order_text, mbom_text, cp_text, entry, base, delivered_texts, gi
             cat, test = "unmeasurable", f"1: {unit}"
         elif unit != delivered:
             cat, test = "unmeasurable", "1: the evidence measured another unit than delivered"
+        elif any("failed" in v for k, v in checks.items() if k not in counted):
+            cat, test = "unmeasurable", "1: the evidence reports a failure no counted row owns"
         else:
             mine = checks.get(r, [])
             if "failed" in mine:

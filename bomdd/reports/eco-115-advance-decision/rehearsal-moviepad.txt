@@ -2,16 +2,17 @@ work order as issued 7824ba9a (line names 'bom-v4'); frozen bom-v4 = ca9319db; d
 delivered copies equal the frozen revision: M-BOM True, Control Plan True
 == M0 the records as the current templates left them: input-defect (I3a)
    - [control-plan-fix] check_mapping absent or outside I2
+   - [record-fix] delivered None missing or outside I2
    - [record-fix] the entry has no frozen_commit (40-hex), resolved at receipt
    - [record-fix] the entry has no work_order_ref '<path>@<40-hex commit>'
 == M1 migration (each edit is a decision a distribution ECO would make, listed):
-   - Control Plan: check_mapping {line: row_key token2, PASS->passed, FAIL->failed, identity: a line 'MEASURED_ON <commit> <tree>'} (compare.py's output format; compare.py writes no such line today)
+   - Control Plan: check_mapping {line: row_key '<OUTCOME in capitals> <row> ...', PASS->passed, FAIL->failed, identity: a line 'MEASURED_ON <commit> <tree>'} (compare.py's output format; compare.py writes no such line today)
    - As-Built: frozen_commit (bom-v4 resolved at receipt), refs as <path>@<40-hex>, delivered {commit, tree}
    - As-Built: one decision record per counted row (13), all naming compare.txt
 == M1a the migrated copy, compare.txt as it is: holds
    unmeasurable (test 1: the evidence does not name what it measured): 13
    - M1b: compare.txt with a line 'MEASURED_ON <f30d771> <tree>' appended — ASSUMED, as compare.py would stamp its run
-== M1b the migrated copy, stamped (ASSUMED): holds
+== M1b the migrated copy, stamped (ASSUMED): holds (run twice, byte-identical JSON: True)
    CP-ASSEMBLY-EXPORT-001: pass (test 5)
    CP-BUILD-001: no-check (test 4) -> control-plan-fix
    CP-DOCUMENT-001: pass (test 5)
@@ -26,8 +27,12 @@ delivered copies equal the frozen revision: M-BOM True, Control Plan True
    CP-PROBE-001: pass (test 5)
    CP-SELF-ACCEPTANCE-001: no-check (test 4) -> control-plan-fix
    not decided: {"human_part": [], "named_by_no_unit": ["CP-HARNESS-SELFTEST-001"]}
-== M2 known-bad freezes (each must be input-defect for its stated reason):
-   OK frozen_commit is the delivered commit: input-defect [["work-order-fix", "frozen_commit is the delivered commit; it must precede the work"], ["work-order-fix", "the frozen revision 'bom-v4' resolves to ca9319db, not the recorded frozen_commit"]]
-   OK the work order named at a commit after the delivery: input-defect [["work-order-fix", "the work order's commit is not an ancestor of the delivered commit"]]
+== M2 known-bad freezes on the migrated copy (I3a; each must be input-defect with its stated reason among those listed):
+   OK frozen_commit is the delivered commit: input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"], ["work-order-fix", "frozen_commit is the delivered commit; it must precede the work"], ["work-order-fix", "the frozen revision 'bom-v4' resolves to ca9319db, not the recorded frozen_commit"]]
+   OK the work order read at a commit after the delivery (e1d71b3, its text as there): input-defect [["work-order-fix", "the work order's commit is not an ancestor of the delivered commit"]]
    OK frozen_commit recorded as bom-v3 while the line names bom-v4: input-defect [["work-order-fix", "the frozen revision 'bom-v4' resolves to ca9319db, not the recorded frozen_commit"]]
-   OK a FAIL line for one row in the evidence: holds {"CP-BUILD-001": {"category": "no-check", "test": "4", "route": "control-plan-fix", "result": "not-run"}, "CP-EDIT-001": {"category": "violation", "test": "2", "route": "product-fix", "result": "fail"}, "CP-SELF-ACCEPTAN
+   OK delivered.tree not the delivered commit's tree: input-defect [["record-fix", "delivered.tree is not the delivered commit's tree"]]
+== M3 known-bad evidence lines (D1; each changes only compare.txt, its sha256 recomputed):
+   OK a FAIL line for one row: holds, CP-EDIT-001 violation (test 2)
+   OK an outcome term not mapped (ERROR): holds, CP-EDIT-001 unmeasurable (test 1: outcome term 'ERROR' not in check_mapping)
+   OK compare.py's own line when spec-checks.json is missing (compare.py:211-213): holds, CP-EXPORT-001 unmeasurable (test 1: the evidence reports a failure no counted row owns)
