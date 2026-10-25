@@ -9184,6 +9184,11 @@ machine edits):
   oracle, and measure it against the current one on a fresh sealed set (another generator, the four earlier sets' sites excluded). Reading fixed
   now: non-overlapping intervals above the current level → the derivation, not the additions, sets the level (OBS-20261025-03 gains its
   test); overlapping → no claim, survivors reported by class. Not started; start is the user's.
+  **End condition (added 2026-10-25, a reviewer's point the user adopted with "A'"):** one run of this EXP closes the detection-power
+  series of EXP-20261024-01. Either reading ends it: the level found is recorded as the oracle's declared detection power, and no
+  further oracle version is made for detection alone without a new ruling (the earlier rounds had a reading per round but no end
+  for the series). **Cost per comparison:** both arms of one sealed set, 39.0 min after the speed change (83.5 min before; verdicts
+  equal 40/40 per arm on set 4 — MoviePad-Remake `4af6b48`, `e8f720a`, `bomdd/reports/exp-20261024-01/oracle-v5/speed/results.md`).
   source: EXP-20261024-01 fifth round (2026-10-25)
   evidence: this section, observation 2
 - [open] EXP-20261025-05 — **If the §4.4 weaving is adopted: does the next fixed oracle frozen in a product report its detection on a sealed
