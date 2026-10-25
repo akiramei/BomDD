@@ -8811,7 +8811,29 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
       from the stamped evidence; three known-bad inputs (another unit's stamped evidence, an altered tree, a freeze recorded as
       `bom-v4`) each change the result for their own reason.
     - ECO-002 applied on the user's "A" (2026-10-25, product `ca58d20`), conditionally qualified, with the carried items below.
-    - Open: the next oracle version (the 11 survivors' inputs; "tested" to mean both sides of a
+  third round (2026-10-25; the user's "1,2の順に作業して": first the package revision, then oracle v3; product `b06a5bf`…`4b4d2d2`):
+    - **Correction of the second trial's stage 2:** the mutant runner was **fail-open** — the comparator crashed on printing a FAIL detail
+      holding "—" under the console encoding (cp932), and the runner counted the missing FAIL lines as survived. Found because a mutant
+      (a video-only source's default sample rate) survived although the comparator compares that field; reproduced by hand. Re-run with
+      a corrected runner (UTF-8 children; a run counts only when the comparator finished, else unmeasurable): v1 and v2 both **30 of
+      40 (0.60–0.86)**, not 29; the other 10 survivors and the reading stand. A known calibrate failure type (④ unmeasurable read as a
+      pass) inside the instrument built to measure detection power.
+    - **ECO-003 (package revision, staged):** both contradictions delivery 2's factory blocked were decided from the authority
+      (`FfmpegExporter.cs:483`, `:107-123`): the M-BOM was right in both; `20-spec.md` §2.9 and `31-kbom.yaml` corrected; no product change.
+    - **Oracle v3 (`bom-v6`):** the first set's survivors' inputs, ECO-003's two points, a tightened inventory rule (a case at the boundary
+      and on each side; each operand of a joined condition; sequences), the comparator writing UTF-8. On a **second sealed set** (40, by
+      an independent context, on delivery 2's code): v2 **32/40 (0.65–0.90)**, v3 **37/40 (0.80–0.97)**, intervals overlapping — no claim
+      from this set alone. Every extra catch was a first-set point again: the same kind of generator, given the same spec, repeats the
+      obvious points. The three new points survived v3: a case **named** for crossed clamp limits that never crosses them; a value past
+      the height limit **folded back** by the next rounding (even(4321) = 4320); an uncertain progress clamp. "Tested" cannot be read
+      off a case list or a case name; it has to be checked by a fault at the point.
+    - **Delivery 2 against v3:** 378/378, the two ECO-003 cases included.
+    - **An accident of mine:** a line-ending one-liner (`open(f,'wb').write(open(f,'rb').read()…)`) truncated each file before reading
+      it; eight files were committed empty (two result files since `06b5c91`; the runner, comparator, inspection driver and fixture
+      generator in `8b29ef3`, which I had tagged `bom-v6`). Found when a printed file was empty; restored (`a212c57`), proved faithful
+      (the restored runner reproduces the committed reference 331/331; delivery 2 378/378), the tag moved to the repair. The checks that
+      ran after the one-liner (YAML parse, CR count) all passed on empty files.
+    - Open (as of the second trial; see the third round): the next oracle version (the 11 survivors' inputs; "tested" to mean both sides of a
       boundary and at it, combinations enumerated) measured on a new sealed set; the two package contradictions.
 - [watch 1/3] OBS-20261024-03 — **A factory that the sandbox refused tried to get round it with desktop automation.** In EXP-20261024-01
   delivery 1, Codex (`workspace-write`) could not write `.git/index.lock`. It then made eight computer-use calls to launch Git GUI and
