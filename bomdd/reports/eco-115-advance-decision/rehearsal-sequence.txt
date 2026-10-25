@@ -1,0 +1,38 @@
+OK  H1 several causes at once, all fixed, advances: convergence converged (expected converged); control in-control [] (expected in-control []); candidate False (expected False); holds that measured rows 1 — DoD (a): one hold with several causes, no signal
+OK  H2 two holds, the row's cause changes kind (instrument repaired, then the product fixed): convergence converged (expected converged); control in-control [] (expected in-control []); candidate False (expected False); holds that measured rows 2 — DoD (a): the same two holds as H4, read differently by their causes
+OK  H3 three holds on a fixed row set, each revealing a different cause on the row, no signal: convergence bound-reached (expected bound-reached); control in-control [] (expected in-control []); candidate False (expected False); holds that measured rows 3 — DoD (e): the bound is reached with no control signal (§8 disposition)
+OK  H4 the same cause twice, route recorded done: convergence open (expected open); control signals ['C1'] (expected signals ['C1']); candidate False (expected False); holds that measured rows 2 — DoD (b): C1 red, 'route done, cause not removed'
+      C1 at decision 2: CP-A:violation (route done, cause not removed)
+OK  H4b the same cause twice, route not recorded done: convergence open (expected open); control signals ['C1'] (expected signals ['C1']); candidate False (expected False); holds that measured rows 2 — DoD (b): C1 red, 'route not done' (D3 not followed)
+      C1 at decision 2: CP-A:violation (route not done)
+OK  H5 a fixed cause returns on its row: convergence bound-reached (expected bound-reached); control signals ['C2'] (expected signals ['C2']); candidate False (expected False); holds that measured rows 3 — DoD (b): C2 alone (the row had failed, passed, fails again)
+      C2 at decision 3: CP-A:violation
+OK  H6 a row that never failed breaks: convergence open (expected open); control signals ['C3'] (expected signals ['C3']); candidate False (expected False); holds that measured rows 2 — DoD (b): C3 alone
+      C3 at decision 2: CP-B
+OK  H7 two rows alternate in order: convergence bound-reached (expected bound-reached); control signals ['C2', 'C3'] (expected signals ['C2', 'C3']); candidate True (expected True); holds that measured rows 3 — DoD (c): the pattern that may be a contradiction between two promises
+      C3 at decision 2: CP-B
+      C2 at decision 3: CP-A:violation
+OK  H8 the process's own parts fail twice: convergence open (expected open); control signals ['C4'] (expected signals ['C4']); candidate False (expected False); holds that measured rows 1 — DoD (b): C4 alone
+      C4 at decision 2: control-plan-fix
+OK  H9 one own-route decision, then product causes: convergence converged (expected converged); control in-control [] (expected in-control []); candidate False (expected False); holds that measured rows 1 — DoD (b): C4 green on one own-route decision; the input defect is not counted to the bound
+OK  H10 an input defect between two violations of a row: convergence open (expected open); control signals ['C1'] (expected signals ['C1']); candidate False (expected False); holds that measured rows 2 — R1-02: a decision that measured nothing is not an observation (C1, not C2)
+      C1 at decision 3: CP-A:violation (route done, cause not removed)
+OK  H11 an all-unmeasurable decision (a failure no row owns) between: convergence open (expected open); control signals ['C1'] (expected signals ['C1']); candidate False (expected False); holds that measured rows 2 — R1-02: no C3 on B or C, no candidate; the all-unmeasurable hold measured no row, so it is not counted to the bound
+      C1 at decision 3: CP-A:violation (route done, cause not removed)
+OK  H12 a row renamed by a Control Plan change, still failing: convergence open (expected open); control signals ['C1'] (expected signals ['C1']); candidate False (expected False); holds that measured rows 2 — R1-06: causes mapped through row_map (C1 on CP-A1)
+      C1 at decision 2: CP-A1:violation (route done, cause not removed)
+OK  H13 the counted rows changed with nothing routed: convergence open (expected open); control signals ['C5'] (expected signals ['C5']); candidate False (expected False); holds that measured rows 2 — R1-06: an unrouted change to the row set (C5 alone)
+      C5 at decision 2: rows ['CP-E']
+OK  H14 two rows fail together and are fixed together, twice: convergence bound-reached (expected bound-reached); control signals ['C2'] (expected signals ['C2']); candidate False (expected False); holds that measured rows 3 — R1-03: no alternation, so no candidate
+      C2 at decision 3: CP-A:violation
+      C2 at decision 3: CP-B:violation
+OK  H15 the same receiving-side defect twice around a hold: convergence open (expected open); control signals ['C2'] (expected signals ['C2']); candidate False (expected False); holds that measured rows 1 — R1-03: route keys are not rows (no candidate); the defect's return is C2
+      C2 at decision 3: record-fix:the entry has no frozen_commit
+OK  R1 MoviePad-Remake 1 -> 2, records as written: convergence open (expected open); control signals ['C1', 'C4'] (expected signals ['C1', 'C4']); candidate False (expected False); holds that measured rows 0 — DoD (d): the check_mapping defect persists with its route not done, and the process's own routes repeat — the template lacks the field
+      C1 at decision 2: control-plan-fix:check_mapping absent or outside I2 (route not done)
+      C4 at decision 2: control-plan-fix
+OK  R2 MoviePad-Remake 1 -> 2, migrated (decision 1 on M1b's ASSUMED stamp; decision 2 on N1, stamped): convergence open (expected open); control signals ['C1', 'C4'] (expected signals ['C1', 'C4']); candidate False (expected False); holds that measured rows 2 — DoD (d): the two no-check rows persist with their route not done, and own routes repeat
+      C1 at decision 2: CP-BUILD-001:no-check (route not done)
+      C1 at decision 2: CP-SELF-ACCEPTANCE-001:no-check (route not done)
+      C4 at decision 2: control-plan-fix
+arms: 18; as expected: 18

@@ -174,13 +174,61 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   part's `pass` or `fail` as today. R-050 and ECO-088 are read at acceptance, after Phase 5: a human-only pair has its `pass` row only once Phase 5 has
   written it (`rehearsal-real.txt`: on ViewPrism2's migrated copy, 22 of 73 unit/CP pairs, 12 rows), and an entry whose decision held keeps its non-`pass`
   rows, which R-050 (b) reports at acceptance unless a product's named suppression is used.
+- **D5 (a work's decisions over time — loop 5, 2026-10-26).** D decides one delivery; a work (one ECO, or one work order with its re-issues) can be held
+  and redelivered several times. At every decision after a work's first, the orchestrating AI reads the work's decisions in order and writes two
+  separate readings into `advance_decision.sequence` — **convergence** (is this work reaching `advances`?) and **control** (is the process that made
+  and judged these deliveries working as designed?). They have different inputs and different consequences, and **the number of holds is an input
+  to convergence only**. A cause is D2's list item: `<row>:<category>` for a held row, `<route>:<message>` for an input defect.
+  - **What each decision adds to the work's history** (all from records D already writes, plus two): each counted row's category (D0); whether
+    the decision measured rows at all (`input-defect`, or every counted row `unmeasurable` by test 1, measured none); D2's causes and routes;
+    **`routes_done`** — for each cause of the previous decision, the ref showing its route done before this delivery (D3 requires it; the record
+    makes it checkable); and **`row_map`** — when the frozen Control Plan or M-BOM changed between the decisions, which old rows became which new
+    ones (a split, a rename). Earlier observations are carried through `row_map`, so splitting or renaming a row does not clear its history.
+  - **Convergence.** `converged` when the newest decision advances; otherwise `open`; `bound-reached` when the work has held, on decisions that
+    measured rows, as many times as its bound. The bound is frozen at the work's issue (default 3, the design loops' bound; a work may set
+    another at issue, not later). Input defects are not counted to it (they measured nothing and their fixes are the receiving side's); their
+    repetition is a control signal (C1, C4). **At the bound playbook §8's loop rule applies**: no new step is generated, and the work goes to
+    pending human disposition with its current state, the evidence still owed and the technical risk, with the control reading attached. The
+    bound is a fact about convergence, not about control: it is reached the same way by a work in control and one that is not, and the
+    disposition reads the control reading rather than the count.
+  - **Control**, from causes and row observations, never from the count; a decision that measured no row is not an observation of any row:
+    - **C1 persists** (owner: the route's owner — the factory for product-fix, the designer for instrument-recovery, the orchestrating AI for
+      control-plan-fix, bom-fix and work-order-fix, the receiving side for record-fix) — a cause is in this decision and was in the last decision
+      that measured its row, or an input-defect cause is in this decision and the previous one. Read with `routes_done`: *route done, cause not
+      removed* (the fix did not work) or *route not done* (D3 was not followed).
+    - **C2 returns** (owner: as C1) — a row had this cause in an earlier measured decision, passed in a later one, and has it again; or an
+      input-defect cause was absent in a later decision and is back.
+    - **C3 regression** (owner: the factory, whose self-acceptance did not catch it) — a row that had never been non-`pass` in the work, and had
+      passed, is a `violation` now. Every counted row is measured at every delivery (I1, ECO-088), so a later violation on a row that once passed
+      is always C2 or C3. An `unmeasurable` or `no-check` on such a row routes to the process's own parts and is read by C4 when it repeats.
+    - **C4 own routes repeat** (owner: the orchestrating AI) — this decision and the previous one each have a cause routed other than
+      product-fix (control-plan-fix, instrument-recovery, record-fix, work-order-fix, bom-fix): records, instruments, the Control Plan or the
+      work order keep failing, not the product.
+    - **C5 unrouted row set** (owner: the orchestrating AI) — the counted rows changed since the last measured decision, with no `row_map` and no
+      control-plan-fix or bom-fix cause in the previous decision: the Control Plan changed outside a route.
+    No signal: `in-control`, however many holds the work has had (a hold with several causes that the next delivery clears; a row whose cause
+    changes kind, as when an instrument repaired lets the product's own failure show). Any signal: `signals`.
+  - **What follows.** `in-control` and below the bound: D3 as written. `signals`: no further redelivery is asked for on the same causes; the
+    orchestrating AI opens a **control review** — for each signal, which record, instrument, Control Plan row, route or work order failed, and
+    why, with the signal's owner — and fixes what lies in the product's derived layer (a process ECO in the product: the Control Plan, an
+    instrument, the routing, the work order), recording the decision and reporting it; a new delivery follows and is decided afresh. What lies in
+    the method (a template, this rule) is filed as a method ECO or an OBS in `method/improvements.md`, not fixed and reported (AGENTS.md rule 1).
+    The review is the AI's within the existing authority and does not by itself reach the human.
+  - **To the human** — besides §8's disposition at the bound, only a gap in the ruling layer that the review finds and no existing rule resolves,
+    which maps onto §4.5's three kinds: **a new promise** — two rows that alternate in order (one fixed, the other broken, then back: marked
+    mechanically as a candidate) because their promises cannot both hold, a contradiction in the requirements, the spec, the E-BOM or the K-BOM
+    (OBS-20260922-01: a contradiction shows only as satisfying one promise breaking another), whose resolution changes a promise; or a product-fix
+    the factory reports it cannot make without changing a promise — which reaches the review through the work order's blocker report (§4.5 P3,
+    `40-work-order.md`), not through D's inputs; **a new function** — a fix that needs behaviour no requirement states; **underivable** — a row the
+    derived layer cannot write from the ruling layer. The AI presents the decisions and causes that show it and the judgement needed. Whether a
+    marked candidate is a contradiction is the review's finding, not the mark's.
 
 ### M — manufacture
 
 - **M1 (scope).** Text and templates only: `method/bomdd-playbook-v1.md` §1 (one line), §4.4 (new item "前進の判定"; `:178` refers to it), §6.1 (one
-  line), `method/templates/33-control-plan.yaml` (I2's values on `approver`, `on_fail`, `status`; header `check_mapping` with `identity`; the `when`
+  line; and D5 in §4.4's new item), `method/templates/33-control-plan.yaml` (I2's values on `approver`, `on_fail`, `status`; header `check_mapping` with `identity`; the `when`
   comment `:30` rewritten to say that `when` names further occasions on which a row is measured and does not take a named row out of the advance
-  decision), `50-as-built.yaml` (`frozen_commit`, `delivered`, `source`, `format`, `advance_decision`, I4's record fields,
+  decision), `50-as-built.yaml` (`frozen_commit`, `delivered`, `source`, `format`, `advance_decision` with D5's `sequence`, I4's record fields,
   D4's derivation, and comments on `work_order_ref`, `mbom_ref`, `control_plan_ref` giving I2's form), `40-work-order.md` (a comment on the
   frozen-revision line: a tag or a commit, resolved at receipt into the As-Built's `frozen_commit`, read by the decision as issued; no new field),
   `method/improvements.md`. No tool
@@ -237,6 +285,14 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   (`{content_sha256}`) is removed — it could never pass a commit-only freeze (L3E2-4). A product that does not deliver through git has no advance
   decision until a form for it is designed. A receiving side without git gets `input-defect` (route record-fix: the receipt is redone where git is),
   never a decision with the freeze checks skipped; the other I3a checks still run and are listed with it.
+- **L9 (D5, what the control reading sees).** It sees causes as D2 names them, so two different faults with the same row and category are one
+  cause, and one fault reported under two rows is two. It does not see a route done badly but in time (a fix that hides the check rather than
+  the fault passes as converged — the fixed oracle's detection power, not D5, bounds that), nor the cost of the redeliveries. `routes_done` is
+  written by whoever did the route; D5 reads that it is recorded, not that the fix is real. A `row_map` is the orchestrating AI's statement; a
+  wrong map hides a persistence (C1) and a missing one shows as C5. C1 fires on the first persistence, so a fix that needs two attempts opens a
+  review; the review may find the process in control and continue. The bound of 3 is a default taken from the design loops, not measured on
+  deliveries. Rehearsed on synthetic histories and on one product's two deliveries (`rehearsal-sequence.txt`); no work has yet been held more
+  than twice, and R2's first decision rests on an assumed stamp (M1b).
 
 ### Not changed
 
@@ -302,6 +358,13 @@ Changed: the files in M1, this order, the register and `bomdd/reports/eco-115-*/
       is one `violation`; a `source: phase5` record is not read.
   - Inputs outside I1: a factory "PASS" added to the delivery, the self-acceptance log changed, the rest of the work order changed, a row's `when`,
     `depth`, `verifies` or `characteristic` changed — each leaves the output byte-identical.
+  - D5 (`rehearse_sequence.py`, expectations fixed in the script before its arms run): a hold with several causes that the next delivery clears,
+    and a row whose cause changes kind, are `in-control`; two works with the same number of holds read differently by their causes (the count
+    does not decide); three holds on a fixed row set with no signal are `bound-reached` and `in-control`; C1 (both readings of `routes_done`),
+    C2, C3, C4 and C5 each turn red alone on an arm made for it; a decision that measured nothing between two observations does not make a
+    return or a regression, and an input defect does not count to the bound; a renamed row carries its cause through `row_map`; two rows that
+    fail and are fixed together are not a candidate, a receiving-side defect's return is not a candidate, and only rows alternating in order are;
+    MoviePad-Remake's two deliveries give C1 (route not done) and C4 as written and as migrated. Run twice, byte-identical.
 - **V3 — independent inspection** (EQ-002): the text against §1, and V2's evidence.
 - **V4 — self-conformance exit 0 before each commit; CI success on each pushed tip.**
 
@@ -506,3 +569,45 @@ Changed: the files in M1, this order, the register and `bomdd/reports/eco-115-*/
   template field. It does not show the decision on a delivery that should hold or fail for a product reason (delivery 2 passes every
   oracle check), on a second product, or on records written by anyone but this designer. The two `no-check` rows are a standing
   property of this product's Control Plan (factory self-acceptance only), to be decided at distribution (L5).
+
+### Loop 5 (D5: a work's decisions over time; the user's instruction of 2026-10-26; rounds counted afresh; limit 3 rounds)
+
+- **判定: 未収束** (round 軌跡: 9→6; material 5→4). Round 2 had new findings, so two consecutive zero rounds cannot come within the limit; round 3
+  was not run. **Round 2's findings are not repaired**; D5 stays in the held draft until the ruling on how to go on.
+- **起動経路:** the user's instruction (2026-10-26): "ECO-115の差し戻し上限や上申条件も、既存の権限の範囲で設計・検証してください。ただし、工程の
+  収束性と工程管理の正常性は区別してください。差し戻し回数だけを管理状態の判断根拠にしないこと。既存の規則では解決できない裁定層の欠落が明ら
+  かになった場合のみ、その根拠と必要な判断事項を提示してください。"
+- **DoD** (fixed before the design): (a) convergence and control are separate readings with separate inputs, and the hold count alone never changes
+  the control state; (b) each control signal has an event anchor, an owner, an arm that turns it red alone and arms where it stays green; (c) every
+  outcome has a route within existing authority, and the human is reached only by a named ruling-layer condition with its basis; (d) the rules apply
+  to MoviePad-Remake's real records (deliveries 1 → 2) as written; (e) the convergence bound triggers a review, never an escalation by itself.
+  **(e) was revised in round 1** because it contradicted the playbook's existing loop rule (`method/bomdd-playbook-v1.md:1195-1198`: a fix,
+  recovery or review loop has a bound frozen in advance and, at it, goes to pending human disposition): now "the bound is frozen in advance and its
+  disposition follows that rule; the control reading is attached and the count does not decide it". **(c) has the same conflict** (R2-04) and is
+  not yet revised.
+- **Round 1** (a fresh context of the same model, read-only; 9 findings, material 5: R1-01 the bound had no frozen disposition and conflicted with
+  the loop rule; R1-02 decisions that measured nothing were read as observations; R1-04 C2 was never red alone; R1-06 a row rename hid a
+  persistence and H3 relied on that blind spot; R1-09 no owner per signal; minor 4: R1-03 the candidate counted route keys and ignored order,
+  R1-05 C1 could not tell a route not done from a fix that failed, R1-07 method fixes were "fixed and reported", R1-08 not mapped onto §4.5).
+  Repaired: the history inputs (`measured`, `routes_done`, `row_map`), C1–C5 with owners, the bound and its disposition, the §4.5 mapping, method
+  fixes filed as an ECO or an OBS.
+- **Round 2** (the same reviewer, resumed; 6 new, material 4): R2-01 an `unmeasurable` or `no-check` between two violations of a row silences C1
+  (V→U→V reads in-control); R2-02 a work whose decisions are all input defects has no bound (six in a row stay `open`); R2-03 any
+  control-plan-fix lets a fix drop a failing row from the counted set without a signal; R2-04 DoD (c) contradicts "besides the loop rule's
+  disposition" in D5; minor: R2-05 the loop rule is in §13 (`:1194-1198`), not §8 as D5 says, and §8.5 (`:878`) asks for a default disposition
+  declared in advance, which D5 does not declare; R2-06 `routes_done` is defined on the previous decision, not on the last measured one through
+  `row_map`, and the script tells input causes by a "CP-" prefix.
+- **The common causes** (for the ruling): (A) D5 keeps a row's history as "the last decision that measured it", so what counts as an observation of
+  a row, and what may leave the counted set, are implicit — R2-01, R2-03, R2-06 (and R1-02, R1-06 before them); a per-row ledger with
+  explicit states (observed pass / observed violation / not observed with its reason / removed with its route) would remove them together.
+  (B) D5 binds itself to the existing loop rules piecemeal — R2-02, R2-04, R2-05 (and R1-01): one bound on all of a work's decisions, a default
+  disposition declared at the work's issue (§8.5), the citation to §13, and DoD (c) read together with the loop rule.
+- **Evidence and its honesty:** `rehearse_sequence.py`, `rehearsal-sequence.txt` (18/18 as expected, byte-identical on two runs). Its first runs did
+  not match: 8/11 on the first version (three arms described histories impossible when every counted row is measured at every delivery; their
+  inputs were rewritten, expectations unchanged), 14/18 on the round-1 version (three of the producer's expectation or arm errors — H11's bound
+  count, H12's C4, H14's missing row — and one rule gap, an input-defect cause in two decisions running not read as C1).
+- **Verified claims:** the loop rule's text (`bomdd-playbook-v1.md:1195-1198`, in §13 — D5's "§8" is wrong, R2-05); the real decisions R1/R2 are
+  `rehearsal-moviepad.txt` M0/M1b and `rehearsal-moviepad-d2.txt` N0/N1; D3's "a new delivery decided afresh" and the user's ruling "2:A" are
+  unchanged by D5.
+- **未収束事項:** R2-01 … R2-06, and whether the user's "only ruling-layer gaps" is read together with the existing loop rule (the bound's
+  disposition reaches the human) — the reading taken in this draft.
