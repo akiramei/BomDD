@@ -9271,9 +9271,19 @@ Observations:
   template's `when` (a method ECO). Not started: no such ECO exists yet; the first one is the user's.
   source: the test plan (2026-10-25)
   evidence: MoviePad-Remake `test-plan/test-plan.md` §7
-- [open] EXP-20261026-02 — **What do the factory's own tests catch?** Run the factory's 44 tests (`dotnet test test/MoviePad.Core.Tests`)
+- [recovered 2026-10-26 via MoviePad-Remake 0b50020 (the user's "7を対応して")] EXP-20261026-02 — **What do the factory's own tests catch?** Run the factory's 44 tests (`dotnet test test/MoviePad.Core.Tests`)
   against set 4's sealed mutants and compare with the fixed oracle's stage 1 on the same mutants. Reading: if they catch most of what
   stage 1 catches, stage 1 can start with them (seconds) and the designer's stage 1 can follow only on their pass; if not, stage 1
   keeps both. Not started; start is the user's.
   source: the test plan (2026-10-25), test-plan.md §5 item 6
   evidence: this section, observation 5
+  result (2026-10-26): of 38 (the two equivalent left out) the factory's tests catch **27**, the designer's stage 1 18, the full
+    fixed oracle v5 32, the factory's tests or the oracle **35**. They catch 17 of stage 1's 18 and three mutants the full oracle
+    missed (M4-03, M4-21, M4-29); they are weak on the export unit (2/10, the oracle 8/10). Reading as fixed: stage 1 starts with
+    them (run_stages.py already did). And a defect found by the reading: the Control Plan listed CP-SELF-ACCEPTANCE-001 for
+    acceptance but the acceptance driver (inspect.py) did not run the factory's tests, so acceptance left out those three; it now
+    runs them. Limits: one set of 40; the tests share the code author's reading of the specification, so they add catches and do
+    not replace the independent oracle. The same round split CP-EXPORT-001 so each row belongs to one stage (CP-EXPORT-OUTPUT-001;
+    433 verdicts unchanged) and decided against selecting one unit within stage 1 (at most 3–4 s of 10.9 s, and a narrowing by
+    predicted impact).
+    evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/test-plan/test-plan.md` §8, `test-plan/evidence/factory/`, `evidence/split/`
