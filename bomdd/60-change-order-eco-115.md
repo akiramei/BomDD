@@ -542,6 +542,29 @@ repaired `run_rehearsal_v2.py` against `2aa2d7d`'s decision rehearsal exits 1 wi
 digits); r1's open domain put back into the D5 rehearsal stops on Z3 with the inspector's `ValueError`. The rehearsals re-run: synthetic cases all as
 expected and D4 written; D5 43/43; the two MoviePad-Remake outputs byte-identical to those of r1's repairs.
 
+## 9. Independent inspection r3 (2026-10-26, EQ-002, range 是正確認+回帰) — REJECT IA-11; the review loop's bound reached
+
+- **Launched through the operator entry** on `7eddaba` (CI 40243941288 success; witness tree `d5eee314b51a`, gate self-conformance). Brief
+  `61b3d8617ee7…` (stored; committed copy `bomdd/reports/eco-115-advance-decision/inspection-brief-r3.md`); report `inspection-r3.md`
+  (`86bc522e37c6…`); the ledger's cell record binds it.
+- **Resolved:** IA-03, IA-08 and IA-09 (a malformed bounds line kept beside every other applicable I3a failure in 44 of 44 probes); IA-01 and IA-04
+  to IA-07 still resolved. Regression PASS: the 20 changed paths allowed, the four rehearsals byte-identical and exit 0, the real-data conclusions
+  unchanged, V1/V2 120/120 with its control on `2aa2d7d` 119/120; all 36 README sha256 values match.
+- **IA-11 — blocking — I3a and D5 read a bounds line with trailing whitespace differently** (IA-02/IA-10 not yet closed). The decision rehearsal
+  strips the line's end before matching; the D5 rehearsal does not. `- 前進の判定の上限: holds 999, decisions 999 ` (a trailing space, tab or
+  no-break space) passes I3a and D5 then applies the defaults 3 and 5, so a work could reach a bound early. Every one of the 998,001 numeric pairs
+  agreed; only the line's end differs. The text does not say whether trailing whitespace belongs to the line. §8 and `repair-r2/README.md` say the
+  domain is closed, which this contradicts.
+
+**Pending human disposition (§13; the bound declared in §6 before r2).** r3 was the last round, so the ECO stops here, `implemented`, and is not
+repaired or re-inspected without a disposition.
+- State: manufactured (`35961c3`), repaired twice (`2aa2d7d`, `7eddaba`); 10 of 11 findings resolved and confirmed; V1/V2 PASS; CI success on each tip.
+- Evidence owed: IA-11's repair (one reading of the line's end shared by I3a and D5, in the text and both rehearsals, with arms for a space, a tab
+  and a no-break space) and its review; the inspection gate (`required_gates: [V1, V2, inspection]`) has no ACCEPT, so the ECO cannot be verified
+  through the operator entry as it stands.
+- Technical risk: confined to the bounds line, an optional line of D5, which no product carries yet (distribution is a separate ECO); D0-D4 and the
+  rest of D5 are not affected by it.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (after the split from ECO-114)
