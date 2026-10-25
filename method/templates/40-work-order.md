@@ -3,6 +3,9 @@
 ## ID
 - Work Order ID: `WO-<ループID>-001`
 - 対象 BOM tag/commit:
+<!-- candidate(ECO-115・playbook §4.4「前進の判定」I1・I2): 上の行の値はタグかコミット ID(そのままか `…` で囲む。行に注記を足さない)。受け取る側が受け取った時点でコミットに解決し As-Built の frozen_commit に記録する。判定はこの行を、この作業指示書を発行したコミットで読む(納品された木の写しは読まない)。ちょうど 1 本だけ置く -->
+- 前進の判定の上限: holds 3, decisions 5
+<!-- candidate(ECO-115・playbook §4.4「前進の判定」D5): 任意。無ければ既定(holds= 行を測った保留 3・decisions= すべての判定 5)。作業の最初の発行の値が効き、発行し直しで違う値を書くと管理の信号 C6(上限は上がらない)。上限に達したら既定の処置 — 進めずに止め、未解決の原因と管理の読みを記録して報告し、§13 の人の処置待ちに入る(§8.5 の既定「受け入れる」からの宣言した逸脱) -->
 - Routing ref: `bomdd/34-routing.yaml`
 - PLM Gate result: pass / fail
 

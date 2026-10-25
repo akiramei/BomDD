@@ -8,10 +8,13 @@ bomdd:
 as_built:
   - id: AB-<ループID>-factory-01
     lifecycle_state: as-built
-    work_order_ref: bomdd/40-work-order.md@<commit/tag>
-    mbom_ref: bomdd/32-mbom.yaml@<commit/tag>
+    work_ref: <この作業を始めた ECO か作業指示書の ID>   # candidate(ECO-115・playbook §4.4「前進の判定」D5): 作業の名。同じ作業の納め直し・管理の点検の工程 ECO も同じ値を保つ
+    frozen_commit: <40 桁の 16 進>   # candidate(ECO-115・playbook §4.4「前進の判定」I1・I2): 作業指示書の「対象 BOM tag/commit」行を受け取った時点で解決したコミット
+    work_order_ref: bomdd/40-work-order.md@<40-hex commit>   # 形は <path>@<40-hex commit>(ECO-115・playbook §4.4「前進の判定」I2)。作業指示書は発行したコミットで読む
+    mbom_ref: bomdd/32-mbom.yaml@<40-hex commit>             # 形は <path>@<40-hex commit>(前進の判定 I2)。frozen_commit を名指す
     routing_ref: bomdd/34-routing.yaml@<commit/tag>
-    control_plan_ref: bomdd/33-control-plan.yaml@<commit/tag>
+    control_plan_ref: bomdd/33-control-plan.yaml@<40-hex commit>   # 形は <path>@<40-hex commit>(前進の判定 I2)。frozen_commit を名指す
+    delivered: {commit: <40 桁の 16 進>, tree: <40 桁の 16 進>}   # candidate(ECO-115・playbook §4.4「前進の判定」I2): {commit, tree}。納品のコミットとその木(計器が測る個体)
     input_bom_tag: <供与した固定 BOM の tag>
     ai_model: <例 claude-opus-4-8>
     prompt_hash: <投入プロンプト(work order 全文)の sha256>
@@ -33,11 +36,28 @@ as_built:
                                  # このエントリの個体に対して再測定した行を持つ(ECO は変更分だけでなく回帰の再被覆も行として書く)。
                                  # 再測定していない CP は行を書かない — 前のエントリの合格は今回の個体の証拠ではなく、行が無いことで未再測定が見える
       - evidence_id: TE-<ループID>-001
+        source: decision          # candidate(ECO-115・playbook §4.4「前進の判定」I4): decision(受け取った時点の判定の記録・数える行ごとに 1 つ)| phase5(人の部分)
         cp_ref: CP-<NAME>-001
-        result: pass              # pass | fail | blocked | not-run
+        result: pass              # pass | fail | blocked | not-run。判定の記録では advance_decision の区分から導く(前進の判定 D4):
+                                  #   pass → pass / violation → fail / unmeasurable → blocked / no-check → not-run
         evidence_path: bomdd/plm-intake/sync-results/<evidence>.json
+        evidence_sha256: <証拠ファイルの sha256>   # candidate(ECO-115・playbook §4.4「前進の判定」I3b・I4): 証拠を出さなかった計器は none
+        format: line              # candidate(ECO-115・playbook §4.4「前進の判定」I3b): Control Plan の check_mapping が挙げる形式名。測った個体は証拠から読み(identity)、ここには書かない
         observed_at: <YYYY-MM-DDTHH:mm:ssZ>
         notes: <Control Plan の depth/tolerance に照らした判定>
+    advance_decision:            # candidate(ECO-115・playbook §4.4「前進の判定」D0): 受け取った時点の判定。正本の区分はここ(test_evidence_refs の result はその写し)
+      result: advances           # advances | holds | input-defect(D2)
+      rows:                      # 数える行ごとの区分(pass | violation | unmeasurable | no-check)・決めた D1 の番号・振り分け先(pass 以外)
+        CP-<NAME>-001: {category: pass, test: 5, route: ~}
+      defects: []                # input-defect のとき、落ちた入力ごとに [振り分け先, 内容](I3a・I3b)
+      not_decided: []            # 決めなかった行: 人だけの行・混在する行の人の部分・どの単位も挙げず assembly にも無い行
+      sequence:                  # candidate(ECO-115・playbook §4.4「前進の判定」D5): 作業の 2 回目以降の判定で書く。収束と管理は別の読み
+        convergence: open        # converged | open | bound-reached(holds= 行を測った保留の数・decisions= すべての判定の数。上限は作業の最初の発行のもの)
+        control: {result: in-control, signals: []}   # in-control | signals。signals は C1〜C6 ごとに、行か原因・持ち主・routes_done との読み(回数からは読まない)
+        ruling_layer_candidate: []                   # 順に入れ替わる 2 行の印(候補。矛盾かどうかは管理の点検の所見)
+    routes_done: []              # candidate(ECO-115・playbook §4.4「前進の判定」D5): 前の判定の原因ごとに、振り分けを済ませたことを示す参照(例 {cause: <row>:<category>, ref: <commit>})
+    row_changes: []              # candidate(ECO-115・playbook §4.4「前進の判定」D5): 前の判定から固定した Control Plan / M-BOM が変えた行と、それを振り分けた原因
+                                 #   (例 {change: renamed, from: CP-A, to: [CP-A1, CP-A2], cause: <row>:<category>}。removed | added | renamed)
     harness_refs:                # 道具の指し先個体(candidate・playbook §4.4「道具の個体参照」— plm ECO-001 / transfer-01 還元)
       # 検査器・サンプル生成・測定の道具が参照する個体を記録する。個体の昇格・交代時は
       # points_at の更新を同期対象に含める(旧個体参照の齟齬は緑・無警告のまま潜伏する)

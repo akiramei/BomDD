@@ -419,6 +419,38 @@ required_gates: [V1, V2, inspection]
 - **V3 — independent inspection** (EQ-002): the text against §1, and V2's evidence.
 - **V4 — self-conformance exit 0 before each commit; CI success on each pushed tip.**
 
+## 4. Manufacture (2026-10-26, the user's "ECO-115 を製造して")
+
+**Inputs fixed** (sha256 prefixes of the files at the filing commit `db16fa3`, `git show db16fa3:<path>`): `method/bomdd-playbook-v1.md` `ed705b8fdee6`,
+`method/templates/33-control-plan.yaml` `5ac5b9a41d4e`, `50-as-built.yaml` `0327a76dc179`, `40-work-order.md` `6f85a487c302`; the design: this order at
+`db16fa3`. The playbook is written in Japanese, so the item states §1's clauses in Japanese with the identifiers and values verbatim; §8.5 and §13
+are cited by section, not by the line numbers of §1 (frozen at `ab87e48`, and moved by this insertion).
+
+**What changed, by rule:**
+- playbook §4.4 — new item "前進の判定" after the per-ID-table item: I0-I4, D0-D4, D5 (the ledger, convergence with the bounds and the declared
+  departure from §8.5, control C1-C6 with owners, what follows, to the human) and a limits bullet drawn from L1-L9; the per-ID-table item's
+  `on_fail` sentence now points at I2 instead of listing values (it listed 人の承認, which I2 does not have); §1's flow gains one line between Phase 4
+  and Phase 5; §6.1 gains one line (only an individual the decision advanced is measured there).
+- `33-control-plan.yaml` — header `check_mapping` (the `line` example equal to MoviePad-Remake's pilot, a comment for `xunit-v3`); `approver` with I2's
+  three forms (the two human examples now `human:<役割>`); `on_fail` with I2's values (`human-approval` removed) and D2's defaults; `status` (`~` or
+  `retired`); the `when` comment rewritten as M1 says.
+- `50-as-built.yaml` — `work_ref`, `frozen_commit`, `delivered`, the three refs in I2's form, decision records' `source`, `format` and
+  `evidence_sha256`, D4's derivation on `result`, `advance_decision` (result, rows, defects, not_decided, `sequence` with convergence, control and the
+  candidate mark), `routes_done`, `row_changes`.
+- `40-work-order.md` — the frozen line's comment on its own line (the line itself carries no comment: the rehearsal's and the products' parsers read
+  its value to the end of the line) and D5's optional bounds line with its defaults and the declared default disposition.
+- `method/improvements.md` — the manufacture section and EXP-20261026-03 (D5's bounds and stop default on real works; L9).
+
+**Acceptance measured before the manufacture commit** (evidence: `bomdd/reports/eco-115-advance-decision/manufacture/`):
+- **V1 — PASS.** `check_v1_v2.py`: the item with each rule label once, 203 clauses (191 in the twelve rules, 12 in the limits) each inside its own segment, I2's values, the section 1 and
+  6.1 lines, the `on_fail` sentence, every M1 template field with a comment naming the item, I2's values in the template comments, the work order's
+  two lines. The clauses are checked for presence; their meaning against §1 is V3's.
+- **V2 — PASS.** (a) every field the rehearsals read is in the parsed templates; (b) the four rehearsals re-run byte-identical to their stored outputs
+  (ViewPrism2 and MoviePad-Remake read at fixed commits; D5 38/38).
+- **Positive control:** the same script on the filing tree fails 94 of 116 checks.
+- **Not yet:** V3 (EQ-002) — the first review of the repairs after loop 4 round 2 and loop 6 round 2, and of the Japanese text against §1; V4 at
+  closure.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (after the split from ECO-114)

@@ -18,6 +18,12 @@ control_plan:
     L3: <内容・信号・相互作用(例 HTTP 実打 / 音声相関)>
     G: <人間承認(知覚・ユーザビリティ)>
 
+  check_mapping:                        # candidate(ECO-115・playbook §4.4「前進の判定」I2): 証拠の形式名 → {row_key, outcomes, identity}。判定は証拠をこれだけで読む。
+    line:                               #   形式名の例: line(1 行 1 検査)/ xunit-v3(row_key= 値が行 ID になる trait 名。例 cp)
+      row_key: '(?P<outcome>[A-Z]+) (?P<row>\S+)(?: .*)?'   # line 形式: 名前付きグループ outcome と row を持つ正規表現。行全体が一致した行が 1 つの検査。行を名指さない検査は持ち主のない検査
+      outcomes: {PASS: passed, FAIL: failed}                # 形式の結果語をそれぞれ passed | failed | skipped | not-run のどれかへ(無い語の検査はその証拠の行を unmeasurable にする)
+      identity: '(?m)^MEASURED_ON (?P<commit>[0-9a-f]{40}) (?P<tree>[0-9a-f]{40})$'   # 名前付きグループ commit と tree を持つ正規表現。証拠が名指す測った個体(計器が走るときに書く)
+
   characteristics:
     - id: CP-<NAME>-001
       characteristic: <保証する特性(1文)>
@@ -27,10 +33,12 @@ control_plan:
         - M-<NAME>-001
       requirement_refs:
         - REQ-001
-      when: acceptance                  # candidate(ECO-098): 測る時点(例 acceptance= 機械受入のたび / dependency-update= 依存の更新時)
-      on_fail:                          # candidate(ECO-098): 落ちたときの振り分け。違反と測定不能を分ける(playbook §4.4)
-        red: product-fix                #   product-fix(製品修正)| instrument-recovery(測定系復旧)| human-approval(人の承認)
-        unmeasurable: instrument-recovery
+      when: acceptance                  # candidate(ECO-098): ほかに測る機会(例 acceptance= 機械受入のたび / dependency-update= 依存の更新時)。
+                                        # 前進の判定(ECO-115・playbook §4.4「前進の判定」I1)は when を読まない — M-BOM が挙げる行は when にかかわらず納品のたびに数える
+      on_fail:                          # candidate(ECO-098・ECO-115 playbook §4.4「前進の判定」I2・D2): 落ちたときの振り分け。違反(red)と測定不能(unmeasurable)を分ける。
+        red: product-fix                #   値は product-fix(製品修正)| instrument-recovery(測定系復旧)| control-plan-fix(Control Plan の修正)。
+        unmeasurable: instrument-recovery  # 無ければ既定: violation → product-fix・unmeasurable → instrument-recovery・no-check → control-plan-fix
+      status: ~                         # candidate(ECO-115・playbook §4.4「前進の判定」I2): 無い(~)か retired。retired の行を M-BOM が挙げると入力の欠陥
       part_standard_refs: []            # candidate(ECO-114・playbook §4.5「部品規格」C1): この行が一部でも測る M-BOM の provides 項目の ID(例 [PS-M-<NAME>-001-P01])。
                                         # 測らない項目は挙げない。挙げた項目のうち測らない部分は known_limits に項目の ID を付けて書く
       invariant_refs: []                # candidate(ECO-086): この行が検査する仕様 §3 の不変条件 ID(例 [INV-003])。
@@ -40,7 +48,8 @@ control_plan:
       tolerance: exact                  # exact | ±N ms | ΔE<N | required nodes present ...
       fixture: <治具(受入ハーネスのパス)>
       oracle: <合否の判定方法(1文)>
-      approver: automated               # automated | <人名/役割>(G は人間必須)
+      approver: automated               # candidate(ECO-115・playbook §4.4「前進の判定」I2): automated | human:<role> | automated+human:<role>(G は人間必須)。
+                                        # 前進の判定が決めるのは automated を含む行の自動の部分だけ。人の部分は Phase 5
       evidence_output_ref: bomdd/plm-intake/sync-results/<evidence>.json
       test_vectors:                     # 完全性が要る特性は必須(CHEAT-005: 中間値ベクタ未整備が
         - <境界値>                      #   サイレント乖離を通した。「受入の被覆が捕捉を決める」)
@@ -70,7 +79,7 @@ control_plan:
       tolerance: required-elements-present
       fixture: <スクリーンショット/DOM/アクセシビリティツリー/手動確認手順>
       oracle: <DE 行ごとに存在・表示テキスト/画像・状態を確認。pixel-exact ではなく表示契約に照合>
-      approver: <人名/役割>
+      approver: human:<役割>
       evidence_output_ref: bomdd/plm-intake/sync-results/<display-evidence>.md
       test_vectors:
         - <通常表示>
@@ -87,7 +96,7 @@ control_plan:
       tolerance: required-design-parts-covered
       fixture: 43-visual-gap-analysis.md
       oracle: <CAD と実機を比較し、design parts の presence / variant / state / application を確認。素の Border/Text/Button への退化は S2 以上>
-      approver: <人名/役割>
+      approver: human:<役割>
       test_vectors:
         - <通常表示>
         - <hover/selected/dragging 等の状態>

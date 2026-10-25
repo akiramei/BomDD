@@ -1,0 +1,117 @@
+FAIL V1 4.4 has the item 前進の判定 - no top-level bullet starting '- **前進の判定' in 4.4
+FAIL V1 I0 stated once in the item - 0 labels
+FAIL V1 I1 stated once in the item - 0 labels
+FAIL V1 I2 stated once in the item - 0 labels
+FAIL V1 I3a stated once in the item - 0 labels
+FAIL V1 I3b stated once in the item - 0 labels
+FAIL V1 I4 stated once in the item - 0 labels
+FAIL V1 D0 stated once in the item - 0 labels
+FAIL V1 D1 stated once in the item - 0 labels
+FAIL V1 D2 stated once in the item - 0 labels
+FAIL V1 D3 stated once in the item - 0 labels
+FAIL V1 D4 stated once in the item - 0 labels
+FAIL V1 D5 stated once in the item - 0 labels
+FAIL V1 I0: 6 clauses in its segment - missing ['Phase 4 と Phase 5 の間', '固定オラクルと golden を走らせる前', '**Phase 5 へ進むか**', '自動の部分だけ', 'Phase 5 に残り', '(D4)']
+FAIL V1 I1: 27 clauses in its segment - missing ['`- 対象 BOM tag/commit: <revision>`', 'Phase 3 の手順 6', '`frozen_commit`', '**発行されたとおりに**', '`work_order_ref`', '`mbom_ref`', '`control_plan_ref`', '比べるだけで読まない', 'D0～D4 が作業指示書から読むのはその 1 行だけ', '`- 前進の判定の上限: holds <n>, decisions <m>`', '作業の最初の発行', '`work_ref`', '`routes_done`', '`row_changes`', '`acceptance_refs`', '`mbom.assembly.acceptance_refs`', '`assembly_reason`', '`check_mapping`', '`id`・`status`・`approver`・`on_fail`', '`source: decision`', '`identity`', '納品の M-BOM と Control Plan の写し', '祖先関係', '工場の報告と自己受入', '`when`・`depth`・`verifies`・`characteristic`・`oracle`・`evidence_output_ref`', 'ECO-088', '`when` は別の機会に']
+FAIL V1 I2: 7 clauses in its segment - missing ['`xunit-v3`', '`line`', '`outcome` と `row`', '持ち主でない検査', '`commit` と `tree`', '40 桁の 16 進', 'バッククォートは値に含めない']
+FAIL V1 I3a: 23 clauses in its segment - missing ['git が使える', '`delivered` が I2 の内', 'その `commit` の木', '納品のコミットとは別のコミット', '`frozen_commit` を持つ', '1 本あり', 'その値が `frozen_commit` に解決する', '`mbom_ref` と `control_plan_ref` が `frozen_commit` を名指す', '固定が発行に先立つ', 'バイト単位で等しい', '古い BOM へ戻されたタグを捕まえる', '納品のコミットの祖先である', '読める', '写しの無い納品は等しくない', '一意', '空でない `acceptance_refs`', '`assembly_reason`', '少なくとも 1 行', '`retired` でない', 'I1 の 1～2 の値はどれも I2 の内', '`input-defect`', '振り分け先(D2)', '何も走らせない']
+FAIL V1 I3b: 10 clauses in its segment - missing ['ちょうど 1 つの判定の記録', '数えない行を名指す判定の記録は無い', '`cp_ref`', '`evidence_path`', '`evidence_sha256`', '`format`', '`observed_at`', '`check_mapping` が挙げる形式', '`input-defect`', '行の区分は計算しない']
+FAIL V1 I4: 10 clauses in its segment - missing ['`source: decision`', '数える行ごとに 1 つ', '`result`(D4)', '`identity`', '記録には書かない', '同じ証拠ファイル', '`evidence_sha256: none`', '測定系復旧', '`source: phase5`', '1 度だけ判定する']
+FAIL V1 D0: 12 clauses in its segment - missing ['統括 AI', '工場とは別の文脈', '`delivered` を固める', '**数える行**', '`automated` を含む', '自動の部分だけ', '`delivered` に走らせる', 'I3b・D1・D2', '`advance_decision`', '決めた D1 の番号', '決めなかった行', '`assembly` にも無い行']
+FAIL V1 D1: 12 clauses in its segment - missing ['最初に当てはまるもの', '読めない', '検査を 1 つも持たない', '`outcomes` に無い結果語', 'sha256 が記録と違う', '2 つ以上見つける', '`delivered` 以外を見つける', '数える行のどれも持ち主でない検査', '`violation`', '`skipped` か `not-run`', '`no-check`', '`passed` に対応し、`failed` に対応するものが無い']
+FAIL V1 D2: 13 clauses in its segment - missing ['`advances`', '`holds`', '人の部分を持つ', '`on_fail`', '`violation` → product-fix', '`unmeasurable` → instrument-recovery', '`no-check` → control-plan-fix', 'bom-fix', 'work-order-fix', 'record-fix', '写しが固定した版と違う納品', '1 度だけ決める', '`on_fail` にかかわらず control-plan-fix']
+FAIL V1 D3: 9 clauses in its segment - missing ['設計者側が走らせる', '**新しい納品**', '改めて判定する', '同じ納品は再び判定しない', '「2:A」', '別の道は無い', 'ECO-108 / ECO-111', '配布の時点で製品ごとに決める', '承認者への入力のまま']
+FAIL V1 D4: 9 clauses in its segment - missing ['`advance_decision`', '`pass` → `pass`', '`violation` → `fail`', '`unmeasurable` → `blocked`', '`no-check` → `not-run`', 'R-050', 'ECO-088', 'R-050 (b)', '名前つきの抑止']
+FAIL V1 D5: 53 clauses in its segment - missing ['`work_ref`', '工程の ECO は同じ作業を続け', '**台帳**', '`advance_decision.sequence`', '**収束**', '**管理**', '**回数は収束の入力にだけなる**', '`nothing-measured`', '**どの行も測らなかった**', '`<row>:<category>`', '`<route>:<message>`', '**`routes_done`**', '**`row_changes`**', '`removed`・`added`・`renamed`', '状態を新しい行へ引き継ぐ', '`converged`', '`open`', '`bound-reached`', '既定 3', '既定 5', '**作業の最初の発行**', 'C6', '上限を作業の中から上げない', '§8.5', '進めずに止める', '§13 の人の処置待ち', 'ECO-108 / ECO-111', '回数でなく管理の読み', 'C1 残る', 'C2 戻る', 'C3 退行', 'C4 自分の部品が続けて落ちる', 'C5 行の集合', 'C6 上限が変わった', '*振り分けは済んだが原因が消えない*', '*振り分けが済んでいない*', '*記録なし*', '振り分け先でなく区分を読む', '自分の原因のもとで変えた行', '納品が進んだときも', '`in-control`', '`signals`', '**管理の点検**', '工程 ECO', 'AGENTS.md 規律 1', '宣言した既定を当てる', '**新しい約束**', '**新しい機能**', '**導出できない**', '候補として機械で印', 'OBS-20260922-01', 'blocker 報告', '点検の所見']
+FAIL V1 limits: 12 clauses in its segment - missing ['`Error → passed`', 'REQ / INV', '`evidence_sha256` は後の', '同じ BOM のバイトのコミットへ戻したタグは通し', 'depth G', 'git を要し', 'D5 は原因を D2 が名づけるとおりに見る', '検査を定義し直して消しただけ', '新しい `work_ref`', '3 回・5 回', '遅延にしない', '配布は別の ECO']
+FAIL V1 the item states I2's `automated` | `human:<role>` | `automated+human:<role>`
+FAIL V1 the item states I2's `product-fix`
+FAIL V1 the item states I2's `instrument-recovery`
+FAIL V1 the item states I2's `control-plan-fix`
+FAIL V1 the item states I2's `retired`
+FAIL V1 the item states I2's `row_key`
+FAIL V1 the item states I2's `outcomes`
+FAIL V1 the item states I2's `identity`
+FAIL V1 the item states I2's `passed`
+FAIL V1 the item states I2's `failed`
+FAIL V1 the item states I2's `skipped`
+FAIL V1 the item states I2's `not-run`
+FAIL V1 the item states I2's `<path>@<40-hex commit>`
+FAIL V1 the item states I2's `{commit, tree}`
+FAIL V1 section 1 carries one line naming it - 0 lines
+FAIL V1 6.1 carries one line naming it - 0 lines
+FAIL V1 the on_fail sentence names the item
+FAIL V1 the on_fail sentence lists no value outside I2
+FAIL V1 33-control-plan.yaml check_mapping carries a comment naming the item - field absent
+FAIL V1 33-control-plan.yaml when carries a comment naming the item - no comment
+FAIL V1 33-control-plan.yaml on_fail carries a comment naming the item - no comment
+FAIL V1 33-control-plan.yaml status carries a comment naming the item - no comment
+FAIL V1 33-control-plan.yaml approver carries a comment naming the item - no comment
+FAIL V1 50-as-built.yaml work_ref carries a comment naming the item - field absent
+FAIL V1 50-as-built.yaml frozen_commit carries a comment naming the item - field absent
+FAIL V1 50-as-built.yaml work_order_ref carries a comment naming the item - no comment
+FAIL V1 50-as-built.yaml mbom_ref carries a comment naming the item - no comment
+FAIL V1 50-as-built.yaml control_plan_ref carries a comment naming the item - no comment
+FAIL V1 50-as-built.yaml delivered carries a comment naming the item - field absent
+FAIL V1 50-as-built.yaml routes_done carries a comment naming the item - field absent
+FAIL V1 50-as-built.yaml row_changes carries a comment naming the item - field absent
+FAIL V1 50-as-built.yaml source carries a comment naming the item - field absent
+FAIL V1 50-as-built.yaml format carries a comment naming the item - field absent
+FAIL V1 50-as-built.yaml evidence_sha256 carries a comment naming the item - field absent
+FAIL V1 50-as-built.yaml result carries a comment naming the item - no comment
+FAIL V1 50-as-built.yaml advance_decision carries a comment naming the item - field absent
+FAIL V1 50-as-built.yaml sequence carries a comment naming the item - field absent
+FAIL V1 40-work-order.md frozen-revision line has its comment on the next line
+PASS V1 40-work-order.md frozen-revision line holds no inline comment
+FAIL V1 40-work-order.md has the bounds line
+FAIL V1 33-control-plan.yaml comment states automated | human:<role> | automated+human:<role>
+PASS V1 33-control-plan.yaml comment states product-fix
+PASS V1 33-control-plan.yaml comment states instrument-recovery
+FAIL V1 33-control-plan.yaml comment states control-plan-fix
+FAIL V1 33-control-plan.yaml comment states retired
+FAIL V1 33-control-plan.yaml comment states passed
+FAIL V1 33-control-plan.yaml comment states failed
+FAIL V1 33-control-plan.yaml comment states skipped
+FAIL V1 33-control-plan.yaml comment states not-run
+FAIL V1 33 drops human-approval as an on_fail value
+FAIL V1 50-as-built.yaml comment states <path>@<40-hex commit>
+FAIL V1 50-as-built.yaml comment states {commit, tree}
+PASS V2 the templates parse
+FAIL V2 33 has control_plan.check_mapping
+FAIL V2 33 has control_plan.check_mapping.-.row_key
+FAIL V2 33 has control_plan.check_mapping.-.outcomes
+FAIL V2 33 has control_plan.check_mapping.-.identity
+PASS V2 33 has control_plan.characteristics.id
+PASS V2 33 has control_plan.characteristics.approver
+PASS V2 33 has control_plan.characteristics.on_fail.red
+PASS V2 33 has control_plan.characteristics.on_fail.unmeasurable
+FAIL V2 33 has control_plan.characteristics.status
+PASS V2 32 has mbom.manufacturing_units.acceptance_refs
+PASS V2 32 has mbom.assembly.acceptance_refs
+PASS V2 32 has mbom.assembly.assembly_reason
+FAIL V2 50 has as_built.work_ref
+FAIL V2 50 has as_built.frozen_commit
+PASS V2 50 has as_built.work_order_ref
+PASS V2 50 has as_built.mbom_ref
+PASS V2 50 has as_built.control_plan_ref
+FAIL V2 50 has as_built.delivered.commit
+FAIL V2 50 has as_built.delivered.tree
+FAIL V2 50 has as_built.routes_done
+FAIL V2 50 has as_built.row_changes
+FAIL V2 50 has as_built.test_evidence_refs.source
+PASS V2 50 has as_built.test_evidence_refs.cp_ref
+PASS V2 50 has as_built.test_evidence_refs.evidence_path
+FAIL V2 50 has as_built.test_evidence_refs.evidence_sha256
+FAIL V2 50 has as_built.test_evidence_refs.format
+PASS V2 50 has as_built.test_evidence_refs.observed_at
+PASS V2 50 has as_built.test_evidence_refs.result
+FAIL V2 50 has as_built.advance_decision.result
+FAIL V2 50 has as_built.advance_decision.rows
+FAIL V2 50 has as_built.advance_decision.not_decided
+FAIL V2 50 has as_built.advance_decision.sequence.convergence
+FAIL V2 50 has as_built.advance_decision.sequence.control
+PASS V2 run_rehearsal_v2.py re-run equals rehearsal-v2.txt
+PASS V2 run_moviepad.py re-run equals rehearsal-moviepad.txt
+PASS V2 run_moviepad_d2.py re-run equals rehearsal-moviepad-d2.txt
+PASS V2 rehearse_sequence.py re-run equals rehearsal-sequence.txt
+V1/V2: FAIL (22/116)

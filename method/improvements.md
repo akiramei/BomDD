@@ -9298,3 +9298,21 @@ Observations:
     433 verdicts unchanged) and decided against selecting one unit within stage 1 (at most 3–4 s of 10.9 s, and a narrowing by
     predicted impact).
     evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/test-plan/test-plan.md` §8, `test-plan/evidence/factory/`, `evidence/split/`
+
+## 2026-10-26 ECO-115 manufactured — the advance decision and a work's decisions over time
+
+- Applied: playbook 4.4 item 「前進の判定」 (I0-I4, D0-D5 and its limits), a line each in section 1 and 6.1, the on_fail sentence of the
+  per-ID-table item pointing at I2; the templates 33-control-plan.yaml (check_mapping, I2's approver / on_fail / status values, the when
+  comment), 50-as-built.yaml (work_ref, frozen_commit, delivered, the three refs' form, decision records' source / format /
+  evidence_sha256, advance_decision with sequence, routes_done, row_changes) and 40-work-order.md (the frozen line's comment, the
+  bounds line). Source: `bomdd/60-change-order-eco-115.md`. V1, V2 103/103 (`bomdd/reports/eco-115-advance-decision/manufacture/`).
+- Thought layer: changes an operational rule (playbook) and templates; method/concept claim none.
+- [open] EXP-20261026-03 — **Do D5's bounds and its stop default fit real works?** The bounds (holds 3, decisions 5) and the default at a
+  bound (stop without advancing, then section 13's pending human disposition) are taken from the design loops, not measured on
+  deliveries (order L9). Trigger: the first product work decided by the advance decision more than once (MoviePad-Remake delivery 3 is
+  the nearest: its Control Plan carries check_mapping since `b2e19a0`). Read: the holds and decisions a work needed to converge, and
+  whether the control reading named the cause each time a work held twice. Reading fixed now: a work that converges after the bound with
+  every hold in control → the bound is too low, a method ECO; a bound reached with signals that the review then fixed → the bound
+  held its purpose. Withdrawn if ECO-115 is not verified.
+  source: ECO-115 (manufacture, 2026-10-26)
+  evidence: `bomdd/60-change-order-eco-115.md` L9
