@@ -8818,7 +8818,7 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
       a corrected runner (UTF-8 children; a run counts only when the comparator finished, else unmeasurable): v1 and v2 both **30 of
       40 (0.60–0.86)**, not 29; the other 10 survivors and the reading stand. A known calibrate failure type (④ unmeasurable read as a
       pass) inside the instrument built to measure detection power.
-    - **ECO-003 (package revision, staged):** both contradictions delivery 2's factory blocked were decided from the authority
+    - **ECO-003 (package revision; applied on the user's "A", 2026-10-25, product `a768e3a`):** both contradictions delivery 2's factory blocked were decided from the authority
       (`FfmpegExporter.cs:483`, `:107-123`): the M-BOM was right in both; `20-spec.md` §2.9 and `31-kbom.yaml` corrected; no product change.
     - **Oracle v3 (`bom-v6`):** the first set's survivors' inputs, ECO-003's two points, a tightened inventory rule (a case at the boundary
       and on each side; each operand of a joined condition; sequences), the comparator writing UTF-8. On a **second sealed set** (40, by
