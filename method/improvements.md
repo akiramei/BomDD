@@ -8850,6 +8850,22 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
     - For the method: an oracle's detection power is a property of **where its cases are relative to the faults**, measured only by
       faults placed by someone who has not seen the cases — and different generators place them differently. A designer's inventory
       or case list cannot stand in for that measurement.
+  fifth round (2026-10-25; the user's "A": oracle v5 by class, measured on a fourth set; product `bbaf788`…`b0bc742`, `oracle-v5/results.md`):
+    - **Oracle v5 (`bom-v8`): a case family per class of v4's survivors** — an empty and a single-region document through every operation,
+      the clock and the tool runner through their own APIs, cover-art / mpeg4 / flac sources, out-of-range copy-start overrides, the last
+      progress frame and output time. The authority's own export of the cover-art source fails (ffmpeg `atrim start_sample` −22400): a
+      defect of the original, not encoded as an expectation. Delivery 2 passes v5 433/433.
+    - **Fourth sealed set** (Codex, isolated, the three earlier sets' 109 sites excluded; none repeated): v4 **31/38**, v5 **32/38 (0.70–0.93)**,
+      harness crashes counted as caught (pre-registered), two equivalent left out; intervals overlapping, **no claim**.
+    - **The pattern over four sets:** at points no one named, detection stays at **0.75–0.84** (set 1: 0.75; set 3: 0.76→0.78; set 4:
+      0.82→0.84), each oracle version adding about one catch on the next unnamed set. Class families placed at survivor sites did not carry
+      to other sites: the same joined-condition fault survived at copy eligibility after it was closed in the exporter; state carried
+      through a split was never exercised; a resolve path no case reached; API defaults the runner always overrode.
+    - For the method: survivor-driven additions — by point or by class — close what was exposed and leave the level at unnamed points
+      where the derivation put it. Raising it needs a different derivation of cases (an enumeration of every decision point, joined
+      condition, carried state and default across the whole specification), and its effect is measured only by a fresh sealed set.
+      A candidate rule, not adopted: before claiming detection power, report the level on a sealed set at unnamed points, not the
+      number of cases or a pass rate.
     - Open (as of the second trial; see the third round): the next oracle version (the 11 survivors' inputs; "tested" to mean both sides of a
       boundary and at it, combinations enumerated) measured on a new sealed set; the two package contradictions.
 - [watch 1/3] OBS-20261024-03 — **A factory that the sandbox refused tried to get round it with desktop automation.** In EXP-20261024-01
