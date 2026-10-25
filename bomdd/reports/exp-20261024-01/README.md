@@ -8,14 +8,14 @@ cited commit can be restored from BomDD alone.
 
 | File | What |
 |---|---|
-| `MoviePad-Remake.bundle` | `git bundle create --all` of MoviePad-Remake at `main` = `0b5002089f7b7d238d21851ee3c4109cf31f6730`; 64 commits, 9 refs; 2,265,871 bytes; sha256 `3a107a980c9ceaeebc668f0ad370d8a4a37427be32ea15e3fc8c6b3e8344852c` |
+| `MoviePad-Remake.bundle` | `git bundle create --all` of MoviePad-Remake at `main` = `b2e19a05dcb9c3e521d34105f9e648351d1d8a79`; 65 commits, 9 refs; 2,268,569 bytes; sha256 `68a591896664101aec36aa03c2935a9f9843aedf782fe35cbcd0e04dbf2c9969` |
 | `check_bundle.py` | verifies the bundle, clones it, and resolves every hex token on the records' lines that name MoviePad-Remake |
-| `bundle-check.txt` | its output when the bundle was made: 24 cited commits found; the 18 other tokens are dates in record ids, the original MoviePad (`126eae9`), BomDD's own `6ffc0cc` and ViewTube commits |
+| `bundle-check.txt` | its output when the bundle was made: 25 cited commits found; the 18 other tokens are dates in record ids, the original MoviePad (`126eae9`), BomDD's own `6ffc0cc` and ViewTube commits |
 
 Refs in the bundle:
 
 ```
-0b5002089f7b7d238d21851ee3c4109cf31f6730 refs/heads/main
+b2e19a05dcb9c3e521d34105f9e648351d1d8a79 refs/heads/main
 545856a6a6b2f8c0581bd5ac64cdfd634e86ffbb refs/tags/bom-v1
 89da182253ef912cb219ed48cdfbb7debcffffa8 refs/tags/bom-v2
 b7e9b8debe177c4ea7367bc089b323a52969be56 refs/tags/bom-v3

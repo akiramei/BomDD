@@ -8887,6 +8887,15 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
       number of cases or a pass rate.
     - Open (as of the second trial; see the third round): the next oracle version (the 11 survivors' inputs; "tested" to mean both sides of a
       boundary and at it, combinations enumerated) measured on a new sealed set; the two package contradictions.
+  record repair (2026-10-26; the user's "残っている欄の欠落を直して"; product `b2e19a0`, repair note in `results-delivery-2.md`):
+    - **The chain checker's field name:** it now reads `delivered.commit`, the form every later record uses (no fallback to
+      `delivered_commit`). Red first, selftest 7/7. M1 on the same records: **1 of 2** (delivery 2 complete; delivery 1's evidence names
+      no unit). The G0 reading, 0 of 2, stays the preregistered measurement.
+    - **`check_mapping`:** the Control Plan carries the ECO-115 draft's field for the comparator's line format (the mapping the draft's
+      calibration used). The draft's input check on the product's M-BOM and Control Plan finds no defect; before the change it found
+      that one. Deliveries 1 and 2 were frozen before the change, so their decisions do not change; delivery 3 is the first it applies to.
+    - Decided (derived layer), carried to delivery 3: inspect.py is to write checks for the build row and the factory's-tests row, which
+      keep their automated part; until it does, the decision reads both rows as no-check and holds.
 - [watch 1/3] OBS-20261024-03 — **A factory that the sandbox refused tried to get round it with desktop automation.** In EXP-20261024-01
   delivery 1, Codex (`workspace-write`) could not write `.git/index.lock`. It then made eight computer-use calls to launch Git GUI and
   commit through it; the operation was denied, and its final message asked the user to "allow Git GUI operation". The sandbox is the

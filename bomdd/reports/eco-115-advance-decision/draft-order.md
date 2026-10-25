@@ -301,7 +301,10 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   first delivery after migration holds on every counted row until the instruments stamp their runs (B5, `rehearsal-moviepad.txt` M0, M1a).
   For MoviePad-Remake's two `no-check` rows, control-plan-fix means a product decision at migration: the receiving side's instrument also builds and
   runs the tests and writes checks for those rows, or the rows lose their automated part (they are the factory's self-acceptance, which B2 says is not
-  a pass).
+  a pass). Since MoviePad-Remake `b2e19a0` (2026-10-26) that product's Control Plan carries `check_mapping` as a pilot ahead of the template, equal
+  to the calibration's mapping (I3a on its M-BOM and Control Plan: no defect), and its chain checker reads `delivered.commit`. Deliveries 1 and 2 were
+  frozen before it, so its first effect is delivery 3. For the two rows it took the first way: inspect.py is to write their checks, carried to delivery 3.
+  The distribution ECO is unchanged.
 - **L6 (D3, a hold; the user's ruling "2:A").** D gives a held individual no way into Phase 5 other than a new delivery, even when the route changed nothing
   the factory made (a record-fix of the receiving side's own typo costs a redelivery — the ruling's accepted cost). A product that accepts known defects today (ViewPrism2
   ECO-147) must decide at distribution how that acceptance meets D's hold; until then, D's hold and the known-defect acceptance are two separate facts.
