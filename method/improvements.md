@@ -3479,7 +3479,7 @@ playbook へ運用規則(ViewTube ECO-VT-056/068/069 還元)を新設し recover
   (人間+第三者 AI の実物突合)で捕捉された(ECO-013 §13 で正式訂正)。独立性: 別リポ・
   別記録対(是正報告↔blind 成果物)。ただし OBS-20260816-01 の 3 例目と同一事象を共有 —
   PROMOTION 判定時に二重計上へ注意
-- [watch 2/3] OBS-20260805-05 — **自作検査計器の資格は「構成的な見逃し実測」で行う** — 回帰対照
+- [watch 3/3] OBS-20260805-05 — **自作検査計器の資格は「構成的な見逃し実測」で行う** — 回帰対照
   として有意(既知欠陥の再現)と「一致/健全の証拠」として有意は別判定で、後者は**独立者が構成した
   食い違いへの検出実測**を要する。通過した見逃し例は known-bad 陰性対照集合として後継ゲートの
   資格前棄却要求へ引き継ぐ。検査文はコードが測る以上を主張しない・偽陽性修正は「精密化」と
@@ -3509,12 +3509,21 @@ playbook へ運用規則(ViewTube ECO-VT-056/068/069 還元)を新設し recover
   被覆表は 2026-08-30 TimetableAdv 還元節「昇格審査記録」に置いた
   evidence: 本節・観測 2 / CHEAT-D10-003・NF-10 / 2026-08-06 ECO-VT-070 還元節・観測 3 /
   2026-08-29 ViewTube 還元(097-1)節・適用した改善
-- [watch 2/3] OBS-20260805-06 — **機械編集・自動適用は効果 assertion(読み戻し+parse・差分確認)を
+  **3 例目(2026-10-25・MoviePad-Remake EXP-20261024-01)= 固定した基準に一致**: 別リポで、独立の文脈(Claude agent・
+  隔離した Codex)が構成した壊し方が固定オラクルを通過した(4 組・各組 3〜10 件が生存し、その大半を独立の判定者が非等価と判定)。
+  下位規則 (a)(b)(c) を実測 — (a) 設計者の棚卸しが「tested」とした箇所に第 1 組の生存 11 件中 9 件・(b) 生存例の入力を
+  次版オラクルへ引き継いだ(v3〜v5)・(c) 名前と違う点を試していたケースを主張へ広げて是正。(d) は機会なし。
+  独立性の限界= 同一オーナー・オラクルの設計者は本ハーネス。昇格審査は 2026-10 MoviePad-Remake 還元節
+- [watch 3/3] OBS-20260805-06 — **機械編集・自動適用は効果 assertion(読み戻し+parse・差分確認)を
   持つ** — 置換の空振りは成功として報告され、assertion を欠いた 1 件だけがコミットへ到達した。
   OBS-20260716-07(変異適用の検証)の同族・層違い(変異治具→一般の記録編集)
   source: ViewTube ECO-VT-069(§12.10), ECO-VT-072(554bf05 — register 編集の 2 entry 一致を assertion が誤爆前に停止・予防適用)
   origin: external(ViewTube 事案)
   evidence: 本節・観測 1・2026-08-05 中間観測節②
+  **3 例目(2026-10-25・MoviePad-Remake EXP-20261024-01・本ハーネス)**: 改行変換の 1 行(`open(f,'wb').write(open(f,'rb').read()…)`)が
+  読む前にファイルを切り詰め、8 ファイルが空のままコミットに到達した。後続の検査(YAML parse・CR 計数)は空ファイルで全て通過 —
+  効果 assertion(読み戻しと大きさの比較)が無かった。是正= 読んでから書く・空を書かない・コミット前に staged blob と大きさを比較
+  (2026-10 MoviePad-Remake 還元節・観測 3b)
 - [watch 2/3] OBS-20260805-07 — **事前凍結した出口条件はレビュアへ開示する**(伏せることは別種の
   不誠実)+開示と対で甘化・労力/経過採点・所見でっち上げの禁止を明示する — 開示が判定を甘く
   しなかった実測 1 例(開示下で新規所見+構成的反証まで実施)
@@ -6472,11 +6481,14 @@ confirmation」・製造設備 Opus 5)/ `test-results/eco-vt-103-structured-logg
   突合(effort-calibration の tool_hash と同型)。既存規則(③は迂回されうる・規約は検査器で運ぶ)の新様態
   source: ViewTube ECO-VT-103(runner-divergence §1–2)
   evidence: 本節・観測 3
-- [watch 1/3] OBS-20260906-05 — **変異検査の判定は件数だけでは成立しない — 報告失敗件数と読取失敗行数の不一致・0 件実行・要約と本文の矛盾は
+- [watch 2/3] OBS-20260906-05 — **変異検査の判定は件数だけでは成立しない — 報告失敗件数と読取失敗行数の不一致・0 件実行・要約と本文の矛盾は
   UNDETERMINED(停止)、門が開かなかった失敗は NOT_ESTABLISHED(製品所見でない)** — 期待失敗 manifest(既存規則)の照合に、判定器自身の
   自己整合(件数=行数)を停止条件として足す。1 例例外は適用しない
   source: ViewTube ECO-VT-103(mutations_103.py judge・J0〜J5)
   evidence: 本節・観測 4
+  **2 例目(2026-10-25・MoviePad-Remake EXP-20261024-01・別リポ)**: 比較器が要約行を出す前に落ち(cp932 で「—」を出力できず)、
+  変異ランナーは読めなかった FAIL 行を「生存」と数えた(第 1 組 29/40 → 是正後 30/40)。是正= 比較器が要約行まで出した実行だけを数え、
+  それ以外は測定不能(2026-10 MoviePad-Remake 還元節・観測 3a)
 - [watch 2/3] OBS-20260906-06 — **自動化された段列(B/M/R 等)でも段間に判定を置く — 結果が観測される前に次段が走るとゲートは無いのと同じ**
   (harness ECO-024 の shell 連結に続く 2 例目= 単一プロセス内の段列)。復元(finally・無条件)と復元の検証(R・M 確定後)は分ける
   source: BomDD harness ECO-024 / ViewTube ECO-VT-103
@@ -9058,3 +9070,124 @@ the result depends on unmeasured cost coefficients; graph completeness is not sh
   source: the experimenter's reply to this session's evaluation of the module-partition simulation (2026-10-25), point 6
   origin: external(user の模擬実験の実験者)
   evidence: method/improvements.md (this section); bomdd/reports/exp-20261025-02/results.md ("Scope of the result")
+
+## 2026-10 MoviePad-Remake 還元 — EXP-20261024-01: detection power measured by sealed independent mutant sets (four sets), and the instrument's own defects
+
+Run by `/lesson-promote` on the user's "B" (2026-10-25: promote the findings to the method rather than start the next experiment). Records
+only; the body weaving is proposed at the stop point and not applied here.
+
+Observations (source: MoviePad-Remake `bomdd/reports/exp-20261024-01/oracle-v2/` … `oracle-v5/` — `results.md`, `survivor-verdicts.md`,
+`measurement-preregistration.md` — product `d294498`…`b0bc742`; this file, EXP-20261024-01 second trial and third to fifth rounds):
+
+1. **What measured detection power, and what did not.** Each set held 40 mutants of the delivered code, made by a context that had not seen
+   the oracle's cases (sets 1–2: a Claude agent reading src, spec, E-BOM and M-BOM; sets 3–4: Codex in an isolated workspace with the earlier
+   sets' sites excluded — none repeated, no command left the workspace), committed unopened before the oracle version under test was frozen;
+   the reading rule was pre-registered; survivors were judged equivalent / not / uncertain by another independent context; intervals are
+   Wilson 95 %. Not evidence of detection: the designer's clause inventory (9 of set 1's 11 survivors sat at points it marked "tested"; v2's
+   eight additions from it caught none), the case list, and case names (a case named for crossed clamp limits never crossed them).
+2. **Detection at points no one named stayed where the case derivation put it.** Set 2 is left out (the same kind of generator, given the
+   same inputs, repeated set 1's points: v2 32/40 → v3 37/40, every extra catch a first-set point). Two counting rules were used — set 3 left
+   a harness crash out as unmeasurable, set 4 counted it as caught (pre-registered there) — so both are given:
+
+   | Set (generator) | Oracle | Crash left out (set 3's rule) | Crash counted as caught (set 4's rule) |
+   |---|---|---|---|
+   | 1 (Claude agent) | v1 = v2 | 30/40 (0.75; denominator 40, none unmeasurable) | 30/40 (0.75) |
+   | 3 (Codex, sets 1–2 excluded) | v3 → v4 | 28/37 → 29/37 (0.76 → 0.78) | v4 31/39 (0.79); v3 not recomputed |
+   | 4 (Codex, sets 1–3 excluded) | v4 → v5 | 27/34 → 28/34 (0.79 → 0.82) | 31/38 → 32/38 (0.82 → 0.84) |
+
+   Each version added about one catch on the next unnamed set, with overlapping intervals throughout: no claim that any version raised the
+   level. Additions by point (v3, v4) and by class (v5) closed what the last set exposed; class families placed at survivor sites did not
+   carry to other sites (the joined-condition fault closed in the exporter survived at copy eligibility; state carried through a split; a
+   resolve path no case reached; API defaults the runner always overrode).
+3. **The instrument's own defects (all by the designer, this harness):**
+   a. **The mutant runner was fail-open.** The comparator crashed printing "—" under the console encoding (cp932); the runner read the
+      missing FAIL lines as survived (set 1 corrected from 29/40 to 30/40). Repair: UTF-8 children; a run counts only when the comparator
+      printed its summary, else unmeasurable. A known calibrate type (④ unmeasurable read as a pass) inside the instrument built to measure
+      detection, and the encoding half breaks an existing body rule (playbook §13 運用規則: 計器の報告経路は実行環境の既定符号化に依存させない).
+   b. **An in-place one-liner emptied eight committed files** (`open(f,'wb')` truncates before the inner read). The checks run after it (YAML
+      parse, CR count) all passed on empty files. Restored (`a212c57`), proved faithful (331/331, 378/378), the tag moved. Repair: read then
+      write, refuse to write an empty file, compare sizes with the staged blobs before a commit.
+   c. **A case named for a point it did not exercise** (the crossed clamp limits above): repaired in v4 by widening the case to its name, not
+      by renaming it — the direction playbook §4.4 candidate "検査文はコードが測る以上を主張しない" rules.
+4. **A boundary value folded back by later processing.** A size just past the height limit was folded back by the next rounding
+   (even(4321) = 4320), so the case tested the inside; v4 used sizes well past the limit. A boundary case is checked by the value that reaches
+   the decision, not by its name.
+5. **An open contract question.** M4-19 (a zero height) is promised by the part standard but unreachable through the probe, and was judged
+   equivalent by the domain rule. Whether a part standard's promise about an input no producer yields counts as a fault site is undecided.
+
+Generality check (product names removed):
+- 1 → "an acceptance oracle's detection power is measured only by faults placed by someone who has not seen its cases; case lists,
+  inventories and names are not evidence"; machine face = the sealed set, pre-registration, runner and equivalence judge. Passes; it is the
+  core of OBS-20260805-05 (sub-rules a, b).
+- 2 → "the level at unnamed points is set by how the cases were derived; survivor-driven additions do not move it". Product-free, but one
+  product and one designer: new OBS (watch 1/3). "A generator of the same kind repeats the obvious points" is part of the measurement
+  procedure (use another generator, exclude earlier sites) and travels with 1.
+- 3 → no new proposition: a = OBS-20260906-05 and calibrate ④; b = OBS-20260805-06; c = the playbook §4.4 candidate.
+- 4 → product-free (any later processing can fold a boundary input back); machine face = assert the value that reaches the decision. N=1:
+  new OBS (watch 1/3).
+- 5 → observation only (new OBS, watch 1/3).
+
+Applied improvements: this section and the state changes below only. Body weaving proposed at the stop point: playbook §4.4 (promotion of
+OBS-20260805-05; candidate (c) gains a second example), playbook §13 運用規則 (promotion of OBS-20260805-06), FINDINGS (a new section with the
+table above). The calibrate skill's table A is unchanged (instances of ② and ④).
+
+Concept-layer check (3b): [x] operational rule (playbook) [x] control / probe [ ] template [ ] terminology [x] method/concept claim [ ] none.
+- `docs/concept.md` "受入 2 層(固定オラクル/探索プローブ)": **supported** — the fixed oracle is a measurable layer; in one product it catches
+  about three in four faults at unnamed points.
+- FINDINGS §3.3 "テスト緑 ≠ 仕様適合": **supported**, now with a number — delivery 2 passes v5 433/433 against an oracle that catches 0.75–0.84
+  of unnamed faults.
+- FINDINGS §7.4 "検査器は未検証のまま初回採点に臨む": **supported**; a way to qualify the oracle before scoring now exists (a sealed set) but is
+  not a procedure step.
+
+Expected-effects inventory (from `worklist.py` at this section's writing; trigger = a detection measurement, mutation runs, instrument defects,
+machine edits):
+- **OBS-20260805-05 → watch 3/3 (PROMOTION DUE).** The third-example criterion fixed on 2026-08-30 ("別リポまたは別主体で、独立者が構成した
+  食い違いが計器を通過した実測") is met. Sub-rules (a)(b)(c) exercised, (d) not. Independence limit: same owner; the oracle's designer is this
+  harness. The review is the stop point of this run.
+- **OBS-20260805-06 → watch 3/3 (PROMOTION DUE)** — observation 3b. No new OBS was minted for the truncation (§13 記録の経済).
+- **OBS-20260906-05 → watch 2/3** — observation 3a (another repo).
+- Unchanged, OBS-20260716-07 (mutation application assert): preventive application — the runner applies each mutant by an anchor that must occur once and
+  lists the rest as not applicable; no incident, N unchanged.
+- Unchanged, OBS-20260929-01 (noise floor): preventive application — the pre-registered rule "overlapping intervals → no claim" stopped a claim on sets 2,
+  3 and 4. It covers sampling only; the AI judge's own variation was not measured. N unchanged.
+- No opportunity, OBS-20260828-08 and OBS-20261011-03 (no transport-broken script; 20261011-03 is about rewrites claimed equivalent, not detection).
+- No opportunity, EXP-20260727-09 (the designer's instruments have no pre-manufacture impact analysis). The §13 count of 改行事故 is not
+  advanced: 3b happened in a line-ending tool but is a truncation, not a representation error (the count stays at the 12 noted on 2026-09-10).
+- Unchanged, EXP-20261024-01 (open).
+
+- [watch 1/3] OBS-20261025-03 — **An oracle's detection at points no one named is set by how its cases were derived; adding cases for the faults
+  a sealed set exposed — by point or by class — closes those faults and leaves that level unchanged.** One product, one designer, four sets:
+  0.75–0.84 (0.75–0.82 under the stricter crash rule), each version adding about one catch on the next unnamed set. 2 例目の条件= another
+  product, or another case derivation in this one, measured the same way (a fresh sealed set at unnamed points).
+  source: EXP-20261024-01 rounds 2–5 (2026-10-25)
+  evidence: this section, observation 2; MoviePad-Remake `bomdd/reports/exp-20261024-01/oracle-v5/results.md`
+- [watch 1/3] OBS-20261025-04 — **A boundary case can test the inside of the boundary when later processing folds its input back (a size just
+  past a limit, rounded to even, lands on the limit).** The case's name and nominal input say "past the limit"; only the value that reaches the
+  decision shows which side was tested. 2 例目の条件= another oracle or test whose boundary input was changed back across the boundary before the
+  decision, found by a fault at the point or by reading the value.
+  source: EXP-20261024-01 third and fourth rounds (2026-10-25)
+  evidence: this section, observation 4; MoviePad-Remake `bomdd/reports/exp-20261024-01/oracle-v3/survivor-verdicts.md`
+- [watch 1/3] OBS-20261025-05 — **A part standard can promise behaviour for an input that no producer in the product yields (a zero height the
+  probe never reports); whether such a promise is a fault site for detection measurement is not decided.** The judge's domain rule called the
+  mutant equivalent; counting it changes the result from 32/38 to 32/39. 2 例目の条件= another equivalence verdict that turns on a promise about
+  an unreachable input, or a ruling.
+  source: EXP-20261024-01 fifth round (2026-10-25)
+  evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/oracle-v5/results.md` ("What this adds", last item)
+- [open] EXP-20261025-04 — **Does a different derivation of cases raise detection at unnamed points?** Derive cases by enumerating, across the
+  whole specification, every decision point, joined condition, state an operation carries and API default (not from survivors), freeze the
+  oracle, and measure it against the current one on a fresh sealed set (another generator, the four earlier sets' sites excluded). Reading fixed
+  now: non-overlapping intervals above the current level → the derivation, not the additions, sets the level (OBS-20261025-03 gains its
+  test); overlapping → no claim, survivors reported by class. Not started; start is the user's.
+  source: EXP-20261024-01 fifth round (2026-10-25)
+  evidence: this section, observation 2
+- [open] EXP-20261025-05 — **If the §4.4 weaving is adopted: does the next fixed oracle frozen in a product report its detection on a sealed
+  set at unnamed points (generator, judge, interval) instead of case counts or a pass rate?** Measure on the next product oracle freeze or
+  oracle version (any product): present / absent, and whether a qualification claim cites case counts alone. Withdrawn if the weaving is not
+  adopted.
+  source: this section
+  evidence: this section, body weaving item 1
+- [open] EXP-20261025-06 — **If the §13 weaving is adopted: do machine edits by a designer reach a commit without an effect assertion?** Count,
+  over the next ten designer sessions that rewrite files by script, the edits that changed nothing or emptied a file and reached a commit
+  (baseline: 1 accident, 8 files, in EXP-20261024-01). Withdrawn if the weaving is not adopted.
+  source: this section
+  evidence: this section, body weaving item 3
