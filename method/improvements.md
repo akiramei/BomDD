@@ -3479,7 +3479,7 @@ playbook へ運用規則(ViewTube ECO-VT-056/068/069 還元)を新設し recover
   (人間+第三者 AI の実物突合)で捕捉された(ECO-013 §13 で正式訂正)。独立性: 別リポ・
   別記録対(是正報告↔blind 成果物)。ただし OBS-20260816-01 の 3 例目と同一事象を共有 —
   PROMOTION 判定時に二重計上へ注意
-- [watch 3/3] OBS-20260805-05 — **自作検査計器の資格は「構成的な見逃し実測」で行う** — 回帰対照
+- [recovered 2026-10-25 via playbook §4.4 織り込み(user「1:A 2:A 3:A 4:A」)] OBS-20260805-05 — **自作検査計器の資格は「構成的な見逃し実測」で行う** — 回帰対照
   として有意(既知欠陥の再現)と「一致/健全の証拠」として有意は別判定で、後者は**独立者が構成した
   食い違いへの検出実測**を要する。通過した見逃し例は known-bad 陰性対照集合として後継ゲートの
   資格前棄却要求へ引き継ぐ。検査文はコードが測る以上を主張しない・偽陽性修正は「精密化」と
@@ -3514,7 +3514,7 @@ playbook へ運用規則(ViewTube ECO-VT-056/068/069 還元)を新設し recover
   下位規則 (a)(b)(c) を実測 — (a) 設計者の棚卸しが「tested」とした箇所に第 1 組の生存 11 件中 9 件・(b) 生存例の入力を
   次版オラクルへ引き継いだ(v3〜v5)・(c) 名前と違う点を試していたケースを主張へ広げて是正。(d) は機会なし。
   独立性の限界= 同一オーナー・オラクルの設計者は本ハーネス。昇格審査は 2026-10 MoviePad-Remake 還元節
-- [watch 3/3] OBS-20260805-06 — **機械編集・自動適用は効果 assertion(読み戻し+parse・差分確認)を
+- [recovered 2026-10-25 via playbook §13 運用規則 織り込み(user「1:A 2:A 3:A 4:A」)] OBS-20260805-06 — **機械編集・自動適用は効果 assertion(読み戻し+parse・差分確認)を
   持つ** — 置換の空振りは成功として報告され、assertion を欠いた 1 件だけがコミットへ到達した。
   OBS-20260716-07(変異適用の検証)の同族・層違い(変異治具→一般の記録編集)
   source: ViewTube ECO-VT-069(§12.10), ECO-VT-072(554bf05 — register 編集の 2 entry 一致を assertion が誤爆前に停止・予防適用)
@@ -9126,6 +9126,12 @@ Generality check (product names removed):
 - 4 → product-free (any later processing can fold a boundary input back); machine face = assert the value that reaches the decision. N=1:
   new OBS (watch 1/3).
 - 5 → observation only (new OBS, watch 1/3).
+
+**Weaving (2026-10-25, the user's "1:A 2:A 3:A 4:A", all four adopted):** 1 playbook §4.4 new rule "検出力は、ケースを見ていない者が
+置いた壊し方で測る" (OBS-20260805-05 → recovered) / 2 the §4.4 candidate "検査文はコードが測る以上を主張しない" N=1 → N=2 with this example /
+3 playbook §13 運用規則 new rule "機械編集・自動適用は効果 assertion を持つ" (OBS-20260805-06 → recovered) / 4 FINDINGS §14. EXP-20261025-05 and
+-06 are now live (their condition, adoption, is met). The proposals' text was not shown before the ruling (the next-step box carried only the
+question); the woven text is reported after the fact for objection.
 
 Applied improvements: this section and the state changes below only. Body weaving proposed at the stop point: playbook §4.4 (promotion of
 OBS-20260805-05; candidate (c) gains a second example), playbook §13 運用規則 (promotion of OBS-20260805-06), FINDINGS (a new section with the
