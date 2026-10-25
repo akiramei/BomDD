@@ -3612,3 +3612,38 @@ changes:
       (EQ-002). At closure: V4 self-conformance and CI. Conditions are frozen at filing; results go to the closing section.
     producer: EQ-004
     inspector: EQ-002
+  - id: ECO-115
+    title: the advance decision - the receiving side measures the delivered individual per Control Plan row and decides from the records alone whether it enters Phase 5, and reads a work's decisions over time (convergence apart from the process's control); filing only, adopted by the user's cut-off rulings (design unconverged under the converge rule)
+    date: 2026-10-26
+    origin: improvement
+    status: filed   # 2026-10-24 user "A" split from ECO-114 -> loop 1 26->10 unconverged -> user "A" extension -> loop 2 10->5 unconverged -> user "2:A" narrowing -> loop 3 5->5 unconverged -> user "1:A 2:A 3:A" held -> user "2:A" redesign from MoviePad-Remake delivery 1 -> loop 4 8->4 unconverged -> user "A" cut-off adoption -> calibrated on delivery 2 -> 2026-10-26 the user's instruction (D5) -> loop 5 9->6 unconverged -> user "A" extension -> loop 6 9->3 unconverged -> user "A" cut-off adoption with round 2 repaired -> record gaps repaired (MoviePad-Remake b2e19a0) -> user "ECO-115を起票して" -> filing; manufacture waits for the user
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      The user's condition (ii) of ECO-114's "A": the Control Plan decides from the result of a work instruction, deterministically, whether the process may
+      advance; split from ECO-114 by the user's "A". Measured: the completion report is prose, per-row records exist only in the As-Built, the Control Plan
+      fields a decision would read are free form or absent in both products, and no record names the unit the stored results measured. D5 answers the
+      user's instruction of 2026-10-26: keep the convergence of a process apart from the normality of its control, and never judge control by the count
+      of send-backs alone.
+    order_ref: bomdd/60-change-order-eco-115.md
+    affected_refs: [method/bomdd-playbook-v1.md, method/templates/33-control-plan.yaml, method/templates/50-as-built.yaml, method/templates/40-work-order.md, method/improvements.md]
+    no_impact_prediction: "(before manufacture; frozen at filing) the playbook (1, 4.4's new item and :178, 6.1), 33-control-plan.yaml, 50-as-built.yaml, 40-work-order.md, improvements.md, the order, the register and bomdd/reports/eco-115-*/. method/tools, method/schemas, product-profile, process-core, .claude/skills, hooks, .github, 30-ebom.yaml, 32-mbom.yaml, method/prompts, the other templates and both product repositories untouched."
+    diff_audit:
+      baseline: "37e0fd9"  # HEAD before this filing (the record gaps repaired)
+      allowed_paths: [method/bomdd-playbook-v1.md, method/templates/33-control-plan.yaml, method/templates/50-as-built.yaml, method/templates/40-work-order.md, method/improvements.md, bomdd/60-change-order-eco-115.md, bomdd/60-change-register.yaml, bomdd/reports/eco-115-advance-decision/]
+    required_gates: [V1, V2, inspection]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      I0-I4 the decision's place (the orchestrating AI at receipt, outside the factory's context) and its only inputs: the frozen-revision line resolved
+      into frozen_commit, the M-BOM's acceptance_refs and assembly, the Control Plan's check_mapping and each named row's id, status, approver and on_fail,
+      the As-Built entry's delivered {commit, tree} and decision records, the evidence and the unit it names, git; closed values (I2); input checks before
+      and after the records (I3a, I3b). D0-D4 the counted rows, a row category by the first test that holds, input-defect / advances / holds with routes,
+      a hold lifted only by a new delivery, records in R-050's vocabulary. D5 a work's decisions over time: convergence against bounds frozen at the first
+      issue (holds 3, decisions 5; at a bound stop and report, a declared departure from 8.5, then 13's pending human disposition) apart from control
+      signals C1-C6 read from causes, not counts; to the human only a ruling-layer gap of 4.5's three kinds. M1 text and templates only; distribution separate.
+    verification: >
+      Gated: V1 the text (4.4's new item states I0-I4 and D0-D4 once with D5 in the same item, the one-line references, I2's values in the template comments), V2 the rehearsals
+      re-run on the manufactured templates' field names (real data as it is and migrated on ViewPrism2 and MoviePad-Remake, known-bad freezes and
+      evidence, the synthetic one-change cases, inputs outside I1 byte-identical, D5's 38 arms), V3 = gate inspection (EQ-002), the first review of the
+      repairs after loop 4 round 2 and loop 6 round 2. At closure: V4 self-conformance and CI. Conditions are frozen at filing; results go to the closing
+      section.
+    producer: EQ-004
+    inspector: EQ-002
