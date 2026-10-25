@@ -2949,9 +2949,14 @@ validation_warnings 0):
 - [watch 2/3] OBS-20260801-05 — ファイル単位の影響台帳から**意味的 consumer の処置台帳**へ — changed semantic part の列挙+direct/dependent consumer の 4 値処置(change/verified_compatible/excluded_with_reason/required_execution)+golden 要求時点で unresolved/deferred required consumer= 0。ファイルの登録は consumer の処置を意味しない(存在 vs 完全性の影響分析版)。**様式の BomDD 昇格は ViewTube 運用証拠待ち**(ECO-VT-054 原文の自己制限)— 測定点= ECO-VT-056(unresolved 43 → golden 時 0)
   origin: native
   evidence: 本節・観測6 / ECO-VT-054.md:43-52・:107-112 / ECO-VT-053.md:253-266 / 2026-08-06 ECO-VT-070 還元節・観測 1(2 例目= 全遮断層が読者未列挙)
-- [watch 1/3] OBS-20260801-06 — **検査は精度でなくリスクと総費用で層別する**(Tier A: 変更部品+直接 consumer= 必須/B: blast radius= 該当時必須/C: 広域高精度= 理由記録つき条件付き)+各 group の時間・結果・Tier-C 判断理由を記帳する。一律 pixel 検査・一律時間制限を方法論にしない。昇格対象は**測定スキーマと判断構造のみ** — 費用削減・見逃し率の主張は運用データ蓄積後
+- [watch 2/3] OBS-20260801-06 — **検査は精度でなくリスクと総費用で層別する**(Tier A: 変更部品+直接 consumer= 必須/B: blast radius= 該当時必須/C: 広域高精度= 理由記録つき条件付き)+各 group の時間・結果・Tier-C 判断理由を記帳する。一律 pixel 検査・一律時間制限を方法論にしない。昇格対象は**測定スキーマと判断構造のみ** — 費用削減・見逃し率の主張は運用データ蓄積後
   origin: native
   evidence: 本節・観測6 / ECO-VT-054.md:57-60・:120-130・:244-269(Tier 別時間の初回実測)
+  **2 例目(2026-10-25・MoviePad-Remake・別リポ)**: 3 段階のテスト計画(部品レベル= 変更部品/工程間= 部品のつながり/完了後= 全体)を
+  Control Plan の各行の `when` と段階の対応表に書き、工程表が変更の種類で段階を選ぶ形にした。段階ごとの時間を実測(単独実行の中央値 10.9 /
+  8.7 / 35.9 秒・全段階 51.3 秒)。Tier との違い= 最上段(完了後)は「理由記録つき条件付き」ではなく**受入と前進の判定では常に全数**とした
+  (同じ抽象規則か・判定の扱いの違いが別命題かはレビューで判定。否なら 1/3 へ戻す)。2026-10-26 節・観測 1
+  (MoviePad-Remake `bomdd/reports/exp-20261024-01/test-plan/test-plan.md`・`abefa93`)
 - [watch 1/3] OBS-20260801-07 — **handoff 成果物(review page・golden 依頼)も検査対象** — 独立検査完了後にその証拠から機械生成し(neutral builder)、参照する commit・fixture・capture・判定を検証する。stale な未追跡ページを golden 依頼に使わない。golden 依頼には worktree・branch・commit・実行ディレクトリ・コマンドを含め、「次に何をするか」を成果物から機械導出する
   origin: native
   evidence: 本節・観測6 / ECO-VT-048.md:503-516・:541-545
@@ -9202,3 +9207,73 @@ machine edits):
   (baseline: 1 accident, 8 files, in EXP-20261024-01). Withdrawn if the weaving is not adopted.
   source: this section
   evidence: this section, body weaving item 3
+
+## 2026-10-26 MoviePad-Remake — a test plan in three stages put in force, verification cost as time per run × runs, three ways to narrow a run, and a Control Plan naming instruments that never existed (recorded only)
+
+On the user's request (2026-10-26: record the day's lessons — the three-stage test plan, cost as one run × the number of runs, the
+distinction between ways of narrowing, the Control Plan's wrong instrument references). Records only; no method body is changed.
+Source: MoviePad-Remake `4af6b48`, `e8f720a` (speed), `7328987`, `ab8e5b1`, `abefa93` (test plan), `bomdd/reports/exp-20261024-01/
+oracle-v5/speed/results.md` and `test-plan/test-plan.md`; this session's discussion with the user (2026-10-25).
+
+Observations:
+
+1. **The checks had levels on paper and none in execution.** The Control Plan's depth ladder already separated unit / L1–L2 / L3
+   for each row, but every row said `when: acceptance` and one runner ran every section every time; a mutant in pure logic paid
+   the export stage (about 85 % of a run), and nothing decided what the next change should run. The user asked whether unit,
+   integration and system tests were distinguished and whether system-test cost was being paid for unit questions; both held.
+   Now: three stages (part level, between parts, after every step), four events (`part-change` [1], `connection-change` [1, 2],
+   `acceptance` [1, 2, 3] never narrowed, `instrument-change`), each row's `when` naming its events, the routing naming the change's
+   event at ROUTE-ECO, a runner and comparator that run one stage (verdicts identical: 260 + 49 + 124 = 433, the authority 380/380),
+   and a check of the records against what each stage judges (0 findings; 5/5 positive controls). Stage-alone medians 10.9 / 8.7 /
+   35.9 s; every stage 51.3 s. → OBS-20260801-06 (2/3).
+2. **"One run is a minute, so re-run everything" was wrong as stated.** The user: a minute repeated a hundred times is not cheap;
+   look at time × count. In this experiment the full run ran 504 times inside detection-power measurements (12 arms × 42, about 7–8
+   hours) against a dozen or so normal acceptances; the count, not the minute, set the cost, and the series had no end condition
+   until EXP-20261025-04 got one. → OBS-20261026-01.
+3. **Ways to narrow a run differ in what they risk.** Stopping a mutant after an observed failure kept every verdict (40/40 on both
+   arms of set 4; passing items always run in full); reusing results needs the exact inputs a check read; skipping by predicted
+   impact was rejected for verdicts because the dependency scan (EXP-20261025-02) cannot see a connection missing from both the
+   M-BOM and the code. This rejection rests on that limit, not on an observed miss in this product. → OBS-20261026-02.
+4. **The Control Plan named an acceptance harness, reference files and evidence files that never existed** — `test/MoviePad.Remake.
+   Acceptance` as the harness and as eleven rows' fixture, `reference/document.json`, `streams.json`, `exports/<case>.framemd5`,
+   `acceptance/*.trx`, `acceptance/build.txt`, and the routing's `acceptance/<delivery>/`. Written before the instruments were built
+   and not re-read through five oracle versions, two deliveries and three ECOs; nothing in the product's line reads those paths.
+   Found while writing the test plan; corrected in `ab8e5b1` / `abefa93` (every named path now exists). → OBS-20261026-03.
+5. **The factory's 44 tests have never been measured for what they catch**; stage 1 counts them only as green. → EXP-20261026-02.
+
+- [watch 1/3] OBS-20261026-01 — **A verification's cost is the time per run × the number of runs, and a report gives both and their
+  product (or the bound on the count).** A per-run figure alone led to "one run is a minute, so re-running everything is cheap",
+  while the same run had been repeated 504 times. Related: OBS-20261010-03 (a gate's cost is commits × one run) — the same upper rule
+  seen from the commit side; that item's second-example condition is not met here, so its N is unchanged. 2 例目の条件= another
+  product or window where a decision about verification was made on the per-run time and the count changed it.
+  source: the user's correction (2026-10-25)
+  evidence: this section, observation 2; MoviePad-Remake `oracle-v5/speed/results.md`
+- [watch 1/3] OBS-20261026-02 — **Narrowing a verification is safe for a verdict only when it cannot drop a failing check: stopping
+  after an observed failure, or reusing a result whose exact inputs are unchanged. Skipping checks by predicted impact may serve
+  fast in-progress runs, never an acceptance or advance verdict.** One example (MoviePad-Remake's mutant runner and test plan); the
+  risk of the third way is argued from a known blind spot (a connection absent from both the M-BOM and the code), not observed.
+  2 例目の条件= another product where a narrowed run passed something a full run failed, or where an impact-based skip was used for
+  a verdict.
+  source: EXP-20261024-01 speed change, the test plan (2026-10-25)
+  evidence: this section, observation 3; MoviePad-Remake `oracle-v5/speed/results.md`, `test-plan/test-plan.md` §1
+- [watch 1/3] OBS-20261026-03 — **A Control Plan (or routing) can name instruments, fixtures and evidence that do not exist, and no
+  check notices, because nothing reads those paths: the records were written before the instruments and the instruments were built
+  elsewhere.** Machine face: every path a Control Plan or routing names is checked for existence (the reference-existence check of
+  OBS-20260727-20, applied to design records rather than to installed documents); near calibrate type ⑨ (an instrument reference
+  that points at the wrong individual) but here the named individual never existed. 2 例目の条件= another product's Control Plan or
+  routing naming a path that does not exist.
+  source: the test plan (2026-10-25)
+  evidence: this section, observation 4; MoviePad-Remake `ab8e5b1` (33-control-plan.yaml), `abefa93` (34-routing.yaml)
+- [open] EXP-20261026-01 — **Does the test plan hold in use?** On the next MoviePad-Remake ECOs that are not acceptances: (a) does the
+  change order name the event; (b) the time of the stages run; (c) does a later full acceptance fail something the narrowed run
+  passed (a miss of the narrowing or a wrong event). Reading fixed now: any (c) → the event's stages or the designer's choice of event
+  is reconsidered before the next narrowed run; three uses with none → the event vocabulary is a candidate for the Control Plan
+  template's `when` (a method ECO). Not started: no such ECO exists yet; the first one is the user's.
+  source: the test plan (2026-10-25)
+  evidence: MoviePad-Remake `test-plan/test-plan.md` §7
+- [open] EXP-20261026-02 — **What do the factory's own tests catch?** Run the factory's 44 tests (`dotnet test test/MoviePad.Core.Tests`)
+  against set 4's sealed mutants and compare with the fixed oracle's stage 1 on the same mutants. Reading: if they catch most of what
+  stage 1 catches, stage 1 can start with them (seconds) and the designer's stage 1 can follow only on their pass; if not, stage 1
+  keeps both. Not started; start is the user's.
+  source: the test plan (2026-10-25), test-plan.md §5 item 6
+  evidence: this section, observation 5
