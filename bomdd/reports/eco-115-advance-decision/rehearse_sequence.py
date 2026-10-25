@@ -1,115 +1,160 @@
 #!/usr/bin/env python3
-"""D5 as the draft states it (loop 5, round 1 repaired): a work's decisions over time — convergence, and whether the process is in control.
+"""D5 as the draft states it (loop 6, round 1 repaired): a work's decisions over time — convergence, and whether the process is in control.
 
   python rehearse_sequence.py [<output file>]
 
-Design evidence, not shipped. A decision of a work is
-  {"result": advances | holds | input-defect,
-   "measured": false when it measured no row (an input defect, or every counted row unmeasurable by D1 test 1),
-   "rows": {row: category} for every counted row (pass | violation | unmeasurable | no-check), empty when measured is false,
-   "causes": [[key, route], ...] (D2's list; key "<row>:<category>" for a held row, "<route>:<message>" for an input defect),
-   "routes_done": [keys of the previous decision's causes whose route is recorded done before this delivery, with its ref],
-   "row_map": {old row: [new rows]} when the frozen Control Plan or M-BOM renamed rows since the previous decision}.
-The expected outcome of every arm is fixed below, before the arms are run; the script exits 1 if any arm differs. Run twice, the
-output is byte-identical.
+Design evidence, not shipped. Loop 6 removed loop 5's two common causes: a row's history is a ledger of explicit states (A), and the
+bounds and their disposition are bound to the playbook's loop rules in one place (B).
 
-Readings (the draft's D5):
-  convergence — converged | open | bound-reached; the bound counts the work's holds that measured rows (input defects measured
-                nothing and are the receiving side's), default 3, frozen at the work's issue; at the bound playbook §8 applies
-                (no new step; pending human disposition with the state, the evidence still owed and the risk; the control reading
-                attached).
-  control     — from causes and row observations, never from the count:
-    C1 persists     a cause is in this decision and was in the last decision that measured its row (row renames mapped), or an
-                    input-defect cause is in this decision and the previous one; split by whether its route was recorded done:
-                    "route done, cause not removed" / "route not done"
-    C2 returns      a row had this cause in an earlier measured decision, passed in a later one, and has it again
-                    (input-defect causes: absent in a later decision, back now)
-    C3 regression   a row never non-pass earlier in the work, passed earlier, is a violation now
-    C4 own routes   this decision and the previous one each have a cause routed other than product-fix
-    C5 unrouted set the counted rows changed since the last measured decision, with no row_map and no control-plan-fix or
-                    bom-fix cause in the previous decision
-  ruling-layer candidate — rows X != Y and measured decisions i < j < k: X a violation at i, X pass and Y a violation at j, X a
-                violation at k (one fixed, the other broken, then back). Marked only; whether it is a contradiction is the review's.
+A work's decisions come with the work's bounds as issued first ({"holds": n, "decisions": m}); a decision of the work is
+  {"result":   advances | holds | input-defect,
+   "measured": false for an input defect, and for a hold whose every counted row is unmeasurable by D1 test 1,
+   "bounds":   the bounds line of the work order this delivery was made under (absent = as first issued),
+   "rows":     {row: state} for every counted row — pass | violation | unmeasurable | no-check | nothing-measured (an input
+               defect measured no row; a test-1 hold gives each row unmeasurable, with its own cause),
+   "causes":   [[kind, key, route, category], ...] — kind "row" (key "<row>:<category>") or "input" (key "<route>:<message>",
+               category "input"), by the decision's result, never by the key's spelling,
+   "routes_done": absent (the record has no such field: "unrecorded"), or the cause keys whose route is recorded done since the
+               decision where the cause last appeared,
+   "row_changes": {"removed": {row: routing cause key}, "added": {row: routing cause key}, "renamed": {old: [[new, ...], routing key]}}}.
+The expected outcome of every arm is fixed below, before the arms are run; the script exits 1 if any arm differs.
+
+The ledger: per row, its states over the work's decisions, carried through renames. Observed: pass, violation. Not observed, with its
+reason: unmeasurable, no-check, nothing-measured.
+  C1 persists     a row is a violation and its last observed state was a violation; or it is unmeasurable or no-check as at the
+                  previous decision; or an input cause is in this decision and the previous one. With routes_done: "route done, cause
+                  not removed" / "route not done" / "unrecorded".
+  C2 returns      a row is a violation after a violation and then a pass; or it is unmeasurable or no-check after that same state and
+                  then another state; or an input cause absent in a later decision is back.
+  C3 regression   a row whose observed states are all pass (at least one) is a violation now.
+  C4 own parts    this decision and the previous one each have a cause whose category is not violation (unmeasurable, no-check, an
+                  input defect) — by category, so an on_fail route override does not move it.
+  C5 row set      a row removed or renamed with no routing cause (control-plan-fix or bom-fix) of the previous decision on that row; a
+                  row added with no such cause of the previous decision at all; a row removed or renamed whose last state was not pass.
+  Bounds          from the work's first issue; a later bounds line that differs is an input cause (work-order-fix) of that decision.
+Ruling-layer candidate: rows X != Y and decisions i < j < k: X violation and Y pass at i, X pass and Y violation at j, X violation and
+Y pass at k (one fixed, the other broken, then back).
 """
 import sys
 
-BOUND = 3
-OWN = {"control-plan-fix", "instrument-recovery", "record-fix", "work-order-fix", "bom-fix"}
-NONPASS = {"violation", "unmeasurable", "no-check"}
+ROUTING = ("control-plan-fix", "bom-fix")
+NOT_PRODUCT = {"unmeasurable", "no-check", "input"}
+CAT_ROUTE = {"violation": "product-fix", "unmeasurable": "instrument-recovery", "no-check": "control-plan-fix"}
 
 
-def read_sequence(decisions):
-    signals = []
-    hist = []  # measured decisions: (index, rows dict after mapping to current names)
-    input_causes_seen, input_causes_absent = set(), set()
+def reading(d, key):
+    if "routes_done" not in d:
+        return "unrecorded"
+    return "route done, cause not removed" if key in d["routes_done"] else "route not done"
+
+
+def read_sequence(bounds, decisions):
+    signals, ledger = [], {}
+    input_seen, input_absent = set(), set()
     prev = None
     for i, d in enumerate(decisions, 1):
-        rows = dict(d.get("rows", {}))
-        rmap = d.get("row_map", {})
-        if rmap:  # carry earlier observations to the new row names
-            hist = [(j, {new: cat for old, cat in r.items() for new in rmap.get(old, [old])}) for j, r in hist]
-        causes = {k for k, _ in d["causes"]}
-        if d.get("measured", True):
-            for row, cat in sorted(rows.items()):
-                if cat not in NONPASS:
-                    continue
-                key = f"{row}:{cat}"
-                last = next((r for _, r in reversed(hist) if row in r), None)
-                if last is not None and last[row] == cat:
-                    done = key in d.get("routes_done", [])
-                    signals.append(("C1", i, f"{key} ({'route done, cause not removed' if done else 'route not done'})"))
-                earlier = [r.get(row) for _, r in hist]
-                if cat in earlier and "pass" in earlier[earlier.index(cat) + 1:] and (last is None or last[row] != cat):
+        causes = [list(c) for c in d["causes"]]
+        if "bounds" in d and d["bounds"] != bounds:
+            causes.append(["input", "work-order-fix:the bounds differ from the work's first issue", "work-order-fix", "input"])
+        ch = d.get("row_changes", {})
+        prev_causes = (prev or {}).get("causes", [])
+        routed_rows = {c[1].split(":")[0] for c in prev_causes if c[0] == "row" and c[2] in ROUTING}
+        any_routing = any(c[2] in ROUTING for c in prev_causes)
+        for old, (news, _via) in sorted(ch.get("renamed", {}).items()):
+            hist = ledger.pop(old, [])
+            for n in news:
+                ledger[n] = list(hist)
+            if old not in routed_rows:
+                signals.append(("C5", i, f"{old} renamed with no routing cause on it"))
+            if hist and hist[-1] != "pass":
+                signals.append(("C5", i, f"{old} renamed while its last state was {hist[-1]}"))
+        for row in sorted(ch.get("removed", {})):
+            hist = ledger.pop(row, [])
+            if row not in routed_rows:
+                signals.append(("C5", i, f"{row} removed with no routing cause on it"))
+            if hist and hist[-1] != "pass":
+                signals.append(("C5", i, f"{row} removed while its last state was {hist[-1]}"))
+        for row in sorted(ch.get("added", {})):
+            if not any_routing:
+                signals.append(("C5", i, f"{row} added with no routing cause in the previous decision"))
+        for row, state in sorted(d.get("rows", {}).items()):
+            hist = ledger.setdefault(row, [])
+            observed = [s for s in hist if s in ("pass", "violation")]
+            key = f"{row}:{state}"
+            if state == "violation":
+                if observed and observed[-1] == "violation":
+                    signals.append(("C1", i, f"{key} ({reading(d, key)})"))
+                elif "violation" in observed and "pass" in observed[observed.index("violation"):]:
                     signals.append(("C2", i, key))
-                if cat == "violation" and "pass" in earlier and not any(c in NONPASS for c in earlier):
+                elif observed and all(s == "pass" for s in observed):
                     signals.append(("C3", i, row))
-            if hist and set(rows) != set(hist[-1][1]) and not rmap and not (
-                    prev and any(r in ("control-plan-fix", "bom-fix") for _, r in prev["causes"])):
-                signals.append(("C5", i, f"rows {sorted(set(rows) ^ set(hist[-1][1]))}"))
-            hist.append((i, rows))
-        for k in sorted(c for c in causes if not c.split(":")[0].startswith("CP-")):
-            if k in input_causes_absent:
+            elif state in ("unmeasurable", "no-check"):
+                if hist and hist[-1] == state:
+                    signals.append(("C1", i, f"{key} ({reading(d, key)})"))
+                elif state in hist and any(s != state for s in hist[hist.index(state):]):
+                    signals.append(("C2", i, key))
+            hist.append(state)
+        cur_input = {c[1] for c in causes if c[0] == "input"}
+        prev_input = {c[1] for c in prev_causes if c[0] == "input"}
+        for k in sorted(cur_input):
+            if k in input_absent:
                 signals.append(("C2", i, k))
-            elif prev is not None and k in {c for c, _ in prev["causes"]}:  # an input defect in two decisions running
-                done = k in d.get("routes_done", [])
-                signals.append(("C1", i, f"{k} ({'route done, cause not removed' if done else 'route not done'})"))
-        cur_input = {c for c in causes if not c.split(":")[0].startswith("CP-")}
-        input_causes_absent = (input_causes_absent | (input_causes_seen - cur_input)) - cur_input
-        input_causes_seen |= cur_input
-        if prev is not None and any(r in OWN for _, r in d["causes"]) and any(r in OWN for _, r in prev["causes"]):
-            signals.append(("C4", i, ",".join(sorted({r for _, r in d["causes"] if r in OWN}))))
+            elif k in prev_input:
+                signals.append(("C1", i, f"{k} ({reading(d, k)})"))
+        input_absent = (input_absent | (input_seen - cur_input)) - cur_input
+        input_seen |= cur_input
+        if prev is not None and any(c[3] in NOT_PRODUCT for c in causes) and any(c[3] in NOT_PRODUCT for c in prev_causes):
+            signals.append(("C4", i, ",".join(sorted({c[3] for c in causes if c[3] in NOT_PRODUCT}))))
+        d = {**d, "causes": causes}
         prev = d
     candidate = False
-    for a in range(len(hist)):
-        for b in range(a + 1, len(hist)):
-            for c in range(b + 1, len(hist)):
-                ra, rb, rc = hist[a][1], hist[b][1], hist[c][1]
-                for x in ra:
-                    if ra[x] == "violation" and rb.get(x) == "pass" and rc.get(x) == "violation" and any(
-                            y != x and rb.get(y) == "violation" and ra.get(y) == "pass" for y in rb):
-                        candidate = True
-    holds_measured = sum(1 for d in decisions if d["result"] == "holds" and d.get("measured", True))
+    rs = [d.get("rows", {}) for d in decisions]
+    for a in range(len(rs)):
+        for b in range(a + 1, len(rs)):
+            for c in range(b + 1, len(rs)):
+                for x in rs[a]:
+                    for y in rs[b]:
+                        if y != x and (rs[a][x], rs[a].get(y), rs[b].get(x), rs[b][y], rs[c].get(x), rs[c].get(y)) == (
+                                "violation", "pass", "pass", "violation", "violation", "pass"):
+                            candidate = True
+    holds = sum(1 for d in decisions if d["result"] == "holds" and d.get("measured", True))
     if decisions[-1]["result"] == "advances":
         convergence = "converged"
-    elif holds_measured >= BOUND:
+    elif holds >= bounds["holds"] or len(decisions) >= bounds["decisions"]:
         convergence = "bound-reached"
     else:
         convergence = "open"
-    return {"convergence": convergence, "holds_measured": holds_measured,
+    return {"convergence": convergence, "holds_measured": holds, "decisions": len(decisions),
             "control": "signals" if signals else "in-control", "signals": signals, "ruling_layer_candidate": candidate}
 
 
-def H(result, rows=None, causes=None, done=(), measured=True, row_map=None):
+def H(result, rows=None, causes=None, done=(), changes=None, measured=True, recorded=True, bounds=None, route=None):
     rows = rows or {}
-    if causes is None:  # D2's causes from the rows
-        causes = [(f"{r}:{c}", {"violation": "product-fix", "unmeasurable": "instrument-recovery", "no-check": "control-plan-fix"}[c])
-                  for r, c in sorted(rows.items()) if c in NONPASS]
-    return {"result": result, "rows": rows, "causes": [list(c) for c in causes], "routes_done": list(done), "measured": measured,
-            "row_map": row_map or {}}
+    if causes is None:
+        causes = [["row", f"{r}:{s}", (route or CAT_ROUTE)[s], s] for r, s in sorted(rows.items()) if s in CAT_ROUTE]
+    d = {"result": result, "rows": rows, "causes": causes, "row_changes": changes or {}, "measured": measured}
+    if recorded:
+        d["routes_done"] = list(done)
+    if bounds is not None:
+        d["bounds"] = bounds
+    return d
+
+
+def NM(rows, inputs, recorded=True):  # an input defect: no row measured
+    return H("input-defect", {r: "nothing-measured" for r in rows}, causes=[["input", k, r, "input"] for k, r in inputs],
+             measured=False, recorded=recorded)
+
+
+def T1ALL(rows, route="instrument-recovery"):  # a hold whose every row is unmeasurable by D1 test 1
+    return H("holds", {r: "unmeasurable" for r in rows}, causes=[["row", f"{r}:unmeasurable", route, "unmeasurable"] for r in rows],
+             measured=False)
 
 
 P, V, U, N = "pass", "violation", "unmeasurable", "no-check"
+B = {"holds": 3, "decisions": 5}
 TYPO = [("record-fix:the entry has no frozen_commit", "record-fix")]
+WO = [("work-order-fix:the frozen-revision line resolves to another commit", "work-order-fix")]
+AB = ["CP-A", "CP-B"]
 ARMS = [
     # (name, decisions, expected convergence, expected control, expected signals, expected candidate, what it controls)
     ("H1 several causes at once, all fixed, advances", [
@@ -125,20 +170,20 @@ ARMS = [
         H("holds", {"CP-A": U, "CP-B": V}),
         H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:unmeasurable", "CP-B:violation"]),
         H("holds", {"CP-A": N, "CP-B": P}, done=["CP-A:violation"])],
-     "bound-reached", "in-control", [], False, "DoD (e): the bound is reached with no control signal (§8 disposition)"),
-    ("H4 the same cause twice, route recorded done", [
+     "bound-reached", "in-control", [], False, "DoD (e): the holds bound is reached with no control signal"),
+    ("H4 the same violation twice, route recorded done", [
         H("holds", {"CP-A": V, "CP-B": P}),
         H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:violation"])],
-     "open", "signals", ["C1"], False, "DoD (b): C1 red, 'route done, cause not removed'"),
-    ("H4b the same cause twice, route not recorded done", [
+     "open", "signals", ["C1"], False, "DoD (b): C1 alone, 'route done, cause not removed'"),
+    ("H4b the same violation twice, route not recorded done", [
         H("holds", {"CP-A": V, "CP-B": P}),
         H("holds", {"CP-A": V, "CP-B": P})],
-     "open", "signals", ["C1"], False, "DoD (b): C1 red, 'route not done' (D3 not followed)"),
+     "open", "signals", ["C1"], False, "DoD (b): C1 alone, 'route not done'"),
     ("H5 a fixed cause returns on its row", [
         H("holds", {"CP-A": V, "CP-B": P}),
         H("holds", {"CP-A": P, "CP-B": U}, done=["CP-A:violation"]),
         H("holds", {"CP-A": V, "CP-B": P}, done=["CP-B:unmeasurable"])],
-     "bound-reached", "signals", ["C2"], False, "DoD (b): C2 alone (the row had failed, passed, fails again)"),
+     "bound-reached", "signals", ["C2"], False, "DoD (b): C2 alone"),
     ("H6 a row that never failed breaks", [
         H("holds", {"CP-A": V, "CP-B": P}),
         H("holds", {"CP-A": P, "CP-B": V}, done=["CP-A:violation"])],
@@ -148,76 +193,143 @@ ARMS = [
         H("holds", {"CP-A": P, "CP-B": V}, done=["CP-A:violation"]),
         H("holds", {"CP-A": V, "CP-B": P}, done=["CP-B:violation"])],
      "bound-reached", "signals", ["C2", "C3"], True, "DoD (c): the pattern that may be a contradiction between two promises"),
+    ("H7b two rows, the second stays broken", [
+        H("holds", {"CP-A": V, "CP-B": P}),
+        H("holds", {"CP-A": P, "CP-B": V}, done=["CP-A:violation"]),
+        H("holds", {"CP-A": V, "CP-B": V}, done=["CP-B:violation"])],
+     "bound-reached", "signals", ["C1", "C2", "C3"], False, "L6R1-09: not 'then back', so no candidate"),
     ("H8 the process's own parts fail twice", [
-        H("input-defect", measured=False, causes=TYPO),
+        NM(AB, TYPO),
         H("holds", {"CP-A": N, "CP-B": P})],
      "open", "signals", ["C4"], False, "DoD (b): C4 alone"),
-    ("H9 one own-route decision, then product causes", [
-        H("input-defect", measured=False, causes=TYPO),
+    ("H9 one own-part decision, then product causes", [
+        NM(AB, TYPO),
         H("holds", {"CP-A": V, "CP-B": P}),
         H("advances", {"CP-A": P, "CP-B": P}, done=["CP-A:violation"])],
-     "converged", "in-control", [], False, "DoD (b): C4 green on one own-route decision; the input defect is not counted to the bound"),
+     "converged", "in-control", [], False, "DoD (b): C4 green; the input defect is not counted to the holds bound"),
     ("H10 an input defect between two violations of a row", [
         H("holds", {"CP-A": V, "CP-B": P}),
-        H("input-defect", measured=False, causes=TYPO),
+        NM(AB, TYPO),
         H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:violation"])],
-     "open", "signals", ["C1"], False, "R1-02: a decision that measured nothing is not an observation (C1, not C2)"),
-    ("H11 an all-unmeasurable decision (a failure no row owns) between", [
+     "open", "signals", ["C1"], False, "a decision that measured nothing is not an observation"),
+    ("H11 a test-1 hold (a failure no row owns) between", [
         H("holds", {"CP-A": V, "CP-B": P, "CP-C": P}),
-        H("holds", measured=False, causes=[("CP-A:unmeasurable", "control-plan-fix"), ("CP-B:unmeasurable", "control-plan-fix"),
-                                           ("CP-C:unmeasurable", "control-plan-fix")]),
+        T1ALL(["CP-A", "CP-B", "CP-C"], route="control-plan-fix"),
         H("holds", {"CP-A": V, "CP-B": P, "CP-C": P}, done=["CP-A:violation"])],
-     "open", "signals", ["C1"], False, "R1-02: no C3 on B or C, no candidate; the all-unmeasurable hold measured no row, so it is not counted to the bound"),
-    ("H12 a row renamed by a Control Plan change, still failing", [
-        H("holds", {"CP-A": V, "CP-B": P}, causes=[("CP-A:violation", "product-fix"), ("CP-A:violation", "control-plan-fix")]),
-        H("holds", {"CP-A1": V, "CP-A2": P, "CP-B": P}, done=["CP-A1:violation"], row_map={"CP-A": ["CP-A1", "CP-A2"]})],
-     "open", "signals", ["C1"], False, "R1-06: causes mapped through row_map (C1 on CP-A1)"),
-    ("H13 the counted rows changed with nothing routed", [
+     "open", "signals", ["C1"], False, "no C3 on B or C, no candidate; the test-1 hold is not counted to the holds bound"),
+    ("H12 a failing row split by a routed Control Plan change, still failing", [
+        H("holds", {"CP-A": V, "CP-B": P}, causes=[["row", "CP-A:violation", "control-plan-fix", "violation"]]),
+        H("holds", {"CP-A1": V, "CP-A2": P, "CP-B": P}, done=["CP-A:violation"],
+          changes={"renamed": {"CP-A": [["CP-A1", "CP-A2"], "CP-A:violation"]}})],
+     "open", "signals", ["C1", "C5"], False, "states carried through the rename (C1 on CP-A1); a failing row renamed is reported (C5)"),
+    ("H13 a row added with nothing routed", [
         H("holds", {"CP-A": V, "CP-B": P}),
-        H("holds", {"CP-A": P, "CP-B": P, "CP-E": V}, done=["CP-A:violation"])],
-     "open", "signals", ["C5"], False, "R1-06: an unrouted change to the row set (C5 alone)"),
+        H("holds", {"CP-A": P, "CP-B": P, "CP-E": V}, done=["CP-A:violation"], changes={"added": {"CP-E": None}})],
+     "open", "signals", ["C5"], False, "C5 alone: an unrouted addition"),
+    ("H13b a row added by a routing cause", [
+        H("holds", {"CP-A": P, "CP-B": N}),
+        H("advances", {"CP-A": P, "CP-B": P, "CP-E": P}, done=["CP-B:no-check"], changes={"added": {"CP-E": "CP-B:no-check"}})],
+     "converged", "in-control", [], False, "C5 green: an addition routed by the previous decision's control-plan-fix"),
     ("H14 two rows fail together and are fixed together, twice", [
         H("holds", {"CP-A": V, "CP-B": V, "CP-C": P}),
         H("holds", {"CP-A": P, "CP-B": P, "CP-C": U}, done=["CP-A:violation", "CP-B:violation"]),
         H("holds", {"CP-A": V, "CP-B": V, "CP-C": P}, done=["CP-C:unmeasurable"])],
-     "bound-reached", "signals", ["C2"], False, "R1-03: no alternation, so no candidate"),
+     "bound-reached", "signals", ["C2"], False, "no alternation, so no candidate"),
     ("H15 the same receiving-side defect twice around a hold", [
-        H("input-defect", measured=False, causes=TYPO),
+        NM(AB, TYPO),
         H("holds", {"CP-A": V, "CP-B": P}),
-        H("input-defect", measured=False, causes=TYPO)],
-     "open", "signals", ["C2"], False, "R1-03: route keys are not rows (no candidate); the defect's return is C2"),
+        NM(AB, TYPO)],
+     "open", "signals", ["C2"], False, "route keys are not rows (no candidate); the defect's return is C2"),
+    ("T1 a violation, the row unmeasurable, the violation again", [
+        H("holds", {"CP-A": V, "CP-B": P}),
+        H("holds", {"CP-A": U, "CP-B": P}, done=["CP-A:violation"]),
+        H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:unmeasurable"])],
+     "bound-reached", "signals", ["C1"], False, "a not-observed state does not hide the persistence"),
+    ("T2 a violation, a test-1 failure hiding two rows, the violation again", [
+        H("holds", {"CP-A": V, "CP-B": P, "CP-C": P}),
+        H("holds", {"CP-A": U, "CP-B": U, "CP-C": P}, causes=[["row", "CP-A:unmeasurable", "control-plan-fix", "unmeasurable"],
+                                                              ["row", "CP-B:unmeasurable", "control-plan-fix", "unmeasurable"]]),
+        H("holds", {"CP-A": V, "CP-B": P, "CP-C": P}, done=["CP-A:violation"])],
+     "bound-reached", "signals", ["C1"], False, "the same with an unowned failure on two rows"),
+    ("T3 six input defects, alternating record-fix and work-order-fix", [
+        NM(AB, TYPO), NM(AB, WO), NM(AB, TYPO), NM(AB, WO), NM(AB, TYPO), NM(AB, WO)],
+     "bound-reached", "signals", ["C2", "C4"], False, "the decisions bound stops a loop that never measures a row"),
+    ("T4 a control-plan-fix that also drops the failing row", [
+        H("holds", {"CP-A": V, "CP-B": N}),
+        H("advances", {"CP-B": P}, done=["CP-B:no-check"], changes={"removed": {"CP-A": "CP-B:no-check"}})],
+     "converged", "signals", ["C5"], False, "an open cause taken out of the counted set, under a cause not on it"),
+    ("T5 a passing row removed with no cause on it in the previous decision", [
+        H("holds", {"CP-A": P, "CP-B": N}),
+        H("advances", {"CP-B": P}, done=["CP-B:no-check"], changes={"removed": {"CP-A": "CP-B:no-check"}})],
+     "converged", "signals", ["C5"], False, "L6R1-05: the removing cause must be on the row (CP-B:no-check is not)"),
+    ("T6 a passing row removed by a routing cause on it", [
+        H("holds", {"CP-A": P, "CP-B": V}, causes=[["row", "CP-B:violation", "product-fix", "violation"],
+                                                   ["row", "CP-A:retire", "control-plan-fix", "retire"]]),
+        H("advances", {"CP-B": P}, done=["CP-B:violation", "CP-A:retire"], changes={"removed": {"CP-A": "CP-A:retire"}})],
+     "converged", "in-control", [], False, "C5 green"),
+    ("T7 an instrument not repaired (one row unmeasurable twice)", [
+        H("holds", {"CP-A": U, "CP-B": P}),
+        H("holds", {"CP-A": U, "CP-B": P})],
+     "open", "signals", ["C1", "C4"], False, "C1 on a not-observed state repeated, with C4"),
+    ("X1 every row unmeasurable (stamp missing), repaired, a violation, unmeasurable again", [
+        T1ALL(AB),
+        H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:unmeasurable", "CP-B:unmeasurable"]),
+        T1ALL(AB)],
+     "open", "signals", ["C2"], False, "L6R1-04: an instrument failure's return is C2"),
+    ("X1c every row unmeasurable twice running", [T1ALL(AB), T1ALL(AB)],
+     "open", "signals", ["C1", "C4"], False, "L6R1-04: C1 with the instrument's owner, and C4"),
+    ("X3 on_fail routes a violation to control-plan-fix, twice", [
+        H("holds", {"CP-A": V, "CP-B": P}, route={"violation": "control-plan-fix"}),
+        H("holds", {"CP-A": V, "CP-B": P}, route={"violation": "control-plan-fix"})],
+     "open", "signals", ["C1"], False, "L6R1-06: C4 reads the category, so an on_fail override does not make it fire"),
+    ("X4 a failing row renamed under a routed cause, and passing", [
+        H("holds", {"CP-A": V, "CP-B": P}, causes=[["row", "CP-A:violation", "control-plan-fix", "violation"]]),
+        H("advances", {"CP-A1": P, "CP-B": P}, done=["CP-A:violation"], changes={"renamed": {"CP-A": [["CP-A1"], "CP-A:violation"]}})],
+     "converged", "signals", ["C5"], False, "L6R1-07: a failing row renamed is reported"),
+    ("X5 re-issues raise the bound", [
+        H("holds", {"CP-A": V, "CP-B": P}),
+        H("holds", {"CP-A": P, "CP-B": N}, done=["CP-A:violation"], bounds={"holds": 6, "decisions": 8}),
+        H("holds", {"CP-A": P, "CP-B": P}, done=["CP-B:no-check"], bounds={"holds": 6, "decisions": 8})],
+     "bound-reached", "signals", ["C1", "C4"], False,
+     "L6R1-02: the first issue's bound (3) is reached although the re-issues say 6; the changed bounds line is an input cause each time (C1, C4)"),
+    ("X6 a re-issue keeps the bound", [
+        H("holds", {"CP-A": V, "CP-B": P}),
+        H("advances", {"CP-A": P, "CP-B": P}, done=["CP-A:violation"], bounds=dict(B))],
+     "converged", "in-control", [], False, "the same bounds line in a re-issue is not a cause"),
 ]
 
 
 def real_moviepad():
-    """MoviePad-Remake deliveries 1 and 2: rehearsal-moviepad.txt (M0, M1b) and rehearsal-moviepad-d2.txt (N0, N1)."""
-    cm = ("control-plan-fix:check_mapping absent or outside I2", "control-plan-fix")
-    d1_written = H("input-defect", measured=False, causes=[cm, ("record-fix:delivered None missing or outside I2", "record-fix"),
-                                                           ("record-fix:the entry has no frozen_commit", "record-fix"),
-                                                           ("record-fix:the entry has no work_order_ref", "record-fix")])
-    d2_written = H("input-defect", measured=False, causes=[cm])
+    """MoviePad-Remake deliveries 1 and 2: rehearsal-moviepad.txt (M0, M1b) and rehearsal-moviepad-d2.txt (N0, N1). Neither record has
+    a routes_done field (it did not exist), so persistences read "unrecorded"."""
     passing = ["CP-ASSEMBLY-EXPORT-001", "CP-DOCUMENT-001", "CP-EDIT-001", "CP-EXPORT-001", "CP-EXPORT-CLOCK-001", "CP-EXPORT-COPY-001",
                "CP-EXPORT-VFR-001", "CP-HISTORY-001", "CP-MEDIA-TOOLS-001", "CP-OUTPUT-SETTINGS-001", "CP-PROBE-001"]
+    allrows = passing + ["CP-BUILD-001", "CP-SELF-ACCEPTANCE-001"]
+    cm = ("control-plan-fix:check_mapping absent or outside I2", "control-plan-fix")
+    d1 = NM(allrows, [cm, ("record-fix:delivered None missing or outside I2", "record-fix"),
+                      ("record-fix:the entry has no frozen_commit", "record-fix"), ("record-fix:the entry has no work_order_ref", "record-fix")],
+            recorded=False)
+    d2 = NM(allrows, [cm], recorded=False)
     rows = {**{r: P for r in passing}, "CP-BUILD-001": N, "CP-SELF-ACCEPTANCE-001": N}
     return [
-        ("R1 MoviePad-Remake 1 -> 2, records as written", [d1_written, d2_written], "open", "signals", ["C1", "C4"], False,
-         "DoD (d): the check_mapping defect persists with its route not done, and the process's own routes repeat — the template lacks the field"),
+        ("R1 MoviePad-Remake 1 -> 2, records as written", [d1, d2], "open", "signals", ["C1", "C4"], False,
+         "DoD (d): the check_mapping defect persists (unrecorded) and the process's own parts fail twice — the template lacks the field"),
         ("R2 MoviePad-Remake 1 -> 2, migrated (decision 1 on M1b's ASSUMED stamp; decision 2 on N1, stamped)",
-         [H("holds", dict(rows)), H("holds", dict(rows))], "open", "signals", ["C1", "C4"], False,
-         "DoD (d): the two no-check rows persist with their route not done, and own routes repeat"),
+         [H("holds", dict(rows), recorded=False), H("holds", dict(rows), recorded=False)], "open", "signals", ["C1", "C4"], False,
+         "DoD (d): the two no-check rows persist (unrecorded) and own parts fail twice"),
     ]
 
 
 def main():
     lines, bad = [], 0
     for name, decisions, conv, ctrl, sigs, cand, what in ARMS + real_moviepad():
-        r = read_sequence(decisions)
+        r = read_sequence(B, decisions)
         got = sorted({s[0] for s in r["signals"]})
         ok = r["convergence"] == conv and r["control"] == ctrl and got == sorted(sigs) and r["ruling_layer_candidate"] == cand
         bad += not ok
         lines.append(f"{'OK ' if ok else 'BAD'} {name}: convergence {r['convergence']} (expected {conv}); control {r['control']} "
                      f"{got} (expected {ctrl} {sorted(sigs)}); candidate {r['ruling_layer_candidate']} (expected {cand}); "
-                     f"holds that measured rows {r['holds_measured']} — {what}")
+                     f"holds that measured rows {r['holds_measured']}, decisions {r['decisions']} — {what}")
         for s in r["signals"]:
             lines.append(f"      {s[0]} at decision {s[1]}: {s[2]}")
     n = len(ARMS) + 2
