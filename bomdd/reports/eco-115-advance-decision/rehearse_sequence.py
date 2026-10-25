@@ -21,17 +21,22 @@ The expected outcome of every arm is fixed below, before the arms are run; the s
 
 The ledger: per row, its states over the work's decisions, carried through renames. Observed: pass, violation. Not observed, with its
 reason: unmeasurable, no-check, nothing-measured.
-  C1 persists     a row is a violation and its last observed state was a violation; or it is unmeasurable or no-check as at the
-                  previous decision; or an input cause is in this decision and the previous one. With routes_done: "route done, cause
-                  not removed" / "route not done" / "unrecorded".
+  C1 persists     a row is a violation and its last observed state was a violation; or it is unmeasurable or no-check as at its last
+                  state other than nothing-measured; or an input cause is in this decision and the previous one. With routes_done:
+                  "route done, cause not removed" / "route not done" / "unrecorded".
   C2 returns      a row is a violation after a violation and then a pass; or it is unmeasurable or no-check after that same state and
-                  then another state; or an input cause absent in a later decision is back.
+                  then another (nothing-measured skipped); or an input cause absent in a later decision is back.
   C3 regression   a row whose observed states are all pass (at least one) is a violation now.
   C4 own parts    this decision and the previous one each have a cause whose category is not violation (unmeasurable, no-check, an
                   input defect) — by category, so an on_fail route override does not move it.
-  C5 row set      a row removed or renamed with no routing cause (control-plan-fix or bom-fix) of the previous decision on that row; a
-                  row added with no such cause of the previous decision at all; a row removed or renamed whose last state was not pass.
-  Bounds          from the work's first issue; a later bounds line that differs is an input cause (work-order-fix) of that decision.
+  C5 row set      a row removed or renamed with no routing cause (control-plan-fix or bom-fix) of the previous decision on that row (a
+                  row cause of it, or an input cause naming it); a row added with no such cause of the previous decision at all; a row
+                  removed or renamed whose open violation or unmeasurable (last state other than nothing-measured) is not the cause that
+                  routed it.
+  C6 bounds       a delivery's work order carries a bounds line different from the work's first issue (the first issue's bounds still
+                  apply; it is a signal, not a cause of the decision, so D2 is unchanged).
+  (Loop 6 cut-off repairs: C6 replaces the "input cause" of round 1; C5's clause narrowed; nothing-measured skipped in C1/C2's
+  not-observed comparison.)
 Ruling-layer candidate: rows X != Y and decisions i < j < k: X violation and Y pass at i, X pass and Y violation at j, X violation and
 Y pass at k (one fixed, the other broken, then back).
 """
@@ -54,26 +59,37 @@ def read_sequence(bounds, decisions):
     prev = None
     for i, d in enumerate(decisions, 1):
         causes = [list(c) for c in d["causes"]]
-        if "bounds" in d and d["bounds"] != bounds:
-            causes.append(["input", "work-order-fix:the bounds differ from the work's first issue", "work-order-fix", "input"])
+        if "bounds" in d and d["bounds"] != bounds:  # loop 6 cut-off repair (L6R2-01): a control signal, not a cause of the decision
+            signals.append(("C6", i, f"bounds {d['bounds']} differ from the work's first issue {bounds}"))
         ch = d.get("row_changes", {})
         prev_causes = (prev or {}).get("causes", [])
-        routed_rows = {c[1].split(":")[0] for c in prev_causes if c[0] == "row" and c[2] in ROUTING}
+        # a routing cause is "on" a row when it is that row's cause, or an input cause that names the row (its fifth element)
+        on_row = {}
+        for c in prev_causes:
+            if c[2] in ROUTING:
+                row = c[1].split(":")[0] if c[0] == "row" else (c[4] if len(c) > 4 else None)
+                if row:
+                    on_row.setdefault(row, set()).add(c[1])
         any_routing = any(c[2] in ROUTING for c in prev_causes)
+
+        def moved(row, hist, verb):
+            if row not in on_row:
+                signals.append(("C5", i, f"{row} {verb} with no routing cause on it"))
+                return
+            # loop 6 cut-off repair (L6R2-02): an open violation or unmeasurable, on the last observed (or not-observed) state that is
+            # not nothing-measured, moved under a cause that is not its own
+            states = [s for s in hist if s != "nothing-measured"]
+            last = states[-1] if states else None
+            if last in ("violation", "unmeasurable") and f"{row}:{last}" not in on_row[row]:
+                signals.append(("C5", i, f"{row} {verb} with its open {last} under another cause"))
+
         for old, (news, _via) in sorted(ch.get("renamed", {}).items()):
             hist = ledger.pop(old, [])
             for n in news:
                 ledger[n] = list(hist)
-            if old not in routed_rows:
-                signals.append(("C5", i, f"{old} renamed with no routing cause on it"))
-            if hist and hist[-1] != "pass":
-                signals.append(("C5", i, f"{old} renamed while its last state was {hist[-1]}"))
+            moved(old, hist, "renamed")
         for row in sorted(ch.get("removed", {})):
-            hist = ledger.pop(row, [])
-            if row not in routed_rows:
-                signals.append(("C5", i, f"{row} removed with no routing cause on it"))
-            if hist and hist[-1] != "pass":
-                signals.append(("C5", i, f"{row} removed while its last state was {hist[-1]}"))
+            moved(row, ledger.pop(row, []), "removed")
         for row in sorted(ch.get("added", {})):
             if not any_routing:
                 signals.append(("C5", i, f"{row} added with no routing cause in the previous decision"))
@@ -89,9 +105,10 @@ def read_sequence(bounds, decisions):
                 elif observed and all(s == "pass" for s in observed):
                     signals.append(("C3", i, row))
             elif state in ("unmeasurable", "no-check"):
-                if hist and hist[-1] == state:
+                seen = [s for s in hist if s != "nothing-measured"]  # loop 6 cut-off repair (L6R2-03)
+                if seen and seen[-1] == state:
                     signals.append(("C1", i, f"{key} ({reading(d, key)})"))
-                elif state in hist and any(s != state for s in hist[hist.index(state):]):
+                elif state in seen and any(s != state for s in seen[seen.index(state):]):
                     signals.append(("C2", i, key))
             hist.append(state)
         cur_input = {c[1] for c in causes if c[0] == "input"}
@@ -221,7 +238,7 @@ ARMS = [
         H("holds", {"CP-A": V, "CP-B": P}, causes=[["row", "CP-A:violation", "control-plan-fix", "violation"]]),
         H("holds", {"CP-A1": V, "CP-A2": P, "CP-B": P}, done=["CP-A:violation"],
           changes={"renamed": {"CP-A": [["CP-A1", "CP-A2"], "CP-A:violation"]}})],
-     "open", "signals", ["C1", "C5"], False, "states carried through the rename (C1 on CP-A1); a failing row renamed is reported (C5)"),
+     "open", "signals", ["C1"], False, "states carried through a rename under the row's own cause (C1 on CP-A1; no C5)"),
     ("H13 a row added with nothing routed", [
         H("holds", {"CP-A": V, "CP-B": P}),
         H("holds", {"CP-A": P, "CP-B": P, "CP-E": V}, done=["CP-A:violation"], changes={"added": {"CP-E": None}})],
@@ -282,16 +299,41 @@ ARMS = [
         H("holds", {"CP-A": V, "CP-B": P}, route={"violation": "control-plan-fix"}),
         H("holds", {"CP-A": V, "CP-B": P}, route={"violation": "control-plan-fix"})],
      "open", "signals", ["C1"], False, "L6R1-06: C4 reads the category, so an on_fail override does not make it fire"),
-    ("X4 a failing row renamed under a routed cause, and passing", [
+    ("X4 a failing row renamed under its own routed cause, and passing", [
         H("holds", {"CP-A": V, "CP-B": P}, causes=[["row", "CP-A:violation", "control-plan-fix", "violation"]]),
         H("advances", {"CP-A1": P, "CP-B": P}, done=["CP-A:violation"], changes={"renamed": {"CP-A": [["CP-A1"], "CP-A:violation"]}})],
-     "converged", "signals", ["C5"], False, "L6R1-07: a failing row renamed is reported"),
+     "converged", "in-control", [], False,
+     "L6R2-02 (cut-off repair): a rename under the row's own cause is a routine route; that it may hide a violation is declared in L9"),
     ("X5 re-issues raise the bound", [
         H("holds", {"CP-A": V, "CP-B": P}),
         H("holds", {"CP-A": P, "CP-B": N}, done=["CP-A:violation"], bounds={"holds": 6, "decisions": 8}),
         H("holds", {"CP-A": P, "CP-B": P}, done=["CP-B:no-check"], bounds={"holds": 6, "decisions": 8})],
-     "bound-reached", "signals", ["C1", "C4"], False,
-     "L6R1-02: the first issue's bound (3) is reached although the re-issues say 6; the changed bounds line is an input cause each time (C1, C4)"),
+     "bound-reached", "signals", ["C6"], False,
+     "L6R1-02, L6R2-01: the first issue's bound (3) is reached although the re-issues say 6; each changed bounds line is C6"),
+    ("Y5 a re-issue raises the bound and its delivery advances", [
+        H("holds", {"CP-A": V, "CP-B": P}),
+        H("advances", {"CP-A": P, "CP-B": P}, done=["CP-A:violation"], bounds={"holds": 9, "decisions": 9})],
+     "converged", "signals", ["C6"], False, "L6R2-01: the raised bound is reported even when the work converges"),
+    ("Y1 a no-check row loses its automated part under its own cause", [
+        H("holds", {"CP-A": P, "CP-B": N}),
+        H("advances", {"CP-A": P}, done=["CP-B:no-check"], changes={"removed": {"CP-B": "CP-B:no-check"}})],
+     "converged", "in-control", [], False, "L6R2-02: C5 green on a routine control-plan-fix (MoviePad-Remake's two rows, L5)"),
+    ("Y2 a no-check row renamed into a row with checks under its own cause", [
+        H("holds", {"CP-A": P, "CP-B": N}),
+        H("advances", {"CP-A": P, "CP-B2": P}, done=["CP-B:no-check"], changes={"renamed": {"CP-B": [["CP-B2"], "CP-B:no-check"]}})],
+     "converged", "in-control", [], False, "L6R2-02: C5 green"),
+    ("Y3 a passing row removed after an input defect that names it", [
+        H("holds", {"CP-A": P, "CP-B": V}),
+        H("input-defect", {"CP-A": "nothing-measured", "CP-B": "nothing-measured"}, measured=False,
+          causes=[["input", "control-plan-fix:a named row is retired", "control-plan-fix", "input", "CP-A"]]),
+        H("advances", {"CP-B": P}, done=["CP-B:violation", "control-plan-fix:a named row is retired"],
+          changes={"removed": {"CP-A": "control-plan-fix:a named row is retired"}})],
+     "converged", "in-control", [], False, "L6R2-02: an input cause naming the row routes its removal; the last observed state is pass"),
+    ("Y4 an instrument broken before and after an input defect", [
+        H("holds", {"CP-A": U, "CP-B": P}),
+        NM(AB, TYPO),
+        H("holds", {"CP-A": U, "CP-B": P})],
+     "open", "signals", ["C1", "C4"], False, "L6R2-03: a persistence across a decision that measured nothing (C1, not C2)"),
     ("X6 a re-issue keeps the bound", [
         H("holds", {"CP-A": V, "CP-B": P}),
         H("advances", {"CP-A": P, "CP-B": P}, done=["CP-A:violation"], bounds=dict(B))],

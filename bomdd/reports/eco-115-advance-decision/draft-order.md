@@ -187,15 +187,15 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
     row). A hold whose every counted row is `unmeasurable` by D1 test 1 gives each row `unmeasurable` with its own cause, as D2 lists it, and is
     marked as having **measured no row**. Per decision, D2's causes, each with its kind — **row** (`<row>:<category>`) or **input**
     (`<route>:<message>`), following the decision's result, not the key's spelling — and its category (`violation`, `unmeasurable`, `no-check`,
-    or `input`). The three fields: **`work_ref`** (above); **`routes_done`** — for each cause, the ref showing its route done since the decision
+    or `input`); an input cause may name the row it concerns (for example "a named row is retired"). The three fields: **`work_ref`** (above); **`routes_done`** — for each cause, the ref showing its route done since the decision
     where the cause last appeared (D3 requires it; the record makes it checkable); and **`row_changes`** — the rows the frozen Control Plan or
     M-BOM `removed`, `added` or `renamed` since the previous decision, each with the cause that routed it. A renamed row carries its states to
     the new rows, so splitting or renaming a row does not clear its history.
   - **Convergence.** `converged` when the newest decision advances; otherwise `open`; `bound-reached` when either bound is reached: **holds** —
     the work's holds that measured rows (default 3, the design loops' bound), and **decisions** — all its decisions, input defects included
     (default 5), so a loop that never measures a row is bounded too. The bounds are read from the **work's first issue** (the work order's
-    bounds line, I1; absent = the defaults); a re-issue whose bounds line differs is an input cause (route work-order-fix) of that decision,
-    and the first issue's bounds still apply — a bound is not raised from inside the work. The playbook's loop rules apply here and only here,
+    bounds line, I1; absent = the defaults); a re-issue whose bounds line differs is control signal C6 (below), not a cause of the decision
+    (D2 is unchanged), and the first issue's bounds still apply — a bound is not raised from inside the work. The playbook's loop rules apply here and only here,
     with one declared departure. §8.5 (`method/bomdd-playbook-v1.md:879-881`) asks for the default disposition to be declared in advance and
     names it: record the confirmed facts and the known inaccuracies, and accept. **D5 declares a different default — stop without advancing —**
     because D cannot accept a held individual (D3; the user's ruling "2:A": a hold is lifted only by a new delivery decided afresh): no further
@@ -208,11 +208,12 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   - **Control**, from the ledger, never from a count:
     - **C1 persists** (owner: the route's owner — the factory for product-fix, the designer for instrument-recovery, the orchestrating AI for
       control-plan-fix, bom-fix and work-order-fix, the receiving side for record-fix) — a row is a `violation` and its last observed state was a
-      `violation` (not-observed states in between do not break it); or a row is `unmeasurable` or `no-check` as at the previous decision; or an
-      input cause is in this decision and the previous one. Read with `routes_done`: *route done, cause not removed* (the fix did not work),
+      `violation` (not-observed states in between do not break it); or a row is `unmeasurable` or `no-check` as at its last state other than
+      `nothing-measured` (a decision that measured nothing does not break it either); or an input cause is in this decision and the previous one. Read with `routes_done`: *route done, cause not removed* (the fix did not work),
       *route not done* (D3 was not followed), or *unrecorded* (the entry has no `routes_done`, as in records written before this field).
     - **C2 returns** (owner: as C1) — a row is a `violation` after a `violation` and then a `pass`; or it is `unmeasurable` or `no-check` after
-      that same state and then another (an instrument failure back after a repair); or an input cause that was absent in a later decision is back.
+      that same state and then another, `nothing-measured` skipped (an instrument failure back after a repair); or an input cause that was absent
+      in a later decision is back.
     - **C3 regression** (owner: the factory, whose self-acceptance did not catch it) — a row whose observed states are all `pass` is a
       `violation` now. Every counted row is measured at every delivery (I1, ECO-088), so a later violation on a row that once passed is always
       C2 or C3.
@@ -220,8 +221,12 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
       `violation` (`unmeasurable`, `no-check`, an input defect): records, instruments, the Control Plan or the work order keep failing, not the
       product. It reads the category, not the route, so a row whose `on_fail` routes a violation elsewhere still counts as the product's.
     - **C5 row set** (owner: the orchestrating AI) — a row `removed` or `renamed` with no control-plan-fix or bom-fix cause of the previous
-      decision on that row; a row `added` with no such cause in the previous decision at all; or a row removed or renamed whose last state was not
-      `pass` (an open cause taken out of the counted set, or moved under a new name), routed or not — reported for the review.
+      decision on that row (the row's own cause, or an input cause naming it); a row `added` with no such cause in the previous decision at all;
+      or a row removed or renamed whose open `violation` or `unmeasurable` (its last state other than `nothing-measured`) is not the cause that
+      routed the change — an open cause taken out of the counted set, or moved under a new name, under another row's route. A row changed under
+      its own cause (a `no-check` row losing its automated part, a row split or renamed to fix its own finding) is a routine route, not a signal.
+    - **C6 bounds changed** (owner: the orchestrating AI) — a delivery's work order carries a bounds line different from the work's first issue.
+      The first issue's bounds still apply; the signal reports the attempt even when the delivery advances.
     No signal: `in-control`, however many holds the work has had (a hold with several causes that the next delivery clears; a row whose state
     changes from not observed to a product violation, as when an instrument repaired lets the product's own failure show). Any signal:
     `signals`.
@@ -310,7 +315,9 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   cause, and one fault reported under two rows is two. It does not see a route done badly but in time (a fix that hides the check rather than
   the fault passes as converged — the fixed oracle's detection power, not D5, bounds that), nor the cost of the redeliveries. `routes_done` is
   written by whoever did the route; D5 reads that it is recorded, not that the fix is real. `row_changes` and `work_ref` are the orchestrating
-  AI's statements: a wrong rename hides a persistence (C1, though a failing row renamed is still reported by C5), an undeclared change shows as C5
+  AI's statements: a wrong rename hides a persistence (C1), and a failing row renamed or removed under its own cause is a routine route by
+  C5's rule — if the new row then passes, nothing in D5 tells a real fix from a check redefined away (the fixed oracle and the independent
+  inspection bound that, not D5); an undeclared change shows as C5
   only when the counted rows differ (a row swapped for another of the same name is not seen), and a delivery filed under a new `work_ref` instead
   of the work's own starts a fresh ledger and fresh bounds — nothing checks that the link was kept. An added row is accepted on any routing
   cause of the previous decision (an added row has no earlier name to be on). C1 fires on the first persistence, so a fix that needs two attempts
@@ -387,12 +394,14 @@ Changed: the files in M1, this order, the register and `bomdd/reports/eco-115-*/
   - D5 (`rehearse_sequence.py`, expectations fixed in the script before its arms run): a hold with several causes that the next delivery clears,
     and a row whose cause changes kind, are `in-control`; two works with the same number of holds read differently by their causes (the count
     does not decide); three holds on a fixed row set with no signal are `bound-reached` and `in-control`; six input defects reach the decisions
-    bound; a re-issue that raises the bound is an input cause and the first issue's bound is reached, one that keeps it is not a cause; C1
-    (route done / not done), C2, C3, C4 and C5 each turn red alone on an arm made for it; a not-observed state between two violations of a row
-    does not hide the persistence, and a decision that measured nothing makes no return or regression and does not count to the holds bound; an
-    instrument failure over every row read twice running is C1 and C4, and back after a repair is C2; an `on_fail` override of a violation's
-    route does not make C4; a renamed row carries its states, and a failing row renamed or removed is C5 even when routed, while a passing row
-    removed by a cause on it, or added by a routing cause, is not; two rows that fail and are fixed together, a second row that stays broken, and
+    bound; a re-issue that raises the bound is C6 and the first issue's bound is reached, also when its delivery advances, and one that keeps it
+    is not a signal; C1 (route done / not done), C2, C3, C4, C5 and C6 each turn red alone on an arm made for it; a not-observed state between two
+    violations of a row does not hide the persistence, nor does a decision that measured nothing between two unmeasurable states, and such a
+    decision makes no return or regression and does not count to the holds bound; an instrument failure over every row read twice running is C1
+    and C4, and back after a repair is C2; an `on_fail` override of a violation's route does not make C4; a renamed row carries its states; an
+    open violation removed under another row's cause is C5, and a row changed with no routing cause on it is C5, while a `no-check` row removed or
+    renamed under its own cause, a failing row renamed under its own cause, a passing row removed by a cause on it or by an input cause naming it,
+    and a row added by a routing cause are not; two rows that fail and are fixed together, a second row that stays broken, and
     a receiving-side defect's return are not candidates, and only rows alternating in order and back are; MoviePad-Remake's two deliveries give
     C1 (*unrecorded*) and C4 as written and as migrated. Run twice, byte-identical.
 - **V3 — independent inspection** (EQ-002): the text against §1, and V2's evidence.
@@ -645,8 +654,16 @@ Changed: the files in M1, this order, the register and `bomdd/reports/eco-115-*/
 ### Loop 6 (extension; the user's "A", 2026-10-26; the common causes removed first; rounds counted afresh; limit 3 rounds)
 
 - **判定: 未収束** (round 軌跡: 9→3; material 4→2). Round 2 had new findings, so two consecutive zero rounds cannot come within the limit; round 3
-  was not run. **Round 2's findings are not repaired** (listed under "Round 2" below); D5 stays in the held draft until the ruling.
+  was not run.
 - **起動経路:** the user's "A" on loop 5's non-convergence (extend, the common causes removed first).
+- **Ruling (user "A", 2026-10-26): adopted by cut-off with round 2's findings repaired.** The repairs follow the reviewer's directions and are
+  checked by the rehearsal only — not by another review round: L6R2-01 → a changed bounds line is control signal C6, not a cause of the
+  decision (D2 unchanged), with arm Y5 (a raised bound whose delivery advances is reported); L6R2-02 → C5 narrowed to a row changed with no
+  routing cause on it (the row's own cause or an input cause naming it) or to an open `violation` / `unmeasurable` moved under another row's
+  cause, on the last state other than `nothing-measured`, with green arms Y1, Y2, Y3 and X4 (a failing row renamed under its own cause, now
+  green; the limit it leaves is declared in L9); L6R2-03 → `nothing-measured` is skipped in C1/C2's not-observed comparison, arm Y4. The
+  rehearsal has 38 arms, 38/38 on the first run, byte-identical on two runs. **D5 is adopted unconverged:** what the repairs changed is checked
+  next by ECO-115's independent inspection (V3, EQ-002) at filing.
 
 - **Common causes removed before the first round:** (A) a row's history is a ledger of explicit states (observed `pass` / `violation`; not
   observed with its reason; `row_changes` for removed, added and renamed rows with their routing cause) — answers R2-01, R2-03, R2-06; (B) the
