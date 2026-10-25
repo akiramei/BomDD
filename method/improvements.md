@@ -8779,7 +8779,9 @@ non-blocking 1 件= 区分の名「記録」が playbook の別の話題の「�
     A stop for another reason (a missing approval, a malformed record) is not evidence of ②. The decision concerns entering Phase 5, not the
     human's final acceptance. A control plan that does not parse cannot be the decision's input (the case was ViewTube, repaired by ECO-VT-268).
   started 2026-10-24: product `MoviePad-Remake`, scaffolded by bomdd-init `--no-gui` at method `6ffc0cc`. It is local only: the private
-    GitHub repository was not created, because the session's permission check refused the creation. G0 is `d0d06ca`. The user's start
+    GitHub repository was not created, because the session's permission check refused the creation (and on 2026-10-26 the user ruled
+    none will be: the re-manufacture is not a deliverable, its lessons are; the whole repository is kept in BomDD as
+    `bomdd/reports/exp-20261024-01/MoviePad-Remake.bundle`, README there). G0 is `d0d06ca`. The user's start
     decisions:
     - The finished MoviePad at `126eae9` is the authority for what to build. Requirements, specification and K-BOM are derived, not ruled.
     - The E-BOM's boundaries are delegated to the E-BOM AI, with an ADR for each decision. ECO-114's human-ruling step is therefore not exercised.
