@@ -121,9 +121,12 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   - `delivered`: `{commit, tree}`, both 40-hex.
   - the frozen-revision line: a tag or a commit ID, written plainly or as Markdown code (the backticks are not part of it); `frozen_commit`: a
     40-hex commit ID; `work_order_ref`, `mbom_ref`, `control_plan_ref`: `<path>@<40-hex commit>`.
+  - the bounds line (D5; inspection r1 IA-02): absent or one line of the form `- 前進の判定の上限: holds <n>, decisions <m>`, with `<n>` and `<m>`
+    decimal integers of 1 or more.
 - **I3a (input check before running anything).** git is available (L8); the entry's `delivered` is within I2 and its `tree` is the tree of its
   `commit`; the entry's `work_order_ref` is within I2 and names a commit other than the delivered one; the entry
-  has `frozen_commit`; the work order read at `work_order_ref` has exactly one frozen-revision line, and its value resolves to `frozen_commit`; the
+  has `frozen_commit`; the work order read at `work_order_ref` has exactly one frozen-revision line, and its value resolves to `frozen_commit`; its
+  bounds line is within I2 (absent or one, of the right form and values — otherwise work-order-fix; inspection r1 IA-02); the
   entry's `mbom_ref` and `control_plan_ref` name `frozen_commit`; `frozen_commit` is the work order's commit or an ancestor of it (the freeze
   precedes the issue), and the M-BOM and the Control Plan at the work order's commit are byte-equal to those at `frozen_commit` (no BOM change
   between the freeze and the issue, so a tag moved back to an older BOM is caught); the work order's commit is an ancestor of the delivered commit
@@ -199,7 +202,8 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   - **Convergence.** `converged` when the newest decision advances; otherwise `open`; `bound-reached` when either bound is reached: **holds** —
     the work's holds that measured rows (default 3, the design loops' bound), and **decisions** — all its decisions, input defects included
     (default 5), so a loop that never measures a row is bounded too. The bounds are read from the **work's first issue** (the work order's
-    bounds line, I1; absent = the defaults); a re-issue whose bounds line differs is control signal C6 (below), not a cause of the decision
+    bounds line, I1; absent = the defaults; a line outside I2 makes that first decision `input-defect` by I3a and leaves the defaults — a
+    malformed line raises no bound; inspection r1 IA-02); a re-issue whose bounds line differs is control signal C6 (below), not a cause of the decision
     (D2 is unchanged), and the first issue's bounds still apply — a bound is not raised from inside the work. The playbook's loop rules apply here and only here,
     with one declared departure. §8.5 (`method/bomdd-playbook-v1.md:879-881`) asks for the default disposition to be declared in advance and
     names it: record the confirmed facts and the known inaccuracies, and accept. **D5 declares a different default — stop without advancing —**
@@ -450,6 +454,57 @@ are cited by section, not by the line numbers of §1 (frozen at `ab87e48`, and m
 - **Positive control:** the same script on the filing tree fails 94 of 116 checks.
 - **Not yet:** V3 (EQ-002) — the first review of the repairs after loop 4 round 2 and loop 6 round 2, and of the Japanese text against §1; V4 at
   closure.
+
+## 5. Independent inspection r1 (2026-10-26, EQ-002, range 境界探索) — REJECT IA-01 to IA-07
+
+- **Launched through the operator entry** on `35961c3` (CI 40240197701 success; witness tree `22af651751bc`, gate self-conformance; the first launch
+  stopped `UNMEASURABLE WITNESS_UNREADABLE` because no witness had been produced for ECO-115, and the second ran). Brief `59530f9585a2…` (stored;
+  committed copy `bomdd/reports/eco-115-advance-decision/inspection-brief-r1.md`, same sha256); report `inspection-r1.md` (`b60b27fb44bb…`); the
+  ledger's cell record binds it (cell exit 0, `journal_end: committed`).
+- **Items:** scope PASS, records PASS; each rule against the text FAIL, the rules against the rest of the method FAIL, acceptance evidence FAIL.
+  The inspector re-ran V1/V2 (116/116; the filing tree 22/116) and the D5 rehearsal (38/38, byte-identical); the README sha256 values match.
+- **IA-01 — blocking — §6.1 excluded D3's retained way.** §6.1 said Phase 5 measures only an individual the decision advanced, while D3 and D5 keep a
+  product's outside-the-decision way into Phase 5 (the known-defect acceptance) to be decided at distribution.
+- **IA-02 — blocking — an invalid first bounds line could not be classified.** I2 gave the bounds line no domain, I3a did not check it, and D5 had no
+  result for a malformed, non-numeric, half or negative line.
+- **IA-03 — non-blocking — L7 (scale) was missing from the limits bullet** and from V1's clause list.
+- **IA-04 — blocking — the decision rehearsal did not bind the bytes it decides to the refs.** A probe with both refs pointing at nonexistent paths
+  and the original documents supplied gave `advances`.
+- **IA-05 — blocking — the C5 rehearsal ignored the change's recorded cause.** A row with its own cause and another's, renamed under the other's,
+  read `in-control`.
+- **IA-06 — blocking — the rehearsal did not write D4's result into the decision records** (it returned it in its output only).
+- **IA-07 — blocking — three drivers exited 0 on a missed case**, and the V2 wrapper checked exit status and byte equality only.
+
+## 6. Repairs after inspection r1 (2026-10-26)
+
+**Decided without a ruling, and why.** All seven findings are the text departing from §1 or the rehearsals not doing what V2 says; none is a gap
+in the ruling layer. IA-02 needs a rule the design lacked — the bounds line's domain and what a malformed one does; the user's standing instruction
+of 2026-10-26 puts ECO-115's bounds within the existing authority, so it is designed here: the line joins I2 and I3a like the frozen-revision line
+(work-order-fix), and a malformed first line leaves the defaults (it raises no bound, as D5 already says of a re-issue). The order's §1 carries
+the change in I2, I3a and D5, so the text and §1 say the same. **Review loop bound:** inspection rounds r1 to r3; if r3 is not ACCEPT, the ECO
+enters §13's pending human disposition with its state, the evidence owed and the risk (declared before r2).
+
+**What changed** (evidence: `bomdd/reports/eco-115-advance-decision/repair-r1/`):
+- IA-01 — §6.1's line: what enters through the decision, and a product's outside-the-decision way kept (D3).
+- IA-02 — playbook I2 (the bounds line: absent or one, holds and decisions decimal integers of 1 or more), I3a (its check, work-order-fix), D5
+  (a malformed first line: input defect by I3a, defaults kept); the same in §1; the work order template's comment states the domain. Arms:
+  `run_rehearsal_v2.py` one in I2 and five outside it (holds 0, a missing half, non-numeric, negative, two lines); `rehearse_sequence.py` Z1 (a
+  malformed first line, the defaults reached) and Z2 (a well-formed line read). Z1's expectation was the producer's error at first (it left out
+  C4: the input defect and the next hold's unmeasurable row are both the process's own parts); corrected after the first run.
+- IA-03 — L7's scale in the limits bullet; V1's clause list gains it.
+- IA-04 — `rehearse_decision_v2.py` I3a: the M-BOM and Control Plan decided are the files at the refs' paths at `frozen_commit`, and the delivery's
+  copies compared are the files at those paths in the delivered commit (record-fix otherwise). The drivers' git holds each case's files: the
+  synthetic stub holds the case's own files; on real records a migrated copy stands for the frozen revision's file wherever that file stands.
+  Three arms (a path not at `frozen_commit`, the two refs swapped, another Control Plan at the delivered commit). Real-data results unchanged; four
+  known-bad arms now list one more reason each (the bytes the driver supplied are not the files their refs name, which is true of those cases).
+- IA-05 — C5 compares the recorded cause of a rename or removal with the row's open cause; Y6 (red) and Y7 (its green twin).
+- IA-06 — the decision writes each decision record's `result` (D4) into the entry; `run_rehearsal_v2.py` checks it on every case that decided rows.
+- IA-07 — `run_rehearsal_v2.py`, `run_moviepad.py` and `run_moviepad_d2.py` return 1 on a missed case; `check_v1_v2.py` also fails a stored output
+  that records one.
+
+**Measured:** V1/V2 PASS 120/120 (the repaired script; on the manufacture tree it fails 116/120 — the IA-02 and IA-03 clauses). Red first: the
+repaired `run_rehearsal_v2.py` against the manufacture tree's decision rehearsal exits 1 with 8 MISSED and D4 not written; the manufacture tree's
+C5 clause put back gives Y6 BAD. The four rehearsals re-run byte-identical to their regenerated outputs (D5 42/42; synthetic cases all as expected).
 
 ## 収束 receipt (converge self-application)
 

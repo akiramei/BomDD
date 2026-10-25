@@ -40,6 +40,7 @@ reason: unmeasurable, no-check, nothing-measured.
 Ruling-layer candidate: rows X != Y and decisions i < j < k: X violation and Y pass at i, X pass and Y violation at j, X violation and
 Y pass at k (one fixed, the other broken, then back).
 """
+import re
 import sys
 
 ROUTING = ("control-plan-fix", "bom-fix")
@@ -72,24 +73,25 @@ def read_sequence(bounds, decisions):
                     on_row.setdefault(row, set()).add(c[1])
         any_routing = any(c[2] in ROUTING for c in prev_causes)
 
-        def moved(row, hist, verb):
+        def moved(row, hist, verb, via):
             if row not in on_row:
                 signals.append(("C5", i, f"{row} {verb} with no routing cause on it"))
                 return
             # loop 6 cut-off repair (L6R2-02): an open violation or unmeasurable, on the last observed (or not-observed) state that is
-            # not nothing-measured, moved under a cause that is not its own
+            # not nothing-measured, moved under a cause that is not its own. Inspection r1 IA-05: "its own" is read from the cause the
+            # change records (row_changes), not from whether the row had its own cause among others
             states = [s for s in hist if s != "nothing-measured"]
             last = states[-1] if states else None
-            if last in ("violation", "unmeasurable") and f"{row}:{last}" not in on_row[row]:
-                signals.append(("C5", i, f"{row} {verb} with its open {last} under another cause"))
+            if last in ("violation", "unmeasurable") and via != f"{row}:{last}":
+                signals.append(("C5", i, f"{row} {verb} with its open {last} under another cause ({via})"))
 
-        for old, (news, _via) in sorted(ch.get("renamed", {}).items()):
+        for old, (news, via) in sorted(ch.get("renamed", {}).items()):
             hist = ledger.pop(old, [])
             for n in news:
                 ledger[n] = list(hist)
-            moved(old, hist, "renamed")
-        for row in sorted(ch.get("removed", {})):
-            moved(row, ledger.pop(row, []), "removed")
+            moved(old, hist, "renamed", via)
+        for row, via in sorted(ch.get("removed", {}).items()):
+            moved(row, ledger.pop(row, []), "removed", via)
         for row in sorted(ch.get("added", {})):
             if not any_routing:
                 signals.append(("C5", i, f"{row} added with no routing cause in the previous decision"))
@@ -169,6 +171,14 @@ def T1ALL(rows, route="instrument-recovery"):  # a hold whose every row is unmea
 
 P, V, U, N = "pass", "violation", "unmeasurable", "no-check"
 B = {"holds": 3, "decisions": 5}
+# inspection r1 IA-02: the work's bounds come from its first issue's bounds line; absent or outside I2 (decimal integers of 1 or more) the
+# defaults apply — a malformed line also makes that first decision input-defect by I3a, and it raises no bound
+BOUNDS_LINE = re.compile(r"- 前進の判定の上限: holds ([1-9][0-9]*), decisions ([1-9][0-9]*)")
+
+
+def work_bounds(first_issue_line):
+    m = BOUNDS_LINE.fullmatch(first_issue_line or "")
+    return {"holds": int(m.group(1)), "decisions": int(m.group(2))} if m else dict(B)
 TYPO = [("record-fix:the entry has no frozen_commit", "record-fix")]
 WO = [("work-order-fix:the frozen-revision line resolves to another commit", "work-order-fix")]
 AB = ["CP-A", "CP-B"]
@@ -310,6 +320,19 @@ ARMS = [
         H("holds", {"CP-A": P, "CP-B": P}, done=["CP-B:no-check"], bounds={"holds": 6, "decisions": 8})],
      "bound-reached", "signals", ["C6"], False,
      "L6R1-02, L6R2-01: the first issue's bound (3) is reached although the re-issues say 6; each changed bounds line is C6"),
+    ("Y6 a failing row with its own cause and another's, renamed under the other's", [
+        H("holds", {"CP-A": V, "CP-B": P}, causes=[["row", "CP-A:violation", "control-plan-fix", "violation"],
+                                                   ["input", "bom-fix:a unit names CP-A twice", "bom-fix", "input", "CP-A"]]),
+        H("advances", {"CP-A1": P, "CP-B": P}, done=["CP-A:violation", "bom-fix:a unit names CP-A twice"],
+          changes={"renamed": {"CP-A": [["CP-A1"], "bom-fix:a unit names CP-A twice"]}})],
+     "converged", "signals", ["C5"], False,
+     "inspection r1 IA-05: only the recorded cause tells this from X4 (the same causes, renamed under the row's own cause: green)"),
+    ("Y7 the same causes, renamed under the row's own cause", [
+        H("holds", {"CP-A": V, "CP-B": P}, causes=[["row", "CP-A:violation", "control-plan-fix", "violation"],
+                                                   ["input", "bom-fix:a unit names CP-A twice", "bom-fix", "input", "CP-A"]]),
+        H("advances", {"CP-A1": P, "CP-B": P}, done=["CP-A:violation", "bom-fix:a unit names CP-A twice"],
+          changes={"renamed": {"CP-A": [["CP-A1"], "CP-A:violation"]}})],
+     "converged", "in-control", [], False, "inspection r1 IA-05: Y6's green twin"),
     ("Y5 a re-issue raises the bound and its delivery advances", [
         H("holds", {"CP-A": V, "CP-B": P}),
         H("advances", {"CP-A": P, "CP-B": P}, done=["CP-A:violation"], bounds={"holds": 9, "decisions": 9})],
@@ -362,10 +385,28 @@ def real_moviepad():
     ]
 
 
+BOUND_ARMS = [  # inspection r1 IA-02: (first issue's bounds line, then as ARMS)
+    ("- 前進の判定の上限: holds 0, decisions 5", "Z1 the first issue's bounds line malformed (holds 0): its decision is an input defect, the defaults apply", [
+        NM(AB, [("work-order-fix:the bounds line is outside I2", "work-order-fix")]),
+        H("holds", {"CP-A": U, "CP-B": V}, done=["work-order-fix:the bounds line is outside I2"]),
+        H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:unmeasurable", "CP-B:violation"]),
+        H("holds", {"CP-A": N, "CP-B": P}, done=["CP-A:violation"])],
+     "bound-reached", "signals", ["C4"], False,
+     "the holds default (3) is reached; a malformed line raises no bound (expectation corrected after the first run: the input defect and the next "
+     "hold's unmeasurable row are both the process's own parts, which is C4 by the rule)"),
+    ("- 前進の判定の上限: holds 5, decisions 9", "Z2 the same holds under a well-formed first line of 5 and 9", [
+        H("holds", {"CP-A": U, "CP-B": V}),
+        H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:unmeasurable", "CP-B:violation"]),
+        H("holds", {"CP-A": N, "CP-B": P}, done=["CP-A:violation"])],
+     "open", "in-control", [], False, "the first issue's line is read: three holds are below its bound of 5"),
+]
+
+
 def main():
     lines, bad = [], 0
-    for name, decisions, conv, ctrl, sigs, cand, what in ARMS + real_moviepad():
-        r = read_sequence(B, decisions)
+    cases = [(B, *a) for a in ARMS + real_moviepad()] + [(work_bounds(line), *a) for line, *a in BOUND_ARMS]
+    for bounds, name, decisions, conv, ctrl, sigs, cand, what in cases:
+        r = read_sequence(bounds, decisions)
         got = sorted({s[0] for s in r["signals"]})
         ok = r["convergence"] == conv and r["control"] == ctrl and got == sorted(sigs) and r["ruling_layer_candidate"] == cand
         bad += not ok
@@ -374,7 +415,7 @@ def main():
                      f"holds that measured rows {r['holds_measured']}, decisions {r['decisions']} — {what}")
         for s in r["signals"]:
             lines.append(f"      {s[0]} at decision {s[1]}: {s[2]}")
-    n = len(ARMS) + 2
+    n = len(cases)
     lines.append(f"arms: {n}; as expected: {n - bad}")
     text = "\n".join(lines) + "\n"
     sys.stdout.reconfigure(encoding="utf-8")

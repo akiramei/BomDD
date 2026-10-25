@@ -62,6 +62,7 @@ def main():
     say(f"work order as issued {wo_full[:8]} (line names {rd.frozen_revision(wo_text)!r}); frozen {TAG} = {frozen[:8]}; delivered {delivered[:8]} tree {tree[:8]}")
     say(f"delivered copies equal the frozen revision: M-BOM {d_mbom == mbom}, Control Plan {d_cp == cp}")
 
+    missed = 0
     with tempfile.TemporaryDirectory() as td:
         ev = Path(td) / EVIDENCE
         ev.parent.mkdir(parents=True)
@@ -94,7 +95,14 @@ def main():
         entry["test_evidence_refs"] = [{"source": "decision", "cp_ref": r, "evidence_path": EVIDENCE, "evidence_sha256": ev_sha,
                                         "format": "line", "observed_at": "2026-10-24", "result": None} for r in counted]
         say(f"   - As-Built: one decision record per counted row ({len(counted)}), all naming compare.txt")
-        r1a = rd.decide(wo_text, mbom, cp_m, entry, td, (d_mbom, cp_m), gitcb)
+        # inspection r1 IA-04: the decision binds the bytes it reads to the refs' paths, so the migrated Control Plan stands for the frozen
+        # revision's file wherever that file stands in the history (the freeze, the issue, the delivery and any commit carrying it unchanged)
+        cp_path = "bomdd/33-control-plan.yaml"
+
+        def stand_in(base, path, real, migrated):
+            return lambda c, p: (lambda got: migrated if p == path and got == real else got)(base(c, p))
+        gitm = dict(gitcb, show=stand_in(gitcb["show"], cp_path, cp, cp_m))
+        r1a = rd.decide(wo_text, mbom, cp_m, entry, td, (d_mbom, cp_m), gitm)
         say(f"== M1a the migrated copy, compare.txt as it is: {r1a['result']}")
         cats = {}
         for row, v in sorted((r1a.get("rows") or {}).items()):
@@ -109,8 +117,8 @@ def main():
         for rec in entry["test_evidence_refs"]:
             rec["evidence_sha256"] = ev_sha
         say("   - M1b: compare.txt with a line 'MEASURED_ON <f30d771> <tree>' appended — ASSUMED, as compare.py would stamp its run")
-        r1 = rd.decide(wo_text, mbom, cp_m, entry, td, (d_mbom, cp_m), gitcb)
-        again = rd.decide(wo_text, mbom, cp_m, entry, td, (d_mbom, cp_m), gitcb)
+        r1 = rd.decide(wo_text, mbom, cp_m, entry, td, (d_mbom, cp_m), gitm)
+        again = rd.decide(wo_text, mbom, cp_m, entry, td, (d_mbom, cp_m), gitm)
         say(f"== M1b the migrated copy, stamped (ASSUMED): {r1['result']}"
             f" (run twice, byte-identical JSON: {json.dumps(r1, sort_keys=True) == json.dumps(again, sort_keys=True)})")
         for row, v in sorted((r1.get("rows") or {}).items()):
@@ -140,20 +148,27 @@ def main():
         for name, edit, wo, expect in cases:
             e = copy.deepcopy(entry)
             e.update(edit)
-            r = rd.decide(wo, mbom, cp_m, e, td, (d_mbom, cp_m), gitcb)
+            r = rd.decide(wo, mbom, cp_m, e, td, (d_mbom, cp_m), gitm)
             ok = r["result"] == "input-defect" and expect in json.dumps(r)
+            missed += not ok
             say(f"   {'OK' if ok else 'MISSED'} {name}: {r['result']} {json.dumps(r.get('defects'))}")
         # round 2 L4E2-1, on this repository's git: the factory moves bom-v4 back to bom-v3's commit and delivers bom-v3's BOM, so the line,
         # frozen_commit, both refs and the delivered copies all agree on bom-v3 (the resolve callback answers as the moved tag would)
-        moved = dict(gitcb, resolve=lambda rev: v3 if rev == TAG else gitcb["resolve"](rev))
         mbom3, cp3 = show(repo, v3, "bomdd/32-mbom.yaml"), show(repo, v3, "bomdd/33-control-plan.yaml")
         cp3_doc = yaml.safe_load(cp3)
         cp3_doc["control_plan"]["check_mapping"] = cp_doc["control_plan"]["check_mapping"]
         cp3_m = yaml.safe_dump(cp3_doc, allow_unicode=True, sort_keys=False)
+        # the case's delivery carries bom-v3's BOM, so the delivered commit holds bom-v3's M-BOM and migrated Control Plan; bom-v3's
+        # migrated Control Plan stands for its file wherever that stands (IA-04)
+        v3_show = stand_in(gitcb["show"], cp_path, cp3, cp3_m)
+        moved = dict(gitcb, resolve=lambda rev: v3 if rev == TAG else gitcb["resolve"](rev),
+                     show=lambda c, path: ({"bomdd/32-mbom.yaml": mbom3, cp_path: cp3_m}.get(path) if c == delivered else None)
+                     or v3_show(c, path))
         e = copy.deepcopy(entry)
         e.update({"frozen_commit": v3, "mbom_ref": f"bomdd/32-mbom.yaml@{v3}", "control_plan_ref": f"bomdd/33-control-plan.yaml@{v3}"})
         r = rd.decide(wo_text, mbom3, cp3_m, e, td, (mbom3, cp3_m), moved)
         ok = r["result"] == "input-defect" and "the BOM changed between the freeze and the issue" in json.dumps(r)
+        missed += not ok
         say(f"   {'OK' if ok else 'MISSED'} bom-v4 moved back to bom-v3's commit, bom-v3's BOM delivered: {r['result']} {json.dumps(r.get('defects'))}")
         # M3: known-bad evidence lines on the migrated, stamped copy (D1)
         say("== M3 known-bad evidence lines (D1; each changes only compare.txt, its sha256 recomputed):")
@@ -170,14 +185,17 @@ def main():
             e = copy.deepcopy(entry)
             for rec in e["test_evidence_refs"]:
                 rec["evidence_sha256"] = hashlib.sha256(bad).hexdigest()
-            r = rd.decide(wo_text, mbom, cp_m, e, td, (d_mbom, cp_m), gitcb)
+            r = rd.decide(wo_text, mbom, cp_m, e, td, (d_mbom, cp_m), gitm)
             ev.write_bytes(evidence)
             v = (r.get("rows") or {}).get(row, {})
             ok = r["result"] == "holds" and v.get("category") == cat and v.get("test") == test
+            missed += not ok
             say(f"   {'OK' if ok else 'MISSED'} {name}: {r['result']}, {row} {v.get('category')} (test {v.get('test')})")
     Path(out_path).write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     print("\n".join(lines))
+    # inspection r1 IA-07: a MISSED case fails the caller, not only the text
+    return 1 if missed else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

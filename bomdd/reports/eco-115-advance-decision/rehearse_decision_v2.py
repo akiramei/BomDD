@@ -46,6 +46,19 @@ def parse(text, route, what):
 
 
 FROZEN_LINE = re.compile(r"^- 対象 BOM tag/commit:[ \t]*(\S+)[ \t]*$", re.MULTILINE)
+# inspection r1 IA-02: D5's bounds line (I2): absent or one line, holds and decisions decimal integers of 1 or more
+BOUNDS_ANY = re.compile(r"^- 前進の判定の上限:.*$", re.MULTILINE)
+BOUNDS_LINE = re.compile(r"- 前進の判定の上限: holds ([1-9][0-9]*), decisions ([1-9][0-9]*)")
+
+
+def bounds_defect(work_order_text):
+    """None when the work order's bounds line is within I2 (absent, or one line of the right form), else the reason."""
+    found = BOUNDS_ANY.findall(work_order_text or "")
+    if len(found) > 1:
+        return f"the work order has {len(found)} bounds lines"
+    if found and not BOUNDS_LINE.fullmatch(found[0].rstrip()):
+        return f"the bounds line {found[0]!r} is outside I2"
+    return None
 HEX40 = re.compile(r"[0-9a-f]{40}")
 REF = re.compile(r"([^@\s]+)@([0-9a-f]{40})")
 
@@ -94,6 +107,9 @@ def i3a(mbom_text, cp_text, delivered_texts=None, work_order_text=None, entry=No
         rev = frozen_revision(work_order_text)
         if rev is None:
             defects.append(("work-order-fix", "the work order has no single '対象 BOM tag/commit' line"))
+        bd = bounds_defect(work_order_text)
+        if bd:
+            defects.append(("work-order-fix", bd))
         elif HEX40.fullmatch(frozen):
             refs = {}
             for key in ("mbom_ref", "control_plan_ref"):
@@ -117,6 +133,18 @@ def i3a(mbom_text, cp_text, delivered_texts=None, work_order_text=None, entry=No
                             defects.append(("work-order-fix", f"the {what} at the work order's commit differs from frozen_commit's; the BOM changed between the freeze and the issue"))
                 if issued and dcommit and issued != dcommit and not git["is_ancestor"](issued, dcommit):
                     defects.append(("work-order-fix", "the work order's commit is not an ancestor of the delivered commit"))
+                # inspection r1 IA-04: the bytes decided and compared are the files the entry's refs name — at frozen_commit for the
+                # frozen revision, at the delivered commit for the delivery's copies — not bytes a caller supplies beside them
+                for idx, (key, text, what) in enumerate((("mbom_ref", mbom_text, "M-BOM"), ("control_plan_ref", cp_text, "Control Plan"))):
+                    if key not in refs:
+                        continue
+                    at_frozen = git["show"](frozen, refs[key])
+                    if at_frozen is None:
+                        defects.append(("record-fix", f"the entry's {key} path {refs[key]} is not at frozen_commit"))
+                    elif at_frozen != text:
+                        defects.append(("record-fix", f"the {what} read is not the file the entry's {key} names"))
+                    if dcommit and delivered_texts is not None and git["show"](dcommit, refs[key]) != delivered_texts[idx]:
+                        defects.append(("record-fix", f"the delivery's {what} compared is not the file at {key}'s path in the delivered commit"))
     if delivered_texts is not None:
         for got, frozen, what in ((delivered_texts[0], mbom_text, "M-BOM"), (delivered_texts[1], cp_text, "Control Plan")):
             if got is None:
@@ -327,6 +355,9 @@ def decide(work_order_text, mbom_text, cp_text, entry, base, delivered_texts, gi
             route = f.get("red") if cat == "violation" else f.get("unmeasurable") if cat == "unmeasurable" else None
             route = route or DEFAULT_ROUTE[cat]
         rows[r] = {"category": cat, "test": test, "route": route, "result": RESULT[cat]}
+    # D4 (inspection r1 IA-06): each decision record's result is written into the entry, derived from its row's category
+    for x in records:
+        x["result"] = rows[x["cp_ref"]]["result"]
     if counted:
         result = "advances" if all(v["category"] == "pass" for v in rows.values()) else "holds"
     else:

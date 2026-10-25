@@ -1,0 +1,4 @@
+BAD Y6 a failing row with its own cause and another's, renamed under the other's: convergence converged (expected converged); control in-control [] (expected si
+OK  Y7 the same causes, renamed under the row's own cause: convergence converged (expected converged); control in-control [] (expected in-control []); candidate
+arms: 42; as expected: 41
+exit 1

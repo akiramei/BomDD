@@ -70,18 +70,27 @@ stored results sha256 82c0258c98cf1643ced50d396eb09b0cfac01e583f401d5412027e51db
    OK     base: advances {}
    OK     I3a Control Plan unparsable: input-defect [["control-plan-fix", "Control Plan does not parse"]]
    OK     I3a M-BOM unparsable: input-defect [["bom-fix", "M-BOM does not parse"]]
+   OK     I3a (r1 IA-04) mbom_ref names a path that is not at frozen_commit: input-defect [["record-fix", "the delivery's M-BOM compared is not the file at mbom_ref's path in the delivered commit"], ["record-fix", "the entry's mbom_ref path bomdd/no-such-mbom.yaml is not at frozen_commit"]
+   OK     I3a (r1 IA-04) mbom_ref and control_plan_ref swapped: input-defect [["record-fix", "the Control Plan read is not the file the entry's control_plan_ref names"], ["record-fix", "the M-BOM read is not the file the entry's mbom_ref names"], ["record-fix", "the delivery's
+   OK     I3a (r1 IA-04) the delivered commit holds another Control Plan than the copy compared: input-defect [["record-fix", "the delivery's Control Plan compared is not the file at control_plan_ref's path in the delivered commit"]]
    OK     I3a delivered Control Plan differs: input-defect [["product-fix", "the delivery's Control Plan differs from the revision frozen for the work"]]
    OK     I3a delivered M-BOM differs: input-defect [["product-fix", "the delivery's M-BOM differs from the revision frozen for the work"]]
    OK     I3a delivery without its Control Plan: input-defect [["product-fix", "the delivery has no Control Plan at the frozen revision's path"]]
-   OK     I3a work order without the frozen-revision line: input-defect [["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
-   OK     I3a work order with two frozen-revision lines: input-defect [["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
+   OK     I3a work order without the frozen-revision line: input-defect [["work-order-fix", "the frozen revision None cannot be resolved to a commit"], ["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
+   OK     I3a (r1 IA-02) a bounds line within I2: advances {}
+   OK     I3a (r1 IA-02) a bounds line with holds 0: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 0, decisions 5' is outside I2"]]
+   OK     I3a (r1 IA-02) a bounds line missing its decisions: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 3' is outside I2"]]
+   OK     I3a (r1 IA-02) a bounds line with a non-numeric value: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds three, decisions 5' is outside I2"]]
+   OK     I3a (r1 IA-02) a bounds line with a negative value: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 3, decisions -1' is outside I2"]]
+   OK     I3a (r1 IA-02) two bounds lines: input-defect [["work-order-fix", "the work order has 2 bounds lines"]]
+   OK     I3a work order with two frozen-revision lines: input-defect [["work-order-fix", "the frozen revision None cannot be resolved to a commit"], ["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
    OK     I3a frozen revision given as a tag git cannot resolve: input-defect [["work-order-fix", "the frozen revision 'v1.2' cannot be resolved to a commit"]]
    OK     I3a (v2) frozen revision given as a tag that resolves to frozen_commit, in backticks: advances {}
    OK     I3a (v2) git unavailable, with a row approver outside I2: both listed (round 2 L4E2-3): input-defect [["control-plan-fix", "row CP-A approver 'maintainer' outside I2"], ["record-fix", "git is not available to the decision (L8); the git-dependent checks were not made"]]
    OK     I3a (v2) git unavailable: input-defect [["record-fix", "git is not available to the decision (L8); the git-dependent checks were not made"]]
-   OK     I3a (v2) frozen_commit on another line of history (multi-reason: implied by freeze <= issue): input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"], ["work-order-fix", "the Control Plan at the work order's commit differs from froz
+   OK     I3a (v2) frozen_commit on another line of history (multi-reason: implied by freeze <= issue): input-defect [["record-fix", "the entry's control_plan_ref path bomdd/33-control-plan.yaml is not at frozen_commit"], ["record-fix", "the entry's mbom_ref path bomdd/32-mbom.yaml is not at frozen_commit"], ["work-
    OK     I3a (v2) the freeze after the issue (a tag moved to a later commit before receipt): input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"]]
-   OK     I3a (v2) a tag moved back to a commit with an older BOM (round 2 L4E2-1): input-defect [["work-order-fix", "the Control Plan at the work order's commit differs from frozen_commit's; the BOM changed between the freeze and the issue"], ["work-order-fix", "the M-BOM at the work order's com
+   OK     I3a (v2) a tag moved back to a commit with an older BOM (round 2 L4E2-1): input-defect [["record-fix", "the Control Plan read is not the file the entry's control_plan_ref names"], ["record-fix", "the M-BOM read is not the file the entry's mbom_ref names"], ["work-order-fix", "the Contro
    OK     I3a (v2) a freeze before the issue with the same BOM advances: advances {}
    OK     I3a (v2) the work order's commit outside the delivered history: input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"], ["work-order-fix", "the Control Plan at the work order's commit differs from froz
    OK     I3a (v2) delivered.tree is not the delivered commit's tree: input-defect [["record-fix", "delivered.tree is not the delivered commit's tree"]]
@@ -142,4 +151,5 @@ stored results sha256 82c0258c98cf1643ced50d396eb09b0cfac01e583f401d5412027e51db
    OK     outside I1, a row's depth changed: output byte-identical to base
    OK     outside I1, a row's verifies changed: output byte-identical to base
    OK     outside I1, a row's characteristic changed: output byte-identical to base
+== D4 written into the decision records on every case that decided rows: True
 == all synthetic cases as expected: True

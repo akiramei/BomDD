@@ -23,4 +23,4 @@ delivered copies equal the frozen revision: M-BOM True, Control Plan True
 == N2 known-bad inputs on N1 (each must change the result for its own reason):
    OK a stamped evidence of another unit (stage1-check, names 0066d2b): holds ["1: the evidence measured another unit than delivered"]
    OK delivered.tree altered by one digit: input-defect [["record-fix", "delivered.tree is not the delivered commit's tree"]]
-   OK frozen_commit recorded as bom-v4: input-defect [["work-order-fix", "the Control Plan at the work order's commit differs from frozen_commit's; the BOM changed between the freeze and the issue"], ["work-order-fix", "the frozen revision 'bom-v5' reso
+   OK frozen_commit recorded as bom-v4: input-defect [["record-fix", "the Control Plan read is not the file the entry's control_plan_ref names"], ["work-order-fix", "the Control Plan at the work order's commit differs from frozen_commit's; the BOM chang

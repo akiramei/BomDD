@@ -61,6 +61,7 @@ def main():
         f"delivered {delivered[:8]} tree {entry0['delivered']['tree'][:8]}; evidence {ev_path} first line {evidence.decode().splitlines()[0][:24]}…")
     say(f"delivered copies equal the frozen revision: M-BOM {d_mbom == mbom}, Control Plan {d_cp == cp}")
 
+    missed = 0
     with tempfile.TemporaryDirectory() as td:
         ev = Path(td) / ev_path
         ev.parent.mkdir(parents=True)
@@ -85,7 +86,10 @@ def main():
                                         "format": "line", "observed_at": "2026-10-25", "result": None} for r in counted]
         say(f"   - As-Built: one decision record per counted row ({len(counted)}), written by the receiving side at decision time")
         # the frozen revision with check_mapping is also what the delivery would carry once the template has the field
-        g1 = dict(gitcb, show=lambda c, path: cp_m if path == "bomdd/33-control-plan.yaml" and c in (frozen, issued) else gitcb["show"](c, path))
+        # inspection r1 IA-04: the decision binds the bytes it reads to the refs' paths, so the Control Plan with the field stands for the
+        # frozen revision's file wherever that file stands (the freeze, the issue and the delivery carry it unchanged)
+        g1 = dict(gitcb, show=lambda c, path: (lambda got: cp_m if path == "bomdd/33-control-plan.yaml" and got == cp else got)(
+            gitcb["show"](c, path)))
         r1 = rd.decide(wo_text, mbom, cp_m, entry, td, (d_mbom, cp_m), g1)
         again = rd.decide(wo_text, mbom, cp_m, entry, td, (d_mbom, cp_m), g1)
         say(f"== N1 result: {r1['result']} (run twice, byte-identical JSON: {json.dumps(r1, sort_keys=True) == json.dumps(again, sort_keys=True)})")
@@ -117,12 +121,15 @@ def main():
             r = rd.decide(wo_text, mbom, cp_m, e, td, (d_mbom, cp_m), g1)
             ev.write_bytes(evidence)
             text = json.dumps(r)
+            missed += expect not in text
             say(f"   {'OK' if expect in text else 'MISSED'} {name}: {r['result']} "
                 f"{json.dumps(r.get('defects') or sorted({v['test'] for v in (r.get('rows') or {}).values() if v['category'] != 'pass'}))[:200]}")
         del other
     Path(out_path).write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     print("\n".join(lines))
+    # inspection r1 IA-07: a MISSED case fails the caller, not only the text
+    return 1 if missed else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

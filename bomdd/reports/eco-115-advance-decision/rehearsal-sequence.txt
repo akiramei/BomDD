@@ -68,6 +68,9 @@ OK  X4 a failing row renamed under its own routed cause, and passing: convergenc
 OK  X5 re-issues raise the bound: convergence bound-reached (expected bound-reached); control signals ['C6'] (expected signals ['C6']); candidate False (expected False); holds that measured rows 3, decisions 3 — L6R1-02, L6R2-01: the first issue's bound (3) is reached although the re-issues say 6; each changed bounds line is C6
       C6 at decision 2: bounds {'holds': 6, 'decisions': 8} differ from the work's first issue {'holds': 3, 'decisions': 5}
       C6 at decision 3: bounds {'holds': 6, 'decisions': 8} differ from the work's first issue {'holds': 3, 'decisions': 5}
+OK  Y6 a failing row with its own cause and another's, renamed under the other's: convergence converged (expected converged); control signals ['C5'] (expected signals ['C5']); candidate False (expected False); holds that measured rows 1, decisions 2 — inspection r1 IA-05: only the recorded cause tells this from X4 (the same causes, renamed under the row's own cause: green)
+      C5 at decision 2: CP-A renamed with its open violation under another cause (bom-fix:a unit names CP-A twice)
+OK  Y7 the same causes, renamed under the row's own cause: convergence converged (expected converged); control in-control [] (expected in-control []); candidate False (expected False); holds that measured rows 1, decisions 2 — inspection r1 IA-05: Y6's green twin
 OK  Y5 a re-issue raises the bound and its delivery advances: convergence converged (expected converged); control signals ['C6'] (expected signals ['C6']); candidate False (expected False); holds that measured rows 1, decisions 2 — L6R2-01: the raised bound is reported even when the work converges
       C6 at decision 2: bounds {'holds': 9, 'decisions': 9} differ from the work's first issue {'holds': 3, 'decisions': 5}
 OK  Y1 a no-check row loses its automated part under its own cause: convergence converged (expected converged); control in-control [] (expected in-control []); candidate False (expected False); holds that measured rows 1, decisions 2 — L6R2-02: C5 green on a routine control-plan-fix (MoviePad-Remake's two rows, L5)
@@ -85,4 +88,7 @@ OK  R2 MoviePad-Remake 1 -> 2, migrated (decision 1 on M1b's ASSUMED stamp; deci
       C1 at decision 2: CP-BUILD-001:no-check (unrecorded)
       C1 at decision 2: CP-SELF-ACCEPTANCE-001:no-check (unrecorded)
       C4 at decision 2: no-check
-arms: 38; as expected: 38
+OK  Z1 the first issue's bounds line malformed (holds 0): its decision is an input defect, the defaults apply: convergence bound-reached (expected bound-reached); control signals ['C4'] (expected signals ['C4']); candidate False (expected False); holds that measured rows 3, decisions 4 — the holds default (3) is reached; a malformed line raises no bound (expectation corrected after the first run: the input defect and the next hold's unmeasurable row are both the process's own parts, which is C4 by the rule)
+      C4 at decision 2: unmeasurable
+OK  Z2 the same holds under a well-formed first line of 5 and 9: convergence open (expected open); control in-control [] (expected in-control []); candidate False (expected False); holds that measured rows 3, decisions 3 — the first issue's line is read: three holds are below its bound of 5
+arms: 42; as expected: 42

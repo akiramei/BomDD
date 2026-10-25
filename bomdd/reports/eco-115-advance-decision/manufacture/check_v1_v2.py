@@ -77,8 +77,8 @@ CLAUSES = {
            "`assembly_reason`", "`check_mapping`", "`id`・`status`・`approver`・`on_fail`", "`source: decision`", "`identity`",
            "納品の M-BOM と Control Plan の写し", "祖先関係", "工場の報告と自己受入", "`when`・`depth`・`verifies`・`characteristic`・`oracle`・`evidence_output_ref`",
            "ECO-088", "`when` は別の機会に"],
-    "I2": ["`xunit-v3`", "`line`", "`outcome` と `row`", "持ち主でない検査", "`commit` と `tree`", "40 桁の 16 進", "バッククォートは値に含めない"],
-    "I3a": ["git が使える", "`delivered` が I2 の内", "その `commit` の木", "納品のコミットとは別のコミット", "`frozen_commit` を持つ", "1 本あり",
+    "I2": ["上限の行(D5)", "1 以上の 10 進の整数", "`xunit-v3`", "`line`", "`outcome` と `row`", "持ち主でない検査", "`commit` と `tree`", "40 桁の 16 進", "バッククォートは値に含めない"],
+    "I3a": ["上限の行が I2 の内", "git が使える", "`delivered` が I2 の内", "その `commit` の木", "納品のコミットとは別のコミット", "`frozen_commit` を持つ", "1 本あり",
             "その値が `frozen_commit` に解決する", "`mbom_ref` と `control_plan_ref` が `frozen_commit` を名指す", "固定が発行に先立つ",
             "バイト単位で等しい", "古い BOM へ戻されたタグを捕まえる", "納品のコミットの祖先である", "読める", "写しの無い納品は等しくない",
             "一意", "空でない `acceptance_refs`", "`assembly_reason`", "少なくとも 1 行", "`retired` でない", "I1 の 1〜2 の値はどれも I2 の内",
@@ -102,12 +102,12 @@ CLAUSES = {
     "D5": ["`work_ref`", "工程の ECO は同じ作業を続け", "**台帳**", "`advance_decision.sequence`", "**収束**", "**管理**", "**回数は収束の入力にだけなる**",
            "`nothing-measured`", "**どの行も測らなかった**", "`<row>:<category>`", "`<route>:<message>`", "**`routes_done`**", "**`row_changes`**",
            "`removed`・`added`・`renamed`", "状態を新しい行へ引き継ぐ", "`converged`", "`open`", "`bound-reached`", "既定 3", "既定 5",
-           "**作業の最初の発行**", "C6", "上限を作業の中から上げない", "§8.5", "進めずに止める", "§13 の人の処置待ち", "ECO-108 / ECO-111",
+           "**作業の最初の発行**", "外れた行は上限を上げない", "C6", "上限を作業の中から上げない", "§8.5", "進めずに止める", "§13 の人の処置待ち", "ECO-108 / ECO-111",
            "回数でなく管理の読み", "C1 残る", "C2 戻る", "C3 退行", "C4 自分の部品が続けて落ちる", "C5 行の集合", "C6 上限が変わった",
            "*振り分けは済んだが原因が消えない*", "*振り分けが済んでいない*", "*記録なし*", "振り分け先でなく区分を読む", "自分の原因のもとで変えた行",
            "納品が進んだときも", "`in-control`", "`signals`", "**管理の点検**", "工程 ECO", "AGENTS.md 規律 1", "宣言した既定を当てる",
            "**新しい約束**", "**新しい機能**", "**導出できない**", "候補として機械で印", "OBS-20260922-01", "blocker 報告", "点検の所見"],
-    "limits": ["`Error → passed`", "REQ / INV", "`evidence_sha256` は後の", "同じ BOM のバイトのコミットへ戻したタグは通し", "depth G",
+    "limits": ["`Error → passed`", "REQ / INV", "2 つの製品", "納品 2 回", "`evidence_sha256` は後の", "同じ BOM のバイトのコミットへ戻したタグは通し", "depth G",
                "git を要し", "D5 は原因を D2 が名づけるとおりに見る", "検査を定義し直して消しただけ", "新しい `work_ref`", "3 回・5 回",
                "遅延にしない", "配布は別の ECO"],
 }
@@ -236,6 +236,9 @@ for script, args, stored in [("run_rehearsal_v2.py", [str(vp2)], "rehearsal-v2.t
                           env={**__import__("os").environ, "PYTHONIOENCODING": "utf-8"})
     same = done.returncode == 0 and out.is_file() and out.read_bytes() == (HERE / stored).read_bytes()
     check(f"V2 {script} re-run equals {stored}", same, f"exit {done.returncode}")
+    # inspection r1 IA-07: a stored output that itself records a missed case is not a pass, whatever the byte equality says
+    marks = re.findall(r"\bMISSED\b|: False\b", out.read_text(encoding="utf-8")) if out.is_file() else ["no output"]
+    check(f"V2 {stored} records no missed case", not marks, f"{len(marks)} marks")
 
 print(f"V1/V2: {'PASS' if all(results) else 'FAIL'} ({sum(results)}/{len(results)})")
 sys.exit(0 if all(results) else 1)

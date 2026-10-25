@@ -172,7 +172,7 @@ def frozen_entry(rev, recs, issued=ISSUED):
 
 def run_case(td, change):
     mbom, cp, tests = base()
-    ctx = {"mbom_text": None, "cp_text": None, "delivered_texts": None, "entry_edit": None, "evidence": None, "wo_text": None, "no_file": False, "no_git": False, "early_differs": True}
+    ctx = {"mbom_text": None, "cp_text": None, "delivered_texts": None, "entry_edit": None, "evidence": None, "wo_text": None, "no_file": False, "no_git": False, "early_differs": True, "show_edit": None}
     change(mbom, cp, tests, ctx)
     ev = ctx["evidence"] if ctx["evidence"] is not None else xml(tests)
     path = os.path.join(td, "ev.xml")
@@ -189,7 +189,25 @@ def run_case(td, change):
     if ctx["entry_edit"]:
         ctx["entry_edit"](entry)
     wo = ctx["wo_text"] if ctx["wo_text"] is not None else WO
-    return rd.decide(wo, mt, ct, entry, td, ctx["delivered_texts"] or (mt, ct), None if ctx["no_git"] else stub_with(ctx["early_differs"]))
+    dl = ctx["delivered_texts"] or (mt, ct)
+    # inspection r1 IA-04: the stub's commits hold the case's own files at the refs' paths — the frozen revision's bytes at every commit of
+    # the history up to the issue (EARLY an older BOM unless the case says otherwise) and the delivery's copies at the delivered commit — so
+    # the decision's binding of bytes to refs is exercised on every case; ctx["show_edit"] lets a case move or drop a file
+    paths = {"bomdd/32-mbom.yaml": 0, "bomdd/33-control-plan.yaml": 1}
+
+    def show(c, path):
+        if c not in HISTORY or path not in paths:
+            return None
+        if c == EARLY and ctx["early_differs"]:
+            return f"{path} at an older BOM"
+        return (dl if c == REV else (mt, ct))[paths[path]]
+    git = dict(GIT_STUB, show=ctx["show_edit"](show) if ctx["show_edit"] else show)
+    result = rd.decide(wo, mt, ct, entry, td, dl, None if ctx["no_git"] else git)
+    # D4 (inspection r1 IA-06): the decision records the entry holds after the decision carry each row's derived result
+    if result.get("rows"):
+        written = {x["cp_ref"]: x.get("result") for x in entry["test_evidence_refs"] if x.get("source") == "decision"}
+        result["d4_written"] = all(written.get(r) == v["result"] for r, v in result["rows"].items())
+    return result
 
 
 def setv(**kw):
@@ -214,6 +232,18 @@ CASES = [
     ("base", lambda m, c, t, ctx: None, ("advances", None)),
     ("I3a Control Plan unparsable", setv(cp_text="control_plan: [unclosed"), ("input-defect", "Control Plan does not parse")),
     ("I3a M-BOM unparsable", setv(mbom_text="mbom: {unclosed"), ("input-defect", "M-BOM does not parse")),
+    # inspection r1 IA-04: the bytes decided must be the files the refs name
+    ("I3a (r1 IA-04) mbom_ref names a path that is not at frozen_commit",
+     lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.update(mbom_ref=f"bomdd/no-such-mbom.yaml@{FROZEN}")),
+     ("input-defect", "mbom_ref path bomdd/no-such-mbom.yaml is not at frozen_commit")),
+    ("I3a (r1 IA-04) mbom_ref and control_plan_ref swapped",
+     lambda m, c, t, ctx: ctx.update(entry_edit=lambda e: e.update(mbom_ref=f"bomdd/33-control-plan.yaml@{FROZEN}",
+                                                                   control_plan_ref=f"bomdd/32-mbom.yaml@{FROZEN}")),
+     ("input-defect", "the M-BOM read is not the file the entry's mbom_ref names")),
+    ("I3a (r1 IA-04) the delivered commit holds another Control Plan than the copy compared",
+     lambda m, c, t, ctx: ctx.update(show_edit=lambda show: lambda cm, p: (show(cm, p) + "# at the delivered commit\n")
+                                     if cm == REV and p.endswith("33-control-plan.yaml") else show(cm, p)),
+     ("input-defect", "the delivery's Control Plan compared is not the file")),
     ("I3a delivered Control Plan differs", lambda m, c, t, ctx: ctx.update(delivered_texts=(dump(m), dump(c) + "# edited\n")),
      ("input-defect", "delivery's Control Plan differs")),
     ("I3a delivered M-BOM differs", lambda m, c, t, ctx: ctx.update(delivered_texts=(dump(m) + "# edited\n", dump(c))),
@@ -222,6 +252,17 @@ CASES = [
      ("input-defect", "delivery has no Control Plan")),
     ("I3a work order without the frozen-revision line", setv(wo_text="# Work Order\n- 対象 BOM tag/commit:\n"),
      ("input-defect", "no single '対象 BOM tag/commit' line")),
+    # inspection r1 IA-02: the bounds line (D5) within I2
+    ("I3a (r1 IA-02) a bounds line within I2", setv(wo_text=WO + "- 前進の判定の上限: holds 4, decisions 7\n"), ("advances", None)),
+    ("I3a (r1 IA-02) a bounds line with holds 0", setv(wo_text=WO + "- 前進の判定の上限: holds 0, decisions 5\n"),
+     ("input-defect", "is outside I2")),
+    ("I3a (r1 IA-02) a bounds line missing its decisions", setv(wo_text=WO + "- 前進の判定の上限: holds 3\n"), ("input-defect", "is outside I2")),
+    ("I3a (r1 IA-02) a bounds line with a non-numeric value", setv(wo_text=WO + "- 前進の判定の上限: holds three, decisions 5\n"),
+     ("input-defect", "is outside I2")),
+    ("I3a (r1 IA-02) a bounds line with a negative value", setv(wo_text=WO + "- 前進の判定の上限: holds 3, decisions -1\n"),
+     ("input-defect", "is outside I2")),
+    ("I3a (r1 IA-02) two bounds lines", setv(wo_text=WO + "- 前進の判定の上限: holds 3, decisions 5\n- 前進の判定の上限: holds 4, decisions 6\n"),
+     ("input-defect", "has 2 bounds lines")),
     ("I3a work order with two frozen-revision lines", setv(wo_text=WO + f"- 対象 BOM tag/commit: {FROZEN}\n"),
      ("input-defect", "no single '対象 BOM tag/commit' line")),
     ("I3a frozen revision given as a tag git cannot resolve", setv(wo_text="- 対象 BOM tag/commit: v1.2\n"), ("input-defect", "cannot be resolved to a commit")),
@@ -392,17 +433,21 @@ def main():
         mt1, ct1 = dump(m1), dump(c1)
         out.append("== R1 edits of the migrated copy:")
         out.extend(f"   - {e}" for e in edits)
-        d1 = rd.decide(wo, mt1, ct1, frozen_entry(ISSUED_VP2, records(m1, c1, "cp-results.xml", sha), ISSUED_VP2), td, (mt1, ct1), gitcb)
+        # inspection r1 IA-04: the migrated copy stands for the BOM as committed at the freeze and carried by the delivery, so the git the
+        # decision reads holds it at both commits (the decision binds the bytes it reads to the refs' paths)
+        mig = {"bomdd/32-mbom.yaml": mt1, "bomdd/33-control-plan.yaml": ct1}
+        gitm = dict(gitcb, show=lambda c, path: mig[path] if path in mig and c in (ISSUED_VP2, REV) else gitcb["show"](c, path))
+        d1 = rd.decide(wo, mt1, ct1, frozen_entry(ISSUED_VP2, records(m1, c1, "cp-results.xml", sha), ISSUED_VP2), td, (mt1, ct1), gitm)
         summary("R1a migrated copy, the stored results as they are (they name no measured unit)", d1, out)
         # v2: the measured unit is read from the evidence (check_mapping identity). The stored results name none; R1b appends an XML comment
         # naming 504921a, as an instrument stamping its run would — ASSUMED, design evidence only (the results were measured before 504921a).
         stamped = raw + ("\n" + stamp(DELIVERED) + "\n").encode()
         open(os.path.join(td, "cp-results-assumed.xml"), "wb").write(stamped)
         e2 = frozen_entry(ISSUED_VP2, records(m1, c1, "cp-results-assumed.xml", hashlib.sha256(stamped).hexdigest()), ISSUED_VP2)
-        d2 = rd.decide(wo, mt1, ct1, e2, td, (mt1, ct1), gitcb)
+        d2 = rd.decide(wo, mt1, ct1, e2, td, (mt1, ct1), gitm)
         summary("R1b migrated copy, the results stamped as measured on 504921a ASSUMED (design evidence only; not what the data show)", d2, out)
         out.append(f"   R-050 on R1b's records, in unit/CP pairs: {r050(m1, d2)}")
-        again = rd.decide(wo, mt1, ct1, e2, td, (mt1, ct1), gitcb)
+        again = rd.decide(wo, mt1, ct1, e2, td, (mt1, ct1), gitm)
         out.append(f"   R1b run twice, byte-identical JSON: {json.dumps(d2, sort_keys=True) == json.dumps(again, sort_keys=True)}")
         out.append("== synthetic cases (expected outcome; OK when the decision gives it)")
         base_out = None
@@ -420,10 +465,15 @@ def main():
             same = json.dumps(d, sort_keys=True) == base_out
             ok_all &= same
             out.append(f"   {'OK    ' if same else 'MISSED'} outside I1, {name}: output {'byte-identical to base' if same else 'CHANGED'}")
+        d4 = [name for name, change, expected in CASES if run_case(td, change).get("d4_written") is False]
+        out.append(f"== D4 written into the decision records on every case that decided rows: {not d4}{(' (not on: ' + ', '.join(d4) + ')') if d4 else ''}")
+        ok_all &= not d4
         out.append(f"== all synthetic cases as expected: {ok_all}")
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(out) + "\n")
+    # inspection r1 IA-07: a missed expectation fails the caller, not only the text
+    return 0 if ok_all else 1
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
