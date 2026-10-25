@@ -77,7 +77,7 @@ CLAUSES = {
            "`assembly_reason`", "`check_mapping`", "`id`・`status`・`approver`・`on_fail`", "`source: decision`", "`identity`",
            "納品の M-BOM と Control Plan の写し", "祖先関係", "工場の報告と自己受入", "`when`・`depth`・`verifies`・`characteristic`・`oracle`・`evidence_output_ref`",
            "ECO-088", "`when` は別の機会に"],
-    "I2": ["上限の行(D5)", "1 以上の 10 進の整数", "`xunit-v3`", "`line`", "`outcome` と `row`", "持ち主でない検査", "`commit` と `tree`", "40 桁の 16 進", "バッククォートは値に含めない"],
+    "I2": ["上限の行(D5)", "1 以上 999 以下の 10 進の整数", "`xunit-v3`", "`line`", "`outcome` と `row`", "持ち主でない検査", "`commit` と `tree`", "40 桁の 16 進", "バッククォートは値に含めない"],
     "I3a": ["上限の行が I2 の内", "git が使える", "`delivered` が I2 の内", "その `commit` の木", "納品のコミットとは別のコミット", "`frozen_commit` を持つ", "1 本あり",
             "その値が `frozen_commit` に解決する", "`mbom_ref` と `control_plan_ref` が `frozen_commit` を名指す", "固定が発行に先立つ",
             "バイト単位で等しい", "古い BOM へ戻されたタグを捕まえる", "納品のコミットの祖先である", "読める", "写しの無い納品は等しくない",

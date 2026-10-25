@@ -48,7 +48,7 @@ def parse(text, route, what):
 FROZEN_LINE = re.compile(r"^- 対象 BOM tag/commit:[ \t]*(\S+)[ \t]*$", re.MULTILINE)
 # inspection r1 IA-02: D5's bounds line (I2): absent or one line, holds and decisions decimal integers of 1 or more
 BOUNDS_ANY = re.compile(r"^- 前進の判定の上限:.*$", re.MULTILINE)
-BOUNDS_LINE = re.compile(r"- 前進の判定の上限: holds ([1-9][0-9]*), decisions ([1-9][0-9]*)")
+BOUNDS_LINE = re.compile(r"- 前進の判定の上限: holds ([1-9][0-9]{0,2}), decisions ([1-9][0-9]{0,2})")  # 1 to 999 (inspection r2 IA-10)
 
 
 def bounds_defect(work_order_text):
@@ -104,12 +104,14 @@ def i3a(mbom_text, cp_text, delivered_texts=None, work_order_text=None, entry=No
             defects.append(("record-fix", "work_order_ref names the delivered commit; the work order is read as issued, not from the delivery"))
         if not HEX40.fullmatch(frozen):
             defects.append(("record-fix", "the entry has no frozen_commit (40-hex), resolved at receipt"))
-        rev = frozen_revision(work_order_text)
-        if rev is None:
-            defects.append(("work-order-fix", "the work order has no single '対象 BOM tag/commit' line"))
+        # inspection r2 IA-09: the bounds line is checked on its own, so a malformed one never hides the other I3a checks (r1's repair had
+        # chained it into the frozen-revision branch)
         bd = bounds_defect(work_order_text)
         if bd:
             defects.append(("work-order-fix", bd))
+        rev = frozen_revision(work_order_text)
+        if rev is None:
+            defects.append(("work-order-fix", "the work order has no single '対象 BOM tag/commit' line"))
         elif HEX40.fullmatch(frozen):
             refs = {}
             for key in ("mbom_ref", "control_plan_ref"):

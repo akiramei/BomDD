@@ -173,7 +173,7 @@ P, V, U, N = "pass", "violation", "unmeasurable", "no-check"
 B = {"holds": 3, "decisions": 5}
 # inspection r1 IA-02: the work's bounds come from its first issue's bounds line; absent or outside I2 (decimal integers of 1 or more) the
 # defaults apply — a malformed line also makes that first decision input-defect by I3a, and it raises no bound
-BOUNDS_LINE = re.compile(r"- 前進の判定の上限: holds ([1-9][0-9]*), decisions ([1-9][0-9]*)")
+BOUNDS_LINE = re.compile(r"- 前進の判定の上限: holds ([1-9][0-9]{0,2}), decisions ([1-9][0-9]{0,2})")  # 1 to 999 (inspection r2 IA-10)
 
 
 def work_bounds(first_issue_line):
@@ -399,6 +399,11 @@ BOUND_ARMS = [  # inspection r1 IA-02: (first issue's bounds line, then as ARMS)
         H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:unmeasurable", "CP-B:violation"]),
         H("holds", {"CP-A": N, "CP-B": P}, done=["CP-A:violation"])],
      "open", "in-control", [], False, "the first issue's line is read: three holds are below its bound of 5"),
+    ("- 前進の判定の上限: holds " + "9" * 5000 + ", decisions 5", "Z3 a first line of 5,000 digits: outside I2, the defaults apply", [
+        H("holds", {"CP-A": U, "CP-B": V}),
+        H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:unmeasurable", "CP-B:violation"]),
+        H("holds", {"CP-A": N, "CP-B": P}, done=["CP-A:violation"])],
+     "bound-reached", "in-control", [], False, "inspection r2 IA-10: the domain is 1 to 999, so no valid line fails to evaluate"),
 ]
 
 

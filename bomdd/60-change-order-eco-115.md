@@ -122,7 +122,7 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   - the frozen-revision line: a tag or a commit ID, written plainly or as Markdown code (the backticks are not part of it); `frozen_commit`: a
     40-hex commit ID; `work_order_ref`, `mbom_ref`, `control_plan_ref`: `<path>@<40-hex commit>`.
   - the bounds line (D5; inspection r1 IA-02): absent or one line of the form `- 前進の判定の上限: holds <n>, decisions <m>`, with `<n>` and `<m>`
-    decimal integers of 1 or more.
+    decimal integers from 1 to 999 without leading zeros (inspection r2 IA-10: a closed domain, so every valid line can be read).
 - **I3a (input check before running anything).** git is available (L8); the entry's `delivered` is within I2 and its `tree` is the tree of its
   `commit`; the entry's `work_order_ref` is within I2 and names a commit other than the delivered one; the entry
   has `frozen_commit`; the work order read at `work_order_ref` has exactly one frozen-revision line, and its value resolves to `frozen_commit`; its
@@ -317,8 +317,9 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
 - **L6 (D3, a hold; the user's ruling "2:A").** D gives a held individual no way into Phase 5 other than a new delivery, even when the route changed nothing
   the factory made (a record-fix of the receiving side's own typo costs a redelivery — the ruling's accepted cost). A product that accepts known defects today (ViewPrism2
   ECO-147) must decide at distribution how that acceptance meets D's hold; until then, D's hold and the known-defect acceptance are two separate facts.
-- **L7 (scale).** Designed from two products' Control Plans; rehearsed on ViewPrism2's real BOM and stored results, on MoviePad-Remake's first
-  per-delivery records (one delivery), and on synthetic inputs (V2).
+- **L7 (scale).** Designed from two products' Control Plans; rehearsed on ViewPrism2's real BOM and stored results, on MoviePad-Remake's
+  per-delivery records of two deliveries (delivery 1 in V2's real-data runs; delivery 2 in the calibration and, with delivery 1, in D5's arms R1
+  and R2), and on synthetic inputs (V2). (Inspection r2 IA-08: this line said "one delivery", written before delivery 2's calibration and D5.)
 - **L8 (I1, I2, git).** D requires git: `delivered` is `{commit, tree}` and the freeze is checked by commit and ancestry. The non-git form
   (`{content_sha256}`) is removed — it could never pass a commit-only freeze (L3E2-4). A product that does not deliver through git has no advance
   decision until a form for it is designed. A receiving side without git gets `input-defect` (route record-fix: the receipt is redone where git is),
@@ -505,6 +506,41 @@ enters §13's pending human disposition with its state, the evidence owed and th
 **Measured:** V1/V2 PASS 120/120 (the repaired script; on the manufacture tree it fails 116/120 — the IA-02 and IA-03 clauses). Red first: the
 repaired `run_rehearsal_v2.py` against the manufacture tree's decision rehearsal exits 1 with 8 MISSED and D4 not written; the manufacture tree's
 C5 clause put back gives Y6 BAD. The four rehearsals re-run byte-identical to their regenerated outputs (D5 42/42; synthetic cases all as expected).
+
+## 7. Independent inspection r2 (2026-10-26, EQ-002, range 是正確認+回帰) — REJECT IA-08, IA-09, IA-10
+
+- **Launched through the operator entry** on `2aa2d7d` (CI 40242350576 success; witness tree `7289c4eee7aa`, gate self-conformance). Brief
+  `28baf7e52a77…` (stored; committed copy `bomdd/reports/eco-115-advance-decision/inspection-brief-r2.md`); report `inspection-r2.md`
+  (`2e1c73685c43…`); the ledger's cell record binds it.
+- **r1's findings:** IA-01 and IA-04 to IA-07 confirmed resolved (each repaired arm passes, each fails against the earlier code); IA-02 and IA-03
+  not, as below. Regression: the 24 changed paths are allowed, the other manufactured files unchanged, the four rehearsals byte-identical and exit
+  0, the real-data conclusions unchanged, V1/V2 120/120 with its control on `35961c3` 116/120; all 29 README sha256 values match.
+- **IA-08 — non-blocking — L7's scale differed between §1 and the playbook.** §1's L7 said one MoviePad-Remake delivery (written before delivery 2's
+  calibration and D5); the playbook said two.
+- **IA-09 — blocking — a repair-introduced regression.** r1's repair chained the bounds check into the frozen-revision branch (`if bd: … elif
+  HEX40…`), so a malformed bounds line hid the ref, ancestry and binding checks; a probe with `holds 0` and swapped refs listed only the bounds reason.
+- **IA-10 — blocking — the domain was not closed.** "Any decimal integer of 1 or more" let a 5,000-digit `holds` pass I3a while D5's rehearsal could
+  not convert it (`ValueError`).
+
+## 8. Repairs after inspection r2 (2026-10-26)
+
+**Decided without a ruling**, as in §6: the findings are a record's wording, a defect of the rehearsal and a rule's domain left open, none a gap in
+the ruling layer. The domain is closed at 1 to 999: a bound above the design loops' three by more than two orders of magnitude is not a bound a
+work reaches, and a closed domain makes every valid line evaluable. **r3 is the last round under the bound declared in §6.**
+
+**What changed** (evidence: `bomdd/reports/eco-115-advance-decision/repair-r2/`):
+- IA-08 — §1's L7: MoviePad-Remake's two deliveries (delivery 1 in V2's real-data runs; delivery 2 in the calibration and, with delivery 1, in D5's
+  R1 and R2), as the playbook's limits say.
+- IA-09 — `rehearse_decision_v2.py` checks the bounds line on its own, before the frozen-revision branch. Two arms on a malformed line with swapped
+  refs, one expecting the ref defect and one the bounds defect, so both must be listed.
+- IA-10 — the bounds values 1 to 999 without a leading zero: §1's I2, the playbook's I2, the work order template's comment, and both rehearsals'
+  pattern. Arms: 999 (advances), 1000 and 5,000 digits (input-defect) in `run_rehearsal_v2.py`; Z3 (a 5,000-digit first line: the defaults) in
+  `rehearse_sequence.py`.
+
+**Measured:** V1/V2 PASS 120/120 (I2's clause updated to the closed domain); on the tree of r1's repairs it fails 119/120 (that clause). Red first: the
+repaired `run_rehearsal_v2.py` against `2aa2d7d`'s decision rehearsal exits 1 with 3 MISSED (the IA-09 arm expecting the ref defect, 1000, 5,000
+digits); r1's open domain put back into the D5 rehearsal stops on Z3 with the inspector's `ValueError`. The rehearsals re-run: synthetic cases all as
+expected and D4 written; D5 43/43; the two MoviePad-Remake outputs byte-identical to those of r1's repairs.
 
 ## 収束 receipt (converge self-application)
 

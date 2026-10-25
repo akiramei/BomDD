@@ -76,14 +76,19 @@ stored results sha256 82c0258c98cf1643ced50d396eb09b0cfac01e583f401d5412027e51db
    OK     I3a delivered Control Plan differs: input-defect [["product-fix", "the delivery's Control Plan differs from the revision frozen for the work"]]
    OK     I3a delivered M-BOM differs: input-defect [["product-fix", "the delivery's M-BOM differs from the revision frozen for the work"]]
    OK     I3a delivery without its Control Plan: input-defect [["product-fix", "the delivery has no Control Plan at the frozen revision's path"]]
-   OK     I3a work order without the frozen-revision line: input-defect [["work-order-fix", "the frozen revision None cannot be resolved to a commit"], ["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
+   OK     I3a work order without the frozen-revision line: input-defect [["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
    OK     I3a (r1 IA-02) a bounds line within I2: advances {}
    OK     I3a (r1 IA-02) a bounds line with holds 0: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 0, decisions 5' is outside I2"]]
    OK     I3a (r1 IA-02) a bounds line missing its decisions: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 3' is outside I2"]]
    OK     I3a (r1 IA-02) a bounds line with a non-numeric value: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds three, decisions 5' is outside I2"]]
    OK     I3a (r1 IA-02) a bounds line with a negative value: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 3, decisions -1' is outside I2"]]
+   OK     I3a (r2 IA-09) a malformed bounds line and swapped refs: both listed: input-defect [["record-fix", "the Control Plan read is not the file the entry's control_plan_ref names"], ["record-fix", "the M-BOM read is not the file the entry's mbom_ref names"], ["record-fix", "the delivery's
+   OK     I3a (r2 IA-09) the same, the bounds reason also listed: input-defect [["record-fix", "the Control Plan read is not the file the entry's control_plan_ref names"], ["record-fix", "the M-BOM read is not the file the entry's mbom_ref names"], ["record-fix", "the delivery's
+   OK     I3a (r2 IA-10) a bounds line at the top of the domain (999, 999): advances {}
+   OK     I3a (r2 IA-10) a bounds line just past it (1000): input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 1000, decisions 5' is outside I2"]]
+   OK     I3a (r2 IA-10) a bounds line of 5,000 digits: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
    OK     I3a (r1 IA-02) two bounds lines: input-defect [["work-order-fix", "the work order has 2 bounds lines"]]
-   OK     I3a work order with two frozen-revision lines: input-defect [["work-order-fix", "the frozen revision None cannot be resolved to a commit"], ["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
+   OK     I3a work order with two frozen-revision lines: input-defect [["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
    OK     I3a frozen revision given as a tag git cannot resolve: input-defect [["work-order-fix", "the frozen revision 'v1.2' cannot be resolved to a commit"]]
    OK     I3a (v2) frozen revision given as a tag that resolves to frozen_commit, in backticks: advances {}
    OK     I3a (v2) git unavailable, with a row approver outside I2: both listed (round 2 L4E2-3): input-defect [["control-plan-fix", "row CP-A approver 'maintainer' outside I2"], ["record-fix", "git is not available to the decision (L8); the git-dependent checks were not made"]]

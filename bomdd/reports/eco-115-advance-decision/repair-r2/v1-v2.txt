@@ -1,0 +1,121 @@
+PASS V1 4.4 has the item ëOêiÇÃîªíË
+PASS V1 I0 stated once in the item
+PASS V1 I1 stated once in the item
+PASS V1 I2 stated once in the item
+PASS V1 I3a stated once in the item
+PASS V1 I3b stated once in the item
+PASS V1 I4 stated once in the item
+PASS V1 D0 stated once in the item
+PASS V1 D1 stated once in the item
+PASS V1 D2 stated once in the item
+PASS V1 D3 stated once in the item
+PASS V1 D4 stated once in the item
+PASS V1 D5 stated once in the item
+PASS V1 I0: 6 clauses in its segment
+PASS V1 I1: 27 clauses in its segment
+PASS V1 I2: 9 clauses in its segment
+PASS V1 I3a: 24 clauses in its segment
+PASS V1 I3b: 10 clauses in its segment
+PASS V1 I4: 10 clauses in its segment
+PASS V1 D0: 12 clauses in its segment
+PASS V1 D1: 12 clauses in its segment
+PASS V1 D2: 13 clauses in its segment
+PASS V1 D3: 9 clauses in its segment
+PASS V1 D4: 9 clauses in its segment
+PASS V1 D5: 54 clauses in its segment
+PASS V1 limits: 14 clauses in its segment
+PASS V1 the item states I2's `automated` | `human:<role>` | `automated+human:<role>`
+PASS V1 the item states I2's `product-fix`
+PASS V1 the item states I2's `instrument-recovery`
+PASS V1 the item states I2's `control-plan-fix`
+PASS V1 the item states I2's `retired`
+PASS V1 the item states I2's `row_key`
+PASS V1 the item states I2's `outcomes`
+PASS V1 the item states I2's `identity`
+PASS V1 the item states I2's `passed`
+PASS V1 the item states I2's `failed`
+PASS V1 the item states I2's `skipped`
+PASS V1 the item states I2's `not-run`
+PASS V1 the item states I2's `<path>@<40-hex commit>`
+PASS V1 the item states I2's `{commit, tree}`
+PASS V1 section 1 carries one line naming it
+PASS V1 6.1 carries one line naming it
+PASS V1 the on_fail sentence names the item
+PASS V1 the on_fail sentence lists no value outside I2
+PASS V1 33-control-plan.yaml check_mapping carries a comment naming the item
+PASS V1 33-control-plan.yaml when carries a comment naming the item
+PASS V1 33-control-plan.yaml on_fail carries a comment naming the item
+PASS V1 33-control-plan.yaml status carries a comment naming the item
+PASS V1 33-control-plan.yaml approver carries a comment naming the item
+PASS V1 50-as-built.yaml work_ref carries a comment naming the item
+PASS V1 50-as-built.yaml frozen_commit carries a comment naming the item
+PASS V1 50-as-built.yaml work_order_ref carries a comment naming the item
+PASS V1 50-as-built.yaml mbom_ref carries a comment naming the item
+PASS V1 50-as-built.yaml control_plan_ref carries a comment naming the item
+PASS V1 50-as-built.yaml delivered carries a comment naming the item
+PASS V1 50-as-built.yaml routes_done carries a comment naming the item
+PASS V1 50-as-built.yaml row_changes carries a comment naming the item
+PASS V1 50-as-built.yaml source carries a comment naming the item
+PASS V1 50-as-built.yaml format carries a comment naming the item
+PASS V1 50-as-built.yaml evidence_sha256 carries a comment naming the item
+PASS V1 50-as-built.yaml result carries a comment naming the item
+PASS V1 50-as-built.yaml advance_decision carries a comment naming the item
+PASS V1 50-as-built.yaml sequence carries a comment naming the item
+PASS V1 40-work-order.md frozen-revision line has its comment on the next line
+PASS V1 40-work-order.md frozen-revision line holds no inline comment
+PASS V1 40-work-order.md has the bounds line
+PASS V1 33-control-plan.yaml comment states automated | human:<role> | automated+human:<role>
+PASS V1 33-control-plan.yaml comment states product-fix
+PASS V1 33-control-plan.yaml comment states instrument-recovery
+PASS V1 33-control-plan.yaml comment states control-plan-fix
+PASS V1 33-control-plan.yaml comment states retired
+PASS V1 33-control-plan.yaml comment states passed
+PASS V1 33-control-plan.yaml comment states failed
+PASS V1 33-control-plan.yaml comment states skipped
+PASS V1 33-control-plan.yaml comment states not-run
+PASS V1 33 drops human-approval as an on_fail value
+PASS V1 50-as-built.yaml comment states <path>@<40-hex commit>
+PASS V1 50-as-built.yaml comment states {commit, tree}
+PASS V2 the templates parse
+PASS V2 33 has control_plan.check_mapping
+PASS V2 33 has control_plan.check_mapping.line.row_key
+PASS V2 33 has control_plan.check_mapping.line.outcomes
+PASS V2 33 has control_plan.check_mapping.line.identity
+PASS V2 33 has control_plan.characteristics.id
+PASS V2 33 has control_plan.characteristics.approver
+PASS V2 33 has control_plan.characteristics.on_fail.red
+PASS V2 33 has control_plan.characteristics.on_fail.unmeasurable
+PASS V2 33 has control_plan.characteristics.status
+PASS V2 32 has mbom.manufacturing_units.acceptance_refs
+PASS V2 32 has mbom.assembly.acceptance_refs
+PASS V2 32 has mbom.assembly.assembly_reason
+PASS V2 50 has as_built.work_ref
+PASS V2 50 has as_built.frozen_commit
+PASS V2 50 has as_built.work_order_ref
+PASS V2 50 has as_built.mbom_ref
+PASS V2 50 has as_built.control_plan_ref
+PASS V2 50 has as_built.delivered.commit
+PASS V2 50 has as_built.delivered.tree
+PASS V2 50 has as_built.routes_done
+PASS V2 50 has as_built.row_changes
+PASS V2 50 has as_built.test_evidence_refs.source
+PASS V2 50 has as_built.test_evidence_refs.cp_ref
+PASS V2 50 has as_built.test_evidence_refs.evidence_path
+PASS V2 50 has as_built.test_evidence_refs.evidence_sha256
+PASS V2 50 has as_built.test_evidence_refs.format
+PASS V2 50 has as_built.test_evidence_refs.observed_at
+PASS V2 50 has as_built.test_evidence_refs.result
+PASS V2 50 has as_built.advance_decision.result
+PASS V2 50 has as_built.advance_decision.rows
+PASS V2 50 has as_built.advance_decision.not_decided
+PASS V2 50 has as_built.advance_decision.sequence.convergence
+PASS V2 50 has as_built.advance_decision.sequence.control
+PASS V2 run_rehearsal_v2.py re-run equals rehearsal-v2.txt
+PASS V2 rehearsal-v2.txt records no missed case
+PASS V2 run_moviepad.py re-run equals rehearsal-moviepad.txt
+PASS V2 rehearsal-moviepad.txt records no missed case
+PASS V2 run_moviepad_d2.py re-run equals rehearsal-moviepad-d2.txt
+PASS V2 rehearsal-moviepad-d2.txt records no missed case
+PASS V2 rehearse_sequence.py re-run equals rehearsal-sequence.txt
+PASS V2 rehearsal-sequence.txt records no missed case
+V1/V2: PASS (120/120)

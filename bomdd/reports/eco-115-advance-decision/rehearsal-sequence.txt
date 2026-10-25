@@ -91,4 +91,5 @@ OK  R2 MoviePad-Remake 1 -> 2, migrated (decision 1 on M1b's ASSUMED stamp; deci
 OK  Z1 the first issue's bounds line malformed (holds 0): its decision is an input defect, the defaults apply: convergence bound-reached (expected bound-reached); control signals ['C4'] (expected signals ['C4']); candidate False (expected False); holds that measured rows 3, decisions 4 — the holds default (3) is reached; a malformed line raises no bound (expectation corrected after the first run: the input defect and the next hold's unmeasurable row are both the process's own parts, which is C4 by the rule)
       C4 at decision 2: unmeasurable
 OK  Z2 the same holds under a well-formed first line of 5 and 9: convergence open (expected open); control in-control [] (expected in-control []); candidate False (expected False); holds that measured rows 3, decisions 3 — the first issue's line is read: three holds are below its bound of 5
-arms: 42; as expected: 42
+OK  Z3 a first line of 5,000 digits: outside I2, the defaults apply: convergence bound-reached (expected bound-reached); control in-control [] (expected in-control []); candidate False (expected False); holds that measured rows 3, decisions 3 — inspection r2 IA-10: the domain is 1 to 999, so no valid line fails to evaluate
+arms: 43; as expected: 43
