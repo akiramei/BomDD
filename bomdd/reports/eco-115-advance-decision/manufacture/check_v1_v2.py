@@ -10,6 +10,7 @@ V2: (a) every field the rehearsal scripts read is in the manufactured templates 
 real records at their fixed commits and on the synthetic cases give the stored outputs byte for byte.
 Prints one line per check and a summary; exit 0 only when every check passes.
 """
+import json
 import re
 import subprocess
 import sys
@@ -190,6 +191,92 @@ for v in ["automated | human:<role> | automated+human:<role>", "product-fix", "i
 check("V1 33 drops human-approval as an on_fail value", "human-approval" not in cp_text)
 for v in ["<path>@<40-hex commit>", "{commit, tree}"]:
     check(f"V1 50-as-built.yaml comment states {v}", any(v in l.split("#", 1)[1] for l in ab_text.splitlines() if "#" in l))
+
+
+# ---- V1 (inspection r5 IA-15): I2's closed values are read from the playbook's I2 and every copy (the order's section 1, the template
+# comments and the template's on_fail keys) must hold exactly that set — an added or a removed value fails. Mutations of the copies show it.
+def ticks(seg):
+    return set(re.findall(r"`([^`]+)`", seg or ""))
+
+
+def grab(pattern, text):
+    m = re.search(pattern, text, re.S)
+    return m.groups() if m else None
+
+
+def i2_sets_book(text):
+    j = re.sub(r"\n\s*", "", text)
+    on = grab(r"- `on_fail`: 無いか、キーが (.*?) のどれかで、値が (.*?) のどれかの対応表", j) or ("", "")
+    return {"approver": ticks((grab(r"- `approver`: (.*?)。", j) or [""])[0]), "on_fail keys": ticks(on[0]), "on_fail values": ticks(on[1]),
+            "status": ticks((grab(r"- `status`: 無いか (.*?)。", j) or [""])[0]),
+            "outcomes": ticks((grab(r"`outcomes` は形式の結果語のそれぞれを(.*?)のどれかへ", j) or [""])[0])}
+
+
+def i2_sets_order(text):
+    j = re.sub(r"\n\s*", " ", text)
+    on = grab(r"- `on_fail`: absent, or a map whose keys are among (.*?) and whose values are among (.*?)\.", j) or ("", "")
+    return {"approver": ticks((grab(r"- `approver`: (.*?)\. ", j) or [""])[0]), "on_fail keys": ticks(on[0]), "on_fail values": ticks(on[1]),
+            "status": ticks((grab(r"- `status`: absent or (.*?)\. ", j) or [""])[0]),
+            "outcomes": ticks((grab(r"maps each of the format's outcome terms to one of (.*?), and `identity`", j) or [""])[0])}
+
+
+def i2_sets_template(text):
+    lines = text.splitlines()
+
+    def comment_of(prefix):
+        line = next((l for l in lines if l.lstrip().startswith(prefix)), "")
+        return line.split("#", 1)[1] if "#" in line else ""
+    appr = (grab(r"I2\): (.*?)\(", comment_of("approver: automated")) or [""])[0]
+    vals = next((l for l in lines if "値は " in l and "#" in l), "")
+    stat = (grab(r"I2\): (.*?)。", comment_of("status:")) or [""])[0]
+    outc = (grab(r"それぞれ (.*?) のどれかへ", comment_of("outcomes:")) or [""])[0]
+    try:
+        keys = set((yaml.safe_load(text)["control_plan"]["characteristics"][0].get("on_fail") or {}).keys())
+    except (yaml.YAMLError, KeyError, TypeError, IndexError):
+        keys = set()
+    return {"approver": {v.strip() for v in appr.split("|") if v.strip()}, "on_fail keys": keys,
+            "on_fail values": set(re.findall(r"([a-z][a-z-]+)\(", vals.split("値は", 1)[-1])),
+            "status": set(re.findall(r"[a-z][a-z-]+", stat)), "outcomes": {v.strip() for v in outc.split("|") if v.strip()}}
+
+
+def i2_copies_ok(book_text, order_text, template_text):
+    canon = i2_sets_book(book_text)
+    out = []
+    for where, sets in (("the order's section 1", i2_sets_order(order_text)), ("33-control-plan.yaml", i2_sets_template(template_text))):
+        for k, v in canon.items():
+            out.append((f"{where} {k}", bool(v) and sets.get(k) == v, f"{sorted(sets.get(k, []))} vs the playbook's {sorted(v)}"))
+    return out
+
+
+book_item = "\n".join(item)
+order_raw = read("bomdd/60-change-order-eco-115.md")
+canon_sets = i2_sets_book(book_item)
+check("V1 the playbook's I2 yields every closed vocabulary", all(canon_sets.values()), json.dumps({k: sorted(v) for k, v in canon_sets.items()},
+                                                                                                  ensure_ascii=False))
+for label, ok, detail in i2_copies_ok(book_item, order_raw, cp_text):
+    check(f"V1 I2 copy: {label} equals the playbook's set", ok, detail)
+MUTATIONS = [  # (where, old, new): each must make at least one copy check fail
+    ("template", "automated | human:<role> | automated+human:<role>(", "automated | human:<role> | automated+human:<role> | maintainer("),
+    ("template", "automated | human:<role> | automated+human:<role>(", "automated | human:<role>("),
+    ("template", "| control-plan-fix(Control Plan の修正)", "| control-plan-fix(Control Plan の修正)| human-approval(人の承認)"),
+    ("template", "| control-plan-fix(Control Plan の修正)", ""),
+    ("template", "無い(~)か retired。", "無い(~)か retired か draft。"),
+    ("template", "passed | failed | skipped | not-run のどれかへ", "passed | failed | skipped のどれかへ"),
+    ("template", "passed | failed | skipped | not-run のどれかへ", "passed | failed | skipped | not-run | error のどれかへ"),
+    ("template", "        red: product-fix", "        red: product-fix\n        rerun: product-fix"),
+    ("order", "- `approver`: `automated` | `human:<role>` | `automated+human:<role>`.",
+     "- `approver`: `automated` | `human:<role>` | `automated+human:<role>` | `maintainer`."),
+    ("order", "- `status`: absent or `retired`.", "- `status`: absent or `retired` or `draft`."),
+]
+for where, old, new in MUTATIONS:
+    t, o = cp_text, order_raw
+    found = (t if where == "template" else o).count(old) == 1
+    if where == "template":
+        t = t.replace(old, new, 1)
+    else:
+        o = o.replace(old, new, 1)
+    caught = found and not all(ok for _, ok, _ in i2_copies_ok(book_item, o, t))
+    check(f"V1 mutation of the {where} caught: {new.strip()[:60]!r}", caught, "the text to mutate was not found" if not found else "not caught")
 
 
 # ---- V2 (a): the fields the rehearsals read, by key path in the parsed templates

@@ -39,6 +39,7 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `repair-r4/` | the common cause removed (one canonical sentence for the bounds line, its copies checked) and the repairs after inspection r4; the self-verifying red-first runner (its README) | — |
 | `inspection-brief-r5.md` | the committed copy of independent inspection r5's brief (EQ-002, range 是正確認+回帰) | `fcd029fb04083e445d6d6c14819f3769ea1555fcdf2e7b2bba4a5f11cac1d241` |
 | `inspection-r5.md` | inspection r5's report: REJECT IA-14, IA-15, at the extended bound | `11a28f347bc87177a5aca81dfc44af5fb8d017b523c5a66540039933c2952e65` |
+| `repair-r5/` | the repairs after inspection r5: I2's closed values read from the playbook and every copy compared as a set (with mutations), and the red-first runner's exact misses, staged identity and negative set-ups (its README) | — |
 
 Commands (from this folder):
 

@@ -655,6 +655,26 @@ signature. The rehearsals' outputs unchanged (the driver change adds no line whe
   at the first decision, not a wrong decision; in the evidence, a red-first control that cannot tell the staged revision (IA-14). D0-D5's
   rules are not in question.
 
+## 14. Ruling and the repairs after inspection r5 (2026-10-26)
+
+**Ruling (user "A", 2026-10-26): repair IA-14 and IA-15, then one more round with its range narrowed** to their resolution and the regression of
+the whole — no open search for new classes (options presented: A this; B cut-off adoption with the inspection gate passed by exception; C hold).
+**The extended bound is r6:** if r6 is not ACCEPT, the ECO returns to §13's pending human disposition.
+
+**What changed** (evidence: `bomdd/reports/eco-115-advance-decision/repair-r5/`):
+- IA-15 — V1 reads I2's closed values (`approver`, `on_fail` keys and values, `status`, `outcomes`) from the playbook's I2 sentences and requires
+  the order's §1 and the template (its comments and its first row's `on_fail` keys) to hold exactly those sets; ten mutations of the copies (a value
+  added or removed in each vocabulary) are each caught. The inspector's probe repeated on a scratch copy (`| maintainer` added to the template's
+  approver comment): `460dc6b`'s check passes 123/123, the repaired one fails on that set. No text changed: the copies were already equal, so the
+  check on `460dc6b`'s tree passes too, and the mutations and the probe are the discriminating evidence.
+- IA-14 — `repair-r4/redfirst_all.py`: each decision control declares the exact set of arms its revision's code misses (its own finding's arms and
+  those added for every later finding) and requires equality; it checks with git's object ids that the staged rehearsals are that revision's blobs
+  and the driver the current tree's; it requires an empty stderr. The C5 and domain controls check identity before their mutation. The inspector's
+  probe (`35961c3` staged for the r2 control) and a C5 set-up without the shared parser are kept as negative checks: both refused.
+
+**Measured:** V1/V2 PASS 144/144. Red-first runner: 5 of 5 controls show their own failure, 2 of 2 wrong set-ups refused. The rehearsals' outputs
+unchanged.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (after the split from ECO-114)
