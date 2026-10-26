@@ -34,6 +34,8 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `inspection-brief-r3.md` | the committed copy of independent inspection r3's brief (EQ-002, range 是正確認+回帰; the stored brief has the same sha256) | `61b3d8617ee7cc564803c00400aee46ac5a4987057b521aac59b13139ff83f5d` |
 | `inspection-r3.md` | inspection r3's report as the harness saved it: REJECT IA-11, at the review loop's bound | `86bc522e37c64c3ec24c47e353e4938b11d860daed6f14b3269188ec621eccdc` |
 | `repair-r3/` | the repair after inspection r3 under the user's "A": red-first run, the control on the tree of r2's repairs, V1/V2 (its README) | — |
+| `inspection-brief-r4.md` | the committed copy of independent inspection r4's brief (EQ-002, range 是正確認+回帰; the extension round) | `88bc75f933064ee4f433b64a25027d79f272e611c885ade97552bc520d3cd2f1` |
+| `inspection-r4.md` | inspection r4's report: REJECT IA-12, IA-13, at the extended bound | `b7f01551303e3cf045bbe69abdb56685f1a4c958e9d0b8f8a1846ac1c062b7e6` |
 
 Commands (from this folder):
 

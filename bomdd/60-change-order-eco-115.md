@@ -586,6 +586,29 @@ ACCEPT, the ECO returns to §13's pending human disposition.
 two rehearsals exits 1 — the no-break-space and ideographic-space arms MISSED and the agreement check false (the inspector's finding). The rehearsals
 re-run: synthetic cases all as expected, D4 written, I3a and D5 agree on all 84 lines; D5 45/45; the MoviePad-Remake outputs unchanged.
 
+## 11. Independent inspection r4 (2026-10-26, EQ-002, range 是正確認+回帰) — REJECT IA-12, IA-13; the extended bound reached
+
+- **Launched through the operator entry** on `11982a4` (CI 40249032068 success; witness tree `5fe75a6f3fc4`, gate self-conformance). Brief
+  `88bc75f93306…` (stored; committed copy `bomdd/reports/eco-115-advance-decision/inspection-brief-r4.md`); report `inspection-r4.md`
+  (`b7f01551303e…`); the ledger's cell record binds it.
+- **Resolved:** IA-11 — `parse_bounds` is shared; the inspector's probe found all 998,001 valid pairs, five ASCII space/tab endings, 28 other Unicode
+  whitespace characters, six other trailing characters and seven invalid value forms read alike by I3a and D5; the red-first output reproduced
+  byte for byte. IA-01 to IA-09 still resolved; IA-10 closed in the rehearsals. Regression: the paths allowed, the four rehearsals byte-identical, the
+  real-data results unchanged, V1/V2 120/120 with its control 119/120; all 41 README sha256 values match.
+- **IA-12 — blocking — the work order template does not state "without leading zeros"** (§1 and the playbook do; the rehearsals refuse `04`), and
+  V1 checks the template only for the bounds line's presence, so it passed.
+- **IA-13 — blocking — r3's repair broke the r1 and r2 red-first procedures.** `repair-r1/redfirst_c5.py` now needs `rehearse_decision_v2.py` beside its
+  scratch copy (the shared parser) and, as documented, exits 1 for that reason, which the helper does not tell from the expected failure;
+  `repair-r2/redfirst_domain.py` stops on its own assertion because the pattern moved into the shared parser. Staged correctly, both controls still
+  show the intended failures.
+
+**Pending human disposition (§13; the bound extended to r4 by the user's "A", §10).** The ECO stops here, `implemented`.
+- Round trajectory (new blocking findings per round): r1 6 (+1 non-blocking), r2 2 (+1), r3 1, r4 2 — not converging monotonically. Three of r2-r4's
+  findings came from the same place: the bounds line's rule is written in five places (§1, the playbook, the template, two scripts) and each repair
+  left one of them behind; one (IA-13) is the repair evidence itself going stale when a later repair moved code it patched.
+- Evidence owed: IA-12's and IA-13's repairs and a review; the inspection gate has no ACCEPT.
+- Technical risk: unchanged from §9 — the optional bounds line of D5 (IA-12) and the repair evidence (IA-13); nothing in D0-D4 or in the rest of D5.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (after the split from ECO-114)
