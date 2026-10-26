@@ -3648,3 +3648,37 @@ changes:
       section.
     producer: EQ-004
     inspector: EQ-002
+  - id: ECO-116
+    title: distribution of ECO-115 to the existing products - each product's receiving side decides from the records alone whether a delivered individual enters Phase 5 (filed only; the manufacture ruling decides products, order and the per-product human items; TimetableAdv deferred; adopted by the user's cut-off ruling, the design unconverged under the converge rule)
+    date: 2026-10-26
+    origin: improvement
+    status: filed   # 2026-10-26 the user's "ECO-115 の配布 ECO を起票して" after ECO-115 verified (ef1506a) -> loop 1 23->6->2 (material 11->1->0) unconverged -> user "A" cut-off adoption with round 3's two minor findings repaired -> filing; manufacture waits for the ruling on products, order and section 1 B's human items
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      ECO-115 changed the method's text and templates only; a product decides by it only after its BOM, records and procedure are within the
+      decision's inputs (ECO-115 L5). Measured at filing (survey.py): ViewPrism2 504921a 26 I3a/I2 defects (approver outside I2 on 17 named rows,
+      6 units without acceptance_refs, no check_mapping, no mbom.assembly, a dependency-update on_fail key), ViewTube a6314a87 11 (approver on 9
+      rows, no check_mapping, no mbom.assembly), MoviePad-Remake b2e19a0 0 (the pilot check_mapping). Neither ViewPrism2 nor ViewTube has a
+      valued frozen-revision line or the As-Built decision fields.
+    order_ref: bomdd/60-change-order-eco-116.md
+    affected_refs: [bomdd/60-change-order-eco-116.md, method/improvements.md, bomdd/reports/eco-116-advance-decision-distribution/, bomdd/reports/exp-20261024-01/]
+    no_impact_prediction: "(before manufacture; frozen) BomDD: this order, the register, bomdd/reports/eco-116-*/ and a note on EXP-20261013-01 at filing; at closure the closure record, a survey re-run, an improvements.md line and MoviePad-Remake's bundle remade in bomdd/reports/exp-20261024-01/ when its ECO adds cited commits. Products: per product, its Control Plan and M-BOM, the instruments that stamp evidence, its As-Built and work orders, its routing or change-management, its generators where they write the BOM (ViewTube), its vendored kit where the human so rules (MoviePad-Remake), its own ECO records. Untouched: product code and tests apart from the stamp, fixed oracles, CAD, hooks, ViewTube's validators (the gate freeze) without the user's exception, ViewTube's untracked product/, TimetableAdv."
+    diff_audit:
+      baseline: "ef1506a"  # HEAD before this filing (ECO-115's acceptance)
+      allowed_paths: [bomdd/60-change-order-eco-116.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/eco-116-advance-decision-distribution/, bomdd/reports/exp-20261024-01/]   # the last: MoviePad-Remake's bundle, remade when its ECO adds cited commits
+    required_gates: [V1, V2, V3]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      Per target product, one product-side ECO carrying ECO-115's obligations (A): the BOM within every I2/I3a check under L5's two migration rules;
+      instruments stamping the measured unit; the As-Built entries (entry-list form) with the decision fields and D5's ledger, and the work order's
+      frozen-revision and bounds lines; the freeze preceding the delivery, so an ECO's own BOM changes come at or before the frozen revision; the
+      receiving step before golden in a context apart from the manufacturing one; D5's stop default reconciled with the product's limit default.
+      Points known per product (B) with who decides: the AI records ViewPrism2's As-Built move and work-order home, ViewTube's generator and
+      non-release work-order home, MoviePad-Remake's receiving order; the human rules ViewPrism2's enforcement (against ECO-143 ruling A) and the
+      known-defect acceptance against D's hold, ViewTube's running of D under its rules 11-13, its enforcement under the gate freeze and its
+      known-defect acceptance, and MoviePad-Remake's vendored kit (re-lock or exception).
+    verification: >
+      Gated: V1 survey.py on each target product after its ECO (--work-order naming its home): 0 I3a/I2 defects and a valued frozen-revision line /
+      V2 product gates and CI per product commit; BomDD self-conformance and CI / V3 each product ECO records A1-A6 and the human's rulings on its B
+      items, attacked by the product's own independent review. Not a closing condition: V4 the next delivery decided through the receiving step,
+      its As-Built entry carrying A3's fields. Conditions are frozen at filing; results go to the closing section.
+    producer: EQ-004
