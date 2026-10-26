@@ -42,6 +42,7 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `repair-r5/` | the repairs after inspection r5: I2's closed values read from the playbook and every copy compared as a set (with mutations), and the red-first runner's exact misses, staged identity and negative set-ups (its README) | — |
 | `inspection-brief-r6.md` | the committed copy of independent inspection r6's brief (EQ-002, range 是正確認+回帰 narrowed by the user's "A") | `b9ef98ce77c1a5686342f334ab5a92f57efb789dfadbb33541617548dfadab5c` |
 | `inspection-r6.md` | inspection r6's report: ACCEPT, findings none | `d4f45ca9b0b13520a50b253d430f64c8bbd189e24a9873c323c1c8ac82f05f49` |
+| `closure/` | the closure at verified: the diff window and its control, V1/V2 and the red-first runner on the closure tree (its README) | — |
 
 Commands (from this folder):
 

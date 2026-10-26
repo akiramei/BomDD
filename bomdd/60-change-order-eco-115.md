@@ -38,6 +38,7 @@
 
 - Filing and design: requested/resolved `claude-opus-5-5`, Claude Code (Claude Agent SDK), provenance **self-reported**.
 - producer: EQ-004
+- inspector: EQ-002
 - Converge round reviewer: a fresh context of the same model (context independence), read-only, resumed each round.
 - Independent inspection: EQ-002 (Codex), because the change redefines what the method's acceptance decides (precedent: ECO-098).
 
@@ -689,6 +690,83 @@ unchanged.
 - **The review loop, in full:** r1 REJECT 7 → r2 REJECT 3 → r3 REJECT 1 (bound r3) → r4 REJECT 2 (extended, "A") → r5 REJECT 2 (common cause removed,
   "A") → r6 ACCEPT (narrowed range, "A"). 15 findings, all resolved. The ECO stays `implemented`; closure (V4 and the promotion to verified) is the
   next step.
+
+## 16. クローズ (closure, 2026-10-26, verified; the user's "ECO-115 をクローズして")
+
+The acceptance commit after `ebd15c9` holds records only (this section, the register entry, the equipment line, the closure evidence). Results by
+acceptance item:
+
+- **V1 — PASS (the text).** `manufacture/check_v1_v2.py` on the closure tree (`closure/v1-v2.txt`): the item with each rule label once, 210 clauses
+  each in its own rule's segment, I2's values, the bounds sentence read from the playbook and carried verbatim by the template and §1, I2's closed
+  values read from the playbook and every copy equal as a set (ten mutations caught), the one-line references, every M1 template field with its
+  comment. Meaning against §1 was read by the inspector (r1-r6); the clause check measures presence.
+- **V2 — PASS (the decision reads only its inputs).** Every field the rehearsals read is in the parsed templates; `run_rehearsal_v2.py`,
+  `run_moviepad.py`, `run_moviepad_d2.py` and `rehearse_sequence.py` re-run byte-identical to their stored outputs and exit 0 (synthetic cases all
+  as expected, D4 written, I3a and D5 agreeing on 84 lines, D5 45/45); real-data results as §6 lists. The red-first runner shows 5 of 5 signatures
+  and refuses 2 of 2 wrong set-ups.
+- **V3 — PASS (the gate `inspection`).** EQ-002: r1 境界探索 REJECT 7 (§5) → r2 REJECT 3 (§7) → r3 REJECT 1, the bound (§9) → r4 REJECT 2, the
+  extended bound (§11) → r5 REJECT 2 (§13) → r6 是正確認+回帰 **ACCEPT** (§15), read as the gate `inspection` from the ledger's last cell record.
+- **V4 — PASS:** self-conformance exit 0 before each commit (the pre-push witness admits a push only after a PASS); CI success on the tip of every
+  push: `db16fa3` 40236489088, `35961c3` 40240197701, `2aa2d7d` 40242350576, `7eddaba` 40243941288, `185a9d5` 40245203051, `11982a4` 40249032068,
+  `b5f517e` 40250336373, `460dc6b` 40264495144, `50ce8d4` 40265886924, `47b4df7` 40267189861, `ebd15c9` 40268642394. This commit's run is observed
+  after push.
+- **The diff window** (`closure/diff-window.md`): `37e0fd9..ebd15c9` PASS — 11 commits, all ECO-115's, every path inside the register's
+  `allowed_paths`; no exception ruling (no other change in the window). Positive control (`closure/control-drop-40-work-order.md`, one allowed path
+  dropped): FAIL, on the three commits that changed it. A defect of the window script found before its output: it stopped on the console encoding
+  (cp932) and exited 1 for that reason, so the first PASS and FAIL were both unmeasured; it now writes UTF-8.
+- **The promotion decision** (bomdd-run under ECO-112's G3, dry, on the tree of this closure): recorded in the closing commit's message (the decision
+  needs the records written first). The equipment line `inspector: EQ-002` was added with this closure, as ECO-114's was.
+- **The `{sha256, path}` pairs of ECO-115's stored briefs (ECO-112 B4):**
+  - `59530f9585a205db2534c1a385b081cf91360b37b5a6e276c09f5df2542c8dd6` — `bomdd/reports/eco-115-advance-decision/inspection-brief-r1.md` (r1)
+  - `28baf7e52a77a4f8ef4c5051205552acde13a1938d2138cfb852589532b26410` — `bomdd/reports/eco-115-advance-decision/inspection-brief-r2.md` (r2)
+  - `61b3d8617ee7cc564803c00400aee46ac5a4987057b521aac59b13139ff83f5d` — `bomdd/reports/eco-115-advance-decision/inspection-brief-r3.md` (r3)
+  - `88bc75f933064ee4f433b64a25027d79f272e611c885ade97552bc520d3cd2f1` — `bomdd/reports/eco-115-advance-decision/inspection-brief-r4.md` (r4)
+  - `fcd029fb04083e445d6d6c14819f3769ea1555fcdf2e7b2bba4a5f11cac1d241` — `bomdd/reports/eco-115-advance-decision/inspection-brief-r5.md` (r5)
+  - `b9ef98ce77c1a5686342f334ab5a92f57efb789dfadbb33541617548dfadab5c` — `bomdd/reports/eco-115-advance-decision/inspection-brief-r6.md` (r6)
+- **Declared limits that stay:** L1-L9 as in §1; the design was adopted unconverged by the user's cut-off rulings (receipt, loops 1-6); the review
+  loop needed three extensions (§10, §12, §14) and its last round was narrowed to two findings and regression (§15). Not done here and recorded
+  elsewhere: distribution to the products (a separate ECO); D5's bounds and stop default on real works (EXP-20261026-03); MoviePad-Remake's two
+  build/self-test rows getting inspect.py checks before delivery 3 (`results-delivery-2.md`, repair note).
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer)
+
+- **The claim (one sentence).** The method now states an advance decision — the receiving side measures the delivered individual per Control Plan
+  row and decides from the records alone whether it enters Phase 5, and reads a work's decisions over time apart from the process's control — and
+  the evidence shows the text and templates say so and the rules can be applied as written to real and synthetic records.
+- **査定した主張と判定** (claims assessed; measurement × evidence):
+  - "The text states I0-I4 and D0-D5 once, the copies match": **observed / conditionally eligible** — the clause, sentence and set checks with
+    mutations and controls; that the Japanese says what §1 says rests on six inspection readings, not on the instrument.
+  - "The rules apply as written": **observed / eligible** for the inputs rehearsed — ViewPrism2's real BOM and stored results, MoviePad-Remake's two
+    deliveries, the synthetic cases and D5's 45 arms; each repaired arm fails against the code it replaced (the red-first runner, staged identity).
+  - "A product deciding by these rules gets the right result in use": **unknown — not run** (no product carries the templates' fields yet; the
+    distribution is a separate ECO; MoviePad-Remake's Control Plan carries `check_mapping` as a pilot, first effect at delivery 3).
+  - "D5's bounds (3, 5) fit real works": **unknown — not measured** (design-loop values; EXP-20261026-03).
+- **検出した計器欠陥と帰属** (instrument defects found), all in this ECO's own evidence: the V1 check counted a second bold "D5" and matched the wrong
+  `result` (before the manufacture commit); the rehearsals did not bind decided bytes to refs, ignored C5's recorded cause, did not write D4's result,
+  exited 0 on a miss (r1 IA-04 to IA-07); the bounds check short-circuited the other I3a checks (r2 IA-09, introduced by r1's repair); the two
+  rehearsals read the line's end differently (r3 IA-11); the red-first helpers broke when a later repair moved code, and then accepted a wrong
+  set-up (r4 IA-13, r5 IA-14); V1 checked substrings, not sets (r5 IA-15); the diff-window script stopped on cp932 (closure). Attribution: the
+  producer's instruments; every one after the manufacture was found by the independent inspection, after the producer's checks had passed.
+- **宣言した検出力の限界:** the English §1 and the Japanese text are compared by presence and by sets, not by meaning; the rehearsals cover two
+  products' records and synthetic cases; r6's range was narrowed by the ruling, so new defect classes after r5 were not searched; the stamp a
+  product's instrument writes is not proven true (L3); no product has run the decision.
+- **Battery, row by row:**
+  - **Q1 asked.** Each checker's docstring and README against its code (r1-r5 found overclaims; repaired).
+  - **Q2 asked.** Known-good / known-bad in pairs: the filing and each repair tree as controls; the mutations; the rehearsals' known-bad arms; the
+    red-first runner's controls and its two wrong set-ups; the diff window's control.
+  - **Q3 asked.** Each rule's clauses checked in its own segment; each I2 vocabulary added to and removed from in each copy.
+  - **Q4 asked.** The rehearsals read the products' real records at fixed commits; migrated copies stand in only for the fields the method adds.
+  - **Q5 asked.** A missing reader, an unparsable template, a crash: each a FAIL or "not measurable", not a pass (the drivers' exit codes, the
+    agreement check, the encoding of the window script).
+  - **Q6 asked.** Each commit after self-conformance exit 0; each inspection after CI success; each report read before its record.
+  - **Q7 asked.** Positive controls for V1/V2 (each repair tree), the red-first runner (its negatives) and the diff window.
+  - **Q8 NA.** This ECO adds no preventive gate (the decision is applied by the receiving AI; mechanical enforcement is decided at distribution).
+  - **Q9 asked.** README sha256 against the committed bytes (r6 checked 54); the red-first runner proves the staged revisions by object id.
+  - **Q10 asked.** The limits above and L1-L9.
+  - **Q11 asked.** Real records, migrated copies and synthetic cases measured and reported as separate classes; the bounds line's ends measured as
+    twelve classes.
+- **What this closure does not support:** a product effect (distribution is a separate ECO); that the bounds fit real works; that the rules suit
+  products beyond the two measured.
 
 ## 収束 receipt (converge self-application)
 
