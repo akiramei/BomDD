@@ -633,6 +633,28 @@ measurable" instead of crashing against an older rehearsal. One defect of the ru
 **Measured:** V1/V2 PASS 123/123; on the tree of r3's repair it fails 121/123 (the two copies). Red-first runner: 5 of 5 controls show their own
 signature. The rehearsals' outputs unchanged (the driver change adds no line when the reader is present).
 
+## 13. Independent inspection r5 (2026-10-26, EQ-002, range 是正確認+回帰) — REJECT IA-14, IA-15; the extended bound reached
+
+- **Launched through the operator entry** on `460dc6b` (CI 40264495144 success; witness tree `497c26ec61d7`, gate self-conformance). Brief
+  `fcd029fb0408…` (stored; committed copy `bomdd/reports/eco-115-advance-decision/inspection-brief-r5.md`); report `inspection-r5.md`
+  (`11a28f347bc8…`); the ledger's cell record binds it.
+- **Resolved:** IA-12 (the bounds sentence's copies checked; the control on `11982a4` fails both). IA-01 to IA-11 still resolved. Regression PASS:
+  both diff ranges allowed, the four rehearsals byte-identical, the real-data results unchanged, V1/V2 123/123; all 47 README sha256 values match.
+- **IA-14 — blocking — the red-first runner accepts a wrong historical set-up.** A decision control requires its expected misses but neither rejects
+  additional ones nor identifies the staged revision: staging `35961c3` for the r2 control passed, because its larger set of misses contains r2's.
+- **IA-15 — blocking — the copy-drift cause remains for the other closed values of I2.** `approver`, `on_fail`, `status` and `check_mapping`'s values
+  are written in §1, the playbook, the template comments and V1's own lists; V1 checks required substrings, so a template copy with an added value
+  (`| maintainer`) stayed green.
+
+**Pending human disposition (§13; the bound extended to r5 by the user's "A", §12).** The ECO stops here, `implemented`.
+- Round trajectory (new blocking findings): r1 6, r2 2, r3 1, r4 2, r5 2 — flat since r2. Since r2, no finding has been about D0-D5's rules
+  themselves: they are about the bounds line's statement and copies (IA-08 to IA-12, IA-15) and the repair evidence (IA-13, IA-14). The open search
+  for further copy-drift in r5's brief ("is any other rule written in several places") was the producer's wording and invited IA-15.
+- Evidence owed: IA-14's and IA-15's repairs and a review; the inspection gate has no ACCEPT.
+- Technical risk: in the method text, a template comment that departs from I2 (IA-15) would teach a product a value D refuses — an input defect
+  at the first decision, not a wrong decision; in the evidence, a red-first control that cannot tell the staged revision (IA-14). D0-D5's
+  rules are not in question.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (after the split from ECO-114)

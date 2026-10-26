@@ -37,6 +37,8 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `inspection-brief-r4.md` | the committed copy of independent inspection r4's brief (EQ-002, range 是正確認+回帰; the extension round) | `88bc75f933064ee4f433b64a25027d79f272e611c885ade97552bc520d3cd2f1` |
 | `inspection-r4.md` | inspection r4's report: REJECT IA-12, IA-13, at the extended bound | `b7f01551303e3cf045bbe69abdb56685f1a4c958e9d0b8f8a1846ac1c062b7e6` |
 | `repair-r4/` | the common cause removed (one canonical sentence for the bounds line, its copies checked) and the repairs after inspection r4; the self-verifying red-first runner (its README) | — |
+| `inspection-brief-r5.md` | the committed copy of independent inspection r5's brief (EQ-002, range 是正確認+回帰) | `fcd029fb04083e445d6d6c14819f3769ea1555fcdf2e7b2bba4a5f11cac1d241` |
+| `inspection-r5.md` | inspection r5's report: REJECT IA-14, IA-15, at the extended bound | `11a28f347bc87177a5aca81dfc44af5fb8d017b523c5a66540039933c2952e65` |
 
 Commands (from this folder):
 
