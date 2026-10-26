@@ -87,6 +87,10 @@ stored results sha256 82c0258c98cf1643ced50d396eb09b0cfac01e583f401d5412027e51db
    OK     I3a (r2 IA-10) a bounds line at the top of the domain (999, 999): advances {}
    OK     I3a (r2 IA-10) a bounds line just past it (1000): input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 1000, decisions 5' is outside I2"]]
    OK     I3a (r2 IA-10) a bounds line of 5,000 digits: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+   OK     I3a (r3 IA-11) a bounds line ending in spaces: advances {}
+   OK     I3a (r3 IA-11) a bounds line ending in a tab: advances {}
+   OK     I3a (r3 IA-11) a bounds line ending in a no-break space: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 999, decisions 999\\xa0' is outside I2"]]
+   OK     I3a (r3 IA-11) a bounds line ending in an ideographic space: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 999, decisions 999\\u3000' is outside I2"]]
    OK     I3a (r1 IA-02) two bounds lines: input-defect [["work-order-fix", "the work order has 2 bounds lines"]]
    OK     I3a work order with two frozen-revision lines: input-defect [["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
    OK     I3a frozen revision given as a tag git cannot resolve: input-defect [["work-order-fix", "the frozen revision 'v1.2' cannot be resolved to a commit"]]
@@ -157,4 +161,5 @@ stored results sha256 82c0258c98cf1643ced50d396eb09b0cfac01e583f401d5412027e51db
    OK     outside I1, a row's verifies changed: output byte-identical to base
    OK     outside I1, a row's characteristic changed: output byte-identical to base
 == D4 written into the decision records on every case that decided rows: True
+== I3a and D5 read the bounds line alike on 84 lines (values x line ends): True
 == all synthetic cases as expected: True

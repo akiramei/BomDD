@@ -122,7 +122,9 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   - the frozen-revision line: a tag or a commit ID, written plainly or as Markdown code (the backticks are not part of it); `frozen_commit`: a
     40-hex commit ID; `work_order_ref`, `mbom_ref`, `control_plan_ref`: `<path>@<40-hex commit>`.
   - the bounds line (D5; inspection r1 IA-02): absent or one line of the form `- 前進の判定の上限: holds <n>, decisions <m>`, with `<n>` and `<m>`
-    decimal integers from 1 to 999 without leading zeros (inspection r2 IA-10: a closed domain, so every valid line can be read).
+    decimal integers from 1 to 999 without leading zeros (inspection r2 IA-10: a closed domain, so every valid line can be read); trailing ASCII
+    spaces and tabs are not part of the line, as for the frozen-revision line, and any other character, other whitespace included, puts it
+    outside I2 (inspection r3 IA-11: I3a and D5 read the line the same way).
 - **I3a (input check before running anything).** git is available (L8); the entry's `delivered` is within I2 and its `tree` is the tree of its
   `commit`; the entry's `work_order_ref` is within I2 and names a commit other than the delivered one; the entry
   has `frozen_commit`; the work order read at `work_order_ref` has exactly one frozen-revision line, and its value resolves to `frozen_commit`; its
@@ -564,6 +566,25 @@ repaired or re-inspected without a disposition.
   through the operator entry as it stands.
 - Technical risk: confined to the bounds line, an optional line of D5, which no product carries yet (distribution is a separate ECO); D0-D4 and the
   rest of D5 are not affected by it.
+
+## 10. Extension ruling and the repair after inspection r3 (2026-10-26)
+
+**Ruling (user "A", 2026-10-26): extend the review loop by one round** — repair IA-11 and check it with r4. Options presented: A one more round;
+B cut-off adoption (the repair reviewed by no one, and the inspection gate without an ACCEPT); C hold. **The extended bound is r4:** if r4 is not
+ACCEPT, the ECO returns to §13's pending human disposition.
+
+**What changed** (evidence: `bomdd/reports/eco-115-advance-decision/repair-r3/`):
+- One reading of the bounds line for I3a and D5: `rehearse_decision_v2.parse_bounds`, used by I3a's check and imported by `rehearse_sequence.py`.
+  Trailing ASCII spaces and tabs are not part of the line (as for the frozen-revision line); any other character, other whitespace included, puts it
+  outside I2. The same in §1's I2, the playbook's I2 and the work order template's comment; V1's I2 clause list gains it.
+- Arms: `run_rehearsal_v2.py` — spaces and a tab accepted, a no-break space and an ideographic space refused, and an agreement check over 84 lines
+  (seven value pairs × twelve line ends) that D5 reads a line I3a accepts as written and keeps the defaults for one I3a refuses; `rehearse_sequence.py`
+  — Z4 (a trailing space and tab: read as written) and Z5 (a trailing no-break space: the defaults).
+- §8's "the domain is closed" was not true of the line's end (IA-11); with this repair the line's form, values and end are all fixed.
+
+**Measured:** V1/V2 PASS 120/120; on the tree of r2's repairs it fails 119/120 (the line-end clause). Red first: the repaired driver against `7eddaba`'s
+two rehearsals exits 1 — the no-break-space and ideographic-space arms MISSED and the agreement check false (the inspector's finding). The rehearsals
+re-run: synthetic cases all as expected, D4 written, I3a and D5 agree on all 84 lines; D5 45/45; the MoviePad-Remake outputs unchanged.
 
 ## 収束 receipt (converge self-application)
 

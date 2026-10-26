@@ -278,6 +278,13 @@ CASES = [
      ("input-defect", "is outside I2")),
     ("I3a (r2 IA-10) a bounds line of 5,000 digits", setv(wo_text=WO + "- 前進の判定の上限: holds " + "9" * 5000 + ", decisions 5\n"),
      ("input-defect", "is outside I2")),
+    # inspection r3 IA-11: the line's end — trailing ASCII spaces and tabs are not part of it, any other whitespace is outside I2
+    ("I3a (r3 IA-11) a bounds line ending in spaces", setv(wo_text=WO + "- 前進の判定の上限: holds 999, decisions 999  \n"), ("advances", None)),
+    ("I3a (r3 IA-11) a bounds line ending in a tab", setv(wo_text=WO + "- 前進の判定の上限: holds 999, decisions 999\t\n"), ("advances", None)),
+    ("I3a (r3 IA-11) a bounds line ending in a no-break space", setv(wo_text=WO + "- 前進の判定の上限: holds 999, decisions 999 \n"),
+     ("input-defect", "is outside I2")),
+    ("I3a (r3 IA-11) a bounds line ending in an ideographic space", setv(wo_text=WO + "- 前進の判定の上限: holds 999, decisions 999　\n"),
+     ("input-defect", "is outside I2")),
     ("I3a (r1 IA-02) two bounds lines", setv(wo_text=WO + "- 前進の判定の上限: holds 3, decisions 5\n- 前進の判定の上限: holds 4, decisions 6\n"),
      ("input-defect", "has 2 bounds lines")),
     ("I3a work order with two frozen-revision lines", setv(wo_text=WO + f"- 対象 BOM tag/commit: {FROZEN}\n"),
@@ -484,6 +491,22 @@ def main():
             out.append(f"   {'OK    ' if same else 'MISSED'} outside I1, {name}: output {'byte-identical to base' if same else 'CHANGED'}")
         d4 = [name for name, change, expected in CASES if run_case(td, change).get("d4_written") is False]
         out.append(f"== D4 written into the decision records on every case that decided rows: {not d4}{(' (not on: ' + ', '.join(d4) + ')') if d4 else ''}")
+        # inspection r3 IA-11: I3a and D5 agree on every line — D5 reads a line I3a accepts as written, and keeps the defaults for one I3a refuses
+        import rehearse_sequence as rs
+        ends = ["", " ", "  ", "\t", " \t", " ", "　", " ", "\r", "\v", "\f", "x"]
+        values = [("3", "5"), ("999", "999"), ("1", "1"), ("0", "5"), ("1000", "5"), ("03", "5"), ("3", "")]
+        disagree = []
+        for h, dd in values:
+            for end in ends:
+                line = f"- 前進の判定の上限: holds {h}, decisions {dd}{end}"
+                accepted = rd.bounds_defect(WO + line + "\n") is None
+                read = rs.work_bounds(line)
+                want = {"holds": int(h), "decisions": int(dd)} if accepted else dict(rs.B)
+                if read != want:
+                    disagree.append(repr(line))
+        out.append(f"== I3a and D5 read the bounds line alike on {len(values) * len(ends)} lines (values x line ends): {not disagree}"
+                   f"{(' (not on: ' + ', '.join(disagree[:5]) + ')') if disagree else ''}")
+        ok_all &= not disagree
         ok_all &= not d4
         out.append(f"== all synthetic cases as expected: {ok_all}")
     with open(path, "w", encoding="utf-8", newline="\n") as f:

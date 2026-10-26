@@ -16,15 +16,15 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `draft-order.md` | the held ECO-115 draft until its filing (2026-10-26); now a pointer to `bomdd/60-change-order-eco-115.md`, its only copy | — |
 | `measure_freeze.py` | whether each product's work order has the frozen-revision line and its As-Built the references the freeze check reads (HEAD, `git show`) | `1d1454282329984fde3c164756f28a7ff8705f7eb4a1f91d87be93c86cec6424` |
 | `freeze-inputs.txt` | its output | `e530fc266debdc424010ee53e721adc5b8058080dd7f9f08e50b9c403d869967` |
-| `rehearse_decision_v2.py` | loop 4 (redesign after EXP-20261024-01): the decision as the draft now states it — `frozen_commit` resolved at receipt, ancestry and frozen ≠ delivered, `delivered` `{commit, tree}` only, `identity` read from the evidence, the `line` format; after loop 4 round 1: git required, the tree checked, freeze ≤ issue, a failure no counted row owns; after the user's cut-off "A": the BOM equal at freeze and issue, implied clauses dropped, git missing still lists the rest, unowned failures route control-plan-fix | `0d68e4e091167abba84de040bbf712abab7eb362c07d221f0ef4f321b86adfa8` |
-| `run_rehearsal_v2.py` | its driver on ViewPrism2 (freeze = issue = `f697a82`, delivery `504921a`, ancestry and tree on ViewPrism2's git) and the synthetic cases on a stub git history and the synthetic cases | `b477574ca8c661f370f4e78915dc6c5eb751b2bf9bb8f6afec2334e1731372d6` |
-| `rehearsal-v2.txt` | its output | `646a5e173c5bdf2662ac9fc56528658a5617221f271033da3a44c460817dc9c7` |
+| `rehearse_decision_v2.py` | loop 4 (redesign after EXP-20261024-01): the decision as the draft now states it — `frozen_commit` resolved at receipt, ancestry and frozen ≠ delivered, `delivered` `{commit, tree}` only, `identity` read from the evidence, the `line` format; after loop 4 round 1: git required, the tree checked, freeze ≤ issue, a failure no counted row owns; after the user's cut-off "A": the BOM equal at freeze and issue, implied clauses dropped, git missing still lists the rest, unowned failures route control-plan-fix | `07109636808d96e328a02688d5856d0c1323013c58af590aa8157bcb5790ca26` |
+| `run_rehearsal_v2.py` | its driver on ViewPrism2 (freeze = issue = `f697a82`, delivery `504921a`, ancestry and tree on ViewPrism2's git) and the synthetic cases on a stub git history and the synthetic cases | `f56f0e744ee48e3d8fc6f9b89d8ec6844f2faaec154a7100e53043d9c3d2327f` |
+| `rehearsal-v2.txt` | its output | `ab2df806dc40d22efee02866207b9b2ab0ec93f6b2d45c58e6be179f50e05c6d` |
 | `run_moviepad.py` | the decision on MoviePad-Remake delivery 1's real records (`git show`, read-only): M0 as they are, M1a/M1b a migrated copy (edits listed; M1b's stamp ASSUMED), M2 known-bad freezes, M3 known-bad evidence lines | `4234c507f07bdd7066610521810ba48f468e36011beefc0657011b6b2c8e5b83` |
 | `rehearsal-moviepad.txt` | its output | `47e978e5d03936d6c79f6d5484fc837d021b603fdeca5feff5611f384825392c` |
 | `run_moviepad_d2.py` | calibration on MoviePad-Remake delivery 2's real records (`b53f048`, AB-FORWARD-01-factory-02): N0 as written, N1 with only check_mapping and the decision records added, N2 three known-bad inputs | `05a33ef6442efd2d16bff99016111b94e00d488154c413347fa51e0ddf9272a8` |
 | `rehearsal-moviepad-d2.txt` | its output | `35731c0b63302a557cb0322e7026538e4f1cc82f63f4d7c97125fad712c4a96c` |
-| `rehearse_sequence.py` | D5 (loops 5-6): a work's decisions over time on the per-row ledger — convergence against the bounds, control signals C1-C6, the alternation candidate; 43 arms with expectations fixed in the script, including R1/R2 on MoviePad-Remake's two deliveries | `b2804ae2d075cab829847040da785b6e2fcb60384ed3781f90f660f5e0c5e469` |
-| `rehearsal-sequence.txt` | its output (43/43 after inspection r2's repairs) | `63affacf9791703c1659ce0654ba40e82bfe3f9bc8b16adb8bad8b9a0b1e04f4` |
+| `rehearse_sequence.py` | D5 (loops 5-6): a work's decisions over time on the per-row ledger — convergence against the bounds, control signals C1-C6, the alternation candidate; 45 arms with expectations fixed in the script, including R1/R2 on MoviePad-Remake's two deliveries | `2fa6143b556ccb487d95bedd6edd7b94b896dac94ec118cbd49501a733372c9c` |
+| `rehearsal-sequence.txt` | its output (45/45 after inspection r3's repair) | `e741a9bd88d13dc94fdaf8145c122a4d43c6b229167b10f7a2bc284e447a4ced` |
 | `inspection-brief-r1.md` | the committed copy of independent inspection r1's brief (EQ-002, range 境界探索; the stored brief has the same sha256) | `59530f9585a205db2534c1a385b081cf91360b37b5a6e276c09f5df2542c8dd6` |
 | `inspection-r1.md` | inspection r1's report as the harness saved it: REJECT IA-01 to IA-07 | `b60b27fb44bb049ce95f21c8463fa52c8b3fdc38c92d206f1a578fd35e55fe26` |
 | `repair-r1/` | the repairs after inspection r1: red-first runs, the control on the manufacture tree, V1/V2 after the repairs (its README) | — |
@@ -33,6 +33,7 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `repair-r2/` | the repairs after inspection r2: red-first runs, the control on the tree of r1's repairs, V1/V2 after the repairs (its README) | — |
 | `inspection-brief-r3.md` | the committed copy of independent inspection r3's brief (EQ-002, range 是正確認+回帰; the stored brief has the same sha256) | `61b3d8617ee7cc564803c00400aee46ac5a4987057b521aac59b13139ff83f5d` |
 | `inspection-r3.md` | inspection r3's report as the harness saved it: REJECT IA-11, at the review loop's bound | `86bc522e37c64c3ec24c47e353e4938b11d860daed6f14b3269188ec621eccdc` |
+| `repair-r3/` | the repair after inspection r3 under the user's "A": red-first run, the control on the tree of r2's repairs, V1/V2 (its README) | — |
 
 Commands (from this folder):
 

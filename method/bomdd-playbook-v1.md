@@ -216,7 +216,7 @@ M-BOM 確定**前**に(Loop4):
     - `delivered`: `{commit, tree}`(どちらも 40 桁の 16 進)。
     - 固定した版の行: タグかコミット ID。そのままでも Markdown のコードとしてでもよい(バッククォートは値に含めない)。`frozen_commit`: 40 桁の 16 進の
       コミット ID。`work_order_ref`・`mbom_ref`・`control_plan_ref`: `<path>@<40-hex commit>`。
-    - 上限の行(D5): 無いか 1 本で、形は `- 前進の判定の上限: holds <n>, decisions <m>`、`<n>` と `<m>` は 1 以上 999 以下の 10 進の整数(先頭に 0 を付けない)。
+    - 上限の行(D5): 無いか 1 本で、形は `- 前進の判定の上限: holds <n>, decisions <m>`、`<n>` と `<m>` は 1 以上 999 以下の 10 進の整数(先頭に 0 を付けない)。行末の半角空白とタブは行に含めない(固定した版の行と同じ)— ほかの文字は、ほかの空白も含めて形を外れる。
   - **I3a 走らせる前の入力検査**: git が使える。エントリの `delivered` が I2 の内で、その `tree` がその `commit` の木である。エントリの `work_order_ref` が
     I2 の内で、納品のコミットとは別のコミットを名指す。エントリが `frozen_commit` を持つ。`work_order_ref` で読んだ作業指示書に固定した版の行がちょうど
     1 本あり、その値が `frozen_commit` に解決する。その作業指示書の上限の行が I2 の内(無いか 1 本で形と値が正しい — 外れれば work-order-fix)。エントリの `mbom_ref` と `control_plan_ref` が `frozen_commit` を名指す。`frozen_commit` は作業指示書の

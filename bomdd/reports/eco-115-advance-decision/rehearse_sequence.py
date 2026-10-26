@@ -40,8 +40,11 @@ reason: unmeasurable, no-check, nothing-measured.
 Ruling-layer candidate: rows X != Y and decisions i < j < k: X violation and Y pass at i, X pass and Y violation at j, X violation and
 Y pass at k (one fixed, the other broken, then back).
 """
-import re
+import os
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from rehearse_decision_v2 import parse_bounds  # noqa: E402  (inspection r3 IA-11: one reading of the bounds line)
 
 ROUTING = ("control-plan-fix", "bom-fix")
 NOT_PRODUCT = {"unmeasurable", "no-check", "input"}
@@ -173,12 +176,11 @@ P, V, U, N = "pass", "violation", "unmeasurable", "no-check"
 B = {"holds": 3, "decisions": 5}
 # inspection r1 IA-02: the work's bounds come from its first issue's bounds line; absent or outside I2 (decimal integers of 1 or more) the
 # defaults apply — a malformed line also makes that first decision input-defect by I3a, and it raises no bound
-BOUNDS_LINE = re.compile(r"- 前進の判定の上限: holds ([1-9][0-9]{0,2}), decisions ([1-9][0-9]{0,2})")  # 1 to 999 (inspection r2 IA-10)
+# inspection r3 IA-11: the line is read by the same function as I3a's check (rehearse_decision_v2.parse_bounds), so the two cannot disagree
 
 
 def work_bounds(first_issue_line):
-    m = BOUNDS_LINE.fullmatch(first_issue_line or "")
-    return {"holds": int(m.group(1)), "decisions": int(m.group(2))} if m else dict(B)
+    return parse_bounds(first_issue_line) or dict(B)
 TYPO = [("record-fix:the entry has no frozen_commit", "record-fix")]
 WO = [("work-order-fix:the frozen-revision line resolves to another commit", "work-order-fix")]
 AB = ["CP-A", "CP-B"]
@@ -404,6 +406,17 @@ BOUND_ARMS = [  # inspection r1 IA-02: (first issue's bounds line, then as ARMS)
         H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:unmeasurable", "CP-B:violation"]),
         H("holds", {"CP-A": N, "CP-B": P}, done=["CP-A:violation"])],
      "bound-reached", "in-control", [], False, "inspection r2 IA-10: the domain is 1 to 999, so no valid line fails to evaluate"),
+    # inspection r3 IA-11: a line I3a accepts is read as written; a line I3a refuses gives the defaults
+    ("- 前進の判定の上限: holds 5, decisions 9 \t", "Z4 a first line of 5 and 9 with a trailing space and tab: read as written", [
+        H("holds", {"CP-A": U, "CP-B": V}),
+        H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:unmeasurable", "CP-B:violation"]),
+        H("holds", {"CP-A": N, "CP-B": P}, done=["CP-A:violation"])],
+     "open", "in-control", [], False, "inspection r3 IA-11: I3a accepts it, so D5 reads 5, not the defaults"),
+    ("- 前進の判定の上限: holds 5, decisions 9 ", "Z5 the same line ending in a no-break space: outside I2, the defaults apply", [
+        H("holds", {"CP-A": U, "CP-B": V}),
+        H("holds", {"CP-A": V, "CP-B": P}, done=["CP-A:unmeasurable", "CP-B:violation"]),
+        H("holds", {"CP-A": N, "CP-B": P}, done=["CP-A:violation"])],
+     "bound-reached", "in-control", [], False, "inspection r3 IA-11: I3a refuses it (input-defect), so D5 keeps the defaults"),
 ]
 
 

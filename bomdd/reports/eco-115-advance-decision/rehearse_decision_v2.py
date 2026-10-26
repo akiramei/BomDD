@@ -51,12 +51,20 @@ BOUNDS_ANY = re.compile(r"^- 前進の判定の上限:.*$", re.MULTILINE)
 BOUNDS_LINE = re.compile(r"- 前進の判定の上限: holds ([1-9][0-9]{0,2}), decisions ([1-9][0-9]{0,2})")  # 1 to 999 (inspection r2 IA-10)
 
 
+def parse_bounds(line):
+    """The one reading of a bounds line, shared by I3a (here) and D5 (rehearse_sequence.py imports it; inspection r3 IA-11): trailing ASCII spaces
+    and tabs are not part of the line, as for the frozen-revision line; any other character, other whitespace included, puts it outside I2.
+    {"holds": n, "decisions": m}, or None outside I2."""
+    m = BOUNDS_LINE.fullmatch((line or "").rstrip(" \t"))
+    return {"holds": int(m.group(1)), "decisions": int(m.group(2))} if m else None
+
+
 def bounds_defect(work_order_text):
     """None when the work order's bounds line is within I2 (absent, or one line of the right form), else the reason."""
     found = BOUNDS_ANY.findall(work_order_text or "")
     if len(found) > 1:
         return f"the work order has {len(found)} bounds lines"
-    if found and not BOUNDS_LINE.fullmatch(found[0].rstrip()):
+    if found and parse_bounds(found[0]) is None:
         return f"the bounds line {found[0]!r} is outside I2"
     return None
 HEX40 = re.compile(r"[0-9a-f]{40}")

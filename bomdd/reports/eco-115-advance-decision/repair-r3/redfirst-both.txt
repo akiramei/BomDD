@@ -1,0 +1,165 @@
+stored results sha256 82c0258c98cf1643ced50d396eb09b0cfac01e583f401d5412027e51db3fdb4c (645504 bytes)
+== R0 ViewPrism2 at 504921a as it is: input-defect (I3a)
+   defects 26 by route {'bom-fix': 7, 'control-plan-fix': 19}
+   - [bom-fix] mbom.assembly.acceptance_refs absent
+   - [bom-fix] unit M-CAPTURE-HARNESS-052 has empty acceptance_refs
+   - [bom-fix] unit M-HARNESS-015 has empty acceptance_refs
+   - [bom-fix] unit M-INFRA-031 has empty acceptance_refs
+   - [bom-fix] unit M-ORACLE-030 has empty acceptance_refs
+   - [bom-fix] unit M-UI-016 has empty acceptance_refs
+   - [bom-fix] unit M-UI-SIMILARITY-023 has empty acceptance_refs
+   - [control-plan-fix] check_mapping absent or outside I2
+   - [control-plan-fix] row CP-INTEGRITY-036 approver 'automated+maintainer' outside I2
+   - [control-plan-fix] row CP-L1-SMOKE approver 'factory self-acceptance(最終確認は maintainer)' outside I2
+   - [control-plan-fix] row CP-REPAIR-AUTOALL-023 approver None outside I2
+   - [control-plan-fix] row CP-REPAIR-CARD-021 approver None outside I2
+   - [control-plan-fix] row CP-THUMB-007 on_fail {'red': 'product-fix', 'unmeasurable': 'instrument-recovery', 'dependency-update': 'human-approval'} outside I2
+   - [control-plan-fix] row CP-TRASH-021 approver None outside I2
+   - [control-plan-fix] row CP-UI-G1 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G10 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G11 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G12 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G13 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G2 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G4 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G5 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G6 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G7 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G8 approver 'maintainer' outside I2
+   - [control-plan-fix] row CP-UI-G9 approver 'maintainer' outside I2
+== R1 edits of the migrated copy:
+   - CP-THUMB-007 on_fail key 'dependency-update' removed
+   - CP-L1-SMOKE approver 'factory self-acceptance(最終確認は maintainer)' -> 'automated+human:maintainer'
+   - CP-RELEASE-018 approver 'automated+maintainer' -> 'automated+human:maintainer'
+   - CP-UI-G1 approver 'maintainer' -> 'human:maintainer'
+   - CP-PENDING-AUTO-035 approver 'automated+maintainer' -> 'automated+human:maintainer'
+   - CP-INTEGRITY-036 approver 'automated+maintainer' -> 'automated+human:maintainer'
+   - CP-UI-G2 approver 'maintainer' -> 'human:maintainer'
+   - CP-UI-G3 approver 'maintainer' -> 'human:maintainer'
+   - CP-UI-G4 approver 'maintainer' -> 'human:maintainer'
+   - CP-UI-G5 approver 'maintainer' -> 'human:maintainer'
+   - CP-UI-G6 approver 'maintainer' -> 'human:maintainer'
+   - CP-UI-G7 approver 'maintainer' -> 'human:maintainer'
+   - CP-UI-G8 approver 'maintainer' -> 'human:maintainer'
+   - CP-UI-G11 approver 'maintainer' -> 'human:maintainer'
+   - CP-UI-G9 approver 'maintainer' -> 'human:maintainer'
+   - CP-TRASH-021 approver absent -> 'automated' (assumed)
+   - CP-REPAIR-AUTOALL-023 approver absent -> 'automated' (assumed)
+   - CP-DISPLAY-PARITY-022 approver absent -> 'automated' (assumed)
+   - CP-REPAIR-CARD-021 approver absent -> 'automated' (assumed)
+   - CP-UI-G10 approver 'maintainer' -> 'human:maintainer'
+   - CP-UI-G13 approver 'maintainer' -> 'human:maintainer'
+   - CP-UI-G12 approver 'maintainer' -> 'human:maintainer'
+   - CP-DISPMODE-084 approver absent -> 'automated' (assumed)
+   - CP-DEFEXP-086 approver absent -> 'automated' (assumed)
+   - CP-TAGDLG-087 approver absent -> 'automated' (assumed)
+   - CP-CHIPWRAP-088 approver absent -> 'automated' (assumed)
+   - check_mapping added (xunit-v3, trait cp)
+   - mbom.assembly added (empty, with assembly_reason)
+   - units with empty acceptance_refs dropped: ['M-UI-016', 'M-UI-SIMILARITY-023', 'M-HARNESS-015', 'M-CAPTURE-HARNESS-052', 'M-ORACLE-030', 'M-INFRA-031']
+== R1a migrated copy, the stored results as they are (they name no measured unit): holds
+   unmeasurable (test 1: the evidence does not name what it measured): 38
+   not decided: human part 14, named by no unit 15
+== R1b migrated copy, the results stamped as measured on 504921a ASSUMED (design evidence only; not what the data show): holds
+   no-check (test 4): 3 ['CP-REPAIR-AUTOALL-023', 'CP-REPAIR-CARD-021', 'CP-STARTUP-028']
+   pass (test 5): 35
+   not decided: human part 14, named by no unit 15
+   R-050 on R1b's records, in unit/CP pairs: {'pairs': 73, 'a_pairs_without_pass': 25, 'of_which_human_only_rows': 22, 'b_non_pass_rows': 3}
+   R1b run twice, byte-identical JSON: True
+== synthetic cases (expected outcome; OK when the decision gives it)
+   OK     base: advances {}
+   OK     I3a Control Plan unparsable: input-defect [["control-plan-fix", "Control Plan does not parse"]]
+   OK     I3a M-BOM unparsable: input-defect [["bom-fix", "M-BOM does not parse"]]
+   OK     I3a (r1 IA-04) mbom_ref names a path that is not at frozen_commit: input-defect [["record-fix", "the delivery's M-BOM compared is not the file at mbom_ref's path in the delivered commit"], ["record-fix", "the entry's mbom_ref path bomdd/no-such-mbom.yaml is not at frozen_commit"]
+   OK     I3a (r1 IA-04) mbom_ref and control_plan_ref swapped: input-defect [["record-fix", "the Control Plan read is not the file the entry's control_plan_ref names"], ["record-fix", "the M-BOM read is not the file the entry's mbom_ref names"], ["record-fix", "the delivery's
+   OK     I3a (r1 IA-04) the delivered commit holds another Control Plan than the copy compared: input-defect [["record-fix", "the delivery's Control Plan compared is not the file at control_plan_ref's path in the delivered commit"]]
+   OK     I3a delivered Control Plan differs: input-defect [["product-fix", "the delivery's Control Plan differs from the revision frozen for the work"]]
+   OK     I3a delivered M-BOM differs: input-defect [["product-fix", "the delivery's M-BOM differs from the revision frozen for the work"]]
+   OK     I3a delivery without its Control Plan: input-defect [["product-fix", "the delivery has no Control Plan at the frozen revision's path"]]
+   OK     I3a work order without the frozen-revision line: input-defect [["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
+   OK     I3a (r1 IA-02) a bounds line within I2: advances {}
+   OK     I3a (r1 IA-02) a bounds line with holds 0: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 0, decisions 5' is outside I2"]]
+   OK     I3a (r1 IA-02) a bounds line missing its decisions: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 3' is outside I2"]]
+   OK     I3a (r1 IA-02) a bounds line with a non-numeric value: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds three, decisions 5' is outside I2"]]
+   OK     I3a (r1 IA-02) a bounds line with a negative value: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 3, decisions -1' is outside I2"]]
+   OK     I3a (r2 IA-09) a malformed bounds line and swapped refs: both listed: input-defect [["record-fix", "the Control Plan read is not the file the entry's control_plan_ref names"], ["record-fix", "the M-BOM read is not the file the entry's mbom_ref names"], ["record-fix", "the delivery's
+   OK     I3a (r2 IA-09) the same, the bounds reason also listed: input-defect [["record-fix", "the Control Plan read is not the file the entry's control_plan_ref names"], ["record-fix", "the M-BOM read is not the file the entry's mbom_ref names"], ["record-fix", "the delivery's
+   OK     I3a (r2 IA-10) a bounds line at the top of the domain (999, 999): advances {}
+   OK     I3a (r2 IA-10) a bounds line just past it (1000): input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 1000, decisions 5' is outside I2"]]
+   OK     I3a (r2 IA-10) a bounds line of 5,000 digits: input-defect [["work-order-fix", "the bounds line '- 前進の判定の上限: holds 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+   OK     I3a (r3 IA-11) a bounds line ending in spaces: advances {}
+   OK     I3a (r3 IA-11) a bounds line ending in a tab: advances {}
+   MISSED I3a (r3 IA-11) a bounds line ending in a no-break space: advances {}
+   MISSED I3a (r3 IA-11) a bounds line ending in an ideographic space: advances {}
+   OK     I3a (r1 IA-02) two bounds lines: input-defect [["work-order-fix", "the work order has 2 bounds lines"]]
+   OK     I3a work order with two frozen-revision lines: input-defect [["work-order-fix", "the work order has no single '対象 BOM tag/commit' line"]]
+   OK     I3a frozen revision given as a tag git cannot resolve: input-defect [["work-order-fix", "the frozen revision 'v1.2' cannot be resolved to a commit"]]
+   OK     I3a (v2) frozen revision given as a tag that resolves to frozen_commit, in backticks: advances {}
+   OK     I3a (v2) git unavailable, with a row approver outside I2: both listed (round 2 L4E2-3): input-defect [["control-plan-fix", "row CP-A approver 'maintainer' outside I2"], ["record-fix", "git is not available to the decision (L8); the git-dependent checks were not made"]]
+   OK     I3a (v2) git unavailable: input-defect [["record-fix", "git is not available to the decision (L8); the git-dependent checks were not made"]]
+   OK     I3a (v2) frozen_commit on another line of history (multi-reason: implied by freeze <= issue): input-defect [["record-fix", "the entry's control_plan_ref path bomdd/33-control-plan.yaml is not at frozen_commit"], ["record-fix", "the entry's mbom_ref path bomdd/32-mbom.yaml is not at frozen_commit"], ["work-
+   OK     I3a (v2) the freeze after the issue (a tag moved to a later commit before receipt): input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"]]
+   OK     I3a (v2) a tag moved back to a commit with an older BOM (round 2 L4E2-1): input-defect [["record-fix", "the Control Plan read is not the file the entry's control_plan_ref names"], ["record-fix", "the M-BOM read is not the file the entry's mbom_ref names"], ["work-order-fix", "the Contro
+   OK     I3a (v2) a freeze before the issue with the same BOM advances: advances {}
+   OK     I3a (v2) the work order's commit outside the delivered history: input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"], ["work-order-fix", "the Control Plan at the work order's commit differs from froz
+   OK     I3a (v2) delivered.tree is not the delivered commit's tree: input-defect [["record-fix", "delivered.tree is not the delivered commit's tree"]]
+   OK     I3a (v2) a line format whose row_key lacks the group outcome: input-defect [["control-plan-fix", "check_mapping absent or outside I2"]]
+   OK     I3a entry's control_plan_ref naming another revision: input-defect [["record-fix", "the entry's control_plan_ref does not name frozen_commit"]]
+   OK     I3a entry's mbom_ref naming another revision: input-defect [["record-fix", "the entry's mbom_ref does not name frozen_commit"]]
+   OK     I3a no work_order_ref: input-defect [["record-fix", "the entry has no work_order_ref '<path>@<40-hex commit>'"]]
+   OK     I3a (v2) no frozen_commit in the entry: input-defect [["record-fix", "the entry has no frozen_commit (40-hex), resolved at receipt"]]
+   OK     I3a (v2) the frozen revision is the delivered commit, line and refs agreeing (multi-reason: implied by freeze <= issue): input-defect [["work-order-fix", "frozen_commit is not an ancestor of the work order's commit; the freeze must precede the issue"]]
+   OK     I3a work order read from the delivered commit: input-defect [["record-fix", "work_order_ref names the delivered commit; the work order is read as issued, not from the delivery"]]
+   OK     I3a duplicate unit ID: input-defect [["bom-fix", "duplicate unit IDs"]]
+   OK     I3a duplicate row ID: input-defect [["control-plan-fix", "duplicate row IDs"]]
+   OK     I3a unit with empty acceptance_refs: input-defect [["bom-fix", "unit M-C has empty acceptance_refs"]]
+   OK     I3a assembly absent: input-defect [["bom-fix", "mbom.assembly.acceptance_refs absent"]]
+   OK     I3a assembly empty without reason: input-defect [["bom-fix", "mbom.assembly.acceptance_refs empty without assembly_reason"]]
+   OK     I3a no row named: input-defect [["bom-fix", "no row is named"]]
+   OK     I3a named row missing: input-defect [["control-plan-fix", "named row CP-NONE does not exist"]]
+   OK     I3a named row retired: input-defect [["control-plan-fix", "named row CP-A is retired"]]
+   OK     I3a status draft: input-defect [["control-plan-fix", "row CP-A status 'draft' outside I2"]]
+   OK     I3a approver maintainer: input-defect [["control-plan-fix", "row CP-A approver 'maintainer' outside I2"]]
+   OK     I3a approver absent: input-defect [["control-plan-fix", "row CP-A approver None outside I2"]]
+   OK     I3a on_fail key dependency-update: input-defect [["control-plan-fix", "row CP-A on_fail {'red': 'product-fix', 'dependency-update': 'human-approval'} outside I2"]]
+   OK     I3a on_fail value human-approval: input-defect [["control-plan-fix", "row CP-A on_fail {'red': 'human-approval'} outside I2"]]
+   OK     I3a check_mapping absent: input-defect [["control-plan-fix", "check_mapping absent or outside I2"]]
+   OK     I3a outcomes value outside the four: input-defect [["control-plan-fix", "check_mapping absent or outside I2"]]
+   OK     I3a (v2) a format without identity: input-defect [["control-plan-fix", "check_mapping absent or outside I2"]]
+   OK     I3a (v2) an identity without the group tree: input-defect [["control-plan-fix", "check_mapping absent or outside I2"]]
+   OK     I3a no delivered: input-defect [["record-fix", "delivered None missing or outside I2"]]
+   OK     I3a malformed delivered: input-defect [["record-fix", "delivered {'commit': '504921a33e7beb68ce2112817b01a44b664a82f7'} missing or outside I2"]]
+   OK     I3b counted row with no record: input-defect [["record-fix", "row CP-A has 0 decision records"]]
+   OK     I3b two records for one row: input-defect [["record-fix", "row CP-A has 2 decision records"]]
+   OK     I3b record without evidence_sha256: input-defect [["record-fix", "row CP-A record lacks I3b's fields"]]
+   OK     I3b record format not in check_mapping: input-defect [["record-fix", "row CP-A record format 'trx' not in check_mapping"]]
+   OK     I3b record for a row not counted: input-defect [["record-fix", "decision record for CP-HUMAN, which is not counted"]]
+   OK     D1-1 unreadable evidence: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: evidence unreadable (ParseError)"}, "CP-B": {"category": "unmeasurable", "result": "blocked", "ro
+   OK     D1-1 the instrument wrote no evidence file (sha256 'none'): holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: evidence unreadable (OSError)"}, "CP-B": {"category": "unmeasurable", "result": "blocked", "route
+   OK     D1-1 changed sha256: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: sha256 differs"}}
+   OK     D1-1 (v2) the evidence measured another unit: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: the evidence measured another unit than delivered"}, "CP-B": {"category": "unmeasurable", "result
+   OK     D1-1 (v2) the evidence names no measured unit: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: the evidence does not name what it measured"}, "CP-B": {"category": "unmeasurable", "result": "bl
+   OK     D1-1 (v2) the evidence names two measured units: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: the evidence names more than one measured unit"}, "CP-B": {"category": "unmeasurable", "result": 
+   OK     D1-1 evidence with no checks: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: evidence holds no check"}, "CP-B": {"category": "unmeasurable", "result": "blocked", "route": "in
+   OK     D1-1 (v2) a failed check no row owns (no cp trait): holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "control-plan-fix", "test": "1: the evidence reports a failure no counted row owns"}, "CP-B": {"category": "unmeasurable", "result":
+   OK     D1-1 (v2) a failed check of a row named by no unit: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "control-plan-fix", "test": "1: the evidence reports a failure no counted row owns"}, "CP-B": {"category": "unmeasurable", "result":
+   OK     D1-1 unmapped outcome term: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "1: outcome term 'Inconclusive' not in check_mapping"}, "CP-B": {"category": "unmeasurable", "result"
+   OK     D1-2 failed check: holds {"CP-A": {"category": "violation", "result": "fail", "route": "product-fix", "test": "2"}}
+   OK     D1-3 all checks skipped: holds {"CP-A": {"category": "unmeasurable", "result": "blocked", "route": "instrument-recovery", "test": "3"}}
+   OK     D1-4 no check for a row: holds {"CP-A": {"category": "no-check", "result": "not-run", "route": "control-plan-fix", "test": "4"}}
+   OK     D2 on_fail route used: holds {"CP-A": {"category": "violation", "result": "fail", "route": "control-plan-fix", "test": "2"}}
+   OK     D0 mixed row decided by its automated part (no check): holds {"CP-MIX": {"category": "no-check", "result": "not-run", "route": "control-plan-fix", "test": "4"}}
+   OK     D2 assembly row with a failed check: holds {"CP-E2E": {"category": "violation", "result": "fail", "route": "product-fix", "test": "2"}}
+   OK     D2 shared row, one failed check: holds {"CP-SHARED": {"category": "violation", "result": "fail", "route": "product-fix", "test": "2"}}
+   OK     D2 every named row human: advances {}
+   OK     D0 a source: phase5 record is not read: advances {}
+   OK     outside I1, factory PASS added to the delivery: output byte-identical to base
+   OK     outside I1, the self-acceptance log changed: output byte-identical to base
+   OK     outside I1, the rest of the work order changed: output byte-identical to base
+   OK     outside I1, a row's when changed: output byte-identical to base
+   OK     outside I1, a row's depth changed: output byte-identical to base
+   OK     outside I1, a row's verifies changed: output byte-identical to base
+   OK     outside I1, a row's characteristic changed: output byte-identical to base
+== D4 written into the decision records on every case that decided rows: True
+== I3a and D5 read the bounds line alike on 84 lines (values x line ends): False (not on: '- 前進の判定の上限: holds 999, decisions 999 ', '- 前進の判定の上限: holds 999, decisions 999  ', '- 前進の判定の上限: holds 999, decisions 999\t', '- 前進の判定の上限: holds 999, decisions 999 \t', '- 前進の判定の上限: holds 999, decisions 999\xa0')
+== all synthetic cases as expected: False
