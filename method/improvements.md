@@ -9316,3 +9316,17 @@ Observations:
   held its purpose. Withdrawn if ECO-115 is not verified.
   source: ECO-115 (manufacture, 2026-10-26)
   evidence: `bomdd/60-change-order-eco-115.md` L9
+
+## 2026-10-26 ECO-116 manufacture (MoviePad-Remake ECO-004) — a method tool copies the working tree, not the commit
+
+- Observed while re-locking MoviePad-Remake's kit (`bomdd/60-change-order-eco-116.md` §4): `method/tools/bomdd-init.py`'s `install_kit` copies
+  `method/` from BomDD's working tree. Six files there carry CRLF while git stores LF (`.gitattributes` `eol=lf`; `git status` clean), so the
+  kit and its manifest carried CRLF; the product's byte check against `git ls-tree` caught it. The first kit (`6ffc0cc`) has the same defect:
+  a fresh clone of MoviePad-Remake at `1a15006` reads it TAMPERED.
+- Thought layer: changes nothing yet (an observation); method/concept claim none.
+- [watch 1/3] OBS-20261026-04 — **A tool that records a commit as the source of a copy must copy the commit's bytes, not the working tree's.**
+  The lock names the commit and `dirty: false` while the bytes came from a working copy that differs from it under line-ending normalization.
+  Machine face: copy from `git archive <commit>` (or compare the copy with `git ls-tree` after copying, failing on a difference). 2 例目の条件=
+  another tool, or another product's kit, whose recorded source commit and copied bytes differ.
+  source: ECO-116 manufacture (MoviePad-Remake ECO-004, 2026-10-26)
+  evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/eco-004/README.md`, `v3-kit.txt`

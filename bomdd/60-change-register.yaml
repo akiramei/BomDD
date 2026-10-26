@@ -3652,7 +3652,7 @@ changes:
     title: distribution of ECO-115 to the existing products - each product's receiving side decides from the records alone whether a delivered individual enters Phase 5 (filed only; the manufacture ruling decides products, order and the per-product human items; TimetableAdv deferred; adopted by the user's cut-off ruling, the design unconverged under the converge rule)
     date: 2026-10-26
     origin: improvement
-    status: filed   # 2026-10-26 the user's "ECO-115 の配布 ECO を起票して" after ECO-115 verified (ef1506a) -> loop 1 23->6->2 (material 11->1->0) unconverged -> user "A" cut-off adoption with round 3's two minor findings repaired -> filing; manufacture waits for the ruling on products, order and section 1 B's human items
+    status: filed   # 2026-10-26 manufacture ruling "1:A 2:a": MoviePad-Remake ECO-004 applied (e45f4fa; order section 4), ViewPrism2 and ViewTube next; the user's "ECO-115 の配布 ECO を起票して" after ECO-115 verified (ef1506a) -> loop 1 23->6->2 (material 11->1->0) unconverged -> user "A" cut-off adoption with round 3's two minor findings repaired -> filing; manufacture waits for the ruling on products, order and section 1 B's human items
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       ECO-115 changed the method's text and templates only; a product decides by it only after its BOM, records and procedure are within the

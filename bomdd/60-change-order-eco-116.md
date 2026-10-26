@@ -142,6 +142,35 @@ required_gates: [V1, V2, V3]
 - **V4 (not a closing condition).** The product's next delivery is decided through the receiving step, its As-Built entry carries A3's fields and its
   `advance_decision` is recorded; EXP-20261026-03 (D5's bounds on real works) reads from it.
 
+## 4. Manufacture (the user's manufacture ruling "1:A 2:a", 2026-10-26: MoviePad-Remake, then ViewPrism2, then ViewTube; MoviePad-Remake's kit re-locked)
+
+### MoviePad-Remake — ECO-004 applied (2026-10-26, the user's "1:A 2:a"; MoviePad-Remake `1a15006`…`e45f4fa`, local only)
+
+- **What its ECO carries (§1 A):** the kit re-locked to BomDD `00c7743` (the user's "2:a"; byte-equal to the commit's 213 method files);
+  `inspect.py` writes `CP-BUILD-001`'s and `CP-SELF-ACCEPTANCE-001`'s checks (L5's rule for rows the factory's self-acceptance carried) under
+  one stamp, with NOTRUN for every counted row without a line; `ROUTE-INSPECT` holds the receiving step in D0's order and D5's ledger reading;
+  `work_ref` is the ECO that started the work, and redeliveries stay under it; `ROUTE-ECO` states the freeze before the delivery;
+  `/factory-delegate`'s step 4 is not used (it would disclose the oracle to the factory and measure outside the decision); R4 does not present
+  a held individual as an acceptance candidate.
+- **The human's item, missing from §1 B:** §1 B listed the known-defect acceptance against the decision's hold for ViewPrism2 and ViewTube
+  only. MoviePad-Remake's design loop found it there too (P1R1-06/07); asked and ruled "A": a held individual reaches acceptance only through
+  a new delivery decided afresh.
+- **Converge** (its loop 1): 20→10→5 (material 12→2→2), unconverged; the user's "A": cut-off adoption with round 3 repaired.
+- **R8's review** (V3 of this order): round 1 substance 6, evidence 3, record 9 → repaired; round 2 (the last) 17 of 18 resolved, four low
+  substance findings accepted as known defects with the claim narrowed (the user's "1:A"), round 1's record repairs confirmed as a departure
+  (the user's "2:a").
+- **V1 of this order — PASS for MoviePad-Remake:** `survey.py` at `88d61a8`: 0 I3a/I2 defects, a valued frozen-revision line (`bom-v5`, which
+  delivery 3's issue re-points to a tag at or after ECO-004). **V2 — PASS:** the product's validator OK, re-qualification PASS, every stage
+  PASS. **V3 — PASS:** ECO-004 records A1-A6 and the human's rulings, attacked by two R8 rounds. **V4** (not a closing condition) waits for
+  delivery 3.
+- **Found on the BomDD side:** `method/tools/bomdd-init.py`'s `install_kit` copies BomDD's working tree, not the commit. Six method files carry
+  CRLF in this working copy that git stores with LF (`.gitattributes` `eol=lf` keeps `git status` clean), so the first re-lock put CRLF into
+  the kit and its manifest; the product's V3 caught it, and the kit was regenerated from `git archive`. MoviePad-Remake's first kit (`6ffc0cc`)
+  had the same defect: a fresh clone reads it TAMPERED. Recorded as OBS-20261026-04 (a method tool's defect is the method's to change, AGENTS.md
+  rule 1).
+
+Next: ViewPrism2, whose §1 B items for the human are asked when its turn starts.
+
 ## /preflight receipt (start path: manual — the user's instruction read as the start artifact)
 
 - **Classification**: filing of a distribution ECO (survey; no product change at filing).

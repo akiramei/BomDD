@@ -1,12 +1,12 @@
-bundle verifies; commits in the clone: 65
-hex tokens near 'MoviePad-Remake' in the records: 43; commits found in the bundle: 25; not commits there: 18
+bundle verifies; commits in the clone: 71
+hex tokens near 'MoviePad-Remake' in the records: 44; commits found in the bundle: 26; not commits there: 18
   not a commit in the bundle: 126eae9 (method/improvements.md:8786)
   not a commit in the bundle: 20260716 (method/improvements.md:3524)
   not a commit in the bundle: 20260727 (method/improvements.md:9273)
   not a commit in the bundle: 20260801 (method/improvements.md:2960)
   not a commit in the bundle: 20260805 (method/improvements.md:3522)
-  not a commit in the bundle: 20260830 (method/bomdd-playbook-v1.md:296)
-  not a commit in the bundle: 20260902 (method/bomdd-playbook-v1.md:289)
+  not a commit in the bundle: 20260830 (method/bomdd-playbook-v1.md:448)
+  not a commit in the bundle: 20260902 (method/bomdd-playbook-v1.md:441)
   not a commit in the bundle: 20260906 (method/improvements.md:6497)
   not a commit in the bundle: 20261024 (method/improvements.md:2959)
   not a commit in the bundle: 20261025 (method/improvements.md:9044)
