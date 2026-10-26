@@ -169,7 +169,43 @@ required_gates: [V1, V2, V3]
   had the same defect: a fresh clone reads it TAMPERED. Recorded as OBS-20261026-04 (a method tool's defect is the method's to change, AGENTS.md
   rule 1).
 
-Next: ViewPrism2, whose §1 B items for the human are asked when its turn starts.
+### ViewPrism2 — ECO-148 applied (2026-10-27, the user's "1:A 2:a"; ViewPrism2 `edbbc14`…`82c362e`, pushed)
+
+- **The human's §1 B items, ruled:**
+  - **"2:A"** (held individuals): a held individual reaches acceptance only through a new delivery decided afresh;
+  - **"1:A"** (enforcement, given ECO-143's ruling A): the decision is not enforced mechanically;
+  - **"2:A"** (R4): R4's limit-default exclusion gains the decision's bounds.
+- **What its ECO carries (§1 A):**
+  - **A1:** the Control Plan gains `check_mapping`. Approvers are in I2's form on 20 rows: G rows with tests and CP-L1-SMOKE become `automated+human:maintainer`, so a failing test lands on its own row rather than making every row unmeasurable.
+  - **A1, continued:**
+    - 3 historical rows are retired;
+    - 2 rows are added for trait values that named no row;
+    - `mbom.assembly` is added;
+    - retired and instrument units move to sibling lists outside `manufacturing_units`;
+    - M-INFRA-031 is accepted by the L1 smoke.
+  - **A2:** a receiving instrument, `bomdd/receive_delivery.py`, re-reads I3a/I3b/D0-D5. It does not import BomDD.
+    - It scrubs and stamps the xunit-v3 results, with the identity anchored to the trailing stamp.
+    - It runs the fixed oracle after `advances`.
+  - **A3:** the As-Built becomes an entry list (the legacy V1 mapping is renamed `as_built_v1`), and there is a per-ECO work order at `bomdd/work-orders/eco-NNN.md`.
+  - **A4/A5:** a delivery model in change-management §4.2 sets `bom` → `issue` → work → `fix` (the delivery) → `receive` in a fresh context → gate 2 → `accept`. It also sets re-delivery per route, one open delivery ECO at a time, and the outcome after receipt. The new `eco-receive` skill carries out the receipt.
+  - **A6:** R4 gains the exclusion.
+- **Converge:** loop 1 ran 20→23→17, unconverged. The user's "B" added a narrowed round 4, which found 19. The user's "A" then cut the loop off and adopted the design with round 4 repaired.
+- **R8:**
+  - **Round 1:** 21 findings, one blocking (a CRLF As-Built working copy). Repaired probe-first, with 18 probes: 13 red before, 18 green after. One repair changed the Control Plan, through a mid-work `bom` and a re-`issue`.
+  - **Round 2 (the last):** 8 findings. The blocking one was repaired in the record layer: the audit read a `#` comment where the register keeps its note, so the receiving step now writes the entry id into `notes:`. Three low substance findings were accepted as known defects (the user's "1:A"); the record repairs beyond the default were confirmed (the user's "2:a").
+- **The first decision:** ViewPrism2's own delivery `f47f708`, received in a fresh context, gave **AB-ECO-148-1 advances**: 60 of 60 counted rows `pass`, the fixed oracle green.
+- **Checked against the method's reference (ECO-148 §4):** `viewprism2-compare.py` compared the product's instrument with ECO-115's verified rehearsal and found 58 of 58 the same (`viewprism2-compare.txt`):
+  - D1/D2/D4 on 11 synthetic cases;
+  - every `rehearse_sequence.py` arm through the product's `read_sequence`;
+  - the real entry.
+- **V1 of this order — PASS for ViewPrism2:** `survey.py` at `22fe4a5` (`--work-order ViewPrism2=bomdd/work-orders/eco-148.md`) found 0 I3a/I2 defects, a frozen-revision line valued `2ef07e9`, and a newest entry carrying every field the decision reads.
+- **V2 — PASS:** the product's gates at every commit and mechanical acceptance (build 0/0, Tests 977/977, Oracle 109 + 4 skips, validate 0-0). ViewPrism2 has no CI.
+- **V3 — PASS:** ECO-148 records A1-A6 and the human's rulings, attacked by converge (4 rounds) and R8 (2 rounds).
+- **V4** (not a closing condition) **— met:** ECO-148 decided its own delivery.
+- **Declared departures:** the trait lines on five test methods (§1's "tests unchanged"; attribute lines only), and the BomDD-Plm lint's V1 selectors, which go quiet after the As-Built rename (a follow-up in BomDD-Plm).
+- **Found on the BomDD side:** I3a's "every unit with a non-empty `acceptance_refs`" has no place for retired units, or for instrument units that no row measures. The template lists a harness as a unit with a self-test row, and a lifecycle state `retired`. ViewPrism2 moved such units to sibling lists, recorded as OBS-20261027-01.
+
+Next: ViewTube, whose §1 B items for the human are asked when its turn starts.
 
 ## /preflight receipt (start path: manual — the user's instruction read as the start artifact)
 

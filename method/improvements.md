@@ -9330,3 +9330,14 @@ Observations:
   another tool, or another product's kit, whose recorded source commit and copied bytes differ.
   source: ECO-116 manufacture (MoviePad-Remake ECO-004, 2026-10-26)
   evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/eco-004/README.md`, `v3-kit.txt`
+
+## 2026-10-27 ECO-116 manufacture (ViewPrism2 ECO-148) — I3a's "every unit" has no place for retired or instrument units
+
+- Observed while migrating ViewPrism2's M-BOM into the advance decision (`bomdd/60-change-order-eco-116.md` §4).
+  - I3a requires every unit in `manufacturing_units` to have a non-empty `acceptance_refs`. ViewPrism2's M-BOM keeps superseded and retired units (M-UI-016, M-UI-SIMILARITY-023, M-UI-REPAIR-027) and instrument units no Control Plan row measures (the test harness, the capture harness, the fixed oracle's project) in that list.
+  - The template allows `lifecycle_state: retired` and lists a harness as a unit with a self-test row, but I3a does not read the lifecycle state.
+  - ViewPrism2 moved them to `mbom.retired_units` and `mbom.instrument_units`. Its validator walks the whole document, and only `manufacturing_units` is read by I3a and the lint.
+- Thought layer: changes nothing yet (an observation); method/concept claim none.
+- [watch 1/3] OBS-20261027-01 — **A rule that requires every listed unit to carry acceptance needs a stated place for units that are not delivered (retired, or instruments no row measures); otherwise products either invent acceptance rows or move units out of the list by their own convention.** Machine face: I3a reads `lifecycle_state` (or a sibling list the template names) and exempts what it declares, counting the exemptions. 2 例目の条件= another product whose M-BOM holds retired or instrument units at its distribution.
+  source: ECO-116 manufacture (ViewPrism2 ECO-148, 2026-10-27)
+  evidence: ViewPrism2 `bomdd/60-change-order-eco-148.md` §3 item 20, `bomdd/32-mbom.yaml` (`retired_units`, `instrument_units`)
