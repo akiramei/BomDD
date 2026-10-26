@@ -176,6 +176,13 @@ check("V1 40-work-order.md frozen-revision line has its comment on the next line
       len(fl) == 1 and fl[0] + 1 < len(wo) and "<!--" in wo[fl[0] + 1] and NAME in wo[fl[0] + 1])
 check("V1 40-work-order.md frozen-revision line holds no inline comment", len(fl) == 1 and "<!--" not in wo[fl[0]])
 check("V1 40-work-order.md has the bounds line", any(l.startswith(f"- {NAME}の上限: holds ") and ", decisions " in l for l in wo))
+# inspection r4 (IA-12 and its common cause): the bounds line's rule is the playbook's one I2 sentence; the template and the order's section 1
+# carry it verbatim. The sentence is read from the playbook here, so a change to it that the copies do not follow fails this check
+canon = [l.split("上限の行(D5): ", 1)[1] for l in item if l.lstrip().startswith("- 上限の行(D5): ")]
+check("V1 the playbook's I2 has one bounds-line sentence", len(canon) == 1, f"{len(canon)} sentences")
+order_text = re.sub(r"\n\s*", "", read("bomdd/60-change-order-eco-115.md"))
+for where, text in [("40-work-order.md", read(WO)), ("the order's section 1", order_text)]:
+    check(f"V1 {where} carries the playbook's bounds-line sentence verbatim", len(canon) == 1 and canon[0] in text)
 cp_text, ab_text = read(CP), read(AB)
 for v in ["automated | human:<role> | automated+human:<role>", "product-fix", "instrument-recovery", "control-plan-fix", "retired",
           "passed", "failed", "skipped", "not-run"]:

@@ -492,11 +492,18 @@ def main():
         d4 = [name for name, change, expected in CASES if run_case(td, change).get("d4_written") is False]
         out.append(f"== D4 written into the decision records on every case that decided rows: {not d4}{(' (not on: ' + ', '.join(d4) + ')') if d4 else ''}")
         # inspection r3 IA-11: I3a and D5 agree on every line — D5 reads a line I3a accepts as written, and keeps the defaults for one I3a refuses
-        import rehearse_sequence as rs
+        # inspection r4 IA-13: against an older rehearsal (a red-first control) the reader may be missing; that is a failed check, not a crash
+        try:
+            import rehearse_sequence as rs
+            rs.work_bounds, rs.B
+        except (ImportError, AttributeError) as e:
+            out.append(f"== I3a and D5 read the bounds line alike: False (not measurable: {type(e).__name__})")
+            ok_all = False
+            rs = None
         ends = ["", " ", "  ", "\t", " \t", " ", "　", " ", "\r", "\v", "\f", "x"]
         values = [("3", "5"), ("999", "999"), ("1", "1"), ("0", "5"), ("1000", "5"), ("03", "5"), ("3", "")]
         disagree = []
-        for h, dd in values:
+        for h, dd in (values if rs else []):
             for end in ends:
                 line = f"- 前進の判定の上限: holds {h}, decisions {dd}{end}"
                 accepted = rd.bounds_defect(WO + line + "\n") is None
@@ -504,9 +511,10 @@ def main():
                 want = {"holds": int(h), "decisions": int(dd)} if accepted else dict(rs.B)
                 if read != want:
                     disagree.append(repr(line))
-        out.append(f"== I3a and D5 read the bounds line alike on {len(values) * len(ends)} lines (values x line ends): {not disagree}"
-                   f"{(' (not on: ' + ', '.join(disagree[:5]) + ')') if disagree else ''}")
-        ok_all &= not disagree
+        if rs:
+            out.append(f"== I3a and D5 read the bounds line alike on {len(values) * len(ends)} lines (values x line ends): {not disagree}"
+                       f"{(' (not on: ' + ', '.join(disagree[:5]) + ')') if disagree else ''}")
+            ok_all &= not disagree
         ok_all &= not d4
         out.append(f"== all synthetic cases as expected: {ok_all}")
     with open(path, "w", encoding="utf-8", newline="\n") as f:

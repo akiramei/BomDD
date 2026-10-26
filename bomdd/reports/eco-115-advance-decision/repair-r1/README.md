@@ -7,7 +7,7 @@ Run 2026-10-26 from the BomDD root. All files are LF; sha256 of the committed by
 | `v1-v2.txt` | `../manufacture/check_v1_v2.py` (repaired) on the repaired tree: PASS 120/120 | `0a586111b33237fdf2b627475a71523c3fda183dc20b00d156975e8d79f9bc30` |
 | `control-on-manufacture-tree.txt` | the same script on the manufacture tree (`35961c3`, the repairs stashed): FAIL 116/120 — the four clause groups of IA-02 and IA-03 (the bounds line in I2, I3a and D5; L7's scale) | `135f9d5af05ca1c62c6cfbb32dde99be4563fad13b38a57b9e7f8506640fdf17` |
 | `redfirst-decision.txt` | the repaired `run_rehearsal_v2.py` against the manufacture tree's `rehearse_decision_v2.py`: exit 1, 8 MISSED (the three IA-04 arms and five IA-02 arms), D4 not written | `f740fe04d50a02ba4d63827c4cff10e62fb18ccfd5b8fa351480389d50b4b95d` |
-| `redfirst_c5.py` | puts the manufacture tree's C5 clause back into the repaired `rehearse_sequence.py` in a scratch copy and runs it | `08475d18e598f8f8f60aab95158cb9da5efdbd1172bee0696a3373e0d84d4a56` |
+| `redfirst_c5.py` | runs the C5 control of `../repair-r4/redfirst_all.py` (the current files with the manufacture tree's C5 clause put back, staged with every file they import); exit 0 only on the signature: exactly Y6 BAD | `30118d96af63481ce72a5f50ae826a093fd153fc09273a180540236035a99407` |
 | `redfirst-c5.txt` | its output: Y6 BAD, Y7 OK, exit 1 | `3fd4b8f1622b5f3c4414b669c80dfdba016e702d18b7948567ef70951ff9f644` |
 
 What each repair is (the order's section 6 has the account):
@@ -23,4 +23,6 @@ What each repair is (the order's section 6 has the account):
 
 Command for the red-first decision run (a scratch folder holding the manufacture tree's `rehearse_decision_v2.py`, the repaired
 `run_rehearsal_v2.py` and `vp2-cp-results.xml.gz`): `python -B run_rehearsal_v2.py <ViewPrism2> <out>`. For C5:
-`python -B repair-r1/redfirst_c5.py bomdd/reports/eco-115-advance-decision/rehearse_sequence.py <scratch>/seq_old_c5.py`.
+`python -B repair-r1/redfirst_c5.py <scratch>` (from `bomdd/reports/eco-115-advance-decision/`).
+
+Since inspection r4 (IA-13): r3 moved the bounds parser into `rehearse_decision_v2.py`, which this helper's first form neither copied nor patched, and it accepted any child failure; it now runs the self-verifying control of `../repair-r4/redfirst_all.py`. That script also re-runs the decision run above, staged with every file it imports, and checks it against its expected misses.

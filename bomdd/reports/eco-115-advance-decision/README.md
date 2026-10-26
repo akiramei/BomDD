@@ -17,7 +17,7 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `measure_freeze.py` | whether each product's work order has the frozen-revision line and its As-Built the references the freeze check reads (HEAD, `git show`) | `1d1454282329984fde3c164756f28a7ff8705f7eb4a1f91d87be93c86cec6424` |
 | `freeze-inputs.txt` | its output | `e530fc266debdc424010ee53e721adc5b8058080dd7f9f08e50b9c403d869967` |
 | `rehearse_decision_v2.py` | loop 4 (redesign after EXP-20261024-01): the decision as the draft now states it — `frozen_commit` resolved at receipt, ancestry and frozen ≠ delivered, `delivered` `{commit, tree}` only, `identity` read from the evidence, the `line` format; after loop 4 round 1: git required, the tree checked, freeze ≤ issue, a failure no counted row owns; after the user's cut-off "A": the BOM equal at freeze and issue, implied clauses dropped, git missing still lists the rest, unowned failures route control-plan-fix | `07109636808d96e328a02688d5856d0c1323013c58af590aa8157bcb5790ca26` |
-| `run_rehearsal_v2.py` | its driver on ViewPrism2 (freeze = issue = `f697a82`, delivery `504921a`, ancestry and tree on ViewPrism2's git) and the synthetic cases on a stub git history and the synthetic cases | `f56f0e744ee48e3d8fc6f9b89d8ec6844f2faaec154a7100e53043d9c3d2327f` |
+| `run_rehearsal_v2.py` | its driver on ViewPrism2 (freeze = issue = `f697a82`, delivery `504921a`, ancestry and tree on ViewPrism2's git) and the synthetic cases on a stub git history and the synthetic cases | `82dd27c428d5f7b87b5a777065d199d9b568f923ef98466c05735e420106fda7` |
 | `rehearsal-v2.txt` | its output | `ab2df806dc40d22efee02866207b9b2ab0ec93f6b2d45c58e6be179f50e05c6d` |
 | `run_moviepad.py` | the decision on MoviePad-Remake delivery 1's real records (`git show`, read-only): M0 as they are, M1a/M1b a migrated copy (edits listed; M1b's stamp ASSUMED), M2 known-bad freezes, M3 known-bad evidence lines | `4234c507f07bdd7066610521810ba48f468e36011beefc0657011b6b2c8e5b83` |
 | `rehearsal-moviepad.txt` | its output | `47e978e5d03936d6c79f6d5484fc837d021b603fdeca5feff5611f384825392c` |
@@ -36,6 +36,7 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `repair-r3/` | the repair after inspection r3 under the user's "A": red-first run, the control on the tree of r2's repairs, V1/V2 (its README) | — |
 | `inspection-brief-r4.md` | the committed copy of independent inspection r4's brief (EQ-002, range 是正確認+回帰; the extension round) | `88bc75f933064ee4f433b64a25027d79f272e611c885ade97552bc520d3cd2f1` |
 | `inspection-r4.md` | inspection r4's report: REJECT IA-12, IA-13, at the extended bound | `b7f01551303e3cf045bbe69abdb56685f1a4c958e9d0b8f8a1846ac1c062b7e6` |
+| `repair-r4/` | the common cause removed (one canonical sentence for the bounds line, its copies checked) and the repairs after inspection r4; the self-verifying red-first runner (its README) | — |
 
 Commands (from this folder):
 

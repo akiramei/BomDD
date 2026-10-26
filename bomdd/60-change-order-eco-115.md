@@ -124,7 +124,9 @@ naming that item, and §4.4:178's sentence on `on_fail` refers to it instead of 
   - the bounds line (D5; inspection r1 IA-02): absent or one line of the form `- 前進の判定の上限: holds <n>, decisions <m>`, with `<n>` and `<m>`
     decimal integers from 1 to 999 without leading zeros (inspection r2 IA-10: a closed domain, so every valid line can be read); trailing ASCII
     spaces and tabs are not part of the line, as for the frozen-revision line, and any other character, other whitespace included, puts it
-    outside I2 (inspection r3 IA-11: I3a and D5 read the line the same way).
+    outside I2 (inspection r3 IA-11: I3a and D5 read the line the same way). The canonical statement is the playbook's I2 sentence, which the
+    work order template copies verbatim (inspection r4, common cause: the rule had been written in five places and each repair left one behind):
+    「無いか 1 本で、形は `- 前進の判定の上限: holds <n>, decisions <m>`、`<n>` と `<m>` は 1 以上 999 以下の 10 進の整数(先頭に 0 を付けない)。行末の半角空白とタブは行に含めない(固定した版の行と同じ)— ほかの文字は、ほかの空白も含めて形を外れる。」
 - **I3a (input check before running anything).** git is available (L8); the entry's `delivered` is within I2 and its `tree` is the tree of its
   `commit`; the entry's `work_order_ref` is within I2 and names a commit other than the delivered one; the entry
   has `frozen_commit`; the work order read at `work_order_ref` has exactly one frozen-revision line, and its value resolves to `frozen_commit`; its
@@ -608,6 +610,28 @@ re-run: synthetic cases all as expected, D4 written, I3a and D5 agree on all 84 
   left one of them behind; one (IA-13) is the repair evidence itself going stale when a later repair moved code it patched.
 - Evidence owed: IA-12's and IA-13's repairs and a review; the inspection gate has no ACCEPT.
 - Technical risk: unchanged from §9 — the optional bounds line of D5 (IA-12) and the repair evidence (IA-13); nothing in D0-D4 or in the rest of D5.
+
+## 12. Ruling, the common cause removed, and the repairs after inspection r4 (2026-10-26)
+
+**Ruling (user "A", 2026-10-26): remove the common cause first, then extend the review loop by one round** (options presented: A this; B cut-off
+adoption, the repairs reviewed by no one and the inspection gate without an ACCEPT; C hold). **The extended bound is r5:** if r5 is not ACCEPT, the
+ECO returns to §13's pending human disposition.
+
+**The common cause, removed** (evidence: `bomdd/reports/eco-115-advance-decision/repair-r4/`): the bounds line's rule was written in five places,
+and r2-r4 found three times that a repair left one behind. The playbook's I2 sentence is now the one statement; the work order template and §1's I2
+carry it verbatim; V1 reads the sentence from the playbook and checks both copies hold it (on the tree of r3's repair both copies fail); the two
+scripts already share one parser (r3) and agree on 84 lines.
+
+**IA-12** — the template holds the sentence, "without leading zeros" included; V1 checks it (above).
+
+**IA-13** — `repair-r4/redfirst_all.py` re-runs every red-first control of the repairs — r1's, r2's and r3's decision runs against the code each
+replaced, the C5 control and the domain control — each staged in a new scratch folder with every file it imports, and passes a control only on its
+own expected failure (the arms it must miss and the lines it must print, the one BAD arm, the `ValueError`); a failure for any other reason, or a
+set-up that no longer fits the code, fails the control. The earlier helpers run its controls; `run_rehearsal_v2.py`'s agreement check fails as "not
+measurable" instead of crashing against an older rehearsal. One defect of the runner was found before its output (arm names cut at a colon).
+
+**Measured:** V1/V2 PASS 123/123; on the tree of r3's repair it fails 121/123 (the two copies). Red-first runner: 5 of 5 controls show their own
+signature. The rehearsals' outputs unchanged (the driver change adds no line when the reader is present).
 
 ## 収束 receipt (converge self-application)
 

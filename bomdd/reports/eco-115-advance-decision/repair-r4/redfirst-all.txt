@@ -1,0 +1,6 @@
+SIGNATURE r1-decision: exit 1; 14 MISSED; expected missing none; expected lines absent none
+SIGNATURE r2-decision: exit 1; 5 MISSED; expected missing none; expected lines absent none
+SIGNATURE r3-decision: exit 1; 2 MISSED; expected missing none; expected lines absent none
+SIGNATURE c5: exit 1; BAD arms ["BAD Y6 a failing row with its own cause and another's, renamed under the other's"]; stderr none
+SIGNATURE domain: exit 1; last stderr line 'ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5000 '
+red-first controls showing their own failure: 5 of 5
