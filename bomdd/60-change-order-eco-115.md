@@ -675,6 +675,21 @@ the whole — no open search for new classes (options presented: A this; B cut-o
 **Measured:** V1/V2 PASS 144/144. Red-first runner: 5 of 5 controls show their own failure, 2 of 2 wrong set-ups refused. The rehearsals' outputs
 unchanged.
 
+## 15. Independent inspection r6 (2026-10-26, EQ-002, range 是正確認+回帰, narrowed by the user's "A") — ACCEPT
+
+- **Launched through the operator entry** on `47b4df7` (CI 40267189861 success; witness tree `c65a03220a92`, gate self-conformance). Brief
+  `b9ef98ce77c1…` (stored; committed copy `bomdd/reports/eco-115-advance-decision/inspection-brief-r6.md`); report `inspection-r6.md`
+  (`d4f45ca9b0b1…`); the ledger's cell record binds it.
+- **All three items PASS; findings: none.** IA-14 and IA-15 resolved: the red-first runner gave 5 of 5 revision-specific signatures and refused 2 of 2
+  wrong set-ups; V1/V2 144/144; the inspector's IA-15 probe repeated fails the repaired check (141/144) and the built-in mutations are all caught.
+  Regression: 13 paths in the range, all allowed, `method/` unchanged in it; the four rehearsals byte-identical; IA-01 to IA-13 still resolved;
+  all 54 README sha256 values match.
+- **Not examined (the inspector's statement):** new defect classes beyond IA-14 and IA-15 (the range the user narrowed), V4, product behaviour beyond
+  the four rehearsals, enforcement after distribution.
+- **The review loop, in full:** r1 REJECT 7 → r2 REJECT 3 → r3 REJECT 1 (bound r3) → r4 REJECT 2 (extended, "A") → r5 REJECT 2 (common cause removed,
+  "A") → r6 ACCEPT (narrowed range, "A"). 15 findings, all resolved. The ECO stays `implemented`; closure (V4 and the promotion to verified) is the
+  next step.
+
 ## 収束 receipt (converge self-application)
 
 ### Loop 1 (after the split from ECO-114)

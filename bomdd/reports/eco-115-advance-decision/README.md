@@ -40,6 +40,8 @@ written. Text files are LF; the sha256 values are of the bytes the commit stores
 | `inspection-brief-r5.md` | the committed copy of independent inspection r5's brief (EQ-002, range 是正確認+回帰) | `fcd029fb04083e445d6d6c14819f3769ea1555fcdf2e7b2bba4a5f11cac1d241` |
 | `inspection-r5.md` | inspection r5's report: REJECT IA-14, IA-15, at the extended bound | `11a28f347bc87177a5aca81dfc44af5fb8d017b523c5a66540039933c2952e65` |
 | `repair-r5/` | the repairs after inspection r5: I2's closed values read from the playbook and every copy compared as a set (with mutations), and the red-first runner's exact misses, staged identity and negative set-ups (its README) | — |
+| `inspection-brief-r6.md` | the committed copy of independent inspection r6's brief (EQ-002, range 是正確認+回帰 narrowed by the user's "A") | `b9ef98ce77c1a5686342f334ab5a92f57efb789dfadbb33541617548dfadab5c` |
+| `inspection-r6.md` | inspection r6's report: ACCEPT, findings none | `d4f45ca9b0b13520a50b253d430f64c8bbd189e24a9873c323c1c8ac82f05f49` |
 
 Commands (from this folder):
 
