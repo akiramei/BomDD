@@ -9368,6 +9368,13 @@ Interim (ViewTube's first ECO, before the instrument; the experiment stays open 
 - For the split ECO-VT-269 (the M-BOM and Control Plan within the decision's inputs, and R4), the whole commit sequence (filing, two probes, fix commit) was run through ViewTube's own hooks in a scratch clone before each review. It caught one refusal no review had named: listing a file in `impacted_files` made it an ownership collision whose participants did not match.
 - Converge trajectory 12 → 12 → 10, unconverged at the limit (round 3: none blocking, none changing a row's decided value); the user's cut-off adoption "1:A 2:a". ViewPrism2's was 20 → 23 → 17 → 19.
 
+Interim (ECO-VT-270, implemented 2026-10-27; the experiment stays open: two of its side measurements were not made):
+- Run before review, as the condition says: the managed route on real files before the design review found one defect class no review named (the user's open application turns 12 tests red; the instrument now refuses to measure while it runs); the commit sequence replayed in a scratch clone found four refusals before any real commit (two citation refusals, a missing machinery claim, a script's doubled path), none named by a review.
+- Found by review afterwards: converge 15 → 7 → 5 (unconverged, cut-off adoption); R8 round 1 15 findings (11 substance), round 2 7 substance carried as known defects. Against ViewPrism2's 20 → 23 → 17 → 19 the design trajectory is lower and falling; the review findings are mostly paths the real-file runs did not exercise (failure and retry paths, the audit sweep, D5's later inputs).
+- `/calibrate` with known-bad copies of the real receipt: 4 of 4; on the rehearsal receipt the same harness passed by chance and on the real one it mislabelled an arm (OBS-20261027-05).
+- Not measured: the state × event table of the delivery lifecycle, and the porting cost (shared against product-specific lines).
+
+
 ## 2026-10-27 ECO-116 manufacture (ViewTube ECO-VT-269) — the identity's end anchor cannot see a second stamp
 
 - Observed in ViewTube ECO-VT-269's R8 round 1 (R269-1-2, out of scope there): the `check_mapping` identity of ViewTube and ViewPrism2 ends in `\Z`, so it reads only the last `MEASURED_ON` stamp of an evidence file. D1's test 1 ("the evidence names two or more units") cannot fire for this format: a file stamped twice, for example a copy re-stamped at a later delivery, is read by its last stamp, and the earlier one is silently ignored. ECO-VT-269 is applied (ViewTube `20df6d86`); ECO-VT-270's instrument carries two constraints (a copy is stamped once, from the sealed file; nothing writes after the stamp).
@@ -9375,3 +9382,11 @@ Interim (ViewTube's first ECO, before the instrument; the experiment stays open 
 - [watch 1/3] OBS-20261027-04 — **An identity pattern anchored to the end of the evidence makes "the evidence names two or more units" unobservable; the stamp count is a separate fact the decision has to read.** Machine face, a candidate only: the rehearsal's `measured_unit` counts every stamp-shaped line and makes a count other than one unmeasurable. 2 例目の条件= another product's mapping, or a real delivery, where an evidence file carries more than one stamp.
   source: ECO-116 manufacture (ViewTube ECO-VT-269), R8 round 1, 2026-10-27
   evidence: ViewTube `bomdd/eco/ECO-VT-269-independent-review.md` (R269-1-2), `bomdd/33-control-plan.yaml` `check_mapping`; ViewPrism2 `bomdd/33-control-plan.yaml`
+
+## 2026-10-27 ECO-116 manufacture (ViewTube ECO-VT-270) — a known-bad arm built by a text pattern chose another element
+
+- Observed in ECO-VT-270's calibration on its real receipt: the harness flipped "the first passing test with a cp trait" by a regex over the XML text; with 478 self-closing `<test/>` elements the match ran from one into the next test's traits, so it flipped an unbound test and labelled the arm "a bound test failed". The instrument decided the copy correctly (a failure no row owns); the label was wrong. On the rehearsal receipt the same harness happened to pick a bound test and passed. Repaired by choosing the element by parsing and re-parsing the altered copy to confirm the one change.
+- Thought layer: changes nothing yet (an observation); method/concept claim none.
+- [watch 1/3] OBS-20261027-05 — **A known-bad copy's label is a claim about the copy and has to be checked on the copy (parse it again and confirm exactly the intended change), not inferred from how the alteration was made; a harness that passes once may have passed by the input's shape.**
+  source: ECO-116 manufacture (ViewTube ECO-VT-270), V5, 2026-10-27
+  evidence: ViewTube `test-results/eco-vt-270-deliveries-received-in-a-fresh-context/calibration.txt` (both runs)

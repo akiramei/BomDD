@@ -1,0 +1,8 @@
+ECO-116 survey at BomDD 8ac3ca0 (ECO-115 verified ef1506a)
+
+== ViewTube at b69aa2ed
+   I3a/I2 on the M-BOM and Control Plan: 0 defects {}
+   units 12, rows in the Control Plan 41, rows named 28, check_mapping present
+   work order (bomdd/work-orders/eco-vt-270.md): frozen-revision line value 'ca1d33aafa8b047e39f964bcadce35a46c8011c6'; bounds line absent
+   As-Built newest entry AB-ECO-VT-270-1: frozen_commit yes; delivered yes; work_ref yes; refs in I2 form 3/3; test_evidence_refs 23 (source: decision 23)
+   vendored method templates: none
