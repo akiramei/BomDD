@@ -9399,7 +9399,7 @@ Result (2026-10-28, the two side measurements; scripts and outputs in `bomdd/rep
   - Not measured: hours or tokens spent porting.
 - **Disposition:** all three side measurements and the comparison are made, so the EXP is recovered (its condition, running the instrument on real files before review, was applied to both of ViewTube's ECOs and measured in the interims). The table's six unreviewed gaps are ViewTube's to treat (a ViewTube ECO or cheat-log entry is the user's call); nothing in ViewTube was changed.
 - **Proposals (not applied; no method body text changed):**
-  - OBS-20261028-01 below: write the lifecycle as a state × event table at design time.
+  - Below, as OBS-20261028-01: write the lifecycle as a state × event table at design time.
   - A candidate, not filed: the decision core that crossed unchanged (the 24 identical definitions) could be shipped with the kit rather than ported per product. That would trade the instruments' stated independence ("does not import BomDD") against porting one decision twice; whether to do so is a design question for the user.
 
 **ECO-116 closed (2026-10-28)**: ECO-115's advance decision reached MoviePad-Remake (ECO-004, `e45f4fa`), ViewPrism2 (ECO-148, `82c362e`) and
@@ -9434,3 +9434,156 @@ twice, so the experiment has not triggered. TimetableAdv stays deferred.
 - [watch 1/3] OBS-20261028-01 — **A lifecycle written as prose leaves cells undefined that reviews of the prose do not reach. Writing it as a state × event table finds them by counting, and the reviews' findings and the table's overlap only partly.** Machine face, a candidate only: a delivery-model ECO's design carries the table and its count of undefined cells, and its review reads the table. 2 例目の条件= another product's lifecycle or process ECO tabulated in the same way, ideally before its review, where the table names a gap the review did not.
   source: EXP-20261027-03 (ViewTube ECO-VT-270), measured 2026-10-28
   evidence: `bomdd/reports/exp-20261027-03/state-event-table.md` (the gaps G5-G10), ViewTube `bomdd/eco/ECO-VT-270-independent-review.md`
+
+## 2026-10 ViewTube 還元 — three procedures from ECO-116's distribution: rehearse the commit sequence before review, confirm a Control Plan row's test binding by reading, derive the counts a record states
+
+On the user's "3:A" of "1:A 2:A 3:A 4:A" (2026-10-28), the third of four improvement measures proposed from this arc's lessons.
+Source: ViewTube ECO-VT-269, ECO-VT-270, ECO-VT-271 (`bomdd/eco/`, their independent reviews and `test-results/`), BomDD ECO-116
+(`bomdd/60-change-order-eco-116.md` §4-§5), ViewPrism2 ECO-148 (`bomdd/60-change-order-eco-148.md` §8-§9), EXP-20261027-03's interims
+and result (this file).
+
+Observations:
+
+1. **A replay of the whole commit sequence through the product's own hooks, in a scratch clone, before any review and before the first
+   real commit, caught refusals no review named.** ViewTube ECO-VT-269: 1 (listing a file in `impacted_files` made an ownership
+   collision whose participants did not match). ECO-VT-270: 4 (two citation refusals, a missing machinery claim, a script's doubled
+   path), and the run on real files found one more defect class (the user's open application turns 12 tests red; the instrument now
+   refuses to measure while it runs). None of the five reached a real commit. ECO-VT-271 also rehearsed in a scratch clone; its
+   record names no refusal found there. The counter-example: ViewPrism2 ECO-148 built its receiving instrument without such a run, and
+   its R8 found the two decisive defects on the repository's real files (a CRLF working copy, the register's note read as a YAML
+   comment). What the reviews found instead were mostly paths the runs did not exercise (failure and retry paths, the audit sweep, D5's
+   later inputs; EXP-20261027-03 interim). The state x event table made afterwards found six lifecycle gaps no review named
+   (OBS-20261028-01). Three nets, three mostly disjoint classes: gate refusals and environment (the replay), unexercised paths and
+   readings (the review), undefined cells (the table).
+2. **Confirming each Control Plan row's test binding by reading found promises with no check behind them.** ECO-VT-270 bound tests to
+   25 counted rows: three fresh readers recorded each candidate test's assertion line, and the orchestrating agent checked every citation
+   mechanically (file, top-level class, method, line in span, an assertion token). 2 rows promised an automated check no test makes
+   (narrowed `automated` -> `human:user`); none of the 23 bound rows' tests asserts its whole tolerance, so every row records the rest in
+   `known_limits` and the 17 `automated` bound rows gained `+human:user`. Before the reading, the Control Plan said those 2 rows were
+   checked automatically and nothing noticed, because no test carried a row's id.
+3. **Counts typed into records drifted; the corrected value came from a script.** ECO-VT-270's body says 16 rows gained `+human:user`;
+   the parsed Control Plan at `20df6d86` and `33a2581e` gives 17 (19 approver changes: 17 `automated -> automated+human:user`, 2
+   `automated -> human:user`; 25 `known_limits` changed; derived 2026-10-28 by `bomdd/reports/promote-20261028-viewtube/cp_approver_diff.py`). In the same arc the counts
+   16/17, 425/424 and 172/176 were typed one way and found another, each by a later reading; the messages were corrected and the bodies
+   keep them as known inaccuracies. playbook §13 already forbids the static transcription of derivable facts (記録の経済 (a), 転写値禁止);
+   the rule did not fire for counts written in prose.
+
+Generality check (product names removed):
+- 1 -> "when a change reaches commits through gates, replay its whole commit sequence through those gates in a scratch clone before review;
+  it catches refusals and environment defects reviews do not name, while reviews catch paths the replay does not exercise". Product-free;
+  machine face = the replay script and its refusal log. Two ECOs in one product, plus one counter-example in another: already inside
+  playbook §13 "完全性の主張は列挙でなく導出で裏付ける" ③ (dynamic rehearsal as the last net); what is new is the placement (before review,
+  not only last) and the measured complementarity. Weaving proposed as a sharpening of ③, not a new rule.
+- 2 -> "an `automated` approver on a Control Plan row is a claim that a test exists and asserts the row's tolerance; confirm it by reading
+  the assertion and checking the citation mechanically, narrow a row with no test, and record what the bound tests do not assert".
+  Product-free; machine face = the binding table and its citation check. N=1: new OBS (watch 1/3). Related to OBS-20261026-03 (a Control
+  Plan naming paths that never existed); that item's 2 例目の条件 names a path, and here no path is named, so its N is unchanged.
+- 3 -> no new proposition (playbook §13 記録の経済 (a) and 転写値禁止). A non-firing of an existing prose rule, the form already seen for
+  converge and calibrate's self-triggers: new OBS (watch 1/3) on the non-firing, not on the rule.
+
+Concept-layer check (3b): [x] operational rule (playbook, proposed) [ ] control / probe [ ] template [ ] terminology
+[ ] method/concept claim [ ] none. No concept claim changes: concept.md's "受入 2 層" and FINDINGS §3.3 "テスト緑 ≠ 仕様適合" are both
+supported again by observation 2 (23 of 23 bound rows green and each measuring part of its tolerance), without a new reading.
+
+Expected-effects inventory (from `worklist.py` at this section's writing; trigger = a rehearsal or first-use run, a Control Plan
+binding, a count in a record, a machine edit):
+- Unchanged, EXP-20260717-12 (a new instrument or gate run once in the form it is used, time axis included): applied again in ViewTube
+  (observation 1, the replay covers the first compliant filing, transition and acceptance); its open condition is a BomDD-side
+  measurement, not met.
+- Recovered already by the session that measured it, EXP-20261027-03 (`6dd103a`); this section uses its interims and result.
+- Unchanged, OBS-20261026-03 (see the generality check: its second-example condition names a path).
+- No opportunity, EXP-20261025-06 (machine edits that changed nothing or emptied a file): this arc's scripts asserted each anchor once
+  and checked line endings in bytes; no incident, and the count over ten designer sessions is not started by this section.
+- No opportunity, OBS-20261027-05 (a known-bad copy's label checked on the copy): no new calibration in these sources.
+
+- [watch 1/3] OBS-20261028-02 — **An `automated` approver on a Control Plan row can promise a check no test makes, and a bound row's
+  tests can assert only part of its tolerance; nothing notices until each binding is confirmed by reading the assertion and checking
+  the citation mechanically.** One product (ViewTube ECO-VT-270): 2 of 25 counted rows had no test, 23 of 23 bound rows were partial.
+  Machine face: the binding table (row -> test -> assertion line) committed before the rows are relied on, a citation check over it, and
+  each row's `known_limits`. 2 例目の条件= another product's Control Plan binding (or re-binding after a row changes) where reading
+  finds a row with no test or a test that does not assert what the row says.
+  source: ViewTube ECO-VT-270 (2026-10-27)
+  evidence: this section, observation 2; ViewTube `bomdd/eco/ECO-VT-270.md` section 3 B,
+  `test-results/eco-vt-270-deliveries-received-in-a-fresh-context/binding-table.json`
+- [watch 1/3] OBS-20261028-03 — **The rule against transcribing derivable facts (playbook §13) did not fire for counts written in prose
+  (an ECO body, a commit message): in one arc four counts were typed one way and found another, and the corrected value came from a
+  script over the records.** Same form as a prose self-trigger that does not fire. Machine face, a candidate only: a count in a record
+  is written with the command that derived it (or is the script's output pasted whole). 2 例目の条件= another ECO or product where a
+  typed count in a record differs from the count derived from the records it describes.
+  source: ViewTube ECO-VT-270, BomDD ECO-116 (2026-10-27 to 28)
+  evidence: this section, observation 3; `bomdd/reports/promote-20261028-viewtube/` (`cp_approver_diff.py` and its output)
+- [open] EXP-20261028-04 — **If the weaving of observation 1 is adopted: does the next change whose commits pass a product's gates replay
+  its commit sequence in a scratch clone before review, and what does that replay catch?** Measure on the next three such ECOs (any
+  product): replay present before review yes/no; refusals and defect classes the replay found; findings the review then made that the
+  replay could not exercise. Reading fixed now: replays present in 3/3 and catching at least one refusal no review names → the placement
+  holds; replays absent → the rule did not reach the procedure (the form of OBS-20261028-03). Withdrawn if the weaving is not adopted.
+  source: this section
+  evidence: this section, observation 1
+
+## 2026-10-28 An outcome baseline from the change records (92 ECOs, four repositories) — what the records can and cannot count
+
+On the user's "4:A" of "1:A 2:A 3:A 4:A" (2026-10-28): before the measures 1 and 2 change anything, count per ECO what the records
+already hold, so that "improved" can later be said with a number. Built by a delegated agent from the records only (read-only in every
+product), checked by the designer: the script re-run gives the same output but for its timestamp; its writes were made LF.
+Folder: `bomdd/reports/exp-20261028-01/` (`definitions.md` fixed before counting, with 11 departures D1-D11 recorded; `baseline.py`;
+`baseline.json`, `baseline.md`, `baseline-summary.json` generated; `spot-check.md` on ECO-115, ECO-VT-270 and ECO-098).
+
+Window: ECOs filed on or after 2026-10-01 — BomDD ECO-089 to 116 (28), ViewTube ECO-VT-218 to 271 (54), ViewPrism2 ECO-143 to 148 (6),
+MoviePad-Remake ECO-001 to 004 (4).
+
+| Median per ECO | BomDD | ViewTube | ViewPrism2 | MoviePad-Remake |
+|---|---|---|---|---|
+| independent review rounds | 1 | 2 | 2 (n=3) | 2 (n=1) |
+| fix commits | 1 | 1.5 | 1 | 0.5 |
+| rework (fix commits after the first) | 0 | 0.5 | 0 | 0 |
+| user rulings quoted (distinct strings) | 2 | 4 | 1 | 1.5 |
+| known defects carried | 5 (n=2) | 1 (n=11) | 2.5 (n=2) | 0 (n=3) |
+| escapes found later | 0 | 0 | 0 | 0 |
+| filing to closure, hours | 0.95 | 6.9 | 1.95 | 1.6 |
+
+Converge outcomes: BomDD 11 converged, 10 cut-off, 7 with no receipt; ViewTube 2 cut-off; one each in the other two. Golden returns: 0
+in ViewTube (n=30), not applicable elsewhere. Escapes over the whole window: 3 (ECO-098, ECO-VT-220, ECO-VT-232).
+
+What the records cannot count (the baseline's own result):
+- **Known defects: 67 of 92 ECOs are `unknown`** — the record says neither "none carried" nor a number, so "none" and "not recorded" are
+  indistinguishable; and BomDD's distribution ECOs report the products' known defects as their own (ECO-097, 107, 110, 116).
+- **Escapes have measured precision and unmeasured recall**: matching an ECO id near correction words gave only false positives; the
+  narrower rule kept finds 3. A low count is not evidence of few escapes.
+- **Rulings are a ranking, not a count**: distinct quoted strings undercount (ECO-115: 7 against about 15 rulings, "A" given nine times).
+- **Rework in ViewTube is overstated**: its `fix(` commits mark steps of one fix, not repeated fixes.
+- Unknown cells otherwise: findings per round 14, review rounds 11, verdict per round 8, elapsed 7 (6 not closed, 1 superseded).
+
+Thought layer: changes nothing (a measurement); method/concept claim none.
+
+- [open] EXP-20261028-05 — **Re-run `bomdd/reports/exp-20261028-01/baseline.py` after the measures it was made for, and compare.** Trigger:
+  MoviePad-Remake's delivery 3 closed (ECO-005, measure 2) and the next three ECOs in ViewTube or ViewPrism2 after a weaving of
+  measure 3 is adopted. Read: rework, review rounds and escapes against this baseline, per repository, with the same definitions (a
+  definition changed before the re-run is a departure and both readings are given). Reading fixed now: medians that move inside the
+  spread of this window are no claim; the known-defect column is read only for ECOs that state a number or "none".
+  source: this section (the user's "4:A", 2026-10-28)
+  evidence: `bomdd/reports/exp-20261028-01/baseline.md`, `definitions.md`
+- [watch 1/3] OBS-20261028-06 — **Change records that do not say "no known defect carried" make "none" and "not recorded" the same, so an
+  outcome measure over them is unknown for most changes (67 of 92 here).** Machine face, a candidate only: the acceptance record carries a
+  known-defects line that is a number or `none`, never absent. 2 例目の条件= another baseline or audit over change records that cannot
+  tell an absent statement from a zero.
+  source: this section
+  evidence: `bomdd/reports/exp-20261028-01/baseline-summary.json` (`NO_KD_STATEMENT`)
+
+## 2026-10-28 MoviePad-Remake — the first E-BOM boundary ruled by the user differs from the delegated decision
+
+- On measure 2 (the user's "2:A"), the user was asked to rule one E-BOM boundary of MoviePad-Remake — how many parts export is (one, three,
+  or two) — with each option's gain, loss and reversibility and **without** the E-BOM AI's choice or a recommendation, so that the ruling
+  and the delegated decision could be compared. The user ruled **A (one part)**; ADR-002 had chosen **B (three parts)**. MoviePad-Remake
+  `bomdd/reports/adr/ADR-006.md` records the ruling (decided by the user; ADR-002 superseded); ECO-005, to be filed after oracle v6 is frozen,
+  carries it to the M-BOM, the Control Plan, the routing and a re-manufacture of the export unit (delivery 3).
+- The charter's assumption (2026-10-24) that the user's ruling and the AI's judgement would not differ much was unmeasured; this is its
+  first measurement: 1 boundary, 0 agreements. One boundary says nothing of a rate.
+- Thought layer: [ ] operational rule [ ] control / probe [ ] template [ ] terminology [x] method/concept claim [ ] none — the delegation of E-BOM boundaries to an AI (playbook §4.5's split of
+  what returns to the human; the user's decision of 2026-10-24 for this product): **untested → untested with one counter-example**; no body
+  text changes on N=1.
+- [watch 1/3] OBS-20261028-07 — **An E-BOM boundary delegated to an AI and the same boundary ruled blind by the human differed (MoviePad-
+  Remake export: AI three parts, user one).** Whether delegated boundaries need a human ruling is open; this is one boundary. 2 例目の条件=
+  another blind ruling of a delegated boundary (this product's next one, ADR-003, if asked, or another product), agreeing or not; the
+  count of agreements is what is recorded.
+  source: MoviePad-Remake ADR-006 (the user's "A", 2026-10-28)
+  evidence: MoviePad-Remake `bomdd/reports/adr/ADR-002.md`, `ADR-006.md`

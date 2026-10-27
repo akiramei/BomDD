@@ -1,0 +1,174 @@
+{
+ "medians": {
+  "BomDD": {
+   "review_rounds": {
+    "median": 1,
+    "n": 27
+   },
+   "fix_commits": {
+    "median": 1.0,
+    "n": 28
+   },
+   "rework_fixes": {
+    "median": 0.0,
+    "n": 28
+   },
+   "human_rulings": {
+    "median": 2.0,
+    "n": 28
+   },
+   "golden_returns": {
+    "median": "n/a",
+    "n": 0
+   },
+   "known_defects": {
+    "median": 5.0,
+    "n": 2
+   },
+   "escapes": {
+    "median": 0.0,
+    "n": 28
+   },
+   "elapsed_h": {
+    "median": 0.95,
+    "n": 28
+   },
+   "receiving_runs": {
+    "median": "n/a",
+    "n": 0
+   }
+  },
+  "ViewTube": {
+   "review_rounds": {
+    "median": 2.0,
+    "n": 50
+   },
+   "fix_commits": {
+    "median": 1.5,
+    "n": 54
+   },
+   "rework_fixes": {
+    "median": 0.5,
+    "n": 54
+   },
+   "human_rulings": {
+    "median": 4.0,
+    "n": 54
+   },
+   "golden_returns": {
+    "median": 0.0,
+    "n": 30
+   },
+   "known_defects": {
+    "median": 1,
+    "n": 11
+   },
+   "escapes": {
+    "median": 0.0,
+    "n": 54
+   },
+   "elapsed_h": {
+    "median": 6.9,
+    "n": 47
+   },
+   "receiving_runs": {
+    "median": 0.5,
+    "n": 2
+   }
+  },
+  "ViewPrism2": {
+   "review_rounds": {
+    "median": 2,
+    "n": 3
+   },
+   "fix_commits": {
+    "median": 1.0,
+    "n": 6
+   },
+   "rework_fixes": {
+    "median": 0.0,
+    "n": 6
+   },
+   "human_rulings": {
+    "median": 1.0,
+    "n": 6
+   },
+   "golden_returns": {
+    "median": "n/a",
+    "n": 0
+   },
+   "known_defects": {
+    "median": 2.5,
+    "n": 2
+   },
+   "escapes": {
+    "median": 0.0,
+    "n": 6
+   },
+   "elapsed_h": {
+    "median": 1.95,
+    "n": 6
+   },
+   "receiving_runs": {
+    "median": 1,
+    "n": 1
+   }
+  },
+  "MoviePad-Remake": {
+   "review_rounds": {
+    "median": 2,
+    "n": 1
+   },
+   "fix_commits": {
+    "median": 0.5,
+    "n": 4
+   },
+   "rework_fixes": {
+    "median": 0.0,
+    "n": 4
+   },
+   "human_rulings": {
+    "median": 1.5,
+    "n": 4
+   },
+   "golden_returns": {
+    "median": "n/a",
+    "n": 0
+   },
+   "known_defects": {
+    "median": 0,
+    "n": 3
+   },
+   "escapes": {
+    "median": 0.0,
+    "n": 4
+   },
+   "elapsed_h": {
+    "median": 1.6,
+    "n": 4
+   },
+   "receiving_runs": {
+    "median": 0,
+    "n": 1
+   }
+  }
+ },
+ "unknown": {
+  "known_defects": {
+   "NO_KD_STATEMENT": 67
+  },
+  "review_findings(per round)": {
+   "NO_FINDING_COUNT": 14
+  },
+  "review_rounds": {
+   "NO_R8_RECORD": 11
+  },
+  "review_verdict(per round)": {
+   "NO_VERDICT_TOKEN": 8
+  },
+  "elapsed_h": {
+   "NOT_CLOSED": 6,
+   "SUPERSEDED": 1
+  }
+ }
+}

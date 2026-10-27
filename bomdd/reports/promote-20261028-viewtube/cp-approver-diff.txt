@@ -1,0 +1,5 @@
+# python -B bomdd/reports/promote-20261028-viewtube/cp_approver_diff.py <ViewTube> 20df6d86 33a2581e  (2026-10-28)
+rows with approver: 39 -> 39
+   17  automated -> automated+human:user
+    2  automated -> human:user
+approver changes: 19 ; known_limits changed: 25

@@ -1,0 +1,5702 @@
+{
+ "generated": "2026-10-28T06:38:11+09:00",
+ "window_start": "2026-10-01",
+ "rows": [
+  {
+   "repo": "BomDD",
+   "id": "ECO-089",
+   "status": "verified",
+   "filed": "2026-10-01",
+   "filed_source": "register.date",
+   "filing_commit": "b78ad331",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "commit subject"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "commit subject"
+    }
+   ],
+   "review_source": "commit_subjects",
+   "converge": {
+    "loops": [
+     "5→2→1→2"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "27483593",
+    "f3964557"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 4,
+   "ruling_strings": [
+    "1:A2:C",
+    "2:A",
+    "3:A",
+    "A'"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 8.6,
+   "close_commit": "efa98647",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    {
+     "unknown": "NO_FINDING_COUNT"
+    },
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-090",
+   "status": "verified",
+   "filed": "2026-10-02",
+   "filed_source": "register.date",
+   "filing_commit": "1bea50b9",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "B",
+    "BomDD側の記録を起票して"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.4,
+   "close_commit": "069e0d5a",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-091",
+   "status": "verified",
+   "filed": "2026-10-03",
+   "filed_source": "register.date",
+   "filing_commit": "246c2fd0",
+   "review_rounds": 3,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 2,
+     "findings_basis": "ids",
+     "marker": "### 6.1 r1(2026-10-03・range= 境界探索)— 報告: [independent-inspection-eco-091.md](reports/independent-inspection-eco-091.md)"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "### 6.2 r2(2026-10-03・range= 是正確認+回帰・範囲限定)— 報告: [independent-inspection-eco-091-r2.md](reports/independent-inspection-eco-091-r2.md)"
+    },
+    {
+     "round": 3,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "### 6.3 r3(2026-10-03・range= 是正確認+回帰・項目 4 のみ)— 報告: [independent-inspection-eco-091-r3.md](reports/independent-inspection-eco-091-r3.md)"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "5→2→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "e7d563b1",
+    "5d90ba48"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "2:A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 1.9,
+   "close_commit": "debc2bf6",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A-R-A",
+   "review_findings": [
+    2,
+    1,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-092",
+   "status": "verified",
+   "filed": "2026-10-03",
+   "filed_source": "register.date",
+   "filing_commit": "246c2fd0",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 4,
+     "findings_basis": "ids",
+     "marker": "### 6.1 r1(2026-10-03・range= 境界探索)— 報告: [independent-inspection-eco-092.md](reports/independent-inspection-eco-092.md)"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "### 6.2 r2(2026-10-03・range= 是正確認+回帰・範囲限定)— 報告: [independent-inspection-eco-092-r2.md](reports/independent-inspection-eco-092-r2.md)"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "4→2→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "e7d563b1",
+    "9b496fc7"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "2:A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 1.9,
+   "close_commit": "debc2bf6",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    4,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-093",
+   "status": "verified",
+   "filed": "2026-10-03",
+   "filed_source": "register.date",
+   "filing_commit": "246c2fd0",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [
+     "3→1→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "e7d563b1",
+    "5d90ba48"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "1:A",
+    "2:A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 1.0,
+   "close_commit": "5d90ba48",
+   "close_basis": "CLOSE_BY_SUBJECT_FALLBACK",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-094",
+   "status": "verified",
+   "filed": "2026-10-03",
+   "filed_source": "register.date",
+   "filing_commit": "5d90ba48",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [
+     "4→2→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "5d90ba48"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "1:A",
+    "ECO-094の対象はAで"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 7.3,
+   "close_commit": "b6f5fe2d",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-095",
+   "status": "verified",
+   "filed": "2026-10-03",
+   "filed_source": "register.date",
+   "filing_commit": "23b6bd57",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [
+     "2→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "23b6bd57"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "1:A2:A3:A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.2,
+   "close_commit": "a2eae9e5",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-096",
+   "status": "verified",
+   "filed": "2026-10-04",
+   "filed_source": "register.date",
+   "filing_commit": "305fba29",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "### 6.1 r1(2026-10-04・range= 境界探索)— 報告: [independent-inspection-eco-096.md](reports/independent-inspection-eco-096.md)"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "### 6.2 r2(2026-10-04・range= 是正確認+回帰・回帰のみ)— 報告: [independent-inspection-eco-096-r2.md](reports/independent-inspection-eco-096-r2.md)"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "2→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "f34a6d6e"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 2.8,
+   "close_commit": "6810d2c4",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A-A",
+   "review_findings": [
+    0,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-097",
+   "status": "verified",
+   "filed": "2026-10-05",
+   "filed_source": "register.date",
+   "filing_commit": "ce597ab0",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "- **R6**= 検査官 r1 **REJECT IA-01** → 是正 → r2 **ACCEPT**。ID ごとの判定(r2)= 合 5・条件付き 5・否 0([review-and-inspection.md](reports/eco-097-mbom-cp-redesign/review-and-inspe"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "6→4→0"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 2.7,
+   "close_commit": "f99c7c4f",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R",
+   "review_findings": [
+    1
+   ],
+   "last_verdict": "REJECT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-098",
+   "status": "verified",
+   "filed": "2026-10-05",
+   "filed_source": "register.date",
+   "filing_commit": "cf1852fc",
+   "review_rounds": 3,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "### 6.1 r1(2026-10-05・境界探索・対象 8d84edb)— **REJECT IA-01**"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "### 6.2 r2(2026-10-05・是正確認+回帰・対象として渡した revision= 8d84edb)— **REJECT IA-01 / IA-02(受理側の手順の誤り・製造物の所見ではない)**"
+    },
+    {
+     "round": 3,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "### 6.3 r3(2026-10-05・是正確認+回帰・対象 ad9d836)— **ACCEPT**"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "3→0→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "8d84edb8",
+    "ad9d8364"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 1,
+   "escape_records": [
+    "ECO-100"
+   ],
+   "escape_lines": [
+    {
+     "record": "ECO-100",
+     "path": "bomdd/60-change-order-eco-100.md",
+     "line": 153,
+     "text": "ECO-098 の記載の誤り 1 件(本 ECO の対象)=「各行は 3 つに分ける」は 1 製品 2 単位 6 行から書いた規則で、2 製品目で合わなかった— candidate の表示と未測定の列挙があったため、訂正として扱えた。"
+    }
+   ],
+   "elapsed_h": 0.6,
+   "close_commit": "a9063ffd",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R-A",
+   "review_findings": [
+    1,
+    1,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-099",
+   "status": "verified",
+   "filed": "2026-10-05",
+   "filed_source": "register.date",
+   "filing_commit": "78cac745",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": "commit_subjects",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "ViewTubeで2例目を試して"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.4,
+   "close_commit": "569a4bc8",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-100",
+   "status": "verified",
+   "filed": "2026-10-06",
+   "filed_source": "register.date",
+   "filing_commit": "ffffdab8",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "### 6.1 r1(2026-10-06・境界探索・対象 fbd3f4a)— **ACCEPT**"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "3→0→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "fbd3f4a5"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.4,
+   "close_commit": "6edfb160",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    1
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-101",
+   "status": "verified",
+   "filed": "2026-10-06",
+   "filed_source": "register.date",
+   "filing_commit": "662faffc",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "A",
+    "承認・2はa・3はa"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.1,
+   "close_commit": "aec11daa",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-102",
+   "status": "verified",
+   "filed": "2026-10-07",
+   "filed_source": "register.date",
+   "filing_commit": "37c4f82e",
+   "review_rounds": 4,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 3,
+     "findings_basis": "ids",
+     "marker": "### 6.1 r1(2026-10-07・境界探索・対象 78f96509)— **REJECT**(blocking 3・証拠の連鎖)"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 2,
+     "findings_basis": "ids",
+     "marker": "### 6.2 r2(2026-10-07・境界探索・対象 9212e719)— **REJECT**(blocking 2・証拠の連鎖)"
+    },
+    {
+     "round": 3,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "### 6.3 r3(2026-10-07・境界探索・対象 b5592120)— **REJECT**(blocking 3・order の文だけ)"
+    },
+    {
+     "round": 4,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "### 6.4 r4(2026-10-07・境界探索・対象 ee5eec62)— **ACCEPT**"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "1→0→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 4,
+   "fix_shas": [
+    "78f96509",
+    "9212e719",
+    "b5592120",
+    "ee5eec62"
+   ],
+   "rework_fixes": 3,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "15件のうち7件",
+    "21行が実測値・6行が未検査の注記",
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.9,
+   "close_commit": "271a0d72",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R-R-A",
+   "review_findings": [
+    3,
+    2,
+    1,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-103",
+   "status": "verified",
+   "filed": "2026-10-10",
+   "filed_source": "register.date",
+   "filing_commit": "c41838ad",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 2,
+     "findings_basis": "ids",
+     "marker": "### 6.1 r1(2026-10-10・境界探索・対象 fab10e1)— **REJECT**(blocking 1)"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "### 6.2 r2(2026-10-10・是正確認+回帰・対象 4cf6304)— **ACCEPT**"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "6→1→0"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "fab10e10",
+    "4cf63041"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "1から進めて",
+    "A",
+    "方法論は何をするかは書くが誰がするかが曖昧・誰がはロール"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.7,
+   "close_commit": "6b2c76c8",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    2,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-104",
+   "status": "verified",
+   "filed": "2026-10-11",
+   "filed_source": "register.date",
+   "filing_commit": "0c1af402",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "0c1af402"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "A",
+    "人間の宣言で作業が中断している間",
+    "参考になれば取り入れ、的外れなら無視してよい"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.3,
+   "close_commit": "1d59dea8",
+   "close_basis": "eco_accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-105",
+   "status": "verified",
+   "filed": "2026-10-12",
+   "filed_source": "register.date",
+   "filing_commit": "c82b8526",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "d188b5a3"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "1"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.3,
+   "close_commit": "41efd00c",
+   "close_basis": "record_verified_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-106",
+   "status": "verified",
+   "filed": "2026-10-13",
+   "filed_source": "register.date",
+   "filing_commit": "44c03320",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [
+     "2→1→2→0"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "44c03320"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.1,
+   "close_commit": "207f56d8",
+   "close_basis": "record_verified_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-107",
+   "status": "verified",
+   "filed": "2026-10-13",
+   "filed_source": "register.date",
+   "filing_commit": "8ed08328",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "- **Independent review R8, round 1: PASS.**"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "A",
+    "TimetableAdvは現在、ChatGPTのモデルの計算リソースの問題でプロジェクトが中断しています。再開の予定が立っていないので今回は見送ります。",
+    "配布のECOを起票して"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 2.7,
+   "close_commit": "40379d10",
+   "close_basis": "record_verified_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-108",
+   "status": "verified",
+   "filed": "2026-10-13",
+   "filed_source": "register.date",
+   "filing_commit": "bdda53e5",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [
+     "16→7→3→2"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "bdda53e5"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "A",
+    "B"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.1,
+   "close_commit": "7050e6af",
+   "close_basis": "record_verified_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-109",
+   "status": "verified",
+   "filed": "2026-10-13",
+   "filed_source": "register.date",
+   "filing_commit": "070d46e6",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "A",
+    "ECO-108の配布のECOを起票して"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 2.2,
+   "close_commit": "eac8c1ab",
+   "close_basis": "record_verified_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-110",
+   "status": "verified",
+   "filed": "2026-10-13",
+   "filed_source": "register.date",
+   "filing_commit": "f7e860e2",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [
+     "11→5→2"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "f7e860e2"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "A",
+    "B"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 2,
+   "known_defects_basis": "number_phrase:two known defects",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.1,
+   "close_commit": "f1a4d222",
+   "close_basis": "record_verified_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-111",
+   "status": "verified",
+   "filed": "2026-10-13",
+   "filed_source": "register.date",
+   "filing_commit": "fbc73b26",
+   "review_rounds": 0,
+   "review": [],
+   "review_source": "none_declared",
+   "converge": {
+    "loops": [
+     "10→4→2"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "fbc73b26"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "A",
+    "B"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.1,
+   "close_commit": "3a9de069",
+   "close_basis": "record_verified_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": "none"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-112",
+   "status": "verified",
+   "filed": "2026-10-18",
+   "filed_source": "register.date",
+   "filing_commit": "19243e5c",
+   "review_rounds": 3,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 2,
+     "findings_basis": "ids",
+     "marker": "## 5. Independent inspection r1 (2026-10-18, EQ-002, range 境界探索) — REJECT IA-01, IA-02"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "## 7. Independent inspection r2 (2026-10-18, EQ-002, range 是正確認+回帰) — REJECT IA-03; IA-01 and IA-02 repaired"
+    },
+    {
+     "round": 3,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "## 9. Independent inspection r3 (2026-10-18, EQ-002, range 是正確認+回帰) — ACCEPT"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "15→11→6",
+     "4→2→3",
+     "2→2→3",
+     "1→0→1",
+     "2→1→0",
+     "2→2→1",
+     "4→1→0→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "f2d91d4e",
+    "4d2c05fe"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 4,
+   "ruling_strings": [
+    "1:A",
+    "1:A2:A3:A",
+    "A",
+    "B"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 5.3,
+   "close_commit": "5ddd4285",
+   "close_basis": "accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R-A",
+   "review_findings": [
+    2,
+    1,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-113",
+   "status": "verified",
+   "filed": "2026-10-18",
+   "filed_source": "register.date",
+   "filing_commit": "3c7781cd",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 2,
+     "findings_basis": "ids",
+     "marker": "## 5. Independent inspection r1 (2026-10-19, EQ-002, range 境界探索) — REJECT IA-01, IA-02"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "## 7. Independent inspection r2 (2026-10-24, EQ-002, range 是正確認+回帰) — ACCEPT"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "12→5→4",
+     "5→5→4",
+     "4→3→2",
+     "1→0→1",
+     "3→0→1",
+     "3→0→1",
+     "7→2→1",
+     "1→0→0"
+    ],
+    "outcome": "converged",
+    "final_token": "収束"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "2752d18a",
+    "fcd9fd70"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 7,
+   "ruling_strings": [
+    "1:A",
+    "1:A2:A3:A",
+    "1:A2:a",
+    "2:A",
+    "2:OTHER",
+    "A",
+    "B"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 125.4,
+   "close_commit": "be966981",
+   "close_basis": "accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    2,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-114",
+   "status": "verified",
+   "filed": "2026-10-24",
+   "filed_source": "register.date",
+   "filing_commit": "25bea38b",
+   "review_rounds": 3,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 4,
+     "findings_basis": "ids",
+     "marker": "## 5. Independent inspection r1 (2026-10-24, EQ-002, range 境界探索) — REJECT IA-01, IA-02, IA-03, IA-04"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "## 7. Independent inspection r2 (2026-10-24, EQ-002, range 是正確認+回帰) — REJECT IA-05"
+    },
+    {
+     "round": 3,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "## 9. Independent inspection r3 (2026-10-24, EQ-002, range 是正確認+回帰) — ACCEPT"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "26→8→8",
+     "18→12",
+     "8→3"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 3,
+   "fix_shas": [
+    "286d02c9",
+    "faffcf9d",
+    "c2211537"
+   ],
+   "rework_fixes": 2,
+   "human_rulings": 6,
+   "ruling_strings": [
+    "1:A",
+    "1:A2:A",
+    "2:A",
+    "A",
+    "C",
+    "theM-BOM'scriteria"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 3.3,
+   "close_commit": "729b52f0",
+   "close_basis": "accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R-A",
+   "review_findings": [
+    4,
+    1,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-115",
+   "status": "verified",
+   "filed": "2026-10-26",
+   "filed_source": "register.date",
+   "filing_commit": "db16fa3e",
+   "review_rounds": 6,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 7,
+     "findings_basis": "ids",
+     "marker": "## 5. Independent inspection r1 (2026-10-26, EQ-002, range 境界探索) — REJECT IA-01 to IA-07"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 3,
+     "findings_basis": "ids",
+     "marker": "## 7. Independent inspection r2 (2026-10-26, EQ-002, range 是正確認+回帰) — REJECT IA-08, IA-09, IA-10"
+    },
+    {
+     "round": 3,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "## 9. Independent inspection r3 (2026-10-26, EQ-002, range 是正確認+回帰) — REJECT IA-11; the review loop's bound reached"
+    },
+    {
+     "round": 4,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 2,
+     "findings_basis": "ids",
+     "marker": "## 11. Independent inspection r4 (2026-10-26, EQ-002, range 是正確認+回帰) — REJECT IA-12, IA-13; the extended bound reached"
+    },
+    {
+     "round": 5,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 2,
+     "findings_basis": "ids",
+     "marker": "## 13. Independent inspection r5 (2026-10-26, EQ-002, range 是正確認+回帰) — REJECT IA-14, IA-15; the extended bound reached"
+    },
+    {
+     "round": 6,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "## 15. Independent inspection r6 (2026-10-26, EQ-002, range 是正確認+回帰, narrowed by the user's \"A\") — ACCEPT"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "26→10",
+     "10→5",
+     "5→5",
+     "8→4",
+     "9→6",
+     "9→3"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 6,
+   "fix_shas": [
+    "35961c32",
+    "2aa2d7df",
+    "7eddaba4",
+    "11982a45",
+    "460dc6b4",
+    "47b4df76"
+   ],
+   "rework_fixes": 5,
+   "human_rulings": 7,
+   "ruling_strings": [
+    "1:A2:A3:A",
+    "2:A",
+    "A",
+    "ECO-115をクローズして",
+    "ECO-115を製造して",
+    "ECO-115を起票して",
+    "onlyruling-layergaps"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 7.0,
+   "close_commit": "ef1506ae",
+   "close_basis": "accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R-R-R-R-A",
+   "review_findings": [
+    7,
+    3,
+    1,
+    2,
+    2,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "BomDD",
+   "id": "ECO-116",
+   "status": "verified",
+   "filed": "2026-10-26",
+   "filed_source": "register.date",
+   "filing_commit": "00c77436",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": {
+      "unknown": "NO_VERDICT_TOKEN"
+     },
+     "verdict_token": null,
+     "findings": 21,
+     "findings_basis": "explicit_count",
+     "marker": "- **Round 1:** 21 findings, one blocking (a CRLF As-Built working copy). Repaired probe-first, with 18 probes: 13 red before, 18 green after. One repair changed"
+    },
+    {
+     "round": 2,
+     "verdict": {
+      "unknown": "NO_VERDICT_TOKEN"
+     },
+     "verdict_token": null,
+     "findings": 8,
+     "findings_basis": "explicit_count",
+     "marker": "- **Round 2 (the last):** 8 findings. The blocking one was repaired in the record layer: the audit read a `#` comment where the register keeps its note, so the "
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "23→6→2"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 10,
+   "ruling_strings": [
+    "1:A",
+    "1:A2:A3:A",
+    "1:A2:a",
+    "2:A",
+    "2:a",
+    "A",
+    "B",
+    "C",
+    "ECO-115の配布ECOを起票して",
+    "stabilizebeforeautomating"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 8,
+   "known_defects_basis": "number_phrase:eight known defects",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 31.2,
+   "close_commit": "4e2c5717",
+   "close_basis": "accept_subject",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "unknown:NO_VERDICT_TOKEN-unknown:NO_VERDICT_TOKEN",
+   "review_findings": [
+    21,
+    8
+   ],
+   "last_verdict": {
+    "unknown": "NO_VERDICT_TOKEN"
+   }
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-218",
+   "status": "applied",
+   "filed": "2026-10-01",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "71adafd0",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 5,
+     "findings_basis": "ids",
+     "marker": "## Round 1 - PASS - reviewed 1df05c43"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "## Round 2 - PASS - reviewed c90ee33b"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 3,
+   "fix_shas": [
+    "1df05c43",
+    "c90ee33b",
+    "6653a2a3"
+   ],
+   "rework_fixes": 2,
+   "human_rulings": 6,
+   "ruling_strings": [
+    "2件を単独で回してから決める→条件付きで認める",
+    "ECO-VT-218の修理に進めて",
+    "ECO-VT-218の実機確認として、刻みと並べる値が正しいことを承認します",
+    "Q1は(a)",
+    "別の号として起票",
+    "条件付きで認める"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 8.5,
+   "close_commit": "caea8a2e",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A-A",
+   "review_findings": [
+    5,
+    1
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-219",
+   "status": "applied",
+   "filed": "2026-10-01",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "7da5ecb0",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 4,
+     "findings_basis": "ids",
+     "marker": "## Round 1 - FAIL - reviewed b2d84ad1"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 2,
+     "findings_basis": "ids",
+     "marker": "## Round 2 - PASS - reviewed 6917d6c9"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 4,
+   "fix_shas": [
+    "b2d84ad1",
+    "6917d6c9",
+    "15c35530",
+    "911f0033"
+   ],
+   "rework_fixes": 3,
+   "human_rulings": 13,
+   "ruling_strings": [
+    "212・214・217・219をappliedに進めて",
+    "4クラスを単独で回して合格なら条件付き",
+    "7クラスを単独で回して合格なら条件付き",
+    "ECO-VT-219-provisional-1のCAD/mockgoldenを承認します",
+    "ECO-VT-219-provisional-2のCAD/mockgoldenを承認します",
+    "ECO-VT-219の実画面の確認として、打ち込んだ数が丸められず、桁が多すぎる数に専用の理由が出ることを承認します",
+    "Q1は(a)、Q2は(a)、Q3は(a)",
+    "Q3は(a)",
+    "修理に進めて",
+    "別の号として起票",
+    "図面の改訂に進めて",
+    "文を直す",
+    "要件の案を承認します"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 173.1,
+   "close_commit": "fb75a300",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    4,
+    2
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-220",
+   "status": "implemented",
+   "filed": "2026-10-02",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "c4babe60",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 12,
+     "findings_basis": "ids",
+     "marker": "## Round 1 - FAIL - reviewed 7af96469"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 5,
+     "findings_basis": "ids",
+     "marker": "## Round 2 - PASS - reviewed 9d582c8e"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 4,
+   "fix_shas": [
+    "7af96469",
+    "9d582c8e",
+    "8864e53b",
+    "42318537"
+   ],
+   "rework_fixes": 3,
+   "human_rulings": 6,
+   "ruling_strings": [
+    "1で進めて",
+    "スキップの検査を直す別の号(推奨)",
+    "一回だけやり直して",
+    "監督の是正を別の号として起票して",
+    "終わっていない",
+    "記録だけ(推奨)"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": "n/a",
+   "known_defects_basis": "NOT_ACCEPTED",
+   "escapes": 1,
+   "escape_records": [
+    "ECO-VT-229"
+   ],
+   "escape_lines": [
+    {
+     "record": "ECO-VT-229",
+     "path": "bomdd/eco/ECO-VT-229-independent-review.md",
+     "line": 28,
+     "text": "broken by `7af96469`, ECO-VT-220, which records nothing about pins). `qualify_process_transplant.py` would FAIL on them, but the"
+    }
+   ],
+   "elapsed_h": {
+    "unknown": "NOT_CLOSED"
+   },
+   "close_commit": null,
+   "close_basis": null,
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    12,
+    5
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-221",
+   "status": "staged",
+   "filed": "2026-10-02",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "760118a1",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": null,
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "スキップの検査を直す別の号(推奨)"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": "n/a",
+   "known_defects_basis": "NOT_ACCEPTED",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": {
+    "unknown": "NOT_CLOSED"
+   },
+   "close_commit": null,
+   "close_basis": null,
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-222",
+   "status": "applied",
+   "filed": "2026-10-02",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "ed7ea266",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 6,
+     "findings_basis": "ids",
+     "marker": "test-results/eco-vt-222-the-home-row-accent-bar-crosses-the-rounded-corners/review222r1.md"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 4,
+     "findings_basis": "ids",
+     "marker": "test-results/eco-vt-222-the-home-row-accent-bar-crosses-the-rounded-corners/review222r2.md"
+    }
+   ],
+   "review_source": "register_named_files",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 3,
+   "fix_shas": [
+    "812631a1",
+    "565fc571",
+    "ba241117"
+   ],
+   "rework_fixes": 2,
+   "human_rulings": 7,
+   "ruling_strings": [
+    "213の道具で222の報告も作る(推奨)",
+    "ECO-VT-222の実画面の承認として、HOMEの行の青い帯が行の角丸に沿って切り取られることを承認します",
+    "F3だけ検査を足し、他は記録(推奨)",
+    "確認しました",
+    "製品を直す別の号(推奨)",
+    "記録を直してimplementedへ(推奨)",
+    "記録を直す(推奨)"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 144.3,
+   "close_commit": "1f07430c",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A-A",
+   "review_findings": [
+    6,
+    4
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-223",
+   "status": "applied",
+   "filed": "2026-10-02",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "fa861b8b",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 8,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-223 independent review (R8, round 1)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 3,
+   "fix_shas": [
+    "741a19d0",
+    "f1f87bf0",
+    "3857564c"
+   ],
+   "rework_fixes": 2,
+   "human_rulings": 4,
+   "ruling_strings": [
+    "213の計画に観測を足す(推奨)",
+    "ECO-VT-223の修理に進む",
+    "ECO-VT-223の実画面の承認として、ダイアログのTabが押せないボタンで止まらず一周することを承認します",
+    "確認しました"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 144.3,
+   "close_commit": "9c5e1cac",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    8
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-224",
+   "status": "applied",
+   "filed": "2026-10-03",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "9b109320",
+   "review_rounds": 5,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 9,
+     "findings_basis": "ids",
+     "marker": "test-results/eco-vt-224-deleting-a-view-or-a-tag-asks-nothing-first/review224r1.md"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 15,
+     "findings_basis": "ids",
+     "marker": "test-results/eco-vt-224-deleting-a-view-or-a-tag-asks-nothing-first/review224r2.md"
+    },
+    {
+     "round": 3,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 6,
+     "findings_basis": "ids",
+     "marker": "test-results/eco-vt-224-deleting-a-view-or-a-tag-asks-nothing-first/review224r2-change.md"
+    },
+    {
+     "round": 4,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 3,
+     "findings_basis": "ids",
+     "marker": "test-results/eco-vt-224-deleting-a-view-or-a-tag-asks-nothing-first/review224r2-change2.md"
+    },
+    {
+     "round": 5,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 3,
+     "findings_basis": "ids",
+     "marker": "test-results/eco-vt-224-deleting-a-view-or-a-tag-asks-nothing-first/review224r2-change3.md"
+    }
+   ],
+   "review_source": "register_named_files",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 6,
+   "fix_shas": [
+    "31ea9c2a",
+    "5779494a",
+    "e089e060",
+    "2d1a7359",
+    "75357a22",
+    "7310b169"
+   ],
+   "rework_fixes": 5,
+   "human_rulings": 15,
+   "ruling_strings": [
+    "213の道具で224の報告も作る(推奨)",
+    "ECO-VT-224-provisional-1のCAD/mockgoldenを承認します",
+    "ECO-VT-224の実画面の承認として、確認の文言と形を承認します",
+    "ECO-VT-224の要件の文面の案を承認します",
+    "F3〜F6とF8を直し、F7は実画面で見る(推奨)",
+    "F3とF4を直し、F2は実画面で見る(推奨)",
+    "REQ-026の残りを直してよい",
+    "ビューとタグの削除(推奨)",
+    "内容を示して確認(推奨)",
+    "削除の直前に数え直す(推奨)",
+    "同じものを一回だけやり直す(推奨)",
+    "断りをボタンのそばに出す(推奨)",
+    "断りを出す(推奨)",
+    "新規でも消し、削除後の文はなしと記録(推奨)",
+    "設定を開くときに文を消す(推奨)"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 141.7,
+   "close_commit": "cd901e5c",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A-A-A-A",
+   "review_findings": [
+    9,
+    15,
+    6,
+    3,
+    3
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-225",
+   "status": "applied",
+   "filed": "2026-10-04",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "84b50dba",
+   "review_rounds": 5,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "NOT FIT",
+     "findings": 14,
+     "findings_basis": "register_block",
+     "marker": "register evidence.review_round_1"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "NOT FIT",
+     "findings": 9,
+     "findings_basis": "register_block",
+     "marker": "register evidence.review_round_2"
+    },
+    {
+     "round": 3,
+     "verdict": {
+      "unknown": "NO_VERDICT_TOKEN"
+     },
+     "verdict_token": null,
+     "findings": 5,
+     "findings_basis": "register_block",
+     "marker": "register evidence.review_round_3"
+    },
+    {
+     "round": 4,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 5,
+     "findings_basis": "register_block",
+     "marker": "register evidence.review_round_4"
+    },
+    {
+     "round": 5,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 5,
+     "findings_basis": "register_block",
+     "marker": "register evidence.review_round_5"
+    }
+   ],
+   "review_source": "register_blocks",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 7,
+   "fix_shas": [
+    "0acfaa87",
+    "6a2c72c2",
+    "db2cc9c9",
+    "77a1224c",
+    "50dd216f",
+    "be56728b",
+    "21e3ae8d"
+   ],
+   "rework_fixes": 6,
+   "human_rulings": 23,
+   "ruling_strings": [
+    "**まったく同じ実行をもう一回(推奨)**",
+    "**実機で確認しました**",
+    "**直した差分だけ第4回を回す(推奨)**",
+    "**直して、直しの差分を第5回に出す(推奨)**",
+    "213の対象に225を足す(推奨)",
+    "ECO-VT-225-provisional-1のCAD/mockgoldenを承認します",
+    "ECO-VT-225と243をappliedにして",
+    "M-3を先に起票する(推奨)",
+    "distを差し替えて実アプリの確認へ(推奨)",
+    "まったく同じ実行をもう一回(推奨)",
+    "リポジトリの外のspikeで先に測る",
+    "一時停止と停止だけにする(推奨)",
+    "動画を1つだけ選択した状態でループONで再生すれば実現できると考えているが正しいか?",
+    "実装に入って",
+    "宣言のコミットで、図面の持ち主の行をECO-VT-225に移す(推奨)。を採用",
+    "承認する",
+    "採用",
+    "提案通りで",
+    "狭くなる分はまずは受け入れます",
+    "直した差分だけ第4回を回す(推奨)",
+    "直して第3回を回す(推奨)",
+    "直して第3回を回す/ブロッキングと重大だけ直す/ここで止めて保留",
+    "良い"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 133.3,
+   "close_commit": "4193641d",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R-unknown:NO_VERDICT_TOKEN-A-A",
+   "review_findings": [
+    14,
+    9,
+    5,
+    5,
+    5
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-226",
+   "status": "applied",
+   "filed": "2026-10-05",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "4b383721",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 13,
+     "findings_basis": "register_block",
+     "marker": "register evidence.review_round_1"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 6,
+     "findings_basis": "register_block",
+     "marker": "register evidence.review_round_2"
+    }
+   ],
+   "review_source": "register_blocks",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 5,
+   "fix_shas": [
+    "fe0250ef",
+    "8cf9bc6b",
+    "f07fc4a3",
+    "dd246447",
+    "bc651561"
+   ],
+   "rework_fixes": 4,
+   "human_rulings": 16,
+   "ruling_strings": [
+    "(1)「検査を承認済みの形に合わせる(推奨)」。(2)「別の号に切り出す(推奨)」",
+    "213の対象に226を足す(推奨)",
+    "ECO-VT-226-provisional-1のCAD/mockgoldenを承認します",
+    "ECO-VT-226の実画面の承認として、手動コレクションの画面を承認します",
+    "ECOを起票して、手動コレクションを作れるようにする(推奨)",
+    "スキップのある実行の既知の形として承認する(推奨)",
+    "チャンネルに入っていない、自分の興味の動画を集める",
+    "チャンネルの経路は触らない",
+    "互換",
+    "今はタグとビューで集める",
+    "同じ通しを一回だけやり直す(推奨)",
+    "手動コレクションを作る",
+    "案のとおり",
+    "案のとおりで、要件も承認します",
+    "移して図面の改訂に入る(推奨)",
+    "自分の興味のある動画を集める"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 96.9,
+   "close_commit": "1cd3e7a5",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A-A",
+   "review_findings": [
+    13,
+    6
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-227",
+   "status": "applied",
+   "filed": "2026-10-05",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "a75e9fd0",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 6,
+     "findings_basis": "ids",
+     "marker": "## Round 1 - 2026-10-05 - FAIL (one blocking)"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 2,
+     "findings_basis": "ids",
+     "marker": "## Round 2 (the last) - 2026-10-05 - PASS WITH FINDINGS (no blocking, no major)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "ebf3e921",
+    "6eebbe72"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 5,
+   "ruling_strings": [
+    "0件",
+    "A復元経路のECOも起票して",
+    "ECO-VT-226が終わったらViewTubeに書き込んで",
+    "承認・1はB",
+    "推しのとおり"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 3.8,
+   "close_commit": "b908a46c",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    6,
+    2
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-228",
+   "status": "applied",
+   "filed": "2026-10-05",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "33e16ff9",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 6,
+     "findings_basis": "ids",
+     "marker": "## Round 1 - 2026-10-06 - PASS WITH FINDINGS (no blocking, no major)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "3371c223",
+    "348cf79f"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 5,
+   "ruling_strings": [
+    "A",
+    "A復元経路のECOも起票して",
+    "B",
+    "承認・2はa・3はa",
+    "次に起動したときに変換される"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 14.3,
+   "close_commit": "737b7252",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    6
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-229",
+   "status": "applied",
+   "filed": "2026-10-06",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "7633ae41",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 6,
+     "findings_basis": "ids",
+     "marker": "## Round 1 - 2026-10-06 - PASS WITH FINDINGS (no blocking; two major)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "4d64fad9",
+    "7c7f1c66"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "A",
+    "引数化して実行側から120秒を渡す",
+    "承認・2はa・3はa"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 3.4,
+   "close_commit": "9c9d6ad8",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    6
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-230",
+   "status": "superseded",
+   "filed": "2026-10-06",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "4b51151b",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": null,
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 4,
+   "ruling_strings": [
+    "1",
+    "3はa",
+    "ECO-VT-230の是正に着手して",
+    "承認・2はa・3はa"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": "n/a",
+   "known_defects_basis": "NOT_ACCEPTED",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": {
+    "unknown": "SUPERSEDED"
+   },
+   "close_commit": null,
+   "close_basis": null,
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-231",
+   "status": "applied",
+   "filed": "2026-10-06",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "cf878338",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 7,
+     "findings_basis": "ids",
+     "marker": "## Round 1 - 2026-10-06 - PASS WITH FINDINGS (no blocking, no major)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "562076d9"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 4,
+   "ruling_strings": [
+    "A",
+    "失敗したときはactivecatalogをbyte-for-byte不変にする",
+    "承認・a",
+    "推しのとおり"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.9,
+   "close_commit": "fc35bf1d",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    7
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-232",
+   "status": "applied",
+   "filed": "2026-10-06",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "2df7ecd3",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 15,
+     "findings_basis": "ids",
+     "marker": "## Round 1 - 2026-10-06 - PASS WITH FINDINGS (no blocking, no major)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "62f1fc7a",
+    "620b3364"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 6,
+   "ruling_strings": [
+    "3",
+    "ECO-VT-232の是正に着手して",
+    "a",
+    "元のまま",
+    "承認・a",
+    "承認・b"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 2,
+   "escape_records": [
+    "ECO-VT-268",
+    "OBS-20261024-01"
+   ],
+   "escape_lines": [
+    {
+     "record": "ECO-VT-268",
+     "path": "bomdd/eco/ECO-VT-268.md",
+     "line": 1,
+     "text": "# ECO-VT-268 — The control plan has not parsed as YAML since ECO-VT-232's acceptance, and no gate reads it"
+    },
+    {
+     "record": "OBS-20261024-01",
+     "path": "BomDD/method/improvements.md",
+     "line": 8906,
+     "text": "- [recovered 2026-10-24 via ViewTube ECO-VT-268 (applied a6314a87)] OBS-20261024-01 — **ViewTube's `bomdd/33-control-plan.yaml` has not parsed as YAML since `cfd00433` (2026-10-06, ECO-VT-232's acceptance commit): 35 revisions in a row; Vie"
+    }
+   ],
+   "elapsed_h": 8.2,
+   "close_commit": "cfd00433",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    15
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-233",
+   "status": "applied",
+   "filed": "2026-10-06",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "87abbeed",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 15,
+     "findings_basis": "ids",
+     "marker": "## Round 1 - 2026-10-06 - PASS WITH FINDINGS (one major, no blocking)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "344f5a9d"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 4,
+   "ruling_strings": [
+    "ECO-VT-233の是正に着手して",
+    "b",
+    "承認",
+    "承認・b"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 1.8,
+   "close_commit": "9e755d36",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    15
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-234",
+   "status": "applied",
+   "filed": "2026-10-07",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "65fca390",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "合格",
+     "findings": 5,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-234 — 独立レビュー（R8、第 1 回）"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "cbe98226"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 6,
+   "ruling_strings": [
+    "ECO-VT-234から着手して",
+    "ECO-VT-234をappliedにして",
+    "`dotnettest`でその1件だけ",
+    "その1件だけ正確に再試験",
+    "実画面の承認(利用者)は受け入れの手順で別に得る",
+    "条件付きで受け入れて移行する(推奨)"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 68.0,
+   "close_commit": "7096e5a1",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    5
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-235",
+   "status": "applied",
+   "filed": "2026-10-07",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "c57ad3eb",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "合格",
+     "findings": 11,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-235 — 独立レビュー（R8、第 1 回と第 2 回）"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "合格",
+     "findings": 5,
+     "findings_basis": "explicit_count_ja",
+     "marker": "## 第 2 回の判定: 合格（blocking は無い。非 blocking の所見が 5 件）"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "e5999f34"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 8,
+   "ruling_strings": [
+    "213の対象に235を足す(推奨)",
+    "ECO-VT-235-provisional-1のCAD/mockgoldenを承認します",
+    "ECO-VT-235に着手して",
+    "ECO-VT-235の実画面の承認として、結果の一覧の形を承認します",
+    "ダイアログ内で一覧をスクロール(推奨)",
+    "一覧をスクロールにする",
+    "入力と二つのボタンは常にダイアログの中",
+    "別のECOを起票する(推奨)"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 47.1,
+   "close_commit": "8438f91b",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A-A",
+   "review_findings": [
+    11,
+    5
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-236",
+   "status": "applied",
+   "filed": "2026-10-07",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "3e91023d",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "不合格",
+     "findings": 11,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-236 — 独立レビュー（R8、第 1 回と第 2 回）"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "合格",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "## 第 2 回の判定: 所見つきの合格（blocking は無い）"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "f239da3f"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 13,
+   "ruling_strings": [
+    "10分(推奨)",
+    "ECO-VT-236に着手して",
+    "ECO-VT-236をappliedにして",
+    "何も示さない(推奨)",
+    "時機の案",
+    "最終のコードで1回走らせる",
+    "最終のコードで1回走らせる(推奨)",
+    "未取得状態の動画を選択やViewTube内再生などしたら取得するなど、何らかの方法が必要です",
+    "条件付きで受け入れて進む",
+    "条件付きで受け入れて進む(推奨)",
+    "案のとおり承認する(推奨)",
+    "登録直後に自動取得(APIキーあれば)",
+    "音楽"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 67.7,
+   "close_commit": "e920684d",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    11,
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-237",
+   "status": "applied",
+   "filed": "2026-10-07",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "4f923add",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "合格",
+     "findings": 8,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-237 — 独立レビュー（R8、第 1 回）"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "0a773c94"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "ECO-VT-237に着手して",
+    "ECO-VT-237をappliedにして"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 66.1,
+   "close_commit": "06f7b6d9",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    8
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-238",
+   "status": "staged",
+   "filed": "2026-10-08",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "c7c2541d",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": null,
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "別のECOを起票する(推奨)",
+    "動画リンクを追加"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": "n/a",
+   "known_defects_basis": "NOT_ACCEPTED",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": {
+    "unknown": "NOT_CLOSED"
+   },
+   "close_commit": null,
+   "close_basis": null,
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-239",
+   "status": "applied",
+   "filed": "2026-10-08",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "a6238790",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "合格",
+     "findings": 7,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-239 — 独立レビュー（R8、第 1 回）"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "合格",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "# ECO-VT-239 — 独立レビュー（R8 第 2 回と R9 変更影響の閉じ）"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "a1b634c3"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 7,
+   "ruling_strings": [
+    "213の対象に239を足す(推奨)",
+    "ECO-VT-239-provisional-1のCAD/mockgoldenを承認します",
+    "ECO-VT-239の実画面の承認として、この見出しの形を承認します",
+    "ECO-VT-239は(A)で着手して",
+    "ECO-VT-239をimplementedまで進めて",
+    "別の号に切り出す(推奨)",
+    "足りません"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 27.5,
+   "close_commit": "4b101c20",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A-A",
+   "review_findings": [
+    7,
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-240",
+   "status": "applied",
+   "filed": "2026-10-08",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "160bff34",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "合格",
+     "findings": 8,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-240 — 独立レビュー（R8、第 1 回）"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "c4451290"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 10,
+   "ruling_strings": [
+    "213の対象に240を足す(推奨)",
+    "ECO-VT-240のCAD/mockgoldenとして、承認済みの図面ECO-VT-226-provisional-1のmanual-linksを承認します",
+    "ECO-VT-240の実画面の承認として、登録先の欄の形を承認します",
+    "implementedまで進める(推奨)",
+    "リンクを追加",
+    "気になる技術",
+    "登録",
+    "範囲つきの削除",
+    "選んだ名前だけ",
+    "重ならない"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 20.7,
+   "close_commit": "9c30ccae",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    8
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-241",
+   "status": "applied",
+   "filed": "2026-10-08",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "1276d6f0",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "合格",
+     "findings": 9,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-241 — 独立レビュー（R8、第 1 回）"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "a25215da"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 7,
+   "ruling_strings": [
+    "**ECO-VT-241の実機確認を承認する**",
+    "213の対象に241を足す(推奨)",
+    "ECO-VT-241-provisional-1のCAD/mockgoldenを承認します",
+    "ECO-VT-241をappliedにして",
+    "distを差し替えて実機の確認へ",
+    "三つとも違う形の図にする(推奨)",
+    "手動コレクションを作る"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 33.3,
+   "close_commit": "1eff8c8d",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    9
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-242",
+   "status": "staged",
+   "filed": "2026-10-08",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "d84b94a2",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": null,
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "ECO-VT-242に着手して",
+    "欄の名前と登録先が違う"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": "n/a",
+   "known_defects_basis": "NOT_ACCEPTED",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": {
+    "unknown": "NOT_CLOSED"
+   },
+   "close_commit": null,
+   "close_basis": null,
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-243",
+   "status": "applied",
+   "filed": "2026-10-08",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "168febac",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 8,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-243 independent review (R8, round 1, fresh context)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 7,
+   "fix_shas": [
+    "c61878bb",
+    "41894444",
+    "a3856c47",
+    "b19a0694",
+    "59313d3f",
+    "d9fbea61",
+    "05995752"
+   ],
+   "rework_fixes": 6,
+   "human_rulings": 5,
+   "ruling_strings": [
+    "1の推奨案で進めて",
+    "ECO-VT-225と243をappliedにして",
+    "ECO-VT-243-provisional-1のCAD/mockgoldenを承認します",
+    "ECO-VT-243-provisional-2のCAD/mockgoldenを承認します",
+    "六つの報告でimplementedにし、七つは後継のECOに移す(推奨)"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 23.2,
+   "close_commit": "14a94a66",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    8
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-244",
+   "status": "applied",
+   "filed": "2026-10-09",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "9ef9becc",
+   "review_rounds": 4,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 9,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-244 — independent review (R8, rounds 1 to 4)"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 6,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-244 — independent review (R8, round 2)"
+    },
+    {
+     "round": 3,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 4,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-244 — independent review (R8, round 3)"
+    },
+    {
+     "round": 4,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 6,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-244 — independent review (R8, round 4)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "a752b420"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "(起票は製造者の既定。利用者はまだ答えていない)",
+    "ECO-VT-244をappliedにして",
+    "カードのTabの件はcheat-logに記録だけして"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 22.6,
+   "close_commit": "ae9c4276",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R-R-A",
+   "review_findings": [
+    9,
+    6,
+    4,
+    6
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-245",
+   "status": "applied",
+   "filed": "2026-10-09",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "6b7ec5f9",
+   "review_rounds": 3,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 11,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-245 independent review (R8, fresh context)"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 17,
+     "findings_basis": "ids",
+     "marker": "## Round 2 (fresh context)"
+    },
+    {
+     "round": 3,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 7,
+     "findings_basis": "ids",
+     "marker": "## Round 3 (fresh context)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "70a27ebe"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "ECO-VT-245の写しのログも消して",
+    "ECO-VT-245をappliedにして",
+    "この道具のECOを起票してください"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 2.6,
+   "close_commit": "afe8ec7c",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R-A",
+   "review_findings": [
+    11,
+    17,
+    7
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-246",
+   "status": "applied",
+   "filed": "2026-10-10",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "c4bfc8c2",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": {
+      "unknown": "NO_VERDICT_TOKEN"
+     },
+     "verdict_token": null,
+     "findings": 10,
+     "findings_basis": "ids",
+     "marker": "## 第 1 回の所見と、その扱い"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "0ebb20cf"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 7,
+   "ruling_strings": [
+    "ECO-VT-246-provisional-1のCAD/mockgoldenを承認します",
+    "ECO-VT-246の修理に着手して",
+    "ECO-VT-246の実画面の承認として、折りたたんだ欄の頭と足元の固定の形を承認します",
+    "Issue#2をECOにして",
+    "境界だけ与え、図面の穴は別ECOに記録",
+    "実画面の承認(applicationgolden)は未取得",
+    "開いた状態と同じく、...追加ボタン3つを下に固定"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 4.0,
+   "close_commit": "58c45bd3",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "unknown:NO_VERDICT_TOKEN",
+   "review_findings": [
+    10
+   ],
+   "last_verdict": {
+    "unknown": "NO_VERDICT_TOKEN"
+   }
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-247",
+   "status": "applied",
+   "filed": "2026-10-10",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "ca927fc1",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "# ECO-VT-247 — independent review (R8), round 1"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "5b42252e"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "ECO-VT-247をappliedにして",
+    "別のスコープへ移ったら解除する",
+    "提案通りの順序で進めて"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 3.6,
+   "close_commit": "d3660587",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-248",
+   "status": "applied",
+   "filed": "2026-10-10",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "e4600023",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "# ECO-VT-248 — independent review (R8), round 1"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "29cb2598"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 11,
+   "ruling_strings": [
+    "ECO-VT-248-provisional-1のCAD/mockgoldenを承認します",
+    "successclosesthemodal",
+    "「タグを付ける",
+    "「タグを付ける」を開き、付ける・外すでダイアログが閉じないこと、「閉じる」か×で選択が解除されることを確認した。ECO-VT-248の実画面を承認",
+    "キャンセル",
+    "タグを付ける",
+    "実画面の承認(applicationgolden)は未取得",
+    "成功後も開いている",
+    "提案通りの順序で進めて",
+    "決めないこと",
+    "閉じる"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 7.8,
+   "close_commit": "96db400c",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-249",
+   "status": "applied",
+   "filed": "2026-10-11",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "9d086265",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "# ECO-VT-249 — independent review (R8), round 1"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "d307343b",
+    "f320190e"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 6,
+   "ruling_strings": [
+    "ECO-VT-249の図面の承認として、ECO-VT-243-provisional-1で承認済みの図面を承認します",
+    "ECO-VT-249の実画面の承認として、タグ作成ダイアログがシンプルを選んで開き、名前が空のあいだ保存を押せない形を承認します",
+    "ECO-VT-249をappliedにして",
+    "ECOで決めてほしいこと",
+    "Issue#5に着手して",
+    "名前が空のあいだは保存を押せない"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 6.8,
+   "close_commit": "dc08e6d9",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-250",
+   "status": "applied",
+   "filed": "2026-10-11",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "10114337",
+   "review_rounds": 6,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 6,
+     "findings_basis": "ids",
+     "marker": "## Round 1 (2026-10-11) — REJECT, one blocking finding"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 3,
+     "findings_basis": "ids",
+     "marker": "## Round 2 (2026-10-11) — REJECT, one blocking finding"
+    },
+    {
+     "round": 3,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "## Round 3 (2026-10-11) — REJECT, one blocking finding"
+    },
+    {
+     "round": 4,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "## Round 4 (2026-10-11) — REJECT, one divergent input, decided by the user"
+    },
+    {
+     "round": 5,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "## Round 5 (2026-10-11) — REJECT, one divergent input, decided by the user"
+    },
+    {
+     "round": 6,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "## Round 6 (2026-10-11) — ACCEPT, the last check"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 7,
+   "fix_shas": [
+    "a5406cd9",
+    "b0e57db4",
+    "572d8486",
+    "c1b7319b",
+    "24b27112",
+    "9386f5a8",
+    "26e4e08d"
+   ],
+   "rework_fixes": 6,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "1",
+    "既存の門がstagedの一覧を読む方法を変えてよいか"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 6.2,
+   "close_commit": "7abb4441",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R-R-R-R-A",
+   "review_findings": [
+    6,
+    3,
+    1,
+    1,
+    1,
+    1
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-251",
+   "status": "applied",
+   "filed": "2026-10-11",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "db874e7d",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 5,
+     "findings_basis": "ids",
+     "marker": "## Round 1 (2026-10-11) — ACCEPT, no blocking finding"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "692df14f",
+    "4eb2310d"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "1",
+    "trailerの部分一致を起票して",
+    "行の頭からキーで始まる行で、メッセージのどこにあってもよく、値がECOの番号であるもの"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.9,
+   "close_commit": "95f25178",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    5
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-252",
+   "status": "applied",
+   "filed": "2026-10-11",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "a34e702d",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "# ECO-VT-252 — independent review (R8), round 1"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "87371d2d",
+    "cce5877d"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 5,
+   "ruling_strings": [
+    "ECO-VT-252の修理に着手して",
+    "ECO-VT-252の図面に着手して",
+    "ECO-VT-252の実画面の承認として、再生キューの行を押すとその曲にジャンプし、矢印キーとEnterでも動き、パネルが開いたまま今の曲の行までスクロールする形を承認します",
+    "ECOで決めてほしいこと",
+    "Issue#1に着手して"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 9.4,
+   "close_commit": "bde2c397",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-253",
+   "status": "applied",
+   "filed": "2026-10-12",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "ac09abf6",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 9,
+     "findings_basis": "ids",
+     "marker": "## Round 1 (2026-10-12) — ACCEPT, no blocking finding"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "e912e5d8",
+    "2dc932c0"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "1",
+    "翻訳は必要な時に得られれば良い。生成タイミングにはこだわらない。",
+    "門に残る2つの候補の証明を進めて"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 6.9,
+   "close_commit": "769bb27a",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    9
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-254",
+   "status": "applied",
+   "filed": "2026-10-12",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "5d1053bc",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 7,
+     "findings_basis": "ids",
+     "marker": "## Round 1 (2026-10-12) — REJECT"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 6,
+     "findings_basis": "ids",
+     "marker": "## Round 2 (2026-10-12) — ACCEPT"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "945d86ac",
+    "4029fc47"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "1",
+    "111分の内訳の測定を進めて",
+    "1です。また、Aは変えません。WindowsDefenderに疑いのもたれないように大量のアクセスや複数回の連続実行をやめればよいはず。B.は変えます。変わることが問題ではなく、変えた後に目的を達成できるかです。"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 2.8,
+   "close_commit": "7b79469a",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    7,
+    6
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-255",
+   "status": "implemented",
+   "filed": "2026-10-13",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "14af4b51",
+   "review_rounds": 3,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 7,
+     "findings_basis": "ids",
+     "marker": "## Round 1 (2026-10-13) — REJECT"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 3,
+     "findings_basis": "ids",
+     "marker": "## Round 2 (2026-10-13) — REJECT"
+    },
+    {
+     "round": 3,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "## Round 3 (2026-10-13) — ACCEPT"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "816ba632",
+    "c573a070"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "2の検証器のECOを起票して"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": "n/a",
+   "known_defects_basis": "NOT_ACCEPTED",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": {
+    "unknown": "NOT_CLOSED"
+   },
+   "close_commit": "c573a070",
+   "close_basis": "CLOSE_BY_SUBJECT_FALLBACK",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R-A",
+   "review_findings": [
+    7,
+    3,
+    1
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-256",
+   "status": "applied",
+   "filed": "2026-10-13",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "cad7be9b",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 7,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-256 — independent review (R8, round 1)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "405ae3ca"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 1.6,
+   "close_commit": "5971cef8",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    7
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-257",
+   "status": "applied",
+   "filed": "2026-10-13",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "2143a6c2",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "# ECO-VT-257 — independent review (R8), round 1"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "3b0b65cd",
+    "9741f9ba"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 6,
+   "ruling_strings": [
+    "#7から進めて",
+    "ECO-VT-257の図面の承認として、ECO-VT-243-provisional-1で承認済みの図面を承認します",
+    "ECO-VT-257の実画面の承認として、タグのダイアログの下のボタンが、窓を小さくしても、テキスト種類で選択肢が0件でも窓の中に見え、0件の案内が点線の枠の中に出る形を承認します",
+    "applied",
+    "変わる振る舞い",
+    "見てほしい"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 3.1,
+   "close_commit": "a3e1860f",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-258",
+   "status": "applied",
+   "filed": "2026-10-13",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "03b90ebd",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 7,
+     "findings_basis": "ids",
+     "marker": "## Round 1 (2026-10-13): FAIL"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 3,
+     "findings_basis": "ids",
+     "marker": "## Round 2 (2026-10-13): PASS"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "16d5fe4c"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "A",
+    "B",
+    "翻訳は必要な時に得られれば良い。生成タイミングにはこだわらない。"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.4,
+   "close_commit": "dcf5c178",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    7,
+    3
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-259",
+   "status": "applied",
+   "filed": "2026-10-13",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "60f657c7",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 5,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-259 — independent review (R8), round 1"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "e5b96430"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "Issue#6に進めて",
+    "appliedにして"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 3.8,
+   "close_commit": "2a283dd4",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    5
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-260",
+   "status": "applied",
+   "filed": "2026-10-13",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "831ae8cb",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 12,
+     "findings_basis": "ids",
+     "marker": "## Round 1 (2026-10-13; tree `3bc460be`; HEAD `694352e2`): FAIL"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 4,
+     "findings_basis": "ids",
+     "marker": "## Round 2, the last (2026-10-13; tree `7a45b751`): FAIL"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "1453401c"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 3,
+   "known_defects_basis": "own_ids:KD-260-1,KD-260-2,KD-260-3",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.4,
+   "close_commit": "9074b831",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-R",
+   "review_findings": [
+    12,
+    4
+   ],
+   "last_verdict": "REJECT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-261",
+   "status": "applied",
+   "filed": "2026-10-14",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "0f444ac2",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 8,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-261 — independent review (R8), round 1"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "455cac5c"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "Issue#9に進めて",
+    "KD-261-1〜3を承認してappliedにして",
+    "変わる振る舞い(決定済み)"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 3,
+   "known_defects_basis": "own_ids:KD-261-1,KD-261-2,KD-261-3",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 6.2,
+   "close_commit": "c8a6c478",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    8
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-262",
+   "status": "applied",
+   "filed": "2026-10-16",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "c9f5cb21",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 9,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-262 — independent review (R8), round 1"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-262 — independent review (R8), round 2"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "4dcb50d7"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 5,
+   "ruling_strings": [
+    "Issue#10をECO-VT-262として起票して。サムネ経路が押せるかの計測から始めて。",
+    "KD-262-1を名指ししてECO-VT-262を受け入れる",
+    "その解釈でECO-VT-262のeco-fixに進めて。宣言コミット、REQ-083改正、RED探針から。",
+    "変わる振る舞い(決定済み)",
+    "閉じてよい"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 1,
+   "known_defects_basis": "own_ids:KD-262-1",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 2.6,
+   "close_commit": "1e4328b6",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    9,
+    1
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-263",
+   "status": "applied",
+   "filed": "2026-10-19",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "4f14229c",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 12,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-263 — independent review (R8), round 1"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-263 — independent review (R8), round 2"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "2c3f29d9",
+    "0fb83536"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "#12から",
+    "ECO-VT-263のルーリングは既定案1〜4のとおりでよい。図面の承認として、承認済みの既存の図面をこの号の図面として承認します。修正に進めて。",
+    "ECO-VT-263の実画面の承認として、タグのダイアログのテキスト種類の選択肢の行で、✎または値のダブルクリックでその場で直せ、Enterで同じ位置のまま置き換わり、Escと外のクリックで戻り、空と重複が行の中の赤い字の理由とともに拒否される形を承認します。既知の欠陥KD-263-1とKD-263-2を受け入れます。"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": 2,
+   "known_defects_basis": "own_ids:KD-263-1,KD-263-2",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 8.5,
+   "close_commit": "2f21d951",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    12,
+    1
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-264",
+   "status": "applied",
+   "filed": "2026-10-19",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "4a3e521c",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 9,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-264 — independent review (R8), round 1"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-264 — independent review (R8), round 2"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "aaabbb85",
+    "ea0af67c"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 6,
+   "ruling_strings": [
+    "#issue11を修正します。私がdistのViewTubeを使っている可能性があるため、必要に応じて終了依頼をしてください。",
+    "ECO-VT-264のルーリングは既定案Q1〜Q4のとおりでよい。図面の承認として、承認済みの既存の図面をこの号の図面として承認します。修正に進めて。",
+    "ECO-VT-264の実画面の承認として、アーカイブの一覧で、詳細ペインの復元ボタンの右のゴミ箱と、一括の「復元",
+    "ECO-VT-264の実画面の承認として、アーカイブの一覧で、詳細ペインの復元ボタンの右のゴミ箱と、一括の「復元」の右の「完全に削除...」から、件数と取り込み直しの一文を示す確認を経て、動画が完全に削除される形を承認します。既知の欠陥KD-264-1とKD-264-2を受け入れます。",
+    "変わる振る舞い",
+    "設計図で確認したい点"
+   ],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": 2,
+   "known_defects_basis": "own_ids:KD-264-1,KD-264-2",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 7.0,
+   "close_commit": "da41561e",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    9,
+    1
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-265",
+   "status": "applied",
+   "filed": "2026-10-19",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "59b75c1c",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 8,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-265 — independent review (R8), round 1"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "# ECO-VT-265 — independent review (R8), round 2"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "1a9c456b",
+    "5e6758ba"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "#13に取り掛かって",
+    "ECO-VT-265の動きの承認として、再生中の動画のカードを押す・ダブルクリックする・⟳で読み直すなど、同じ動画のまま情報が変わっても再生が続き、別の動画を選んだときとアーカイブしたときは今までどおり止まる動きを承認します。"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 0,
+   "known_defects_basis": "no_known_defect_phrase",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 17.3,
+   "close_commit": "cc582745",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    8,
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-266",
+   "status": "applied",
+   "filed": "2026-10-20",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "1ddc4335",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 4,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-266 — independent review (R8), round 1"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "# ECO-VT-266 — independent review (R8), round 2"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "21178901",
+    "079d770e"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "ECO-VT-266の動きの承認として、アーカイブ表示で再生中の動画が、閉じる・ビューを開くなど、アーカイブ表示をどの経路で離れても止まる動きを承認します。KD-266-1を名指しして受け入れます。",
+    "ECO-VT-266はAで進めて。アーカイブ表示をどの経路で離れてもプレイヤーを止める。REQ-083にその一文を足す。",
+    "アーカイブ表示ではない一覧からビューを開いても、それだけでは止めない(現状。ビューで一覧から外れた動画を止めるかは別の判断)"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 1,
+   "known_defects_basis": "own_ids:KD-266-1",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 3.5,
+   "close_commit": "893141f1",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A-A",
+   "review_findings": [
+    4,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-267",
+   "status": "staged",
+   "filed": "2026-10-20",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "dfd6d487",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": 10,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-267 — independent review (R8), round 1"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS WITH FINDINGS",
+     "findings": 9,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-267 — independent review (R8), round 2 (the last)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "1fe3a3f2"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 0,
+   "ruling_strings": [],
+   "golden_returns": 0,
+   "golden_lines": [],
+   "known_defects": "n/a",
+   "known_defects_basis": "NOT_ACCEPTED",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": {
+    "unknown": "NOT_CLOSED"
+   },
+   "close_commit": null,
+   "close_basis": null,
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    10,
+    9
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-268",
+   "status": "applied",
+   "filed": "2026-10-24",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "9e3c5932",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "## Round 1 (2026-10-24) — REJECT"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "## Round 2 (2026-10-24) — ACCEPT"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "82a6efd4"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "A",
+    "C"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 0,
+   "known_defects_basis": "no_known_defect_phrase",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 1.4,
+   "close_commit": "a6314a87",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    {
+     "unknown": "NO_FINDING_COUNT"
+    },
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-269",
+   "status": "applied",
+   "filed": "2026-10-27",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "ca108f60",
+   "review_rounds": 1,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 7,
+     "findings_basis": "ids",
+     "marker": "# ECO-VT-269 independent review (R8)"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [
+     "12→12→10"
+    ],
+    "outcome": "cutoff",
+    "final_token": "unconverged"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "8a66ee5f"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 6,
+   "ruling_strings": [
+    "1:A2:A3:B4:A",
+    "1:A2:a",
+    "2:a",
+    "A",
+    "B",
+    "fixedfunctionalchecks"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 0,
+   "known_defects_basis": "no_known_defect_phrase",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.6,
+   "close_commit": "20df6d86",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "A",
+   "review_findings": [
+    7
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-270",
+   "status": "applied",
+   "filed": "2026-10-27",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "a1784b46",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 15,
+     "findings_basis": "ids",
+     "marker": "## Round 1 — the report, as returned"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 8,
+     "findings_basis": "ids",
+     "marker": "## Round 2 — the report, as returned"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [
+     "15→7→5"
+    ],
+    "outcome": "cutoff",
+    "final_token": "not converged"
+   },
+   "fix_commits": 3,
+   "fix_shas": [
+    "bf095249",
+    "10f3df09",
+    "b69aa2ed"
+   ],
+   "rework_fixes": 2,
+   "human_rulings": 5,
+   "ruling_strings": [
+    "1:A2:A3:A",
+    "1:A2:a",
+    "3:A",
+    "B",
+    "ECO-VT-270の設計に進んでください"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 8,
+   "known_defects_basis": "own_ids:KD-270-1,KD-270-2,KD-270-3,KD-270-4,KD-270-5,KD-270-6,KD-270-7,KD-270-8",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 1.7,
+   "close_commit": "33a2581e",
+   "close_basis": "accept_trailer",
+   "receiving_runs": 1,
+   "receiving": [
+    {
+     "id": "AB-ECO-VT-270-1",
+     "time": "2026-10-27T22:50:03+09:00",
+     "source": "receive commit 82cabfe9"
+    }
+   ],
+   "review_verdicts": "R-R",
+   "review_findings": [
+    15,
+    8
+   ],
+   "last_verdict": "REJECT"
+  },
+  {
+   "repo": "ViewTube",
+   "id": "ECO-VT-271",
+   "status": "applied",
+   "filed": "2026-10-28",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "367c0d36",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "## Round 1 - dispositions (R8's layered defaults)"
+    },
+    {
+     "round": 2,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "## Round 2 - dispositions"
+    }
+   ],
+   "review_source": "review_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 3,
+   "fix_shas": [
+    "32e34aec",
+    "2ab3a291",
+    "fc2c2f53"
+   ],
+   "rework_fixes": 2,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "1:A",
+    "1:A2:a"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 1,
+   "known_defects_basis": "own_ids:KD-271-1",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 4.4,
+   "close_commit": "44bd91d0",
+   "close_basis": "accept_trailer",
+   "receiving_runs": 0,
+   "receiving": [],
+   "review_verdicts": "R-R",
+   "review_findings": [
+    0,
+    {
+     "unknown": "NO_FINDING_COUNT"
+    }
+   ],
+   "last_verdict": "REJECT"
+  },
+  {
+   "repo": "ViewPrism2",
+   "id": "ECO-143",
+   "status": "applied",
+   "filed": "2026-10-01",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "e6324801",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "391588db"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "表が承認に使われたか"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 3.1,
+   "close_commit": "dc722a99",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "ViewPrism2",
+   "id": "ECO-144",
+   "status": "applied",
+   "filed": "2026-10-03",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "359409fc",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "762f0015"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "1:A",
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 4.4,
+   "close_commit": "f622c3c4",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "ViewPrism2",
+   "id": "ECO-145",
+   "status": "applied",
+   "filed": "2026-10-05",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "9f239a83",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "REJECT",
+     "findings": 1,
+     "findings_basis": "ids",
+     "marker": "**検査官の意味の審査(BomDD 事前登録 R6・`inspection-report-eco-145*.md`)**: r1 **REJECT IA-01**(blocking: 「破損キャッシュは削除して再生成する」の REQ-106 trait は REQ-106 の statement と対応しない= 検査し"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "ACCEPT",
+     "findings": 0,
+     "findings_basis": "zero_phrase",
+     "marker": "non-blocking(COLLATE のテストは REQ-010・REQ-014 に対応・CP-DB-006 の refs に REQ-014 が無い)→ **是正**(受理側・属性 3 行と 33)→ r2 **ACCEPT**(所見なし)。ID ごとの判定(r2)= 合 5(REQ-003・004・028・04"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "491d2c10"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 0,
+   "ruling_strings": [],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.9,
+   "close_commit": "883cb08c",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    1,
+    0
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewPrism2",
+   "id": "ECO-146",
+   "status": "applied",
+   "filed": "2026-10-13",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "d20ad6d9",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "c0f6237f"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 1.6,
+   "close_commit": "d8735ff6",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "ViewPrism2",
+   "id": "ECO-147",
+   "status": "applied",
+   "filed": "2026-10-13",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "f697a82c",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": "REJECT",
+     "verdict_token": "FAIL",
+     "findings": {
+      "unknown": "NO_FINDING_COUNT"
+     },
+     "findings_basis": null,
+     "marker": "- **Round 1: FAIL.**"
+    },
+    {
+     "round": 2,
+     "verdict": "ACCEPT",
+     "verdict_token": "PASS",
+     "findings": 2,
+     "findings_basis": "ids",
+     "marker": "- **Round 2 (the last under the new R8): PASS.** 9 of 9 were resolved. There were two new minor findings, and under the new R8 they are **not repaired: they are"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "b63897a4"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 2,
+   "known_defects_basis": "own_ids:VP147-N1,VP147-N2",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.4,
+   "close_commit": "504921a3",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "R-A",
+   "review_findings": [
+    {
+     "unknown": "NO_FINDING_COUNT"
+    },
+    2
+   ],
+   "last_verdict": "ACCEPT"
+  },
+  {
+   "repo": "ViewPrism2",
+   "id": "ECO-148",
+   "status": "applied",
+   "filed": "2026-10-27",
+   "filed_source": "first commit adding the order file (+09:00)",
+   "filing_commit": "edbbc14f",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": {
+      "unknown": "NO_VERDICT_TOKEN"
+     },
+     "verdict_token": null,
+     "findings": 21,
+     "findings_basis": "explicit_layers",
+     "marker": "**R8 round 1** (a fresh-context reviewer, on `ab94dda`..working tree): 21 findings (substance 9, evidence 1, record 11), one blocking."
+    },
+    {
+     "round": 2,
+     "verdict": {
+      "unknown": "NO_VERDICT_TOKEN"
+     },
+     "verdict_token": null,
+     "findings": 8,
+     "findings_basis": "explicit_layers",
+     "marker": "**R8 round 2 (the last)** (a fresh-context reviewer, on `ab94dda`..working tree): round 1's 21 findings are confirmed resolved, except R8-1-16, which is partly "
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "20→23→17"
+    ],
+    "outcome": "cutoff",
+    "final_token": "unconverged"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "f47f7088"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 4,
+   "ruling_strings": [
+    "1:A",
+    "1:A2:a",
+    "2:A",
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 3,
+   "known_defects_basis": "r8_ids_on_kd_lines:R8-2-02,R8-2-03,R8-2-08",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 2.3,
+   "close_commit": "82c362ed",
+   "close_basis": "accept_trailer",
+   "receiving_runs": 1,
+   "receiving": [
+    {
+     "id": "AB-ECO-148-1",
+     "time": "2026-10-27T01:16:06+09:00",
+     "source": "receive commit 22fe4a5b"
+    }
+   ],
+   "review_verdicts": "unknown:NO_VERDICT_TOKEN-unknown:NO_VERDICT_TOKEN",
+   "review_findings": [
+    21,
+    8
+   ],
+   "last_verdict": {
+    "unknown": "NO_VERDICT_TOKEN"
+   }
+  },
+  {
+   "repo": "MoviePad-Remake",
+   "id": "ECO-001",
+   "status": "applied",
+   "filed": "2026-10-24",
+   "filed_source": "register.date",
+   "filing_commit": "ca9d3fe0",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 1,
+   "fix_shas": [
+    "f30d771e"
+   ],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "1:A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 0,
+   "known_defects_basis": "no_known_defect_phrase",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.5,
+   "close_commit": "8ed292eb",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "MoviePad-Remake",
+   "id": "ECO-002",
+   "status": "applied",
+   "filed": "2026-10-25",
+   "filed_source": "register.date",
+   "filing_commit": "20052f82",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 1,
+   "ruling_strings": [
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 0,
+   "known_defects_basis": "no_known_defect_phrase",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 2.3,
+   "close_commit": "ca58d208",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "MoviePad-Remake",
+   "id": "ECO-003",
+   "status": "applied",
+   "filed": "2026-10-25",
+   "filed_source": "register.date",
+   "filing_commit": "b06a5bfe",
+   "review_rounds": {
+    "unknown": "NO_R8_RECORD"
+   },
+   "review": [],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [],
+    "outcome": "none"
+   },
+   "fix_commits": 0,
+   "fix_shas": [],
+   "rework_fixes": 0,
+   "human_rulings": 2,
+   "ruling_strings": [
+    "1,2の順に作業して",
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": {
+    "unknown": "NO_KD_STATEMENT"
+   },
+   "known_defects_basis": null,
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 3.4,
+   "close_commit": "a768e3a7",
+   "close_basis": "accept_trailer",
+   "receiving_runs": "n/a",
+   "receiving": [],
+   "review_verdicts": "",
+   "review_findings": [],
+   "last_verdict": {
+    "unknown": "NO_R8_RECORD"
+   }
+  },
+  {
+   "repo": "MoviePad-Remake",
+   "id": "ECO-004",
+   "status": "applied",
+   "filed": "2026-10-26",
+   "filed_source": "register.date",
+   "filing_commit": "1a150065",
+   "review_rounds": 2,
+   "review": [
+    {
+     "round": 1,
+     "verdict": {
+      "unknown": "NO_VERDICT_TOKEN"
+     },
+     "verdict_token": null,
+     "findings": 18,
+     "findings_basis": "explicit_layers",
+     "marker": "- **Round 1** on `1a15006..50d6830`: substance 6, evidence 3, record 9 (R8's layers, ECO-108). Substance — R8-1-01 (material) a comparator crash"
+    },
+    {
+     "round": 2,
+     "verdict": {
+      "unknown": "NO_VERDICT_TOKEN"
+     },
+     "verdict_token": null,
+     "findings": 4,
+     "findings_basis": "ids",
+     "marker": "- **Round 2** (R8's last) on `50d6830..d46e732`: 17 of 18 resolved (R8-1-18 resolved in the order, not in the register's"
+    }
+   ],
+   "review_source": "order_file",
+   "converge": {
+    "loops": [
+     "20→10→5"
+    ],
+    "outcome": "cutoff",
+    "final_token": "未収束"
+   },
+   "fix_commits": 2,
+   "fix_shas": [
+    "50d68302",
+    "88d61a81"
+   ],
+   "rework_fixes": 1,
+   "human_rulings": 3,
+   "ruling_strings": [
+    "1:A2:a",
+    "2:a",
+    "A"
+   ],
+   "golden_returns": "n/a",
+   "golden_lines": [],
+   "known_defects": 4,
+   "known_defects_basis": "accept_number_phrase:four low known defects",
+   "escapes": 0,
+   "escape_records": [],
+   "escape_lines": [],
+   "elapsed_h": 0.9,
+   "close_commit": "e45f4fa4",
+   "close_basis": "accept_trailer",
+   "receiving_runs": 0,
+   "receiving": [],
+   "review_verdicts": "unknown:NO_VERDICT_TOKEN-unknown:NO_VERDICT_TOKEN",
+   "review_findings": [
+    18,
+    4
+   ],
+   "last_verdict": {
+    "unknown": "NO_VERDICT_TOKEN"
+   }
+  }
+ ]
+}
