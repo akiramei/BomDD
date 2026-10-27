@@ -9354,7 +9354,7 @@ Observations:
 - [watch 1/3] OBS-20261027-02 — **A verification duty stated upstream (the method's detection-power rule, calibrate's trigger ③) did not reach the downstream acceptance conditions of the distribution ECO, and the product ECO built and used a new checking instrument without calibrating it.** Same form as the known non-firing of prose self-triggers (converge, calibrate). Machine face, a candidate only: the distribution ECO's acceptance derives one condition per verification duty the distributed rule names. 2 例目の条件= another ECO that creates or changes a checking instrument with no calibrate receipt, or whose acceptance omits a detection test the method requires.
   source: ECO-116 manufacture (ViewPrism2 ECO-148), the user's review 2026-10-27
   evidence: ViewPrism2 `bomdd/60-change-order-eco-148.md` §6, §8, §9; BomDD `bomdd/60-change-order-eco-116.md` §3 V4
-- [open] EXP-20261027-03 — **ViewTube's distribution changes one condition: the receiving instrument is run on ViewTube's real files before any review**, and the defects that run finds are recorded. Measured alongside, without changing the design process:
+- [recovered 2026-10-28 via bomdd/reports/exp-20261027-03 (the two side measurements left open at ECO-VT-270's interim)] EXP-20261027-03 — **ViewTube's distribution changes one condition: the receiving instrument is run on ViewTube's real files before any review**, and the defects that run finds are recorded. Measured alongside, without changing the design process:
   - `/calibrate` on the instrument with a known-bad delivery;
   - the delivery lifecycle written as a state × event table after the prose design, counting undefined cells;
   - the cost of porting ViewPrism2's instrument (shared against product-specific lines, changed lines).
@@ -9373,6 +9373,34 @@ Interim (ECO-VT-270, implemented 2026-10-27; the experiment stays open: two of i
 - Found by review afterwards: converge 15 → 7 → 5 (unconverged, cut-off adoption); R8 round 1 15 findings (11 substance), round 2 7 substance carried as known defects. Against ViewPrism2's 20 → 23 → 17 → 19 the design trajectory is lower and falling; the review findings are mostly paths the real-file runs did not exercise (failure and retry paths, the audit sweep, D5's later inputs).
 - `/calibrate` with known-bad copies of the real receipt: 4 of 4; on the rehearsal receipt the same harness passed by chance and on the real one it mislabelled an arm (OBS-20261027-05).
 - Not measured: the state × event table of the delivery lifecycle, and the porting cost (shared against product-specific lines).
+
+Result (2026-10-28, the two side measurements; scripts and outputs in `bomdd/reports/exp-20261027-03/`, both product repositories read only):
+- **The state × event table** (`state_event_table.py` → `state-event-table.md`). The prose read: ViewTube's change-management §4 and §6 with the R3/R4 and rule 12 text §6 points to, and the eco-receive skill, at `33a2581e` (ECO-VT-270 applied). §6 there is the text of `bf095249`, the one ECO-VT-270 commit to the file; it is the text R8's last round reviewed and the text KD-270-2 to 8 are defects of.
+  - The grid is 13 states × 27 events = 351 cells: the task's list, receive split by exit code, exit 5 split before/after the run, rule 12's six options, and the other ECO's commit split by what it touches. Three columns were added: the records-only implemented fix, the ECO's own probe/cad commit to a product path (added after reading KD-270-3, and marked so), and the user's release of the lock (item 6).
+  - The cells were classified by hand, one reading, written cell by cell in the script so that each can be disputed. Of the 351, 113 are impossible and 14 not applicable (commits naming a closed ECO), leaving 224 possible cells.
+  - Of the 224: defined 161, known limit 30 (item 6's unenforced lock), conflict 2, **undefined 31 (13.8%)**. Of the undefined: 23 strict and 8 borderline (a closed-world reading of the prose's order would answer them); 11 would be stopped later by item 9 at accept, and 20 would not.
+  - Grouped by the missing rule, the 33 undefined and conflict cells are 10 gaps.
+    - **A review found 4 of them (10 cells):** G1, the next receipt after one that failed after its run (R270-2-01, KD-270-1; filled at `44bd91d0` by ECO-VT-271's exit 8); G2, an all-violation hold the ECO's diff did not cause (R270-2-05, KD-270-5; a conflict with R3); G3, accept when the sweep reports an earlier ECO's finding (R270-2-02, KD-270-2; a conflict); G4, the ECO's own probe or cad commit after its delivery (R270-2-03, KD-270-3).
+    - **No review named the other 6 (23 cells):** G5, an implemented fix before an advancing receipt; G6, how long a rule 12 permission for a named other ECO lasts after its stop; G7, the lock released without ending the ECO (no state for an issued ECO whose lock is closed); G8, continuing past a bound (whether the bound rises or the next decision is bound-reached again); G9, an empty fix outside its two named uses (after `advances` it buys a new canonical run, and the newest entry governs item 9); G10, re-opening an implemented ECO (no transition from implemented back to staged).
+  - Where the 7 known defects fall: KD-270-2, 3 and 5 on a conflict or undefined cell; KD-270-4 and 8 on cells the prose defines (known limit, and the rule 12 exception) that a skill does not carry (cad-mock, eco-file); KD-270-6 and 7 on no cell (a decision's inputs, two bindings).
+  - Of R8's 23 findings, 8 fall on a cell, among them R270-1-03 and R270-1-05, whose repairs made 8 cells defined at `33a2581e`; the other 15 are not lifecycle cells (bindings, D1's reading, records, evidence).
+  - So the table and the reviews overlap on 4 gaps. The reviews found mostly what the table cannot hold: bindings, the instruments' readings, records. The table found 6 gaps no review named, all in user decisions and out-of-order events.
+  - Limit: one reader, with no second classification. Round 1's pre-repair text existed only in the deleted scratch clone, so its effect is read from the findings. ECO-VT-270's converge findings were searched by keyword only.
+- **The porting cost** (`instrument_diff.py` → `instrument-diff.txt`; difflib opcodes on git blobs, method in the script). The comparison is ViewPrism2 `82c362e` `bomdd/receive_delivery.py` against ViewTube `33a2581e` `bomdd/tools/receive_delivery.py`. Both are LF-only, with 0 CRLF counted in bytes.
+  - The headline view is code lines, with comments and docstrings removed, because ViewPrism2's are Japanese and ViewTube's English. ViewPrism2 has 1,149 code lines and ViewTube 1,658.
+  - Shared: 1,004 lines, which is 87.4% of ViewPrism2's code and 60.6% of ViewTube's. Changed: 144 lines on ViewPrism2's side against 474 on ViewTube's (109 edited, 365 rewritten). Added: 180 lines only in ViewTube. Dropped: 1 line only in ViewPrism2. Raw lines give a similar picture (1,166 shared, 58.0% of ViewTube's 2,010).
+  - By definition, the decision itself crossed unchanged: 24 identical definitions, 354 lines, among them `i3a`, `read_checks`, `read_sequence`, `as_sequence_decision` and the bounds. `decide` changed slightly (ratio 0.87, for ViewTube's guard reading).
+  - The ViewTube-specific part is the run and the record:
+    - 19 new definitions (182 lines): the application check, the run verdict of ViewTube's supervised runner, retain, `audited_ecos`, `admitted`;
+    - 16 changed (418 → 499 lines): `receive`, `measure`, `audit`, `dotnet_runner`, `derive`, `main`;
+    - the selftest, 292 → 522 lines.
+  - Of ViewTube's 681 instrument lines that are changed or new, 458 lie in 13 definitions citing a ViewTube converge or R8 finding id that ViewPrism2's same definition does not cite. A citation shows a finding touched the definition, not that every line came from it.
+  - ECO-VT-271 then added 38 code lines and changed one definition (`receive`).
+  - Not measured: hours or tokens spent porting.
+- **Disposition:** all three side measurements and the comparison are made, so the EXP is recovered (its condition, running the instrument on real files before review, was applied to both of ViewTube's ECOs and measured in the interims). The table's six unreviewed gaps are ViewTube's to treat (a ViewTube ECO or cheat-log entry is the user's call); nothing in ViewTube was changed.
+- **Proposals (not applied; no method body text changed):**
+  - OBS-20261028-01 below: write the lifecycle as a state × event table at design time.
+  - A candidate, not filed: the decision core that crossed unchanged (the 24 identical definitions) could be shipped with the kit rather than ported per product. That would trade the instruments' stated independence ("does not import BomDD") against porting one decision twice; whether to do so is a design question for the user.
 
 **ECO-116 closed (2026-10-28)**: ECO-115's advance decision reached MoviePad-Remake (ECO-004, `e45f4fa`), ViewPrism2 (ECO-148, `82c362e`) and
 ViewTube (ECO-VT-269 `20df6d86`, ECO-VT-270 `33a2581e`). EXP-20261026-03 reads from their deliveries: ViewPrism2's AB-ECO-148-1 and ViewTube's
@@ -9395,3 +9423,14 @@ twice, so the experiment has not triggered. TimetableAdv stays deferred.
 - [watch 1/3] OBS-20261027-05 — **A known-bad copy's label is a claim about the copy and has to be checked on the copy (parse it again and confirm exactly the intended change), not inferred from how the alteration was made; a harness that passes once may have passed by the input's shape.**
   source: ECO-116 manufacture (ViewTube ECO-VT-270), V5, 2026-10-27
   evidence: ViewTube `test-results/eco-vt-270-deliveries-received-in-a-fresh-context/calibration.txt` (both runs)
+
+## 2026-10-28 EXP-20261027-03's state × event table — a written lifecycle had six gaps no review named
+
+- Observed when EXP-20261027-03's side measurement was made after the fact. ViewTube's delivery lifecycle (change-management §6 at `33a2581e`) was written as a 13 × 27 table: 224 possible cells, 31 undefined and 2 conflicting, in 10 gaps.
+  - ECO-VT-270's two R8 rounds and its known defects reached 4 of the gaps.
+  - The other 6, all in user decisions and out-of-order events, were named by no review: an early implemented fix, the duration of a rule 12 permission, the lock released without ending the ECO, continuing past a bound, an empty fix outside its named uses, and re-opening an implemented ECO.
+  - The reviews' other findings were mostly outside what such a table can hold (bindings, instrument readings, records).
+- Thought layer: changes nothing yet (an observation); method/concept claim none. One product, one reader, made after the reviews, not before them.
+- [watch 1/3] OBS-20261028-01 — **A lifecycle written as prose leaves cells undefined that reviews of the prose do not reach. Writing it as a state × event table finds them by counting, and the reviews' findings and the table's overlap only partly.** Machine face, a candidate only: a delivery-model ECO's design carries the table and its count of undefined cells, and its review reads the table. 2 例目の条件= another product's lifecycle or process ECO tabulated in the same way, ideally before its review, where the table names a gap the review did not.
+  source: EXP-20261027-03 (ViewTube ECO-VT-270), measured 2026-10-28
+  evidence: `bomdd/reports/exp-20261027-03/state-event-table.md` (the gaps G5-G10), ViewTube `bomdd/eco/ECO-VT-270-independent-review.md`
