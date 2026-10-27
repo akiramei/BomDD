@@ -205,7 +205,7 @@ required_gates: [V1, V2, V3]
 - **Declared departures:** the trait lines on five test methods (§1's "tests unchanged"; attribute lines only), and the BomDD-Plm lint's V1 selectors, which go quiet after the As-Built rename (a follow-up in BomDD-Plm).
 - **Found on the BomDD side:** I3a's "every unit with a non-empty `acceptance_refs`" has no place for retired units, or for instrument units that no row measures. The template lists a harness as a unit with a self-test row, and a lifecycle state `retired`. ViewPrism2 moved such units to sibling lists, recorded as OBS-20261027-01.
 
-### ViewTube — in progress: ECO-VT-269 applied (2026-10-27, the user's "A"; ViewTube `ca108f60`…`20df6d86`, local only); ECO-VT-270 implemented (`a1784b46`…`b69aa2ed`, local only), applied waits for the user
+### ViewTube — in progress: ECO-VT-269 applied (2026-10-27, the user's "A"; ViewTube `ca108f60`…`20df6d86`, local only); ECO-VT-270 applied (2026-10-28, the user's "1:A 2:a"; ViewTube `a1784b46`…`33a2581e`, local only)
 
 - **The human's §1 B items, ruled "1:A 2:A 3:B 4:A":**
   - **1:A** (where the decision's instruments run under rules 11-13): the receiving step makes the one canonical full-suite run, on the delivery commit;
@@ -228,7 +228,9 @@ required_gates: [V1, V2, V3]
 - **R8:** round 1 REJECT (15: 3 material and 8 minor substance, all repaired before the real commits); round 2, the last, REJECT (1 material, 6 minor substance): carried as KD-270-1 to 8 with the claim narrowed (the material one: a retry after a receipt that failed after its run loses its evidence).
 - **V1 of this order for ViewTube: met.** `survey.py --work-order ViewTube=bomdd/work-orders/eco-vt-270.md` at `b69aa2ed`: 0 I3a/I2 defects, the frozen-revision line valued (`ca1d33aa`), the newest As-Built entry AB-ECO-VT-270-1 with every field the decision reads (`survey-viewtube-eco-vt-270.txt`). **The first decision:** AB-ECO-VT-270-1 **advances** (23 of 23 rows pass; 1,429 tests, 1 standing skip; by a fresh receiving subagent, receipt `82cabfe9`). **Calibration (`/calibrate` trigger 3) on the real receipt:** 4 of 4 arms with independent labels; the harness's first run mislabelled its bound-test arm (OBS-20261027-05). **V2 so far:** the hooks at every commit, both validators at the transition; nothing pushed, so ViewTube's CI has not run.
 
-Next: the user's acceptance of ECO-VT-270, naming the known defects; then V2's push and CI for ViewTube is the user's call (local only so far), and ECO-116's closure.
+- **Accepted (2026-10-28, the user's "1:A 2:a"):** ECO-VT-270 applied at `33a2581e`, the eight known defects named; KD-270-1 (material) filed apart as **ECO-VT-271** (`367c0d36`, staged), KD-270-2 to 8 as ViewTube CHEAT-D10-029, the binding survey's stale records as CHEAT-D10-030; the delivery lock closed and the ownership rows returned (the policy file equals its bytes at `20df6d86`); X1 replay REPLAY_CLEAN (9 revisions, 6 inspected, 0 findings); `audit`, `--entries`, `--eco ECO-VT-270` and `--eco ECO-VT-267` 0 findings after the cutover; `validate_process.py` and its self-test pass. The delivery model is in force in ViewTube from `33a2581e`; ECO-VT-267, delivered before it, finishes under the previous route. The rehearsal's scratch copies were deleted on the user's "2:a".
+
+Next: ECO-116's closure (all three products applied; V2's push and CI for ViewTube remain the user's call, ViewTube being local only).
 
 ## /preflight receipt (start path: manual — the user's instruction read as the start artifact)
 
