@@ -9520,6 +9520,13 @@ binding, a count in a record, a machine edit):
   source: this section
   evidence: this section, observation 1
 
+**Weaving (2026-10-28, the user's "W1:A W2:A W3:B"):** W1 playbook §13 "完全性の主張は列挙でなく導出で裏付ける" ③ — the rehearsal is placed
+before review when a change's commits pass gates, with this section's measurement and counter-example (EXP-20261028-04 is now live); W2
+playbook §4.4 "検査行と裁定層の結線" ② (a candidate item) — confirm a row's binding by reading and a citation check, narrow a row with no
+test, record the rest in `known_limits` (OBS-20261028-02 stays at 1/3: woven into a candidate, not promoted); W3 (a FINDINGS section on the
+three nets) not woven — one product and one reader, to be reconsidered after measure 1's result. Observation 3 needs no weaving (§13's
+rule already holds it).
+
 ## 2026-10-28 An outcome baseline from the change records (92 ECOs, four repositories) — what the records can and cannot count
 
 On the user's "4:A" of "1:A 2:A 3:A 4:A" (2026-10-28): before the measures 1 and 2 change anything, count per ECO what the records
