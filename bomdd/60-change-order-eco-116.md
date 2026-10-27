@@ -205,7 +205,24 @@ required_gates: [V1, V2, V3]
 - **Declared departures:** the trait lines on five test methods (§1's "tests unchanged"; attribute lines only), and the BomDD-Plm lint's V1 selectors, which go quiet after the As-Built rename (a follow-up in BomDD-Plm).
 - **Found on the BomDD side:** I3a's "every unit with a non-empty `acceptance_refs`" has no place for retired units, or for instrument units that no row measures. The template lists a harness as a unit with a self-test row, and a lifecycle state `retired`. ViewPrism2 moved such units to sibling lists, recorded as OBS-20261027-01.
 
-Next: ViewTube, whose §1 B items for the human are asked when its turn starts.
+### ViewTube — in progress: ECO-VT-269 applied (2026-10-27, the user's "A"; ViewTube `ca108f60`…`20df6d86`, local only); ECO-VT-270 next
+
+- **The human's §1 B items, ruled "1:A 2:A 3:B 4:A":**
+  - **1:A** (where the decision's instruments run under rules 11-13): the receiving step makes the one canonical full-suite run, on the delivery commit;
+  - **2:A** (the gate freeze): the receiving instrument is one exception to the ECO-VT-176 freeze, hand-run from a skill and never in a hook;
+  - **3:B** (held individuals): until a later ECO binds tests to rows, a held delivery reaches golden only by the user's explicit decision for each delivery; after the binding, held individuals reach golden only through a new delivery;
+  - **4:A** (R4): R4's limit default gains the decision's bounds.
+- **The split ("B"):** the single ECO's first converge round found 26 findings, 5 blocking, and the user split it. **ECO-VT-269** brings the M-BOM and Control Plan within the decision's inputs and amends R4. **ECO-VT-270** adds the binding of tests to rows, the receiving step, the lifecycle change and the work order.
+- **What ECO-VT-269 carries (§1 A):**
+  - **A1:** nine named rows' approvers in I2's form by one criterion (a row has an automated part when its own record cites tests or test-run evidence the receiving side can run on the delivered tree): six `automated+human:user`, three `human:user` (SHELL, DETAIL, VIEW-PACK-UI); `check_mapping` for xunit v3 (outcomes `Pass`/`Fail`/`Skip`/`NotRun`, counted over ViewTube's 143 committed results files by `viewtube-counts.py`; the identity anchored to a stamp at the end of a stamped copy of the sealed `test-results.xml`); `mbom.assembly` on CP-LIVE-UI-INTEGRATION-001. The generators are recorded as historical and not run.
+  - **A6:** R4's clause, the user's 4:A.
+  - **A2-A5 and the human's 1:A, 2:A, 3:B** are ECO-VT-270's; the decision is not in force until then.
+- **Converge:** 12→12→10, unconverged; the user's "1:A 2:a": cut-off adoption with round 3 repaired, and ECO-VT-267's acceptance waits for this ECO's (it held the M-BOM and Control Plan's ownership rows).
+- **Run before review (EXP-20261027-03):** the whole commit sequence went through ViewTube's own hooks in a scratch clone before each review. It caught an ownership collision no review had named; at the accept it caught `terminal_rows.py` returning `change-management.md` to an ECO the ownership validator refuses.
+- **R8:** round 1 ACCEPT, no substance finding; four record findings narrowed, three known inaccuracies, one out of scope (R269-1-2, recorded below as OBS-20261027-04).
+- **V1 of this order for ViewTube:** not met until ECO-VT-270. `survey.py` at `20df6d86` (run 2026-10-27, not committed): 0 I3a/I2 defects (11 at `a6314a87`), but the work order's frozen-revision line has no single valued line, and the newest As-Built entry carries none of the decision's fields. **V2 so far:** the product's hooks at every commit and `validate_process.py` and its self-test after the accept; nothing pushed, so ViewTube's CI has not run. **V3 so far:** ECO-VT-269 records A1 and A6 and the four rulings, attacked by converge (3 rounds) and R8 (1 round).
+
+Next: ECO-VT-270, with `/calibrate` on the receiving instrument against a known-bad delivery, and the state-table and porting-cost measurements of EXP-20261027-03.
 
 ## /preflight receipt (start path: manual — the user's instruction read as the start artifact)
 
