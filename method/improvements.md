@@ -9361,7 +9361,7 @@ Observations:
 
   Compare: defects found before review against those found by converge and R8, and the converge trajectory against ViewPrism2's 20→23→17→19.
   source: the user's "A" (2026-10-27) to proceed with ViewTube in this form
-  evidence: ViewTube's product ECO and BomDD ECO-116 §4 (to be written)
+  evidence: ViewTube ECO-VT-269 and ECO-VT-270 (bomdd/eco/), BomDD ECO-116 §4 and §5
 
 Interim (ViewTube's first ECO, before the instrument; the experiment stays open for ECO-VT-270):
 - The user split ViewTube's ECO ("B") after the single ECO's first converge round found 26 findings, 5 blocking. Three of the blocking ones were missed by the partial real-file run made before that round, which covered the survey's checks but not the commit sequence.
@@ -9373,6 +9373,11 @@ Interim (ECO-VT-270, implemented 2026-10-27; the experiment stays open: two of i
 - Found by review afterwards: converge 15 → 7 → 5 (unconverged, cut-off adoption); R8 round 1 15 findings (11 substance), round 2 7 substance carried as known defects. Against ViewPrism2's 20 → 23 → 17 → 19 the design trajectory is lower and falling; the review findings are mostly paths the real-file runs did not exercise (failure and retry paths, the audit sweep, D5's later inputs).
 - `/calibrate` with known-bad copies of the real receipt: 4 of 4; on the rehearsal receipt the same harness passed by chance and on the real one it mislabelled an arm (OBS-20261027-05).
 - Not measured: the state × event table of the delivery lifecycle, and the porting cost (shared against product-specific lines).
+
+**ECO-116 closed (2026-10-28)**: ECO-115's advance decision reached MoviePad-Remake (ECO-004, `e45f4fa`), ViewPrism2 (ECO-148, `82c362e`) and
+ViewTube (ECO-VT-269 `20df6d86`, ECO-VT-270 `33a2581e`). EXP-20261026-03 reads from their deliveries: ViewPrism2's AB-ECO-148-1 and ViewTube's
+AB-ECO-VT-270-1 are each one decision (both advance), and MoviePad-Remake's first decided delivery is delivery 3 - no work has been decided
+twice, so the experiment has not triggered. TimetableAdv stays deferred.
 
 
 ## 2026-10-27 ECO-116 manufacture (ViewTube ECO-VT-269) — the identity's end anchor cannot see a second stamp

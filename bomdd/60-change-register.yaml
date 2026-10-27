@@ -3652,7 +3652,7 @@ changes:
     title: distribution of ECO-115 to the existing products - each product's receiving side decides from the records alone whether a delivered individual enters Phase 5 (filed only; the manufacture ruling decides products, order and the per-product human items; TimetableAdv deferred; adopted by the user's cut-off ruling, the design unconverged under the converge rule)
     date: 2026-10-26
     origin: improvement
-    status: filed   # 2026-10-27 ViewPrism2 ECO-148 applied (82c362e, the user's "1:A 2:a"); 2026-10-26 manufacture ruling "1:A 2:a": MoviePad-Remake ECO-004 applied (e45f4fa; order section 4), ViewTube next; the user's "ECO-115 の配布 ECO を起票して" after ECO-115 verified (ef1506a) -> loop 1 23->6->2 (material 11->1->0) unconverged -> user "A" cut-off adoption with round 3's two minor findings repaired -> filing; manufacture waits for the ruling on products, order and section 1 B's human items
+    status: verified   # 2026-10-28 on the user's "A" to close: MoviePad-Remake ECO-004 (e45f4fa), ViewPrism2 ECO-148 (82c362e), ViewTube ECO-VT-269 (20df6d86) and ECO-VT-270 (33a2581e) applied with their known defects named; V1-V3 PASS (order section 5); filed 00c7743 after ECO-115 verified (ef1506a), loop 1 unconverged and adopted by the user's "A"
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       ECO-115 changed the method's text and templates only; a product decides by it only after its BOM, records and procedure are within the
@@ -3665,6 +3665,7 @@ changes:
     no_impact_prediction: "(before manufacture; frozen) BomDD: this order, the register, bomdd/reports/eco-116-*/ and a note on EXP-20261013-01 at filing; at closure the closure record, a survey re-run, an improvements.md line and MoviePad-Remake's bundle remade in bomdd/reports/exp-20261024-01/ when its ECO adds cited commits. Products: per product, its Control Plan and M-BOM, the instruments that stamp evidence, its As-Built and work orders, its routing or change-management, its generators where they write the BOM (ViewTube), its vendored kit where the human so rules (MoviePad-Remake), its own ECO records. Untouched: product code and tests apart from the stamp, fixed oracles, CAD, hooks, ViewTube's validators (the gate freeze) without the user's exception, ViewTube's untracked product/, TimetableAdv."
     diff_audit:
       baseline: "ef1506a"  # HEAD before this filing (ECO-115's acceptance)
+      head: "d929429"      # diff audited: 7 commits, all ECO-116's, inside the allowed paths; the closure commit holds records only
       allowed_paths: [bomdd/60-change-order-eco-116.md, bomdd/60-change-register.yaml, method/improvements.md, bomdd/reports/eco-116-advance-decision-distribution/, bomdd/reports/exp-20261024-01/]   # the last: MoviePad-Remake's bundle, remade when its ECO adds cited commits
     required_gates: [V1, V2, V3]   # the order's machine copy (ECO-112 G1)
     summary: >

@@ -232,6 +232,76 @@ required_gates: [V1, V2, V3]
 
 Next: ECO-116's closure (all three products applied; V2's push and CI for ViewTube remain the user's call, ViewTube being local only).
 
+## 5. Closure (2026-10-28; verified, on the user's "A" to proceed to the closure)
+
+**Window.** Baseline `ef1506a` → head `d929429` (diff_audit.head; the closure commit holds records only). `closure/diff_window.py`
+(ECO-115's, re-pointed to ECO-116): 7 commits, every one ECO-116's, every path inside the allowed paths — **PASS**
+(`closure/diff-window.md`); its positive control with `method/improvements.md` dropped — **FAIL** (`closure/diff-window-control.md`).
+
+**Acceptance results** (the conditions of section 3, frozen at filing):
+- **V1: PASS** for all three targets. The frozen `survey.py` re-run at closure (`closure/survey-closure.txt`, with
+  `--work-order ViewPrism2=bomdd/work-orders/eco-148.md --work-order ViewTube=bomdd/work-orders/eco-vt-270.md`; MoviePad-Remake on its
+  default `bomdd/40-work-order.md`): **0** I3a/I2 defects and a valued frozen-revision line in each — MoviePad-Remake `e45f4fa` (`bom-v5`),
+  ViewPrism2 `82c362e` (`2ef07e99`), ViewTube `367c0d36` (`ca1d33aa`). Known-bad at filing: ViewPrism2 26 and ViewTube 11 with no valued
+  line; known-good MoviePad-Remake 0.
+- **V2: PASS.** Each product commit passed that product's own gates (MoviePad-Remake's and ViewPrism2's records in section 4;
+  ViewTube's hooks at every commit, its process and change-impact validators at each transition, the X1 replay REPLAY_CLEAN at both
+  accepts). No product has CI (no workflow in any of the three); ViewTube's 40 commits ahead of its remote are not pushed, by the user's
+  standing word, so nothing about a ViewTube remote is claimed. BomDD's 7 commits in the window: self-conformance exit 0 before each,
+  CI success for each.
+- **V3: PASS.** Each product ECO records A1-A6 for its product and the human's rulings on its section 1 B items, quoted, and its own
+  independent review attacked them: MoviePad-Remake ECO-004 (R8, two rounds; four low known defects of inspect.py carried); ViewPrism2
+  ECO-148 (R8; three known defects carried); ViewTube ECO-VT-269 (R8 round 1 ACCEPT) and ECO-VT-270 (R8 two rounds, REJECT at the last,
+  KD-270-1 to 8 carried; KD-270-1 filed apart as ECO-VT-271). Every carried defect was named and accepted by the user.
+- **V4** (not a closing condition): ViewPrism2's AB-ECO-148-1 and ViewTube's AB-ECO-VT-270-1 were each decided through the receiving step
+  with A3's fields and an `advance_decision` recorded (both advance); MoviePad-Remake's newest entry predates the decision (its first
+  decided delivery is delivery 3). EXP-20261026-03 has not triggered: no work has been decided more than once yet.
+
+Register: `filed → verified`; head frozen at `d929429`. The MoviePad-Remake bundle in `bomdd/reports/exp-20261024-01/` is current
+(head `e45f4fa`; 26 cited commits found, `check_bundle.py` exit 0). Manufacturer's calibration on the BomDD side.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer)
+
+- **The claim (one sentence).** ECO-115's advance decision is distributed to MoviePad-Remake, ViewPrism2 and ViewTube: each product's BOM
+  and records are within the decision's inputs, each has a receiving step that decides a delivery from the records, and each product ECO
+  was attacked by its own review and accepted by its user with its known defects named.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "Each product's BOM is within the decision's inputs": **observed / eligible**. The frozen survey can fail on its own (26 and 11 at
+    filing, 0 now), and it was run on each product's HEAD at closure.
+  - "Each product ECO is applied on the user's acceptance": **observed / eligible**. Register states and accept commits with parsed
+    trailers (MoviePad-Remake `e45f4fa`, ViewPrism2 `82c362e`, ViewTube `20df6d86` and `33a2581e`).
+  - "The product gates passed": **observed / eligible**. They ran at each commit and refuse a failing one; ViewTube's replay of the
+    whole commit sequence in a scratch clone found four refusals before any real commit.
+  - "A receiving step decides a delivery from the records": **observed / conditionally eligible**. ViewPrism2's instrument agreed 58 of
+    58 with ECO-115's verified rehearsal; ViewTube's was calibrated with known-bad copies of its real receipt (4 of 4). Not measured: a
+    hold, a second decision, D5's bounds (EXP-20261026-03); MoviePad-Remake has no delivery decided by it yet.
+  - "Each product's review attacked A1-A6": **observed / conditionally eligible**. The reviews exist with their findings and
+    dispositions; every reviewer was a context-independent reviewer of the same model family.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): in the method's distribution, the identity's end anchor cannot
+  see a second stamp (OBS-20261027-04, now refused by ViewTube's instrument); a verification duty upstream did not reach the
+  distribution's acceptance (OBS-20261027-02); a calibration harness labelled a known-bad arm wrongly because it chose the element by a
+  text pattern (OBS-20261027-05, ViewTube; repaired before its result was used). Product instrument defects are the products' carried
+  known defects.
+- **宣言した検出力の限界** (declared limits of detection):
+  - The survey checks structure and record fields, not that a product's procedures are followed.
+  - Each receiving step has decided once; holds, retries and D5's later readings are unexercised in every product.
+  - Known defects are carried in all three products; they are named, not resolved.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9).
+- **Battery, row by row:**
+  - **Q1 asked.** The survey's and the diff window's verdicts are mechanical; the V3 verdicts are the manufacturer's reading.
+  - **Q2 asked.** Known-bad: ViewPrism2 and ViewTube at filing, and the diff window's control; known-good: MoviePad-Remake at filing.
+  - **Q3 asked.** Per product and per condition.
+  - **Q4 NA.** No declared fixture input is relied on by the closure.
+  - **Q5 asked.** No product CI exists (absence, not an unrun result); BomDD CI observed per commit; ViewTube's remote is not claimed.
+  - **Q6 asked.** Every BomDD commit came after an observed self-conformance exit 0.
+  - **Q7 asked.** The diff window's positive control fails as it should.
+  - **Q8 NA.**
+  - **Q9 asked.** The survey reads each product's HEAD by commit, and the bundle's head is MoviePad-Remake's HEAD.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** The products differ, so the results are reported per product.
+- **What this closure does not support:** that D5's bounds fit real works (EXP-20261026-03); the carried known defects; TimetableAdv
+  (deferred); anything about ViewTube's remote.
+
 ## /preflight receipt (start path: manual — the user's instruction read as the start artifact)
 
 - **Classification**: filing of a distribution ECO (survey; no product change at filing).
