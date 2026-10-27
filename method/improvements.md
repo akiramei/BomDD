@@ -9341,3 +9341,29 @@ Observations:
 - [watch 1/3] OBS-20261027-01 — **A rule that requires every listed unit to carry acceptance needs a stated place for units that are not delivered (retired, or instruments no row measures); otherwise products either invent acceptance rows or move units out of the list by their own convention.** Machine face: I3a reads `lifecycle_state` (or a sibling list the template names) and exempts what it declares, counting the exemptions. 2 例目の条件= another product whose M-BOM holds retired or instrument units at its distribution.
   source: ECO-116 manufacture (ViewPrism2 ECO-148, 2026-10-27)
   evidence: ViewPrism2 `bomdd/60-change-order-eco-148.md` §3 item 20, `bomdd/32-mbom.yaml` (`retired_units`, `instrument_units`)
+
+## 2026-10-27 ECO-116 manufacture (ViewPrism2 ECO-148) — a verification duty in the method did not reach the distribution's acceptance
+
+- Observed after ViewPrism2 ECO-148 was applied, in the user's review of the work (2026-10-27).
+  - The method requires measuring a check's detection power with deliberately broken inputs (playbook §4.4), and `/calibrate`'s trigger ③ fires on a newly created checking instrument.
+  - ViewPrism2's receiving instrument `bomdd/receive_delivery.py` is such an instrument. Neither ECO-148 nor ECO-116 records a calibrate receipt (grep: 0), and ECO-116's acceptance had no condition with a known-bad delivery: V4, a real decision, is not a closing condition.
+  - The only decision made, ECO-148 on its own delivery, could only advance, because that delivery changes no product behaviour.
+  - The two decisive defects R8 found (a CRLF working copy; the register's note kept as a YAML comment) were in the repository's files. Converge round 1 had flagged line endings (L1R1-01), but the repair reached the evidence file only, not the As-Built append. So the information was present, was even reported, and was not applied everywhere.
+  - The reviewer's re-analysis, adopted: separate "absent", "present but not represented" and "present but not used". The cause is not one of difficulty, upstream precision or missing information: the three are stages of one chain. Here the method and ECO-116 are the upstream inputs, and the question is whether the delegation contract (free range, invariants, verification duties) let the downstream carry them out.
+- Thought layer: changes nothing yet (an observation); method/concept claim none.
+- [watch 1/3] OBS-20261027-02 — **A verification duty stated upstream (the method's detection-power rule, calibrate's trigger ③) did not reach the downstream acceptance conditions of the distribution ECO, and the product ECO built and used a new checking instrument without calibrating it.** Same form as the known non-firing of prose self-triggers (converge, calibrate). Machine face, a candidate only: the distribution ECO's acceptance derives one condition per verification duty the distributed rule names. 2 例目の条件= another ECO that creates or changes a checking instrument with no calibrate receipt, or whose acceptance omits a detection test the method requires.
+  source: ECO-116 manufacture (ViewPrism2 ECO-148), the user's review 2026-10-27
+  evidence: ViewPrism2 `bomdd/60-change-order-eco-148.md` §6, §8, §9; BomDD `bomdd/60-change-order-eco-116.md` §3 V4
+- [open] EXP-20261027-03 — **ViewTube's distribution changes one condition: the receiving instrument is run on ViewTube's real files before any review**, and the defects that run finds are recorded. Measured alongside, without changing the design process:
+  - `/calibrate` on the instrument with a known-bad delivery;
+  - the delivery lifecycle written as a state × event table after the prose design, counting undefined cells;
+  - the cost of porting ViewPrism2's instrument (shared against product-specific lines, changed lines).
+
+  Compare: defects found before review against those found by converge and R8, and the converge trajectory against ViewPrism2's 20→23→17→19.
+  source: the user's "A" (2026-10-27) to proceed with ViewTube in this form
+  evidence: ViewTube's product ECO and BomDD ECO-116 §4 (to be written)
+
+Interim (ViewTube's first ECO, before the instrument; the experiment stays open for ECO-VT-270):
+- The user split ViewTube's ECO ("B") after the single ECO's first converge round found 26 findings, 5 blocking. Three of the blocking ones were missed by the partial real-file run made before that round, which covered the survey's checks but not the commit sequence.
+- For the split ECO-VT-269 (the M-BOM and Control Plan within the decision's inputs, and R4), the whole commit sequence (filing, two probes, fix commit) was run through ViewTube's own hooks in a scratch clone before each review. It caught one refusal no review had named: listing a file in `impacted_files` made it an ownership collision whose participants did not match.
+- Converge trajectory 12 → 12 → 10, unconverged at the limit (round 3: none blocking, none changing a row's decided value); the user's cut-off adoption "1:A 2:a". ViewPrism2's was 20 → 23 → 17 → 19.
