@@ -9189,13 +9189,15 @@ machine edits):
   decision, found by a fault at the point or by reading the value.
   source: EXP-20261024-01 third and fourth rounds (2026-10-25)
   evidence: this section, observation 4; MoviePad-Remake `bomdd/reports/exp-20261024-01/oracle-v3/survivor-verdicts.md`
-- [watch 1/3] OBS-20261025-05 — **A part standard can promise behaviour for an input that no producer in the product yields (a zero height the
+- [watch 2/3] OBS-20261025-05 — **A part standard can promise behaviour for an input that no producer in the product yields (a zero height the
   probe never reports); whether such a promise is a fault site for detection measurement is not decided.** The judge's domain rule called the
   mutant equivalent; counting it changes the result from 32/38 to 32/39. 2 例目の条件= another equivalence verdict that turns on a promise about
   an unreachable input, or a ruling.
-  source: EXP-20261024-01 fifth round (2026-10-25)
-  evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/oracle-v5/results.md` ("What this adds", last item)
-- [open] EXP-20261025-04 — **Does a different derivation of cases raise detection at unnamed points?** Derive cases by enumerating, across the
+  source: EXP-20261024-01 fifth round (2026-10-25); the fifth sealed set, M5-07 (2026-10-28: Region.OutputDuration at Speed 0, which
+  SetSpeed never yields; equivalent by the domain rule, caught by oracle v6's directly built region; 32/39 → 33/40)
+  evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/oracle-v5/results.md` ("What this adds", last item);
+  `bomdd/reports/exp-20261024-01/oracle-v6/results.md`, `survivor-verdicts.md`
+- [recovered 2026-10-28 via MoviePad-Remake 2f5aeb3] EXP-20261025-04 — **Does a different derivation of cases raise detection at unnamed points?** Derive cases by enumerating, across the
   whole specification, every decision point, joined condition, state an operation carries and API default (not from survivors), freeze the
   oracle, and measure it against the current one on a fresh sealed set (another generator, the four earlier sets' sites excluded). Reading fixed
   now: non-overlapping intervals above the current level → the derivation, not the additions, sets the level (OBS-20261025-03 gains its
@@ -9594,3 +9596,85 @@ Thought layer: changes nothing (a measurement); method/concept claim none.
   count of agreements is what is recorded.
   source: MoviePad-Remake ADR-006 (the user's "A", 2026-10-28)
   evidence: MoviePad-Remake `bomdd/reports/adr/ADR-002.md`, `ADR-006.md`
+
+## 2026-10-28 MoviePad-Remake — the fifth sealed set (enumeration vs survivor-driven cases) and delivery 3 (a human E-BOM ruling carried down; a hold, a redelivery and a second decision)
+
+Source: MoviePad-Remake (local only; BomDD's bundle `bomdd/reports/exp-20261024-01/MoviePad-Remake.bundle`), improvement measures 1 and 2
+of the user's "1:A 2:A 3:A 4:A" (2026-10-28). Measure 1: `bomdd/reports/exp-20261024-01/oracle-v6/` (`measurement-preregistration.md`,
+`results.md` at `2f5aeb3`). Measure 2: ECO-005 (`bomdd/60-change-order-eco-005.md`), `bomdd/reports/exp-20261024-01/results-delivery-3.md`,
+`50-as-built.yaml` AB-FORWARD-01-factory-03a / -03b, R8 rounds 1–2 (`delivery-3/r8-round-1.md`, `r8-round-2.md`; REJECT 2 material, then
+ACCEPT). **Accepted on the user's "A" (2026-10-28): ECO-005 applied (MoviePad-Remake `d3683d6`)** with its known defects named in
+the order's section 6.
+
+Observations (each with its source):
+1. **Enumeration did not measurably raise detection at unnamed points.** Oracle v6 derives its cases by enumerating 403 items over the
+   whole specification (six kinds); v5 was derived from earlier survivors. On a fresh sealed set (40 mutants, Codex, the four earlier sets'
+   149 sites excluded): v5 27/39 = 0.69 [0.54, 0.81], v6 32/39 = 0.82 [0.67, 0.91] (crash and timeout counted caught, one equivalent left
+   out; the other two pre-registered rules overlap too). v6 caught every mutant v5 caught and five more. By the reading fixed in advance,
+   overlapping intervals make no claim, and the detection-power series of EXP-20261024-01 closes with v6's declared power 0.82.
+2. **The enumeration named the site of six of v6's seven survivors and decided none of them.** One site was missed (the other branch of a
+   decision whose copy branch was enumerated). For the six, the case reached the site but its check was too weak ("at most 8 lines" admits
+   7), compared a field the change does not move, or never produced the deciding value. The designer's reading of `inventory-v6.yaml`
+   against the survivors (`results.md`), not a measurement.
+3. **A part standard's promise about an input no producer yields decided an equivalence verdict a second time.** M5-07 changes
+   `Region.OutputDuration` for Speed exactly 0; the part standard states the value, `SetSpeed` clamps to [0.25, 4]. The judge called it
+   equivalent by the domain rule; v6 caught it with a case that built such a region directly. Counting it: 32/39 → 33/40.
+4. **An unattended measurement ran 13 hours on one mutant before anyone looked.** The observation harness looped on the v5 arm's ninth
+   mutant (one core, no output); the mutant runner had no time bound and the pre-registration named crashes, not hangs; the designer saw it
+   only because the user asked how it was going. Repaired by an amendment written before the set was opened (HARNESS-TIMEOUT at ten times
+   the clean baseline's harness run, counted both ways like crashes), a positive control at a 1 s bound, and both arms re-run from the start
+   (the first eight verdicts reproduced 8 of 8). The product's acceptance driver (`inspect.py`) has the same missing bound; carried.
+5. **A human E-BOM ruling was carried through the derived layers to a re-manufacture, and the oracle needed no change.** Export became one
+   E item and one M unit owning a folder; the factory chose its own files (5, where delivery 2 had 8 over three units); the public types
+   were fixed by the part standards; oracle v6 passed the factory's delivery 757 of 757.
+6. **The advance decision's hold–redeliver–redecide path ran end to end for the first time.** 3a (the factory's delivery plus a planted
+   FrameCount+1, sealed before it was made) held on the clock row, the assembly row and the factory's own tests, as sealed; 3b (the plant
+   reverted) advanced; the second decision read the ledger: holds 1 of 3, decisions 2 of 5, converged, in-control. Declared before: this
+   shows the mechanism, not whether D5's bounds fit real works (the hold was planted, the fix was the designer's revert).
+7. **The order's conditional made the designer take a step the product's rule forbids.** ECO-005 item 9 (do not plant if the factory's
+   own delivery fails a row) can be evaluated only by measuring the delivery outside the decision, which ECO-004 A5 says this product does
+   not do. The designer measured once (nothing reached the factory) and disclosed it; R8 found two further record defects (a survey claimed
+   without kept output; `not_decided` empty though one live automated row is named by no unit) and six minor ones.
+
+Generality check (product names removed):
+- 1: holds as stated (a sealed-set comparison of two derivations, read by a rule fixed in advance) — one product, one set; not woven.
+- 2: "naming a fault site in a case inventory is not the same as having a case that decides a fault there" — a proposition with a
+  mechanical face (each enumerated item's case states the value that reaches the decision and the observable it moves). N=1; recorded as an
+  OBS.
+- 3: OBS-20261025-05's second example (below).
+- 4: "a measurement loop that runs unattended has a time bound per unit and a liveness signal the operator observes; an undefined outcome
+  (a hang) gets a rule before it is counted" — holds without the product; mechanical face: a bound in the runner and a heartbeat file.
+  N=1 as a hang; recorded as an OBS.
+- 5–6: facts about the procedure's first use; not propositions beyond EXP-20261026-03 (below).
+- 7: "an order whose condition can only be evaluated by a step the procedure forbids" — N=1; recorded as an OBS.
+
+Thought layer (3b): [ ] operational rule [ ] control / probe [ ] template [ ] terminology [ ] method/concept claim [x] none — nothing is
+woven by this section; the playbook's §4.4 claim that detection is measured on sealed sets at unnamed points is used, not changed.
+
+Expected-effects inventory (step 4; from `method/tools/worklist.py`):
+- Recovered, EXP-20261025-04 (below): run, read by its fixed rule.
+- No reading, EXP-20261026-03: its trigger (the first work decided more than once) occurred, but the hold was planted and the fix was
+  the designer's; ECO-005 item 8 declared it not a reading of the bounds' fit. Stays open for a real hold.
+- Unchanged at 1/3, OBS-20261025-03: the overlapping result neither gives the proposition its test nor refutes it.
+- Advanced to 2/3, OBS-20261025-05 (below).
+- Unchanged: EXP-20261024-01 (open until delivery 3's acceptance), OBS-20261028-07.
+
+Effect recovery: EXP-20261025-04 (its line's marker rewritten) — run once, read by its fixed rule: overlapping intervals, no claim; the
+detection-power series of EXP-20261024-01 is closed with v6's declared power at unnamed points 0.82 (0.67–0.91). OBS-20261025-05 → 2/3 with
+M5-07 (its line rewritten).
+
+- [watch 1/3] OBS-20261028-08 — **Naming a fault site in a case inventory is not deciding a fault there: an enumerated item whose case reaches
+  the site can still pass a fault at it (a tolerance that admits the fault, a compared field the fault does not move, a value that never
+  reaches the decision).** 2 例目の条件= another inventory-derived oracle whose survivors sit at items it marked reached or partial.
+  source: MoviePad-Remake oracle v6, fifth sealed set (2026-10-28)
+  evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/oracle-v6/results.md` ("v6's survivors")
+- [watch 1/3] OBS-20261028-09 — **An unattended measurement loop without a per-unit time bound and an observed liveness signal can stall
+  silently; the stall is found by whoever happens to look.** 13 hours on one mutant; found when the user asked. 2 例目の条件= another
+  background run (any repository) that stalled, or ran far past its expected time, before anyone observed it.
+  source: MoviePad-Remake fifth sealed set, first run (2026-10-28)
+  evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/oracle-v6/measurement-preregistration.md` (the amendment), `set5-v5-stopped-run.txt`
+- [watch 1/3] OBS-20261028-10 — **An order's condition can require a step the procedure forbids (here: knowing whether a delivery fails a
+  row, which only a measurement outside the decision tells).** 2 例目の条件= another change order whose branch can be evaluated only by a step
+  its product's rules exclude.
+  source: MoviePad-Remake ECO-005 items 6 and 9 (2026-10-28)
+  evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/delivery-3/plant-3a.md` ("A deviation"), `results-delivery-3.md` §4
