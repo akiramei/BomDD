@@ -1,0 +1,20 @@
+V2(d) --c9-only --dotnet exit: 2
+V1 exit codes A/B (--dotnet): (0, 0)
+V1 [Cn] lines A == B: (True, 26, [])
+V1 [time] lines A/B: (0, 1)
+V1 [time] ids in B: ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17', 'C18', 'C9']
+V1 non-[time] lines only in B: []
+V1 control: comparator red on one altered line: True
+V2(a) B present: only [C9] lines: True
+V2(a) B present: [C9] lines == B --dotnet's: True
+V2(a) B absent: only [C9] lines: True
+V2(a) B absent: [C9] lines == B --dotnet's: True
+V2(a) B --dotnet [C9] == A --dotnet [C9]: True
+V2(b) PASS, witness present: byte-identical: (True, True, (0,))
+V2(b) PASS, witness absent: stays absent: (True, (0,))
+V2(b) FAIL, witness absent: stays absent: (True, (1,))
+V2(b) FAIL, witness present: byte-identical: (True, (1,))
+V2(c) failing C9: exit --dotnet / --c9-only: (1, 1, 1)
+V2(c) failing C9: same [C9] lines: (True, ['[C9] FAIL manifest に suites がない/空: <ROOT>\\loops\\expected-results.yaml(vacuous pass を遮断)'])
+known-bad M1 (writes witness): told apart by (b): (True, 0)
+known-bad M2 (runs fast tier): told apart by (a): (True, 20, 0)

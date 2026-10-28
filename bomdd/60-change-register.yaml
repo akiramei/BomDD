@@ -3687,7 +3687,7 @@ changes:
     title: CI - the dotnet job runs C9 only (self-conformance --c9-only, which neither writes nor removes the witness), and self-conformance prints each check's time on its own line (same checks, same verdicts; filed only)
     date: 2026-10-29
     origin: improvement
-    status: filed   # 2026-10-29 the user's "1:A 2:a" on the self-conformance cost survey (A = S2 + S3; a = its section 8 recorded as OBS-20261029-01) -> filing; manufacture waits for the start instruction
+    status: implemented   # 2026-10-29 manufactured on the user's "ECO-117 を製造して" (order section 4: V1, V2 PASS in five throwaway clones; V3, V4 and the default-mode run on this repository recorded at closure); filed 44287a0 on the user's "1:A 2:a" on the self-conformance cost survey (A = S2 + S3; a = its section 8 recorded as OBS-20261029-01)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       Cost survey at cbb71c1 (bomdd/reports/eco-117-self-conformance-cost/): the local run 209.7 s, of which C11 + C11b 201.7 s; CI's wait

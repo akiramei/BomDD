@@ -1,0 +1,14 @@
+exit=0 wall=9.8s
+self-conformance: C:\Users\akira\AppData\Local\Temp\eco117-v-r3p93ozk\B
+[env] python 3.13.1・PyYAML 6.0.3・os Windows-11・runner local・dotnet-sdk 10.0.403
+[C9] PASS 計器較正(陽性対照 17 腕: 行単位 8〔正腕 3・known-bad substring 一致×identity 相違・空結果×2・parse 不能・前提検査〕+実行単位 7〔正腕 3(正常/期待赤/期待赤の実形= RunInfo Error 同居)・known-bad 中断/行で説明できない Error/終了 0 と不合格行/ResultSummary 不在〕+TRX 抽出 3〔正常/中断/outcome 属性なし・ECO-091〕)
+[C9] PASS 母集団突合(Test SDK/xunit 参照 csproj 4 件 ⇔ manifest 4 件・双方向)
+[C9] PASS loops/loop-01-split/build/MoviePad.SplitSlice.Tests: 14/14 合格・期待赤 0 件一致=True・identity 突合 0 件・signature 補助 0 件・実行単位 ok(outcome=Completed・exit 0)
+[C9] PASS loops/loop-01.5-split/build/MoviePad.SplitSlice.v2.Tests: 15/15 合格・期待赤 0 件一致=True・identity 突合 0 件・signature 補助 0 件・実行単位 ok(outcome=Completed・exit 0)
+[C9] PASS loops/loop-02-export/build/MoviePad.ExportSlice.Tests: 26/30 合格・期待赤 4 件一致=True・identity 突合 4 件・signature 補助 4 件・実行単位 ok(outcome=Failed・exit 1)
+[C9] PASS loops/loop-03-timeline/build/MoviePad.TimelineSlice.Tests: 9/9 合格・期待赤 0 件一致=True・identity 突合 0 件・signature 補助 0 件・実行単位 ok(outcome=Completed・exit 0)
+
+[time] C9 9.4 / total 9.4 s
+[cleanup] 残置 0 件
+[witness] 書出しなし・既存も変更なし(--c9-only は fast tier を実行しない — ECO-117)
+self-conformance (C9 only) passed — C9 のみ合格(全検査ではない・witness なし)

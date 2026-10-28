@@ -1,0 +1,9 @@
+exit=1 wall=0.4s
+self-conformance: C:\Users\akira\AppData\Local\Temp\eco117-v-r3p93ozk\C
+[env] python 3.13.1・PyYAML 6.0.3・os Windows-11・runner local・dotnet-sdk 10.0.403
+[C9] FAIL manifest に suites がない/空: C:\Users\akira\AppData\Local\Temp\eco117-v-r3p93ozk\C\loops\expected-results.yaml(vacuous pass を遮断)
+
+[time] C9 0.0 / total 0.0 s
+[cleanup] 残置 0 件
+[witness] 書出しなし・既存も変更なし(--c9-only は fast tier を実行しない — ECO-117)
+self-conformance (C9 only) FAILED — 1 件の不適合(全検査ではない)

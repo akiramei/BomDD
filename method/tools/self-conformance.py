@@ -72,6 +72,13 @@
                       限界宣言は c9 コード先頭(Exe harness 母集団外・意味論同一性の
                       非証明・SDK/環境差の再現性未測定)
 
+実行モード(ECO-117):
+  既定        : fast tier(C1〜C18)— 全 PASS で witness を書く(規律 2 の単一入口)
+  --dotnet    : fast tier の後に C9 — witness は既定と同じ
+  --c9-only   : C9 だけ(CI の dotnet job 用 — Windows の fast tier は fast job が担う)。
+                fast tier を走らせないので witness は書かず・消さない。--dotnet と同時指定は exit 2
+  どのモードも検査の後に [time] 行(検査ごとの秒数と合計)を 1 行出す — [Cn] 行は変えない。
+
 欠測・実行不能は「問題なし」ではない: 検査対象が見つからない/実行できない場合も FAIL。
 exit 0 = 全検査合格 / exit 1 = 不適合あり / exit 2 = ゲート自身が実行不能。
 
@@ -99,6 +106,7 @@ import subprocess
 from concurrent.futures import ThreadPoolExecutor
 import sys
 import tempfile
+import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -1778,6 +1786,7 @@ def c17_calibrate_receipt() -> None:
 #   (1) 到達目標は「うっかり型の素通り遮断」まで — witness 改竄・hook 除去・hooksPath 解除の
 #       意図的回避は信頼境界外(ECO-018 残余の限界と同じ整理)。押し戻しの最終層は CI。
 #   (2) witness は fast tier の PASS に束縛(規律 2 の単一入口)— --dotnet 層は CI が毎 push 担保。
+#       --c9-only(ECO-117)は fast tier を走らせないので witness を書かず・消さない。
 #   (3) witness の tree は「追跡対象+追加可能ファイルの worktree 内容」(一時 index への add -A)
 #       — 未追跡の非 ignore ファイルが残っていると commit tree と不一致になり遮断される
 #       (意図された厳密さ: 検査していない内容の push を通さない)。
@@ -1942,33 +1951,39 @@ def env_imprint(dotnet: bool) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="BomDD リポ全体の自己適合ゲート")
-    ap.add_argument("--dotnet", action="store_true",
-                    help="loop .NET スイートを期待結果 manifest と突合(C9)")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--dotnet", action="store_true",
+                      help="loop .NET スイートを期待結果 manifest と突合(C9)")
+    mode.add_argument("--c9-only", action="store_true",
+                      help="C9 だけを実行(CI dotnet job 用・ECO-117)— fast tier を走らせないので witness は書かず消さない")
     a = ap.parse_args()
+    # ECO-117 S3: CI のログで各行が出た時点を見えるようにする(import 側= bomdd-job.py には及ぼさない)
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(line_buffering=True)
 
     print(f"self-conformance: {ROOT}")
-    print(f"[env] {env_imprint(a.dotnet)}")
-    c1_yaml()
-    c2_json()
-    c3_register()
-    c4_scaffold()
-    c5_fail_closed()
-    c6_gate_mutation()
-    c7_readme()
-    c8_hygiene()
-    c10_schema_drift()
-    c11_process_core()
-    c12_entry_refs()
-    c13_link_integrity()
-    c14_kit_freshness()
-    c15_deprecated_refs()
-    c16_converge_receipt()
-    c17_calibrate_receipt()
-    c18_prepush_witness()
-    if a.dotnet:
-        c9_dotnet()
+    print(f"[env] {env_imprint(a.dotnet or a.c9_only)}")
+    if a.c9_only:
+        checks = [("C9", c9_dotnet)]
+    else:
+        checks = [("C1", c1_yaml), ("C2", c2_json), ("C3", c3_register), ("C4", c4_scaffold),
+                  ("C5", c5_fail_closed), ("C6", c6_gate_mutation), ("C7", c7_readme),
+                  ("C8", c8_hygiene), ("C10", c10_schema_drift), ("C11", c11_process_core),
+                  ("C12", c12_entry_refs), ("C13", c13_link_integrity), ("C14", c14_kit_freshness),
+                  ("C15", c15_deprecated_refs), ("C16", c16_converge_receipt),
+                  ("C17", c17_calibrate_receipt), ("C18", c18_prepush_witness)]
+        if a.dotnet:
+            checks.append(("C9", c9_dotnet))
+    # ECO-117 S3: 検査ごとの経過時間は判定行と別の 1 行に出す([Cn] 行は変えない — 版間で比較できる形を保つ)
+    times, t_all = [], time.perf_counter()
+    for cid, fn in checks:
+        t0 = time.perf_counter()
+        fn()
+        times.append(f"{cid} {time.perf_counter() - t0:.1f}")
+    times.append(f"total {time.perf_counter() - t_all:.1f} s")
 
     print()
+    print("[time] " + " / ".join(times) + ("(C11 は C11b を含む)" if not a.c9_only else ""))
     # ECO-065(A 案): temp の残置は必ず報告するが判定に関与させない(後片付けは環境の性質・方法論の適合ではない)。
     if CLEANUP_RESIDUE:
         line = f"[cleanup] 残置 {len(CLEANUP_RESIDUE)} 件(判定不変・ECO-065 A 案): " + " / ".join(CLEANUP_RESIDUE[:5]) + (" …" if len(CLEANUP_RESIDUE) > 5 else "")
@@ -1976,6 +1991,14 @@ def main() -> int:
         print(line, file=sys.stderr)
     else:
         print("[cleanup] 残置 0 件")
+    if a.c9_only:
+        # ECO-117: witness は fast tier の PASS に束縛(C18 限界 (2))— C9 だけの実行は書かず、既存のものも消さない
+        print("[witness] 書出しなし・既存も変更なし(--c9-only は fast tier を実行しない — ECO-117)")
+        if FAILURES:
+            print(f"self-conformance (C9 only) FAILED — {len(FAILURES)} 件の不適合(全検査ではない)")
+            return 1
+        print("self-conformance (C9 only) passed — C9 のみ合格(全検査ではない・witness なし)")
+        return 0
     if FAILURES:
         print(f"self-conformance FAILED — {len(FAILURES)} 件の不適合")
         return 1

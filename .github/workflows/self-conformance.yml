@@ -2,6 +2,9 @@
 # fast: テンプレ構文・台帳規律・scaffold煙試験・治具異常系・ゲート対検査・README乖離・衛生
 # dotnet: loop 実験スイートを期待結果 manifest(loops/expected-results.yaml)と突合 —
 #         意図的な赤(実験証拠)はメタテストとして「失敗すること」を検査する
+#         ECO-117: dotnet job は --c9-only で C9 だけを走らせる — Windows の fast tier は
+#         fast (windows-latest) が同じイメージで走らせており、dotnet job での再実行は判定を足さない
+#         (push ごとの Windows の fast tier の標本は 2 → 1。限界は ECO-117 order §2)
 #
 # 境界の宣言(ECO-040 X — 較正掃引 ③ の還元):
 # - dotnet job は windows のみ。構成は ECO-006 裁定 (c) で確定済みだが、**原裁定に
@@ -47,4 +50,4 @@ jobs:
         with:
           dotnet-version: "10.0.x"
       - run: pip install pyyaml
-      - run: python method/tools/self-conformance.py --dotnet
+      - run: python method/tools/self-conformance.py --c9-only

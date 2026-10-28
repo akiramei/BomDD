@@ -12,6 +12,16 @@ The survey was made on 2026-10-28 at BomDD `cbb71c1`, investigation only, in a s
 | `pq_concurrency.py` | N whole OQ passes at once on threads, each with its own base, on one fresh scaffold (a proxy for S1) |
 | `pq-concurrency.txt` | Its output: 4 at once 141.9 s, 8 at once 252.4 s; all passed, results identical |
 
+## Manufacture (2026-10-29)
+
+| File | What it is |
+|---|---|
+| `verify117.py` | V1 and V2 of the order: five throwaway clones of the filing commit `44287a0` (A original; B changed; C changed with `suites: []`; M1, M2 broken versions), each run bounded at 1,500 s; usage in its docstring |
+| `v1v2/results.txt` | One line per condition, as the script wrote it |
+| `v1v2/progress.txt` | Start and end of each run, and the temporary directory's removal (line endings normalised to LF after the run) |
+| `v1v2/<clone>-<mode>.txt` | Each run's exit code, wall time and full output (stdout, then stderr if any) |
+| `sc-filing-original.txt` | The original self-conformance (default mode) on this repository at the filing tree `44287a0`, run before the filing commit: exit 0. The baseline for V1's comparison on this repository, made at closure (line endings normalised to LF) |
+
 The scripts carry the absolute path of the repository on the machine where they ran. Each builds its scaffold in a temporary directory and removes it; none writes into the repository.
 
 The CI figures (survey §4) were read with `gh run view <run> --json jobs` for runs 40701637554, 40590058612 and 40589149810; the job and step times are in the survey's table.

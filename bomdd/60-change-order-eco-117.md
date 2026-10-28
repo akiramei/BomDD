@@ -98,6 +98,38 @@ required_gates: [V1, V2, V3, V4]
   - The wait for the CI conclusion and the job times on the manufacture commit, against the three runs in section 0.
   - C9's measured time from the `[time]` line, replacing the estimate.
 
+## 4. Manufacture and the measurements before commit (2026-10-29, the user's "ECO-117 を製造して")
+
+**Start.** Baseline the filing commit `44287a0` (CI run 40772755281 success); the tree clean before the change.
+
+**What was changed:**
+The two files together: 49 insertions, 23 deletions (`git diff --stat` against `44287a0`).
+- `method/tools/self-conformance.py` (all in `main()`, the docstring, one import and one comment):
+  - `import time`;
+  - `--dotnet` and `--c9-only` in an argparse mutually exclusive group;
+  - `main()` runs the checks from a list of (id, function) pairs — the fast tier's 17 in the old order, then C9 with `--dotnet`; C9 alone with `--c9-only` — timing each, and prints the `[time]` line after a blank line, before `[cleanup]`;
+  - stdout made line-buffered at the start of `main()`;
+  - with `--c9-only`: the `[env]` line with the SDK, one `[witness]` line saying nothing was written or changed, and a last line that says C9 alone passed or failed and is not the full gate; `_write_selfconf_witness()` is not reached;
+  - the docstring's new "実行モード" block, and a line under the C18 limit (2).
+- `.github/workflows/self-conformance.yml`: the `dotnet` step runs `--c9-only`; three lines of header comment.
+
+**Evidence** is in `bomdd/reports/eco-117-self-conformance-cost/` (`verify117.py`, outputs in `v1v2/`). Five throwaway clones of `44287a0`, `core.hooksPath` set so C18 runs as here, each run bounded at 1,500 s with a progress file; the temporary directory was removed (`v1v2/progress.txt`).
+
+- **V1 result: PASS** (the clone part, `--dotnet` mode; `v1v2/results.txt`).
+  - A (original) and B (changed): both exit 0; the 26 `[Cn]` lines identical after normalising the clone root and temporary paths.
+  - B prints exactly one more line, `[time]`, naming C1-C8, C10-C18 and C9; no other line is only in B.
+  - Control: the comparator is red on a copy with one check line altered.
+  - The default mode on this repository is run before the manufacture commit and recorded at closure (the order's §5), as ECO-105 did. Its baseline, the original's run on the filing tree (exit 0), is `sc-filing-original.txt`.
+- **V2 result: PASS** (`v1v2/results.txt`).
+  - (a) B `--c9-only`, with and without a witness: only `[C9]` lines, identical to B's and A's `--dotnet` `[C9]` lines.
+  - (b) PASS side (B): the witness written by B's `--dotnet` run stays byte-identical after `--c9-only`; removed, it stays absent. FAIL side (C): absent stays absent; a dummy witness stays byte-identical.
+  - (c) C (manifest `suites: []`): `--dotnet` exit 1 and `--c9-only` exit 1 twice, the same `[C9] FAIL manifest に suites がない/空 …` line; in `--dotnet` mode no other check failed.
+  - (d) `--c9-only --dotnet` exit 2 (argparse).
+  - Known-bad: M1 (writes the witness in `--c9-only` mode) left a witness where there was none — told apart by (b). M2 (runs the fast tier in `--c9-only` mode) printed 20 other `[Cn]` lines — told apart by (a). Both exited 0, so the exit code alone would not have caught them.
+- **Times seen (one run each, not a baseline):** C9 alone 9.4-9.8 s in B with a warm build, 28.5 s in M1's clone (beside two full runs); C9 inside `--dotnet` 21.4 s. A and B ran side by side and both ended at 329.3 s, so their C9 runs were probably not independent (a shared .NET build server is the likely reason; not measured).
+- **Limit of V2 (c):** the failing side of C9 was measured on the empty-manifest branch only (an early return), as the order asked; a suite whose `dotnet test` fails was not run in `--c9-only` mode. C9's code is the same function in both modes.
+- **V3, V4:** CI on the manufacture commit, and self-conformance exit 0 before the commit, are recorded at closure.
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:a" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling on the survey; filing only).

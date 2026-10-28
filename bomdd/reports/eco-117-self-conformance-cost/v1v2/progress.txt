@@ -1,0 +1,19 @@
+06:51:56 clones at C:\Users\akira\AppData\Local\Temp\eco117-v-r3p93ozk; HEAD 44287a078e1afba4c9080f06e1bec4f606aad3b5
+06:51:56 start B-dotnet: --dotnet
+06:57:25 end B-dotnet: exit=0 329.3 s
+06:57:25 end A-dotnet: exit=0 329.3 s
+06:57:25 start C-dotnet: --dotnet
+06:57:25 start M2-c9only: --c9-only
+06:57:55 end M1-c9only: exit=0 29.7 s
+07:02:23 end C-dotnet: exit=1 297.6 s
+07:02:37 end M2-c9only: exit=0 312.0 s
+07:02:37 start B-c9only-witness-present: --c9-only
+07:02:47 end B-c9only-witness-present: exit=0 9.7 s
+07:02:47 start B-c9only-witness-absent: --c9-only
+07:02:57 end B-c9only-witness-absent: exit=0 9.8 s
+07:02:57 start C-c9only-witness-absent: --c9-only
+07:02:57 end C-c9only-witness-absent: exit=1 0.3 s
+07:02:57 start C-c9only-witness-present: --c9-only
+07:02:58 end C-c9only-witness-present: exit=1 0.4 s
+07:03:01 temp removed: True
+07:03:01 results written
