@@ -1,0 +1,78 @@
+# CI run 40777824802 (commit 2f666c6), extracted with `gh run view 40777824802 --log --job <id>`;
+# lines kept: the self-conformance step's header, [env], [Cn], [time], [witness], [cleanup] and the last line, with their timestamps.
+
+== job 123131582451 fast (ubuntu-latest)
+2026-10-28T22:10:10.6852931Z ##[group]Run python method/tools/self-conformance.py
+2026-10-28T22:10:10.8022947Z self-conformance: /home/runner/work/BomDD/BomDD
+2026-10-28T22:10:10.8032747Z [env] python 3.12.15・PyYAML 6.0.3・os Linux-7.0.0-1017-azure・runner ubuntu24/20261026.354.1
+2026-10-28T22:10:11.5870382Z [C1] PASS YAML 73 件厳格パース(重複キー検出・陽性対照込み)
+2026-10-28T22:10:11.5899755Z [C2] PASS JSON 32 件パース
+2026-10-28T22:10:11.8408145Z [C3] PASS 台帳厳格パース+verified 115 件の状態契約(窓閉鎖・verification 実記録・型④陽性対照込み)(全 verified 適合)
+2026-10-28T22:10:12.3704951Z [C4] PASS scaffold 煙試験(絶対パス漏れ 0 件・lock/manifest 整合 True・AGENTS.md 参照スキル 26 件・生成 YAML 厳格パース 全数)
+2026-10-28T22:10:12.4195096Z [C5a] PASS stage0-survey.py 存在しないリポ → exit 2・測定不能マーカー=True(期待 2+マーカー)
+2026-10-28T22:10:12.4700573Z [C5b] PASS impact-retrospective.py 存在しないリポ → exit 2・測定不能マーカー=True(期待 2+マーカー)
+2026-10-28T22:10:12.5296295Z [C6a] PASS 理由なし rejected を遮断(exit 1)
+2026-10-28T22:10:12.5899409Z [C6b] PASS 根拠つき rejected を通す(exit 0)
+2026-10-28T22:10:12.5908059Z [C7] PASS README のスキル本数表記 [13, 13] = SKILLS 実数 13
+2026-10-28T22:10:12.5909696Z [C8] PASS リポ直下にパス破損の化石なし
+2026-10-28T22:10:12.6533879Z [C10] PASS 参照スキーマの派生同期(ID 層突合+二方言被覆+テンプレ空振り・陽性対照込み)
+2026-10-28T22:10:43.2428106Z [C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 35 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)
+2026-10-28T22:10:43.2429691Z [C11b] PASS 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=True・2 回決定性=True・control 35 件
+2026-10-28T22:10:43.2883788Z [C12] PASS 自リポ入口(AGENTS.md)の相対リンク 15 件すべて実在
+2026-10-28T22:10:43.4890874Z [C13] PASS リンク実在の二文脈検査(リポ文脈 106 files/299 links 不在 0・設置先文脈 30 files/75 links 不在 0・陽性対照 True)
+2026-10-28T22:10:43.4988008Z [C14] PASS cleanup 較正 read-only 消去=True・削除不能腕= 対照不可(posix)
+2026-10-28T22:10:44.0960220Z [C14] PASS kit-freshness 対照実測(FRESH/STALE/UNKNOWN/TAMPERED/余剰/入力不正/実 scaffold = 7/7)
+2026-10-28T22:10:44.1267682Z [C15] PASS deprecated 参照の掃討(deprecated 宣言 1 件・naive 参照 0 件・陽性対照 True)
+2026-10-28T22:10:44.6107973Z [C16] PASS converge receipt ゲート(cutoff 2026-08-30 以降 order 85 件+improvements 節 109 件〔本体ラベル要求= ECO-053 以降〕・fixture 17/17 較正成立・根拠つき免除 2 件[ECO-034(by claude-opus-5(製造側の自己宣言・監査対象。C16 が免除を件数と宣言者つきで毎回表示する)) / improvements.md #2026-08-30 BomDD 自己適用還元 — ECO-033 弧: 裁定の選択肢は主張で(by claude-opus-5(製造側の自己宣言・監査対象。C16 は有効な免除を毎回件数と宣言者つきで表示する))])
+2026-10-28T22:10:44.8940999Z [C17] PASS calibrate receipt ゲート(trigger ①= verified 昇格・適用 ECO-041 以降 75 件〔本体ラベル要求= ECO-051 以降〕・fixture 18/18 較正成立・根拠つき免除 0 件)
+2026-10-28T22:10:44.9452128Z [C18] PASS witness 較正 skip-worktree 腕(tree の blob= 作業ツリー・実 index 不変)=True・対照腕=True・失敗腕(書かない)=True
+2026-10-28T22:10:44.9453437Z [C18] PASS pre-push witness(NA — CI は push しない環境・適用対象外の宣言)
+2026-10-28T22:10:44.9455074Z [time] C1 0.8 / C2 0.0 / C3 0.3 / C4 0.5 / C5 0.1 / C6 0.1 / C7 0.0 / C8 0.0 / C10 0.1 / C11 30.6 / C12 0.0 / C13 0.2 / C14 0.6 / C15 0.0 / C16 0.5 / C17 0.3 / C18 0.1 / total 34.1 s(C11 は C11b を含む)
+2026-10-28T22:10:44.9456239Z [cleanup] 残置 0 件
+2026-10-28T22:10:44.9600962Z self-conformance passed — 全検査合格
+
+== job 123131582632 fast (windows-latest)
+2026-10-28T22:10:17.0750974Z ##[group]Run python method/tools/self-conformance.py
+2026-10-28T22:10:17.5614587Z self-conformance: D:\a\BomDD\BomDD
+2026-10-28T22:10:17.6022396Z [env] python 3.12.10・PyYAML 6.0.3・os Windows-2025Server・runner win25-vs2026/20261021.278.1
+2026-10-28T22:10:18.4059141Z [C1] PASS YAML 73 件厳格パース(重複キー検出・陽性対照込み)
+2026-10-28T22:10:18.4119074Z [C2] PASS JSON 32 件パース
+2026-10-28T22:10:18.6647106Z [C3] PASS 台帳厳格パース+verified 115 件の状態契約(窓閉鎖・verification 実記録・型④陽性対照込み)(全 verified 適合)
+2026-10-28T22:10:19.7082025Z [C4] PASS scaffold 煙試験(絶対パス漏れ 0 件・lock/manifest 整合 True・AGENTS.md 参照スキル 26 件・生成 YAML 厳格パース 全数)
+2026-10-28T22:10:19.8458585Z [C5a] PASS stage0-survey.py 存在しないリポ → exit 2・測定不能マーカー=True(期待 2+マーカー)
+2026-10-28T22:10:19.9154079Z [C5b] PASS impact-retrospective.py 存在しないリポ → exit 2・測定不能マーカー=True(期待 2+マーカー)
+2026-10-28T22:10:20.0022778Z [C6a] PASS 理由なし rejected を遮断(exit 1)
+2026-10-28T22:10:20.0848734Z [C6b] PASS 根拠つき rejected を通す(exit 0)
+2026-10-28T22:10:20.0870565Z [C7] PASS README のスキル本数表記 [13, 13] = SKILLS 実数 13
+2026-10-28T22:10:20.0872909Z [C8] PASS リポ直下にパス破損の化石なし
+2026-10-28T22:10:20.1508380Z [C10] PASS 参照スキーマの派生同期(ID 層突合+二方言被覆+テンプレ空振り・陽性対照込み)
+2026-10-28T22:12:56.7118325Z [C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 35 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)
+2026-10-28T22:12:59.0600002Z [C11b] PASS 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=True・2 回決定性=True・control 35 件
+2026-10-28T22:12:59.5853233Z [C12] PASS 自リポ入口(AGENTS.md)の相対リンク 15 件すべて実在
+2026-10-28T22:13:00.2783106Z [C13] PASS リンク実在の二文脈検査(リポ文脈 106 files/299 links 不在 0・設置先文脈 30 files/75 links 不在 0・陽性対照 True)
+2026-10-28T22:13:00.6929101Z [C14] PASS cleanup 較正 read-only 消去=True・削除不能で残置が返る=True・解放後に消える=True
+2026-10-28T22:13:02.9226268Z [C14] PASS kit-freshness 対照実測(FRESH/STALE/UNKNOWN/TAMPERED/余剰/入力不正/実 scaffold = 7/7)
+2026-10-28T22:13:03.0550550Z [C15] PASS deprecated 参照の掃討(deprecated 宣言 1 件・naive 参照 0 件・陽性対照 True)
+2026-10-28T22:13:03.5725918Z [C16] PASS converge receipt ゲート(cutoff 2026-08-30 以降 order 85 件+improvements 節 109 件〔本体ラベル要求= ECO-053 以降〕・fixture 17/17 較正成立・根拠つき免除 2 件[ECO-034(by claude-opus-5(製造側の自己宣言・監査対象。C16 が免除を件数と宣言者つきで毎回表示する)) / improvements.md #2026-08-30 BomDD 自己適用還元 — ECO-033 弧: 裁定の選択肢は主張で(by claude-opus-5(製造側の自己宣言・監査対象。C16 は有効な免除を毎回件数と宣言者つきで表示する))])
+2026-10-28T22:13:03.8783897Z [C17] PASS calibrate receipt ゲート(trigger ①= verified 昇格・適用 ECO-041 以降 75 件〔本体ラベル要求= ECO-051 以降〕・fixture 18/18 較正成立・根拠つき免除 0 件)
+2026-10-28T22:13:04.8777488Z [C18] PASS witness 較正 skip-worktree 腕(tree の blob= 作業ツリー・実 index 不変)=True・対照腕=True・失敗腕(書かない)=True
+2026-10-28T22:13:04.8778765Z [C18] PASS pre-push witness(NA — CI は push しない環境・適用対象外の宣言)
+2026-10-28T22:13:04.8780374Z [time] C1 0.8 / C2 0.0 / C3 0.3 / C4 1.1 / C5 0.1 / C6 0.2 / C7 0.0 / C8 0.0 / C10 0.1 / C11 159.4 / C12 0.0 / C13 1.1 / C14 2.4 / C15 0.0 / C16 0.5 / C17 0.3 / C18 1.0 / total 167.3 s(C11 は C11b を含む)
+2026-10-28T22:13:04.8781750Z [cleanup] 残置 0 件
+2026-10-28T22:13:05.0402595Z self-conformance passed — 全検査合格
+
+== job 123131582793 dotnet
+2026-10-28T22:10:52.5863011Z ##[group]Run python method/tools/self-conformance.py --c9-only
+2026-10-28T22:10:53.0850245Z self-conformance: D:\a\BomDD\BomDD
+2026-10-28T22:10:53.3541477Z [env] python 3.12.10・PyYAML 6.0.3・os Windows-2025Server・runner win25-vs2026/20261021.278.1・dotnet-sdk 10.0.403
+2026-10-28T22:10:53.3590540Z [C9] PASS 計器較正(陽性対照 17 腕: 行単位 8〔正腕 3・known-bad substring 一致×identity 相違・空結果×2・parse 不能・前提検査〕+実行単位 7〔正腕 3(正常/期待赤/期待赤の実形= RunInfo Error 同居)・known-bad 中断/行で説明できない Error/終了 0 と不合格行/ResultSummary 不在〕+TRX 抽出 3〔正常/中断/outcome 属性なし・ECO-091〕)
+2026-10-28T22:10:53.3661134Z [C9] PASS 母集団突合(Test SDK/xunit 参照 csproj 4 件 ⇔ manifest 4 件・双方向)
+2026-10-28T22:11:05.6783553Z [C9] PASS loops/loop-01-split/build/MoviePad.SplitSlice.Tests: 14/14 合格・期待赤 0 件一致=True・identity 突合 0 件・signature 補助 0 件・実行単位 ok(outcome=Completed・exit 0)
+2026-10-28T22:11:10.1905001Z [C9] PASS loops/loop-01.5-split/build/MoviePad.SplitSlice.v2.Tests: 15/15 合格・期待赤 0 件一致=True・identity 突合 0 件・signature 補助 0 件・実行単位 ok(outcome=Completed・exit 0)
+2026-10-28T22:11:14.4352242Z [C9] PASS loops/loop-02-export/build/MoviePad.ExportSlice.Tests: 26/30 合格・期待赤 4 件一致=True・identity 突合 4 件・signature 補助 4 件・実行単位 ok(outcome=Failed・exit 1)
+2026-10-28T22:11:18.6650221Z [C9] PASS loops/loop-03-timeline/build/MoviePad.TimelineSlice.Tests: 9/9 合格・期待赤 0 件一致=True・identity 突合 0 件・signature 補助 0 件・実行単位 ok(outcome=Completed・exit 0)
+2026-10-28T22:11:18.6655483Z [time] C9 25.3 / total 25.3 s
+2026-10-28T22:11:18.6656070Z [cleanup] 残置 0 件
+2026-10-28T22:11:18.6656736Z [witness] 書出しなし・既存も変更なし(--c9-only は fast tier を実行しない — ECO-117)
+2026-10-28T22:11:18.6657608Z self-conformance (C9 only) passed — C9 のみ合格(全検査ではない・witness なし)
+

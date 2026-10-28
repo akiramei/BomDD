@@ -116,7 +116,7 @@ The two files together: 49 insertions, 23 deletions (`git diff --stat` against `
 **Evidence** is in `bomdd/reports/eco-117-self-conformance-cost/` (`verify117.py`, outputs in `v1v2/`). Five throwaway clones of `44287a0`, `core.hooksPath` set so C18 runs as here, each run bounded at 1,500 s with a progress file; the temporary directory was removed (`v1v2/progress.txt`).
 
 - **V1 result: PASS** (the clone part, `--dotnet` mode; `v1v2/results.txt`).
-  - A (original) and B (changed): both exit 0; the 26 `[Cn]` lines identical after normalising the clone root and temporary paths.
+  - A (original) and B (changed): both exit 0; the 26 `[Cn]` lines identical after normalising the clone root and temporary paths. **[Corrected at closure (§5): 28 lines.** The filter `^\[C\d+b?\] ` missed `[C5a]` and `[C6a]`; re-read with every id, still identical.**]**
   - B prints exactly one more line, `[time]`, naming C1-C8, C10-C18 and C9; no other line is only in B.
   - Control: the comparator is red on a copy with one check line altered.
   - The default mode on this repository is run before the manufacture commit and recorded at closure (the order's §5), as ECO-105 did. Its baseline, the original's run on the filing tree (exit 0), is `sc-filing-original.txt`.
@@ -125,10 +125,71 @@ The two files together: 49 insertions, 23 deletions (`git diff --stat` against `
   - (b) PASS side (B): the witness written by B's `--dotnet` run stays byte-identical after `--c9-only`; removed, it stays absent. FAIL side (C): absent stays absent; a dummy witness stays byte-identical.
   - (c) C (manifest `suites: []`): `--dotnet` exit 1 and `--c9-only` exit 1 twice, the same `[C9] FAIL manifest に suites がない/空 …` line; in `--dotnet` mode no other check failed.
   - (d) `--c9-only --dotnet` exit 2 (argparse).
-  - Known-bad: M1 (writes the witness in `--c9-only` mode) left a witness where there was none — told apart by (b). M2 (runs the fast tier in `--c9-only` mode) printed 20 other `[Cn]` lines — told apart by (a). Both exited 0, so the exit code alone would not have caught them.
+  - Known-bad: M1 (writes the witness in `--c9-only` mode) left a witness where there was none — told apart by (b). M2 (runs the fast tier in `--c9-only` mode) printed 20 other `[Cn]` lines — told apart by (a). **[Corrected at closure (§5): 22 lines, the same filter defect.]** Both exited 0, so the exit code alone would not have caught them.
 - **Times seen (one run each, not a baseline):** C9 alone 9.4-9.8 s in B with a warm build, 28.5 s in M1's clone (beside two full runs); C9 inside `--dotnet` 21.4 s. A and B ran side by side and both ended at 329.3 s, so their C9 runs were probably not independent (a shared .NET build server is the likely reason; not measured).
 - **Limit of V2 (c):** the failing side of C9 was measured on the empty-manifest branch only (an early return), as the order asked; a suite whose `dotnet test` fails was not run in `--c9-only` mode. C9's code is the same function in both modes.
 - **V3, V4:** CI on the manufacture commit, and self-conformance exit 0 before the commit, are recorded at closure.
+
+## 5. Closure (2026-10-29, verified on the user's "ECO-117 をクローズして", manufacturer's calibration only)
+
+- **Window.** Baseline `cbb71c1` → filing `44287a0` → manufacture `2f666c6` (diff_audit.head; **the window is closed**; the closure commit holds records only: this order, the register and `bomdd/reports/eco-117-self-conformance-cost/`).
+  - Inside the window (`git diff --name-only cbb71c1 2f666c6`, 26 paths): `method/tools/self-conformance.py`, `.github/workflows/self-conformance.yml`, this order, the register, 21 files under `bomdd/reports/eco-117-self-conformance-cost/`, and `method/improvements.md`.
+  - **One path outside `allowed_paths`: `method/improvements.md`**, 15 lines appended and none removed in the filing commit: the section carrying OBS-20261029-01, which the same ruling's "2:a" asked for. It is not ECO-117's change; the filing omitted it from `allowed_paths`. Disclosed here; the frozen list is not widened after the fact.
+- **The count correction to §4.** `verify117.py` selected check lines with `^\[C\d+b?\] `, which missed the ids with another suffix letter (`[C5a]`, `[C6a]`). `recheck117.py` re-read the saved outputs with `^\[C\d+[a-z]?\] ` (`v1v2/recheck-results.txt`): every verdict of §4 holds; only the counts change (V1 26 → 28 lines; M2 20 → 22 lines). The same filter in the manufacturer's comparison before commit read 20 lines on this repository; re-read, 22.
+- **Acceptance results:**
+  - **V1 result: PASS.**
+    - Clones, `--dotnet`: A and B both exit 0; 28 `[Cn]` lines identical (ids C1-C18 with C5a, C5b, C6a, C6b, C11b, and C9); one added `[time]` line in B; the comparator red on an altered line.
+    - This repository, default mode: the original at the filing tree (`sc-filing-original.txt`, exit 0) and the changed at the manufacture tree (`sc-manufacture-changed.txt`, exit 0): 22 `[Cn]` lines identical in full text; the `[time]` line names the 17 checks of the fast tier.
+  - **V2 result: PASS** (§4, counts as corrected): (a) only the `[C9]` lines of `--dotnet`; (b) the witness untouched on PASS and FAIL, present and absent; (c) the empty manifest exits 1 in both modes with the same line; (d) exit 2 with `--dotnet`; M1 and M2 told apart, both exiting 0.
+  - **V3 result: PASS.** CI run 40777824802 on `2f666c6`, **success** (`ci-40777824802-extract.txt`):
+    - `dotnet`: 6 check lines, all `[C9] PASS`, no other id; the last line says C9 alone passed and no witness;
+    - `fast (ubuntu-latest)` and `fast (windows-latest)`: 22 check lines each, the same ids as here, all PASS;
+    - all three self-conformance steps print the `[time]` line, and each log line now carries its own time (on Windows, `[C1]` at 22:10:18, `[C11]` at 22:12:56).
+  - **V4 result: PASS.** Self-conformance exit 0 was observed before each commit (filing 44287a0, manufacture 2f666c6) and pushed through the pre-push witness. CI: run 40772755281 (filing) **success**, run 40777824802 (manufacture) **success**.
+- **V5** (not a closing condition): CI on the manufacture commit against the three runs of §0. One run, hosted runners whose load is not controlled.
+
+  | Job | Before (3 runs): job | After: job | After: the self-conformance step's `[time]` total |
+  |---|---:|---:|---:|
+  | fast (ubuntu-latest) | 39-45 s | 45 s | 34.1 s |
+  | fast (windows-latest) | 189-223 s | 198 s | 167.3 s (C11 159.4 s) |
+  | dotnet | 241-246 s | 80 s | 25.3 s (C9 alone) |
+  | **Wait for the conclusion** | **241-246 s** | **198 s** | — |
+
+  C9 took 25.3 s in CI, inside the 7-39 s estimate of §0. The slowest job is now `fast (windows-latest)`, as §2 predicted.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; one tool and one workflow changed)
+
+- **The claim (one sentence).** The CI `dotnet` job runs C9 alone without touching the witness, every mode prints one `[time]` line, and every other check line, verdict and exit code is as before; the CI wait fell from 241-246 s to 198 s.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The default and `--dotnet` modes print the same check lines and exit code": **observed / eligible**. Original against changed on the same trees (clones and this repository), compared in full text; the comparator goes red on an altered line. Not measured: inputs on which a check fails in the default mode (C's failure is C9's).
+  - "`--c9-only` never touches the witness": **observed / eligible**. Four states (PASS/FAIL × present/absent), and the broken version that writes it is told apart.
+  - "`--c9-only` runs C9 alone, with the same lines as `--dotnet`": **observed / eligible** on PASS and on the empty-manifest FAIL; the broken version that runs the fast tier is told apart.
+  - "No fast check needs the .NET SDK": **read / conditionally eligible**. grep of the tool, `bomdd-init.py` and the process-core tools; and `fast (windows-latest)` has always run the fast tier without `setup-dotnet`'s SDK on the PATH (only with what the runner image carries) and passed, here too. Not measured: an SDK-dependent behaviour hidden in a subprocess the grep did not reach.
+  - "The CI wait fell": **observed / eligible** for one run.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): 1, in the manufacturer's verification script, not in the gate. `verify117.py`'s check-line filter `^\[C\d+b?\] ` missed `[C5a]`/`[C6a]`, so §4's counts were low (26, 20). Found while reading the CI logs, re-read with `recheck117.py`; no verdict changed. Attribution: a filter written from memory of the ids rather than from the ids present (the same shape as "derive the counts a record states", 2026-10-28).
+- **宣言した検出力の限界** (declared limits of detection):
+  - One Windows sample of the fast tier per push instead of two: a check that fails only sometimes has one chance to show (§2).
+  - The failing side of C9 in `--c9-only` was measured on the empty-manifest branch only; a suite whose `dotnet test` fails was not run in that mode (§4).
+  - A and B ran side by side and both ended at 329.3 s; their C9 runs were probably not independent. Verdicts were compared, not times.
+  - `[time]` seconds are not compared across versions by construction; they are for reading, not gating.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9); this receipt was written by the manufacturer.
+- **Battery, row by row:**
+  - **Q1 asked.** The check lines are unchanged; the new lines (`[time]`, the `--c9-only` `[witness]` and last line) claim only what the code does.
+  - **Q2 asked.** Known-bad: M1, M2, the empty manifest, the altered comparator input. Known-good: the original tool's outputs on the same trees. The labels come from the original code and the order's conditions, set before the runs.
+  - **Q3 asked.** One arm per condition of V1 and V2, PASS and FAIL sides for the witness.
+  - **Q4 NA.** No declared fixture input is relied on.
+  - **Q5 asked.** CI success observed for both commits, and the logs read for V3, not only the conclusion.
+  - **Q6 asked.** Each commit came after an observed exit 0; no repository file changed between a run and its commit.
+  - **Q7 asked.** The comparator's control is red; the verification script's own defect was found and corrected (above).
+  - **Q8 NA.** No preventive gate was added.
+  - **Q9 asked.** Original and changed ran on the same trees (clones of `44287a0`; this repository at filing and manufacture differ only by ECO-117's files).
+  - **Q10 asked.** The limits above.
+  - **Q11 NA.** No input class needs to be separated.
+- **What this closure does not support:**
+  - S1 (the runner's sandboxes side by side; not chosen);
+  - OBS-20261029-01 (the witness tree computed after the checks; recorded, not repaired);
+  - any product repository;
+  - a CI wait figure beyond one run.
 
 ## /preflight receipt (start path: manual — the user's "1:A 2:a" read as the start artifact)
 

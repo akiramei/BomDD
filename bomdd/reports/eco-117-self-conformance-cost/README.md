@@ -22,6 +22,15 @@ The survey was made on 2026-10-28 at BomDD `cbb71c1`, investigation only, in a s
 | `v1v2/<clone>-<mode>.txt` | Each run's exit code, wall time and full output (stdout, then stderr if any) |
 | `sc-filing-original.txt` | The original self-conformance (default mode) on this repository at the filing tree `44287a0`, run before the filing commit: exit 0. The baseline for V1's comparison on this repository, made at closure (line endings normalised to LF) |
 
+## Closure (2026-10-29)
+
+| File | What it is |
+|---|---|
+| `recheck117.py` | Re-reads the saved outputs with every check id (`^\[C\d+[a-z]?\] `): `verify117.py`'s filter missed `[C5a]`/`[C6a]`. Usage in its docstring |
+| `v1v2/recheck-results.txt` | Its output: every verdict holds; V1 28 lines, this repository 22 lines, M2 22 lines (line endings normalised to LF) |
+| `sc-manufacture-changed.txt` | The changed self-conformance (default mode) on this repository at the manufacture tree, run before commit `2f666c6`: exit 0 |
+| `ci-40777824802-extract.txt` | CI run 40777824802 on `2f666c6`: per job, the self-conformance step's header, `[env]`, check lines, `[time]`, `[witness]`, `[cleanup]` and last line, with timestamps (`gh run view --log --job`) |
+
 The scripts carry the absolute path of the repository on the machine where they ran. Each builds its scaffold in a temporary directory and removes it; none writes into the repository.
 
 The CI figures (survey §4) were read with `gh run view <run> --json jobs` for runs 40701637554, 40590058612 and 40589149810; the job and step times are in the survey's table.

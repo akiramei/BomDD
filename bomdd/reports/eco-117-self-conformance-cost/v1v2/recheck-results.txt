@@ -1,0 +1,16 @@
+V1 A/B --dotnet: line counts: (28, 28)
+V1 A/B --dotnet: identical: True
+V1 A/B --dotnet: differing pairs: []
+V1 ids: ['C1', 'C2', 'C3', 'C4', 'C5a', 'C5b', 'C6a', 'C6b', 'C7', 'C8', 'C9', 'C10', 'C11', 'C11b', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17', 'C18']
+V1 this repository, default mode: original at the filing tree / changed at the manufacture tree, line counts: (22, 22)
+V1 this repository: identical: True
+V1 this repository: same ids and verdicts: True
+V1 this repository: differing pairs: []
+V2(a) B-c9only-witness-present: ids: ['C9']
+V2(a) B-c9only-witness-present: == B --dotnet [C9]: True
+V2(a) B-c9only-witness-absent: ids: ['C9']
+V2(a) B-c9only-witness-absent: == B --dotnet [C9]: True
+V2(c) C --dotnet: FAIL lines: ['[C9] FAIL manifest に suites がない/空: <ROOT>\\loops\\expected-results.yaml(']
+V2(c) C-c9only-witness-absent: == C --dotnet [C9]: True
+V2(c) C-c9only-witness-present: == C --dotnet [C9]: True
+known-bad M2: non-C9 lines: 22
