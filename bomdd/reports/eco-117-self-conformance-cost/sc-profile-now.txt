@@ -1,0 +1,41 @@
+[C1] PASS YAML 73 件厳格パース(重複キー検出・陽性対照込み)
+[C2] PASS JSON 32 件パース
+[C3] PASS 台帳厳格パース+verified 115 件の状態契約(窓閉鎖・verification 実記録・型④陽性対照込み)(全 verified 適合)
+[C4] PASS scaffold 煙試験(絶対パス漏れ 0 件・lock/manifest 整合 True・AGENTS.md 参照スキル 26 件・生成 YAML 厳格パース 全数)
+[C5a] PASS stage0-survey.py 存在しないリポ → exit 2・測定不能マーカー=True(期待 2+マーカー)
+[C5b] PASS impact-retrospective.py 存在しないリポ → exit 2・測定不能マーカー=True(期待 2+マーカー)
+[C6a] PASS 理由なし rejected を遮断(exit 1)
+[C6b] PASS 根拠つき rejected を通す(exit 0)
+[C7] PASS README のスキル本数表記 [13, 13] = SKILLS 実数 13
+[C8] PASS リポ直下にパス破損の化石なし
+[C10] PASS 参照スキーマの派生同期(ID 層突合+二方言被覆+テンプレ空振り・陽性対照込み)
+[C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 35 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)
+[C11b] PASS 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=True・2 回決定性=True・control 35 件
+[C12] PASS 自リポ入口(AGENTS.md)の相対リンク 15 件すべて実在
+[C13] PASS リンク実在の二文脈検査(リポ文脈 106 files/299 links 不在 0・設置先文脈 30 files/75 links 不在 0・陽性対照 True)
+[C14] PASS cleanup 較正 read-only 消去=True・削除不能で残置が返る=True・解放後に消える=True
+[C14] PASS kit-freshness 対照実測(FRESH/STALE/UNKNOWN/TAMPERED/余剰/入力不正/実 scaffold = 7/7)
+[C15] PASS deprecated 参照の掃討(deprecated 宣言 1 件・naive 参照 0 件・陽性対照 True)
+[C16] PASS converge receipt ゲート(cutoff 2026-08-30 以降 order 84 件+improvements 節 108 件〔本体ラベル要求= ECO-053 以降〕・fixture 17/17 較正成立・根拠つき免除 2 件[ECO-034(by claude-opus-5(製造側の自己宣言・監査対象。C16 が免除を件数と宣言者つきで毎回表示する)) / improvements.md #2026-08-30 BomDD 自己適用還元 — ECO-033 弧: 裁定の選択肢は主張で(by claude-opus-5(製造側の自己宣言・監査対象。C16 は有効な免除を毎回件数と宣言者つきで表示する))])
+[C17] PASS calibrate receipt ゲート(trigger ①= verified 昇格・適用 ECO-041 以降 75 件〔本体ラベル要求= ECO-051 以降〕・fixture 18/18 較正成立・根拠つき免除 0 件)
+[C18] PASS witness 較正 skip-worktree 腕(tree の blob= 作業ツリー・実 index 不変)=True・対照腕=True・失敗腕(書かない)=True
+[C18] PASS pre-push witness 設置(hooksPath=bomdd/hooks・hook 実在+witness 突合=True)
+total 209.7 s, failures 0
+    0.5 s  c1_yaml                   0 subprocesses    0.0 s; slowest: 
+    0.0 s  c2_json                   0 subprocesses    0.0 s; slowest: 
+    0.2 s  c3_register               0 subprocesses    0.0 s; slowest: 
+    1.3 s  c4_scaffold               1 subprocesses    0.9 s; slowest: 0.9s python.exe bomdd-init.py SelfConfSmoke --dir
+    0.2 s  c5_fail_closed            2 subprocesses    0.2 s; slowest: 0.1s python.exe impact-retrospective.py --repo C:\Users\akira\source\repos\; 0.1s python.exe stage0-survey.py --repo C:\Users\akira\source\repos\BomDD\n
+    0.2 s  c6_gate_mutation          2 subprocesses    0.2 s; slowest: 0.1s python.exe ui-cad-gate.py --ui-dir C:\Users\akira\AppData\Local\Temp\b; 0.1s python.exe ui-cad-gate.py --ui-dir C:\Users\akira\AppData\Local\Temp\b
+    0.0 s  c7_readme                 0 subprocesses    0.0 s; slowest: 
+    0.0 s  c8_hygiene                0 subprocesses    0.0 s; slowest: 
+    0.0 s  c10_schema_drift          0 subprocesses    0.0 s; slowest: 
+  201.7 s  c11_process_core         10 subprocesses  396.3 s; slowest: 194.3s python.exe process-qualification.py --root C:\Users\akira\AppData\Loca; 194.0s python.exe process-qualification.py --root C:\Users\akira\AppData\Loca; 3.4s python.exe bomdd-init.py AdaptSmoke --dir
+    0.0 s  c12_entry_refs            0 subprocesses    0.0 s; slowest: 
+    1.3 s  c13_link_integrity        2 subprocesses    1.0 s; slowest: 1.0s python.exe bomdd-init.py LinkCtxSmoke --dir; 0.0s git -C C:\Users\akira\source\repos\BomDD ls-files
+    2.7 s  c14_kit_freshness        16 subprocesses    2.6 s; slowest: 1.1s python.exe bomdd-init.py FreshSmoke --dir; 0.3s python.exe kit-freshness.py --root C:\Users\akira\AppData\Local\Temp\b; 0.2s python.exe kit-freshness.py --root C:\Users\akira\AppData\Local\Temp\b
+    0.1 s  c15_deprecated_refs       0 subprocesses    0.0 s; slowest: 
+    0.3 s  c16_converge_receipt      0 subprocesses    0.0 s; slowest: 
+    0.2 s  c17_calibrate_receipt     0 subprocesses    0.0 s; slowest: 
+    0.9 s  c18_prepush_witness      24 subprocesses    0.9 s; slowest: 0.1s git -C C:\Users\akira\AppData\Local\Temp\bomdd-selfconf-c18-7ikg4n7t\r; 0.0s git -C C:\Users\akira\AppData\Local\Temp\bomdd-selfconf-c18-7ikg4n7t\r; 0.0s git -C C:\Users\akira\AppData\Local\Temp\bomdd-selfconf-c18-7ikg4n7t\r
+exit=0

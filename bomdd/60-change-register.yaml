@@ -3683,3 +3683,35 @@ changes:
       items, attacked by the product's own independent review. Not a closing condition: V4 the next delivery decided through the receiving step,
       its As-Built entry carrying A3's fields. Conditions are frozen at filing; results go to the closing section.
     producer: EQ-004
+  - id: ECO-117
+    title: CI - the dotnet job runs C9 only (self-conformance --c9-only, which neither writes nor removes the witness), and self-conformance prints each check's time on its own line (same checks, same verdicts; filed only)
+    date: 2026-10-29
+    origin: improvement
+    status: filed   # 2026-10-29 the user's "1:A 2:a" on the self-conformance cost survey (A = S2 + S3; a = its section 8 recorded as OBS-20261029-01) -> filing; manufacture waits for the start instruction
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      Cost survey at cbb71c1 (bomdd/reports/eco-117-self-conformance-cost/): the local run 209.7 s, of which C11 + C11b 201.7 s; CI's wait
+      for the conclusion 241-246 s over three runs, set by the dotnet job, which runs the whole fast tier on the same Windows image as
+      fast (windows-latest) and then C9 - the Windows fast tier runs twice per push and the second run adds no check. CI prints the output at
+      exit (block-buffered), so per-check times, C9's included, cannot be read from CI logs.
+    order_ref: bomdd/60-change-order-eco-117.md
+    affected_refs: [method/tools/self-conformance.py, .github/workflows/self-conformance.yml]
+    no_impact_prediction: "(before manufacture; frozen) method/tools/self-conformance.py (main(), the argument parser, the docstring), .github/workflows/self-conformance.yml (the dotnet step, the header comment), the order, the register and bomdd/reports/eco-117-*/. The default and --dotnet modes print the same check lines and exit code for every input, plus one [time] line; --c9-only prints the same C9 lines as --dotnet; the witness is written only as before. CI wait down about 20-60 s per push. Declared: one Windows sample of the fast tier per push instead of two (a check that fails only sometimes has one chance to show); the fast tier no longer runs with the .NET SDK on the PATH, which no fast check reads."
+    diff_audit:
+      baseline: "cbb71c1"  # HEAD before this filing
+      allowed_paths: [method/tools/self-conformance.py, .github/workflows/self-conformance.yml, bomdd/60-change-order-eco-117.md, bomdd/60-change-register.yaml, bomdd/reports/eco-117-self-conformance-cost/]
+    required_gates: [V1, V2, V3, V4]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      S2: self-conformance gets --c9-only (mutually exclusive with --dotnet): the [env] line with the SDK, C9 alone, the [cleanup] line; the
+      witness neither written nor removed, and the last line says C9 alone passed or failed, not the full gate. The workflow's dotnet job runs
+      it; the fast matrix is unchanged. S3: main() times each check function and prints one [time] line after the checks in every mode, on
+      PASS and FAIL, with stdout line-buffered inside main(); the [Cn] lines are unchanged. Not changed: any check, local --dotnet,
+      process-qualification and the templates, the hooks and the witness logic.
+    verification: >
+      V1 default and --dotnet modes: the original and the changed give the same exit code and [Cn] lines on the same tree, plus one [time]
+      line; the comparator shown red on an altered line / V2 --c9-only: the same [C9] lines as --dotnet and no other check line; the witness
+      absent stays absent and present stays byte-identical, on PASS and FAIL; a failing C9 exits 1 in both modes with the same lines;
+      --c9-only --dotnet exits 2; a version writing the witness and one running the fast tier told apart / V3 CI: the dotnet log shows only
+      [C9] lines and passes, both fast jobs pass, all three logs carry [time] / V4 self-conformance exit 0 before each commit, CI green /
+      V5 (not a closing condition) the CI wait and C9's measured time. Conditions are frozen at filing; results go to the closing section.
+    producer: EQ-004

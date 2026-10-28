@@ -9678,3 +9678,18 @@ M5-07 (its line rewritten).
   its product's rules exclude.
   source: MoviePad-Remake ECO-005 items 6 and 9 (2026-10-28)
   evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/delivery-3/plant-3a.md` ("A deviation"), `results-delivery-3.md` §4
+
+## 2026-10-29 The self-conformance cost survey — the CI dotnet job reruns the fast tier (ECO-117), and the witness tree is computed after the checks
+
+Source: the self-conformance cost survey at `cbb71c1` (`bomdd/reports/eco-117-self-conformance-cost/survey.md`, investigation only), asked for
+through a side session. The user's "1:A 2:a" (2026-10-29): **A** = ECO-117 filed (the CI `dotnet` job runs C9 only; each check's time
+printed); **a** = the survey's §8 recorded here as an observation. Not taken: S1 (the runner's sandboxes side by side; a template ECO and a
+distribution ECO), and J1-J4, which change what is detected (J2, the skip by inputs, was declined on 2026-10-12 under ECO-105).
+
+- [watch 1/3] OBS-20261029-01 — **The PASS witness attests the tree as it is when the run ends, not the tree the checks read:
+  `_write_selfconf_witness` computes the tree after every check has run (about 3.5 minutes on Windows), so a file changed during the run
+  (for example by another session sharing the folder) is attested without having been checked.** Read from the code, not observed: no such
+  witness has been seen. A repair would compute the tree at the start as well and not write the witness when the two differ. 2 例目の条件= an
+  observed instance — a witness whose tree holds a file that changed while its run was going on.
+  source: the self-conformance cost survey §8 (2026-10-28), ruled "a" by the user (2026-10-29)
+  evidence: `method/tools/self-conformance.py` `main()` (the witness written after the last check), `_write_selfconf_witness`, `_witness_tree`; `bomdd/reports/eco-117-self-conformance-cost/survey.md` §8

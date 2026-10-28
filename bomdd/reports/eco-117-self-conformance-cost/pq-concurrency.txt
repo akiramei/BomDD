@@ -1,0 +1,4 @@
+4 OQ passes at once: wall 141.9 s, per pass 35.5 s, all pass=True, identical=True
+8 OQ passes at once: wall 252.4 s, per pass 31.6 s, all pass=True, identical=True
+temp removed: True
+exit=0

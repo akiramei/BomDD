@@ -1,0 +1,29 @@
+scaffold rc=0 3.1 s
+IQ pass 0.8 s (8 controls, all pass=True); OQ pass 84.5 s (27 controls, all pass=True)
+OQ-00 + setup before first sandbox: 0.0 s
+  pos       6.6 s  (init  1.5 s; extra commits 3; validates 1)
+  n1        2.2 s  (init  1.5 s; extra commits 1; validates 0)
+  n2        2.3 s  (init  1.6 s; extra commits 1; validates 0)
+  n3        5.1 s  (init  1.5 s; extra commits 3; validates 0)
+  n4        4.4 s  (init  1.5 s; extra commits 2; validates 0)
+  n5        4.2 s  (init  1.7 s; extra commits 2; validates 1)
+  n6        2.5 s  (init  1.7 s; extra commits 1; validates 0)
+  n7        4.3 s  (init  1.5 s; extra commits 2; validates 0)
+  n8        5.2 s  (init  1.6 s; extra commits 1; validates 1)
+  n9        2.2 s  (init  1.5 s; extra commits 1; validates 1)
+  n10       3.7 s  (init  1.6 s; extra commits 2; validates 1)
+  n11       5.2 s  (init  1.6 s; extra commits 3; validates 0)
+  n12       2.4 s  (init  1.6 s; extra commits 1; validates 0)
+  n13       2.2 s  (init  1.6 s; extra commits 1; validates 1)
+  pos2      2.3 s  (init  0.3 s; extra commits 2; validates 1)
+  n15       2.6 s  (init  0.3 s; extra commits 3; validates 1)
+  n16       4.6 s  (init  1.5 s; extra commits 2; validates 1)
+  n17       3.0 s  (init  1.6 s; extra commits 2; validates 2)
+  pos3      2.3 s  (init  0.3 s; extra commits 2; validates 1)
+  pos4      6.1 s  (init  1.6 s; extra commits 2; validates 1)
+  n19       3.8 s  (init  1.6 s; extra commits 3; validates 1)
+  n20       4.4 s  (init  1.5 s; extra commits 2; validates 2)
+  n21       3.2 s  (init  1.7 s; extra commits 1; validates 1)
+sandboxes 23; max 6.6 s
+temp removed: True
+exit=0
