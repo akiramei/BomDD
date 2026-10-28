@@ -1,0 +1,965 @@
+{
+ "classifier": "1 (designer, this session)",
+ "items": [
+  {
+   "id": "UNIT/M-SOLUTION-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 P4 (units without ebom_refs provide statements only)",
+   "reason": "A build-skeleton unit with no E item is the practice of every .NET product here; paths are the dotnet defaults. Statable as a K-BOM rule."
+  },
+  {
+   "id": "DEP/M-SOLUTION-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment)",
+   "reason": "platform:dotnet-sdk-10.0 from K-DOTNET-001; statable (a unit requires the platform its K item names)."
+  },
+  {
+   "id": "ACC/M-SOLUTION-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "The build row for the build unit; statable."
+  },
+  {
+   "id": "PROVIDES/PS-M-SOLUTION-001-P01",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Target framework, nullable and packages come from K-DOTNET-001 and procurement; InternalsVisibleTo and \"no package in the core\" are the product's practice."
+  },
+  {
+   "id": "MD/M-SOLUTION-001/1",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One library vs a project per unit: both reasonable; a trade-off."
+  },
+  {
+   "id": "MD/M-SOLUTION-001/2",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": ".sln vs .slnx: taste and tool compatibility."
+  },
+  {
+   "id": "UNIT/M-DOCUMENT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 A1 rules 2-3",
+   "reason": "One unit per E item, the artifact path is the E item's planned_output_artifact_ref; file names are one file per public type of the form. No written rule maps E items to units 1:1."
+  },
+  {
+   "id": "DEP/M-DOCUMENT-001",
+   "class": "R",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment)",
+   "reason": "The E item requires nothing; A1 rules 5-6 give empty requires and depends_on."
+  },
+  {
+   "id": "ACC/M-DOCUMENT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Equal to the E item's acceptance_refs (a copy). The E-BOM already names the rows; no written rule says the M unit copies them (playbook 4.5 lists E-BOM acceptance_refs as unmeasured)."
+  },
+  {
+   "id": "PROVIDES/PS-M-DOCUMENT-001-P01",
+   "class": "J",
+   "missing_field": "a typed operation model per IF- (operations, inputs, outputs, refusals)",
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment); kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "The signatures would follow from a typed operation model of SPEC-DOCUMENT/EDIT, but the form adds behaviour the spec does not state (SplitAt accepts a newId in use; \"no change\" returns the same instance) - read from the authority or chosen."
+  },
+  {
+   "id": "MD/M-DOCUMENT-001/1",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Follows from the spec's clamp semantics with lo > hi plus K knowledge that Math.Clamp throws; a K-BOM rule would carry it."
+  },
+  {
+   "id": "UNIT/M-HISTORY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 A1 rules 2-3",
+   "reason": "One unit per E item, the artifact path is the E item's planned_output_artifact_ref; file names are one file per public type of the form. No written rule maps E items to units 1:1."
+  },
+  {
+   "id": "DEP/M-HISTORY-001",
+   "class": "R",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment)",
+   "reason": "The E item requires nothing; A1 rules 5-6 give empty requires and depends_on."
+  },
+  {
+   "id": "ACC/M-HISTORY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Equal to the E item's acceptance_refs (a copy). The E-BOM already names the rows; no written rule says the M unit copies them (playbook 4.5 lists E-BOM acceptance_refs as unmeasured)."
+  },
+  {
+   "id": "PROVIDES/PS-M-HISTORY-001-P01",
+   "class": "C+",
+   "missing_field": "a typed operation model for IF-HISTORY-01",
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment); kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Signatures only; the behaviour is SPEC-HISTORY-001. A typed operation model would give them; the Try-pattern and class/record style need a stated style rule."
+  },
+  {
+   "id": "UNIT/M-MEDIA-TOOLS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 A1 rules 2-3",
+   "reason": "One unit per E item, the artifact path is the E item's planned_output_artifact_ref; file names are one file per public type of the form. No written rule maps E items to units 1:1."
+  },
+  {
+   "id": "DEP/M-MEDIA-TOOLS-001",
+   "class": "R",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment)",
+   "reason": "The E item requires nothing; A1 rules 5-6 give empty requires and depends_on."
+  },
+  {
+   "id": "ACC/M-MEDIA-TOOLS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Equal to the E item's acceptance_refs (a copy). The E-BOM already names the rows; no written rule says the M unit copies them (playbook 4.5 lists E-BOM acceptance_refs as unmeasured)."
+  },
+  {
+   "id": "PROVIDES/PS-M-MEDIA-TOOLS-001-P01",
+   "class": "J",
+   "missing_field": "a typed operation model for IF-MEDIA-TOOLS-01",
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment); kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Adds behaviour the spec does not state (paths cached per instance, Started=false and ExitCode -1 instead of an exception, no normalisation, a double quote in a path unsupported)."
+  },
+  {
+   "id": "MD/M-MEDIA-TOOLS-001/1",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One argument string vs ArgumentList: both reasonable."
+  },
+  {
+   "id": "UNIT/M-PROBE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 A1 rules 2-3",
+   "reason": "One unit per E item, the artifact path is the E item's planned_output_artifact_ref; file names are one file per public type of the form. No written rule maps E items to units 1:1."
+  },
+  {
+   "id": "DEP/M-PROBE-001",
+   "class": "R",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment)",
+   "reason": "A1 rule 5 gives a requires targeting IF-MEDIA-TOOLS-01 (the E item requires it). The written value targets PS-M-MEDIA-TOOLS-001-P01, which A1 rule 4 forbids (a1_check.py)."
+  },
+  {
+   "id": "ACC/M-PROBE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Equal to the E item's acceptance_refs (a copy). The E-BOM already names the rows; no written rule says the M unit copies them (playbook 4.5 lists E-BOM acceptance_refs as unmeasured)."
+  },
+  {
+   "id": "PROVIDES/PS-M-PROBE-001-P01",
+   "class": "J",
+   "missing_field": "a typed operation model for IF-PROBE-01",
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment); kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Adds behaviour the spec does not state (AspectRatio 16/9 when Height is 0; a cancelled probe returns null)."
+  },
+  {
+   "id": "MD/M-PROBE-001/1",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "JsonDocument vs a serializer is a choice; the invariant-culture part is a general K rule."
+  },
+  {
+   "id": "UNIT/M-OUTPUT-SETTINGS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 A1 rules 2-3",
+   "reason": "One unit per E item, the artifact path is the E item's planned_output_artifact_ref; file names are one file per public type of the form. No written rule maps E items to units 1:1."
+  },
+  {
+   "id": "DEP/M-OUTPUT-SETTINGS-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment)",
+   "reason": "The PROBE part is A1 rule 5; the DOCUMENT part comes from MD/M-OUTPUT-SETTINGS-001/1 (reuse Even() from TimeMath), a judged reuse that adds an E-to-E dependency the E-BOM does not have (E-OUTPUT-SETTINGS-001 requires IF-PROBE-01 only) - playbook 4.5 P3 would return it to the human. Both targets fail A1 rule 4."
+  },
+  {
+   "id": "ACC/M-OUTPUT-SETTINGS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Equal to the E item's acceptance_refs (a copy). The E-BOM already names the rows; no written rule says the M unit copies them (playbook 4.5 lists E-BOM acceptance_refs as unmeasured)."
+  },
+  {
+   "id": "PROVIDES/PS-M-OUTPUT-SETTINGS-001-P01",
+   "class": "J",
+   "missing_field": "a typed operation model for IF-OUTPUT-SETTINGS-01",
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment); kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Allocation and edge behaviour chosen (Scale applies to any s and leaves KeepAspect; ratios in double)."
+  },
+  {
+   "id": "MD/M-OUTPUT-SETTINGS-001/1",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Reuse across units vs a local copy; the choice adds an E-to-E dependency (see DEP/M-OUTPUT-SETTINGS-001)."
+  },
+  {
+   "id": "UNIT/M-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 A1 rules 2-3",
+   "reason": "One unit per E item, the artifact path is the E item's planned_output_artifact_ref; file names are one file per public type of the form. No written rule maps E items to units 1:1."
+  },
+  {
+   "id": "DEP/M-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment)",
+   "reason": "The IF part is A1 rule 5 (four IFs); the ffmpeg procurement target needs a stated rule (a unit whose K item names a procured tool requires it). The written value omits IF-OUTPUT-SETTINGS-01 (the form passes width/height/fps) and targets PS- items (A1 rules 4 and 5 fail)."
+  },
+  {
+   "id": "ACC/M-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "The E item's acceptance_refs minus the rows listed in mbom.assembly (CP-EXPORT-VFR-001); statable."
+  },
+  {
+   "id": "PROVIDES/PS-M-EXPORT-001-P01",
+   "class": "C+",
+   "missing_field": "a typed operation model for IF-EXPORT-01 (operations, error kinds, progress record)",
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment); kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Types and members restate SPEC-EXPORT-001 (formats, errors, progress) as C#; a typed operation model plus a style rule would give them."
+  },
+  {
+   "id": "PROVIDES/PS-M-EXPORT-001-P02",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Restates 20-spec 2.6-2.9 and INV-008 by reference (P4 statement form)."
+  },
+  {
+   "id": "PROVIDES/PS-M-EXPORT-CLOCK-001-P01",
+   "class": "J",
+   "missing_field": "a typed operation model for IF-EXPORT-CLOCK-01",
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment); kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Mostly spec 2.7 quantities, but the split of the formula between ExportClock and the exporter (the 1.0 s threshold is the exporter's), BigInteger rationals and the null cases are chosen."
+  },
+  {
+   "id": "PROVIDES/PS-M-EXPORT-COPY-001-P01",
+   "class": "J",
+   "missing_field": "a typed operation model for IF-EXPORT-COPY-01",
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment); kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "Definitions follow spec 2.9, but the lookup's failure behaviour is \"as the authority\" (knowledge outside the ruled input) and Analyze's parameter shape is chosen."
+  },
+  {
+   "id": "MD/M-EXPORT-001/1",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One of many filter graphs that give the specified output; knowledge of ffmpeg and of the authority."
+  },
+  {
+   "id": "MD/M-EXPORT-001/2",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Responsibility allocation between the exporter and its caller."
+  },
+  {
+   "id": "MD/M-EXPORT-001/3",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Argument order and the mov muxer options: ffmpeg knowledge and choice beyond the spec."
+  },
+  {
+   "id": "MD/M-EXPORT-001/4",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "A filter graph among alternatives."
+  },
+  {
+   "id": "MD/M-EXPORT-001/5",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Edge behaviour (empty env var, a token already cancelled) chosen; arguably spec content."
+  },
+  {
+   "id": "MD/M-EXPORT-001/6",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "A null policy for result fields chosen."
+  },
+  {
+   "id": "MD/M-EXPORT-001/7",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Progress parsing details beyond the spec."
+  },
+  {
+   "id": "MD/M-EXPORT-001/8",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Same fixed arguments for copy as for re-encode: a consistency rule."
+  },
+  {
+   "id": "MD/M-EXPORT-001/9",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Pass a missing directory through vs create it vs refuse: chosen."
+  },
+  {
+   "id": "MD/M-EXPORT-001/10",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "BigInteger vs long with overflow checks vs a package: chosen."
+  },
+  {
+   "id": "MD/M-EXPORT-001/11",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Keep a public form unchanged across a unit merge: a statable change rule."
+  },
+  {
+   "id": "MD/M-EXPORT-001/12",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "The ffprobe command and keyframe reading: knowledge of ffprobe and of the authority."
+  },
+  {
+   "id": "UNIT/M-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 P4",
+   "reason": "The factory test project as its own unit follows the routing's self-acceptance step; statable as a rule."
+  },
+  {
+   "id": "DEP/M-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.6 G3 A1 (rules 1-6; no tool runs it - a1_check.py was written for this experiment)",
+   "reason": "The test project requires the solution skeleton; statable."
+  },
+  {
+   "id": "ACC/M-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "The self-acceptance row for the test unit; statable."
+  },
+  {
+   "id": "PROVIDES/PS-M-SELF-ACCEPTANCE-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "How the factory tests get media (lavfi in a temporary directory, nothing outside the repository) is a chosen method."
+  },
+  {
+   "id": "ASSEMBLY",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 A2",
+   "reason": "The rows that measure several units end to end at L3 (kit playbook 4.5 A2 states the kind; selecting by depth is statable)."
+  },
+  {
+   "id": "CPROW/CP-BUILD-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-BUILD-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-BUILD-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Build and compare package references with procurement; the known limits record what the instrument reads."
+  },
+  {
+   "id": "CPPOLICY/CP-BUILD-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "CPROW/CP-DOCUMENT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-DOCUMENT-001",
+   "class": "C+",
+   "missing_field": "per invariant, the operations or spec section it constrains",
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "The join as above, but which of E-DOCUMENT-001's invariants each row checks needs a map from invariant to operation."
+  },
+  {
+   "id": "CPMETHOD/CP-DOCUMENT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-DOCUMENT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "CPROW/CP-EDIT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-EDIT-001",
+   "class": "C+",
+   "missing_field": "per invariant, the operations or spec section it constrains",
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "The join as above, but which of E-DOCUMENT-001's invariants each row checks needs a map from invariant to operation."
+  },
+  {
+   "id": "CPMETHOD/CP-EDIT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-EDIT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "CPROW/CP-HISTORY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-HISTORY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-HISTORY-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-HISTORY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "CPROW/CP-OUTPUT-SETTINGS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-OUTPUT-SETTINGS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-OUTPUT-SETTINGS-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-OUTPUT-SETTINGS-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when only)",
+   "reason": "Departs from the statable rule: part-change although its unit depends on PROBE and DOCUMENT (the fixture feeds values directly); the choice rests on the row's fixture."
+  },
+  {
+   "id": "CPROW/CP-MEDIA-TOOLS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-MEDIA-TOOLS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-MEDIA-TOOLS-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-MEDIA-TOOLS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "CPROW/CP-PROBE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-PROBE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-PROBE-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-PROBE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-CLOCK-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-CLOCK-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-EXPORT-CLOCK-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-CLOCK-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when only)",
+   "reason": "Departs from the statable rule: part-change although M-EXPORT-001 has providers (the clock is pure arithmetic); the choice rests on the row's fixture."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-COPY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-COPY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-EXPORT-COPY-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-COPY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-OUTPUT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "A separate row for stream properties apart from the content rows: a choice of how to cut export's measurement."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-OUTPUT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-EXPORT-OUTPUT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-OUTPUT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when only)",
+   "reason": "Departs from the statable rule: acceptance only at depth L2; the choice rests on the row's fixture."
+  },
+  {
+   "id": "CPROW/CP-ASSEMBLY-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "An end-to-end content row across requirements 015-017: a choice of how to cut export's measurement."
+  },
+  {
+   "id": "CPLINK/CP-ASSEMBLY-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-ASSEMBLY-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-ASSEMBLY-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when only)",
+   "reason": "Departs from the statable rule: classification core while the verified E item is surface; the choice rests on the row's fixture."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-VFR-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-VFR-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-EXPORT-VFR-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "compare.py --selftest and the sealed mutant sets measure the rows detection, not the value itself",
+   "reason": "Depth follows the ladder, but test vectors, tolerances, fixtures and the mutants to catch are chosen (the FMEA names some failure modes; the boundary values and cases are designed)."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-VFR-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "CPROW/CP-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-SELF-ACCEPTANCE-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "A test class per unit and the search of test sources are chosen criteria."
+  },
+  {
+   "id": "CPPOLICY/CP-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "CPROW/CP-HARNESS-SELFTEST-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids."
+  },
+  {
+   "id": "CPLINK/CP-HARNESS-SELFTEST-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "kit playbook 4.5 C1 (no tool runs it)",
+   "reason": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join."
+  },
+  {
+   "id": "CPMETHOD/CP-HARNESS-SELFTEST-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "The known-bad alterations and the sealed-set design are chosen."
+  },
+  {
+   "id": "CPPOLICY/CP-HARNESS-SELFTEST-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "test-plan/check_test_plan.py (when against the stages that judged the row)",
+   "reason": "classification from the E item; on_fail and approver the same in every product row; when by a statable rule (unit with no depends_on -> part-change; with -> connection-change; L3 -> acceptance; instruments -> instrument-change)."
+  },
+  {
+   "id": "ROUTE/ROUTE-ECO",
+   "class": "R",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "process-core hook (E01)",
+   "reason": "process-core refuses a commit under src/ or test/ without an open ECO (E01), so the ECO precedes the work order."
+  },
+  {
+   "id": "ROUTE/ROUTE-READ",
+   "class": "R",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "The template routing's read step; the package is kit playbook 4.6's list."
+  },
+  {
+   "id": "ROUTE/ROUTE-MANUFACTURE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Every unit and K item in one step (the template separates core and surface); statable."
+  },
+  {
+   "id": "ROUTE/ROUTE-SELF-ACCEPTANCE",
+   "class": "R",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "The template's self-acceptance step with the K-DOTNET commands."
+  },
+  {
+   "id": "ROUTE/ROUTE-DELIVERY-COMMIT",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "An answer to the factory sandbox not writing .git (delivery 1); equipment knowledge outside the ruled input."
+  },
+  {
+   "id": "ROUTE/ROUTE-INSPECT",
+   "class": "R",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "The test plan's events decide the stages (written in 33 test_plan and test-plan.md)."
+  }
+ ]
+}

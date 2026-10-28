@@ -9693,3 +9693,59 @@ distribution ECO), and J1-J4, which change what is detected (J2, the skip by inp
   observed instance — a witness whose tree holds a file that changed while its run was going on.
   source: the self-conformance cost survey §8 (2026-10-28), ruled "a" by the user (2026-10-29)
   evidence: `method/tools/self-conformance.py` `main()` (the witness written after the last check), `_write_selfconf_witness`, `_witness_tree`; `bomdd/reports/eco-117-self-conformance-cost/survey.md` §8
+
+## 2026-10-29 External — "make design synthesis deterministic step by step" read against the method; how much of a derived layer a program could reproduce (EXP-20261029-01, measured)
+
+Source: an outside proposal the user pasted (2026-10-29): separate generative and deterministic steps, synthesise contracts, work
+orders and checks from a validated intermediate model, keep a ledger of what each transform guarantees, and measure maturity as
+"work that needed an AI judgment last time is reproduced by verified rules this time". Read against the method: most of it is the
+method already (the ruled / derived layers of §4.5, the Control Plan's `known_limits`, writing a ruling back so the same gap never
+asks twice (§9), the ladder of §13, the standard parts ledger (§4.7) and the K-BOM). Two points are new: moving part of the derived
+layer from the orchestrating AI to deterministic transforms (which would change the user's decision "M-BOM / Control Plan are the
+AI's judgment", ECO-097 to 102), and the maturity measure itself. The proposal's intermediate model as the source to synthesise from
+conflicts with ui-ir-ui-bom.md §2 (the IR is an observation, not an original). The user's "A" (2026-10-29): before building anything,
+measure on existing records where a deterministic step would pay.
+
+Folder: `bomdd/reports/exp-20261029-01/` (`definitions.md` fixed before classifying, one departure D1 — the sample; `items.py`,
+`classifier1.py`, `compare.py`, `a1_check.py`; `items.json`/`.md`, `classifier-1.json`, `classifier-2.json`, `defects.json`,
+`summary.json`; `results.md`).
+
+- **Sample**: MoviePad-Remake's whole derived layer at `d3683d6` — 120 decisions in 13 kinds (M-BOM, Control Plan, Routing). D1: the
+  ECOs first named (ViewTube ECO-VT-269/270, ViewPrism2 ECO-148) install the kit and derive no product layer.
+- **Classes** R (a written rule gives it), C (one more rule would), C+ (one more input field would), J (judgment), by the designer
+  and by a fresh-context agent blind to the designer's classes. Agreement 85/120; six kinds give no claim (more than a third
+  disagree).
+- **Island under today's inputs** (R or C for both): 58/120, almost all C (R for both: 4). Mechanical for both: the Control Plan's
+  bookkeeping (row set, links, when a row runs, which unit lists it — 42/53). Judgment for both: the C# forms of the external
+  promises (0/8 mechanical; each carries behaviour the specification does not state) and every row's test design (0/15). C+ (the
+  fields an intermediate model would need): 4 each, no overlap — no stable answer.
+- **Defects** (25 findings, 22 mapped, 31 item hits): J 26 / 24 by the two classifiers. The G3 dry runs' 19 mapped findings fell on
+  forms, manufacturing decisions and test design and were repaired from the reference product (knowledge, not rules).
+- **A latent defect found by running a written check**: the written A1 structure check (playbook §4.6) has no tool. Run mechanically for the first
+  time (`a1_check.py`, rules 1-6), it finds 6 failures of rule 4 and 6 of rule 5 at `d3683d6` (13 and 14 at the first M-BOM),
+  unseen through three G3 rounds, five ECOs and two R8 rounds; one is a dependency the E-BOM does not have
+  (M-OUTPUT-SETTINGS-001 → M-DOCUMENT-001), which §4.5 P3 returns to the human. MoviePad-Remake is not changed by this experiment.
+- **Reading fixed in advance**: no kind is a generator candidate; the result supports checking before generating.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — the
+proposal's premise is conditional (given a validated operation model, signatures are mechanical) and stays **untested**: this
+product's ruled layer has no typed operation model. One observation of the precondition's absence: the forms then carried
+behaviour decisions and drew most of the found defects. No body text changes on N=1.
+
+- [recovered 2026-10-29 via bomdd/reports/exp-20261029-01/results.md (the user's "A")] EXP-20261029-01 — **Of the decisions an AI
+  wrote in a derived layer, how many could a program reproduce, and where did the recorded defects fall?** MoviePad-Remake `d3683d6`,
+  120 items, two classifiers: R or C for both 58/120; recorded defects on judgment (J 26/31 and 24/31 item hits); items mechanical for
+  both drew 3 hits — one found by a tool that already checks it, one G3 finding, and one latent failure of a written check no tool
+  runs (A1, which also fails on two judged items). Reading (fixed before counting): check before generate; no
+  generator ECO from this result.
+  source: this section (the user's "A", 2026-10-29)
+  evidence: `bomdd/reports/exp-20261029-01/results.md`, `summary.json`, `definitions.md`
+- [watch 1/3] OBS-20261029-02 — **A structure check written as prose and applied by reading was violated from the first derived layer
+  on, through every review that should have read it; running it as a program found the violations at once.** The first M-BOM's
+  commit says "A1 structure checked" and names four of its checks, not rules 4 and 5, which fail 13 and 14 times there. A check whose
+  record says it ran, but not which rules, is indistinguishable from a partial run (§9 "a prose requirement is not evidence of
+  compliance", a structure-check instance). Machine face, a candidate only: A1 (rules 1-6) and C1 as a kit tool run at G3 and on
+  every ECO that touches 30/32/33 — an ECO, the user's ruling. 2 例目の条件= another written structure or coverage check (C1, the
+  part-standard ids, a template's must-not) found violated when first run mechanically, in any product.
+  source: this section
+  evidence: `bomdd/reports/exp-20261029-01/a1_check.py` (its output at `d3683d6` and `64912a4` in `results.md` §2); MoviePad-Remake `64912a4` (commit message)

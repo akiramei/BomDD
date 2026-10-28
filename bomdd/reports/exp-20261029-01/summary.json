@@ -1,0 +1,813 @@
+{
+ "n": 120,
+ "overall": {
+  "1": {
+   "C": 64,
+   "J": 44,
+   "R": 8,
+   "C+": 4
+  },
+  "2": {
+   "J": 49,
+   "C": 62,
+   "R": 5,
+   "C+": 4
+  },
+  "exact_agreement": 85,
+  "island_R_or_C": {
+   "1": 72,
+   "2": 67,
+   "both": 58
+  }
+ },
+ "by_kind": {
+  "unit-partition": {
+   "n": 8,
+   "1": {
+    "C": 8
+   },
+   "2": {
+    "J": 4,
+    "C": 4
+   },
+   "agree": 4,
+   "rc_both": 4,
+   "no_claim": true
+  },
+  "dependencies": {
+   "n": 8,
+   "1": {
+    "C": 3,
+    "R": 4,
+    "J": 1
+   },
+   "2": {
+    "C": 2,
+    "R": 3,
+    "J": 3
+   },
+   "agree": 5,
+   "rc_both": 5,
+   "no_claim": true
+  },
+  "acceptance-refs": {
+   "n": 8,
+   "1": {
+    "C": 8
+   },
+   "2": {
+    "C": 7,
+    "J": 1
+   },
+   "agree": 7,
+   "rc_both": 7,
+   "no_claim": false
+  },
+  "provides-file": {
+   "n": 2,
+   "1": {
+    "C": 2
+   },
+   "2": {
+    "J": 1,
+    "C": 1
+   },
+   "agree": 1,
+   "rc_both": 1,
+   "no_claim": true
+  },
+  "manufacturing-decision": {
+   "n": 18,
+   "1": {
+    "J": 15,
+    "C": 3
+   },
+   "2": {
+    "C": 6,
+    "J": 8,
+    "C+": 4
+   },
+   "agree": 9,
+   "rc_both": 2,
+   "no_claim": true
+  },
+  "provides-api": {
+   "n": 8,
+   "1": {
+    "J": 6,
+    "C+": 2
+   },
+   "2": {
+    "J": 8
+   },
+   "agree": 6,
+   "rc_both": 0,
+   "no_claim": false
+  },
+  "provides-process": {
+   "n": 1,
+   "1": {
+    "J": 1
+   },
+   "2": {
+    "J": 1
+   },
+   "agree": 1,
+   "rc_both": 0,
+   "no_claim": false
+  },
+  "assembly-refs": {
+   "n": 1,
+   "1": {
+    "C": 1
+   },
+   "2": {
+    "J": 1
+   },
+   "agree": 0,
+   "rc_both": 0,
+   "no_claim": true
+  },
+  "cp-row-partition": {
+   "n": 15,
+   "1": {
+    "C": 13,
+    "J": 2
+   },
+   "2": {
+    "C": 13,
+    "J": 1,
+    "R": 1
+   },
+   "agree": 13,
+   "rc_both": 13,
+   "no_claim": false
+  },
+  "cp-links": {
+   "n": 15,
+   "1": {
+    "C": 13,
+    "C+": 2
+   },
+   "2": {
+    "C": 12,
+    "J": 3
+   },
+   "agree": 11,
+   "rc_both": 11,
+   "no_claim": false
+  },
+  "cp-method": {
+   "n": 15,
+   "1": {
+    "C": 1,
+    "J": 14
+   },
+   "2": {
+    "J": 15
+   },
+   "agree": 14,
+   "rc_both": 0,
+   "no_claim": false
+  },
+  "cp-policy": {
+   "n": 15,
+   "1": {
+    "C": 11,
+    "J": 4
+   },
+   "2": {
+    "C": 14,
+    "J": 1
+   },
+   "agree": 12,
+   "rc_both": 11,
+   "no_claim": false
+  },
+  "routing-step": {
+   "n": 6,
+   "1": {
+    "R": 4,
+    "C": 1,
+    "J": 1
+   },
+   "2": {
+    "C": 3,
+    "J": 2,
+    "R": 1
+   },
+   "agree": 2,
+   "rc_both": 4,
+   "no_claim": true
+  }
+ },
+ "disagreements": [
+  {
+   "id": "UNIT/M-SOLUTION-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "A build-skeleton unit with no E item is the practice of every .NET product here; paths are the dotnet defaults. Statable as a K-BOM rule.",
+   "reason_2": "Mechanical: the .sln name is the product name and the core project path follows the E-BOM's planned paths (all under src/MoviePad.Core/). Judged: a skeleton unit with no E item owning the solution and both projects; the csproj could as well belong to a content unit."
+  },
+  {
+   "id": "PROVIDES/PS-M-SOLUTION-001-P01",
+   "1": "C",
+   "2": "J",
+   "reason_1": "Target framework, nullable and packages come from K-DOTNET-001 and procurement; InternalsVisibleTo and \"no package in the core\" are the product's practice.",
+   "reason_2": "Mechanical: net10.0, nullable, no package in the core (K-DOTNET-001), the four test packages (K-DOTNET-001 via procurement), .gitignore kept. Judged: InternalsVisibleTo for the test project, which no ruled text asks for. Alternative: tests through the public API only, no InternalsVisibleTo."
+  },
+  {
+   "id": "MD/M-SOLUTION-001/1",
+   "1": "J",
+   "2": "C",
+   "reason_1": "One library vs a project per unit: both reasonable; a trade-off.",
+   "reason_2": "Every E item's planned_output_artifact_ref lies under src/MoviePad.Core/ (Editing/, Output/, Media/, Export/), so one class library with folders per unit follows; namespaces per folder are the C# convention."
+  },
+  {
+   "id": "UNIT/M-DOCUMENT-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "One unit per E item, the artifact path is the E item's planned_output_artifact_ref; file names are one file per public type of the form. No written rule maps E items to units 1:1.",
+   "reason_2": "Mechanical: ebom_refs [E-DOCUMENT-001] and the folder copy E-DOCUMENT-001 (one unit per E item; spec §5's M-EDIT-001 candidate folds in by that rule). Judged: the file split Region.cs/EditDocument.cs/TimeMath.cs follows the type names of the form, which is J. Alternatives: one Document.cs, or a file per type including KeptPiece."
+  },
+  {
+   "id": "PROVIDES/PS-M-HISTORY-001-P01",
+   "1": "C+",
+   "2": "J",
+   "reason_1": "Signatures only; the behaviour is SPEC-HISTORY-001. A typed operation model would give them; the Try-pattern and class/record style need a stated style rule.",
+   "reason_2": "Mechanical: ruled_ref IF-HISTORY-01; Snapshot/TryUndo/TryRedo/Clear and capacity 50 from 20-spec §2.4. Judged: the generic constraint `where T : class`, out parameters, the added CanUndo/CanRedo, the max constructor parameter (form, §4.5 P1 ③). Alternatives: a non-generic history of documents, nullable returns instead of out parameters, no CanUndo/CanRedo."
+  },
+  {
+   "id": "UNIT/M-MEDIA-TOOLS-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "One unit per E item, the artifact path is the E item's planned_output_artifact_ref; file names are one file per public type of the form. No written rule maps E items to units 1:1.",
+   "reason_2": "Mechanical: ebom_refs [E-MEDIA-TOOLS-001] and the folder src/MoviePad.Core/Media from E-MEDIA-TOOLS-001. Judged: the file list MediaTools.cs, ToolResult.cs follows the form's types, which are J (20-spec §1 leaves the locator's signature to the M-BOM). Alternatives: one MediaTools.cs holding the result type, or a locator and a runner file."
+  },
+  {
+   "id": "UNIT/M-PROBE-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "One unit per E item, the artifact path is the E item's planned_output_artifact_ref; file names are one file per public type of the form. No written rule maps E items to units 1:1.",
+   "reason_2": "Mechanical: ebom_refs [E-PROBE-001]. Judged: the artifact is the Media folder, not E-PROBE-001's MediaProbe.cs, and ClipInfo.cs is added as its own file (the form's type, J). Alternatives: E-PROBE-001's single MediaProbe.cs with ClipInfo inside it."
+  },
+  {
+   "id": "DEP/M-PROBE-001",
+   "1": "R",
+   "2": "C",
+   "reason_1": "A1 rule 5 gives a requires targeting IF-MEDIA-TOOLS-01 (the E item requires it). The written value targets PS-M-MEDIA-TOOLS-001-P01, which A1 rule 4 forbids (a1_check.py).",
+   "reason_2": "E-PROBE-001 requires IF-MEDIA-TOOLS-01; the requires targets the provides item that realises it (PS-M-MEDIA-TOOLS-001-P01) and depends_on its unit. A1 1/5 would give target IF-MEDIA-TOOLS-01 and A1 4 bars a PS- target between units of different E items; the recorded IF->realising-PS mapping is the practice the layer follows."
+  },
+  {
+   "id": "DEP/M-EXPORT-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "The IF part is A1 rule 5 (four IFs); the ffmpeg procurement target needs a stated rule (a unit whose K item names a procured tool requires it). The written value omits IF-OUTPUT-SETTINGS-01 (the form passes width/height/fps) and targets PS- items (A1 rules 4 and 5 fail).",
+   "reason_2": "Mechanical: R01/R02/R05 map E-EXPORT-001's IF-DOCUMENT-01, IF-PROBE-01, IF-MEDIA-TOOLS-01 to their realising provides. Judged: IF-OUTPUT-SETTINGS-01, which E-EXPORT-001 requires, is dropped (the request takes raw size and rate; A1 5 would ask for it), and procurement:ffmpeg is required here only, not by the tools or the probe. Alternatives: a requires on IF-OUTPUT-SETTINGS-01 with settings in the request; procurement:ffmpeg on the tools unit or nowhere."
+  },
+  {
+   "id": "ACC/M-EXPORT-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "The E item's acceptance_refs minus the rows listed in mbom.assembly (CP-EXPORT-VFR-001); statable.",
+   "reason_2": "Mechanical: E-EXPORT-001's acceptance_refs. Judged: CP-EXPORT-VFR-001 is moved to mbom.assembly only while CP-EXPORT-OUTPUT-001, also whole exports, stays on the unit (A2 lets the AI choose the placement)."
+  },
+  {
+   "id": "PROVIDES/PS-M-EXPORT-001-P01",
+   "1": "C+",
+   "2": "J",
+   "reason_1": "Types and members restate SPEC-EXPORT-001 (formats, errors, progress) as C#; a typed operation model plus a style rule would give them.",
+   "reason_2": "Mechanical: ruled_ref IF-EXPORT-01; the request fields and error kinds from 20-spec §2.6. Judged: 20-spec §1 leaves the exporter's request/result/progress types to the M-BOM; ExportProgress fields, ExportResult shape, enum names, raw size and rate in the request. Alternatives: OutputSettings in the request, exceptions for errors, a progress fraction only."
+  },
+  {
+   "id": "MD/M-EXPORT-001/2",
+   "1": "J",
+   "2": "C",
+   "reason_1": "Responsibility allocation between the exporter and its caller.",
+   "reason_2": "20-spec §2.9: the keyframe time 'is given as copyStartOverride; when absent or outside [0, spanStart], the span start is used' - so the exporter does not look it up."
+  },
+  {
+   "id": "MD/M-EXPORT-001/3",
+   "1": "J",
+   "2": "C+",
+   "reason_1": "Argument order and the mov muxer options: ffmpeg knowledge and choice beyond the spec.",
+   "reason_2": "Mechanical: fixed arguments, input seek and the second unseeked audio input (20-spec §2.6), encoders, -r p/q (§2.7 step 10); the order among output options carries no decision. Only the timescale option names come from outside the ruled input (tool grammar)."
+  },
+  {
+   "id": "MD/M-EXPORT-001/5",
+   "1": "J",
+   "2": "C+",
+   "reason_1": "Edge behaviour (empty env var, a token already cancelled) chosen; arguably spec content.",
+   "reason_2": "Both are observable behaviours the spec is silent on (§4.5 ② content); with the clauses in the spec the decision is a copy."
+  },
+  {
+   "id": "MD/M-EXPORT-001/6",
+   "1": "J",
+   "2": "C+",
+   "reason_1": "A null policy for result fields chosen.",
+   "reason_2": "20-spec §2.6 says FfmpegFailed carries the exit code and the last 8 lines and is silent for the other kinds; null-otherwise is a promise on the result, not a way to build it."
+  },
+  {
+   "id": "MD/M-EXPORT-001/9",
+   "1": "J",
+   "2": "C",
+   "reason_1": "Pass a missing directory through vs create it vs refuse: chosen.",
+   "reason_2": "Errors 1-4 of 20-spec §2.6 do not cover a missing directory and K-FFMPEG-001 says write directly to the output path, so ffmpeg's failure is error 5; the request carries the full output path."
+  },
+  {
+   "id": "MD/M-EXPORT-001/10",
+   "1": "J",
+   "2": "C",
+   "reason_1": "BigInteger vs long with overflow checks vs a package: chosen.",
+   "reason_2": "Copy of K-DOTNET-001 (base class library only, System.Numerics.BigInteger; risk: a rational-number package); the 32 template asks K decisions to be written as K references."
+  },
+  {
+   "id": "MD/M-EXPORT-001/11",
+   "1": "C",
+   "2": "J",
+   "reason_1": "Keep a public form unchanged across a unit merge: a statable change rule.",
+   "reason_2": "Analyze's parameter list vs taking the request type: an API-shape choice kept for history (ECO-005), with equally reasonable alternatives."
+  },
+  {
+   "id": "MD/M-EXPORT-001/12",
+   "1": "J",
+   "2": "C+",
+   "reason_1": "The ffprobe command and keyframe reading: knowledge of ffprobe and of the authority.",
+   "reason_2": "Mechanical: the windows, t0, target + 0.05 and the largest keyframe <= target + 1e-6 (20-spec §2.9). The ffprobe command is the authority's tool usage, which K-FFMPEG-001 records for clip info but not for the lookup."
+  },
+  {
+   "id": "DEP/M-SELF-ACCEPTANCE-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "The test project requires the solution skeleton; statable.",
+   "reason_2": "Requires only the solution's provides; §4.5 P4 lets a fixture require the units it verifies, and requiring their PS- items was equally reasonable."
+  },
+  {
+   "id": "ASSEMBLY",
+   "1": "C",
+   "2": "J",
+   "reason_1": "The rows that measure several units end to end at L3 (kit playbook 4.5 A2 states the kind; selecting by depth is statable).",
+   "reason_2": "A2 says the AI chooses which multi-unit rows to list; CP-EXPORT-OUTPUT-001 also measures whole exports but stays on the unit, while CP-EXPORT-VFR-001 is listed here."
+  },
+  {
+   "id": "CPMETHOD/CP-BUILD-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "Build and compare package references with procurement; the known limits record what the instrument reads.",
+   "reason_2": "Mechanical: depth L1 (depth ladder), the oracle's package list from K-DOTNET-001 and procurement. Judged: the fixture's ban list of MSBuild/NuGet files and the declared limits (incl. NOTRUN routing after a build failure) are instrument design. Alternatives: build exit only, or reading the resolved assets file for transitive packages."
+  },
+  {
+   "id": "CPLINK/CP-DOCUMENT-001",
+   "1": "C+",
+   "2": "J",
+   "reason_1": "The join as above, but which of E-DOCUMENT-001's invariants each row checks needs a map from invariant to operation.",
+   "reason_2": "Mechanical: verifies (the E item and unit naming the row), the unit's only provides item. Judged: invariant_refs [INV-001, INV-009] while 20-spec §3 gives both to CP-EDIT-001 only; [] was the spec-column value."
+  },
+  {
+   "id": "CPLINK/CP-EDIT-001",
+   "1": "C+",
+   "2": "C",
+   "reason_1": "The join as above, but which of E-DOCUMENT-001's invariants each row checks needs a map from invariant to operation.",
+   "reason_2": "verifies from acceptance_refs; the unit's only provides item; invariant_refs = the INVs 20-spec §3 assigns to CP-EDIT-001 (001-006, 009)."
+  },
+  {
+   "id": "CPPOLICY/CP-OUTPUT-SETTINGS-001",
+   "1": "J",
+   "2": "C",
+   "reason_1": "Departs from the statable rule: part-change although its unit depends on PROBE and DOCUMENT (the fixture feeds values directly); the choice rests on the row's fixture.",
+   "reason_2": "when from test-plan (stage 1); on_fail default; approver automated; classification core (20-spec §2.5)."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-CLOCK-001",
+   "1": "J",
+   "2": "C",
+   "reason_1": "Departs from the statable rule: part-change although M-EXPORT-001 has providers (the clock is pure arithmetic); the choice rests on the row's fixture.",
+   "reason_2": "when from test-plan (stage 1); on_fail default; approver automated; classification core from 20-spec §2.7 / E-EXPORT-CLOCK-001 (the IF's original provider)."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-OUTPUT-001",
+   "1": "J",
+   "2": "C",
+   "reason_1": "A separate row for stream properties apart from the content rows: a choice of how to cut export's measurement.",
+   "reason_2": "Spec §5 names CP-EXPORT-OUTPUT-001 for REQ-014, REQ-015; the characteristic is test-plan §8.2's (stream properties, box order, fixtures unchanged)."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-OUTPUT-001",
+   "1": "J",
+   "2": "C",
+   "reason_1": "Departs from the statable rule: acceptance only at depth L2; the choice rests on the row's fixture.",
+   "reason_2": "when [acceptance] from test-plan §8.2 (stage 3); on_fail default; approver automated; classification surface (E-EXPORT-001)."
+  },
+  {
+   "id": "CPLINK/CP-ASSEMBLY-EXPORT-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join.",
+   "reason_2": "Judged: invariant_refs [INV-007, INV-008] while 20-spec §3 gives them to CLOCK and OUTPUT/EXPORT-001; part_standard_refs P02 only, though its REQs reach IF-EXPORT-01/-CLOCK-01/-COPY-01. Alternatives: invariant_refs [] per the spec column; part_standard_refs adding the API items."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-VFR-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "verifies = the E item and its unit; part_standard_refs = the provides the row's section covers; invariants from the E item. A join.",
+   "reason_2": "Mechanical: verifies, invariant_refs [] as 20-spec §3. Judged: part_standard_refs P02 only, though REQ-015 reaches IF-EXPORT-01 (P01) - whether the row measures the API item is the §4.5 semantic call."
+  },
+  {
+   "id": "CPROW/CP-HARNESS-SELFTEST-001",
+   "1": "C",
+   "2": "R",
+   "reason_1": "One row per spec section 2.x, split by E item, plus the standard build / self-acceptance / harness rows; the E-BOM already names the row ids.",
+   "reason_2": "The 32 template names CP-HARNESS-SELFTEST-001 as the acceptance harness's row and 20-spec §4 row 16 defers the instruments' controls to the control plan; no REQ."
+  },
+  {
+   "id": "ROUTE/ROUTE-ECO",
+   "1": "R",
+   "2": "C",
+   "reason_1": "process-core refuses a commit under src/ or test/ without an open ECO (E01), so the ECO precedes the work order.",
+   "reason_2": "Assembled from written rules: an open ECO before src/test changes (process-profile E01, staged initial state), BOM frozen before the work order (playbook §4.4 I3a), test event named in the change order (test-plan §7)."
+  },
+  {
+   "id": "ROUTE/ROUTE-READ",
+   "1": "R",
+   "2": "C",
+   "reason_1": "The template routing's read step; the package is kit playbook 4.6's list.",
+   "reason_2": "The template's ROUTE-READ with the work order added from the §4.6 package (34 left out); the gate is the template's cheat_report rule (report, do not stop)."
+  },
+  {
+   "id": "ROUTE/ROUTE-MANUFACTURE-001",
+   "1": "C",
+   "2": "J",
+   "reason_1": "Every unit and K item in one step (the template separates core and surface); statable.",
+   "reason_2": "One step for all units against the template's core and surface steps (or a step per unit, test-plan §5 item 3); its acceptance_refs pick the build and self-acceptance rows."
+  },
+  {
+   "id": "ROUTE/ROUTE-SELF-ACCEPTANCE",
+   "1": "R",
+   "2": "C",
+   "reason_1": "The template's self-acceptance step with the K-DOTNET commands.",
+   "reason_2": "The template's step and name; the command is the build and test commands of the two non-E units; the template's cheat-report step folded into its output."
+  }
+ ],
+ "defects": [
+  {
+   "id": "G3-1a",
+   "found_by": "G3 dry run round 1 (fresh AI)",
+   "items": [
+    "PROVIDES/PS-M-EXPORT-COPY-001-P01"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-1b",
+   "found_by": "G3 dry run round 1 (fresh AI)",
+   "items": [
+    "CPMETHOD/CP-ASSEMBLY-EXPORT-001"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-1c",
+   "found_by": "G3 dry run round 1 (fresh AI)",
+   "items": [
+    "MD/M-EXPORT-001/1"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-1d",
+   "found_by": "G3 dry run round 1 (fresh AI)",
+   "items": [
+    "MD/M-EXPORT-001/7"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-1e",
+   "found_by": "G3 dry run round 1 (fresh AI)",
+   "items": [
+    "MD/M-EXPORT-001/8"
+   ],
+   "class_1": [
+    "C"
+   ],
+   "class_2": [
+    "C"
+   ]
+  },
+  {
+   "id": "G3-1f",
+   "found_by": "G3 dry run round 1 (fresh AI)",
+   "items": [
+    "MD/M-EXPORT-001/12"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "C+"
+   ]
+  },
+  {
+   "id": "G3-1g",
+   "found_by": "G3 dry run round 1 (fresh AI)",
+   "items": [
+    "PROVIDES/PS-M-EXPORT-CLOCK-001-P01",
+    "PROVIDES/PS-M-OUTPUT-SETTINGS-001-P01",
+    "PROVIDES/PS-M-DOCUMENT-001-P01",
+    "PROVIDES/PS-M-MEDIA-TOOLS-001-P01"
+   ],
+   "class_1": [
+    "J",
+    "J",
+    "J",
+    "J"
+   ],
+   "class_2": [
+    "J",
+    "J",
+    "J",
+    "J"
+   ]
+  },
+  {
+   "id": "G3-1x",
+   "found_by": "G3 dry run round 1 (fresh AI)",
+   "items": [],
+   "class_1": [],
+   "class_2": []
+  },
+  {
+   "id": "G3-1y",
+   "found_by": "G3 dry run round 1 (fresh AI)",
+   "items": [],
+   "class_1": [],
+   "class_2": []
+  },
+  {
+   "id": "G3-2a",
+   "found_by": "G3 dry run round 2 (fresh AI)",
+   "items": [
+    "MD/M-EXPORT-001/2"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "C"
+   ]
+  },
+  {
+   "id": "G3-2b",
+   "found_by": "G3 dry run round 2 (fresh AI)",
+   "items": [
+    "MD/M-EXPORT-001/1"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-2c",
+   "found_by": "G3 dry run round 2 (fresh AI)",
+   "items": [
+    "PROVIDES/PS-M-EXPORT-CLOCK-001-P01"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-2d",
+   "found_by": "G3 dry run round 2 (fresh AI)",
+   "items": [
+    "PROVIDES/PS-M-MEDIA-TOOLS-001-P01"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-2e",
+   "found_by": "G3 dry run round 2 (fresh AI)",
+   "items": [
+    "MD/M-SOLUTION-001/2"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-2f",
+   "found_by": "G3 dry run round 2 (fresh AI)",
+   "items": [
+    "CPMETHOD/CP-DOCUMENT-001"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-2x",
+   "found_by": "G3 dry run round 2 (fresh AI)",
+   "items": [],
+   "class_1": [],
+   "class_2": []
+  },
+  {
+   "id": "G3-3a",
+   "found_by": "G3 dry run round 3 (fresh AI)",
+   "items": [
+    "PROVIDES/PS-M-EXPORT-CLOCK-001-P01"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-3b",
+   "found_by": "G3 dry run round 3 (fresh AI)",
+   "items": [
+    "MD/M-EXPORT-001/3"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "C+"
+   ]
+  },
+  {
+   "id": "G3-3c",
+   "found_by": "G3 dry run round 3 (fresh AI)",
+   "items": [
+    "PROVIDES/PS-M-OUTPUT-SETTINGS-001-P01"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-3d",
+   "found_by": "G3 dry run round 3 (fresh AI)",
+   "items": [
+    "MD/M-EXPORT-001/4"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-3e",
+   "found_by": "G3 dry run round 3 (fresh AI)",
+   "items": [
+    "PROVIDES/PS-M-EXPORT-001-P01"
+   ],
+   "class_1": [
+    "C+"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "G3-3f",
+   "found_by": "G3 dry run round 3 (fresh AI)",
+   "items": [
+    "PROVIDES/PS-M-EXPORT-COPY-001-P01"
+   ],
+   "class_1": [
+    "J"
+   ],
+   "class_2": [
+    "J"
+   ]
+  },
+  {
+   "id": "TP-1",
+   "found_by": "the test plan's stage check (check_test_plan.py)",
+   "items": [
+    "CPROW/CP-EXPORT-001",
+    "CPROW/CP-EXPORT-OUTPUT-001"
+   ],
+   "class_1": [
+    "C",
+    "J"
+   ],
+   "class_2": [
+    "C",
+    "C"
+   ]
+  },
+  {
+   "id": "OR-v2-v5",
+   "found_by": "sealed mutant sets and the clause inventory (survivors)",
+   "items": [
+    "CPMETHOD/CP-EXPORT-001",
+    "CPMETHOD/CP-EXPORT-COPY-001",
+    "CPMETHOD/CP-PROBE-001",
+    "CPMETHOD/CP-HARNESS-SELFTEST-001"
+   ],
+   "class_1": [
+    "J",
+    "J",
+    "J",
+    "J"
+   ],
+   "class_2": [
+    "J",
+    "J",
+    "J",
+    "J"
+   ]
+  },
+  {
+   "id": "A1-4/5",
+   "found_by": "the written A1 check run mechanically for the first time",
+   "items": [
+    "DEP/M-PROBE-001",
+    "DEP/M-OUTPUT-SETTINGS-001",
+    "DEP/M-EXPORT-001"
+   ],
+   "class_1": [
+    "R",
+    "J",
+    "C"
+   ],
+   "class_2": [
+    "C",
+    "J",
+    "J"
+   ]
+  }
+ ],
+ "missing_fields": {
+  "1": {
+   "a typed operation model for IF-HISTORY-01": 1,
+   "a typed operation model for IF-EXPORT-01 (operations, error kinds, progress record)": 1,
+   "per invariant, the operations or spec section it constrains": 2
+  },
+  "2": {
+   "K-FFMPEG-001 managed_knowledge: the mov muxer options that set 20-spec §2.7 step 10's track and movie timescales (-video_track_timescale, -movie_timescale)": 1,
+   "20-spec §2.6: whether an empty or whitespace MOVIEPAD_FFMPEG_DIR counts as unset (REQ-019), and where a token cancelled before start sits in the error order (REQ-018)": 1,
+   "20-spec §2.6 (or IF-EXPORT-01 boundary): what the result carries for kinds other than FfmpegFailed (exit code, error tail)": 1,
+   "K-FFMPEG-001 managed_knowledge: the keyframe lookup's ffprobe arguments and how a keyframe packet is recognised (flags K)": 1
+  }
+ },
+ "defect_item_hits_by_class": {
+  "1": {
+   "J": 26,
+   "C": 3,
+   "C+": 1,
+   "R": 1
+  },
+  "2": {
+   "J": 24,
+   "C": 5,
+   "C+": 2
+  }
+ }
+}

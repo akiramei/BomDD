@@ -1,0 +1,965 @@
+{
+ "classifier": "2 (fresh-context agent)",
+ "items": [
+  {
+   "id": "UNIT/M-SOLUTION-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "32 template PLM-ready checklist (planned_output_artifact_ref, acceptance_refs, routing_refs present); A1 has nothing to check on a unit without ebom_refs",
+   "reason": "Mechanical: the .sln name is the product name and the core project path follows the E-BOM's planned paths (all under src/MoviePad.Core/). Judged: a skeleton unit with no E item owning the solution and both projects; the csproj could as well belong to a content unit."
+  },
+  {
+   "id": "DEP/M-SOLUTION-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 1, 4, 5, 6 (targets resolve; PS- targets only within a shared E item; each required IF- has a requires; depends_on equals the resolved units)",
+   "reason": "requires platform:dotnet-sdk-10.0 copies K-DOTNET-001's 'SDK 10.0.x' into the platform: target form (A1 1 takes platform as written); depends_on [] is A1 6. No written rule puts a K-BOM platform pin into requires."
+  },
+  {
+   "id": "ACC/M-SOLUTION-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a (every unit has a non-empty acceptance_refs; each named row exists and is not retired) and §4.5 C1",
+   "reason": "CP-BUILD-001 is the row K-DOTNET-001 names in its acceptance_refs; the unit carries K-DOTNET-001 and I3a requires a non-empty list. Rule: a unit without E items takes the rows of the K items it alone realises."
+  },
+  {
+   "id": "PROVIDES/PS-M-SOLUTION-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (named by CP-BUILD-001); content unchecked",
+   "reason": "Mechanical: net10.0, nullable, no package in the core (K-DOTNET-001), the four test packages (K-DOTNET-001 via procurement), .gitignore kept. Judged: InternalsVisibleTo for the test project, which no ruled text asks for. Alternative: tests through the public API only, no InternalsVisibleTo."
+  },
+  {
+   "id": "MD/M-SOLUTION-001/1",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Every E item's planned_output_artifact_ref lies under src/MoviePad.Core/ (Editing/, Output/, Media/, Export/), so one class library with folders per unit follows; namespaces per folder are the C# convention."
+  },
+  {
+   "id": "MD/M-SOLUTION-001/2",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Classic .sln vs .slnx: both build with SDK 10; nothing in the ruled input chooses; a tooling taste (playbook §4.5 ③)."
+  },
+  {
+   "id": "UNIT/M-DOCUMENT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 2 (each IF- realised by exactly one unit through ebom_refs) and the 32 template's PLM-ready checklist (ebom_refs, planned_output_artifact_ref, acceptance_refs, routing_refs present)",
+   "reason": "Mechanical: ebom_refs [E-DOCUMENT-001] and the folder copy E-DOCUMENT-001 (one unit per E item; spec §5's M-EDIT-001 candidate folds in by that rule). Judged: the file split Region.cs/EditDocument.cs/TimeMath.cs follows the type names of the form, which is J. Alternatives: one Document.cs, or a file per type including KeptPiece."
+  },
+  {
+   "id": "DEP/M-DOCUMENT-001",
+   "class": "R",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 1, 4, 5, 6 (targets resolve; PS- targets only within a shared E item; each required IF- has a requires; depends_on equals the resolved units)",
+   "reason": "E-DOCUMENT-001 requires no IF-, so A1 5 asks no requires and A1 6 leaves depends_on empty."
+  },
+  {
+   "id": "ACC/M-DOCUMENT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a (every unit has a non-empty acceptance_refs; each named row exists and is not retired) and §4.5 C1",
+   "reason": "Copy of E-DOCUMENT-001's acceptance_refs [CP-DOCUMENT-001, CP-EDIT-001]; no written rule says to copy, but every E-backed unit but export does."
+  },
+  {
+   "id": "PROVIDES/PS-M-DOCUMENT-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 3 (ruled_ref names an IF of the unit's E item) and §4.5 C1 (every provides item named by a row of the unit's acceptance_refs); the form's content is checked by no rule",
+   "reason": "Mechanical: ruled_ref IF-DOCUMENT-01 and member names from 20-spec §2.2-§2.3. Judged: the form (records vs classes, ImmutableList, int ids, KeptPiece struct, TimeMath constants) is a manufacturing decision (§4.5 P1 ③); added members and semantics (IsMuted < 0.001, FindById null / IndexOfId -1, same instance on no change, SplitAt with a used id) are not in the ruled layer. Alternatives: classes with explicit equality, a mutable list behind a read-only view, no derived convenience members."
+  },
+  {
+   "id": "MD/M-DOCUMENT-001/1",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Copy of 20-spec §2.3 'clamp(v, lo, hi) is min(hi, max(lo, v)); when lo > hi it returns hi and does not throw'; the Math.Clamp remark only names the API the clause rules out. (§4.5 ① says a clause the ruled layer holds is not repeated.)"
+  },
+  {
+   "id": "UNIT/M-HISTORY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 2 (each IF- realised by exactly one unit through ebom_refs) and the 32 template's PLM-ready checklist (ebom_refs, planned_output_artifact_ref, acceptance_refs, routing_refs present)",
+   "reason": "One unit per E item: ebom_refs [E-HISTORY-001], artifact path and planned output equal E-HISTORY-001's planned_output_artifact_ref (History.cs)."
+  },
+  {
+   "id": "DEP/M-HISTORY-001",
+   "class": "R",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 1, 4, 5, 6 (targets resolve; PS- targets only within a shared E item; each required IF- has a requires; depends_on equals the resolved units)",
+   "reason": "E-HISTORY-001 requires no IF-; A1 5 asks no requires, A1 6 leaves depends_on empty."
+  },
+  {
+   "id": "ACC/M-HISTORY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a (every unit has a non-empty acceptance_refs; each named row exists and is not retired) and §4.5 C1",
+   "reason": "Copy of E-HISTORY-001's acceptance_refs [CP-HISTORY-001]."
+  },
+  {
+   "id": "PROVIDES/PS-M-HISTORY-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 3 (ruled_ref names an IF of the unit's E item) and §4.5 C1 (every provides item named by a row of the unit's acceptance_refs); the form's content is checked by no rule",
+   "reason": "Mechanical: ruled_ref IF-HISTORY-01; Snapshot/TryUndo/TryRedo/Clear and capacity 50 from 20-spec §2.4. Judged: the generic constraint `where T : class`, out parameters, the added CanUndo/CanRedo, the max constructor parameter (form, §4.5 P1 ③). Alternatives: a non-generic history of documents, nullable returns instead of out parameters, no CanUndo/CanRedo."
+  },
+  {
+   "id": "UNIT/M-MEDIA-TOOLS-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 2 (each IF- realised by exactly one unit through ebom_refs) and the 32 template's PLM-ready checklist (ebom_refs, planned_output_artifact_ref, acceptance_refs, routing_refs present)",
+   "reason": "Mechanical: ebom_refs [E-MEDIA-TOOLS-001] and the folder src/MoviePad.Core/Media from E-MEDIA-TOOLS-001. Judged: the file list MediaTools.cs, ToolResult.cs follows the form's types, which are J (20-spec §1 leaves the locator's signature to the M-BOM). Alternatives: one MediaTools.cs holding the result type, or a locator and a runner file."
+  },
+  {
+   "id": "DEP/M-MEDIA-TOOLS-001",
+   "class": "R",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 1, 4, 5, 6 (targets resolve; PS- targets only within a shared E item; each required IF- has a requires; depends_on equals the resolved units)",
+   "reason": "E-MEDIA-TOOLS-001 requires no IF-; A1 5 asks no requires, A1 6 leaves depends_on empty (A1 asks for no procurement target)."
+  },
+  {
+   "id": "ACC/M-MEDIA-TOOLS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a (every unit has a non-empty acceptance_refs; each named row exists and is not retired) and §4.5 C1",
+   "reason": "Copy of E-MEDIA-TOOLS-001's acceptance_refs [CP-MEDIA-TOOLS-001]."
+  },
+  {
+   "id": "PROVIDES/PS-M-MEDIA-TOOLS-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 3 (ruled_ref names an IF of the unit's E item) and §4.5 C1 (every provides item named by a row of the unit's acceptance_refs); the form's content is checked by no rule",
+   "reason": "Mechanical: ruled_ref IF-MEDIA-TOOLS-01, the lookup order and file names (20-spec §2.6 REQ-019), result-not-exception and tree kill (K-PROCESS-001). Judged: 20-spec §1 leaves the locator's signature to the M-BOM; the ToolResult record, the constructor inputs, per-instance caching, ExitCode -1 when not started, ExitCode after cancel, no path normalisation. Alternatives: a separate locator and runner, exceptions wrapped into results at the callers, no cache."
+  },
+  {
+   "id": "MD/M-MEDIA-TOOLS-001/1",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "K-BOM's exploratory trailer names both alternatives (one quoted string or ArgumentList) and fixes neither; the choice is the derived layer's."
+  },
+  {
+   "id": "UNIT/M-PROBE-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 2 (each IF- realised by exactly one unit through ebom_refs) and the 32 template's PLM-ready checklist (ebom_refs, planned_output_artifact_ref, acceptance_refs, routing_refs present)",
+   "reason": "Mechanical: ebom_refs [E-PROBE-001]. Judged: the artifact is the Media folder, not E-PROBE-001's MediaProbe.cs, and ClipInfo.cs is added as its own file (the form's type, J). Alternatives: E-PROBE-001's single MediaProbe.cs with ClipInfo inside it."
+  },
+  {
+   "id": "DEP/M-PROBE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 1, 4, 5, 6 (targets resolve; PS- targets only within a shared E item; each required IF- has a requires; depends_on equals the resolved units)",
+   "reason": "E-PROBE-001 requires IF-MEDIA-TOOLS-01; the requires targets the provides item that realises it (PS-M-MEDIA-TOOLS-001-P01) and depends_on its unit. A1 1/5 would give target IF-MEDIA-TOOLS-01 and A1 4 bars a PS- target between units of different E items; the recorded IF->realising-PS mapping is the practice the layer follows."
+  },
+  {
+   "id": "ACC/M-PROBE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a (every unit has a non-empty acceptance_refs; each named row exists and is not retired) and §4.5 C1",
+   "reason": "Copy of E-PROBE-001's acceptance_refs [CP-PROBE-001]."
+  },
+  {
+   "id": "PROVIDES/PS-M-PROBE-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 3 (ruled_ref names an IF of the unit's E item) and §4.5 C1 (every provides item named by a row of the unit's acceptance_refs); the form's content is checked by no rule",
+   "reason": "Mechanical: ruled_ref IF-PROBE-01; ClipInfo's fields from 20-spec §2.1. Judged: 20-spec §1 leaves the probe's signature to the M-BOM; record shape, defaulted SampleRate/IsVariableFrameRate, AspectRatio with a 16/9 fallback, null on cancel. Alternatives: a class with nullable fields, a static probe function, a result type instead of null."
+  },
+  {
+   "id": "MD/M-PROBE-001/1",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "System.Text.Json is K-DOTNET-001's BCL list and invariant culture is K-FFMPEG-001's number rule (mechanical); JsonDocument vs JsonSerializer/Utf8JsonReader is a library-use choice (§4.5 ③)."
+  },
+  {
+   "id": "UNIT/M-OUTPUT-SETTINGS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 2 (each IF- realised by exactly one unit through ebom_refs) and the 32 template's PLM-ready checklist (ebom_refs, planned_output_artifact_ref, acceptance_refs, routing_refs present)",
+   "reason": "One unit per E item: ebom_refs [E-OUTPUT-SETTINGS-001]; artifact and planned output equal E-OUTPUT-SETTINGS-001's OutputSettings.cs."
+  },
+  {
+   "id": "DEP/M-OUTPUT-SETTINGS-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 1, 4, 5, 6 (targets resolve; PS- targets only within a shared E item; each required IF- has a requires; depends_on equals the resolved units)",
+   "reason": "Mechanical: R01 on the probe's provides follows E-OUTPUT-SETTINGS-001's IF-PROBE-01. Judged: R02 on PS-M-DOCUMENT-001-P01 follows MD/M-OUTPUT-SETTINGS-001/1 (reuse TimeMath.Even), not the E-BOM; A1 4 also bars it. Alternative: a local even() and no requires on the document."
+  },
+  {
+   "id": "ACC/M-OUTPUT-SETTINGS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a (every unit has a non-empty acceptance_refs; each named row exists and is not retired) and §4.5 C1",
+   "reason": "Copy of E-OUTPUT-SETTINGS-001's acceptance_refs [CP-OUTPUT-SETTINGS-001]."
+  },
+  {
+   "id": "PROVIDES/PS-M-OUTPUT-SETTINGS-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 3 (ruled_ref names an IF of the unit's E item) and §4.5 C1 (every provides item named by a row of the unit's acceptance_refs); the form's content is checked by no rule",
+   "reason": "Mechanical: ruled_ref IF-OUTPUT-SETTINGS-01; members from 20-spec §2.5. Judged: types (int sizes, double fps), double ratio arithmetic, Scale on any s and leaving KeepAspect, the added Native*/SourceFps members (form, §4.5 P1 ③ plus semantics the spec does not state). Alternatives: an immutable settings record with with-style operations, integer ratio arithmetic."
+  },
+  {
+   "id": "MD/M-OUTPUT-SETTINGS-001/1",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Reuse TimeMath.Even from M-DOCUMENT-001 vs a local even(): both meet 20-spec §2.5; the reuse creates a unit dependency the E-BOM does not have."
+  },
+  {
+   "id": "UNIT/M-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 2 (each IF- realised by exactly one unit through ebom_refs) and the 32 template's PLM-ready checklist (ebom_refs, planned_output_artifact_ref, acceptance_refs, routing_refs present)",
+   "reason": "One unit per E item after ECO-005/ADR-006: ebom_refs [E-EXPORT-001], artifact and planned output E-EXPORT-001's src/MoviePad.Core/Export/ (the file split left to the factory)."
+  },
+  {
+   "id": "DEP/M-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 1, 4, 5, 6 (targets resolve; PS- targets only within a shared E item; each required IF- has a requires; depends_on equals the resolved units)",
+   "reason": "Mechanical: R01/R02/R05 map E-EXPORT-001's IF-DOCUMENT-01, IF-PROBE-01, IF-MEDIA-TOOLS-01 to their realising provides. Judged: IF-OUTPUT-SETTINGS-01, which E-EXPORT-001 requires, is dropped (the request takes raw size and rate; A1 5 would ask for it), and procurement:ffmpeg is required here only, not by the tools or the probe. Alternatives: a requires on IF-OUTPUT-SETTINGS-01 with settings in the request; procurement:ffmpeg on the tools unit or nowhere."
+  },
+  {
+   "id": "ACC/M-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a (every unit has a non-empty acceptance_refs; each named row exists and is not retired) and §4.5 C1",
+   "reason": "Mechanical: E-EXPORT-001's acceptance_refs. Judged: CP-EXPORT-VFR-001 is moved to mbom.assembly only while CP-EXPORT-OUTPUT-001, also whole exports, stays on the unit (A2 lets the AI choose the placement)."
+  },
+  {
+   "id": "PROVIDES/PS-M-EXPORT-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 3 (ruled_ref names an IF of the unit's E item) and §4.5 C1 (every provides item named by a row of the unit's acceptance_refs); the form's content is checked by no rule",
+   "reason": "Mechanical: ruled_ref IF-EXPORT-01; the request fields and error kinds from 20-spec §2.6. Judged: 20-spec §1 leaves the exporter's request/result/progress types to the M-BOM; ExportProgress fields, ExportResult shape, enum names, raw size and rate in the request. Alternatives: OutputSettings in the request, exceptions for errors, a progress fraction only."
+  },
+  {
+   "id": "PROVIDES/PS-M-EXPORT-001-P02",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (named by CP-EXPORT-001, CP-EXPORT-OUTPUT-001, the assembly rows); content unchecked",
+   "reason": "The statement only points at 20-spec §2.6-§2.9 and restates INV-008 (source never written); rule: a file the ruled IF promises gets a kind-file provides item citing its spec sections."
+  },
+  {
+   "id": "PROVIDES/PS-M-EXPORT-CLOCK-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 3 (ruled_ref names an IF of the unit's E item) and §4.5 C1 (every provides item named by a row of the unit's acceptance_refs); the form's content is checked by no rule",
+   "reason": "Mechanical: ruled_ref IF-EXPORT-CLOCK-01 and the formulas of 20-spec §2.7 steps 1-9. Judged: Rational/ClockRun/ClockPlan shapes and members, SampleCount with 48000 when no audio, null cases incl. NaN, the seek threshold left to the exporter (form, §4.5 P1 ③). Alternatives: a rational type from fewer members, a plan without unclamped/sample fields, Build throwing instead of null."
+  },
+  {
+   "id": "PROVIDES/PS-M-EXPORT-COPY-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 3 (ruled_ref names an IF of the unit's E item) and §4.5 C1 (every provides item named by a row of the unit's acceptance_refs); the form's content is checked by no rule",
+   "reason": "Mechanical: ruled_ref IF-EXPORT-COPY-01 and the eligibility conditions of 20-spec §2.9. Judged: the CopyEligibility record with NeedsScale/NeedsRerate fields, Analyze's parameters, the KeyframeLookup class, SingleSpan false with no piece, a failed ffprobe run as 'no keyframe'. Alternatives: a boolean predicate over the request, the lookup inside the exporter, failures as exceptions."
+  },
+  {
+   "id": "MD/M-EXPORT-001/1",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "20-spec §2.7 fixes the outcomes and says the filter-graph text is not an acceptance target; this trim/settb/setpts/fps/tpad graph with its guard and window rounding is one of several graphs that realise them. Alternatives: a per-run fps filter with select, or a frame-index select graph from the clock plan."
+  },
+  {
+   "id": "MD/M-EXPORT-001/2",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "20-spec §2.9: the keyframe time 'is given as copyStartOverride; when absent or outside [0, spanStart], the span start is used' - so the exporter does not look it up."
+  },
+  {
+   "id": "MD/M-EXPORT-001/3",
+   "class": "C+",
+   "missing_field": "K-FFMPEG-001 managed_knowledge: the mov muxer options that set 20-spec §2.7 step 10's track and movie timescales (-video_track_timescale, -movie_timescale)",
+   "check": "none",
+   "check_by": null,
+   "reason": "Mechanical: fixed arguments, input seek and the second unseeked audio input (20-spec §2.6), encoders, -r p/q (§2.7 step 10); the order among output options carries no decision. Only the timescale option names come from outside the ruled input (tool grammar)."
+  },
+  {
+   "id": "MD/M-EXPORT-001/4",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Mechanical: 20-spec §2.8's per-piece trim/setpts/atrim, one concat of all pieces, scale and fps conditions, 0.###### numbers. Judged: the CFR concat-count clause refines MD/M-EXPORT-001/1's graph (J). Alternative CFR graphs would change the clause."
+  },
+  {
+   "id": "MD/M-EXPORT-001/5",
+   "class": "C+",
+   "missing_field": "20-spec §2.6: whether an empty or whitespace MOVIEPAD_FFMPEG_DIR counts as unset (REQ-019), and where a token cancelled before start sits in the error order (REQ-018)",
+   "check": "none",
+   "check_by": null,
+   "reason": "Both are observable behaviours the spec is silent on (§4.5 ② content); with the clauses in the spec the decision is a copy."
+  },
+  {
+   "id": "MD/M-EXPORT-001/6",
+   "class": "C+",
+   "missing_field": "20-spec §2.6 (or IF-EXPORT-01 boundary): what the result carries for kinds other than FfmpegFailed (exit code, error tail)",
+   "check": "none",
+   "check_by": null,
+   "reason": "20-spec §2.6 says FfmpegFailed carries the exit code and the last 8 lines and is silent for the other kinds; null-otherwise is a promise on the result, not a way to build it."
+  },
+  {
+   "id": "MD/M-EXPORT-001/7",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Mechanical: out_time_us, a report per progress= line and one more 1.0 after success (20-spec §2.6, K-FFMPEG-001). Judged: frame and speed parsing (trailing x, 0 when not a number) serve the Frame/Speed fields that exist only in the J form. Alternatives: a fraction-only progress record, or other fallbacks for an unparsable speed."
+  },
+  {
+   "id": "MD/M-EXPORT-001/8",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "20-spec §2.6 and K-FFMPEG-001 give the fixed arguments for export; copy is an export with progress (§2.6 total for copy), so they lead the copy command too."
+  },
+  {
+   "id": "MD/M-EXPORT-001/9",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Errors 1-4 of 20-spec §2.6 do not cover a missing directory and K-FFMPEG-001 says write directly to the output path, so ffmpeg's failure is error 5; the request carries the full output path."
+  },
+  {
+   "id": "MD/M-EXPORT-001/10",
+   "class": "C",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Copy of K-DOTNET-001 (base class library only, System.Numerics.BigInteger; risk: a rational-number package); the 32 template asks K decisions to be written as K references."
+  },
+  {
+   "id": "MD/M-EXPORT-001/11",
+   "class": "J",
+   "missing_field": null,
+   "check": "none",
+   "check_by": null,
+   "reason": "Analyze's parameter list vs taking the request type: an API-shape choice kept for history (ECO-005), with equally reasonable alternatives."
+  },
+  {
+   "id": "MD/M-EXPORT-001/12",
+   "class": "C+",
+   "missing_field": "K-FFMPEG-001 managed_knowledge: the keyframe lookup's ffprobe arguments and how a keyframe packet is recognised (flags K)",
+   "check": "none",
+   "check_by": null,
+   "reason": "Mechanical: the windows, t0, target + 0.05 and the largest keyframe <= target + 1e-6 (20-spec §2.9). The ffprobe command is the authority's tool usage, which K-FFMPEG-001 records for clip info but not for the lookup."
+  },
+  {
+   "id": "UNIT/M-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "32 template PLM-ready checklist (planned_output_artifact_ref, acceptance_refs, routing_refs present); A1 has nothing to check on a unit without ebom_refs",
+   "reason": "The 32 template manages the test fixture as an M unit; K-DOTNET-001 presumes an xunit test project; the path is test/ (process-profile protected_paths) plus the core project's name with .Tests."
+  },
+  {
+   "id": "DEP/M-SELF-ACCEPTANCE-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.6 A1 1, 4, 5, 6 (targets resolve; PS- targets only within a shared E item; each required IF- has a requires; depends_on equals the resolved units)",
+   "reason": "Requires only the solution's provides; §4.5 P4 lets a fixture require the units it verifies, and requiring their PS- items was equally reasonable."
+  },
+  {
+   "id": "ACC/M-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a (every unit has a non-empty acceptance_refs; each named row exists and is not retired) and §4.5 C1",
+   "reason": "I3a needs a non-empty list and the template names a unit's row CP-<NAME>-001; the unit's only row."
+  },
+  {
+   "id": "PROVIDES/PS-M-SELF-ACCEPTANCE-001-P01",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (named by CP-SELF-ACCEPTANCE-001); content unchecked",
+   "reason": "Mechanical: `dotnet test` exits 0 (the template's self-acceptance). Judged: tests make their own media with lavfi in a temporary directory and read nothing outside the repository - a test-design choice. Alternative: committed media fixtures in the test project."
+  },
+  {
+   "id": "ASSEMBLY",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a (assembly.acceptance_refs present, or assembly_reason) and §4.5 A2",
+   "reason": "A2 says the AI chooses which multi-unit rows to list; CP-EXPORT-OUTPUT-001 also measures whole exports but stays on the unit, while CP-EXPORT-VFR-001 is listed here."
+  },
+  {
+   "id": "CPROW/CP-BUILD-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "K-DOTNET-001 names CP-BUILD-001 in its acceptance_refs and its risk (an added package, another framework) is the characteristic; no REQ, so requirement_refs []."
+  },
+  {
+   "id": "CPLINK/CP-BUILD-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies = the unit naming the row; part_standard_refs = that unit's only provides item; invariant_refs [] (20-spec §3 names no INV for it)."
+  },
+  {
+   "id": "CPMETHOD/CP-BUILD-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/inspect.py --selftest (known-bad controls for this row's checks)",
+   "reason": "Mechanical: depth L1 (depth ladder), the oracle's package list from K-DOTNET-001 and procurement. Judged: the fixture's ban list of MSBuild/NuGet files and the declared limits (incl. NOTRUN routing after a build failure) are instrument design. Alternatives: build exit only, or reading the resolved assets file for transitive packages."
+  },
+  {
+   "id": "CPPOLICY/CP-BUILD-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a/I2 closed values for on_fail and approver (by hand); check_test_plan.py exempts this row from the `when` check; classification unchecked",
+   "reason": "when from test-plan §1/§7 (stage 0/1 row: part-change, connection-change, acceptance); on_fail the template default; approver automated (requirements' approver_hint, spec G2'); classification core as every row without an E item."
+  },
+  {
+   "id": "CPROW/CP-DOCUMENT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "Spec §2.2 and §5 name CP-DOCUMENT-001 for REQ-002, REQ-003, REQ-011; the characteristic restates §2.2's acceptance."
+  },
+  {
+   "id": "CPLINK/CP-DOCUMENT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "Mechanical: verifies (the E item and unit naming the row), the unit's only provides item. Judged: invariant_refs [INV-001, INV-009] while 20-spec §3 gives both to CP-EDIT-001 only; [] was the spec-column value."
+  },
+  {
+   "id": "CPMETHOD/CP-DOCUMENT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: depth unit and 'exact; lengths within 1e-9 s' from 20-spec §2.2. Judged: the test vectors, the fixture sections and the KeptPieces spec-only check. Alternatives: other case sets meeting §2.2's depth and tolerance (e.g. property-based lookups), KeptPieces against the authority's export pieces."
+  },
+  {
+   "id": "CPPOLICY/CP-DOCUMENT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when from test-plan §1/§7 (stage 1); on_fail template default; approver automated (approver_hint); classification core from E-DOCUMENT-001 / 20-spec §2.2."
+  },
+  {
+   "id": "CPROW/CP-EDIT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "Spec §2.3 and §5 name CP-EDIT-001 for REQ-004 to REQ-010; the characteristic restates §2.3's acceptance and §3's invariants."
+  },
+  {
+   "id": "CPLINK/CP-EDIT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies from acceptance_refs; the unit's only provides item; invariant_refs = the INVs 20-spec §3 assigns to CP-EDIT-001 (001-006, 009)."
+  },
+  {
+   "id": "CPMETHOD/CP-EDIT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: depth unit, tolerance exact (20-spec §2.3). Judged: the test vectors (fps, margins, speeds, volumes) and the named mutants. Alternatives: other margins and value grids, or the authority's DocumentStateTests cases only."
+  },
+  {
+   "id": "CPPOLICY/CP-EDIT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when from test-plan (stage 1); on_fail template default; approver automated; classification core (20-spec §2.3)."
+  },
+  {
+   "id": "CPROW/CP-HISTORY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "Spec §2.4 and §5 name CP-HISTORY-001 for REQ-012."
+  },
+  {
+   "id": "CPLINK/CP-HISTORY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies from acceptance_refs; the only provides item; invariant_refs [INV-006] as 20-spec §3 assigns."
+  },
+  {
+   "id": "CPMETHOD/CP-HISTORY-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: depth unit, exact (20-spec §2.4). Judged: reference identity as the tolerance and the chosen sequences (51 snapshots, 60 alternations). Alternatives: value equality as the tolerance, other sequence lengths."
+  },
+  {
+   "id": "CPPOLICY/CP-HISTORY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when from test-plan (stage 1); on_fail default; approver automated; classification core (20-spec §2.4)."
+  },
+  {
+   "id": "CPROW/CP-OUTPUT-SETTINGS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "Spec §2.5 and §5 name CP-OUTPUT-SETTINGS-001 for REQ-013."
+  },
+  {
+   "id": "CPLINK/CP-OUTPUT-SETTINGS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies from acceptance_refs; the only provides item; no INV in 20-spec §3."
+  },
+  {
+   "id": "CPMETHOD/CP-OUTPUT-SETTINGS-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: depth unit, exact (20-spec §2.5). Judged: the sources, widths, heights, presets, SetFps values and the spec-only comparison for invalid rates. Alternatives: the authority's ResolutionTests cases only; invalid rates left untested."
+  },
+  {
+   "id": "CPPOLICY/CP-OUTPUT-SETTINGS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when from test-plan (stage 1); on_fail default; approver automated; classification core (20-spec §2.5)."
+  },
+  {
+   "id": "CPROW/CP-MEDIA-TOOLS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "E-MEDIA-TOOLS-001 names the row in acceptance_refs and its requirement_refs [REQ-019, REQ-018] are copied (spec §5 puts REQ-019 on CP-EXPORT-001; the 33 template asks not to copy the E item's refs)."
+  },
+  {
+   "id": "CPLINK/CP-MEDIA-TOOLS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies from acceptance_refs; the only provides item; no INV in 20-spec §3."
+  },
+  {
+   "id": "CPMETHOD/CP-MEDIA-TOOLS-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 (test_vectors with boundary, intermediate and counterexample) and the 33 depth ladder, by reading; no known-bad control in compare.py --selftest names this row",
+   "reason": "Mechanical: depth L1 from 20-spec §2.6 REQ-019. Judged: placeholder files per position, the cancellation case, the Started=false measurement. Alternatives: real tool copies per position, an unstartable file for Started=false, a shorter cancellation case."
+  },
+  {
+   "id": "CPPOLICY/CP-MEDIA-TOOLS-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when from test-plan (stage 1); on_fail default; approver automated; classification surface from E-MEDIA-TOOLS-001."
+  },
+  {
+   "id": "CPROW/CP-PROBE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "Spec §2.1 and §5 name CP-PROBE-001 for REQ-001."
+  },
+  {
+   "id": "CPLINK/CP-PROBE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies from acceptance_refs; the only provides item; no INV in 20-spec §3."
+  },
+  {
+   "id": "CPMETHOD/CP-PROBE-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: depth L2, exact per field, the fixture set CFR 30/29.97/VFR/no audio/44.1 kHz (20-spec §2.1). Judged: the added fixtures (h264-gop60, drop3), the missing-file cases, the declared untested clauses. Alternatives: only the five fixtures §2.1 names, or added fixtures for the untested fallbacks."
+  },
+  {
+   "id": "CPPOLICY/CP-PROBE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when from test-plan (stage 2: connection-change, acceptance); on_fail default; approver automated; classification surface (20-spec §2.1, E-PROBE-001)."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-CLOCK-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "Spec §2.7 and §5 name CP-EXPORT-CLOCK-001 for REQ-016; the characteristic restates §2.7's acceptance with INV-007."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-CLOCK-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies from acceptance_refs; part_standard_refs = the provides item whose ruled_ref (IF-EXPORT-CLOCK-01) cites SPEC-CLOCK-001; invariant_refs [INV-007] as 20-spec §3 assigns."
+  },
+  {
+   "id": "CPMETHOD/CP-EXPORT-CLOCK-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: depth unit, exact on integers and reduced rationals (20-spec §2.7 'unit on the clock'). Judged: the rates, speeds, splits and mutants chosen. Alternatives: the authority's ExportClockTests cases only, other rates and speeds."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-CLOCK-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when from test-plan (stage 1); on_fail default; approver automated; classification core from 20-spec §2.7 / E-EXPORT-CLOCK-001 (the IF's original provider)."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-COPY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "Spec §2.9 and §5 name CP-EXPORT-COPY-001 for REQ-017."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-COPY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies from acceptance_refs; part_standard_refs = the provides item whose ruled_ref (IF-EXPORT-COPY-01) cites SPEC-COPY-001; no INV in 20-spec §3."
+  },
+  {
+   "id": "CPMETHOD/CP-EXPORT-COPY-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: unit/L2 parts and 'each condition alone flips it' from 20-spec §2.9. Judged: the depth label L2 for a mixed row, the keyframe targets, the oracle-v2/v3 cases, the declared untested windows. Alternatives: depth L3 or unit as the row's label, a long-GOP fixture for the later windows."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-COPY-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when from test-plan (stage 2); on_fail default; approver automated; classification core from E-EXPORT-COPY-001 (the IF's original provider; 20-spec §2.9 is silent)."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "The characteristic is test-plan §8.2's split (names, errors, progress, cancellation); requirement_refs = spec §5's REQs for the row less REQ-019, which the E-BOM gives to E-MEDIA-TOOLS-001."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies from acceptance_refs; P01 via IF-EXPORT-01 (SPEC-EXPORT-001); P02 because 20-spec §3 gives INV-008's letter-case case to this row and P02 states INV-008; invariant_refs [INV-008] as §3 assigns."
+  },
+  {
+   "id": "CPMETHOD/CP-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: depth L2 and the progress properties from 20-spec §2.6 REQ-018. Judged: the error cases chosen, the 50 % cancellation, the two-causes cases, the declared untested clauses. Alternatives: other error and cancellation cases, cancellation at a time rather than a fraction."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when from test-plan §8.2 (stage 2); on_fail default; approver automated; classification surface (20-spec §2.6, E-EXPORT-001)."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-OUTPUT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "Spec §5 names CP-EXPORT-OUTPUT-001 for REQ-014, REQ-015; the characteristic is test-plan §8.2's (stream properties, box order, fixtures unchanged)."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-OUTPUT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies from acceptance_refs; P01 via IF-EXPORT-01, P02 via INV-008 (20-spec §3 assigns INV-008 to this row)."
+  },
+  {
+   "id": "CPMETHOD/CP-EXPORT-OUTPUT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: depth L2, the stream properties and moov-before-mdat from 20-spec §2.6 REQ-014, the hash check from INV-008. Judged: which export cases are measured. Alternatives: one case per format, or every export case on every fixture."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-OUTPUT-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when [acceptance] from test-plan §8.2 (stage 3); on_fail default; approver automated; classification surface (E-EXPORT-001)."
+  },
+  {
+   "id": "CPROW/CP-ASSEMBLY-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "Not a spec candidate: spec §5 puts REQ-016's and REQ-017's L3 checks on CP-EXPORT-CLOCK-001 and CP-EXPORT-COPY-001; pulling the CFR and copy exports into one assembly row is a partition choice."
+  },
+  {
+   "id": "CPLINK/CP-ASSEMBLY-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "Judged: invariant_refs [INV-007, INV-008] while 20-spec §3 gives them to CLOCK and OUTPUT/EXPORT-001; part_standard_refs P02 only, though its REQs reach IF-EXPORT-01/-CLOCK-01/-COPY-01. Alternatives: invariant_refs [] per the spec column; part_standard_refs adding the API items."
+  },
+  {
+   "id": "CPMETHOD/CP-ASSEMBLY-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: depth L3 and the tolerances (framemd5, decoded-audio SHA-256, MP4/ProRes counts, copy packets) from 20-spec §2.6, §2.7, §2.9. Judged: the edit cases and mutants. Alternatives: other edits and fixtures meeting the same tolerances, these cases spread over the clock and copy rows."
+  },
+  {
+   "id": "CPPOLICY/CP-ASSEMBLY-EXPORT-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "Mechanical: when (stage 3), on_fail default, approver automated. Judged: classification core for a row on E-EXPORT-001 (surface) whose REQs mix surface (REQ-015) and core (REQ-016). Alternative: surface, as E-EXPORT-001 and the other whole-export rows."
+  },
+  {
+   "id": "CPROW/CP-EXPORT-VFR-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "Spec §2.8 and §5 name CP-EXPORT-VFR-001 for REQ-015 (VFR sources)."
+  },
+  {
+   "id": "CPLINK/CP-EXPORT-VFR-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "Mechanical: verifies, invariant_refs [] as 20-spec §3. Judged: part_standard_refs P02 only, though REQ-015 reaches IF-EXPORT-01 (P01) - whether the row measures the API item is the §4.5 semantic call."
+  },
+  {
+   "id": "CPMETHOD/CP-EXPORT-VFR-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/compare.py --selftest (a known-bad alteration turns this row red; CP-HARNESS-SELFTEST-001)",
+   "reason": "Mechanical: depth L3, 'within one output frame; stream properties equal' and the known limit, all from 20-spec §2.8. Judged: the three VFR cases. Alternatives: other VFR edits, a VFR export per format."
+  },
+  {
+   "id": "CPPOLICY/CP-EXPORT-VFR-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/test-plan/check_test_plan.py (each row's `when` against the rows each stage judged, both ways); on_fail and approver only as closed values by playbook §4.4 I3a/I2 (prose); classification unchecked",
+   "reason": "when from test-plan (stage 3); on_fail default; approver automated; classification surface (E-EXPORT-001)."
+  },
+  {
+   "id": "CPROW/CP-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "The unit needs a row (I3a); the characteristic is the pass condition of its provides statement and the template's self-acceptance ('green'); no REQ."
+  },
+  {
+   "id": "CPLINK/CP-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "verifies from acceptance_refs; the unit's only provides item; no INV."
+  },
+  {
+   "id": "CPMETHOD/CP-SELF-ACCEPTANCE-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "machine",
+   "check_by": "bomdd/reports/exp-20261024-01/inspect.py --selftest (known-bad controls for this row's checks)",
+   "reason": "Mechanical: depth L1, exit 0. Judged: a test class per unit with at least one test, expected values from the spec, no absolute paths - oracle design. Alternatives: exit 0 only, or a coverage threshold."
+  },
+  {
+   "id": "CPPOLICY/CP-SELF-ACCEPTANCE-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a/I2 closed values for on_fail and approver (by hand); check_test_plan.py exempts this row from the `when` check; classification unchecked",
+   "reason": "when from test-plan (stage 1); on_fail default; approver automated; classification core as every row without an E item."
+  },
+  {
+   "id": "CPROW/CP-HARNESS-SELFTEST-001",
+   "class": "R",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "33 template PLM-ready checklist (requirement_refs are the IDs the row's tests check) and playbook §4.4 I3a (row ids unique), applied by reading",
+   "reason": "The 32 template names CP-HARNESS-SELFTEST-001 as the acceptance harness's row and 20-spec §4 row 16 defers the instruments' controls to the control plan; no REQ."
+  },
+  {
+   "id": "CPLINK/CP-HARNESS-SELFTEST-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.5 C1 (part_standard_refs name provides items the row measures; ids exist) and the 33 template checklist (every INV reaches a row's invariant_refs or has a reason in 20-spec §3)",
+   "reason": "No unit or E item names the row (the harness is designer-side, not an M unit), so verifies, part_standard_refs and invariant_refs are empty by the inverse of acceptance_refs."
+  },
+  {
+   "id": "CPMETHOD/CP-HARNESS-SELFTEST-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 (instruments carry known-good/known-bad controls) by reading; nothing checks the self-test's own control list",
+   "reason": "Mechanical: 'every known-bad red, every known-good green'. Judged: the sixteen-to-nineteen alterations, the sealed mutant sets, the reproduction step. Alternatives: other alteration sets, mutants only, no sealed sets."
+  },
+  {
+   "id": "CPPOLICY/CP-HARNESS-SELFTEST-001",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a/I2 closed values for on_fail and approver (by hand); check_test_plan.py exempts this row from the `when` check; classification unchecked",
+   "reason": "when [instrument-change] from test-plan §7; approver automated; red routed to instrument-recovery because the row verifies an instrument (the template's own meaning of the value); classification core as every row without an E item."
+  },
+  {
+   "id": "ROUTE/ROUTE-ECO",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "34 template PLM-ready checklist (each step has input/output or consumes/produces; a self-acceptance step has evidence_output_ref), applied by reading",
+   "reason": "Assembled from written rules: an open ECO before src/test changes (process-profile E01, staged initial state), BOM frozen before the work order (playbook §4.4 I3a), test event named in the change order (test-plan §7)."
+  },
+  {
+   "id": "ROUTE/ROUTE-READ",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "34 template PLM-ready checklist (each step has input/output or consumes/produces; a self-acceptance step has evidence_output_ref), applied by reading",
+   "reason": "The template's ROUTE-READ with the work order added from the §4.6 package (34 left out); the gate is the template's cheat_report rule (report, do not stop)."
+  },
+  {
+   "id": "ROUTE/ROUTE-MANUFACTURE-001",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "34 template PLM-ready checklist (each step has input/output or consumes/produces; a self-acceptance step has evidence_output_ref), applied by reading",
+   "reason": "One step for all units against the template's core and surface steps (or a step per unit, test-plan §5 item 3); its acceptance_refs pick the build and self-acceptance rows."
+  },
+  {
+   "id": "ROUTE/ROUTE-SELF-ACCEPTANCE",
+   "class": "C",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "34 template PLM-ready checklist (each step has input/output or consumes/produces; a self-acceptance step has evidence_output_ref), applied by reading",
+   "reason": "The template's step and name; the command is the build and test commands of the two non-E units; the template's cheat-report step folded into its output."
+  },
+  {
+   "id": "ROUTE/ROUTE-DELIVERY-COMMIT",
+   "class": "J",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 I3a (delivered's tree is its commit's tree) by reading",
+   "reason": "A designer commit after a sha256 comparison, chosen for the factory's sandbox (cannot write .git) and E01 - knowledge outside the ruled input; letting the factory commit was the template's default."
+  },
+  {
+   "id": "ROUTE/ROUTE-INSPECT",
+   "class": "R",
+   "missing_field": null,
+   "check": "prose",
+   "check_by": "playbook §4.4 D0 (the order of the receiving step) by reading",
+   "reason": "test-plan §7 states it: the event decides the stages; acceptance through inspect.py, part-change and connection-change through run_stages.py covering those stages only; output delivery-<n>/."
+  }
+ ]
+}
