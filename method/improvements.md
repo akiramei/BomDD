@@ -9841,3 +9841,26 @@ restates §9 ("a prose requirement is not evidence of compliance") as a filter o
   - first task: choose the subject and who writes the model (in BomDD the model belongs to the ruled layer, the human's); MoviePad-Remake
     has none. C needs B's confirmed model as its answer key, so B precedes C; A (ECO-118) runs in parallel, not as a precondition.
   source: this section (the user's "3:A")
+
+**Item 1 at review — the user's "1:A 2:A 3:A" (2026-10-29, the same day).** Stage 2 of /lesson-promote; three points ruled separately:
+- 1 = the authority order in playbook §4.5 (**A**): woven as the bullet 「正の順」 after 裁定層と導出層. A conflict between ruled sources is
+  returned as 「導出不能」, one of §4.5's three kinds of return — no fourth kind (a fourth would change an existing rule). Its enforcement
+  bracket names the stop as ECO-119 **filed, not built**; until ECO-119 is accepted the bullet is enforced by nothing.
+  stop: ECO-119 (filed) / measure: ECO-119 T3 (filed) / none: the order itself, kept because ECO-119 refers to it.
+- 2 = the stop (**A**): **ECO-119 filed** (`bomdd/60-change-order-eco-119.md`). After the design release, process-core's E13 refuses a commit
+  changing a ruled file unless a `BomDD-ECO-Ruling` trailer names an ECO open at HEAD (filed in an earlier commit) whose order's
+  `Sources read` section cites each touched ruled file with a line. Its arms come from MoviePad-Remake's six ruled-layer commits after
+  `bom-v4`: one with no open ECO (`0b50020`, references only) and two that filed their ECO in the same commit (`b06a5bf`, `f4861e8`)
+  would be refused even with a trailer. Manufacture waits for the start instruction and for ECO-118 (both change process-validator.py).
+- 3 = /lesson-promote made strict (**A**): `.claude/skills/lesson-promote/SKILL.md` (no source copy exists under `method/templates/`). Body text
+  only with a stop or a measure named by an existing check id or tool, or by a filed ECO with its state; otherwise a `watch` observation.
+  Every promotion records `stop / measure / none` per lesson, and every proposed body text ends with an enforcement line. The one
+  exception: the sentence saying what a named check protects. stop: none / measure: none — this rule is itself text, and works only
+  because every promotion passes through the skill (declared in the skill).
+- The authority order now has its source in the method; the designer's memory points to §4.5.
+- Thought layer: [x] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none.
+- 期待効果の棚卸し: 該当 0 件 (no open item's trigger matches an authority-order or promotion-procedure change).
+- [open] EXP-20261029-03 — **Does the strict rule keep body text from growing without a stop or measure?** Measure: at each of the next three
+  promotions through /lesson-promote, the number of proposed body texts and how many carry a named stop or measure (target: all;
+  any without one is a violation of the skill, counted, not excused). Trigger: the next three promotions.
+  source: this section (the user's "3:A")

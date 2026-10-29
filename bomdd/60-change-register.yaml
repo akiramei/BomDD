@@ -3766,3 +3766,39 @@ changes:
       if taken). Not a closing condition: V6 the tool exits 0 on MoviePad-Remake after its ECO-006. Conditions are frozen at filing; results
       go to the closing section.
     producer: EQ-004
+  - id: ECO-119
+    title: the ruled layer (10, 20, 30, 31, the ADRs) becomes protected after the design release - process-core's E13 refuses a commit changing it unless a BomDD-ECO-Ruling trailer names an ECO open at HEAD whose order's Sources read section cites each touched ruled file (opt-in by a profile field; filed only; distribution separate)
+    date: 2026-10-29
+    origin: improvement
+    status: filed   # 2026-10-29 the user's "1:A 2:A 3:A" on the authority order (2:A = this ECO) -> filing; manufacture waits for the start instruction and for ECO-118 (both change process-validator.py)
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      MoviePad-Remake ECO-006 section 6: the designer recommended matching the code in two items the ruled sources answered (the E-BOM was
+      right in both); only the user's hold stopped a proposal that would have rewritten the ruled layer. process-core protects src/ and
+      tests (E01) and its own files (E08), not the ruled layer. In MoviePad-Remake, six commits after the design release (bom-v4) touched it:
+      0b50020 with no open ECO, b06a5bf and f4861e8 in the commit that filed their ECO, ec6e549, 31273e7 and 79f1791 under an open ECO; none
+      carries a trailer.
+    order_ref: bomdd/60-change-order-eco-119.md
+    affected_refs: [method/templates/process-core/tools/process-validator.py, method/templates/process-core/process-profile.yaml, method/templates/process-core/tools/process-qualification.py, method/templates/60-change-order.md, method/bomdd-playbook-v1.md]
+    no_impact_prediction: "(before manufacture; frozen) E13 in process-validator.py (commit-msg mode and the history replay), the commented profile field ruled_layer {since, paths} and trailers.ruling, the qualification's arms, the change-order template's Sources read section, playbook 4.5's enforcement bracket and 7's one clause; bomdd-init.py only if the scaffold writes the profile outside the template; the order, the register and bomdd/reports/eco-119-ruled-layer/. With the field absent every validator check gives the same result on the same commit; every self-conformance check gives the same line on the same tree, C11's qualification gaining arms. No product is changed. Declared: the trailer and the Sources read section are written by the committer, so E13 does not show that a human ruled, that the sources were read, or that the change is right; nothing is checked before the release or in a product without the field."
+    diff_audit:
+      baseline: "9cc108b"  # HEAD before this filing
+      allowed_paths: [method/templates/process-core/, method/templates/60-change-order.md, method/bomdd-playbook-v1.md, method/tools/bomdd-init.py, method/tools/self-conformance.py, README.md, bomdd/60-change-order-eco-119.md, bomdd/60-change-register.yaml, bomdd/reports/eco-119-ruled-layer/]
+    required_gates: [V1, V2, V3, V4, V5]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      T1: profile field ruled_layer {since: the design release, paths: the ruled files and the ADR directory}; absent = no E13. T2: E13 in
+      commit-msg mode - after since, a staged change to a ruled path (deletions and both sides of a rename counted) needs a trailer
+      BomDD-ECO-Ruling naming an ECO in an open state in the HEAD register (filed in an earlier commit, as E01) whose order exists and has a
+      Sources read section; refused otherwise, and refused when since, the register or the order cannot be read. T3: that section cites
+      each touched ruled file as path:line at least once (counted; 0 refuses). T4: E13 in the history replay (a --no-verify commit reported
+      by the full mode). T5: playbook 4.5's bracket and 7's clause; the qualification's arms nested. Decided at filing: a trailer naming the
+      ECO, not any open ECO; file-first; file level with no field exclusion (0b50020's reference-only change is refused); E13 after E12.
+    verification: >
+      V1 the six commits of order section 0 replayed in a bomdd-init product with the field set: 0b50020 refused; b06a5bf and f4861e8 refused
+      in their filing commit and allowed in the next with the trailer and citations; 31273e7 refused with 31-kbom.yaml uncited, allowed with
+      all three; bbce170 before since allowed / V2 qualification arms: no trailer, unknown id, closed ECO, missing order or section, deletion,
+      rename out, unresolvable since refused; no field and no ruled path no E13; --no-verify reported by the full mode; E13 disabled lets the
+      0b50020 arm through / V3 existing arms unchanged, no E13 without the field / V4 the text / V5 self-conformance exit 0 before each commit,
+      CI green. Not a closing condition: V6 E13's full mode on a product's history after it opts in. Conditions are frozen at filing; results
+      go to the closing section.
+    producer: EQ-004
