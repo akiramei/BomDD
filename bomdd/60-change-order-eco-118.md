@@ -363,6 +363,20 @@ tools give the same exit codes and findings). CI on `ea2ac97` success (run 40861
 all three); V7 as before plus the CRLF arm; V8 every arm but 2 as expected, 2'' and 2''' refused, KB and KB2 shown. The literal 3ba3d00
 arms stay not met (section 4).
 
+## 4C. R8 round 3 — the last round: REJECT, stopped for the user (2026-10-29)
+
+A third fresh-context inspector on `8461c7f`: one material, two minor (`bomdd/reports/eco-118-bom-structure-check/r8-round-3.md`).
+- R8-3-01 (material): under two non-default git settings — `core.commentChar=auto` with a body line starting with `#`, or
+  `core.commentString` set — git comments with another character than E12 strips, and an editor `--amend` lets a failing BOM into an
+  acceptance commit. 12 of 14 hook contexts behave as stated; the default settings, an explicit or multi-character commentChar, `-v`
+  and `--cleanup=scissors` are refused.
+- R8-3-02 (minor): A1-2's population counts IF- items its lazy rule skips, so a BOM where nothing was checked can read PASS; the stop is
+  unaffected. R8-3-03 (minor): the working tree's `git_blob` has no selftest control (V7's CRLF arm is its control).
+- Rounds 1-2 closed apart from R8-2-01's residue above; no regression on 26 real targets; CI on `8461c7f` success (run 40869894655).
+
+Convergence: material 2 → 2 → 1, all findings 13 → 8 → 3. By the user's 2:A no round 4 and no fix is made here; the course is the
+user's decision (pending).
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling on the experiment's decision 1; filing only).
