@@ -123,7 +123,7 @@ def v2() -> list[str]:
     src = TOOL.read_text(encoding="utf-8")
     tmp = Path(tempfile.mkdtemp(prefix="eco118-v2-"))
     try:
-        for fn, ret in (("rule_1", "[]"), ("rule_2", "[]"), ("rule_3", "[]"), ("rule_4", "[]"), ("_relay_crossing", "None"),
+        for fn, ret in (("rule_1", "[]"), ("rule_2", "[]"), ("rule_2_population", "[]"), ("rule_3", "[]"), ("rule_4", "[]"), ("_relay_crossing", "None"),
                         ("rule_5", "[]"), ("rule_6", "[]"), ("rule_p1", "[]"), ("rule_c1a", "[]"), ("rule_c1b", "[]")):
             m = re.search(rf"^def {fn}\(.*?\).*?:\n((?:    \"\"\".*?\"\"\"\n)?)", src, re.M | re.S)
             mutated = src[:m.end()] + f"    return {ret}  # ECO-118 V2 known-bad: {fn} disabled\n" + src[m.end():]

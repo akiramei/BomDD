@@ -377,6 +377,31 @@ A third fresh-context inspector on `8461c7f`: one material, two minor (`bomdd/re
 Convergence: material 2 → 2 → 1, all findings 13 → 8 → 3. By the user's 2:A no round 4 and no fix is made here; the course is the
 user's decision (pending).
 
+## 4D. Round 3's findings fixed, no further round (2026-10-29, the user's "A")
+
+**The ruling** — "A" on a DECIDE with three options: A = fix all three and add no inspection round (chosen); B = fix and run a round
+4 (extending the cap); C = declare R8-3-01 in 止めないもの and fix the two minor ones. The fixes below are therefore checked by the
+manufacturer's arms and measurements only — no independent read after `9724877`.
+
+- **R8-3-01** (inside E12's path, within 1:A): `commit_comment_prefixes` reads both `core.commentChar` and `core.commentString`
+  (`git config --get-regexp`), and E12 strips lines beginning with **any of git's `auto` candidates** (`# ; @ ! $ % ^ & | :`) plus both
+  keys' values (multi-character allowed, `auto` excluded). Stripping too much only removes lines and cannot hide a trailer, so a miss
+  falls on the refusing side; it also covers a git too old to honour `commentString`. Arms: validator selftest (the prefixes from the
+  config; an `auto` message whose comments use `;` and a `%` one), qualification N22j (`core.commentChar=auto` with a `#42` body line)
+  and N22k (`core.commentString=;`), V8 `2-auto` and `2-string` refused with E12, and the known-bad KB3 (the prefixes back to `#`
+  only → the `auto` editor amend gets through; undone, HEAD's BOM passes again).
+- **R8-3-02**: rule 2's population is counted after the lazy skip (`rule_2_population`), so a BOM where rule 2 checked nothing no
+  longer counts A1-2 as exercised; arm `a1-2-lazy-only` → NOT-APPLICABLE. Playbook §4.6's NOT-APPLICABLE parenthetical widened to "or
+  no rule has anything to check".
+- **R8-3-03**: selftest arm `worktree-git-blob` (an LF-committed fixture rewritten with CRLF under `core.autocrlf=true`: the receipt's
+  `git_blob` equals HEAD's blob for all three, the raw bytes' id does not). Round 3's Q4 note: inside a repository a failing
+  `git hash-object` is now UNMEASURABLE, not a silent fallback to the raw bytes' id.
+
+**After the fixes** (`out/` regenerated): V1 PASS (the same pairs); V2 PASS, selftest 38/38, each disabled rule red (`rule_2_population`
+added to the list); V3 PASS (exit 3 on all three); V7 as before, CRLF arm included; V8 every arm but 2 as expected — 2'', 2''', 2-auto,
+2-string refused, KB, KB2, KB3 shown and undone. Qualification on a fresh scaffold: N22a-k PASS. The literal 3ba3d00 arms stay not met
+(section 4); the closure's decisions are unchanged (section 4A).
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling on the experiment's decision 1; filing only).

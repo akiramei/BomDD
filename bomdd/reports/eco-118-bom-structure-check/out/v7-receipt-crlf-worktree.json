@@ -1,9 +1,9 @@
 {
   "schema": "bom-structure-receipt/1",
-  "root": "C:\\Users\\akira\\AppData\\Local\\Temp\\eco118-v7-dlmftt75\\crlf",
+  "root": "C:\\Users\\akira\\AppData\\Local\\Temp\\eco118-v7-7aies6zg\\crlf",
   "source": {
     "kind": "worktree",
-    "head": "3464d9334dc0c0e8816cb7738fd492f0b96c9a1f",
+    "head": "ceda424e11c3bb4715d0ff02a27e0bef1dbac0a7",
     "head_blobs": {
       "ebom": "0e5c63de8aa94f90e82916bd28ad177ae5e3acff",
       "mbom": "74aae8c2dffe50499cb78d8a52282894f5627805",
@@ -28,7 +28,7 @@
     }
   },
   "tool": {
-    "sha256": "96030a3966755dcba37f37c69c8f7b79575268f7221bc2ff86eae982047e39e0",
+    "sha256": "6c52486e82736f6435f02521f46426c882a9def6c192b75f7fcc693dd4f165ef",
     "rule_set": "A1:1-6;A1-1:self;A1-2:IF-only;A1-4:relay;P1:id,two-lists;C1:a,b;shape:strict"
   },
   "counts": {
@@ -56,5 +56,5 @@
   "verdict": "PASS",
   "exit_code": 0,
   "error": null,
-  "utc": "2026-10-29T11:55:15Z"
+  "utc": "2026-10-29T12:55:49Z"
 }

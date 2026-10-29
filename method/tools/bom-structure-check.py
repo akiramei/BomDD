@@ -63,6 +63,7 @@ import argparse
 import copy
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -149,7 +150,9 @@ def read_sources(root: Path, source: str, rev: str | None) -> tuple[dict, dict]:
             data[key] = p.read_bytes() if p.is_file() else None
             if data[key] is not None and in_repo:
                 h = _git(root, "hash-object", "--path", rel, "--", str(p))
-                blobs[key] = h.stdout.decode().strip() if h.returncode == 0 else None
+                if h.returncode != 0:  # no silent fallback to the raw bytes' id inside a repository (R8-3 Q4)
+                    raise Unmeasurable(f"git hash-object cannot read {rel}: {h.stderr.decode(errors='replace').strip()}")
+                blobs[key] = h.stdout.decode().strip()
         else:
             spec = f":{rel}" if source == "index" else f"{info['commit']}:{rel}"
             p = _git(root, "cat-file", "-e", spec)
@@ -362,14 +365,23 @@ def rule_1(m, ix):
     return out
 
 
-def rule_2(m, ix):
-    out = []
+def rule_2_population(m, ix) -> list[str]:
+    """The IF- ids rule 2 checks: every IF- (R8-1-09), less those realised only by units without part_standard (lazy).
+    Counted after the lazy skip, so a rule that skipped everything is not reported as exercised (R8-3-02)."""
     if not ix["ps_units"]:
-        return out
-    for if_id in sorted(i for i in ix["e_provides"] if i.startswith("IF-")):  # §4.6: every IF- (R8-1-09)
+        return []
+    pop = []
+    for if_id in sorted(i for i in ix["e_provides"] if i.startswith("IF-")):
         cands = ix["candidates"](if_id)
         if cands and not any(m["units"][c]["ps"] for c in cands):
             continue  # lazy: realised only by units without part_standard
+        pop.append(if_id)
+    return pop
+
+
+def rule_2(m, ix):
+    out = []
+    for if_id in rule_2_population(m, ix):
         r = ix["realisers"](if_id)
         if len(r) != 1:
             out.append(("A1-2", if_id, ",".join(r) or "-", f"realised by {len(r)} units (exactly one required)"))
@@ -546,7 +558,7 @@ def check(docs: dict) -> dict:
         "cp_rows": len(m["rows"]),
         "placeholders_skipped": m["placeholders"],
     }
-    rule_pop = {"A1-1": population["ps_requires"], "A1-2": population["if_items"], "A1-3": population["ps_provides"],
+    rule_pop = {"A1-1": population["ps_requires"], "A1-2": len(rule_2_population(m, ix)), "A1-3": population["ps_provides"],
                 "A1-4": population["ps_requires"], "A1-5": population["ebom_requires_checked"],
                 "A1-6": sum(1 for u in ps_units.values() if u["depends_on"]), "P1-id": population["ps_provides"] + population["ps_requires"],
                 "C1-a": sum(len(r) for r in m["rows"].values()), "C1-b": population["ps_provides"]}
@@ -682,6 +694,12 @@ def _template() -> dict:
     return d
 
 
+def _lazy_only() -> dict:
+    d = _no_ps()
+    _unit(d, "M-JIG-001").update(part_standard={"provides": [], "requires": []}, depends_on=[])
+    return d
+
+
 def _no_ps() -> dict:
     d = _good()
     for u in d["mbom"]["mbom"]["manufacturing_units"]:
@@ -737,6 +755,8 @@ def fixtures() -> dict:
         # R8-2-04: a mistyped interfaces key would hide a requires; R8-2-06: a unit id that is not a string
         "interfaces-unknown-key": (_mut(lambda d: d["ebom"]["ebom"]["items"][1]["interfaces"].update(require=["IF-A-01"])), "UNMEASURABLE", {}),
         "type-unit-id": (_mut(lambda d: d["mbom"]["mbom"]["manufacturing_units"].append({"id": 5})), "UNMEASURABLE", {}),
+        # R8-3-02: one unit with empty lists, the IF- items in units without part standards -> rule 2 checks nothing
+        "a1-2-lazy-only": (_lazy_only(), "NOT-APPLICABLE", {}),
         # not a selftest arm (the same as a1-4-direct): the qualification's failing BOM, by --write-fixture
         "fail": (_mut(_rule4_direct), "FAIL", {"A1-4": 1}),
     }
@@ -778,6 +798,31 @@ def selftest() -> int:
         arms.append(("merge-key", merged["ebom"] != good["ebom"] and res["verdict"] == "PASS", f"verdict {res['verdict']}"))
     except Unmeasurable as e:
         arms.append(("merge-key", False, f"UNMEASURABLE ({e})"))
+    # R8-3-03: the working tree's git_blob goes through git's own conversion - a CRLF copy of an LF-committed file
+    # (core.autocrlf=true) has HEAD's blob id, which the raw bytes' id is not
+    import tempfile
+    import shutil
+    wt = Path(tempfile.mkdtemp(prefix="bom-structure-selftest-wt-"))
+    try:
+        ok, detail = False, ""
+        g = lambda *a: subprocess.run(["git", "-C", str(wt), *a], capture_output=True)
+        if g("init", "-q").returncode == 0:
+            write_fixture("good", wt)
+            g("add", "-A")
+            g("-c", "user.name=selftest", "-c", "user.email=selftest@bomdd.invalid", "commit", "-q", "-m", "fixture")
+            g("config", "core.autocrlf", "true")
+            for rel in FILES.values():
+                (wt / rel).write_bytes((wt / rel).read_bytes().replace(b"\r\n", b"\n").replace(b"\n", b"\r\n"))
+            _raw, info = read_sources(wt, "worktree", None)
+            heads = {k: g("rev-parse", f"HEAD:{rel}").stdout.decode().strip() for k, rel in FILES.items()}
+            ok = (info["_blobs"] == heads == info["head_blobs"]
+                  and all(_blob_id(_raw[k]) != heads[k] for k in FILES))
+            detail = f"git_blob == HEAD's blob for all three: {info['_blobs'] == heads}"
+        arms.append(("worktree-git-blob", ok, detail or "git init failed"))
+    except Unmeasurable as e:
+        arms.append(("worktree-git-blob", False, f"UNMEASURABLE ({e})"))
+    finally:
+        shutil.rmtree(wt, onerror=lambda f, p, _e: (os.chmod(p, 0o700), f(p)))
     # the exit codes as a caller sees them: the tool run as a process on fixtures it writes (R8-1-12 - not a constant
     # compared with itself)
     import tempfile

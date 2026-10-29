@@ -152,6 +152,35 @@ def main():
         lines.append(f"   validator restored: {restored0}; HEAD's BOM passes again (the derived copy): {head_ok}")
         ok_all &= restored0 and head_ok
 
+        # R8-3-01: git comments with another character - core.commentChar=auto with a '#' body line, core.commentString.
+        # The acceptance commit's message is first redone with a '#42' line (the BOM unchanged, still passing).
+        r0 = sh("git", "-C", str(prod), "commit", "-q", "--amend", "-m", "eco: accept ECO-801 (the derived copy)",
+                "-m", "#42 is the issue this closes", "-m", "BomDD-ECO-Accept: ECO-801")
+        lines.append(f"   the acceptance message redone with a '#42' line: exit {r0.returncode}")
+
+        def config_amend(key, val):
+            sh("git", "-C", str(prod), "config", key, val)
+            rc_, out_ = editor_amend()
+            sh("git", "-C", str(prod), "config", "--unset", key)
+            return rc_, out_
+        for label, key, val in (("2-auto", "core.commentChar", "auto"), ("2-string", "core.commentString", ";")):
+            rc, out = config_amend(key, val)
+            arm(f"{label} {key}={val}, an editor amend with d3683d6's BOM -> refused, E12 (R8-3-01)",
+                rc != 0 and "[E12]" in out, f"exit {rc}: {show(out)}")
+        vsrc1 = vpath0.read_text(encoding="utf-8")
+        a1 = "def commit_comment_prefixes(root: Path) -> tuple[str, ...]:\n"
+        assert vsrc1.count(a1) == 1
+        vpath0.write_text(vsrc1.replace(a1, a1 + '    return ("#",)  # ECO-118 V8 known-bad (R8-3-01)\n'), encoding="utf-8", newline="\n")
+        rc, out = config_amend("core.commentChar", "auto")
+        arm("KB3 the prefixes back to '#' only -> the auto editor amend gets through (shown), then undone", rc == 0, f"exit {rc}")
+        vpath0.write_text(vsrc1, encoding="utf-8", newline="\n")
+        if rc == 0:
+            sh("git", "-C", str(prod), "reset", "-q", "--hard", "HEAD@{1}")
+        restored1 = sh("git", "-C", str(prod), "status", "--porcelain", "--", "bomdd/tools/process-validator.py").stdout.strip() == ""
+        head_ok1 = sh(sys.executable, str(prod / "bomdd-kit/method/tools/bom-structure-check.py"), "--root", str(prod), "--rev", "HEAD").returncode == 0
+        lines.append(f"   validator restored: {restored1}; HEAD's BOM passes again: {head_ok1}")
+        ok_all &= restored1 and head_ok1 and r0.returncode == 0
+
         rc, out = accept("ECO-803", "template", "the scaffold's template BOM")
         arm("3 the template BOM (no part standard) -> allowed, NOT-APPLICABLE named",
             rc == 0 and "NOT-APPLICABLE" in out, f"exit {rc}: {show(out)}")

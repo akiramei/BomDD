@@ -35,6 +35,8 @@
                                           時間切れも遮断(測れないは合格ではない)。accept trailer が
                                           applied の ECO を名指す commit も対象(--amend で作り直した受入
                                           commit — R8-1-01。エディタのコメント塊は除いてから読む — R8-2-01。
+                                          除く接頭辞は git の auto の候補すべて+core.commentChar /
+                                          commentString の値 — R8-3-01。
                                           遷移のない commit でも trailer があれば検査する — R8-2-08)。
                                           trailer を消して作り直した受入 commit は止めない(validate の E06
                                           が検出 — R8-2-03)。毎 commit ではない(ECO の途中の commit は
@@ -708,26 +710,42 @@ def structure_targets(old: dict[str, dict], new: dict[str, dict], prof: dict, ms
     return sorted(set(accept_transitions(old, new, prof)) | via_trailer)
 
 
-def strip_commit_comments(msg: str, comment_char: str = "#") -> str:
-    """E12 だけが使う(ECO-118・R8-2-01): commit-msg hook が受け取るメッセージは、git がコメント行を除く**前**のもの。
+# git が core.commentChar=auto で選ぶ候補(git の既定 '#' を含む)。E12 はこれをすべて除く(R8-3-01)
+GIT_COMMENT_CANDIDATES = ("#", ";", "@", "!", "$", "%", "^", "&", "|", ":")
+
+
+def strip_commit_comments(msg: str, comment_prefixes=("#",)) -> str:
+    """E12 だけが使う(ECO-118・R8-2-01 / R8-3-01): commit-msg hook が受け取るメッセージは、git がコメント行を除く**前**のもの。
     エディタで書いた・作り直した commit では末尾に「# Please enter …」の塊が付き、parse_trailers はそれを最終段落と
     読んで trailer を見落とす。git の既定の後処理(strip)と同じく、scissors 行(`<c> --- >8 ---`)から後を捨て、
-    コメント文字で始まる行を除く。E04/E05 の parse_trailers は変えない(範囲外 — 同じ欠陥は OBS-20261029-06)。"""
+    コメントの接頭辞で始まる行を除く。接頭辞は呼び出し側が git の候補すべてと設定値から作る(除きすぎは行が減るだけで
+    trailer を隠さない — 外れても止まる側)。E04/E05 の parse_trailers は変えない(範囲外 — OBS-20261029-06)。"""
+    prefixes = tuple(p for p in comment_prefixes if p)
     out = []
     for line in msg.splitlines():
-        if line.startswith(comment_char) and ">8" in line and line.lstrip(comment_char).strip().startswith("-"):
+        if line.startswith(prefixes) and ">8" in line and "-----" in line:
             break
-        if line.startswith(comment_char):
+        if line.startswith(prefixes):
             continue
         out.append(line)
     return "\n".join(out).strip("\n") + "\n"
 
 
-def commit_comment_char(root: Path) -> str:
-    """core.commentChar(既定 '#'。'auto' は git が本文に無い文字を選ぶ — 判定できないので '#' として扱う)"""
-    p = run_git(root, "config", "core.commentChar")
-    c = p.stdout.strip() if p.returncode == 0 else ""
-    return c if c and c != "auto" else "#"
+def comment_prefixes_from_config(config_lines: str) -> tuple[str, ...]:
+    """`git config --get-regexp '^core\\.comment(char|string)$'` の出力から E12 が除く接頭辞(純関数)。
+    git の候補すべて(auto・古い git が commentString を無視する場合を含む)+両キーの設定値(auto 以外・多文字可)。
+    git は後に設定されたキーを使うが、どちらを使っても両方とも除いているので読み違えない。"""
+    configured = []
+    for line in config_lines.splitlines():
+        parts = line.split(None, 1)
+        if len(parts) == 2 and parts[1].strip() and parts[1].strip() != "auto":
+            configured.append(parts[1].strip())
+    return tuple(dict.fromkeys(list(GIT_COMMENT_CANDIDATES) + configured))
+
+
+def commit_comment_prefixes(root: Path) -> tuple[str, ...]:
+    p = run_git(root, "config", "--get-regexp", r"^core\.comment(char|string)$")
+    return comment_prefixes_from_config(p.stdout if p.returncode == 0 else "")
 
 
 def structure_verdict(rc: int | None, output: str, cids: list[str], tool_rel: str) -> list[str]:
@@ -761,7 +779,7 @@ def check_structure(root: Path, old: dict[str, dict], new: dict[str, dict], prof
     tool_rel = prof.get("structure_check")
     if not tool_rel:
         return []
-    cids = structure_targets(old, new, prof, strip_commit_comments(msg, commit_comment_char(root)))
+    cids = structure_targets(old, new, prof, strip_commit_comments(msg, commit_comment_prefixes(root)))
     if not cids:
         return []
     rc, out = run_structure_check(root, tool_rel)
@@ -1131,7 +1149,20 @@ def selftest() -> int:
        parse_trailers(strip_commit_comments("x\n\nBomDD-ECO-Accept: ECO-1\n# ------------------------ >8 ------------------------\n"
                                             "diff --git a b\n+BomDD-ECO-Accept: ECO-2\n"))
        == {"BomDD-ECO-Accept": ["ECO-1"]}
-       and parse_trailers(strip_commit_comments("x\n\nBomDD-ECO-Accept: ECO-1\n\n; note\n", ";")) == {"BomDD-ECO-Accept": ["ECO-1"]})
+       and parse_trailers(strip_commit_comments("x\n\nBomDD-ECO-Accept: ECO-1\n\n; note\n", (";",))) == {"BomDD-ECO-Accept": ["ECO-1"]})
+    # R8-3-01: the prefixes E12 strips - git's auto candidates always, plus both keys' values (the last set wins in git)
+    pre = comment_prefixes_from_config("core.commentchar auto\ncore.commentstring //\n")
+    tb("E12: 接頭辞= git の候補すべて+設定値(auto は候補で覆う・commentString も読む・R8-3-01)",
+       set(GIT_COMMENT_CANDIDATES) <= set(pre) and "//" in pre and "auto" not in pre
+       and set(comment_prefixes_from_config("")) == set(GIT_COMMENT_CANDIDATES))
+    auto_msg = ("eco: accept\n\n#42 is the issue this closes\n\nBomDD-ECO-Accept: ECO-1\n\n"
+                "; Please enter the commit message for your changes.\n; On branch main\n")
+    pct_msg = "eco: accept\n\nBomDD-ECO-Accept: ECO-1\n\n% Please enter the commit message.\n"
+    tb("E12: auto で git が ';' を選んだ・commentString '%' のエディタ amend でも trailer を読む(R8-3-01)",
+       structure_targets({"ECO-1": e("applied")}, {"ECO-1": e("applied")}, prof2, strip_commit_comments(auto_msg, pre)) == ["ECO-1"]
+       and structure_targets({"ECO-1": e("applied")}, {"ECO-1": e("applied")}, prof2,
+                             strip_commit_comments(pct_msg, comment_prefixes_from_config(""))) == ["ECO-1"]
+       and structure_targets({"ECO-1": e("applied")}, {"ECO-1": e("applied")}, prof2, strip_commit_comments(auto_msg, ("#",))) == [])
     for rc, expect in [(0, None), (3, None), (1, "E12"), (2, "E12"), (None, "E12"), (5, "E12")]:
         t(f"E12: 道具の exit {rc}", structure_verdict(rc, "[A1-4] x -> y: z\nverdict: FAIL", ["ECO-1"], "t.py"), expect)
     tb("E12: profile の structure_check 絶対パス・空・.. を遮断",
