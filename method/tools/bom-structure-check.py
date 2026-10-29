@@ -25,7 +25,11 @@ Rules applied (RULE_SET):
   C1-a  every part_standard_refs id of a Control Plan row names an existing provides item
   C1-b  every provides item is named by at least one row listed in its unit's acceptance_refs
 Left out: retired E items (lineage.superseded_by), mbom.retired_units and any other list than manufacturing_units, and
-template placeholders (an id containing "<NAME>", as in method/templates/30, 32 and 33).
+template placeholders (an id containing "<NAME>", as in method/templates/30, 32 and 33) - only while no other unit has a
+part_standard; once one has, a placeholder is checked like any id. A1-1 also refuses a requires on the unit's own provides
+item (P1: another unit's item); A1-2 reads ids beginning IF- only.
+Shape (UNMEASURABLE, never a silently dropped entry): an id appearing twice among E items, units or Control Plan rows; an id
+or a reference that is not a non-empty string; a part_standard that is not a mapping of provides/requires only.
 
 NOT CLAIMED (declared): A1-7 (an IF- provider connected to its consumer as section 4.1 says - a reading of meaning);
 whether a Control Plan row measures the item it names (section 4.5 limit); anything about the code (a unit that calls
@@ -38,9 +42,11 @@ Verdicts and exit codes (a caller cannot read "nothing to check" as a pass by th
   3 NOT-APPLICABLE  no finding and no unit has part_standard (the lazy rule): nothing was checked
 A rule whose population is 0 on a PASS is named on the population line ("not exercised").
 
---receipt <path>  writes a JSON receipt made by the tool alone (schema bom-structure-receipt/1): the source (and for --rev
-                  the commit and tree), the SHA-256 of each input as read, the tool's own SHA-256 and RULE_SET, the counts,
-                  the verdict, the exit code and the UTC end time. The text output does not change.
+--receipt <path>  writes a JSON receipt made by the tool alone (schema bom-structure-receipt/1): the source (for --rev the
+                  commit and tree; for the working tree and the index, HEAD and each file's blob id at HEAD), the SHA-256 and
+                  git blob id of each input as read, the tool's own SHA-256 and RULE_SET (a hand-kept constant; the tool's
+                  hash covers it), the counts, the population and the rules not exercised, the verdict, the exit code and the
+                  UTC end time (not verifiable afterwards). The text output does not change.
 --selftest        built-in fixtures through the same functions: a known-good BOM and a mutated copy per rule.
 --write-fixture <name> <dir>   writes a selftest fixture's three files under <dir>/bomdd/ (for the process-core
                   qualification's E12 arms - one copy of the fixtures).
@@ -123,6 +129,15 @@ def read_sources(root: Path, source: str, rev: str | None) -> tuple[dict, dict]:
     elif source == "index":
         if _git(root, "rev-parse", "--git-dir").returncode != 0:
             raise Unmeasurable(f"{root} is not a git repository (--index)")
+    if source != "rev":
+        # the version a worktree or index read sits on (R8-1-08): HEAD, and each file's blob there, so a receipt can say
+        # whether what it read is what HEAD holds (null outside a git repository or before the first commit)
+        h = _git(root, "rev-parse", "--verify", "-q", "HEAD")
+        info["head"] = h.stdout.decode().strip() if h.returncode == 0 else None
+        info["head_blobs"] = {}
+        for key, rel in FILES.items():
+            hb = _git(root, "rev-parse", "--verify", "-q", f"HEAD:{rel}") if info["head"] else None
+            info["head_blobs"][key] = hb.stdout.decode().strip() if hb is not None and hb.returncode == 0 else None
     data: dict = {}
     for key, rel in FILES.items():
         if source == "worktree":
@@ -178,58 +193,97 @@ def _placeholder(i: str) -> bool:
     return PLACEHOLDER_TOKEN in i
 
 
+def _strs(v, where: str) -> list[str]:
+    """A list of non-empty strings (ids and refs); anything else is an unknown shape."""
+    out = _list(v, where)
+    if not all(isinstance(s, str) and s for s in out):
+        raise Unmeasurable(f"{where} holds something other than a non-empty string")
+    return list(out)
+
+
+def _unique(entries: list[dict], where: str) -> None:
+    seen = set()
+    for e in entries:
+        if e["id"] in seen:
+            raise Unmeasurable(f"{where}: id {e['id']} appears twice (an earlier entry would be dropped unchecked)")
+        seen.add(e["id"])
+
+
+def _ps_entries(v, where: str, required: tuple[str, ...]) -> list[dict]:
+    out = []
+    for i, e in enumerate(_list(v, where)):
+        e = _map(e, f"{where}[{i}]")
+        for k in required:
+            if not (isinstance(e.get(k), str) and e[k]):
+                raise Unmeasurable(f"{where}[{i}].{k} is not a non-empty string")
+        if "ruled_ref" in e and e["ruled_ref"] is not None and not isinstance(e["ruled_ref"], str):
+            raise Unmeasurable(f"{where}[{i}].ruled_ref is not a string")
+        out.append(e)
+    return out
+
+
 def build_model(docs: dict) -> dict:
-    """Shape the three documents into the lists the rules read. An unknown shape raises Unmeasurable."""
+    """Shape the three documents into the lists the rules read. An unknown shape raises Unmeasurable: a duplicate id, an id or
+    a reference that is not a non-empty string, a part_standard that is not a mapping of provides/requires only (R8-1-02/04/05).
+    Placeholders (an id containing <NAME>) are left out only while the BOM is still the template - no other unit has a
+    part_standard; once one has, a placeholder is checked like any id (R8-1-11)."""
     ebom = _map(_map(docs["ebom"], FILES["ebom"]).get("ebom"), "ebom")
     mdoc = _map(docs["mbom"], FILES["mbom"])
     mbom = _map(mdoc.get("mbom"), "mbom")
     cpd = _map(_map(docs["cp"], FILES["cp"]).get("control_plan"), "control_plan")
     if "items" not in ebom or "manufacturing_units" not in mbom or "characteristics" not in cpd:
         raise Unmeasurable("ebom.items, mbom.manufacturing_units or control_plan.characteristics is absent")
+    raw_items = _ids(_list(ebom["items"], "ebom.items"), "ebom.items")
+    raw_units = _ids(_list(mbom["manufacturing_units"], "mbom.manufacturing_units"), "mbom.manufacturing_units")
+    raw_rows = _ids(_list(cpd["characteristics"], "control_plan.characteristics"), "control_plan.characteristics")
+    _unique(raw_items, "ebom.items")
+    _unique(raw_units, "mbom.manufacturing_units")
+    _unique(raw_rows, "control_plan.characteristics")
+    template = not any(u.get("part_standard") is not None and not _placeholder(u["id"]) for u in raw_units)
+    skip = (lambda i: _placeholder(i)) if template else (lambda i: False)
     placeholders = 0
     items = {}
-    for it in _ids(_list(ebom["items"], "ebom.items"), "ebom.items"):
-        if _placeholder(it["id"]):
+    for it in raw_items:
+        if skip(it["id"]):
             placeholders += 1
             continue
         lineage = it.get("lineage") or {}
         if isinstance(lineage, dict) and lineage.get("superseded_by"):
             continue
-        intf = it.get("interfaces") or {}
-        intf = _map(intf, f"{it['id']}.interfaces")
-        provides = [_map(p, f"{it['id']}.interfaces.provides") for p in _list(intf.get("provides"), f"{it['id']}.interfaces.provides")]
-        requires = _list(intf.get("requires"), f"{it['id']}.interfaces.requires")
-        if not all(isinstance(r, str) for r in requires):
-            raise Unmeasurable(f"{it['id']}.interfaces.requires holds a non-string")
-        items[it["id"]] = {"provides": [p.get("id") for p in provides], "requires": list(requires)}
+        intf = _map(it.get("interfaces") or {}, f"{it['id']}.interfaces")
+        provides = _ps_entries(intf.get("provides"), f"{it['id']}.interfaces.provides", ("id",))
+        items[it["id"]] = {"provides": [p["id"] for p in provides],
+                           "requires": _strs(intf.get("requires"), f"{it['id']}.interfaces.requires")}
     units = {}
-    for u in _ids(_list(mbom["manufacturing_units"], "mbom.manufacturing_units"), "mbom.manufacturing_units"):
-        if _placeholder(u["id"]):
+    for u in raw_units:
+        if skip(u["id"]):
             placeholders += 1
             continue
-        ps = u.get("part_standard")
-        rec = {"ebom_refs": [e for e in _list(u.get("ebom_refs"), f"{u['id']}.ebom_refs")],
-               "depends_on": [d for d in _list(u.get("depends_on"), f"{u['id']}.depends_on")],
-               "acceptance_refs": [a for a in _list(u.get("acceptance_refs"), f"{u['id']}.acceptance_refs")],
+        uid = u["id"]
+        rec = {"ebom_refs": _strs(u.get("ebom_refs"), f"{uid}.ebom_refs"),
+               "depends_on": _strs(u.get("depends_on"), f"{uid}.depends_on"),
+               "acceptance_refs": _strs(u.get("acceptance_refs"), f"{uid}.acceptance_refs"),
                "ps": None}
-        if ps:
-            ps = _map(ps, f"{u['id']}.part_standard")
-            rec["ps"] = {
-                "provides": [_map(p, f"{u['id']}.part_standard.provides") for p in _list(ps.get("provides"), f"{u['id']}.part_standard.provides")],
-                "requires": [_map(q, f"{u['id']}.part_standard.requires") for q in _list(ps.get("requires"), f"{u['id']}.part_standard.requires")],
-            }
-        units[u["id"]] = rec
+        ps = u.get("part_standard")
+        if ps is not None:
+            ps = _map(ps, f"{uid}.part_standard")
+            unknown = sorted(set(ps) - {"provides", "requires"})
+            if unknown:
+                raise Unmeasurable(f"{uid}.part_standard has keys other than provides/requires: {unknown}")
+            rec["ps"] = {"provides": _ps_entries(ps.get("provides"), f"{uid}.part_standard.provides", ("id",)),
+                         "requires": _ps_entries(ps.get("requires"), f"{uid}.part_standard.requires", ("id", "target"))}
+        units[uid] = rec
     procurement = set()
     for i, p in enumerate(_list(mdoc.get("procurement"), "procurement")):
         p = _map(p, f"procurement[{i}]")
         if isinstance(p.get("package"), str):
             procurement.add(p["package"])
     rows = {}
-    for r in _ids(_list(cpd["characteristics"], "control_plan.characteristics"), "control_plan.characteristics"):
-        if _placeholder(r["id"]):
+    for r in raw_rows:
+        if skip(r["id"]):
             placeholders += 1
             continue
-        rows[r["id"]] = [x for x in _list(r.get("part_standard_refs"), f"{r['id']}.part_standard_refs")]
+        rows[r["id"]] = _strs(r.get("part_standard_refs"), f"{r['id']}.part_standard_refs")
     return {"items": items, "units": units, "procurement": procurement, "rows": rows, "placeholders": placeholders}
 
 
@@ -264,6 +318,8 @@ def _resolve(m: dict, ix: dict, uid: str, target) -> tuple[str | None, str | Non
         return None, "target is not a string"
     if target.startswith("PS-"):
         owner = ix["provides_owner"].get(target)
+        if owner == uid:
+            return None, "the unit's own provides item (P1: a requires targets another unit's item)"
         return (owner, None) if owner else (None, "no provides item has this id")
     if target.startswith("IF-"):
         r = ix["realisers"](target)
@@ -297,7 +353,7 @@ def rule_2(m, ix):
     out = []
     if not ix["ps_units"]:
         return out
-    for if_id in sorted(ix["e_provides"]):
+    for if_id in sorted(i for i in ix["e_provides"] if i.startswith("IF-")):  # §4.6: every IF- (R8-1-09)
         cands = ix["candidates"](if_id)
         if cands and not any(m["units"][c]["ps"] for c in cands):
             continue  # lazy: realised only by units without part_standard
@@ -470,7 +526,7 @@ def check(docs: dict) -> dict:
     population = {
         "units": len(m["units"]),
         "units_with_part_standard": len(ps_units),
-        "if_items": len(ix["e_provides"]),
+        "if_items": sum(1 for i in ix["e_provides"] if i.startswith("IF-")),
         "ps_requires": sum(len(u["ps"]["requires"]) for u in ps_units.values()),
         "ps_provides": sum(len(u["ps"]["provides"]) for u in ps_units.values()),
         "ebom_requires_checked": len(rule_5_population(m, ix)),
@@ -521,17 +577,25 @@ def run(root: Path, source: str, rev: str | None) -> tuple[dict | None, str | No
         return None, str(e), raw, info
 
 
+def _blob_id(b: bytes) -> str:
+    """git's blob id of these bytes (comparable with HEAD's blobs in source.head_blobs)."""
+    return hashlib.sha1(b"blob %d\0" % len(b) + b).hexdigest()
+
+
 def write_receipt(path: Path, root: Path, result: dict | None, error: str | None, raw: dict, info: dict) -> None:
     verdict = "UNMEASURABLE" if error is not None else result["verdict"]
     receipt = {
         "schema": "bom-structure-receipt/1",
         "root": str(root.resolve()),
         "source": info,
-        "inputs": {k: {"path": FILES[k], "sha256": hashlib.sha256(raw[k]).hexdigest() if raw.get(k) is not None else None}
+        "inputs": {k: {"path": FILES[k],
+                       "sha256": hashlib.sha256(raw[k]).hexdigest() if raw.get(k) is not None else None,
+                       "git_blob": _blob_id(raw[k]) if raw.get(k) is not None else None}
                    for k in FILES},
         "tool": {"sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), "rule_set": RULE_SET},
         "counts": dict(result["counts"]) if result else {},
         "population": dict(result["population"]) if result else {},
+        "not_exercised": list(result["not_exercised"]) if result else [],
         "verdict": verdict,
         "exit_code": EXIT[verdict],
         "error": error,
@@ -635,6 +699,22 @@ def fixtures() -> dict:
         "c1-b": (_mut(lambda d: _unit(d, "M-JIG-001").update(acceptance_refs=["CP-A-001"])), "FAIL", {"C1-b": 1}),
         "not-applicable": (_no_ps(), "NOT-APPLICABLE", {}),
         "template": (_template(), "NOT-APPLICABLE", {}),
+        # R8-1-10: a requires on the unit's own provides item; R8-1-09: a provides id that is not IF- is not rule 2's
+        "a1-1-self": (_mut(lambda d: (_unit(d, "M-JIG-001")["part_standard"]["requires"].append({"id": "PS-M-JIG-001-R01", "target": "PS-M-JIG-001-P01"}))), "FAIL", {"A1-1": 1}),
+        "a1-2-not-if": (_mut(lambda d: d["ebom"]["ebom"]["items"][0]["interfaces"]["provides"].append({"id": "OC-1"})), "PASS", {}),
+        # R8-1-11: a placeholder among real part-standard units is checked like any id (here P1 and C1-b fail on it)
+        "placeholder-among-real": (_mut(lambda d: d["mbom"]["mbom"]["manufacturing_units"].append(
+            {"id": "M-<NAME>-009", "ebom_refs": [], "part_standard": {"provides": [{"id": "PS-X-P01", "statement": "x"}], "requires": []}})),
+            "FAIL", {"P1-id": 1, "C1-b": 1}),
+        # R8-1-02, R8-1-04, R8-1-05: unknown shapes are UNMEASURABLE, never a silently dropped entry
+        "dup-item": (_mut(lambda d: d["ebom"]["ebom"]["items"].append(copy.deepcopy(d["ebom"]["ebom"]["items"][1]))), "UNMEASURABLE", {}),
+        "dup-unit": (_mut(lambda d: d["mbom"]["mbom"]["manufacturing_units"].insert(0, {"id": "M-A-001", "ebom_refs": []})), "UNMEASURABLE", {}),
+        "dup-row": (_mut(lambda d: d["cp"]["control_plan"]["characteristics"].insert(0, {"id": "CP-A-001", "part_standard_refs": ["PS-M-A-001-P99"]})), "UNMEASURABLE", {}),
+        "type-provides-no-id": (_mut(lambda d: d["ebom"]["ebom"]["items"][0]["interfaces"]["provides"].append({"refs": []})), "UNMEASURABLE", {}),
+        "type-ebom-refs": (_mut(lambda d: _unit(d, "M-A-001").update(ebom_refs=[{"id": "E-A-001"}])), "UNMEASURABLE", {}),
+        "type-ps-refs": (_mut(lambda d: d["cp"]["control_plan"]["characteristics"][0].update(part_standard_refs=[{"id": "x"}])), "UNMEASURABLE", {}),
+        "ps-unknown-key": (_mut(lambda d: _unit(d, "M-JIG-001")["part_standard"].update(provide=[{"id": "BAD-ID"}])), "UNMEASURABLE", {}),
+        # not a selftest arm (the same as a1-4-direct): the qualification's failing BOM, by --write-fixture
         "fail": (_mut(_rule4_direct), "FAIL", {"A1-4": 1}),
     }
 
@@ -646,12 +726,17 @@ def _dump(d: dict) -> dict:
 def selftest() -> int:
     arms = []
     for name, (docs, verdict, expect) in fixtures().items():
+        if name == "fail":
+            continue  # a copy of a1-4-direct kept for --write-fixture; not counted twice (R8-1-12)
         raw = _dump(docs)
         try:
             res = check({k: _load(k, raw[k]) for k in FILES})
             got_v, got_c = res["verdict"], {r: n for r, n in res["counts"].items() if n}
         except Unmeasurable as e:
-            got_v, got_c = "UNMEASURABLE", {"error": str(e)}
+            got_v, got_c = "UNMEASURABLE", {}
+            if verdict == "UNMEASURABLE":
+                expect = got_c
+                print(f"       ({name}: {e})")
         arms.append((name, got_v == verdict and got_c == expect, f"verdict {got_v} counts {got_c}"))
     # broken arms: a duplicate key, a missing file, an unknown shape -> UNMEASURABLE
     good = _dump(_good())
@@ -670,8 +755,23 @@ def selftest() -> int:
         arms.append(("merge-key", merged["ebom"] != good["ebom"] and res["verdict"] == "PASS", f"verdict {res['verdict']}"))
     except Unmeasurable as e:
         arms.append(("merge-key", False, f"UNMEASURABLE ({e})"))
-    # the exit-code mapping keeps NOT-APPLICABLE apart from PASS
-    arms.append(("exit-codes", EXIT == {"PASS": 0, "FAIL": 1, "UNMEASURABLE": 2, "NOT-APPLICABLE": 3}, str(EXIT)))
+    # the exit codes as a caller sees them: the tool run as a process on fixtures it writes (R8-1-12 - not a constant
+    # compared with itself)
+    import tempfile
+    tmp = Path(tempfile.mkdtemp(prefix="bom-structure-selftest-"))
+    try:
+        got = {}
+        for name, want in (("good", 0), ("fail", 1), ("not-applicable", 3), ("good", 2)):
+            d = tmp / f"{name}-{want}"
+            write_fixture(name, d)
+            if want == 2:
+                (d / FILES["mbom"]).write_bytes(b"mbom: [\n")
+            p = subprocess.run([sys.executable, str(Path(__file__).resolve()), "--root", str(d)], capture_output=True)
+            got[f"{name}->{want}"] = p.returncode
+        arms.append(("exit-codes", all(v == int(k.split("->")[1]) for k, v in got.items()), str(got)))
+    finally:
+        import shutil
+        shutil.rmtree(tmp, ignore_errors=True)
     bad = [a for a in arms if not a[1]]
     for name, ok, detail in arms:
         print(f"  {'ok  ' if ok else 'FAIL'} {name}: {detail}")

@@ -37,6 +37,6 @@ bom-structure-check: (rev 64912a411930) rules A1:1-6;A1-4:relay;P1:id;C1:a,b
 [C1-b] M-EXPORT-001 PS-M-EXPORT-001-P01 -> CP-EXPORT-001: no row in the unit's acceptance_refs names the provides item
 [C1-b] M-EXPORT-001 PS-M-EXPORT-001-P02 -> CP-EXPORT-001: no row in the unit's acceptance_refs names the provides item
 [C1-b] M-SELF-ACCEPTANCE-001 PS-M-SELF-ACCEPTANCE-001-P01 -> CP-SELF-ACCEPTANCE-001: no row in the unit's acceptance_refs names the provides item
-population: units=10 units_with_part_standard=10 if_items=8 ps_requires=16 ps_provides=11 ebom_requires_checked=14 cp_rows=2 placeholders_skipped=2 not_exercised=C1-a
+population: units=10 units_with_part_standard=10 if_items=8 ps_requires=16 ps_provides=11 ebom_requires_checked=14 cp_rows=4 placeholders_skipped=0 not_exercised=C1-a
 counts: A1-1=0 A1-2=0 A1-3=0 A1-4=13 A1-5=14 A1-6=0 P1-id=0 C1-a=0 C1-b=11
 verdict: FAIL - 38 finding(s)

@@ -9,19 +9,22 @@
   "inputs": {
     "ebom": {
       "path": "bomdd/30-ebom.yaml",
-      "sha256": "a11ed099c925a1ac8ba01c5f30d21318c813ca65ed3cf758078387b60bd1b7d7"
+      "sha256": "a11ed099c925a1ac8ba01c5f30d21318c813ca65ed3cf758078387b60bd1b7d7",
+      "git_blob": "40e0e3f45083aff79f7482202ee2c80e46f753ea"
     },
     "mbom": {
       "path": "bomdd/32-mbom.yaml",
-      "sha256": "dc5c9c7d659689fab70036353a2bc84761ca0e152e6a341b440de81637361763"
+      "sha256": "dc5c9c7d659689fab70036353a2bc84761ca0e152e6a341b440de81637361763",
+      "git_blob": "63175947b37311d09812f1997af8225305214f7a"
     },
     "cp": {
       "path": "bomdd/33-control-plan.yaml",
-      "sha256": "4d0d3bff669ebdcaf344c1793d254d50b0ec7508e987c518c0c0577ad601f9fa"
+      "sha256": "4d0d3bff669ebdcaf344c1793d254d50b0ec7508e987c518c0c0577ad601f9fa",
+      "git_blob": "5449e33218ae5b31b018ae935a6e4bdb8ebc9ee0"
     }
   },
   "tool": {
-    "sha256": "ea2e7adc9c77ae86165fc71dcceec43b2eb5cf8427f31cabc42d02746c0141ba",
+    "sha256": "8bdcdd141333ed6de5d712d7810adc261f7fd97a9e64c1fccd1033f30253615f",
     "rule_set": "A1:1-6;A1-4:relay;P1:id;C1:a,b"
   },
   "counts": {
@@ -45,8 +48,9 @@
     "cp_rows": 15,
     "placeholders_skipped": 0
   },
+  "not_exercised": [],
   "verdict": "FAIL",
   "exit_code": 1,
   "error": null,
-  "utc": "2026-10-29T10:08:11Z"
+  "utc": "2026-10-29T10:46:45Z"
 }

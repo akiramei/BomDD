@@ -8,12 +8,17 @@ usage: python verify118.py <repos dir holding the four products> v1|v2|v3|v7|all
 """
 import hashlib
 import json
+import os
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 HERE = Path(__file__).resolve().parent
 BOMDD = HERE.parents[2]
@@ -25,6 +30,16 @@ FILES = ["bomdd/30-ebom.yaml", "bomdd/32-mbom.yaml", "bomdd/33-control-plan.yaml
 
 def sh(*args, cwd=None):
     return subprocess.run(list(args), capture_output=True, text=True, encoding="utf-8", errors="replace", cwd=cwd)
+
+
+def _rmtree(path: Path) -> None:
+    """Remove a temporary folder, git's read-only objects included (R8-1-13); report what stays."""
+    def chmod_retry(func, p, _exc):
+        os.chmod(p, stat.S_IWRITE)
+        func(p)
+    shutil.rmtree(path, onerror=chmod_retry)
+    if path.exists():
+        print(f"[cleanup] left behind: {path}")
 
 
 def tool(*args):
@@ -120,7 +135,7 @@ def v2() -> list[str]:
             ok_all &= red
             lines.append(f"{fn} disabled: selftest exit {r.returncode} {'red' if red else 'GREEN (blind)'} - failing arms {[f.split(':')[0][5:] for f in failed]}")
     finally:
-        shutil.rmtree(tmp, ignore_errors=True)
+        _rmtree(tmp)
     lines.append(f"V2: {'PASS' if ok_all else 'FAIL'}")
     return lines
 
@@ -150,7 +165,8 @@ def _blob_sha(root: Path, spec: str) -> str:
     return hashlib.sha256(b).hexdigest()
 
 
-FIELDS = ["schema", "root", "source", "inputs", "tool", "counts", "population", "verdict", "exit_code", "error", "utc"]
+FIELDS = ["schema", "root", "source", "inputs", "tool", "counts", "population", "not_exercised", "verdict", "exit_code",
+          "error", "utc"]
 
 
 def receipt_problems(rc: dict, root: Path | None, spec_of=None) -> list[str]:
@@ -162,6 +178,9 @@ def receipt_problems(rc: dict, root: Path | None, spec_of=None) -> list[str]:
         for key, inp in rc.get("inputs", {}).items():
             if inp["sha256"] != _blob_sha(root, spec_of(inp["path"])):
                 p.append(f"input {inp['path']} sha256 differs from the source blob")
+            gid = subprocess.run(["git", "-C", str(root), "rev-parse", spec_of(inp["path"])], capture_output=True, text=True).stdout.strip()
+            if inp.get("git_blob") != gid:
+                p.append(f"input {inp['path']} git_blob differs from git's id of the source blob")
     return p
 
 
@@ -221,7 +240,7 @@ def v7(repos: Path) -> list[str]:
             ok_all &= good
             lines.append(f"fixture {name} -> {rc3['verdict']} exit {t3.returncode}: fields {'all present' if not missing else missing} {'ok' if good else 'NOT OK'}")
     finally:
-        shutil.rmtree(tmp, ignore_errors=True)
+        _rmtree(tmp)
     # known-bad: one input hash altered is told apart by a re-hash
     bad = json.loads(rp.read_text(encoding="utf-8"))
     bad["inputs"]["mbom"]["sha256"] = "0" * 64

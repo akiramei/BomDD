@@ -32,9 +32,13 @@
                                           BOM の構造検査(bom-structure-check.py --index)を**その場で
                                           再計算**する。受領証は読まない。exit 0(PASS)/3(NOT-APPLICABLE)
                                           は通す・1(FAIL)は遮断・2(UNMEASURABLE)/ 道具の不在 / 起動不能 /
-                                          時間切れも遮断(測れないは合格ではない)。毎 commit ではない
-                                          (ECO の途中の commit は不整合を含みうる)。履歴再演(validate)
-                                          では再計算しない — --no-verify で通した受入は第 1 層だけの限界
+                                          時間切れも遮断(測れないは合格ではない)。accept trailer が
+                                          applied の ECO を名指す commit も対象(--amend で作り直した受入
+                                          commit — R8-1-01)。毎 commit ではない(ECO の途中の commit は
+                                          不整合を含みうる)。履歴再演(validate)では再計算しない —
+                                          --no-verify・hook を通らない rebase / cherry-pick で作った受入
+                                          commit は第 1 層だけの限界。道具は作業ツリーの版を起動する
+                                          (validator 自身と同じ信頼の類)
 
 二層化(ECO-018 — 強制層は自分自身を守れない):
   第 1 層 pre-commit/commit-msg hook   … 即時遮断(作業者の眼前)。実体を消されれば起動しない。
@@ -691,6 +695,16 @@ def accept_transitions(old: dict[str, dict], new: dict[str, dict], prof: dict) -
                   if e.get("status") == target and old.get(cid, {}).get("status") != target)
 
 
+def structure_targets(old: dict[str, dict], new: dict[str, dict], prof: dict, msg: str) -> list[str]:
+    """E12 の発火対象(ECO-118・R8-1-01): accept 状態への遷移に加え、最終 trailer ブロックの accept trailer が
+    index で accept 状態の ECO を名指す commit。`git commit --amend` で受入 commit を作り直すと HEAD が既に
+    accept 状態のため遷移として見えない — trailer は amend で残るので、それで受入 commit と分かる。"""
+    target = TRAILER_STATE["accept"]
+    named = parse_trailers(msg).get(prof["trailers"]["accept"], [])
+    via_trailer = {cid for cid in named if new.get(cid, {}).get("status") == target}
+    return sorted(set(accept_transitions(old, new, prof)) | via_trailer)
+
+
 def structure_verdict(rc: int | None, output: str, cids: list[str], tool_rel: str) -> list[str]:
     """E12 の判定(純関数)。rc=None は道具の不在・起動不能・時間切れ。0/3 だけが通る。"""
     if rc in STRUCTURE_ALLOWED:
@@ -717,12 +731,12 @@ def run_structure_check(root: Path, tool_rel: str) -> tuple[int | None, str]:
     return p.returncode, (p.stdout or "") + (p.stderr or "")
 
 
-def check_structure(root: Path, old: dict[str, dict], new: dict[str, dict], prof: dict) -> list[str]:
+def check_structure(root: Path, old: dict[str, dict], new: dict[str, dict], prof: dict, msg: str) -> list[str]:
     """E12(ECO-118)— profile に structure_check があり、受入遷移を含む commit のときだけ再計算する。"""
     tool_rel = prof.get("structure_check")
     if not tool_rel:
         return []
-    cids = accept_transitions(old, new, prof)
+    cids = structure_targets(old, new, prof, msg)
     if not cids:
         return []
     rc, out = run_structure_check(root, tool_rel)
@@ -874,7 +888,7 @@ def main() -> int:
             except OSError as e:
                 die(f"メッセージファイルが読めない: {e}")
             vio += check_commit_msg(old, new, msg, prof)
-            vio += check_structure(root, old, new, prof)     # E12(ECO-118・profile で opt-in)
+            vio += check_structure(root, old, new, prof, msg)  # E12(ECO-118・profile で opt-in)
         return report(vio)
 
     # validate(第 2 層): **HEAD の台帳** + 履歴の合法性再演 + 設備完全性
@@ -1076,6 +1090,12 @@ def selftest() -> int:
     tb("陽性: accept 以外の遷移・無変更は E12 対象外",
        accept_transitions({"ECO-1": e("staged")}, {"ECO-1": e("staged"), "ECO-2": e("staged")}, prof2) == []
        and accept_transitions({"ECO-1": e("applied")}, {"ECO-1": e("applied")}, prof2) == [])
+    tb("E12: amend(HEAD 既に applied)でも accept trailer で受入 commit と分かる(R8-1-01)",
+       structure_targets({"ECO-1": e("applied")}, {"ECO-1": e("applied")}, prof2,
+                         "eco: accept\n\nBomDD-ECO-Accept: ECO-1\n") == ["ECO-1"])
+    tb("陽性: trailer が applied でない ECO を名指すだけでは E12 対象外(遷移の主張は E05/E06 の職掌)",
+       structure_targets({"ECO-1": e("staged")}, {"ECO-1": e("staged")}, prof2,
+                         "x\n\nBomDD-ECO-Accept: ECO-1\n") == [])
     for rc, expect in [(0, None), (3, None), (1, "E12"), (2, "E12"), (None, "E12"), (5, "E12")]:
         t(f"E12: 道具の exit {rc}", structure_verdict(rc, "[A1-4] x -> y: z\nverdict: FAIL", ["ECO-1"], "t.py"), expect)
     tb("E12: profile の structure_check 絶対パス・空・.. を遮断",

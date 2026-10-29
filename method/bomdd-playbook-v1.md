@@ -623,8 +623,8 @@ Routing を導出するとき(Phase 3 の手順 4–6、ECO での導出のや�
 統括 AI は G3 のドライランの前にこれを `--receipt` つきで走らせ、G3 の記録に受領証(道具が書く — 読んだ版・規則の版・道具の版・件数・判定・時刻)のパスを引く。
 30・32・33 を変える ECO では、その ECO の最後の BOM commit で作業指示の発行前に(作業指示を出さない ECO は受入の前に)走らせ、変更指示書に受領証のパスを引く(判定を手で写さない)。
 判定 `FAIL`(所見あり)と `UNMEASURABLE`(ファイルの欠落・解析不能・形が不明)は G3 を止める。`NOT-APPLICABLE`(部品規格を持つ単位が無い — 遅延の規則で何も検査していない)はそのまま記録し、合格とは書かない。
-強制: **止める= process-core の E12**(profile に `structure_check` がある製品で、ECO を applied にする commit のとき validator が道具を `--index` で走らせ直す — 受領証は読まない・FAIL・UNMEASURABLE・道具の不在を遮断・途中の commit は止めない)/
-**測る= 道具の受領証**(版と件数が機械の値)/ **止めないもの**= G3 そのもの(process-core の ECO より前の工程なので止める仕組みは無い — G3 の記録は読みの工程のまま)・節 7・行が項目を測っているか・コード・`--no-verify` で通した受入(E12 は第 1 層だけで、履歴の再演では再計算しない)。
+強制: **止める= process-core の E12**(profile に `structure_check` がある製品で、ECO を applied にする commit(`--amend` で作り直した受入 commit も accept trailer で分かる)のとき validator が道具を `--index` で走らせ直す — 受領証は読まない・FAIL・UNMEASURABLE・道具の不在を遮断・途中の commit は止めない)/
+**測る= 道具の受領証**(版と件数が機械の値)/ **止めないもの**= G3 そのもの(process-core の ECO より前の工程なので止める仕組みは無い — G3 の記録は読みの工程のまま)・節 7・行が項目を測っているか・コード・`--no-verify` で通した受入と、hook を通らない rebase・cherry-pick で作り直した受入(E12 は第 1 層だけで、履歴の再演では再計算しない)。
 
 ### 4.7 標準部品台帳 — 面横断の共有契約(viewprism 還元・2026-07)
 

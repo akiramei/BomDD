@@ -1,25 +1,34 @@
 {
   "schema": "bom-structure-receipt/1",
-  "root": "C:\\Users\\akira\\AppData\\Local\\Temp\\eco118-v7-67qgdbhv\\fx-fail-FAIL",
+  "root": "C:\\Users\\akira\\AppData\\Local\\Temp\\eco118-v7-hy9irhq3\\fx-fail-FAIL",
   "source": {
-    "kind": "worktree"
+    "kind": "worktree",
+    "head": null,
+    "head_blobs": {
+      "ebom": null,
+      "mbom": null,
+      "cp": null
+    }
   },
   "inputs": {
     "ebom": {
       "path": "bomdd/30-ebom.yaml",
-      "sha256": "2f6c2a4b8d9fc87bae94c63032208902da0df6154c1229fe3e25fc3cee3110fa"
+      "sha256": "2f6c2a4b8d9fc87bae94c63032208902da0df6154c1229fe3e25fc3cee3110fa",
+      "git_blob": "0e5c63de8aa94f90e82916bd28ad177ae5e3acff"
     },
     "mbom": {
       "path": "bomdd/32-mbom.yaml",
-      "sha256": "25f38c9abcfdc31e361db21f66a0467e876a72ed61c1b49d3d22108cedbe58cd"
+      "sha256": "25f38c9abcfdc31e361db21f66a0467e876a72ed61c1b49d3d22108cedbe58cd",
+      "git_blob": "51d8be534a9f9430e5a95f9c973c08619b2a0a42"
     },
     "cp": {
       "path": "bomdd/33-control-plan.yaml",
-      "sha256": "876b7c08916a7fad97a65fb64b3bc76d7f6c1a78b7bfcc84de9ae4e5bb78498d"
+      "sha256": "876b7c08916a7fad97a65fb64b3bc76d7f6c1a78b7bfcc84de9ae4e5bb78498d",
+      "git_blob": "22f47d4c103fceb17c4c2764a8c84eb4535cafd5"
     }
   },
   "tool": {
-    "sha256": "ea2e7adc9c77ae86165fc71dcceec43b2eb5cf8427f31cabc42d02746c0141ba",
+    "sha256": "8bdcdd141333ed6de5d712d7810adc261f7fd97a9e64c1fccd1033f30253615f",
     "rule_set": "A1:1-6;A1-4:relay;P1:id;C1:a,b"
   },
   "counts": {
@@ -43,8 +52,9 @@
     "cp_rows": 3,
     "placeholders_skipped": 0
   },
+  "not_exercised": [],
   "verdict": "FAIL",
   "exit_code": 1,
   "error": null,
-  "utc": "2026-10-29T10:08:13Z"
+  "utc": "2026-10-29T10:46:48Z"
 }

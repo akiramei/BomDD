@@ -112,6 +112,16 @@ def main():
         arm("2' 3ba3d00 with the two P1 ids renamed (derived copy) -> allowed, PASS named",
             rc == 0 and "PASS" in out, f"exit {rc}: {show(out)}")
 
+        # R8-1-01: the acceptance commit just made, amended with d3683d6's BOM (HEAD already applied, so no transition)
+        put("d3683d6")
+        sh("git", "-C", str(prod), "add", *FILES)
+        r = sh("git", "-C", str(prod), "commit", "-q", "--amend", "--no-edit")
+        out = r.stdout + r.stderr
+        arm("2'' the acceptance commit amended with d3683d6's BOM -> refused, E12 (R8-1-01)",
+            r.returncode != 0 and "[E12]" in out, f"exit {r.returncode}: {show(out)}")
+        sh("git", "-C", str(prod), "reset", "-q", "HEAD", "--", *FILES)
+        sh("git", "-C", str(prod), "checkout", "-q", "--", *FILES)
+
         rc, out = accept("ECO-803", "template", "the scaffold's template BOM")
         arm("3 the template BOM (no part standard) -> allowed, NOT-APPLICABLE named",
             rc == 0 and "NOT-APPLICABLE" in out, f"exit {rc}: {show(out)}")
