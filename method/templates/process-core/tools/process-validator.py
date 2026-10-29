@@ -34,7 +34,10 @@
                                           は通す・1(FAIL)は遮断・2(UNMEASURABLE)/ 道具の不在 / 起動不能 /
                                           時間切れも遮断(測れないは合格ではない)。accept trailer が
                                           applied の ECO を名指す commit も対象(--amend で作り直した受入
-                                          commit — R8-1-01)。毎 commit ではない(ECO の途中の commit は
+                                          commit — R8-1-01。エディタのコメント塊は除いてから読む — R8-2-01。
+                                          遷移のない commit でも trailer があれば検査する — R8-2-08)。
+                                          trailer を消して作り直した受入 commit は止めない(validate の E06
+                                          が検出 — R8-2-03)。毎 commit ではない(ECO の途中の commit は
                                           不整合を含みうる)。履歴再演(validate)では再計算しない —
                                           --no-verify・hook を通らない rebase / cherry-pick で作った受入
                                           commit は第 1 層だけの限界。道具は作業ツリーの版を起動する
@@ -705,6 +708,28 @@ def structure_targets(old: dict[str, dict], new: dict[str, dict], prof: dict, ms
     return sorted(set(accept_transitions(old, new, prof)) | via_trailer)
 
 
+def strip_commit_comments(msg: str, comment_char: str = "#") -> str:
+    """E12 だけが使う(ECO-118・R8-2-01): commit-msg hook が受け取るメッセージは、git がコメント行を除く**前**のもの。
+    エディタで書いた・作り直した commit では末尾に「# Please enter …」の塊が付き、parse_trailers はそれを最終段落と
+    読んで trailer を見落とす。git の既定の後処理(strip)と同じく、scissors 行(`<c> --- >8 ---`)から後を捨て、
+    コメント文字で始まる行を除く。E04/E05 の parse_trailers は変えない(範囲外 — 同じ欠陥は OBS-20261029-06)。"""
+    out = []
+    for line in msg.splitlines():
+        if line.startswith(comment_char) and ">8" in line and line.lstrip(comment_char).strip().startswith("-"):
+            break
+        if line.startswith(comment_char):
+            continue
+        out.append(line)
+    return "\n".join(out).strip("\n") + "\n"
+
+
+def commit_comment_char(root: Path) -> str:
+    """core.commentChar(既定 '#'。'auto' は git が本文に無い文字を選ぶ — 判定できないので '#' として扱う)"""
+    p = run_git(root, "config", "core.commentChar")
+    c = p.stdout.strip() if p.returncode == 0 else ""
+    return c if c and c != "auto" else "#"
+
+
 def structure_verdict(rc: int | None, output: str, cids: list[str], tool_rel: str) -> list[str]:
     """E12 の判定(純関数)。rc=None は道具の不在・起動不能・時間切れ。0/3 だけが通る。"""
     if rc in STRUCTURE_ALLOWED:
@@ -736,7 +761,7 @@ def check_structure(root: Path, old: dict[str, dict], new: dict[str, dict], prof
     tool_rel = prof.get("structure_check")
     if not tool_rel:
         return []
-    cids = structure_targets(old, new, prof, msg)
+    cids = structure_targets(old, new, prof, strip_commit_comments(msg, commit_comment_char(root)))
     if not cids:
         return []
     rc, out = run_structure_check(root, tool_rel)
@@ -1096,6 +1121,17 @@ def selftest() -> int:
     tb("陽性: trailer が applied でない ECO を名指すだけでは E12 対象外(遷移の主張は E05/E06 の職掌)",
        structure_targets({"ECO-1": e("staged")}, {"ECO-1": e("staged")}, prof2,
                          "x\n\nBomDD-ECO-Accept: ECO-1\n") == [])
+    editor_msg = ("eco: accept\n\nBomDD-ECO-Accept: ECO-1\n\n# Please enter the commit message for your changes.\n"
+                  "# Lines starting with '#' will be ignored.\n#\n# On branch main\n")
+    tb("E12: エディタの amend(git のコメント塊つき)でも trailer を読む(R8-2-01)",
+       structure_targets({"ECO-1": e("applied")}, {"ECO-1": e("applied")}, prof2,
+                         strip_commit_comments(editor_msg)) == ["ECO-1"]
+       and structure_targets({"ECO-1": e("applied")}, {"ECO-1": e("applied")}, prof2, editor_msg) == [])
+    tb("E12: scissors 行から後を捨てる・core.commentChar を使う",
+       parse_trailers(strip_commit_comments("x\n\nBomDD-ECO-Accept: ECO-1\n# ------------------------ >8 ------------------------\n"
+                                            "diff --git a b\n+BomDD-ECO-Accept: ECO-2\n"))
+       == {"BomDD-ECO-Accept": ["ECO-1"]}
+       and parse_trailers(strip_commit_comments("x\n\nBomDD-ECO-Accept: ECO-1\n\n; note\n", ";")) == {"BomDD-ECO-Accept": ["ECO-1"]})
     for rc, expect in [(0, None), (3, None), (1, "E12"), (2, "E12"), (None, "E12"), (5, "E12")]:
         t(f"E12: 道具の exit {rc}", structure_verdict(rc, "[A1-4] x -> y: z\nverdict: FAIL", ["ECO-1"], "t.py"), expect)
     tb("E12: profile の structure_check 絶対パス・空・.. を遮断",

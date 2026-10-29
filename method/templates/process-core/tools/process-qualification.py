@@ -23,10 +23,10 @@ OQ(Operational Qualification)— 使い捨て sandbox リポで実 commit 経路
   N19      台帳の不正化→復旧による ID 削除の洗浄を測定不能(exit 2)で止める(ECO-024 IA-01)
   N20/N20b 未コミット/index の書き戻しで HEAD の証拠欠落(E06)を隠せない(ECO-024 IA-02)
   N21      履歴走査の git 失敗を無言省略でなく測定不能(exit 2)にする(ECO-024 IA-03)
-  N22a〜h  (profile に structure_check がある場合のみ — ECO-118)E12: FAIL の BOM の受入は遮断・
+  N22a〜i  (profile に structure_check がある場合のみ — ECO-118)E12: FAIL の BOM の受入は遮断・
            NOT-APPLICABLE は通して名前を出す・遷移のない途中の commit は止めない・PASS は通す・
            道具の不在と解析できない M-BOM は遮断・欄を外せば E12 は無い・受入 commit の --amend も
-           遮断(sandbox 1 本)。
+           遮断(エディタを開く amend も — N22i)(sandbox 1 本)。
            sandbox には道具と、道具の fixture で PASS する BOM を置く(既存の受入対照のため)
 
   **版の対**: OQ は sandbox へ**対象リポの installed assets** を複写して実測する。したがって
@@ -753,7 +753,7 @@ def _reg_many(statuses: dict) -> str:
 
 
 def _oq_structure(root: Path, base: Path, rel: str) -> list[dict]:
-    """N22a〜h(ECO-118 V8 の腕を qualification に入れ子で)。sandbox 1 本で、腕ごとに別の ECO を遷移させる。"""
+    """N22a〜i(ECO-118 V8 の腕を qualification に入れ子で)。sandbox 1 本で、腕ごとに別の ECO を遷移させる。"""
     tool = root / rel
     fx = {n: structure_fixture(tool, n) for n in ("good", "fail", "not-applicable")} if tool.is_file() else {}
     if not tool.is_file() or not all(fx.values()):
@@ -814,6 +814,14 @@ def _oq_structure(root: Path, base: Path, rel: str) -> list[dict]:
     git(s.root, "add", "-A", env=s.env)
     ok, d = _blocked_with(git(s.root, "commit", "-q", "--amend", "--no-edit", env=s.env), "E12")
     res.append(result("N22h", "E12(受入 commit の --amend で FAIL の BOM を入れる→遮断)", ok, d))
+    git(s.root, "reset", "-q", "--hard", env=s.env)
+
+    # N22i(R8-2-01): エディタを開く --amend — hook が受け取るメッセージには git のコメント塊が付く。エディタは
+    # 「git が書いたまま閉じる」もの(true)で代用する
+    put("fail")
+    git(s.root, "add", "-A", env=s.env)
+    ok, d = _blocked_with(git(s.root, "commit", "-q", "--amend", env=dict(s.env, GIT_EDITOR="true")), "E12")
+    res.append(result("N22i", "E12(エディタを開く --amend で FAIL の BOM を入れる→遮断)", ok, d))
     git(s.root, "reset", "-q", "--hard", env=s.env)
 
     (s.root / rel).unlink()

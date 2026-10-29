@@ -9890,3 +9890,14 @@ restates §9 ("a prose requirement is not evidence of compliance") as a filter o
   product) and in self-conformance. 2 例目の条件= a second instrument reading valid YAML as broken because of how its loader checks keys.
   source: ECO-118 manufacture, V3, 2026-10-29
   evidence: `method/tools/bom-structure-check.py` D8 and its `merge-key` selftest arm; `bomdd/60-change-order-eco-118.md` section 4
+- [watch 1/3] OBS-20261029-06 — **process-core's commit-msg checks read the message before git strips its comment lines, so a commit
+  written in an editor hides its trailer.** The commit-msg hook receives the file with git's `# Please enter …` block after the
+  trailer; `parse_trailers` takes that block as the final paragraph and finds no trailer. Found by ECO-118's R8 round 2 (R8-2-01) for
+  E12 and fixed there in E12's path only (`strip_commit_comments`); E04 and E05 share `parse_trailers` and still refuse a first
+  acceptance or implementation commit written in an editor although its trailer is present (fail-closed: a refusal, not a leak — the
+  workaround is `-m`/`-F`). Machine face, a candidate only (stop): strip comments (honouring core.commentChar and the scissors line)
+  before E04/E05 read the trailers, with arms, in a process-core ECO. 2 例目の条件= another hook check that reads the message file as
+  stored rather than as git hands it over.
+  source: ECO-118 R8 round 2, 2026-10-29
+  evidence: `bomdd/reports/eco-118-bom-structure-check/r8-round-2.md` (R8-2-01); process-validator selftest arm "E12: エディタの amend…"
+  (the raw editor message gives no trailer)

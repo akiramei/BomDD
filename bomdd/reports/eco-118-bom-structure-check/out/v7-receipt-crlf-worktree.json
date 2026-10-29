@@ -1,0 +1,60 @@
+{
+  "schema": "bom-structure-receipt/1",
+  "root": "C:\\Users\\akira\\AppData\\Local\\Temp\\eco118-v7-dlmftt75\\crlf",
+  "source": {
+    "kind": "worktree",
+    "head": "3464d9334dc0c0e8816cb7738fd492f0b96c9a1f",
+    "head_blobs": {
+      "ebom": "0e5c63de8aa94f90e82916bd28ad177ae5e3acff",
+      "mbom": "74aae8c2dffe50499cb78d8a52282894f5627805",
+      "cp": "22f47d4c103fceb17c4c2764a8c84eb4535cafd5"
+    }
+  },
+  "inputs": {
+    "ebom": {
+      "path": "bomdd/30-ebom.yaml",
+      "sha256": "fcc38f45a6e6188acec64e52f4d1f8e317646c29f833cc4ed2b0eb8fc377dadd",
+      "git_blob": "0e5c63de8aa94f90e82916bd28ad177ae5e3acff"
+    },
+    "mbom": {
+      "path": "bomdd/32-mbom.yaml",
+      "sha256": "4a385741b5f4e5f33cd6f1d49890450a06e3940e7f86b870e84e23e65acc803a",
+      "git_blob": "74aae8c2dffe50499cb78d8a52282894f5627805"
+    },
+    "cp": {
+      "path": "bomdd/33-control-plan.yaml",
+      "sha256": "6d6fd8e4bb5e9fee7b8a3e525d2419dd3b60a716f85f9bb0c47d22a45a6a3949",
+      "git_blob": "22f47d4c103fceb17c4c2764a8c84eb4535cafd5"
+    }
+  },
+  "tool": {
+    "sha256": "96030a3966755dcba37f37c69c8f7b79575268f7221bc2ff86eae982047e39e0",
+    "rule_set": "A1:1-6;A1-1:self;A1-2:IF-only;A1-4:relay;P1:id,two-lists;C1:a,b;shape:strict"
+  },
+  "counts": {
+    "A1-1": 0,
+    "A1-2": 0,
+    "A1-3": 0,
+    "A1-4": 0,
+    "A1-5": 0,
+    "A1-6": 0,
+    "P1-id": 0,
+    "C1-a": 0,
+    "C1-b": 0
+  },
+  "population": {
+    "units": 3,
+    "units_with_part_standard": 3,
+    "if_items": 2,
+    "ps_requires": 4,
+    "ps_provides": 3,
+    "ebom_requires_checked": 1,
+    "cp_rows": 3,
+    "placeholders_skipped": 0
+  },
+  "not_exercised": [],
+  "verdict": "PASS",
+  "exit_code": 0,
+  "error": null,
+  "utc": "2026-10-29T11:55:15Z"
+}

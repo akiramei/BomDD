@@ -29,7 +29,8 @@ template placeholders (an id containing "<NAME>", as in method/templates/30, 32 
 part_standard; once one has, a placeholder is checked like any id. A1-1 also refuses a requires on the unit's own provides
 item (P1: another unit's item); A1-2 reads ids beginning IF- only.
 Shape (UNMEASURABLE, never a silently dropped entry): an id appearing twice among E items, units or Control Plan rows; an id
-or a reference that is not a non-empty string; a part_standard that is not a mapping of provides/requires only.
+or a reference that is not a non-empty string; a part_standard that is not a mapping holding exactly provides and requires (P1:
+the two lists); an E item's interfaces with any other key than provides/requires.
 
 NOT CLAIMED (declared): A1-7 (an IF- provider connected to its consumer as section 4.1 says - a reading of meaning);
 whether a Control Plan row measures the item it names (section 4.5 limit); anything about the code (a unit that calls
@@ -39,7 +40,8 @@ Verdicts and exit codes (a caller cannot read "nothing to check" as a pass by th
   0 PASS            no finding, and at least one unit has part_standard
   1 FAIL            at least one finding
   2 UNMEASURABLE    a file missing, unparsable, or of an unknown shape; git failing
-  3 NOT-APPLICABLE  no finding and no unit has part_standard (the lazy rule): nothing was checked
+  3 NOT-APPLICABLE  no finding, and no unit has part_standard (the lazy rule) or no rule had anything to check: nothing
+                    was checked
 A rule whose population is 0 on a PASS is named on the population line ("not exercised").
 
 --receipt <path>  writes a JSON receipt made by the tool alone (schema bom-structure-receipt/1): the source (for --rev the
@@ -77,7 +79,7 @@ except ImportError:
     print("bom-structure-check: UNMEASURABLE - PyYAML is required (pip install pyyaml)")
     sys.exit(2)
 
-RULE_SET = "A1:1-6;A1-4:relay;P1:id;C1:a,b"
+RULE_SET = "A1:1-6;A1-1:self;A1-2:IF-only;A1-4:relay;P1:id,two-lists;C1:a,b;shape:strict"  # changes when the rules implemented change
 RULE_IDS = ["A1-1", "A1-2", "A1-3", "A1-4", "A1-5", "A1-6", "P1-id", "C1-a", "C1-b"]
 FILES = {"ebom": "bomdd/30-ebom.yaml", "mbom": "bomdd/32-mbom.yaml", "cp": "bomdd/33-control-plan.yaml"}
 PLACEHOLDER_TOKEN = "<NAME>"
@@ -139,10 +141,15 @@ def read_sources(root: Path, source: str, rev: str | None) -> tuple[dict, dict]:
             hb = _git(root, "rev-parse", "--verify", "-q", f"HEAD:{rel}") if info["head"] else None
             info["head_blobs"][key] = hb.stdout.decode().strip() if hb is not None and hb.returncode == 0 else None
     data: dict = {}
+    blobs: dict = {}  # git's id of what was read; for the working tree through git's own conversion (R8-2-05: CRLF)
+    in_repo = source != "worktree" or _git(root, "rev-parse", "--git-dir").returncode == 0
     for key, rel in FILES.items():
         if source == "worktree":
             p = root / rel
             data[key] = p.read_bytes() if p.is_file() else None
+            if data[key] is not None and in_repo:
+                h = _git(root, "hash-object", "--path", rel, "--", str(p))
+                blobs[key] = h.stdout.decode().strip() if h.returncode == 0 else None
         else:
             spec = f":{rel}" if source == "index" else f"{info['commit']}:{rel}"
             p = _git(root, "cat-file", "-e", spec)
@@ -153,6 +160,8 @@ def read_sources(root: Path, source: str, rev: str | None) -> tuple[dict, dict]:
             if b.returncode != 0:
                 raise Unmeasurable(f"git cannot read {spec}: {b.stderr.decode(errors='replace').strip()}")
             data[key] = b.stdout
+            blobs[key] = _blob_id(b.stdout)
+    info["_blobs"] = blobs
     return data, info
 
 
@@ -251,6 +260,8 @@ def build_model(docs: dict) -> dict:
         if isinstance(lineage, dict) and lineage.get("superseded_by"):
             continue
         intf = _map(it.get("interfaces") or {}, f"{it['id']}.interfaces")
+        if set(intf) - {"provides", "requires"}:  # R8-2-04: a mistyped key would hide a requires from A1-5
+            raise Unmeasurable(f"{it['id']}.interfaces has keys other than provides/requires: {sorted(set(intf) - {'provides', 'requires'})}")
         provides = _ps_entries(intf.get("provides"), f"{it['id']}.interfaces.provides", ("id",))
         items[it["id"]] = {"provides": [p["id"] for p in provides],
                            "requires": _strs(intf.get("requires"), f"{it['id']}.interfaces.requires")}
@@ -270,6 +281,8 @@ def build_model(docs: dict) -> dict:
             unknown = sorted(set(ps) - {"provides", "requires"})
             if unknown:
                 raise Unmeasurable(f"{uid}.part_standard has keys other than provides/requires: {unknown}")
+            if set(ps) != {"provides", "requires"}:  # §4.5 P1: the two lists (R8-2-02 - {} is not a part standard)
+                raise Unmeasurable(f"{uid}.part_standard lacks {sorted({'provides', 'requires'} - set(ps))} (P1: both lists)")
             rec["ps"] = {"provides": _ps_entries(ps.get("provides"), f"{uid}.part_standard.provides", ("id",)),
                          "requires": _ps_entries(ps.get("requires"), f"{uid}.part_standard.requires", ("id", "target"))}
         units[uid] = rec
@@ -533,16 +546,16 @@ def check(docs: dict) -> dict:
         "cp_rows": len(m["rows"]),
         "placeholders_skipped": m["placeholders"],
     }
-    if findings:
-        verdict = "FAIL"
-    elif not ps_units and not population["ebom_requires_checked"]:
-        verdict = "NOT-APPLICABLE"
-    else:
-        verdict = "PASS"
     rule_pop = {"A1-1": population["ps_requires"], "A1-2": population["if_items"], "A1-3": population["ps_provides"],
                 "A1-4": population["ps_requires"], "A1-5": population["ebom_requires_checked"],
                 "A1-6": sum(1 for u in ps_units.values() if u["depends_on"]), "P1-id": population["ps_provides"] + population["ps_requires"],
                 "C1-a": sum(len(r) for r in m["rows"].values()), "C1-b": population["ps_provides"]}
+    if findings:
+        verdict = "FAIL"
+    elif (not ps_units and not population["ebom_requires_checked"]) or not any(rule_pop.values()):
+        verdict = "NOT-APPLICABLE"  # nothing to check, or no rule had anything to check (R8-2-02): never a PASS
+    else:
+        verdict = "PASS"
     counts = {r: sum(1 for f in findings if f[0] == r) for r in RULE_IDS}
     return {"verdict": verdict, "findings": findings, "population": population, "counts": counts,
             "not_exercised": [r for r in RULE_IDS if rule_pop[r] == 0] if ps_units else []}
@@ -561,7 +574,7 @@ def render(result: dict | None, error: str | None) -> list[str]:
     v = result["verdict"]
     note = {"PASS": "the BOM files' structure resolves (A1-7, a row's measuring and the code are not claimed)",
             "FAIL": f"{len(result['findings'])} finding(s)",
-            "NOT-APPLICABLE": "no unit has part_standard - nothing was checked (the lazy rule); this is not a pass"}[v]
+            "NOT-APPLICABLE": "no unit has part_standard, or no rule had anything to check - nothing was checked (the lazy rule); this is not a pass"}[v]
     lines.append(f"verdict: {v} - {note}")
     return lines
 
@@ -587,10 +600,11 @@ def write_receipt(path: Path, root: Path, result: dict | None, error: str | None
     receipt = {
         "schema": "bom-structure-receipt/1",
         "root": str(root.resolve()),
-        "source": info,
+        "source": {k: v for k, v in info.items() if k != "_blobs"},
         "inputs": {k: {"path": FILES[k],
                        "sha256": hashlib.sha256(raw[k]).hexdigest() if raw.get(k) is not None else None,
-                       "git_blob": _blob_id(raw[k]) if raw.get(k) is not None else None}
+                       # git's id as git would store it (worktree: hash-object --path; outside a repository: the raw bytes)
+                       "git_blob": info.get("_blobs", {}).get(k) or (_blob_id(raw[k]) if raw.get(k) is not None else None)}
                    for k in FILES},
         "tool": {"sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), "rule_set": RULE_SET},
         "counts": dict(result["counts"]) if result else {},
@@ -714,6 +728,15 @@ def fixtures() -> dict:
         "type-ebom-refs": (_mut(lambda d: _unit(d, "M-A-001").update(ebom_refs=[{"id": "E-A-001"}])), "UNMEASURABLE", {}),
         "type-ps-refs": (_mut(lambda d: d["cp"]["control_plan"]["characteristics"][0].update(part_standard_refs=[{"id": "x"}])), "UNMEASURABLE", {}),
         "ps-unknown-key": (_mut(lambda d: _unit(d, "M-JIG-001")["part_standard"].update(provide=[{"id": "BAD-ID"}])), "UNMEASURABLE", {}),
+        # R8-2-02: {} is not a part standard (P1: both lists); lists present but empty everywhere -> nothing checked, not PASS
+        "ps-empty-mapping": (_mut(lambda d: _unit(d, "M-JIG-001").update(part_standard={})), "UNMEASURABLE", {}),
+        "ps-empty-lists": (_mut(lambda d: (
+            [u.update(part_standard={"provides": [], "requires": []}, depends_on=[]) for u in d["mbom"]["mbom"]["manufacturing_units"]],
+            [it.update(interfaces={"provides": [], "requires": []}) for it in d["ebom"]["ebom"]["items"]],
+            [r.update(part_standard_refs=[]) for r in d["cp"]["control_plan"]["characteristics"]])), "NOT-APPLICABLE", {}),
+        # R8-2-04: a mistyped interfaces key would hide a requires; R8-2-06: a unit id that is not a string
+        "interfaces-unknown-key": (_mut(lambda d: d["ebom"]["ebom"]["items"][1]["interfaces"].update(require=["IF-A-01"])), "UNMEASURABLE", {}),
+        "type-unit-id": (_mut(lambda d: d["mbom"]["mbom"]["manufacturing_units"].append({"id": 5})), "UNMEASURABLE", {}),
         # not a selftest arm (the same as a1-4-direct): the qualification's failing BOM, by --write-fixture
         "fail": (_mut(_rule4_direct), "FAIL", {"A1-4": 1}),
     }

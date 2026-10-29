@@ -1,6 +1,6 @@
 {
   "schema": "bom-structure-receipt/1",
-  "root": "C:\\Users\\akira\\AppData\\Local\\Temp\\eco118-v7-hy9irhq3\\fx-good-UNMEASURABLE",
+  "root": "C:\\Users\\akira\\AppData\\Local\\Temp\\eco118-v7-dlmftt75\\fx-good-UNMEASURABLE",
   "source": {
     "kind": "worktree",
     "head": null,
@@ -28,8 +28,8 @@
     }
   },
   "tool": {
-    "sha256": "8bdcdd141333ed6de5d712d7810adc261f7fd97a9e64c1fccd1033f30253615f",
-    "rule_set": "A1:1-6;A1-4:relay;P1:id;C1:a,b"
+    "sha256": "96030a3966755dcba37f37c69c8f7b79575268f7221bc2ff86eae982047e39e0",
+    "rule_set": "A1:1-6;A1-1:self;A1-2:IF-only;A1-4:relay;P1:id,two-lists;C1:a,b;shape:strict"
   },
   "counts": {},
   "population": {},
@@ -37,5 +37,5 @@
   "verdict": "UNMEASURABLE",
   "exit_code": 2,
   "error": "bomdd/32-mbom.yaml does not parse: while parsing a flow sequence",
-  "utc": "2026-10-29T10:46:48Z"
+  "utc": "2026-10-29T11:55:15Z"
 }

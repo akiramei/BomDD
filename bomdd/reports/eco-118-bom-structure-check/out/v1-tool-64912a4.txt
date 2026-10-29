@@ -1,4 +1,4 @@
-bom-structure-check: (rev 64912a411930) rules A1:1-6;A1-4:relay;P1:id;C1:a,b
+bom-structure-check: (rev 64912a411930) rules A1:1-6;A1-1:self;A1-2:IF-only;A1-4:relay;P1:id,two-lists;C1:a,b;shape:strict
 [A1-4] M-PROBE-001 PS-M-PROBE-001-R01 -> PS-M-MEDIA-TOOLS-001-P01 of M-MEDIA-TOOLS-001: the units share no E item (an E-to-E boundary must be an IF-)
 [A1-4] M-OUTPUT-SETTINGS-001 PS-M-OUTPUT-SETTINGS-001-R01 -> PS-M-PROBE-001-P01 of M-PROBE-001: the units share no E item (an E-to-E boundary must be an IF-)
 [A1-4] M-OUTPUT-SETTINGS-001 PS-M-OUTPUT-SETTINGS-001-R02 -> PS-M-DOCUMENT-001-P01 of M-DOCUMENT-001: the units share no E item (an E-to-E boundary must be an IF-)

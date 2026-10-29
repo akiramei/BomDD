@@ -1,5 +1,5 @@
 # V2 - positive controls: --selftest, and a copy with one rule disabled fails it
-selftest exit 0: bom-structure-check selftest: 32/32 arms as expected
+selftest exit 0: bom-structure-check selftest: 36/36 arms as expected
 rule_1 disabled: selftest exit 1 red - failing arms ['a1-1-ps-missing', 'a1-1-procurement', 'a1-1-if-side', 'a1-1-kind', 'a1-1-self']
 rule_2 disabled: selftest exit 1 red - failing arms ['a1-2-none']
 rule_3 disabled: selftest exit 1 red - failing arms ['a1-3']

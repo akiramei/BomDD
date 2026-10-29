@@ -1,4 +1,4 @@
-bom-structure-check: (rev 73b79d471dfa) rules A1:1-6;A1-4:relay;P1:id;C1:a,b
+bom-structure-check: (rev 73b79d471dfa) rules A1:1-6;A1-1:self;A1-2:IF-only;A1-4:relay;P1:id,two-lists;C1:a,b;shape:strict
 population: units=48 units_with_part_standard=0 if_items=0 ps_requires=0 ps_provides=0 ebom_requires_checked=0 cp_rows=471 placeholders_skipped=0
 counts: A1-1=0 A1-2=0 A1-3=0 A1-4=0 A1-5=0 A1-6=0 P1-id=0 C1-a=0 C1-b=0
-verdict: NOT-APPLICABLE - no unit has part_standard - nothing was checked (the lazy rule); this is not a pass
+verdict: NOT-APPLICABLE - no unit has part_standard, or no rule had anything to check - nothing was checked (the lazy rule); this is not a pass

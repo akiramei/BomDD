@@ -236,6 +236,8 @@ temporary folder and removed (`out/v8.txt`, last line).
   0. 64912a4: A1-4 × 13 and A1-5 × 14, the same pairs; the relay case added no finding at either commit. Control: one pair altered →
   the comparison red. Findings outside V1's rules, listed there: d3683d6 **P1-id × 2** (below); 64912a4 **C1-b × 11** — the Control
   Plan at that commit is still the kit template (its two placeholder rows skipped), and C1 belongs to Phase 3 step 5, after the M-BOM.
+  **[Corrected in 4B (R8-2-07):** since D1 was narrowed in 4A the two placeholder rows are read, not skipped (`cp_rows=4
+  placeholders_skipped=0`); their `part_standard_refs` are empty, so the findings are unchanged.**]**
 - **V2 — PASS** (`out/v2.txt`). `--selftest` 23/23 (a known-good arm; mutated arms for rules 1 (four), 2, 3, 4 direct, 4 relay, 5, 6,
   P1 form and uniqueness, C1 a and b; two NOT-APPLICABLE arms, the template's shape among them; three UNMEASURABLE arms; a merge key;
   the exit-code map). Known-bad: each of `rule_1` … `rule_6`, `_relay_crossing`, `rule_p1`, `rule_c1a`, `rule_c1b` disabled in a copy
@@ -322,6 +324,44 @@ Grouped by cause before fixing (the memory of ECO-113/115: remove the common cau
 **After the fixes** (`out/` regenerated): V1 PASS, the same pairs; V2 PASS, selftest 32/32, each disabled rule red (rule_1 now on five
 arms with `a1-1-self`); V3 PASS, exit 3 on all three; V7 as before, the receipt fields re-checked including `not_exercised` and `git_blob`
 against `git rev-parse`; V8 every arm but 2 as expected, 2'' (amend) refused with E12. The literal 3ba3d00 arms stay not met (section 4).
+
+## 4B. R8 round 2 and the answers (2026-10-29, the user's "1:A 2:A")
+
+**Round 2: REJECT** — a second fresh-context inspector (Agent, `claude-opus-5-5`, not round 1's) on `ea2ac97` against `94a2a2a`, with
+the brief plus questions 7 (round 1 closed?) and 8 (regressions). Two material, six minor. Round 1: R8-1-02, 03, 09, 10, 11, 12, 13 and
+R8-1-07's second half closed by the code (each checked by a case; R8-1-04 by 40,144 type substitutions); R8-1-01, 04, 05, 08 partly
+closed; R8-1-06 and R8-1-07's first half properly left to the closure. No regression on real BOMs (25 targets, the round-1 and round-2
+tools give the same exit codes and findings). CI on `ea2ac97` success (run 40861146368). Summary kept in
+`bomdd/reports/eco-118-bom-structure-check/r8-round-2.md`.
+
+**The user's ruling** (2026-10-29, "1:A 2:A", on a DECIDE with two items):
+- 1 = how far the trigger hole of R8-2-01 is closed: **A** — inside E12's path only (the comment block removed before the trailer is
+  read), within T5; not B (recomputing E12 in the history replay, which would widen T5 and does not reach MoviePad-Remake, which has no CI).
+- 2 = the next inspection: **A** — fix and run round 3 as the last one; a round-3 REJECT stops for the user's decision, not a round 4.
+
+**Answers:**
+- R8-2-01 (material) — **fixed in E12's path only**: `strip_commit_comments` drops everything from the scissors line and every line
+  beginning with `core.commentChar` (default `#`; `auto` read as `#`) before `structure_targets` reads the trailer. `parse_trailers`,
+  E04 and E05 unchanged (the amendment's scope); their editor defect recorded as OBS-20261029-06. Arms: validator selftest (2),
+  qualification N22i, V8 2''' (an editor amend with `GIT_EDITOR=true`, refused) and its known-bad KB2 (the stripping disabled → the
+  editor amend gets through; undone, HEAD's BOM passes again).
+- R8-2-02 (material) — **fixed two ways**: a present `part_standard` must hold exactly `provides` and `requires` (§4.5 P1: the two
+  lists; `{}` is UNMEASURABLE), and PASS needs at least one rule with something to check (otherwise NOT-APPLICABLE). Arms
+  `ps-empty-mapping`, `ps-empty-lists`. Every real part-standard unit carries both lists (round 2's survey), so no real BOM changes.
+- R8-2-03 (minor) — declared in the playbook's 止めないもの: an acceptance remade without its trailer is not stopped by E12; the
+  replay's E06 finds the missing evidence (where `validate` runs).
+- R8-2-04 (minor) — an E item's `interfaces` with another key than `provides`/`requires` is UNMEASURABLE; arm `interfaces-unknown-key`.
+- R8-2-05 (minor) — the working tree's `git_blob` is git's own (`git hash-object --path`, through its line-ending conversion). V7 gains
+  a CRLF arm (`core.autocrlf=true`, the fixture committed and checked out again: `git_blob` = `head_blobs` = HEAD's blob for all three;
+  `source.head` = HEAD) and its known-bad. `RULE_SET` is now `A1:1-6;A1-1:self;A1-2:IF-only;A1-4:relay;P1:id,two-lists;C1:a,b;shape:strict`.
+- R8-2-06 (minor) — arm `type-unit-id` (a unit whose id is `5`).
+- R8-2-07 (minor) — section 4's sentence on 64912a4 corrected in place (bracketed).
+- R8-2-08 (minor, declared) — E12 also checks a non-acceptance commit carrying an accept trailer for an applied ECO; the validator's
+  docstring says so; never seen in the products' history.
+
+**After the fixes** (`out/` regenerated): V1 PASS (the same pairs); V2 PASS, selftest 36/36, each disabled rule red; V3 PASS (exit 3 on
+all three); V7 as before plus the CRLF arm; V8 every arm but 2 as expected, 2'' and 2''' refused, KB and KB2 shown. The literal 3ba3d00
+arms stay not met (section 4).
 
 ## /preflight receipt (start path: manual — the user's "1:A 2:A" read as the start artifact)
 

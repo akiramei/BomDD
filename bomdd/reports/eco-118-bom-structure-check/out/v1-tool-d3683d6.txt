@@ -1,4 +1,4 @@
-bom-structure-check: (rev d3683d6ffa69) rules A1:1-6;A1-4:relay;P1:id;C1:a,b
+bom-structure-check: (rev d3683d6ffa69) rules A1:1-6;A1-1:self;A1-2:IF-only;A1-4:relay;P1:id,two-lists;C1:a,b;shape:strict
 [P1-id] M-EXPORT-001 -> PS-M-EXPORT-CLOCK-001-P01: a provides id is not of the form PS-M-EXPORT-001-Pnn
 [P1-id] M-EXPORT-001 -> PS-M-EXPORT-COPY-001-P01: a provides id is not of the form PS-M-EXPORT-001-Pnn
 [A1-4] M-PROBE-001 PS-M-PROBE-001-R01 -> PS-M-MEDIA-TOOLS-001-P01 of M-MEDIA-TOOLS-001: the units share no E item (an E-to-E boundary must be an IF-)

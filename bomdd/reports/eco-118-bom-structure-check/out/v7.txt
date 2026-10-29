@@ -7,5 +7,7 @@ fixture good -> PASS exit 0: fields all present ok
 fixture fail -> FAIL exit 1: fields all present ok
 fixture not-applicable -> NOT-APPLICABLE exit 3: fields all present ok
 fixture good -> UNMEASURABLE exit 2: fields all present ok
+CRLF working tree (files CRLF on disk: True): git_blob == head_blobs == HEAD's blob for all three: True; source.head == HEAD: True; exit 0 ok
+known-bad (cp git_blob altered): the comparison with head_blobs red
 known-bad (mbom hash altered): re-hash check red ['input bomdd/32-mbom.yaml sha256 differs from the source blob']
 V7: every arm but one as expected; the literal 3ba3d00 --index arm NOT MET (FAIL with P1-id 2 where the frozen condition expected PASS, 0 - judged in the order's section 4)

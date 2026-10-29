@@ -239,6 +239,33 @@ def v7(repos: Path) -> list[str]:
                 good &= all(rc3["inputs"][k]["sha256"] == hashlib.sha256((d / rc3["inputs"][k]["path"]).read_bytes()).hexdigest() for k in rc3["inputs"])
             ok_all &= good
             lines.append(f"fixture {name} -> {rc3['verdict']} exit {t3.returncode}: fields {'all present' if not missing else missing} {'ok' if good else 'NOT OK'}")
+        # R8-2-05: a working tree with CRLF checkout (core.autocrlf=true), the fixture committed and checked out again:
+        # each input's git_blob equals HEAD's blob, and source.head is HEAD (head and head_blobs checked, R8-2 Q4)
+        r = tmp / "crlf"
+        sh("git", "init", "-q", str(r))
+        sh("git", "-C", str(r), "config", "core.autocrlf", "true")
+        tool("--write-fixture", "good", str(r))
+        sh("git", "-C", str(r), "add", "-A")
+        sh("git", "-C", str(r), "-c", "user.name=v7", "-c", "user.email=v7@bomdd.invalid", "commit", "-q", "-m", "fixture")
+        for f in FILES:
+            (r / f).unlink()
+        sh("git", "-C", str(r), "checkout", "-q", "--", *FILES)
+        crlf = all(b"\r\n" in (r / f).read_bytes() for f in FILES)
+        rp4 = OUT / "v7-receipt-crlf-worktree.json"
+        t4 = tool("--root", str(r), "--receipt", str(rp4))
+        rc4 = json.loads(rp4.read_text(encoding="utf-8"))
+        head = sh("git", "-C", str(r), "rev-parse", "HEAD").stdout.strip()
+        same = all(rc4["inputs"][k]["git_blob"] == rc4["source"]["head_blobs"][k] ==
+                   sh("git", "-C", str(r), "rev-parse", f"HEAD:{rc4['inputs'][k]['path']}").stdout.strip() for k in rc4["inputs"])
+        good4 = crlf and rc4["source"].get("head") == head and same and t4.returncode == 0
+        ok_all &= good4
+        lines.append(f"CRLF working tree (files CRLF on disk: {crlf}): git_blob == head_blobs == HEAD's blob for all three: {same}; "
+                     f"source.head == HEAD: {rc4['source'].get('head') == head}; exit {t4.returncode} {'ok' if good4 else 'NOT OK'}")
+        bad4 = json.loads(rp4.read_text(encoding="utf-8"))
+        bad4["inputs"]["cp"]["git_blob"] = "0" * 40
+        red4 = bad4["inputs"]["cp"]["git_blob"] != bad4["source"]["head_blobs"]["cp"]
+        ok_all &= red4
+        lines.append(f"known-bad (cp git_blob altered): the comparison with head_blobs {'red' if red4 else 'GREEN (blind)'}")
     finally:
         _rmtree(tmp)
     # known-bad: one input hash altered is told apart by a re-hash
