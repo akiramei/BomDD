@@ -3716,3 +3716,40 @@ changes:
       [C9] lines and passes, both fast jobs pass, all three logs carry [time] / V4 self-conformance exit 0 before each commit, CI green /
       V5 (not a closing condition) the CI wait and C9's measured time. Conditions are frozen at filing; results go to the closing section.
     producer: EQ-004
+  - id: ECO-118
+    title: the G3 structure check A1 (rules 1-6) and the part-standard coverage check C1 become a kit tool (bom-structure-check.py, four verdicts with NOT-APPLICABLE apart from PASS), run at G3 and on every ECO that changes 30/32/33 (filed only; distribution separate)
+    date: 2026-10-29
+    origin: improvement
+    status: filed   # 2026-10-29 the user's "1:A 2:A" on EXP-20261029-01's two decisions (1:A = this ECO; 2:A = MoviePad-Remake's own ECO-006) -> filing; manufacture waits for the start instruction
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      EXP-20261029-01 (bomdd/reports/exp-20261029-01/): playbook 4.6's A1 and 4.5's C1 are written and applied by reading; no tool runs
+      them. The experiment's script (a1_check.py, rules 1-6, direct case of rule 4 only) found rule 4 failing 6 times and rule 5 6 times at
+      MoviePad-Remake d3683d6 (13 and 14 at the first M-BOM 64912a4), unseen through three G3 rounds, five ECOs and two R8 rounds. Rules
+      1, 2, 3, 6 and C1 found nothing on the only product with part standards, so they have no positive control yet. ViewPrism2, ViewTube
+      and TimetableAdv have no unit with part_standard (the lazy rule).
+    order_ref: bomdd/60-change-order-eco-118.md
+    affected_refs: [method/tools/bom-structure-check.py, method/bomdd-playbook-v1.md, method/templates/60-change-order.md, method/templates/34-routing.yaml]
+    no_impact_prediction: "(before manufacture; frozen) A new kit tool method/tools/bom-structure-check.py; the playbook's 4.5 (one clause) and 4.6 (the G3 paragraph); one line each in method/templates/60-change-order.md and 34-routing.yaml; if T3 is taken at manufacture, one self-conformance check running the tool's selftest (and README.md only if a count it states changes); the order, the register and bomdd/reports/eco-118-*/. Every existing check gives the same line on the same tree. No product is changed; a product's kit reads STALE against BomDD's HEAD until it is re-locked, its locked kit untouched. Declared: PASS says the BOM files' structure resolves, not that the code honours it or that a row measures what it names; products without part standards get NOT-APPLICABLE, not PASS."
+    diff_audit:
+      baseline: "a3b3cc1"  # HEAD before this filing (the record of the ruling and OBS-20261029-03)
+      allowed_paths: [method/tools/bom-structure-check.py, method/bomdd-playbook-v1.md, method/templates/60-change-order.md, method/templates/34-routing.yaml, method/tools/self-conformance.py, README.md, bomdd/60-change-order-eco-118.md, bomdd/60-change-register.yaml, bomdd/reports/eco-118-bom-structure-check/]
+    required_gates: [V1, V2, V3, V4, V5]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      T1: bom-structure-check.py reads 30/32/33 (working tree, or --rev with git show), applies A1 rules 1-6 (rule 4 with 4.5 P4's relay
+      case) and P1's id form to the units and items each rule names, and C1's machine part (every part_standard_refs id exists; every
+      provides item is named by a row in its unit's acceptance_refs); one line per finding, a population line, and a verdict PASS (exit 0)
+      / FAIL (1) / UNMEASURABLE (2) / NOT-APPLICABLE (3, no unit with part_standard); --selftest with a known-good arm and at least one
+      mutated arm per rule, the relay case, P1 and C1 a/b, the empty and broken arms. Rule 7 and a row's measuring not claimed. T2: playbook
+      4.6 runs it before the G3 dry run and on every ECO changing 30/32/33 (FAIL or UNMEASURABLE stops; NOT-APPLICABLE recorded); 4.5's limit
+      names what it does not claim; one line each in the change-order template and the routing template. T3 (manufacturer's choice,
+      recorded): a self-conformance check running its selftest.
+    verification: >
+      V1 MoviePad-Remake d3683d6: exit 1, rule 4 x 6 and rule 5 x 6 with a1_check.py's pairs, nothing for 1, 2, 3, 6; 64912a4: 13 and 14 (any
+      relay-case extra read against P4); the comparison red on an altered pair / V2 --selftest passes with every arm, and a version with one
+      rule disabled fails it, for each rule / V3 ViewPrism2, ViewTube, TimetableAdv at HEAD, read only: exit 3 with 0 part_standard units, or
+      exit 1 with findings read in the order, never exit 0 on an empty population / V4 the text names the tool, its run points and what
+      each verdict does, without copying the rules / V5 self-conformance exit 0 before each commit, CI green (and T3's line in the CI logs
+      if taken). Not a closing condition: V6 the tool exits 0 on MoviePad-Remake after its ECO-006. Conditions are frozen at filing; results
+      go to the closing section.
+    producer: EQ-004
