@@ -402,6 +402,106 @@ added to the list); V3 PASS (exit 3 on all three); V7 as before, CRLF arm includ
 2-string refused, KB, KB2, KB3 shown and undone. Qualification on a fresh scaffold: N22a-k PASS. The literal 3ba3d00 arms stay not met
 (section 4); the closure's decisions are unchanged (section 4A).
 
+## 5. Closure (2026-10-29, verified on the user's "ECO-118 をクローズして" and "1:A 2:A 3:A")
+
+**The closure rulings** (a DECIDE with three items, each independently decidable; all **A**):
+- 1 = V7's `--index` arm and V8's arm 2 (3ba3d00 expected to pass) are **counted as met on the derived copy** (the two P1 ids renamed,
+  nothing else): the tool's FAIL on 3ba3d00 as committed is right; the frozen premise came from `a1_check.py`, which did not implement
+  P1. The premise's failure stays recorded (section 4); the conditions are not rewritten.
+- 2 = D3 is kept and the text follows it: playbook §4.6 A1 rule 4 and §4.5 P4 now say the relay forbidden is one crossing the
+  requirer's E-item boundary (an `IF-` none of its E items provides or requires, or the `PS-` of a unit sharing no E item with it); a
+  jig using the unit it verifies is not a relay. Commit `dcebc2e` (text only; P4 carries the same rule, so both were aligned).
+- 3 = D6 is adopted as a change to the frozen T1: PASS = no finding and at least one rule with something to check; a rule with nothing
+  to check is named on the population line and in the receipt (`not_exercised`); no rule with anything to check → NOT-APPLICABLE.
+  On MoviePad-Remake's real BOMs no rule is unexercised.
+
+**Window.** Baseline `a3b3cc1` → filing `3a71807` → amendment `9cc108b` → manufacture `f8b4891` → R8 answers `ea2ac97`, `8461c7f`,
+record `9724877`, `d355f62` → closure-ruling text `dcebc2e` (diff_audit.head; **the window is closed**; the closure commit holds
+records only: this order, the register and `bomdd/reports/eco-118-bom-structure-check/`). `window118.py` → `out/window.txt`:
+- 9 commits in `a3b3cc1..dcebc2e`; one is not ECO-118's — `94a2a2a`, ECO-119's filing (its own order and register entry; it touched
+  playbook §4.5's authority-order bullet, `improvements.md` and the lesson-promote skill).
+- ECO-118's eight commits touch 40 paths, **all inside `allowed_paths`** (29 under the evidence folder).
+
+**Acceptance results:**
+- **V1 — PASS** (`out/v1.txt`, after the last fixes): d3683d6 exit 1, A1-4 × 6 and A1-5 × 6 with `a1_check.py`'s pairs, rules 1, 2, 3, 6
+  at 0; 64912a4 13 and 14, the same pairs; the relay case added none; the comparator red on an altered pair.
+- **V2 — PASS** (`out/v2.txt`): selftest 38/38; each of `rule_1` … `rule_6`, `rule_2_population`, `_relay_crossing`, `rule_p1`,
+  `rule_c1a`, `rule_c1b` disabled in a copy → red on its arms.
+- **V3 — PASS** (`out/v3.txt`): ViewPrism2 `82c362e`, ViewTube `44bd91d`, TimetableAdv `73b79d4` — exit 3, 0 part-standard units.
+- **V4 — PASS**: §4.6 names the tool, its two run points, what each verdict does, the receipt cited, the stop E12 and what it does not
+  stop (`--no-verify`, a rebase or cherry-pick without hooks, an acceptance remade without its trailer — E06 in the replay); §4.5's
+  limit names what the tool does not claim; the two template lines point to §4.6. Read by three R8 rounds; rule 4's wording aligned
+  by ruling 2.
+- **V5 — PASS**: self-conformance exit 0 observed before each commit (f8b4891, ea2ac97, 8461c7f, 9724877, d355f62, dcebc2e — each
+  pushed through the pre-push witness); CI success on each: runs 40857925104, 40861146368, 40869894655, 40872336665, 40878197074 and
+  40880455446 (`dcebc2e`); C19's line in the CI logs (`[C19] PASS`, both fast runners).
+- **V7 — PASS by ruling 1** (`out/v7.txt`): `--rev d3683d6` true on every field (commit, tree, input SHA-256 and git blob ids, tool
+  hash, A1-4 6, A1-5 6, FAIL, exit 1); the four verdicts carry every field; a CRLF working tree's `git_blob` equals HEAD's blob;
+  altered hashes are told apart. The `--index` arm on 3ba3d00: FAIL as committed (P1-id 2), PASS on the derived copy (counted, ruling 1).
+- **V8 — PASS by ruling 1** (`out/v8.txt`): every arm as stated on the real files and the scaffold, including the amend arms (2'',
+  2''', 2-auto, 2-string) and the known-bads KB, KB2, KB3; arm 2 met on the derived copy (ruling 1).
+- **V6** (not a closing condition): **not met** — MoviePad-Remake HEAD `a2ca41e` exits 1 (P1-id 2). It becomes the first known-good real
+  file only after the product's P1 ids are fixed (a product decision, not taken here).
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; a kit tool, a process-core check and its qualification arms)
+
+- **The claim (one sentence).** `bom-structure-check.py` applies A1 rules 1-6, P1's id form and C1 a/b as playbook §4.5/§4.6 (aligned by
+  ruling 2) say, with four verdicts and a receipt the tool writes; process-core's E12 refuses an acceptance whose staged BOM fails or
+  cannot be measured and allows PASS and NOT-APPLICABLE; installed products are unchanged until they set the field.
+- **査定した主張と判定** (measurement × evidence):
+  - "The rules are applied as the text says": **observed / conditionally eligible**. Rules 4 and 5 on real files agree pair for pair
+    with `a1_check.py` (an independent earlier script, though by the same designer) on two commits; P1 found two real violations;
+    every rule has a mutated arm that goes red when the rule is disabled. Not measured: a positive control **on a real file** for
+    rules 1, 2, 3, 6 and C1 a/b (no product has violated them; their arms are fixtures the manufacturer wrote).
+  - "E12 refuses and allows as stated": **observed / eligible** for the hook contexts measured — 11 qualification arms (N22a-k) on a
+    fresh scaffold, V8's arms on MoviePad-Remake's real files, 14 hook contexts run by R8 round 3, three known-bad validators (E12
+    disabled, comment stripping disabled, prefixes back to `#`) each letting the failing BOM through. Not measured: the round-3 fixes by
+    an independent reader (the user's "A"); git versions other than this machine's 2.47.1 and CI's (the arms ran in CI's C11 on both
+    runners).
+  - "The receipt is machine-made and true": **observed / eligible** — every field written by the tool and re-verified against git
+    (V7). `utc` is not verifiable afterwards and `RULE_SET` is hand-kept (both declared).
+  - "Installed products are unchanged": **observed / eligible** — no product file changed (window); without the field E12 does not
+    exist (N22g, V8 arm 6); the three other products read NOT-APPLICABLE (V3).
+  - "The CI is green and the gate observed before each commit": **observed / eligible** (V5).
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution) — the instrument is this ECO's product, so its defects are the
+  product's, found by the instrument's own inspection:
+  - 24 R8 findings over three rounds (13, 8, 3; material 2, 2, 1), all fixed or ruled (sections 4A-4D, 5). The causes, grouped: the
+    stop's trigger read from a message git had not yet cleaned (amend, editor, comment settings — three rounds to close); the input's
+    shape read loosely (duplicates, types, empty or unknown keys); a PASS reachable with nothing checked (twice).
+  - Found by the manufacturer before R8: the profile template's field not YAML unquoted (C1/C4 red, run 1); a merge key read as
+    UNMEASURABLE (TimetableAdv, V3's first run); a first V8 known-bad that refused by crashing, not by design.
+  - Attribution of the frozen premise (3ba3d00 passes): the experiment's script did not implement P1 — an instrument gap in the basis of
+    the filing, not in this tool.
+- **宣言した検出力の限界** (declared limits):
+  - Rules 1, 2, 3, 6 and C1 a/b have no positive control on a real file; A1-7, a row's measuring and the code are not claimed.
+  - E12 is the first layer only: `--no-verify`, a rebase or cherry-pick without hooks and an amend that drops the trailer are not
+    stopped (the last is found by E06 in the replay where `validate` runs). G3 itself has no stop.
+  - The fixes after round 3 (`d355f62`) were not read independently (ruling "A"); the three R8 inspectors were fresh contexts of the
+    same model family (context independence, not equipment independence).
+  - NOT-APPLICABLE passes the stop by design; a product without part standards is not checked by it.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9); this receipt was written by the manufacturer.
+- **Battery, row by row:**
+  - **Q1 asked.** The tool's docstring, the validator's E12 text and the playbook claim what the code does; three gaps found by R8 were
+    closed in code or text (R8-1-06 by ruling 2, R8-2-03 and R8-2-08 declared).
+  - **Q2 asked.** Known-bad: d3683d6 and 64912a4 (labels from `a1_check.py`, before the tool existed), the fixtures' mutated arms, the
+    disabled-rule copies and the three known-bad validators. Known-good: the derived 3ba3d00 (two ids changed, verified by R8) and the
+    `good` fixture. The 3ba3d00 label was found wrong and ruled on (ruling 1).
+  - **Q3 asked.** Each rule, each verdict and each E12 path has its own arm that goes red alone.
+  - **Q4 asked.** The qualification's fixtures come from the tool's own `--write-fixture` (one copy); V8 uses real files from git.
+  - **Q5 asked.** UNMEASURABLE and NOT-APPLICABLE have their own exit codes and are never PASS; "nothing checked" became
+    NOT-APPLICABLE (R8-2-02, R8-3-02); the tool missing, unparsable input and a timeout refuse.
+  - **Q6 asked.** Each commit came after an observed exit 0; CI conclusions read before the next step.
+  - **Q7 asked.** C19 runs the selftest on every push; the selftest has known-bad arms for each rule; 0 arms is not a pass.
+  - **Q8 asked.** E12's exits are the profile field (removed through E08) and NOT-APPLICABLE; both are counted in the output; the
+    distribution ECO must provide a route for "applied with known defects" (section 4A).
+  - **Q9 asked.** Receipts carry commit, tree, HEAD and blob ids; V7 checks them against git.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** Input classes measured apart: real BOMs with part standards (MoviePad-Remake), without (three products), the kit
+    templates, and git configurations (default, auto, commentString, explicit and multi-character characters, scissors).
+- **What this closure does not support:** the distribution to the products (a separate ECO; MoviePad-Remake's P1 ids would make E12
+  refuse every acceptance there until fixed); MoviePad-Remake's P1 violations (a product decision); OBS-20261029-05 and -06 (recorded,
+  not repaired); ECO-119 (filed; its manufacture waits for the start instruction).
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling on the experiment's decision 1; filing only).

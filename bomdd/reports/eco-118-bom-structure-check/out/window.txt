@@ -1,0 +1,26 @@
+# ECO-118 diff window
+allowed_paths: ['method/tools/bom-structure-check.py', 'method/bomdd-playbook-v1.md', 'method/templates/60-change-order.md', 'method/templates/34-routing.yaml', 'method/tools/self-conformance.py', 'README.md', 'bomdd/60-change-order-eco-118.md', 'bomdd/60-change-register.yaml', 'bomdd/reports/eco-118-bom-structure-check/', 'method/templates/process-core/', 'method/tools/bomdd-init.py', 'method/improvements.md']
+commits in a3b3cc1..dcebc2e: 9
+  3a71807 ECO-118: 2 paths
+  9cc108b ECO-118: 3 paths
+  94a2a2a NOT ECO-118 - ECO-119's filing (its own order and register entry): ['.claude/skills/lesson-promote/SKILL.md', 'bomdd/60-change-order-eco-119.md', 'bomdd/60-change-register.yaml', 'method/bomdd-playbook-v1.md', 'method/improvements.md']
+  f8b4891 ECO-118: 36 paths
+  ea2ac97 ECO-118: 21 paths
+  8461c7f ECO-118: 29 paths
+  9724877 ECO-118: 3 paths
+  d355f62 ECO-118: 19 paths
+  dcebc2e ECO-118: 1 paths
+paths touched by ECO-118's commits: 40
+  bomdd/60-change-order-eco-118.md
+  bomdd/60-change-register.yaml
+  method/bomdd-playbook-v1.md
+  method/improvements.md
+  method/templates/34-routing.yaml
+  method/templates/60-change-order.md
+  method/templates/process-core/process-profile.yaml
+  method/templates/process-core/tools/process-qualification.py
+  method/templates/process-core/tools/process-validator.py
+  method/tools/bom-structure-check.py
+  method/tools/self-conformance.py
+  + 29 under bomdd/reports/eco-118-bom-structure-check/
+outside allowed_paths: none
