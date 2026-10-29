@@ -9781,3 +9781,63 @@ observation; no body text change.
   evidence: MoviePad-Remake `d3683d6` — `bomdd/34-routing.yaml` (ROUTE-READ `input:`), `bomdd/40-work-order.md` ("Inputs"),
   `bomdd/33-control-plan.yaml` (CP-MEDIA-TOOLS-001), `bomdd/32-mbom.yaml` (M-DOCUMENT-001 `manufacturing_decisions`);
   `bomdd/reports/exp-20261029-01/results.md` §4
+
+## 2026-10-29 After MoviePad-Remake ECO-006 — the user's "1:A 2:A 3:A" with a standing caveat: a rule that nothing stops or measures is a wish
+
+Source: the user, 2026-10-29, answering three decisions taken before new work ("1:A 2:A 3:A"): 1 = write the authority order (which source
+decides when records and code disagree) into the method through /lesson-promote, stopping at review; 2 = add the evidence definition and a
+completion condition to ECO-118 before its manufacture; 3 = record the research direction of the discussion after ECO-006 as a plan. With
+it, verbatim: "ただし、AIへのプロンプトは、努力目標やお願いに近く、工業的に見ると守られることを祈るようなものです。Hookなど外部で止める、
+数値化して機械的に判断する、ようなことをしないと、文書だけ膨らんでやっている感を出すだけになりかねません。"
+
+**The caveat as applied here (not a new rule text).** Every rule this section proposes is labelled by what enforces it: **stop** (a hook or
+validator refuses), **measure** (a number is produced and compared), or **none** (text only — added only with the reason it is still worth
+reading, or not added). /lesson-promote step 2 already asks for "the proposition and its machine face (a check, a hook, a pin test, a
+skill)" and sends a lesson without one to "observation only"; whether to make that strict (no body text without a stop or measure) is put to
+the user with item 1's review, not decided here.
+
+Thought layer: [x] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — the caveat
+restates §9 ("a prose requirement is not evidence of compliance") as a filter on what is written; no concept claim changes.
+
+- **EXP-20261029-01's reading, narrowed (a correction of how it was reported, not of the record).** The record's reading ("check before
+  generate; no generator ECO from this result") is about one step of one product: deriving the M-BOM and Control Plan from a ruled E-BOM,
+  N = 1, the classifiers disagreeing on 35 of 120. It says nothing about the synthesis the user is aiming at (screen mocks and use cases →
+  screens, APIs, logic, persistence → a work order), which was not measured. The designer's later summary to the user ("generation is not
+  ready yet") overstated it; this line is the correction.
+- **Item 2 → ECO-118 amended before manufacture** (`bomdd/60-change-order-eco-118.md` §1 A): a receipt written by the tool itself (stop:
+  none; measure: every field machine-made) and a **stop** at the applied transition in process-core's validator, which re-runs the tool
+  instead of trusting the receipt.
+- **Item 1 → recorded here (stage 1 of /lesson-promote); the body text and its enforcement go to the user's review.** Source: MoviePad-Remake
+  ECO-006 §6 and the user's hold ("現行コードをE-BOMの正解とみなしてはならない …"): the designer framed two items as "the E-BOM and the code
+  disagree" and recommended matching the code; read against the ruled sources, the E-BOM was right in both and the defect was in the
+  derived layer; the designer also read "requires" as a call where kit §4.1 says reliance. The playbook has the layers and their owners
+  (§4.5 裁定層と導出層, §9 role table) but no order for deciding a record/code divergence and no rule for a conflict between ruled sources.
+  Split by enforcement:
+  - stop (proposed, not built): the ruled layer's files (10, 20, 30, 31, the ADRs) as protected paths whose commits need a ruling trailer
+    — a validator check in process-core, starting from the design release (§7), since Phases 1-3 write them before any ECO exists. Limit:
+    the trailer is written by the committer, so it stops the careless edit only (the same class as E05's accept trailer).
+  - measure: none exists for "the code was taken as the answer". The only check available is presence: an order that resolves a
+    record/code divergence carries, per disputed item, the ruled sources read with file and line — the C16/C17 class (presence, not quality).
+  - none: the order itself (requirements → specification → ruled E-BOM and rulings → derived layer → code; a conflict between ruled
+    sources stays open rather than one side being taken) — a few lines in §4.5, kept only because the stop and the presence check refer to it.
+  The designer's memory holds the order meanwhile; memory is not the method's source.
+- [watch 2/3] OBS-20261029-04 — **A measurement's run-time environment was recorded after the fact, from what was still on disk, not
+  logged when it ran.** ECO-005 R8-1-06 (a designer re-run whose log was not kept) and ECO-006 R8-1-05 (the ffmpeg directory used for the
+  factory and the inspection, written at review from the copy still present). Machine face, a candidate only (measure): the inspection
+  driver writes the environment it ran with (`MOVIEPAD_FFMPEG_DIR` and the binaries' SHA-256) into its own stamped output — a product ECO.
+  3 例目の条件= a third record of a measurement's environment written after the run, in any product.
+  source: MoviePad-Remake ECO-005 §5, ECO-006 §8 (R8 rounds)
+  evidence: MoviePad-Remake `bomdd/reports/exp-20261024-01/delivery-3/r8-round-1.md`, `delivery-4/r8-round-1.md`, `delivery-4/ffmpeg-dir.txt`
+- [open] EXP-20261029-02 — **Can a deterministic step behind a human-confirmed typed operation model produce a product's C# contracts
+  (commands, queries, DTOs, interfaces) that pass its existing acceptance with no hand edits, and how many decisions had to be added to
+  the model to get there?** Item 3; the discussion after ECO-006 (a reviewing AI's critique: separate A — existing rules made executable,
+  B — small deterministic synthesis, C — checking AI-made design decisions; do not hold B behind A). Preregistered before a subject exists:
+  - measure 1 (boolean): the generated contracts compile and the product's existing acceptance (its fixed oracle and Control Plan rows)
+    passes with 0 hand edits to the generated files;
+  - measure 2 (count): decisions written into the model beyond what the ruled layer already states, read against the behaviour decisions
+    carried by today's hand-written forms (EXP-20261029-01: provides-api, 8 forms, all judged by both classifiers);
+  - reading: measure 1 alone = a converter; measure 1 with measure 2 small against the forms' count = a synthesis step. "100 %
+    reproducible" is not a measure (a deterministic step is reproducible by construction).
+  - first task: choose the subject and who writes the model (in BomDD the model belongs to the ruled layer, the human's); MoviePad-Remake
+    has none. C needs B's confirmed model as its answer key, so B precedes C; A (ECO-118) runs in parallel, not as a precondition.
+  source: this section (the user's "3:A")

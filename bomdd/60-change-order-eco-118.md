@@ -69,9 +69,9 @@ The experiment's record is `bomdd/reports/exp-20261029-01/` (definitions fixed b
 
 ## 3. Acceptance (conditions; frozen at filing)
 
-required_gates: [V1, V2, V3, V4, V5]
+required_gates: [V1, V2, V3, V4, V5, V7, V8]
 
-**Gated:** V1-V5. **Not a closing condition:** V6.
+**Gated:** V1-V5, and V7, V8 (added by section 1A, 2026-10-29). **Not a closing condition:** V6.
 
 - **V1 — known-bad on real files.**
   - Condition: on MoviePad-Remake `d3683d6` (`--rev`), the tool exits 1 and its A1 findings are rule 4 × 6 and rule 5 × 6, the same unit/target pairs as `a1_check.py`'s output in the experiment, and nothing for rules 1, 2, 3, 6. On `64912a4`, rule 4 × 13 and rule 5 × 14 (or, if the relay case adds findings, each extra one listed and read against P4 in §4).
@@ -88,6 +88,92 @@ required_gates: [V1, V2, V3, V4, V5]
 - **V6 (not a closing condition).** After MoviePad-Remake's ECO-006 is applied: the tool on its new BOM commit exits 0 — the first known-good real file. Recorded when it happens, in this order or in the distribution ECO.
 
 Conditions are frozen at filing; results go to the closing section.
+
+## 1A. Amendment before manufacture (2026-10-29, the user's "2:A"; supersedes section 1 where they differ)
+
+> Ruling: user, 2026-10-29, "1:A 2:A 3:A" on three decisions taken before new work; 2 = add to ECO-118, before its manufacture, the
+> evidence definition (the version checked, the rules applied, the checker's version, the result, the time, recorded by machine) and a
+> condition that the step cannot complete without it: **A**. With it, verbatim: "ただし、AIへのプロンプトは、努力目標やお願いに近く、工業的に
+> 見ると守られることを祈るようなものです。Hookなど外部で止める、数値化して機械的に判断する、ようなことをしないと、文書だけ膨らんでやっている感
+> を出すだけになりかねません。"
+> Why: the first M-BOM's commit said "A1 structure checked" and named four checks, not the rules that failed 13 and 14 times there
+> (EXP-20261029-01); the filed T2 asked only for "the verdict line" in a record, written by hand. Still not part of this ECO: the
+> ruled-layer protection and the authority order (the same ruling's item 1, at review), distribution to the products.
+
+Each addition is labelled by what enforces it: **stop** (refuses), **measure** (a number produced and compared), **none** (text only).
+
+**T1 addition — `--index` (measure).** The tool also reads the three files from the git index (`git show :<path>`), so a commit hook can
+check what is being committed rather than the working tree. Exactly one of the working tree (default), `--rev <commit>`, `--index`.
+
+**T4 — a receipt written by the tool itself (measure; no hand-written field).** `--receipt <path>` writes one JSON file on every verdict,
+UNMEASURABLE included when the run gets that far:
+- `schema`: `bom-structure-receipt/1`;
+- `source`: `worktree` | `index` | `rev`, and for `rev` the commit and tree ids (40-hex) resolved by git;
+- `inputs`: for each of the three files, its path and the SHA-256 of the bytes read (for `index` and `rev`, the blob as git stores it);
+- `tool`: the SHA-256 of the tool's own file and its `RULE_SET` constant (the rules it applies, named by playbook section and rule
+  number, e.g. `A1:1-6;A1-4:relay;P1:id;C1:a,b` — the constant changes when the rules implemented change);
+- `counts`: findings per rule id, and the population counts of the population line;
+- `verdict` and `exit_code`; `utc`: the time the run ended (ISO 8601, `Z`).
+The text output is unchanged; the receipt is an extra file. Where a product keeps it (beside the G3 record, in the change order's
+evidence) is the product's; T2's records cite the receipt path, not a copied verdict.
+
+**T5 — the stop: process-core's validator re-checks the BOM at the applied transition (stop).**
+- A new check `E12 structure-check-failed-at-acceptance` in `method/templates/process-core/tools/process-validator.py`, in the commit-msg
+  mode where it already finds the applied transitions (E05): when the staged register moves any ECO to the profile's acceptance state, the
+  validator runs the tool with `--index` and **does not read any receipt** (it recomputes).
+  - exit 0 (PASS) or 3 (NOT-APPLICABLE) → allowed; the commit's output names the verdict and the population line;
+  - exit 1 (FAIL) → refused, the findings printed;
+  - exit 2 (UNMEASURABLE), the tool missing, or the tool not runnable → refused (unmeasurable is not a pass).
+- Enabled by one profile field `structure_check: <repo-relative path of the tool>` (the scaffold writes
+  `bomdd-kit/method/tools/bom-structure-check.py`). A profile without the field has no E12, so an installed product's behaviour does not
+  change until its distribution ECO sets the field (E08 governs that profile change). Fail-closed once set.
+- Not at every commit: an ECO may commit its BOM changes in steps that are inconsistent in between (MoviePad-Remake ECO-006's `41a5b18`
+  carried 2 failures by design while two items waited for a ruling). The stop is where the change is accepted.
+- Declared consequence for the distribution ECO (not decided here): a product that sets the field must have the tool in its kit, so the
+  field and a kit re-lock go together; ViewTube's gate freeze needs the user's exception for any new gate there.
+- **The playbook text (none → stop):** §4.6's sentence of T2 that the verdict is recorded becomes: the tool's receipt is cited; the stop
+  at acceptance is E12 where the profile enables it; G3 remains a reading step whose record cites a receipt (no stop at G3: G3 runs
+  before process-core's ECOs exist).
+
+**T3 decided by this amendment (no longer the manufacturer's choice):** self-conformance runs the tool's `--selftest` (one check), and
+C11's qualification gets the E12 arms of V8 nested in the existing qualification run (no new top-level control group).
+
+**Scope widened** (paths): `method/templates/process-core/tools/process-validator.py`, `method/templates/process-core/process-profile.yaml`
+(the field and its comment), `method/tools/bomdd-init.py` only if the scaffold writes the profile field outside the template, the
+process-core qualification (`method/templates/process-core/tools/process-qualification.py` and its fixtures) for V8, and
+`method/improvements.md` (this ruling's records are written there while the window is open). Not widened: the products, the hooks' shape,
+any other validator check.
+
+**Conditions added (frozen with this amendment):**
+- **V7 — the receipt is machine-made and true.**
+  - Condition: `--rev d3683d6` on MoviePad-Remake writes a receipt whose commit and tree equal `git rev-parse`, whose three input hashes
+    equal the blobs' SHA-256, whose tool hash equals the tool file's, whose counts give A1-4 6 and A1-5 6, and whose verdict is FAIL with
+    exit code 1; the same for `--index` on a checkout of `3ba3d00` (PASS, 0). Every field is present on the four verdicts (the selftest's
+    arms included).
+  - Known-bad: a receipt with one input hash altered is told apart by a re-hash (the check script shown red).
+- **V8 — the stop refuses and allows as stated** (in a throwaway product made by `bomdd-init.py` with process-core and the field set; the
+  three BOM files copied from MoviePad-Remake's history):
+  - an applied-transition commit with `d3683d6`'s three files staged → refused, E12, the findings printed;
+  - the same with `3ba3d00`'s files → allowed;
+  - a template BOM with no `part_standard` → allowed, NOT-APPLICABLE named in the output;
+  - a non-applied commit (a staged-state entry, the register untouched) with `41a5b18`'s files → allowed (the stop is not per commit);
+  - the tool removed, or a staged 32-mbom.yaml that does not parse → refused (exit 2 / missing is not a pass);
+  - the profile without the field → no E12 on the `d3683d6` commit (installed products unchanged).
+  - Known-bad of the gate itself: a validator with E12's refusal disabled lets the first arm through — shown, then restored.
+
+The required gates (amended): V1-V5, V7, V8; the machine copy in the register changed with this section.
+
+**Converge receipt (gate placement only; start path: self-triggered at the amendment, DoD fixed first).**
+- DoD: the stop refuses an accepted BOM that fails A1/C1 or cannot be measured; it does not refuse an intermediate commit; it changes no
+  installed product until that product opts in; it does not trust a hand- or tool-written file.
+- Round 1 (4 findings): (a) a receipt-checking gate trusts a file the committer can write → recompute instead; (b) pre-commit on every
+  BOM change refuses ECO-006's legitimate intermediate commit → only at the applied transition; (c) "tool missing" passing would make an
+  un-relocked product silently ungated → fail-closed once the field is set, no field = no E12; (d) the working tree may differ from what
+  is committed → `--index`.
+- Round 2 (0 new findings): the four answers checked against the DoD and against ECO-006's history (d3683d6 refused, 41a5b18 not stopped
+  as an intermediate commit, 3ba3d00 allowed).
+- 未収束事項: none in the placement. Outside it and declared: the committer can remove the field or the hook (the trust boundary of E11);
+  NOT-APPLICABLE passes the stop by design (the lazy rule), so a product without part standards is not checked by it.
 
 ## /preflight receipt (start path: manual — the user's "1:A 2:A" read as the start artifact)
 
