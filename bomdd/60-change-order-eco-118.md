@@ -175,6 +175,115 @@ The required gates (amended): V1-V5, V7, V8; the machine copy in the register ch
 - 未収束事項: none in the placement. Outside it and declared: the committer can remove the field or the hook (the trust boundary of E11);
   NOT-APPLICABLE passes the stop by design (the lazy rule), so a product without part standards is not checked by it.
 
+## 4. Manufacture and the measurements before commit (2026-10-29, the user's "ECO-118を製造")
+
+**Start.** Baseline `94a2a2a` (HEAD: the filing `3a71807`, the amendment `9cc108b`, then ECO-119's filing, which touched playbook
+§4.5's authority-order bullet and none of this ECO's lines); the tree clean before the change. Start check (/preflight, manual): the
+order's sections 1, 1A and 3 read; ECO-119 filed and not built (it waits for this ECO, both change `process-validator.py`); no other
+ECO in progress on the files of `affected_refs` → PROCEED. Producer EQ-004 (`claude-opus-5-5`, self-reported).
+
+**What was changed** (`git diff --stat 94a2a2a`, the evidence folder apart):
+- `method/tools/bom-structure-check.py` (new, 721 lines): T1 (`--root`, the working tree / `--index` / `--rev`), A1 rules 1-6 with
+  rule 4's relay case, P1's id form, C1 a and b, four verdicts with exit codes 0 / 1 / 2 / 3, T4's `--receipt`, `--selftest`
+  (23 arms), and `--write-fixture` (the qualification's fixtures come from the tool, one copy).
+- `method/templates/process-core/tools/process-validator.py`: E12 in commit-msg mode (`accept_transitions`, `structure_verdict`,
+  `run_structure_check`, `check_structure`), `structure_check` in `validate_profile` (optional; a non-empty repository-relative path),
+  docstring and REASONS; nine selftest arms.
+- `method/templates/process-core/process-profile.yaml`: the field `structure_check: {{METHOD}}/method/tools/bom-structure-check.py` and
+  its comment (the scaffold renders `{{METHOD}}` as `bomdd-kit`; `bomdd-init.py` unchanged).
+- `method/templates/process-core/tools/process-qualification.py`: IQ-09, N22a-g (one sandbox), and the sandbox's copy of the tool and
+  of the tool's `good` fixture when the profile names a tool.
+- `method/tools/self-conformance.py`: C19 (the tool's `--selftest`; 0 arms is not a pass) and its docstring; `C1〜C18` → `C1〜C19` in
+  two places. README.md states no check count and is unchanged.
+- `method/bomdd-playbook-v1.md`: §4.6, a paragraph after the A1 rule list (the tool, its run points, what each verdict does, the
+  enforcement line); §4.5's limit, one parenthesis.
+- `method/templates/60-change-order.md` (one line, §3) and `method/templates/34-routing.yaml` (one comment line).
+
+**Derived-layer choices** (decided and reported, ECO-106):
+- D1 — **template placeholders.** An id containing `<NAME>` (the kit templates' `M-<NAME>-001`, `E-<NAME>-001`, `CP-<NAME>-001`) is
+  left out and counted (`placeholders_skipped`), the form of the validator's `<一行要約>` sentinel. Without it a new product's first
+  applied commit is refused by its own template BOM, whose placeholder unit has a `part_standard`; with it the template reads
+  NOT-APPLICABLE (V8 arm 3, the scaffold's actual files).
+- D2 — **rule 2 is lazy.** An `IF-` whose providing item is only in units without `part_standard` is skipped; an `IF-` in no unit at all
+  is a finding when the product has a part-standard unit.
+- D3 — **rule 4.** A requiring unit without `ebom_refs` may require anything (§4.5 P4). The relay crosses a boundary when it reaches the
+  `PS-` of a unit with E items sharing none with the requirer, or an `IF-` that none of the requirer's E items provides or requires
+  (A1-4's granularity is the E item, §4.5 limit).
+- D4 — **rule 5's exception** ("one unit realises both items") is read from `ebom_refs`, not from `ruled_ref` as `a1_check.py` did;
+  the same pairs at both V1 commits.
+- D5 — **rule 6** compares with the resolved requires only (an unresolved one is an A1-1 finding), as `a1_check.py`.
+- D6 — **PASS** = no finding and at least one part-standard unit. The order's "every rule ran on a non-empty population" is met by
+  naming the rules whose population is 0 on the population line (`not_exercised=`), not by a fifth verdict.
+- D7 — **rule 1's `procurement:`** resolves against the M-BOM's top-level `procurement[].package` (`a1_check.py` did not check it).
+- D8 — **merge keys** (`<<:`) are accepted by the strict loader; an explicit duplicate key stays UNMEASURABLE. TimetableAdv's E-BOM
+  uses merge keys: before this the tool read it as UNMEASURABLE (exit 2, V3's first run, `out/` keeps only the second run). A selftest
+  arm holds it.
+- D9 — **the qualification.** When the profile names a tool, each sandbox gets the tool and the BOM of its `good` fixture, or E12
+  refuses every existing acceptance control (POS and the others) with "no tool". IQ-09 and N22 exist only when the field is set, so an
+  installed product without it is qualified as before.
+- D10 — **E12 in commit-msg mode only**, beside E05: not in pre-commit (the tool would run twice) and not in the history replay. A
+  `--no-verify` acceptance is therefore not found later; the playbook's enforcement line says so.
+- D11 — `34-routing.yaml` (the template) has no ROUTE-ECO step (MoviePad-Remake's routing has one), so the line is a comment in the
+  routing's header. The change-order line cites the receipt path, not the verdict (T5: no copied verdict).
+- D12 — E12's tool run is bounded at 300 s; a timeout refuses (unmeasurable).
+
+**Evidence:** `bomdd/reports/eco-118-bom-structure-check/` — `verify118.py` (V1, V2, V3, V7), `verify118_v8.py` (V8), outputs in `out/`.
+MoviePad-Remake, ViewPrism2, ViewTube and TimetableAdv were read with git only; nothing was written there. V7's `--index` arm uses a
+temporary repository holding 3ba3d00's three files, not a worktree of MoviePad-Remake; V8's product was made by `bomdd-init.py` in a
+temporary folder and removed (`out/v8.txt`, last line).
+
+- **V1 — PASS** (`out/v1.txt`). d3683d6: exit 1; A1-4 × 6 and A1-5 × 6, the same unit/target pairs as `a1_check.py`; rules 1, 2, 3, 6 at
+  0. 64912a4: A1-4 × 13 and A1-5 × 14, the same pairs; the relay case added no finding at either commit. Control: one pair altered →
+  the comparison red. Findings outside V1's rules, listed there: d3683d6 **P1-id × 2** (below); 64912a4 **C1-b × 11** — the Control
+  Plan at that commit is still the kit template (its two placeholder rows skipped), and C1 belongs to Phase 3 step 5, after the M-BOM.
+- **V2 — PASS** (`out/v2.txt`). `--selftest` 23/23 (a known-good arm; mutated arms for rules 1 (four), 2, 3, 4 direct, 4 relay, 5, 6,
+  P1 form and uniqueness, C1 a and b; two NOT-APPLICABLE arms, the template's shape among them; three UNMEASURABLE arms; a merge key;
+  the exit-code map). Known-bad: each of `rule_1` … `rule_6`, `_relay_crossing`, `rule_p1`, `rule_c1a`, `rule_c1b` disabled in a copy
+  (`return []` / `None`) → the selftest exits 1, naming that rule's arms.
+- **V3 — PASS** (`out/v3.txt`, `--rev HEAD`). ViewPrism2 `82c362e`, ViewTube `44bd91d`, TimetableAdv `73b79d4`: exit 3, 0 units with
+  `part_standard`, no finding; never exit 0.
+- **V4 — the text** (read; the R8 round reads it again): §4.6 names the tool, its two run points, what FAIL, UNMEASURABLE and
+  NOT-APPLICABLE do, the receipt cited and the stop E12 with what it does not stop; §4.5's limit names what the tool does not claim; the
+  two template lines point to §4.6 and copy no rule.
+- **V7** (`out/v7.txt`): `--rev d3683d6` — commit and tree equal `git rev-parse`, the three input hashes equal the blobs', the tool hash
+  equals the file's, A1-4 6 and A1-5 6, FAIL with exit 1. Every field present on PASS, FAIL, NOT-APPLICABLE and UNMEASURABLE (fixtures
+  written by the tool; a broken M-BOM). Known-bad: the M-BOM hash altered → the re-hash check red. **The `--index` arm on 3ba3d00 is
+  not met as frozen**: FAIL, P1-id 2 (below); on the derived copy, PASS, exit 0, re-hash true.
+- **V8** (`out/v8.txt`), a product made by `bomdd-init.py` (the profile field written by the scaffold, the tool in its kit, hooks
+  active): d3683d6 at an applied transition → refused, E12, the findings printed; the template BOM → allowed, "NOT-APPLICABLE" named;
+  41a5b18 on a non-applied commit → allowed; the tool removed → refused; an M-BOM that does not parse → refused (UNMEASURABLE); the
+  profile without the field (committed under an open ECO, E08) → d3683d6 allowed, no E12. Known-bad: `check_structure` disabled in the
+  working tree → d3683d6 gets through; the validator restored with no diff. **Arm 2 is not met as frozen**: 3ba3d00 as committed is
+  refused (P1-id 2); the derived copy is allowed with "PASS" named.
+  (A first known-bad, `structure_verdict` alone returning nothing, still refused — `check_structure` then failed on a KeyError. The
+  refusal was an accident of the crash, not the design, so the arm was changed to disable `check_structure`; recorded so the first run
+  is not read as a working gate.)
+- **V5** — self-conformance before the commit. Run 1 on the changed tree
+  (`out/sc-manufacture-run1-template-unquoted.txt`) failed C1 and C4: the profile template's `structure_check: {{METHOD}}/…` is not
+  YAML unquoted (`{{` opens a flow mapping); quoted, as the template's other `{{…}}` fields are, and V8 re-run on a new scaffold. In the
+  same run C11 and C11b passed with 43 controls each (35 before: IQ-09 and N22a-g) and C19 passed (23/23). The run on the committed
+  tree is recorded at closure (writing it here would change the tree it attests). CI after the push: at closure.
+- **V6** (not a closing condition): **not met** — MoviePad-Remake HEAD `a2ca41e` exits 1, P1-id 2.
+
+**The frozen premise that did not hold — P1 in MoviePad-Remake.** V7's `--index` arm and V8's arm 2 expect 3ba3d00 to pass, because
+`a1_check.py` (the experiment's script, the basis of section 0) found rules 1-6 at 0 there. It did not implement P1. The tool finds two
+P1 violations at 3ba3d00, d3683d6 and HEAD `a2ca41e`: `M-EXPORT-001` provides `PS-M-EXPORT-CLOCK-001-P01` and
+`PS-M-EXPORT-COPY-001-P01`, the ids of the two units ECO-005 merged into it (its `retired_units` record says "moved … under the same
+ids"); §4.5 P1 requires `PS-M-EXPORT-001-Pnn`. Three G3 rounds, ECO-005, ECO-006 and two R8 rounds did not see it.
+- Not changed by this ECO: the frozen conditions; MoviePad-Remake (a product decision, recorded as an observation in
+  `method/improvements.md`).
+- Measured instead: the same arms on a derived copy of 3ba3d00 with exactly those two ids renamed (`PS-M-EXPORT-001-P03`, `-P04`, in
+  all three files): PASS / allowed. Whether V7 and V8 count as met on the derived copy is the closure's decision.
+
+**Gate time** (one run each; not a baseline): C11 (with C11b) 262.8 s on a clone of `94a2a2a` (it ran beside V8 and a qualification run,
+so it is not an independent figure) and 257.8 s on the changed tree, with 8 more controls per qualification run; C19 0.3 s; the
+total 270.4 s and 268.7 s. No change is claimed from these two runs.
+
+**Not done here:** the commit's CI, the R8 round (section Equipment), the closure. Observation outside the scope: the strict loaders of
+`process-validator.py` and `self-conformance.py` have the same merge-key defect as D8 (both raise `ConstructorError` on a merge key, checked; no register, profile or
+method YAML in BomDD or the four products uses one, grep); not changed (not in this ECO's paths), recorded in `method/improvements.md`
+as OBS-20261029-05.
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling on the experiment's decision 1; filing only).

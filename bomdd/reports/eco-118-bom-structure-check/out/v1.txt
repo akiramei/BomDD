@@ -1,0 +1,24 @@
+# V1 - known-bad on real files (MoviePad-Remake, --rev)
+d3683d6 rule 4: tool 6 a1_check 6 expected 6 pairs identical=True
+d3683d6 rule 5: tool 6 a1_check 6 expected 6 pairs identical=True
+d3683d6 exit 1 counts A1-1=0 A1-2=0 A1-3=0 A1-4=6 A1-5=6 A1-6=0 P1-id=2 C1-a=0 C1-b=0
+d3683d6 findings outside V1's rules: 2
+  [P1-id] M-EXPORT-001 -> PS-M-EXPORT-CLOCK-001-P01: a provides id is not of the form PS-M-EXPORT-001-Pnn
+  [P1-id] M-EXPORT-001 -> PS-M-EXPORT-COPY-001-P01: a provides id is not of the form PS-M-EXPORT-001-Pnn
+64912a4 rule 4: tool 13 a1_check 13 expected 13 pairs identical=True
+64912a4 rule 5: tool 14 a1_check 14 expected 14 pairs identical=True
+64912a4 exit 1 counts A1-1=0 A1-2=0 A1-3=0 A1-4=13 A1-5=14 A1-6=0 P1-id=0 C1-a=0 C1-b=11
+64912a4 findings outside V1's rules: 11
+  [C1-b] M-SOLUTION-001 PS-M-SOLUTION-001-P01 -> CP-BUILD-001: no row in the unit's acceptance_refs names the provides item
+  [C1-b] M-DOCUMENT-001 PS-M-DOCUMENT-001-P01 -> CP-DOCUMENT-001,CP-EDIT-001: no row in the unit's acceptance_refs names the provides item
+  [C1-b] M-HISTORY-001 PS-M-HISTORY-001-P01 -> CP-HISTORY-001: no row in the unit's acceptance_refs names the provides item
+  [C1-b] M-MEDIA-TOOLS-001 PS-M-MEDIA-TOOLS-001-P01 -> CP-MEDIA-TOOLS-001: no row in the unit's acceptance_refs names the provides item
+  [C1-b] M-PROBE-001 PS-M-PROBE-001-P01 -> CP-PROBE-001: no row in the unit's acceptance_refs names the provides item
+  [C1-b] M-OUTPUT-SETTINGS-001 PS-M-OUTPUT-SETTINGS-001-P01 -> CP-OUTPUT-SETTINGS-001: no row in the unit's acceptance_refs names the provides item
+  [C1-b] M-EXPORT-CLOCK-001 PS-M-EXPORT-CLOCK-001-P01 -> CP-EXPORT-CLOCK-001: no row in the unit's acceptance_refs names the provides item
+  [C1-b] M-EXPORT-COPY-001 PS-M-EXPORT-COPY-001-P01 -> CP-EXPORT-COPY-001: no row in the unit's acceptance_refs names the provides item
+  [C1-b] M-EXPORT-001 PS-M-EXPORT-001-P01 -> CP-EXPORT-001: no row in the unit's acceptance_refs names the provides item
+  [C1-b] M-EXPORT-001 PS-M-EXPORT-001-P02 -> CP-EXPORT-001: no row in the unit's acceptance_refs names the provides item
+  [C1-b] M-SELF-ACCEPTANCE-001 PS-M-SELF-ACCEPTANCE-001-P01 -> CP-SELF-ACCEPTANCE-001: no row in the unit's acceptance_refs names the provides item
+control: one pair altered -> comparison red (differs)
+V1: PASS

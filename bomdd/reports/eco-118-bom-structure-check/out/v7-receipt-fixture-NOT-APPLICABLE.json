@@ -1,0 +1,50 @@
+{
+  "schema": "bom-structure-receipt/1",
+  "root": "C:\\Users\\akira\\AppData\\Local\\Temp\\eco118-v7-67qgdbhv\\fx-not-applicable-NOT-APPLICABLE",
+  "source": {
+    "kind": "worktree"
+  },
+  "inputs": {
+    "ebom": {
+      "path": "bomdd/30-ebom.yaml",
+      "sha256": "2f6c2a4b8d9fc87bae94c63032208902da0df6154c1229fe3e25fc3cee3110fa"
+    },
+    "mbom": {
+      "path": "bomdd/32-mbom.yaml",
+      "sha256": "e11329b70fb090776ec4a59559c78470e90a51e44f15313d619a06705ab7d74f"
+    },
+    "cp": {
+      "path": "bomdd/33-control-plan.yaml",
+      "sha256": "7e04060891af778b3632308195c8ec87ca03de97c053e6bf4e6c9f45acc49989"
+    }
+  },
+  "tool": {
+    "sha256": "ea2e7adc9c77ae86165fc71dcceec43b2eb5cf8427f31cabc42d02746c0141ba",
+    "rule_set": "A1:1-6;A1-4:relay;P1:id;C1:a,b"
+  },
+  "counts": {
+    "A1-1": 0,
+    "A1-2": 0,
+    "A1-3": 0,
+    "A1-4": 0,
+    "A1-5": 0,
+    "A1-6": 0,
+    "P1-id": 0,
+    "C1-a": 0,
+    "C1-b": 0
+  },
+  "population": {
+    "units": 3,
+    "units_with_part_standard": 0,
+    "if_items": 2,
+    "ps_requires": 0,
+    "ps_provides": 0,
+    "ebom_requires_checked": 0,
+    "cp_rows": 3,
+    "placeholders_skipped": 0
+  },
+  "verdict": "NOT-APPLICABLE",
+  "exit_code": 3,
+  "error": null,
+  "utc": "2026-10-29T10:08:14Z"
+}

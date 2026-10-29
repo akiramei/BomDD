@@ -1,0 +1,50 @@
+{
+  "schema": "bom-structure-receipt/1",
+  "root": "C:\\Users\\akira\\AppData\\Local\\Temp\\eco118-v7-67qgdbhv\\asis",
+  "source": {
+    "kind": "index"
+  },
+  "inputs": {
+    "ebom": {
+      "path": "bomdd/30-ebom.yaml",
+      "sha256": "a11ed099c925a1ac8ba01c5f30d21318c813ca65ed3cf758078387b60bd1b7d7"
+    },
+    "mbom": {
+      "path": "bomdd/32-mbom.yaml",
+      "sha256": "75d776c593078beb661d73967b3ad0c8e984e0193f5cdec80f51025c044ae19a"
+    },
+    "cp": {
+      "path": "bomdd/33-control-plan.yaml",
+      "sha256": "4d0d3bff669ebdcaf344c1793d254d50b0ec7508e987c518c0c0577ad601f9fa"
+    }
+  },
+  "tool": {
+    "sha256": "ea2e7adc9c77ae86165fc71dcceec43b2eb5cf8427f31cabc42d02746c0141ba",
+    "rule_set": "A1:1-6;A1-4:relay;P1:id;C1:a,b"
+  },
+  "counts": {
+    "A1-1": 0,
+    "A1-2": 0,
+    "A1-3": 0,
+    "A1-4": 0,
+    "A1-5": 0,
+    "A1-6": 0,
+    "P1-id": 2,
+    "C1-a": 0,
+    "C1-b": 0
+  },
+  "population": {
+    "units": 8,
+    "units_with_part_standard": 8,
+    "if_items": 8,
+    "ps_requires": 9,
+    "ps_provides": 11,
+    "ebom_requires_checked": 6,
+    "cp_rows": 15,
+    "placeholders_skipped": 0
+  },
+  "verdict": "FAIL",
+  "exit_code": 1,
+  "error": null,
+  "utc": "2026-10-29T10:08:12Z"
+}

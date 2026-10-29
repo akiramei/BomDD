@@ -61,6 +61,10 @@
                       突合。C18 は設置検収(hooksPath+hook 実在)。CI は push しない環境に
                       つき NA 宣言。限界= うっかり型の遮断まで(意図的回避は信頼境界外・
                       最終層は CI)
+  C19 bom-structure : kit 道具 bom-structure-check.py の --selftest(ECO-118 T3)— 既知の良品と
+                      規則ごとの変異の腕がすべて期待どおり(腕 0 本は合格ではない)。毎 push で
+                      走らせないと kit 道具が気づかれずに腐る(ECO-096 と同型)。限界= fixture の上の
+                      判定までで、実在の製品 BOM での判定は ECO-118 の V1/V3 の記録
 
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
@@ -73,7 +77,7 @@
                       非証明・SDK/環境差の再現性未測定)
 
 実行モード(ECO-117):
-  既定        : fast tier(C1〜C18)— 全 PASS で witness を書く(規律 2 の単一入口)
+  既定        : fast tier(C1〜C19)— 全 PASS で witness を書く(規律 2 の単一入口)
   --dotnet    : fast tier の後に C9 — witness は既定と同じ
   --c9-only   : C9 だけ(CI の dotnet job 用 — Windows の fast tier は fast job が担う)。
                 fast tier を走らせないので witness は書かず・消さない。--dotnet と同時指定は exit 2
@@ -135,7 +139,7 @@ def check(cid: str, ok: bool, msg: str) -> None:
 # 機序= Windows で git が read-only に書く loose object を shutil.rmtree(ignore_errors=True) が消せず、
 # ignore_errors が失敗を無音にした(温度計のない fail-silent・40 日間誰も観測せず・検出は独立検査官の
 # 後片付け拒否報告)。処方(A 案・user 裁定 2026-09-11): onexc/onerror で read-only を外して再試行し、
-# それでも消せないパスを**戻り値で返す**。残置は [cleanup] 行で必ず報告するが**判定(C1〜C18)には
+# それでも消せないパスを**戻り値で返す**。残置は [cleanup] 行で必ず報告するが**判定(C1〜C19)には
 # 関与させない** — 後片付けは環境の性質であり方法論の適合ではない(C18 witness の意味を保つ)。
 # helper 自身の健全性(read-only を消せる・削除不能を残置として返す)は C14 の較正として測る。
 CLEANUP_RESIDUE: list[str] = []
@@ -1949,6 +1953,19 @@ def env_imprint(dotnet: bool) -> str:
     return "・".join(parts)
 
 
+def c19_bom_structure() -> None:
+    """C19(ECO-118 T3)— kit 道具 bom-structure-check.py の selftest を毎回走らせる。"""
+    tool = ROOT / "method" / "tools" / "bom-structure-check.py"
+    if not tool.is_file():
+        check("C19", False, f"道具がない: {tool.relative_to(ROOT)}(欠測は FAIL)")
+        return
+    p = run([sys.executable, str(tool), "--selftest"])
+    m = re.search(r"selftest: (\d+)/(\d+) arms as expected", p.stdout)
+    ok = p.returncode == 0 and bool(m) and m.group(1) == m.group(2) and int(m.group(2)) > 0
+    check("C19", ok, "bom-structure-check selftest(既知の良品+規則ごとの変異・腕 0 本は合格ではない)— "
+          + (m.group(0) if m else f"件数行なし(exit {p.returncode}): {(p.stdout + p.stderr).strip()[-120:]}"))
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="BomDD リポ全体の自己適合ゲート")
     mode = ap.add_mutually_exclusive_group()
@@ -1971,7 +1988,8 @@ def main() -> int:
                   ("C8", c8_hygiene), ("C10", c10_schema_drift), ("C11", c11_process_core),
                   ("C12", c12_entry_refs), ("C13", c13_link_integrity), ("C14", c14_kit_freshness),
                   ("C15", c15_deprecated_refs), ("C16", c16_converge_receipt),
-                  ("C17", c17_calibrate_receipt), ("C18", c18_prepush_witness)]
+                  ("C17", c17_calibrate_receipt), ("C18", c18_prepush_witness),
+                  ("C19", c19_bom_structure)]
         if a.dotnet:
             checks.append(("C9", c9_dotnet))
     # ECO-117 S3: 検査ごとの経過時間は判定行と別の 1 行に出す([Cn] 行は変えない — 版間で比較できる形を保つ)

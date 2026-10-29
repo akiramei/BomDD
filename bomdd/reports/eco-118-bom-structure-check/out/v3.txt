@@ -1,0 +1,5 @@
+# V3 - the other products at HEAD, read only (--rev HEAD)
+ViewPrism2 82c362edafcf: exit 3 units=38 units_with_part_standard=0 if_items=0 ps_requires=0 ps_provides=0 ebom_requires_checked=0 cp_rows=67 placeholders_skipped=0
+ViewTube 44bd91d018ad: exit 3 units=12 units_with_part_standard=0 if_items=0 ps_requires=0 ps_provides=0 ebom_requires_checked=0 cp_rows=41 placeholders_skipped=0
+TimetableAdv 73b79d471dfa: exit 3 units=48 units_with_part_standard=0 if_items=0 ps_requires=0 ps_provides=0 ebom_requires_checked=0 cp_rows=471 placeholders_skipped=0
+V3: PASS

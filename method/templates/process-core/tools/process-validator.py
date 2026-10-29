@@ -27,6 +27,14 @@
   E11 equipment-neutralized             : hook は存在するが validator を起動しない(pass-through
                                           stub への置換= 無力化。ECO-019 IA-01 — 存在は有効性を
                                           含意しない)
+  E12 structure-check-failed-at-acceptance : (profile に structure_check がある場合のみ — ECO-118)
+                                          commit-msg で accept 状態(applied)への遷移を含む commit は、
+                                          BOM の構造検査(bom-structure-check.py --index)を**その場で
+                                          再計算**する。受領証は読まない。exit 0(PASS)/3(NOT-APPLICABLE)
+                                          は通す・1(FAIL)は遮断・2(UNMEASURABLE)/ 道具の不在 / 起動不能 /
+                                          時間切れも遮断(測れないは合格ではない)。毎 commit ではない
+                                          (ECO の途中の commit は不整合を含みうる)。履歴再演(validate)
+                                          では再計算しない — --no-verify で通した受入は第 1 層だけの限界
 
 二層化(ECO-018 — 強制層は自分自身を守れない):
   第 1 層 pre-commit/commit-msg hook   … 即時遮断(作業者の眼前)。実体を消されれば起動しない。
@@ -91,7 +99,13 @@ REASONS = {
     "E09": "evidence-state-divergence",
     "E10": "equipment-missing-or-incomplete",
     "E11": "equipment-neutralized",
+    "E12": "structure-check-failed-at-acceptance",
 }
+
+# E12(ECO-118): 構造検査の道具の終了コード。0/3 だけが通る — NOT-APPLICABLE(部品規格を持つ単位が
+# ない= 何も検査していない)は遅延の規則で通すが、出力に名前を出す。
+STRUCTURE_ALLOWED = {0: "PASS", 3: "NOT-APPLICABLE"}
+STRUCTURE_TIMEOUT = 300  # 秒。時間切れは測定不能として遮断
 
 # 状態 → 要求 trailer キー。states に含まれる状態のみ発火。
 STATE_TRAILER = {"implemented": "fix", "applied": "accept"}
@@ -183,6 +197,11 @@ def validate_profile(prof) -> list[str]:
         errs.append("trailers は fix/accept 両キーを非空文字列で持つ(部分削除は無音無効化になるため遮断)")
     elif tr["fix"] == tr["accept"]:
         errs.append("trailers.fix と trailers.accept は別名")
+    if "structure_check" in prof:  # ECO-118: 任意キー。書いたなら非空の相対パス(壊れた値の無音無効化を遮断)
+        sc = prof["structure_check"]
+        if not (isinstance(sc, str) and sc and not re.match(r"^([/\\]|[A-Za-z]:)", sc)
+                and ".." not in sc.replace("\\", "/").split("/")):
+            errs.append("structure_check はリポ相対の非空パス(絶対パス・.. は不可)")
     return errs
 
 
@@ -663,6 +682,58 @@ def check_commit_msg(old: dict[str, dict], new: dict[str, dict], msg: str, prof:
     return v
 
 
+def accept_transitions(old: dict[str, dict], new: dict[str, dict], prof: dict) -> list[str]:
+    """E12 の発火条件(ECO-118): index の台帳で accept trailer を要する状態へ新たに入る ECO。"""
+    target = TRAILER_STATE["accept"]
+    if target not in prof["states"]:
+        return []
+    return sorted(cid for cid, e in new.items()
+                  if e.get("status") == target and old.get(cid, {}).get("status") != target)
+
+
+def structure_verdict(rc: int | None, output: str, cids: list[str], tool_rel: str) -> list[str]:
+    """E12 の判定(純関数)。rc=None は道具の不在・起動不能・時間切れ。0/3 だけが通る。"""
+    if rc in STRUCTURE_ALLOWED:
+        return []
+    lines = [l for l in output.splitlines() if l.startswith("[") or l.startswith("verdict:")]
+    shown = lines[:20] + ([f"…(他 {len(lines) - 20} 行)"] if len(lines) > 20 else [])
+    why = ("BOM の構造検査が FAIL" if rc == 1 else
+           "構造検査の道具が無い・起動できない・時間切れ" if rc is None else
+           f"構造検査が測定不能(exit {rc})— 測れないは合格ではない")
+    return [f"[E12] {REASONS['E12']}: {', '.join(cids)} の受入遷移で {why}"
+            f"(道具= {tool_rel} --index・受領証は読まず再計算)" + "".join(f"\n    {s}" for s in shown)]
+
+
+def run_structure_check(root: Path, tool_rel: str) -> tuple[int | None, str]:
+    tool = root / tool_rel
+    if not tool.is_file():
+        return None, f"verdict: 道具が無い {tool_rel}"
+    try:
+        p = subprocess.run([sys.executable, str(tool), "--root", str(root), "--index"],
+                           capture_output=True, text=True, encoding="utf-8", errors="replace",
+                           timeout=STRUCTURE_TIMEOUT)
+    except (OSError, subprocess.TimeoutExpired) as e:
+        return None, f"verdict: 起動不能または時間切れ — {e}"
+    return p.returncode, (p.stdout or "") + (p.stderr or "")
+
+
+def check_structure(root: Path, old: dict[str, dict], new: dict[str, dict], prof: dict) -> list[str]:
+    """E12(ECO-118)— profile に structure_check があり、受入遷移を含む commit のときだけ再計算する。"""
+    tool_rel = prof.get("structure_check")
+    if not tool_rel:
+        return []
+    cids = accept_transitions(old, new, prof)
+    if not cids:
+        return []
+    rc, out = run_structure_check(root, tool_rel)
+    v = structure_verdict(rc, out, cids, tool_rel)
+    if not v:
+        keep = [l for l in out.splitlines() if l.startswith("population:") or l.startswith("verdict:")]
+        print(f"process-validator: [E12] {', '.join(cids)} の受入遷移 — 構造検査 {STRUCTURE_ALLOWED[rc]}"
+              + "".join(f"\n    {s}" for s in keep))
+    return v
+
+
 def check_history_evidence(entries: dict[str, dict], prof: dict,
                            linked: dict[tuple[str, str], list[str]],
                            required: set[tuple[str, str]] | None = None) -> list[str]:
@@ -803,6 +874,7 @@ def main() -> int:
             except OSError as e:
                 die(f"メッセージファイルが読めない: {e}")
             vio += check_commit_msg(old, new, msg, prof)
+            vio += check_structure(root, old, new, prof)     # E12(ECO-118・profile で opt-in)
         return report(vio)
 
     # validate(第 2 層): **HEAD の台帳** + 履歴の合法性再演 + 設備完全性
@@ -998,6 +1070,19 @@ def selftest() -> int:
       check_history_evidence({"ECO-L": e("applied")}, prof2, {}, set()), None)
     t("陽性: required=None は全遷移対象(導入点不明時の従来挙動)",
       check_history_evidence({"ECO-L": e("applied")}, prof2, {("accept", "ECO-L"): ["x"]}, None), None)
+
+    # E12(ECO-118): 受入遷移での構造検査の再計算(純粋部分。道具の実行は qualification の N22 が実測)
+    tb("E12: accept 遷移を検出", accept_transitions({"ECO-1": e("staged")}, {"ECO-1": e("applied")}, prof2) == ["ECO-1"])
+    tb("陽性: accept 以外の遷移・無変更は E12 対象外",
+       accept_transitions({"ECO-1": e("staged")}, {"ECO-1": e("staged"), "ECO-2": e("staged")}, prof2) == []
+       and accept_transitions({"ECO-1": e("applied")}, {"ECO-1": e("applied")}, prof2) == [])
+    for rc, expect in [(0, None), (3, None), (1, "E12"), (2, "E12"), (None, "E12"), (5, "E12")]:
+        t(f"E12: 道具の exit {rc}", structure_verdict(rc, "[A1-4] x -> y: z\nverdict: FAIL", ["ECO-1"], "t.py"), expect)
+    tb("E12: profile の structure_check 絶対パス・空・.. を遮断",
+       all(any("structure_check" in x for x in validate_profile(dict(prof2, structure_check=v)))
+           for v in ("/abs/t.py", "", "../t.py", 3)))
+    tb("陽性: structure_check のリポ相対パスは妥当",
+       validate_profile(dict(prof2, structure_check="bomdd-kit/method/tools/bom-structure-check.py")) == [])
 
     # merge 合算(REV-13)
     combined = combine_parents([{"ECO-1": e("staged")}, {"ECO-1": e("applied")}], prof2)

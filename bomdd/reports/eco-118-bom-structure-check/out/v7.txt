@@ -1,0 +1,11 @@
+# V7 - the receipt is machine-made and true
+--rev d3683d6: {'commit': True, 'tree': True, 'A1-4=6': True, 'A1-5=6': True, 'verdict FAIL': True, 'exit 1': True, 're-hash': True} 
+--index 3ba3d00 as committed: verdict FAIL exit 1/1 source {'kind': 'index'} counts {P1-id: 2} re-hash ok
+  (the frozen condition expected PASS, 0 here; see the order's section 4)
+--index 3ba3d00 derived copy, the two P1 ids renamed to PS-M-EXPORT-001-P03/P04: verdict PASS exit 0/0 source {'kind': 'index'} counts {} re-hash ok
+fixture good -> PASS exit 0: fields all present ok
+fixture fail -> FAIL exit 1: fields all present ok
+fixture not-applicable -> NOT-APPLICABLE exit 3: fields all present ok
+fixture good -> UNMEASURABLE exit 2: fields all present ok
+known-bad (mbom hash altered): re-hash check red ['input bomdd/32-mbom.yaml sha256 differs from the source blob']
+V7: PASS (the literal 3ba3d00 arm is reported above and judged in the order)

@@ -39,6 +39,14 @@ trailers:
   fix: BomDD-ECO-Fix
   accept: BomDD-ECO-Accept
 
+# BOM の構造検査(E12・ECO-118 — playbook §4.6 G3 の A1 節 1〜6 と §4.5 の C1 の機械部分)。
+# applied 遷移を含む commit で、validator がこの道具を --index で走らせ直す(受領証は読まない)。
+# PASS / NOT-APPLICABLE(部品規格を持つ単位が無い)は通す・FAIL・測定不能・道具の不在は遮断。
+# 毎 commit ではない(ECO の途中の commit は不整合を含みうる)。この欄が無ければ E12 は無い —
+# 既設の製品は配布 ECO で欄を足すまで挙動が変わらない(欄の追加は本ファイルの変更= E08 を通る)。
+# 欄を書いたら道具が kit に在ることが前提(fail-closed)。kit の再固定と一緒に足す。
+structure_check: "{{METHOD}}/method/tools/bom-structure-check.py"
+
 # 履歴合法性の再演(第 2 層・ECO-018)の起点。既定は「本ファイルを最初に追加した commit」の
 # 自動検出 — process-core を後から導入したリポの導入前履歴を違法として止めないための境界。
 # 導入点を明示したい場合のみ commit-ish を宣言する(証拠要求 E06 の対象範囲も同じ境界で決まる:

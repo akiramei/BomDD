@@ -1,0 +1,24 @@
+  ok   good: verdict PASS counts {}
+  ok   a1-1-ps-missing: verdict FAIL counts {'A1-1': 1, 'A1-6': 1}
+  ok   a1-1-procurement: verdict FAIL counts {'A1-1': 1}
+  ok   a1-1-if-side: verdict FAIL counts {'A1-1': 1}
+  ok   a1-1-kind: verdict FAIL counts {'A1-1': 1}
+  ok   a1-2-none: verdict FAIL counts {'A1-2': 1}
+  ok   a1-3: verdict FAIL counts {'A1-3': 1}
+  ok   a1-4-direct: verdict FAIL counts {'A1-4': 1}
+  ok   a1-4-relay: verdict FAIL counts {'A1-4': 1}
+  ok   a1-5: verdict FAIL counts {'A1-5': 1}
+  ok   a1-6: verdict FAIL counts {'A1-6': 1}
+  ok   p1-form: verdict FAIL counts {'P1-id': 1}
+  ok   p1-unique: verdict FAIL counts {'P1-id': 1}
+  ok   c1-a: verdict FAIL counts {'C1-a': 1}
+  ok   c1-b: verdict FAIL counts {'C1-b': 1}
+  ok   not-applicable: verdict NOT-APPLICABLE counts {}
+  ok   template: verdict NOT-APPLICABLE counts {}
+  ok   fail: verdict FAIL counts {'A1-4': 1}
+  ok   broken-duplicate-key: UNMEASURABLE (bomdd/32-mbom.yaml does not parse: duplicate key 'mbom' (line 50))
+  ok   broken-missing-file: UNMEASURABLE (bomdd/33-control-plan.yaml is missing)
+  ok   broken-shape: UNMEASURABLE (ebom.items, mbom.manufacturing_units or control_plan.characteristics is absent)
+  ok   merge-key: verdict PASS
+  ok   exit-codes: {'PASS': 0, 'FAIL': 1, 'UNMEASURABLE': 2, 'NOT-APPLICABLE': 3}
+bom-structure-check selftest: 23/23 arms as expected

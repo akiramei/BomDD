@@ -1,0 +1,6 @@
+bom-structure-check: (index) rules A1:1-6;A1-4:relay;P1:id;C1:a,b
+[P1-id] M-EXPORT-001 -> PS-M-EXPORT-CLOCK-001-P01: a provides id is not of the form PS-M-EXPORT-001-Pnn
+[P1-id] M-EXPORT-001 -> PS-M-EXPORT-COPY-001-P01: a provides id is not of the form PS-M-EXPORT-001-Pnn
+population: units=8 units_with_part_standard=8 if_items=8 ps_requires=9 ps_provides=11 ebom_requires_checked=6 cp_rows=15 placeholders_skipped=0
+counts: A1-1=0 A1-2=0 A1-3=0 A1-4=0 A1-5=0 A1-6=0 P1-id=2 C1-a=0 C1-b=0
+verdict: FAIL - 2 finding(s)

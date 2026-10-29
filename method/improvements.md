@@ -9740,7 +9740,7 @@ behaviour decisions and drew most of the found defects. No body text changes on 
   generator ECO from this result.
   source: this section (the user's "A", 2026-10-29)
   evidence: `bomdd/reports/exp-20261029-01/results.md`, `summary.json`, `definitions.md`
-- [watch 1/3] OBS-20261029-02 — **A structure check written as prose and applied by reading was violated from the first derived layer
+- [watch 2/3] OBS-20261029-02 — **A structure check written as prose and applied by reading was violated from the first derived layer
   on, through every review that should have read it; running it as a program found the violations at once.** The first M-BOM's
   commit says "A1 structure checked" and names four of its checks, not rules 4 and 5, which fail 13 and 14 times there. A check whose
   record says it ran, but not which rules, is indistinguishable from a partial run (§9 "a prose requirement is not evidence of
@@ -9749,6 +9749,9 @@ behaviour decisions and drew most of the found defects. No body text changes on 
   part-standard ids, a template's must-not) found violated when first run mechanically, in any product.
   source: this section
   evidence: `bomdd/reports/exp-20261029-01/a1_check.py` (its output at `d3683d6` and `64912a4` in `results.md` §2); MoviePad-Remake `64912a4` (commit message)
+  2 例目 (2026-10-29, ECO-118 manufacture): §4.5 P1's id form, first run as a program, finds two violations in MoviePad-Remake's
+  accepted BOM (`3ba3d00`, `d3683d6`, HEAD `a2ca41e`) - see the 2026-10-29 ECO-118 manufacture section.
+  evidence: `bomdd/reports/eco-118-bom-structure-check/out/v1.txt`, `out/v7.txt`, `out/v8.txt`
 
 ## 2026-10-29 After EXP-20261029-01 — the user's "1:A 2:A", and three copies of an authority in one product's derived records
 
@@ -9864,3 +9867,26 @@ restates §9 ("a prose requirement is not evidence of compliance") as a filter o
   promotions through /lesson-promote, the number of proposed body texts and how many carry a named stop or measure (target: all;
   any without one is a violation of the skill, counted, not excused). Trigger: the next three promotions.
   source: this section (the user's "3:A")
+
+## 2026-10-29 ECO-118 manufacture — the part-standard id form, first run as a program, fails in an accepted BOM
+
+- Observed while measuring ECO-118's V1, V7 and V8 (order section 4): `bom-structure-check.py` finds P1-id × 2 in MoviePad-Remake at
+  `3ba3d00`, `d3683d6` and HEAD `a2ca41e`. `M-EXPORT-001` provides `PS-M-EXPORT-CLOCK-001-P01` and `PS-M-EXPORT-COPY-001-P01`, the ids of
+  the two units ECO-005 merged into it ("moved … under the same ids", its `retired_units` record); playbook §4.5 P1 asks for
+  `PS-M-EXPORT-001-Pnn`. Three G3 rounds, ECO-005, ECO-006 and two R8 rounds did not see it; the experiment's `a1_check.py` did not
+  implement P1, so ECO-118's frozen V7 and V8 expected `3ba3d00` to pass. This is OBS-20261029-02's second instance (updated in place).
+  MoviePad-Remake is not changed by ECO-118; whether it gets a product ECO (rename the two ids and their Control Plan references, or a
+  known defect) is the user's decision. ECO-118's closure decides whether V7 and V8 count as met on the derived copy with the two ids
+  renamed (PASS / allowed there).
+- Observed in the same run (V3): TimetableAdv's E-BOM uses YAML merge keys (`<<:`, 106 of them); the tool's strict loader refused them
+  as UNMEASURABLE until D8 (order section 4). `process-validator.py`'s `strict_load` and `self-conformance.py`'s `strict_yaml_load` have the
+  same pre-pass and raise `ConstructorError` on a merge key (checked 2026-10-29); no register, profile or method YAML in BomDD or the four
+  products uses one today (grep).
+- Thought layer: changes nothing yet (observations); method/concept claim none.
+- [watch 1/3] OBS-20261029-05 — **A strict YAML loader that pre-constructs every key to find duplicates breaks on a merge key, so valid
+  YAML reads as unparsable.** Two instruments still carry the shape: process-validator (a register or profile with a merge key would
+  stop every commit with exit 2, fail-closed) and self-conformance's C1 (a method YAML with one would fail C1). Machine face, a candidate
+  only (stop): skip merge-key nodes in the duplicate pre-pass, with a selftest arm, in a process-core ECO (the validator ships in every
+  product) and in self-conformance. 2 例目の条件= a second instrument reading valid YAML as broken because of how its loader checks keys.
+  source: ECO-118 manufacture, V3, 2026-10-29
+  evidence: `method/tools/bom-structure-check.py` D8 and its `merge-key` selftest arm; `bomdd/60-change-order-eco-118.md` section 4

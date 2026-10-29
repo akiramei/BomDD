@@ -1,0 +1,19 @@
+MoviePad-Remake d3683d6: 8 units, 6 live E items, 8 IF-
+rule 1: 0 failure(s)
+rule 2: 0 failure(s)
+rule 3: 0 failure(s)
+rule 4: 6 failure(s)
+   M-PROBE-001 PS-M-PROBE-001-R01 targets PS-M-MEDIA-TOOLS-001-P01 of M-MEDIA-TOOLS-001: the units share no E item and the provider has ebom_refs ['E-MEDIA-TOOLS-001'] (an E-to-E boundary must be an IF-)
+   M-OUTPUT-SETTINGS-001 PS-M-OUTPUT-SETTINGS-001-R01 targets PS-M-PROBE-001-P01 of M-PROBE-001: the units share no E item and the provider has ebom_refs ['E-PROBE-001'] (an E-to-E boundary must be an IF-)
+   M-OUTPUT-SETTINGS-001 PS-M-OUTPUT-SETTINGS-001-R02 targets PS-M-DOCUMENT-001-P01 of M-DOCUMENT-001: the units share no E item and the provider has ebom_refs ['E-DOCUMENT-001'] (an E-to-E boundary must be an IF-)
+   M-EXPORT-001 PS-M-EXPORT-001-R01 targets PS-M-DOCUMENT-001-P01 of M-DOCUMENT-001: the units share no E item and the provider has ebom_refs ['E-DOCUMENT-001'] (an E-to-E boundary must be an IF-)
+   M-EXPORT-001 PS-M-EXPORT-001-R02 targets PS-M-PROBE-001-P01 of M-PROBE-001: the units share no E item and the provider has ebom_refs ['E-PROBE-001'] (an E-to-E boundary must be an IF-)
+   M-EXPORT-001 PS-M-EXPORT-001-R05 targets PS-M-MEDIA-TOOLS-001-P01 of M-MEDIA-TOOLS-001: the units share no E item and the provider has ebom_refs ['E-MEDIA-TOOLS-001'] (an E-to-E boundary must be an IF-)
+rule 5: 6 failure(s)
+   E item E-OUTPUT-SETTINGS-001 requires IF-PROBE-01; no unit realising E-OUTPUT-SETTINGS-001 (['M-OUTPUT-SETTINGS-001']) has a requires targeting it
+   E item E-PROBE-001 requires IF-MEDIA-TOOLS-01; no unit realising E-PROBE-001 (['M-PROBE-001']) has a requires targeting it
+   E item E-EXPORT-001 requires IF-DOCUMENT-01; no unit realising E-EXPORT-001 (['M-EXPORT-001']) has a requires targeting it
+   E item E-EXPORT-001 requires IF-PROBE-01; no unit realising E-EXPORT-001 (['M-EXPORT-001']) has a requires targeting it
+   E item E-EXPORT-001 requires IF-OUTPUT-SETTINGS-01; no unit realising E-EXPORT-001 (['M-EXPORT-001']) has a requires targeting it
+   E item E-EXPORT-001 requires IF-MEDIA-TOOLS-01; no unit realising E-EXPORT-001 (['M-EXPORT-001']) has a requires targeting it
+rule 6: 0 failure(s)

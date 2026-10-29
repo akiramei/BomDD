@@ -1,0 +1,42 @@
+bom-structure-check: (rev 64912a411930) rules A1:1-6;A1-4:relay;P1:id;C1:a,b
+[A1-4] M-PROBE-001 PS-M-PROBE-001-R01 -> PS-M-MEDIA-TOOLS-001-P01 of M-MEDIA-TOOLS-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-OUTPUT-SETTINGS-001 PS-M-OUTPUT-SETTINGS-001-R01 -> PS-M-PROBE-001-P01 of M-PROBE-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-OUTPUT-SETTINGS-001 PS-M-OUTPUT-SETTINGS-001-R02 -> PS-M-DOCUMENT-001-P01 of M-DOCUMENT-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-EXPORT-CLOCK-001 PS-M-EXPORT-CLOCK-001-R01 -> PS-M-DOCUMENT-001-P01 of M-DOCUMENT-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-EXPORT-CLOCK-001 PS-M-EXPORT-CLOCK-001-R02 -> PS-M-PROBE-001-P01 of M-PROBE-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-EXPORT-COPY-001 PS-M-EXPORT-COPY-001-R01 -> PS-M-DOCUMENT-001-P01 of M-DOCUMENT-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-EXPORT-COPY-001 PS-M-EXPORT-COPY-001-R02 -> PS-M-PROBE-001-P01 of M-PROBE-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-EXPORT-COPY-001 PS-M-EXPORT-COPY-001-R03 -> PS-M-MEDIA-TOOLS-001-P01 of M-MEDIA-TOOLS-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-EXPORT-001 PS-M-EXPORT-001-R01 -> PS-M-DOCUMENT-001-P01 of M-DOCUMENT-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-EXPORT-001 PS-M-EXPORT-001-R02 -> PS-M-PROBE-001-P01 of M-PROBE-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-EXPORT-001 PS-M-EXPORT-001-R03 -> PS-M-EXPORT-CLOCK-001-P01 of M-EXPORT-CLOCK-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-EXPORT-001 PS-M-EXPORT-001-R04 -> PS-M-EXPORT-COPY-001-P01 of M-EXPORT-COPY-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-4] M-EXPORT-001 PS-M-EXPORT-001-R05 -> PS-M-MEDIA-TOOLS-001-P01 of M-MEDIA-TOOLS-001: the units share no E item (an E-to-E boundary must be an IF-)
+[A1-5] E item E-OUTPUT-SETTINGS-001 -> IF-PROBE-01: no unit realising it (M-OUTPUT-SETTINGS-001) has a requires targeting the IF-
+[A1-5] E item E-PROBE-001 -> IF-MEDIA-TOOLS-01: no unit realising it (M-PROBE-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-CLOCK-001 -> IF-DOCUMENT-01: no unit realising it (M-EXPORT-CLOCK-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-CLOCK-001 -> IF-PROBE-01: no unit realising it (M-EXPORT-CLOCK-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-COPY-001 -> IF-DOCUMENT-01: no unit realising it (M-EXPORT-COPY-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-COPY-001 -> IF-PROBE-01: no unit realising it (M-EXPORT-COPY-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-COPY-001 -> IF-OUTPUT-SETTINGS-01: no unit realising it (M-EXPORT-COPY-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-COPY-001 -> IF-MEDIA-TOOLS-01: no unit realising it (M-EXPORT-COPY-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-001 -> IF-DOCUMENT-01: no unit realising it (M-EXPORT-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-001 -> IF-PROBE-01: no unit realising it (M-EXPORT-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-001 -> IF-OUTPUT-SETTINGS-01: no unit realising it (M-EXPORT-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-001 -> IF-EXPORT-CLOCK-01: no unit realising it (M-EXPORT-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-001 -> IF-EXPORT-COPY-01: no unit realising it (M-EXPORT-001) has a requires targeting the IF-
+[A1-5] E item E-EXPORT-001 -> IF-MEDIA-TOOLS-01: no unit realising it (M-EXPORT-001) has a requires targeting the IF-
+[C1-b] M-SOLUTION-001 PS-M-SOLUTION-001-P01 -> CP-BUILD-001: no row in the unit's acceptance_refs names the provides item
+[C1-b] M-DOCUMENT-001 PS-M-DOCUMENT-001-P01 -> CP-DOCUMENT-001,CP-EDIT-001: no row in the unit's acceptance_refs names the provides item
+[C1-b] M-HISTORY-001 PS-M-HISTORY-001-P01 -> CP-HISTORY-001: no row in the unit's acceptance_refs names the provides item
+[C1-b] M-MEDIA-TOOLS-001 PS-M-MEDIA-TOOLS-001-P01 -> CP-MEDIA-TOOLS-001: no row in the unit's acceptance_refs names the provides item
+[C1-b] M-PROBE-001 PS-M-PROBE-001-P01 -> CP-PROBE-001: no row in the unit's acceptance_refs names the provides item
+[C1-b] M-OUTPUT-SETTINGS-001 PS-M-OUTPUT-SETTINGS-001-P01 -> CP-OUTPUT-SETTINGS-001: no row in the unit's acceptance_refs names the provides item
+[C1-b] M-EXPORT-CLOCK-001 PS-M-EXPORT-CLOCK-001-P01 -> CP-EXPORT-CLOCK-001: no row in the unit's acceptance_refs names the provides item
+[C1-b] M-EXPORT-COPY-001 PS-M-EXPORT-COPY-001-P01 -> CP-EXPORT-COPY-001: no row in the unit's acceptance_refs names the provides item
+[C1-b] M-EXPORT-001 PS-M-EXPORT-001-P01 -> CP-EXPORT-001: no row in the unit's acceptance_refs names the provides item
+[C1-b] M-EXPORT-001 PS-M-EXPORT-001-P02 -> CP-EXPORT-001: no row in the unit's acceptance_refs names the provides item
+[C1-b] M-SELF-ACCEPTANCE-001 PS-M-SELF-ACCEPTANCE-001-P01 -> CP-SELF-ACCEPTANCE-001: no row in the unit's acceptance_refs names the provides item
+population: units=10 units_with_part_standard=10 if_items=8 ps_requires=16 ps_provides=11 ebom_requires_checked=14 cp_rows=2 placeholders_skipped=2 not_exercised=C1-a
+counts: A1-1=0 A1-2=0 A1-3=0 A1-4=13 A1-5=14 A1-6=0 P1-id=0 C1-a=0 C1-b=11
+verdict: FAIL - 38 finding(s)

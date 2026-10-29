@@ -14,6 +14,7 @@ IQ(Installation Qualification)— 対象リポの実測:
         未コミットで走る正当経路がある: gate ① 裁定 1)
   IQ-08 入口(AGENTS.md)の相対 markdown リンク全数が実在する(ECO-023 — 空ポインタ入口は
         line ready でない。AGENTS.md 不在も FAIL)
+  IQ-09 (profile に structure_check がある場合のみ — ECO-118)構造検査の道具が実在し selftest が通る
 
 OQ(Operational Qualification)— 使い捨て sandbox リポで実 commit 経路を実測:
   OQ-00    対照仕様(保護パスプローブ・台帳パス・状態名・trailer 名)を installed profile から
@@ -22,6 +23,10 @@ OQ(Operational Qualification)— 使い捨て sandbox リポで実 commit 経路
   N19      台帳の不正化→復旧による ID 削除の洗浄を測定不能(exit 2)で止める(ECO-024 IA-01)
   N20/N20b 未コミット/index の書き戻しで HEAD の証拠欠落(E06)を隠せない(ECO-024 IA-02)
   N21      履歴走査の git 失敗を無言省略でなく測定不能(exit 2)にする(ECO-024 IA-03)
+  N22a〜g  (profile に structure_check がある場合のみ — ECO-118)E12: FAIL の BOM の受入は遮断・
+           NOT-APPLICABLE は通して名前を出す・遷移のない途中の commit は止めない・PASS は通す・
+           道具の不在と解析できない M-BOM は遮断・欄を外せば E12 は無い(sandbox 1 本)。
+           sandbox には道具と、道具の fixture で PASS する BOM を置く(既存の受入対照のため)
 
   **版の対**: OQ は sandbox へ**対象リポの installed assets** を複写して実測する。したがって
   新しい runner を古い設置 validator へ当てると新規負例が FAIL する(欠陥ではなく**版ずれ**)。
@@ -77,6 +82,7 @@ except ImportError:
 ASSETS = ["bomdd/process-profile.yaml", "bomdd/hooks/pre-commit", "bomdd/hooks/commit-msg",
           "bomdd/tools/process-validator.py", "bomdd/tools/process-qualification.py"]
 REGISTER_FALLBACK = "bomdd/60-change-register.yaml"  # profile 導出不能時の表示用のみ(検査には使わない)
+FIXTURE_MBOM = "bomdd/32-mbom.yaml"  # N22f が壊す M-BOM(構造検査の道具が読む 3 ファイルの 1 つ・ECO-118)
 
 # REV-12: sandbox git から除去する環境変数(前方一致 — repo/index/object/config リダイレクト系)
 GIT_ENV_STRIP = ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
@@ -212,7 +218,49 @@ def run_iq(root: Path) -> list[dict]:
         res.append(result("IQ-08", "入口参照の実在(AGENTS.md)", not missing,
                           f"相対リンク {len(rels)} 件すべて実在" if not missing
                           else f"参照不在 {len(missing)} 件: {missing[:5]}"))
+
+    # IQ-09(ECO-118): profile に structure_check があるときだけ — 道具が実在し、自己検査が通る
+    # (欄があって道具が無い設備は、E12 が受入遷移をすべて遮断する= fail-closed の設定ずれ)
+    rel = _structure_rel(root)
+    if rel:
+        tool = root / rel
+        if not tool.is_file():
+            res.append(result("IQ-09", "構造検査の道具の実在+selftest", False, f"{rel} がない"))
+        else:
+            p = subprocess.run([sys.executable, str(tool), "--selftest"],
+                               capture_output=True, text=True, encoding="utf-8", errors="replace")
+            res.append(result("IQ-09", "構造検査の道具の実在+selftest", p.returncode == 0,
+                              (p.stdout.strip().splitlines() or ["(出力なし)"])[-1]))
     return res
+
+
+def _structure_rel(root: Path) -> str | None:
+    """profile の structure_check(ECO-118)。無ければ None — E12 の対照は、その設備が無い line に作らない。"""
+    try:
+        prof = yaml.safe_load((root / "bomdd" / "process-profile.yaml").read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001 — profile 不読は IQ-01 が FAIL 済み
+        return None
+    sc = prof.get("structure_check") if isinstance(prof, dict) else None
+    return sc if isinstance(sc, str) and sc else None
+
+
+_FIXTURES: dict = {}
+
+
+def structure_fixture(tool: Path, name: str) -> dict | None:
+    """道具自身の selftest fixture(--write-fixture)を {相対パス: bytes} で返す — BOM の写しを
+    qualification に二重に持たない。書けなければ None。"""
+    key = (str(tool), name)
+    if key not in _FIXTURES:
+        d = Path(tempfile.mkdtemp(prefix="bomdd-oq-fx-"))
+        try:
+            p = subprocess.run([sys.executable, str(tool), "--write-fixture", name, str(d)],
+                               capture_output=True, text=True, encoding="utf-8", errors="replace")
+            _FIXTURES[key] = ({f.relative_to(d).as_posix(): f.read_bytes() for f in d.rglob("*") if f.is_file()}
+                              if p.returncode == 0 else None)
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+    return _FIXTURES[key]
 
 
 # --- OQ sandbox ----------------------------------------------------------------------
@@ -281,6 +329,16 @@ class Sandbox:
             prof.update(self.profile_override)
             prof_path.write_text(yaml.safe_dump(prof, allow_unicode=True, sort_keys=False),
                                  encoding="utf-8", newline="\n")
+        # ECO-118: profile に structure_check があれば、道具と、それが PASS する BOM(道具の fixture)を
+        # 置く — 置かなければ E12 が受入遷移のある対照(POS 等)を「道具が無い」で遮断する
+        rel = _structure_rel(self.root)
+        if rel and (self.source_root / rel).is_file():
+            dst = self.root / rel
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            dst.write_bytes((self.source_root / rel).read_bytes())
+            for r, b in (structure_fixture(self.source_root / rel, "good") or {}).items():
+                (self.root / r).parent.mkdir(parents=True, exist_ok=True)
+                (self.root / r).write_bytes(b)
 
     def _chmod_hooks(self) -> None:
         if os.name == "posix":
@@ -680,6 +738,95 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     res.append(result("N21", "exit 2(履歴走査の git 失敗を fail-open にしない)", v.returncode == 2,
                       "測定不能として停止" if v.returncode == 2
                       else f"想定外(exit {v.returncode}): {((v.stderr or '') + (v.stdout or '')).strip()[:140]}"))
+
+    # --- ECO-118: E12(受入遷移での BOM 構造検査の再計算)— profile に structure_check がある設備だけ ---
+    rel = _structure_rel(root)
+    if rel:
+        res += _oq_structure(root, base, rel)
+    return res
+
+
+def _reg_many(statuses: dict) -> str:
+    return "changes:\n" + "".join(f"  - id: {cid}\n    title: OQ synthetic control\n    status: {st}\n"
+                                  for cid, st in statuses.items())
+
+
+def _oq_structure(root: Path, base: Path, rel: str) -> list[dict]:
+    """N22a〜g(ECO-118 V8 の腕を qualification に入れ子で)。sandbox 1 本で、腕ごとに別の ECO を遷移させる。"""
+    tool = root / rel
+    fx = {n: structure_fixture(tool, n) for n in ("good", "fail", "not-applicable")} if tool.is_file() else {}
+    if not tool.is_file() or not all(fx.values()):
+        return [result("N22", "E12(構造検査)", False,
+                       f"道具 {rel} が無いか fixture を書けない — E12 の対照を実測できない(欠測は FAIL)")]
+    res: list[dict] = []
+    s = Sandbox(root, base, "n22")
+    acc = SPEC["trailers"]["accept"]
+    st = {c: SPEC["initial"] for c in ("ECO-901", "ECO-902", "ECO-903", "ECO-904")}
+    s.write(SPEC["register"], _reg_many(st))
+    s.commit("eco: file ECO-901..904")
+
+    def put(name: str) -> None:
+        for r, b in fx[name].items():
+            (s.root / r).write_bytes(b)
+
+    def accept(cid: str, msg: str) -> subprocess.CompletedProcess:
+        st[cid] = SPEC["final"]
+        s.write(SPEC["register"], _reg_many(st))
+        return s.commit(msg, f"{acc}: {cid}")
+
+    def undo(cid: str) -> None:
+        st[cid] = SPEC["initial"]
+        git(s.root, "reset", "-q", "--hard", env=s.env)
+
+    def out(p: subprocess.CompletedProcess) -> str:
+        return (p.stdout or "") + (p.stderr or "")
+
+    put("fail")
+    p = accept("ECO-901", "eco: accept ECO-901 with a BOM that fails A1-4")
+    ok, d = _blocked_with(p, "E12")
+    ok = ok and "[A1-4]" in out(p)
+    res.append(result("N22a", "E12(FAIL の BOM で受入→遮断・所見を表示)", ok, d + ("・所見 [A1-4] を表示" if ok else "")))
+    undo("ECO-901")
+
+    put("not-applicable")
+    p = accept("ECO-901", "eco: accept ECO-901 with no part standard")
+    ok = p.returncode == 0 and "NOT-APPLICABLE" in out(p)
+    res.append(result("N22b", "E12 なし(部品規格の無い BOM は NOT-APPLICABLE として通し、出力に名前を出す)", ok,
+                      "通過・NOT-APPLICABLE を表示" if ok else f"想定外(exit {p.returncode}): {out(p).strip()[:140]}"))
+
+    put("fail")
+    p = s.commit("bom: an intermediate commit with a failing BOM (no transition)")
+    put("good")
+    p2 = s.commit("bom: back to a passing BOM (no transition)")
+    ok = p.returncode == 0 and p2.returncode == 0
+    res.append(result("N22c", "E12 なし(遷移のない途中の commit は止めない)", ok,
+                      "途中の commit は通過" if ok else f"想定外(exit {p.returncode}/{p2.returncode}): {out(p).strip()[:140]}"))
+
+    p = accept("ECO-902", "eco: accept ECO-902 with a passing BOM")
+    ok = p.returncode == 0 and "PASS" in out(p)
+    res.append(result("N22d", "E12 なし(PASS の BOM で受入→通過・PASS を表示)", ok,
+                      "通過・PASS を表示" if ok else f"想定外(exit {p.returncode}): {out(p).strip()[:140]}"))
+
+    (s.root / rel).unlink()
+    ok, d = _blocked_with(accept("ECO-903", "eco: accept ECO-903 with the tool removed"), "E12")
+    res.append(result("N22e", "E12(道具の不在で受入→遮断)", ok, d))
+    undo("ECO-903")
+
+    s.write(FIXTURE_MBOM, "mbom: [\n")
+    ok, d = _blocked_with(accept("ECO-903", "eco: accept ECO-903 with an M-BOM that does not parse"), "E12")
+    res.append(result("N22f", "E12(解析できない M-BOM で受入→遮断 — 測れないは合格ではない)", ok, d))
+    undo("ECO-903")
+
+    prof_path = s.root / "bomdd" / "process-profile.yaml"
+    prof_path.write_text("".join(l for l in prof_path.read_text(encoding="utf-8").splitlines(keepends=True)
+                                 if not l.startswith("structure_check:")), encoding="utf-8", newline="\n")
+    p0 = s.commit("equipment: drop structure_check under ECO-904")
+    put("fail")
+    p = accept("ECO-904", "eco: accept ECO-904 with a failing BOM, the field removed")
+    ok = p0.returncode == 0 and p.returncode == 0 and "[E12]" not in out(p)
+    res.append(result("N22g", "E12 なし(profile に欄が無ければ E12 は無い — 既設の製品は不変)", ok,
+                      "欄なしでは FAIL の BOM でも通過" if ok
+                      else f"想定外(exit {p0.returncode}/{p.returncode}): {(out(p0) + out(p)).strip()[:140]}"))
     return res
 
 

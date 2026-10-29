@@ -51,6 +51,7 @@
 - 改訂ファイル:
 - 部品分割・置換がある場合: [64-part-lineage-reattribution.md](64-part-lineage-reattribution.md) を作り、旧 ID の active 参照を全て再帰属する
 - 同期確認: REQ / 仕様 / E-BOM / K-BOM / M-BOM / Control Plan / Oracle / Routing / Work Order
+- BOM の構造検査(30/32/33 を変える ECO のみ・playbook §4.6 G3): 最後の BOM commit= / 受領証のパス= (判定は道具が受領証に書く — 判定を手で写さない)
 - **変更分の受入を先に追加**(オラクル・ファースト): 新オラクル行 / test_vectors / Control Plan 行 / 移行オラクル(スキーマ変更時。62):
 - **治具の凍結条件**: セルフテスト+**較正**(変更前個体に対し既存行=PASS・新規行=FAIL。playbook §4.4):
 
