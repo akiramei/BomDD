@@ -1,0 +1,7 @@
+# V3 - nothing else moves (before = a scaffold of 42a6158, after = this tree)
+before: disposition PASS, controls 47; after: disposition PASS, controls 62
+controls in both: 47; verdict or detail different: none
+only after: ['N23a', 'N23b', 'N23c', 'N23d', 'N23e', 'N23f', 'N23g', 'N23h', 'N23i', 'N23j', 'N23k', 'N23l', 'N23m', 'N23n', 'N23o']
+only before: none
+E13 in before's output: False
+V3: PASS

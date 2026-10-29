@@ -27,6 +27,15 @@
   E11 equipment-neutralized             : hook は存在するが validator を起動しない(pass-through
                                           stub への置換= 無力化。ECO-019 IA-01 — 存在は有効性を
                                           含意しない)
+  E13 ruled-layer-change-without-ruling : (profile に ruled_layer がある場合のみ — ECO-119)設計リリース
+                                          (ruled_layer.since)以後に裁定層(ruled_layer.paths — 要求・仕様・
+                                          E-BOM・K-BOM・ADR)を変える commit は、trailer「BomDD-ECO-Ruling:
+                                          <id>」が名指す ECO が**親(HEAD)の台帳で open**(起票は先の commit)
+                                          で、その指示書の `Sources read` 節が触れた各ファイルを path:line で
+                                          1 回以上引くことを要求する(引用数 0 は遮断 — 測る)。削除・rename の
+                                          両側も数える。since が解決できなければ遮断。履歴再演でも同じ判定を
+                                          その時点の台帳と指示書で行う(--no-verify・amend を第 2 層が検出)。
+                                          止めないもの: 誰が裁定したか・資料を本当に読んだか・変更が正しいか
   E12 structure-check-failed-at-acceptance : (profile に structure_check がある場合のみ — ECO-118)
                                           commit-msg で accept 状態(applied)への遷移を含む commit は、
                                           BOM の構造検査(bom-structure-check.py --index)を**その場で
@@ -109,7 +118,11 @@ REASONS = {
     "E10": "equipment-missing-or-incomplete",
     "E11": "equipment-neutralized",
     "E12": "structure-check-failed-at-acceptance",
+    "E13": "ruled-layer-change-without-ruling",
 }
+
+# E13(ECO-119): 裁定層の保護。trailer 名の既定(profile の trailers.ruling で変更可)
+RULING_TRAILER_DEFAULT = "BomDD-ECO-Ruling"
 
 # E12(ECO-118): 構造検査の道具の終了コード。0/3 だけが通る — NOT-APPLICABLE(部品規格を持つ単位が
 # ない= 何も検査していない)は遅延の規則で通すが、出力に名前を出す。
@@ -206,6 +219,17 @@ def validate_profile(prof) -> list[str]:
         errs.append("trailers は fix/accept 両キーを非空文字列で持つ(部分削除は無音無効化になるため遮断)")
     elif tr["fix"] == tr["accept"]:
         errs.append("trailers.fix と trailers.accept は別名")
+    if isinstance(tr, dict) and "ruling" in tr:  # ECO-119: 任意。書いたなら非空・fix/accept と別名
+        if not (isinstance(tr["ruling"], str) and tr["ruling"]) or tr["ruling"] in (tr.get("fix"), tr.get("accept")):
+            errs.append("trailers.ruling は非空文字列で fix/accept と別名")
+    if "ruled_layer" in prof:  # ECO-119: 任意キー。書いたなら since と paths を正しく持つ(壊れた値の無音無効化を遮断)
+        rl = prof["ruled_layer"]
+        paths = rl.get("paths") if isinstance(rl, dict) else None
+        if not (isinstance(rl, dict) and set(rl) == {"since", "paths"} and isinstance(rl.get("since"), str) and rl["since"]
+                and isinstance(paths, list) and paths
+                and all(isinstance(x, str) and x and not re.match(r"^([/\\]|[A-Za-z]:)", x)
+                        and ".." not in x.replace("\\", "/").split("/") for x in paths)):
+            errs.append("ruled_layer は {since: 非空の commit-ish, paths: リポ相対の非空パスの非空 list} だけを持つ")
     if "structure_check" in prof:  # ECO-118: 任意キー。書いたなら非空の相対パス(壊れた値の無音無効化を遮断)
         sc = prof["structure_check"]
         if not (isinstance(sc, str) and sc and not re.match(r"^([/\\]|[A-Za-z]:)", sc)
@@ -519,6 +543,53 @@ def scan_history(root: Path, prof: dict) -> dict:
                     f"open 状態({prof['open_states']})の ECO がない(第 1 層を回避した"
                     f"保護パス変更を第 2 層が検出)")
 
+    # --- E13 の履歴版(ECO-119 T4)— since 以後で裁定層に触れた commit を、その時点の親の台帳と、その commit の
+    # 指示書で判定し直す。--no-verify・hook 設置前・amend で第 1 層を通らなかった変更をここで見つける ---
+    rl = prof.get("ruled_layer")
+    if rl:
+        sp = run_git(root, "rev-parse", "--verify", "-q", f"{rl['since']}^{{commit}}")
+        if sp.returncode != 0:
+            die(f"ruled_layer.since '{rl['since']}' が解決できない(裁定層の履歴検査が測定不能)")
+        # --ancestry-path: since の子孫だけ(merge で入った「since より前の枝」の commit を数えない — 第 1 層の
+        # 「since が HEAD の祖先」と同じ境界。V1 の実測で、無いと設計リリース前の commit 3 本を誤って報告した)
+        q = run_git(root, "rev-list", "--reverse", "--full-history", "--ancestry-path", f"{sp.stdout.strip()}..HEAD",
+                    "--", *rl["paths"])
+        if q.returncode != 0:
+            die(f"裁定層の履歴の走査が失敗(検査面が測定不能): {q.stderr.strip()}")
+        name = prof["trailers"].get("ruling", RULING_TRAILER_DEFAULT)
+        for sha in [s for s in q.stdout.split() if s]:
+            par = run_git(root, "log", "-1", "--format=%P", sha)
+            body = run_git(root, "log", "-1", "--format=%B", sha)
+            if par.returncode != 0 or body.returncode != 0:
+                die(f"commit を読めない: {sha[:9]}(裁定層の履歴検査が測定不能)")
+            parents = [x for x in par.stdout.split() if x]
+            # merge は全親に対する差分(衝突の解決で入った変更)だけを数える — 枝の commit は自分で判定される
+            args = (["diff-tree", "--cc", "--no-commit-id", "--name-only", sha] if len(parents) > 1
+                    else ["diff-tree", "--no-commit-id", "--name-only", "-r", "--no-renames", "--root", sha])
+            d = run_git(root, *args)
+            if d.returncode != 0:
+                die(f"変更パスを読めない: {sha[:9]}(裁定層の履歴検査が測定不能)")
+            touched = ruled_paths_touched([x for x in d.stdout.splitlines() if x], prof)
+            if not touched:
+                continue
+            pregs = []
+            for x in parents:
+                r = reg_at(x)
+                if r is None:
+                    die(f"親 {x[:9]} の台帳が解析不能(裁定層の履歴検査が測定不能)")
+                pregs.append(r)
+            base = combine_parents(pregs, prof) if pregs else {}
+
+            def order_at(cid: str, e: dict, _sha=sha) -> str | None:
+                ref = e.get("order_ref") or f"bomdd/60-change-order-{cid.lower()}.md"
+                p = run_git(root, "show", f"{_sha}:{ref}")
+                return p.stdout if p.returncode == 0 else None
+
+            why = ruled_layer_issues(touched, parse_trailers(body.stdout).get(name, []), base, prof, order_at)
+            if why:
+                out["violations"].append(f"[E13] {REASONS['E13']}: history:{sha[:9]} 裁定層 {touched} の変更 — "
+                                         + " / ".join(why) + "(第 1 層を通らなかった変更を第 2 層が検出)")
+
     # --- trailer 走査(E07 の raw + 合法遷移のみの証拠採用)---
     p = run_git(root, "log", "--format=%H%x01%B%x02")
     if p.returncode != 0:
@@ -791,6 +862,119 @@ def check_structure(root: Path, old: dict[str, dict], new: dict[str, dict], prof
     return v
 
 
+# --- E13(ECO-119): 裁定層の変更は、それを名指す open な ECO と、その指示書の Sources read を要求する ---
+def ruled_paths_touched(paths: list[str], prof: dict) -> list[str]:
+    entries = (prof.get("ruled_layer") or {}).get("paths") or []
+    return sorted({p for p in paths for e in entries if (p.startswith(e) if e.endswith("/") else p == e)})
+
+
+def sources_read_section(order_text: str) -> str | None:
+    """指示書の `Sources read` 見出しの節(次の同位以上の見出しまで)。無ければ None。"""
+    lines = order_text.splitlines()
+    for i, line in enumerate(lines):
+        m = re.match(r"^(#{1,6})\s+.*\bSources read\b", line)
+        if m:
+            level = len(m.group(1))
+            body = []
+            for nxt in lines[i + 1:]:
+                h = re.match(r"^(#{1,6})\s", nxt)
+                if h and len(h.group(1)) <= level:
+                    break
+                body.append(nxt)
+            return "\n".join(body)
+    return None
+
+
+def citation_counts(section: str, touched: list[str]) -> dict[str, int]:
+    """T3(測る): 触れた裁定層ファイルごとに `<path>:<line>` / `<path>:<line>-<line>` の引用数。"""
+    return {p: len(re.findall(r"(?<![\w./-])" + re.escape(p) + r":\d+(?:-\d+)?(?!\d)", section)) for p in touched}
+
+
+def ruled_layer_issues(touched: list[str], named: list[str], head_entries: dict[str, dict], prof: dict,
+                       order_text_of) -> list[str]:
+    """E13 の判定(純関数・第 1 層と履歴再演が共有)。空なら充足。named= ruling trailer が名指す ID。
+    order_text_of(cid, entry) -> 指示書の本文 | None(不在)。名指す ID のどれか 1 つが全条件を満たせば充足。"""
+    if not touched:
+        return []
+    if not named:
+        return [f"ruling trailer が無い(裁定層 {touched} の変更は、それを名指す ECO が要る)"]
+    why = []
+    for cid in named:
+        e = head_entries.get(cid)
+        if e is None:
+            why.append(f"{cid} は親の台帳に無い")
+            continue
+        if e.get("status") not in prof["open_states"]:
+            why.append(f"{cid} は親の台帳で open でない('{e.get('status')}'— 起票は先の commit で・同じ commit の起票は不可)")
+            continue
+        text = order_text_of(cid, e)
+        ref = e.get("order_ref") or f"bomdd/60-change-order-{cid.lower()}.md"
+        if text is None:
+            why.append(f"{cid} の指示書 {ref} が無い")
+            continue
+        section = sources_read_section(text)
+        if section is None:
+            why.append(f"{cid} の指示書 {ref} に Sources read 節が無い")
+            continue
+        zero = [p for p, n in citation_counts(section, touched).items() if n == 0]
+        if zero:
+            why.append(f"{cid} の Sources read が触れた裁定層ファイルを引用していない(引用数 0: {zero})")
+            continue
+        return []
+    return why
+
+
+def since_applies(root: Path, since: str) -> bool | None:
+    """since が HEAD かその祖先なら True・そうでなければ False・解決できなければ None。"""
+    p = run_git(root, "rev-parse", "--verify", "-q", f"{since}^{{commit}}")
+    if p.returncode != 0:
+        return None
+    if not head_exists(root):
+        return False
+    return run_git(root, "merge-base", "--is-ancestor", p.stdout.strip(), "HEAD").returncode == 0
+
+
+def staged_paths_no_renames(root: Path) -> list[str]:
+    """rename を削除+追加に分けて数える(rename out で裁定層から逃がさない — ECO-119 T2)。"""
+    p = run_git(root, "diff", "--cached", "--name-only", "--no-renames", "-z")
+    if p.returncode != 0:
+        die(f"staged ファイルを列挙できない: {p.stderr.strip()}")
+    return [x for x in p.stdout.split("\0") if x]
+
+
+def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, msg: str) -> list[str]:
+    """E13 第 1 層(commit-msg)— profile に ruled_layer があり、since 以後で、staged が裁定層に触れるとき。
+    msg はエディタのコメント行を除いたもの(E12 と同じ — R8-2-01/R8-3-01 の教訓)。"""
+    rl = prof.get("ruled_layer")
+    if not rl or not head_exists(root):  # 最初の commit は設計リリースの後ではありえない
+        return []
+    touched = ruled_paths_touched(staged_paths_no_renames(root), prof)
+    if not touched:
+        return []
+    applies = since_applies(root, rl["since"])
+    if applies is None:
+        return [f"[E13] {REASONS['E13']}: ruled_layer.since '{rl['since']}' が解決できない — 裁定層 {touched} の変更を"
+                f"判定できない(測定不能は合格ではない)"]
+    if not applies:
+        return []
+    name = prof["trailers"].get("ruling", RULING_TRAILER_DEFAULT)
+    named = parse_trailers(msg).get(name, [])
+
+    def order_text_of(cid: str, e: dict) -> str | None:
+        ref = e.get("order_ref") or f"bomdd/60-change-order-{cid.lower()}.md"
+        for spec in (f":{ref}", f"HEAD:{ref}"):
+            p = run_git(root, "show", spec)
+            if p.returncode == 0:
+                return p.stdout
+        return None
+
+    why = ruled_layer_issues(touched, named, old, prof, order_text_of)
+    if not why:
+        return []
+    return [f"[E13] {REASONS['E13']}: 裁定層 {touched} の変更 — " + " / ".join(why)
+            + f"(「{name}: <open な ECO>」と、その指示書の Sources read での各ファイルの path:line 引用が要る)"]
+
+
 def check_history_evidence(entries: dict[str, dict], prof: dict,
                            linked: dict[tuple[str, str], list[str]],
                            required: set[tuple[str, str]] | None = None) -> list[str]:
@@ -932,6 +1116,8 @@ def main() -> int:
                 die(f"メッセージファイルが読めない: {e}")
             vio += check_commit_msg(old, new, msg, prof)
             vio += check_structure(root, old, new, prof, msg)  # E12(ECO-118・profile で opt-in)
+            vio += check_ruled_layer(root, old, prof,           # E13(ECO-119・profile で opt-in)
+                                     strip_commit_comments(msg, commit_comment_prefixes(root)))
         return report(vio)
 
     # validate(第 2 層): **HEAD の台帳** + 履歴の合法性再演 + 設備完全性
@@ -1170,6 +1356,40 @@ def selftest() -> int:
            for v in ("/abs/t.py", "", "../t.py", 3)))
     tb("陽性: structure_check のリポ相対パスは妥当",
        validate_profile(dict(prof2, structure_check="bomdd-kit/method/tools/bom-structure-check.py")) == [])
+
+    # E13(ECO-119): 裁定層の保護(純粋部分。git の経路は qualification の N23 が実測)
+    prl = dict(prof2, ruled_layer={"since": "bom-v4", "paths": ["bomdd/20-spec.md", "bomdd/reports/adr/"]})
+    tb("E13: 裁定層の判定はファイル完全一致かディレクトリ接頭辞",
+       ruled_paths_touched(["bomdd/20-spec.md", "bomdd/reports/adr/ADR-1.md", "bomdd/20-spec.md.bak", "src/a.py"], prl)
+       == ["bomdd/20-spec.md", "bomdd/reports/adr/ADR-1.md"])
+    sec = sources_read_section("# T\n## 1. x\nbomdd/20-spec.md:9\n## Sources read\n- bomdd/20-spec.md:12-14\n- xbomdd/20-spec.md:3\n"
+                               "### sub\n- bomdd/20-spec.md:20\n## 2. next\nbomdd/20-spec.md:30\n")
+    tb("E13: Sources read 節は次の同位以上の見出しまで・引用は path:line の形で境界つき",
+       sec is not None and citation_counts(sec, ["bomdd/20-spec.md"]) == {"bomdd/20-spec.md": 2}
+       and sources_read_section("## 1. x\nno section\n") is None)
+    order_ok = "## Sources read\n- bomdd/20-spec.md:5\n"
+    texts = {"ECO-1": order_ok, "ECO-2": "## 1. no section\n", "ECO-3": "## Sources read\n- bomdd/30-ebom.yaml:1\n"}
+    oto = lambda cid, e: texts.get(cid)
+    for name_, named, head, expect_ok in [
+            ("ruling trailer なし", [], {"ECO-1": e("staged")}, False),
+            ("台帳に無い ID", ["ECO-9"], {"ECO-1": e("staged")}, False),
+            ("open でない(applied)", ["ECO-1"], {"ECO-1": e("applied")}, False),
+            ("親の台帳に無い(同じ commit の起票)", ["ECO-1"], {}, False),
+            ("指示書が無い", ["ECO-4"], {"ECO-4": e("staged")}, False),
+            ("Sources read 節が無い", ["ECO-2"], {"ECO-2": e("staged")}, False),
+            ("触れたファイルの引用 0", ["ECO-3"], {"ECO-3": e("staged")}, False),
+            ("陽性: open+節+引用", ["ECO-1"], {"ECO-1": e("staged")}, True),
+            ("陽性: 名指す ID の 1 つが満たせば充足", ["ECO-2", "ECO-1"], {"ECO-1": e("staged"), "ECO-2": e("staged")}, True)]:
+        got = ruled_layer_issues(["bomdd/20-spec.md"], named, head, prl, oto)
+        tb(f"E13: {name_}", (not got) == expect_ok, "; ".join(got))
+    tb("E13: 触れていなければ対象外", ruled_layer_issues([], [], {}, prl, oto) == [])
+    tb("E13: profile の ruled_layer の壊れた形を遮断",
+       all(any("ruled_layer" in x for x in validate_profile(dict(prof2, ruled_layer=v)))
+           for v in ({"since": "x"}, {"since": "", "paths": ["a"]}, {"since": "x", "paths": []},
+                     {"since": "x", "paths": ["/abs"]}, {"since": "x", "paths": ["../a"]}, {"since": "x", "paths": ["a"], "extra": 1}, "x")))
+    tb("陽性: ruled_layer の正しい形・trailers.ruling は fix/accept と別名",
+       validate_profile(prl) == []
+       and any("ruling" in x for x in validate_profile(dict(prof2, trailers={"fix": "F", "accept": "A", "ruling": "A"}))))
 
     # merge 合算(REV-13)
     combined = combine_parents([{"ECO-1": e("staged")}, {"ECO-1": e("applied")}], prof2)

@@ -47,6 +47,16 @@ trailers:
 # 欄を書いたら道具が kit に在ることが前提(fail-closed)。kit の再固定と一緒に足す。
 structure_check: "{{METHOD}}/method/tools/bom-structure-check.py"
 
+# 裁定層の保護(E13・ECO-119 — playbook §4.5「正の順」の止める部分)。設計リリース(§7: G3 を通った tag)で
+# 製品が欄を書く — Phase 1〜3 は ECO より前にこれらのファイルを書くので、雛形では無効(コメント)にしておく。
+# 有効にすると、since 以後に paths を変える commit は「BomDD-ECO-Ruling: <id>」(trailers.ruling で名前を変更可)が
+# 名指す ECO が親の台帳で open(起票は先の commit)で、その指示書の `Sources read` 節が触れた各ファイルを
+# path:line で引くことを要求する。欄の追加・since の前送り・削除は本ファイルの変更= E08 を通る。
+# ruled_layer:
+#   since: <commit-ish>          # 設計リリースの tag
+#   paths: [bomdd/10-requirements.yaml, bomdd/20-spec.md, bomdd/30-ebom.yaml, bomdd/31-kbom.yaml, <製品の ADR のディレクトリ/>]
+# (trailers に ruling: BomDD-ECO-Ruling を書けば trailer 名を変えられる — 既定はこの名前)
+
 # 履歴合法性の再演(第 2 層・ECO-018)の起点。既定は「本ファイルを最初に追加した commit」の
 # 自動検出 — process-core を後から導入したリポの導入前履歴を違法として止めないための境界。
 # 導入点を明示したい場合のみ commit-ish を宣言する(証拠要求 E06 の対象範囲も同じ境界で決まる:

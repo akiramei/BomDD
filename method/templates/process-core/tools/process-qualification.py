@@ -23,6 +23,10 @@ OQ(Operational Qualification)— 使い捨て sandbox リポで実 commit 経路
   N19      台帳の不正化→復旧による ID 削除の洗浄を測定不能(exit 2)で止める(ECO-024 IA-01)
   N20/N20b 未コミット/index の書き戻しで HEAD の証拠欠落(E06)を隠せない(ECO-024 IA-02)
   N21      履歴走査の git 失敗を無言省略でなく測定不能(exit 2)にする(ECO-024 IA-03)
+  N23a〜o  (ECO-119)E13: sandbox の profile に ruled_layer を足して実測 — リリース前は検査しない・trailer なし /
+           台帳に無い・閉じた・指示書なし・Sources read なし・引用 0・削除・rename out は遮断・open+引用は通過
+           (エディタのコメント塊つきでも)・裁定層に触れない commit は対象外・--no-verify は履歴の再演が 1 件だけ検出・
+           since 不解決は遮断・欄なしは E13 なし
   N22a〜k  (profile に structure_check がある場合のみ — ECO-118)E12: FAIL の BOM の受入は遮断・
            NOT-APPLICABLE は通して名前を出す・遷移のない途中の commit は止めない・PASS は通す・
            道具の不在と解析できない M-BOM は遮断・欄を外せば E12 は無い・受入 commit の --amend も
@@ -744,6 +748,136 @@ def run_oq(root: Path, base: Path) -> list[dict]:
     rel = _structure_rel(root)
     if rel:
         res += _oq_structure(root, base, rel)
+    # --- ECO-119: E13(裁定層の保護)— 欄は製品が設計リリースで書くので、sandbox の profile に足して実測する ---
+    res += _oq_ruled_layer(root, base)
+    return res
+
+
+def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
+    """N23a〜n(ECO-119 V2 の腕を qualification に入れ子で)。sandbox 1 本で順に。欄なしの対照は別 sandbox。"""
+    res: list[dict] = []
+    spec_p, adr1, adr2 = "bomdd/20-spec.md", "bomdd/adr/ADR-1.md", "bomdd/adr/ADR-2.md"
+    s = Sandbox(root, base, "n23", profile_override={
+        "ruled_layer": {"since": "oq-release", "paths": [spec_p, "bomdd/adr/"]}})
+    acc = SPEC["trailers"]["accept"]
+    ruling = "BomDD-ECO-Ruling"
+    main = "main"
+    for cand in ("main", "master"):
+        if git(s.root, "rev-parse", "--verify", "-q", cand, env=s.env).returncode == 0:
+            main = cand
+            break
+
+    def out(p: subprocess.CompletedProcess) -> str:
+        return (p.stdout or "") + (p.stderr or "")
+
+    def commit_paths(*msgs: str, add=(), rm=(), env=None, extra=()) -> subprocess.CompletedProcess:
+        for a in add:
+            git(s.root, "add", "--", a, env=s.env)
+        for r in rm:
+            git(s.root, "rm", "-q", "--cached", "--", r, env=s.env)
+        args = ["commit", "-q", *extra]
+        for m in msgs:
+            args += ["-m", m]
+        return git(s.root, *args, env=env or s.env)
+
+    def undo() -> None:
+        git(s.root, "reset", "-q", "--hard", env=s.env)
+        git(s.root, "clean", "-q", "-fd", "--", "bomdd/", env=s.env)
+
+    # N23a: 設計リリースより前(since が HEAD の祖先でない)— Phase 3 は検査しない
+    git(s.root, "checkout", "-q", "-b", "rel", env=s.env)
+    git(s.root, "commit", "-q", "--allow-empty", "-m", "release", env=s.env)
+    git(s.root, "tag", "oq-release", env=s.env)
+    git(s.root, "checkout", "-q", main, env=s.env)
+    s.write(spec_p, "# spec\nline 2\n")
+    s.write(adr1, "# ADR-1\n")
+    s.write(adr2, "# ADR-2\n")
+    p = commit_paths("phase 3: spec and ADRs", add=(spec_p, adr1, adr2))
+    res.append(result("N23a", "E13 なし(設計リリースより前は検査しない)", p.returncode == 0,
+                      "通過" if p.returncode == 0 else f"想定外(exit {p.returncode}): {out(p).strip()[:140]}"))
+    m = git(s.root, "merge", "-q", "--no-ff", "rel", "-m", "release merged", env=s.env)
+    # 起票: ECO-950(open・引用あり)/ ECO-951(後で applied)/ ECO-952(Sources read なし)/ ECO-953(指示書なし)
+    reg = {c: SPEC["initial"] for c in ("ECO-950", "ECO-951", "ECO-952", "ECO-953")}  # 状態名は installed profile から(ECO-024)
+    s.write(SPEC["register"], _reg_many(reg))
+    s.write("bomdd/60-change-order-eco-950.md", f"# ECO-950\n## Sources read\n- {spec_p}:1-2\n- {adr1}:1\n")
+    s.write("bomdd/60-change-order-eco-951.md", f"# ECO-951\n## Sources read\n- {spec_p}:1\n")
+    s.write("bomdd/60-change-order-eco-952.md", f"# ECO-952\n## 1. change\n- {spec_p}:1\n")
+    p0 = s.commit("eco: file ECO-950..953")
+    reg["ECO-951"] = SPEC["final"]
+    s.write(SPEC["register"], _reg_many(reg))
+    p1 = s.commit("eco: accept ECO-951", f"{acc}: ECO-951")
+    ready = m.returncode == 0 and p0.returncode == 0 and p1.returncode == 0
+    if not ready:
+        res.append(result("N23", "E13(準備)", False,
+                          f"準備の commit が失敗: merge {m.returncode} file {p0.returncode} accept {p1.returncode} {out(p1).strip()[:120]}"))
+        return res
+
+    def refused(name: str, expected: str, p: subprocess.CompletedProcess, needle: str = "") -> None:
+        ok, d = _blocked_with(p, "E13")
+        ok = ok and (needle in out(p))
+        res.append(result(name, expected, ok, d + (f"・{needle} を表示" if needle and ok else "")))
+        undo()
+
+    s.write(spec_p, "# spec\nline 2 changed\n")
+    refused("N23b", "E13(trailer なしの裁定層の変更→遮断)", commit_paths("spec: no trailer", add=(spec_p,)), "trailer が無い")
+    s.write(spec_p, "# spec\nline 2 changed\n")
+    refused("N23c", "E13(台帳に無い ECO を名指す→遮断)", commit_paths("spec", f"{ruling}: ECO-999", add=(spec_p,)), "ECO-999")
+    s.write(spec_p, "# spec\nline 2 changed\n")
+    refused("N23d", "E13(閉じた ECO を名指す→遮断)", commit_paths("spec", f"{ruling}: ECO-951", add=(spec_p,)), "open でない")
+    s.write(spec_p, "# spec\nline 2 changed\n")
+    refused("N23e", "E13(指示書の無い ECO→遮断)", commit_paths("spec", f"{ruling}: ECO-953", add=(spec_p,)), "指示書")
+    s.write(spec_p, "# spec\nline 2 changed\n")
+    refused("N23f", "E13(Sources read 節の無い指示書→遮断)", commit_paths("spec", f"{ruling}: ECO-952", add=(spec_p,)), "Sources read 節が無い")
+    s.write(adr2, "# ADR-2 changed\n")
+    refused("N23g", "E13(引用していない裁定層ファイル〔引用数 0〕→遮断)", commit_paths("adr", f"{ruling}: ECO-950", add=(adr2,)), "引用数 0")
+    git(s.root, "rm", "-q", "--", adr1, env=s.env)
+    refused("N23h", "E13(裁定層ファイルの削除・trailer なし→遮断)", commit_paths("adr: delete"), adr1)
+    git(s.root, "mv", spec_p, "bomdd/moved-spec.md", env=s.env)
+    refused("N23i", "E13(裁定層の外への rename・trailer なし→遮断)", commit_paths("spec: rename out"), spec_p)
+    # 陽性: 名指す ECO が open・指示書の Sources read が触れたファイルを引く(-m と、エディタのコメント塊つき)
+    s.write(spec_p, "# spec\nline 2 changed\n")
+    p = commit_paths("spec: ruled change", f"{ruling}: ECO-950", add=(spec_p,))
+    res.append(result("N23j", "E13 なし(open な ECO+Sources read の引用→通過)", p.returncode == 0,
+                      "通過" if p.returncode == 0 else f"想定外(exit {p.returncode}): {out(p).strip()[:140]}"))
+    s.write(adr1, "# ADR-1 changed\n")
+    p = commit_paths("adr: ruled change", f"{ruling}: ECO-950", add=(adr1,), extra=("-e",),
+                     env=dict(s.env, GIT_EDITOR="true"))
+    res.append(result("N23k", "E13 なし(エディタのコメント塊つきでも trailer を読む→通過)", p.returncode == 0,
+                      "通過" if p.returncode == 0 else f"想定外(exit {p.returncode}): {out(p).strip()[:140]}"))
+    s.write("bomdd/notes.md", "x\n")
+    p = commit_paths("notes: no ruled path", add=("bomdd/notes.md",))
+    res.append(result("N23l", "E13 なし(裁定層に触れない commit)", p.returncode == 0 and "[E13]" not in out(p),
+                      "通過" if p.returncode == 0 else f"想定外(exit {p.returncode}): {out(p).strip()[:140]}"))
+    # N23m: 第 1 層を --no-verify で回避 → 履歴の再演が history:<sha> の E13 で検出
+    s.write(spec_p, "# spec\nsneaked\n")
+    p = commit_paths("spec: sneaked", add=(spec_p,), extra=("--no-verify",))
+    v = s.validate()
+    e13 = [l for l in out(v).splitlines() if "[E13]" in l]
+    # ちょうど 1 件: 設計リリース前の枝(N23a の commit、merge で入った)を数えない(--ancestry-path)
+    ok = p.returncode == 0 and len(e13) == 1 and "history:" in e13[0] and "sneaked" not in e13[0]
+    res.append(result("N23m", "E13(--no-verify の裁定層の変更を履歴の再演が検出・リリース前の枝は数えない)", ok,
+                      "history の E13 で 1 件だけ検出" if ok
+                      else f"想定外(commit {p.returncode}・validate {v.returncode}・E13 {len(e13)} 件): {out(v).strip()[:140]}"))
+    # N23n: since が解決できない(profile を E08 経由で変えた後)→ 裁定層の変更は遮断
+    prof_path = s.root / "bomdd" / "process-profile.yaml"
+    prof = yaml.safe_load(prof_path.read_text(encoding="utf-8"))
+    prof["ruled_layer"]["since"] = "no-such-release"
+    prof_path.write_text(yaml.safe_dump(prof, allow_unicode=True, sort_keys=False), encoding="utf-8", newline="\n")
+    p0 = commit_paths("equipment: since moved under ECO-950", add=("bomdd/process-profile.yaml",))
+    s.write(spec_p, "# spec\nafter a broken since\n")
+    p = commit_paths("spec", f"{ruling}: ECO-950", add=(spec_p,))
+    ok, d = _blocked_with(p, "E13")
+    res.append(result("N23n", "E13(since が解決できない→遮断・測定不能は合格ではない)", ok and p0.returncode == 0,
+                      d if p0.returncode == 0 else f"profile の commit が失敗: {out(p0).strip()[:120]}"))
+
+    # N23o: 欄の無い profile → E13 は無い(既設の製品は不変)
+    s2 = Sandbox(root, base, "n23o")
+    s2.write(spec_p, "# spec\n")
+    s2.commit("spec")
+    s2.write(spec_p, "# spec changed\n")
+    p = s2.commit("spec: no trailer, no field")
+    res.append(result("N23o", "E13 なし(profile に ruled_layer が無ければ E13 は無い)", p.returncode == 0 and "[E13]" not in out(p),
+                      "通過" if p.returncode == 0 else f"想定外(exit {p.returncode}): {out(p).strip()[:140]}"))
     return res
 
 

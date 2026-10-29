@@ -542,8 +542,8 @@ M-BOM 確定**前**に(Loop4):
 - **正の順(candidate・MoviePad-Remake ECO-006 N=1・user 裁定 2026-10-29)**: 記録とコードが食い違ったら、要求(10)→ 仕様(20)→ 裁定済みの E-BOM・K-BOM・ADR・人の裁定 → 導出層(32〜34)→ コード、の順に上にあるものを正とする。
   コードも原典(再現案件の元製品)も、それだけでは正の根拠にならない — 原典は仕様と原典パリティ(§3.4)を通して効く。変更が少ないことも理由にならない。
   裁定層どうしが矛盾したらどちらも採らず、上の「人へ戻す 3 種」の「導出不能」として人へ戻す(4 種目は作らない)。
-  強制: **止める= ECO-119(起票済み・未製造)** — 設計リリース以後、裁定層のファイルを変える commit は、HEAD で open の ECO を名指す trailer と、その変更指示書の `Sources read` 節での触れたファイルの行の引用を要求する(process-core・profile で opt-in)/
-  **測る= 同 ECO の T3**(触れた裁定層ファイルごとの引用数・0 は拒否)/ **止めないもの**= 誰が裁定したか・上位の資料を読んだか・変更が正しいか(trailer も引用も commit した者が書く — E05 と同じ類)。
+  強制: **止める= process-core の E13**(ECO-119)— 設計リリース(profile の `ruled_layer.since`)以後、裁定層のファイル(`ruled_layer.paths`)を変える commit は、親(HEAD)の台帳で open の ECO を名指す trailer `BomDD-ECO-Ruling` と、その変更指示書の `Sources read` 節での触れたファイルの `path:line` の引用を要求する(profile で opt-in・履歴の再演でも同じ判定で検出)/
+  **測る= E13 の引用数**(触れた裁定層ファイルごと・0 は遮断)/ **止めないもの**= 誰が裁定したか・上位の資料を読んだか・変更が正しいか(trailer も引用も commit した者が書く — E05 と同じ類)・設計リリースより前・欄を書いていない製品。
   根拠: 設計者が 2 件を「E-BOM とコードの食い違い」と枠づけ、コードに合わせる案を推した。要求・仕様・E-BOM・ADR を読むと 2 件とも E-BOM が正しく、欠陥は導出層にあった(設計者は §4.1 の `requires`= 当てにする を呼び出しと読んでいた)。止めたのは人の保留だけだった。
 - **部品規格(candidate・ECO-114)**: 作業指示を受けて作られた部品が次の工程で使えることを、その部品を単独で受け入れる時点で照合できるようにする —
   §4.1 の粒度規準「単独で受入できる最小単位」の前提。
@@ -734,7 +734,7 @@ Routing を導出するとき(Phase 3 の手順 4–6、ECO での導出のや�
 - **As-Built**([templates/50-as-built.yaml](templates/50-as-built.yaml)): どの BOM 版を・どのモデルで・どのプロンプトで製造し、何点だったか。成果物ハッシュ・ずる参照込み(SLSA provenance の AI 製造拡張)。
 - **Service BOM**([templates/53-service-bom.yaml](templates/53-service-bom.yaml)、概念は [s-bom-template.md](s-bom-template.md)): 表面部品ごとに `依存外部知識+版 / 変更時に再実行する検査(深さ付き) / 交換判断`。劣化イベント(外部ツール更新・デザイン改定・**AI モデル更新**)から影響部品と再検査深さを逆引きする(Loop6: 価値は被覆でなく絞り込み)。
 - 納品物 = 成果物 + `bomdd/` 一式(BOM・オラクル・治具・As-Built・cheat-log)。**治具とオラクルは製品と同格**——次の改修時、これがそのまま回帰検査になる。
-- **上流の約束との結線(candidate・ECO-094 試行 N=1・ECO-095)**: Service BOM は下流(何を監視し何を再検査するか)であり、「何を約束するか」は Phase 1 の maintainability REQ に人が裁定して置く。53 の item は `service_requirement_refs`(上流 REQ への参照)と `replacement_policy`(declared-coupling= 交換しない宣言された結合 / substitutable)を candidate 欄として持ち、約束を含む E/S 版は bom_version+tag で設計リリースとして固定してから M/CP を導出する(人へ戻す判断は新しい機能・新しい約束・導出不能の 3 種だけ)。1 行の Control Plan に複数の約束の検査が同居すると、約束単位の測定不能は行の区分に現れない(OBS-20261003-03・再設計の入力)。
+- **上流の約束との結線(candidate・ECO-094 試行 N=1・ECO-095)**: Service BOM は下流(何を監視し何を再検査するか)であり、「何を約束するか」は Phase 1 の maintainability REQ に人が裁定して置く。53 の item は `service_requirement_refs`(上流 REQ への参照)と `replacement_policy`(declared-coupling= 交換しない宣言された結合 / substitutable)を candidate 欄として持ち、約束を含む E/S 版は bom_version+tag で設計リリースとして固定してから M/CP を導出する(その tag を process-core の profile の `ruled_layer.since` に書く — 以後の裁定層の変更は E13 が止める・ECO-119)(人へ戻す判断は新しい機能・新しい約束・導出不能の 3 種だけ)。1 行の Control Plan に複数の約束の検査が同居すると、約束単位の測定不能は行の区分に現れない(OBS-20261003-03・再設計の入力)。
 
 ## 8. Phase 7 — 変更/是正オーダー(ECO/CAPA・candidate / validated ×2)
 

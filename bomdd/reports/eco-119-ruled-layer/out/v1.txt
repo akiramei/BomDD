@@ -1,0 +1,19 @@
+# V1 - MoviePad-Remake's ruled-layer history through E13 (a bomdd-init product)
+set-up: filing exit 0, profile exit 0, tag bom-v4 on a side branch
+bbce170 before since -> allowed: as expected - exit 0
+   the ruled files at bom-v4 committed (exit 0); the release merged (exit 0) - since is now an ancestor
+b06a5bf in ECO-003's filing commit -> refused (not open at HEAD): as expected - exit 1: [E13] ruled-layer-change-without-ruling: 裁定層 ['bomdd/20-spec.md'] の変更 — ECO-003 は親の台帳に無い(「BomDD-ECO-Ruling: <open な ECO>」と、その指示書の Sources read での各ファイルの path:line 引用が要る)
+b06a5bf in the next commit, ECO-003 open, its order citing the spec -> allowed: as expected - exit 0: 
+ec6e549 (extra) ECO-003 open, 31-kbom cited -> allowed: as expected - exit 0: 
+0b50020 with no open ECO and no trailer -> refused, names 20-spec.md and 30-ebom.yaml: as expected - exit 1: [E13] ruled-layer-change-without-ruling: 裁定層 ['bomdd/20-spec.md', 'bomdd/30-ebom.yaml'] の変更 — ruling trailer が無い(裁定層 ['bomdd/20-spec.md', 'bomdd/30-ebom.yaml'] の変更は、それを名指す ECO が要る)(「BomDD-ECO-Ruling: <open な ECO>」と、その指示書の Sources 
+KB check_ruled_layer disabled -> the 0b50020 arm gets through (shown), then undone: as expected - exit 0
+   validator restored and the commit undone (clean tree): True
+f4861e8 in ECO-005's filing commit -> refused: as expected - exit 1: [E13] ruled-layer-change-without-ruling: 裁定層 ['bomdd/reports/adr/ADR-002.md', 'bomdd/reports/adr/ADR-006.md'] の変更 — ECO-005 は親の台帳に無い(「BomDD-ECO-Ruling: <open な ECO>」と、その指示書の Sources read での各ファイルの path:line 引用が要る)
+f4861e8 in the next commit, both ADRs cited (bomdd/reports/adr/ADR-002.md:3, bomdd/reports/adr/ADR-006.md:1) -> allowed: as expected - exit 0: 
+31273e7 with 31-kbom.yaml uncited -> refused, names 31-kbom.yaml with count 0: as expected - exit 1: [E13] ruled-layer-change-without-ruling: 裁定層 ['bomdd/20-spec.md', 'bomdd/30-ebom.yaml', 'bomdd/31-kbom.yaml'] の変更 — ECO-005 の Sources read が触れた裁定層ファイルを引用していない(引用数 0: ['bomdd/31-kbom.yaml'])(「BomDD-ECO-Ruling: <open な ECO>」と、その指示書の
+31273e7 with all three cited -> allowed: as expected - exit 0: 
+79f1791 with --no-verify -> the full mode reports it (history E13, the only E13): as expected - validate exit 1: ["[E13] ruled-layer-change-without-ruling: history:641284933 裁定層 ['bomdd/reports/adr/ADR-003.md'] の変更 — ruling trailer が無い(裁定層 ['bomdd/reports/adr/ADR-003.md'] の変更は、それを名指す ECO が要る)(第 1 層を通らなかった変更を第 2 層が検出)"]
+   other violations in the full mode: none
+KB2 the replay without --ancestry-path -> the pre-release commits are reported too (more than one E13): as expected - E13 lines 4
+throwaway product removed: True
+V1: PASS

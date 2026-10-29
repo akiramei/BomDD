@@ -1,0 +1,18 @@
+# V2 - the qualification's E13 arms (a fresh scaffold of this tree; --runs 2)
+disposition PASS, runs identical True, controls 62
+[N23a] PASS E13 なし(設計リリースより前は検査しない) - 通過
+[N23b] PASS E13(trailer なしの裁定層の変更→遮断) - E13 で遮断・trailer が無い を表示
+[N23c] PASS E13(台帳に無い ECO を名指す→遮断) - E13 で遮断・ECO-999 を表示
+[N23d] PASS E13(閉じた ECO を名指す→遮断) - E13 で遮断・open でない を表示
+[N23e] PASS E13(指示書の無い ECO→遮断) - E13 で遮断・指示書 を表示
+[N23f] PASS E13(Sources read 節の無い指示書→遮断) - E13 で遮断・Sources read 節が無い を表示
+[N23g] PASS E13(引用していない裁定層ファイル〔引用数 0〕→遮断) - E13 で遮断・引用数 0 を表示
+[N23h] PASS E13(裁定層ファイルの削除・trailer なし→遮断) - E13 で遮断・bomdd/adr/ADR-1.md を表示
+[N23i] PASS E13(裁定層の外への rename・trailer なし→遮断) - E13 で遮断・bomdd/20-spec.md を表示
+[N23j] PASS E13 なし(open な ECO+Sources read の引用→通過) - 通過
+[N23k] PASS E13 なし(エディタのコメント塊つきでも trailer を読む→通過) - 通過
+[N23l] PASS E13 なし(裁定層に触れない commit) - 通過
+[N23m] PASS E13(--no-verify の裁定層の変更を履歴の再演が検出・リリース前の枝は数えない) - history の E13 で 1 件だけ検出
+[N23n] PASS E13(since が解決できない→遮断・測定不能は合格ではない) - E13 で遮断
+[N23o] PASS E13 なし(profile に ruled_layer が無ければ E13 は無い) - 通過
+V2: PASS (15 N23 controls)

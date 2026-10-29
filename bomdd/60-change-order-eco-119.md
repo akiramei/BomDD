@@ -170,6 +170,77 @@ required_gates: [V1, V2, V3, V4, V5]
 
 Conditions are frozen at filing; results go to the closing section.
 
+## 4. Manufacture and the measurements before commit (2026-10-29, the user's "ECO-119を製造")
+
+**Start.** Baseline `42a6158` (ECO-118 verified; CI success, run 40882182448); the tree clean. Start check (/preflight, manual): the order's
+sections 1-3 read; ECO-118, which shares `process-validator.py`, its profile and its qualification, is verified (the manufacture order of
+section 1 holds); no other ECO in progress on the affected files → PROCEED. Producer EQ-004 (`claude-opus-5-5`, self-reported).
+
+**What was changed** (`git diff --stat 42a6158`, the evidence folder apart):
+- `method/templates/process-core/tools/process-validator.py`: E13 in the docstring and REASONS; `ruled_layer` and `trailers.ruling` in
+  `validate_profile`; the pure core `ruled_layer_issues` (shared by both layers) with `ruled_paths_touched`, `sources_read_section`,
+  `citation_counts`; the first layer `check_ruled_layer` (commit-msg mode) with `since_applies` and `staged_paths_no_renames`; the second
+  layer in `scan_history` (T4); 13 selftest arms.
+- `method/templates/process-core/process-profile.yaml`: the commented `ruled_layer` block and the `trailers.ruling` note.
+- `method/templates/process-core/tools/process-qualification.py`: N23a-o and their docstring lines.
+- `method/templates/60-change-order.md`: the `Sources read` section (after section 1), pointing to §4.5's authority order.
+- `method/bomdd-playbook-v1.md`: §4.5's enforcement bracket names E13 and its count (T5); §7's design-release sentence names the field.
+- `bomdd-init.py` unchanged (the scaffold renders the template; the field stays commented).
+
+**Derived-layer choices** (decided and reported, ECO-106):
+- D1 — **the first commit is never after the release**: no HEAD → no E13. Without it a scaffold's first commit, which carries the
+  template BOM, would be refused when the field is set and `since` does not resolve yet.
+- D2 — **`since` unresolvable**: the first layer refuses only a commit touching a ruled path (it cannot tell whether the release has
+  passed); the second layer stops with exit 2 (measurement impossible), as it does for `history_replay_since`.
+- D3 — **the trailer is read after removing the editor's comment lines** (`strip_commit_comments` with git's comment candidates and the
+  configured characters — ECO-118's R8-2-01 and R8-3-01 lessons applied from the start).
+- D4 — **the order** is read from the index first, then HEAD (first layer); in the replay, as it stood at that commit.
+- D5 — **`Sources read`** is a markdown heading containing the words, to the next heading of the same or a higher level; a citation is
+  `<path>:<line>` or `<path>:<line>-<line>` with a path boundary (`xbomdd/20-spec.md:3` does not count as `bomdd/20-spec.md`).
+- D6 — **several ids named**: one that meets every requirement suffices; each failing id's reason is printed.
+- D7 — **merges.** The replay counts only a merge's conflict resolutions (`diff-tree --cc`); the branch's own commits are judged
+  themselves. The first layer reads the staged diff against HEAD, so a merge bringing ruled changes needs a trailer naming an open ECO
+  even when the branch's commits had one (fail-closed; the cost is a trailer on such a merge).
+- D8 — **the replay's boundary is `--ancestry-path since..HEAD`** — only descendants of `since`, the first layer's "since is HEAD or an
+  ancestor". Found by V1's first run: without it the replay reported three commits made before the release on the main line and merged
+  in after it (V1's set-up puts the release tag on a side branch). Kept as V1's known-bad KB2.
+- D9 — **the qualification's arms always run** (the sandbox's profile gets `ruled_layer`), unlike E12's, which run only where the
+  installed profile has its field: the template leaves `ruled_layer` commented, so a field-gated arm would never run in C11.
+- D10 — `trailers.ruling` is optional (the default name is in the code); written, it must be non-empty and differ from fix/accept.
+- D11 — V1's product removes `structure_check` in its profile commit (E12 off), so that only E13 is measured: the copied E-BOM sits
+  beside the template M-BOM and Control Plan.
+- D12 — **an amend** that keeps a ruled change already in HEAD is not seen by the first layer (the staged diff against HEAD does not
+  show it); the replay (T4) judges the stored commit. Declared, with `--no-verify`.
+
+**Evidence:** `bomdd/reports/eco-119-ruled-layer/` — `verify119.py` (V1), `verify119_v2v3.py` (V2, V3), outputs in `out/`. MoviePad-Remake
+read with git only. `bom-v4` is the tag on `ca9319d`; `5dde98c` (named in section 0) is the G3-pass record right after it; both give the
+same six ruled-layer commits after them (`git rev-list --count <x>..HEAD -- <the ruled paths>` = 6 each).
+
+- **V1 — PASS** (`out/v1.txt`), the six commits in their real order (b06a5bf, ec6e549, 0b50020, f4861e8, 31273e7, 79f1791) with each
+  parent's register recreated: `bbce170` before `since` → allowed; `b06a5bf` in ECO-003's filing commit → refused ("ECO-003 は親の台帳に
+  無い"), filed first then changed → allowed; `ec6e549` (extra) → allowed; `0b50020` with no open ECO → refused, naming `20-spec.md` and
+  `30-ebom.yaml`; `f4861e8` in ECO-005's filing commit → refused, in the next commit citing both ADRs → allowed; `31273e7` with
+  `31-kbom.yaml` uncited → refused ("引用数 0: 31-kbom.yaml"), all three cited → allowed; `79f1791` with `--no-verify` → the full mode
+  reports exactly one E13 (`history:`), no other violation. Known-bad: `check_ruled_layer` disabled → `0b50020` gets through (undone);
+  the replay without `--ancestry-path` → 4 E13 lines instead of 1.
+- **V2 — PASS** (`out/v2.txt`): a fresh scaffold of this tree, the qualification with `--runs 2` (as C11): disposition PASS, the two
+  runs identical, 62 controls; the 15 N23 arms each as stated — before the release not checked (N23a); refused with E13: no trailer,
+  an id not in the register, a closed ECO, no order, no `Sources read`, an uncited file (count 0), a deletion, a rename out of a ruled
+  path, an unresolvable `since` (N23b-i, n); allowed: an open ECO whose order cites the file, with `-m` and through an editor's comment
+  block (N23j, k); no E13 on a commit touching no ruled path (N23l) or without the field (N23o); `--no-verify` reported by the replay as
+  exactly one history E13 (N23m — the pre-release branch not counted).
+- **V3 — PASS** (`out/v3.txt`): a scaffold of `42a6158` (before) and of this tree (after): the 47 controls present in both have the same
+  verdict and the same detail; only the 15 N23 controls are new; nothing only before; no E13 in the before run.
+- **V4 — the text**: §4.5's bracket names E13 as the stop and its citation count as the measure, and what it does not stop; §7 names
+  `ruled_layer.since`; the template's `Sources read` section points to §4.5 without copying the authority order.
+- **V5**: the first self-conformance run on the changed tree failed C11b (the non-default profile: other register path, initial state,
+  trailers, protected paths): N23's set-up wrote the initial state as `staged` instead of deriving it from the installed profile (the
+  ECO-024 rule the other arms follow). Fixed (`SPEC["initial"]`); the second run exit 0, C11 and C11b 62 controls each. V2's `out/`
+  comes from the default profile, which the fix does not change. CI after the push: at closure.
+- **V6** (not a closing condition): when a product sets the field.
+
+**Not done here:** the commit's CI, the R8 round, the closure.
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling, item 2; filing only).

@@ -3775,7 +3775,7 @@ changes:
     title: the ruled layer (10, 20, 30, 31, the ADRs) becomes protected after the design release - process-core's E13 refuses a commit changing it unless a BomDD-ECO-Ruling trailer names an ECO open at HEAD whose order's Sources read section cites each touched ruled file (opt-in by a profile field; filed only; distribution separate)
     date: 2026-10-29
     origin: improvement
-    status: filed   # 2026-10-29 the user's "1:A 2:A 3:A" on the authority order (2:A = this ECO) -> filing; manufacture waits for the start instruction and for ECO-118 (both change process-validator.py)
+    status: implemented   # 2026-10-29 manufactured on the user's "ECO-119を製造" (order section 4: V1 PASS on MoviePad-Remake's six commits, V2/V3 in section 4; the replay's --ancestry-path boundary found by V1; V5's CI, the R8 round and the closure to follow); filed 94a2a2a on the user's "1:A 2:A 3:A" on the authority order (2:A = this ECO) -> filing; manufacture waits for the start instruction and for ECO-118 (both change process-validator.py)
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       MoviePad-Remake ECO-006 section 6: the designer recommended matching the code in two items the ruled sources answered (the E-BOM was
