@@ -9749,3 +9749,35 @@ behaviour decisions and drew most of the found defects. No body text changes on 
   part-standard ids, a template's must-not) found violated when first run mechanically, in any product.
   source: this section
   evidence: `bomdd/reports/exp-20261029-01/a1_check.py` (its output at `d3683d6` and `64912a4` in `results.md` §2); MoviePad-Remake `64912a4` (commit message)
+
+## 2026-10-29 After EXP-20261029-01 — the user's "1:A 2:A", and three copies of an authority in one product's derived records
+
+Source: the user's reply "1:A 2:A" to the experiment's two decisions (2026-10-29): 1:A = A1 (rules 1-6) and C1 become a kit tool,
+filed as ECO-118 (BomDD); 2:A = MoviePad-Remake's A1 violations get a product ECO, filed as its ECO-006. OBS-20261029-02's machine
+face is therefore taken to an ECO on the user's ruling, not on a second instance. The same message carried a pasted outside comment:
+the three rule conflicts that results.md §4 left unhandled matter as a structural problem of their own (which record is the authority),
+not as part of either ECO. Read against the product files:
+
+- **ROUTE-READ** (`34-routing.yaml`) lists the factory's inputs as 20, 30, 31, 32, 33 and 40, leaving out 34. The list the factory
+  actually receives is the work order's "Inputs" (`40-work-order.md`), which names 20 and 30-34 and points to playbook §4.6 as the
+  canonical package. So in this product no input the factory used is outside the records; the defect is a **hand-copied list that
+  drifted** from its authority, the pattern §4.6 forbids since ECO-093 ("refer, do not duplicate the list").
+- **CP-MEDIA-TOOLS-001** `requirement_refs` copy its E item's refs, which the Control Plan template says not to do; the
+  specification's trace table puts REQ-019 on CP-EXPORT-001.
+- **MD/M-DOCUMENT-001/1** restates a specification clause as a manufacturing decision, which §4.5 ① says not to repeat.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — one
+observation; no body text change.
+
+- [watch 1/3] OBS-20261029-03 — **A derived record that restates its authority instead of referring to it can drift silently; one
+  product's derived layer has three such copies, one already drifted.** For the outside proposal's determinism claim this is the
+  precondition that matters: a program reproduces its output from its inputs only as well as its input list is the real one, so an
+  input manifest must be derived from one canonical list, not copied by hand. Here the drift is in a copy nobody reads as the source
+  (the work order's list is right), so no reproducibility claim is broken; the same copy read as the source would be. Machine face, a
+  candidate only: a check that a list duplicated from a canonical one (ROUTE-READ's inputs against §4.6's package; a row's
+  `requirement_refs` against the trace table) equals it, or that the copy is replaced by a reference — not part of ECO-118 or ECO-006.
+  2 例目の条件= another derived record, in any product, found restating a ruled or canonical list and differing from it.
+  source: this section (the pasted comment, read against the files)
+  evidence: MoviePad-Remake `d3683d6` — `bomdd/34-routing.yaml` (ROUTE-READ `input:`), `bomdd/40-work-order.md` ("Inputs"),
+  `bomdd/33-control-plan.yaml` (CP-MEDIA-TOOLS-001), `bomdd/32-mbom.yaml` (M-DOCUMENT-001 `manufacturing_decisions`);
+  `bomdd/reports/exp-20261029-01/results.md` §4
