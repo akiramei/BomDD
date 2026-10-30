@@ -32,6 +32,17 @@
    were read first (edits, undo / redo, `DismissFfmpegSetup`; no `SwitchLanguage`, no installer); MoviePad's
    `settings.json` modification time 21:24:07 before and after.
 
+**Hashes and line endings.** The derivers and the harness wrote CRLF; `.gitattributes` (`eol=lf`) stores these files with LF,
+so three committed blobs differ from the hashes recorded at the run by line endings only (checked: CRLF → LF of the frozen
+bytes equals the blob, no lone CR). The hashes above and in `derive-*/sha256.txt`, `classify/sha256.txt` and
+`run-*/package-sha256.txt` are of the bytes the agents were given or wrote; the committed blobs are:
+
+| file | frozen bytes (CRLF) | committed blob (LF) |
+|---|---|---|
+| `derive-a/domain-model.json` | `4ce36104…4d7475` | `255044c65cb413a77920cfd002aa1a9fecfafd732449b70479923ad4f8454006` |
+| `derive-b/domain-model.json` | `e27f1891…0dce` | `3df2854979de43b2bfdf613d304b86dbf2f5b9d5c650b75e37b94ca57aca1089` |
+| `verify/certify.json` | `a3ac2c8d…a0e9` | `a294fb251c997abe5242ca942260f88d4d08e63332ca1abf1e80af90869f8751` |
+
 ## 2. Part 1 — the four countable items
 
 | item | what was repaired | model A | model B |
