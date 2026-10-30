@@ -9901,3 +9901,45 @@ restates §9 ("a prose requirement is not evidence of compliance") as a filter o
   source: ECO-118 R8 round 2, 2026-10-29
   evidence: `bomdd/reports/eco-118-bom-structure-check/r8-round-2.md` (R8-2-01); process-validator selftest arm "E12: エディタの amend…"
   (the raw editor message gives no trailer)
+
+## 2026-10-30 External — robustness analysis (ICONIX) as a check of the upstream layer, read against the method; a desk count first (EXP-20261030-01, filed)
+
+Source: an outside proposal the user pasted (2026-10-30): the ruled layer is natural language verified mainly by review, and review
+does not promise quality; robustness analysis maps each use-case step to Boundary / Control / Entity objects under connection rules,
+so a deterministic checker could test connection rules, step coverage, screen consistency and each element's source, and the
+analysis itself presses vague requirements into concrete ones. It also proposes running this before the typed operation model of
+EXP-20261029-02. Read against the method:
+
+- **Already in the method**: G2's multi-reader audit (independent readers, their differences = where the spec does not read one way,
+  playbook §3.2), G2' measurability, G3's dry run (the questions returned are the holes), the trace table (REQ → SPEC → E/M/CP),
+  the source-parity sign-off and UI-IR (screen consistency), A1 (reference resolution, derived layer only).
+- **New**: the connection rules, step-level coverage (the spec template has no use-case steps — `SPEC-` sections in prose, a
+  ruled-layer template), and the element-source rule (an element that cannot cite a step, clause or mock element is a question).
+- **Points against the proposal's reading**: a connection-rule violation is an error of the model, not of the spec; an AI that
+  builds the model fills a gap with an invented Control instead of asking, unless the source rule forces a question; the same AI
+  reading the same text drops the same thing; BCE does not reach values, rules, orders or tolerances; A1's 12 violations were in the
+  derived layer, so they are no evidence that an upstream structure check pays; a robustness model held as an original would be a
+  third copy of the authority between spec and E-BOM (OBS-20261029-03), so it can only be a checking input. The one product with a
+  G2 record (MoviePad-Remake `20-spec.md` Gate record) ran one reader per round — the readers' difference was never taken — and did
+  not converge (16 → 14 → 15, cut off on the user's "A"); its round headings are values, orders, tolerances and formatting.
+- **The alternative put to the user**: if anything, the step → Boundary / Control / Entity table as the extraction format of G2's
+  independent readers (so their difference is a set difference, a measure, and unsourced elements a stop), not a new artefact or
+  gate. Whether to try it waits on the count below.
+- **Order**: the proposal reorders EXP-20261029-02 (operation model first). A reviewer's direction, not a ruling; left as it is —
+  the two ask different questions and can run side by side.
+
+The user's "A" (2026-10-30): file the desk classification and run it. Folder `bomdd/reports/exp-20261030-01/` (`definitions.md`
+fixed before classifying; `items.py` → `items.json` / `items.md`, 123 candidates: ViewTube 42, ViewPrism2 56, MoviePad-Remake 25).
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement; no body text, template or tool changes.
+
+- [open] EXP-20261030-01 — **Of the upstream defects recorded in ViewTube, ViewPrism2 and MoviePad-Remake, how many would a
+  robustness check have named before manufacture — by a connection rule (K1), by an element's missing source or a step's missing
+  handler (K2), or by a difference from the mock (K3) — and how many by none (N)?** Two blind classifiers (a fresh Claude agent and
+  Codex); the designer counts only. Reading fixed in `definitions.md` §6: structural share (K1 or K2, both classifiers) ≥ 25 % in
+  ViewTube or ViewPrism2 → a prospective trial (seeded defects, a G2/G3-only control arm); ≤ 10 % (either classifier) in both → not
+  useful for these products, the lever is an independent input and checks of meaning; otherwise no claim. K1 at 0-1 → the connection
+  rules do not pay here. The counts are an upper bound (the best case: every gap raised as a question).
+  source: this section (the user's "A", 2026-10-30)
+  evidence: `bomdd/reports/exp-20261030-01/definitions.md`, `items.json`

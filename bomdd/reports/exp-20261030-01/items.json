@@ -1,0 +1,1125 @@
+{
+ "meta": {
+  "pins": {
+   "ViewTube": "62d2b3e432de4cbc8263cbc5a77804f057a114ed",
+   "ViewPrism2": "82c362edafcfbb09591da7bb937beffeb01a2fcd",
+   "MoviePad-Remake": "a2ca41ec49d7c688d9a3685c0deabec4d996c1d9"
+  },
+  "moviepad_g2_commit": "22e2213",
+  "count": 123,
+  "per_product": {
+   "ViewTube": 42,
+   "ViewPrism2": 56,
+   "MoviePad-Remake": 25
+  }
+ },
+ "items": [
+  {
+   "id": "VT-001",
+   "product": "ViewTube",
+   "source": "ECO-VT-031",
+   "title": "Display fetched YouTube video thumbnails",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=feature-extension",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-031.md"
+  },
+  {
+   "id": "VT-002",
+   "product": "ViewTube",
+   "source": "ECO-VT-035",
+   "title": "Complete multi-selection and real tag assignment",
+   "label": "diagnosis_layer=ui_cad; change_class=product-feature-completion",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-035.md"
+  },
+  {
+   "id": "VT-003",
+   "product": "ViewTube",
+   "source": "ECO-VT-040",
+   "title": "Make batch tag assignment reachable from ordinary video browsing",
+   "label": "diagnosis_layer=ui_cad; change_class=ui-cad-and-acceptance-coverage-gap",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-040.md"
+  },
+  {
+   "id": "VT-004",
+   "product": "ViewTube",
+   "source": "ECO-VT-046",
+   "title": "Select saved-view hierarchy nodes directly in Videos",
+   "label": "diagnosis_layer=ui_cad; change_class=product-navigation-feature-and-ui-cad-contract-extension",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-046.md"
+  },
+  {
+   "id": "VT-005",
+   "product": "ViewTube",
+   "source": "ECO-VT-048",
+   "title": "Consolidate hierarchy-result navigation in Videos",
+   "label": "diagnosis_layer=ui_cad; change_class=ui-navigation-responsibility-and-contract-revision",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-048.md"
+  },
+  {
+   "id": "VT-006",
+   "product": "ViewTube",
+   "source": "ECO-VT-049",
+   "title": "Navigate to ancestor nodes from the Videos breadcrumb",
+   "label": "diagnosis_layer=ui_cad; change_class=ui-navigation-feature-and-interaction-contract-extension",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-049.md"
+  },
+  {
+   "id": "VT-007",
+   "product": "ViewTube",
+   "source": "ECO-VT-050",
+   "title": "Add bulk and range selection to Videos",
+   "label": "diagnosis_layer=ui_cad; change_class=ui-batch-selection-feature-and-interaction-contract-extension",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-050.md"
+  },
+  {
+   "id": "VT-008",
+   "product": "ViewTube",
+   "source": "ECO-VT-051",
+   "title": "Refine minor Tags layout alignment",
+   "label": "diagnosis_layer=ui_cad; change_class=ui-layout-refinement-and-component-alignment-defect-correction",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-051.md"
+  },
+  {
+   "id": "VT-009",
+   "product": "ViewTube",
+   "source": "ECO-VT-056",
+   "title": "Add portable View Packs with collection-local isolation",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=feature-extension",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-056.md"
+  },
+  {
+   "id": "VT-010",
+   "product": "ViewTube",
+   "source": "ECO-VT-066",
+   "title": "Adapt the Videos grid and toolbar to available width",
+   "label": "diagnosis_layer=ui_cad; change_class=product-ui-responsive-layout-extension-and-sibling-read-across-correction",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-066.md"
+  },
+  {
+   "id": "VT-011",
+   "product": "ViewTube",
+   "source": "ECO-VT-067",
+   "title": "Curate the Google for Developers catalog into a meaningful showcase",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=demo-content-curation-and-safe-local-data-manufacture",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-067.md"
+  },
+  {
+   "id": "VT-012",
+   "product": "ViewTube",
+   "source": "ECO-VT-100",
+   "title": "the leading View breadcrumb segment - five live contract records say Home and every executable authority says root",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=contract-wording-versus-approved-design-and-detectors",
+   "status": "implemented",
+   "order": "ViewTube/bomdd/eco/ECO-VT-100.md"
+  },
+  {
+   "id": "VT-013",
+   "product": "ViewTube",
+   "source": "ECO-VT-170",
+   "title": "the product has no reserved scope other than the whole catalogue, so a person who organises music cannot open it as music; the mechanism to declare one already exists and its repair rule is the one part that does not transfer",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=a reserved, ROW-LESS scope named music that sits in the collection rail beside the existing すべての動画 entry, whose content is an applicable View the user chose and which is recorded as one row in the vie",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-170.md"
+  },
+  {
+   "id": "VT-014",
+   "product": "ViewTube",
+   "source": "ECO-VT-191",
+   "title": "031・046・050 のカードの最低表示数と 066 のスクロール量を、承認した宣言と今のレイアウトのどちらで決めるか",
+   "label": "diagnosis_layer=ui_cad; change_class=UI-CAD の判断待ちである。撮影計画が製品に求めるカードの最低表示数とスクロール量について、承認した宣言と今の製品のレイアウトが 食い違っている。どちらに合わせるかは装置の判断ではない",
+   "status": "implemented",
+   "order": "ViewTube/bomdd/eco/ECO-VT-191.md"
+  },
+  {
+   "id": "VT-015",
+   "product": "ViewTube",
+   "source": "ECO-VT-196",
+   "title": "HOME を変えて保存しても、動画タブで開いているビューは新しい HOME に移らない。選び直すまで古い位置のままである",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件の沈黙と、それに従う実装の変更である。要件の第三十七項は、ビューを開いたときに HOME を使うと定めるが、開いている ビューの HOME を保存したときのことは書いていない。利用者は、HOME を変えて保存したら動画タブの表示も新しい HOME に 移ると裁定した（2026-09-27、(a)）",
+   "status": "implemented",
+   "order": "ViewTube/bomdd/eco/ECO-VT-196.md"
+  },
+  {
+   "id": "VT-016",
+   "product": "ViewTube",
+   "source": "ECO-VT-197",
+   "title": "スコープの切り替えと、保存の後の表示の更新に、1 秒を超える。評価のたびにカタログ全体を読み込み、保存の後は同じ評価を 二回行う",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件の欠落と、実装の性能の欠陥である。時間の目標は起動と最初の表示にしかない。利用者は、切り替えと保存の後の更新を 一秒以内とし、それより速くできるものを遅くしないと決めた（2026-09-27）",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-197.md"
+  },
+  {
+   "id": "VT-017",
+   "product": "ViewTube",
+   "source": "ECO-VT-200",
+   "title": "タグタブで別のビューを選ぶと、動画タブが前のビューの位置を持ち込む。保存しなければ名前と中身が別のビューを指し、保存すれば 利用者が移っていないノードを表示する",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件の沈黙と、それに従う実装の変更である。要件の第三十七項は、ビューを開いたときと、動画タブで開いているビューを保存した ときの振る舞いを定めるが、タグタブで別のビューを選んだときのことは書いていない。利用者は、動画タブはタグタブで選んだ ビューに従い、それを開いたときと同じ位置に移ると裁定した（2026-09-27「W を開く」）",
+   "status": "implemented",
+   "order": "ViewTube/bomdd/eco/ECO-VT-200.md"
+  },
+  {
+   "id": "VT-018",
+   "product": "ViewTube",
+   "source": "ECO-VT-202",
+   "title": "ビューを開くと、利用者が選んだ並べ方が、画面では設定できないビューの並べ方で上書きされる。ミュージックを選ぶと題名順になる",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件の沈黙と、それに従う実装の変更である。要件の第三十項は、ビューが並べ方を持つと定めるが、開いたときにそれを使うかは 書いていない。実装は第四十二号から、ビューを開くたびにその値を使ってきた。利用者は、どの経路でビューを開いても選んだ 並べ方を保つと裁定した（2026-09-28「Aを採用」）",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-202.md"
+  },
+  {
+   "id": "VT-019",
+   "product": "ViewTube",
+   "source": "ECO-VT-212",
+   "title": "階層ノードの条件が自由入力の一つの文字列で、タグの型ごとの形になっていない",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件の欠けの訂正である。ノードの条件は一つの文字列で、シンプルタグでは無視され、テキストタグと数値タグでは一つの値との一致に しかならない。ECO-VT-124 の修理 3 として別に起票すると決めて、起票されていなかった。利用者は (A)（ViewPrismUI の図面の形）と決めた",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-212.md"
+  },
+  {
+   "id": "VT-020",
+   "product": "ViewTube",
+   "source": "ECO-VT-217",
+   "title": "タグを付けるときの値が、タグの型にかかわらず自由入力になっている",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件の変更と、それに続く図面と実装の変更である。付ける画面の値は、数値タグと候補値のないテキストタグで自由入力の欄、候補値のある テキストタグで何でも打ち込める欄である。「候補値のみ許可」のタグにも候補外の値が付き、数値は刻みを見ず、範囲外でも「付ける」が 押せ、テキストの空の値も付く。利用者の判断 (A) で、型ごとの入力の形にする",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-217.md"
+  },
+  {
+   "id": "VT-021",
+   "product": "ViewTube",
+   "source": "ECO-VT-219",
+   "title": "十進が持てる桁を超えて打ち込んだ数が、決まりが見る前に丸められる",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件の変更と、それに続く実装の変更である。人が付ける数値の文字は、十進が持てる桁を超えると、刻みの判定の前に丸められる。 刻みに合わない文字が付いて丸めた値が保存され、刻みにちょうど合う文字が刻みに合わないと断られる。ふつうの入力では起きない",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-219.md"
+  },
+  {
+   "id": "VT-022",
+   "product": "ViewTube",
+   "source": "ECO-VT-224",
+   "title": "ビューとタグの削除は、失うものを示さず、確かめもせずに、押したときに消す",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件の変更と、それに続く図面と実装の変更である。タグ画面の「ビューを削除」と「このタグを削除」は、押したときにすぐ消し（タグは付いている 動画からも外す）、何をしたかを後から言うだけである。コレクションの削除は件数を示して確かめるまで何も消さない。利用者の判断で、ビューと タグの削除も、失うものを示す確認を通す",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-224.md"
+  },
+  {
+   "id": "VT-023",
+   "product": "ViewTube",
+   "source": "ECO-VT-225",
+   "title": "ミュージックには再生列が無く、動画を一本ずつしか確かめられない",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件の変更と、それに続く図面とポートと実装の変更である。ミュージック（予約スコープ）には、動画を選んで順に再生する操作が無く、再生は 一本を確かめる道（REQ-083）だけである。利用者の依頼（2026-10-04）で、再生・ループ・シャッフル・前へ・次へ・一時停止・停止を持つ再生列を 予約スコープに足す。方針書の M-3 であり、M-1（REQ-093）に依拠し、M-2（分類操作を外す）は未起票",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-225.md"
+  },
+  {
+   "id": "VT-024",
+   "product": "ViewTube",
+   "source": "ECO-VT-226",
+   "title": "手動コレクションを作る操作が無く、チャンネルだけのカタログでは動画のリンクを登録できない",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=新しい機能と、その要件の欠けである。要件（REQ-010）は利用者が作る手動コレクションを認めるが、作る操作・名前の入れ方・画面での名前の扱いを 言わず、画面にも図面にも手動コレクションを作る操作が無い。手動コレクションは、コレクションが 0 件のときの初回にだけ「あとで見る」の名で 作られ、どの手動コレクションも「あとで見る」と表示される。チャンネルのコレクションだけのカタログ（この利用者のカタ",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-226.md"
+  },
+  {
+   "id": "VT-025",
+   "product": "ViewTube",
+   "source": "ECO-VT-227",
+   "title": "ビューパックの形式と取り込みの決めが、要件と仕様に無く、M-BOM にだけ書かれている",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件と仕様の欠けの訂正（決めの書き戻し）である。ビューパックの形式と取り込みについての決めが三つ、実装の中で決まり、M-BOM の行にだけ 書かれていて、要件・仕様・E-BOM・K-BOM のどこにも無い。ほかに、設計の決めか作り方かの分類が割れた決めが二つある。製品のコードは変えない",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-227.md"
+  },
+  {
+   "id": "VT-026",
+   "product": "ViewTube",
+   "source": "ECO-VT-231",
+   "title": "復元したバックアップの旧い条件が復元の中で変換されるという決めが、要件と仕様に無く、M-BOM にだけ書かれている",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件と仕様の欠けの訂正（決めの書き戻し）である。ECO-VT-227 が持ち越した決め D4 で、ECO-VT-228 の修理で製品が M-BOM のとおりに 動くようになったので書き戻す。製品のコードと M-BOM は変えない",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-231.md"
+  },
+  {
+   "id": "VT-027",
+   "product": "ViewTube",
+   "source": "ECO-VT-232",
+   "title": "復元の要件の「失敗したときは active catalog を byte-for-byte 不変にする」が、ファイルを置き換えた後の失敗には成り立たない",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件と実装の食い違いの訂正である。REQ-064 は復元を検証と置換の二段で書き、失敗したときは active catalog を byte-for-byte 不変にすると 言う。実装は置換の後に手当ての並びを当て、そこで失敗すると、ファイルは置き換わったまま安全の写しの場所を返す。ECO-VT-228 より前から ある。要件を実装に合わせるか、実装を要件に合わせるかは利用者の判断を待つ。読み取り",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-232.md"
+  },
+  {
+   "id": "VT-028",
+   "product": "ViewTube",
+   "source": "ECO-VT-233",
+   "title": "復元の要件の「失敗したときは active catalog を byte-for-byte 不変にする」は、置換そのものの書き込みの失敗には成り立たないので、文を限定する",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件と仕様の文の限定である。ECO-VT-232 の修理の後、REQ-064 の無条件の文が成り立たないのは置換の書き込みそのものの失敗だけで、そこでは行は 変わらずバイト列が変わり、戻り道は安全の写しである（ECO-VT-232 の実測）。文を「置換を始める前の失敗では不変。置換そのものの失敗は行を 変えず、復元前の写しから戻す」に限定する。実装は変えない。起票までで止め、着手は利用者の指示を待",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-233.md"
+  },
+  {
+   "id": "VT-029",
+   "product": "ViewTube",
+   "source": "ECO-VT-235",
+   "title": "「動画リンクを追加」の登録結果の一覧は、件数が多いとダイアログごと画面からはみ出し、結果も「登録」「戻る」も見えなくなる",
+   "label": "diagnosis_layer=ui_cad; change_class=欠陥である。図面が描いていない形の、実装の振る舞いである。10 件のリンクを登録すると、1 件ごとの結果（折り返して 2〜3 行）が積まれて ダイアログが画面の高さを超え、はみ出した部分が切れる。結果の 7 行目から下と、下端の「戻る」「登録」が見えない。ダイアログには高さの上限も、 結果の一覧のスクロールもない。図面は結果の一覧を描いていない。利用者の判断で、一覧はダイアログの中でスクロールにす",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-235.md"
+  },
+  {
+   "id": "VT-030",
+   "product": "ViewTube",
+   "source": "ECO-VT-236",
+   "title": "手動で登録した動画は、題名・チャンネル・長さ・サムネイルが未取得のままで、取得する手段がどこにもない",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=要件の追加である。現行の動作は欠陥ではなく、要件どおりである。手動で登録した動画は、取得の処理を通らないので未取得で始まり、そのまま 残る。取得の経路はチャンネルの同期だけで、手動コレクションには動かない。利用者の判断で、API キーがあるとき、登録の直後にメタデータを 取得する。キーなし、オフライン、失敗のときは、今までどおり未取得のまま登録は成功する。修理の順は、要件と仕様、実装。起票までで止",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-236.md"
+  },
+  {
+   "id": "VT-031",
+   "product": "ViewTube",
+   "source": "ECO-VT-239",
+   "title": "コレクションを選んでも、中央ペインの見出しが「すべての動画」のままで、いま見ている一覧が何か分からない",
+   "label": "diagnosis_layer=ui_cad; change_class=欠陥の疑いである。図面が決めていない形の、実装の振る舞いである。手動コレクション「あとで見る」を選ぶと、一覧はそのコレクションの 10 本になるが、中央ペインの見出しは「すべての動画」のままで、 レールだけが選択を示す。見出しを書く分岐には、選んでいるコレクションの名前が無い。図面は、コレクションを選んだ通常の一覧を描いていない。見出しの形は利用者の判断で、図面に描き、承認を得てから実装する。 起",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-239.md"
+  },
+  {
+   "id": "VT-032",
+   "product": "ViewTube",
+   "source": "ECO-VT-241",
+   "title": "折りたたんだレールの「手動コレクションを作る」と「リンクを追加」が、同じ「＋」で見分けがつかない",
+   "label": "diagnosis_layer=ui_cad; change_class=欠陥の疑いである。図面が決めていない形の、実装の振る舞いである。折りたたんだレールの「手動コレクションを作る」と「リンクを追加」のボタンは、同じ字（U+FF0B）、同じ大きさ、同じ色で、 違うのはツールチップだけである。作るボタンは ECO-VT-226 で足した実装の形で、図面は折りたたんだレールを描いていない。見分けさせ方は利用者の判断で、図面に描き、承認を得てから実装する。 起票までで止め、",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-241.md"
+  },
+  {
+   "id": "VT-033",
+   "product": "ViewTube",
+   "source": "ECO-VT-247",
+   "title": "動画の一括選択が、別のコレクションへ移ったあとも「移動先の表示結果に含まれる動画だけ」残る。別のスコープへ移ったら解除する",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=仕様の変更の実施である（不具合ではない）。要件 REQ-045 と仕様 §2.9 を「同じ閲覧スコープの中は積集合、閲覧スコープ（コレクション、すべての動画、ミュージック、アーカイブ一覧）が変わったら一括選択と範囲指定の起点を解除」に分け、 `ShellViewModel.ClearBatchSelectionWhenScopeChanges` が、覚えているスコープの鍵と今の鍵を比べて 1 回だ",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-247.md"
+  },
+  {
+   "id": "VT-034",
+   "product": "ViewTube",
+   "source": "ECO-VT-248",
+   "title": "タグ付けダイアログで、付ける・外すが成功しても閉じず（続けて別のタグを付けられる）、閉じたら（何をしたかに関係なく）一括選択を解除する。「キャンセル」は「閉じる」にする",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=仕様の変更の実施である（不具合ではない）。ECO-VT-035 の決定、仕様 §2.6、管理計画の確認項目は「書き込みが成功したらダイアログを閉じる」と決め、製品はそれに従っていた。利用者の決定（GitHub の Issue #3、2026-10-08）に従い、 付ける・外す・値チップの取り消しが成功してもダイアログを閉じず（各タグの なし／一部／すべて と選んだタグの札をその場で作り直す）、足元",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-248.md"
+  },
+  {
+   "id": "VT-035",
+   "product": "ViewTube",
+   "source": "ECO-VT-249",
+   "title": "タグ作成ダイアログを開いたとき、種類を「シンプル」に初期選択し、タグ名が空（空白だけを含む）のあいだは保存を押せなくする",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=仕様の変更の実施である（不具合ではない）。ECO-VT-120 の実装は、作成ダイアログを種類が未選択の状態で開き、保存の可否を種類の有無だけで決めていた。利用者の決定（GitHub の Issue #5）に従い、作成ダイアログをいつも 「シンプル」が選ばれた状態で開き（前回の種類は覚えない）、保存は、タグ名が空（空白だけを含む）のあいだ押せなくした。開いたときのフォーカスは種類のボタンのまま、編",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-249.md"
+  },
+  {
+   "id": "VT-036",
+   "product": "ViewTube",
+   "source": "ECO-VT-252",
+   "title": "再生キューのパネルの行を押すと、その曲にジャンプして再生する（今のパネルは表示専用で、行を押しても何も起きない）",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=仕様の追加である（不具合ではない）。ECO-VT-225 のキューのパネルは表示専用で、REQ-095 の操作は前へ、次へ、一時停止、停止、位置の移動だけだった。 利用者の決定（GitHub の Issue #1）に従い、行のシングルクリックでその曲にジャンプして再生し、キーボードでは ↑↓ で行を選んで Enter でジャンプし、シャッフル中はシャッフル後の並びのまま 選んだ位置から続け、ジャン",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-252.md"
+  },
+  {
+   "id": "VT-037",
+   "product": "ViewTube",
+   "source": "ECO-VT-259",
+   "title": "The tag editor's immutable type line gets its 14 px size set on the line itself, as drawn and as rendered; no pixel changes (GitHub Issue #6, option A)",
+   "label": "diagnosis_layer=ui_cad; change_class=A one-property implementation change, not a defect and not a change of the drawn form. The type line of the tag editor rendered at 14 px semi-bold in the dark text colour over a 12 px grey label (meas",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-259.md"
+  },
+  {
+   "id": "VT-038",
+   "product": "ViewTube",
+   "source": "ECO-VT-261",
+   "title": "A change of browsing scope leaves the central pane scrolled where the previous scope was; scroll it to the top on a change of scope (GitHub Issue #9)",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=A change of behaviour decided by the user (GitHub Issue #9, policy A), not a drawn-form defect. Nothing scrolled the Videos list to its top when the browsing scope changed; the previous scope's offset",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-261.md"
+  },
+  {
+   "id": "VT-039",
+   "product": "ViewTube",
+   "source": "ECO-VT-262",
+   "title": "After a video has ended, a second activation of its card does nothing, so it cannot be replayed; replay it from the start at Ended (GitHub Issue #10)",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=A change of behaviour decided by the user, not a drawn-form defect. A video that ends naturally leaves the in-pane preview open, and the second activation of its card (a double-click, Enter or Space) ",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-262.md"
+  },
+  {
+   "id": "VT-040",
+   "product": "ViewTube",
+   "source": "ECO-VT-263",
+   "title": "A text tag's candidate value cannot be edited in place; correcting one means remove, add and drag back - edit it in place at the same position (GitHub Issue #12)",
+   "label": "diagnosis_layer=ui_cad; change_class=A feature decided by the user, on a form in no drawn state. In the tag create and edit dialog a Textual tag's candidate row holds a drag handle, its text and a remove button only, so correcting a valu",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-263.md"
+  },
+  {
+   "id": "VT-041",
+   "product": "ViewTube",
+   "source": "ECO-VT-264",
+   "title": "An archived video cannot be deleted; nothing removes a video the person no longer wants - delete it for good from the archive view, after a confirmation (GitHub Issue #11)",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=A feature decided by the user, on a view in no drawn state. A video deleted on YouTube, or one the person no longer wants, cannot be removed from the catalogue: archive is reversible (REQ-006) and the",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-264.md"
+  },
+  {
+   "id": "VT-042",
+   "product": "ViewTube",
+   "source": "ECO-VT-269",
+   "title": "The M-BOM and Control Plan within the advance decision's inputs, and R4's limit default excludes the decision's bounds (BomDD ECO-115, distributed by BomDD ECO-116; the first of two ECOs)",
+   "label": "diagnosis_layer=requirements_bom_control; change_class=A correction of two design records and of one process rule. BomDD's survey finds 11 defects against the advance decision's inputs: nine named Control Plan rows carry an approver outside the decision's",
+   "status": "applied",
+   "order": "ViewTube/bomdd/eco/ECO-VT-269.md"
+  },
+  {
+   "id": "VP-001",
+   "product": "ViewPrism2",
+   "source": "ECO-002",
+   "title": "golden 駆動の収束(CR-1〜8 要求変更 + DF-1〜4 欠陥)",
+   "label": "type=要求変更 + 欠陥修正",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-002.md"
+  },
+  {
+   "id": "VP-002",
+   "product": "ViewPrism2",
+   "source": "ECO-003",
+   "title": "再リンク候補カードの表示パリティ(仕様欠陥)",
+   "label": "type=仕様欠陥(表示契約の脱漏)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-003.md"
+  },
+  {
+   "id": "VP-003",
+   "product": "ViewPrism2",
+   "source": "ECO-004",
+   "title": "表示パリティ read-across A群5件の是正(spec_omission)",
+   "label": "type=欠陥修正(表示 omission)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-004.md"
+  },
+  {
+   "id": "VP-004",
+   "product": "ViewPrism2",
+   "source": "ECO-005",
+   "title": "修復UX完全性: すべて自動修復 + 単一自動修復 + 除外(missing→deleted)",
+   "label": "type=欠陥修正(spec_omission・機能欠落)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-005.md"
+  },
+  {
+   "id": "VP-005",
+   "product": "ViewPrism2",
+   "source": "ECO-006",
+   "title": "画像タブ NodeGraph ナビの空階層 表示契約(BL-001)",
+   "label": "type=欠陥修正(spec_omission)",
+   "status": "superseded",
+   "order": "ViewPrism2/60-change-order-eco-006.md"
+  },
+  {
+   "id": "VP-006",
+   "product": "ViewPrism2",
+   "source": "ECO-008",
+   "title": "タグ種別は作成後変更不可(安全側決定 + 仕様/モック copy 訂正)",
+   "label": "type=設計決定(安全側) + spec_correction",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-008.md"
+  },
+  {
+   "id": "VP-007",
+   "product": "ViewPrism2",
+   "source": "ECO-017",
+   "title": "画像タブ 機能完成③: 作業ボタン=3つ目の排他文脈モード(作業対象セット蓄積)",
+   "label": "type=設計決定(新表面・CADモック由来・UQ-I07 最終決着)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-017.md"
+  },
+  {
+   "id": "VP-008",
+   "product": "ViewPrism2",
+   "source": "ECO-018",
+   "title": "画像タブ ⋯メニュー再構成(修復/削除/ゴミ箱)+ 削除モード=ゴミ箱へ移動(ソフト削除)",
+   "label": "type=設計決定(新表面 + Core ソフト削除遷移・CADモック由来)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-018.md"
+  },
+  {
+   "id": "VP-009",
+   "product": "ViewPrism2",
+   "source": "ECO-019",
+   "title": "ゴミ箱モーダルを画像タブ内ポップアップへ作り直す(複数選択/すべて選択/復元/完全削除/空にする)",
+   "label": "type=設計決定(トラッシュUI作り直し・既存Core再利用・CADモック由来)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-019.md"
+  },
+  {
+   "id": "VP-010",
+   "product": "ViewPrism2",
+   "source": "ECO-021",
+   "title": "作業タブ 右ペイン文脈モードの再利用配線(ECO-β・段階 β-1〜β-4)",
+   "label": "type=既存surface再利用配線(新Core意味論なし・CADモック由来)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-021.md"
+  },
+  {
+   "id": "VP-011",
+   "product": "ViewPrism2",
+   "source": "ECO-023",
+   "title": "REQ-043(画像詳細パネル/ノート)の撤回 — リバース誤りの是正",
+   "label": "type=要件撤回(リバース欠陥の遡及是正・ECO-003 同型)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-023.md"
+  },
+  {
+   "id": "VP-012",
+   "product": "ViewPrism2",
+   "source": "ECO-024",
+   "title": "画像タブ 原典(legacy)surface 撤去 — ImageTabView 一本化(as-built 実態化)",
+   "label": "type=surface 撤去(as-built 実態化・要件/不変条件/Core 意味論 不変)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-024.md"
+  },
+  {
+   "id": "VP-013",
+   "product": "ViewPrism2",
+   "source": "ECO-025",
+   "title": "表示列モデル(ビュー編集モーダル + ファイル一覧)— ビュー.display_columns 進化モデル + 2 surface(CADモック由来・段階 α/β)",
+   "label": "type=設計決定(既存属性 display_columns へ進化モデル付与 + 新編集/描画 surface・CADモック由来)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-025.md"
+  },
+  {
+   "id": "VP-014",
+   "product": "ViewPrism2",
+   "source": "ECO-027",
+   "title": "画像タブ ツールバーの狭幅レスポンシブ収納(IMG-014)+ 表示列のモード非表示(CAD 準拠是正)",
+   "label": "type=機能追加(UI レイアウト・NFR「狭幅で重ならない」)+ CAD 準拠是正(表示列のモード非表示)",
+   "status": "implemented",
+   "order": "ViewPrism2/60-change-order-eco-027.md"
+  },
+  {
+   "id": "VP-015",
+   "product": "ViewPrism2",
+   "source": "ECO-039",
+   "title": "FL-002/FL-004 裁定の取り込み — 一覧表示状態の永続範囲(S-a ソート=画面ローカル揮発 / D-b 表示形式=タブごと独立永続)",
+   "label": "type=設計確定の取り込み(CAD 裁定 d1f94ac・ECO-038 の R3 送付事項)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-039.md"
+  },
+  {
+   "id": "VP-016",
+   "product": "ViewPrism2",
+   "source": "ECO-040",
+   "title": "タグ編集「タグ追加」検索ボックスの入力カレットが上寄り(垂直中央でない — Padding=0 上書き×VerticalContentAlignment 未指定)",
+   "label": "type=欠陥是正(view 層・視覚整列 — CAD 準拠逸脱)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-040.md"
+  },
+  {
+   "id": "VP-017",
+   "product": "ViewPrism2",
+   "source": "ECO-041",
+   "title": "タグ追加の検索ボックスが未配線 — CAD 定義済み機能の実装欠落(画像タブ=UI 殻のみ/作業タブ=UI ごと無し)+E-BOM 宣言漏れの二層欠陥",
+   "label": "type=欠陥是正(機能欠落 — BOM 宣言補完+VM/view 実装)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-041.md"
+  },
+  {
+   "id": "VP-018",
+   "product": "ViewPrism2",
+   "source": "ECO-042",
+   "title": "FL-001 裁定の取り込み — グリッドに列は持ち込まない(表示列はリスト専用描画面・アイコンへの露出は FL-003 の範囲まで)",
+   "label": "type=設計確定の取り込み(CAD 裁定 5e1d32e・現状追認=実装変更ゼロ・doc-only)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-042.md"
+  },
+  {
+   "id": "VP-019",
+   "product": "ViewPrism2",
+   "source": "ECO-043",
+   "title": "VE-004 裁定の取り込み — ビュー名は必須(空白のみの名前は作成・更新とも拒否)",
+   "label": "type=設計確定の取り込み(CAD 裁定 85d1f57・現状追認=src 変更ゼロ・受入新規行のみ)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-043.md"
+  },
+  {
+   "id": "VP-020",
+   "product": "ViewPrism2",
+   "source": "ECO-044",
+   "title": "IMG-011 裁定の取り込み — マージ永続化ルール確定(①原子 union=現状追認 ②タグ統合トグル撤去 ③操作ログに基づく補償 Undo 新設)",
+   "label": "type=設計確定の取り込み(CAD 裁定 49ea874・②UI 是正+③net-new — merge_operations 新テーブル=migration 005・ECO-020 前例)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-044.md"
+  },
+  {
+   "id": "VP-021",
+   "product": "ViewPrism2",
+   "source": "ECO-045",
+   "title": "TAG-008 裁定の取り込み — 使用中タグ定義の削除は拒否(無効化/非推奨化は削除とは別操作・本 ECO では導入しない)",
+   "label": "type=設計確定の取り込み(CAD 裁定 63d09bc・挙動変更 — Core ガード+UI 拒否表示。S-11 交差は O-a 裁定=入口 1 行 repository 直呼び化で契約無改変)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-045.md"
+  },
+  {
+   "id": "VP-022",
+   "product": "ViewPrism2",
+   "source": "ECO-047",
+   "title": "TAG-009 裁定の取り込み — タグ定義階層 UI は提供しない(階層分類はビュー階層・意味情報は将来の辞書タグ属性の方向・tags.parent_id は Core 制約維持で UI 非露出)",
+   "label": "type=設計確定の取り込み(CAD 裁定 7ffd423・現状追認=実装変更ゼロ・doc-only)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-047.md"
+  },
+  {
+   "id": "VP-023",
+   "product": "ViewPrism2",
+   "source": "ECO-050",
+   "title": "類似しきい値の既定値が仕様と不一致 — 整理トレイ 80/作業タブ 90(仕様既定 70)。工場仮置きの無検査潜伏",
+   "label": "type=欠陥是正(実装逸脱 — 仕様/E-BOM/CAD 健全。ECO-048 golden の R3 所見から昇格)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-050.md"
+  },
+  {
+   "id": "VP-024",
+   "product": "ViewPrism2",
+   "source": "ECO-052",
+   "title": "REQ-067「実行前の統合後タグプレビュー+物理非破壊の明示」が生存 UI に不在 — トレイ置換(ECO-014)時の要素脱落と三層不整合",
+   "label": "type=要求-CAD-実装の不整合裁定(ECO-051 R3 所見から昇格。要求/G-9/E-BOM invariant は要求する・CAD/実装には無い — どちらが正かの裁定案件)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-052.md"
+  },
+  {
+   "id": "VP-025",
+   "product": "ViewPrism2",
+   "source": "ECO-054",
+   "title": "scaled-decode のフォーマット間系統誤差 — 経路対称化(P-09 世代交代を伴う品質改善)",
+   "label": "type=品質改善(裁定案件 — 実装は K-BOM v3.1 に忠実・欠陥は K-BOM の沈黙次元=フォーマット間経路一貫性の未規定+P-08 の未測定側面。ECO-048 golden R3 所見",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-054.md"
+  },
+  {
+   "id": "VP-026",
+   "product": "ViewPrism2",
+   "source": "ECO-055",
+   "title": "整理トレイの条件検索が CAD/E-BOM 定義の 5 条件中 2 条件しか配線されていない(名前・拡張子のみ — ハッシュ値/サイズ/更新日が欠落)",
+   "label": "type=欠陥是正(ECO-041 型=CAD 定義済み機能の実装欠落・部分版。整理マージ v2 モック受入 Phase 0 の三者差分で発見・maintainer 裁定=v2 追随 ECO と分離し順序実施=本 ECO 先行)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-055.md"
+  },
+  {
+   "id": "VP-027",
+   "product": "ViewPrism2",
+   "source": "ECO-057",
+   "title": "公開前プライバシー・著作権・評判リスクの無害化 — 誤って public 化しても私有画像・端末情報を取得不能にする",
+   "label": "type=公開安全性の欠陥是正(実装デモデータ+製造台帳+Git履歴+配布工程。CAD非該当・裁定不要)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-057.md"
+  },
+  {
+   "id": "VP-028",
+   "product": "ViewPrism2",
+   "source": "ECO-058",
+   "title": "作業タブ中央ブラウズの非仮想化 — 1万件でPrivate 6,698MiB以上・応答不能(ECO-026 read-across漏れ)",
+   "label": "type=欠陥是正(既定済み仮想化契約への実装逸脱+M-BOM/Control Plan/P-01のWorkTab被覆漏れ。CAD健全・裁定不要)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-058.md"
+  },
+  {
+   "id": "VP-029",
+   "product": "ViewPrism2",
+   "source": "ECO-059",
+   "title": "26万画像のHDD初回スキャンが長時間化 — 1件1暗黙トランザクションと過剰進捗通知",
+   "label": "type=性能欠陥是正(既存スキャン意味論不変・永続化粒度/通知頻度の実装是正。CAD非該当・裁定不要)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-059.md"
+  },
+  {
+   "id": "VP-030",
+   "product": "ViewPrism2",
+   "source": "ECO-063",
+   "title": "タグビューのホームノード初期遷移が画像タブで無視される",
+   "label": "type=欠陥是正(E-BOMトレース漏れ+新ImageTab M3bの実装未配線。CAD/REQ-037/Core保存・単一node解決は健全、裁定不要)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-063.md"
+  },
+  {
+   "id": "VP-031",
+   "product": "ViewPrism2",
+   "source": "ECO-067",
+   "title": "pHash距離0の非同一画像が100%表示される — 重複品質契約の見直し",
+   "label": "type=既存機能の品質改善要求(CAD/要求/品質設計の欠測。現実装はpHash-only固定仕様に適合。gate①で案Aを重複関係検証として修正採用・ViewPrismUI IMG-021確定)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-067.md"
+  },
+  {
+   "id": "VP-032",
+   "product": "ViewPrism2",
+   "source": "ECO-068",
+   "title": "作業タブの画像ダブルクリックでビューアーが起動しない",
+   "label": "type=欠陥是正(作業タブsurfaceの実装転写漏れ+M-BOM/CP検査欠測。CAD正典/REQ-041/044は確定済みで裁定不要、IMG-004は同契約への追随同期)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-068.md"
+  },
+  {
+   "id": "VP-033",
+   "product": "ViewPrism2",
+   "source": "ECO-070",
+   "title": "FS表示でフォルダがソート対象外となり固定名前昇順で残る",
+   "label": "type=既存機能品質是正(CAD/REQ/BOMのfolder行sort意味論欠落をgate①案Aで裁定。type-primaryでfolder先、folderは選択列にかかわらず名前+現在方向、filesはFL-003列+方向。CAD=0f303a4)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-070.md"
+  },
+  {
+   "id": "VP-034",
+   "product": "ViewPrism2",
+   "source": "ECO-077",
+   "title": "バックアップ・移送の入口を設定 ▸ データとバックアップへ集約(SS-001 再裁定=E-1 追随)",
+   "label": "type=既存機能の設計変更追随(CAD上流裁定の転写=ViewPrismUI 4787b03 SS-001再裁定・mock改版E-1新設(新SHA-256 1278cf0606b5/旧5fdf44645e31)。旧裁定SS-001(b)分置は破棄。A層/B層エンジン不変)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-077.md"
+  },
+  {
+   "id": "VP-035",
+   "product": "ViewPrism2",
+   "source": "ECO-087",
+   "title": "タグ作成/編集ダイアログの mock 忠実化(2 カラム化・ヘッダ・選択肢 UI・意匠)",
+   "label": "type=不具合(実装の CAD 乖離=ECO-007 製造時の部品単位転写で全体形態が未転写の面欠陥+golden 検査次元の谷間。ECO-086 golden 所見からの R3 分離起票=2026-07-14 maintainer 裁定 A)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-087.md"
+  },
+  {
+   "id": "VP-036",
+   "product": "ViewPrism2",
+   "source": "ECO-088",
+   "title": "ビュー軸チップ行の折返し不動作 — WrapPanel が横 StackPanel の無限幅測定で無効化されクリップ(47 件級で 21 件目以降へ到達不能)",
+   "label": "type=不具合(実装の CAD 乖離 — mock の flex-wrap は WrapPanel として転写済みだが親コンテナが折返し契機を奪う配線欠陥。IMG-023 実害確認の実測で顕在化)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-088.md"
+  },
+  {
+   "id": "VP-037",
+   "product": "ViewPrism2",
+   "source": "ECO-089",
+   "title": "WrapPanel×横 StackPanel の同型残存 2 面 — タグパレット候補値行(編集/削除アイコンずれ+候補値見切れ)+作業タブチップ行(ECO-088 の read-across 閉包)",
+   "label": "type=不具合(実装の CAD 乖離 — ECO-088 と同一様式の残存。起票時の全数走査で閉包確定)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-089.md"
+  },
+  {
+   "id": "VP-038",
+   "product": "ViewPrism2",
+   "source": "ECO-093",
+   "title": "タグ編集ダイアログ プレビュー帯の候補値多量時の乱れ — 溢れ非封じ込め(横 StackPanel 全件列挙)+多量時表示の CAD 未定義",
+   "label": "type=不具合(封じ込め欠陥)+CAD 未定義(多量時のプレビュー表示設計)の複合",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-093.md"
+  },
+  {
+   "id": "VP-039",
+   "product": "ViewPrism2",
+   "source": "ECO-097",
+   "title": "フィルタ変更後も非表示画像の選択が残り操作対象になる — BL-002 選択寿命の安全裁定",
+   "label": "type=既存挙動/仕様未定義(CAD・BOMの選択寿命沈黙。タグ編集/作業/削除の非表示対象操作リスク)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-097.md"
+  },
+  {
+   "id": "VP-040",
+   "product": "ViewPrism2",
+   "source": "ECO-101",
+   "title": "タグタブ操作系の入力堅牢性 — ポインター押下状態の残留(キャプチャ喪失系)・右クリック配置・無変更ホーム設定の dirty 化",
+   "label": "type=不具合(入力イベント処理の堅牢性欠落 3 件。ECO-099/100 混入・golden 手順の谷間で潜伏)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-101.md"
+  },
+  {
+   "id": "VP-041",
+   "product": "ViewPrism2",
+   "source": "ECO-109",
+   "title": "ファイル一覧 並び替え UI の視覚追随(mock 精緻化改版 2026-07-17 への転写)",
+   "label": "type=CAD mock 改版追随(視覚転写のみ・ECO-076 前例と同型。動作モデル FL-003 不変)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-109.md"
+  },
+  {
+   "id": "VP-042",
+   "product": "ViewPrism2",
+   "source": "ECO-110",
+   "title": "右ペイン開閉時のグリッド作業対象喪失 — スクロールアンカー契約の未定義(gate① 裁定要)",
+   "label": "type=不具合是正候補(UX・CAD layoutInvariant の保存対象曖昧)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-110.md"
+  },
+  {
+   "id": "VP-043",
+   "product": "ViewPrism2",
+   "source": "ECO-119",
+   "title": "CAD 記述誤り — image_tab.md 行107 が存在しない「タグ編集の docked 付与操作」を不変条件の実例に挙げている",
+   "label": "type=CAD 記述誤りの是正(doc-only・実装/視覚は不変)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-119.md"
+  },
+  {
+   "id": "VP-044",
+   "product": "ViewPrism2",
+   "source": "ECO-121",
+   "title": "CAD 部品表 CMP-008 の契約から「本体スクロールの末尾到達性」が脱落している",
+   "label": "type=CAD 記述欠落の是正(doc-only・実装/視覚は不変)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-121.md"
+  },
+  {
+   "id": "VP-045",
+   "product": "ViewPrism2",
+   "source": "ECO-126",
+   "title": "確認ダイアログ(ConfirmDialog)の CMP-011/L2 準拠是正 — 中央揃え漏れ+テーマ既定グレー+「はい/いいえ」の動詞化(REG-C5)",
+   "label": "type=実装是正候補(共有ダイアログ部品の視覚+ラベル語彙。CAD 裁定済み)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-126.md"
+  },
+  {
+   "id": "VP-046",
+   "product": "ViewPrism2",
+   "source": "ECO-128",
+   "title": "ゴミ箱復元の安全側遷移 — T6(deleted→normal)を「復元後は原則 pending」へ(状態管理モデル改訂 3 分割の a)",
+   "label": "type=仕様改訂候補(状態機械 T6 の意味論変更。実装逸脱ではない)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-128.md"
+  },
+  {
+   "id": "VP-047",
+   "product": "ViewPrism2",
+   "source": "ECO-129",
+   "title": "pending 意味論の再定義 — 「relink 候補」から「存在するが未裁定」の管理状態へ(スキャン判定の pending 化+裁定導線。状態管理モデル改訂 3 分割の b)",
+   "label": "type=仕様改訂候補(状態機械の中核意味論変更+UI 新設。実装逸脱ではない)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-129.md"
+  },
+  {
+   "id": "VP-048",
+   "product": "ViewPrism2",
+   "source": "ECO-130",
+   "title": "スキャンの二段階化 — 即時 DB 反映を廃し、ステージング→遷移別サマリー→ユーザー適用/破棄へ(状態管理モデル改訂 3 分割の c)",
+   "label": "type=仕様改訂候補(スキャン適用モデルの変更+UI 新設。実装逸脱ではない)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-130.md"
+  },
+  {
+   "id": "VP-049",
+   "product": "ViewPrism2",
+   "source": "ECO-131",
+   "title": "クロスタブ状態不整合 — 作業タブの状態変更が画像タブ母集合(_allNormal/_allPending)を無効化しない",
+   "label": "type=不具合(UI/VM 層のクロスタブ・キャッシュ不整合。構造欠陥)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-131.md"
+  },
+  {
+   "id": "VP-050",
+   "product": "ViewPrism2",
+   "source": "ECO-133",
+   "title": "二段階スキャン適用の部分失敗後、同一 staging の再試行が UNIQUE 衝突で残余へ到達できない",
+   "label": "type=不具合(UI/VM 層・失敗回復モデルの不整合)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-133.md"
+  },
+  {
+   "id": "VP-051",
+   "product": "ViewPrism2",
+   "source": "ECO-134",
+   "title": "再スキャンの再リンク候補照合が二乗スケール — 新規ファイルごとに missing 行全体を線形走査(O(missing × new))",
+   "label": "type=不具合(実装層・性能欠陥。挙動は仕様どおりでアルゴリズムのみ二乗)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-134.md"
+  },
+  {
+   "id": "VP-052",
+   "product": "ViewPrism2",
+   "source": "ECO-135",
+   "title": "スキャン失敗の理由が判別できない — root 改名/不在も一律「ファイルの読み書きに失敗しました」(エラー語彙の欠落)",
+   "label": "type=不具合+仕様改訂候補(エラー語彙の設計上の欠落。実装は現仕様に忠実)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-135.md"
+  },
+  {
+   "id": "VP-053",
+   "product": "ViewPrism2",
+   "source": "ECO-136",
+   "title": "スキャン結果サマリーの missing 率が delta/総管理の基準不一致で過小表示(空フォルダで 100% にならない)",
+   "label": "type=不具合(集計の基準不一致。率の意味論=CAD 曖昧+実装が delta を分子に流用)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-136.md"
+  },
+  {
+   "id": "VP-054",
+   "product": "ViewPrism2",
+   "source": "ECO-137",
+   "title": "再スキャンが DB 行ごと File.Exists+ディレクトリ全列挙の二重メタデータ走査(HDD でランダム存在確認が支配し得る)",
+   "label": "type=不具合候補(実装層・性能特性・要実測。挙動は仕様どおり)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-137.md"
+  },
+  {
+   "id": "VP-055",
+   "product": "ViewPrism2",
+   "source": "ECO-140",
+   "title": "修復と未裁定裁定の役割重複 — 事象中心の統合再設計(PEND-005 reappeared 自動裁定を束ねる)",
+   "label": "type=機能改善(UI/UX 設計再編)+機能拡張(PEND-005)。CAD 先行(gate① 必須)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-140.md"
+  },
+  {
+   "id": "VP-056",
+   "product": "ViewPrism2",
+   "source": "ECO-142",
+   "title": "コレクション切替が missing 母集合規模で遅延 — CountIntegrityReviewEventsAsync の駆動側選択(NOT EXISTS 相関×missing 側駆動)",
+   "label": "type=不具合(実装層・性能特性・実測済み。件数の挙動は仕様どおり)",
+   "status": "applied",
+   "order": "ViewPrism2/60-change-order-eco-142.md"
+  },
+  {
+   "id": "MP-001",
+   "product": "MoviePad-Remake",
+   "source": "ECO-001",
+   "title": "The first manufacture of the editing core and export (WO-FORWARD-01-001)",
+   "label": "change register entry (all six listed)",
+   "status": "applied",
+   "order": "MoviePad-Remake/bomdd/60-change-order-eco-001.md"
+  },
+  {
+   "id": "MP-002",
+   "product": "MoviePad-Remake",
+   "source": "ECO-002",
+   "title": "The second manufacture of every unit from bom-v5 into an emptied tree (WO-FORWARD-01-002)",
+   "label": "change register entry (all six listed)",
+   "status": "applied",
+   "order": "MoviePad-Remake/bomdd/60-change-order-eco-002.md"
+  },
+  {
+   "id": "MP-003",
+   "product": "MoviePad-Remake",
+   "source": "ECO-003",
+   "title": "The package contradictions delivery 2's factory blocked (copy eligibility of a silent source; the count of 1.0 progress reports)",
+   "label": "change register entry (all six listed)",
+   "status": "applied",
+   "order": "MoviePad-Remake/bomdd/60-change-order-eco-003.md"
+  },
+  {
+   "id": "MP-004",
+   "product": "MoviePad-Remake",
+   "source": "ECO-004",
+   "title": "The advance decision adopted (BomDD ECO-115 through ECO-116) - the receiving side decides from the records alone whether a delivered individual enters acceptance; the method kit re-locked to BomDD 00c7743",
+   "label": "change register entry (all six listed)",
+   "status": "applied",
+   "order": "MoviePad-Remake/bomdd/60-change-order-eco-004.md"
+  },
+  {
+   "id": "MP-005",
+   "product": "MoviePad-Remake",
+   "source": "ECO-005",
+   "title": "Export is one E item on the user's ruling \"A\" (ADR-006, superseding ADR-002), carried to the M-BOM (one unit), the Control Plan (rows kept, owners changed), the routing and a re-manufacture of the export unit; delivery 3 received with a planned hold and a redelivery",
+   "label": "change register entry (all six listed)",
+   "status": "applied",
+   "order": "MoviePad-Remake/bomdd/60-change-order-eco-005.md"
+  },
+  {
+   "id": "MP-006",
+   "product": "MoviePad-Remake",
+   "source": "ECO-006",
+   "title": "The M-BOM's dependencies brought within the G3 structure check A1 - five requires retargeted to the E-BOM's promises; the even rounding moved into the output settings (a re-manufacture of three units - output settings, the document's TimeMath, the tests - behaviour kept) and export's reliance on IF-OUTPUT-SETTINGS-01 recorded, both read from the requirements, the spec and the E-BOM on the user's hold and carried out on the user's \"1:A 2:A\" (a scope addition, not a ruling)",
+   "label": "change register entry (all six listed)",
+   "status": "applied",
+   "order": "MoviePad-Remake/bomdd/60-change-order-eco-006.md"
+  },
+  {
+   "id": "MP-007",
+   "product": "MoviePad-Remake",
+   "source": "G2-R1-1",
+   "title": "the REQ-to-behaviour mapping",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-008",
+   "product": "MoviePad-Remake",
+   "source": "G2-R1-2",
+   "title": "REQ-019",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-009",
+   "product": "MoviePad-Remake",
+   "source": "G2-R1-3",
+   "title": "depth vocabulary",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-010",
+   "product": "MoviePad-Remake",
+   "source": "G2-R1-4",
+   "title": "rounding",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-011",
+   "product": "MoviePad-Remake",
+   "source": "G2-R1-5",
+   "title": "tolerances",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-012",
+   "product": "MoviePad-Remake",
+   "source": "G2-R2-1",
+   "title": "probe derivations",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-013",
+   "product": "MoviePad-Remake",
+   "source": "G2-R2-2",
+   "title": "error order",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-014",
+   "product": "MoviePad-Remake",
+   "source": "G2-R2-3",
+   "title": "the locator's inputs",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-015",
+   "product": "MoviePad-Remake",
+   "source": "G2-R2-4",
+   "title": "acceptance measures per format",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-016",
+   "product": "MoviePad-Remake",
+   "source": "G2-R2-5",
+   "title": "VFR seek",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-017",
+   "product": "MoviePad-Remake",
+   "source": "G2-R2-6",
+   "title": "the output clock's fallback",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-018",
+   "product": "MoviePad-Remake",
+   "source": "G2-R2-7",
+   "title": "depth labels",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-019",
+   "product": "MoviePad-Remake",
+   "source": "G2-R3-1",
+   "title": "the empty-edit error order",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-020",
+   "product": "MoviePad-Remake",
+   "source": "G2-R3-2",
+   "title": "INV-005's exception under merge",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-021",
+   "product": "MoviePad-Remake",
+   "source": "G2-R3-3",
+   "title": "clamp with crossed limits",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-022",
+   "product": "MoviePad-Remake",
+   "source": "G2-R3-4",
+   "title": "the rate form's tie-break",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-023",
+   "product": "MoviePad-Remake",
+   "source": "G2-R3-5",
+   "title": "number formatting",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-024",
+   "product": "MoviePad-Remake",
+   "source": "G2-R3-6",
+   "title": "the keyframe window",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  },
+  {
+   "id": "MP-025",
+   "product": "MoviePad-Remake",
+   "source": "G2-R3-7",
+   "title": "signatures deferred to the part standards",
+   "label": "G2 audit finding topic (a heading only; the finding's text is not kept in the repository)",
+   "status": "applied in the spec",
+   "order": "MoviePad-Remake/bomdd/20-spec.md@22e2213 (Gate record)"
+  }
+ ]
+}
