@@ -1,0 +1,2507 @@
+# 10-requirements — MoviePad の作り直しの要求(正= authority/ の元のアプリ。食い違いは実際の動作が正)
+# 範囲: 全機能・全画面。除くのはプレビューの映像そのものの描画と再生のタイミングだけ。
+bomdd:
+  product: MoviePad
+  experiment: exp-20261031-02 stage A (s1-author)
+  layer: Requirements
+requirements:
+- id: REQ-001
+  statement: '起動直後、サンプルのドキュメントが読み込み済みの状態で表示される: ファイル名 interview_raw.mp4・長さ 138 秒・1920×1080・30 fps・コーデック H.264 · AAC・実ファイルのパスは空。トリムは 6〜132 秒、区間は [6,40) 1x・[40,64) 2x・[64,104) 1x・[104,132] 0.5x(すべてピッチ維持オン・音量 100%・除外なし)。再生ヘッドは 6 秒、編集対象は区間 1、出力解像度は 1920×1080・出力 fps は 30、未編集(状態表示は「保存済み」)。'
+  rationale: 実際の動作(ViewModel のコンストラクタが Sample.Doc/Sample.Clip を設定する)。説明書には記載がない。区間・トリム・数値は完全一致で検査できる(秒は浮動小数の等値)。サンプルは実ファイルを持たないので、書き出しは専用のエラーになり(書き出し節)、プレビューは実映像を読み込まず内蔵タイマーで再生ヘッドを進める。説明書・クイックスタートに記載がなく bomdd/ui には空状態の画面案があるが、正の規則(実際の動作が正)によりサンプル表示で書いた。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#MainWindowViewModel()
+  - authority/Models/Sample.cs
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-001
+    from: REQ-001
+    to: bomdd/20-spec.md#startup
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 起動時に空の状態(「プロジェクト未読み込み」)が表示される
+  - サンプルの区間が 1 区間・全長で表示される
+- id: REQ-002
+  statement: 'サンプルを含め、クリップが一度設定されると「クリップなし」の状態には戻らない。したがってタイトルバーの「No project loaded」(ja: プロジェクト未読み込み)表示・ツールバーの開く以外の非表示・タイムライン/インスペクター/プレビュー/トランスポートの非表示は、実際の動作では到達しない。'
+  rationale: Clip を null にするコードが無い(読み込み失敗時も既存のクリップを保持する)。表示条件(HasClip/NoClip)の作り込みはあるが到達不能。再製造で空状態を作り込んでも、到達経路が無いことを検査で確かめる(読み込み失敗後も前のクリップが残る、を L1 で)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#LoadFileAsync
+  - authority/Views/TitleBarView.axaml
+  - authority/Views/ToolbarView.axaml
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-002
+    from: REQ-002
+    to: bomdd/20-spec.md#startup
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-002-001
+    question: 空状態(No project loaded)の表示は到達しない作り込みとして再現するか、作らないか。
+    severity: minor
+  counterexamples:
+  - 読み込みに失敗したらクリップが外れて空状態になる
+- id: REQ-003
+  statement: メインウィンドウの既定サイズは 1280×880、最小サイズは 960×600(論理 px)。OS 標準の枠・タイトルバーは使わない。既定サイズが表示先の作業領域より大きいときは、作業領域に収まる大きさ(ただし最小サイズ以上)へ縮め、作業領域の中央に置く。
+  rationale: MainWindow.axaml の Width/Height/MinWidth/MinHeight と ClampToWorkArea。サイズは整数の論理 px で完全一致、縮めた場合の位置は物理 px で中央(整数除算の切り捨て)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/MainWindow.axaml
+  - authority/Views/MainWindow.axaml.cs#ClampToWorkArea
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-003
+    from: REQ-003
+    to: bomdd/20-spec.md#window
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 高 DPI の小さい画面でウィンドウが画面外へはみ出す
+  - 最小サイズより小さくリサイズできる
+- id: REQ-004
+  statement: ウィンドウの四辺と四隅に幅 6 px のリサイズ用の縁があり、左ボタンのドラッグでその辺/隅からサイズを変えられる。最大化中は縁を押してもリサイズしない。
+  rationale: 自前の枠(WindowDecorations=None)のため縁を自作している。縁の幅 6 px は完全一致、8 方向すべてを L2 で確認。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/MainWindow.axaml#ResizeOverlay
+  - authority/Views/MainWindow.axaml.cs#OnResizePressed
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-004
+    from: REQ-004
+    to: bomdd/20-spec.md#window
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 右下の隅をドラッグしても幅しか変わらない
+  - 最大化中に縁をドラッグするとサイズが変わる
+- id: REQ-005
+  statement: ウィンドウを閉じる操作(タイトルバーの閉じるボタン)は、未保存の編集があっても確認なしに即座に閉じる。閉じるときは再生を止め、進行中の書き出し・サムネイル/波形の生成を中断する。
+  rationale: 閉じる前の確認ハンドラは無い(divergence-ledger C5・UQ-0004 で確認済み)。終了時の後片付けは Cleanup。中断後の書き出し先ファイルの扱いは書き出し節の未決事項。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/MainWindow.axaml.cs#OnClosed
+  - authority/ViewModels/MainWindowViewModel.cs#Cleanup
+  - authority/bomdd/ui/divergence-ledger.md#conform
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-005
+    from: REQ-005
+    to: bomdd/20-spec.md#window
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-005-001
+    question: 終了時の保護(未保存の確認)は要求漏れとして記録されている(ledger C5 の REQ-CAND)。再製造でも確認なしのままでよいか。
+    severity: minor
+  counterexamples:
+  - 未保存の変更があると確認ダイアログが出る
+  - 閉じた後も ffmpeg の書き出しプロセスが走り続ける
+- id: REQ-006
+  statement: 'タイトルバー(高さ 44 px)は左にブランド(再生アイコン+「MoviePad」)、中央にクリップのファイル名と状態表示、右に言語・About・最小化・最大化/元に戻す・閉じるの各ボタンを持つ。状態表示は未保存の編集があるとき「Unsaved changes」(ja: 未保存の変更・accent-text 色 #8EC1FF)、それ以外は「Saved」(ja: 保存済み・text-2 色 #ADB1B7)。ファイル名は最大幅 420 px で末尾を省略する。'
+  rationale: 状態表示の文言と色は Edited フラグの 2 値で決まる(Edited の意味は履歴節)。文言は両言語で完全一致、色は 16 進値で完全一致。各ボタンにはツールチップ(Language / About MoviePad / Minimize / Maximize / Close)がある。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/TitleBarView.axaml
+  - authority/ViewModels/MainWindowViewModel.cs#StatusText
+  - authority/Resources/Strings.resx
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-006
+    from: REQ-006
+    to: bomdd/20-spec.md#title-bar
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 編集後もタイトルバーが「保存済み」のまま
+  - ファイル名が長いと中央の表示がボタンに重なる
+- id: REQ-007
+  statement: タイトルバー中央の領域を左ボタンで押してドラッグするとウィンドウが移動し、ダブルクリックすると最大化と通常表示が切り替わる。最大化ボタンも同じ切り替えを行う。最小化ボタンはウィンドウを最小化し、閉じるボタンはウィンドウを閉じる。
+  rationale: TitleBarView の OnDragAreaPressed(ClickCount==2 で切替)。状態の遷移(Normal⇔Maximized、Minimized)は L2 で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/TitleBarView.axaml.cs
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-007
+    from: REQ-007
+    to: bomdd/20-spec.md#title-bar
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - ダブルクリックでウィンドウが移動を始めてしまう
+  - 最大化ボタンで最大化した後に元へ戻せない
+- id: REQ-008
+  statement: タイトルバーの言語ボタン(地球アイコン)を押すと、「日本語」と「English」の 2 項目のメニューが出る(項目名はどちらの言語でも翻訳しない)。項目を選ぶと UI 言語がその言語に即座に切り替わり、選んだ言語が設定に保存される。
+  rationale: MenuFlyout の 2 項目と SwitchLanguage(ja/en)。切替の範囲と保存は言語節。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/TitleBarView.axaml
+  - authority/ViewModels/MainWindowViewModel.cs#SwitchLanguage
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-008
+    from: REQ-008
+    to: bomdd/20-spec.md#title-bar
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 英語 UI でメニュー項目が「Japanese」と表示される
+  - 言語を選んでも再起動するまで変わらない
+- id: REQ-009
+  statement: UI の文字列は日本語と英語の 2 言語を持ち、両言語で同じ 120 個のキーが揃っている。キーに対応する文字列が無いときはキーそのものを表示する。製品名(MoviePad)・形式名(MP4 (H.264 / AAC)、ProRes 422 HQ / PCM)・ライセンス名・数値表記は翻訳しない。
+  rationale: Strings.resx(英語・neutral)と Strings.ja.resx のキー集合は一致(120/120 を実測)。キーの集合一致は unit で完全一致、各文字列は原文どおり(文言の転記は外部知識ではなく authority の resx が出所)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Resources/Strings.resx
+  - authority/Resources/Strings.ja.resx
+  - authority/Services/Localizer.cs
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-009
+    from: REQ-009
+    to: bomdd/20-spec.md#localization
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 日本語 UI の一部に英語の文言が混じる
+  - キーが欠けて画面が空欄になる
+- id: REQ-010
+  statement: 起動時の UI 言語は、設定ファイルに言語が保存されていればその言語、無ければ OS の UI 言語の 2 文字コードが ja なら日本語、それ以外は英語。保存された言語名が不正なカルチャ名なら英語にする。
+  rationale: Program.InitCulture と DefaultLanguage。入力(設定値の有無 × OS 言語)ごとの結果を unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Program.cs#InitCulture
+  - authority/README.md#Main features
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-010
+    from: REQ-010
+    to: bomdd/20-spec.md#localization
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - OS が日本語なのに初回起動が英語になる
+  - 設定に "en" があるのに OS 言語に従う
+- id: REQ-011
+  statement: 言語の切り替えは再起動なしに即時に反映され、表示中のすべての文字列が新しい言語で表示し直される。表示中の一時メッセージのうち、読み込みエラー・書き出し状態の「Samples cannot be exported. Open an actual file.」と「Exporting…」(通常の書き出し中は表示の条件が「書き出し中でない」なので見えず、例外で残ったときだけ見える)・ffmpeg 取得エラーの定型部分(例外メッセージはそのまま)・About の案内文は新しい言語で表示し直す。書き出しの結果の文言(「Export canceled.」「Output duration is zero.」「There are no regions to export.」と ffmpeg のエラー)は定型文でも表示したときの言語のまま残り、ライセンス全文も翻訳し直さない。数値の書式(タイムコード・速度「1.5x」・fps・リード秒数「0.0」)は言語に関わらず不変(小数点はピリオド)。
+  rationale: 'Localizer.SetCulture は UI カルチャのみを変え、数値書式(CurrentCulture)は変えない。一時メッセージは翻訳元のキーを保持して言語切替時に再描画する(OnCultureChanged)。書き出しの結果は ConfirmExport が _exportStatusKey = null にして文字列をそのまま入れるので再描画されない。検査は L1: 各メッセージを出した状態で切り替え、文言が切り替わる/切り替わらないを完全一致で。'
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Services/Localizer.cs#SetCulture
+  - authority/ViewModels/MainWindowViewModel.cs#OnCultureChanged
+  - authority/README.md#Design notes
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-011
+    from: REQ-011
+    to: bomdd/20-spec.md#localization
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 言語を切り替えても読み込みエラーのバナーが前の言語のまま
+  - 日本語に切り替えると速度が「1,5x」になる
+- id: REQ-012
+  statement: 設定は %LOCALAPPDATA%\MoviePad\settings.json に JSON(インデント付き)で保存し、保存する項目は UI 言語(キー language、値は ja / en)だけ。ファイルが無い・壊れている・読めないときは既定値(言語未設定)として扱い、保存に失敗しても無視する(エラーを出さない)。書き出し形式・出力解像度・fps などは保存しない。
+  rationale: AppSettings の Load/Save。書き出し形式の非永続は裁定済み(divergence-ledger C2・UQ-0012)。ファイルの内容は unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Services/AppSettings.cs
+  - authority/bomdd/ui/divergence-ledger.md#conform
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-012
+    from: REQ-012
+    to: bomdd/20-spec.md#settings
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 壊れた settings.json で起動が失敗する
+  - 書き出し形式が次回起動時に復元される
+- id: REQ-013
+  statement: 'ffmpeg と ffprobe の実行ファイルは次の順に探す: 環境変数 MOVIEPAD_FFMPEG_DIR のフォルダ → アプリのフォルダの ffmpeg/ → %LOCALAPPDATA%\MoviePad\ffmpeg → アプリのフォルダ直下 → 見つからなければ実行ファイル名だけ(PATH で解決)。「ffmpeg が使える」とは、解決した 2 つのパスがどちらも実在のファイルであること。PATH の解決は判定に含まれないが、最後の段は実行ファイル名だけ(ffmpeg.exe)を返すので、カレントディレクトリに ffmpeg.exe と ffprobe.exe があると「使える」と判定される。'
+  rationale: FfmpegLocator.Resolve / Available。README にも同じ順序が書かれている。探索順は unit で完全一致(各場所に置いた/置かないの組み合わせ)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Services/FfmpegLocator.cs
+  - authority/README.md#Quick start (build from source)
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-013
+    from: REQ-013
+    to: bomdd/20-spec.md#ffmpeg
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - PATH にだけ ffmpeg があると「使える」と判定されて初回セットアップが出ない
+  - ユーザー領域より PATH が優先される
+  - カレントディレクトリに ffmpeg.exe と ffprobe.exe があるのに初回セットアップが出る
+- id: REQ-014
+  statement: '起動時に ffmpeg が使えないときは、画面中央に ffmpeg セットアップのオーバーレイ(幅 470 px・背景を暗くする)を出す。タイトル「ffmpeg setup」・説明文・「Later」「Download」ボタンを持つ。「Later」はオーバーレイを閉じるだけで、次回の起動時には再び出る。オーバーレイを閉じた後も UI と(サンプルの)編集操作は使える。ffprobe/ffmpeg がどこにも無い状態でファイルを開く・書き出すと、プロセスの起動の例外が捕捉されずに UI へ伝わる: 読み込みエラーのバナーも書き出しの失敗文言も出ず、クリップは変わらない(未処理の例外としてアプリが異常終了すると推定・実機未確認)。再エンコードの書き出しでは書き出し中の表示は終わり、状態の文言「Exporting…」が warn 色で残る(書き出しの状態の節)。コピーのときはキーフレームの算出が先に例外になり、書き出し中のまま戻らない。サムネイル・波形は失敗を握りつぶして擬似表示のまま。'
+  rationale: ShowFfmpegSetup の初期値は !FfmpegLocator.Available。DismissFfmpegSetup は保存しない。MediaProbe.ProbeAsync は RunAsync を try の外で呼び、ConfirmExport は OperationCanceledException だけを捕捉する(OnDrop は async void)。表示条件は unit、文言は L1 で完全一致、ffmpeg 無しの開く/書き出しは L2 で観測。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#MainWindowViewModel()
+  - authority/Views/MainWindow.axaml:75-106(ffmpeg 初回セットアップの Panel)
+  - authority/README.md#Installation (release build)
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-014
+    from: REQ-014
+    to: bomdd/20-spec.md#ffmpeg
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-014-001
+    question: ffmpeg 無しで開く/書き出すときの未処理の例外の見え方(アプリの異常終了か)を実機で確かめる必要がある。ソースからは捕捉されないことまでしか言えない。
+    severity: minor
+  counterexamples:
+  - ffmpeg があるのにセットアップが出る
+  - 「Later」を押すと二度と出なくなる
+  - ffmpeg 無しで開くと読み込みエラーのバナーが出る(実際は出ない)
+- id: REQ-015
+  statement: '「Download」を押すと、固定の URL(GyanD essentials build 2024-12-23-git-6c9218d748 の zip)を取得し、ffmpeg.exe・ffprobe.exe と、zip の 2 階層以内にある LICENSE/COPYING を %LOCALAPPDATA%\MoviePad\ffmpeg に展開し、2 つの実行ファイルの SHA-256 を固定値と照合する。取得中はボタンを隠し、進捗バーと「Downloading… N%」を出す(取得で 0〜90%(応答に Content-Length があるときだけ。無ければ 0% のまま展開の 92% へ飛ぶ)、展開 92%、検証 97%、完了 100%)。成功するとオーバーレイを閉じる。SHA-256 が一致しないときは ffmpeg.exe と ffprobe.exe だけを削除し(展開した LICENSE/COPYING は残る)し「ffmpeg verification failed. Please try again later.」、通信などの例外では「Download failed (please check your network): 」に例外メッセージを続けて表示し、ボタンを戻す(再試行できる)。一時 zip は成否に関わらず削除する。'
+  rationale: 'FfmpegInstaller.InstallAsync と VM.InstallFfmpeg。期待値: ffmpeg 9FACF6CF…3C65・ffprobe BEA8ECB7…BB5A(全桁はソース)。進捗の段階値は完全一致、ネットワークは L2 で差し替えて検査。'
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Services/FfmpegInstaller.cs
+  - authority/ViewModels/MainWindowViewModel.cs#InstallFfmpeg
+  - authority/Resources/Strings.resx
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-015
+    from: REQ-015
+    to: bomdd/20-spec.md#ffmpeg
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - ハッシュ不一致のファイルが残り、次回起動で「使える」と判定される
+  - 取得中に「Download」をもう一度押せて二重に取得する
+  - Content-Length の無い応答で進捗が途中の値を出す
+- id: REQ-016
+  statement: 'ツールバーの「Open」(ja: 開く)はファイル選択ダイアログ(タイトル「Open video」・単一選択)を開く。種類のフィルタは「Video files」(*.mp4 *.mov *.mkv *.m4v *.webm)と「All files」(*)。選ばずに閉じたときは何も変わらない。'
+  rationale: MainWindow.PickVideoFileAsync と VM.Open。フィルタのパターンは完全一致。「All files」経由で動画以外を選ぶと読み込みエラーになる(解析の要求)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/MainWindow.axaml.cs#PickVideoFileAsync
+  - authority/ViewModels/MainWindowViewModel.cs#Open
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-016
+    from: REQ-016
+    to: bomdd/20-spec.md#open
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - キャンセルすると現在のクリップが閉じられる
+  - '*.webm がフィルタに無い'
+- id: REQ-017
+  statement: ファイルをウィンドウへドラッグすると受け入れ(コピー)の表示になり、ドロップすると最初の 1 ファイルだけを対象に、拡張子が .mp4 .mov .mkv .m4v .webm のいずれか(大文字小文字を区別しない)なら読み込む。それ以外の拡張子は何も表示せずに無視する。
+  rationale: MainWindow.OnDrop。複数ファイルのドロップは 2 つ目以降を無視する。拡張子の判定は unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/MainWindow.axaml.cs#OnDrop
+  - authority/docs/QUICKSTART.md#3. Open a video
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-017
+    from: REQ-017
+    to: bomdd/20-spec.md#open
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-017-001
+    question: 対応外の拡張子をドロップしたときに何も知らせないのは意図どおりか。本要求は実際の動作(無視)で書いた。
+    severity: minor
+  counterexamples:
+  - SAMPLE.MP4 をドロップしても読み込まれない
+  - テキストファイルをドロップすると読み込みエラーが出る(実際は無視)
+- id: REQ-018
+  statement: 動画の解析は ffprobe の JSON 出力から行う。読み込めるのは、ファイルが存在し、ffprobe が正常終了し、映像ストリームがあり、幅と高さが正、長さが正のとき。長さは format の duration、無ければ最初の映像ストリームの duration。fps は avg_frame_rate が正ならその値、無ければ r_frame_rate、どちらも無ければ 30。可変フレームレート(VFR)とみなすのは両方が正で |avg − r| > max(0.1, 0.005·max(avg, r)) のとき。コーデックの表示名は h264→H.264・hevc→H.265・vp9→VP9・av1→AV1・aac→AAC・mp3→MP3・opus→Opus・ac3→AC-3・pcm_s16le→PCM・それ以外は大文字化、音声が無ければ「—」。音声のサンプルレートは最初の音声ストリームの値、無ければ 48000。
+  rationale: MediaProbe.ProbeAsync / ParseFrameRate / FriendlyCodec。ffprobe の出力 JSON を与えた unit で完全一致(VFR の閾値の境界を含む)。ffprobe が起動できないときは「失敗」ではなく例外になる(ffmpeg の節)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Services/MediaProbe.cs
+  - authority/README.md#Main features
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-018
+    from: REQ-018
+    to: bomdd/20-spec.md#open
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 音声だけのファイルが読み込めてしまう
+  - avg=29.97・r=30 の CFR 素材が VFR と判定される(差 0.03 < 0.1 なので CFR が正)
+- id: REQ-019
+  statement: '解析に失敗したときは、現在のクリップと編集状態を変えずに、画面下部中央にエラーバナー「Could not load this file (the format may be unsupported).」(ja: このファイルを読み込めませんでした（対応していない形式の可能性があります）。)を出す。バナーは警告色の点・文言・✕ボタンを持ち、✕を押すと消える。次の読み込みを始めると消える。'
+  rationale: VM.LoadFileAsync の Load_Error と ClearError、MainWindow.axaml のエラーバナー(最大幅 520 px で折り返し)。文言は完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#LoadFileAsync
+  - authority/Views/MainWindow.axaml:54-67(エラーバナーの Border)
+  - authority/Resources/Strings.resx
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-019
+    from: REQ-019
+    to: bomdd/20-spec.md#open
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 読み込み失敗で前のクリップの編集内容が消える
+  - バナーが ✕ で消えない
+- id: REQ-020
+  statement: '読み込みに成功すると、次の初期状態にする: 再生停止・履歴を空に・ドキュメントは全長 1 区間(開始 0・終了=長さ・速度 1・ピッチ維持オン・音量 100%・除外なし)でトリムは 0〜長さ・再生ヘッドは 0・編集対象はその区間・出力解像度はソースの幅×高さ・出力 fps はソースの fps・縦横比の維持はオン・未編集・高速コピーはオフ。区間 ID は読み込んだドキュメントの最大 ID+1 から振り直す。書き出し形式の選択はそのまま残す。'
+  rationale: VM.LoadClip と DocumentState.ForClip。各項目を unit で完全一致。書き出し形式を戻さないのは実際の動作(LoadClip が触らない)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#LoadClip
+  - authority/Models/DocumentState.cs#ForClip
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-020
+    from: REQ-020
+    to: bomdd/20-spec.md#open
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 前のクリップの出力解像度が引き継がれる
+  - 読み込み後に元に戻すで前のクリップへ戻れる
+- id: REQ-021
+  statement: 読み込みを続けて行ったときは、最後に始めた読み込みが勝つ(先に始めた読み込みの解析結果が後から届いても捨てる)。
+  rationale: LoadFileAsync の _loadGen 世代比較。解析の遅延を差し込める unit で検査。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#LoadFileAsync
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-021
+    from: REQ-021
+    to: bomdd/20-spec.md#open
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 遅い大きなファイルの解析結果が、後から開いた小さなファイルを上書きする
+- id: REQ-022
+  statement: 編集ドキュメントは、トリム開始・トリム終了と、時刻順に隙間なく並んだ区間の列からなる。各区間は ID・開始・終了(秒・ソース基準)・速度・ピッチ維持・除外・音量を持つ。先頭区間の開始はトリム開始と、末尾区間の終了はトリム終了と常に一致し、隣り合う区間は終了=次の開始で接する。編集操作はすべて新しいドキュメントを作り、元のドキュメントは変えない。
+  rationale: DocumentState と RegionData(不変の record)。トリム操作が端の区間の端も同時に動かすので、区間列はトリム範囲を敷き詰める。不変条件(連続・端の一致)を全編集操作の後に unit で完全一致(浮動小数の等値)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/DocumentState.cs
+  - authority/Models/RegionData.cs
+  - authority/README.md#Design notes
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-022
+    from: REQ-022
+    to: bomdd/20-spec.md#document-model
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - トリム開始を動かしても先頭区間の開始が 0 のまま
+  - 分割後に区間の間に隙間ができる
+- id: REQ-023
+  statement: 時刻 t の区間は、t がトリム範囲 [トリム開始, トリム終了] の外なら無し。範囲内なら各区間を半開区間 [開始, 終了) として探し、境界ちょうどの時刻は後ろの区間に属する。末尾区間だけは終了時刻を含む。
+  rationale: DocumentState.RegionAt。境界ちょうど・トリム終了ちょうど・範囲外の各点を unit で完全一致。編集対象・再生速度・分割可否のすべてがこの判定に依存する。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/DocumentState.cs#RegionAt
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-023
+    from: REQ-023
+    to: bomdd/20-spec.md#document-model
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 境界ちょうどに再生ヘッドを置くと前の区間が編集対象になる
+  - トリム終了ちょうどで区間が無しになる
+- id: REQ-024
+  statement: '丸めの規則: 本要求群で「偶数丸め」と書く丸めは、中点(ちょうど .5)を偶数の側へ丸める(.NET の Math.Round の既定。四捨五入ではない)。書き出しの時間計算(書き出しの内容の節)の round は 0.5 を切り上げる(RoundHalfUp)ので書き分ける。分割・境界・トリムの時刻はソースの fps の格子に丸める: SnapFrame(t) = 偶数丸め(t·fps)/fps(fps が 0 以下なら 30 を使う)。区間の最小長の定数は 0.5 秒。分割は格子に丸めた後で判定するので、分割でできる区間は必ず 0.5 秒以上になる。境界の移動とトリムの移動は先に [下限, 上限](最小長 0.5 秒を残す範囲)に収めてから格子に丸めるので、丸めで下限を割り、区間が 0.5 秒より最大で半フレーム短くなることがある(例: 25 fps で境界を下限 0.5 に収めると SnapFrame(0.5) = 偶数丸め(12.5)/25 = 12/25 = 0.48 秒)。'
+  rationale: 'TimeMath.MinLen / SnapFrame、DocumentState.MoveBoundary / MoveTrim(Clamp→SnapFrame の順)と SplitAt(SnapFrame の後に判定)。受入は unit で完全一致: 25 fps・区間 [0,10)+[10,20) で境界を 0.3 秒へ動かすと先頭区間 0.48 秒、トリム開始を 9.5 へ動かすと 9.52 秒(237.5 → 238)で先頭区間 0.48 秒。四捨五入で実装すると 0.52 / 9.52 となり 1 点目で不合格になる。'
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/TimeMath.cs#SnapFrame
+  - authority/Models/DocumentState.cs#MoveBoundary
+  - authority/Models/DocumentState.cs#MoveTrim
+  - authority/Models/DocumentState.cs#SplitAt
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-024
+    from: REQ-024
+    to: bomdd/20-spec.md#document-model
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 0.2 秒の区間が作れる
+  - 29.97 fps 素材で分割点がフレームの途中になる
+  - 境界の移動で区間が必ず 0.5 秒以上に保たれる(実際は 25 fps で 0.48 秒になる)
+  - SnapFrame(0.5, 25) が 0.52 になる(四捨五入)
+- id: REQ-025
+  statement: トリム後の長さ(速度適用前)は、除外していない各区間についてトリム範囲と重なる長さの合計。書き出しの長さ(速度適用後)は、その長さを区間ごとに速度で割った合計。除外した区間は含めない。
+  rationale: DocumentState.SourceLength / OutputLength。表示(M:SS)と書き出しの両方の基準。unit で浮動小数の誤差 1e-9 以内。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/DocumentState.cs#SourceLength
+  - authority/Models/DocumentState.cs#OutputLength
+  - authority/docs/QUICKSTART.md#4.3 Change speed per region (with pitch preservation)
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-025
+    from: REQ-025
+    to: bomdd/20-spec.md#document-model
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 除外した区間が書き出しの長さに含まれる
+  - 2x の区間の書き出しの長さが元の長さのまま
+- id: REQ-026
+  statement: '編集対象の区間は原則として「再生ヘッドの位置の区間」(下の分割の例外を除く)で、区間を選ぶ別の操作は無い。再生ヘッドが動いてその位置の区間が変わると編集対象も変わる。ドキュメントが変わった後(分割・結合・元に戻す・やり直し・ドラッグ等)は、再生ヘッドの位置の区間があればそれ、無ければ今の編集対象がまだ存在すればそれ、それも無ければ先頭の区間を編集対象にする。例外は分割: 分割の後は後半(新しい区間)を編集対象にする。再生ヘッドは格子に乗っていないので、分割点が丸めで再生ヘッドより後ろになると、再生ヘッドは前半にいるのに編集対象は後半になる。このずれは次に再生ヘッドの値が変わるかドキュメントが変わるまで続き、その間インスペクターは後半を、速度ピルとプレビューの速度フラグ(再生ヘッドの位置の区間)は前半を表す。'
+  rationale: OnPlayheadChanged と DocumentState.ResolveSelection。追従は裁定済みの契約(UQ-0017=follow-is-contract)。消えた ID が編集対象に残らないことを、結合・元に戻す・やり直しの各後で unit 完全一致。分割の例外は VM.Split の SelectedId = newId(ResyncSelection の後に上書き)と OnPlayheadChanged(再生ヘッドの値が変わったときだけ再解決)による。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#OnPlayheadChanged
+  - authority/Models/DocumentState.cs#ResolveSelection
+  - authority/bomdd/ui/divergence-ledger.md#diverged
+  - authority/docs/QUICKSTART.md#2. Reading the screen
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-026
+    from: REQ-026
+    to: bomdd/20-spec.md#selection
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 結合した後にインスペクターが空になる(消えた区間 ID が残る)
+  - 再生中に区間をまたいでもインスペクターが前の区間のまま
+- id: REQ-027
+  statement: 再生ヘッドを動かす操作(先頭へ・末尾へ・タイムラインのクリック/ドラッグ・1 フレーム移動・1 秒移動)は再生を止め、位置を[トリム開始, トリム終了] に収める。1 フレーム移動は (偶数丸め(再生ヘッド·fps) ± 1)/fps、1 秒移動は再生ヘッド ± 1 秒。先頭へはトリム開始、末尾へはトリム終了へ移動する。
+  rationale: VM.Jump / Scrub / StepFrame / StepSecond。fps はソースの fps(無ければ 30)。境界(トリム端での移動)を unit で完全一致。スクラブで再生が止まるのは裁定済み(UQ-0007)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#StepFrame
+  - authority/ViewModels/MainWindowViewModel.cs#Scrub
+  - authority/bomdd/ui/divergence-ledger.md#conform
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-027
+    from: REQ-027
+    to: bomdd/20-spec.md#selection
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - トリム範囲の外へ 1 秒移動できる
+  - 29.97 fps 素材で 1 フレーム移動が 1/30 秒になる
+- id: REQ-028
+  statement: '再生を始めるとき、再生ヘッドがトリム開始より前か、トリム終了 − 0.05 秒以上ならトリム開始へ戻す。さらに除外区間の上にいるときは次の除外していない区間の先頭へ移してから再生を始める。再生中に除外区間に入ったら次の除外していない区間の先頭へ飛び、最後の除外していない区間の終わりに達したら最初の除外していない位置へ戻って繰り返す(ループ)。再生中の速度はその位置の区間の速度、プレビューの音量はその位置の区間の音量(0〜200%)。プレビューに渡すのは速度と音量だけで、ピッチ維持の設定は渡さない: プレビューの音の高さはLibVLC の既定のまま(起動の引数は --no-osd --quiet だけ)で、ピッチ維持オフの区間でも書き出し(asetrate)と違う音になりうる。'
+  rationale: VM.StartPlayback / OnTick と DocumentState.NextPlayable、PreviewView.OnPlayerTime / SetRateForCurrent。ここで要求するのは位置・再生中かどうか・速度/音量の値であり、再生のタイミング(進み方の時間精度・シーク許容差)は範囲外。位置の遷移を unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#StartPlayback
+  - authority/Models/DocumentState.cs#NextPlayable
+  - authority/Views/PreviewView.axaml.cs#OnPlayerTime
+  - authority/Views/PreviewView.axaml.cs#SetRateForCurrent
+  - authority/Services/VlcVideoPlayer.cs:62
+  - authority/README.md#Main features
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-028
+    from: REQ-028
+    to: bomdd/20-spec.md#playback
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-028-001
+    question: LibVLC の既定で速度を変えたときに音の高さが保たれるか(ピッチ維持オフの区間でもプレビューは高さを保つのか)は実機で未確認。要求は「ピッチ維持をプレビューへ渡さない」ことまでとした。
+    severity: minor
+  counterexamples:
+  - 除外した区間の映像が再生中に表示される
+  - 末尾で再生が止まる(ループしない)
+  - トリム終了の直前で再生を押すと 1 フレームだけ再生して止まる
+  - ピッチ維持オフの区間でプレビューの再生に asetrate 相当の処理をかける
+- id: REQ-029
+  statement: 再生中かどうかの状態は、再生/一時停止の操作で切り替わり、再生ヘッドを動かす操作・読み込み・プレイヤーのエラー・プレイヤーの進捗の途絶で停止に戻る。停止中はプレビュー中央に再生ボタンの表示を出し、トランスポートの再生ボタンのアイコンは再生中は一時停止、停止中は再生になる。
+  rationale: Playing と PlayIcon、HaltPlayback(VLC エラー・ウォッチドッグ)。途絶を判定する時間(2 秒)はタイミングなので範囲外、状態の遷移だけを要求する。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#TogglePlay
+  - authority/ViewModels/MainWindowViewModel.cs#HaltPlayback
+  - authority/Views/PreviewView.axaml
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-029
+    from: REQ-029
+    to: bomdd/20-spec.md#playback
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - プレイヤーのエラー後も再生中のままで操作できない
+  - 再生中に中央の再生ボタンが出たまま
+- id: REQ-030
+  statement: プレビューの下のトランスポートは、左から「先頭へ」「1 フレーム戻る」「再生/一時停止」「1 フレーム進む」「末尾へ」のボタンと、タイムコード「再生ヘッド / クリップの長さ」と単位表示を持ち、右に現在速度と書き出しの長さのピルを持つ。各ボタンにはツールチップ(To start / 「Step back 1 frame  (← / ,)」(括弧の前は空白 2 個) / Play / Pause (Space) / 「Step forward 1 frame  (→ / .)」(同じく空白 2 個・ja も「1フレーム戻る  (← / ,)」「1フレーム進む  (→ / .)」と空白 2 個) / To end)がある。
+  rationale: TransportView.axaml。ボタンの並びと文言を L1 で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/TransportView.axaml
+  - authority/Resources/Strings.resx
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-030
+    from: REQ-030
+    to: bomdd/20-spec.md#transport
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 「末尾へ」がクリップの終端へ移動する(トリム終了が正)
+- id: REQ-031
+  statement: 'タイムコードは「M:SS:FF」(分:秒 2 桁:フレーム 2 桁)で、s を max(0, s)+1e-6 として、分= floor(s/60)、秒= floor(s mod 60)、フレーム= floor((s mod 1)·fps)。トランスポートでは「再生ヘッドのタイムコード / クリップ全体の長さのタイムコード」を表示する(全体の長さはトリム後ではなくクリップの長さ)。時刻「M:SS」は同じ式で分と秒だけ。単位表示は「h:m:frame」(ja: 時:分:フレーム)。'
+  rationale: TimeMath.FormatTimecode / FormatClock、Transport_TimecodeUnits。式の境界(59.9999 秒・フレームの切り捨て)を unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/TimeMath.cs
+  - authority/Views/TransportView.axaml
+  - authority/Resources/Strings.resx
+  - authority/Resources/Strings.ja.resx
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-031
+    from: REQ-031
+    to: bomdd/20-spec.md#transport
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-031-001
+    question: 単位表示は「h:m:frame / 時:分:フレーム」だが実際の書式は分:秒:フレーム。表示の文言を実際の動作どおり再現するか。
+    severity: minor
+  counterexamples:
+  - 1:00 ちょうどが 0:59:29 と表示される
+  - 60 分以上で時が繰り上がる表示になる(実際は分が 60 以上になる)
+- id: REQ-032
+  statement: 現在速度のピルは再生ヘッドの位置の区間の速度を「{速度}x」で表示する(区間が無ければ 1x)。速度の表記は小数 2 桁までで末尾の 0 と小数点を除いたもの(2・1.5・0.25)。書き出しの長さのピルは「Export length トリム後の長さ → 書き出しの長さ」を M:SS で表示する。ツールチップは速度のピルが「Playback speed」、書き出しの長さのピルが「Trimmed length → export length after speed」。
+  rationale: SpeedNowText / FormatSpeed("0.##"・invariant)、SourceLenClock / OutputLenClock。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#SpeedNowText
+  - authority/Views/TransportView.axaml
+  - authority/Models/TimeMath.cs#FormatSpeed
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-032
+    from: REQ-032
+    to: bomdd/20-spec.md#transport
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 2 倍が「2.00x」と表示される
+  - 除外した区間の長さがピルに含まれる
+- id: REQ-033
+  statement: プレビューの映像枠は、利用できる領域の中に、クリップの縦横比(不明なら 16:9)を保った最大の大きさで中央に置く(幅と高さは px の切り捨て)。枠を左クリックすると再生/一時停止が切り替わる。実映像が無い間(読み込み中・サンプル・プレイヤーが使えない)は濃色のグラデーションを表示する。
+  rationale: PreviewView.FitVideo / OnVideoPressed。映像の描画そのものは範囲外、枠の大きさと操作は L2 で完全一致。動画クリックの再生切替は裁定済み(UQ-0005、カーソルは契約外 UQ-0019)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/PreviewView.axaml.cs#FitVideo
+  - authority/Views/PreviewView.axaml.cs#OnVideoPressed
+  - authority/bomdd/ui/divergence-ledger.md
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-033
+    from: REQ-033
+    to: bomdd/20-spec.md#preview
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 縦長の動画が 16:9 に引き伸ばされる
+  - 映像枠のクリックで何も起きない
+- id: REQ-034
+  statement: プレビューの右上に、再生ヘッドの位置の区間の速度が 1 から 0.001 より離れているときだけ速度フラグを出す(速度アイコン・「{速度}x」・音符アイコン)。音符アイコンの色はピッチ維持オンなら accent-text(#8EC1FF)、オフなら warn(#E5A14B)。左下には常に「再生ヘッドのタイムコード / クリップの長さ」のバッジを出す。
+  rationale: ShowSpeedFlag / ActivePitchBrush / PlayheadTc / DurTc。ピッチオフの警告色は裁定済み(UQ-0006)。表示条件と文字列は unit、色は 16 進値で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/PreviewView.axaml
+  - authority/ViewModels/MainWindowViewModel.cs#ShowSpeedFlag
+  - authority/ViewModels/MainWindowViewModel.cs#ActivePitchBrush
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-034
+    from: REQ-034
+    to: bomdd/20-spec.md#preview
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 1x の区間でも速度フラグが出る
+  - ピッチオフでも音符が青のまま
+- id: REQ-035
+  statement: 実ファイルを読み込むと、プレビューはトリム開始の位置の最初のフレームを表示した一時停止の状態になる(自動で再生を始めない)。停止中に再生ヘッドが動くと、プレビューはその位置を表示する。
+  rationale: PreviewView.LoadClipIntoPlayer と FrameReady の Priming(位置合わせ→一時停止の順)。位置の値と再生中でないことを要求し、シークの許容差(650 ms)などのタイミングは範囲外。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/PreviewView.axaml.cs#LoadClipIntoPlayer
+  - authority/Views/PreviewView.axaml.cs#OnVmPropertyChanged
+  - authority/docs/QUICKSTART.md#3. Open a video
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: human
+  trace_links:
+  - trace_id: TL-REQ-SPEC-035
+    from: REQ-035
+    to: bomdd/20-spec.md#preview
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 開いた直後に動画が自動再生される
+  - スクラブしてもプレビューが前の位置のまま
+- id: REQ-036
+  statement: ツールバーは左に「Open」、クリップがあるとき区切り線を挟んで「元に戻す」「やり直す」(アイコン)、「Split」「Merge」、「Set In」「Set Out」を並べ、右端に主ボタン「Export」を置く。元に戻す/やり直すは履歴があるときだけ、Split は分割できるときだけ、Merge は結合できるときだけ、Set In/Set Out は設定できるときだけ押せる。ツールチップは Undo / Redo / Split the region at the playhead (S) / Merge the current region with the one before it / Set the trim start (In) to the playhead (I) / Set the trim end (Out) to the playhead (O)。ja の表記は区間を分割・分割を解除・開く 等(resx)。
+  rationale: ToolbarView.axaml。各ボタンの有効条件は後続の要求で定義。並びと有効/無効を L1 で完全一致。結合ボタンがツールバーにあるのは実際の動作(ledger D3)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/ToolbarView.axaml
+  - authority/Resources/Strings.resx
+  - authority/Resources/Strings.ja.resx
+  - authority/bomdd/ui/divergence-ledger.md#diverged
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-036
+    from: REQ-036
+    to: bomdd/20-spec.md#toolbar
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 分割できない位置でも Split が押せる
+  - 結合ボタンがインスペクターにしかない
+- id: REQ-037
+  statement: 分割のボタンが押せるのは、丸める前の再生ヘッドの位置の区間 r があり、再生ヘッドが開区間 (r.開始 + 0.5, r.終了 − 0.5) にあるとき。分割の実行(ボタン・S キーとも)では、分割点 ph = SnapFrame(再生ヘッド)(偶数丸め)とし、ph の位置の区間を選び直し、ph が閉区間 [その区間の開始 + 0.5, その区間の終了 − 0.5] の外なら何もしない(ph がちょうど 開始 + 0.5 なら分割する)。前半は元の ID、後半は新しい ID を持ち、両方とも速度・ピッチ維持・除外・音量を引き継ぐ。分割後は後半の区間が編集対象になる。新しい ID は読み込み時の最大 ID+1 から始まり、分割のたびに 1 増える。履歴に 1 回記録する。
+  rationale: DocumentState.CanSplitAt / SplitAt と VM.Split。除外した区間も分割できる(除外を引き継ぐ)。S キーは押せる条件を見ずに実行するので、丸める前は範囲外でも丸めた ph が閉区間内なら分割される。境界(ph = 開始+0.5 ちょうど・丸めで範囲に入る/外れる)を unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/DocumentState.cs#SplitAt
+  - authority/Models/DocumentState.cs#CanSplitAt
+  - authority/ViewModels/MainWindowViewModel.cs#Split
+  - authority/docs/QUICKSTART.md#4.2 Split into regions
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-037
+    from: REQ-037
+    to: bomdd/20-spec.md#toolbar
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 分割後に前半が編集対象になる
+  - 2x の区間を分割すると後半が 1x になる
+  - 区間の端から 0.3 秒の位置で分割できる
+- id: REQ-038
+  statement: '結合(Merge・ja: 分割を解除)は、編集対象の区間が先頭でないときだけできる。編集対象の区間とその前の区間を 1 つにし、結果は前の区間の ID・速度・ピッチ維持・除外・音量を持ち、終了は編集対象の区間の終了になる。履歴に 1 回記録する。'
+  rationale: DocumentState.DeleteBoundary(SelectedIndex − 1) と CanDeleteBoundary。後ろの区間の設定は捨てる。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/DocumentState.cs#DeleteBoundary
+  - authority/ViewModels/MainWindowViewModel.cs#DeleteSelectedBoundary
+  - authority/Resources/Strings.resx
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-038
+    from: REQ-038
+    to: bomdd/20-spec.md#toolbar
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 結合すると後ろの区間の速度が残る
+  - 先頭の区間でも結合ボタンが押せる
+- id: REQ-039
+  statement: Set In(I キー)は、再生ヘッドが [先頭区間の開始, 先頭区間の終了 − 0.5] にあるときだけでき、トリム開始(と先頭区間の開始)を再生ヘッドのSnapFrame(偶数丸め)の時刻にする。Set Out(O キー)は、再生ヘッドが [末尾区間の開始 + 0.5, 末尾区間の終了] にあるときだけでき、トリム終了(と末尾区間の終了)を同様に設定する。値が変わらないとき(差 1e-6 未満)は履歴に記録しない。再生ヘッドは動かさない。
+  rationale: DocumentState.CanTrimStartAt / CanTrimEndAt と VM.SetTrimIn / SetTrimOut。再生ヘッドはトリム範囲内に収まるので、In/Out はトリムを内側へ縮める方向にしか働かない(広げるのはハンドルの担当・ソースのコメントどおり)。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/DocumentState.cs#CanTrimStartAt
+  - authority/ViewModels/MainWindowViewModel.cs#SetTrimIn
+  - authority/docs/QUICKSTART.md#4.1 Trim the head and tail
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-039
+    from: REQ-039
+    to: bomdd/20-spec.md#toolbar
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 2 つ目の区間にいるのに I でトリム開始が動く
+  - 同じ位置で I を 2 回押すと元に戻すが 2 回必要になる
+- id: REQ-040
+  statement: トリムハンドルのドラッグで、トリム開始は [0, 先頭区間の終了 − 0.5]、トリム終了は [末尾区間の開始 + 0.5, クリップの長さ] に収めてから SnapFrame(偶数丸め)で fps の格子に丸め(収めた後に丸めるので区間が 0.5 秒をわずかに割ることがある・document-model の丸めの規則)、端の区間の端も同時に動かす(トリムは内部の境界をまたげない)。ドラッグの開始時に履歴を 1 回記録する。トリムを動かしても再生ヘッドは動かさない(トリム範囲の外に取り残されることがある)。
+  rationale: DocumentState.MoveTrim(コメントに「端をまたぐトリムを許すなら設計変更が必要(仕様判断事項)」とある)と VM.MoveTrim / BeginInteractiveEdit。非破壊性は裁定済み(UQ-0003・ledger C6)。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/DocumentState.cs#MoveTrim
+  - authority/Controls/TimelineControl.cs#OnPointerMoved
+  - authority/bomdd/ui/divergence-ledger.md#conform
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-040
+    from: REQ-040
+    to: bomdd/20-spec.md#timeline-edit
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-040-001
+    question: トリムが内部の境界をまたげない制約は製品の決定か(ソースのコメントは仕様判断事項としている)。本要求は実際の動作で書いた。
+    severity: minor
+  - question_id: UQ-REQ-040-002
+    question: トリムで再生ヘッドが範囲外に残ったとき、インスペクターは前の編集対象を出し続ける。直さずに再現する前提でよいか。
+    severity: minor
+  counterexamples:
+  - トリム開始を 2 つ目の区間の中まで動かせる
+  - ドラッグ 1 回の元に戻すに何十回も必要
+- id: REQ-041
+  statement: 内部の境界(区間 i と i+1 の間)のドラッグで、境界を [区間 i の開始 + 0.5, 区間 i+1 の終了 − 0.5] に収めてから SnapFrame(偶数丸め)で fps の格子に丸めた時刻へ動かし(丸めで 0.5 秒をわずかに割ることがある)、両側の区間を同時に更新する。ドラッグの開始時に履歴を 1 回記録する。
+  rationale: DocumentState.MoveBoundary と TimelineControl の Boundary ドラッグ。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/DocumentState.cs#MoveBoundary
+  - authority/Controls/TimelineControl.cs#OnPointerPressed
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-041
+    from: REQ-041
+    to: bomdd/20-spec.md#timeline-edit
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 境界を隣の境界の先まで動かせて区間が消える
+- id: REQ-042
+  statement: 'タイムラインで左ボタンを押した位置により操作を決める: 縦位置がトラック上端(30 px)より上のルーラー帯なら位置合わせ(シーク)。縦位置 30 px 以上(トラックの矩形 30〜122 px と、その下の高さ 16 px の余白のすべて)では、トリム開始ハンドルから 7 px 以内ならトリム開始のドラッグ、次にトリム終了ハンドルから 7 px 以内ならトリム終了のドラッグ、次に内部の境界から7 px 以内(先頭側から最初に見つかったもの)ならその境界のドラッグ、それ以外は位置合わせ。押したままの移動でその操作を続け、離すと終わる。位置合わせの時刻は x/pxPerSec を [0, 長さ] に収めたもの(さらに再生ヘッドの規則でトリム範囲に収まる)。'
+  rationale: TimelineControl.OnPointerPressed / Moved / Released。ルーラー帯をシーク専用にしたのは境界への吸い付きを避けるため(コメント)。優先順位と閾値を L1 で完全一致(px の閾値は ≤ 7)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Controls/TimelineControl.cs#OnPointerPressed
+  - authority/docs/QUICKSTART.md#4.1 Trim the head and tail
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-042
+    from: REQ-042
+    to: bomdd/20-spec.md#timeline-edit
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - ルーラー帯で境界の近くを押すと境界のドラッグになる
+  - トリムハンドルと境界が重なると境界が優先される
+- id: REQ-043
+  statement: ドラッグしていないとき、縦位置 30 px 以上(トラックとその下の 16 px の余白)でトリムハンドルか内部の境界から 7 px 以内にポインタがあると左右リサイズのカーソルになり、境界の上ではその境界に掴みの表示(accent-text 色の縦の帯)を出す。ルーラー帯(縦位置 30 px 未満)では通常のカーソル。
+  rationale: TimelineControl.OnPointerMoved / OnPointerExited と DrawBoundaries の hovered。L2 で確認。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Controls/TimelineControl.cs#OnPointerMoved
+  - authority/Controls/TimelineControl.cs#DrawBoundaries
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-043
+    from: REQ-043
+    to: bomdd/20-spec.md#timeline-edit
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - ルーラー帯でもリサイズのカーソルが出る
+  - トラックの下の余白ではリサイズのカーソルが出ない(実際は出る)
+- id: REQ-044
+  statement: 'タイムラインの見出し行は「Timeline」(ja: タイムライン)と要約「{区間数} regions · trim {トリム開始 M:SS}–{トリム終了 M:SS}」、右端にズームアウト(ツールチップ「Zoom out」)とズームイン(「Zoom in」)のボタンを持つ。サムネイル生成の進捗「Generating thumbnails {N}/{M}」の表示欄の作り込みはあるが、表示の条件(生成中のフラグ)が真になることはなく、実際の動作では表示されない(可視範囲のサムネイル生成中も出ない)。'
+  rationale: TimelineView.axaml と TimelineSummary(Timeline_Summary)。ShowThumbnailProgress = ThumbnailsRefining で、ソースに true の代入が無い(false の代入だけ)。文言は両言語で完全一致、進捗が出ないことを L1 で確認。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/TimelineView.axaml
+  - authority/ViewModels/MainWindowViewModel.cs#TimelineSummary
+  - authority/Resources/Strings.resx
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-044
+    from: REQ-044
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 区間数が除外区間を数えない(実際は全区間を数える)
+  - サムネイル生成中に見出しに進捗が出る(実際は出ない)
+- id: REQ-045
+  statement: ズームは 1 秒あたりの px で、既定 8.5。ズームインで 1.4 倍、ズームアウトで 1/1.4 倍し、[4, 120] に収める。タイムラインの幅は長さ·px + 48 px。ズームしたとき、再生ヘッドが画面内にあれば再生ヘッドの時刻を、無ければ画面中央の時刻を、同じ画面位置に保つように横スクロールを合わせる(全体が収まるときは先頭)。
+  rationale: VM.ZoomIn / ZoomOut、TimelineControl.MeasureOverride / ComputeZoomOffset(純関数)。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#ZoomIn
+  - authority/Controls/TimelineControl.cs#ComputeZoomOffset
+  - authority/Controls/TimelineControl.cs#MeasureOverride
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-045
+    from: REQ-045
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - ズームすると見ていた位置が画面外へ飛ぶ
+  - ズームアウトを繰り返すと 0 px/秒になる
+- id: REQ-046
+  statement: 再生中、再生ヘッドの x が「スクロール位置 + 画面幅·0.92」を超えるか、スクロール位置より左にあると、横スクロールを「x − 画面幅·0.12」([0, 最大スクロール] に収める)へ動かす。ドラッグ中と、全体が画面に収まるときは動かさない。
+  rationale: TimelineControl.ComputeFollowOffset(純関数)と FollowPlayhead。unit で完全一致。再生中の進み方のタイミングは範囲外。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Controls/TimelineControl.cs#ComputeFollowOffset
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-046
+    from: REQ-046
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 長い動画を再生すると再生ヘッドが画面外へ出たままになる
+  - ドラッグ中にビューが勝手に動く
+- id: REQ-047
+  statement: ルーラーは、目盛り間隔を 70/pxPerSec 以上で最小の {0.5, 1, 2, 5, 10, 15, 30, 60, 120, 300} 秒(どれも足りなければ 600 秒)とし、0 秒から長さまで目盛りと「M:SS」のラベルを描く。
+  rationale: TimelineControl.NiceStep / DrawRuler。間隔の選択を unit で完全一致、描画は L2。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Controls/TimelineControl.cs#NiceStep
+  - authority/Controls/TimelineControl.cs#DrawRuler
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-047
+    from: REQ-047
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - ズームアウトしてもラベルが重なる間隔のまま
+- id: REQ-048
+  statement: 'タイムラインのトラックには、各区間について次を描く: 速度が 1 でなく除外していない区間に速度の色(不透明度 0.34)の塗り(速度の色は d = log2(速度)(速度 ≤ 0 なら 1 とみなす)として、L = clamp(0.42 + 0.07d, 0.30, 0.62)、C = clamp(0.05 + 0.07|d|, 0.04, 0.16)、H = d ≥ 0 なら 256 − 14d、それ以外は 256 + 6|d| の OKLCH を、トークンと同じ変換(OklchColor)で sRGB にしたもの)、除外していない区間で、幅 rw が 44 px を超え、かつラベルの位置 labelX = max(区間の左端 + 8, 見えている左端 + 8) が 区間の右端 − 44 より左(区間の左端が見えていれば幅が 52 px を超えるとき)にラベル(速度アイコン+「{速度}x」、ピッチ維持オフかつ速度 ≠ 1 なら「♪off」(warn 色)、ミュートならスピーカー×アイコン(warn 色))、内部の境界ごとに区切り線と上端の小さな刻み、トリム範囲の外に暗いマスク、編集対象の区間にaccent 色(#579BF4)2 px の枠、トリム開始・終了の位置にトリムハンドル(幅 7 px・トラック高の 66%・縦中央・accent 色の角丸の棒に白の縁取りと中央の短い横線 2 本)、再生ヘッドに白い線と上端のマーカー。描く順(後ろほど上): ルーラー → トラックの背景 → サムネイル → 波形 →ミュート表示 → 速度の塗りとラベル → 除外のマスク → トリム外のマスク → 編集対象の枠 → 境界 → トリムハンドル → コピーのリード → 再生ヘッド。'
+  rationale: TimelineControl.Render / DrawTrack / DrawTrackContents(順序)・SpeedColor.Color・DrawRegions / DrawRegionLabel / DrawBoundaries / DrawTrimMask / DrawSelectedOutline / DrawTrimHandles / DrawPlayhead。描画要素の有無を L2 で、固定の色(accent・白・マスク等)は 16 進値で完全一致、速度の色は SpeedColor の式と OklchColor の変換で計算した 8 bit 値に完全一致(unit)。ラベルの有無は幅 52 px・53 px の区間と、左端が画面外の区間で確かめる。px 単位の位置は pixel-exact を既定にしない(bomdd/ui の方針)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Controls/TimelineControl.cs#DrawRegions
+  - authority/Controls/TimelineControl.cs#DrawRegionLabel
+  - authority/Util/SpeedColor.cs
+  - authority/docs/QUICKSTART.md#4.2 Split into regions
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: 描画要素の有無と色の値は完全一致・位置は pixel-exact でない
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-048
+    from: REQ-048
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 1x の区間に色が付く
+  - ピッチオフの区間に ♪off が出ない
+  - 除外した区間に速度ラベルが出る
+  - トリムハンドルが描かれず、ドラッグできる位置が分からない
+  - 編集対象の枠が除外のマスクの下に隠れる
+- id: REQ-049
+  statement: 除外した区間は暗いマスク(トリム外と同じ色)と左下から右上への斜めの取り消し線で表示し、タイムラインに残す。除外していないミュートの区間は、波形を表示しているとき、波形の帯を背景色で覆い、帯の中央に warn 色の平らな線を引く。
+  rationale: DrawExcludedMask / DrawMutedAudio。除外は暗マスク優先(ミュート表示は除外区間に出さない)。L2 で確認。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Controls/TimelineControl.cs#DrawExcludedMask
+  - authority/Controls/TimelineControl.cs#DrawMutedAudio
+  - authority/docs/QUICKSTART.md#4.4 Exclude a region (mid-clip cut)
+  - authority/docs/QUICKSTART.md#4.5 Adjust volume / mute per region 🆕 v1.1.0
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-049
+    from: REQ-049
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 除外した区間がタイムラインから消える
+  - ミュートの区間の波形がそのまま見える
+- id: REQ-050
+  statement: トラックにはサムネイルと音声波形を表示する(どちらも常に表示・切り替える UI は無い)。実データが届くまではサムネイルの代わりに色のグラデーションのブロックを、波形の代わりに擬似の波形を描く。実サムネイルは縦横比を保ったまま幅 = トラック高 92 px × 縦横比 のコマとして並べ、コマの間に目地を描く。波形はクリップ全長を等分したバケットごとの最小/最大の包絡で、トラック下部の高さ 38 px の帯に描く。
+  rationale: TimelineControl.DrawThumbs / DrawPlaceholderThumbs / DrawVisibleThumbs / GetWaveGeometry、ShowThumbs/ShowWaveform は既定 true で切替 UI なし。L2。
+  rationale_precision: ok
+  classification_hint: core
+  priority: should
+  source_refs:
+  - authority/Controls/TimelineControl.cs#DrawThumbs
+  - authority/Controls/TimelineControl.cs#GetWaveGeometry
+  - authority/ViewModels/MainWindowViewModel.cs#ShowWaveform
+  - authority/README.md#Main features
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-050
+    from: REQ-050
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 実サムネイルが時間の幅へ引き伸ばされて歪む
+  - 波形が届くまでトラックが空白になる
+- id: REQ-051
+  statement: 'サムネイルは読み込み時に動画全体を読まず、タイムラインで見えている範囲だけを生成する: 間隔は clamp(164/pxPerSec, 0.75, 30) 秒、見えている範囲の前後に間隔の 2 倍の余白を足し、高さ 96 px・1 回の要求で最大 36 枚、要求は 180 ms まとめてから実行する。小さなスクロールで既存の要求の範囲に収まる(かつ間隔が 0.85 倍以上)なら再要求しない。再生中も生成する。既存のキャッシュに全体のフィルムストリップがあればそれを使い、可視範囲の生成はしない。'
+  rationale: VM.RequestVisibleTimelinePreview / LoadVisibleTimelineThumbnailsAsync。応答性(TTI)のための設計で、値は unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: should
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#RequestVisibleTimelinePreview
+  - authority/README.md#Design notes
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-051
+    from: REQ-051
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 長尺の動画を開くと全フレームのサムネイル生成で操作が止まる
+  - スクロールのたびに同じ範囲を生成し直す
+- id: REQ-052
+  statement: 音声波形は読み込み後 1200 ms 待ってから、サムネイルより低い優先度で生成する。バケット数は clamp(長さ·40, 1000, 16000)。生成に失敗したときは擬似の波形のまま。音声の無いクリップでは波形を生成せず、擬似の波形のまま。新しいクリップを読み込むと生成中のものは捨てる。
+  rationale: VM.GenerateWaveformAsync(WaveformIdleDelayMs=1200)と MediaPreviewService.BucketsFor。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: should
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#GenerateWaveformAsync
+  - authority/Services/MediaPreviewService.cs#BucketsFor
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-052
+    from: REQ-052
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 前のクリップの波形が新しいクリップに表示される
+  - 音声の無いクリップで平らな波形を生成して表示する
+- id: REQ-053
+  statement: ファイルが OneDrive などのオンラインのみ(未実体化)の状態(属性 Offline・RECALL_ON_OPEN・RECALL_ON_DATA_ACCESS のいずれか)の間は、サムネイル・波形・キーフレームを新しく生成・解析しない。既存のディスクキャッシュ(可視範囲のサムネイル・全体のサムネイル列・波形 wave2.bin)とメモリの波形キャッシュは読んで表示し、キーフレームも覚えている値があれば返す。再生と解析(ffprobe のメタ情報)は行う。
+  rationale: MediaPreviewService.IsCloudPlaceholder と KeyframeIndex。巨大なダウンロードを誘発しないため(クイックスタートの「困ったとき」)。L2(属性を付けたファイル)で確認。
+  rationale_precision: ok
+  classification_hint: core
+  priority: should
+  source_refs:
+  - authority/Services/MediaPreviewService.cs#IsCloudPlaceholder
+  - authority/Services/KeyframeIndex.cs
+  - authority/docs/QUICKSTART.md#7. Troubleshooting
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-053
+    from: REQ-053
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - オンラインのみのファイルを開くと全体のダウンロードが始まる
+  - キャッシュ済みのサムネイルもオンラインのみの間は表示しない
+- id: REQ-054
+  statement: サムネイル・波形の派生データは %LOCALAPPDATA%\MoviePad\Cache\<キー> にディスクキャッシュし、キーはファイルのパス・サイズ・更新時刻から作る。読み込みのたびに、キャッシュ全体が 1 GiB を超えていれば、フォルダの更新時刻の古い順に削除して 1 GiB 以下にする。
+  rationale: MediaPreviewService(CacheRoot・EnforceCacheLimit 既定 1 GiB)、README の記載。上限と削除順を unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: should
+  source_refs:
+  - authority/Services/MediaPreviewService.cs#EnforceCacheLimit
+  - authority/README.md#ffmpeg (fetched during setup · GPL)
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-054
+    from: REQ-054
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - キャッシュが際限なく増える
+  - 最近使ったクリップのキャッシュから消える
+- id: REQ-055
+  statement: サムネイルと波形の生成は単一の作業者のキューで、可視範囲のサムネイルを波形より先に実行し、ffmpeg は通常より低い優先度(BelowNormal)で動かす。同じ種類の要求は最新の 1 件だけを残す。新しいクリップを読み込むとキューの要求をすべて取り消す。
+  rationale: MediaJobQueue(Priority・coalesce key)。応答性のための設計。unit で順序と取り消しを確認。
+  rationale_precision: ok
+  classification_hint: core
+  priority: could
+  source_refs:
+  - authority/Services/MediaJobQueue.cs
+  - authority/ViewModels/MainWindowViewModel.cs#LoadClip
+  - authority/README.md#Design notes
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-055
+    from: REQ-055
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 波形の生成が終わるまで可視範囲のサムネイルが出ない
+- id: REQ-056
+  statement: インスペクターはウィンドウの右側の幅 320 px の列(タイトルバーの下の全高)。上部はスクロールする領域で編集対象の区間の情報と設定を、下部には常に書き出し設定(トリム後/速度適用後の長さ)・出力解像度・出力フレームレートを固定して表示する。
+  rationale: MainWindow.axaml の ColumnDefinitions="*,320" と InspectorView.axaml の DockPanel。L2 で配置を確認。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/MainWindow.axaml
+  - authority/Views/InspectorView.axaml
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-056
+    from: REQ-056
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 区間の設定が多いと出力解像度の欄が画面外へ押し出される
+- id: REQ-057
+  statement: '編集対象の区間があるとき、インスペクターの上部に「Region at playhead」(ja: 再生位置の区間)、速度の色の見本(速度 ≠ 1 なら速度の色(式はタイムラインの描画の要求)を不透明で、1 なら surface-3 #2A2E33)、「Region {番号} / {区間数}」(番号は 1 始まり)、開始・終了のタイムコード(M:SS:FF)、元の長さ(M:SS)を表示する。'
+  rationale: RegionTitle / RegionStartTc / RegionEndTc / RegionDurationClock / SelectedSwatchBrush。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/InspectorView.axaml
+  - authority/ViewModels/MainWindowViewModel.cs#RegionTitle
+  - authority/Resources/Strings.resx
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-057
+    from: REQ-057
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 番号が 0 始まりで表示される
+  - 開始が先頭区間なのにトリム開始と違う値になる
+- id: REQ-058
+  statement: 再生速度の欄は、速度の数値(大きな文字・速度 ≠ 1 なら accent-text 色)と「x」、スライダー、プリセット 0.25x・0.5x・1x・1.5x・2x・3x・4x、要約「This region exports as {出力の長さ} (originally {元の長さ}).」を持つ。スライダーの値は log2(速度) で範囲 [−2, 2]、動かすと速度 = 2^値 を連続して反映する(値の変更そのものは履歴を記録しない)。押した時点で履歴を 1 回記録する処理は、スライダーの PointerPressed の通常のハンドラ(処理済みのイベントは受けない)に結線する(元のアプリと同じ結線)。スライダーの中の部品(つまみ・トラック)が押下を処理済みにした場合は記録されず、元に戻すとその前の操作までまとめて戻る — 実機でどちらになるかは未確認で、L2 で観測した結果を正とする。プリセットは押すたびに履歴に記録する。表示中の速度の表記とプリセットの値が一致するプリセットを選択状態で表示する。
+  rationale: InspectorView の SpeedSlider と ApplySpeedPreset、SpeedLog2。表示と値の変換は unit で完全一致(スライダー 0.3 → 2^0.3 = 1.231 → 1.23)、スライダーの履歴の記録は L2 で観測。
+  rationale_precision: needs-refinement
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/InspectorView.axaml#Inspector_PlaybackSpeed
+  - authority/ViewModels/MainWindowViewModel.cs#SpeedLog2
+  - authority/ViewModels/MainWindowViewModel.cs#ApplySpeedPreset
+  - authority/docs/QUICKSTART.md#4.3 Change speed per region (with pitch preservation)
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-058
+    from: REQ-058
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-058-001
+    question: スライダーのつまみ・トラックを押したとき、View の PointerPressed(handledEventsToo なし)が呼ばれて履歴が 1 件記録されるか、呼ばれずに記録されないかは、ソースからは決まらない(Avalonia の Slider の部品が押下を処理済みにするか次第)。実機で観測して決める必要がある。
+    severity: blocker
+  counterexamples:
+  - スライダーを 1 回ドラッグすると元に戻すが何十回も必要になる
+  - 2x のときに 2x のプリセットが選択状態にならない
+- id: REQ-059
+  statement: 区間の速度は 0.01 単位に偶数丸め(偶数丸め(速度·100)/100)してから [0.25, 4.0] に収める。
+  rationale: DocumentState.SetSpeed(Math.Round(speed·100)/100 → Clamp、Math.Round は中点を偶数へ)。書き出しの厳密な時間計算は、この 0.01 刻みの値を有理数 c/100 として扱う前提(書き出し節)。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/DocumentState.cs#SetSpeed
+  - authority/Models/RegionData.cs
+  - authority/README.md#Main features
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-059
+    from: REQ-059
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 速度 5 が設定できる
+  - 速度 1.234 がそのまま保存される
+- id: REQ-060
+  statement: 音声の欄は、音量(スピーカーアイコン・「Volume」・「{偶数丸め(音量·100)}%」)、スライダー(0〜200・線形)、プリセット Mute(0)・50%・100%・150% を持つ。音量の数字の色はミュートなら warn(#E5A14B)、100% なら text(#F2F4F6)、それ以外は accent-text(#8EC1FF)。ミュートのときは「Silences this region (video unchanged).」、100% を超えるときは「Above 100% may cause clipping.」の注記を出す。スライダーの履歴の記録は再生速度の欄と同じ結線(PointerPressed の通常のハンドラ・値の変更そのものは記録しない・部品が押下を処理済みにすると記録されない・実機で未確認)。プリセットは押すたびに記録する。表示中の % の数字と一致するプリセットを選択状態で表示する。
+  rationale: InspectorView の VolumeSlider・ApplyVolumePreset、VolumeText / SelectedVolumeBrush。表示は unit で完全一致、スライダーの履歴の記録は L2 で観測。
+  rationale_precision: needs-refinement
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/InspectorView.axaml#Inspector_Audio
+  - authority/ViewModels/MainWindowViewModel.cs#VolumePercent
+  - authority/ViewModels/MainWindowViewModel.cs#ApplyVolumePreset
+  - authority/docs/QUICKSTART.md#4.5 Adjust volume / mute per region 🆕 v1.1.0
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-060
+    from: REQ-060
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-060-001
+    question: 音量のスライダーを押したときに履歴が記録されるかは、速度のスライダーと同じく実機で観測して決める必要がある。
+    severity: blocker
+  counterexamples:
+  - 150% で注記が出ない
+  - 音量 0 でも色が変わらない
+- id: REQ-061
+  statement: 区間の音量は倍率で、0.01 単位に偶数丸め(偶数丸め(音量·100)/100)してから [0.0, 2.0] に収める。倍率が 0.001 未満ならミュート、1 との差が 0.001 未満なら等倍とみなす。
+  rationale: DocumentState.SetVolume、RegionData.IsMuted / IsFullVolume。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Models/DocumentState.cs#SetVolume
+  - authority/Models/RegionData.cs
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-061
+    from: REQ-061
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 音量 250% が設定できる
+- id: REQ-062
+  statement: ミュートの切り替え(M キー)は、編集対象の区間がミュートなら音量を 100% に、ミュートでなければ 0% にし、履歴に 1 回記録する(ミュート前の音量は覚えない)。
+  rationale: 'VM.ToggleMute(IsMuted ? 1.0 : 0.0)。unit で完全一致。'
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#ToggleMute
+  - authority/docs/QUICKSTART.md#6. Keyboard shortcuts
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-062
+    from: REQ-062
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-062-001
+    question: ミュート解除で元の音量でなく 100% に戻るのは意図どおりか。本要求は実際の動作で書いた。
+    severity: minor
+  counterexamples:
+  - 50% の区間をミュートして戻すと 50% に戻る(実際は 100%)
+- id: REQ-063
+  statement: ピッチ維持の行(トグルと「Preserve pitch」と説明)は、行のどこを押してもオン/オフが切り替わり、切り替えるたびに履歴に 1 回記録する。編集対象の区間の速度が 1 のときは「No correction is applied at normal speed.」を添える。
+  rationale: InspectorView.OnPitchRowPressed と SelectedPreservePitch、SelectedIsNormalSpeed。L1 で確認。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/InspectorView.axaml#Inspector_PreservePitch
+  - authority/Views/InspectorView.axaml.cs#OnPitchRowPressed
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-063
+    from: REQ-063
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - トグル自体を押さないと切り替わらない
+- id: REQ-064
+  statement: 除外の行(トグル・「Exclude this region (cut)」・説明)は、行を押すと編集対象の区間の除外が切り替わり、履歴に 1 回記録する。編集対象の区間が除外されていない最後の区間のときは、行を無効にして操作できない(除外すると出力が空になるため)。除外の解除はいつでもできる。
+  rationale: InspectorView の除外の Border.IsEnabled=CanToggleExclude と DocumentState.SetExcluded(全除外を拒否)。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/InspectorView.axaml#Inspector_ExcludeRegion
+  - authority/ViewModels/MainWindowViewModel.cs#CanToggleExclude
+  - authority/Models/DocumentState.cs#SetExcluded
+  - authority/docs/QUICKSTART.md#4.4 Exclude a region (mid-clip cut)
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-064
+    from: REQ-064
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 区間が 1 つだけのときに除外できて出力が空になる
+  - 除外した区間を元に戻せない
+- id: REQ-065
+  statement: 編集対象の区間が無いとき、インスペクターの上部は代わりにクリップ情報(「Clip info」・ファイル名・解像度「W×H」・フレームレート「{fps} fps」・長さのタイムコード・コーデック「映像 · 音声」)を表示する。
+  rationale: InspectorView の !HasSelection 側。編集対象は区間がある限り必ず解決される(ResolveSelection)ため、実際の動作では到達しない(ledger P1)。作り込みとして再現する場合の値の書式は unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: could
+  source_refs:
+  - authority/Views/InspectorView.axaml#Inspector_ClipInfo
+  - authority/Models/DocumentState.cs#ResolveSelection
+  - authority/bomdd/ui/divergence-ledger.md#pending-runtime
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-065
+    from: REQ-065
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-065-001
+    question: 到達しないクリップ情報の表示を再製造で作るか(実際の動作では見えない)。
+    severity: minor
+  counterexamples:
+  - 区間があるのにクリップ情報が表示される
+- id: REQ-066
+  statement: 書き出し設定の欄は「After trim」にトリム後の長さ、「After speed」に書き出しの長さを M:SS で表示する(後者は accent-text 色)。
+  rationale: SourceLenClock / OutputLenClock。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/InspectorView.axaml#Inspector_ExportSettings
+  - authority/ViewModels/MainWindowViewModel.cs#OutputLenClock
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-066
+    from: REQ-066
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 速度を変えても After speed が変わらない
+- id: REQ-067
+  statement: '出力解像度の幅・高さの入力欄は、Enter かフォーカスが外れたときに確定する。入力から数字以外の文字を取り除き、整数にできなければ元の値に戻す。幅は [16, 7680]、高さは [16, 4320] に収めてから偶数にする(偶数化は max(2, 偶数丸め(n/2)·2)。例: 1281 → 偶数丸め(640.5)·2 = 1280)。縦横比の維持がオンなら、もう一方を偶数化(入力値 × ソースの縦横比)で計算する(この計算結果は上限に収めない)。確定すると未編集の状態ではなくなる。確定後の入力欄は実際の値を表示する。'
+  rationale: InspectorView.CommitWidth / CommitHeight と VM.ApplyWidth / ApplyHeight、TimeMath.Even。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/InspectorView.axaml.cs#CommitWidth
+  - authority/ViewModels/MainWindowViewModel.cs#ApplyWidth
+  - authority/Models/TimeMath.cs#Even
+  - authority/docs/QUICKSTART.md#4.6 Decide the output resolution and frame rate
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-067
+    from: REQ-067
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-067-001
+    question: '縦横比の維持で計算された側は上限で収めない(例: 縦長 1080×1920 で幅 7680 → 高さ 13654)。不具合として再現する前提でよいか。'
+    severity: minor
+  counterexamples:
+  - 奇数の幅 1279 がそのまま使われる
+  - 「1,280」と入力すると無視される(実際は 1280 になる)
+- id: REQ-068
+  statement: 縦横比の維持の行は、押すとオン/オフが切り替わる。オンにしたときは、高さを偶数化(幅 × ソースの高さ / ソースの幅)に合わせる。この切り替えでは未編集の状態は変わらない。行にはソースの縦横比を「{W/H を小数 2 桁まで}:1」で表示し、説明「Changing the width keeps the height proportional automatically.」を添える(高さを変えたときも幅が比例して変わる)。
+  rationale: VM.ToggleAspect と AspectRatioText。説明文は幅のことだけを書いているが、実際は両方向に働く。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#ToggleAspect
+  - authority/Views/InspectorView.axaml#Inspector_KeepAspect
+  - authority/Resources/Strings.resx
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-068
+    from: REQ-068
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-068-001
+    question: 縦横比の切り替えだけでは「未保存の変更」にならない(他の解像度操作はなる)。再現する前提でよいか。
+    severity: minor
+  counterexamples:
+  - 縦横比の維持をオンにしても高さが変わらない
+- id: REQ-069
+  statement: スケールのプリセット 100%・75%・50% は、縦横比の維持に関わらず幅と高さの両方をソースの寸法 × 倍率の偶数化にする。幅と高さがそのプリセットの値に一致するときそのプリセットを選択状態で表示する。出力がソースと違うときだけ「Reset」(100% と同じ・ツールチップ「Restore original」)を表示する。下に「Original {ソース W×H}」と、違うときは「 → scaled to {W}×{H}」を表示する。プリセットを押すと未編集の状態ではなくなる。
+  rationale: VM.Scale と Scale100Active 等、ShowReset、ResolutionDiffText。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#Scale
+  - authority/Views/InspectorView.axaml#Inspector_OutputResolution
+  - authority/docs/QUICKSTART.md#4.6 Decide the output resolution and frame rate
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-069
+    from: REQ-069
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 奇数の寸法のソースで 50% が奇数になる
+  - 出力がソースと同じでも Reset が出る
+- id: REQ-070
+  statement: 出力フレームレートのプリセットは「Source」・24・30・60・120。「Source」はソースの fps を、数字はその値を出力 fps にし、押すと未編集の状態ではなくなる(値が同じでも)。「Source」のツールチップは「Same as source ({fps} fps)」。|出力 fps − ソース fps| < 0.05 のとき「Source」を、出力 fps の表記(小数 2 桁まで)がプリセットの数字と一致するときその数字を選択状態で表示する(両方が選択状態になることがある)。出力 fps がソース fps + 0.05 を超えるときは「An fps higher than the source duplicates frames (quality does not improve).」を出す。上限はない。
+  rationale: VM.SetFps、FpsSourceActive、FpsUpsampling、InspectorView の EqualsConverter。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#SetFps
+  - authority/Views/InspectorView.axaml#Inspector_OutputFps
+  - authority/docs/QUICKSTART.md#4.6 Decide the output resolution and frame rate
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-070
+    from: REQ-070
+    to: bomdd/20-spec.md#inspector
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 30 fps のソースで 30 を選ぶと Source の選択が外れる
+  - 120 fps を選ぶと注記が出ない
+- id: REQ-071
+  statement: 元に戻す/やり直すの対象は編集ドキュメント(トリムと区間列)だけで、最大 50 件まで保持し、超えたら古いものから捨てる。分割・結合・In/Out・プリセット・トグル・ミュート・除外は 1 操作につき 1 件、タイムラインのドラッグは押した時点の 1 件だけを記録する。スライダーは押下のハンドラが呼ばれたときだけ押した時点の 1 件を記録し、値の変更そのものは記録しない(呼ばれるかは実機で未確認・インスペクターの節)。新しく記録するとやり直しの履歴は消える。出力解像度・縦横比の維持・出力 fps・書き出し形式は履歴の対象外(元に戻しても変わらない)。元に戻す/やり直しの後は編集対象を再解決する。読み込みで履歴は空になる。
+  rationale: History<T>(max 50)と VM.CommitEdit / BeginInteractiveEdit / Undo / Redo、SetSpeedContinuous / SetVolumeContinuous(ApplyState で記録しない)。README「undo/redo (up to 50, snapshots of the immutable document)」。履歴の操作は unit で完全一致、スライダーの記録は L2 で観測。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Services/History.cs
+  - authority/ViewModels/MainWindowViewModel.cs#CommitEdit
+  - authority/ViewModels/MainWindowViewModel.cs#Undo
+  - authority/README.md#Main features
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-071
+    from: REQ-071
+    to: bomdd/20-spec.md#history
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-071-001
+    question: 出力解像度と fps が元に戻すの対象外なのは意図どおりか。本要求は実際の動作で書いた。
+    severity: minor
+  counterexamples:
+  - スライダーを 1 回ドラッグすると元に戻すが 1 回で済まない
+  - 51 回編集した後に最初の状態まで戻れる
+  - 元に戻すで出力解像度も戻る
+- id: REQ-072
+  statement: 「未保存の変更」の状態(Edited)は、ドキュメントの編集・ドラッグ/スライダーの開始・出力解像度の確定・スケールのプリセット・fps のプリセットでオンになり、読み込みと書き出しの成功でオフになる。縦横比の切り替え・元に戻す・やり直しでは変わらない(元に戻して最初の状態に戻ってもオンのまま)。起動直後(サンプル)はオフ。
+  rationale: Edited の代入箇所(ApplyState / CommitEdit / BeginInteractiveEdit / ApplyWidth / ApplyHeight / Scale / SetFps / LoadClip / ConfirmExport)。保存の機能は無く、「保存済み」は書き出し成功を意味する。元に戻す/縦横比で状態が変わらない点も含め、正の規則(不具合も再現)により実際の動作で書いた。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#CommitEdit
+  - authority/ViewModels/MainWindowViewModel.cs#ConfirmExport
+  - authority/ViewModels/MainWindowViewModel.cs#LoadClip
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-072
+    from: REQ-072
+    to: bomdd/20-spec.md#history
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 元に戻して最初の状態にすると「保存済み」に戻る(実際はならない)
+  - 書き出しに成功しても「未保存の変更」のまま
+- id: REQ-073
+  statement: 'キーボードの操作: Space=再生/一時停止、← または ,=1 フレーム戻る、→ または .=1 フレーム進む、Shift+←/→(Shift+, / Shift+. も同じ)=1 秒戻る/進む、S(Ctrl なし)=分割、I(Ctrl なし)=Set In、O(Ctrl なし)=Set Out、Delete または Backspace=編集対象の除外の切り替え(除外できないときは何もしない)、M(Ctrl なし)=ミュートの切り替え、Ctrl+Z=元に戻す、Ctrl+Shift+Z と Ctrl+Y=やり直す。S・I・O・M は Shift の有無に関わらず働く。'
+  rationale: MainWindow.OnKeyDown。README の一覧には M と Backspace が無く、クイックスタートには I/O が無いが、実際の動作はこの表。キーごとに unit/L1 で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/MainWindow.axaml.cs#OnKeyDown
+  - authority/README.md#Main features
+  - authority/docs/QUICKSTART.md#6. Keyboard shortcuts
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-073
+    from: REQ-073
+    to: bomdd/20-spec.md#keyboard
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - Ctrl+S で分割される
+  - Backspace で除外できない
+  - Shift+. で 1 フレームだけ進む(実際は 1 秒)
+- id: REQ-074
+  statement: 'キーボードの操作は、文字の入力欄(出力解像度の幅・高さ)にフォーカスがあるときは働かない。書き出しダイアログ・About・ffmpeg セットアップのオーバーレイを表示している間も働く(例: 書き出しダイアログの裏で Space で再生、Delete で除外が切り替わる)。'
+  rationale: OnKeyDown の判定は HasClip(常に真)と TextBox のフォーカスだけで、オーバーレイの表示を見ていない。書き出し中に編集しても、書き出しは開始時のドキュメントで行う(Request に固定)。ダイアログ表示中に裏の編集ができるのは不具合の疑いがあるが、正の規則(不具合も再現)により実際の動作で書いた。L1 で確認。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/MainWindow.axaml.cs#OnKeyDown
+  - authority/docs/QUICKSTART.md#6. Keyboard shortcuts
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-074
+    from: REQ-074
+    to: bomdd/20-spec.md#keyboard
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 幅の入力欄で「S」を打つと分割される
+- id: REQ-075
+  statement: ツールバーの「Export」で書き出しダイアログを開く。ダイアログは背景を暗くするオーバーレイの中央の幅 520 px のモーダルで、見出し「Export」と「Outputs with speed, pitch, and trim applied.」を持つ。「Cancel」ボタンまたは背景(モーダルの外)のクリックで閉じ、モーダル本体のクリックでは閉じない。書き出し中はどちらでも閉じない。Esc キーでは閉じない。
+  rationale: ExportDialogView(OnScrimPressed → CloseExport、OnModalPressed で e.Handled)。背景クリックで閉じるのは裁定済み(UQ-0018=button-and-scrim)。L1 で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/ExportDialogView.axaml
+  - authority/Views/ExportDialogView.axaml.cs
+  - authority/ViewModels/MainWindowViewModel.cs#CloseExport
+  - authority/bomdd/ui/divergence-ledger.md#diverged
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-075
+    from: REQ-075
+    to: bomdd/20-spec.md#export-dialog
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 書き出し中に背景を押すとダイアログが消える
+  - Esc で閉じる
+- id: REQ-076
+  statement: '書き出し形式は 3 つのカードから 1 つを選ぶ: 「MP4 (H.264 / AAC)」(タグ For sharing)・「Intermediate file (FFV1 / PCM)」(タグ Lossless)・「ProRes 422 HQ / PCM」(タグ For editing)。各カードに説明文がある。カードのどこを押しても選択され(書き出し中も押せる。進行中の書き出しは開始時の形式のまま続き、選択の表示とその後に残る選択だけが変わる)、選択中のカードは選択の表示(ラジオの点)になる。起動時の既定は MP4。選択はアプリを終了するまで(ダイアログを閉じても、別のクリップを読み込んでも)保たれ、保存はしない。'
+  rationale: ExportDialogView の fmt カードと SelectFormat、ExportFormatInfo.All[0]。形式の非永続は裁定済み(UQ-0012)。L1 で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/ExportDialogView.axaml
+  - authority/ViewModels/MainWindowViewModel.cs#SelectFormat
+  - authority/Models/ExportFormat.cs
+  - authority/docs/QUICKSTART.md#5. Export
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-076
+    from: REQ-076
+    to: bomdd/20-spec.md#export-dialog
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - ラジオの点を押さないと選べない
+  - 別のクリップを開くと MP4 に戻る(実際は戻らない)
+  - 書き出し中は形式のカードが押せない(実際は押せる)
+- id: REQ-077
+  statement: ダイアログの要約に、出力解像度「W×H」、フレームレート「{出力 fps の表記} fps」、出力時間(書き出しの長さ M:SS と「(orig {トリム後の長さ})」)を表示する。
+  rationale: OutResText / OutFpsText / OutputLenClock / SourceLenOriginalText。高速コピーのときも要約の出力時間は再エンコードの長さのまま(リードを含まない)。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/ExportDialogView.axaml
+  - authority/ViewModels/MainWindowViewModel.cs#SourceLenOriginalText
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-077
+    from: REQ-077
+    to: bomdd/20-spec.md#export-dialog
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 出力時間に除外区間が含まれる
+- id: REQ-078
+  statement: '高速・無劣化(コピー)の切り替えは、次のすべてを満たすときだけ表示する: クリップが実ファイル、形式が MP4、出力解像度がソースと同じ、除外していない区間の速度がすべて 1、|出力 fps − ソース fps| ≤ 0.05、映像コーデックが H.264 か H.265、音声が無いか AAC・MP3・AC-3 で除外していない区間の音量がすべて 100%、トリムと除外の後に残る内容が 1 つの連続した範囲。既定はオフで、読み込みのたびにオフに戻る。条件を満たさないときは切り替えを隠し、オンにしていても再エンコードで書き出す。'
+  rationale: ExportPlan.Analyze(CanStreamCopy)と ShowFastExport / FastExport。クイックスタート §5 の条件と一致。条件の組み合わせを unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Services/FfmpegExporter.cs#ExportPlan.Analyze
+  - authority/ViewModels/MainWindowViewModel.cs#CanFastExport
+  - authority/docs/QUICKSTART.md#Fast, lossless copy (conditional)
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-078
+    from: REQ-078
+    to: bomdd/20-spec.md#export-dialog
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 中央を除外したのにコピーの切り替えが出る
+  - 音量 50% の区間があるのにコピーで書き出す
+  - ProRes を選んでもコピーの切り替えが出る
+- id: REQ-079
+  statement: コピーをオンにすると、説明「Copies without re-encoding. …」に加え、ソースが VFR なら VFR の注記、コピーの範囲を示す帯(トリム開始の直前のキーフレームからトリム終了までを全幅として、先頭のリードを warn 色・本来の範囲を accent 色で描く)、キーフレームの注記を出す。リードが 0.02 秒を超えるときは「About {リード秒数(小数 1 桁)} s of lead footage is included at the start.」を出し、タイムラインにもキーフレームの位置の破線とリードの帯を描く。キーフレームはダイアログを開いたとき・コピーをオンにしたとき・形式やドキュメントが変わったときに求め直す。
+  rationale: ShowVfrCopyNote / ShowCopyPreview / ShowCopyCutMarker / CopyLeadInText、CopyPreviewStrip、TimelineControl.DrawCopyCutMarker、TriggerCopyCut。表示条件は unit、帯とマーカーは L2。帯とリードの文言はトリム開始・終了を基準にし、先頭側の除外で残る範囲が後ろへずれても反映しない(書き出しの内容の節のコピーを参照)。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/ExportDialogView.axaml
+  - authority/Controls/CopyPreviewStrip.cs
+  - authority/Controls/TimelineControl.cs#DrawCopyCutMarker
+  - authority/ViewModels/MainWindowViewModel.cs#CopyLeadInText
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-079
+    from: REQ-079
+    to: bomdd/20-spec.md#export-dialog
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - リード 0.01 秒でもリードの文言が出る
+  - トリム開始を動かしてもリードの表示が前の値のまま
+- id: REQ-080
+  statement: 'コピーの開始に使うキーフレームは、トリム開始以下で最大のキーフレームの時刻。ffprobe で対象時刻の手前 12 秒だけを読み、見つからなければ読む幅を4 倍に広げて最大 4 回まで試す。読む窓は [max(0, 対象 − 幅), 対象] で、幅は 12・48・192・768 秒の順。窓の開始が 0 に達しても見つからないとき、また 4 回試して見つからないとき(トリム開始が 768 秒を超えるとき)は 0 とする(先頭はキーフレームとみなす)。ffprobe が 0 以外で終了したときは「その窓にキーフレームが無い」と同じに扱うので、ffprobe の失敗でも答えは 0 秒になる: コピーはファイルの先頭から始まり、0 秒からトリム開始までがすべてリードとして出力に入り、リードの文言とタイムラインの帯もこの値を使う。トリム開始が 0 以下なら 0。結果(失敗による 0 も)はパスと時刻(ms・偶数丸め)で覚えて再利用する。答えを求めない(null)のはオンラインのみのファイルのときだけで、このときコピーは残る範囲の開始から始める。1 回の ffprobe は 20 秒で打ち切り、打ち切りは例外として呼び出し側へそのまま出る(結果は覚えない・書き出しの状態の節を参照)。'
+  rationale: KeyframeIndex.GetKeyframeAtOrBeforeAsync。unit(ffprobe の出力・終了コード ≠ 0・打ち切りを与える)で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Services/KeyframeIndex.cs:35-60
+  - authority/Services/KeyframeIndex.cs:62-82
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-080
+    from: REQ-080
+    to: bomdd/20-spec.md#export-dialog
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - トリム開始より後のキーフレームから切り出して先頭が欠ける
+  - ffprobe が失敗するとトリム開始からコピーする(実際は 0 秒から)
+  - トリム開始 800 秒でキーフレームが見つからないとき、さらに窓を広げて読む(実際は 4 回で打ち切って 0)
+- id: REQ-081
+  statement: 「Export」(書き出す)を押すと、クリップがサンプル(パスが空)なら「Samples cannot be exported. Open an actual file.」を表示して終わる。実ファイルなら保存先の選択ダイアログ(タイトル「Export to」・既定のファイル名「{元のファイル名の拡張子なし}_export{形式の拡張子}」・種類は「{拡張子の大文字} file」の 1 つ・既定の拡張子付き)を開き、選ばなければ何もしない。形式の拡張子は MP4=.mp4・中間ファイル=.mkv・ProRes=.mov。
+  rationale: VM.ConfirmExport と MainWindow.PickSavePathAsync、ExportFormatInfo の Extension。unit/L1 で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#ConfirmExport
+  - authority/Views/MainWindow.axaml.cs#PickSavePathAsync
+  - authority/Models/ExportFormat.cs
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-081
+    from: REQ-081
+    to: bomdd/20-spec.md#export-dialog
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - ProRes の既定のファイル名が .mp4 になる
+  - サンプルで書き出しを押すと保存先のダイアログが開く
+- id: REQ-082
+  statement: 書き出し中は「Cancel」「Export」ボタンを隠し、進捗バー・「{偶数丸め(割合·100)}%」(12.5% は 12)・「Frame {N}」(出力済みのフレーム数 N が 1 以上のときだけ。0 なら速度も含めて何も出さない)(ffmpeg の速度が 0.01 を超えれば「 · ×{速度}」を続ける)・残り時間「About {M:SS} left」(進捗が 2% を超えてから。ffmpeg の速度があれば 書き出しの長さ·(1 − 進捗)/速度、無ければ 経過時間·(1 − 進捗)/進捗)と「Abort」ボタンを出す。進捗の割合は ffmpeg の出力済み時刻 / 出力の総時間(コピーはキーフレームから範囲の終わりまで、再エンコードは書き出しの長さ)を[0, 1] に収めたもの。
+  rationale: VM の ExportPercent / ExportDetailText / ExportEtaText と FfmpegExporter.ExportAsync の -progress 解析(out_time_us)。コピーのときも残り時間の式は書き出しの長さを使う(実際の動作)。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#ExportEtaText
+  - authority/ViewModels/MainWindowViewModel.cs#ExportDetailText
+  - authority/Services/FfmpegExporter.cs#ExportAsync
+  - authority/Views/ExportDialogView.axaml
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-082
+    from: REQ-082
+    to: bomdd/20-spec.md#export-dialog
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 書き出し中に Export をもう一度押せる
+  - 進捗が 100% を超えて表示される
+- id: REQ-083
+  statement: '書き出しの結果: 成功したらダイアログを閉じ、未保存の変更をオフにし、状態の文言を消す。「Abort」で中断したら「Export canceled.」、出力の総時間が 0 以下なら「Output duration is zero.」、書き出す区間が無ければ「There are no regions to export.」、ffmpeg が 0 以外で終了したら「ffmpeg exited with an error (code {N}).」の次の行に ffmpeg の標準エラーの最後の 8 行(空行を除く)を、ボタンの上に warn 色で表示する。書き出しの開始時(コピーのとき)のキーフレームの算出で例外が出る(ffprobe の 20 秒の打ち切り・ffprobe の起動の失敗)と、書き出し中の状態が戻らない: 「Cancel」「Export」は隠れたまま、「Abort」は効かず(取り消しは算出に渡されない)、ダイアログは閉じられない(元のアプリの不具合として再現する。例外は ConfirmExport の try の外の EnsureCopyCutAsync から出る)。再エンコードの書き出しで ffmpeg の起動の例外が出たときは、書き出し中の表示は終わるが状態の文言は「Exporting…」のまま残り、ボタンの上に warn 色で表示される(アプリが例外で落ちなければ)。結果の文言はダイアログを閉じて開き直しても、次の書き出しを始めるまで残る。'
+  rationale: VM.ConfirmExport の結果処理と ExportStatus / ShowExportStatus(閉じるときに消さない)。中断は ffmpeg のプロセスを木ごと終了する(ProcessRunner)。unit/L1 で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#ConfirmExport
+  - authority/Services/FfmpegExporter.cs#ExportAsync
+  - authority/Services/ProcessRunner.cs#RunAsync
+  - authority/Resources/Strings.resx
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-083
+    from: REQ-083
+    to: bomdd/20-spec.md#export-dialog
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-083-001
+    question: 中断・失敗のとき、書き出し先に途中までのファイルが残る(削除しない)。直さずに再現する前提でよいか。
+    severity: minor
+  - question_id: UQ-REQ-083-002
+    question: 失敗の文言が開き直しても残るのは意図どおりか。
+    severity: minor
+  counterexamples:
+  - 中断後もダイアログに進捗が出たまま
+  - 失敗の文言がダイアログを閉じると消える(実際は残る)
+  - コピーの書き出しで ffprobe が 20 秒で打ち切られると「Export canceled.」になる(実際は書き出し中のまま戻らない)
+- id: REQ-084
+  statement: 再エンコードの書き出しは、除外していない区間とトリム範囲が重なる部分を、タイムラインの順に、各区間の速度で再生した映像と音声をつないだものになる(重なりが 0.0001 秒以下の区間は除く)。出力解像度がソースと違うときだけ lanczos で W×H に拡大縮小する。音声は区間ごとに一定の倍率で音量を掛け(100% なら何もしない)、速度が 1 でないときは、ピッチ維持オンなら atempo(1 段あたり [0.5, 2.0] に収まるよう複数段に分ける)、オフならasetrate(サンプルレート·速度)の後に元のサンプルレートへ aresample(音の高さが速度に比例して変わる)。ソースの映像・音声ファイルは変更しない。
+  rationale: FfmpegExporter.BuildFilterGraph / AudioTempo、README の設計メモ(atempo は 0.5x 未満で 2 段)。グラフの文字列を unit、出力を L3(実ファイル)で確認。
+  rationale_precision: ok
+  classification_hint: surface
+  priority: must
+  source_refs:
+  - authority/Services/FfmpegExporter.cs#BuildExactGraph
+  - authority/Services/FfmpegExporter.cs#AudioTempo
+  - authority/README.md#Design notes
+  - authority/docs/QUICKSTART.md#4.5 Adjust volume / mute per region 🆕 v1.1.0
+  external_source: ffmpeg のフィルタ仕様(scale の lanczos・volume・atempo の 1 段の範囲 [0.5, 2.0]・asetrate・aresample)
+  acceptance_intent:
+    depth_hint: L3
+    tolerance_hint: 区間の順序と有無は完全一致・音量の倍率は 0.01 単位
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-084
+    from: REQ-084
+    to: bomdd/20-spec.md#export-content
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 除外した区間が出力に入る
+  - ピッチ維持オンの 2x で声が高くなる
+  - 解像度を変えていないのに再スケールされて画質が落ちる
+- id: REQ-085
+  statement: 'ソースが CFR のとき、再エンコードの出力は出力 fps の CFR で、出力の総時間 T = Σ(重なりの長さ / 速度)を有理数で厳密に計算し(速度は 0.01 刻みの値を c/100、時刻はソース fps の格子上の値として扱う)、出力フレーム数は RoundHalfUp(T·出力 fps)(中点は切り上げ・偶数丸めではない)、音声の総サンプル数は RoundHalfUp(T·サンプルレート)。出力の各フレームは、その時刻以前で最も新しいソースのフレームを使う(sample-and-hold)。境界の決め方(すべて有理数で厳密): 統合後の各 run k の出力上の開始 T_k(T_0 = 0、T_{k+1} = T_k + (終了 − 開始)/速度)について、run が持つ出力フレームは [min(ceil(T_k·出力 fps), N), min(ceil(T_{k+1}·出力 fps), N))(N は総フレーム数)、出力フレーム i が使うソースフレームは floor((開始 + (i/出力 fps − T_k)·速度)·ソース fps)、run が読むソースフレームは floor(開始·ソース fps) から ceil(終了·ソース fps) まで(最低 1 枚)。音声は run ごとにソースのサンプル [RoundHalfUp(開始·サンプルレート), RoundHalfUp(終了·サンプルレート)) を切り出し、速度変換(速度 1 は変換なし)と音量の後、出力上の長さ RoundHalfUp(T_{k+1}·サンプルレート) − RoundHalfUp(T_k·サンプルレート) サンプルへ無音の付け足しか切り詰めで揃える。映像と音声は別々につなぐ。ソース上で連続し、速度・音量・ピッチ維持が同じ隣り合う区間は1 つとして扱い、区間を分割/結合しただけでは出力のフレーム列・枚数・タイムスタンプ・音声の内容を変えない(ゼロの挿入もない)。'
+  rationale: 'ExportClock.Build(層 N の統合・層 C の累積クロック)と ECO-002 の不変条件(分割/統合不変性)。ECO-002 の観測: 30000/1001 fps・2x で分割すると120→122 フレームになった欠陥の是正。ECO-002 は変更台帳で staged(golden 未承認)のままだが、ソースには是正後のコードが入っているので、正の規則(実際の動作が正)により是正後で書いた。受入は L3: PCM はビット一致、MP4 はフレーム ID・PTS・音声タイムラインの一致(許容差ゼロ)。'
+  rationale_precision: ok
+  classification_hint: surface
+  priority: must
+  source_refs:
+  - authority/Services/ExportClock.cs#Build
+  - authority/Services/ExportClock.cs#SourceFrameOf
+  - authority/Services/FfmpegExporter.cs#BuildExactGraph
+  - authority/bomdd/60-change-order-eco-002.md#§1 症状
+  - authority/bomdd/60-change-register.yaml#ECO-002
+  - authority/docs/golden-checklist-p1.ja.md
+  external_source: ffmpeg のフィルタ仕様(trim の start/end・end_frame・start_pts、settb・setpts、fps の round=up、tpad の stop_mode=clone、atrim の start/end・start_sample/end_sample、apad whole_len、atempo・asetrate・aresample、concat)
+  acceptance_intent:
+    depth_hint: L3
+    tolerance_hint: フレーム数・サンプル数・PTS は完全一致(ZERO)
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-085
+    from: REQ-085
+    to: bomdd/20-spec.md#export-content
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 同じ設定の区間を 8 つに分割すると 2x の出力が 2 フレーム長くなる
+  - 1x の区間の境界に 51 サンプルの無音が入る
+  - 29.97 fps の出力が 30 fps として書かれる
+- id: REQ-086
+  statement: ソースが VFR のとき(または fps・速度が正の有限値でないとき)は、区間ごとに映像を trim+setpts、音声を atrim+テンポで処理して concat でつなぎ、速度の変更・fps の変更・VFR のいずれかがあれば最後に fps フィルタで出力 fps の CFR にする。この経路は厳密な時間の保証の対象外。
+  rationale: FfmpegExporter.BuildLegacyGraph(ExportClock.Build が null のとき)。ECO-002 で検証対象外とされた範囲。グラフの文字列を unit で確認。
+  rationale_precision: ok
+  classification_hint: surface
+  priority: should
+  source_refs:
+  - authority/Services/FfmpegExporter.cs#BuildLegacyGraph
+  - authority/Services/ExportClock.cs#Build
+  external_source: ffmpeg のフィルタ仕様(trim・setpts・atrim・concat・fps)
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: グラフの構成は完全一致・出力の時間精度は対象外
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-086
+    from: REQ-086
+    to: bomdd/20-spec.md#export-content
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - VFR の素材が CFR に揃えられずに書き出される
+- id: REQ-087
+  statement: '形式ごとの符号化: MP4 は映像 libx264(preset medium・crf 18・yuv420p)と音声 AAC 192 kbps、+faststart、映像トラックのタイムスケールを出力 fps の分子、ムービーのタイムスケールを lcm(分子, サンプルレート)(音声なしは分子)にする。中間ファイルは映像 FFV1(level 3)と音声 PCM 16bit。ProRes は映像 prores_ks(profile 3 = 422 HQ・yuv422p10le)と音声 PCM 16bit。CFR の経路(書き出しの厳密な時間計算ができるとき)では、どの形式も出力フレームレートを -r p/q で明示する(MP4 のタイムスケールの指定もこの経路だけ)。VFR などの従来経路では -r もタイムスケールも付けない。ソースに音声が無ければ音声のストリームを出力しない。保存先に同名のファイルがあれば上書きする。'
+  rationale: FfmpegExporter.EncoderArgs / OutputClockArgs / BuildFilterArgs(-y)。ffmpeg の引数の文字列を unit で完全一致、出力のストリーム構成を L3 で確認。
+  rationale_precision: ok
+  classification_hint: surface
+  priority: must
+  source_refs:
+  - authority/Services/FfmpegExporter.cs#EncoderArgs
+  - authority/Services/FfmpegExporter.cs#OutputClockArgs
+  - authority/README.md#Main features
+  external_source: ffmpeg のエンコーダ仕様(libx264・aac・ffv1・prores_ks)
+  acceptance_intent:
+    depth_hint: L3
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-087
+    from: REQ-087
+    to: bomdd/20-spec.md#export-content
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - ProRes が 422(HQ でない)で書き出される
+  - 音声なしの素材で無音の音声トラックが付く
+- id: REQ-088
+  statement: コピーの書き出しは、開始をトリム開始以下で最大のキーフレーム(求められないか範囲外なら残る範囲の開始)とし、長さを 残る範囲の終わり − 開始 として、最初の映像と最初の音声のストリームを再エンコードせずにコピーする(負のタイムスタンプは 0 起点に・+faststart)。欲しい範囲は欠けず、先頭にキーフレームからトリム開始までのリードが付く。VFR はそのまま VFR で出る。キーフレームはトリム開始を基準に求め、残る範囲の開始以下なら採用するので、先頭側の区間を除外して残る範囲がその後ろから始まるときは、除外した区間がまるごと(さらにその前のリードも)出力に入る(元のアプリの不具合として再現する)。このときもリードの表示はトリム開始との差だけを示し、ダイアログの帯もトリム開始・終了を基準に描く。
+  rationale: FfmpegExporter.BuildCopyArgs / CopyStart。先頭側の除外区間が入るのは不具合だが、正の規則(不具合も再現)により実際の動作で書いた。引数の文字列を unit で完全一致、出力の長さを L3 で確認。
+  rationale_precision: ok
+  classification_hint: surface
+  priority: must
+  source_refs:
+  - authority/Services/FfmpegExporter.cs#BuildCopyArgs
+  - authority/Services/FfmpegExporter.cs#CopyStart
+  - authority/Resources/Strings.resx
+  external_source: ffmpeg のストリームコピーの仕様(-ss の入力シーク・-t・-c copy・-avoid_negative_ts make_zero・-movflags +faststart)
+  acceptance_intent:
+    depth_hint: L3
+    tolerance_hint: 開始=キーフレーム時刻・長さは 1e-6 秒単位の引数で完全一致
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-088
+    from: REQ-088
+    to: bomdd/20-spec.md#export-content
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - コピーの書き出しで先頭が欠ける
+  - コピーで末尾が延びる
+  - 区間 [A 除外][B 残す] でコピーすると B だけが出力される(実際は A の前のキーフレームから B の終わりまで出る)
+- id: REQ-089
+  statement: タイトルバーの ⓘ ボタンで About ダイアログ(幅 560 px・最大高 660 px のモーダル)を開く。アイコン・「MoviePad」・バージョン・「A video editor for trimming, per-region speed, and exporting mp4.」、ライセンスの要約(Application=MIT License、Bundled fonts=Manrope / JetBrains Mono — SIL OFL 1.1、Playback engine=LibVLC / LibVLCSharp — LGPL-2.1+、ffmpeg=別プロセスで起動する旨)、「Full license text (THIRD-PARTY-NOTICES)」と全文を表示する。全文は等幅・折り返しなし・選択できる文字で、縦横にスクロールできる。「Close」ボタンか背景のクリックで閉じる。
+  rationale: AboutDialogView.axaml / .axaml.cs。文言は両言語で完全一致、L1。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/AboutDialogView.axaml
+  - authority/Views/AboutDialogView.axaml.cs
+  - authority/README.md#License
+  external_source: null
+  acceptance_intent:
+    depth_hint: L1
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-089
+    from: REQ-089
+    to: bomdd/20-spec.md#about
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - 全文が折り返されて読みにくい
+  - 背景のクリックで閉じない
+- id: REQ-090
+  statement: バージョンは「v」+ アセンブリの情報バージョンの「+」より前の部分。情報バージョンが無ければ「v」+ アセンブリのバージョンの 3 桁、それも無ければ v1.0.0。ライセンス全文は最初に開いたときに、アプリのフォルダの THIRD-PARTY-NOTICES.txt を読む。無いか読めないときは「Third-party license information (THIRD-PARTY-NOTICES.txt) was not found.」で始まる案内文を出す(案内文は言語の切り替えで訳し直す)。一度読んだ内容は再読込しない。
+  rationale: VM.AppVersion / OpenAbout / LoadNotices。unit で完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/ViewModels/MainWindowViewModel.cs#AppVersion
+  - authority/ViewModels/MainWindowViewModel.cs#LoadNotices
+  - authority/README.md#Releasing (for maintainers)
+  external_source: null
+  acceptance_intent:
+    depth_hint: unit
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-090
+    from: REQ-090
+    to: bomdd/20-spec.md#about
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - バージョンに「+コミット ID」が付いて表示される
+  - ファイルが無いと空のダイアログになる
+- id: REQ-091
+  statement: '画面の外観(暗い配色・フォント Manrope と JetBrains Mono(等幅の数値表示)・角丸・影・各ボタンの見た目)はデザイントークンと UI の契約に従う。配色は styles.css の oklch の定義を sRGB に厳密に変換した値(Tokens.axaml の計算値)を使う。完全一致で合わせる範囲: (1) Styles/Tokens.axaml の値を持つ全キー(色は名前+Color、Brush は名前+Brush: BgWindow・BgApp・Surface・Surface2・Surface3・Line・LineSoft・Text・Text2・Text3・Text4・Accent・AccentSoft・AccentLine・AccentText・OnAccent・PrimaryHover・Warn・Ok・CloseHover・OverlayBlack50・OverlayBlack42・OverlayBlack18・Scrim・White12・White18・White10・White08・White06・TrimMask・Wave・EmptyCard(この 32 色は Color と Brush の両方)、BrandGrad2Color・StageRadialColor(Color のみ)、BrandGradientBrush・StageBackgroundBrush(Brush のみ)、RadiusSm/Md/Lg/Xl/Pill、FontUi・FontMono。色でない EqualsConverter は値の照合の対象外で、同じ働き(値の等しさを返す変換)を持つこと)。(2) Styles/Controls.axaml の各セレクターが設定するプロパティの値(Button.btn とその primary・ghost-line・icon・sm・disabled・pointerover、Button.preset と active、Button.tp と play、Button.win と close、Border.pill・Border.section、Border.fmt と sel・radio・tag・dot、ToggleButton.toggle と checked、Slider.rng、TextBox.num-input
+    と focus・pointerover、TextBlock.eyebrow・h4・k・v・mono・muted)。配置(並び・入れ子・どの要素にどのクラスが付くか)は各 View の構造どおりにし、ピクセル単位の位置は合わせない。'
+  rationale: README の設計メモ(デザイントークン・OklchColor)と bomdd/ui の UI 契約(ui-bom・裁定 37)。許容差は pixel-exact を既定にしない(裁定)。トークンとスタイルの値は .axaml の値を読む L2 で完全一致、配置は View の論理ツリーの構造で照合する。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/README.md#Design notes
+  - authority/Styles/Tokens.axaml
+  - authority/Styles/Controls.axaml
+  - authority/bomdd/ui/37-ui-rulings.yaml
+  - authority/bomdd/ui/ui-bom.json
+  - authority/design_handoff_moviepad/styles.css
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: トークンとスタイルのプロパティ値は完全一致・配置は構造で・pixel-exact でない
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-091
+    from: REQ-091
+    to: bomdd/20-spec.md#visual-design
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - ボタンの文字が既定のフォントで表示される
+  - accent の色が近似値の hex になる
+  - Button.btn.primary のホバー色が PrimaryHover でない
+  - ピクセル位置の差だけで不合格にする
+- id: REQ-092
+  statement: メインウィンドウのタイトルは「MoviePad」、アイコンは Assets/moviepad.ico。アプリのテーマは Fluent のダーク(RequestedThemeVariant=Dark)で、OS の明暗の設定に関わらずダークで表示する。
+  rationale: MainWindow.axaml の Title・Icon と App.axaml の RequestedThemeVariant・FluentTheme。L2 で値を完全一致。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/MainWindow.axaml:8-9
+  - authority/App.axaml:4
+  - authority/Assets/moviepad.ico
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-092
+    from: REQ-092
+    to: bomdd/20-spec.md#window
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - OS がライトモードだとライトのテーマで表示される
+  - タスクバーのアイコンが既定のアイコンになる
+  - ウィンドウのタイトルが空になる
+- id: REQ-093
+  statement: タイムラインの本体は横スクロールだけで、縦スクロールは無効。横スクロールバーは自動では隠れず(AllowAutoHide=False・内容が収まらないときに表示)、ポインタが乗っていないときは細い表示(サムを Fluent 既定の細表示に縮小・トラックとボタンは透明)、乗ったときだけ太い表示になる。スクロールバーは自分の行を占め、内容に重ならない。
+  rationale: TimelineView.axaml の ScrollViewer.timelineScroll(HorizontalScrollBarVisibility=Auto・VerticalScrollBarVisibility=Disabled・AllowAutoHide=False・Padding 16,0,16,0)と :not(:pointerover) のスタイル。値は L2 で完全一致、太さの切り替えは L2 でホバーの前後を観測。
+  rationale_precision: ok
+  classification_hint: core
+  priority: must
+  source_refs:
+  - authority/Views/TimelineView.axaml:9-29
+  - authority/Views/TimelineView.axaml:53-59
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-093
+    from: REQ-093
+    to: bomdd/20-spec.md#timeline-view
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions: []
+  counterexamples:
+  - しばらく操作しないと横スクロールバーが消える
+  - 横スクロールバーが常に太い
+  - ホイールで縦にスクロールする
+- id: REQ-094
+  statement: '環境変数によるデバッグ・ドキュメント撮影用の動作(未設定なら何もしない): MOVIEPAD_OPEN=パス で起動時にそのファイルを開く。MOVIEPAD_SCENARIO=名前 で編集状態を直接作る(履歴に積まない): ffmpeg= 初回セットアップを表示、trim= トリム 2〜17 秒・1 区間・再生ヘッド 9、split= 90 秒を 30 秒ずつ 3 区間・再生ヘッド 15、speed= 中央区間 2x・再生ヘッド 45、exclude= 中央区間を除外・再生ヘッド 15、volume= 中央区間の音量 0.5・再生ヘッド 45、mute= 中央区間の音量 0・再生ヘッド 45(3 区間の形はトリム 0〜90)。MOVIEPAD_SHOWEXPORT / MOVIEPAD_SHOWABOUT が空でなければ書き出しのダイアログ / About を開く。MOVIEPAD_SHOT=パス なら起動から 1800 ms 後にウィンドウを PNG(96 dpi・クライアント領域の大きさ)に保存して閉じる(保存の失敗は無視して閉じる)。MOVIEPAD_SHOT があり MOVIEPAD_INSPECTOR_SCROLL が数値なら、1200 ms 後にインスペクターの縦スクロールをその位置にする。MOVIEPAD_TTI=パス なら読み込みの各段の経過時間の行をそのファイルに追記する。MOVIEPAD_CACHE_DIR があればサムネイル・波形のキャッシュの置き場をそこにする。処理の順は 開く → シナリオ → 書き出し → About。'
+  rationale: MainWindow.OnOpened / ApplyScreenshotScenario、LoadProfiler、MediaPreviewService.CacheRoot。環境変数を与えた起動で L2 観測。
+  rationale_precision: needs-refinement
+  classification_hint: core
+  priority: could
+  source_refs:
+  - authority/Views/MainWindow.axaml.cs#OnOpened
+  - authority/Views/MainWindow.axaml.cs#ApplyScreenshotScenario
+  - authority/Util/LoadProfiler.cs#_logFile
+  - authority/Services/MediaPreviewService.cs#CacheRoot
+  external_source: null
+  acceptance_intent:
+    depth_hint: L2
+    tolerance_hint: exact
+    approver_hint: automated
+  trace_links:
+  - trace_id: TL-REQ-SPEC-094
+    from: REQ-094
+    to: bomdd/20-spec.md#debug-hooks
+    relation: specified-by
+    status: proposed
+  lifecycle_state: draft
+  unresolved_questions:
+  - question_id: UQ-REQ-094-001
+    question: 利用者向けの機能ではなく撮影・計測用の作り込み。再製造で再現するか(could で書いた)は裁定が要る。
+    severity: minor
+  counterexamples:
+  - MOVIEPAD_SCENARIO で作った状態が元に戻すで消える
+  - MOVIEPAD_SHOT の撮影後もウィンドウが開いたまま
+  - 環境変数が無いのに撮影して終了する
