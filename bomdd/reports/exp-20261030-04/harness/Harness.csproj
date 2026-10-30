@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- EXP-20261030-04 harness. Built by build_harness.py in a staging folder next to an archive of MoviePad 126eae9
+       (AuthorityDir); never built inside a repository. A console program, not a test project. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(AuthorityDir)/MoviePad.csproj" />
+  </ItemGroup>
+</Project>

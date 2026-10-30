@@ -1,0 +1,17 @@
+{"states": [{"id": "any", "name": "probe", "predicate": {}}],
+ "scenarios": [
+  {"id": "p-play", "title": "p", "goal": "p", "flow": "main", "setup": [{"set": "ShowFfmpegSetup", "value": false}],
+   "steps": [{"in": "any", "action": "TogglePlay", "surface": "TransportView", "expect": "any"},
+             {"in": "any", "action": "TogglePlay", "surface": "TransportView", "expect": "any"}]},
+  {"id": "p-dialogs", "title": "p", "goal": "p", "flow": "main", "setup": [{"set": "ShowFfmpegSetup", "value": false}],
+   "steps": [{"in": "any", "action": "ShowExportDialog", "surface": "ToolbarView", "expect": "any"},
+             {"in": "any", "action": "CloseExport", "surface": "ExportDialogView", "expect": "any"},
+             {"in": "any", "action": "OpenAbout", "surface": "TitleBarView", "expect": "any"},
+             {"in": "any", "action": "CloseAbout", "surface": "AboutDialogView", "expect": "any"},
+             {"in": "any", "action": "SetTrimIn", "surface": "ToolbarView", "expect": "any"},
+             {"in": "any", "action": "ApplySpeedPreset:0.5", "surface": "InspectorView", "expect": "any"},
+             {"in": "any", "action": "Scale:0.5", "surface": "InspectorView", "expect": "any"}]},
+  {"id": "p-lang", "title": "p", "goal": "p", "flow": "main", "setup": [{"set": "ShowFfmpegSetup", "value": false}],
+   "steps": [{"in": "any", "action": "SwitchLanguage:en", "surface": "TitleBarView", "expect": "any"}]},
+  {"id": "p-after", "title": "p", "goal": "p", "flow": "main", "setup": [{"set": "ShowFfmpegSetup", "value": false}],
+   "steps": [{"in": "any", "action": "ToStart", "surface": "TransportView", "expect": "any"}]}]}

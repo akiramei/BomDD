@@ -10115,7 +10115,7 @@ folder outside every repository; nothing is written into MoviePad or MoviePad-Re
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement; no body text, template or tool changes.
 
-- [open] EXP-20261030-04 — **Given use case scenarios certified by execution on the authority's view model and a mock generated
+- [recovered 2026-10-30 via bomdd/reports/exp-20261030-04/results.md] EXP-20261030-04 — **Given use case scenarios certified by execution on the authority's view model and a mock generated
   from the authority that every scenario walks cleanly, does a deterministic walk catch structural defects seeded into the mock,
   and stay silent on the clean mock and on equivalent changes — with each miss placed inside or outside the scenarios' coverage?**
   Stage 1 of two; stage 2 (an ordinary upstream on the same seeded mock) is not filed. Harness: a .NET console program built
@@ -10131,5 +10131,30 @@ measurement; no body text, template or tool changes.
   stage 1 measures is coverage and how many freely chosen defects a correct scenario set reaches. Every inside caught and f silent →
   stage 2 earns a run (the user's). Seeded defects only; one writer, one seeder; the binding between scenario words and a designer's
   mock is given here and is not in real work. Start of the run is the user's.
+  **Read (2026-10-30, by the fixed rule; run on the user's "走らせる")**: **inside coverage 20 / 20 a-e caught, f 0 false alarms
+  → stage 2 earns a run (its design and start are the user's)** — by §9.4 a qualification of the instrument, as expected by
+  construction (W1 caught a, b, c; W2 d; W3 e). Writer about 11 minutes: 22 scenarios (15 main, 7 alternate), 49 steps, 28 states,
+  all certified, 0 ambiguous, 0 dropped; clean control W1-W3 = 0; seeder about 2 minutes, 31 mutants all one change; isolation
+  clean (the writer's 3 flags are a `cd` to the staging root followed by reads of given files only); sealed inputs unchanged.
+  Coverage: pairs 44 / 774 (5.7%, small by structure — the toolbar is enabled in almost every state), actions 32 / 44. Outside:
+  5 of 25 (speed 1.5, volume 150, `SwitchLanguage:en` — a harness limit, D8 —, SetTrimOut in ST-21, Redo in ST-15), none
+  caught; W4 cannot point at a removal by its definition. Read after the verdict, not readings: the upstream's reach, 20 of 25,
+  splits into action-level classes (c, d 10 / 10; b 2 / 5, near the share of value actions used, 10 / 21) and pair-level classes
+  (a, e 8 / 10 against 5.7% if pairs were chosen evenly) — the seeder chose salient pairs a writer reaches first, twice the same
+  pair, so the reach is a property of these scenarios against this seeder, not of the scenarios alone. **A side effect outside the
+  staging folder (D8):** `SwitchLanguage` wrote the user's real `%LOCALAPPDATA%\MoviePad\settings.json` (last write 21:24:07,
+  `{"language": "ja"}`, earlier content unknown) before the harness stopped executing it; OBS-20261030-06. Nothing wired, no
+  body text changed.
   source: this section (the user's question and "A" / "B", 2026-10-30)
-  evidence: `bomdd/reports/exp-20261030-04/definitions.md`
+  evidence: `bomdd/reports/exp-20261030-04/definitions.md` (§13 departures D1-D9), `results.md`, `run/flags.json`,
+  `run/freeze.json`, `run/scenarios-frozen.json`, `run/mutant-edits.json` (`record_mutants.py verify`: 31 rebuilt byte for byte),
+  `harness/` (selftest PASS, 20 checks), `walk.py` (selftest PASS, 11 checks)
+- [watch 1/3] OBS-20261030-06 — **A harness that executes the product's own code inherits the product's I/O: an action certified
+  "on the view model" can write the user's real application data.** EXP-20261030-04: `SwitchLanguage` calls `AppSettings.Save()`;
+  mock generation executes every enabled action once per state, so the user's MoviePad settings were written many times before
+  the writer's report named the write; the earlier content was not recorded. The staging folder isolated the archive and the
+  build, not the code's own paths. Machine face (measure): a harness run that executes product code records, before and after,
+  the modification times of the product's per-user data folders, and a change stops the run. 2 例目の条件= another run that
+  executes product code and changes a file outside its staging folder.
+  source: this section
+  evidence: `bomdd/reports/exp-20261030-04/definitions.md` §13 D8, `results.md` §6

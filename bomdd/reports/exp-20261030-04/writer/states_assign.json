@@ -1,0 +1,973 @@
+{
+ "states": [
+  {
+   "id": "ST-01",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 20 秒): 分割可・In 可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": true,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 20
+   }
+  },
+  {
+   "id": "ST-02",
+   "name": "編集画面(区間 5・トリム 6〜132 秒・再生ヘッド 20 秒): 結合可・取り消し可",
+   "predicate": {
+    "CanDeleteBoundary": true,
+    "CanRedo": false,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": true,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 5,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 20
+   }
+  },
+  {
+   "id": "ST-03",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 20 秒): 分割可・In 可・やり直し可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": true,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": true,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 20
+   }
+  },
+  {
+   "id": "ST-04",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 20 秒): 分割可・In 可・取り消し可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": true,
+    "CanUndo": true,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 20
+   }
+  },
+  {
+   "id": "ST-05",
+   "name": "編集画面(区間 5・トリム 6〜132 秒・再生ヘッド 20 秒): 結合可・取り消し可・やり直し可",
+   "predicate": {
+    "CanDeleteBoundary": true,
+    "CanRedo": true,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": true,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 5,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 20
+   }
+  },
+  {
+   "id": "ST-06",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 120 秒): 分割可・結合可・Out 可",
+   "predicate": {
+    "CanDeleteBoundary": true,
+    "CanRedo": false,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": true,
+    "CanSplit": true,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 120
+   }
+  },
+  {
+   "id": "ST-07",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 120 秒): 分割可・結合可・Out 可・取り消し可",
+   "predicate": {
+    "CanDeleteBoundary": true,
+    "CanRedo": false,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": true,
+    "CanSplit": true,
+    "CanUndo": true,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 120
+   }
+  },
+  {
+   "id": "ST-08",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 120 秒): 分割可・結合可・Out 可・やり直し可",
+   "predicate": {
+    "CanDeleteBoundary": true,
+    "CanRedo": true,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": true,
+    "CanSplit": true,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 120
+   }
+  },
+  {
+   "id": "ST-09",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 10 秒): 分割可・In 可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": true,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 10
+   }
+  },
+  {
+   "id": "ST-10",
+   "name": "編集画面(区間 4・トリム 10〜132 秒・再生ヘッド 10 秒): In 可・取り消し可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": true,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 10,
+    "TrimEnd": 132,
+    "Playhead": 10
+   }
+  },
+  {
+   "id": "ST-11",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 10 秒): 分割可・In 可・やり直し可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": true,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": true,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 10
+   }
+  },
+  {
+   "id": "ST-12",
+   "name": "編集画面(区間 4・トリム 6〜120 秒・再生ヘッド 120 秒): 結合可・Out 可・取り消し可",
+   "predicate": {
+    "CanDeleteBoundary": true,
+    "CanRedo": false,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": true,
+    "CanSplit": false,
+    "CanUndo": true,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 120,
+    "Playhead": 120
+   }
+  },
+  {
+   "id": "ST-13",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 6 秒): In 可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6
+   }
+  },
+  {
+   "id": "ST-14",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 6 秒): In 可・取り消し可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": true,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6
+   }
+  },
+  {
+   "id": "ST-15",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 6 秒): In 可・やり直し可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": true,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6
+   }
+  },
+  {
+   "id": "ST-16",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 6 秒): In 可・解像度変更あり",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": true,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6
+   }
+  },
+  {
+   "id": "ST-17",
+   "name": "書き出しダイアログ / 背後= 編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 6 秒): In 可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": true,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6
+   }
+  },
+  {
+   "id": "ST-18",
+   "name": "書き出しダイアログ / 背後= 編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 6 秒): In 可・解像度変更あり",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": true,
+    "ShowFfmpegSetup": false,
+    "ShowReset": true,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6
+   }
+  },
+  {
+   "id": "ST-19",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 6 秒): 再生中・In 可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": true,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6
+   }
+  },
+  {
+   "id": "ST-20",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 6.033 秒): In 可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6.033333333333333
+   }
+  },
+  {
+   "id": "ST-21",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 132 秒): 結合可・Out 可",
+   "predicate": {
+    "CanDeleteBoundary": true,
+    "CanRedo": false,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": true,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 132
+   }
+  },
+  {
+   "id": "ST-22",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 50 秒): 分割可・結合可",
+   "predicate": {
+    "CanDeleteBoundary": true,
+    "CanRedo": false,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": false,
+    "CanSplit": true,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 50
+   }
+  },
+  {
+   "id": "ST-23",
+   "name": "編集画面(区間 3・トリム 6〜132 秒・再生ヘッド 50 秒): 分割可・In 可・取り消し可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": true,
+    "CanUndo": true,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 3,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 50
+   }
+  },
+  {
+   "id": "ST-24",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 50 秒): 分割可・結合可・やり直し可",
+   "predicate": {
+    "CanDeleteBoundary": true,
+    "CanRedo": true,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": false,
+    "CanSplit": true,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 50
+   }
+  },
+  {
+   "id": "ST-25",
+   "name": "About ダイアログ / 背後= 編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 6 秒): In 可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": true,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6
+   }
+  },
+  {
+   "id": "ST-26",
+   "name": "ffmpeg 取得の案内",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": true,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6
+   }
+  },
+  {
+   "id": "ST-27",
+   "name": "編集画面(区間 4・トリム 6〜132 秒・再生ヘッド 6 秒): 読み込みエラー表示・In 可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": true,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 4,
+    "TrimStart": 6,
+    "TrimEnd": 132,
+    "Playhead": 6
+   }
+  },
+  {
+   "id": "ST-28",
+   "name": "編集画面(区間 1・トリム 0〜動画の長さ 秒・再生ヘッド 0 秒): In 可",
+   "predicate": {
+    "CanDeleteBoundary": false,
+    "CanRedo": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanSplit": false,
+    "CanUndo": false,
+    "FfmpegInstalling": false,
+    "HasClip": true,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "IsExporting": false,
+    "ShowAbout": false,
+    "ShowExport": false,
+    "ShowFfmpegSetup": false,
+    "ShowReset": false,
+    "Playing": false,
+    "RegionCount": 1,
+    "TrimStart": 0,
+    "Playhead": 0
+   }
+  }
+ ],
+ "assign": {
+  "UC-01": [
+   [
+    "ST-01",
+    "ST-02"
+   ],
+   [
+    "ST-02",
+    "ST-02"
+   ]
+  ],
+  "UC-02": [
+   [
+    "ST-01",
+    "ST-02"
+   ],
+   [
+    "ST-02",
+    "ST-03"
+   ],
+   [
+    "ST-03",
+    "ST-02"
+   ]
+  ],
+  "UC-03": [
+   [
+    "ST-01",
+    "ST-02"
+   ],
+   [
+    "ST-02",
+    "ST-04"
+   ],
+   [
+    "ST-04",
+    "ST-05"
+   ]
+  ],
+  "UC-04": [
+   [
+    "ST-06",
+    "ST-07"
+   ],
+   [
+    "ST-07",
+    "ST-08"
+   ]
+  ],
+  "UC-05": [
+   [
+    "ST-09",
+    "ST-10"
+   ],
+   [
+    "ST-10",
+    "ST-11"
+   ]
+  ],
+  "UC-06": [
+   [
+    "ST-06",
+    "ST-12"
+   ],
+   [
+    "ST-12",
+    "ST-08"
+   ]
+  ],
+  "UC-07": [
+   [
+    "ST-13",
+    "ST-14"
+   ],
+   [
+    "ST-14",
+    "ST-14"
+   ]
+  ],
+  "UC-08": [
+   [
+    "ST-13",
+    "ST-14"
+   ],
+   [
+    "ST-14",
+    "ST-15"
+   ],
+   [
+    "ST-15",
+    "ST-14"
+   ]
+  ],
+  "UC-09": [
+   [
+    "ST-13",
+    "ST-16"
+   ],
+   [
+    "ST-16",
+    "ST-13"
+   ]
+  ],
+  "UC-10": [
+   [
+    "ST-13",
+    "ST-13"
+   ],
+   [
+    "ST-13",
+    "ST-13"
+   ]
+  ],
+  "UC-11": [
+   [
+    "ST-13",
+    "ST-17"
+   ],
+   [
+    "ST-17",
+    "ST-13"
+   ]
+  ],
+  "UC-12": [
+   [
+    "ST-13",
+    "ST-16"
+   ],
+   [
+    "ST-16",
+    "ST-18"
+   ],
+   [
+    "ST-18",
+    "ST-16"
+   ]
+  ],
+  "UC-13": [
+   [
+    "ST-13",
+    "ST-19"
+   ],
+   [
+    "ST-19",
+    "ST-13"
+   ]
+  ],
+  "UC-14": [
+   [
+    "ST-13",
+    "ST-19"
+   ],
+   [
+    "ST-19",
+    "ST-20"
+   ],
+   [
+    "ST-20",
+    "ST-13"
+   ]
+  ],
+  "UC-15": [
+   [
+    "ST-13",
+    "ST-21"
+   ],
+   [
+    "ST-21",
+    "ST-13"
+   ]
+  ],
+  "UC-16": [
+   [
+    "ST-22",
+    "ST-23"
+   ],
+   [
+    "ST-23",
+    "ST-24"
+   ],
+   [
+    "ST-24",
+    "ST-23"
+   ]
+  ],
+  "UC-17": [
+   [
+    "ST-13",
+    "ST-25"
+   ],
+   [
+    "ST-25",
+    "ST-13"
+   ]
+  ],
+  "UC-18": [
+   [
+    "ST-26",
+    "ST-13"
+   ],
+   [
+    "ST-13",
+    "ST-19"
+   ]
+  ],
+  "UC-19": [
+   [
+    "ST-26",
+    "ST-13"
+   ]
+  ],
+  "UC-20": [
+   [
+    "ST-27",
+    "ST-13"
+   ],
+   [
+    "ST-13",
+    "ST-28"
+   ]
+  ],
+  "UC-21": [
+   [
+    "ST-13",
+    "ST-16"
+   ],
+   [
+    "ST-16",
+    "ST-28"
+   ]
+  ],
+  "UC-22": [
+   [
+    "ST-13",
+    "ST-13"
+   ],
+   [
+    "ST-13",
+    "ST-13"
+   ]
+  ]
+ }
+}

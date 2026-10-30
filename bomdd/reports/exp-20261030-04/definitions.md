@@ -169,3 +169,49 @@ setup ops per scenario; the time of each agent run; per mutant the flags by chec
 - The staging folder (the archive, the build output) is outside every repository and deleted after the recording commit on the
   user's word.
 - Departures are recorded here, below, with the reason and when.
+
+## 13. Departures
+
+Recorded 2026-10-30 while building the instruments, before the scenario writer started (the slice of section 8 step 2 had run).
+
+- **D1 — `data-ui-goto` is a set.** Declared states may overlap, so the harness writes the space-separated set of declared
+  states that hold after the action (`unknown` when none holds, `-` on a disabled element). W3 fires when the step's `expect` is
+  not in the set.
+- **D2 — a state must be an availability class.** Section 5 took the first instance of a state as its representative; that is
+  only sound if every visit to the state shows the same availability and the same transitions. The harness reports a state as
+  **ambiguous** when its availability vector (every known action: enabled / disabled / absent), or the states reached by an
+  executed action from it, differ between visits. The writer sees the report and may refine the predicates. After the writer
+  stops, scenarios visiting an ambiguous state are dropped, repeated until stable, and counted (`dropped_for_ambiguity`).
+- **D3 — modal overlays.** The axaml has three full-cover overlays (`Background="{StaticResource ScrimBrush}"`: export dialog,
+  About, ffmpeg setup). While one is visible only the topmost one's controls are available (document order in `MainWindow`).
+  Without this rule the toolbar would count as usable behind an open dialog.
+- **D4 — binding variables recorded.** `certify.json` lists, at each point of each scenario, the value of every view-model path
+  the bindings read (15 paths), so that states can be written exactly.
+- **D5 — one-change check for class f** compares labels and element order (a label-only change is otherwise invisible to the
+  structural diff). The walk itself still reads no label and no order (`walk.py selftest`, "labels and order are not read").
+- **D6 — what extraction found** (facts, not a change): 45 command bindings, 44 action ids, 0 unknown, 3 overlays; 24 code-behind
+  lines act without a `Command` binding (format selection, exclude / mute / pitch / aspect toggles, width and height entry,
+  keyboard shortcuts) and are outside the extraction, as section 4 fixed. Machine values: `FfmpegLocator.Available` = True,
+  UI culture ja-JP; labels come from the default (English) resources.
+- **D7 — culture reset per view model.** `SwitchLanguage` sets a static singleton (`Localizer.Instance`) and
+  `CultureInfo.CurrentUICulture`, which would carry into every later scenario and replay. The harness resets the culture to the
+  run's starting one before each fresh view model. A probe through playback, both dialogs, a trim, a speed preset, a scale preset
+  and a language switch certified without exception (`TogglePlay` starts its timer without a running dispatcher; no tick fires).
+- **D8 — a side effect outside the staging folder, found after the writer stopped; `SwitchLanguage` no longer executed.**
+  `SwitchLanguage` calls `AppSettings.Save()`, which writes `%LOCALAPPDATA%\MoviePad\settings.json` — the user's real MoviePad
+  settings. The harness executed it in the D7 probe, in the slice's mock generation and in every certify run of the writer (mock
+  generation executes each enabled action once per state to compute `data-ui-goto`). The file's last write was 21:24:07
+  (content `{"language": "ja"}`); its content before the run was not recorded and is unknown. The writer's report named the write;
+  the harness was then changed, before the experimenter's certification, to treat `SwitchLanguage` as not executed (like the
+  async commands: a step needs `"harness": "no"`, its goto is `unknown`), and the file's modification time was checked unchanged
+  across that certification. No frozen scenario uses `SwitchLanguage`. Sealed inputs were unchanged by the writer (455 files).
+  The certification, the mock and the walk therefore ran on a rebuilt `Harness.dll` (21:25:38, SHA-256
+  `adc602fede37b3b16b68ebab405e06abd14447996c8b60bfc6f14494dcbd5be6`), not the sealed one (`4d37f7a3…`); the source change is
+  the `NoExecuteCommands` line for `SwitchLanguage` in the committed `harness/Program.cs`, and `seal_inputs.py check` after the
+  run reports that file as the only one of 455 differing. Its effect, checked leaf by leaf: the writer's `mockdata.json` and the
+  run's differ in 46 values, all `SwitchLanguage:en` / `:ja` gotos (the state itself → `unknown`); the writer's `certify.json`
+  is byte-identical to the run's (no frozen step executes `SwitchLanguage`).
+- **D9 — mutants stored as line edits (recorded after the walk, before the recording commit).** Section 12 named the mutant
+  files; the 31 copies are 3.6 MB, so `run/mutant-edits.json` holds each mutant as line edits against `run/mock.html` with the
+  file's SHA-256, and `record_mutants.py verify` rebuilds all 31 byte for byte (0 mismatches against the seeder's files before
+  the staging folder is deleted). The walk ran on the seeder's files, not on the rebuilt ones.

@@ -1,0 +1,6179 @@
+{
+  "states": [
+    {
+      "id": "ST-01",
+      "representative": "UC-01@0",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-01",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-01",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-01",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-01",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-01",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-01",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-01",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-01",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-02",
+      "representative": "UC-01@1",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-03",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-03",
+      "representative": "UC-02@2",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-03",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-03",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-03",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-03",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-03",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-03",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-03",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-03",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-04",
+      "representative": "UC-03@2",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-05",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-05",
+      "representative": "UC-03@3",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-02",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-04",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-05",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-05",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-05",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-05",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-05",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-05",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-03",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-05",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-05",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-06",
+      "representative": "UC-04@0",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-06",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-06",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-06",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-06",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-06",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-06",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-06",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-06",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-07",
+      "representative": "UC-04@1",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-08",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-08",
+      "representative": "UC-04@2",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-07",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-08",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-08",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-08",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-08",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-08",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-08",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-08",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-08",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-09",
+      "representative": "UC-05@0",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-09",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-09",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-09",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-09",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-09",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-09",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-09",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-09",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-10",
+      "representative": "UC-05@1",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-11",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-11",
+      "representative": "UC-05@2",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-11",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-11",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-11",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-11",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-11",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-11",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-10",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-11",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-11",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-12",
+      "representative": "UC-06@1",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-08",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-12",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-13",
+      "representative": "UC-07@0",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "ST-25",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-17",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-20",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-14",
+      "representative": "UC-07@1",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-15",
+      "representative": "UC-08@2",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-14",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-16",
+      "representative": "UC-09@1",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-18",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-17",
+      "representative": "UC-11@1",
+      "actions": [
+        {
+          "id": "CloseExport",
+          "surface": "ExportDialogView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Cancel"
+        },
+        {
+          "id": "ConfirmExport",
+          "surface": "ExportDialogView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        }
+      ]
+    },
+    {
+      "id": "ST-18",
+      "representative": "UC-12@2",
+      "actions": [
+        {
+          "id": "CloseExport",
+          "surface": "ExportDialogView",
+          "enabled": true,
+          "goto": "ST-16",
+          "label": "Cancel"
+        },
+        {
+          "id": "ConfirmExport",
+          "surface": "ExportDialogView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        }
+      ]
+    },
+    {
+      "id": "ST-19",
+      "representative": "UC-13@1",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-20",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-20",
+      "representative": "UC-14@2",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-20",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-20",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-20",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-20",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-20",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-20",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-20",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-20",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-21",
+      "representative": "UC-15@1",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-19",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-22",
+      "representative": "UC-16@0",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-22",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-22",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-22",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-22",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-22",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-22",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-21",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-22",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-22",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-23",
+      "representative": "UC-16@1",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-24",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-24",
+      "representative": "UC-16@2",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-23",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-24",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-24",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-24",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-24",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-24",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-24",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-15",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-24",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-24",
+          "label": "Zoom out"
+        }
+      ]
+    },
+    {
+      "id": "ST-25",
+      "representative": "UC-17@1",
+      "actions": [
+        {
+          "id": "CloseAbout",
+          "surface": "AboutDialogView",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Close"
+        }
+      ]
+    },
+    {
+      "id": "ST-26",
+      "representative": "UC-18@0",
+      "actions": [
+        {
+          "id": "DismissFfmpegSetup",
+          "surface": "MainWindow",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "Later"
+        },
+        {
+          "id": "InstallFfmpeg",
+          "surface": "MainWindow",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Download"
+        }
+      ]
+    },
+    {
+      "id": "ST-27",
+      "representative": "UC-20@0",
+      "actions": [
+        {
+          "id": "ApplySpeedPreset:0.25",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.25x"
+        },
+        {
+          "id": "ApplySpeedPreset:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "0.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1x"
+        },
+        {
+          "id": "ApplySpeedPreset:1.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "1.5x"
+        },
+        {
+          "id": "ApplySpeedPreset:2",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "2x"
+        },
+        {
+          "id": "ApplySpeedPreset:3",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "3x"
+        },
+        {
+          "id": "ApplySpeedPreset:4",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "4x"
+        },
+        {
+          "id": "ApplyVolumePreset:0",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Mute"
+        },
+        {
+          "id": "ApplyVolumePreset:100",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "100%"
+        },
+        {
+          "id": "ApplyVolumePreset:150",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "150%"
+        },
+        {
+          "id": "ApplyVolumePreset:50",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "ClearError",
+          "surface": "MainWindow",
+          "enabled": true,
+          "goto": "ST-13",
+          "label": "✕"
+        },
+        {
+          "id": "DeleteSelectedBoundary",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Merge the current region with the one before it"
+        },
+        {
+          "id": "Open",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Open"
+        },
+        {
+          "id": "OpenAbout",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "About MoviePad"
+        },
+        {
+          "id": "Redo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Redo"
+        },
+        {
+          "id": "Scale:0.5",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "50%"
+        },
+        {
+          "id": "Scale:0.75",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "75%"
+        },
+        {
+          "id": "Scale:1",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "100%"
+        },
+        {
+          "id": "SetFps:120",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "120"
+        },
+        {
+          "id": "SetFps:24",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "24"
+        },
+        {
+          "id": "SetFps:30",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "30"
+        },
+        {
+          "id": "SetFps:60",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "60"
+        },
+        {
+          "id": "SetFps:source",
+          "surface": "InspectorView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "Source"
+        },
+        {
+          "id": "SetTrimIn",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "Set the trim start (In) to the playhead (I)"
+        },
+        {
+          "id": "SetTrimOut",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Set the trim end (Out) to the playhead (O)"
+        },
+        {
+          "id": "ShowExportDialog",
+          "surface": "ToolbarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Export"
+        },
+        {
+          "id": "Split",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Split the region at the playhead (S)"
+        },
+        {
+          "id": "StepBack",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "Step back 1 frame  (← / ,)"
+        },
+        {
+          "id": "StepForward",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Step forward 1 frame  (→ / .)"
+        },
+        {
+          "id": "SwitchLanguage:en",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "English"
+        },
+        {
+          "id": "SwitchLanguage:ja",
+          "surface": "TitleBarView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "日本語"
+        },
+        {
+          "id": "ToEnd",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "To end"
+        },
+        {
+          "id": "ToStart",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "To start"
+        },
+        {
+          "id": "TogglePlay",
+          "surface": "TransportView",
+          "enabled": true,
+          "goto": "unknown",
+          "label": "Play / Pause (Space)"
+        },
+        {
+          "id": "Undo",
+          "surface": "ToolbarView",
+          "enabled": false,
+          "goto": "-",
+          "label": "Undo"
+        },
+        {
+          "id": "ZoomIn",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "Zoom in"
+        },
+        {
+          "id": "ZoomOut",
+          "surface": "TimelineView",
+          "enabled": true,
+          "goto": "ST-27",
+          "label": "Zoom out"
+        }
+      ]
+    }
+  ]
+}

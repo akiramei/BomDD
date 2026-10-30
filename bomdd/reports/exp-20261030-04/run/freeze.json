@@ -1,0 +1,40 @@
+{
+ "sha256": "ce0d305c3b592d1a63ff2687c9be756e3499a061f75dffc40d7481b86b05e5be",
+ "written": 22,
+ "certified": 22,
+ "dropped_failed": {},
+ "dropped_ambiguous": {},
+ "kept": 22,
+ "states_declared": 28,
+ "states_kept": 28,
+ "steps": 49,
+ "steps_harness_no": 4,
+ "setup_ops": {
+  "UC-01": 2,
+  "UC-02": 2,
+  "UC-03": 2,
+  "UC-04": 2,
+  "UC-05": 2,
+  "UC-06": 2,
+  "UC-07": 1,
+  "UC-08": 1,
+  "UC-09": 1,
+  "UC-10": 1,
+  "UC-11": 1,
+  "UC-12": 1,
+  "UC-13": 1,
+  "UC-14": 1,
+  "UC-15": 1,
+  "UC-16": 2,
+  "UC-17": 1,
+  "UC-18": 1,
+  "UC-19": 1,
+  "UC-20": 2,
+  "UC-21": 1,
+  "UC-22": 1
+ },
+ "flows": {
+  "main": 15,
+  "alternate": 7
+ }
+}

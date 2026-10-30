@@ -1,0 +1,8 @@
+{"states": [
+  {"id": "edit-fresh", "name": "editing, nothing to undo", "predicate": {"HasClip": true, "HasSelection": true, "CanUndo": false, "CanRedo": false, "CanSplit": true, "CanDeleteBoundary": false, "CanSetTrimIn": true, "CanSetTrimOut": false, "ShowReset": false, "ShowExport": false, "ShowAbout": false, "ShowFfmpegSetup": false, "HasLoadError": false, "IsExporting": false, "FfmpegInstalling": false}},
+  {"id": "edit-split", "name": "after a split", "predicate": {"HasClip": true, "HasSelection": true, "CanUndo": true, "CanRedo": false, "CanSplit": false, "CanDeleteBoundary": true, "CanSetTrimIn": false, "CanSetTrimOut": false, "ShowReset": false, "ShowExport": false, "ShowAbout": false, "ShowFfmpegSetup": false, "HasLoadError": false, "IsExporting": false, "FfmpegInstalling": false}},
+  {"id": "edit-undone", "name": "after undoing", "predicate": {"HasClip": true, "HasSelection": true, "CanUndo": false, "CanRedo": true, "CanSplit": true, "CanDeleteBoundary": false, "CanSetTrimIn": true, "CanSetTrimOut": false, "ShowReset": false, "ShowExport": false, "ShowAbout": false, "ShowFfmpegSetup": false, "HasLoadError": false, "IsExporting": false, "FfmpegInstalling": false}}],
+ "scenarios": [{"id": "slice-1", "title": "split then undo", "goal": "undo a split", "flow": "alternate",
+   "setup": [{"set": "ShowFfmpegSetup", "value": false}, {"set": "Playhead", "value": 20}],
+   "steps": [{"in": "edit-fresh", "action": "Split", "surface": "ToolbarView", "expect": "edit-split"},
+             {"in": "edit-split", "action": "Undo", "surface": "ToolbarView", "expect": "edit-undone"}]}]}

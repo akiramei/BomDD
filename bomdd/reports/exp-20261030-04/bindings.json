@@ -1,0 +1,988 @@
+{
+  "Elements": [
+    {
+      "Id": "CloseAbout",
+      "Command": "CloseAbout",
+      "Param": null,
+      "Surface": "AboutDialogView",
+      "Line": 71,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "ShowAbout",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": "AboutDialogView:10",
+      "Label": "Close",
+      "Unknown": null
+    },
+    {
+      "Id": "CancelExport",
+      "Command": "CancelExport",
+      "Param": null,
+      "Surface": "ExportDialogView",
+      "Line": 145,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "ShowExport",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "IsExporting",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": "ExportDialogView:10",
+      "Label": "Abort",
+      "Unknown": null
+    },
+    {
+      "Id": "CloseExport",
+      "Command": "CloseExport",
+      "Param": null,
+      "Surface": "ExportDialogView",
+      "Line": 157,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "ShowExport",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "IsExporting",
+          "Negate": true,
+          "Constant": null
+        }
+      ],
+      "Modal": "ExportDialogView:10",
+      "Label": "Cancel",
+      "Unknown": null
+    },
+    {
+      "Id": "ConfirmExport",
+      "Command": "ConfirmExport",
+      "Param": null,
+      "Surface": "ExportDialogView",
+      "Line": 158,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "ShowExport",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "IsExporting",
+          "Negate": true,
+          "Constant": null
+        }
+      ],
+      "Modal": "ExportDialogView:10",
+      "Label": "Export",
+      "Unknown": null
+    },
+    {
+      "Id": "Scale:1",
+      "Command": "Scale",
+      "Param": "1",
+      "Surface": "InspectorView",
+      "Line": 70,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "100%",
+      "Unknown": null
+    },
+    {
+      "Id": "Scale:0.75",
+      "Command": "Scale",
+      "Param": "0.75",
+      "Surface": "InspectorView",
+      "Line": 72,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "75%",
+      "Unknown": null
+    },
+    {
+      "Id": "Scale:0.5",
+      "Command": "Scale",
+      "Param": "0.5",
+      "Surface": "InspectorView",
+      "Line": 74,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "50%",
+      "Unknown": null
+    },
+    {
+      "Id": "Scale:1",
+      "Command": "Scale",
+      "Param": "1",
+      "Surface": "InspectorView",
+      "Line": 76,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "ShowReset",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Reset",
+      "Unknown": null
+    },
+    {
+      "Id": "SetFps:source",
+      "Command": "SetFps",
+      "Param": "source",
+      "Surface": "InspectorView",
+      "Line": 91,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Source",
+      "Unknown": null
+    },
+    {
+      "Id": "SetFps:24",
+      "Command": "SetFps",
+      "Param": "24",
+      "Surface": "InspectorView",
+      "Line": 94,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "24",
+      "Unknown": null
+    },
+    {
+      "Id": "SetFps:30",
+      "Command": "SetFps",
+      "Param": "30",
+      "Surface": "InspectorView",
+      "Line": 96,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "30",
+      "Unknown": null
+    },
+    {
+      "Id": "SetFps:60",
+      "Command": "SetFps",
+      "Param": "60",
+      "Surface": "InspectorView",
+      "Line": 98,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "60",
+      "Unknown": null
+    },
+    {
+      "Id": "SetFps:120",
+      "Command": "SetFps",
+      "Param": "120",
+      "Surface": "InspectorView",
+      "Line": 100,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "120",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplySpeedPreset:0.25",
+      "Command": "ApplySpeedPreset",
+      "Param": "0.25",
+      "Surface": "InspectorView",
+      "Line": 155,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "0.25x",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplySpeedPreset:0.5",
+      "Command": "ApplySpeedPreset",
+      "Param": "0.5",
+      "Surface": "InspectorView",
+      "Line": 157,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "0.5x",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplySpeedPreset:1",
+      "Command": "ApplySpeedPreset",
+      "Param": "1",
+      "Surface": "InspectorView",
+      "Line": 159,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "1x",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplySpeedPreset:1.5",
+      "Command": "ApplySpeedPreset",
+      "Param": "1.5",
+      "Surface": "InspectorView",
+      "Line": 161,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "1.5x",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplySpeedPreset:2",
+      "Command": "ApplySpeedPreset",
+      "Param": "2",
+      "Surface": "InspectorView",
+      "Line": 163,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "2x",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplySpeedPreset:3",
+      "Command": "ApplySpeedPreset",
+      "Param": "3",
+      "Surface": "InspectorView",
+      "Line": 165,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "3x",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplySpeedPreset:4",
+      "Command": "ApplySpeedPreset",
+      "Param": "4",
+      "Surface": "InspectorView",
+      "Line": 167,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "4x",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplyVolumePreset:0",
+      "Command": "ApplyVolumePreset",
+      "Param": "0",
+      "Surface": "InspectorView",
+      "Line": 197,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Mute",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplyVolumePreset:50",
+      "Command": "ApplyVolumePreset",
+      "Param": "50",
+      "Surface": "InspectorView",
+      "Line": 199,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "50%",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplyVolumePreset:100",
+      "Command": "ApplyVolumePreset",
+      "Param": "100",
+      "Surface": "InspectorView",
+      "Line": 201,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "100%",
+      "Unknown": null
+    },
+    {
+      "Id": "ApplyVolumePreset:150",
+      "Command": "ApplyVolumePreset",
+      "Param": "150",
+      "Surface": "InspectorView",
+      "Line": 203,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "HasSelection",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "150%",
+      "Unknown": null
+    },
+    {
+      "Id": "ClearError",
+      "Command": "ClearError",
+      "Param": null,
+      "Surface": "MainWindow",
+      "Line": 63,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasLoadError",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "✕",
+      "Unknown": null
+    },
+    {
+      "Id": "DismissFfmpegSetup",
+      "Command": "DismissFfmpegSetup",
+      "Param": null,
+      "Surface": "MainWindow",
+      "Line": 101,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "ShowFfmpegSetup",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "FfmpegInstalling",
+          "Negate": true,
+          "Constant": null
+        }
+      ],
+      "Modal": "MainWindow:76",
+      "Label": "Later",
+      "Unknown": null
+    },
+    {
+      "Id": "InstallFfmpeg",
+      "Command": "InstallFfmpeg",
+      "Param": null,
+      "Surface": "MainWindow",
+      "Line": 102,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "ShowFfmpegSetup",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "visible",
+          "Path": "FfmpegInstalling",
+          "Negate": true,
+          "Constant": null
+        }
+      ],
+      "Modal": "MainWindow:76",
+      "Label": "Download",
+      "Unknown": null
+    },
+    {
+      "Id": "ZoomOut",
+      "Command": "ZoomOut",
+      "Param": null,
+      "Surface": "TimelineView",
+      "Line": 44,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Zoom out",
+      "Unknown": null
+    },
+    {
+      "Id": "ZoomIn",
+      "Command": "ZoomIn",
+      "Param": null,
+      "Surface": "TimelineView",
+      "Line": 47,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Zoom in",
+      "Unknown": null
+    },
+    {
+      "Id": "SwitchLanguage:ja",
+      "Command": "SwitchLanguage",
+      "Param": "ja",
+      "Surface": "TitleBarView",
+      "Line": 51,
+      "Conds": [],
+      "Modal": null,
+      "Label": "日本語",
+      "Unknown": null
+    },
+    {
+      "Id": "SwitchLanguage:en",
+      "Command": "SwitchLanguage",
+      "Param": "en",
+      "Surface": "TitleBarView",
+      "Line": 52,
+      "Conds": [],
+      "Modal": null,
+      "Label": "English",
+      "Unknown": null
+    },
+    {
+      "Id": "OpenAbout",
+      "Command": "OpenAbout",
+      "Param": null,
+      "Surface": "TitleBarView",
+      "Line": 56,
+      "Conds": [],
+      "Modal": null,
+      "Label": "About MoviePad",
+      "Unknown": null
+    },
+    {
+      "Id": "Open",
+      "Command": "Open",
+      "Param": null,
+      "Surface": "ToolbarView",
+      "Line": 11,
+      "Conds": [],
+      "Modal": null,
+      "Label": "Open",
+      "Unknown": null
+    },
+    {
+      "Id": "Undo",
+      "Command": "Undo",
+      "Param": null,
+      "Surface": "ToolbarView",
+      "Line": 22,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "enabled",
+          "Path": "CanUndo",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Undo",
+      "Unknown": null
+    },
+    {
+      "Id": "Redo",
+      "Command": "Redo",
+      "Param": null,
+      "Surface": "ToolbarView",
+      "Line": 25,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "enabled",
+          "Path": "CanRedo",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Redo",
+      "Unknown": null
+    },
+    {
+      "Id": "Split",
+      "Command": "Split",
+      "Param": null,
+      "Surface": "ToolbarView",
+      "Line": 30,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "enabled",
+          "Path": "CanSplit",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Split the region at the playhead (S)",
+      "Unknown": null
+    },
+    {
+      "Id": "DeleteSelectedBoundary",
+      "Command": "DeleteSelectedBoundary",
+      "Param": null,
+      "Surface": "ToolbarView",
+      "Line": 37,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "enabled",
+          "Path": "CanDeleteBoundary",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Merge the current region with the one before it",
+      "Unknown": null
+    },
+    {
+      "Id": "SetTrimIn",
+      "Command": "SetTrimIn",
+      "Param": null,
+      "Surface": "ToolbarView",
+      "Line": 46,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "enabled",
+          "Path": "CanSetTrimIn",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Set the trim start (In) to the playhead (I)",
+      "Unknown": null
+    },
+    {
+      "Id": "SetTrimOut",
+      "Command": "SetTrimOut",
+      "Param": null,
+      "Surface": "ToolbarView",
+      "Line": 53,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        },
+        {
+          "Kind": "enabled",
+          "Path": "CanSetTrimOut",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Set the trim end (Out) to the playhead (O)",
+      "Unknown": null
+    },
+    {
+      "Id": "ShowExportDialog",
+      "Command": "ShowExportDialog",
+      "Param": null,
+      "Surface": "ToolbarView",
+      "Line": 64,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Export",
+      "Unknown": null
+    },
+    {
+      "Id": "ToStart",
+      "Command": "ToStart",
+      "Param": null,
+      "Surface": "TransportView",
+      "Line": 12,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "To start",
+      "Unknown": null
+    },
+    {
+      "Id": "StepBack",
+      "Command": "StepBack",
+      "Param": null,
+      "Surface": "TransportView",
+      "Line": 15,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Step back 1 frame  (← / ,)",
+      "Unknown": null
+    },
+    {
+      "Id": "TogglePlay",
+      "Command": "TogglePlay",
+      "Param": null,
+      "Surface": "TransportView",
+      "Line": 18,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Play / Pause (Space)",
+      "Unknown": null
+    },
+    {
+      "Id": "StepForward",
+      "Command": "StepForward",
+      "Param": null,
+      "Surface": "TransportView",
+      "Line": 21,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "Step forward 1 frame  (→ / .)",
+      "Unknown": null
+    },
+    {
+      "Id": "ToEnd",
+      "Command": "ToEnd",
+      "Param": null,
+      "Surface": "TransportView",
+      "Line": 24,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "HasClip",
+          "Negate": false,
+          "Constant": null
+        }
+      ],
+      "Modal": null,
+      "Label": "To end",
+      "Unknown": null
+    }
+  ],
+  "Modals": [
+    {
+      "Id": "ExportDialogView:10",
+      "Order": 7000010,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "ShowExport",
+          "Negate": false,
+          "Constant": null
+        }
+      ]
+    },
+    {
+      "Id": "AboutDialogView:10",
+      "Order": 7300010,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "ShowAbout",
+          "Negate": false,
+          "Constant": null
+        }
+      ]
+    },
+    {
+      "Id": "MainWindow:76",
+      "Order": 7600000,
+      "Conds": [
+        {
+          "Kind": "visible",
+          "Path": "ShowFfmpegSetup",
+          "Negate": false,
+          "Constant": null
+        }
+      ]
+    }
+  ],
+  "CodeBehind": [
+    "AboutDialogView.axaml.cs:17: => Vm?.CloseAboutCommand.Execute(null);",
+    "ExportDialogView.axaml.cs:17: => Vm?.CloseExportCommand.Execute(null);",
+    "ExportDialogView.axaml.cs:26: Vm?.SelectFormatCommand.Execute(key);",
+    "InspectorView.axaml.cs:28: if (Vm is { } vm) vm.SelectedPreservePitch = !vm.SelectedPreservePitch;",
+    "InspectorView.axaml.cs:33: => Vm?.ToggleAspectCommand.Execute(null);",
+    "InspectorView.axaml.cs:38: if (Vm is { } vm) vm.SelectedExcluded = !vm.SelectedExcluded;",
+    "InspectorView.axaml.cs:65: if (int.TryParse(Digits(tb.Text), out int w)) vm.ApplyWidth(w);",
+    "InspectorView.axaml.cs:72: if (int.TryParse(Digits(tb.Text), out int h)) vm.ApplyHeight(h);",
+    "MainWindow.axaml.cs:44: vm.TogglePlayCommand.Execute(null); e.Handled = true; break;",
+    "MainWindow.axaml.cs:46: if (shift) vm.StepSecond(-1); else vm.StepBackCommand.Execute(null);",
+    "MainWindow.axaml.cs:49: if (shift) vm.StepSecond(1); else vm.StepForwardCommand.Execute(null);",
+    "MainWindow.axaml.cs:52: vm.SplitCommand.Execute(null); e.Handled = true; break;",
+    "MainWindow.axaml.cs:54: vm.SetTrimInCommand.Execute(null); e.Handled = true; break;",
+    "MainWindow.axaml.cs:56: vm.SetTrimOutCommand.Execute(null); e.Handled = true; break;",
+    "MainWindow.axaml.cs:58: vm.ToggleExcludeCommand.Execute(null); e.Handled = true; break;",
+    "MainWindow.axaml.cs:60: vm.ToggleMuteCommand.Execute(null); e.Handled = true; break;",
+    "MainWindow.axaml.cs:62: if (shift) vm.RedoCommand.Execute(null); else vm.UndoCommand.Execute(null);",
+    "MainWindow.axaml.cs:65: vm.RedoCommand.Execute(null); e.Handled = true; break;",
+    "MainWindow.axaml.cs:86: await vm.LoadFileAsync(path);",
+    "MainWindow.axaml.cs:190: await vm.LoadFileAsync(open); // priming が先頭フレームを表示",
+    "MainWindow.axaml.cs:198: vm.ShowExportDialogCommand.Execute(null);",
+    "MainWindow.axaml.cs:201: vm.OpenAboutCommand.Execute(null);",
+    "PreviewView.axaml.cs:424: _vm.HaltPlayback();",
+    "PreviewView.axaml.cs:456: vm.TogglePlayCommand.Execute(null);"
+  ]
+}

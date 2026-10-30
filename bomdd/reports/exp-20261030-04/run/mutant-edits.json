@@ -1,0 +1,2811 @@
+[
+ {
+  "id": "M01",
+  "class": "e",
+  "file": "M01.html",
+  "what": "ST-02: Undo goto ST-03 -> ST-01 (undo after a split assumed to return to the initial state)",
+  "sha256": "c99e70b1e39263912cb9f1081fc7ce3473c832c3c63c71700079486fa17cb447",
+  "edits": [
+   [
+    "replace",
+    77,
+    78,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-01\">Undo</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M02",
+  "class": "a",
+  "file": "M02.html",
+  "what": "ST-02: Undo made disabled (enabled true->false, goto ST-03 -> -) right after a split",
+  "sha256": "fac907df5dc03b544f5c078041e5ad27eb156c8e92b00049cb577e2d17282dc2",
+  "edits": [
+   [
+    "replace",
+    77,
+    78,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M03",
+  "class": "b",
+  "file": "M03.html",
+  "what": "ApplySpeedPreset:1.5 removed from all states (1.5x folded into another speed preset)",
+  "sha256": "50287e60f262f5ae82988f75393421f9a0002dfc9d8ddfc9ab4462ab5860a34f",
+  "edits": [
+   [
+    "delete",
+    7,
+    8,
+    []
+   ],
+   [
+    "delete",
+    46,
+    47,
+    []
+   ],
+   [
+    "delete",
+    85,
+    86,
+    []
+   ],
+   [
+    "delete",
+    124,
+    125,
+    []
+   ],
+   [
+    "delete",
+    163,
+    164,
+    []
+   ],
+   [
+    "delete",
+    202,
+    203,
+    []
+   ],
+   [
+    "delete",
+    241,
+    242,
+    []
+   ],
+   [
+    "delete",
+    280,
+    281,
+    []
+   ],
+   [
+    "delete",
+    319,
+    320,
+    []
+   ],
+   [
+    "delete",
+    358,
+    359,
+    []
+   ],
+   [
+    "delete",
+    397,
+    398,
+    []
+   ],
+   [
+    "delete",
+    436,
+    437,
+    []
+   ],
+   [
+    "delete",
+    475,
+    476,
+    []
+   ],
+   [
+    "delete",
+    514,
+    515,
+    []
+   ],
+   [
+    "delete",
+    553,
+    554,
+    []
+   ],
+   [
+    "delete",
+    592,
+    593,
+    []
+   ],
+   [
+    "delete",
+    639,
+    640,
+    []
+   ],
+   [
+    "delete",
+    678,
+    679,
+    []
+   ],
+   [
+    "delete",
+    717,
+    718,
+    []
+   ],
+   [
+    "delete",
+    756,
+    757,
+    []
+   ],
+   [
+    "delete",
+    795,
+    796,
+    []
+   ],
+   [
+    "delete",
+    834,
+    835,
+    []
+   ],
+   [
+    "delete",
+    880,
+    881,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M04",
+  "class": "c",
+  "file": "M04.html",
+  "what": "Redo removed from all states (Undo left without its counterpart)",
+  "sha256": "907ca2ad732ab865c4a04afe0b1b6007b99eb97f4a147256b35131d6d6b0312e",
+  "edits": [
+   [
+    "delete",
+    18,
+    19,
+    []
+   ],
+   [
+    "delete",
+    57,
+    58,
+    []
+   ],
+   [
+    "delete",
+    96,
+    97,
+    []
+   ],
+   [
+    "delete",
+    135,
+    136,
+    []
+   ],
+   [
+    "delete",
+    174,
+    175,
+    []
+   ],
+   [
+    "delete",
+    213,
+    214,
+    []
+   ],
+   [
+    "delete",
+    252,
+    253,
+    []
+   ],
+   [
+    "delete",
+    291,
+    292,
+    []
+   ],
+   [
+    "delete",
+    330,
+    331,
+    []
+   ],
+   [
+    "delete",
+    369,
+    370,
+    []
+   ],
+   [
+    "delete",
+    408,
+    409,
+    []
+   ],
+   [
+    "delete",
+    447,
+    448,
+    []
+   ],
+   [
+    "delete",
+    486,
+    487,
+    []
+   ],
+   [
+    "delete",
+    525,
+    526,
+    []
+   ],
+   [
+    "delete",
+    564,
+    565,
+    []
+   ],
+   [
+    "delete",
+    603,
+    604,
+    []
+   ],
+   [
+    "delete",
+    650,
+    651,
+    []
+   ],
+   [
+    "delete",
+    689,
+    690,
+    []
+   ],
+   [
+    "delete",
+    728,
+    729,
+    []
+   ],
+   [
+    "delete",
+    767,
+    768,
+    []
+   ],
+   [
+    "delete",
+    806,
+    807,
+    []
+   ],
+   [
+    "delete",
+    845,
+    846,
+    []
+   ],
+   [
+    "delete",
+    892,
+    893,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M05",
+  "class": "d",
+  "file": "M05.html",
+  "what": "Undo moved from ToolbarView to TitleBarView in all states",
+  "sha256": "47c85d182fd8a2eed1b3ffbc848544f50f828fdab78e0b4ee53dcb282d04a3db",
+  "edits": [
+   [
+    "replace",
+    38,
+    39,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    77,
+    78,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-03\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    116,
+    117,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    155,
+    156,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-05\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    194,
+    195,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-03\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    233,
+    234,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    272,
+    273,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-08\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    311,
+    312,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    350,
+    351,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    389,
+    390,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-11\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    428,
+    429,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    467,
+    468,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-08\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    506,
+    507,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    545,
+    546,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-15\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    584,
+    585,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    623,
+    624,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    670,
+    671,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    709,
+    710,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    748,
+    749,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    787,
+    788,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    826,
+    827,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-24\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    865,
+    866,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    912,
+    913,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M06",
+  "class": "f",
+  "file": "M06.html",
+  "what": "Undo button label \"Undo\" -> \"Undo last edit\" in all states",
+  "sha256": "219efa881ba43b5ef9b404480a1c5fcbf64418d32024f60619d32f1224eb880f",
+  "edits": [
+   [
+    "replace",
+    38,
+    39,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    77,
+    78,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-03\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    116,
+    117,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    155,
+    156,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-05\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    194,
+    195,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-03\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    233,
+    234,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    272,
+    273,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-08\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    311,
+    312,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    350,
+    351,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    389,
+    390,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-11\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    428,
+    429,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    467,
+    468,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-08\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    506,
+    507,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    545,
+    546,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-15\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    584,
+    585,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    623,
+    624,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    670,
+    671,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    709,
+    710,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    748,
+    749,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    787,
+    788,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    826,
+    827,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-24\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    865,
+    866,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    912,
+    913,
+    [
+     "  <button data-ui-action=\"Undo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Undo last edit</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M07",
+  "class": "a",
+  "file": "M07.html",
+  "what": "ST-21: SetTrimOut button removed (trim end at the end of the clip)",
+  "sha256": "ccc4971368a96b2bb0a5aa51bbcaf1ffa0709742f0cbd8fb8f9b08c607b83ff4",
+  "edits": [
+   [
+    "delete",
+    738,
+    739,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M08",
+  "class": "e",
+  "file": "M08.html",
+  "what": "ST-13: ShowExportDialog goto ST-17 -> ST-18",
+  "sha256": "40646161f4ab836557cb56cbd2496cdb46904a398efeee9fdf7ff33939e72a38",
+  "edits": [
+   [
+    "replace",
+    497,
+    498,
+    [
+     "  <button data-ui-action=\"ShowExportDialog\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-18\">Export</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M09",
+  "class": "b",
+  "file": "M09.html",
+  "what": "ApplyVolumePreset:150 removed from all states (150% folded into 100%)",
+  "sha256": "6dfe9d248b4640c7a979d182ee3bbb25b455a53c275ec05b1be3d028f9f2d8a8",
+  "edits": [
+   [
+    "delete",
+    13,
+    14,
+    []
+   ],
+   [
+    "delete",
+    52,
+    53,
+    []
+   ],
+   [
+    "delete",
+    91,
+    92,
+    []
+   ],
+   [
+    "delete",
+    130,
+    131,
+    []
+   ],
+   [
+    "delete",
+    169,
+    170,
+    []
+   ],
+   [
+    "delete",
+    208,
+    209,
+    []
+   ],
+   [
+    "delete",
+    247,
+    248,
+    []
+   ],
+   [
+    "delete",
+    286,
+    287,
+    []
+   ],
+   [
+    "delete",
+    325,
+    326,
+    []
+   ],
+   [
+    "delete",
+    364,
+    365,
+    []
+   ],
+   [
+    "delete",
+    403,
+    404,
+    []
+   ],
+   [
+    "delete",
+    442,
+    443,
+    []
+   ],
+   [
+    "delete",
+    481,
+    482,
+    []
+   ],
+   [
+    "delete",
+    520,
+    521,
+    []
+   ],
+   [
+    "delete",
+    559,
+    560,
+    []
+   ],
+   [
+    "delete",
+    598,
+    599,
+    []
+   ],
+   [
+    "delete",
+    645,
+    646,
+    []
+   ],
+   [
+    "delete",
+    684,
+    685,
+    []
+   ],
+   [
+    "delete",
+    723,
+    724,
+    []
+   ],
+   [
+    "delete",
+    762,
+    763,
+    []
+   ],
+   [
+    "delete",
+    801,
+    802,
+    []
+   ],
+   [
+    "delete",
+    840,
+    841,
+    []
+   ],
+   [
+    "delete",
+    886,
+    887,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M10",
+  "class": "c",
+  "file": "M10.html",
+  "what": "DeleteSelectedBoundary removed from all states (Split left without its counterpart)",
+  "sha256": "8452560d4b0253f0a83d30726c647ff568b8b6ba9072b2c1644cc822f4247bc9",
+  "edits": [
+   [
+    "delete",
+    15,
+    16,
+    []
+   ],
+   [
+    "delete",
+    54,
+    55,
+    []
+   ],
+   [
+    "delete",
+    93,
+    94,
+    []
+   ],
+   [
+    "delete",
+    132,
+    133,
+    []
+   ],
+   [
+    "delete",
+    171,
+    172,
+    []
+   ],
+   [
+    "delete",
+    210,
+    211,
+    []
+   ],
+   [
+    "delete",
+    249,
+    250,
+    []
+   ],
+   [
+    "delete",
+    288,
+    289,
+    []
+   ],
+   [
+    "delete",
+    327,
+    328,
+    []
+   ],
+   [
+    "delete",
+    366,
+    367,
+    []
+   ],
+   [
+    "delete",
+    405,
+    406,
+    []
+   ],
+   [
+    "delete",
+    444,
+    445,
+    []
+   ],
+   [
+    "delete",
+    483,
+    484,
+    []
+   ],
+   [
+    "delete",
+    522,
+    523,
+    []
+   ],
+   [
+    "delete",
+    561,
+    562,
+    []
+   ],
+   [
+    "delete",
+    600,
+    601,
+    []
+   ],
+   [
+    "delete",
+    647,
+    648,
+    []
+   ],
+   [
+    "delete",
+    686,
+    687,
+    []
+   ],
+   [
+    "delete",
+    725,
+    726,
+    []
+   ],
+   [
+    "delete",
+    764,
+    765,
+    []
+   ],
+   [
+    "delete",
+    803,
+    804,
+    []
+   ],
+   [
+    "delete",
+    842,
+    843,
+    []
+   ],
+   [
+    "delete",
+    889,
+    890,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M11",
+  "class": "d",
+  "file": "M11.html",
+  "what": "Split moved from ToolbarView to TimelineView in all states",
+  "sha256": "5a38c0fe6ce28528ca313f043ef7de62dea517e6ce7cecc7b14ff7f6fa9fb1ec",
+  "edits": [
+   [
+    "replace",
+    30,
+    31,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-02\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    69,
+    70,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    108,
+    109,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-02\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    147,
+    148,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-02\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    186,
+    187,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    225,
+    226,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    264,
+    265,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    303,
+    304,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    342,
+    343,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    381,
+    382,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    420,
+    421,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    459,
+    460,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    498,
+    499,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    537,
+    538,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    576,
+    577,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    615,
+    616,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    662,
+    663,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    701,
+    702,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    740,
+    741,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    779,
+    780,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    818,
+    819,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    857,
+    858,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Split the region at the playhead (S)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    904,
+    905,
+    [
+     "  <button data-ui-action=\"Split\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Split the region at the playhead (S)</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M12",
+  "class": "f",
+  "file": "M12.html",
+  "what": "ST-04: order of the Open and OpenAbout buttons swapped",
+  "sha256": "5cfd2c239931526466c86b28d006043730f7978aa0c0eca770d87e45ff7b13da",
+  "edits": [
+   [
+    "insert",
+    133,
+    133,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"TitleBarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "delete",
+    134,
+    135,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M13",
+  "class": "a",
+  "file": "M13.html",
+  "what": "ST-13: ShowExportDialog made disabled (enabled true->false, goto ST-17 -> -)",
+  "sha256": "fb23e077185afc10ee49fec6e621c01b2ec23a020f8cf118bd50329402f11cb5",
+  "edits": [
+   [
+    "replace",
+    497,
+    498,
+    [
+     "  <button data-ui-action=\"ShowExportDialog\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Export</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M14",
+  "class": "e",
+  "file": "M14.html",
+  "what": "ST-17: CloseExport goto ST-13 -> ST-16",
+  "sha256": "9b6e1a4f36b69e8d6bbab1dbacd6bab0f8abdc22dcd178e585a451c861622ac1",
+  "edits": [
+   [
+    "replace",
+    628,
+    629,
+    [
+     "  <button data-ui-action=\"CloseExport\" data-ui-surface=\"ExportDialogView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-16\">Cancel</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M15",
+  "class": "b",
+  "file": "M15.html",
+  "what": "SetFps:60 removed from all states (60 folded into 30)",
+  "sha256": "7c93c281c6bc2df80fc2b69ba2c06644eb7b2bf1331fb64a0da9bee2e2684601",
+  "edits": [
+   [
+    "delete",
+    25,
+    26,
+    []
+   ],
+   [
+    "delete",
+    64,
+    65,
+    []
+   ],
+   [
+    "delete",
+    103,
+    104,
+    []
+   ],
+   [
+    "delete",
+    142,
+    143,
+    []
+   ],
+   [
+    "delete",
+    181,
+    182,
+    []
+   ],
+   [
+    "delete",
+    220,
+    221,
+    []
+   ],
+   [
+    "delete",
+    259,
+    260,
+    []
+   ],
+   [
+    "delete",
+    298,
+    299,
+    []
+   ],
+   [
+    "delete",
+    337,
+    338,
+    []
+   ],
+   [
+    "delete",
+    376,
+    377,
+    []
+   ],
+   [
+    "delete",
+    415,
+    416,
+    []
+   ],
+   [
+    "delete",
+    454,
+    455,
+    []
+   ],
+   [
+    "delete",
+    493,
+    494,
+    []
+   ],
+   [
+    "delete",
+    532,
+    533,
+    []
+   ],
+   [
+    "delete",
+    571,
+    572,
+    []
+   ],
+   [
+    "delete",
+    610,
+    611,
+    []
+   ],
+   [
+    "delete",
+    657,
+    658,
+    []
+   ],
+   [
+    "delete",
+    696,
+    697,
+    []
+   ],
+   [
+    "delete",
+    735,
+    736,
+    []
+   ],
+   [
+    "delete",
+    774,
+    775,
+    []
+   ],
+   [
+    "delete",
+    813,
+    814,
+    []
+   ],
+   [
+    "delete",
+    852,
+    853,
+    []
+   ],
+   [
+    "delete",
+    899,
+    900,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M16",
+  "class": "c",
+  "file": "M16.html",
+  "what": "CloseAbout removed from all states (OpenAbout left without its counterpart; ST-25 left with no button)",
+  "sha256": "a4443cdf896e6d45ac974a7f2bb59099685bc6098b6b23c83072a98c0b559d35",
+  "edits": [
+   [
+    "delete",
+    870,
+    871,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M17",
+  "class": "d",
+  "file": "M17.html",
+  "what": "TogglePlay moved from TransportView to ToolbarView in all states",
+  "sha256": "0b4ac7ee73797a817bc2072a9cacddbd65ee276b948b9abc935803bb501a2d7d",
+  "edits": [
+   [
+    "replace",
+    37,
+    38,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    76,
+    77,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    115,
+    116,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    154,
+    155,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    193,
+    194,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    232,
+    233,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    271,
+    272,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    310,
+    311,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    349,
+    350,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    388,
+    389,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    427,
+    428,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    466,
+    467,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    505,
+    506,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-19\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    544,
+    545,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    583,
+    584,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    622,
+    623,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    669,
+    670,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-13\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    708,
+    709,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    747,
+    748,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-19\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    786,
+    787,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    825,
+    826,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    864,
+    865,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    911,
+    912,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Play / Pause (Space)</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M18",
+  "class": "f",
+  "file": "M18.html",
+  "what": "ST-13: new disabled button RevealInFolder (ToolbarView, goto -) added after Open",
+  "sha256": "8c806bdf53862ae4a3aea0d68d66360cdba6cf1c22a5e512ce5c38cb4295980c",
+  "edits": [
+   [
+    "insert",
+    485,
+    485,
+    [
+     "  <button data-ui-action=\"RevealInFolder\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Show in folder</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M19",
+  "class": "a",
+  "file": "M19.html",
+  "what": "ST-22: DeleteSelectedBoundary button removed",
+  "sha256": "eda71ad13db84a93d9ad0915d722b986b2cc1e85fee498539920a298b5d8ac87",
+  "edits": [
+   [
+    "delete",
+    764,
+    765,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M20",
+  "class": "e",
+  "file": "M20.html",
+  "what": "ST-13: TogglePlay goto ST-19 -> ST-20",
+  "sha256": "339ee4661c8553db7df96eb8c418889852a4600f625852a883fe27e8dfe5cdf1",
+  "edits": [
+   [
+    "replace",
+    505,
+    506,
+    [
+     "  <button data-ui-action=\"TogglePlay\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-20\">Play / Pause (Space)</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M21",
+  "class": "b",
+  "file": "M21.html",
+  "what": "Scale:0.75 removed from all states (75% folded into 50%)",
+  "sha256": "a8ff0268e6e2a8ac5b4afe21fc6252be4f9e90cd283cc53555b05cae20da4ee4",
+  "edits": [
+   [
+    "delete",
+    20,
+    21,
+    []
+   ],
+   [
+    "delete",
+    59,
+    60,
+    []
+   ],
+   [
+    "delete",
+    98,
+    99,
+    []
+   ],
+   [
+    "delete",
+    137,
+    138,
+    []
+   ],
+   [
+    "delete",
+    176,
+    177,
+    []
+   ],
+   [
+    "delete",
+    215,
+    216,
+    []
+   ],
+   [
+    "delete",
+    254,
+    255,
+    []
+   ],
+   [
+    "delete",
+    293,
+    294,
+    []
+   ],
+   [
+    "delete",
+    332,
+    333,
+    []
+   ],
+   [
+    "delete",
+    371,
+    372,
+    []
+   ],
+   [
+    "delete",
+    410,
+    411,
+    []
+   ],
+   [
+    "delete",
+    449,
+    450,
+    []
+   ],
+   [
+    "delete",
+    488,
+    489,
+    []
+   ],
+   [
+    "delete",
+    527,
+    528,
+    []
+   ],
+   [
+    "delete",
+    566,
+    567,
+    []
+   ],
+   [
+    "delete",
+    605,
+    606,
+    []
+   ],
+   [
+    "delete",
+    652,
+    653,
+    []
+   ],
+   [
+    "delete",
+    691,
+    692,
+    []
+   ],
+   [
+    "delete",
+    730,
+    731,
+    []
+   ],
+   [
+    "delete",
+    769,
+    770,
+    []
+   ],
+   [
+    "delete",
+    808,
+    809,
+    []
+   ],
+   [
+    "delete",
+    847,
+    848,
+    []
+   ],
+   [
+    "delete",
+    894,
+    895,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M22",
+  "class": "c",
+  "file": "M22.html",
+  "what": "CloseExport removed from all states (ShowExportDialog left without its counterpart)",
+  "sha256": "0523ab1f922a418e11fdf9a374b652a59b81b34ed599c8f6250c2c22869f0bf6",
+  "edits": [
+   [
+    "delete",
+    628,
+    629,
+    []
+   ],
+   [
+    "delete",
+    632,
+    633,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M23",
+  "class": "d",
+  "file": "M23.html",
+  "what": "OpenAbout moved from TitleBarView to ToolbarView in all states",
+  "sha256": "fc9288bffbc6cf2be23cc70422b283d83fde9869b57a54d6d1488741336f8be6",
+  "edits": [
+   [
+    "replace",
+    17,
+    18,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    56,
+    57,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    95,
+    96,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    134,
+    135,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    173,
+    174,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    212,
+    213,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    251,
+    252,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    290,
+    291,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    329,
+    330,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    368,
+    369,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    407,
+    408,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    446,
+    447,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    485,
+    486,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-25\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    524,
+    525,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    563,
+    564,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    602,
+    603,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    649,
+    650,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    688,
+    689,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    727,
+    728,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    766,
+    767,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    805,
+    806,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    844,
+    845,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    891,
+    892,
+    [
+     "  <button data-ui-action=\"OpenAbout\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">About MoviePad</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M24",
+  "class": "f",
+  "file": "M24.html",
+  "what": "ToEnd button label \"To end\" -> \"Go to end\" in all states",
+  "sha256": "a5aa30301c3ea65da50f3fa684429ccbe7d380b0dd7f230ddf9e104c3344722a",
+  "edits": [
+   [
+    "replace",
+    35,
+    36,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-21\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    74,
+    75,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    113,
+    114,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    152,
+    153,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    191,
+    192,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    230,
+    231,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-21\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    269,
+    270,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    308,
+    309,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    347,
+    348,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-21\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    386,
+    387,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    425,
+    426,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    464,
+    465,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-12\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    503,
+    504,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-21\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    542,
+    543,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    581,
+    582,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    620,
+    621,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    667,
+    668,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-21\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    706,
+    707,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-21\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    745,
+    746,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-21\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    784,
+    785,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-21\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    823,
+    824,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    862,
+    863,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    909,
+    910,
+    [
+     "  <button data-ui-action=\"ToEnd\" data-ui-surface=\"TransportView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Go to end</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M25",
+  "class": "a",
+  "file": "M25.html",
+  "what": "ST-15: Redo made disabled (enabled true->false, goto ST-14 -> -)",
+  "sha256": "a176b5e1b660848cdb873e251d5771f792f56bf3542976a78c049cca729cd68c",
+  "edits": [
+   [
+    "replace",
+    564,
+    565,
+    [
+     "  <button data-ui-action=\"Redo\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Redo</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M26",
+  "class": "e",
+  "file": "M26.html",
+  "what": "ST-06: SetTrimOut goto ST-12 -> ST-06 (trim end assumed not to change the state)",
+  "sha256": "96b4f049976940c1dcd307da1f0fc392a887826f33518bb78482cab96362af98",
+  "edits": [
+   [
+    "replace",
+    223,
+    224,
+    [
+     "  <button data-ui-action=\"SetTrimOut\" data-ui-surface=\"ToolbarView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-06\">Set the trim end (Out) to the playhead (O)</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M27",
+  "class": "b",
+  "file": "M27.html",
+  "what": "SwitchLanguage:en removed from all states (language choice folded into one value)",
+  "sha256": "82db8b304d819a66f20d488620fbc9622174bb2c909047c791d46084a8bd4bdb",
+  "edits": [
+   [
+    "delete",
+    33,
+    34,
+    []
+   ],
+   [
+    "delete",
+    72,
+    73,
+    []
+   ],
+   [
+    "delete",
+    111,
+    112,
+    []
+   ],
+   [
+    "delete",
+    150,
+    151,
+    []
+   ],
+   [
+    "delete",
+    189,
+    190,
+    []
+   ],
+   [
+    "delete",
+    228,
+    229,
+    []
+   ],
+   [
+    "delete",
+    267,
+    268,
+    []
+   ],
+   [
+    "delete",
+    306,
+    307,
+    []
+   ],
+   [
+    "delete",
+    345,
+    346,
+    []
+   ],
+   [
+    "delete",
+    384,
+    385,
+    []
+   ],
+   [
+    "delete",
+    423,
+    424,
+    []
+   ],
+   [
+    "delete",
+    462,
+    463,
+    []
+   ],
+   [
+    "delete",
+    501,
+    502,
+    []
+   ],
+   [
+    "delete",
+    540,
+    541,
+    []
+   ],
+   [
+    "delete",
+    579,
+    580,
+    []
+   ],
+   [
+    "delete",
+    618,
+    619,
+    []
+   ],
+   [
+    "delete",
+    665,
+    666,
+    []
+   ],
+   [
+    "delete",
+    704,
+    705,
+    []
+   ],
+   [
+    "delete",
+    743,
+    744,
+    []
+   ],
+   [
+    "delete",
+    782,
+    783,
+    []
+   ],
+   [
+    "delete",
+    821,
+    822,
+    []
+   ],
+   [
+    "delete",
+    860,
+    861,
+    []
+   ],
+   [
+    "delete",
+    907,
+    908,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M28",
+  "class": "c",
+  "file": "M28.html",
+  "what": "ZoomOut removed from all states (ZoomIn left without its counterpart)",
+  "sha256": "c1326f9b234416ff6a3b868560ae1f03c4c64efa4c579a4d592503c8e20bd860",
+  "edits": [
+   [
+    "delete",
+    40,
+    41,
+    []
+   ],
+   [
+    "delete",
+    79,
+    80,
+    []
+   ],
+   [
+    "delete",
+    118,
+    119,
+    []
+   ],
+   [
+    "delete",
+    157,
+    158,
+    []
+   ],
+   [
+    "delete",
+    196,
+    197,
+    []
+   ],
+   [
+    "delete",
+    235,
+    236,
+    []
+   ],
+   [
+    "delete",
+    274,
+    275,
+    []
+   ],
+   [
+    "delete",
+    313,
+    314,
+    []
+   ],
+   [
+    "delete",
+    352,
+    353,
+    []
+   ],
+   [
+    "delete",
+    391,
+    392,
+    []
+   ],
+   [
+    "delete",
+    430,
+    431,
+    []
+   ],
+   [
+    "delete",
+    469,
+    470,
+    []
+   ],
+   [
+    "delete",
+    508,
+    509,
+    []
+   ],
+   [
+    "delete",
+    547,
+    548,
+    []
+   ],
+   [
+    "delete",
+    586,
+    587,
+    []
+   ],
+   [
+    "delete",
+    625,
+    626,
+    []
+   ],
+   [
+    "delete",
+    672,
+    673,
+    []
+   ],
+   [
+    "delete",
+    711,
+    712,
+    []
+   ],
+   [
+    "delete",
+    750,
+    751,
+    []
+   ],
+   [
+    "delete",
+    789,
+    790,
+    []
+   ],
+   [
+    "delete",
+    828,
+    829,
+    []
+   ],
+   [
+    "delete",
+    867,
+    868,
+    []
+   ],
+   [
+    "delete",
+    914,
+    915,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M29",
+  "class": "d",
+  "file": "M29.html",
+  "what": "SetTrimIn moved from ToolbarView to TimelineView in all states",
+  "sha256": "974554b1a1bb063a1a34d1896131d5fb19f14c70ffa2b65b50961514e65830a4",
+  "edits": [
+   [
+    "replace",
+    27,
+    28,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    66,
+    67,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    105,
+    106,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    144,
+    145,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    183,
+    184,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    222,
+    223,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    261,
+    262,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    300,
+    301,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    339,
+    340,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-10\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    378,
+    379,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-10\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    417,
+    418,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-10\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    456,
+    457,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    495,
+    496,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-13\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    534,
+    535,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-14\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    573,
+    574,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-15\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    612,
+    613,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-16\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    659,
+    660,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-19\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    698,
+    699,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    737,
+    738,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    776,
+    777,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    815,
+    816,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    854,
+    855,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ],
+   [
+    "replace",
+    901,
+    902,
+    [
+     "  <button data-ui-action=\"SetTrimIn\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"true\" data-ui-goto=\"ST-27\">Set the trim start (In) to the playhead (I)</button>\n"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "M30",
+  "class": "f",
+  "file": "M30.html",
+  "what": "ST-17: order of the CloseExport and ConfirmExport buttons swapped",
+  "sha256": "2ea308d2b100c1fb896140098d18294ca51fa0d9466f80ce788abf5a5862440d",
+  "edits": [
+   [
+    "insert",
+    628,
+    628,
+    [
+     "  <button data-ui-action=\"ConfirmExport\" data-ui-surface=\"ExportDialogView\" data-ui-enabled=\"true\" data-ui-goto=\"unknown\">Export</button>\n"
+    ]
+   ],
+   [
+    "delete",
+    629,
+    630,
+    []
+   ]
+  ]
+ },
+ {
+  "id": "M31",
+  "class": "f",
+  "file": "M31.html",
+  "what": "ST-21: new disabled button AddMarker (TimelineView, goto -) added after ZoomOut",
+  "sha256": "33d6e72f84f6328bac73fc2abdf4beb7530176f6ace108e835f83b2039043fea",
+  "edits": [
+   [
+    "insert",
+    751,
+    751,
+    [
+     "  <button data-ui-action=\"AddMarker\" data-ui-surface=\"TimelineView\" data-ui-enabled=\"false\" data-ui-goto=\"-\">Add a marker at the playhead (M)</button>\n"
+    ]
+   ]
+  ]
+ }
+]

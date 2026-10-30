@@ -1,0 +1,188 @@
+[
+  {
+    "id": "M01",
+    "class": "e",
+    "file": "M01.html",
+    "what": "ST-02: Undo goto ST-03 -> ST-01 (undo after a split assumed to return to the initial state)"
+  },
+  {
+    "id": "M02",
+    "class": "a",
+    "file": "M02.html",
+    "what": "ST-02: Undo made disabled (enabled true->false, goto ST-03 -> -) right after a split"
+  },
+  {
+    "id": "M03",
+    "class": "b",
+    "file": "M03.html",
+    "what": "ApplySpeedPreset:1.5 removed from all states (1.5x folded into another speed preset)"
+  },
+  {
+    "id": "M04",
+    "class": "c",
+    "file": "M04.html",
+    "what": "Redo removed from all states (Undo left without its counterpart)"
+  },
+  {
+    "id": "M05",
+    "class": "d",
+    "file": "M05.html",
+    "what": "Undo moved from ToolbarView to TitleBarView in all states"
+  },
+  {
+    "id": "M06",
+    "class": "f",
+    "file": "M06.html",
+    "what": "Undo button label \"Undo\" -> \"Undo last edit\" in all states"
+  },
+  {
+    "id": "M07",
+    "class": "a",
+    "file": "M07.html",
+    "what": "ST-21: SetTrimOut button removed (trim end at the end of the clip)"
+  },
+  {
+    "id": "M08",
+    "class": "e",
+    "file": "M08.html",
+    "what": "ST-13: ShowExportDialog goto ST-17 -> ST-18"
+  },
+  {
+    "id": "M09",
+    "class": "b",
+    "file": "M09.html",
+    "what": "ApplyVolumePreset:150 removed from all states (150% folded into 100%)"
+  },
+  {
+    "id": "M10",
+    "class": "c",
+    "file": "M10.html",
+    "what": "DeleteSelectedBoundary removed from all states (Split left without its counterpart)"
+  },
+  {
+    "id": "M11",
+    "class": "d",
+    "file": "M11.html",
+    "what": "Split moved from ToolbarView to TimelineView in all states"
+  },
+  {
+    "id": "M12",
+    "class": "f",
+    "file": "M12.html",
+    "what": "ST-04: order of the Open and OpenAbout buttons swapped"
+  },
+  {
+    "id": "M13",
+    "class": "a",
+    "file": "M13.html",
+    "what": "ST-13: ShowExportDialog made disabled (enabled true->false, goto ST-17 -> -)"
+  },
+  {
+    "id": "M14",
+    "class": "e",
+    "file": "M14.html",
+    "what": "ST-17: CloseExport goto ST-13 -> ST-16"
+  },
+  {
+    "id": "M15",
+    "class": "b",
+    "file": "M15.html",
+    "what": "SetFps:60 removed from all states (60 folded into 30)"
+  },
+  {
+    "id": "M16",
+    "class": "c",
+    "file": "M16.html",
+    "what": "CloseAbout removed from all states (OpenAbout left without its counterpart; ST-25 left with no button)"
+  },
+  {
+    "id": "M17",
+    "class": "d",
+    "file": "M17.html",
+    "what": "TogglePlay moved from TransportView to ToolbarView in all states"
+  },
+  {
+    "id": "M18",
+    "class": "f",
+    "file": "M18.html",
+    "what": "ST-13: new disabled button RevealInFolder (ToolbarView, goto -) added after Open"
+  },
+  {
+    "id": "M19",
+    "class": "a",
+    "file": "M19.html",
+    "what": "ST-22: DeleteSelectedBoundary button removed"
+  },
+  {
+    "id": "M20",
+    "class": "e",
+    "file": "M20.html",
+    "what": "ST-13: TogglePlay goto ST-19 -> ST-20"
+  },
+  {
+    "id": "M21",
+    "class": "b",
+    "file": "M21.html",
+    "what": "Scale:0.75 removed from all states (75% folded into 50%)"
+  },
+  {
+    "id": "M22",
+    "class": "c",
+    "file": "M22.html",
+    "what": "CloseExport removed from all states (ShowExportDialog left without its counterpart)"
+  },
+  {
+    "id": "M23",
+    "class": "d",
+    "file": "M23.html",
+    "what": "OpenAbout moved from TitleBarView to ToolbarView in all states"
+  },
+  {
+    "id": "M24",
+    "class": "f",
+    "file": "M24.html",
+    "what": "ToEnd button label \"To end\" -> \"Go to end\" in all states"
+  },
+  {
+    "id": "M25",
+    "class": "a",
+    "file": "M25.html",
+    "what": "ST-15: Redo made disabled (enabled true->false, goto ST-14 -> -)"
+  },
+  {
+    "id": "M26",
+    "class": "e",
+    "file": "M26.html",
+    "what": "ST-06: SetTrimOut goto ST-12 -> ST-06 (trim end assumed not to change the state)"
+  },
+  {
+    "id": "M27",
+    "class": "b",
+    "file": "M27.html",
+    "what": "SwitchLanguage:en removed from all states (language choice folded into one value)"
+  },
+  {
+    "id": "M28",
+    "class": "c",
+    "file": "M28.html",
+    "what": "ZoomOut removed from all states (ZoomIn left without its counterpart)"
+  },
+  {
+    "id": "M29",
+    "class": "d",
+    "file": "M29.html",
+    "what": "SetTrimIn moved from ToolbarView to TimelineView in all states"
+  },
+  {
+    "id": "M30",
+    "class": "f",
+    "file": "M30.html",
+    "what": "ST-17: order of the CloseExport and ConfirmExport buttons swapped"
+  },
+  {
+    "id": "M31",
+    "class": "f",
+    "file": "M31.html",
+    "what": "ST-21: new disabled button AddMarker (TimelineView, goto -) added after ZoomOut"
+  }
+]

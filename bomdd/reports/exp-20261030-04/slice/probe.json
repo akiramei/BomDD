@@ -1,0 +1,5 @@
+{"states": [{"id": "any", "name": "probe", "predicate": {}}],
+ "scenarios": [{"id": "probe", "title": "probe", "goal": "see values", "flow": "main",
+   "setup": [{"set": "ShowFfmpegSetup", "value": false}, {"set": "Playhead", "value": 20}],
+   "steps": [{"in": "any", "action": "Split", "surface": "ToolbarView", "expect": "any"},
+             {"in": "any", "action": "Undo", "surface": "ToolbarView", "expect": "any"}]}]}

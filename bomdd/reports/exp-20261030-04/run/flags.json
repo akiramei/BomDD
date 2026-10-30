@@ -1,0 +1,4644 @@
+{
+ "clean_flags": [
+  {
+   "check": "W4",
+   "at": "ST-01/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-01/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-02/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-03/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-04/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/DeleteSelectedBoundary",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/Redo",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/Undo",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-05/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/DeleteSelectedBoundary",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-06/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/DeleteSelectedBoundary",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/SetTrimOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-07/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/DeleteSelectedBoundary",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/Redo",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/SetTrimOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-08/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-09/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-10/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/Redo",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-11/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/DeleteSelectedBoundary",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/SetTrimOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-12/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-13/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-14/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/Redo",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-15/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-16/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-17/ConfirmExport",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-18/CloseExport",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-19/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-20/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/DeleteSelectedBoundary",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/SetTrimOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-21/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-22/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-23/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/DeleteSelectedBoundary",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-24/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "ST-27/ZoomOut",
+   "why": "enabled, used by no step"
+  }
+ ],
+ "coverage": {
+  "pairs_used": 44,
+  "pairs_enabled": 774
+ },
+ "mutants": [
+  {
+   "id": "M01",
+   "class": "e",
+   "one_change": true,
+   "touched": [
+    "Undo"
+   ],
+   "diff": [
+    "ST-02/Undo/goto"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W3",
+     "at": "UC-02#1",
+     "why": "Undo goes to [ST-01], step expects ST-03"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M02",
+   "class": "a",
+   "one_change": true,
+   "touched": [
+    "Undo"
+   ],
+   "diff": [
+    "ST-02/Undo/enabled",
+    "ST-02/Undo/goto"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "UC-02#1",
+     "why": "Undo disabled in ST-02"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M03",
+   "class": "b",
+   "one_change": true,
+   "touched": [
+    "ApplySpeedPreset:1.5"
+   ],
+   "diff": [
+    "ST-01/ApplySpeedPreset:1.5/presence",
+    "ST-02/ApplySpeedPreset:1.5/presence",
+    "ST-03/ApplySpeedPreset:1.5/presence",
+    "ST-04/ApplySpeedPreset:1.5/presence",
+    "ST-05/ApplySpeedPreset:1.5/presence",
+    "ST-06/ApplySpeedPreset:1.5/presence",
+    "ST-07/ApplySpeedPreset:1.5/presence",
+    "ST-08/ApplySpeedPreset:1.5/presence",
+    "ST-09/ApplySpeedPreset:1.5/presence",
+    "ST-10/ApplySpeedPreset:1.5/presence",
+    "ST-11/ApplySpeedPreset:1.5/presence",
+    "ST-12/ApplySpeedPreset:1.5/presence",
+    "ST-13/ApplySpeedPreset:1.5/presence",
+    "ST-14/ApplySpeedPreset:1.5/presence",
+    "ST-15/ApplySpeedPreset:1.5/presence",
+    "ST-16/ApplySpeedPreset:1.5/presence",
+    "ST-19/ApplySpeedPreset:1.5/presence",
+    "ST-20/ApplySpeedPreset:1.5/presence",
+    "ST-21/ApplySpeedPreset:1.5/presence",
+    "ST-22/ApplySpeedPreset:1.5/presence",
+    "ST-23/ApplySpeedPreset:1.5/presence",
+    "ST-24/ApplySpeedPreset:1.5/presence",
+    "ST-27/ApplySpeedPreset:1.5/presence"
+   ],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "M04",
+   "class": "c",
+   "one_change": true,
+   "touched": [
+    "Redo"
+   ],
+   "diff": [
+    "ST-01/Redo/presence",
+    "ST-02/Redo/presence",
+    "ST-03/Redo/presence",
+    "ST-04/Redo/presence",
+    "ST-05/Redo/presence",
+    "ST-06/Redo/presence",
+    "ST-07/Redo/presence",
+    "ST-08/Redo/presence",
+    "ST-09/Redo/presence",
+    "ST-10/Redo/presence",
+    "ST-11/Redo/presence",
+    "ST-12/Redo/presence",
+    "ST-13/Redo/presence",
+    "ST-14/Redo/presence",
+    "ST-15/Redo/presence",
+    "ST-16/Redo/presence",
+    "ST-19/Redo/presence",
+    "ST-20/Redo/presence",
+    "ST-21/Redo/presence",
+    "ST-22/Redo/presence",
+    "ST-23/Redo/presence",
+    "ST-24/Redo/presence",
+    "ST-27/Redo/presence"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "UC-02#2",
+     "why": "no Redo in ST-03"
+    },
+    {
+     "check": "W1",
+     "at": "UC-16#2",
+     "why": "no Redo in ST-24"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M05",
+   "class": "d",
+   "one_change": true,
+   "touched": [
+    "Undo"
+   ],
+   "diff": [
+    "ST-01/Undo/surface",
+    "ST-02/Undo/surface",
+    "ST-03/Undo/surface",
+    "ST-04/Undo/surface",
+    "ST-05/Undo/surface",
+    "ST-06/Undo/surface",
+    "ST-07/Undo/surface",
+    "ST-08/Undo/surface",
+    "ST-09/Undo/surface",
+    "ST-10/Undo/surface",
+    "ST-11/Undo/surface",
+    "ST-12/Undo/surface",
+    "ST-13/Undo/surface",
+    "ST-14/Undo/surface",
+    "ST-15/Undo/surface",
+    "ST-16/Undo/surface",
+    "ST-19/Undo/surface",
+    "ST-20/Undo/surface",
+    "ST-21/Undo/surface",
+    "ST-22/Undo/surface",
+    "ST-23/Undo/surface",
+    "ST-24/Undo/surface",
+    "ST-27/Undo/surface"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W2",
+     "at": "UC-02#1",
+     "why": "Undo on TitleBarView, step says ToolbarView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-03#2",
+     "why": "Undo on TitleBarView, step says ToolbarView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-04#1",
+     "why": "Undo on TitleBarView, step says ToolbarView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-05#1",
+     "why": "Undo on TitleBarView, step says ToolbarView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-06#1",
+     "why": "Undo on TitleBarView, step says ToolbarView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-08#1",
+     "why": "Undo on TitleBarView, step says ToolbarView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-16#1",
+     "why": "Undo on TitleBarView, step says ToolbarView"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M06",
+   "class": "f",
+   "one_change": true,
+   "touched": [],
+   "diff": [],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "M07",
+   "class": "a",
+   "one_change": true,
+   "touched": [
+    "SetTrimOut"
+   ],
+   "diff": [
+    "ST-21/SetTrimOut/presence"
+   ],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "M08",
+   "class": "e",
+   "one_change": true,
+   "touched": [
+    "ShowExportDialog"
+   ],
+   "diff": [
+    "ST-13/ShowExportDialog/goto"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W3",
+     "at": "UC-11#0",
+     "why": "ShowExportDialog goes to [ST-18], step expects ST-17"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M09",
+   "class": "b",
+   "one_change": true,
+   "touched": [
+    "ApplyVolumePreset:150"
+   ],
+   "diff": [
+    "ST-01/ApplyVolumePreset:150/presence",
+    "ST-02/ApplyVolumePreset:150/presence",
+    "ST-03/ApplyVolumePreset:150/presence",
+    "ST-04/ApplyVolumePreset:150/presence",
+    "ST-05/ApplyVolumePreset:150/presence",
+    "ST-06/ApplyVolumePreset:150/presence",
+    "ST-07/ApplyVolumePreset:150/presence",
+    "ST-08/ApplyVolumePreset:150/presence",
+    "ST-09/ApplyVolumePreset:150/presence",
+    "ST-10/ApplyVolumePreset:150/presence",
+    "ST-11/ApplyVolumePreset:150/presence",
+    "ST-12/ApplyVolumePreset:150/presence",
+    "ST-13/ApplyVolumePreset:150/presence",
+    "ST-14/ApplyVolumePreset:150/presence",
+    "ST-15/ApplyVolumePreset:150/presence",
+    "ST-16/ApplyVolumePreset:150/presence",
+    "ST-19/ApplyVolumePreset:150/presence",
+    "ST-20/ApplyVolumePreset:150/presence",
+    "ST-21/ApplyVolumePreset:150/presence",
+    "ST-22/ApplyVolumePreset:150/presence",
+    "ST-23/ApplyVolumePreset:150/presence",
+    "ST-24/ApplyVolumePreset:150/presence",
+    "ST-27/ApplyVolumePreset:150/presence"
+   ],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "M10",
+   "class": "c",
+   "one_change": true,
+   "touched": [
+    "DeleteSelectedBoundary"
+   ],
+   "diff": [
+    "ST-01/DeleteSelectedBoundary/presence",
+    "ST-02/DeleteSelectedBoundary/presence",
+    "ST-03/DeleteSelectedBoundary/presence",
+    "ST-04/DeleteSelectedBoundary/presence",
+    "ST-05/DeleteSelectedBoundary/presence",
+    "ST-06/DeleteSelectedBoundary/presence",
+    "ST-07/DeleteSelectedBoundary/presence",
+    "ST-08/DeleteSelectedBoundary/presence",
+    "ST-09/DeleteSelectedBoundary/presence",
+    "ST-10/DeleteSelectedBoundary/presence",
+    "ST-11/DeleteSelectedBoundary/presence",
+    "ST-12/DeleteSelectedBoundary/presence",
+    "ST-13/DeleteSelectedBoundary/presence",
+    "ST-14/DeleteSelectedBoundary/presence",
+    "ST-15/DeleteSelectedBoundary/presence",
+    "ST-16/DeleteSelectedBoundary/presence",
+    "ST-19/DeleteSelectedBoundary/presence",
+    "ST-20/DeleteSelectedBoundary/presence",
+    "ST-21/DeleteSelectedBoundary/presence",
+    "ST-22/DeleteSelectedBoundary/presence",
+    "ST-23/DeleteSelectedBoundary/presence",
+    "ST-24/DeleteSelectedBoundary/presence",
+    "ST-27/DeleteSelectedBoundary/presence"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "UC-03#1",
+     "why": "no DeleteSelectedBoundary in ST-02"
+    },
+    {
+     "check": "W1",
+     "at": "UC-16#0",
+     "why": "no DeleteSelectedBoundary in ST-22"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M11",
+   "class": "d",
+   "one_change": true,
+   "touched": [
+    "Split"
+   ],
+   "diff": [
+    "ST-01/Split/surface",
+    "ST-02/Split/surface",
+    "ST-03/Split/surface",
+    "ST-04/Split/surface",
+    "ST-05/Split/surface",
+    "ST-06/Split/surface",
+    "ST-07/Split/surface",
+    "ST-08/Split/surface",
+    "ST-09/Split/surface",
+    "ST-10/Split/surface",
+    "ST-11/Split/surface",
+    "ST-12/Split/surface",
+    "ST-13/Split/surface",
+    "ST-14/Split/surface",
+    "ST-15/Split/surface",
+    "ST-16/Split/surface",
+    "ST-19/Split/surface",
+    "ST-20/Split/surface",
+    "ST-21/Split/surface",
+    "ST-22/Split/surface",
+    "ST-23/Split/surface",
+    "ST-24/Split/surface",
+    "ST-27/Split/surface"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W2",
+     "at": "UC-01#0",
+     "why": "Split on TimelineView, step says ToolbarView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-02#0",
+     "why": "Split on TimelineView, step says ToolbarView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-03#0",
+     "why": "Split on TimelineView, step says ToolbarView"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M12",
+   "class": "f",
+   "one_change": true,
+   "touched": [],
+   "diff": [],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "M13",
+   "class": "a",
+   "one_change": true,
+   "touched": [
+    "ShowExportDialog"
+   ],
+   "diff": [
+    "ST-13/ShowExportDialog/enabled",
+    "ST-13/ShowExportDialog/goto"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "UC-11#0",
+     "why": "ShowExportDialog disabled in ST-13"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M14",
+   "class": "e",
+   "one_change": true,
+   "touched": [
+    "CloseExport"
+   ],
+   "diff": [
+    "ST-17/CloseExport/goto"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W3",
+     "at": "UC-11#1",
+     "why": "CloseExport goes to [ST-16], step expects ST-13"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M15",
+   "class": "b",
+   "one_change": true,
+   "touched": [
+    "SetFps:60"
+   ],
+   "diff": [
+    "ST-01/SetFps:60/presence",
+    "ST-02/SetFps:60/presence",
+    "ST-03/SetFps:60/presence",
+    "ST-04/SetFps:60/presence",
+    "ST-05/SetFps:60/presence",
+    "ST-06/SetFps:60/presence",
+    "ST-07/SetFps:60/presence",
+    "ST-08/SetFps:60/presence",
+    "ST-09/SetFps:60/presence",
+    "ST-10/SetFps:60/presence",
+    "ST-11/SetFps:60/presence",
+    "ST-12/SetFps:60/presence",
+    "ST-13/SetFps:60/presence",
+    "ST-14/SetFps:60/presence",
+    "ST-15/SetFps:60/presence",
+    "ST-16/SetFps:60/presence",
+    "ST-19/SetFps:60/presence",
+    "ST-20/SetFps:60/presence",
+    "ST-21/SetFps:60/presence",
+    "ST-22/SetFps:60/presence",
+    "ST-23/SetFps:60/presence",
+    "ST-24/SetFps:60/presence",
+    "ST-27/SetFps:60/presence"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "UC-10#0",
+     "why": "no SetFps:60 in ST-13"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M16",
+   "class": "c",
+   "one_change": true,
+   "touched": [
+    "CloseAbout"
+   ],
+   "diff": [
+    "ST-25/CloseAbout/presence"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "UC-17#1",
+     "why": "no CloseAbout in ST-25"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M17",
+   "class": "d",
+   "one_change": true,
+   "touched": [
+    "TogglePlay"
+   ],
+   "diff": [
+    "ST-01/TogglePlay/surface",
+    "ST-02/TogglePlay/surface",
+    "ST-03/TogglePlay/surface",
+    "ST-04/TogglePlay/surface",
+    "ST-05/TogglePlay/surface",
+    "ST-06/TogglePlay/surface",
+    "ST-07/TogglePlay/surface",
+    "ST-08/TogglePlay/surface",
+    "ST-09/TogglePlay/surface",
+    "ST-10/TogglePlay/surface",
+    "ST-11/TogglePlay/surface",
+    "ST-12/TogglePlay/surface",
+    "ST-13/TogglePlay/surface",
+    "ST-14/TogglePlay/surface",
+    "ST-15/TogglePlay/surface",
+    "ST-16/TogglePlay/surface",
+    "ST-19/TogglePlay/surface",
+    "ST-20/TogglePlay/surface",
+    "ST-21/TogglePlay/surface",
+    "ST-22/TogglePlay/surface",
+    "ST-23/TogglePlay/surface",
+    "ST-24/TogglePlay/surface",
+    "ST-27/TogglePlay/surface"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W2",
+     "at": "UC-13#0",
+     "why": "TogglePlay on ToolbarView, step says TransportView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-13#1",
+     "why": "TogglePlay on ToolbarView, step says TransportView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-14#0",
+     "why": "TogglePlay on ToolbarView, step says TransportView"
+    },
+    {
+     "check": "W2",
+     "at": "UC-18#1",
+     "why": "TogglePlay on ToolbarView, step says TransportView"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M18",
+   "class": "f",
+   "one_change": true,
+   "touched": [
+    "RevealInFolder"
+   ],
+   "diff": [
+    "ST-13/RevealInFolder/presence"
+   ],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "M19",
+   "class": "a",
+   "one_change": true,
+   "touched": [
+    "DeleteSelectedBoundary"
+   ],
+   "diff": [
+    "ST-22/DeleteSelectedBoundary/presence"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "UC-16#0",
+     "why": "no DeleteSelectedBoundary in ST-22"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M20",
+   "class": "e",
+   "one_change": true,
+   "touched": [
+    "TogglePlay"
+   ],
+   "diff": [
+    "ST-13/TogglePlay/goto"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W3",
+     "at": "UC-13#0",
+     "why": "TogglePlay goes to [ST-20], step expects ST-19"
+    },
+    {
+     "check": "W3",
+     "at": "UC-14#0",
+     "why": "TogglePlay goes to [ST-20], step expects ST-19"
+    },
+    {
+     "check": "W3",
+     "at": "UC-18#1",
+     "why": "TogglePlay goes to [ST-20], step expects ST-19"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M21",
+   "class": "b",
+   "one_change": true,
+   "touched": [
+    "Scale:0.75"
+   ],
+   "diff": [
+    "ST-01/Scale:0.75/presence",
+    "ST-02/Scale:0.75/presence",
+    "ST-03/Scale:0.75/presence",
+    "ST-04/Scale:0.75/presence",
+    "ST-05/Scale:0.75/presence",
+    "ST-06/Scale:0.75/presence",
+    "ST-07/Scale:0.75/presence",
+    "ST-08/Scale:0.75/presence",
+    "ST-09/Scale:0.75/presence",
+    "ST-10/Scale:0.75/presence",
+    "ST-11/Scale:0.75/presence",
+    "ST-12/Scale:0.75/presence",
+    "ST-13/Scale:0.75/presence",
+    "ST-14/Scale:0.75/presence",
+    "ST-15/Scale:0.75/presence",
+    "ST-16/Scale:0.75/presence",
+    "ST-19/Scale:0.75/presence",
+    "ST-20/Scale:0.75/presence",
+    "ST-21/Scale:0.75/presence",
+    "ST-22/Scale:0.75/presence",
+    "ST-23/Scale:0.75/presence",
+    "ST-24/Scale:0.75/presence",
+    "ST-27/Scale:0.75/presence"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "UC-12#0",
+     "why": "no Scale:0.75 in ST-13"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M22",
+   "class": "c",
+   "one_change": true,
+   "touched": [
+    "CloseExport"
+   ],
+   "diff": [
+    "ST-17/CloseExport/presence",
+    "ST-18/CloseExport/presence"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "UC-11#1",
+     "why": "no CloseExport in ST-17"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M23",
+   "class": "d",
+   "one_change": true,
+   "touched": [
+    "OpenAbout"
+   ],
+   "diff": [
+    "ST-01/OpenAbout/surface",
+    "ST-02/OpenAbout/surface",
+    "ST-03/OpenAbout/surface",
+    "ST-04/OpenAbout/surface",
+    "ST-05/OpenAbout/surface",
+    "ST-06/OpenAbout/surface",
+    "ST-07/OpenAbout/surface",
+    "ST-08/OpenAbout/surface",
+    "ST-09/OpenAbout/surface",
+    "ST-10/OpenAbout/surface",
+    "ST-11/OpenAbout/surface",
+    "ST-12/OpenAbout/surface",
+    "ST-13/OpenAbout/surface",
+    "ST-14/OpenAbout/surface",
+    "ST-15/OpenAbout/surface",
+    "ST-16/OpenAbout/surface",
+    "ST-19/OpenAbout/surface",
+    "ST-20/OpenAbout/surface",
+    "ST-21/OpenAbout/surface",
+    "ST-22/OpenAbout/surface",
+    "ST-23/OpenAbout/surface",
+    "ST-24/OpenAbout/surface",
+    "ST-27/OpenAbout/surface"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W2",
+     "at": "UC-17#0",
+     "why": "OpenAbout on ToolbarView, step says TitleBarView"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M24",
+   "class": "f",
+   "one_change": true,
+   "touched": [],
+   "diff": [],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "M25",
+   "class": "a",
+   "one_change": true,
+   "touched": [
+    "Redo"
+   ],
+   "diff": [
+    "ST-15/Redo/enabled",
+    "ST-15/Redo/goto"
+   ],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "M26",
+   "class": "e",
+   "one_change": true,
+   "touched": [
+    "SetTrimOut"
+   ],
+   "diff": [
+    "ST-06/SetTrimOut/goto"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W3",
+     "at": "UC-06#0",
+     "why": "SetTrimOut goes to [ST-06], step expects ST-12"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M27",
+   "class": "b",
+   "one_change": true,
+   "touched": [
+    "SwitchLanguage:en"
+   ],
+   "diff": [
+    "ST-01/SwitchLanguage:en/presence",
+    "ST-02/SwitchLanguage:en/presence",
+    "ST-03/SwitchLanguage:en/presence",
+    "ST-04/SwitchLanguage:en/presence",
+    "ST-05/SwitchLanguage:en/presence",
+    "ST-06/SwitchLanguage:en/presence",
+    "ST-07/SwitchLanguage:en/presence",
+    "ST-08/SwitchLanguage:en/presence",
+    "ST-09/SwitchLanguage:en/presence",
+    "ST-10/SwitchLanguage:en/presence",
+    "ST-11/SwitchLanguage:en/presence",
+    "ST-12/SwitchLanguage:en/presence",
+    "ST-13/SwitchLanguage:en/presence",
+    "ST-14/SwitchLanguage:en/presence",
+    "ST-15/SwitchLanguage:en/presence",
+    "ST-16/SwitchLanguage:en/presence",
+    "ST-19/SwitchLanguage:en/presence",
+    "ST-20/SwitchLanguage:en/presence",
+    "ST-21/SwitchLanguage:en/presence",
+    "ST-22/SwitchLanguage:en/presence",
+    "ST-23/SwitchLanguage:en/presence",
+    "ST-24/SwitchLanguage:en/presence",
+    "ST-27/SwitchLanguage:en/presence"
+   ],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "M28",
+   "class": "c",
+   "one_change": true,
+   "touched": [
+    "ZoomOut"
+   ],
+   "diff": [
+    "ST-01/ZoomOut/presence",
+    "ST-02/ZoomOut/presence",
+    "ST-03/ZoomOut/presence",
+    "ST-04/ZoomOut/presence",
+    "ST-05/ZoomOut/presence",
+    "ST-06/ZoomOut/presence",
+    "ST-07/ZoomOut/presence",
+    "ST-08/ZoomOut/presence",
+    "ST-09/ZoomOut/presence",
+    "ST-10/ZoomOut/presence",
+    "ST-11/ZoomOut/presence",
+    "ST-12/ZoomOut/presence",
+    "ST-13/ZoomOut/presence",
+    "ST-14/ZoomOut/presence",
+    "ST-15/ZoomOut/presence",
+    "ST-16/ZoomOut/presence",
+    "ST-19/ZoomOut/presence",
+    "ST-20/ZoomOut/presence",
+    "ST-21/ZoomOut/presence",
+    "ST-22/ZoomOut/presence",
+    "ST-23/ZoomOut/presence",
+    "ST-24/ZoomOut/presence",
+    "ST-27/ZoomOut/presence"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "UC-22#1",
+     "why": "no ZoomOut in ST-13"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M29",
+   "class": "d",
+   "one_change": true,
+   "touched": [
+    "SetTrimIn"
+   ],
+   "diff": [
+    "ST-01/SetTrimIn/surface",
+    "ST-02/SetTrimIn/surface",
+    "ST-03/SetTrimIn/surface",
+    "ST-04/SetTrimIn/surface",
+    "ST-05/SetTrimIn/surface",
+    "ST-06/SetTrimIn/surface",
+    "ST-07/SetTrimIn/surface",
+    "ST-08/SetTrimIn/surface",
+    "ST-09/SetTrimIn/surface",
+    "ST-10/SetTrimIn/surface",
+    "ST-11/SetTrimIn/surface",
+    "ST-12/SetTrimIn/surface",
+    "ST-13/SetTrimIn/surface",
+    "ST-14/SetTrimIn/surface",
+    "ST-15/SetTrimIn/surface",
+    "ST-16/SetTrimIn/surface",
+    "ST-19/SetTrimIn/surface",
+    "ST-20/SetTrimIn/surface",
+    "ST-21/SetTrimIn/surface",
+    "ST-22/SetTrimIn/surface",
+    "ST-23/SetTrimIn/surface",
+    "ST-24/SetTrimIn/surface",
+    "ST-27/SetTrimIn/surface"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W2",
+     "at": "UC-05#0",
+     "why": "SetTrimIn on TimelineView, step says ToolbarView"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "M30",
+   "class": "f",
+   "one_change": true,
+   "touched": [],
+   "diff": [],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "M31",
+   "class": "f",
+   "one_change": true,
+   "touched": [
+    "AddMarker"
+   ],
+   "diff": [
+    "ST-21/AddMarker/presence"
+   ],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  }
+ ],
+ "tally": {
+  "e": {
+   "n": 5,
+   "inside": 5,
+   "inside_caught": 5,
+   "outside": 0,
+   "outside_caught": 0,
+   "not_one_change": 0
+  },
+  "a": {
+   "n": 5,
+   "inside": 3,
+   "inside_caught": 3,
+   "outside": 2,
+   "outside_caught": 0,
+   "not_one_change": 0
+  },
+  "b": {
+   "n": 5,
+   "inside": 2,
+   "inside_caught": 2,
+   "outside": 3,
+   "outside_caught": 0,
+   "not_one_change": 0
+  },
+  "c": {
+   "n": 5,
+   "inside": 5,
+   "inside_caught": 5,
+   "outside": 0,
+   "outside_caught": 0,
+   "not_one_change": 0
+  },
+  "d": {
+   "n": 5,
+   "inside": 5,
+   "inside_caught": 5,
+   "outside": 0,
+   "outside_caught": 0,
+   "not_one_change": 0
+  },
+  "f": {
+   "n": 6,
+   "inside": 0,
+   "inside_caught": 0,
+   "outside": 6,
+   "outside_caught": 0,
+   "not_one_change": 0
+  }
+ }
+}

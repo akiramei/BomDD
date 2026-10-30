@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>MoviePad mock (generated)</title></head>
+<body>
+<section data-ui-state="ST-01">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-01">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-01">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-01">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-01">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-01">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-01">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-02">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-21">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-01">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-01">Zoom out</button>
+</section>
+<section data-ui-state="ST-02">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-04">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-03">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-02">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-02">Zoom out</button>
+</section>
+<section data-ui-state="ST-03">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-02">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-03">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-03">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-03">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-03">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-03">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-03">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-02">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-15">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-03">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-03">Zoom out</button>
+</section>
+<section data-ui-state="ST-04">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-04">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-02">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-14">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-05">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-04">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-04">Zoom out</button>
+</section>
+<section data-ui-state="ST-05">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-02">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-04">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-04">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-05">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-05">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-05">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-05">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-05">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-05">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-03">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-05">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-05">Zoom out</button>
+</section>
+<section data-ui-state="ST-06">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-06">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-06">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-06">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-06">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-06">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-06">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-12">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-21">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-06">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-06">Zoom out</button>
+</section>
+<section data-ui-state="ST-07">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-12">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-14">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-08">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-07">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-07">Zoom out</button>
+</section>
+<section data-ui-state="ST-08">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-07">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-07">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-08">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-08">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-08">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-08">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-08">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-08">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-12">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-15">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-08">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-08">Zoom out</button>
+</section>
+<section data-ui-state="ST-09">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-09">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-09">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-09">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-09">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-09">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-09">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-10">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-21">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-09">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-09">Zoom out</button>
+</section>
+<section data-ui-state="ST-10">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-10">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-10">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-10">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-10">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-11">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-10">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-10">Zoom out</button>
+</section>
+<section data-ui-state="ST-11">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-10">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-11">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-11">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-11">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-11">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-11">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-11">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-10">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-15">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-11">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-11">Zoom out</button>
+</section>
+<section data-ui-state="ST-12">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-12">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-12">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-12">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-12">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-08">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-12">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-12">Zoom out</button>
+</section>
+<section data-ui-state="ST-13">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="ST-25">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-16">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-16">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-13">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-13">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-13">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-13">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-13">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-13">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-13">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-17">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-20">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-21">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-19">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-13">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-13">Zoom out</button>
+</section>
+<section data-ui-state="ST-14">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-14">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-14">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-14">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-15">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-14">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-14">Zoom out</button>
+</section>
+<section data-ui-state="ST-15">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-14">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-14">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-15">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-15">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-15">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-15">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-15">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-15">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-15">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-15">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-15">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-15">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-15">Zoom out</button>
+</section>
+<section data-ui-state="ST-16">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-16">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-16">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-13">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-16">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-16">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-16">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-16">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-16">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-16">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-18">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-16">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-16">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-16">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-16">Zoom out</button>
+</section>
+<section data-ui-state="ST-17">
+  <button data-ui-action="CloseExport" data-ui-surface="ExportDialogView" data-ui-enabled="true" data-ui-goto="ST-13">Cancel</button>
+  <button data-ui-action="ConfirmExport" data-ui-surface="ExportDialogView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+</section>
+<section data-ui-state="ST-18">
+  <button data-ui-action="CloseExport" data-ui-surface="ExportDialogView" data-ui-enabled="true" data-ui-goto="ST-16">Cancel</button>
+  <button data-ui-action="ConfirmExport" data-ui-surface="ExportDialogView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+</section>
+<section data-ui-state="ST-19">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-19">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-19">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-19">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-19">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-19">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-19">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-19">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-20">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-21">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-19">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-19">Zoom out</button>
+</section>
+<section data-ui-state="ST-20">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-20">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-20">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-20">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-20">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-20">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-20">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-21">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-20">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-20">Zoom out</button>
+</section>
+<section data-ui-state="ST-21">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-21">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-21">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-21">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-21">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-21">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-21">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-21">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-21">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-21">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-19">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-21">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-21">Zoom out</button>
+</section>
+<section data-ui-state="ST-22">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-23">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-22">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-22">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-22">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-22">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-22">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-22">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-21">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-13">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-22">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-22">Zoom out</button>
+</section>
+<section data-ui-state="ST-23">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-23">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-24">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-23">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-23">Zoom out</button>
+</section>
+<section data-ui-state="ST-24">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-23">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-23">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-24">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-24">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-24">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-24">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-24">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-24">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-15">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-24">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-24">Zoom out</button>
+</section>
+<section data-ui-state="ST-25">
+  <button data-ui-action="CloseAbout" data-ui-surface="AboutDialogView" data-ui-enabled="true" data-ui-goto="ST-13">Close</button>
+</section>
+<section data-ui-state="ST-26">
+  <button data-ui-action="DismissFfmpegSetup" data-ui-surface="MainWindow" data-ui-enabled="true" data-ui-goto="ST-13">Later</button>
+  <button data-ui-action="InstallFfmpeg" data-ui-surface="MainWindow" data-ui-enabled="true" data-ui-goto="unknown">Download</button>
+</section>
+<section data-ui-state="ST-27">
+  <button data-ui-action="ApplySpeedPreset:0.25" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.25x</button>
+  <button data-ui-action="ApplySpeedPreset:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">0.5x</button>
+  <button data-ui-action="ApplySpeedPreset:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1x</button>
+  <button data-ui-action="ApplySpeedPreset:1.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">1.5x</button>
+  <button data-ui-action="ApplySpeedPreset:2" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">2x</button>
+  <button data-ui-action="ApplySpeedPreset:3" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">3x</button>
+  <button data-ui-action="ApplySpeedPreset:4" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">4x</button>
+  <button data-ui-action="ApplyVolumePreset:0" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">Mute</button>
+  <button data-ui-action="ApplyVolumePreset:100" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">100%</button>
+  <button data-ui-action="ApplyVolumePreset:150" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">150%</button>
+  <button data-ui-action="ApplyVolumePreset:50" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="ClearError" data-ui-surface="MainWindow" data-ui-enabled="true" data-ui-goto="ST-13">✕</button>
+  <button data-ui-action="DeleteSelectedBoundary" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Merge the current region with the one before it</button>
+  <button data-ui-action="Open" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Open</button>
+  <button data-ui-action="OpenAbout" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">About MoviePad</button>
+  <button data-ui-action="Redo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Redo</button>
+  <button data-ui-action="Scale:0.5" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">50%</button>
+  <button data-ui-action="Scale:0.75" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="unknown">75%</button>
+  <button data-ui-action="Scale:1" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-27">100%</button>
+  <button data-ui-action="SetFps:120" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-27">120</button>
+  <button data-ui-action="SetFps:24" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-27">24</button>
+  <button data-ui-action="SetFps:30" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-27">30</button>
+  <button data-ui-action="SetFps:60" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-27">60</button>
+  <button data-ui-action="SetFps:source" data-ui-surface="InspectorView" data-ui-enabled="true" data-ui-goto="ST-27">Source</button>
+  <button data-ui-action="SetTrimIn" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="ST-27">Set the trim start (In) to the playhead (I)</button>
+  <button data-ui-action="SetTrimOut" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Set the trim end (Out) to the playhead (O)</button>
+  <button data-ui-action="ShowExportDialog" data-ui-surface="ToolbarView" data-ui-enabled="true" data-ui-goto="unknown">Export</button>
+  <button data-ui-action="Split" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Split the region at the playhead (S)</button>
+  <button data-ui-action="StepBack" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-27">Step back 1 frame  (← / ,)</button>
+  <button data-ui-action="StepForward" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Step forward 1 frame  (→ / .)</button>
+  <button data-ui-action="SwitchLanguage:en" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">English</button>
+  <button data-ui-action="SwitchLanguage:ja" data-ui-surface="TitleBarView" data-ui-enabled="true" data-ui-goto="unknown">日本語</button>
+  <button data-ui-action="ToEnd" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">To end</button>
+  <button data-ui-action="ToStart" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="ST-27">To start</button>
+  <button data-ui-action="TogglePlay" data-ui-surface="TransportView" data-ui-enabled="true" data-ui-goto="unknown">Play / Pause (Space)</button>
+  <button data-ui-action="Undo" data-ui-surface="ToolbarView" data-ui-enabled="false" data-ui-goto="-">Undo</button>
+  <button data-ui-action="ZoomIn" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-27">Zoom in</button>
+  <button data-ui-action="ZoomOut" data-ui-surface="TimelineView" data-ui-enabled="true" data-ui-goto="ST-27">Zoom out</button>
+</section>
+</body></html>

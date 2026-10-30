@@ -1,0 +1,666 @@
+{
+ "clean_flags": [
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-fresh/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/DeleteSelectedBoundary",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-split/ZoomOut",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplySpeedPreset:0.25",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplySpeedPreset:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplySpeedPreset:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplySpeedPreset:1.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplySpeedPreset:2",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplySpeedPreset:3",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplySpeedPreset:4",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplyVolumePreset:0",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplyVolumePreset:100",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplyVolumePreset:150",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ApplyVolumePreset:50",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/Open",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/OpenAbout",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/Redo",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/Scale:0.5",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/Scale:0.75",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/Scale:1",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/SetFps:120",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/SetFps:24",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/SetFps:30",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/SetFps:60",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/SetFps:source",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/SetTrimIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ShowExportDialog",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/Split",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/StepBack",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/StepForward",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/SwitchLanguage:en",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/SwitchLanguage:ja",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ToEnd",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ToStart",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/TogglePlay",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ZoomIn",
+   "why": "enabled, used by no step"
+  },
+  {
+   "check": "W4",
+   "at": "edit-undone/ZoomOut",
+   "why": "enabled, used by no step"
+  }
+ ],
+ "coverage": {
+  "pairs_used": 2,
+  "pairs_enabled": 100
+ },
+ "mutants": [
+  {
+   "id": "a1",
+   "class": "a",
+   "one_change": true,
+   "touched": [
+    "Undo"
+   ],
+   "diff": [
+    "edit-split/Undo/enabled"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "slice-1#1",
+     "why": "Undo disabled in edit-split"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "b1",
+   "class": "b",
+   "one_change": true,
+   "touched": [
+    "ApplySpeedPreset:0.5"
+   ],
+   "diff": [
+    "edit-fresh/ApplySpeedPreset:0.5/presence",
+    "edit-split/ApplySpeedPreset:0.5/presence",
+    "edit-undone/ApplySpeedPreset:0.5/presence"
+   ],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  },
+  {
+   "id": "c1",
+   "class": "c",
+   "one_change": true,
+   "touched": [
+    "Undo"
+   ],
+   "diff": [
+    "edit-fresh/Undo/presence",
+    "edit-split/Undo/presence",
+    "edit-undone/Undo/presence"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W1",
+     "at": "slice-1#1",
+     "why": "no Undo in edit-split"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "d1",
+   "class": "d",
+   "one_change": true,
+   "touched": [
+    "Split"
+   ],
+   "diff": [
+    "edit-fresh/Split/surface",
+    "edit-split/Split/surface",
+    "edit-undone/Split/surface"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W2",
+     "at": "slice-1#0",
+     "why": "Split on InspectorView, step says ToolbarView"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "e1",
+   "class": "e",
+   "one_change": true,
+   "touched": [
+    "Split"
+   ],
+   "diff": [
+    "edit-fresh/Split/goto"
+   ],
+   "inside": true,
+   "caught": true,
+   "stop_flags": [
+    {
+     "check": "W3",
+     "at": "slice-1#0",
+     "why": "Split goes to [edit-undone], step expects edit-split"
+    }
+   ],
+   "new_w4": []
+  },
+  {
+   "id": "f1",
+   "class": "f",
+   "one_change": true,
+   "touched": [],
+   "diff": [],
+   "inside": false,
+   "caught": false,
+   "stop_flags": [],
+   "new_w4": []
+  }
+ ],
+ "tally": {
+  "a": {
+   "n": 1,
+   "inside": 1,
+   "inside_caught": 1,
+   "outside": 0,
+   "outside_caught": 0,
+   "not_one_change": 0
+  },
+  "b": {
+   "n": 1,
+   "inside": 0,
+   "inside_caught": 0,
+   "outside": 1,
+   "outside_caught": 0,
+   "not_one_change": 0
+  },
+  "c": {
+   "n": 1,
+   "inside": 1,
+   "inside_caught": 1,
+   "outside": 0,
+   "outside_caught": 0,
+   "not_one_change": 0
+  },
+  "d": {
+   "n": 1,
+   "inside": 1,
+   "inside_caught": 1,
+   "outside": 0,
+   "outside_caught": 0,
+   "not_one_change": 0
+  },
+  "e": {
+   "n": 1,
+   "inside": 1,
+   "inside_caught": 1,
+   "outside": 0,
+   "outside_caught": 0,
+   "not_one_change": 0
+  },
+  "f": {
+   "n": 1,
+   "inside": 0,
+   "inside_caught": 0,
+   "outside": 1,
+   "outside_caught": 0,
+   "not_one_change": 0
+  }
+ }
+}

@@ -1,0 +1,2322 @@
+{
+  "environment": {
+    "FfmpegLocator.Available": "True",
+    "CurrentUICulture": "ja-JP"
+  },
+  "known_actions": [
+    "ApplySpeedPreset:0.25",
+    "ApplySpeedPreset:0.5",
+    "ApplySpeedPreset:1",
+    "ApplySpeedPreset:1.5",
+    "ApplySpeedPreset:2",
+    "ApplySpeedPreset:3",
+    "ApplySpeedPreset:4",
+    "ApplyVolumePreset:0",
+    "ApplyVolumePreset:100",
+    "ApplyVolumePreset:150",
+    "ApplyVolumePreset:50",
+    "CancelExport",
+    "ClearError",
+    "CloseAbout",
+    "CloseExport",
+    "ConfirmExport",
+    "DeleteSelectedBoundary",
+    "DismissFfmpegSetup",
+    "InstallFfmpeg",
+    "Open",
+    "OpenAbout",
+    "Redo",
+    "Scale:0.5",
+    "Scale:0.75",
+    "Scale:1",
+    "SetFps:120",
+    "SetFps:24",
+    "SetFps:30",
+    "SetFps:60",
+    "SetFps:source",
+    "SetTrimIn",
+    "SetTrimOut",
+    "ShowExportDialog",
+    "Split",
+    "StepBack",
+    "StepForward",
+    "SwitchLanguage:en",
+    "SwitchLanguage:ja",
+    "ToEnd",
+    "ToStart",
+    "TogglePlay",
+    "Undo",
+    "ZoomIn",
+    "ZoomOut"
+  ],
+  "unresolved_elements": [],
+  "steps": [
+    {
+      "Scenario": "UC-01",
+      "Action": "Split",
+      "In": "ST-01",
+      "Expect": "ST-02",
+      "Surface": "ToolbarView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-01",
+      "Action": "ApplySpeedPreset:0.5",
+      "In": "ST-02",
+      "Expect": "ST-02",
+      "Surface": "InspectorView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-02",
+      "Action": "Split",
+      "In": "ST-01",
+      "Expect": "ST-02",
+      "Surface": "ToolbarView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-02",
+      "Action": "Undo",
+      "In": "ST-02",
+      "Expect": "ST-03",
+      "Surface": "ToolbarView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-02",
+      "Action": "Redo",
+      "In": "ST-03",
+      "Expect": "ST-02",
+      "Surface": "ToolbarView",
+      "Index": 2,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-03",
+      "Action": "Split",
+      "In": "ST-01",
+      "Expect": "ST-02",
+      "Surface": "ToolbarView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-03",
+      "Action": "DeleteSelectedBoundary",
+      "In": "ST-02",
+      "Expect": "ST-04",
+      "Surface": "ToolbarView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-03",
+      "Action": "Undo",
+      "In": "ST-04",
+      "Expect": "ST-05",
+      "Surface": "ToolbarView",
+      "Index": 2,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-04",
+      "Action": "ApplySpeedPreset:1",
+      "In": "ST-06",
+      "Expect": "ST-07",
+      "Surface": "InspectorView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-04",
+      "Action": "Undo",
+      "In": "ST-07",
+      "Expect": "ST-08",
+      "Surface": "ToolbarView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-05",
+      "Action": "SetTrimIn",
+      "In": "ST-09",
+      "Expect": "ST-10",
+      "Surface": "ToolbarView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-05",
+      "Action": "Undo",
+      "In": "ST-10",
+      "Expect": "ST-11",
+      "Surface": "ToolbarView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-06",
+      "Action": "SetTrimOut",
+      "In": "ST-06",
+      "Expect": "ST-12",
+      "Surface": "ToolbarView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-06",
+      "Action": "Undo",
+      "In": "ST-12",
+      "Expect": "ST-08",
+      "Surface": "ToolbarView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-07",
+      "Action": "ApplyVolumePreset:0",
+      "In": "ST-13",
+      "Expect": "ST-14",
+      "Surface": "InspectorView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-07",
+      "Action": "ApplyVolumePreset:100",
+      "In": "ST-14",
+      "Expect": "ST-14",
+      "Surface": "InspectorView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-08",
+      "Action": "ApplySpeedPreset:2",
+      "In": "ST-13",
+      "Expect": "ST-14",
+      "Surface": "InspectorView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-08",
+      "Action": "Undo",
+      "In": "ST-14",
+      "Expect": "ST-15",
+      "Surface": "ToolbarView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-08",
+      "Action": "ApplySpeedPreset:0.5",
+      "In": "ST-15",
+      "Expect": "ST-14",
+      "Surface": "InspectorView",
+      "Index": 2,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-09",
+      "Action": "Scale:0.5",
+      "In": "ST-13",
+      "Expect": "ST-16",
+      "Surface": "InspectorView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-09",
+      "Action": "Scale:1",
+      "In": "ST-16",
+      "Expect": "ST-13",
+      "Surface": "InspectorView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-10",
+      "Action": "SetFps:60",
+      "In": "ST-13",
+      "Expect": "ST-13",
+      "Surface": "InspectorView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-10",
+      "Action": "SetFps:source",
+      "In": "ST-13",
+      "Expect": "ST-13",
+      "Surface": "InspectorView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-11",
+      "Action": "ShowExportDialog",
+      "In": "ST-13",
+      "Expect": "ST-17",
+      "Surface": "ToolbarView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-11",
+      "Action": "CloseExport",
+      "In": "ST-17",
+      "Expect": "ST-13",
+      "Surface": "ExportDialogView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-12",
+      "Action": "Scale:0.75",
+      "In": "ST-13",
+      "Expect": "ST-16",
+      "Surface": "InspectorView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-12",
+      "Action": "ShowExportDialog",
+      "In": "ST-16",
+      "Expect": "ST-18",
+      "Surface": "ToolbarView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-12",
+      "Action": "ConfirmExport",
+      "In": "ST-18",
+      "Expect": "ST-16",
+      "Surface": "ExportDialogView",
+      "Index": 2,
+      "Pass": true,
+      "Reason": "harness:no (not executed)",
+      "Executed": false
+    },
+    {
+      "Scenario": "UC-13",
+      "Action": "TogglePlay",
+      "In": "ST-13",
+      "Expect": "ST-19",
+      "Surface": "TransportView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-13",
+      "Action": "TogglePlay",
+      "In": "ST-19",
+      "Expect": "ST-13",
+      "Surface": "TransportView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-14",
+      "Action": "TogglePlay",
+      "In": "ST-13",
+      "Expect": "ST-19",
+      "Surface": "TransportView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-14",
+      "Action": "StepForward",
+      "In": "ST-19",
+      "Expect": "ST-20",
+      "Surface": "TransportView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-14",
+      "Action": "StepBack",
+      "In": "ST-20",
+      "Expect": "ST-13",
+      "Surface": "TransportView",
+      "Index": 2,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-15",
+      "Action": "ToEnd",
+      "In": "ST-13",
+      "Expect": "ST-21",
+      "Surface": "TransportView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-15",
+      "Action": "ToStart",
+      "In": "ST-21",
+      "Expect": "ST-13",
+      "Surface": "TransportView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-16",
+      "Action": "DeleteSelectedBoundary",
+      "In": "ST-22",
+      "Expect": "ST-23",
+      "Surface": "ToolbarView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-16",
+      "Action": "Undo",
+      "In": "ST-23",
+      "Expect": "ST-24",
+      "Surface": "ToolbarView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-16",
+      "Action": "Redo",
+      "In": "ST-24",
+      "Expect": "ST-23",
+      "Surface": "ToolbarView",
+      "Index": 2,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-17",
+      "Action": "OpenAbout",
+      "In": "ST-13",
+      "Expect": "ST-25",
+      "Surface": "TitleBarView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-17",
+      "Action": "CloseAbout",
+      "In": "ST-25",
+      "Expect": "ST-13",
+      "Surface": "AboutDialogView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-18",
+      "Action": "DismissFfmpegSetup",
+      "In": "ST-26",
+      "Expect": "ST-13",
+      "Surface": "MainWindow",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-18",
+      "Action": "TogglePlay",
+      "In": "ST-13",
+      "Expect": "ST-19",
+      "Surface": "TransportView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-19",
+      "Action": "InstallFfmpeg",
+      "In": "ST-26",
+      "Expect": "ST-13",
+      "Surface": "MainWindow",
+      "Index": 0,
+      "Pass": true,
+      "Reason": "harness:no (not executed)",
+      "Executed": false
+    },
+    {
+      "Scenario": "UC-20",
+      "Action": "ClearError",
+      "In": "ST-27",
+      "Expect": "ST-13",
+      "Surface": "MainWindow",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-20",
+      "Action": "Open",
+      "In": "ST-13",
+      "Expect": "ST-28",
+      "Surface": "ToolbarView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": "harness:no (not executed)",
+      "Executed": false
+    },
+    {
+      "Scenario": "UC-21",
+      "Action": "Scale:0.5",
+      "In": "ST-13",
+      "Expect": "ST-16",
+      "Surface": "InspectorView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-21",
+      "Action": "Open",
+      "In": "ST-16",
+      "Expect": "ST-28",
+      "Surface": "ToolbarView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": "harness:no (not executed)",
+      "Executed": false
+    },
+    {
+      "Scenario": "UC-22",
+      "Action": "ZoomIn",
+      "In": "ST-13",
+      "Expect": "ST-13",
+      "Surface": "TimelineView",
+      "Index": 0,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    },
+    {
+      "Scenario": "UC-22",
+      "Action": "ZoomOut",
+      "In": "ST-13",
+      "Expect": "ST-13",
+      "Surface": "TimelineView",
+      "Index": 1,
+      "Pass": true,
+      "Reason": null,
+      "Executed": true
+    }
+  ],
+  "certified": {
+    "UC-01": true,
+    "UC-02": true,
+    "UC-03": true,
+    "UC-04": true,
+    "UC-05": true,
+    "UC-06": true,
+    "UC-07": true,
+    "UC-08": true,
+    "UC-09": true,
+    "UC-10": true,
+    "UC-11": true,
+    "UC-12": true,
+    "UC-13": true,
+    "UC-14": true,
+    "UC-15": true,
+    "UC-16": true,
+    "UC-17": true,
+    "UC-18": true,
+    "UC-19": true,
+    "UC-20": true,
+    "UC-21": true,
+    "UC-22": true
+  },
+  "ambiguous_states_before_drops": {},
+  "ambiguous_states": {},
+  "points": [
+    {
+      "Scenario": "UC-01",
+      "K": 0,
+      "States": [
+        "ST-01"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-01",
+      "K": 1,
+      "States": [
+        "ST-02"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-01",
+      "K": 2,
+      "States": [
+        "ST-02"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-02",
+      "K": 0,
+      "States": [
+        "ST-01"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-02",
+      "K": 1,
+      "States": [
+        "ST-02"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-02",
+      "K": 2,
+      "States": [
+        "ST-03"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=e;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "True",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-02",
+      "K": 3,
+      "States": [
+        "ST-02"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-03",
+      "K": 0,
+      "States": [
+        "ST-01"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-03",
+      "K": 1,
+      "States": [
+        "ST-02"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-03",
+      "K": 2,
+      "States": [
+        "ST-04"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-03",
+      "K": 3,
+      "States": [
+        "ST-05"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=e;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "True",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-04",
+      "K": 0,
+      "States": [
+        "ST-06"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=e;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "True",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-04",
+      "K": 1,
+      "States": [
+        "ST-07"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=e;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "True",
+        "CanSplit": "True",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-04",
+      "K": 2,
+      "States": [
+        "ST-08"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=e;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=e;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "True",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "True",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-05",
+      "K": 0,
+      "States": [
+        "ST-09"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-05",
+      "K": 1,
+      "States": [
+        "ST-10"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-05",
+      "K": 2,
+      "States": [
+        "ST-11"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=e;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "True",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-06",
+      "K": 0,
+      "States": [
+        "ST-06"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=e;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "True",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-06",
+      "K": 1,
+      "States": [
+        "ST-12"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=e;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "True",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-06",
+      "K": 2,
+      "States": [
+        "ST-08"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=e;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=e;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "True",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "True",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-07",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-07",
+      "K": 1,
+      "States": [
+        "ST-14"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-07",
+      "K": 2,
+      "States": [
+        "ST-14"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-08",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-08",
+      "K": 1,
+      "States": [
+        "ST-14"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-08",
+      "K": 2,
+      "States": [
+        "ST-15"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=e;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "True",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-08",
+      "K": 3,
+      "States": [
+        "ST-14"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-09",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-09",
+      "K": 1,
+      "States": [
+        "ST-16"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "True"
+      }
+    },
+    {
+      "Scenario": "UC-09",
+      "K": 2,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-10",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-10",
+      "K": 1,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-10",
+      "K": 2,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-11",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-11",
+      "K": 1,
+      "States": [
+        "ST-17"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=a;ApplySpeedPreset:0.5=a;ApplySpeedPreset:1=a;ApplySpeedPreset:1.5=a;ApplySpeedPreset:2=a;ApplySpeedPreset:3=a;ApplySpeedPreset:4=a;ApplyVolumePreset:0=a;ApplyVolumePreset:100=a;ApplyVolumePreset:150=a;ApplyVolumePreset:50=a;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=e;ConfirmExport=e;DeleteSelectedBoundary=a;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=a;OpenAbout=a;Redo=a;Scale:0.5=a;Scale:0.75=a;Scale:1=a;SetFps:120=a;SetFps:24=a;SetFps:30=a;SetFps:60=a;SetFps:source=a;SetTrimIn=a;SetTrimOut=a;ShowExportDialog=a;Split=a;StepBack=a;StepForward=a;SwitchLanguage:en=a;SwitchLanguage:ja=a;ToEnd=a;ToStart=a;TogglePlay=a;Undo=a;ZoomIn=a;ZoomOut=a",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "True",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-11",
+      "K": 2,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-12",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-12",
+      "K": 1,
+      "States": [
+        "ST-16"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "True"
+      }
+    },
+    {
+      "Scenario": "UC-12",
+      "K": 2,
+      "States": [
+        "ST-18"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=a;ApplySpeedPreset:0.5=a;ApplySpeedPreset:1=a;ApplySpeedPreset:1.5=a;ApplySpeedPreset:2=a;ApplySpeedPreset:3=a;ApplySpeedPreset:4=a;ApplyVolumePreset:0=a;ApplyVolumePreset:100=a;ApplyVolumePreset:150=a;ApplyVolumePreset:50=a;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=e;ConfirmExport=e;DeleteSelectedBoundary=a;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=a;OpenAbout=a;Redo=a;Scale:0.5=a;Scale:0.75=a;Scale:1=a;SetFps:120=a;SetFps:24=a;SetFps:30=a;SetFps:60=a;SetFps:source=a;SetTrimIn=a;SetTrimOut=a;ShowExportDialog=a;Split=a;StepBack=a;StepForward=a;SwitchLanguage:en=a;SwitchLanguage:ja=a;ToEnd=a;ToStart=a;TogglePlay=a;Undo=a;ZoomIn=a;ZoomOut=a",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "True",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "True"
+      }
+    },
+    {
+      "Scenario": "UC-13",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-13",
+      "K": 1,
+      "States": [
+        "ST-19"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-13",
+      "K": 2,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-14",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-14",
+      "K": 1,
+      "States": [
+        "ST-19"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-14",
+      "K": 2,
+      "States": [
+        "ST-20"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-14",
+      "K": 3,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-15",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-15",
+      "K": 1,
+      "States": [
+        "ST-21"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=e;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "True",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-15",
+      "K": 2,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-16",
+      "K": 0,
+      "States": [
+        "ST-22"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "False",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-16",
+      "K": 1,
+      "States": [
+        "ST-23"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-16",
+      "K": 2,
+      "States": [
+        "ST-24"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=e;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=e;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=d;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "True",
+        "CanRedo": "True",
+        "CanSetTrimIn": "False",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-16",
+      "K": 3,
+      "States": [
+        "ST-23"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=e;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=e;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "True",
+        "CanUndo": "True",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-17",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-17",
+      "K": 1,
+      "States": [
+        "ST-25"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=a;ApplySpeedPreset:0.5=a;ApplySpeedPreset:1=a;ApplySpeedPreset:1.5=a;ApplySpeedPreset:2=a;ApplySpeedPreset:3=a;ApplySpeedPreset:4=a;ApplyVolumePreset:0=a;ApplyVolumePreset:100=a;ApplyVolumePreset:150=a;ApplyVolumePreset:50=a;CancelExport=a;ClearError=a;CloseAbout=e;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=a;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=a;OpenAbout=a;Redo=a;Scale:0.5=a;Scale:0.75=a;Scale:1=a;SetFps:120=a;SetFps:24=a;SetFps:30=a;SetFps:60=a;SetFps:source=a;SetTrimIn=a;SetTrimOut=a;ShowExportDialog=a;Split=a;StepBack=a;StepForward=a;SwitchLanguage:en=a;SwitchLanguage:ja=a;ToEnd=a;ToStart=a;TogglePlay=a;Undo=a;ZoomIn=a;ZoomOut=a",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "True",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-17",
+      "K": 2,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-18",
+      "K": 0,
+      "States": [
+        "ST-26"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=a;ApplySpeedPreset:0.5=a;ApplySpeedPreset:1=a;ApplySpeedPreset:1.5=a;ApplySpeedPreset:2=a;ApplySpeedPreset:3=a;ApplySpeedPreset:4=a;ApplyVolumePreset:0=a;ApplyVolumePreset:100=a;ApplyVolumePreset:150=a;ApplyVolumePreset:50=a;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=a;DismissFfmpegSetup=e;InstallFfmpeg=e;Open=a;OpenAbout=a;Redo=a;Scale:0.5=a;Scale:0.75=a;Scale:1=a;SetFps:120=a;SetFps:24=a;SetFps:30=a;SetFps:60=a;SetFps:source=a;SetTrimIn=a;SetTrimOut=a;ShowExportDialog=a;Split=a;StepBack=a;StepForward=a;SwitchLanguage:en=a;SwitchLanguage:ja=a;ToEnd=a;ToStart=a;TogglePlay=a;Undo=a;ZoomIn=a;ZoomOut=a",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "True",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-18",
+      "K": 1,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-18",
+      "K": 2,
+      "States": [
+        "ST-19"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-19",
+      "K": 0,
+      "States": [
+        "ST-26"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=a;ApplySpeedPreset:0.5=a;ApplySpeedPreset:1=a;ApplySpeedPreset:1.5=a;ApplySpeedPreset:2=a;ApplySpeedPreset:3=a;ApplySpeedPreset:4=a;ApplyVolumePreset:0=a;ApplyVolumePreset:100=a;ApplyVolumePreset:150=a;ApplyVolumePreset:50=a;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=a;DismissFfmpegSetup=e;InstallFfmpeg=e;Open=a;OpenAbout=a;Redo=a;Scale:0.5=a;Scale:0.75=a;Scale:1=a;SetFps:120=a;SetFps:24=a;SetFps:30=a;SetFps:60=a;SetFps:source=a;SetTrimIn=a;SetTrimOut=a;ShowExportDialog=a;Split=a;StepBack=a;StepForward=a;SwitchLanguage:en=a;SwitchLanguage:ja=a;ToEnd=a;ToStart=a;TogglePlay=a;Undo=a;ZoomIn=a;ZoomOut=a",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "True",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-20",
+      "K": 0,
+      "States": [
+        "ST-27"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=e;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "True",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-20",
+      "K": 1,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-21",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-21",
+      "K": 1,
+      "States": [
+        "ST-16"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "True"
+      }
+    },
+    {
+      "Scenario": "UC-22",
+      "K": 0,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-22",
+      "K": 1,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    },
+    {
+      "Scenario": "UC-22",
+      "K": 2,
+      "States": [
+        "ST-13"
+      ],
+      "Vector": "ApplySpeedPreset:0.25=e;ApplySpeedPreset:0.5=e;ApplySpeedPreset:1=e;ApplySpeedPreset:1.5=e;ApplySpeedPreset:2=e;ApplySpeedPreset:3=e;ApplySpeedPreset:4=e;ApplyVolumePreset:0=e;ApplyVolumePreset:100=e;ApplyVolumePreset:150=e;ApplyVolumePreset:50=e;CancelExport=a;ClearError=a;CloseAbout=a;CloseExport=a;ConfirmExport=a;DeleteSelectedBoundary=d;DismissFfmpegSetup=a;InstallFfmpeg=a;Open=e;OpenAbout=e;Redo=d;Scale:0.5=e;Scale:0.75=e;Scale:1=e;SetFps:120=e;SetFps:24=e;SetFps:30=e;SetFps:60=e;SetFps:source=e;SetTrimIn=e;SetTrimOut=d;ShowExportDialog=e;Split=d;StepBack=e;StepForward=e;SwitchLanguage:en=e;SwitchLanguage:ja=e;ToEnd=e;ToStart=e;TogglePlay=e;Undo=d;ZoomIn=e;ZoomOut=e",
+      "Values": {
+        "CanDeleteBoundary": "False",
+        "CanRedo": "False",
+        "CanSetTrimIn": "True",
+        "CanSetTrimOut": "False",
+        "CanSplit": "False",
+        "CanUndo": "False",
+        "FfmpegInstalling": "False",
+        "HasClip": "True",
+        "HasLoadError": "False",
+        "HasSelection": "True",
+        "IsExporting": "False",
+        "ShowAbout": "False",
+        "ShowExport": "False",
+        "ShowFfmpegSetup": "False",
+        "ShowReset": "False"
+      }
+    }
+  ],
+  "dropped_for_ambiguity": {},
+  "kept": [
+    "UC-01",
+    "UC-02",
+    "UC-03",
+    "UC-04",
+    "UC-05",
+    "UC-06",
+    "UC-07",
+    "UC-08",
+    "UC-09",
+    "UC-10",
+    "UC-11",
+    "UC-12",
+    "UC-13",
+    "UC-14",
+    "UC-15",
+    "UC-16",
+    "UC-17",
+    "UC-18",
+    "UC-19",
+    "UC-20",
+    "UC-21",
+    "UC-22"
+  ]
+}
