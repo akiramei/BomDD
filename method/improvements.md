@@ -10232,7 +10232,7 @@ the domain model first earns a proposal). Folder `bomdd/reports/exp-20261031-01/
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement; no body text, template or tool changes.
 
-- [open] EXP-20261031-01 — **Would a domain model derived from MoviePad-Remake's upstream before manufacture (requirements and spec
+- [recovered 2026-10-31 via bomdd/reports/exp-20261031-01/results.md] EXP-20261031-01 — **Would a domain model derived from MoviePad-Remake's upstream before manufacture (requirements and spec
   at `22e2213`) have named the repairs made to that upstream later, and given such a model, do fresh writers bring the output
   frame rate into the scenarios?** Corrected before filing: the frame rate was not missing upstream (REQ-013, spec §2.5 `SetFps`);
   EXP-20261030-05's writers had it and wrote no frame-rate step. Part 1: two fresh derivers from the two pinned texts only; items
@@ -10259,6 +10259,39 @@ measurement; no body text, template or tool changes.
   to EXP-20261030-05's but for the one prompt line and the model. Read after the verdict (descriptive): on the authority, A's 11
   clean flags are 4 the writer's, 3 not reached, 4 the mock's; B's 4 all the mock's (the same five history-ambiguous states;
   OBS-20261030-07's mechanism on the same reference, not counted as its second case). Limits: two writers each time (no rate);
-  REQ-013 was in both packages. Nothing wired, no body text changed.
+  REQ-013 was in both packages. Nothing wired, no body text changed. **The user's answer on the proposal: "A: 起票する"
+  (2026-10-31) → EXP-20261031-02 filed (stage A, the upstream only).**
   source: this section (the user's "A" and "A: 両方走らせる", 2026-10-31)
   evidence: `bomdd/reports/exp-20261031-01/definitions.md`, `items.json`, `bomdd/reports/exp-20261031-01/results.md`, `derive-*/`, `classify/`, `run-*/`, `verify/certify.json`
+
+## 2026-10-31 After EXP-20261031-01 — "A: 起票する": the re-manufacture's upstream with the domain model first and the screens in scope, stage A (EXP-20261031-02, filed)
+
+Source: the user's "A: 起票する" (2026-10-31) on EXP-20261031-01's proposal (its section 9: part 2 read 2 of 2). Folder
+`bomdd/reports/exp-20261031-02/` (`definitions.md` only; prompts, `check_upstream.py` and `prepare.py` are written at run step 1);
+MoviePad-Remake read only.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement; no body text, template or tool changes.
+
+- [open] EXP-20261031-02 — **When the upstream is written in the order requirements → domain model → screens → use case scenarios
+  → spec by fresh authors, does every attribute the model says can be set reach a scenario step whose expected state shows its new
+  value — the output frame rate in particular — and how many scenarios execute as written on the authority?** EXP-20261031-01 left
+  the gap: the model brought the `SetFps` step in, but both writers wrote `unknown` after it (no state shows a changed rate); the
+  screens are where a value becomes a visible state. Staged: stage A (filed) is the upstream only — S1 requirements, S2 domain model
+  (EXP-20261031-01's form), S3 `screens.json`, S4 `scenarios.json`, S5 spec — each by one fresh author and up to 3 rounds of fresh
+  auditors (findings relayed verbatim; the operator, who knows the answer, edits no artefact; unconverged at 3 rounds stops to the
+  user); stage B (E-BOM to manufacture) not filed. Proposed defaults, the user's at the start: authority MoviePad `126eae9` (as
+  MoviePad-Remake); MoviePad-Remake's REQ scope plus every screen at `126eae9` (the preview's rendering out); place this folder and
+  the scratchpad, no product repository until stage B; English; no GitHub. Measures: A1 the chain per settable attribute (L1
+  displayed, L2 stated, L3 set, L4 checked = an expected state shows a literal value), k of n and the frame-rate row, plus the share
+  of `unknown` expects; A2 a fresh binder binds S4's states to the authority's view model and stage 1's harness certifies them
+  (descriptive, failures read by hand after the counts); A3 two classifiers place D01 / D02 / D03 / D06 as after / before / question
+  / absent (MoviePad-Remake's spec: before on all four); A4 cost. Isolation: MoviePad-Remake's M4 by `isolation.py` on every
+  transcript. Reading fixed in §9: the frame-rate row L1–L4 → "reaches a checked scenario state (here)"; L1–L3 without L4 → "the
+  screens do not close EXP-20261031-01's gap"; L1 or L3 broken → that link, no claim; k of n descriptive (no baseline); stage B
+  earns a proposal when the frame-rate row holds and A2 ran. Stops: 3 audit rounds, a silent or overrun agent (60 min, 30 min
+  without a write), 2 days for stage A. Limits: the operator chose the screen scope and knows the answer; the authority is given
+  whole (its export dialog shows the rate, so L1 is expected — the question is L4); A3's comparison mixes the model and screens with
+  a change of author; one author per artefact, one product, no rate; the binding is an AI's. Start is the user's.
+  source: this section (the user's "A: 起票する", 2026-10-31)
+  evidence: `bomdd/reports/exp-20261031-02/definitions.md`
