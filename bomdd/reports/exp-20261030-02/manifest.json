@@ -1,0 +1,902 @@
+{
+ "prompt_source": "method/prompts/ui-mock-coverage.md",
+ "prompt_sha256": "e10342356ed228453a2b91a9589ade958fa4b26fbf567760c1e15d25e815af3f",
+ "packages": {
+  "P01": {
+   "item": "D1",
+   "state": "pre",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@ad8c37c:bomdd/ui/design-intent.md",
+     "sha256": "f988cc3ffa1a9c872477e31deb9b42f2622071fb61345f8df9babbc5b66675f7",
+     "bytes": 2768
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@ad8c37c:bomdd/ui/unresolved-questions.md",
+     "sha256": "17426884ed9a037c52b68ba5c7968626c1805829a1126b5fca1ae65fa035b406",
+     "bytes": 1459
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@ad8c37c:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "face430daef1a6d6a323ce1c7996b7a9586da54f33b81be36dbbf0e7dc1e8f4a",
+     "bytes": 60501
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 64728
+  },
+  "P02": {
+   "item": "D1",
+   "state": "pre",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@ad8c37c:bomdd/ui/design-intent.md",
+     "sha256": "f988cc3ffa1a9c872477e31deb9b42f2622071fb61345f8df9babbc5b66675f7",
+     "bytes": 2768
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@ad8c37c:bomdd/ui/unresolved-questions.md",
+     "sha256": "17426884ed9a037c52b68ba5c7968626c1805829a1126b5fca1ae65fa035b406",
+     "bytes": 1459
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@ad8c37c:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "face430daef1a6d6a323ce1c7996b7a9586da54f33b81be36dbbf0e7dc1e8f4a",
+     "bytes": 60501
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@ad8c37c:bomdd/10-requirements.yaml",
+     "sha256": "c54b7cdb9cf8b54786a602f576d33ad3dbe8f0396f815935d418d0cd1471d1c4",
+     "bytes": 75912
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@ad8c37c:bomdd/20-spec.md",
+     "sha256": "b0a36c5ee4433d934e156382823afb8aee270e5d9d2632a99f04374bf80fd4ff",
+     "bytes": 61266
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 201906
+  },
+  "P03": {
+   "item": "D1",
+   "state": "post",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@6f24075f:bomdd/ui/design-intent.md",
+     "sha256": "c4afa2559441ee7908fac0d73989e85d330305e607e886607a633a0c45fd7433",
+     "bytes": 3622
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@6f24075f:bomdd/ui/unresolved-questions.md",
+     "sha256": "8b22cd588255d8949a3debc38dd78e7377be0bf671c809a21cc9498bc7c6a17e",
+     "bytes": 1661
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@6f24075f:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "3ebe5a64e5a1da342129eff7e122e1ad40c6292511f7b54f2fb1a69959d80c49",
+     "bytes": 72740
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 78023
+  },
+  "P04": {
+   "item": "D1",
+   "state": "post",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@6f24075f:bomdd/ui/design-intent.md",
+     "sha256": "c4afa2559441ee7908fac0d73989e85d330305e607e886607a633a0c45fd7433",
+     "bytes": 3622
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@6f24075f:bomdd/ui/unresolved-questions.md",
+     "sha256": "8b22cd588255d8949a3debc38dd78e7377be0bf671c809a21cc9498bc7c6a17e",
+     "bytes": 1661
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@6f24075f:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "3ebe5a64e5a1da342129eff7e122e1ad40c6292511f7b54f2fb1a69959d80c49",
+     "bytes": 72740
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@6f24075f:bomdd/10-requirements.yaml",
+     "sha256": "124a18a4ba069617a2cb5fa5681042c9f231a25ec5981f20caf729bae6d80b7e",
+     "bytes": 77127
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@6f24075f:bomdd/20-spec.md",
+     "sha256": "42d88363a861af4e1085203619e60fe125e29eedc216815217f10e52625b6495",
+     "bytes": 63136
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 218286
+  },
+  "P05": {
+   "item": "D2",
+   "state": "pre",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@2060849:bomdd/ui/design-intent.md",
+     "sha256": "c4afa2559441ee7908fac0d73989e85d330305e607e886607a633a0c45fd7433",
+     "bytes": 3622
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@2060849:bomdd/ui/unresolved-questions.md",
+     "sha256": "8b22cd588255d8949a3debc38dd78e7377be0bf671c809a21cc9498bc7c6a17e",
+     "bytes": 1661
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@2060849:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "3ebe5a64e5a1da342129eff7e122e1ad40c6292511f7b54f2fb1a69959d80c49",
+     "bytes": 72740
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 78023
+  },
+  "P06": {
+   "item": "D2",
+   "state": "pre",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@2060849:bomdd/ui/design-intent.md",
+     "sha256": "c4afa2559441ee7908fac0d73989e85d330305e607e886607a633a0c45fd7433",
+     "bytes": 3622
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@2060849:bomdd/ui/unresolved-questions.md",
+     "sha256": "8b22cd588255d8949a3debc38dd78e7377be0bf671c809a21cc9498bc7c6a17e",
+     "bytes": 1661
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@2060849:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "3ebe5a64e5a1da342129eff7e122e1ad40c6292511f7b54f2fb1a69959d80c49",
+     "bytes": 72740
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@2060849:bomdd/10-requirements.yaml",
+     "sha256": "124a18a4ba069617a2cb5fa5681042c9f231a25ec5981f20caf729bae6d80b7e",
+     "bytes": 77127
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@2060849:bomdd/20-spec.md",
+     "sha256": "42d88363a861af4e1085203619e60fe125e29eedc216815217f10e52625b6495",
+     "bytes": 63136
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 218286
+  },
+  "P07": {
+   "item": "D2",
+   "state": "post",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@b9f629d6:bomdd/ui/design-intent.md",
+     "sha256": "b75a0ec86d18e2b3a8950fbd7d8ac4de4d7e2ce50536c514673602a752f0f0e2",
+     "bytes": 4312
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@b9f629d6:bomdd/ui/unresolved-questions.md",
+     "sha256": "8d039c94ef6f92d2778dd1688a83f1423c0dece23a24f8f49d375dff33eea2c7",
+     "bytes": 1860
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@b9f629d6:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "f1b994d3ab182a7739777f4e8e0e4db1a2e92a0cff6b9fec11be310c1bf1c290",
+     "bytes": 79257
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 85429
+  },
+  "P08": {
+   "item": "D2",
+   "state": "post",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@b9f629d6:bomdd/ui/design-intent.md",
+     "sha256": "b75a0ec86d18e2b3a8950fbd7d8ac4de4d7e2ce50536c514673602a752f0f0e2",
+     "bytes": 4312
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@b9f629d6:bomdd/ui/unresolved-questions.md",
+     "sha256": "8d039c94ef6f92d2778dd1688a83f1423c0dece23a24f8f49d375dff33eea2c7",
+     "bytes": 1860
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@b9f629d6:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "f1b994d3ab182a7739777f4e8e0e4db1a2e92a0cff6b9fec11be310c1bf1c290",
+     "bytes": 79257
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@b9f629d6:bomdd/10-requirements.yaml",
+     "sha256": "885c6677ca35f829e935c584217634911aeb086637e54e244ba1e8dbb7f60bfb",
+     "bytes": 77556
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@b9f629d6:bomdd/20-spec.md",
+     "sha256": "721a42f5d847f5743957e7d8de4a6b7d49fd24ea27779003cdd13d13833f9aaa",
+     "bytes": 63962
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 226947
+  },
+  "P09": {
+   "item": "D3",
+   "state": "pre",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@05e2d905:bomdd/ui/design-intent.md",
+     "sha256": "76c7083288c0c42967e49223b88f1d0b8ab91bbedcf8c7304b41f77548ba6893",
+     "bytes": 9367
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@05e2d905:bomdd/ui/unresolved-questions.md",
+     "sha256": "b9cc2889201c42d8d2427cb3d5ad45b306681a8e86f648a4824b63d25dfa6d60",
+     "bytes": 12308
+    },
+    {
+     "file": "notes/videos-cad.md",
+     "source": "ViewTube@05e2d905:bomdd/ui/videos-cad.md",
+     "sha256": "2825d8a5ff88bd69efd6fe96eac352068175bda56f2960f6a8467dba9b37c724",
+     "bytes": 58130
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@05e2d905:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "499c08a358a48544909922347b7377af0352950e9cadb2ca0e2fbc60c57ed238",
+     "bytes": 371599
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 451404
+  },
+  "P10": {
+   "item": "D3",
+   "state": "pre",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@05e2d905:bomdd/ui/design-intent.md",
+     "sha256": "76c7083288c0c42967e49223b88f1d0b8ab91bbedcf8c7304b41f77548ba6893",
+     "bytes": 9367
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@05e2d905:bomdd/ui/unresolved-questions.md",
+     "sha256": "b9cc2889201c42d8d2427cb3d5ad45b306681a8e86f648a4824b63d25dfa6d60",
+     "bytes": 12308
+    },
+    {
+     "file": "notes/videos-cad.md",
+     "source": "ViewTube@05e2d905:bomdd/ui/videos-cad.md",
+     "sha256": "2825d8a5ff88bd69efd6fe96eac352068175bda56f2960f6a8467dba9b37c724",
+     "bytes": 58130
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@05e2d905:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "499c08a358a48544909922347b7377af0352950e9cadb2ca0e2fbc60c57ed238",
+     "bytes": 371599
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@05e2d905:bomdd/10-requirements.yaml",
+     "sha256": "fffd7149da1d1fa1be9556366dca01b700d370089a59413ef360f834b443b1cc",
+     "bytes": 210797
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@05e2d905:bomdd/20-spec.md",
+     "sha256": "3e1db424b77340f926c01274eba130726f22575af9895f6abf9fc64045b464c6",
+     "bytes": 87972
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 750173
+  },
+  "P11": {
+   "item": "D3",
+   "state": "post",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/design-intent.md",
+     "sha256": "76c7083288c0c42967e49223b88f1d0b8ab91bbedcf8c7304b41f77548ba6893",
+     "bytes": 9367
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/unresolved-questions.md",
+     "sha256": "b9cc2889201c42d8d2427cb3d5ad45b306681a8e86f648a4824b63d25dfa6d60",
+     "bytes": 12308
+    },
+    {
+     "file": "notes/videos-cad.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/videos-cad.md",
+     "sha256": "2825d8a5ff88bd69efd6fe96eac352068175bda56f2960f6a8467dba9b37c724",
+     "bytes": 58130
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "96af12b5bfc2fc805fa9ea7dd81eb1dbba50df18e0ac92760453aaa7e62150e7",
+     "bytes": 436855
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 516660
+  },
+  "P12": {
+   "item": "D3",
+   "state": "post",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/design-intent.md",
+     "sha256": "76c7083288c0c42967e49223b88f1d0b8ab91bbedcf8c7304b41f77548ba6893",
+     "bytes": 9367
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/unresolved-questions.md",
+     "sha256": "b9cc2889201c42d8d2427cb3d5ad45b306681a8e86f648a4824b63d25dfa6d60",
+     "bytes": 12308
+    },
+    {
+     "file": "notes/videos-cad.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/videos-cad.md",
+     "sha256": "2825d8a5ff88bd69efd6fe96eac352068175bda56f2960f6a8467dba9b37c724",
+     "bytes": 58130
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "96af12b5bfc2fc805fa9ea7dd81eb1dbba50df18e0ac92760453aaa7e62150e7",
+     "bytes": 436855
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@1cd3e7a5:bomdd/10-requirements.yaml",
+     "sha256": "eb35bfb293e7f5a2ee3e10180125a3536ab7c82a3c3ec612b16fba38b8f92861",
+     "bytes": 224400
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/20-spec.md",
+     "sha256": "22dcf2f38df915fb4eee1615b5ca3c00b7ba85e3ea0fe42880b4783d14cf75ca",
+     "bytes": 91999
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 833059
+  },
+  "P13": {
+   "item": "D4",
+   "state": "pre",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/image_tab.md",
+     "source": "ViewPrismUI@7ffd423:docs/screens/image_tab.md",
+     "sha256": "afa34f7bdefc92499efed1b5a2542b9635ddc3a88a71f2a8b102227880c97d67",
+     "bytes": 30154
+    },
+    {
+     "file": "notes/work_tab.md",
+     "source": "ViewPrismUI@7ffd423:docs/screens/work_tab.md",
+     "sha256": "f103fa9ec2a005198158a6898c040011c6b7743a0b1c52743af315a0549978f6",
+     "bytes": 12748
+    },
+    {
+     "file": "mock/ViewPrism2 画像タブ.dc.html",
+     "source": "ViewPrismUI@7ffd423:資料/画像タブ/ViewPrism2 画像タブ.dc.html",
+     "sha256": "5ccc73ebac2b05de877af5cb47e03a4d026bfef0bbd642d3819fa11cded70198",
+     "bytes": 70315
+    },
+    {
+     "file": "mock/ViewPrism2 整理マージ (standalone).html",
+     "source": "ViewPrismUI@7ffd423:資料/画像タブ/ViewPrism2 整理マージ (standalone).html",
+     "sha256": "c480226b5d53498765f4843883409ae8a23a94c551e98879f4cc5c04e56e0d2b",
+     "bytes": 485482,
+     "note": "standalone bundle reduced to its __bundler/template (runtime and fonts dropped)"
+    },
+    {
+     "file": "mock/ViewPrism2 作業タブ.html",
+     "source": "ViewPrismUI@7ffd423:資料/作業タブ/ViewPrism2 作業タブ.html",
+     "sha256": "d9abf4aa6b238fd8f657a58c61e6c7ef2deb394b60cd75c696366c88f1717eb5",
+     "bytes": 538351,
+     "note": "standalone bundle reduced to its __bundler/template (runtime and fonts dropped)"
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 1137050
+  },
+  "P14": {
+   "item": "D4",
+   "state": "pre",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/image_tab.md",
+     "source": "ViewPrismUI@7ffd423:docs/screens/image_tab.md",
+     "sha256": "afa34f7bdefc92499efed1b5a2542b9635ddc3a88a71f2a8b102227880c97d67",
+     "bytes": 30154
+    },
+    {
+     "file": "notes/work_tab.md",
+     "source": "ViewPrismUI@7ffd423:docs/screens/work_tab.md",
+     "sha256": "f103fa9ec2a005198158a6898c040011c6b7743a0b1c52743af315a0549978f6",
+     "bytes": 12748
+    },
+    {
+     "file": "mock/ViewPrism2 画像タブ.dc.html",
+     "source": "ViewPrismUI@7ffd423:資料/画像タブ/ViewPrism2 画像タブ.dc.html",
+     "sha256": "5ccc73ebac2b05de877af5cb47e03a4d026bfef0bbd642d3819fa11cded70198",
+     "bytes": 70315
+    },
+    {
+     "file": "mock/ViewPrism2 整理マージ (standalone).html",
+     "source": "ViewPrismUI@7ffd423:資料/画像タブ/ViewPrism2 整理マージ (standalone).html",
+     "sha256": "c480226b5d53498765f4843883409ae8a23a94c551e98879f4cc5c04e56e0d2b",
+     "bytes": 485482,
+     "note": "standalone bundle reduced to its __bundler/template (runtime and fonts dropped)"
+    },
+    {
+     "file": "mock/ViewPrism2 作業タブ.html",
+     "source": "ViewPrismUI@7ffd423:資料/作業タブ/ViewPrism2 作業タブ.html",
+     "sha256": "d9abf4aa6b238fd8f657a58c61e6c7ef2deb394b60cd75c696366c88f1717eb5",
+     "bytes": 538351,
+     "note": "standalone bundle reduced to its __bundler/template (runtime and fonts dropped)"
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewPrism2@19c436f:bomdd/10-requirements.yaml",
+     "sha256": "a86e00c4f6ccf2ebc6aeb8ff845824b6fcf8f6fab605e3b8cbfa1e5c6b5019b7",
+     "bytes": 115032
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewPrism2@19c436f:bomdd/20-spec.md",
+     "sha256": "cad7c3242b0c78e6707baa6826e8c64af3114508238c59c06863caa12b4083f9",
+     "bytes": 149705
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 1401787
+  },
+  "P15": {
+   "item": "D4",
+   "state": "post",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/image_tab.md",
+     "source": "ViewPrismUI@7ffd423:docs/screens/image_tab.md",
+     "sha256": "afa34f7bdefc92499efed1b5a2542b9635ddc3a88a71f2a8b102227880c97d67",
+     "bytes": 30154
+    },
+    {
+     "file": "notes/work_tab.md",
+     "source": "ViewPrismUI@7ffd423:docs/screens/work_tab.md",
+     "sha256": "f103fa9ec2a005198158a6898c040011c6b7743a0b1c52743af315a0549978f6",
+     "bytes": 12748
+    },
+    {
+     "file": "mock/ViewPrism2 画像タブ.dc.html",
+     "source": "ViewPrismUI@7ffd423:資料/画像タブ/ViewPrism2 画像タブ.dc.html",
+     "sha256": "5ccc73ebac2b05de877af5cb47e03a4d026bfef0bbd642d3819fa11cded70198",
+     "bytes": 70315
+    },
+    {
+     "file": "mock/ViewPrism2 整理マージ (standalone).html",
+     "source": "ViewPrismUI@7ffd423:資料/画像タブ/ViewPrism2 整理マージ (standalone).html",
+     "sha256": "c480226b5d53498765f4843883409ae8a23a94c551e98879f4cc5c04e56e0d2b",
+     "bytes": 485482,
+     "note": "standalone bundle reduced to its __bundler/template (runtime and fonts dropped)"
+    },
+    {
+     "file": "mock/ViewPrism2 作業タブ.html",
+     "source": "ViewPrismUI@7ffd423:資料/作業タブ/ViewPrism2 作業タブ.html",
+     "sha256": "d9abf4aa6b238fd8f657a58c61e6c7ef2deb394b60cd75c696366c88f1717eb5",
+     "bytes": 538351,
+     "note": "standalone bundle reduced to its __bundler/template (runtime and fonts dropped)"
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 1137050
+  },
+  "P16": {
+   "item": "D4",
+   "state": "post",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/image_tab.md",
+     "source": "ViewPrismUI@7ffd423:docs/screens/image_tab.md",
+     "sha256": "afa34f7bdefc92499efed1b5a2542b9635ddc3a88a71f2a8b102227880c97d67",
+     "bytes": 30154
+    },
+    {
+     "file": "notes/work_tab.md",
+     "source": "ViewPrismUI@7ffd423:docs/screens/work_tab.md",
+     "sha256": "f103fa9ec2a005198158a6898c040011c6b7743a0b1c52743af315a0549978f6",
+     "bytes": 12748
+    },
+    {
+     "file": "mock/ViewPrism2 画像タブ.dc.html",
+     "source": "ViewPrismUI@7ffd423:資料/画像タブ/ViewPrism2 画像タブ.dc.html",
+     "sha256": "5ccc73ebac2b05de877af5cb47e03a4d026bfef0bbd642d3819fa11cded70198",
+     "bytes": 70315
+    },
+    {
+     "file": "mock/ViewPrism2 整理マージ (standalone).html",
+     "source": "ViewPrismUI@7ffd423:資料/画像タブ/ViewPrism2 整理マージ (standalone).html",
+     "sha256": "c480226b5d53498765f4843883409ae8a23a94c551e98879f4cc5c04e56e0d2b",
+     "bytes": 485482,
+     "note": "standalone bundle reduced to its __bundler/template (runtime and fonts dropped)"
+    },
+    {
+     "file": "mock/ViewPrism2 作業タブ.html",
+     "source": "ViewPrismUI@7ffd423:資料/作業タブ/ViewPrism2 作業タブ.html",
+     "sha256": "d9abf4aa6b238fd8f657a58c61e6c7ef2deb394b60cd75c696366c88f1717eb5",
+     "bytes": 538351,
+     "note": "standalone bundle reduced to its __bundler/template (runtime and fonts dropped)"
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewPrism2@bd573d6:bomdd/10-requirements.yaml",
+     "sha256": "8c1468b70e50001fef60cbaeac6b5fef01090186bde38c5ce8e0d57fbb6c66b5",
+     "bytes": 115924
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewPrism2@bd573d6:bomdd/20-spec.md",
+     "sha256": "ea16120085d17832c7216901aa64bf50b57ef219d8795c307b18e8e62d74b43a",
+     "bytes": 150832
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 1403806
+  },
+  "P17": {
+   "item": "D5",
+   "state": "pre",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/image_tab.md",
+     "source": "ViewPrismUI@2c31176:docs/screens/image_tab.md",
+     "sha256": "7e073d62cdc876ff4f5dfd1931eb8b34777f7affe4d64a4e6f2baead04c98a48",
+     "bytes": 86746
+    },
+    {
+     "file": "notes/work_tab.md",
+     "source": "ViewPrismUI@2c31176:docs/screens/work_tab.md",
+     "sha256": "d74d8535cfac73c4f769142cda507ff99c12b01056a970f04ea5945c99cebebc",
+     "bytes": 17868
+    },
+    {
+     "file": "mock/ViewPrism2 画像タブ.dc.html",
+     "source": "ViewPrismUI@2c31176:資料/画像タブ/ViewPrism2 画像タブ.dc.html",
+     "sha256": "981d20710273ff767a4f05a038c8792781a9529870f345c4657318a782e112b0",
+     "bytes": 110270
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 214884
+  },
+  "P18": {
+   "item": "D5",
+   "state": "pre",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/image_tab.md",
+     "source": "ViewPrismUI@2c31176:docs/screens/image_tab.md",
+     "sha256": "7e073d62cdc876ff4f5dfd1931eb8b34777f7affe4d64a4e6f2baead04c98a48",
+     "bytes": 86746
+    },
+    {
+     "file": "notes/work_tab.md",
+     "source": "ViewPrismUI@2c31176:docs/screens/work_tab.md",
+     "sha256": "d74d8535cfac73c4f769142cda507ff99c12b01056a970f04ea5945c99cebebc",
+     "bytes": 17868
+    },
+    {
+     "file": "mock/ViewPrism2 画像タブ.dc.html",
+     "source": "ViewPrismUI@2c31176:資料/画像タブ/ViewPrism2 画像タブ.dc.html",
+     "sha256": "981d20710273ff767a4f05a038c8792781a9529870f345c4657318a782e112b0",
+     "bytes": 110270
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewPrism2@872d33c:bomdd/10-requirements.yaml",
+     "sha256": "5988b2db00c3f1dbe5acb23b87d3eeb771e9416d3ed3d36be23d459a2698138e",
+     "bytes": 162999
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewPrism2@872d33c:bomdd/20-spec.md",
+     "sha256": "a745330dd2934dced895c3aabad1bf1d50fdec81bd514cbc64167e25e644850c",
+     "bytes": 186431
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 564314
+  },
+  "P19": {
+   "item": "D5",
+   "state": "post",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/image_tab.md",
+     "source": "ViewPrismUI@c9b5667:docs/screens/image_tab.md",
+     "sha256": "fbde3bd7bd64ea9a211c2a3b54f01ac7d13da52f3d9ec47879c8fe21d98c0e13",
+     "bytes": 87479
+    },
+    {
+     "file": "notes/work_tab.md",
+     "source": "ViewPrismUI@c9b5667:docs/screens/work_tab.md",
+     "sha256": "d74d8535cfac73c4f769142cda507ff99c12b01056a970f04ea5945c99cebebc",
+     "bytes": 17868
+    },
+    {
+     "file": "mock/ViewPrism2 画像タブ.dc.html",
+     "source": "ViewPrismUI@c9b5667:資料/画像タブ/ViewPrism2 画像タブ.dc.html",
+     "sha256": "981d20710273ff767a4f05a038c8792781a9529870f345c4657318a782e112b0",
+     "bytes": 110270
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 215617
+  },
+  "P20": {
+   "item": "D5",
+   "state": "post",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/image_tab.md",
+     "source": "ViewPrismUI@c9b5667:docs/screens/image_tab.md",
+     "sha256": "fbde3bd7bd64ea9a211c2a3b54f01ac7d13da52f3d9ec47879c8fe21d98c0e13",
+     "bytes": 87479
+    },
+    {
+     "file": "notes/work_tab.md",
+     "source": "ViewPrismUI@c9b5667:docs/screens/work_tab.md",
+     "sha256": "d74d8535cfac73c4f769142cda507ff99c12b01056a970f04ea5945c99cebebc",
+     "bytes": 17868
+    },
+    {
+     "file": "mock/ViewPrism2 画像タブ.dc.html",
+     "source": "ViewPrismUI@c9b5667:資料/画像タブ/ViewPrism2 画像タブ.dc.html",
+     "sha256": "981d20710273ff767a4f05a038c8792781a9529870f345c4657318a782e112b0",
+     "bytes": 110270
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewPrism2@403756a:bomdd/10-requirements.yaml",
+     "sha256": "5988b2db00c3f1dbe5acb23b87d3eeb771e9416d3ed3d36be23d459a2698138e",
+     "bytes": 162999
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewPrism2@403756a:bomdd/20-spec.md",
+     "sha256": "a745330dd2934dced895c3aabad1bf1d50fdec81bd514cbc64167e25e644850c",
+     "bytes": 186431
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 565047
+  },
+  "P21": {
+   "item": "D6",
+   "state": "pre",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/pending_review.md",
+     "source": "ViewPrismUI@5556df2:docs/screens/pending_review.md",
+     "sha256": "5632eede354f311e92b5a5da9b7043f78ae3538586502e1cad7d560b94590e0e",
+     "bytes": 22842
+    },
+    {
+     "file": "mock/ViewPrism2 未裁定の画像 (standalone).html",
+     "source": "ViewPrismUI@5556df2:資料/未裁定の画像/ViewPrism2 未裁定の画像 (standalone).html",
+     "sha256": "d84b74ef782208a773ca657f265cc3fe27ac064e2cd61d094da4365b2b1cc83e",
+     "bytes": 16988
+    },
+    {
+     "file": "mock/ViewPrism2 未裁定の画像 v2 (ECO-139 自動裁定) (standalone).html",
+     "source": "ViewPrismUI@5556df2:資料/未裁定の画像/ViewPrism2 未裁定の画像 v2 (ECO-139 自動裁定) (standalone).html",
+     "sha256": "411b0041bf0a3b96075dac58b2e4161832ee0fd6d75ff90496b807946c6e9a8c",
+     "bytes": 13228
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 53058
+  },
+  "P22": {
+   "item": "D6",
+   "state": "pre",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/pending_review.md",
+     "source": "ViewPrismUI@5556df2:docs/screens/pending_review.md",
+     "sha256": "5632eede354f311e92b5a5da9b7043f78ae3538586502e1cad7d560b94590e0e",
+     "bytes": 22842
+    },
+    {
+     "file": "mock/ViewPrism2 未裁定の画像 (standalone).html",
+     "source": "ViewPrismUI@5556df2:資料/未裁定の画像/ViewPrism2 未裁定の画像 (standalone).html",
+     "sha256": "d84b74ef782208a773ca657f265cc3fe27ac064e2cd61d094da4365b2b1cc83e",
+     "bytes": 16988
+    },
+    {
+     "file": "mock/ViewPrism2 未裁定の画像 v2 (ECO-139 自動裁定) (standalone).html",
+     "source": "ViewPrismUI@5556df2:資料/未裁定の画像/ViewPrism2 未裁定の画像 v2 (ECO-139 自動裁定) (standalone).html",
+     "sha256": "411b0041bf0a3b96075dac58b2e4161832ee0fd6d75ff90496b807946c6e9a8c",
+     "bytes": 13228
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewPrism2@6866b2f:bomdd/10-requirements.yaml",
+     "sha256": "97836697077b0d07373777dd0b1780acec0746e9857cac6ea82feb86770c01b6",
+     "bytes": 170209
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewPrism2@6866b2f:bomdd/20-spec.md",
+     "sha256": "9ee81eaba63a6f5e294129e159b0411c1dd2990be9459046ba9ecff82392b32a",
+     "bytes": 202998
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 426265
+  },
+  "P23": {
+   "item": "D6",
+   "state": "post",
+   "arm": "A",
+   "files": [
+    {
+     "file": "notes/pending_review.md",
+     "source": "ViewPrismUI@3a1bb37:docs/screens/pending_review.md",
+     "sha256": "f6d0545fd9b1bc571f2a622e6ddf5c467cc8d8bc06d9a8ebb038027859b6256a",
+     "bytes": 23333
+    },
+    {
+     "file": "notes/integrity_review.md",
+     "source": "ViewPrismUI@3a1bb37:docs/screens/integrity_review.md",
+     "sha256": "660380eeea4789b0f489836775b42845c4be1c8be8a5b5880676485c400c7b19",
+     "bytes": 22018
+    },
+    {
+     "file": "mock/ViewPrism2 未裁定の画像 (standalone).html",
+     "source": "ViewPrismUI@3a1bb37:資料/未裁定の画像/ViewPrism2 未裁定の画像 (standalone).html",
+     "sha256": "d84b74ef782208a773ca657f265cc3fe27ac064e2cd61d094da4365b2b1cc83e",
+     "bytes": 16988
+    },
+    {
+     "file": "mock/ViewPrism2 未裁定の画像 v2 (ECO-139 自動裁定) (standalone).html",
+     "source": "ViewPrismUI@3a1bb37:資料/未裁定の画像/ViewPrism2 未裁定の画像 v2 (ECO-139 自動裁定) (standalone).html",
+     "sha256": "411b0041bf0a3b96075dac58b2e4161832ee0fd6d75ff90496b807946c6e9a8c",
+     "bytes": 13228
+    },
+    {
+     "file": "mock/ViewPrism2 要確認の画像 (ECO-140 統合裁定) (standalone).html",
+     "source": "ViewPrismUI@3a1bb37:資料/要確認の画像/ViewPrism2 要確認の画像 (ECO-140 統合裁定) (standalone).html",
+     "sha256": "cdb855d1ab33e11f09d414aff8fc55cc1a1f954534ab2c2700eb4b4e86648c48",
+     "bytes": 33290
+    }
+   ],
+   "prompt_sha256": "d635346435a7ac66158c1db766c7e71ebb4aab1157836a6e82f35e1b4a68217c",
+   "total_bytes": 108857
+  },
+  "P24": {
+   "item": "D6",
+   "state": "post",
+   "arm": "B",
+   "files": [
+    {
+     "file": "notes/pending_review.md",
+     "source": "ViewPrismUI@3a1bb37:docs/screens/pending_review.md",
+     "sha256": "f6d0545fd9b1bc571f2a622e6ddf5c467cc8d8bc06d9a8ebb038027859b6256a",
+     "bytes": 23333
+    },
+    {
+     "file": "notes/integrity_review.md",
+     "source": "ViewPrismUI@3a1bb37:docs/screens/integrity_review.md",
+     "sha256": "660380eeea4789b0f489836775b42845c4be1c8be8a5b5880676485c400c7b19",
+     "bytes": 22018
+    },
+    {
+     "file": "mock/ViewPrism2 未裁定の画像 (standalone).html",
+     "source": "ViewPrismUI@3a1bb37:資料/未裁定の画像/ViewPrism2 未裁定の画像 (standalone).html",
+     "sha256": "d84b74ef782208a773ca657f265cc3fe27ac064e2cd61d094da4365b2b1cc83e",
+     "bytes": 16988
+    },
+    {
+     "file": "mock/ViewPrism2 未裁定の画像 v2 (ECO-139 自動裁定) (standalone).html",
+     "source": "ViewPrismUI@3a1bb37:資料/未裁定の画像/ViewPrism2 未裁定の画像 v2 (ECO-139 自動裁定) (standalone).html",
+     "sha256": "411b0041bf0a3b96075dac58b2e4161832ee0fd6d75ff90496b807946c6e9a8c",
+     "bytes": 13228
+    },
+    {
+     "file": "mock/ViewPrism2 要確認の画像 (ECO-140 統合裁定) (standalone).html",
+     "source": "ViewPrismUI@3a1bb37:資料/要確認の画像/ViewPrism2 要確認の画像 (ECO-140 統合裁定) (standalone).html",
+     "sha256": "cdb855d1ab33e11f09d414aff8fc55cc1a1f954534ab2c2700eb4b4e86648c48",
+     "bytes": 33290
+    },
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewPrism2@58354ed:bomdd/10-requirements.yaml",
+     "sha256": "97836697077b0d07373777dd0b1780acec0746e9857cac6ea82feb86770c01b6",
+     "bytes": 170209
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewPrism2@58354ed:bomdd/20-spec.md",
+     "sha256": "9ee81eaba63a6f5e294129e159b0411c1dd2990be9459046ba9ecff82392b32a",
+     "bytes": 202998
+    }
+   ],
+   "prompt_sha256": "43ba239af89f1e3192514154b2532b6c43a83bba4c72dca09581660fd5f25909",
+   "total_bytes": 482064
+  }
+ }
+}

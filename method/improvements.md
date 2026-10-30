@@ -9995,3 +9995,24 @@ nothing filed.
   the check's inputs.
   source: this section
   evidence: `bomdd/reports/exp-20261030-01/results.md` §3, `followup-mock-difference.md` §1
+
+## 2026-10-30 After EXP-20261030-01's follow-up — the user's "A" (measure the reader): six real defects as known-bad (EXP-20261030-02, filed)
+
+Source: the user's "A" to the options after the follow-up: since only readers named the six, measure an isolated AI reader on them.
+The six become a known-bad set with fixed answers — each item's pre-fix inputs and its post-fix inputs one change apart, and a hit
+criterion written per item before any report exists. Folder `bomdd/reports/exp-20261030-02/` (`definitions.md`, `packages.py` →
+`manifest.json`; the packages themselves are staged outside every repository, each file's SHA-256 in the manifest).
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement; no body text, template or tool changes.
+
+- [open] EXP-20261030-02 — **On six recorded upstream defects (ViewTube ECO-VT-035, -040, -226; ViewPrism2 ECO-052, -119, -140), does
+  an isolated AI inspector name each before its fix and stay silent after it — arm A, §17 mock acceptance inspection as written
+  (notes + mock), and arm B, a text–mock reader derived from it (plus requirements and spec, one added line in layer 1)?** Inspectors:
+  fresh Claude agents, one package each; judge: Codex (`gpt-5.6-sol`) given the criterion and the report only, relabelled and
+  shuffled. Stage 1 = the pre states (12 runs); stage 2 = the post state only where stage 1 hit or partial. Reading fixed in
+  `definitions.md` §7: arm B ≥ 4/6 hit with ≤ 1 false alarm → wire a reader-based text–mock comparison as a measured G2 input; ≤ 2/6 →
+  reading does not reach these either; arm A ≥ 4/5 → §17 as written would have named them (not applying it is the gap); ≤ 1/5 → it
+  does not reach this class; otherwise no claim. Start of the runs is the user's (their cost, stated with the filing).
+  source: this section (the user's "A", 2026-10-30)
+  evidence: `bomdd/reports/exp-20261030-02/definitions.md`, `manifest.json`
