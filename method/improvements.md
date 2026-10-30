@@ -10146,7 +10146,8 @@ measurement; no body text, template or tool changes.
   `{"language": "ja"}`, earlier content unknown) before the harness stopped executing it; OBS-20261030-06. Nothing wired, no
   body text changed. **Corrected after stage 2 (2026-10-30, EXP-20261030-05):** the clean mock is the authority's transitions on
   the paths stage 1 took, not on the visited states in general — Undo / Redo from five states depend on the undo history; the
-  verdict and placements are unchanged (results.md §5).
+  verdict and placements are unchanged (results.md §5). **Closed with stage 2 on the user's "A: ここで閉じる" (2026-10-30);
+  closure and reopening conditions in the EXP-20261030-05 entry.**
   source: this section (the user's question and "A" / "B", 2026-10-30)
   evidence: `bomdd/reports/exp-20261030-04/definitions.md` (§13 departures D1-D9), `results.md`, `run/flags.json`,
   `run/freeze.json`, `run/scenarios-frozen.json`, `run/mutant-edits.json` (`record_mutants.py verify`: 31 rebuilt byte for byte),
@@ -10200,6 +10201,14 @@ measurement; no body text, template or tool changes.
   mock. No placement depended on those flags. Agreeing and masked never occurred on real scenarios (selftest and slice only).
   Stage 1's results.md §5 corrected (the mock is the authority's transitions on the visited paths, not states). OBS-20261030-07.
   Nothing wired, no body text changed.
+  **The series (EXP-20261030-04 and -05) closed on the user's "A: ここで閉じる" (2026-10-30): recorded and stopped** — stage 3
+  (a designer's mock with its own names, so the binding is not given) is not filed, and nothing is wired into a product or the
+  method. Not measured: whether an imperfect upstream hides defects (agreeing and masked never met a mutant here) and the
+  binding. Reopening needs a new cause: OBS-20261030-07 reaching a second case, or a product whose use case scenarios and mock
+  are kept in its real work, so that the binding can be measured without a mock built for the measurement. The starting point
+  is this folder's `compare.py` and `verify_on_authority.py` with exp-04's harness and `walk.py`; before charging any flag to an
+  upstream, the flagged steps are executed on the authority with the reference's own scenarios (OBS-20261030-07), and states
+  whose transitions depend on history (undo / redo) are split by that history first.
   source: this section (the user's "A: 起票する" and "A: 走らせる", 2026-10-30)
   evidence: `bomdd/reports/exp-20261030-05/definitions.md` (§11 D1-D3), `results.md`, `compare.py` (selftest PASS, 13 cases),
   `run-a/`, `run-b/`, `slice/`, `verify/certify.json`, `after_verdict.json`
