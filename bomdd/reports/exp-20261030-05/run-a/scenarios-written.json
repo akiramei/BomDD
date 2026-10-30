@@ -1,0 +1,138 @@
+{"scenarios": [
+  {"id": "UC-01", "title": "再生ヘッドで区間を分割する", "goal": "再生ヘッドの位置で区間を二つに分け、切り出した区間の音量を上げる", "flow": "main",
+   "steps": [
+     {"in": "ST-01", "action": "Split", "surface": "ToolbarView", "expect": "ST-02"},
+     {"in": "ST-02", "action": "ApplyVolumePreset:150", "surface": "InspectorView", "expect": "ST-02"}
+   ]},
+  {"id": "UC-02", "title": "分割を取り消してやり直す", "goal": "誤って分割したので取り消し、やはり必要だったのでやり直す", "flow": "alternate",
+   "steps": [
+     {"in": "ST-01", "action": "Split", "surface": "ToolbarView", "expect": "ST-02"},
+     {"in": "ST-02", "action": "Undo", "surface": "ToolbarView", "expect": "ST-03"},
+     {"in": "ST-03", "action": "Redo", "surface": "ToolbarView", "expect": "ST-02"}
+   ]},
+  {"id": "UC-03", "title": "区間の速度を変える", "goal": "再生ヘッドの下の区間の速度をプリセットで変える", "flow": "main",
+   "steps": [
+     {"in": "ST-01", "action": "ApplySpeedPreset:2", "surface": "InspectorView", "expect": "ST-04"},
+     {"in": "ST-04", "action": "Undo", "surface": "ToolbarView", "expect": "ST-03"},
+     {"in": "ST-03", "action": "Redo", "surface": "ToolbarView", "expect": "ST-04"}
+   ]},
+  {"id": "UC-04", "title": "分割した区間を遅くする", "goal": "分割で切り出した区間をスロー再生にする", "flow": "main",
+   "steps": [
+     {"in": "ST-01", "action": "Split", "surface": "ToolbarView", "expect": "ST-02"},
+     {"in": "ST-02", "action": "ApplySpeedPreset:0.5", "surface": "InspectorView", "expect": "ST-02"},
+     {"in": "ST-02", "action": "Undo", "surface": "ToolbarView", "expect": "ST-05"},
+     {"in": "ST-05", "action": "Redo", "surface": "ToolbarView", "expect": "ST-02"}
+   ]},
+  {"id": "UC-05", "title": "区間の音量を変える", "goal": "再生ヘッドの下の区間をミュートし、気が変わって 50% にする", "flow": "main",
+   "steps": [
+     {"in": "ST-01", "action": "ApplyVolumePreset:0", "surface": "InspectorView", "expect": "ST-04"},
+     {"in": "ST-04", "action": "ApplyVolumePreset:50", "surface": "InspectorView", "expect": "ST-04"}
+   ]},
+  {"id": "UC-06", "title": "取り消したあとに別の編集をする", "goal": "分割を取り消し、代わりに速度を変える(やり直しの履歴は消える)", "flow": "alternate",
+   "steps": [
+     {"in": "ST-01", "action": "Split", "surface": "ToolbarView", "expect": "ST-02"},
+     {"in": "ST-02", "action": "Undo", "surface": "ToolbarView", "expect": "ST-03"},
+     {"in": "ST-03", "action": "ApplySpeedPreset:1.5", "surface": "InspectorView", "expect": "ST-04"}
+   ]},
+  {"id": "UC-07", "title": "トリム開始を再生ヘッドに合わせる", "goal": "冒頭の不要な部分を、再生ヘッドの位置で切り落とす", "flow": "main",
+   "steps": [
+     {"in": "ST-09", "action": "SetTrimIn", "surface": "ToolbarView", "expect": "ST-10"},
+     {"in": "ST-10", "action": "Undo", "surface": "ToolbarView", "expect": "ST-11"},
+     {"in": "ST-11", "action": "Redo", "surface": "ToolbarView", "expect": "ST-10"}
+   ]},
+  {"id": "UC-08", "title": "トリム終了を再生ヘッドに合わせる", "goal": "末尾の不要な部分を、再生ヘッドの位置で切り落とす", "flow": "main",
+   "steps": [
+     {"in": "ST-06", "action": "SetTrimOut", "surface": "ToolbarView", "expect": "ST-12"},
+     {"in": "ST-12", "action": "Undo", "surface": "ToolbarView", "expect": "ST-08"},
+     {"in": "ST-08", "action": "Redo", "surface": "ToolbarView", "expect": "ST-12"}
+   ]},
+  {"id": "UC-09", "title": "終盤の区間を速くする", "goal": "再生ヘッドを終盤に置き、その区間を早送りにする", "flow": "main",
+   "steps": [
+     {"in": "ST-06", "action": "ApplySpeedPreset:3", "surface": "InspectorView", "expect": "ST-07"},
+     {"in": "ST-07", "action": "Undo", "surface": "ToolbarView", "expect": "ST-08"}
+   ]},
+  {"id": "UC-10", "title": "区間を前の区間とマージする", "goal": "不要になった分割を解除して、前の区間とひとつにする", "flow": "main",
+   "steps": [
+     {"in": "ST-22", "action": "DeleteSelectedBoundary", "surface": "ToolbarView", "expect": "ST-23"},
+     {"in": "ST-23", "action": "Undo", "surface": "ToolbarView", "expect": "ST-24"},
+     {"in": "ST-24", "action": "Redo", "surface": "ToolbarView", "expect": "ST-23"}
+   ]},
+  {"id": "UC-11", "title": "編集した動画を書き出す", "goal": "先頭に戻って確認し、書き出しダイアログから書き出す", "flow": "main",
+   "steps": [
+     {"in": "ST-01", "action": "ToStart", "surface": "TransportView", "expect": "ST-13"},
+     {"in": "ST-13", "action": "ShowExportDialog", "surface": "ToolbarView", "expect": "ST-17"},
+     {"in": "ST-17", "action": "ConfirmExport", "surface": "ExportDialogView", "expect": "unknown"}
+   ]},
+  {"id": "UC-12", "title": "書き出しダイアログを閉じる", "goal": "書き出しダイアログを開いたが、書き出さずに編集へ戻る", "flow": "alternate",
+   "steps": [
+     {"in": "ST-13", "action": "ShowExportDialog", "surface": "ToolbarView", "expect": "ST-17"},
+     {"in": "ST-17", "action": "CloseExport", "surface": "ExportDialogView", "expect": "ST-13"}
+   ]},
+  {"id": "UC-13", "title": "解像度を下げて書き出す", "goal": "出力解像度を 50% にしてから書き出す", "flow": "main",
+   "steps": [
+     {"in": "ST-13", "action": "Scale:0.5", "surface": "InspectorView", "expect": "ST-16"},
+     {"in": "ST-16", "action": "ShowExportDialog", "surface": "ToolbarView", "expect": "ST-18"},
+     {"in": "ST-18", "action": "ConfirmExport", "surface": "ExportDialogView", "expect": "unknown"}
+   ]},
+  {"id": "UC-14", "title": "解像度の変更を元に戻す", "goal": "75% にした出力解像度を、Reset で元の大きさに戻す", "flow": "alternate",
+   "steps": [
+     {"in": "ST-13", "action": "Scale:0.75", "surface": "InspectorView", "expect": "ST-16"},
+     {"in": "ST-16", "action": "Scale:1", "surface": "InspectorView", "expect": "ST-13"}
+   ]},
+  {"id": "UC-15", "title": "先頭から再生して止める", "goal": "トリム範囲の先頭から再生して内容を確かめ、止める", "flow": "main",
+   "steps": [
+     {"in": "ST-01", "action": "ToStart", "surface": "TransportView", "expect": "ST-13"},
+     {"in": "ST-13", "action": "TogglePlay", "surface": "TransportView", "expect": "ST-19"},
+     {"in": "ST-19", "action": "TogglePlay", "surface": "TransportView", "expect": "ST-13"}
+   ]},
+  {"id": "UC-16", "title": "1 フレームずつ送る・戻す", "goal": "先頭から 1 フレーム進め、また 1 フレーム戻して位置を合わせる", "flow": "main",
+   "steps": [
+     {"in": "ST-13", "action": "StepForward", "surface": "TransportView", "expect": "ST-20"},
+     {"in": "ST-20", "action": "StepBack", "surface": "TransportView", "expect": "ST-13"}
+   ]},
+  {"id": "UC-17", "title": "末尾へ移動する", "goal": "再生ヘッドをトリム範囲の末尾へ移し、また先頭へ戻す", "flow": "main",
+   "steps": [
+     {"in": "ST-01", "action": "ToEnd", "surface": "TransportView", "expect": "ST-21"},
+     {"in": "ST-21", "action": "ToStart", "surface": "TransportView", "expect": "ST-13"}
+   ]},
+  {"id": "UC-18", "title": "先頭の区間の速度を変えて取り消す", "goal": "先頭の区間の速度を変えたが、取り消して元に戻し、やり直す", "flow": "alternate",
+   "steps": [
+     {"in": "ST-13", "action": "ApplySpeedPreset:0.25", "surface": "InspectorView", "expect": "ST-14"},
+     {"in": "ST-14", "action": "Undo", "surface": "ToolbarView", "expect": "ST-15"},
+     {"in": "ST-15", "action": "Redo", "surface": "ToolbarView", "expect": "ST-14"}
+   ]},
+  {"id": "UC-19", "title": "アプリの情報を見る", "goal": "About ダイアログでバージョンやライセンスを確かめて閉じる", "flow": "main",
+   "steps": [
+     {"in": "ST-13", "action": "OpenAbout", "surface": "TitleBarView", "expect": "ST-25"},
+     {"in": "ST-25", "action": "CloseAbout", "surface": "AboutDialogView", "expect": "ST-13"}
+   ]},
+  {"id": "UC-20", "title": "表示言語を切り替える", "goal": "UI を英語に切り替え、日本語に戻す(編集内容は変わらない)", "flow": "main",
+   "steps": [
+     {"in": "ST-01", "action": "SwitchLanguage:en", "surface": "TitleBarView", "expect": "ST-01"},
+     {"in": "ST-01", "action": "SwitchLanguage:ja", "surface": "TitleBarView", "expect": "ST-01"}
+   ]},
+  {"id": "UC-21", "title": "タイムラインを拡大・縮小する", "goal": "細かい位置を見るためにタイムラインを拡大し、戻す", "flow": "main",
+   "steps": [
+     {"in": "ST-01", "action": "ZoomIn", "surface": "TimelineView", "expect": "ST-01"},
+     {"in": "ST-01", "action": "ZoomOut", "surface": "TimelineView", "expect": "ST-01"}
+   ]},
+  {"id": "UC-22", "title": "読み込みエラーを閉じて編集を続ける", "goal": "ファイルを開けなかったエラー表示を閉じ、今の編集を続ける", "flow": "alternate",
+   "steps": [
+     {"in": "ST-27", "action": "ClearError", "surface": "MainWindow", "expect": "ST-13"},
+     {"in": "ST-13", "action": "TogglePlay", "surface": "TransportView", "expect": "ST-19"}
+   ]},
+  {"id": "UC-23", "title": "ffmpeg を取得する", "goal": "初回起動の案内から ffmpeg をダウンロードする", "flow": "main",
+   "steps": [
+     {"in": "ST-26", "action": "InstallFfmpeg", "surface": "MainWindow", "expect": "unknown"}
+   ]},
+  {"id": "UC-24", "title": "ffmpeg の取得を後回しにして編集する", "goal": "ffmpeg の取得を後回しにし、編集操作だけ先に行う", "flow": "alternate",
+   "steps": [
+     {"in": "ST-26", "action": "DismissFfmpegSetup", "surface": "MainWindow", "expect": "ST-01"},
+     {"in": "ST-01", "action": "Split", "surface": "ToolbarView", "expect": "ST-02"}
+   ]},
+  {"id": "UC-25", "title": "別の動画を開く", "goal": "編集を始めたあとで、別のファイルを開き直す", "flow": "alternate",
+   "steps": [
+     {"in": "ST-01", "action": "Split", "surface": "ToolbarView", "expect": "ST-02"},
+     {"in": "ST-02", "action": "Open", "surface": "ToolbarView", "expect": "unknown"}
+   ]}
+]}

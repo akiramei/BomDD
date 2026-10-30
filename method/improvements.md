@@ -10144,7 +10144,9 @@ measurement; no body text, template or tool changes.
   pair, so the reach is a property of these scenarios against this seeder, not of the scenarios alone. **A side effect outside the
   staging folder (D8):** `SwitchLanguage` wrote the user's real `%LOCALAPPDATA%\MoviePad\settings.json` (last write 21:24:07,
   `{"language": "ja"}`, earlier content unknown) before the harness stopped executing it; OBS-20261030-06. Nothing wired, no
-  body text changed.
+  body text changed. **Corrected after stage 2 (2026-10-30, EXP-20261030-05):** the clean mock is the authority's transitions on
+  the paths stage 1 took, not on the visited states in general — Undo / Redo from five states depend on the undo history; the
+  verdict and placements are unchanged (results.md §5).
   source: this section (the user's question and "A" / "B", 2026-10-30)
   evidence: `bomdd/reports/exp-20261030-04/definitions.md` (§13 departures D1-D9), `results.md`, `run/flags.json`,
   `run/freeze.json`, `run/scenarios-frozen.json`, `run/mutant-edits.json` (`record_mutants.py verify`: 31 rebuilt byte for byte),
@@ -10168,7 +10170,7 @@ stage 1's clean mock, mutants and checks are reused by path and hash; MoviePad a
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement; no body text, template or tool changes.
 
-- [open] EXP-20261030-05 — **With ordinary upstreams — use case scenarios drafted by fresh AI writers from the requirements, not
+- [recovered 2026-10-30 via bomdd/reports/exp-20261030-05/results.md] EXP-20261030-05 — **With ordinary upstreams — use case scenarios drafted by fresh AI writers from the requirements, not
   from the code and not certified — walked over stage 1's clean mock and its 31 mutants by the same checks, does every miss fall
   into outside (coverage), masked (an error already flagged at that step) or agreeing (the scenario's error matches the defect, so a
   flag disappears), leaving none to the mechanism, and how do the misses split?** Two writers, started together, each given the
@@ -10183,5 +10185,30 @@ measurement; no body text, template or tool changes.
   0 → a mechanism gap, named; clean flags, the split and coverage are measures. Limits: the binding (ids, surfaces, state ids) is
   given; the state names leak part of the design; the writers are held to stage 1's 27 states; one seeder; no rate. No product code
   executes. Start of the run is the user's.
-  source: this section (the user's "A: 起票する", 2026-10-30)
-  evidence: `bomdd/reports/exp-20261030-05/definitions.md`, `prepare.py`
+  **Read (2026-10-30, by the fixed rule; run on the user's "A: 走らせる")**: **both writers other = 0 and f 0 false alarms → every
+  miss of an ordinary upstream is placed** (expected by construction). A: caught 23, outside 2; B: caught 22, outside 3; agreeing
+  and masked 0 for both; the writers place 24 of 25 alike. Writers about 3.6 and 2.5 minutes; isolation clean; packages
+  unchanged; nothing dropped. Clean flags A 6, B 7, all W3 (W1 0; W2 0 by construction, D1 — the form checker fixes each action's
+  surface). Coverage pairs 50 / 53 of 774, actions 35 / 33 of 44 (stage 1 44, 32); the writers caught four that stage 1 missed and
+  missed M15 (no frame-rate step). Departure D2: stage 1's `walk.py` read W3 on an `"unknown"` expect against its own §7 (latent;
+  stage 1 had none); applied in `compare.py`, placements identical. **Read after the verdict, not readings (D3, on the authority by
+  stage 1's harness, I/O read first, MoviePad's settings untouched): of the 13 clean flags, 2 are the writers' error (both chose
+  ST-01 after ffmpeg "Later"; the authority holds ST-13) and 11 are the mock's** — the 6 flagged scenarios certify on the
+  authority, and ST-02/-03/-04/-05/-08 become ambiguous: Undo / Redo depend on the undo history, which the predicates do not
+  carry, and stage 1's mock took each state's transitions from stage 1's own paths. A correct reference separates the causes
+  where it was built; off its paths a flag can be the reference's, and telling them apart took executing the authority, not the
+  mock. No placement depended on those flags. Agreeing and masked never occurred on real scenarios (selftest and slice only).
+  Stage 1's results.md §5 corrected (the mock is the authority's transitions on the visited paths, not states). OBS-20261030-07.
+  Nothing wired, no body text changed.
+  source: this section (the user's "A: 起票する" and "A: 走らせる", 2026-10-30)
+  evidence: `bomdd/reports/exp-20261030-05/definitions.md` (§11 D1-D3), `results.md`, `compare.py` (selftest PASS, 13 cases),
+  `run-a/`, `run-b/`, `slice/`, `verify/certify.json`, `after_verdict.json`
+- [watch 1/3] OBS-20261030-07 — **A reference generated from one scenario set is a model of the authority on that set's paths:
+  where an action's effect depends on history the state names do not carry (undo / redo), a flag from another path can be the
+  reference's error, not the upstream's.** EXP-20261030-05: 11 of 13 clean flags; five states turned ambiguous only when other
+  paths were executed. Machine face (measure): before charging a flag on a generated reference to the upstream, the flagged
+  steps are executed on the authority together with the reference's own scenarios, and states the union makes ambiguous are
+  reported. 2 例目の条件= another generated reference (mock, table, model) whose flags on a second input are traced to the
+  reference rather than the input.
+  source: this section
+  evidence: `bomdd/reports/exp-20261030-05/results.md` §3, `verify/certify.json`

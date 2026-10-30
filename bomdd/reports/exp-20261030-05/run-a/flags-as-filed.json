@@ -1,0 +1,529 @@
+{
+ "clean_stop_flags": [
+  {
+   "check": "W3",
+   "at": "UC-03#1",
+   "why": "Undo goes to [ST-05], step expects ST-03"
+  },
+  {
+   "check": "W3",
+   "at": "UC-03#2",
+   "why": "Redo goes to [ST-02], step expects ST-04"
+  },
+  {
+   "check": "W3",
+   "at": "UC-04#2",
+   "why": "Undo goes to [ST-03], step expects ST-05"
+  },
+  {
+   "check": "W3",
+   "at": "UC-04#3",
+   "why": "Redo goes to [ST-04], step expects ST-02"
+  },
+  {
+   "check": "W3",
+   "at": "UC-08#2",
+   "why": "Redo goes to [ST-07], step expects ST-12"
+  },
+  {
+   "check": "W3",
+   "at": "UC-24#0",
+   "why": "DismissFfmpegSetup goes to [ST-13], step expects ST-01"
+  }
+ ],
+ "clean_by_check": {
+  "W1": 0,
+  "W2": 0,
+  "W3": 6
+ },
+ "w4_clean": 724,
+ "coverage": {
+  "pairs_used": 50,
+  "pairs_enabled": 774,
+  "actions_used": 35,
+  "actions_known": 44
+ },
+ "steps_walked": 61,
+ "steps_counted": 61,
+ "mutants": [
+  {
+   "id": "M01",
+   "class": "e",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W3",
+     "UC-02#1"
+    ],
+    [
+     "W3",
+     "UC-06#1"
+    ]
+   ]
+  },
+  {
+   "id": "M02",
+   "class": "a",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-02#1"
+    ],
+    [
+     "W1",
+     "UC-04#2"
+    ],
+    [
+     "W1",
+     "UC-06#1"
+    ]
+   ]
+  },
+  {
+   "id": "M03",
+   "class": "b",
+   "stage1_inside": false,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-06#2"
+    ]
+   ]
+  },
+  {
+   "id": "M04",
+   "class": "c",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-02#2"
+    ],
+    [
+     "W1",
+     "UC-03#2"
+    ],
+    [
+     "W1",
+     "UC-04#3"
+    ],
+    [
+     "W1",
+     "UC-07#2"
+    ],
+    [
+     "W1",
+     "UC-08#2"
+    ],
+    [
+     "W1",
+     "UC-10#2"
+    ],
+    [
+     "W1",
+     "UC-18#2"
+    ]
+   ]
+  },
+  {
+   "id": "M05",
+   "class": "d",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W2",
+     "UC-02#1"
+    ],
+    [
+     "W2",
+     "UC-03#1"
+    ],
+    [
+     "W2",
+     "UC-04#2"
+    ],
+    [
+     "W2",
+     "UC-06#1"
+    ],
+    [
+     "W2",
+     "UC-07#1"
+    ],
+    [
+     "W2",
+     "UC-08#1"
+    ],
+    [
+     "W2",
+     "UC-09#1"
+    ],
+    [
+     "W2",
+     "UC-10#1"
+    ],
+    [
+     "W2",
+     "UC-18#1"
+    ]
+   ]
+  },
+  {
+   "id": "M06",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  },
+  {
+   "id": "M07",
+   "class": "a",
+   "stage1_inside": false,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M08",
+   "class": "e",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W3",
+     "UC-11#1"
+    ],
+    [
+     "W3",
+     "UC-12#0"
+    ]
+   ]
+  },
+  {
+   "id": "M09",
+   "class": "b",
+   "stage1_inside": false,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-01#1"
+    ]
+   ]
+  },
+  {
+   "id": "M10",
+   "class": "c",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-10#0"
+    ]
+   ]
+  },
+  {
+   "id": "M11",
+   "class": "d",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W2",
+     "UC-01#0"
+    ],
+    [
+     "W2",
+     "UC-02#0"
+    ],
+    [
+     "W2",
+     "UC-04#0"
+    ],
+    [
+     "W2",
+     "UC-06#0"
+    ],
+    [
+     "W2",
+     "UC-24#1"
+    ],
+    [
+     "W2",
+     "UC-25#0"
+    ]
+   ]
+  },
+  {
+   "id": "M12",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  },
+  {
+   "id": "M13",
+   "class": "a",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-11#1"
+    ],
+    [
+     "W1",
+     "UC-12#0"
+    ]
+   ]
+  },
+  {
+   "id": "M14",
+   "class": "e",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W3",
+     "UC-12#1"
+    ]
+   ]
+  },
+  {
+   "id": "M15",
+   "class": "b",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M16",
+   "class": "c",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-19#1"
+    ]
+   ]
+  },
+  {
+   "id": "M17",
+   "class": "d",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W2",
+     "UC-15#1"
+    ],
+    [
+     "W2",
+     "UC-15#2"
+    ],
+    [
+     "W2",
+     "UC-22#1"
+    ]
+   ]
+  },
+  {
+   "id": "M18",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  },
+  {
+   "id": "M19",
+   "class": "a",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-10#0"
+    ]
+   ]
+  },
+  {
+   "id": "M20",
+   "class": "e",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W3",
+     "UC-15#1"
+    ],
+    [
+     "W3",
+     "UC-22#1"
+    ]
+   ]
+  },
+  {
+   "id": "M21",
+   "class": "b",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-14#0"
+    ]
+   ]
+  },
+  {
+   "id": "M22",
+   "class": "c",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-12#1"
+    ]
+   ]
+  },
+  {
+   "id": "M23",
+   "class": "d",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W2",
+     "UC-19#0"
+    ]
+   ]
+  },
+  {
+   "id": "M24",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  },
+  {
+   "id": "M25",
+   "class": "a",
+   "stage1_inside": false,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-18#2"
+    ]
+   ]
+  },
+  {
+   "id": "M26",
+   "class": "e",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W3",
+     "UC-08#0"
+    ]
+   ]
+  },
+  {
+   "id": "M27",
+   "class": "b",
+   "stage1_inside": false,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-20#0"
+    ]
+   ]
+  },
+  {
+   "id": "M28",
+   "class": "c",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "UC-21#1"
+    ]
+   ]
+  },
+  {
+   "id": "M29",
+   "class": "d",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W2",
+     "UC-07#0"
+    ]
+   ]
+  },
+  {
+   "id": "M30",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  },
+  {
+   "id": "M31",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  }
+ ],
+ "tally": {
+  "e": {
+   "caught": 5,
+   "outside": 0,
+   "agreeing": 0,
+   "masked": 0,
+   "other": 0
+  },
+  "a": {
+   "caught": 4,
+   "outside": 1,
+   "agreeing": 0,
+   "masked": 0,
+   "other": 0
+  },
+  "b": {
+   "caught": 4,
+   "outside": 1,
+   "agreeing": 0,
+   "masked": 0,
+   "other": 0
+  },
+  "c": {
+   "caught": 5,
+   "outside": 0,
+   "agreeing": 0,
+   "masked": 0,
+   "other": 0
+  },
+  "d": {
+   "caught": 5,
+   "outside": 0,
+   "agreeing": 0,
+   "masked": 0,
+   "other": 0
+  }
+ },
+ "total": {
+  "caught": 23,
+  "outside": 2,
+  "agreeing": 0,
+  "masked": 0,
+  "other": 0
+ },
+ "f_false_alarms": []
+}

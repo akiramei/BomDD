@@ -1,0 +1,43 @@
+{
+ "scenarios": [
+  {
+   "id": "S-01",
+   "title": "分割して取り消し、やり直す(誤りを 2 つ仕込んだ試し)",
+   "goal": "slice",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "Split",
+     "surface": "ToolbarView",
+     "expect": "ST-02"
+    },
+    {
+     "in": "ST-02",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-01"
+    },
+    {
+     "in": "ST-03",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-02"
+    },
+    {
+     "in": "ST-01",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-01"
+    },
+    {
+     "in": "ST-13",
+     "action": "Open",
+     "surface": "ToolbarView",
+     "expect": "unknown",
+     "harness": "no"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,987 @@
+{
+ "mutants": [
+  {
+   "id": "M01",
+   "class": "e",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W3",
+     "UC-02#1"
+    ],
+    [
+     "W3",
+     "UC-06#1"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W3",
+     "UC-02#1"
+    ]
+   ]
+  },
+  {
+   "id": "M02",
+   "class": "a",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-02#1"
+    ],
+    [
+     "W1",
+     "UC-04#2"
+    ],
+    [
+     "W1",
+     "UC-06#1"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-02#1"
+    ],
+    [
+     "W1",
+     "UC-03#2"
+    ]
+   ]
+  },
+  {
+   "id": "M03",
+   "class": "b",
+   "stage1": "outside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-06#2"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-08#1"
+    ]
+   ]
+  },
+  {
+   "id": "M04",
+   "class": "c",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-02#2"
+    ],
+    [
+     "W1",
+     "UC-03#2"
+    ],
+    [
+     "W1",
+     "UC-04#3"
+    ],
+    [
+     "W1",
+     "UC-07#2"
+    ],
+    [
+     "W1",
+     "UC-08#2"
+    ],
+    [
+     "W1",
+     "UC-10#2"
+    ],
+    [
+     "W1",
+     "UC-18#2"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-02#2"
+    ],
+    [
+     "W1",
+     "UC-03#4"
+    ],
+    [
+     "W1",
+     "UC-03#5"
+    ],
+    [
+     "W1",
+     "UC-05#2"
+    ],
+    [
+     "W1",
+     "UC-07#2"
+    ],
+    [
+     "W1",
+     "UC-09#2"
+    ],
+    [
+     "W1",
+     "UC-11#2"
+    ],
+    [
+     "W1",
+     "UC-13#2"
+    ]
+   ]
+  },
+  {
+   "id": "M05",
+   "class": "d",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W2",
+     "UC-02#1"
+    ],
+    [
+     "W2",
+     "UC-03#1"
+    ],
+    [
+     "W2",
+     "UC-04#2"
+    ],
+    [
+     "W2",
+     "UC-06#1"
+    ],
+    [
+     "W2",
+     "UC-07#1"
+    ],
+    [
+     "W2",
+     "UC-08#1"
+    ],
+    [
+     "W2",
+     "UC-09#1"
+    ],
+    [
+     "W2",
+     "UC-10#1"
+    ],
+    [
+     "W2",
+     "UC-18#1"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W2",
+     "UC-02#1"
+    ],
+    [
+     "W2",
+     "UC-03#2"
+    ],
+    [
+     "W2",
+     "UC-03#3"
+    ],
+    [
+     "W2",
+     "UC-05#1"
+    ],
+    [
+     "W2",
+     "UC-07#1"
+    ],
+    [
+     "W2",
+     "UC-09#1"
+    ],
+    [
+     "W2",
+     "UC-11#1"
+    ],
+    [
+     "W2",
+     "UC-13#1"
+    ],
+    [
+     "W2",
+     "UC-14#1"
+    ]
+   ]
+  },
+  {
+   "id": "M06",
+   "class": "f",
+   "stage1": "outside",
+   "a": "f:0",
+   "b": "f:0",
+   "a_detail": null,
+   "b_detail": null
+  },
+  {
+   "id": "M07",
+   "class": "a",
+   "stage1": "outside",
+   "a": "outside",
+   "b": "outside",
+   "a_detail": [],
+   "b_detail": []
+  },
+  {
+   "id": "M08",
+   "class": "e",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W3",
+     "UC-11#1"
+    ],
+    [
+     "W3",
+     "UC-12#0"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W3",
+     "UC-15#1"
+    ],
+    [
+     "W3",
+     "UC-16#0"
+    ]
+   ]
+  },
+  {
+   "id": "M09",
+   "class": "b",
+   "stage1": "outside",
+   "a": "caught",
+   "b": "outside",
+   "a_detail": [
+    [
+     "W1",
+     "UC-01#1"
+    ]
+   ],
+   "b_detail": []
+  },
+  {
+   "id": "M10",
+   "class": "c",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-10#0"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-08#0"
+    ],
+    [
+     "W1",
+     "UC-09#0"
+    ]
+   ]
+  },
+  {
+   "id": "M11",
+   "class": "d",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W2",
+     "UC-01#0"
+    ],
+    [
+     "W2",
+     "UC-02#0"
+    ],
+    [
+     "W2",
+     "UC-04#0"
+    ],
+    [
+     "W2",
+     "UC-06#0"
+    ],
+    [
+     "W2",
+     "UC-24#1"
+    ],
+    [
+     "W2",
+     "UC-25#0"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W2",
+     "UC-01#0"
+    ],
+    [
+     "W2",
+     "UC-02#0"
+    ],
+    [
+     "W2",
+     "UC-03#0"
+    ]
+   ]
+  },
+  {
+   "id": "M12",
+   "class": "f",
+   "stage1": "outside",
+   "a": "f:0",
+   "b": "f:0",
+   "a_detail": null,
+   "b_detail": null
+  },
+  {
+   "id": "M13",
+   "class": "a",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-11#1"
+    ],
+    [
+     "W1",
+     "UC-12#0"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-15#1"
+    ],
+    [
+     "W1",
+     "UC-16#0"
+    ]
+   ]
+  },
+  {
+   "id": "M14",
+   "class": "e",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W3",
+     "UC-12#1"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W3",
+     "UC-16#1"
+    ]
+   ]
+  },
+  {
+   "id": "M15",
+   "class": "b",
+   "stage1": "inside",
+   "a": "outside",
+   "b": "outside",
+   "a_detail": [],
+   "b_detail": []
+  },
+  {
+   "id": "M16",
+   "class": "c",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-19#1"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-21#1"
+    ]
+   ]
+  },
+  {
+   "id": "M17",
+   "class": "d",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W2",
+     "UC-15#1"
+    ],
+    [
+     "W2",
+     "UC-15#2"
+    ],
+    [
+     "W2",
+     "UC-22#1"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W2",
+     "UC-20#1"
+    ],
+    [
+     "W2",
+     "UC-20#2"
+    ]
+   ]
+  },
+  {
+   "id": "M18",
+   "class": "f",
+   "stage1": "outside",
+   "a": "f:0",
+   "b": "f:0",
+   "a_detail": null,
+   "b_detail": null
+  },
+  {
+   "id": "M19",
+   "class": "a",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-10#0"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-08#0"
+    ],
+    [
+     "W1",
+     "UC-09#0"
+    ]
+   ]
+  },
+  {
+   "id": "M20",
+   "class": "e",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W3",
+     "UC-15#1"
+    ],
+    [
+     "W3",
+     "UC-22#1"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W3",
+     "UC-20#1"
+    ]
+   ]
+  },
+  {
+   "id": "M21",
+   "class": "b",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-14#0"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-18#0"
+    ]
+   ]
+  },
+  {
+   "id": "M22",
+   "class": "c",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-12#1"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-16#1"
+    ],
+    [
+     "W1",
+     "UC-18#2"
+    ]
+   ]
+  },
+  {
+   "id": "M23",
+   "class": "d",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W2",
+     "UC-19#0"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W2",
+     "UC-21#0"
+    ]
+   ]
+  },
+  {
+   "id": "M24",
+   "class": "f",
+   "stage1": "outside",
+   "a": "f:0",
+   "b": "f:0",
+   "a_detail": null,
+   "b_detail": null
+  },
+  {
+   "id": "M25",
+   "class": "a",
+   "stage1": "outside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-18#2"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-11#2"
+    ]
+   ]
+  },
+  {
+   "id": "M26",
+   "class": "e",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W3",
+     "UC-08#0"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W3",
+     "UC-06#0"
+    ],
+    [
+     "W3",
+     "UC-07#0"
+    ]
+   ]
+  },
+  {
+   "id": "M27",
+   "class": "b",
+   "stage1": "outside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-20#0"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-22#0"
+    ]
+   ]
+  },
+  {
+   "id": "M28",
+   "class": "c",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W1",
+     "UC-21#1"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W1",
+     "UC-22#3"
+    ]
+   ]
+  },
+  {
+   "id": "M29",
+   "class": "d",
+   "stage1": "inside",
+   "a": "caught",
+   "b": "caught",
+   "a_detail": [
+    [
+     "W2",
+     "UC-07#0"
+    ]
+   ],
+   "b_detail": [
+    [
+     "W2",
+     "UC-04#0"
+    ],
+    [
+     "W2",
+     "UC-05#0"
+    ]
+   ]
+  },
+  {
+   "id": "M30",
+   "class": "f",
+   "stage1": "outside",
+   "a": "f:0",
+   "b": "f:0",
+   "a_detail": null,
+   "b_detail": null
+  },
+  {
+   "id": "M31",
+   "class": "f",
+   "stage1": "outside",
+   "a": "f:0",
+   "b": "f:0",
+   "a_detail": null,
+   "b_detail": null
+  }
+ ],
+ "clean_errors": {
+  "a": [
+   {
+    "at": "UC-03#1",
+    "why": "Undo goes to [ST-05], step expects ST-03",
+    "step": {
+     "in": "ST-04",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-03"
+    }
+   },
+   {
+    "at": "UC-03#2",
+    "why": "Redo goes to [ST-02], step expects ST-04",
+    "step": {
+     "in": "ST-03",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-04"
+    }
+   },
+   {
+    "at": "UC-04#2",
+    "why": "Undo goes to [ST-03], step expects ST-05",
+    "step": {
+     "in": "ST-02",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-05"
+    }
+   },
+   {
+    "at": "UC-04#3",
+    "why": "Redo goes to [ST-04], step expects ST-02",
+    "step": {
+     "in": "ST-05",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-02"
+    }
+   },
+   {
+    "at": "UC-08#2",
+    "why": "Redo goes to [ST-07], step expects ST-12",
+    "step": {
+     "in": "ST-08",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-12"
+    }
+   },
+   {
+    "at": "UC-24#0",
+    "why": "DismissFfmpegSetup goes to [ST-13], step expects ST-01",
+    "step": {
+     "in": "ST-26",
+     "action": "DismissFfmpegSetup",
+     "surface": "MainWindow",
+     "expect": "ST-01"
+    }
+   }
+  ],
+  "b": [
+   {
+    "at": "UC-03#2",
+    "why": "Undo goes to [ST-03], step expects ST-05",
+    "step": {
+     "in": "ST-02",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-05"
+    }
+   },
+   {
+    "at": "UC-03#4",
+    "why": "Redo goes to [ST-02], step expects ST-05",
+    "step": {
+     "in": "ST-03",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-05"
+    }
+   },
+   {
+    "at": "UC-03#5",
+    "why": "Redo goes to [ST-04], step expects ST-02",
+    "step": {
+     "in": "ST-05",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-02"
+    }
+   },
+   {
+    "at": "UC-07#2",
+    "why": "Redo goes to [ST-07], step expects ST-12",
+    "step": {
+     "in": "ST-08",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-12"
+    }
+   },
+   {
+    "at": "UC-13#1",
+    "why": "Undo goes to [ST-05], step expects ST-03",
+    "step": {
+     "in": "ST-04",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-03"
+    }
+   },
+   {
+    "at": "UC-13#2",
+    "why": "Redo goes to [ST-02], step expects ST-04",
+    "step": {
+     "in": "ST-03",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-04"
+    }
+   },
+   {
+    "at": "UC-20#2",
+    "why": "TogglePlay goes to [ST-13], step expects unknown",
+    "step": {
+     "in": "ST-19",
+     "action": "TogglePlay",
+     "surface": "TransportView",
+     "expect": "unknown"
+    }
+   },
+   {
+    "at": "UC-25#0",
+    "why": "DismissFfmpegSetup goes to [ST-13], step expects ST-01",
+    "step": {
+     "in": "ST-26",
+     "action": "DismissFfmpegSetup",
+     "surface": "MainWindow",
+     "expect": "ST-01"
+    }
+   }
+  ]
+ },
+ "overlap": {
+  "a&b": 42,
+  "a|b": 61,
+  "stage1&a": 30,
+  "stage1&b": 31,
+  "stage1|a|b": 73,
+  "sizes": {
+   "stage1": 44,
+   "a": 50,
+   "b": 53
+  },
+  "actions": {
+   "stage1": [
+    "ApplySpeedPreset:0.5",
+    "ApplySpeedPreset:1",
+    "ApplySpeedPreset:2",
+    "ApplyVolumePreset:0",
+    "ApplyVolumePreset:100",
+    "ClearError",
+    "CloseAbout",
+    "CloseExport",
+    "ConfirmExport",
+    "DeleteSelectedBoundary",
+    "DismissFfmpegSetup",
+    "InstallFfmpeg",
+    "Open",
+    "OpenAbout",
+    "Redo",
+    "Scale:0.5",
+    "Scale:0.75",
+    "Scale:1",
+    "SetFps:60",
+    "SetFps:source",
+    "SetTrimIn",
+    "SetTrimOut",
+    "ShowExportDialog",
+    "Split",
+    "StepBack",
+    "StepForward",
+    "ToEnd",
+    "ToStart",
+    "TogglePlay",
+    "Undo",
+    "ZoomIn",
+    "ZoomOut"
+   ],
+   "a": [
+    "ApplySpeedPreset:0.25",
+    "ApplySpeedPreset:0.5",
+    "ApplySpeedPreset:1.5",
+    "ApplySpeedPreset:2",
+    "ApplySpeedPreset:3",
+    "ApplyVolumePreset:0",
+    "ApplyVolumePreset:150",
+    "ApplyVolumePreset:50",
+    "ClearError",
+    "CloseAbout",
+    "CloseExport",
+    "ConfirmExport",
+    "DeleteSelectedBoundary",
+    "DismissFfmpegSetup",
+    "InstallFfmpeg",
+    "Open",
+    "OpenAbout",
+    "Redo",
+    "Scale:0.5",
+    "Scale:0.75",
+    "Scale:1",
+    "SetTrimIn",
+    "SetTrimOut",
+    "ShowExportDialog",
+    "Split",
+    "StepBack",
+    "StepForward",
+    "SwitchLanguage:en",
+    "SwitchLanguage:ja",
+    "ToEnd",
+    "ToStart",
+    "TogglePlay",
+    "Undo",
+    "ZoomIn",
+    "ZoomOut"
+   ],
+   "b": [
+    "ApplySpeedPreset:0.5",
+    "ApplySpeedPreset:1.5",
+    "ApplySpeedPreset:2",
+    "ApplySpeedPreset:4",
+    "ApplyVolumePreset:0",
+    "ApplyVolumePreset:100",
+    "ClearError",
+    "CloseAbout",
+    "CloseExport",
+    "ConfirmExport",
+    "DeleteSelectedBoundary",
+    "DismissFfmpegSetup",
+    "InstallFfmpeg",
+    "Open",
+    "OpenAbout",
+    "Redo",
+    "Scale:0.5",
+    "Scale:0.75",
+    "Scale:1",
+    "SetTrimIn",
+    "SetTrimOut",
+    "ShowExportDialog",
+    "Split",
+    "StepBack",
+    "StepForward",
+    "SwitchLanguage:en",
+    "SwitchLanguage:ja",
+    "ToEnd",
+    "ToStart",
+    "TogglePlay",
+    "Undo",
+    "ZoomIn",
+    "ZoomOut"
+   ]
+  }
+ },
+ "agree_a_b": 24
+}

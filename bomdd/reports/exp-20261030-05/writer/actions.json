@@ -1,0 +1,227 @@
+[
+ {
+  "id": "CloseAbout",
+  "surface": "AboutDialogView",
+  "label": "Close"
+ },
+ {
+  "id": "CancelExport",
+  "surface": "ExportDialogView",
+  "label": "Abort"
+ },
+ {
+  "id": "CloseExport",
+  "surface": "ExportDialogView",
+  "label": "Cancel"
+ },
+ {
+  "id": "ConfirmExport",
+  "surface": "ExportDialogView",
+  "label": "Export"
+ },
+ {
+  "id": "Scale:1",
+  "surface": "InspectorView",
+  "label": "100%"
+ },
+ {
+  "id": "Scale:0.75",
+  "surface": "InspectorView",
+  "label": "75%"
+ },
+ {
+  "id": "Scale:0.5",
+  "surface": "InspectorView",
+  "label": "50%"
+ },
+ {
+  "id": "Scale:1",
+  "surface": "InspectorView",
+  "label": "Reset"
+ },
+ {
+  "id": "SetFps:source",
+  "surface": "InspectorView",
+  "label": "Source"
+ },
+ {
+  "id": "SetFps:24",
+  "surface": "InspectorView",
+  "label": "24"
+ },
+ {
+  "id": "SetFps:30",
+  "surface": "InspectorView",
+  "label": "30"
+ },
+ {
+  "id": "SetFps:60",
+  "surface": "InspectorView",
+  "label": "60"
+ },
+ {
+  "id": "SetFps:120",
+  "surface": "InspectorView",
+  "label": "120"
+ },
+ {
+  "id": "ApplySpeedPreset:0.25",
+  "surface": "InspectorView",
+  "label": "0.25x"
+ },
+ {
+  "id": "ApplySpeedPreset:0.5",
+  "surface": "InspectorView",
+  "label": "0.5x"
+ },
+ {
+  "id": "ApplySpeedPreset:1",
+  "surface": "InspectorView",
+  "label": "1x"
+ },
+ {
+  "id": "ApplySpeedPreset:1.5",
+  "surface": "InspectorView",
+  "label": "1.5x"
+ },
+ {
+  "id": "ApplySpeedPreset:2",
+  "surface": "InspectorView",
+  "label": "2x"
+ },
+ {
+  "id": "ApplySpeedPreset:3",
+  "surface": "InspectorView",
+  "label": "3x"
+ },
+ {
+  "id": "ApplySpeedPreset:4",
+  "surface": "InspectorView",
+  "label": "4x"
+ },
+ {
+  "id": "ApplyVolumePreset:0",
+  "surface": "InspectorView",
+  "label": "Mute"
+ },
+ {
+  "id": "ApplyVolumePreset:50",
+  "surface": "InspectorView",
+  "label": "50%"
+ },
+ {
+  "id": "ApplyVolumePreset:100",
+  "surface": "InspectorView",
+  "label": "100%"
+ },
+ {
+  "id": "ApplyVolumePreset:150",
+  "surface": "InspectorView",
+  "label": "150%"
+ },
+ {
+  "id": "ClearError",
+  "surface": "MainWindow",
+  "label": "✕"
+ },
+ {
+  "id": "DismissFfmpegSetup",
+  "surface": "MainWindow",
+  "label": "Later"
+ },
+ {
+  "id": "InstallFfmpeg",
+  "surface": "MainWindow",
+  "label": "Download"
+ },
+ {
+  "id": "ZoomOut",
+  "surface": "TimelineView",
+  "label": "Zoom out"
+ },
+ {
+  "id": "ZoomIn",
+  "surface": "TimelineView",
+  "label": "Zoom in"
+ },
+ {
+  "id": "SwitchLanguage:ja",
+  "surface": "TitleBarView",
+  "label": "日本語"
+ },
+ {
+  "id": "SwitchLanguage:en",
+  "surface": "TitleBarView",
+  "label": "English"
+ },
+ {
+  "id": "OpenAbout",
+  "surface": "TitleBarView",
+  "label": "About MoviePad"
+ },
+ {
+  "id": "Open",
+  "surface": "ToolbarView",
+  "label": "Open"
+ },
+ {
+  "id": "Undo",
+  "surface": "ToolbarView",
+  "label": "Undo"
+ },
+ {
+  "id": "Redo",
+  "surface": "ToolbarView",
+  "label": "Redo"
+ },
+ {
+  "id": "Split",
+  "surface": "ToolbarView",
+  "label": "Split the region at the playhead (S)"
+ },
+ {
+  "id": "DeleteSelectedBoundary",
+  "surface": "ToolbarView",
+  "label": "Merge the current region with the one before it"
+ },
+ {
+  "id": "SetTrimIn",
+  "surface": "ToolbarView",
+  "label": "Set the trim start (In) to the playhead (I)"
+ },
+ {
+  "id": "SetTrimOut",
+  "surface": "ToolbarView",
+  "label": "Set the trim end (Out) to the playhead (O)"
+ },
+ {
+  "id": "ShowExportDialog",
+  "surface": "ToolbarView",
+  "label": "Export"
+ },
+ {
+  "id": "ToStart",
+  "surface": "TransportView",
+  "label": "To start"
+ },
+ {
+  "id": "StepBack",
+  "surface": "TransportView",
+  "label": "Step back 1 frame  (← / ,)"
+ },
+ {
+  "id": "TogglePlay",
+  "surface": "TransportView",
+  "label": "Play / Pause (Space)"
+ },
+ {
+  "id": "StepForward",
+  "surface": "TransportView",
+  "label": "Step forward 1 frame  (→ / .)"
+ },
+ {
+  "id": "ToEnd",
+  "surface": "TransportView",
+  "label": "To end"
+ }
+]

@@ -1,0 +1,311 @@
+{
+ "clean_stop_flags": [
+  {
+   "check": "W3",
+   "at": "S-01#1",
+   "why": "Undo goes to [ST-03], step expects ST-01"
+  },
+  {
+   "check": "W1",
+   "at": "S-01#3",
+   "why": "Redo disabled in ST-01"
+  }
+ ],
+ "clean_by_check": {
+  "W1": 1,
+  "W2": 0,
+  "W3": 1
+ },
+ "w4_clean": 770,
+ "coverage": {
+  "pairs_used": 4,
+  "pairs_enabled": 774,
+  "actions_used": 4,
+  "actions_known": 44
+ },
+ "steps_walked": 5,
+ "steps_counted": 4,
+ "mutants": [
+  {
+   "id": "M01",
+   "class": "e",
+   "stage1_inside": true,
+   "category": "agreeing",
+   "detail": [
+    [
+     "W3",
+     "S-01#1"
+    ]
+   ]
+  },
+  {
+   "id": "M02",
+   "class": "a",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "S-01#1"
+    ]
+   ]
+  },
+  {
+   "id": "M03",
+   "class": "b",
+   "stage1_inside": false,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M04",
+   "class": "c",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W1",
+     "S-01#2"
+    ]
+   ]
+  },
+  {
+   "id": "M05",
+   "class": "d",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W2",
+     "S-01#1"
+    ]
+   ]
+  },
+  {
+   "id": "M06",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  },
+  {
+   "id": "M07",
+   "class": "a",
+   "stage1_inside": false,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M08",
+   "class": "e",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M09",
+   "class": "b",
+   "stage1_inside": false,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M10",
+   "class": "c",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M11",
+   "class": "d",
+   "stage1_inside": true,
+   "category": "caught",
+   "detail": [
+    [
+     "W2",
+     "S-01#0"
+    ]
+   ]
+  },
+  {
+   "id": "M12",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  },
+  {
+   "id": "M13",
+   "class": "a",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M14",
+   "class": "e",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M15",
+   "class": "b",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M16",
+   "class": "c",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M17",
+   "class": "d",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M18",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  },
+  {
+   "id": "M19",
+   "class": "a",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M20",
+   "class": "e",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M21",
+   "class": "b",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M22",
+   "class": "c",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M23",
+   "class": "d",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M24",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  },
+  {
+   "id": "M25",
+   "class": "a",
+   "stage1_inside": false,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M26",
+   "class": "e",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M27",
+   "class": "b",
+   "stage1_inside": false,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M28",
+   "class": "c",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M29",
+   "class": "d",
+   "stage1_inside": true,
+   "category": "outside",
+   "detail": []
+  },
+  {
+   "id": "M30",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  },
+  {
+   "id": "M31",
+   "class": "f",
+   "stage1_inside": false,
+   "false_alarm": []
+  }
+ ],
+ "tally": {
+  "e": {
+   "caught": 0,
+   "outside": 4,
+   "agreeing": 1,
+   "masked": 0,
+   "other": 0
+  },
+  "a": {
+   "caught": 1,
+   "outside": 4,
+   "agreeing": 0,
+   "masked": 0,
+   "other": 0
+  },
+  "b": {
+   "caught": 0,
+   "outside": 5,
+   "agreeing": 0,
+   "masked": 0,
+   "other": 0
+  },
+  "c": {
+   "caught": 1,
+   "outside": 4,
+   "agreeing": 0,
+   "masked": 0,
+   "other": 0
+  },
+  "d": {
+   "caught": 2,
+   "outside": 3,
+   "agreeing": 0,
+   "masked": 0,
+   "other": 0
+  }
+ },
+ "total": {
+  "caught": 4,
+  "outside": 20,
+  "agreeing": 1,
+  "masked": 0,
+  "other": 0
+ },
+ "f_false_alarms": []
+}

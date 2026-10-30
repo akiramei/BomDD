@@ -1,0 +1,637 @@
+{
+ "scenarios": [
+  {
+   "id": "UC-01",
+   "title": "再生ヘッドで区間を分割し、後半の速度を変える",
+   "goal": "動画の途中で区間を分け、分けた後半だけを 2 倍速にする",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "Split",
+     "surface": "ToolbarView",
+     "expect": "ST-02"
+    },
+    {
+     "in": "ST-02",
+     "action": "ApplySpeedPreset:2",
+     "surface": "InspectorView",
+     "expect": "ST-02"
+    }
+   ]
+  },
+  {
+   "id": "UC-02",
+   "title": "分割を取り消してやり直す",
+   "goal": "誤って分割した区間を元に戻し、やはり分割し直す",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "Split",
+     "surface": "ToolbarView",
+     "expect": "ST-02"
+    },
+    {
+     "in": "ST-02",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-03"
+    },
+    {
+     "in": "ST-03",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-02"
+    }
+   ]
+  },
+  {
+   "id": "UC-03",
+   "title": "分割と速度変更を一つずつ取り消し、やり直す",
+   "goal": "2 つの編集を順に取り消してから順にやり直す",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "Split",
+     "surface": "ToolbarView",
+     "expect": "ST-02"
+    },
+    {
+     "in": "ST-02",
+     "action": "ApplySpeedPreset:2",
+     "surface": "InspectorView",
+     "expect": "ST-02"
+    },
+    {
+     "in": "ST-02",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-05"
+    },
+    {
+     "in": "ST-05",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-03"
+    },
+    {
+     "in": "ST-03",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-05"
+    },
+    {
+     "in": "ST-05",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-02"
+    }
+   ]
+  },
+  {
+   "id": "UC-04",
+   "title": "トリム開始を再生ヘッドに設定する",
+   "goal": "動画の頭の不要な部分を落とし、新しい先頭を確かめる",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-09",
+     "action": "SetTrimIn",
+     "surface": "ToolbarView",
+     "expect": "ST-10"
+    },
+    {
+     "in": "ST-10",
+     "action": "ToStart",
+     "surface": "TransportView",
+     "expect": "ST-10"
+    }
+   ]
+  },
+  {
+   "id": "UC-05",
+   "title": "トリム開始の設定を取り消してやり直す",
+   "goal": "トリム開始の変更を元に戻し、もう一度適用する",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-09",
+     "action": "SetTrimIn",
+     "surface": "ToolbarView",
+     "expect": "ST-10"
+    },
+    {
+     "in": "ST-10",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-11"
+    },
+    {
+     "in": "ST-11",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-10"
+    }
+   ]
+  },
+  {
+   "id": "UC-06",
+   "title": "トリム終了を再生ヘッドに設定する",
+   "goal": "動画の末尾の不要な部分を落とし、新しい末尾を確かめる",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-06",
+     "action": "SetTrimOut",
+     "surface": "ToolbarView",
+     "expect": "ST-12"
+    },
+    {
+     "in": "ST-12",
+     "action": "ToEnd",
+     "surface": "TransportView",
+     "expect": "ST-12"
+    }
+   ]
+  },
+  {
+   "id": "UC-07",
+   "title": "トリム終了の設定を取り消してやり直す",
+   "goal": "トリム終了の変更を元に戻し、もう一度適用する",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-06",
+     "action": "SetTrimOut",
+     "surface": "ToolbarView",
+     "expect": "ST-12"
+    },
+    {
+     "in": "ST-12",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-08"
+    },
+    {
+     "in": "ST-08",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-12"
+    }
+   ]
+  },
+  {
+   "id": "UC-08",
+   "title": "現在の区間を前の区間と結合する",
+   "goal": "不要になった区間の境界を消して 1 つの区間にまとめる",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-22",
+     "action": "DeleteSelectedBoundary",
+     "surface": "ToolbarView",
+     "expect": "ST-23"
+    },
+    {
+     "in": "ST-23",
+     "action": "ApplySpeedPreset:1.5",
+     "surface": "InspectorView",
+     "expect": "ST-23"
+    }
+   ]
+  },
+  {
+   "id": "UC-09",
+   "title": "結合を取り消してやり直す",
+   "goal": "誤って結合した区間を元に戻し、やはり結合し直す",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-22",
+     "action": "DeleteSelectedBoundary",
+     "surface": "ToolbarView",
+     "expect": "ST-23"
+    },
+    {
+     "in": "ST-23",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-24"
+    },
+    {
+     "in": "ST-24",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-23"
+    }
+   ]
+  },
+  {
+   "id": "UC-10",
+   "title": "先頭の区間の速度を変える",
+   "goal": "先頭へ移動し、そこの区間を 2 倍速にする",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "ToStart",
+     "surface": "TransportView",
+     "expect": "ST-13"
+    },
+    {
+     "in": "ST-13",
+     "action": "ApplySpeedPreset:2",
+     "surface": "InspectorView",
+     "expect": "ST-14"
+    }
+   ]
+  },
+  {
+   "id": "UC-11",
+   "title": "速度変更を取り消してやり直す",
+   "goal": "スロー再生にした区間を元の速度に戻し、やはりスローにする",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-13",
+     "action": "ApplySpeedPreset:0.5",
+     "surface": "InspectorView",
+     "expect": "ST-14"
+    },
+    {
+     "in": "ST-14",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-15"
+    },
+    {
+     "in": "ST-15",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-14"
+    }
+   ]
+  },
+  {
+   "id": "UC-12",
+   "title": "区間を消音し、音量を戻す",
+   "goal": "再生ヘッドの区間の音を消し、そのあと 100% に戻す",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "ApplyVolumePreset:0",
+     "surface": "InspectorView",
+     "expect": "ST-04"
+    },
+    {
+     "in": "ST-04",
+     "action": "ApplyVolumePreset:100",
+     "surface": "InspectorView",
+     "expect": "ST-04"
+    }
+   ]
+  },
+  {
+   "id": "UC-13",
+   "title": "消音を取り消してやり直す",
+   "goal": "消音を Undo で元に戻し、Redo で再適用する",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "ApplyVolumePreset:0",
+     "surface": "InspectorView",
+     "expect": "ST-04"
+    },
+    {
+     "in": "ST-04",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-03"
+    },
+    {
+     "in": "ST-03",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-04"
+    }
+   ]
+  },
+  {
+   "id": "UC-14",
+   "title": "末尾付近の区間の速度を変えて取り消す",
+   "goal": "再生ヘッドの区間を 4 倍速にしてみて、取り消す",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-06",
+     "action": "ApplySpeedPreset:4",
+     "surface": "InspectorView",
+     "expect": "ST-07"
+    },
+    {
+     "in": "ST-07",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-08"
+    }
+   ]
+  },
+  {
+   "id": "UC-15",
+   "title": "動画を書き出す",
+   "goal": "書き出しダイアログを開き、編集結果をファイルに書き出す",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "ToStart",
+     "surface": "TransportView",
+     "expect": "ST-13"
+    },
+    {
+     "in": "ST-13",
+     "action": "ShowExportDialog",
+     "surface": "ToolbarView",
+     "expect": "ST-17"
+    },
+    {
+     "in": "ST-17",
+     "action": "ConfirmExport",
+     "surface": "ExportDialogView",
+     "expect": "unknown",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-16",
+   "title": "書き出しダイアログをキャンセルする",
+   "goal": "書き出しダイアログを開いたが、書き出さずに編集画面へ戻る",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-13",
+     "action": "ShowExportDialog",
+     "surface": "ToolbarView",
+     "expect": "ST-17"
+    },
+    {
+     "in": "ST-17",
+     "action": "CloseExport",
+     "surface": "ExportDialogView",
+     "expect": "ST-13"
+    }
+   ]
+  },
+  {
+   "id": "UC-17",
+   "title": "出力解像度を下げて書き出す",
+   "goal": "出力を 50% に縮小してファイルに書き出す",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-13",
+     "action": "Scale:0.5",
+     "surface": "InspectorView",
+     "expect": "ST-16"
+    },
+    {
+     "in": "ST-16",
+     "action": "ShowExportDialog",
+     "surface": "ToolbarView",
+     "expect": "ST-18"
+    },
+    {
+     "in": "ST-18",
+     "action": "ConfirmExport",
+     "surface": "ExportDialogView",
+     "expect": "unknown",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-18",
+   "title": "解像度変更を元に戻す",
+   "goal": "75% にして書き出しダイアログを開いたが、キャンセルして元の解像度に戻す",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-13",
+     "action": "Scale:0.75",
+     "surface": "InspectorView",
+     "expect": "ST-16"
+    },
+    {
+     "in": "ST-16",
+     "action": "ShowExportDialog",
+     "surface": "ToolbarView",
+     "expect": "ST-18"
+    },
+    {
+     "in": "ST-18",
+     "action": "CloseExport",
+     "surface": "ExportDialogView",
+     "expect": "ST-16"
+    },
+    {
+     "in": "ST-16",
+     "action": "Scale:1",
+     "surface": "InspectorView",
+     "expect": "ST-13"
+    }
+   ]
+  },
+  {
+   "id": "UC-19",
+   "title": "先頭・末尾へ移動し、コマ送りで位置を合わせる",
+   "goal": "再生ヘッドをトリム範囲の端へ動かし、1 フレーム単位で位置を確かめる",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "ToEnd",
+     "surface": "TransportView",
+     "expect": "ST-21"
+    },
+    {
+     "in": "ST-21",
+     "action": "ToStart",
+     "surface": "TransportView",
+     "expect": "ST-13"
+    },
+    {
+     "in": "ST-13",
+     "action": "StepForward",
+     "surface": "TransportView",
+     "expect": "ST-20"
+    },
+    {
+     "in": "ST-20",
+     "action": "StepBack",
+     "surface": "TransportView",
+     "expect": "ST-13"
+    }
+   ]
+  },
+  {
+   "id": "UC-20",
+   "title": "先頭から再生して止める",
+   "goal": "編集結果を先頭から再生してプレビューし、途中で止める",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "ToStart",
+     "surface": "TransportView",
+     "expect": "ST-13"
+    },
+    {
+     "in": "ST-13",
+     "action": "TogglePlay",
+     "surface": "TransportView",
+     "expect": "ST-19"
+    },
+    {
+     "in": "ST-19",
+     "action": "TogglePlay",
+     "surface": "TransportView",
+     "expect": "unknown"
+    }
+   ]
+  },
+  {
+   "id": "UC-21",
+   "title": "アプリの情報を見る",
+   "goal": "About ダイアログでバージョンやライセンスを確かめて閉じる",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-13",
+     "action": "OpenAbout",
+     "surface": "TitleBarView",
+     "expect": "ST-25"
+    },
+    {
+     "in": "ST-25",
+     "action": "CloseAbout",
+     "surface": "AboutDialogView",
+     "expect": "ST-13"
+    }
+   ]
+  },
+  {
+   "id": "UC-22",
+   "title": "表示言語を切り替え、タイムラインを拡大縮小する",
+   "goal": "UI を英語にして戻し、タイムラインの表示倍率を調整する",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "SwitchLanguage:en",
+     "surface": "TitleBarView",
+     "expect": "ST-01"
+    },
+    {
+     "in": "ST-01",
+     "action": "SwitchLanguage:ja",
+     "surface": "TitleBarView",
+     "expect": "ST-01"
+    },
+    {
+     "in": "ST-01",
+     "action": "ZoomIn",
+     "surface": "TimelineView",
+     "expect": "ST-01"
+    },
+    {
+     "in": "ST-01",
+     "action": "ZoomOut",
+     "surface": "TimelineView",
+     "expect": "ST-01"
+    }
+   ]
+  },
+  {
+   "id": "UC-23",
+   "title": "動画ファイルを開く",
+   "goal": "編集したい mp4 を選んで開く",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-01",
+     "action": "ToStart",
+     "surface": "TransportView",
+     "expect": "ST-13"
+    },
+    {
+     "in": "ST-13",
+     "action": "Open",
+     "surface": "ToolbarView",
+     "expect": "unknown",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-24",
+   "title": "読み込みエラーから戻って開き直す",
+   "goal": "読み込みに失敗した表示を消し、別のファイルを開き直す",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-27",
+     "action": "ClearError",
+     "surface": "MainWindow",
+     "expect": "ST-13"
+    },
+    {
+     "in": "ST-13",
+     "action": "Open",
+     "surface": "ToolbarView",
+     "expect": "unknown",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-25",
+   "title": "ffmpeg の取得をあとにする",
+   "goal": "初回起動の ffmpeg 取得の案内を閉じ、まず編集画面を使う",
+   "flow": "alternate",
+   "steps": [
+    {
+     "in": "ST-26",
+     "action": "DismissFfmpegSetup",
+     "surface": "MainWindow",
+     "expect": "ST-01"
+    },
+    {
+     "in": "ST-01",
+     "action": "ToStart",
+     "surface": "TransportView",
+     "expect": "ST-13"
+    }
+   ]
+  },
+  {
+   "id": "UC-26",
+   "title": "ffmpeg を取得する",
+   "goal": "初回起動の案内から ffmpeg をダウンロードして、解析・プレビュー・書き出しを使えるようにする",
+   "flow": "main",
+   "steps": [
+    {
+     "in": "ST-26",
+     "action": "InstallFfmpeg",
+     "surface": "MainWindow",
+     "expect": "unknown",
+     "harness": "no"
+    }
+   ]
+  }
+ ]
+}

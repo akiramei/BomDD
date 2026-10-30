@@ -142,4 +142,24 @@ No product code is executed in stage 2 (stage 1's D8 does not recur): the walk r
 
 ## 11. Departures
 
-None yet.
+- **D1 — a wrong surface cannot be written (found by the slice, before the writers started).** Section 4 makes `action` and
+  `surface` a row of `actions.json`, and every action id but `Scale:1` (two elements, both `InspectorView`) has one surface, so
+  `check_schema.py` rejects a wrong surface and a writer cannot make one: **clean W2 is 0 by construction**, and a d mutant is
+  never masked by W2 (it can still be masked by W3 at the same step, or be outside). Section 8 step 3's planted "wrong surface"
+  was replaced by a step on a disabled pair (Redo in ST-01). The slice (`slice/`): clean keys exactly the two planted (W3 at
+  S-01#1, W1 at S-01#3); on the rebuilt mutants M01 agreeing (its goto is the planted wrong expect), M02, M04, M05, M11 caught,
+  20 outside, f silent — each checked by hand against the change and the step.
+- `compare.py` counts the actions over the 44 ids of stage 1's `bindings.json` (`CancelExport` is in no mock state), as
+  section 5 says; a first form counted the mock's 43 and was corrected before any writer started.
+- **D2 — W3 on an `"unknown"` expect (found on the first walk of the writers, recorded before the results).** Section 4 and
+  stage 1's section 7 say W3 does not read `"unknown"`; stage 1's `walk.py` skips only an unknown *goto*, so it flagged writer B's
+  UC-20#2 (expect `"unknown"`, goto ST-13). Stage 1 had no `"unknown"` expect, so its results are unaffected (latent; its selftest
+  covered the goto side only). `walk.py` is left unchanged; `compare.py` applies the definition (a `walk` that drops W3 when the
+  step's expect is `"unknown"`, selftest case and twin added). The first walk is kept as `run-*/flags-as-filed.json`: every
+  placement and the f result are identical; only B's clean W3 count changes (8 → 7).
+- **D3 — the clean flags checked on the authority (after the verdict; descriptive).** Section 1 takes a clean flag as the
+  scenario's error by construction. To test that, `verify_on_authority.py` gives stage 1's harness (the D8 build, `adc602fe…`)
+  stage 1's states and scenarios plus the 8 writer scenarios that carry a clean flag, with stage 1's setup for the same start
+  state. Before running it the commands those scenarios execute were read for I/O (only `SwitchLanguage`, not executed since
+  D8, and the ffmpeg installer, never executed, write files), and `%LOCALAPPDATA%\MoviePad\settings.json`'s modification time
+  was the same before and after (21:24:07, stage 1's last write).

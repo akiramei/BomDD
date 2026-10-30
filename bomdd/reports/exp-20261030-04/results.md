@@ -114,6 +114,13 @@ Per mutant (stop flags on the mutant, 0 on the clean mock):
 - **M27 is a harness limit:** with `SwitchLanguage` not executed (D8) the writer avoided it.
 - The f control exercises labels, order and added disabled buttons only; a walk that read enabled-but-unused elements would not
   be tested by it.
+- **Corrected 2026-10-30 after stage 2 (EXP-20261030-05 `results.md` section 3):** `definitions.md` section 5 says the clean mock
+  is "the authority's availability, ownership and transitions on the visited states". For transitions that holds only on the
+  **paths** stage 1 took: Undo and Redo from ST-02, ST-03, ST-04, ST-05 and ST-08 depend on the undo history, which the state
+  predicates do not carry, and stage 2's writers reached those states by other edits where the authority's Undo / Redo go
+  elsewhere (the harness then reports the five states ambiguous). Stage 1's own scenarios are consistent with the mock (0
+  ambiguous over its visits), so its verdict and placements are unchanged; what changes is the reach of "the mock is the
+  authority's".
 - Stage 1 removes, on purpose, the two things that fail in real work: wrong scenarios (stage 2) and the binding between scenario
   words and a designer's mock (not filed).
 
