@@ -10069,18 +10069,28 @@ measurement; no body text, template or tool changes.
   reach these on these inputs**; layer M (descriptive) caught D1, not D3. Six derivers, 16-21 minutes each, isolation clean; post
   stop flags 49 / 38 / 115. Read after the verdict, not readings: (1) D1's own row behaved as built (T3 on `BatchAssignTag` on pre,
   gone on post); the item missed on another tag operation (the detail pane's assign/unassign, text-only in both states and both
-  derivations), which the per-item word pattern cannot tell apart; (2) D2 on the same input split between derivations — T02's table
-  gave 5 matching T5 flags, T03's gave 0 (it put the batch actions in the closed modal); (3) D3 was hidden by entity granularity — the
+  derivations), which the per-item word pattern cannot tell apart; (2) D2 was caught by neither derivation of the same input — T03's
+  table put the batch actions in the closed modal (0 matching T5 flags); T02's gave 5, but they come from cells left `not_drawn` and
+  its opener is enabled in the ordinary state, the opposite of ECO-VT-040's defect (corrected at closure; the run commit and the first
+  form of this paragraph read them as a split); (3) D3 was hidden by entity granularity — the
   pre deriver merged manual and channel collections, whose drawn channel create silences T4. Same input, two derivations: states
   38 / 30, T5 27 / 6, flag Jaccard 0.145. The checks fire on what the table carries; D2 and D3 were lost in the state list and the
   entity split, before any check ran. Departures D1 (tables taken from the files the derivers wrote) and D2 (38 rows dropped by a
   prompt/validator mismatch on null `owner_surfaces`; sensitivity with nothing dropped leaves the verdict unchanged). Nothing wired.
-  source: this section (the user's "起票する", 2026-10-30)
+  **Closed on the user's "A" (2026-10-30): recorded and stopped** — no rerun over a ruled skeleton, nothing wired into G2, no body
+  text changed. The table's second half (a human ruling of the states and entities, then cells filled under that fixed skeleton) was
+  not measured. Reopening needs a new cause: OBS-20261030-05 reaching a second case, or a product whose states and entities are
+  already ruled and kept, so that a table can be filled under them without a ruling step built for the measurement. The starting point
+  is this folder's `checks.py` and `packages.py`, with `owner_surfaces` accepted as null (departure D2) and one real derivation run
+  end to end through the extractor and validator before the batch. D1's miss is the item matcher (a word pattern cannot tell two
+  operations on one entity apart), which a ruled skeleton does not change.
+  source: this section (the user's "起票する" and "A", 2026-10-30)
   evidence: `bomdd/reports/exp-20261030-03/definitions.md`, `manifest.json`, `checks.py` (selftest PASS at filing), `results.md`,
   `flags.json`, `tables/`, `sensitivity.py`, `after_verdict_why.py`, `after_verdict_repro.py`
 - [watch 1/3] OBS-20261030-05 — **When an AI derives the structure a deterministic check reads, the check inherits the derivation's
   variation: what it can see (the state list, how entities are split) is fixed before it runs.** EXP-20261030-03: one input, two
-  derivations — states 38 / 30, T5 flags 27 / 6, D2's matching flags 5 / 0; D3's defect (no create for one kind of collection) was
+  derivations — states 38 / 30, T5 flags 27 / 6, flag Jaccard 0.145 (D2's matching flags 5 / 0, though T02's five are not the
+  defect); D3's defect (no create for one kind of collection) was
   invisible because the deriver merged two kinds into one entity. Machine face (measure): a later table-based check reports its
   result over two derivations of one input, or reads a skeleton (states, entities) that is ruled and kept rather than derived per
   run. 2 例目の条件= another check over an AI-derived structure whose outcome differs between two derivations of one input.

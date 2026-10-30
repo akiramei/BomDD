@@ -47,12 +47,17 @@ Flags per check:
    in both derivations of the D1-post input (T02 and T03). The matching (section 6) is a pattern over the item's words, so it cannot
    tell two operations on one entity apart. Whether the detail-pane gap was itself a recorded defect was not checked (a later mock,
    T06, has `ToggleQuickActionTag`).
-2. **D2 — on the same input, the outcome depended on the derivation.** T02 and T03 are the same input (section 2 of the
+2. **D2 — on the same input, the flags depended on the derivation; the outcome did not (missed by both).** T02 and T03 are the same input (section 2 of the
    definitions). T03's deriver put the batch tag operations inside the assignment modal (absent in every Videos state) and the
    modal's opener `OpenTagAssignment` enabled in every selection-capable state, so T5 has nothing to fire on; T02's deriver produced
    five tag-matching T5 flags (`OpenTagAssignment`, `BatchAssignTag`, `BatchUnassignTag`, `NavigateTags`, `EditAssignmentValue`).
-   The D2 post (T04) has none, so with T02's derivation as the pre, D2 would have been caught. Neither derivation's pre has an
-   ordinary-browse state the defect could sit in as a state (T03 names one Videos "通常" state, selection true, opener enabled).
+   The D2 post (T04) has none, but T02's five are not the defect (corrected at closure; the run commit said that T02 as the pre
+   would have caught D2). ECO-VT-040's defect is the batch action shown only in the classification surface and absent from
+   ordinary browsing. T02 has the opener `OpenTagAssignment` enabled in "Videos" and "通常" and `not_drawn` in "モード すべて",
+   "モード 未分類" and "タグ付与 失敗"; `BatchAssignTag`, `BatchUnassignTag` and `EditAssignmentValue` are enabled only in "タグ付与
+   失敗"; `NavigateTags` only in "Videos". The flags come from cells the deriver left `not_drawn`, and the opener's availability points the other way
+   from the defect (enabled in the ordinary state). Neither derivation's pre has an ordinary-browse state that lacks the action
+   (T03 names one Videos "通常" state, selection true, opener enabled), so neither could have caught D2 as defined.
 3. **D3 — the table's entity granularity hid it.** T05's deriver merged manual and channel collections into one entity
    (`Collection（manual/channel 取得元）`) whose drawn create is `ConfirmChannelCollection`, so T4 is silent; T05 has no create or
    add row whose id, label or mock action names manual (manual / 手動), drawn or not. The defect is the absence of a create for one kind of an entity; T4 sees an
