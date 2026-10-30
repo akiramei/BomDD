@@ -10021,7 +10021,10 @@ measurement; no body text, template or tool changes.
   control for a criterion of absence — a defect of the design, not of the reader; (2) 6 of the 7 stage-1 hits were not hits on post,
   and on the four clean controls there is no hit-level false alarm; (3) D6's post state still carries the defect in the reader's
   inputs (spec line 1168 unchanged; the commit was a ruling), so its control was not clean. Departures D1-D3 (reports captured from the
-  refused `Write`; isolation measured; judge folder isolated). Nothing wired, no body text changed; the next step is the user's.
+  refused `Write`; isolation measured; judge folder isolated). Nothing wired, no body text changed.
+  **Closed on the user's "A" (2026-10-30): recorded and stopped** — no rerun with a corrected control, nothing wired into G2, §17
+  unchanged. Reopening needs a new cause (an upstream defect a reader would have named reaching manufacture, or OBS-20261030-03/-04
+  reaching a second case); the corrected design (hits-only control, post states checked by `post_check.py`'s shape) is the starting point.
   source: this section (the user's "A", 2026-10-30)
   evidence: `bomdd/reports/exp-20261030-02/definitions.md`, `manifest.json`, `results.md`, `verdicts-stage{1,2}.json`,
   `judge-map-stage{1,2}.json`, `reports/`, `post_check.py`
