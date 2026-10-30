@@ -10158,3 +10158,30 @@ measurement; no body text, template or tool changes.
   executes product code and changes a file outside its staging folder.
   source: this section
   evidence: `bomdd/reports/exp-20261030-04/definitions.md` §13 D8, `results.md` §6
+
+## 2026-10-30 After EXP-20261030-04 — "A: 起票する": stage 2, ordinary upstreams on stage 1's mock and mutants (EXP-20261030-05, filed)
+
+Source: the user's "A: 起票する" (2026-10-30), after stage 1 found the walk sound inside coverage with a correct upstream (20 / 20
+a-e caught, f silent; a qualification, by construction). Folder `bomdd/reports/exp-20261030-05/` (`definitions.md`, `prepare.py`);
+stage 1's clean mock, mutants and checks are reused by path and hash; MoviePad and MoviePad-Remake are read by `git show` only.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement; no body text, template or tool changes.
+
+- [open] EXP-20261030-05 — **With ordinary upstreams — use case scenarios drafted by fresh AI writers from the requirements, not
+  from the code and not certified — walked over stage 1's clean mock and its 31 mutants by the same checks, does every miss fall
+  into outside (coverage), masked (an error already flagged at that step) or agreeing (the scenario's error matches the defect, so a
+  flag disappears), leaving none to the mechanism, and how do the misses split?** Two writers, started together, each given the
+  authority's README.md / README.ja.md (126eae9), MoviePad-Remake's 10-requirements.yaml (a2ca41e), the 27 mock states by id and a
+  name with the availability terms removed and undo / redo said as history (`prepare.py check` at filing: 27 unique names; with
+  history removed too, 15 states would share 6 names), the 45 action rows (id, surface, label; no conditions), a schema and a form
+  checker; not given code, mock, harness, stage 1's scenarios, mutants or checks. Clean flags are upstream errors by construction
+  (the mock is the authority's); coverage counts only steps whose pair is enabled on the clean mock; placement order caught /
+  outside / agreeing / masked / other (`compare.py`, selftest per category and one real slice with two planted errors before the
+  writers). Reading fixed in `definitions.md` §6, per writer, never pooled: other = 0 and f silent → every miss of an ordinary
+  upstream is placed once a correct reference is at hand (the user's hypothesis, measured on one product with two writers); other >
+  0 → a mechanism gap, named; clean flags, the split and coverage are measures. Limits: the binding (ids, surfaces, state ids) is
+  given; the state names leak part of the design; the writers are held to stage 1's 27 states; one seeder; no rate. No product code
+  executes. Start of the run is the user's.
+  source: this section (the user's "A: 起票する", 2026-10-30)
+  evidence: `bomdd/reports/exp-20261030-05/definitions.md`, `prepare.py`
