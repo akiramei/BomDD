@@ -10100,3 +10100,36 @@ measurement; no body text, template or tool changes.
   run. 2 例目の条件= another check over an AI-derived structure whose outcome differs between two derivations of one input.
   source: this section
   evidence: `bomdd/reports/exp-20261030-03/results.md` §3.2-3.4, `after_verdict_repro.py`
+
+
+## 2026-10-30 After EXP-20261030-03 — the user's question (a correct upstream separates the mechanism's failures from the upstream's) and "B: 機械で確かめる": a scenario walk over a mock, stage 1 on MoviePad's authority (EXP-20261030-04, filed)
+
+Source: the user, after the three experiments: 「もし、完璧なユースケースシナリオなど上流工程が用意出来た場合、失敗した理由を切り分け
+できるのではないか？不完全なユースケースを使うと、ユースケースに問題があるのか、それとも検証の仕組みに問題があるのかが曖昧になります。」
+None of ViewTube, ViewPrism2 or MoviePad-Remake has use cases or scenarios (0 UC ids; checked 2026-10-30), so EXP-20261030-01 to -03
+measured structure derived afterwards from artefacts without that layer. The user chose MoviePad-Remake's authority as the subject
+(「シンプルな MoviePad-Remake」), the experiment folder as the place ("A"), and machine certification of the scenarios ("B").
+Folder `bomdd/reports/exp-20261030-04/` (`definitions.md`); the authority (MoviePad `126eae9`) is read by archive into a staging
+folder outside every repository; nothing is written into MoviePad or MoviePad-Remake.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement; no body text, template or tool changes.
+
+- [open] EXP-20261030-04 — **Given use case scenarios certified by execution on the authority's view model and a mock generated
+  from the authority that every scenario walks cleanly, does a deterministic walk catch structural defects seeded into the mock,
+  and stay silent on the clean mock and on equivalent changes — with each miss placed inside or outside the scenarios' coverage?**
+  Stage 1 of two; stage 2 (an ordinary upstream on the same seeded mock) is not filed. Harness: a .NET console program built
+  against the archive extracts every `Command` binding of `Views/*.axaml` with its visibility and enabledness paths and executes
+  each scenario step on `new MainWindowViewModel()` (state predicate, availability, surface, execute, expected state); failing
+  scenarios are dropped and counted; the rest frozen by SHA-256. The mock is generated (states the scenarios visit, actions with
+  surface, enabledness and next state). A fresh writer (not told of mutants or checks) writes the scenarios; a fresh seeder that
+  never sees them writes 31 mutants in classes a (D2's), b (D3's kind merge), c (D1's counterpart), d (ownership), e (transition)
+  and f (equivalent, control). Checks W1 walk, W2 surface, W3 transition (stop) and W4 reverse coverage (measure); coverage = the
+  enabled (state, action) pairs of the clean mock some step uses. Order fixed: harness selftest per check, then one real slice end
+  to end, then the writer, certification, clean-mock control (W1-W3 = 0), seeder, run. Reading fixed in `definitions.md` §9:
+  inside detection of a-e and f's silence are expected **by construction** (shared ids), so they qualify the instrument; what
+  stage 1 measures is coverage and how many freely chosen defects a correct scenario set reaches. Every inside caught and f silent →
+  stage 2 earns a run (the user's). Seeded defects only; one writer, one seeder; the binding between scenario words and a designer's
+  mock is given here and is not in real work. Start of the run is the user's.
+  source: this section (the user's question and "A" / "B", 2026-10-30)
+  evidence: `bomdd/reports/exp-20261030-04/definitions.md`
