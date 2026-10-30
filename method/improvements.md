@@ -9919,9 +9919,14 @@ EXP-20261029-02. Read against the method:
   builds the model fills a gap with an invented Control instead of asking, unless the source rule forces a question; the same AI
   reading the same text drops the same thing; BCE does not reach values, rules, orders or tolerances; A1's 12 violations were in the
   derived layer, so they are no evidence that an upstream structure check pays; a robustness model held as an original would be a
-  third copy of the authority between spec and E-BOM (OBS-20261029-03), so it can only be a checking input. The one product with a
-  G2 record (MoviePad-Remake `20-spec.md` Gate record) ran one reader per round — the readers' difference was never taken — and did
-  not converge (16 → 14 → 15, cut off on the user's "A"); its round headings are values, orders, tolerances and formatting.
+  third copy of the authority between spec and E-BOM (OBS-20261029-03), so it can only be a checking input. MoviePad-Remake's G2
+  (`20-spec.md` Gate record) ran one reader per round and did not converge (16 → 14 → 15, cut off on the user's "A"); its round
+  headings are values, orders, tolerances and formatting. (Corrected 2026-10-30, after the count: this line first said MoviePad-Remake
+  was the one product with a G2 record, written without reading the others. ViewPrism2's `20-spec.md` has four G2 records, v1.1 to
+  v4, each with one reader (N = 1) and each passing at its re-audit, for example v1.1: 22 findings → re-audit minor 3. ViewTube's
+  `20-spec.md` Gate record has N = 2 — a Codex reader given the spec only (`bomdd/audits/g2-reader-codex.md`, 5 first findings
+  repaired) and the user's ruling — with difference 0. So two AI readers' extractions were never compared in any recorded G2; the
+  one two-reader G2 paired an AI reader with the human's ruling.)
 - **The alternative put to the user**: if anything, the step → Boundary / Control / Entity table as the extraction format of G2's
   independent readers (so their difference is a set difference, a measure, and unsourced elements a stop), not a new artefact or
   gate. Whether to try it waits on the count below.

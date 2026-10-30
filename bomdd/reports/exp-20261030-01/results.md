@@ -18,7 +18,8 @@ record. Definitions: `definitions.md` (fixed at `16cbeda`; departure D1, the Cod
 
 Per classifier, over its own IN items: K1 0 everywhere (both classifiers, all three products). OUT reasons are mostly
 `feature` (ViewTube 16 / 18, ViewPrism2 11 / 16) and, in ViewPrism2, `impl` (17 / 17). 33 items differ between the classifiers
-(screen or classes); all are listed in `summary.json` → `disagreements`.
+(screen or classes); all are listed in `summary.json` → `disagreements`. Every one of the 246 entries carries a non-empty
+`reason` and `read` (counted after `compare.py`, which checks the vocabulary only).
 
 ## 2. Reading (section 6, as fixed)
 
