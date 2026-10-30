@@ -1,0 +1,281 @@
+{
+ "prompt_sha256": "1567ea6f84100308ea862dc1352214e009613b526fcebca4ec9d52b44bc8671b",
+ "packages": {
+  "T01": {
+   "item": "D1",
+   "state": "pre",
+   "commit": "ad8c37c",
+   "files": [
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@ad8c37c:bomdd/10-requirements.yaml",
+     "sha256": "c54b7cdb9cf8b54786a602f576d33ad3dbe8f0396f815935d418d0cd1471d1c4",
+     "bytes": 75912
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@ad8c37c:bomdd/20-spec.md",
+     "sha256": "b0a36c5ee4433d934e156382823afb8aee270e5d9d2632a99f04374bf80fd4ff",
+     "bytes": 61266
+    },
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@ad8c37c:bomdd/ui/design-intent.md",
+     "sha256": "f988cc3ffa1a9c872477e31deb9b42f2622071fb61345f8df9babbc5b66675f7",
+     "bytes": 2768
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@ad8c37c:bomdd/ui/unresolved-questions.md",
+     "sha256": "17426884ed9a037c52b68ba5c7968626c1805829a1126b5fca1ae65fa035b406",
+     "bytes": 1459
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@ad8c37c:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "face430daef1a6d6a323ce1c7996b7a9586da54f33b81be36dbbf0e7dc1e8f4a",
+     "bytes": 60501
+    },
+    {
+     "file": "actions.txt",
+     "source": "derived from ViewTube@ad8c37c:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "c293637910915a411e41f4e84aa2ccbbc47a837b4400ac22083a4475f333e344",
+     "bytes": 689,
+     "count": 43
+    }
+   ]
+  },
+  "T02": {
+   "item": "D1",
+   "state": "post",
+   "commit": "6f24075f",
+   "files": [
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@6f24075f:bomdd/10-requirements.yaml",
+     "sha256": "124a18a4ba069617a2cb5fa5681042c9f231a25ec5981f20caf729bae6d80b7e",
+     "bytes": 77127
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@6f24075f:bomdd/20-spec.md",
+     "sha256": "42d88363a861af4e1085203619e60fe125e29eedc216815217f10e52625b6495",
+     "bytes": 63136
+    },
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@6f24075f:bomdd/ui/design-intent.md",
+     "sha256": "c4afa2559441ee7908fac0d73989e85d330305e607e886607a633a0c45fd7433",
+     "bytes": 3622
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@6f24075f:bomdd/ui/unresolved-questions.md",
+     "sha256": "8b22cd588255d8949a3debc38dd78e7377be0bf671c809a21cc9498bc7c6a17e",
+     "bytes": 1661
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@6f24075f:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "3ebe5a64e5a1da342129eff7e122e1ad40c6292511f7b54f2fb1a69959d80c49",
+     "bytes": 72740
+    },
+    {
+     "file": "actions.txt",
+     "source": "derived from ViewTube@6f24075f:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "6d0bb1d4518d7dc281e98ee93b2f21a2f38ba1974534ac44be33b06f53a3f714",
+     "bytes": 830,
+     "count": 50
+    }
+   ]
+  },
+  "T03": {
+   "item": "D2",
+   "state": "pre",
+   "commit": "2060849",
+   "files": [
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@2060849:bomdd/10-requirements.yaml",
+     "sha256": "124a18a4ba069617a2cb5fa5681042c9f231a25ec5981f20caf729bae6d80b7e",
+     "bytes": 77127
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@2060849:bomdd/20-spec.md",
+     "sha256": "42d88363a861af4e1085203619e60fe125e29eedc216815217f10e52625b6495",
+     "bytes": 63136
+    },
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@2060849:bomdd/ui/design-intent.md",
+     "sha256": "c4afa2559441ee7908fac0d73989e85d330305e607e886607a633a0c45fd7433",
+     "bytes": 3622
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@2060849:bomdd/ui/unresolved-questions.md",
+     "sha256": "8b22cd588255d8949a3debc38dd78e7377be0bf671c809a21cc9498bc7c6a17e",
+     "bytes": 1661
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@2060849:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "3ebe5a64e5a1da342129eff7e122e1ad40c6292511f7b54f2fb1a69959d80c49",
+     "bytes": 72740
+    },
+    {
+     "file": "actions.txt",
+     "source": "derived from ViewTube@2060849:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "6d0bb1d4518d7dc281e98ee93b2f21a2f38ba1974534ac44be33b06f53a3f714",
+     "bytes": 830,
+     "count": 50
+    }
+   ]
+  },
+  "T04": {
+   "item": "D2",
+   "state": "post",
+   "commit": "b9f629d6",
+   "files": [
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@b9f629d6:bomdd/10-requirements.yaml",
+     "sha256": "885c6677ca35f829e935c584217634911aeb086637e54e244ba1e8dbb7f60bfb",
+     "bytes": 77556
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@b9f629d6:bomdd/20-spec.md",
+     "sha256": "721a42f5d847f5743957e7d8de4a6b7d49fd24ea27779003cdd13d13833f9aaa",
+     "bytes": 63962
+    },
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@b9f629d6:bomdd/ui/design-intent.md",
+     "sha256": "b75a0ec86d18e2b3a8950fbd7d8ac4de4d7e2ce50536c514673602a752f0f0e2",
+     "bytes": 4312
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@b9f629d6:bomdd/ui/unresolved-questions.md",
+     "sha256": "8d039c94ef6f92d2778dd1688a83f1423c0dece23a24f8f49d375dff33eea2c7",
+     "bytes": 1860
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@b9f629d6:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "f1b994d3ab182a7739777f4e8e0e4db1a2e92a0cff6b9fec11be310c1bf1c290",
+     "bytes": 79257
+    },
+    {
+     "file": "actions.txt",
+     "source": "derived from ViewTube@b9f629d6:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "6d0bb1d4518d7dc281e98ee93b2f21a2f38ba1974534ac44be33b06f53a3f714",
+     "bytes": 830,
+     "count": 50
+    }
+   ]
+  },
+  "T05": {
+   "item": "D3",
+   "state": "pre",
+   "commit": "05e2d905",
+   "files": [
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@05e2d905:bomdd/10-requirements.yaml",
+     "sha256": "fffd7149da1d1fa1be9556366dca01b700d370089a59413ef360f834b443b1cc",
+     "bytes": 210797
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@05e2d905:bomdd/20-spec.md",
+     "sha256": "3e1db424b77340f926c01274eba130726f22575af9895f6abf9fc64045b464c6",
+     "bytes": 87972
+    },
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@05e2d905:bomdd/ui/design-intent.md",
+     "sha256": "76c7083288c0c42967e49223b88f1d0b8ab91bbedcf8c7304b41f77548ba6893",
+     "bytes": 9367
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@05e2d905:bomdd/ui/unresolved-questions.md",
+     "sha256": "b9cc2889201c42d8d2427cb3d5ad45b306681a8e86f648a4824b63d25dfa6d60",
+     "bytes": 12308
+    },
+    {
+     "file": "notes/videos-cad.md",
+     "source": "ViewTube@05e2d905:bomdd/ui/videos-cad.md",
+     "sha256": "2825d8a5ff88bd69efd6fe96eac352068175bda56f2960f6a8467dba9b37c724",
+     "bytes": 58130
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@05e2d905:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "499c08a358a48544909922347b7377af0352950e9cadb2ca0e2fbc60c57ed238",
+     "bytes": 371599
+    },
+    {
+     "file": "actions.txt",
+     "source": "derived from ViewTube@05e2d905:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "ffe4b42e3696bcda8c3031e08d9a2bce5661386da6680e06bdb47eeb20e0ed7f",
+     "bytes": 2195,
+     "count": 117
+    }
+   ]
+  },
+  "T06": {
+   "item": "D3",
+   "state": "post",
+   "commit": "1cd3e7a5",
+   "files": [
+    {
+     "file": "ruled/10-requirements.yaml",
+     "source": "ViewTube@1cd3e7a5:bomdd/10-requirements.yaml",
+     "sha256": "eb35bfb293e7f5a2ee3e10180125a3536ab7c82a3c3ec612b16fba38b8f92861",
+     "bytes": 224400
+    },
+    {
+     "file": "ruled/20-spec.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/20-spec.md",
+     "sha256": "22dcf2f38df915fb4eee1615b5ca3c00b7ba85e3ea0fe42880b4783d14cf75ca",
+     "bytes": 91999
+    },
+    {
+     "file": "notes/design-intent.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/design-intent.md",
+     "sha256": "76c7083288c0c42967e49223b88f1d0b8ab91bbedcf8c7304b41f77548ba6893",
+     "bytes": 9367
+    },
+    {
+     "file": "notes/unresolved-questions.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/unresolved-questions.md",
+     "sha256": "b9cc2889201c42d8d2427cb3d5ad45b306681a8e86f648a4824b63d25dfa6d60",
+     "bytes": 12308
+    },
+    {
+     "file": "notes/videos-cad.md",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/videos-cad.md",
+     "sha256": "2825d8a5ff88bd69efd6fe96eac352068175bda56f2960f6a8467dba9b37c724",
+     "bytes": 58130
+    },
+    {
+     "file": "mock/viewtube-v1.html",
+     "source": "ViewTube@1cd3e7a5:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "96af12b5bfc2fc805fa9ea7dd81eb1dbba50df18e0ac92760453aaa7e62150e7",
+     "bytes": 436855
+    },
+    {
+     "file": "actions.txt",
+     "source": "derived from ViewTube@1cd3e7a5:bomdd/ui/mock/viewtube-v1.html",
+     "sha256": "543a711fde41e641eaadcf83bbaf8f3257f81a7bd1352d758dc4383febf51d02",
+     "bytes": 2382,
+     "count": 126
+    }
+   ]
+  }
+ }
+}

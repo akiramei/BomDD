@@ -10041,3 +10041,29 @@ measurement; no body text, template or tool changes.
   still carry the defect.
   source: this section
   evidence: `bomdd/reports/exp-20261030-02/results.md` §3.3, `post_check.py`
+
+## 2026-10-30 After EXP-20261030-02 — the user's aim (make the design verifiable, a step beyond review) and "起票する": an operation table with deterministic checks (EXP-20261030-03, filed)
+
+Source: the user, after EXP-20261030-02 closed: 「目的は設計を検証可能にすることです。レビューという属人性の高い手段に頼るところから
+一歩進むにはどうすればよいのでしょうか？」 The proposal: write the design as an operation table (entity, kind, counterpart, owner
+surface, availability per state, the mock action and the requirement it comes from); the AI derives it, the human rules on it, and
+checks on it are deterministic. The user's "起票する" files the first step on ViewTube's three items of EXP-20261030-02. Folder
+`bomdd/reports/exp-20261030-03/` (`definitions.md`, `packages.py` → `manifest.json`, `checks.py`, `extract_tables.py`; the packages are
+staged outside every repository).
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement; no body text, template or tool changes.
+
+- [open] EXP-20261030-03 — **On ViewTube's D1-D3 (ECO-VT-035, -040, -226), each with a pre-fix and a post-fix state, does a
+  deterministic check on an AI-derived operation table fire before the fix and stay silent after it?** Layer M (mock only, no AI):
+  a verb-pair lexicon over the mock's action names (M1, stop), descriptive only — in-sample. Layer T: one fresh Claude deriver per state,
+  told to transcribe into a fixed schema and not to review; checks T2 text-only operation, T3 missing counterpart, T4 entity without a
+  drawn create, T5 availability asymmetry across selection-capable states (stop), T1 coverage and T6 several owners (measure). The
+  control counts hits only and every post state was checked clean before filing (the OBS-20261030-03/-04 corrections); D1 post and
+  D2 pre are the same input, giving one reproducibility pair. Reading fixed in `definitions.md` §7: ≥ 2/3 caught → a prospective
+  G2-stop trial in ViewTube is earned ("usable" if stop flags on each post state ≤ 25, else "needs an exception-ruling step"); 1/3 →
+  no claim; 0/3 → the table form does not reach these on these inputs. The text side is still read (the ruled text cites no mock
+  action); the step measured is a structured output plus deterministic checks. In-sample: checks, lexicon and matching patterns were
+  written knowing the three defects. Start of the run is the user's.
+  source: this section (the user's "起票する", 2026-10-30)
+  evidence: `bomdd/reports/exp-20261030-03/definitions.md`, `manifest.json`, `checks.py` (selftest PASS at filing)
