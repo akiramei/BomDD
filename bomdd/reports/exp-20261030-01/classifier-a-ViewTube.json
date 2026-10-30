@@ -1,0 +1,432 @@
+{
+ "classifier": "a",
+ "product": "ViewTube",
+ "items": [
+  {
+   "id": "VT-001",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2",
+    "K3"
+   ],
+   "kind": "ambiguous",
+   "reason": "REQ-042/spec said 'thumbnail or deterministic placeholder' with no precedence and no step fetching the image, so placeholder-only passed; modelling the card's displayed image needs a fetch handler and a selection rule the text does not state (K2), and the mock shows only gradients while the model's boundary would show a thumbnail (K3).",
+   "read": "ECO-VT-031.md Observed facts (UI-CAD; Requirements and acceptance), Five-layer diagnosis; REQ-042 as quoted"
+  },
+  {
+   "id": "VT-002",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2",
+    "K3"
+   ],
+   "kind": "missing",
+   "reason": "The approved BatchAssignTag action (タグを付ける) had no opened surface, no batch-selection identity separate from detail selection and no assign/unassign/mixed states in CAD; the action's handler and destination are unsourced (K2), and the mock's single SelectVideo card action differs from the model's batch-selection and assignment boundary operations required by REQ-024/025/045 (K3).",
+   "read": "ECO-VT-035.md Reproduction and observed facts, Layer diagnosis, Decision gate"
+  },
+  {
+   "id": "VT-003",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2",
+    "K3"
+   ],
+   "kind": "missing",
+   "reason": "CAD placed the selected count and タグを付ける only in the saved-hierarchy layout while batch-selection checkboxes appear in ordinary browsing; the selection step in ordinary mode has no handler/destination for assignment (K2), and the ordinary-mode mock exposes selection without the assign operation (K3).",
+   "read": "ECO-VT-040.md Observed facts 1-9, Layer diagnosis"
+  },
+  {
+   "id": "VT-004",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "New Videos-owned saved-node selector requested; CAD and contracts consistently and correctly stated the then-wanted Home/root opening and child descent.",
+   "read": "ECO-VT-046.md Request, Observed facts, Layer diagnosis"
+  },
+  {
+   "id": "VT-005",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "Intentional supersession of the Tags 結果 action after ECO-VT-046; mock, UI-IR, ruling and spec all agreed with the product.",
+   "read": "ECO-VT-048.md Observed facts, Diagnosis"
+  },
+  {
+   "id": "VT-006",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "Clickable breadcrumb is a new behaviour; the CAD was unambiguously and intentionally non-interactive and reserved this for a separate ECO.",
+   "read": "ECO-VT-049.md Observed facts, Layer diagnosis"
+  },
+  {
+   "id": "VT-007",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "Bulk and range selection are a new feature; the CAD was unambiguous with per-video toggles and REQ-045 correctly stated the then-wanted selection.",
+   "read": "ECO-VT-050.md Observed facts, Layer diagnosis"
+  },
+  {
+   "id": "VT-008",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "ambiguous",
+   "reason": "The Tags header action/hint composition was present but insufficiently constrained in CAD (badge/marker geometry was an implementation deviation); a visual alignment question that no robustness check names.",
+   "read": "ECO-VT-051.md Observed facts, Layer diagnosis"
+  },
+  {
+   "id": "VT-009",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "View Packs with collection-local scope are a new feature that intentionally revises REQ-010/021/024; the old text stated the then-wanted global model.",
+   "read": "ECO-VT-056.md Request, Latest-main baseline audit, Observed facts"
+  },
+  {
+   "id": "VT-010",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "UI-CAD declared only the 1280x800 viewport and no wide-window column-count or toolbar reflow rule; a responsive layout gap, which is visual layout (N).",
+   "read": "ECO-VT-066.md 3.2 Current ViewTube authority, 4 Diagnosis"
+  },
+  {
+   "id": "VT-011",
+   "screen": "OUT",
+   "out_reason": "process",
+   "classes": [],
+   "kind": null,
+   "reason": "The gap was the missing content-quality contract of a demonstration curation task (names, non-empty views, review); the product's ruled layer was sound and the desktop product was not changed.",
+   "read": "ECO-VT-067.md 3 Diagnosis, 4 Proposed content contract"
+  },
+  {
+   "id": "VT-012",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2"
+   ],
+   "kind": "contradictory",
+   "reason": "Requirements/spec said the leading breadcrumb segment targets 'valid Home/root' while the CAD checklist and detectors said root, and the CAD document itself held both readings; the segment's destination is stated two ways, which a source check raises as a question naming this defect (K2).",
+   "read": "ECO-VT-100.md 2.3-2.4 (10-requirements.yaml:1392, 20-spec.md:259 as quoted)"
+  },
+  {
+   "id": "VT-013",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "The record states 'Feature, not a defect repair': adds a reserved row-less music scope that the requirements did not have.",
+   "read": "ECO-VT-170.md header, 1 What was asked for"
+  },
+  {
+   "id": "VT-014",
+   "screen": "OUT",
+   "out_reason": "derived",
+   "classes": [],
+   "kind": null,
+   "reason": "Capture-plan predicates (card floor, scroll amount) disagreed with the product layout; the user chose to re-shoot the actual golden and leave the CAD golden frozen, so the correction is in the oracle/inspection plan, not the ruled layer.",
+   "read": "ECO-VT-191.md 1-3, 6"
+  },
+  {
+   "id": "VT-015",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2"
+   ],
+   "kind": "missing",
+   "reason": "Omission: REQ-037 defined opening a View at HOME but not what the open Videos view does when its HOME is saved in Tags (an interaction that already existed); the save step's effect on the open Videos display is an alternative flow with no stated destination (K2).",
+   "read": "ECO-VT-196.md 2-4; REQ-037 as quoted"
+  },
+  {
+   "id": "VT-016",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "No time target existed for scope switching or post-save refresh (only startup, REQ-063); a performance tolerance, which no robustness check names (N).",
+   "read": "ECO-VT-197.md 3 Diagnosis"
+  },
+  {
+   "id": "VT-017",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2"
+   ],
+   "kind": "missing",
+   "reason": "Omission: REQ-037 did not say what Videos shows after another View is selected in Tags, and the product showed one View's name with another's path; the select-View step in Tags has no stated destination for the shared Videos position (K2).",
+   "read": "ECO-VT-200.md 1-2; REQ-037 as quoted"
+  },
+  {
+   "id": "VT-018",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2"
+   ],
+   "kind": "missing",
+   "reason": "Omission: REQ-030 gave a View a sort but did not say whether opening a View applies it over the user's sort, and the View's sort could not be set on screen; the open-View handler has two unreconciled sources for the displayed sort, so a question names the defect (K2).",
+   "read": "ECO-VT-202.md 2-3; REQ-030 as quoted"
+  },
+  {
+   "id": "VT-019",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "REQ-032 gave a node only an 'optional value restriction' without a per-tag-type form (none / pattern / candidates / equals / range), so it stayed one free string; the defect is the condition's data shape and rule, which a robustness model sourcing 'restriction' does not name (N).",
+   "read": "ECO-VT-212.md 1-3; REQ-032/035 as quoted"
+  },
+  {
+   "id": "VT-020",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "REQ-022/023 did not require rejecting out-of-candidate, off-step or empty values at assignment, and the mock's select contradicted its own 'enter a number' wording; the defect is validation rules (N).",
+   "read": "ECO-VT-217.md 1-3"
+  },
+  {
+   "id": "VT-021",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "REQ-023 did not say how typed text beyond decimal precision is treated (refuse, off-step, or rounded); a rounding/parsing rule (N).",
+   "read": "ECO-VT-219.md 1-3"
+  },
+  {
+   "id": "VT-022",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "Adding a confirmation to View/Tag deletion is a new requirement; ECO-VT-131 had explicitly ruled no confirmation step, so the old text stated what was then wanted (the REQ-026 TagInUse wording mismatch is a side finding, not this change).",
+   "read": "ECO-VT-224.md 1-3"
+  },
+  {
+   "id": "VT-023",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "A play queue for the music scope is a new feature requested by the user; no prior text implied it.",
+   "read": "ECO-VT-225.md 1, 3"
+  },
+  {
+   "id": "VT-024",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2",
+    "K3"
+   ],
+   "kind": "missing",
+   "reason": "Omission: REQ-010 admits user-created manual collections but no step, name entry or screen operation creates one (only an automatic first 'あとで見る'); the model's Entity has no sourced create handler (K2), and the mock lacks the create operation the model's boundary would need (K3).",
+   "read": "ECO-VT-226.md 2-3; REQ-010 as quoted; mock grep for action.collection.create-manual (present only after the fix)"
+  },
+  {
+   "id": "VT-025",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2"
+   ],
+   "kind": "missing",
+   "reason": "Three View Pack decisions (D1 capability marker, D2 import destination of the music definition, D3 refusing unreadable legacy numeric conditions) lived only in the M-BOM; K2 names D2 (an import destination the model would have to ask for), while D1 and D3 are format/refusal rules.",
+   "read": "ECO-VT-227.md 2-3"
+  },
+  {
+   "id": "VT-026",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "REQ-032/spec did not say that legacy conditions in a restored backup are converted by the restore (only in the M-BOM); a data-conversion rule (N).",
+   "read": "ECO-VT-231.md 2-3"
+  },
+  {
+   "id": "VT-027",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "ambiguous",
+   "reason": "REQ-064's 'failure leaves the active catalog byte-for-byte unchanged' did not say which failures it covers, and a post-replacement fix-up failure left the file replaced; a guarantee/rule question (N).",
+   "read": "ECO-VT-232.md 2-3; REQ-064 as quoted"
+  },
+  {
+   "id": "VT-028",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "wrong",
+   "reason": "REQ-064's unconditional byte-for-byte clause cannot hold for a failure of the replacement write itself; the statement was narrowed (a guarantee, N).",
+   "read": "ECO-VT-233.md 2-3"
+  },
+  {
+   "id": "VT-029",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K3"
+   ],
+   "kind": "missing",
+   "reason": "The mock declared the link-registration results list NOT DRAWN while SPEC-CATALOG-001 names a per-row results display; the drawing gap (the list absent from the mock, hence no height bound or scroll) is the defect K3 names, the overflow being its consequence.",
+   "read": "ECO-VT-235.md 2-3; SPEC-CATALOG-001 as quoted"
+  },
+  {
+   "id": "VT-030",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "The record says current behaviour follows REQ-004 and is not a defect; fetching metadata for manually registered videos is a new requirement.",
+   "read": "ECO-VT-236.md header, 2-3"
+  },
+  {
+   "id": "VT-031",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "Neither CAD nor requirements fixed the central pane heading when a collection is selected, so it stayed 'すべての動画'; no ruled text implies the heading's content, so it is wording/visual (N).",
+   "read": "ECO-VT-239.md 2-3"
+  },
+  {
+   "id": "VT-032",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "The collapsed rail was not drawn, and the implementation gave create-collection and add-link the same glyph; distinguishability is visual (N), and both operations exist in the drawn expanded rail.",
+   "read": "ECO-VT-241.md 2-3"
+  },
+  {
+   "id": "VT-033",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "REQ-045/spec explicitly said intersect on scope change and the product followed it; clearing on scope change is a decided specification change.",
+   "read": "ECO-VT-247.md 1-3"
+  },
+  {
+   "id": "VT-034",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "Spec 2.6, control plan and ECO-VT-035 explicitly said success closes the modal; keeping it open and clearing on close is a decided change.",
+   "read": "ECO-VT-248.md 1-3"
+  },
+  {
+   "id": "VT-035",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "Default type selection and disabling save on an empty name are a decided change; the product followed the existing requirements and ECO-VT-120 ruling.",
+   "read": "ECO-VT-249.md 1-3"
+  },
+  {
+   "id": "VT-036",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "Jumping to a queue row is a specification addition; REQ-095 listed the controls and the drawn panel was display-only.",
+   "read": "ECO-VT-252.md 1-3"
+  },
+  {
+   "id": "VT-037",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "The approved drawing already draws the type line as rendered (14 px semi-bold); the fix sets the size explicitly with no pixel change.",
+   "read": "ECO-VT-259.md 1-2"
+  },
+  {
+   "id": "VT-038",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "Omission: no contract said where the list's scroll position goes on a scope change, and an offset meaningless for the new scope was kept (the record calls the defect real); a scroll-position behaviour that no robustness check names (N).",
+   "read": "ECO-VT-261.md 1-2"
+  },
+  {
+   "id": "VT-039",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "REQ-083 explicitly stated the same-card no-op while the preview is open; replay at Ended is a decided requirement change, not an omission.",
+   "read": "ECO-VT-262.md 1-2"
+  },
+  {
+   "id": "VT-040",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "The record classes in-place editing of a candidate value as a feature decided by the user; the existing add/remove/reorder contract was stated.",
+   "read": "ECO-VT-263.md 1-2"
+  },
+  {
+   "id": "VT-041",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "Permanent deletion from the archive view is a new feature; REQ-006 had stated archive was reversible 'without introducing an irreversible delete path in V1'.",
+   "read": "ECO-VT-264.md 1-2"
+  },
+  {
+   "id": "VT-042",
+   "screen": "OUT",
+   "out_reason": "derived",
+   "classes": [],
+   "kind": null,
+   "reason": "Corrects M-BOM and Control Plan records and the process rule R4 for the advance decision; no ruled-layer statement was involved.",
+   "read": "ECO-VT-269.md header, Basis"
+  }
+ ]
+}

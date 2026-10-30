@@ -1,0 +1,728 @@
+{
+ "reading_rule2": "trial",
+ "K1_both_general": 0,
+ "rule3_connection_rules_do_not_pay": true,
+ "products": {
+  "ViewTube": {
+   "items": 42,
+   "screen_agree": 37,
+   "in_both": 19,
+   "structural_both": 7,
+   "structural_either": 11,
+   "S_both_pct": 36.8,
+   "S_either_pct": 57.9,
+   "K1_both": 0,
+   "K3_both": 4,
+   "structural_split": 4,
+   "no_claim_rule4": false,
+   "per_classifier": {
+    "a": {
+     "IN": 22,
+     "OUT": 20,
+     "out_reasons": {
+      "derived": 2,
+      "feature": 16,
+      "impl": 1,
+      "process": 1,
+      "unclear": 0
+     },
+     "K1": 0,
+     "K2": 9,
+     "K3": 5,
+     "N": 12,
+     "U": 0,
+     "kinds": {
+      "ambiguous": 3,
+      "contradictory": 1,
+      "missing": 17,
+      "wrong": 1
+     }
+    },
+    "b": {
+     "IN": 21,
+     "OUT": 21,
+     "out_reasons": {
+      "derived": 1,
+      "feature": 18,
+      "impl": 2,
+      "process": 0,
+      "unclear": 0
+     },
+     "K1": 0,
+     "K2": 10,
+     "K3": 8,
+     "N": 9,
+     "U": 0,
+     "kinds": {
+      "ambiguous": 1,
+      "contradictory": 2,
+      "missing": 17,
+      "wrong": 1
+     }
+    }
+   }
+  },
+  "ViewPrism2": {
+   "items": 56,
+   "screen_agree": 48,
+   "in_both": 20,
+   "structural_both": 3,
+   "structural_either": 12,
+   "S_both_pct": 15.0,
+   "S_either_pct": 60.0,
+   "K1_both": 0,
+   "K3_both": 4,
+   "structural_split": 9,
+   "no_claim_rule4": true,
+   "per_classifier": {
+    "a": {
+     "IN": 27,
+     "OUT": 29,
+     "out_reasons": {
+      "derived": 0,
+      "feature": 11,
+      "impl": 17,
+      "process": 1,
+      "unclear": 0
+     },
+     "K1": 0,
+     "K2": 7,
+     "K3": 6,
+     "N": 18,
+     "U": 0,
+     "kinds": {
+      "ambiguous": 3,
+      "contradictory": 3,
+      "missing": 19,
+      "wrong": 2
+     }
+    },
+    "b": {
+     "IN": 21,
+     "OUT": 35,
+     "out_reasons": {
+      "derived": 1,
+      "feature": 16,
+      "impl": 17,
+      "process": 1,
+      "unclear": 0
+     },
+     "K1": 0,
+     "K2": 11,
+     "K3": 5,
+     "N": 10,
+     "U": 0,
+     "kinds": {
+      "ambiguous": 3,
+      "contradictory": 3,
+      "missing": 12,
+      "wrong": 3
+     }
+    }
+   }
+  },
+  "MoviePad-Remake": {
+   "items": 25,
+   "screen_agree": 25,
+   "in_both": 20,
+   "structural_both": 1,
+   "structural_either": 4,
+   "S_both_pct": 5.0,
+   "S_either_pct": 20.0,
+   "K1_both": 0,
+   "K3_both": 0,
+   "structural_split": 3,
+   "no_claim_rule4": false,
+   "per_classifier": {
+    "a": {
+     "IN": 20,
+     "OUT": 5,
+     "out_reasons": {
+      "derived": 1,
+      "feature": 1,
+      "impl": 0,
+      "process": 3,
+      "unclear": 0
+     },
+     "K1": 0,
+     "K2": 1,
+     "K3": 0,
+     "N": 18,
+     "U": 1,
+     "kinds": {
+      "ambiguous": 8,
+      "contradictory": 1,
+      "missing": 10,
+      "wrong": 1
+     }
+    },
+    "b": {
+     "IN": 20,
+     "OUT": 5,
+     "out_reasons": {
+      "derived": 1,
+      "feature": 2,
+      "impl": 0,
+      "process": 2,
+      "unclear": 0
+     },
+     "K1": 0,
+     "K2": 4,
+     "K3": 0,
+     "N": 16,
+     "U": 0,
+     "kinds": {
+      "ambiguous": 4,
+      "contradictory": 1,
+      "missing": 14,
+      "wrong": 1
+     }
+    }
+   }
+  }
+ },
+ "disagreements": [
+  {
+   "id": "VT-001",
+   "a": [
+    "IN",
+    [
+     "K2",
+     "K3"
+    ],
+    "REQ-042/spec said 'thumbnail or deterministic placeholder' with no precedence and no step fetching the image, so placeholder-only passed; modelling the card's displayed image needs a fetch handler and a selection rule the text does not state (K2), and the mock shows only gradients while the model's boundary would show a thumbnail (K3)."
+   ],
+   "b": [
+    "OUT",
+    [],
+    "The old contract expressly allowed a thumbnail or placeholder and the released product conformed; real-thumbnail precedence was a new feature."
+   ]
+  },
+  {
+   "id": "VT-011",
+   "a": [
+    "OUT",
+    [],
+    "The gap was the missing content-quality contract of a demonstration curation task (names, non-empty views, review); the product's ruled layer was sound and the desktop product was not changed."
+   ],
+   "b": [
+    "IN",
+    [
+     "N"
+    ],
+    "The demonstration work lacked any ruled content-quality contract for meaningful perspectives, names, hierarchy, or review; those semantic quality criteria are not structural robustness checks."
+   ]
+  },
+  {
+   "id": "VT-012",
+   "a": [
+    "IN",
+    [
+     "K2"
+    ],
+    "Requirements/spec said the leading breadcrumb segment targets 'valid Home/root' while the CAD checklist and detectors said root, and the CAD document itself held both readings; the segment's destination is stated two ways, which a source check raises as a question naming this defect (K2)."
+   ],
+   "b": [
+    "IN",
+    [
+     "K2",
+     "K3"
+    ],
+    "Five live contracts sent the leading breadcrumb segment to Home while executable detectors and the approved CAD sent it to root, so the destination was stated two ways and the mock exposed the difference."
+   ]
+  },
+  {
+   "id": "VT-014",
+   "a": [
+    "OUT",
+    [],
+    "Capture-plan predicates (card floor, scroll amount) disagreed with the product layout; the user chose to re-shoot the actual golden and leave the CAD golden frozen, so the correction is in the oracle/inspection plan, not the ruled layer."
+   ],
+   "b": [
+    "IN",
+    [
+     "N"
+    ],
+    "Approved declarations and the realized layout disagreed on fully visible card counts and scroll amounts; these numeric layout expectations are not Boundary/Control/Entity structure."
+   ]
+  },
+  {
+   "id": "VT-018",
+   "a": [
+    "IN",
+    [
+     "K2"
+    ],
+    "Omission: REQ-030 gave a View a sort but did not say whether opening a View applies it over the user's sort, and the View's sort could not be set on screen; the open-View handler has two unreconciled sources for the displayed sort, so a question names the defect (K2)."
+   ],
+   "b": [
+    "IN",
+    [
+     "N"
+    ],
+    "REQ-030 said a View stores a sort value but did not state whether opening it applies that value; the defect is an ordering rule, explicitly an N example."
+   ]
+  },
+  {
+   "id": "VT-019",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "REQ-032 gave a node only an 'optional value restriction' without a per-tag-type form (none / pattern / candidates / equals / range), so it stayed one free string; the defect is the condition's data shape and rule, which a robustness model sourcing 'restriction' does not name (N)."
+   ],
+   "b": [
+    "IN",
+    [
+     "K2",
+     "K3"
+    ],
+    "Requirements failed to source type-specific hierarchy-condition forms and the mock omitted the node-settings surface, so both model coverage questions and a mock/model operation difference would name the gap."
+   ]
+  },
+  {
+   "id": "VT-020",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "REQ-022/023 did not require rejecting out-of-candidate, off-step or empty values at assignment, and the mock's select contradicted its own 'enter a number' wording; the defect is validation rules (N)."
+   ],
+   "b": [
+    "IN",
+    [
+     "K2",
+     "K3"
+    ],
+    "The ruled layer omitted type-specific assignment inputs and rejection flows while the partial mock showed an inconsistent generic select, leaving required boundary operations and alternatives unsourced."
+   ]
+  },
+  {
+   "id": "VT-026",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "REQ-032/spec did not say that legacy conditions in a restored backup are converted by the restore (only in the M-BOM); a data-conversion rule (N)."
+   ],
+   "b": [
+    "IN",
+    [
+     "K2"
+    ],
+    "Requirements and specification omitted the restore-time conversion handler for legacy conditions even though M-BOM and product behavior depended on it."
+   ]
+  },
+  {
+   "id": "VT-027",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "REQ-064's 'failure leaves the active catalog byte-for-byte unchanged' did not say which failures it covers, and a post-replacement fix-up failure left the file replaced; a guarantee/rule question (N)."
+   ],
+   "b": [
+    "OUT",
+    [],
+    "REQ-064 already prohibited a failed restore from replacing the active catalog, and the selected correction changed product sequencing to satisfy that sound contract."
+   ]
+  },
+  {
+   "id": "VT-031",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "Neither CAD nor requirements fixed the central pane heading when a collection is selected, so it stayed 'すべての動画'; no ruled text implies the heading's content, so it is wording/visual (N)."
+   ],
+   "b": [
+    "IN",
+    [
+     "K3"
+    ],
+    "UI-CAD omitted the ordinary selected-collection list state, letting the central heading display All Videos instead of the current result identity; the displayed-element difference names it."
+   ]
+  },
+  {
+   "id": "VT-038",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "Omission: no contract said where the list's scroll position goes on a scope change, and an offset meaningless for the new scope was kept (the record calls the defect real); a scroll-position behaviour that no robustness check names (N)."
+   ],
+   "b": [
+    "OUT",
+    [],
+    "No contract stated scope-change scroll position and the product conformed; scrolling to top was a newly decided behavior rather than a defective old statement."
+   ]
+  },
+  {
+   "id": "VP-001",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "bundle: CR-1..8 are requirements the reverse spec dropped or mistook vs the original (responsive columns, collection-first filter, shift-range select, sort option, persistence, background close); DF-1..4 are impl. The dominant ruled-layer defects are behaviours no text implied (operations, values, persistence), not unsourced handlers, so no class names them"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2"
+    ],
+    "Reverse-spec errors and omissions left required collection, selection, viewer, and persistence behavior unstated or wrong, so coverage questions would name the absent handlers and flows."
+   ]
+  },
+  {
+   "id": "VP-002",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "REQ-072 had no display contract for relink candidate cards (thumbnail, file name, mtime missing); a missing displayed field set that no text implies and no ruled mock existed (the comparison was against the original product), so no class names it"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2"
+    ],
+    "REQ-072 omitted three decision-critical fields from the relink candidate boundary, so modelling candidate selection would ask what information the user receives."
+   ]
+  },
+  {
+   "id": "VP-003",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "read-across of ECO-003: five screens' display contracts omitted elements the original showed (spec_omission); displayed-content omissions with no ruled mock, so N"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2"
+    ],
+    "Five existing screens lacked required displayed elements in their ruled presentation contracts, producing direct boundary-element coverage questions."
+   ]
+  },
+  {
+   "id": "VP-004",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "REQ-072 stopped at present-and-confirm; auto-repair all/single and exclude (missing->deleted, no state transition) were never required; operations that no ruled text implies (sourced from the original only), so a model of the text would not ask for them"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2"
+    ],
+    "The repair use flow omitted bulk and single auto-repair plus exclusion and its missing-to-deleted destination, which source and alternative-flow coverage would ask for."
+   ]
+  },
+  {
+   "id": "VP-005",
+   "a": [
+    "IN",
+    [
+     "K2"
+    ],
+    "spec 2.6 empty-state rules did not cover the image-tab NodeGraph nav for a root-only view; the implementation invented an overlapping placeholder. Modelling the nav display would need the alternative flow 'view has no child nodes', which the text does not state, so the question names the defect"
+   ],
+   "b": [
+    "IN",
+    [
+     "N"
+    ],
+    "The ruled layer omitted the root-only tree empty-state display rule, but the defect is visual overlap/layout rather than a connection, flow destination, or mock operation-set difference."
+   ]
+  },
+  {
+   "id": "VP-006",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "spec 2.6 and mock copy said tag type is changeable after creation; ruled to lock it (dependent values/conditions make change unsafe). A wrong rule statement; a robustness model of 'edit type' would not be forced to ask about dependent conditions, so N"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2",
+     "K3"
+    ],
+    "The mock claimed post-creation type change while the live specification and product locked it, so the same operation was stated two ways and the mock operation set differed from the model."
+   ]
+  },
+  {
+   "id": "VP-011",
+   "a": [
+    "IN",
+    [
+     "K3"
+    ],
+    "REQ-043 required an always/selection detail panel with notes; the original had a click-opened modal and the new CAD mock had abolished the detail (right pane only in context modes). A model of REQ-043 has a detail-panel boundary the mock lacks, and that difference is the defect"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2",
+     "K3"
+    ],
+    "REQ-043 invented a persistent detail panel absent from both the source behavior and new CAD, so sources stated the boundary two ways and the model had an operation absent from the mock."
+   ]
+  },
+  {
+   "id": "VP-015",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "persistence scope of sort state and display mode per tab (FL-002/FL-004) was an open question in the CAD; ruled S-a / D-b. A persistence rule, not an unsourced handler or flow"
+   ],
+   "b": [
+    "OUT",
+    [],
+    "FL-002/FL-004 settled previously open persistence choices and added the chosen work-tab setting; the former text was not recorded as defective."
+   ]
+  },
+  {
+   "id": "VP-017",
+   "a": [
+    "IN",
+    [
+     "K3"
+    ],
+    "E-UI-TAGASSIGN-029 did not declare the tag-add search box although the mock defines it fully (partial match, empty groups hidden); the model's boundary operations from the E-BOM lack search while the mock has it, and that difference is the defect"
+   ],
+   "b": [
+    "IN",
+    [
+     "N"
+    ],
+    "The E-BOM declaration omitted an already specified mock search operation, but the robustness model could source that operation from the specification/mock and none of K1-K3 names the ledger omission itself."
+   ]
+  },
+  {
+   "id": "VP-018",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "FL-001 (whether columns appear in grid) was undecided in the CAD; ruled no columns in grid, current state confirmed. A display rule, not structural"
+   ],
+   "b": [
+    "OUT",
+    [],
+    "FL-001 was a design decision that confirmed the current grid behavior with no implementation or ruled-layer correction."
+   ]
+  },
+  {
+   "id": "VP-019",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "the CAD ledger listed empty view name as undecided while the spec already said name required; ruled required. A validation rule already stated in the spec, so no class names the gap"
+   ],
+   "b": [
+    "OUT",
+    [],
+    "VE-004 resolved an open CAD decision while specification and implementation already required nonblank view names."
+   ]
+  },
+  {
+   "id": "VP-020",
+   "a": [
+    "IN",
+    [
+     "K2"
+    ],
+    "merge persistence (IMG-011) undecided: the UI had an 'include tags' toggle with no effect in Core and an undo control with a placeholder (CanUndo false) and no log. Modelling these boundary operations needs Controls/Entities (undo handler, merge log) the text does not state, so the question names the defect"
+   ],
+   "b": [
+    "OUT",
+    [],
+    "IMG-011 deliberately chose merge persistence and introduced compensating undo; the old ruled contract was an unresolved design rather than a defect."
+   ]
+  },
+  {
+   "id": "VP-021",
+   "a": [
+    "IN",
+    [
+     "K2"
+    ],
+    "TAG-008: tag_tab.md defined the palette delete action but not the behaviour for a tag in use (open, risk high). The delete step's alternative flow 'tag is in use' is unstated, so a question names the defect"
+   ],
+   "b": [
+    "OUT",
+    [],
+    "TAG-008 resolved previously unspecified in-use tag deletion policy and changed behavior accordingly; the prior implementation was an acknowledged provisional choice."
+   ]
+  },
+  {
+   "id": "VP-022",
+   "a": [
+    "IN",
+    [
+     "K2",
+     "K3"
+    ],
+    "REQ-022 gives tags a parent hierarchy (single parent, cycle rejection) but no surface set it; ruled no UI. Modelling REQ-022 needs a boundary to set a parent that the text does not source (K2), and the mock has no such operation (K3)"
+   ],
+   "b": [
+    "OUT",
+    [],
+    "TAG-009 was a product-concept decision not to expose tag-definition hierarchy and merely documented already conforming behavior."
+   ]
+  },
+  {
+   "id": "VP-029",
+   "a": [
+    "OUT",
+    [],
+    "initial scan slow from per-row implicit transactions and per-file progress; scan semantics sound, fix is implementation batching (E/M-BOM lacked a scale guard, but the behaviour statements were sound)"
+   ],
+   "b": [
+    "IN",
+    [
+     "N"
+    ],
+    "E-SCAN-005 lacked bounded persistence and progress-frequency invariants, but batching, notification rate, and caller occupancy are performance constraints not named by K1-K3."
+   ]
+  },
+  {
+   "id": "VP-030",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "E-UI-AXIS-NAV-040 did not trace REQ-037 (home node on view open) plus unwired implementation; REQ/spec/CAD stated the behaviour, so a model built from them sources the step and raises no question; the E-BOM allocation gap is not named by any class"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2"
+    ],
+    "The image-tab consumer contract omitted the saved-home transition, leaving the view-selection handler's initial destination unstated even though producer requirements were sound."
+   ]
+  },
+  {
+   "id": "VP-039",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "CAD/BOM silent on selection lifetime when a filter hides selected images (keep / intersect / clear); a state rule over the selection set, not a missing handler or boundary"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2"
+    ],
+    "CAD and BOM left three competing selection-lifetime outcomes after filtering, so modelling that action would raise a direct question about the selected-set destination."
+   ]
+  },
+  {
+   "id": "VP-052",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "error vocabulary (M-CORE-001) had no code for scan root missing/renamed, so all failures showed a generic I/O message; the failure flow and its handler existed, the gap is message granularity/wording"
+   ],
+   "b": [
+    "OUT",
+    [],
+    "The missing error vocabulary was recorded in M-CORE-001/M-BOM and implementation followed it; no requirements, 20-spec, E-BOM, K-BOM, mock, or ADR defect was established."
+   ]
+  },
+  {
+   "id": "MP-008",
+   "a": [
+    "IN",
+    [
+     "U"
+    ],
+    "G2 topic 'REQ-019' is a bare requirement id; if the finding was REQ-019 uncovered (locator order, unavailable-tool destinations) K2 would hold, if a wrong detail N; the finding text is not kept and the spec's first commit already carries the fix, so the class cannot be decided"
+   ],
+   "b": [
+    "IN",
+    [
+     "N"
+    ],
+    "The spec omitted REQ-019's locator behaviour, but the requirement itself supplied the behaviour, so a sourced robustness model would not name the missing spec restatement."
+   ]
+  },
+  {
+   "id": "MP-014",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "G2 topic: the locator takes the environment variable and directories as inputs and caches per instance (testability per case); a parameter/injection detail of a named element, below the level a robustness question would name"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2"
+    ],
+    "The locator's environment, application, and local-data inputs were unstated, so modelling the locator control would raise source questions that name the defect."
+   ]
+  },
+  {
+   "id": "MP-017",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "G2 topic: with no plan no -r or timescale is set (2.7 step 10); the output rate's p/q is sourceable from outFps without a plan, so the model is not forced to ask; whether to set it is a rule"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2"
+    ],
+    "The output clock did not state that no-plan cases fall through to the VFR path, so the alternative flow lacked its destination and K2 would name it."
+   ]
+  },
+  {
+   "id": "MP-025",
+   "a": [
+    "IN",
+    [
+     "N"
+    ],
+    "G2 topic: the probe, exporter, keyframe lookup and locator signatures are fixed in the M-BOM part standards (1 observation contract); the boundary elements were already named, and request/result types are below robustness level; no mock exists for K3"
+   ],
+   "b": [
+    "IN",
+    [
+     "K2"
+    ],
+    "The public boundary signatures were neither stated nor explicitly delegated, so source coverage would ask where the boundary operations' forms are defined."
+   ]
+  }
+ ]
+}

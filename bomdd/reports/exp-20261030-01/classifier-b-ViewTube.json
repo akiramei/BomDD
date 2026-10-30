@@ -1,0 +1,384 @@
+{
+  "classifier": "b",
+  "product": "ViewTube",
+  "items": [
+    {
+      "id": "VT-001",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The old contract expressly allowed a thumbnail or placeholder and the released product conformed; real-thumbnail precedence was a new feature.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-031.md — Request, Observed facts, Five-layer diagnosis"
+    },
+    {
+      "id": "VT-002",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2", "K3"],
+      "kind": "missing",
+      "reason": "Existing requirements and UI-IR named batch assignment, but its handler/destination and assignment states were absent from the CAD and the visible action was bound to tag-definition creation.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-035.md — Reproduction and observed facts; Layer diagnosis"
+    },
+    {
+      "id": "VT-003",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2", "K3"],
+      "kind": "missing",
+      "reason": "Batch assignment existed but its reachability from ordinary selectable video results was unstated and absent from the ordinary-mode CAD, leaving the operation without a sourceable host there.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-040.md — Observed facts; Layer diagnosis"
+    },
+    {
+      "id": "VT-004",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The current CAD deliberately provided only Home/root and direct-child navigation; arbitrary saved-node selection in Videos was a new navigation feature.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-046.md — Observed facts; Layer diagnosis"
+    },
+    {
+      "id": "VT-005",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The existing Tags result action, mock, ruling, specification, and product agreed; consolidating navigation in Videos intentionally superseded that design.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-048.md — Observed facts; Diagnosis"
+    },
+    {
+      "id": "VT-006",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The approved breadcrumb was expressly informational and the product conformed; actionable ancestor segments were a new interaction feature.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-049.md — Observed facts; Layer diagnosis"
+    },
+    {
+      "id": "VT-007",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "Per-card selection was the complete existing contract and product behavior; select-all and Shift-range behavior were an intentional extension.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-050.md — Observed facts; Layer diagnosis"
+    },
+    {
+      "id": "VT-008",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "ambiguous",
+      "reason": "The CAD insufficiently constrained the header composition while accepted palette geometry and the product diverged; this is visual alignment and sizing, not a robustness structure check.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-051.md — Observed facts; Layer diagnosis"
+    },
+    {
+      "id": "VT-009",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "Portable View Packs, collection-local definitions, import/export, and conflict handling were a newly requested capability absent from the prior product contract.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-056.md — Request and intended outcome; Current-gap reproduction"
+    },
+    {
+      "id": "VT-010",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The UI-CAD omitted any wide-window grid and toolbar reflow rule, but the missing breakpoint, sizing, wrapping, and scroll-anchor details are layout rules outside K1–K3.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-066.md — Current ViewTube authority; Diagnosis"
+    },
+    {
+      "id": "VT-011",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The demonstration work lacked any ruled content-quality contract for meaningful perspectives, names, hierarchy, or review; those semantic quality criteria are not structural robustness checks.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-067.md — Read-only reproduction and facts; Diagnosis"
+    },
+    {
+      "id": "VT-012",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2", "K3"],
+      "kind": "contradictory",
+      "reason": "Five live contracts sent the leading breadcrumb segment to Home while executable detectors and the approved CAD sent it to root, so the destination was stated two ways and the mock exposed the difference.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-100.md — §§2.2–2.4; §3 Layer diagnosis"
+    },
+    {
+      "id": "VT-013",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "Music was explicitly filed as a new reserved virtual scope absent from the requirements, not as a defect in the former whole-catalogue-only design.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-170.md — opening disposition; §1 What was asked for"
+    },
+    {
+      "id": "VT-014",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "contradictory",
+      "reason": "Approved declarations and the realized layout disagreed on fully visible card counts and scroll amounts; these numeric layout expectations are not Boundary/Control/Entity structure.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-191.md — §§1–3"
+    },
+    {
+      "id": "VT-015",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2"],
+      "kind": "missing",
+      "reason": "REQ-037 stated where a View opens but omitted the handler and destination when that open View's HOME changes on save, which a sourced behavior model would have to ask about.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-196.md — §§1–4"
+    },
+    {
+      "id": "VT-016",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The requirements had no response-time target for scope changes or post-save refresh; a one-second tolerance is a performance value, not a structural robustness question.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-197.md — §§2–4"
+    },
+    {
+      "id": "VT-017",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2"],
+      "kind": "missing",
+      "reason": "The contracts omitted the transition and destination for selecting another View in Tags, allowing Videos to combine the new View with the old View's position.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-200.md — §§1–3"
+    },
+    {
+      "id": "VT-018",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "REQ-030 said a View stores a sort value but did not state whether opening it applies that value; the defect is an ordering rule, explicitly an N example.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-202.md — §§1–5"
+    },
+    {
+      "id": "VT-019",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2", "K3"],
+      "kind": "missing",
+      "reason": "Requirements failed to source type-specific hierarchy-condition forms and the mock omitted the node-settings surface, so both model coverage questions and a mock/model operation difference would name the gap.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-212.md — §§1–3"
+    },
+    {
+      "id": "VT-020",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2", "K3"],
+      "kind": "missing",
+      "reason": "The ruled layer omitted type-specific assignment inputs and rejection flows while the partial mock showed an inconsistent generic select, leaving required boundary operations and alternatives unsourced.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-217.md — §§1–4"
+    },
+    {
+      "id": "VT-021",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The requirement did not say how to handle numeric text beyond decimal precision, and the resulting premature rounding is a value/precision rule outside K1–K3.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-219.md — §§1–3"
+    },
+    {
+      "id": "VT-022",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "Earlier authority explicitly chose immediate tag deletion without confirmation; the new confirmation policy intentionally overturned that valid prior decision.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-224.md — §§1–4"
+    },
+    {
+      "id": "VT-023",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The Music scope previously offered only single-video preview under its contract; a playback queue and transport controls were an added feature.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-225.md — request, diagnosis, and scope"
+    },
+    {
+      "id": "VT-024",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2", "K3"],
+      "kind": "missing",
+      "reason": "REQ-010 admitted user-created manual collections but stated no creation operation or naming flow, and the UI-CAD contained no such action, so the missing handler and mock operation both identify it.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-226.md — observed facts, diagnosis, and CAD decision"
+    },
+    {
+      "id": "VT-025",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2"],
+      "kind": "missing",
+      "reason": "Three View Pack contract decisions existed only in M-BOM, including an import destination and a reject alternative, so a sourced model would have to question those missing flows.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-227.md — §§2–5"
+    },
+    {
+      "id": "VT-026",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2"],
+      "kind": "missing",
+      "reason": "Requirements and specification omitted the restore-time conversion handler for legacy conditions even though M-BOM and product behavior depended on it.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-231.md — §§1–4"
+    },
+    {
+      "id": "VT-027",
+      "screen": "OUT",
+      "out_reason": "impl",
+      "classes": [],
+      "kind": null,
+      "reason": "REQ-064 already prohibited a failed restore from replacing the active catalog, and the selected correction changed product sequencing to satisfy that sound contract.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-232.md — §§2–4; repair and acceptance"
+    },
+    {
+      "id": "VT-028",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "wrong",
+      "reason": "REQ-064's unconditional byte-for-byte promise was false once the safety-copy/replace path opened the live file; the corrected boundary is a file-state invariant, not a structural model check.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-233.md — §§2–4"
+    },
+    {
+      "id": "VT-029",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K3"],
+      "kind": "missing",
+      "reason": "The specification admitted row-level registration results while the UI-CAD explicitly omitted that displayed result list, so mock/model comparison names the missing state that allowed overflow.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-235.md — §§1–4"
+    },
+    {
+      "id": "VT-030",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The order states that leaving manually registered metadata unfetched was correct under the current requirements; automatic post-registration retrieval was a new requirement.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-236.md — observed facts and diagnosis"
+    },
+    {
+      "id": "VT-031",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K3"],
+      "kind": "missing",
+      "reason": "UI-CAD omitted the ordinary selected-collection list state, letting the central heading display All Videos instead of the current result identity; the displayed-element difference names it.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-239.md — observed facts, diagnosis, and proposed CAD"
+    },
+    {
+      "id": "VT-032",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The collapsed rail was absent from UI-CAD and two distinct operations received indistinguishable plus glyphs; this is visual icon differentiation rather than an operation-set or connection defect.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-241.md — observed facts; §§3–5"
+    },
+    {
+      "id": "VT-033",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The existing intersection behavior was explicitly required and correctly implemented; clearing selection on scope changes was a user-decided specification change.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-247.md — §§1–3"
+    },
+    {
+      "id": "VT-034",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The product followed ECO-VT-035 by closing after successful tag mutation; keeping the dialog open and clearing selection on close intentionally changed that behavior.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-248.md — observed facts and diagnosis"
+    },
+    {
+      "id": "VT-035",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "Defaulting a new tag to Simple and disabling save for a blank name were user-decided changes to a conforming creation dialog.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-249.md — observed facts and diagnosis"
+    },
+    {
+      "id": "VT-036",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The queue panel was intentionally display-only under REQ-095; click/keyboard jump-to-track behavior was a new playback interaction.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-252.md — observed facts and diagnosis"
+    },
+    {
+      "id": "VT-037",
+      "screen": "OUT",
+      "out_reason": "impl",
+      "classes": [],
+      "kind": null,
+      "reason": "The measured product already matched the approved 14 px CAD exactly; setting the same size explicitly was a nonvisual implementation clarification, not a ruled-layer defect.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-259.md — §§1–2"
+    },
+    {
+      "id": "VT-038",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "No contract stated scope-change scroll position and the product conformed; scrolling to top was a newly decided behavior rather than a defective old statement.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-261.md — §§1–2"
+    },
+    {
+      "id": "VT-039",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The existing same-card no-op covered the Ended state under the prior contract; replay-from-start after Ended was a new user-decided behavior.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-262.md — observed facts and diagnosis"
+    },
+    {
+      "id": "VT-040",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "Candidate rows had only drag, text, and remove controls as designed; in-place editing was a new feature on an undrawn form.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-263.md — observed facts and diagnosis"
+    },
+    {
+      "id": "VT-041",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "Permanent deletion from Archive did not exist in the former requirements or drawn state; it was a newly requested destructive operation with confirmation.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-264.md — observed facts and diagnosis"
+    },
+    {
+      "id": "VT-042",
+      "screen": "OUT",
+      "out_reason": "derived",
+      "classes": [],
+      "kind": null,
+      "reason": "The defects were confined to M-BOM and Control Plan structures/values plus a process-limit default; requirements, specification, UI-CAD, and product were not at fault.",
+      "read": "ViewTube/bomdd/eco/ECO-VT-269.md — §§1–3"
+    }
+  ]
+}

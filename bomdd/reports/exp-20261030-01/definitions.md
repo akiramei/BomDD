@@ -103,4 +103,6 @@ Over items IN for both classifiers, per product; **structural** = K1 or K2.
 
 ## 8. Departures
 
-(none yet)
+- D1 (before any classifier wrote an item, 2026-10-30): C-B's first runs failed at the first turn — Codex's configured default
+  model `gpt-6.1-sol` is refused for this account (`model_not_found`). C-B runs with `--model gpt-5.6-sol`, the model the earlier
+  BomDD Codex runs used; the Codex configuration is unchanged. Section 5 is otherwise as fixed.

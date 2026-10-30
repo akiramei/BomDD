@@ -1,0 +1,568 @@
+{
+ "classifier": "a",
+ "product": "ViewPrism2",
+ "items": [
+  {
+   "id": "VP-001",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "bundle: CR-1..8 are requirements the reverse spec dropped or mistook vs the original (responsive columns, collection-first filter, shift-range select, sort option, persistence, background close); DF-1..4 are impl. The dominant ruled-layer defects are behaviours no text implied (operations, values, persistence), not unsourced handlers, so no class names them",
+   "read": "ECO-002 order sections 1 (CR table, DF table)"
+  },
+  {
+   "id": "VP-002",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "REQ-072 had no display contract for relink candidate cards (thumbnail, file name, mtime missing); a missing displayed field set that no text implies and no ruled mock existed (the comparison was against the original product), so no class names it",
+   "read": "ECO-003 order section 1 (root cause table)"
+  },
+  {
+   "id": "VP-003",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "read-across of ECO-003: five screens' display contracts omitted elements the original showed (spec_omission); displayed-content omissions with no ruled mock, so N",
+   "read": "ECO-004 order sections 0-1"
+  },
+  {
+   "id": "VP-004",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "REQ-072 stopped at present-and-confirm; auto-repair all/single and exclude (missing->deleted, no state transition) were never required; operations that no ruled text implies (sourced from the original only), so a model of the text would not ask for them",
+   "read": "ECO-005 order header, sections 1-3"
+  },
+  {
+   "id": "VP-005",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2"
+   ],
+   "kind": "missing",
+   "reason": "spec 2.6 empty-state rules did not cover the image-tab NodeGraph nav for a root-only view; the implementation invented an overlapping placeholder. Modelling the nav display would need the alternative flow 'view has no child nodes', which the text does not state, so the question names the defect",
+   "read": "ECO-006 order sections 1-3"
+  },
+  {
+   "id": "VP-006",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "wrong",
+   "reason": "spec 2.6 and mock copy said tag type is changeable after creation; ruled to lock it (dependent values/conditions make change unsafe). A wrong rule statement; a robustness model of 'edit type' would not be forced to ask about dependent conditions, so N",
+   "read": "ECO-008 order sections 0-3"
+  },
+  {
+   "id": "VP-007",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "new work-mode surface designed in a new CAD mock (UQ-I07 settled by ruling); the earlier ruled text was not wrong, it had no such surface",
+   "read": "ECO-017 order header, sections 1-3"
+  },
+  {
+   "id": "VP-008",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "new ... menu and delete mode from a new mock; the mock's repair/trash-as-mode was corrected while formalising this same new design, not a defect of the standing ruled layer",
+   "read": "ECO-018 order header, sections 1-3"
+  },
+  {
+   "id": "VP-009",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "trash UI rebuilt as an in-tab popup from a new mock (multi-select, empty trash); the mock wording that contradicted INV-009 was corrected while formalising this new design",
+   "read": "ECO-019 order header, sections 1-3"
+  },
+  {
+   "id": "VP-010",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "wiring existing surfaces into the work tab from the work-tab mock; no ruled statement was wrong or missing",
+   "read": "ECO-021 order sections 0-3"
+  },
+  {
+   "id": "VP-011",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K3"
+   ],
+   "kind": "wrong",
+   "reason": "REQ-043 required an always/selection detail panel with notes; the original had a click-opened modal and the new CAD mock had abolished the detail (right pane only in context modes). A model of REQ-043 has a detail-panel boundary the mock lacks, and that difference is the defect",
+   "read": "ECO-023 order sections 1-2"
+  },
+  {
+   "id": "VP-012",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "removal of the legacy image-tab surface already announced by the E-BOM; requirements and invariants unchanged",
+   "read": "ECO-024 order header, sections 1-3"
+  },
+  {
+   "id": "VP-013",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "display-column model and two new surfaces from new CAD mocks (view edit modal, file list); existing schema confirmed, net-new behaviour",
+   "read": "ECO-025 order sections 1-3"
+  },
+  {
+   "id": "VP-014",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "responsive toolbar stowing added from a new mock; the 'columns entry shown in modes' part was an implementation deviation from a sound CAD",
+   "read": "ECO-027 order background, as-built"
+  },
+  {
+   "id": "VP-015",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "persistence scope of sort state and display mode per tab (FL-002/FL-004) was an open question in the CAD; ruled S-a / D-b. A persistence rule, not an unsourced handler or flow",
+   "read": "ECO-039 order sections 1-2"
+  },
+  {
+   "id": "VP-016",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "search-box caret not vertically centred; CAD and BOM sound, XAML padding/alignment defect",
+   "read": "ECO-040 order section 2"
+  },
+  {
+   "id": "VP-017",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K3"
+   ],
+   "kind": "missing",
+   "reason": "E-UI-TAGASSIGN-029 did not declare the tag-add search box although the mock defines it fully (partial match, empty groups hidden); the model's boundary operations from the E-BOM lack search while the mock has it, and that difference is the defect",
+   "read": "ECO-041 order sections 2-3"
+  },
+  {
+   "id": "VP-018",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "FL-001 (whether columns appear in grid) was undecided in the CAD; ruled no columns in grid, current state confirmed. A display rule, not structural",
+   "read": "ECO-042 order sections 1-2"
+  },
+  {
+   "id": "VP-019",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "ambiguous",
+   "reason": "the CAD ledger listed empty view name as undecided while the spec already said name required; ruled required. A validation rule already stated in the spec, so no class names the gap",
+   "read": "ECO-043 order sections 1-2"
+  },
+  {
+   "id": "VP-020",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2"
+   ],
+   "kind": "missing",
+   "reason": "merge persistence (IMG-011) undecided: the UI had an 'include tags' toggle with no effect in Core and an undo control with a placeholder (CanUndo false) and no log. Modelling these boundary operations needs Controls/Entities (undo handler, merge log) the text does not state, so the question names the defect",
+   "read": "ECO-044 order sections 1-3"
+  },
+  {
+   "id": "VP-021",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2"
+   ],
+   "kind": "missing",
+   "reason": "TAG-008: tag_tab.md defined the palette delete action but not the behaviour for a tag in use (open, risk high). The delete step's alternative flow 'tag is in use' is unstated, so a question names the defect",
+   "read": "ECO-045 order sections 1-2"
+  },
+  {
+   "id": "VP-022",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2",
+    "K3"
+   ],
+   "kind": "missing",
+   "reason": "REQ-022 gives tags a parent hierarchy (single parent, cycle rejection) but no surface set it; ruled no UI. Modelling REQ-022 needs a boundary to set a parent that the text does not source (K2), and the mock has no such operation (K3)",
+   "read": "ECO-047 order sections 1-2"
+  },
+  {
+   "id": "VP-023",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "similarity threshold default 80/90 against the spec's 70; spec, E-BOM, CAD sound",
+   "read": "ECO-050 order section 2"
+  },
+  {
+   "id": "VP-024",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2",
+    "K3"
+   ],
+   "kind": "contradictory",
+   "reason": "REQ-067 and G-9 require a pre-merge tag preview and a non-destructive notice; E-UI-MERGE-036 states it in one invariant and omits it in the tray invariant; the CAD tray lacks both. The element is stated two ways (K2) and the mock lacks the boundary elements the model derives from REQ-067 (K3)",
+   "read": "ECO-052 order sections 1-2"
+  },
+  {
+   "id": "VP-025",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "K-BOM silent on path consistency across formats in scaled decode (PNG vs JPEG intermediate step), giving a systematic score error; a computation rule",
+   "read": "ECO-054 order sections 1-2"
+  },
+  {
+   "id": "VP-026",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "tray criteria search wired 2 of 5 conditions; CAD, E-BOM, order and engine all define 5",
+   "read": "ECO-055 order section 2"
+  },
+  {
+   "id": "VP-027",
+   "screen": "OUT",
+   "out_reason": "process",
+   "classes": [],
+   "kind": null,
+   "reason": "public-release hygiene: demo seed with real paths, ledgers with private image identifiers, ignored screenshots, no pre-publication gate; records, repository and distribution process, not a product behaviour statement",
+   "read": "ECO-057 order sections 1-2"
+  },
+  {
+   "id": "VP-028",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "work-tab browse not virtualised; REQ-041 and E-BOM already require virtualisation, M-BOM/CP coverage gap (derived)",
+   "read": "ECO-058 order section 2"
+  },
+  {
+   "id": "VP-029",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "E-SCAN-005 had no scale invariant (bounded batch persistence, progress only on percent change) and the fix added it; scan semantics sound. A performance/tolerance property, not structural",
+   "read": "ECO-059 order section 2 and fix list (E-SCAN-005 invariants added)"
+  },
+  {
+   "id": "VP-030",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "E-UI-AXIS-NAV-040 did not trace REQ-037 (home node on view open) plus unwired implementation; REQ/spec/CAD stated the behaviour, so a model built from them sources the step and raises no question; the E-BOM allocation gap is not named by any class",
+   "read": "ECO-063 order section 2"
+  },
+  {
+   "id": "VP-031",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "CAD/requirements did not define what 100 % similarity means (pHash collision of non-identical images shown as 100 %); a quality/computation contract",
+   "read": "ECO-067 order section 2"
+  },
+  {
+   "id": "VP-032",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "work-tab double-click does not open the viewer; CAD screen spec and REQ-041/044 sound (a stale review_points line aside), implementation transcription gap",
+   "read": "ECO-068 order section 2"
+  },
+  {
+   "id": "VP-033",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "CAD/REQ-081 did not define folder-row sort semantics in the FS view (folder group first, folder comparison key); an ordering rule",
+   "read": "ECO-070 order section 2"
+  },
+  {
+   "id": "VP-034",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "follows a CAD re-ruling (SS-001) moving backup/transfer entry points to Settings; the old text stated the then-ruled placement",
+   "read": "ECO-077 order sections 1-2"
+  },
+  {
+   "id": "VP-035",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "tag dialog not faithful to the mock (two columns, header, pills); CAD sound, transcription deviation",
+   "read": "ECO-087 order section 2"
+  },
+  {
+   "id": "VP-036",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "WrapPanel inside a horizontal StackPanel does not wrap; mock flex-wrap is the ruled form",
+   "read": "ECO-088 order section 2"
+  },
+  {
+   "id": "VP-037",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "same WrapPanel defect on two more surfaces; CAD defines wrap",
+   "read": "ECO-089 order section 2"
+  },
+  {
+   "id": "VP-038",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "preview strip overflow: implementation lacked containment and the CAD did not define the strip's display for many candidate values; the ruled part is a visual layout rule",
+   "read": "ECO-093 order section 2"
+  },
+  {
+   "id": "VP-039",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "CAD/BOM silent on selection lifetime when a filter hides selected images (keep / intersect / clear); a state rule over the selection set, not a missing handler or boundary",
+   "read": "ECO-097 order section 2"
+  },
+  {
+   "id": "VP-040",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "pointer capture loss, right-click placement, no-op dirty: input robustness defects; CAD silent by design, ruled implicit quality, implementation fixed",
+   "read": "ECO-101 order section 2"
+  },
+  {
+   "id": "VP-041",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "visual transcription of a refined mock revision of the sort menu; the old implementation matched the old mock",
+   "read": "ECO-109 order sections 1-2"
+  },
+  {
+   "id": "VP-042",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "ambiguous",
+   "reason": "CAD layoutInvariant 'right pane does not break the centre's scroll position' did not say whether pixel offset or visible content is preserved; a layout rule",
+   "read": "ECO-110 order section 2"
+  },
+  {
+   "id": "VP-043",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2",
+    "K3"
+   ],
+   "kind": "contradictory",
+   "reason": "image_tab.md line 107 cited a docked tag-assign action that exists nowhere; the same CAD says assignment is immediate on row click and the mock has no docked footer. The assign boundary is stated two ways (K2) and the mock lacks the docked element (K3)",
+   "read": "ECO-119 order sections 1-3"
+  },
+  {
+   "id": "VP-044",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "missing",
+   "reason": "component registry CMP-008 contract dropped 'body scroll reaches the end' on transcription from the screen CAD; a layout property",
+   "read": "ECO-121 order sections 1-3"
+  },
+  {
+   "id": "VP-045",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "ConfirmDialog not aligned to CMP-011/L2 (alignment, theme grey, yes/no labels); CAD ruled first, implementation follows",
+   "read": "ECO-126 order section 2"
+  },
+  {
+   "id": "VP-046",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "T6 restore -> pending is a design change from the maintainer's state-model rewrite; the order says T6 deleted->normal was correct when ruled",
+   "read": "ECO-128 order sections 1-2"
+  },
+  {
+   "id": "VP-047",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "redefinition of pending semantics with a new adjudication UI; the order says the v4.0 spec was self-consistent and not defective",
+   "read": "ECO-129 order sections 1-2"
+  },
+  {
+   "id": "VP-048",
+   "screen": "OUT",
+   "out_reason": "feature",
+   "classes": [],
+   "kind": null,
+   "reason": "two-stage scan (staging, summary, apply/discard) is a new apply model; the old spec was self-consistent",
+   "read": "ECO-130 order sections 1-2"
+  },
+  {
+   "id": "VP-049",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "cross-tab cache: work-tab changes do not invalidate the image tab's status sets; DB and state model sound",
+   "read": "ECO-131 order section 2"
+  },
+  {
+   "id": "VP-050",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "after a partial apply failure the VM re-enables apply on the same staging (UNIQUE clash); REQ-100 already states recovery by rescan",
+   "read": "ECO-133 order section 2"
+  },
+  {
+   "id": "VP-051",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "relink candidate matching O(missing x new); behaviour as specified",
+   "read": "ECO-134 order section 2"
+  },
+  {
+   "id": "VP-052",
+   "screen": "OUT",
+   "out_reason": "derived",
+   "classes": [],
+   "kind": null,
+   "reason": "error vocabulary had no code for scan root missing/renamed; its authority is M-CORE-001 in the M-BOM (20-spec defers to M-BOM) and the fix changed only 32-mbom and code",
+   "read": "ECO-135 order sections 2-3 and M4 note"
+  },
+  {
+   "id": "VP-053",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "N"
+   ],
+   "kind": "ambiguous",
+   "reason": "scan_summary.md missing rate did not say whether the numerator is this scan's delta or the total after apply; a computation definition",
+   "read": "ECO-136 order sections 2-3"
+  },
+  {
+   "id": "VP-054",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "rescan does per-row File.Exists plus full enumeration; behaviour as specified, performance shape only",
+   "read": "ECO-137 order sections 1-2"
+  },
+  {
+   "id": "VP-055",
+   "screen": "IN",
+   "out_reason": null,
+   "classes": [
+    "K2",
+    "K3"
+   ],
+   "kind": "contradictory",
+   "reason": "pending_review.md says relink execution belongs to the repair flow while its v2 mock makes auto-adjudication relink, so repair and pending review both handle the same missing/pending pair; repair had no canonical screen. The relink handler is stated two ways (K2) and prose and mock operations differ (K3)",
+   "read": "ECO-140 order section 2"
+  },
+  {
+   "id": "VP-056",
+   "screen": "OUT",
+   "out_reason": "impl",
+   "classes": [],
+   "kind": null,
+   "reason": "collection switch slow from a missing-driven NOT EXISTS query; counts as specified",
+   "read": "ECO-142 order section 2"
+  }
+ ]
+}

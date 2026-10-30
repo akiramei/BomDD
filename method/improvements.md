@@ -9902,7 +9902,7 @@ restates §9 ("a prose requirement is not evidence of compliance") as a filter o
   evidence: `bomdd/reports/eco-118-bom-structure-check/r8-round-2.md` (R8-2-01); process-validator selftest arm "E12: エディタの amend…"
   (the raw editor message gives no trailer)
 
-## 2026-10-30 External — robustness analysis (ICONIX) as a check of the upstream layer, read against the method; a desk count first (EXP-20261030-01, filed)
+## 2026-10-30 External — robustness analysis (ICONIX) as a check of the upstream layer, read against the method; a desk count first (EXP-20261030-01, measured)
 
 Source: an outside proposal the user pasted (2026-10-30): the ruled layer is natural language verified mainly by review, and review
 does not promise quality; robustness analysis maps each use-case step to Boundary / Control / Entity objects under connection rules,
@@ -9934,12 +9934,20 @@ fixed before classifying; `items.py` → `items.json` / `items.md`, 123 candidat
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement; no body text, template or tool changes.
 
-- [open] EXP-20261030-01 — **Of the upstream defects recorded in ViewTube, ViewPrism2 and MoviePad-Remake, how many would a
+- [recovered 2026-10-30 via bomdd/reports/exp-20261030-01/results.md] EXP-20261030-01 — **Of the upstream defects recorded in ViewTube, ViewPrism2 and MoviePad-Remake, how many would a
   robustness check have named before manufacture — by a connection rule (K1), by an element's missing source or a step's missing
   handler (K2), or by a difference from the mock (K3) — and how many by none (N)?** Two blind classifiers (a fresh Claude agent and
   Codex); the designer counts only. Reading fixed in `definitions.md` §6: structural share (K1 or K2, both classifiers) ≥ 25 % in
   ViewTube or ViewPrism2 → a prospective trial (seeded defects, a G2/G3-only control arm); ≤ 10 % (either classifier) in both → not
   useful for these products, the lever is an independent input and checks of meaning; otherwise no claim. K1 at 0-1 → the connection
   rules do not pay here. The counts are an upper bound (the best case: every gap raised as a question).
+  **Read (2026-10-30, by the fixed rule)**: IN for both 19 / 20 / 20; structural for both ViewTube 7 (36.8 %), ViewPrism2 3
+  (15.0 %, no claim — split 9 of 20), MoviePad-Remake 1 (5.0 %); K1 0 for both in all three. Rule 2 → **a prospective trial is
+  earned** (on ViewTube alone); rule 3 → **the connection rules do not pay here**. Descriptive, not a reading: of the 10 items
+  structural for both in the two general products, 6 are also named by a mock difference for both (UI-IR exists without a
+  robustness model) and 4 (ViewTube) only by the source / alternative-flow rule — two of them effects across surfaces (an action
+  on one tab and the view open on another). The classifiers part on how far "the model would have to ask" reaches (ViewPrism2), so
+  a trial needs seeded defects whose class is known in advance. Departure D1: Codex's default model was refused; C-B ran on
+  `gpt-5.6-sol`. The trial's design and start are the user's; nothing is built from this result.
   source: this section (the user's "A", 2026-10-30)
-  evidence: `bomdd/reports/exp-20261030-01/definitions.md`, `items.json`
+  evidence: `bomdd/reports/exp-20261030-01/definitions.md`, `items.json`, `results.md`, `summary.json`, `classifier-{a,b}-*.json`

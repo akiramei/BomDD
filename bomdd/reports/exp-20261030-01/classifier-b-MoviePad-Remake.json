@@ -1,0 +1,231 @@
+{
+  "classifier": "b",
+  "product": "MoviePad-Remake",
+  "items": [
+    {
+      "id": "MP-001",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The order is the first implementation of already-ruled requirements, not a defect in the ruled layer.",
+      "read": "60-change-order-eco-001.md sections 0-4"
+    },
+    {
+      "id": "MP-002",
+      "screen": "OUT",
+      "out_reason": "process",
+      "classes": [],
+      "kind": null,
+      "reason": "The order is a second manufacture for process-yield and evidence-chain measurement and does not correct a ruled-layer statement.",
+      "read": "60-change-order-eco-002.md sections 0-4"
+    },
+    {
+      "id": "MP-003",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "wrong",
+      "reason": "The spec and K-BOM stated the silent-source copy condition and the count of 1.0 reports wrongly; both are semantic conditions or counts that robustness structure would not name.",
+      "read": "60-change-order-eco-003.md sections 1-3"
+    },
+    {
+      "id": "MP-004",
+      "screen": "OUT",
+      "out_reason": "process",
+      "classes": [],
+      "kind": null,
+      "reason": "The change repairs process, inspection, control-plan, routing, and record machinery without changing a requirements, spec, E-BOM, K-BOM, mock, or ADR statement.",
+      "read": "60-change-order-eco-004.md sections 1-6"
+    },
+    {
+      "id": "MP-005",
+      "screen": "OUT",
+      "out_reason": "feature",
+      "classes": [],
+      "kind": null,
+      "reason": "The human deliberately changed the E-BOM export boundary; the prior three-item boundary was not recorded as defective.",
+      "read": "60-change-order-eco-005.md sections 0-2"
+    },
+    {
+      "id": "MP-006",
+      "screen": "OUT",
+      "out_reason": "derived",
+      "classes": [],
+      "kind": null,
+      "reason": "The requirements, spec, and E-BOM were sound; the defects were M-BOM dependency targets and responsibility placement in the derived layer.",
+      "read": "60-change-order-eco-006.md sections 1, 6.1-6.3, and 7"
+    },
+    {
+      "id": "MP-007",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2"],
+      "kind": "missing",
+      "reason": "The spec lacked the REQ-to-behaviour coverage mapping, which a source-and-coverage check would expose as requirements without mapped behaviour.",
+      "read": "20-spec.md section 5 and Gate record round 1"
+    },
+    {
+      "id": "MP-008",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The spec omitted REQ-019's locator behaviour, but the requirement itself supplied the behaviour, so a sourced robustness model would not name the missing spec restatement.",
+      "read": "10-requirements.yaml REQ-019; 20-spec.md section 2.6 and Gate record round 1"
+    },
+    {
+      "id": "MP-009",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The missing unit/L1/L2/L3 depth vocabulary concerns evidence levels, not a boundary, control, entity, connection, or operation gap.",
+      "read": "20-spec.md section 1 Depths and Gate record round 1"
+    },
+    {
+      "id": "MP-010",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "ambiguous",
+      "reason": "The rounding convention was ambiguous until Math.Round and round-half-up were distinguished, a computation detail outside K1-K3.",
+      "read": "20-spec.md section 1 round terms, section 2.7, and Gate record round 1"
+    },
+    {
+      "id": "MP-011",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The missing tolerances are numeric acceptance rules, which robustness structure and source coverage would not name.",
+      "read": "20-spec.md section 1 Exact, sections 2.2 and 2.8 acceptance, and Gate record round 1"
+    },
+    {
+      "id": "MP-012",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The probe field derivations and fallback formulas were missing computational rules, not missing robustness objects or connections.",
+      "read": "10-requirements.yaml REQ-001; 20-spec.md section 2.1 and Gate record round 2"
+    },
+    {
+      "id": "MP-013",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "ambiguous",
+      "reason": "The precedence among export errors was unspecified; error ordering is a semantic order that K1-K3 do not test.",
+      "read": "20-spec.md section 2.6 REQ-018 errors and Gate record round 2"
+    },
+    {
+      "id": "MP-014",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2"],
+      "kind": "missing",
+      "reason": "The locator's environment, application, and local-data inputs were unstated, so modelling the locator control would raise source questions that name the defect.",
+      "read": "20-spec.md section 2.6 REQ-019 locator and Gate record round 2"
+    },
+    {
+      "id": "MP-015",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The missing per-format acceptance measures concern verification values and comparisons rather than robustness-model structure.",
+      "read": "20-spec.md section 2.6 Acceptance and Gate record round 2"
+    },
+    {
+      "id": "MP-016",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The VFR seek value and timestamp basis were missing algorithmic details, not an absent boundary operation or destination.",
+      "read": "20-spec.md sections 2.6 and 2.8 and Gate record round 2"
+    },
+    {
+      "id": "MP-017",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2"],
+      "kind": "missing",
+      "reason": "The output clock did not state that no-plan cases fall through to the VFR path, so the alternative flow lacked its destination and K2 would name it.",
+      "read": "20-spec.md section 2.7 steps 4 and 10, section 2.8, and Gate record round 2"
+    },
+    {
+      "id": "MP-018",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The missing depth labels identify inspection levels, not product interactions or uncovered behavioural handlers.",
+      "read": "20-spec.md section 5 Depth column and Gate record round 2"
+    },
+    {
+      "id": "MP-019",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "ambiguous",
+      "reason": "The empty-edit error precedence was ambiguous; the resolved ZeroDuration-before-NoRegions rule is an error-order semantic outside K1-K3.",
+      "read": "20-spec.md section 2.6 REQ-018 errors 2-3 and Gate record round 3"
+    },
+    {
+      "id": "MP-020",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "contradictory",
+      "reason": "INV-005 appeared document-wide although merge can leave no kept region; this semantic invariant exception does not force a robustness connection or coverage violation.",
+      "read": "20-spec.md section 2.3 DeleteBoundary/SetExcluded, section 3 INV-005, and Gate record round 3"
+    },
+    {
+      "id": "MP-021",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The crossed-limit result of clamp was unstated, a computation rule explicitly outside what K1-K3 name.",
+      "read": "20-spec.md section 2.3 clamp definition and Gate record round 3"
+    },
+    {
+      "id": "MP-022",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "ambiguous",
+      "reason": "The rate rationalisation tie-break was ambiguous until q=1 before q=1001 was fixed, a numeric algorithm choice rather than a structural gap.",
+      "read": "20-spec.md section 2.7 step 1 and Gate record round 3"
+    },
+    {
+      "id": "MP-023",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The invariant-culture numeric formatting rule was missing, but formatting is representation semantics and not named by K1-K3.",
+      "read": "20-spec.md section 2.6 number formatting and Gate record round 3"
+    },
+    {
+      "id": "MP-024",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["N"],
+      "kind": "missing",
+      "reason": "The keyframe search windows and bounds were missing algorithm parameters, not a missing robustness element or connection.",
+      "read": "20-spec.md section 2.9 Copy start and Gate record round 3"
+    },
+    {
+      "id": "MP-025",
+      "screen": "IN",
+      "out_reason": null,
+      "classes": ["K2"],
+      "kind": "missing",
+      "reason": "The public boundary signatures were neither stated nor explicitly delegated, so source coverage would ask where the boundary operations' forms are defined.",
+      "read": "20-spec.md section 1 Observation contract and Gate record round 3"
+    }
+  ]
+}
