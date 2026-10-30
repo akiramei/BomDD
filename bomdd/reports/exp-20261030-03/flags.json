@@ -1,0 +1,2519 @@
+{
+ "packages": {
+  "T01": {
+   "M": {
+    "flags": [
+     {
+      "check": "M1",
+      "action": "ArchiveVideo",
+      "verb": "Archive",
+      "object": "Video"
+     },
+     {
+      "check": "M1",
+      "action": "BatchAssignTag",
+      "verb": "Assign",
+      "object": "Tag"
+     },
+     {
+      "check": "M1",
+      "action": "CreateTag",
+      "verb": "Create",
+      "object": "Tag"
+     },
+     {
+      "check": "M1",
+      "action": "CreateView",
+      "verb": "Create",
+      "object": "View"
+     },
+     {
+      "check": "M1",
+      "action": "RemoveApiKey",
+      "verb": "Remove",
+      "object": "ApiKey"
+     }
+    ]
+   },
+   "T": {
+    "flags": [
+     {
+      "check": "T2",
+      "key": "CloseWindow",
+      "text": "CloseWindow ウィンドウを閉じる 作業領域・画面・ダイアログ"
+     },
+     {
+      "check": "T5",
+      "key": "CloseWindow",
+      "text": "CloseWindow ウィンドウを閉じる 作業領域・画面・ダイアログ"
+     },
+     {
+      "check": "T2",
+      "key": "RegisterLinks",
+      "text": "RegisterLinks リンクを一括登録 (1行1URL) コレクション所属 (Membership)"
+     },
+     {
+      "check": "T3",
+      "key": "RegisterLinks",
+      "text": "RegisterLinks リンクを一括登録 (1行1URL) コレクション所属 (Membership)"
+     },
+     {
+      "check": "T2",
+      "key": "ResolveChannel",
+      "text": "ResolveChannel チャンネルを解決 (解決ボタン / 再試行) YouTube チャンネル参照・解決結果"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmChannelCollection",
+      "text": "ConfirmChannelCollection 追加して同期 ConfirmChannelCollection コレクション (manual / channel, All Videos スコープ)"
+     },
+     {
+      "check": "T6",
+      "key": "ResolveCurrentState",
+      "text": "RetrySync 同期を開始・再試行・再開 (Retry/Start) ResolveCurrentState チャンネル同期 (sync state / run)"
+     },
+     {
+      "check": "T6",
+      "key": "ResolveCurrentState",
+      "text": "CancelSync 同期をキャンセル ResolveCurrentState チャンネル同期 (sync state / run)"
+     },
+     {
+      "check": "T3",
+      "key": "BatchAssignTag",
+      "text": "BatchAssignTag 選択した動画にタグを付ける BatchAssignTag タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T2",
+      "key": "BatchUnassignTag",
+      "text": "BatchUnassignTag 選択した動画からタグを外す タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T5",
+      "key": "BatchUnassignTag",
+      "text": "BatchUnassignTag 選択した動画からタグを外す タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T3",
+      "key": "ArchiveVideo",
+      "text": "ArchiveVideo アーカイブ ArchiveVideo 動画 (Video)"
+     },
+     {
+      "check": "T2",
+      "key": "RestoreVideo",
+      "text": "RestoreVideo アーカイブから戻す (restore) 動画 (Video)"
+     },
+     {
+      "check": "T6",
+      "key": "RestoreVideo",
+      "text": "RestoreVideo アーカイブから戻す (restore) 動画 (Video)"
+     },
+     {
+      "check": "T2",
+      "key": "AssignTag",
+      "text": "AssignTag 動画にタグを付ける (detail) タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T3",
+      "key": "AssignTag",
+      "text": "AssignTag 動画にタグを付ける (detail) タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T5",
+      "key": "AssignTag",
+      "text": "AssignTag 動画にタグを付ける (detail) タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T2",
+      "key": "UnassignTag",
+      "text": "UnassignTag 動画からタグを外す (detail) タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T3",
+      "key": "UnassignTag",
+      "text": "UnassignTag 動画からタグを外す (detail) タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T5",
+      "key": "UnassignTag",
+      "text": "UnassignTag 動画からタグを外す (detail) タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T3",
+      "key": "CreateView",
+      "text": "CreateView ビューを新規作成 CreateView ビュー (View)"
+     },
+     {
+      "check": "T2",
+      "key": "FavoriteView",
+      "text": "FavoriteView ビューをお気に入りにする ビュー (View)"
+     },
+     {
+      "check": "T3",
+      "key": "StartTagPlacement",
+      "text": "StartTagPlacement タグを階層へ配置 (tag card click/drag) StartTagPlacement 階層ノード (Hierarchy Node)"
+     },
+     {
+      "check": "T2",
+      "key": "MoveHierarchyNode",
+      "text": "MoveHierarchyNode 階層行を移動 (tree row drag) 階層ノード (Hierarchy Node)"
+     },
+     {
+      "check": "T2",
+      "key": "CancelPlacement",
+      "text": "CancelPlacement 配置・移動を取消 (Esc) 階層ノード (Hierarchy Node)"
+     },
+     {
+      "check": "T3",
+      "key": "CreateTag",
+      "text": "CreateTag タグを作成 (＋ タグ) CreateTag タグ定義 (Tag Definition)"
+     },
+     {
+      "check": "T2",
+      "key": "DeleteTag",
+      "text": "DeleteTag タグ定義を削除 タグ定義 (Tag Definition)"
+     },
+     {
+      "check": "T3",
+      "key": "DeleteTag",
+      "text": "DeleteTag タグ定義を削除 タグ定義 (Tag Definition)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-SCREEN",
+      "text": "EN-SCREEN 作業領域・画面・ダイアログ"
+     },
+     {
+      "check": "T4",
+      "key": "EN-VIDEO",
+      "text": "EN-VIDEO 動画 (Video)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-MEMBERSHIP",
+      "text": "EN-MEMBERSHIP コレクション所属 (Membership)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-CHANNEL",
+      "text": "EN-CHANNEL YouTube チャンネル参照・解決結果"
+     },
+     {
+      "check": "T4",
+      "key": "EN-SYNC",
+      "text": "EN-SYNC チャンネル同期 (sync state / run)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-NOTE",
+      "text": "EN-NOTE ローカルメモ"
+     },
+     {
+      "check": "T4",
+      "key": "EN-TAG-ASSIGN",
+      "text": "EN-TAG-ASSIGN タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-RESULT",
+      "text": "EN-RESULT 動画の閲覧結果 (Collection/View path・mode・検索・並び・表示形式)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-SETTING",
+      "text": "EN-SETTING 設定 (表示言語ほか)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-API-KEY",
+      "text": "EN-API-KEY YouTube Data API キー"
+     }
+    ],
+    "dropped": {
+     "states": 0,
+     "entities": 0,
+     "operations": 6
+    },
+    "rows": {
+     "states": 35,
+     "entities": 15,
+     "operations": 56
+    }
+   }
+  },
+  "T02": {
+   "M": {
+    "flags": [
+     {
+      "check": "M1",
+      "action": "ArchiveVideo",
+      "verb": "Archive",
+      "object": "Video"
+     },
+     {
+      "check": "M1",
+      "action": "CreateTag",
+      "verb": "Create",
+      "object": "Tag"
+     },
+     {
+      "check": "M1",
+      "action": "CreateView",
+      "verb": "Create",
+      "object": "View"
+     },
+     {
+      "check": "M1",
+      "action": "RemoveApiKey",
+      "verb": "Remove",
+      "object": "ApiKey"
+     }
+    ]
+   },
+   "T": {
+    "flags": [
+     {
+      "check": "T5",
+      "key": "NavigateVideos",
+      "text": "O01 動画へ移動 NavigateVideos Video"
+     },
+     {
+      "check": "T5",
+      "key": "NavigateTags",
+      "text": "O02 タグへ移動 NavigateTags Tag Definition"
+     },
+     {
+      "check": "T5",
+      "key": "OpenSettings",
+      "text": "O03 設定を開く(⚙・状態カード) OpenSettings 設定"
+     },
+     {
+      "check": "T2",
+      "key": "O09",
+      "text": "O09 ウィンドウを閉じる アプリのウィンドウ"
+     },
+     {
+      "check": "T5",
+      "key": "SelectAllVideos",
+      "text": "O10 すべての動画を選ぶ SelectAllVideos Collection(manual/channel)・All Videos"
+     },
+     {
+      "check": "T5",
+      "key": "SelectCollection",
+      "text": "O11 コレクションを選ぶ SelectCollection Collection(manual/channel)・All Videos"
+     },
+     {
+      "check": "T5",
+      "key": "OpenManualRegistration",
+      "text": "O12 手動登録を開く(＋リンク・状態カード) OpenManualRegistration Membership"
+     },
+     {
+      "check": "T2",
+      "key": "O13",
+      "text": "O13 リンクを一括登録 Membership"
+     },
+     {
+      "check": "T3",
+      "key": "O13",
+      "text": "O13 リンクを一括登録 Membership"
+     },
+     {
+      "check": "T5",
+      "key": "OpenChannelCollection",
+      "text": "O14 チャンネル追加を開く OpenChannelCollection Collection(manual/channel)・All Videos"
+     },
+     {
+      "check": "T2",
+      "key": "O17",
+      "text": "O17 チャンネルを解決 Collection(manual/channel)・All Videos"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmChannelCollection",
+      "text": "O18 追加して同期 ConfirmChannelCollection Collection(manual/channel)・All Videos"
+     },
+     {
+      "check": "T6",
+      "key": "ResolveCurrentState",
+      "text": "O21 同期をキャンセル ResolveCurrentState Collection(manual/channel)・All Videos"
+     },
+     {
+      "check": "T6",
+      "key": "ResolveCurrentState",
+      "text": "O22 同期を開始・再試行・再開 ResolveCurrentState Collection(manual/channel)・All Videos"
+     },
+     {
+      "check": "T5",
+      "key": "SelectView",
+      "text": "O24 ビューを選ぶ(Videos) SelectView View"
+     },
+     {
+      "check": "T5",
+      "key": "SetAllMode",
+      "text": "O25 すべて(モード・状態カード) SetAllMode Video"
+     },
+     {
+      "check": "T5",
+      "key": "SetUnclassifiedMode",
+      "text": "O26 未分類 SetUnclassifiedMode Video"
+     },
+     {
+      "check": "T5",
+      "key": "SearchVideos",
+      "text": "O27 動画を検索 SearchVideos Video"
+     },
+     {
+      "check": "T5",
+      "key": "SortVideos",
+      "text": "O28 並び替え SortVideos Video"
+     },
+     {
+      "check": "T5",
+      "key": "SetGridLayout",
+      "text": "O29 グリッド表示 SetGridLayout Video"
+     },
+     {
+      "check": "T5",
+      "key": "SetListLayout",
+      "text": "O30 リスト表示 SetListLayout Video"
+     },
+     {
+      "check": "T5",
+      "key": "NavigateHierarchyNode",
+      "text": "O31 子ノードのチップへ進む NavigateHierarchyNode Hierarchy Node"
+     },
+     {
+      "check": "T5",
+      "key": "OpenTagAssignment",
+      "text": "O32 タグを付ける(付与を開く) OpenTagAssignment Tag Assignment"
+     },
+     {
+      "check": "T5",
+      "key": "SelectVideo",
+      "text": "O34 カード本体で詳細に表示 SelectVideo Video"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleBatchVideoSelection",
+      "text": "O35 一括処理対象に追加 ToggleBatchVideoSelection Video"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleBatchVideoSelection",
+      "text": "O36 一括処理対象から外す ToggleBatchVideoSelection Video"
+     },
+     {
+      "check": "T5",
+      "key": "EditAssignmentValue",
+      "text": "O39 タグの値を入力 EditAssignmentValue Tag Assignment"
+     },
+     {
+      "check": "T5",
+      "key": "BatchAssignTag",
+      "text": "O40 N本に付ける BatchAssignTag Tag Assignment"
+     },
+     {
+      "check": "T5",
+      "key": "BatchUnassignTag",
+      "text": "O41 N本から外す BatchUnassignTag Tag Assignment"
+     },
+     {
+      "check": "T2",
+      "key": "O42",
+      "text": "O42 詳細でタグを付ける Tag Assignment"
+     },
+     {
+      "check": "T3",
+      "key": "O42",
+      "text": "O42 詳細でタグを付ける Tag Assignment"
+     },
+     {
+      "check": "T2",
+      "key": "O43",
+      "text": "O43 詳細でタグを外す Tag Assignment"
+     },
+     {
+      "check": "T3",
+      "key": "O43",
+      "text": "O43 詳細でタグを外す Tag Assignment"
+     },
+     {
+      "check": "T5",
+      "key": "OpenCanonicalVideo",
+      "text": "O44 動画を開く OpenCanonicalVideo Video"
+     },
+     {
+      "check": "T3",
+      "key": "ArchiveVideo",
+      "text": "O46 アーカイブ ArchiveVideo Video"
+     },
+     {
+      "check": "T5",
+      "key": "ArchiveVideo",
+      "text": "O46 アーカイブ ArchiveVideo Video"
+     },
+     {
+      "check": "T2",
+      "key": "O47",
+      "text": "O47 アーカイブから戻す Video"
+     },
+     {
+      "check": "T6",
+      "key": "O47",
+      "text": "O47 アーカイブから戻す Video"
+     },
+     {
+      "check": "T5",
+      "key": "EditVideoNote",
+      "text": "O48 メモを編集 EditVideoNote ローカルメモ"
+     },
+     {
+      "check": "T5",
+      "key": "SaveVideoNote",
+      "text": "O49 メモを保存 SaveVideoNote ローカルメモ"
+     },
+     {
+      "check": "T5",
+      "key": "DiscardVideoNote",
+      "text": "O50 メモを破棄 DiscardVideoNote ローカルメモ"
+     },
+     {
+      "check": "T3",
+      "key": "CreateView",
+      "text": "O51 ビューを作成 CreateView View"
+     },
+     {
+      "check": "T2",
+      "key": "O65",
+      "text": "O65 挿入位置へ配置 Hierarchy Node"
+     },
+     {
+      "check": "T2",
+      "key": "O66",
+      "text": "O66 行をドラッグで移動 Hierarchy Node"
+     },
+     {
+      "check": "T3",
+      "key": "CreateTag",
+      "text": "O68 タグを作成 CreateTag Tag Definition"
+     },
+     {
+      "check": "T2",
+      "key": "O71",
+      "text": "O71 タグを削除 Tag Definition"
+     },
+     {
+      "check": "T4",
+      "key": "EN-membership",
+      "text": "EN-membership Membership"
+     },
+     {
+      "check": "T4",
+      "key": "EN-tag-assign",
+      "text": "EN-tag-assign Tag Assignment"
+     },
+     {
+      "check": "T4",
+      "key": "EN-hier-node",
+      "text": "EN-hier-node Hierarchy Node"
+     },
+     {
+      "check": "T4",
+      "key": "EN-note",
+      "text": "EN-note ローカルメモ"
+     },
+     {
+      "check": "T4",
+      "key": "EN-setting",
+      "text": "EN-setting 設定"
+     },
+     {
+      "check": "T4",
+      "key": "EN-window",
+      "text": "EN-window アプリのウィンドウ"
+     }
+    ],
+    "dropped": {
+     "states": 0,
+     "entities": 0,
+     "operations": 8
+    },
+    "rows": {
+     "states": 38,
+     "entities": 13,
+     "operations": 65
+    }
+   }
+  },
+  "T03": {
+   "M": {
+    "flags": [
+     {
+      "check": "M1",
+      "action": "ArchiveVideo",
+      "verb": "Archive",
+      "object": "Video"
+     },
+     {
+      "check": "M1",
+      "action": "CreateTag",
+      "verb": "Create",
+      "object": "Tag"
+     },
+     {
+      "check": "M1",
+      "action": "CreateView",
+      "verb": "Create",
+      "object": "View"
+     },
+     {
+      "check": "M1",
+      "action": "RemoveApiKey",
+      "verb": "Remove",
+      "object": "ApiKey"
+     }
+    ]
+   },
+   "T": {
+    "flags": [
+     {
+      "check": "T5",
+      "key": "ToggleBatchVideoSelection",
+      "text": "OP-BATCH-REMOVE 一括処理対象から外す(カードの checkbox) ToggleBatchVideoSelection 一括選択集合(0..N 本)"
+     },
+     {
+      "check": "T5",
+      "key": "OpenCanonicalVideo",
+      "text": "OP-OPEN-VIDEO 動画を開く(既定ブラウザ) OpenCanonicalVideo Video(カタログ動画行)"
+     },
+     {
+      "check": "T3",
+      "key": "ArchiveVideo",
+      "text": "OP-ARCHIVE-VIDEO 動画をアーカイブ ArchiveVideo Video(カタログ動画行)"
+     },
+     {
+      "check": "T5",
+      "key": "ArchiveVideo",
+      "text": "OP-ARCHIVE-VIDEO 動画をアーカイブ ArchiveVideo Video(カタログ動画行)"
+     },
+     {
+      "check": "T5",
+      "key": "EditVideoNote",
+      "text": "OP-NOTE-EDIT ローカルメモを編集 EditVideoNote ローカルメモ"
+     },
+     {
+      "check": "T5",
+      "key": "SaveVideoNote",
+      "text": "OP-NOTE-SAVE メモを保存 SaveVideoNote ローカルメモ"
+     },
+     {
+      "check": "T5",
+      "key": "DiscardVideoNote",
+      "text": "OP-NOTE-DISCARD メモの変更を破棄 DiscardVideoNote ローカルメモ"
+     },
+     {
+      "check": "T6",
+      "key": "ResolveCurrentState",
+      "text": "OP-SYNC-CANCEL 同期をキャンセル ResolveCurrentState channel 同期(run と sync state)"
+     },
+     {
+      "check": "T6",
+      "key": "ResolveCurrentState",
+      "text": "OP-SYNC-RETRY 同期を再試行・再開・開始(再試行/同期を再開) ResolveCurrentState channel 同期(run と sync state)"
+     },
+     {
+      "check": "T3",
+      "key": "CreateView",
+      "text": "OP-VIEW-CREATE ビューを新規作成 CreateView View(分類・閲覧レンズ)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-HIER-MOVE",
+      "text": "OP-HIER-MOVE 階層の行をドラッグで移動・並べ替え Hierarchy Node(View 内のタグ配置)"
+     },
+     {
+      "check": "T3",
+      "key": "CreateTag",
+      "text": "OP-TAG-CREATE タグを作成(＋ タグ) CreateTag Tag Definition(simple / textual / numeric)"
+     },
+     {
+      "check": "T6",
+      "key": "CreateTag",
+      "text": "OP-TAG-CREATE タグを作成(＋ タグ) CreateTag Tag Definition(simple / textual / numeric)"
+     },
+     {
+      "check": "T3",
+      "key": "StartTagPlacement",
+      "text": "OP-TAG-PLACE タグを階層へ配置(パレットのカード click/drag) StartTagPlacement Hierarchy Node(View 内のタグ配置)"
+     },
+     {
+      "check": "T6",
+      "key": "StartTagPlacement",
+      "text": "OP-TAG-PLACE タグを階層へ配置(パレットのカード click/drag) StartTagPlacement Hierarchy Node(View 内のタグ配置)"
+     },
+     {
+      "check": "T6",
+      "key": "EditTagDefinition",
+      "text": "OP-TAG-EDIT タグ定義を編集 EditTagDefinition Tag Definition(simple / textual / numeric)"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmChannelCollection",
+      "text": "OP-CHANNEL-CONFIRM 追加して同期(channel collection を作成) ConfirmChannelCollection Collection(manual / channel)と All Videos スコープ"
+     },
+     {
+      "check": "T2",
+      "key": "OP-MANUAL-REGISTER",
+      "text": "OP-MANUAL-REGISTER リンクを一括登録(1行1URL・行別結果) Collection Membership(動画の取得元登録)"
+     },
+     {
+      "check": "T3",
+      "key": "OP-MANUAL-REGISTER",
+      "text": "OP-MANUAL-REGISTER リンクを一括登録(1行1URL・行別結果) Collection Membership(動画の取得元登録)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-CHANNEL-RESOLVE",
+      "text": "OP-CHANNEL-RESOLVE チャンネルを解決(解決ボタン) Collection(manual / channel)と All Videos スコープ"
+     },
+     {
+      "check": "T2",
+      "key": "OP-RESTORE-VIDEO",
+      "text": "OP-RESTORE-VIDEO アーカイブから戻す(restore) Video(カタログ動画行)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-DETAIL-TAG-ASSIGN",
+      "text": "OP-DETAIL-TAG-ASSIGN 詳細 pane で動画にタグを付ける Tag Assignment(動画とタグの対応・値)"
+     },
+     {
+      "check": "T3",
+      "key": "OP-DETAIL-TAG-ASSIGN",
+      "text": "OP-DETAIL-TAG-ASSIGN 詳細 pane で動画にタグを付ける Tag Assignment(動画とタグの対応・値)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-DETAIL-TAG-UNASSIGN",
+      "text": "OP-DETAIL-TAG-UNASSIGN 詳細 pane で動画からタグを外す Tag Assignment(動画とタグの対応・値)"
+     },
+     {
+      "check": "T3",
+      "key": "OP-DETAIL-TAG-UNASSIGN",
+      "text": "OP-DETAIL-TAG-UNASSIGN 詳細 pane で動画からタグを外す Tag Assignment(動画とタグの対応・値)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-TAG-DELETE",
+      "text": "OP-TAG-DELETE タグ定義を削除 Tag Definition(simple / textual / numeric)"
+     },
+     {
+      "check": "T3",
+      "key": "OP-TAG-DELETE",
+      "text": "OP-TAG-DELETE タグ定義を削除 Tag Definition(simple / textual / numeric)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-TAG-DIALOG-CANCEL",
+      "text": "OP-TAG-DIALOG-CANCEL タグ定義 dialog をキャンセル Tag Definition(simple / textual / numeric)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-VIEW-FAVORITE",
+      "text": "OP-VIEW-FAVORITE ビューをお気に入りにする View(分類・閲覧レンズ)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-APP-CLOSE",
+      "text": "OP-APP-CLOSE アプリケーションを閉じる 作業領域(Videos / Tags)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-WORKAREA",
+      "text": "EN-WORKAREA 作業領域(Videos / Tags)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-VIDEO",
+      "text": "EN-VIDEO Video(カタログ動画行)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-MEMBERSHIP",
+      "text": "EN-MEMBERSHIP Collection Membership(動画の取得元登録)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-CHANNEL-SYNC",
+      "text": "EN-CHANNEL-SYNC channel 同期(run と sync state)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-NOTE",
+      "text": "EN-NOTE ローカルメモ"
+     },
+     {
+      "check": "T4",
+      "key": "EN-ASSIGNMENT",
+      "text": "EN-ASSIGNMENT Tag Assignment(動画とタグの対応・値)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-RESULT",
+      "text": "EN-RESULT 動画の閲覧結果(モード・検索・並び・表示形式・読込)"
+     },
+     {
+      "check": "T4",
+      "key": "EN-SETTING",
+      "text": "EN-SETTING 設定(表示言語ほか)"
+     }
+    ],
+    "dropped": {
+     "states": 0,
+     "entities": 0,
+     "operations": 8
+    },
+    "rows": {
+     "states": 30,
+     "entities": 16,
+     "operations": 68
+    }
+   }
+  },
+  "T04": {
+   "M": {
+    "flags": [
+     {
+      "check": "M1",
+      "action": "ArchiveVideo",
+      "verb": "Archive",
+      "object": "Video"
+     },
+     {
+      "check": "M1",
+      "action": "CreateTag",
+      "verb": "Create",
+      "object": "Tag"
+     },
+     {
+      "check": "M1",
+      "action": "CreateView",
+      "verb": "Create",
+      "object": "View"
+     },
+     {
+      "check": "M1",
+      "action": "RemoveApiKey",
+      "verb": "Remove",
+      "object": "ApiKey"
+     }
+    ]
+   },
+   "T": {
+    "flags": [
+     {
+      "check": "T2",
+      "key": "OP-REGISTER-LINKS",
+      "text": "OP-REGISTER-LINKS リンクを一括登録 Video(カタログ動画行)"
+     },
+     {
+      "check": "T3",
+      "key": "OP-REGISTER-LINKS",
+      "text": "OP-REGISTER-LINKS リンクを一括登録 Video(カタログ動画行)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-RESOLVE-CHANNEL",
+      "text": "OP-RESOLVE-CHANNEL チャンネルを解決(preview) Collection(manual / channel)"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmChannelCollection",
+      "text": "OP-CONFIRM-CHANNEL チャンネルコレクションを追加して同期 ConfirmChannelCollection Collection(manual / channel)"
+     },
+     {
+      "check": "T5",
+      "key": "SelectView",
+      "text": "OP-SELECT-VIEW-BROWSE 閲覧するビューを選ぶ(Videos) SelectView Videos 結果の表示条件(View軸・mode・path・検索・並び替え・layout)"
+     },
+     {
+      "check": "T5",
+      "key": "SetAllMode",
+      "text": "OP-SET-ALL-MODE すべてモード SetAllMode Videos 結果の表示条件(View軸・mode・path・検索・並び替え・layout)"
+     },
+     {
+      "check": "T5",
+      "key": "SetUnclassifiedMode",
+      "text": "OP-SET-UNCLASSIFIED-MODE 未分類モード SetUnclassifiedMode Videos 結果の表示条件(View軸・mode・path・検索・並び替え・layout)"
+     },
+     {
+      "check": "T5",
+      "key": "NavigateHierarchyNode",
+      "text": "OP-NAVIGATE-NODE 子ノードへ移動(子件数 chip) NavigateHierarchyNode Videos 結果の表示条件(View軸・mode・path・検索・並び替え・layout)"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleBatchVideoSelection",
+      "text": "OP-BATCH-REMOVE 一括処理対象から外す(checkbox) ToggleBatchVideoSelection 一括選択集合(batch-selection set)"
+     },
+     {
+      "check": "T3",
+      "key": "ArchiveVideo",
+      "text": "OP-ARCHIVE-VIDEO 動画をアーカイブ ArchiveVideo Video(カタログ動画行)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-RESTORE-VIDEO",
+      "text": "OP-RESTORE-VIDEO アーカイブから戻す Video(カタログ動画行)"
+     },
+     {
+      "check": "T2",
+      "key": "OP-DETAIL-ASSIGN-TAG",
+      "text": "OP-DETAIL-ASSIGN-TAG 詳細でタグを付ける Tag Assignment"
+     },
+     {
+      "check": "T3",
+      "key": "OP-DETAIL-ASSIGN-TAG",
+      "text": "OP-DETAIL-ASSIGN-TAG 詳細でタグを付ける Tag Assignment"
+     },
+     {
+      "check": "T2",
+      "key": "OP-DETAIL-UNASSIGN-TAG",
+      "text": "OP-DETAIL-UNASSIGN-TAG 詳細でタグを外す Tag Assignment"
+     },
+     {
+      "check": "T3",
+      "key": "OP-DETAIL-UNASSIGN-TAG",
+      "text": "OP-DETAIL-UNASSIGN-TAG 詳細でタグを外す Tag Assignment"
+     },
+     {
+      "check": "T3",
+      "key": "CreateView",
+      "text": "OP-CREATE-VIEW ビューを新規作成 CreateView View"
+     },
+     {
+      "check": "T2",
+      "key": "OP-FAVORITE-VIEW",
+      "text": "OP-FAVORITE-VIEW ビューをお気に入りにする View"
+     },
+     {
+      "check": "T2",
+      "key": "OP-INSERT-NODE",
+      "text": "OP-INSERT-NODE タグを階層へ挿入 Hierarchy Node / 階層編集バッファ"
+     },
+     {
+      "check": "T2",
+      "key": "OP-MOVE-NODE",
+      "text": "OP-MOVE-NODE 階層ノードを移動(行ドラッグ) Hierarchy Node / 階層編集バッファ"
+     },
+     {
+      "check": "T2",
+      "key": "OP-CANCEL-PLACEMENT",
+      "text": "OP-CANCEL-PLACEMENT 配置・移動を取消(Esc) Hierarchy Node / 階層編集バッファ"
+     },
+     {
+      "check": "T3",
+      "key": "CreateTag",
+      "text": "OP-CREATE-TAG タグを作成(＋ タグ) CreateTag Tag Definition"
+     },
+     {
+      "check": "T6",
+      "key": "CreateTag",
+      "text": "OP-CREATE-TAG タグを作成(＋ タグ) CreateTag Tag Definition"
+     },
+     {
+      "check": "T6",
+      "key": "EditTagDefinition",
+      "text": "OP-EDIT-TAG タグ定義を編集(•••) EditTagDefinition Tag Definition"
+     },
+     {
+      "check": "T2",
+      "key": "OP-DELETE-TAG",
+      "text": "OP-DELETE-TAG タグ定義を削除 Tag Definition"
+     },
+     {
+      "check": "T3",
+      "key": "OP-DELETE-TAG",
+      "text": "OP-DELETE-TAG タグ定義を削除 Tag Definition"
+     },
+     {
+      "check": "T2",
+      "key": "OP-CANCEL-TAG-DIALOG",
+      "text": "OP-CANCEL-TAG-DIALOG タグ定義 dialog を取消(Cancel) Tag Definition"
+     },
+     {
+      "check": "T2",
+      "key": "OP-CLOSE-APP",
+      "text": "OP-CLOSE-APP アプリを閉じる アプリケーション window"
+     },
+     {
+      "check": "T4",
+      "key": "E-VIDEO",
+      "text": "E-VIDEO Video(カタログ動画行)"
+     },
+     {
+      "check": "T4",
+      "key": "E-ALL-VIDEOS",
+      "text": "E-ALL-VIDEOS All Videos 固定スコープ"
+     },
+     {
+      "check": "T4",
+      "key": "E-SYNC-RUN",
+      "text": "E-SYNC-RUN チャンネル同期(sync state / run)"
+     },
+     {
+      "check": "T4",
+      "key": "E-CATALOG-LOAD",
+      "text": "E-CATALOG-LOAD カタログ読込(loading)"
+     },
+     {
+      "check": "T4",
+      "key": "E-TAG-ASSIGNMENT",
+      "text": "E-TAG-ASSIGNMENT Tag Assignment"
+     },
+     {
+      "check": "T4",
+      "key": "E-HIERARCHY-NODE",
+      "text": "E-HIERARCHY-NODE Hierarchy Node / 階層編集バッファ"
+     },
+     {
+      "check": "T4",
+      "key": "E-RESULT-QUERY",
+      "text": "E-RESULT-QUERY Videos 結果の表示条件(View軸・mode・path・検索・並び替え・layout)"
+     },
+     {
+      "check": "T4",
+      "key": "E-VIDEO-NOTE",
+      "text": "E-VIDEO-NOTE ローカルメモ"
+     },
+     {
+      "check": "T4",
+      "key": "E-API-KEY",
+      "text": "E-API-KEY YouTube Data API キー"
+     },
+     {
+      "check": "T4",
+      "key": "E-LOCALE-SETTING",
+      "text": "E-LOCALE-SETTING 表示言語設定"
+     },
+     {
+      "check": "T4",
+      "key": "E-CLASSIFICATION-WARNING",
+      "text": "E-CLASSIFICATION-WARNING 分類設定の警告"
+     },
+     {
+      "check": "T4",
+      "key": "E-UI-SURFACE",
+      "text": "E-UI-SURFACE 画面・modal(ナビゲーション対象)"
+     },
+     {
+      "check": "T4",
+      "key": "E-APPLICATION",
+      "text": "E-APPLICATION アプリケーション window"
+     }
+    ],
+    "dropped": {
+     "states": 0,
+     "entities": 0,
+     "operations": 8
+    },
+    "rows": {
+     "states": 36,
+     "entities": 18,
+     "operations": 71
+    }
+   }
+  },
+  "T05": {
+   "M": {
+    "flags": [
+     {
+      "check": "M1",
+      "action": "ArchiveVideo",
+      "verb": "Archive",
+      "object": "Video"
+     },
+     {
+      "check": "M1",
+      "action": "CreateCatalogBackup",
+      "verb": "Create",
+      "object": "CatalogBackup"
+     },
+     {
+      "check": "M1",
+      "action": "CreateTag",
+      "verb": "Create",
+      "object": "Tag"
+     },
+     {
+      "check": "M1",
+      "action": "CreateView",
+      "verb": "Create",
+      "object": "View"
+     },
+     {
+      "check": "M1",
+      "action": "RemoveApiKey",
+      "verb": "Remove",
+      "object": "ApiKey"
+     },
+     {
+      "check": "M1",
+      "action": "RemoveAssignmentValue",
+      "verb": "Remove",
+      "object": "AssignmentValue"
+     },
+     {
+      "check": "M1",
+      "action": "RemoveHierarchyNode",
+      "verb": "Remove",
+      "object": "HierarchyNode"
+     },
+     {
+      "check": "M1",
+      "action": "RequestCollectionDelete",
+      "verb": "Delete",
+      "object": "Collection"
+     },
+     {
+      "check": "M1",
+      "action": "RestoreCatalogBackup",
+      "verb": "Restore",
+      "object": "CatalogBackup"
+     },
+     {
+      "check": "M1",
+      "action": "ShowCollectionArchive",
+      "verb": "Archive",
+      "object": "ShowCollection"
+     }
+    ]
+   },
+   "T": {
+    "flags": [
+     {
+      "check": "T5",
+      "key": "NavigateVideos",
+      "text": "OP-NAV-VIDEOS 動画（Videos）画面へ移動 NavigateVideos 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T5",
+      "key": "NavigateTags",
+      "text": "OP-NAV-TAGS タグ（Tags）画面へ移動 NavigateTags 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T5",
+      "key": "OpenSettings",
+      "text": "OP-SETTINGS-OPEN 設定を開く OpenSettings 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectAllVideos",
+      "text": "OP-SCOPE-ALL すべての動画を開く SelectAllVideos 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectMusicScope",
+      "text": "OP-SCOPE-MUSIC ミュージック予約スコープを開く SelectMusicScope 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectCollection",
+      "text": "OP-SCOPE-COLLECTION コレクションを開く SelectCollection 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "SyncCollection",
+      "text": "OP-SYNC-NEW 新着を取り込む（含まれる全チャンネル） SyncCollection Channel sync run（同期の実行・状態）"
+     },
+     {
+      "check": "T2",
+      "key": "OP-SYNC-NOTICE-DISMISS",
+      "text": "OP-SYNC-NOTICE-DISMISS 同期報告の通知（失敗を含むもの）を閉じる 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleCollectionRail",
+      "text": "OP-RAIL-COLLAPSE コレクション欄を畳む/戻す ToggleCollectionRail 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T5",
+      "key": "ShowCollectionArchive",
+      "text": "OP-COLL-ARCHIVE-SHOW コレクションのアーカイブを表示 ShowCollectionArchive 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "RecheckCollection",
+      "text": "OP-COLL-RECHECK 全件を再確認（FULL 再同期） RecheckCollection Channel sync run（同期の実行・状態）"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleRefreshOptOut",
+      "text": "OP-COLL-OPTOUT 新着の取り込みから外す/含める ToggleRefreshOptOut Collection（manual/channel 取得元）"
+     },
+     {
+      "check": "T5",
+      "key": "RequestCollectionDelete",
+      "text": "OP-COLL-DELETE コレクションを削除…（拒否または確認へ） RequestCollectionDelete Collection（manual/channel 取得元）"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmScopedCollectionDeletion",
+      "text": "OP-COLL-DELETE-PROCEED ブロック画面から破壊的削除へ進む（コレクション・ローカル分類・動画を削除…） ConfirmScopedCollectionDeletion Collection（manual/channel 取得元）"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmScopedCollectionDeletion",
+      "text": "OP-COLL-DELETE-EXECUTE 動画を含めてコレクションを削除（実行） ConfirmScopedCollectionDeletion Collection（manual/channel 取得元）"
+     },
+     {
+      "check": "T5",
+      "key": "OpenManualRegistration",
+      "text": "OP-LINKS-OPEN ＋リンク（手動登録を開く） OpenManualRegistration 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T2",
+      "key": "OP-LINKS-REGISTER",
+      "text": "OP-LINKS-REGISTER リンクを登録（1行1URL・行別結果） Membership（Collection×Video）"
+     },
+     {
+      "check": "T3",
+      "key": "OP-LINKS-REGISTER",
+      "text": "OP-LINKS-REGISTER リンクを登録（1行1URL・行別結果） Membership（Collection×Video）"
+     },
+     {
+      "check": "T5",
+      "key": "OpenChannelCollection",
+      "text": "OP-CHANNEL-OPEN ＋チャンネル（チャンネルコレクション追加を開く） OpenChannelCollection 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T2",
+      "key": "OP-CHANNEL-RESOLVE",
+      "text": "OP-CHANNEL-RESOLVE チャンネルを解決（プレビュー取得） Collection（manual/channel 取得元）"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmChannelCollection",
+      "text": "OP-CHANNEL-CONFIRM 追加して同期（チャンネルコレクション作成） ConfirmChannelCollection Collection（manual/channel 取得元）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectView",
+      "text": "OP-VIEW-SELECT-V Videosで保存済みビューを選ぶ SelectView 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "ClearSelectedView",
+      "text": "OP-VIEW-CLEAR ビュー選択を解除 ClearSelectedView 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "OpenSavedHierarchyMenu",
+      "text": "OP-SAVEDNODE-MENU 保存済み階層メニューを開く OpenSavedHierarchyMenu 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectSavedHierarchyNode",
+      "text": "OP-SAVEDNODE-SELECT 保存済み階層の root/中間/葉を直接選ぶ SelectSavedHierarchyNode 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "NavigateBreadcrumbAncestor",
+      "text": "OP-CRUMB パンくずの祖先へ移動 NavigateBreadcrumbAncestor 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "NavigateHierarchyNode",
+      "text": "OP-CHILD-CHIP 子ノードのチップで下位へ移動 NavigateHierarchyNode 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "SetAllMode",
+      "text": "OP-MODE-ALL すべてモード SetAllMode 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "SetUnclassifiedMode",
+      "text": "OP-MODE-UNCLASSIFIED 未分類モード SetUnclassifiedMode 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "SearchVideos",
+      "text": "OP-SEARCH 動画を検索 SearchVideos 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "SortVideos",
+      "text": "OP-SORT 並び替えの項目を選ぶ SortVideos 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "ReverseVideoSort",
+      "text": "OP-SORT-REVERSE 昇順と降順を切り替え ReverseVideoSort 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "SetGridLayout",
+      "text": "OP-LAYOUT-GRID グリッド表示 SetGridLayout 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "SetListLayout",
+      "text": "OP-LAYOUT-LIST リスト表示 SetListLayout 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleCurrentResultBatchSelection",
+      "text": "OP-BATCH-MASTER 結果を全選択/全解除（tri-state master） ToggleCurrentResultBatchSelection 一括選択集合"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleBatchVideoSelection",
+      "text": "OP-BATCH-TOGGLE カードのチェックボックスで一括処理対象に追加/外す ToggleBatchVideoSelection 一括選択集合"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleBatchVideoSelection",
+      "text": "OP-BATCH-RANGE Shift+チェックボックスで範囲指定 ToggleBatchVideoSelection 一括選択集合"
+     },
+     {
+      "check": "T6",
+      "key": "ToggleBatchVideoSelection",
+      "text": "OP-BATCH-RANGE Shift+チェックボックスで範囲指定 ToggleBatchVideoSelection 一括選択集合"
+     },
+     {
+      "check": "T5",
+      "key": "OpenTagAssignment",
+      "text": "OP-ASSIGN-OPEN タグを付ける（タグ付与ダイアログを開く） OpenTagAssignment 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T3",
+      "key": "ImportHashtags",
+      "text": "OP-HASHTAGS #をタグに（題名のハッシュタグをシンプルタグへ） ImportHashtags Tag Definition"
+     },
+     {
+      "check": "T5",
+      "key": "ImportHashtags",
+      "text": "OP-HASHTAGS #をタグに（題名のハッシュタグをシンプルタグへ） ImportHashtags Tag Definition"
+     },
+     {
+      "check": "T5",
+      "key": "SelectVideo",
+      "text": "OP-VIDEO-SELECT カード本体で詳細表示の動画を選ぶ SelectVideo 詳細表示の単一選択"
+     },
+     {
+      "check": "T5",
+      "key": "OpenPreview",
+      "text": "OP-PREVIEW-OPEN プレイヤーを開く（選択中カードの2回目の操作・詳細のサムネイル） OpenPreview 詳細ペインのプレビュープレイヤー"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleQuickActionTag",
+      "text": "OP-QUICK-TAG クイックアクションでタグを付ける/外す（1動画） ToggleQuickActionTag Tag Assignment"
+     },
+     {
+      "check": "T6",
+      "key": "ToggleQuickActionTag",
+      "text": "OP-QUICK-TAG クイックアクションでタグを付ける/外す（1動画） ToggleQuickActionTag Tag Assignment"
+     },
+     {
+      "check": "T5",
+      "key": "OpenCanonicalVideo",
+      "text": "OP-VIDEO-OPEN 動画を開く（既定ブラウザ） OpenCanonicalVideo Video（カタログ動画行）"
+     },
+     {
+      "check": "T3",
+      "key": "ArchiveVideo",
+      "text": "OP-VIDEO-ARCHIVE アーカイブ ArchiveVideo Video（カタログ動画行）"
+     },
+     {
+      "check": "T5",
+      "key": "ArchiveVideo",
+      "text": "OP-VIDEO-ARCHIVE アーカイブ ArchiveVideo Video（カタログ動画行）"
+     },
+     {
+      "check": "T2",
+      "key": "OP-VIDEO-RESTORE",
+      "text": "OP-VIDEO-RESTORE アーカイブから戻す（restore） Video（カタログ動画行）"
+     },
+     {
+      "check": "T5",
+      "key": "RefetchVideoThumbnail",
+      "text": "OP-THUMB-REFETCH 別のサイズで取り直す（サムネイル） RefetchVideoThumbnail サムネイル（表示サイズ）"
+     },
+     {
+      "check": "T5",
+      "key": "EditVideoNote",
+      "text": "OP-NOTE-EDIT ローカルメモを編集 EditVideoNote ローカルメモ"
+     },
+     {
+      "check": "T5",
+      "key": "SaveVideoNote",
+      "text": "OP-NOTE-SAVE メモを保存 SaveVideoNote ローカルメモ"
+     },
+     {
+      "check": "T5",
+      "key": "DiscardVideoNote",
+      "text": "OP-NOTE-DISCARD メモの変更を破棄 DiscardVideoNote ローカルメモ"
+     },
+     {
+      "check": "T3",
+      "key": "RemoveAssignmentValue",
+      "text": "OP-ASSIGN-REMOVE-VALUE 付いている値のチップを外す RemoveAssignmentValue Tag Assignment"
+     },
+     {
+      "check": "T5",
+      "key": "StartMusicQueue",
+      "text": "OP-PLAY-START 再生（選択を再生/すべて再生） StartMusicQueue ミュージックの再生列"
+     },
+     {
+      "check": "T5",
+      "key": "TogglePause",
+      "text": "OP-PLAY-PAUSE 一時停止/再開 TogglePause ミュージックの再生列"
+     },
+     {
+      "check": "T6",
+      "key": "TogglePause",
+      "text": "OP-PLAY-PAUSE 一時停止/再開 TogglePause ミュージックの再生列"
+     },
+     {
+      "check": "T5",
+      "key": "PlayNext",
+      "text": "OP-PLAY-NEXT 次の曲 PlayNext ミュージックの再生列"
+     },
+     {
+      "check": "T5",
+      "key": "PlayPrevious",
+      "text": "OP-PLAY-PREV 前の曲 PlayPrevious ミュージックの再生列"
+     },
+     {
+      "check": "T5",
+      "key": "StopQueue",
+      "text": "OP-PLAY-STOP 再生を終了 StopQueue ミュージックの再生列"
+     },
+     {
+      "check": "T6",
+      "key": "StopQueue",
+      "text": "OP-PLAY-STOP 再生を終了 StopQueue ミュージックの再生列"
+     },
+     {
+      "check": "T5",
+      "key": "SeekQueue",
+      "text": "OP-PLAY-SEEK 再生位置を動かす SeekQueue ミュージックの再生列"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleQueuePanel",
+      "text": "OP-PLAY-QUEUE-PANEL キューを表示/閉じる ToggleQueuePanel 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T2",
+      "key": "OP-PLAY-SHUFFLE",
+      "text": "OP-PLAY-SHUFFLE シャッフル ON/OFF ミュージックの再生列"
+     },
+     {
+      "check": "T5",
+      "key": "OP-PLAY-SHUFFLE",
+      "text": "OP-PLAY-SHUFFLE シャッフル ON/OFF ミュージックの再生列"
+     },
+     {
+      "check": "T2",
+      "key": "OP-PLAY-LOOP",
+      "text": "OP-PLAY-LOOP ループ ON/OFF ミュージックの再生列"
+     },
+     {
+      "check": "T5",
+      "key": "OP-PLAY-LOOP",
+      "text": "OP-PLAY-LOOP ループ ON/OFF ミュージックの再生列"
+     },
+     {
+      "check": "T5",
+      "key": "OP-PLAY-MUTE",
+      "text": "OP-PLAY-MUTE ミュート ON/OFF ミュージックの再生列"
+     },
+     {
+      "check": "T5",
+      "key": "DismissPlayNotice",
+      "text": "OP-PLAY-NOTICE-DISMISS スキップ通知を閉じる DismissPlayNotice 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T3",
+      "key": "CreateView",
+      "text": "OP-VIEW-CREATE ビューを新規作成 CreateView View"
+     },
+     {
+      "check": "T2",
+      "key": "OP-ORIGIN-SET",
+      "text": "OP-ORIGIN-SET ビュー行を起点に選ぶ（ここから開く） スコープの開き方（起点ビュー）"
+     },
+     {
+      "check": "T3",
+      "key": "RequestViewDeletion",
+      "text": "OP-VIEW-DELETE ビューを削除（確認へ） RequestViewDeletion View"
+     },
+     {
+      "check": "T2",
+      "key": "OP-VIEW-DELETE-CONFIRM",
+      "text": "OP-VIEW-DELETE-CONFIRM ビュー削除を確定（削除） View"
+     },
+     {
+      "check": "T3",
+      "key": "OP-VIEW-DELETE-CONFIRM",
+      "text": "OP-VIEW-DELETE-CONFIRM ビュー削除を確定（削除） View"
+     },
+     {
+      "check": "T2",
+      "key": "OP-VIEW-DELETE-CANCEL",
+      "text": "OP-VIEW-DELETE-CANCEL ビュー削除をキャンセル 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T2",
+      "key": "OP-NODE-MOVE",
+      "text": "OP-NODE-MOVE 階層行をドラッグで移動・並べ替え Hierarchy Node（View内の配置）"
+     },
+     {
+      "check": "T2",
+      "key": "OP-PLACE-CANCEL",
+      "text": "OP-PLACE-CANCEL 配置を取り消す（Esc） 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T3",
+      "key": "CreateTag",
+      "text": "OP-TAG-CREATE ＋タグ（タグを作成） CreateTag Tag Definition"
+     },
+     {
+      "check": "T6",
+      "key": "CreateTag",
+      "text": "OP-TAG-CREATE ＋タグ（タグを作成） CreateTag Tag Definition"
+     },
+     {
+      "check": "T3",
+      "key": "RequestTagDeletion",
+      "text": "OP-TAG-DELETE このタグを削除（確認へ） RequestTagDeletion Tag Definition"
+     },
+     {
+      "check": "T2",
+      "key": "OP-TAG-DELETE-CONFIRM",
+      "text": "OP-TAG-DELETE-CONFIRM タグ削除を確定（削除） Tag Definition"
+     },
+     {
+      "check": "T3",
+      "key": "OP-TAG-DELETE-CONFIRM",
+      "text": "OP-TAG-DELETE-CONFIRM タグ削除を確定（削除） Tag Definition"
+     },
+     {
+      "check": "T2",
+      "key": "OP-TAG-DELETE-CANCEL",
+      "text": "OP-TAG-DELETE-CANCEL タグ削除をキャンセル 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T3",
+      "key": "CreateCatalogBackup",
+      "text": "OP-BACKUP バックアップを作成 CreateCatalogBackup カタログバックアップ"
+     },
+     {
+      "check": "T3",
+      "key": "RestoreCatalogBackup",
+      "text": "OP-RESTORE バックアップから復元… RestoreCatalogBackup カタログバックアップ"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmUnreferencedVideoSweep",
+      "text": "OP-SWEEP-CONFIRM 使われていない動画を削除（実行） ConfirmUnreferencedVideoSweep Video（カタログ動画行）"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleViewPackExportSelection",
+      "text": "OP-VP-EXPORT-SELECT 書き出す内容を含める/外す ToggleViewPackExportSelection View Pack（論理転送ファイル）"
+     },
+     {
+      "check": "T3",
+      "key": "ExportViewPack",
+      "text": "OP-VP-EXPORT 書き出す（ファイル保存） ExportViewPack View Pack（論理転送ファイル）"
+     },
+     {
+      "check": "T5",
+      "key": "ExportViewPack",
+      "text": "OP-VP-EXPORT 書き出す（ファイル保存） ExportViewPack View Pack（論理転送ファイル）"
+     },
+     {
+      "check": "T5",
+      "key": "CloseViewPackWorkflow",
+      "text": "OP-VP-CLOSE ビューパックの画面を閉じる/キャンセル CloseViewPackWorkflow 画面・ダイアログ・通知（データでないもの）"
+     },
+     {
+      "check": "T3",
+      "key": "ApplyViewPackImport",
+      "text": "OP-VP-APPLY この内容で適用 ApplyViewPackImport View Pack（論理転送ファイル）"
+     },
+     {
+      "check": "T4",
+      "key": "E-VIDEO",
+      "text": "E-VIDEO Video（カタログ動画行）"
+     },
+     {
+      "check": "T4",
+      "key": "E-MEMBERSHIP",
+      "text": "E-MEMBERSHIP Membership（Collection×Video）"
+     },
+     {
+      "check": "T4",
+      "key": "E-SYNC",
+      "text": "E-SYNC Channel sync run（同期の実行・状態）"
+     },
+     {
+      "check": "T4",
+      "key": "E-ASSIGNMENT",
+      "text": "E-ASSIGNMENT Tag Assignment"
+     },
+     {
+      "check": "T4",
+      "key": "E-VIEW-ORIGIN",
+      "text": "E-VIEW-ORIGIN スコープの開き方（起点ビュー）"
+     },
+     {
+      "check": "T4",
+      "key": "E-NOTE",
+      "text": "E-NOTE ローカルメモ"
+     },
+     {
+      "check": "T4",
+      "key": "E-THUMBNAIL",
+      "text": "E-THUMBNAIL サムネイル（表示サイズ）"
+     },
+     {
+      "check": "T4",
+      "key": "E-APIKEY",
+      "text": "E-APIKEY YouTube Data API キー"
+     },
+     {
+      "check": "T4",
+      "key": "E-SETTING",
+      "text": "E-SETTING 端末設定（表示言語・ミュージック行の表示）"
+     },
+     {
+      "check": "T4",
+      "key": "E-BATCH-SELECTION",
+      "text": "E-BATCH-SELECTION 一括選択集合"
+     },
+     {
+      "check": "T4",
+      "key": "E-PRIMARY-SELECTION",
+      "text": "E-PRIMARY-SELECTION 詳細表示の単一選択"
+     },
+     {
+      "check": "T4",
+      "key": "E-BROWSE-CONTEXT",
+      "text": "E-BROWSE-CONTEXT 閲覧文脈（スコープ・ビュー・階層位置・mode・検索・並び・表示形式）"
+     },
+     {
+      "check": "T4",
+      "key": "E-PLAY-QUEUE",
+      "text": "E-PLAY-QUEUE ミュージックの再生列"
+     },
+     {
+      "check": "T4",
+      "key": "E-PREVIEW",
+      "text": "E-PREVIEW 詳細ペインのプレビュープレイヤー"
+     },
+     {
+      "check": "T4",
+      "key": "E-UI",
+      "text": "E-UI 画面・ダイアログ・通知（データでないもの）"
+     }
+    ],
+    "dropped": {
+     "states": 0,
+     "entities": 0,
+     "operations": 0
+    },
+    "rows": {
+     "states": 98,
+     "entities": 21,
+     "operations": 143
+    }
+   }
+  },
+  "T06": {
+   "M": {
+    "flags": [
+     {
+      "check": "M1",
+      "action": "ArchiveVideo",
+      "verb": "Archive",
+      "object": "Video"
+     },
+     {
+      "check": "M1",
+      "action": "CreateCatalogBackup",
+      "verb": "Create",
+      "object": "CatalogBackup"
+     },
+     {
+      "check": "M1",
+      "action": "CreateTag",
+      "verb": "Create",
+      "object": "Tag"
+     },
+     {
+      "check": "M1",
+      "action": "CreateView",
+      "verb": "Create",
+      "object": "View"
+     },
+     {
+      "check": "M1",
+      "action": "RegisterLinks",
+      "verb": "Register",
+      "object": "Links"
+     },
+     {
+      "check": "M1",
+      "action": "RemoveApiKey",
+      "verb": "Remove",
+      "object": "ApiKey"
+     },
+     {
+      "check": "M1",
+      "action": "RemoveAssignmentValue",
+      "verb": "Remove",
+      "object": "AssignmentValue"
+     },
+     {
+      "check": "M1",
+      "action": "RemoveHierarchyNode",
+      "verb": "Remove",
+      "object": "HierarchyNode"
+     },
+     {
+      "check": "M1",
+      "action": "RestoreCatalogBackup",
+      "verb": "Restore",
+      "object": "CatalogBackup"
+     },
+     {
+      "check": "M1",
+      "action": "ShowCollectionArchive",
+      "verb": "Archive",
+      "object": "ShowCollection"
+     }
+    ]
+   },
+   "T": {
+    "flags": [
+     {
+      "check": "T5",
+      "key": "NavigateVideos",
+      "text": "nav-videos 動画（Videos）画面へ移る NavigateVideos 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T5",
+      "key": "NavigateTags",
+      "text": "nav-tags タグ（Tags）画面へ移る NavigateTags 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T5",
+      "key": "OpenSettings",
+      "text": "open-settings 設定を開く OpenSettings 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T6",
+      "key": "OpenSettings",
+      "text": "open-settings 設定を開く OpenSettings 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T2",
+      "key": "close-window",
+      "text": "close-window ウィンドウを閉じる（dirty なら「破棄して終了／戻る」確認） 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectAllVideos",
+      "text": "select-all-videos 「すべての動画」を選ぶ SelectAllVideos 閲覧スコープ（すべての動画・コレクション・ミュージック）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectMusicScope",
+      "text": "select-music-scope ミュージックスコープを選ぶ SelectMusicScope 閲覧スコープ（すべての動画・コレクション・ミュージック）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectCollection",
+      "text": "select-collection コレクションを選ぶ SelectCollection コレクション（manual / channel）"
+     },
+     {
+      "check": "T5",
+      "key": "SyncCollection",
+      "text": "sync-new-arrivals 新着を取り込む（含まれる全チャンネル） SyncCollection チャンネル同期"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleCollectionRail",
+      "text": "toggle-collection-rail コレクション欄を畳む／広げる ToggleCollectionRail 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T5",
+      "key": "ShowCollectionArchive",
+      "text": "show-collection-archive アーカイブを表示 ShowCollectionArchive 動画（Video 行）"
+     },
+     {
+      "check": "T5",
+      "key": "RecheckCollection",
+      "text": "recheck-collection 全件を再確認（FULL 再同期） RecheckCollection チャンネル同期"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleRefreshOptOut",
+      "text": "exclude-from-refresh 新着の取り込みから外す ToggleRefreshOptOut 新着取込の対象設定"
+     },
+     {
+      "check": "T5",
+      "key": "RequestCollectionDelete",
+      "text": "request-collection-delete コレクションを削除…（確認または block を開く） RequestCollectionDelete コレクション（manual / channel）"
+     },
+     {
+      "check": "T5",
+      "key": "OpenManualRegistration",
+      "text": "open-manual-registration リンクを追加（手動登録 dialog を開く） OpenManualRegistration 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T6",
+      "key": "OpenManualRegistration",
+      "text": "open-manual-registration リンクを追加（手動登録 dialog を開く） OpenManualRegistration 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T5",
+      "key": "OpenChannelCollection",
+      "text": "open-channel-collection チャンネルを追加（dialog を開く） OpenChannelCollection 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T5",
+      "key": "OpenManualCollectionCreate",
+      "text": "open-manual-collection-create 手動コレクションを作る（dialog を開く） OpenManualCollectionCreate 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T6",
+      "key": "OpenManualCollectionCreate",
+      "text": "open-manual-collection-create 手動コレクションを作る（dialog を開く） OpenManualCollectionCreate 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectView",
+      "text": "select-view-videos Videos で保存済みビューを選ぶ SelectView ビュー"
+     },
+     {
+      "check": "T5",
+      "key": "ClearSelectedView",
+      "text": "clear-selected-view ビュー選択を解除（×） ClearSelectedView ビュー"
+     },
+     {
+      "check": "T5",
+      "key": "OpenSavedHierarchyMenu",
+      "text": "open-saved-hierarchy-menu 保存済み階層 selector を開く OpenSavedHierarchyMenu Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectSavedHierarchyNode",
+      "text": "select-saved-hierarchy-node 保存済み階層ノード（root/intermediate/leaf）を直接選ぶ SelectSavedHierarchyNode 階層ノード（placement）"
+     },
+     {
+      "check": "T5",
+      "key": "SearchVideos",
+      "text": "search-videos 動画を検索 SearchVideos Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T5",
+      "key": "SortVideos",
+      "text": "sort-videos 並び替え項目を選ぶ SortVideos Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T5",
+      "key": "ReverseVideoSort",
+      "text": "reverse-video-sort 昇順と降順を切り替える ReverseVideoSort Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T5",
+      "key": "SetGridLayout",
+      "text": "set-grid-layout グリッド表示にする SetGridLayout Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T5",
+      "key": "SetListLayout",
+      "text": "set-list-layout リスト表示にする SetListLayout Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T5",
+      "key": "SetAllMode",
+      "text": "set-all-mode 「すべて」モードにする SetAllMode Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T5",
+      "key": "SetUnclassifiedMode",
+      "text": "set-unclassified-mode 「未分類」モードにする SetUnclassifiedMode Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T5",
+      "key": "NavigateBreadcrumbAncestor",
+      "text": "navigate-breadcrumb-ancestor パンくずの祖先へ移る（value path 解除） NavigateBreadcrumbAncestor 階層ノード（placement）"
+     },
+     {
+      "check": "T5",
+      "key": "NavigateHierarchyNode",
+      "text": "navigate-hierarchy-node 子ノード chip へ移る NavigateHierarchyNode 階層ノード（placement）"
+     },
+     {
+      "check": "T5",
+      "key": "FilterByTag",
+      "text": "filter-by-tag タグで絞り込む（タグ chip） FilterByTag Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T5",
+      "key": "FilterByTag",
+      "text": "clear-tag-filter タグ絞り込みを外す（「すべて」chip） FilterByTag Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T5",
+      "key": "SelectVideo",
+      "text": "select-video 動画カードを選んで詳細に表示 SelectVideo 詳細表示の選択（primary detail）"
+     },
+     {
+      "check": "T5",
+      "key": "OpenPreview",
+      "text": "open-preview 詳細でプレイヤーを開く（サムネイル面・選択中カードの再活性化） OpenPreview 詳細の preview player"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleBatchVideoSelection",
+      "text": "add-to-batch 動画を一括処理対象に追加（checkbox） ToggleBatchVideoSelection 一括選択集合"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleBatchVideoSelection",
+      "text": "remove-from-batch 動画を一括処理対象から外す（checkbox） ToggleBatchVideoSelection 一括選択集合"
+     },
+     {
+      "check": "T3",
+      "key": "ToggleBatchVideoSelection",
+      "text": "range-batch-select Shift+checkbox で範囲を揃える ToggleBatchVideoSelection 一括選択集合"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleBatchVideoSelection",
+      "text": "range-batch-select Shift+checkbox で範囲を揃える ToggleBatchVideoSelection 一括選択集合"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleCurrentResultBatchSelection",
+      "text": "select-all-results 結果を全選択（master: none/mixed から） ToggleCurrentResultBatchSelection 一括選択集合"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleCurrentResultBatchSelection",
+      "text": "clear-all-results 結果の全選択を解除（master: all から） ToggleCurrentResultBatchSelection 一括選択集合"
+     },
+     {
+      "check": "T5",
+      "key": "OpenTagAssignment",
+      "text": "open-tag-assignment タグを付ける（既存タグ付与 modal を開く） OpenTagAssignment 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T3",
+      "key": "ImportHashtags",
+      "text": "import-hashtags #をタグに（題名の hashtag を Simple タグへ） ImportHashtags タグ定義"
+     },
+     {
+      "check": "T5",
+      "key": "ImportHashtags",
+      "text": "import-hashtags #をタグに（題名の hashtag を Simple タグへ） ImportHashtags タグ定義"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleQuickActionTag",
+      "text": "quick-assign-tag quick action でタグを付ける ToggleQuickActionTag タグ付与（Tag Assignment）"
+     },
+     {
+      "check": "T6",
+      "key": "ToggleQuickActionTag",
+      "text": "quick-assign-tag quick action でタグを付ける ToggleQuickActionTag タグ付与（Tag Assignment）"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleQuickActionTag",
+      "text": "quick-unassign-tag quick action でタグを外す ToggleQuickActionTag タグ付与（Tag Assignment）"
+     },
+     {
+      "check": "T6",
+      "key": "ToggleQuickActionTag",
+      "text": "quick-unassign-tag quick action でタグを外す ToggleQuickActionTag タグ付与（Tag Assignment）"
+     },
+     {
+      "check": "T6",
+      "key": "ResolveCurrentState",
+      "text": "state-cancel-sync 同期中の「キャンセル」 ResolveCurrentState チャンネル同期"
+     },
+     {
+      "check": "T3",
+      "key": "ResolveCurrentState",
+      "text": "state-choose-origin ミュージック未設定の「起点を決める」 ResolveCurrentState スコープの起点ビュー設定"
+     },
+     {
+      "check": "T5",
+      "key": "OpenCanonicalVideo",
+      "text": "open-canonical-video 動画を開く（OS 既定ブラウザ） OpenCanonicalVideo 動画（Video 行）"
+     },
+     {
+      "check": "T3",
+      "key": "ArchiveVideo",
+      "text": "archive-video 動画をアーカイブ ArchiveVideo 動画（Video 行）"
+     },
+     {
+      "check": "T5",
+      "key": "ArchiveVideo",
+      "text": "archive-video 動画をアーカイブ ArchiveVideo 動画（Video 行）"
+     },
+     {
+      "check": "T2",
+      "key": "restore-video",
+      "text": "restore-video アーカイブした動画を戻す（restore） 動画（Video 行）"
+     },
+     {
+      "check": "T5",
+      "key": "RefetchVideoThumbnail",
+      "text": "refetch-thumbnail サムネイルを別のサイズで取り直す RefetchVideoThumbnail サムネイル"
+     },
+     {
+      "check": "T2",
+      "key": "refresh-metadata",
+      "text": "refresh-metadata metadata を明示的に再取得 Remote metadata"
+     },
+     {
+      "check": "T5",
+      "key": "EditVideoNote",
+      "text": "edit-video-note ローカルメモを編集 EditVideoNote ローカルメモ"
+     },
+     {
+      "check": "T5",
+      "key": "SaveVideoNote",
+      "text": "save-video-note メモを保存 SaveVideoNote ローカルメモ"
+     },
+     {
+      "check": "T5",
+      "key": "DiscardVideoNote",
+      "text": "discard-video-note メモの変更を破棄 DiscardVideoNote ローカルメモ"
+     },
+     {
+      "check": "T5",
+      "key": "StartMusicQueue",
+      "text": "start-music-queue 再生を始める（すべて再生／選択を再生） StartMusicQueue ミュージック再生キュー"
+     },
+     {
+      "check": "T5",
+      "key": "PlayPrevious",
+      "text": "play-previous 前の曲 PlayPrevious ミュージック再生キュー"
+     },
+     {
+      "check": "T5",
+      "key": "TogglePause",
+      "text": "toggle-pause 一時停止／再開 TogglePause ミュージック再生キュー"
+     },
+     {
+      "check": "T6",
+      "key": "TogglePause",
+      "text": "toggle-pause 一時停止／再開 TogglePause ミュージック再生キュー"
+     },
+     {
+      "check": "T5",
+      "key": "PlayNext",
+      "text": "play-next 次の曲 PlayNext ミュージック再生キュー"
+     },
+     {
+      "check": "T3",
+      "key": "StopQueue",
+      "text": "stop-queue 再生を終了 StopQueue ミュージック再生キュー"
+     },
+     {
+      "check": "T5",
+      "key": "StopQueue",
+      "text": "stop-queue 再生を終了 StopQueue ミュージック再生キュー"
+     },
+     {
+      "check": "T6",
+      "key": "StopQueue",
+      "text": "stop-queue 再生を終了 StopQueue ミュージック再生キュー"
+     },
+     {
+      "check": "T5",
+      "key": "SeekQueue",
+      "text": "seek-queue 再生位置を動かす SeekQueue ミュージック再生キュー"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleQueuePanel",
+      "text": "open-queue-panel キューを表示 ToggleQueuePanel 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T5",
+      "key": "ToggleQueuePanel",
+      "text": "close-queue-panel キューを閉じる ToggleQueuePanel 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T2",
+      "key": "toggle-shuffle",
+      "text": "toggle-shuffle シャッフルを切り替える ミュージック再生キュー"
+     },
+     {
+      "check": "T5",
+      "key": "toggle-shuffle",
+      "text": "toggle-shuffle シャッフルを切り替える ミュージック再生キュー"
+     },
+     {
+      "check": "T2",
+      "key": "toggle-loop",
+      "text": "toggle-loop ループを切り替える ミュージック再生キュー"
+     },
+     {
+      "check": "T5",
+      "key": "toggle-loop",
+      "text": "toggle-loop ループを切り替える ミュージック再生キュー"
+     },
+     {
+      "check": "T5",
+      "key": "toggle-mute",
+      "text": "toggle-mute ミュートを切り替える ミュージック再生キュー"
+     },
+     {
+      "check": "T5",
+      "key": "DismissPlayNotice",
+      "text": "dismiss-play-notice 再生の通知を閉じる DismissPlayNotice 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T5",
+      "key": "SearchAssignmentTags",
+      "text": "search-assignment-tags 既存タグを検索（付与 modal） SearchAssignmentTags タグ定義"
+     },
+     {
+      "check": "T5",
+      "key": "SelectAssignmentTag",
+      "text": "select-assignment-tag 付与する既存タグを選ぶ SelectAssignmentTag タグ定義"
+     },
+     {
+      "check": "T5",
+      "key": "ChooseAssignmentValue",
+      "text": "choose-assignment-value 候補の値を選ぶ ChooseAssignmentValue タグ付与（Tag Assignment）"
+     },
+     {
+      "check": "T5",
+      "key": "EditAssignmentValue",
+      "text": "edit-assignment-value 値を入力する EditAssignmentValue タグ付与（Tag Assignment）"
+     },
+     {
+      "check": "T5",
+      "key": "RemoveAssignmentValue",
+      "text": "remove-assignment-value 選んだ値 chip を外す RemoveAssignmentValue タグ付与（Tag Assignment）"
+     },
+     {
+      "check": "T5",
+      "key": "BatchAssignTag",
+      "text": "batch-assign-tag 選択した動画に付ける（N本に付ける） BatchAssignTag タグ付与（Tag Assignment）"
+     },
+     {
+      "check": "T5",
+      "key": "BatchUnassignTag",
+      "text": "batch-unassign-tag 選択した動画から外す（N本から外す） BatchUnassignTag タグ付与（Tag Assignment）"
+     },
+     {
+      "check": "T5",
+      "key": "CloseTagAssignment",
+      "text": "close-tag-assignment タグ付与 modal を閉じる／キャンセル CloseTagAssignment 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T2",
+      "key": "resolve-channel",
+      "text": "resolve-channel チャンネルを解決（解決ボタン） コレクション（manual / channel）"
+     },
+     {
+      "check": "T3",
+      "key": "RegisterLinks",
+      "text": "register-links 登録（リンクを手動コレクションへ登録） RegisterLinks コレクション所属（Membership）"
+     },
+     {
+      "check": "T3",
+      "key": "CreateCatalogBackup",
+      "text": "create-catalog-backup バックアップを作る CreateCatalogBackup カタログバックアップ"
+     },
+     {
+      "check": "T3",
+      "key": "RestoreCatalogBackup",
+      "text": "restore-catalog-backup バックアップから復元… RestoreCatalogBackup カタログバックアップ"
+     },
+     {
+      "check": "T3",
+      "key": "ExportViewPack",
+      "text": "export-view-pack ビューパックを書き出す（書き出す） ExportViewPack ビューパック"
+     },
+     {
+      "check": "T6",
+      "key": "CloseViewPackWorkflow",
+      "text": "close-view-pack-workflow ビューパックの画面を閉じる／キャンセル CloseViewPackWorkflow 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T3",
+      "key": "ApplyViewPackImport",
+      "text": "apply-view-pack-import この内容で適用 ApplyViewPackImport ビューパック"
+     },
+     {
+      "check": "T6",
+      "key": "CloseScopedCollectionDeletion",
+      "text": "close-collection-deletion コレクション削除を閉じる／キャンセル CloseScopedCollectionDeletion 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmScopedCollectionDeletion",
+      "text": "confirm-collection-deletion N本の動画を含めて削除（確定） ConfirmScopedCollectionDeletion コレクション（manual / channel）"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmUnreferencedVideoSweep",
+      "text": "confirm-unreferenced-sweep N本の動画を削除（整理の確定） ConfirmUnreferencedVideoSweep 動画（Video 行）"
+     },
+     {
+      "check": "T2",
+      "key": "set-view-origin-by-row",
+      "text": "set-view-origin-by-row 起点にするビューの行を選ぶ スコープの起点ビュー設定"
+     },
+     {
+      "check": "T3",
+      "key": "CreateView",
+      "text": "create-view ビューを新規作成（＋ 新規） CreateView ビュー"
+     },
+     {
+      "check": "T2",
+      "key": "move-hierarchy-row",
+      "text": "move-hierarchy-row 階層の行をドラッグで移動 階層ノード（placement）"
+     },
+     {
+      "check": "T2",
+      "key": "cancel-placement",
+      "text": "cancel-placement 配置・移動を Esc で取り消す 階層の編集 draft"
+     },
+     {
+      "check": "T2",
+      "key": "open-node-result-from-tags",
+      "text": "open-node-result-from-tags 階層ノードの評価結果を Videos で開く（Tags から） Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T3",
+      "key": "CreateTag",
+      "text": "create-tag タグを作る（＋ タグ） CreateTag タグ定義"
+     },
+     {
+      "check": "T6",
+      "key": "CreateTag",
+      "text": "create-tag タグを作る（＋ タグ） CreateTag タグ定義"
+     },
+     {
+      "check": "T2",
+      "key": "favorite-view",
+      "text": "favorite-view ビューをお気に入りにする ビュー"
+     },
+     {
+      "check": "T2",
+      "key": "confirm-view-deletion",
+      "text": "confirm-view-deletion ビュー削除の確認で「削除」 ビュー"
+     },
+     {
+      "check": "T3",
+      "key": "confirm-view-deletion",
+      "text": "confirm-view-deletion ビュー削除の確認で「削除」 ビュー"
+     },
+     {
+      "check": "T2",
+      "key": "cancel-view-deletion",
+      "text": "cancel-view-deletion ビュー削除の確認を「キャンセル」 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T2",
+      "key": "confirm-tag-deletion",
+      "text": "confirm-tag-deletion タグ削除の確認で「削除」 タグ定義"
+     },
+     {
+      "check": "T3",
+      "key": "confirm-tag-deletion",
+      "text": "confirm-tag-deletion タグ削除の確認で「削除」 タグ定義"
+     },
+     {
+      "check": "T2",
+      "key": "cancel-tag-deletion",
+      "text": "cancel-tag-deletion タグ削除の確認を「キャンセル」 画面・dialog・panel（UI 面）"
+     },
+     {
+      "check": "T4",
+      "key": "video",
+      "text": "video 動画（Video 行）"
+     },
+     {
+      "check": "T4",
+      "key": "scope",
+      "text": "scope 閲覧スコープ（すべての動画・コレクション・ミュージック）"
+     },
+     {
+      "check": "T4",
+      "key": "assignment",
+      "text": "assignment タグ付与（Tag Assignment）"
+     },
+     {
+      "check": "T4",
+      "key": "hierarchy-draft",
+      "text": "hierarchy-draft 階層の編集 draft"
+     },
+     {
+      "check": "T4",
+      "key": "origin",
+      "text": "origin スコープの起点ビュー設定"
+     },
+     {
+      "check": "T4",
+      "key": "browse-result",
+      "text": "browse-result Videos の閲覧結果（View・path・mode・検索・sort・layout）"
+     },
+     {
+      "check": "T4",
+      "key": "primary-selection",
+      "text": "primary-selection 詳細表示の選択（primary detail）"
+     },
+     {
+      "check": "T4",
+      "key": "note",
+      "text": "note ローカルメモ"
+     },
+     {
+      "check": "T4",
+      "key": "sync-run",
+      "text": "sync-run チャンネル同期"
+     },
+     {
+      "check": "T4",
+      "key": "refresh-setting",
+      "text": "refresh-setting 新着取込の対象設定"
+     },
+     {
+      "check": "T4",
+      "key": "thumbnail",
+      "text": "thumbnail サムネイル"
+     },
+     {
+      "check": "T4",
+      "key": "metadata",
+      "text": "metadata Remote metadata"
+     },
+     {
+      "check": "T4",
+      "key": "api-key",
+      "text": "api-key API キー"
+     },
+     {
+      "check": "T4",
+      "key": "locale",
+      "text": "locale 表示言語設定"
+     },
+     {
+      "check": "T4",
+      "key": "music-visibility",
+      "text": "music-visibility ミュージックの表示設定"
+     },
+     {
+      "check": "T4",
+      "key": "preview-player",
+      "text": "preview-player 詳細の preview player"
+     },
+     {
+      "check": "T4",
+      "key": "ui-surface",
+      "text": "ui-surface 画面・dialog・panel（UI 面）"
+     }
+    ],
+    "dropped": {
+     "states": 0,
+     "entities": 0,
+     "operations": 0
+    },
+    "rows": {
+     "states": 74,
+     "entities": 26,
+     "operations": 162
+    }
+   }
+  }
+ },
+ "summary": {
+  "M": {
+   "D1": {
+    "pre_matching": [
+     {
+      "check": "M1",
+      "action": "BatchAssignTag",
+      "verb": "Assign",
+      "object": "Tag"
+     }
+    ],
+    "post_matching": [],
+    "caught": true,
+    "false_alarm_on_post": false
+   },
+   "D3": {
+    "pre_matching": [
+     {
+      "check": "M1",
+      "action": "RequestCollectionDelete",
+      "verb": "Delete",
+      "object": "Collection"
+     },
+     {
+      "check": "M1",
+      "action": "ShowCollectionArchive",
+      "verb": "Archive",
+      "object": "ShowCollection"
+     }
+    ],
+    "post_matching": [
+     {
+      "check": "M1",
+      "action": "ShowCollectionArchive",
+      "verb": "Archive",
+      "object": "ShowCollection"
+     }
+    ],
+    "caught": false,
+    "false_alarm_on_post": true
+   }
+  },
+  "T": {
+   "D1": {
+    "pre_matching": [
+     {
+      "check": "T3",
+      "key": "BatchAssignTag",
+      "text": "BatchAssignTag 選択した動画にタグを付ける BatchAssignTag タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T2",
+      "key": "BatchUnassignTag",
+      "text": "BatchUnassignTag 選択した動画からタグを外す タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T2",
+      "key": "AssignTag",
+      "text": "AssignTag 動画にタグを付ける (detail) タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T3",
+      "key": "AssignTag",
+      "text": "AssignTag 動画にタグを付ける (detail) タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T2",
+      "key": "UnassignTag",
+      "text": "UnassignTag 動画からタグを外す (detail) タグ割当 (Tag Assignment)"
+     },
+     {
+      "check": "T3",
+      "key": "UnassignTag",
+      "text": "UnassignTag 動画からタグを外す (detail) タグ割当 (Tag Assignment)"
+     }
+    ],
+    "post_matching": [
+     {
+      "check": "T2",
+      "key": "O42",
+      "text": "O42 詳細でタグを付ける Tag Assignment"
+     },
+     {
+      "check": "T3",
+      "key": "O42",
+      "text": "O42 詳細でタグを付ける Tag Assignment"
+     },
+     {
+      "check": "T2",
+      "key": "O43",
+      "text": "O43 詳細でタグを外す Tag Assignment"
+     },
+     {
+      "check": "T3",
+      "key": "O43",
+      "text": "O43 詳細でタグを外す Tag Assignment"
+     }
+    ],
+    "caught": false,
+    "false_alarm_on_post": true
+   },
+   "D2": {
+    "pre_matching": [],
+    "post_matching": [],
+    "caught": false,
+    "false_alarm_on_post": false
+   },
+   "D3": {
+    "pre_matching": [
+     {
+      "check": "T3",
+      "key": "ConfirmScopedCollectionDeletion",
+      "text": "OP-COLL-DELETE-PROCEED ブロック画面から破壊的削除へ進む（コレクション・ローカル分類・動画を削除…） ConfirmScopedCollectionDeletion Collection（manual/channel 取得元）"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmScopedCollectionDeletion",
+      "text": "OP-COLL-DELETE-EXECUTE 動画を含めてコレクションを削除（実行） ConfirmScopedCollectionDeletion Collection（manual/channel 取得元）"
+     },
+     {
+      "check": "T2",
+      "key": "OP-CHANNEL-RESOLVE",
+      "text": "OP-CHANNEL-RESOLVE チャンネルを解決（プレビュー取得） Collection（manual/channel 取得元）"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmChannelCollection",
+      "text": "OP-CHANNEL-CONFIRM 追加して同期（チャンネルコレクション作成） ConfirmChannelCollection Collection（manual/channel 取得元）"
+     }
+    ],
+    "post_matching": [
+     {
+      "check": "T2",
+      "key": "resolve-channel",
+      "text": "resolve-channel チャンネルを解決（解決ボタン） コレクション（manual / channel）"
+     },
+     {
+      "check": "T3",
+      "key": "RegisterLinks",
+      "text": "register-links 登録（リンクを手動コレクションへ登録） RegisterLinks コレクション所属（Membership）"
+     },
+     {
+      "check": "T3",
+      "key": "ConfirmScopedCollectionDeletion",
+      "text": "confirm-collection-deletion N本の動画を含めて削除（確定） ConfirmScopedCollectionDeletion コレクション（manual / channel）"
+     }
+    ],
+    "caught": false,
+    "false_alarm_on_post": true
+   }
+  },
+  "reading_T": "0/3 caught - the table form does not reach these on these inputs",
+  "post_stop_flags": {
+   "T02": 49,
+   "T04": 38,
+   "T06": 115
+  },
+  "reproducibility_T02_T03": {
+   "flag_jaccard": 0.145,
+   "rows": [
+    {
+     "states": 38,
+     "entities": 13,
+     "operations": 65
+    },
+    {
+     "states": 30,
+     "entities": 16,
+     "operations": 68
+    }
+   ]
+  }
+ }
+}

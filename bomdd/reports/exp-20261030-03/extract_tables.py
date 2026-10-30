@@ -2,10 +2,12 @@
 
 Usage: python extract_tables.py <staging-dir> <agents.json> <subagents-dir>
 agents.json = {"T01": "<agent id>", ...}; the transcript is <subagents-dir>/agent-<id>.jsonl.
-Source, in order: the content of the deriver's last Write to <Tnn>/table.json (refused by the harness, so never written), else the
-last ```json block of its SubagentHandback message. Writes <staging>/<Tnn>/table.json byte-for-byte as authored and prints the
-source, the derivation time (first to last transcript timestamp) and every path touched outside the package.
+Source, in order: <Tnn>/table.json as the deriver wrote it (its own script; departure D1), else the content of its last Write to
+<Tnn>/table.json (refused by the harness, so never written), else the last ```json block of its SubagentHandback message. Writes
+<staging>/<Tnn>/table.json byte-for-byte as authored and prints the source, its SHA-256 prefix, whether a hand-back block parses
+to the same table, the derivation time (first to last transcript timestamp) and every path touched outside the package.
 """
+import hashlib
 import json
 import re
 import sys
@@ -54,13 +56,25 @@ def main():
     stage, agents, sub = Path(sys.argv[1]).resolve(), json.loads(Path(sys.argv[2]).read_text(encoding="utf-8")), Path(sys.argv[3])
     for pkg, aid in sorted(agents.items()):
         write, handback, touched, stamps = scan(sub / f"agent-{aid}.jsonl", pkg)
-        if write:
+        blocks = BLOCK.findall(handback or "")
+        disk = stage / pkg / "table.json"
+        # departure D1 (definitions.md section 11): a table the deriver wrote itself (by its own script) is kept as written
+        if disk.exists():
+            text, source = disk.read_text(encoding="utf-8"), "disk-file"
+        elif write:
             text, source = write, "write-content"
         else:
-            blocks = BLOCK.findall(handback or "")
             text, source = (blocks[-1], "handback-block") if blocks else (None, "none")
-        if text is not None:
-            (stage / pkg / "table.json").write_bytes(text.encode("utf-8"))
+        if text is not None and source != "disk-file":
+            disk.write_bytes(text.encode("utf-8"))
+        same = None
+        if blocks and text is not None:
+            try:
+                same = json.loads(blocks[-1]) == json.loads(text)
+            except json.JSONDecodeError:
+                same = "unparsable"
+        source += f" sha256={hashlib.sha256(text.encode('utf-8')).hexdigest()[:16]}" if text else ""
+        source += f" handback_block_same={same}" if blocks else ""
         root = f"{norm(stage)}/{pkg.lower()}"
         outside = [t for t in touched if t[0] == "Bash" or (t[1] in ("file_path", "path") and not norm(t[2]).startswith(root))]
         minutes = round((max(stamps) - min(stamps)).total_seconds() / 60, 1) if stamps else None

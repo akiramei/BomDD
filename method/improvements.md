@@ -10054,7 +10054,7 @@ staged outside every repository).
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement; no body text, template or tool changes.
 
-- [open] EXP-20261030-03 — **On ViewTube's D1-D3 (ECO-VT-035, -040, -226), each with a pre-fix and a post-fix state, does a
+- [recovered 2026-10-30 via bomdd/reports/exp-20261030-03/results.md] EXP-20261030-03 — **On ViewTube's D1-D3 (ECO-VT-035, -040, -226), each with a pre-fix and a post-fix state, does a
   deterministic check on an AI-derived operation table fire before the fix and stay silent after it?** Layer M (mock only, no AI):
   a verb-pair lexicon over the mock's action names (M1, stop), descriptive only — in-sample. Layer T: one fresh Claude deriver per state,
   told to transcribe into a fixed schema and not to review; checks T2 text-only operation, T3 missing counterpart, T4 entity without a
@@ -10065,5 +10065,24 @@ measurement; no body text, template or tool changes.
   no claim; 0/3 → the table form does not reach these on these inputs. The text side is still read (the ruled text cites no mock
   action); the step measured is a structured output plus deterministic checks. In-sample: checks, lexicon and matching patterns were
   written knowing the three defects. Start of the run is the user's.
+  **Read (2026-10-30, by the fixed rule; run on the user's "A: 走らせる")**: layer T **0 / 3 caught — the table form does not
+  reach these on these inputs**; layer M (descriptive) caught D1, not D3. Six derivers, 16-21 minutes each, isolation clean; post
+  stop flags 49 / 38 / 115. Read after the verdict, not readings: (1) D1's own row behaved as built (T3 on `BatchAssignTag` on pre,
+  gone on post); the item missed on another tag operation (the detail pane's assign/unassign, text-only in both states and both
+  derivations), which the per-item word pattern cannot tell apart; (2) D2 on the same input split between derivations — T02's table
+  gave 5 matching T5 flags, T03's gave 0 (it put the batch actions in the closed modal); (3) D3 was hidden by entity granularity — the
+  pre deriver merged manual and channel collections, whose drawn channel create silences T4. Same input, two derivations: states
+  38 / 30, T5 27 / 6, flag Jaccard 0.145. The checks fire on what the table carries; D2 and D3 were lost in the state list and the
+  entity split, before any check ran. Departures D1 (tables taken from the files the derivers wrote) and D2 (38 rows dropped by a
+  prompt/validator mismatch on null `owner_surfaces`; sensitivity with nothing dropped leaves the verdict unchanged). Nothing wired.
   source: this section (the user's "起票する", 2026-10-30)
-  evidence: `bomdd/reports/exp-20261030-03/definitions.md`, `manifest.json`, `checks.py` (selftest PASS at filing)
+  evidence: `bomdd/reports/exp-20261030-03/definitions.md`, `manifest.json`, `checks.py` (selftest PASS at filing), `results.md`,
+  `flags.json`, `tables/`, `sensitivity.py`, `after_verdict_why.py`, `after_verdict_repro.py`
+- [watch 1/3] OBS-20261030-05 — **When an AI derives the structure a deterministic check reads, the check inherits the derivation's
+  variation: what it can see (the state list, how entities are split) is fixed before it runs.** EXP-20261030-03: one input, two
+  derivations — states 38 / 30, T5 flags 27 / 6, D2's matching flags 5 / 0; D3's defect (no create for one kind of collection) was
+  invisible because the deriver merged two kinds into one entity. Machine face (measure): a later table-based check reports its
+  result over two derivations of one input, or reads a skeleton (states, entities) that is ruled and kept rather than derived per
+  run. 2 例目の条件= another check over an AI-derived structure whose outcome differs between two derivations of one input.
+  source: this section
+  evidence: `bomdd/reports/exp-20261030-03/results.md` §3.2-3.4, `after_verdict_repro.py`

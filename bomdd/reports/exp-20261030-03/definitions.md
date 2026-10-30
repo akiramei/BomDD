@@ -162,4 +162,9 @@ layer M: the action name). A flag
 
 ## 11. Departures
 
-(none yet)
+Recorded at the run (2026-10-30); detail in `results.md` section 4.
+
+- **D1** — no `Write` was refused: each deriver wrote `table.json` by its own script. `extract_tables.py` takes that file as written,
+  ahead of the two sources of section 5.1 (changed before any check ran).
+- **D2** — the prompt's "null where the inputs say nothing" and the validator's list-typed `owner_surfaces` disagree: 38 text-only
+  rows were dropped by section 5.1's rule. A sensitivity run with nothing dropped leaves the verdict unchanged.
