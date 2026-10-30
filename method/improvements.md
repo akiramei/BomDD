@@ -10006,7 +10006,7 @@ criterion written per item before any report exists. Folder `bomdd/reports/exp-2
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement; no body text, template or tool changes.
 
-- [open] EXP-20261030-02 — **On six recorded upstream defects (ViewTube ECO-VT-035, -040, -226; ViewPrism2 ECO-052, -119, -140), does
+- [recovered 2026-10-30 via bomdd/reports/exp-20261030-02/results.md] EXP-20261030-02 — **On six recorded upstream defects (ViewTube ECO-VT-035, -040, -226; ViewPrism2 ECO-052, -119, -140), does
   an isolated AI inspector name each before its fix and stay silent after it — arm A, §17 mock acceptance inspection as written
   (notes + mock), and arm B, a text–mock reader derived from it (plus requirements and spec, one added line in layer 1)?** Inspectors:
   fresh Claude agents, one package each; judge: Codex (`gpt-5.6-sol`) given the criterion and the report only, relabelled and
@@ -10014,5 +10014,27 @@ measurement; no body text, template or tool changes.
   `definitions.md` §7: arm B ≥ 4/6 hit with ≤ 1 false alarm → wire a reader-based text–mock comparison as a measured G2 input; ≤ 2/6 →
   reading does not reach these either; arm A ≥ 4/5 → §17 as written would have named them (not applying it is the gap); ≤ 1/5 → it
   does not reach this class; otherwise no claim. Start of the runs is the user's (their cost, stated with the filing).
+  **Read (2026-10-30, by the fixed rule; runs on the user's "走らせる")**: arm A 3 / 5 hits (D1, D5, D6), arm B 3 / 6 (D1, D3, D4) —
+  **no claim for either arm**. False alarms by section 6 (hit or partial on post) 5 / 5 in each arm; this does not decide the reading
+  (both arms are in "otherwise" on their hits). D2 (a mode lacking an operation the surface has) was missed by both arms. Read after
+  the verdicts, not readings: (1) the nine post partials all describe the surface the fix kept or added, so partial cannot be the
+  control for a criterion of absence — a defect of the design, not of the reader; (2) 6 of the 7 stage-1 hits were not hits on post,
+  and on the four clean controls there is no hit-level false alarm; (3) D6's post state still carries the defect in the reader's
+  inputs (spec line 1168 unchanged; the commit was a ruling), so its control was not clean. Departures D1-D3 (reports captured from the
+  refused `Write`; isolation measured; judge folder isolated). Nothing wired, no body text changed; the next step is the user's.
   source: this section (the user's "A", 2026-10-30)
-  evidence: `bomdd/reports/exp-20261030-02/definitions.md`, `manifest.json`
+  evidence: `bomdd/reports/exp-20261030-02/definitions.md`, `manifest.json`, `results.md`, `verdicts-stage{1,2}.json`,
+  `judge-map-stage{1,2}.json`, `reports/`, `post_check.py`
+- [watch 1/3] OBS-20261030-03 — **In a known-bad set whose criterion is an absence, a "names the area" verdict fires in the fixed
+  state too, so it cannot count as a false alarm.** EXP-20261030-02 defined hit or partial on post as a false alarm; all nine post
+  partials named the surface the fix had kept or added. Machine face (measure): the next known-bad definitions count the control on hits
+  only and report partials beside. 2 例目の条件= another known-bad run whose control counts a graded "near" verdict.
+  source: this section
+  evidence: `bomdd/reports/exp-20261030-02/results.md` §3.1, `verdicts-stage2.json`
+- [watch 1/3] OBS-20261030-04 — **A recorded fix commit need not remove the defect from the inputs a reader sees.** D6's post state
+  (ViewPrism2 `58354ed`) was the ECO-140 gate-1 ruling; the spec text that hands relink to the repair flow is unchanged across it, so
+  the "fixed" package still contains both owners. Machine face (measure): a known-bad's post state is checked for the defect's strings
+  in the staged inputs before the run (`post_check.py`'s shape). 2 例目の条件= another post state, taken from an order, whose inputs
+  still carry the defect.
+  source: this section
+  evidence: `bomdd/reports/exp-20261030-02/results.md` §3.3, `post_check.py`

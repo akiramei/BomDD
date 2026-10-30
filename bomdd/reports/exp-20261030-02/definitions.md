@@ -97,4 +97,21 @@ Per arm, over its in-scope items, hits (and partials) in stage 1, false alarms i
 
 ## 9. Departures
 
-(none yet)
+Recorded before any verdict was read.
+
+- **D1 — how the reports were captured.** Every inspector's `Write` of `report.md` was refused by a harness hook ("Subagents should
+  return findings as text"); no inspector routed around it. Each `report.md` was then taken, by script, from the `content` argument of
+  that inspector's own refused `Write` call in its stored transcript (12 of 12 had one) — byte-for-byte what the inspector authored,
+  never retyped by the designer. `reports/Pnn.md` are those files.
+- **D2 — isolation, as measured.** A script listed every tool call of each inspector whose arguments do not name its own staging
+  folder: 10 of 12 have none. P18 read the harness's overflow file holding the output of its own `awk` over its own
+  `ruled/10-requirements.yaml`. P10 wrote a scratch digest into the shared parent `exp02/`, moved it into `P10/` and deleted it; no
+  other inspector listed or read outside its folder, so no package saw another's inputs or report. Several inspectors used read-only
+  shell commands (`wc`, `sed`, `awk`, `grep`) on their own files; the prompt did not forbid it.
+  Stage 2 (10 runs, the same script plus a check that every overflow file read appears in that inspector's own tool results):
+  P11 and P12 read harness overflow files holding their own command output (3 files, each matched to the inspector's own call);
+  P16 piped a filtered view of its own mock into `/tmp/wt.txt` and deleted it unread (the file is gone); P12 wrote and deleted a
+  scratch file inside its own folder. No stage 2 inspector read anything of another package. D1 holds for all 10 (10 of 10
+  had a refused `Write` with content).
+- **D3 — the judge's folder.** The judge input was copied alone into a fresh folder outside the repository, so the judge could not
+  read this file, the manifest or the map.
