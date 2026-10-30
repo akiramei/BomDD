@@ -10071,8 +10071,11 @@ measurement; no body text, template or tool changes.
   gone on post); the item missed on another tag operation (the detail pane's assign/unassign, text-only in both states and both
   derivations), which the per-item word pattern cannot tell apart; (2) D2 was caught by neither derivation of the same input — T03's
   table put the batch actions in the closed modal (0 matching T5 flags); T02's gave 5, but they come from cells left `not_drawn` and
-  its opener is enabled in the ordinary state, the opposite of ECO-VT-040's defect (corrected at closure; the run commit and the first
-  form of this paragraph read them as a split); (3) D3 was hidden by entity granularity — the
+  its opener is enabled in the state the deriver called "通常" (corrected at closure; the run commit and the first form of this
+  paragraph read them as a split). That "通常" is the mock's `cad.state.normal`, the classification browse, which really has the
+  opener; the defect's state (ordinary collection or filter results with batch selection) is named only by the text and is in
+  neither table, so D2 was lost in the state list, not in a cell (corrected again after closure, on a review of the records the user
+  brought); (3) D3 was hidden by entity granularity — the
   pre deriver merged manual and channel collections, whose drawn channel create silences T4. Same input, two derivations: states
   38 / 30, T5 27 / 6, flag Jaccard 0.145. The checks fire on what the table carries; D2 and D3 were lost in the state list and the
   entity split, before any check ran. Departures D1 (tables taken from the files the derivers wrote) and D2 (38 rows dropped by a
@@ -10085,7 +10088,8 @@ measurement; no body text, template or tool changes.
   end to end through the extractor and validator before the batch. D1's miss is the item matcher (a word pattern cannot tell two
   operations on one entity apart), which a ruled skeleton does not change.
   source: this section (the user's "起票する" and "A", 2026-10-30)
-  evidence: `bomdd/reports/exp-20261030-03/definitions.md`, `manifest.json`, `checks.py` (selftest PASS at filing), `results.md`,
+  evidence: `bomdd/reports/exp-20261030-03/definitions.md`, `manifest.json`, `checks.py` (selftest PASS at filing — it plants
+  cases for M1 and T1, T3, T4, T5 only; T2 and T6 have none, definitions §10 as corrected after closure), `results.md`,
   `flags.json`, `tables/`, `sensitivity.py`, `after_verdict_why.py`, `after_verdict_repro.py`
 - [watch 1/3] OBS-20261030-05 — **When an AI derives the structure a deterministic check reads, the check inherits the derivation's
   variation: what it can see (the state list, how entities are split) is fixed before it runs.** EXP-20261030-03: one input, two

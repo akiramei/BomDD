@@ -56,8 +56,14 @@ Flags per check:
    ordinary browsing. T02 has the opener `OpenTagAssignment` enabled in "Videos" and "通常" and `not_drawn` in "モード すべて",
    "モード 未分類" and "タグ付与 失敗"; `BatchAssignTag`, `BatchUnassignTag` and `EditAssignmentValue` are enabled only in "タグ付与
    失敗"; `NavigateTags` only in "Videos". The flags come from cells the deriver left `not_drawn`, and the opener's availability points the other way
-   from the defect (enabled in the ordinary state). Neither derivation's pre has an ordinary-browse state that lacks the action
-   (T03 names one Videos "通常" state, selection true, opener enabled), so neither could have caught D2 as defined.
+   from the defect (enabled in the state the deriver called "通常"). That "通常" is not ordinary browsing: in both tables it is
+   the mock's `cad.state.normal` (T02 `ok`, T03 `ST-VIDEOS-NORMAL`), and the pre mock (`2060849`) draws one Videos surface, the
+   classification browse (view select, すべて / 未分類, the 人物カタログ › 出演者 path), whose results head has the opener. So
+   "enabled" there is a faithful transcription, not a misreading. The defect sits in a state only the text names — ordinary
+   collection or filter results with batch selection (definitions section 2) — which the mock does not draw; listed as its own
+   state, its opener cell would be `not_drawn` and T5 would fire. Neither table lists it, so neither could have caught D2 as
+   defined: D2 was lost in the state list, not in a cell (corrected again at closure, after a review of the records the user
+   brought; the first closure text read "通常" as ordinary browsing).
 3. **D3 — the table's entity granularity hid it.** T05's deriver merged manual and channel collections into one entity
    (`Collection（manual/channel 取得元）`) whose drawn create is `ConfirmChannelCollection`, so T4 is silent; T05 has no create or
    add row whose id, label or mock action names manual (manual / 手動), drawn or not. The defect is the absence of a create for one kind of an entity; T4 sees an

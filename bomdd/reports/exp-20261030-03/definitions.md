@@ -156,6 +156,11 @@ layer M: the action name). A flag
 
 - `packages.py <staging>` → T01-T06 and `manifest.json` (committed at filing).
 - `checks.py selftest` — synthetic cases only: each check fires on a planted defect and is silent on its fixed twin (PASS at filing).
+  **Corrected at closure (2026-10-30; the code and its docstring are left as run):** the selftest covers less than this line says.
+  It asserts M1 firing on the planted actions and silent on the fixed list; on layer T, that the planted table raises at least
+  T1, T3, T4 and T5 and a matching flag for each of D1-D3, and that the fixed twin has no matching flag for D1-D3 (not that every
+  check is silent on it). **T2 and T6 have no planted case**, so the PASS says nothing about them; T2 fired on the real tables
+  (results §2), T6 is a measure. Found by a review of the records the user brought after closure.
 - The run: six derivers (section 5.1), then `extract_tables.py <staging> agents.json <subagents-dir>`, then `checks.py run <staging>`
   → `flags.json` and the tally. Layer M was not run before filing.
 - Results go to `results.md`; the staging folder is deleted after the commit that records them.
