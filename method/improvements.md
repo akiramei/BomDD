@@ -9956,3 +9956,42 @@ measurement; no body text, template or tool changes.
   `gpt-5.6-sol`. The trial's design and start are the user's; nothing is built from this result.
   source: this section (the user's "A", 2026-10-30)
   evidence: `bomdd/reports/exp-20261030-01/definitions.md`, `items.json`, `results.md`, `summary.json`, `classifier-{a,b}-*.json`
+
+## 2026-10-30 After EXP-20261030-01 — the user's "C" (the mock difference first): read before designing, it has no deterministic input
+
+Source: the user's "C" to the three options after the count: make the comparison of the ruled text with the mock a stop in G2, before
+any robustness model. Before designing it, the six items both classifiers had counted as named by a mock difference were read for what
+a stop would compare (`bomdd/reports/exp-20261030-01/followup-mock-difference.md`; the key counts re-measured by `spot.py`).
+
+- **The cheap deterministic form would not have stopped them.** "Every UI id the text cites exists, and every surface requirement
+  cites one" catches 0 of the 6 fully and 2 partly (VP-024, VP-043 — and only if each verification line or each operation the CAD
+  prose names must cite an element id). The six sit at granularities no id set carries: an operation present but its result surface
+  missing (VT-002), present but absent in one mode (VT-003), an operation the text presupposes (VT-024), a display element per
+  verification item (VP-024), a region named only in prose (VP-043), an owner stated two ways (VP-055).
+- **The inputs are not there.** The ruled text cites almost no UI ids (ViewTube 10/20/30: 0/3/0; ViewPrism2: 0/0/0); ViewPrism2's 21
+  mocks carry no `data-ui-id`; ViewTube's raw IR is stale (232 of the mock's 449 ids absent; raw IR 2026-08-04, mock 2026-10-11) and
+  the method's gate for that drift (`ui-cad-gate.py` GU6) is referenced by neither product.
+- **Correction of the count's descriptive line and of the designer's recommendation.** "6 of the 10 are also named by a mock
+  difference (UI-IR exists without a robustness model)" holds only for a **reader** comparing text and mock; no check that exists or
+  could run on today's inputs names them. The designer recommended "C" as covering 6 of 10 at once; that overstated it.
+- What named them in the records was reading (a golden, an R3 finding, a maintainer's comparison). The method's reader-based form is
+  §17 mock acceptance inspection (measured once, on MoviePad, 2026-07-05: 69 %; "unspecified contract" 5/6), applied in neither product.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — no body text;
+nothing filed.
+
+- [watch 1/3] OBS-20261030-01 — **A method gate built for a precondition runs in no product, and the precondition fails there.**
+  `ui-cad-gate.py` GU6 (id drift between the mock and its raw IR) exists in the kit; neither ViewTube nor ViewPrism2 references it, and
+  ViewTube's raw IR misses 232 of its mock's 449 ids, so every mock-side check in that product reads an outdated mock. Machine face, a
+  candidate only (stop): GU6 run where the mock changes — a ViewTube ECO (its gate freeze needs the user's exception, ECO-VT-176 C).
+  2 例目の条件= another kit gate found unreferenced by a product whose inputs it was written to check.
+  source: this section
+  evidence: `bomdd/reports/exp-20261030-01/followup-mock-difference.md` §2; `spot.py`
+- [watch 1/3] OBS-20261030-02 — **A counterfactual "this check would have named it", judged by readers, assumed the reader's
+  understanding, not the check's input.** EXP-20261030-01's K3 counted what a mock comparison would name; the comparison's deterministic
+  inputs name almost none of it. A desk count of "would have caught" says what a reader could catch; whether a tool can is a second
+  question, answered by the inputs. Machine face: none (a reading rule) — kept only because the next desk count of a check (§13's ladder,
+  EXP-20261029-01's shape) should state which it measures. 2 例目の条件= another desk count whose "would catch" does not survive reading
+  the check's inputs.
+  source: this section
+  evidence: `bomdd/reports/exp-20261030-01/results.md` §3, `followup-mock-difference.md` §1
