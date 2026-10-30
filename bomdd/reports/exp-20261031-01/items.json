@@ -1,0 +1,85 @@
+{
+ "window": [
+  "22e2213",
+  "a2ca41e"
+ ],
+ "not_repairs": {
+  "6e81322": "the E-BOM's first text (its creation, not a change to an earlier statement)",
+  "255e6de": "the K-BOM's first text (its creation; the K-BOM items below have this as their before)",
+  "24cc6ed": "10-requirements.yaml's authority local_path replaced by an environment variable name; no statement changed",
+  "0b50020": "Control Plan row references only (the CP-EXPORT-001 split); no ruled statement changed",
+  "31273e7": "ECO-005, the user's re-ruled E-BOM boundary (EXP-20261030-01: feature, both classifiers)"
+ },
+ "items": [
+  {
+   "id": "D01",
+   "commit": "bbce170",
+   "file": "bomdd/20-spec.md",
+   "why": "G3 round 1 (sixteen findings repaired from the authority)",
+   "hunk": "-162,12 +162,13",
+   "before": "    2. ffmpeg cannot be run → `FfmpegUnavailable`;\n    3. total ≤ 0 → `ZeroDuration`, where total is `OutputLength` (copy: `spanEnd − copyStart`); an edit whose kept\n    4. no kept piece (§1: longer than 0.0001 s) → `NoRegions`; reachable when the kept parts are all positive but no",
+   "after": "    2. total ≤ 0 → `ZeroDuration`, where total is `OutputLength` (copy: `spanEnd − copyStart`); an edit whose kept\n    3. no kept piece (§1: longer than 0.0001 s) → `NoRegions`; reachable when the kept parts are all positive but no\n    4. ffmpeg cannot be started → `FfmpegUnavailable` (known when the process is started, after 1–3; corrected at G3:\n       the earlier order put it second, which only a trial run could decide);",
+   "input": "in"
+  },
+  {
+   "id": "D02",
+   "commit": "bbce170",
+   "file": "bomdd/20-spec.md",
+   "why": "G3 round 1 (sixteen findings repaired from the authority)",
+   "hunk": "-235,7 +236,8",
+   "before": "  count, and `framemd5` over both the video and the audio stream (`-map 0`) equal; L2 on MP4 exports: the video",
+   "after": "  count, `framemd5` of every decoded video frame, and the SHA-256 of all decoded audio samples (signed 16-bit) equal —\n  the audio is compared by content, not by how the encoder split it into packets (corrected at G3); L2 on MP4 exports: the video",
+   "input": "in"
+  },
+  {
+   "id": "D03",
+   "commit": "bbce170",
+   "file": "bomdd/20-spec.md",
+   "why": "G3 round 1 (sixteen findings repaired from the authority)",
+   "hunk": "-259,10 +261,10",
+   "before": "  - Copy start (keyframe lookup, as the authority's): 0 when the target ≤ 0; otherwise the largest keyframe time at or\n    before the target found in the window `[max(0, target − L), target]`, trying `L` = 12, 48, 192 and 768 s in turn\n    and stopping at the first window that holds one; 0 when the window reaches 0 or all four hold none. Keyframe times\n    are read with ffprobe over that window only.",
+   "after": "  - Copy start (keyframe lookup, as the authority's): 0 when the target ≤ 0; otherwise, trying `L` = 12, 48, 192 and\n    768 s in turn with `t0 = max(0, target − L)`, ffprobe reads the video packets of `[t0, target + 0.05]` (it starts at\n    the keyframe before `t0`), and the answer is the largest keyframe time ≤ `target + 1e-6` among them — it can lie\n    before `t0`. The first window with an answer wins; 0 when `t0` reached 0 or all four have none.",
+   "input": "in"
+  },
+  {
+   "id": "D04",
+   "commit": "0522643",
+   "file": "bomdd/31-kbom.yaml",
+   "why": "G3 round 2 (friction and minor points repaired from the authority)",
+   "hunk": "-26,7 +26,7",
+   "before": "        - \"Filters: no format= filter, no aresample=async, no fps= on CFR sources outside §2.7's own sample-and-hold; scale only when the size differs, with flags=lanczos.\"",
+   "after": "        - \"Filters: no format= filter, no aresample=async; on a CFR source with a clock plan no fps= beyond §2.7's own sample-and-hold (without a plan, §2.8's rule applies); scale only when the size differs, with flags=lanczos.\"",
+   "input": "out"
+  },
+  {
+   "id": "D05",
+   "commit": "0522643",
+   "file": "bomdd/31-kbom.yaml",
+   "why": "G3 round 2 (friction and minor points repaired from the authority)",
+   "hunk": "-72,7 +72,7",
+   "before": "        - \"Target framework net10.0; SDK 10.0.x; C# default for the SDK; nullable enabled; warnings as errors off.\"",
+   "after": "        - \"Target framework net10.0; SDK 10.0.x; C# default for the SDK; nullable enabled; warnings as errors off; Windows x64 host; NuGet reachable for the test packages.\"",
+   "input": "out"
+  },
+  {
+   "id": "D06",
+   "commit": "b06a5bf",
+   "file": "bomdd/20-spec.md",
+   "why": "ECO-003 (a package contradiction the factory blocked on)",
+   "hunk": "-258,8 +258,9",
+   "before": "    more than 0.0001 s after the previous one's end starts a new span); no kept region with speed ≠ 1 (±0.001) or\n    volume ≠ 1 (±0.001); output size equal to the source; `|outFps − sourceFps| ≤ 0.05`; video codec H.264 or H.265;",
+   "after": "    more than 0.0001 s after the previous one's end starts a new span); no kept region with speed ≠ 1 (±0.001); when the\n    source has audio, no kept region with volume ≠ 1 (±0.001) — a silent source is not made ineligible by a volume change\n    (corrected by ECO-003, as the authority's); output size equal to the source; `|outFps − sourceFps| ≤ 0.05`; video codec H.264 or H.265;",
+   "input": "in"
+  },
+  {
+   "id": "D07",
+   "commit": "ec6e549",
+   "file": "bomdd/31-kbom.yaml",
+   "why": "ECO-003 (the K-BOM line b06a5bf meant to correct)",
+   "hunk": "-31,7 +31,7",
+   "before": "        - \"Progress: out_time_us only (not out_time_ms); a report at each progress= line, no throttling; 1.0 reported once on success.\"",
+   "after": "        - \"Progress: out_time_us only (not out_time_ms); a report at each progress= line, no throttling; one more report of 1.0 after a successful exit, so 1.0 can be reported twice (corrected by ECO-003, as the authority's).\"",
+   "input": "out"
+  }
+ ]
+}

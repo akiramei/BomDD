@@ -10221,3 +10221,32 @@ measurement; no body text, template or tool changes.
   reference rather than the input.
   source: this section
   evidence: `bomdd/reports/exp-20261030-05/results.md` §3, `verify/certify.json`
+
+## 2026-10-31 After EXP-20261030-05 — the user's question (was a domain model missing?) and "A": a desk count and a frame-rate test (EXP-20261031-01, filed)
+
+Source: the user's questions (2026-10-30: ICONIX's static side is a domain model — the frame rate is an attribute of a model that a
+boundary displays; was it not made here?) and "A" (a desk measurement first, whose reading decides whether a re-manufacture with
+the domain model first earns a proposal). Folder `bomdd/reports/exp-20261031-01/` (`definitions.md`, `items.py`, `check_model.py`,
+`prepare.py`, three prompts); MoviePad-Remake read by `git show` / `git diff` only.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement; no body text, template or tool changes.
+
+- [open] EXP-20261031-01 — **Would a domain model derived from MoviePad-Remake's upstream before manufacture (requirements and spec
+  at `22e2213`) have named the repairs made to that upstream later, and given such a model, do fresh writers bring the output
+  frame rate into the scenarios?** Corrected before filing: the frame rate was not missing upstream (REQ-013, spec §2.5 `SetFps`);
+  EXP-20261030-05's writers had it and wrote no frame-rate step. Part 1: two fresh derivers from the two pinned texts only; items
+  = every repair hunk to a ruled file in `22e2213..a2ca41e` (`items.py` closes the window and checks each before-text stands in the
+  pin): 7, of which 4 are in the input (D01 error order, D02 acceptance audio measure, D03 keyframe lookup, D06 silent-source copy
+  eligibility) and 3 are K-BOM (outside); the 19 G2 topics are not countable (no text before the fix; EXP-20261030-01 classed them
+  values, orders, tolerances and formats, so near 0 was expected and is stated). Two classifiers per (model, item): named (a
+  question on the changed point, or the model states it as the after-text) / touch / no; named only when both say so. Part 2:
+  EXP-20261030-05's package and prompt plus the model (`prepare.py prompt-diff`: exactly one added line), two fresh writers, the
+  same walk and authority check; runs only if each model lists the output frame rate (P). Reading fixed in §9: part 1 descriptive
+  (4 items, no rate); part 2 counts writers with a `SetFps:*` step (EXP-20261030-05: 0 of 2) — 2 of 2 brought in, 0 of 2 not
+  explained by the missing model, 1 of 2 no claim; the re-manufacture earns a proposal on part 2's 2 of 2 or on at least 2 of the 4
+  items named by both models. Limits: I know the answers (fresh agents, prompts silent on them); four countable items, three of
+  kinds a domain model is not built to name; one computation-heavy product; an AI's model, not a designer's; no rate. Start of the
+  run is the user's.
+  source: this section
+  evidence: `bomdd/reports/exp-20261031-01/definitions.md`, `items.json`
