@@ -10248,5 +10248,17 @@ measurement; no body text, template or tool changes.
   items named by both models. Limits: I know the answers (fresh agents, prompts silent on them); four countable items, three of
   kinds a domain model is not built to name; one computation-heavy product; an AI's model, not a designer's; no rate. Start of the
   run is the user's.
-  source: this section
-  evidence: `bomdd/reports/exp-20261031-01/definitions.md`, `items.json`
+  **Read (2026-10-31, by the fixed rule; run on the user's "A: 両方走らせる")**: **part 2, 2 of 2 writers wrote a `SetFps:*`
+  step (EXP-20261030-05: 0 of 2) → "given a domain model that lists the output frame rate, fresh writers bring it into the
+  scenarios (here)"; the re-manufacture earns a proposal (its design and start are the user's).** Part 1: no item named by both
+  models (0 of 4; the second trigger not met) — model A names D01 by a question (REQ-018 against the spec's error order), the other
+  7 pairs touch; the two classifiers agree on all 8; D06 was copied as the pre-fix text by both. P held for both
+  (`OutputSettings.fps`, initial the source rate, set by `SetFps`). Both writers still found no state showing a changed rate and
+  wrote `unknown` after 24 / 60: the model brought the step in, not the state the walk needs; M15 caught by B (`SetFps:60`), outside
+  for A (24). Other 0 and f 0 for both; A caught 21 / outside 4, B 23 / 2. Isolation 0 flags for all six agents; packages identical
+  to EXP-20261030-05's but for the one prompt line and the model. Read after the verdict (descriptive): on the authority, A's 11
+  clean flags are 4 the writer's, 3 not reached, 4 the mock's; B's 4 all the mock's (the same five history-ambiguous states;
+  OBS-20261030-07's mechanism on the same reference, not counted as its second case). Limits: two writers each time (no rate);
+  REQ-013 was in both packages. Nothing wired, no body text changed.
+  source: this section (the user's "A" and "A: 両方走らせる", 2026-10-31)
+  evidence: `bomdd/reports/exp-20261031-01/definitions.md`, `items.json`, `bomdd/reports/exp-20261031-01/results.md`, `derive-*/`, `classify/`, `run-*/`, `verify/certify.json`

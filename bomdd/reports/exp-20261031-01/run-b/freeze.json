@@ -1,0 +1,13 @@
+{
+ "sha256": "5853760265e6d12ca86428cc5c0548e2209042e02c53d500fb4e1e544eb868d2",
+ "written": 25,
+ "dropped": {},
+ "kept": 25,
+ "steps": 68,
+ "expect_unknown": 9,
+ "harness_no": 5,
+ "flows": {
+  "main": 18,
+  "alternate": 7
+ }
+}

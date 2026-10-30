@@ -1,0 +1,1838 @@
+{
+  "conventions": "set_by は、その値を作る・変える操作の名前(作成する操作を含む)。作成後に変わらない値は作成する操作だけを挙げる。導出値(他の値から毎回計算される値)は initial を 'derived: ...' と書き、set_by にはその計算を変える入力側の操作を挙げる。",
+  "entities": [
+    {
+      "name": "Source",
+      "description": "編集のために開いたメディアファイル。書き込まれることはない(書き出しでも同じ)。",
+      "source": [
+        "§1",
+        "REQ-015",
+        "INV-008",
+        "SPEC-EXPORT-001"
+      ],
+      "attributes": [
+        {
+          "name": "path",
+          "description": "ソースファイルのパス。書き出し先パスとの同一判定(フルパス・Windows では大文字小文字を区別しない)に使う。",
+          "type": "string (file path)",
+          "initial": "開いたファイルのパス",
+          "set_by": [
+            "Open (Probe)"
+          ],
+          "source": [
+            "SPEC-PROBE-001",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "bytes",
+          "description": "ファイルの中身。どの操作(書き出しを含む)でも変わらない。ソースは書き込みのために開かれない。",
+          "type": "bytes",
+          "initial": "開いた時点のファイルの中身",
+          "set_by": [],
+          "source": [
+            "INV-008",
+            "REQ-015",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "ClipInfo",
+          "kind": "is read into (1 : 0..1, probe が null を返すことがある)",
+          "source": [
+            "SPEC-PROBE-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ClipInfo",
+      "description": "ffprobe でソースから読み取った情報(Probe の結果)。作成後に変える操作は無い。",
+      "source": [
+        "§1",
+        "REQ-001",
+        "SPEC-PROBE-001"
+      ],
+      "attributes": [
+        {
+          "name": "path",
+          "description": "ソースのパス。",
+          "type": "string",
+          "initial": "probe に渡したパス",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "SPEC-PROBE-001"
+          ]
+        },
+        {
+          "name": "fileName",
+          "description": "拡張子つきのファイル名。書き出しの推奨ファイル名の元になる。",
+          "type": "string",
+          "initial": "path のファイル名(拡張子つき)",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "SPEC-PROBE-001",
+            "REQ-014"
+          ]
+        },
+        {
+          "name": "duration",
+          "description": "長さ(秒)。トリム終端の初期値・トリム終端の上限になる。",
+          "type": "double (s)",
+          "initial": "format.duration。無いか正でなければ最初の映像ストリームの duration。正でなければ probe は結果なし",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "REQ-001",
+            "SPEC-PROBE-001"
+          ]
+        },
+        {
+          "name": "width",
+          "description": "ソースの映像の幅(ピクセル)。",
+          "type": "int",
+          "initial": "最初の映像ストリームの width。正でなければ probe は結果なし",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "REQ-001",
+            "SPEC-PROBE-001"
+          ]
+        },
+        {
+          "name": "height",
+          "description": "ソースの映像の高さ(ピクセル)。",
+          "type": "int",
+          "initial": "最初の映像ストリームの height。正でなければ probe は結果なし",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "REQ-001",
+            "SPEC-PROBE-001"
+          ]
+        },
+        {
+          "name": "frameRate",
+          "description": "ソースのフレームレート(source frame rate)。編集のフレームグリッドと正確なクロックのソースレート R の元。",
+          "type": "double (fps)",
+          "initial": "avg_frame_rate が正ならその値、でなければ r_frame_rate が正ならその値、どちらでもなければ 30(num/den を double に。読めない・0/0・正でない部分は 0)",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "REQ-001",
+            "SPEC-PROBE-001",
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "name": "isVfr",
+          "description": "可変フレームレートかどうか。VFR のソースは正確なクロックの外の経路(§2.8)で書き出す。",
+          "type": "bool",
+          "initial": "avg と r がどちらも正で |avg − r| > max(0.1, 0.005 × max(avg, r)) のとき true",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "REQ-001",
+            "SPEC-PROBE-001",
+            "REQ-016",
+            "SPEC-EXPORT-VFR-001"
+          ]
+        },
+        {
+          "name": "videoCodec",
+          "description": "映像コーデックの表示名(h264→H.264, hevc→H.265, vp9→VP9, av1→AV1、他は大文字化)。高速コピーの可否に使う。",
+          "type": "string",
+          "initial": "最初の映像ストリームの codec_name を表示名に変換",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "REQ-001",
+            "SPEC-PROBE-001",
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "name": "audioCodec",
+          "description": "音声コーデックの表示名(aac→AAC, mp3→MP3, opus→Opus, ac3→AC-3, pcm_s16le→PCM、他は大文字化)。音声が無ければ \"—\"。",
+          "type": "string",
+          "initial": "最初の音声ストリームの codec_name を表示名に変換。音声ストリームが無ければ \"—\"",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "REQ-001",
+            "SPEC-PROBE-001",
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "name": "sampleRate",
+          "description": "音声のサンプルレート(Hz)。音声のサンプル数・asetrate/aresample に使う。",
+          "type": "int (Hz)",
+          "initial": "音声ストリームの sample_rate が正の整数ならその値、でなければ 48000",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "REQ-001",
+            "SPEC-PROBE-001",
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "name": "hasAudio",
+          "description": "音声があるかどうか。音声の設定・音声のマップ・サンプル数は音声があるときだけ。",
+          "type": "bool",
+          "initial": "derived: audioCodec が \"—\" または空のときだけ false",
+          "set_by": [
+            "Probe"
+          ],
+          "source": [
+            "SPEC-PROBE-001",
+            "REQ-014"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "Source",
+          "kind": "describes",
+          "source": [
+            "SPEC-PROBE-001"
+          ]
+        },
+        {
+          "to": "KeyframeLookup",
+          "kind": "source of keyframe times (ffprobe over a window)",
+          "source": [
+            "SPEC-COPY-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Document",
+      "description": "不変の編集状態: トリム範囲 [trimStart, trimEnd] と順序つきのリージョンの列。どの編集も新しい Document を返し、元の Document は変えない(SplitAt は拒否で null、ほかの操作は適用されないとき同じ Document を返す)。モードは無い。",
+      "source": [
+        "§1",
+        "REQ-002",
+        "REQ-003",
+        "REQ-011",
+        "SPEC-DOCUMENT-001",
+        "SPEC-EDIT-001",
+        "INV-006"
+      ],
+      "attributes": [
+        {
+          "name": "trimStart",
+          "description": "トリムの開始(ソース秒)。最初のリージョンの start と常に等しい。",
+          "type": "double (source s)",
+          "initial": "0(ForClip)",
+          "set_by": [
+            "MoveTrim(isStart = true)"
+          ],
+          "source": [
+            "REQ-002",
+            "REQ-007",
+            "SPEC-DOCUMENT-001",
+            "SPEC-EDIT-001",
+            "INV-009"
+          ]
+        },
+        {
+          "name": "trimEnd",
+          "description": "トリムの終端(ソース秒)。最後のリージョンの end と常に等しい。",
+          "type": "double (source s)",
+          "initial": "duration(ForClip の引数 = クリップの長さ)",
+          "set_by": [
+            "MoveTrim(isStart = false)"
+          ],
+          "source": [
+            "REQ-002",
+            "REQ-007",
+            "SPEC-DOCUMENT-001",
+            "SPEC-EDIT-001",
+            "INV-009"
+          ]
+        },
+        {
+          "name": "regions",
+          "description": "時間順に隙間なく並ぶリージョンの列(各リージョンの end が次の start)。",
+          "type": "ordered list of Region",
+          "initial": "1 個: {firstId, 0, duration, 1.0, true, false, 1.0}(ForClip、firstId の既定は 1)",
+          "set_by": [
+            "ForClip",
+            "SplitAt",
+            "MoveBoundary",
+            "DeleteBoundary",
+            "MoveTrim",
+            "SetSpeed",
+            "SetPitch",
+            "SetVolume",
+            "SetExcluded"
+          ],
+          "source": [
+            "REQ-002",
+            "REQ-003",
+            "SPEC-DOCUMENT-001",
+            "SPEC-EDIT-001",
+            "INV-001"
+          ]
+        },
+        {
+          "name": "sourceLength",
+          "description": "除外されていないリージョンのトリム後の長さの合計(SourceLength)。",
+          "type": "double (s)",
+          "initial": "derived: Σ(除外でないリージョン) max(0, min(end, trimEnd) − max(start, trimStart))。ForClip 直後は duration",
+          "set_by": [
+            "MoveTrim",
+            "MoveBoundary",
+            "SplitAt",
+            "DeleteBoundary",
+            "SetExcluded"
+          ],
+          "source": [
+            "REQ-011",
+            "SPEC-DOCUMENT-001"
+          ]
+        },
+        {
+          "name": "outputLength",
+          "description": "出力の長さ(OutputLength)。書き出し前に表示され、書き出しの進捗の分母(total)になる。",
+          "type": "double (s)",
+          "initial": "derived: sourceLength と同じ和で各項をそのリージョンの speed で割る。ForClip 直後は duration",
+          "set_by": [
+            "MoveTrim",
+            "MoveBoundary",
+            "SplitAt",
+            "DeleteBoundary",
+            "SetExcluded",
+            "SetSpeed"
+          ],
+          "source": [
+            "REQ-011",
+            "SPEC-DOCUMENT-001",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "Region",
+          "kind": "contains, ordered, 1..n, tiling without gaps",
+          "source": [
+            "REQ-003",
+            "SPEC-DOCUMENT-001",
+            "INV-001"
+          ]
+        },
+        {
+          "to": "ClipInfo",
+          "kind": "created for (ForClip(duration)); edits use the clip's duration and a frame rate",
+          "source": [
+            "SPEC-DOCUMENT-001",
+            "SPEC-EDIT-001"
+          ]
+        },
+        {
+          "to": "KeptPiece",
+          "kind": "yields (regions not excluded, intersected with the trim range)",
+          "source": [
+            "§1",
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "to": "History",
+          "kind": "is the state the history holds (past/future stacks of whole documents)",
+          "source": [
+            "REQ-012",
+            "SPEC-HISTORY-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Region",
+      "description": "タイムライン上の区間 {id, start, end, speed, preservePitch, excluded, volume}。時間はソース秒。時刻 t のリージョンは半開区間 [start, end) が t を含むもの(最後のリージョンは end も含む)。リージョンごとの編集の対象になる。",
+      "source": [
+        "§1",
+        "REQ-003",
+        "SPEC-DOCUMENT-001",
+        "SPEC-EDIT-001"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "description": "リージョンの識別子(整数)。Document 内で一意。",
+          "type": "int",
+          "initial": "ForClip では firstId(既定 1)。分割の後半は呼び出し側が渡す newId。結合は左の id を残す",
+          "set_by": [
+            "ForClip",
+            "SplitAt",
+            "DeleteBoundary"
+          ],
+          "source": [
+            "REQ-002",
+            "REQ-004",
+            "REQ-006",
+            "SPEC-DOCUMENT-001",
+            "SPEC-EDIT-001",
+            "INV-002",
+            "§4"
+          ]
+        },
+        {
+          "name": "start",
+          "description": "開始(ソース秒)。前のリージョンの end と等しい。分割・境界移動・トリムが作る時刻はフレームグリッド上。",
+          "type": "double (source s)",
+          "initial": "ForClip では 0。分割の後半は p = snap(playhead)",
+          "set_by": [
+            "ForClip",
+            "SplitAt",
+            "MoveBoundary",
+            "MoveTrim(isStart = true)"
+          ],
+          "source": [
+            "REQ-002",
+            "REQ-004",
+            "REQ-005",
+            "REQ-007",
+            "SPEC-EDIT-001",
+            "INV-001",
+            "INV-003"
+          ]
+        },
+        {
+          "name": "end",
+          "description": "終端(ソース秒)。次のリージョンの start と等しい。",
+          "type": "double (source s)",
+          "initial": "ForClip では duration。分割の前半は p = snap(playhead)。結合では右のリージョンの end",
+          "set_by": [
+            "ForClip",
+            "SplitAt",
+            "MoveBoundary",
+            "DeleteBoundary",
+            "MoveTrim(isStart = false)"
+          ],
+          "source": [
+            "REQ-002",
+            "REQ-004",
+            "REQ-005",
+            "REQ-006",
+            "REQ-007",
+            "SPEC-EDIT-001",
+            "INV-001",
+            "INV-003"
+          ]
+        },
+        {
+          "name": "speed",
+          "description": "再生速度。0.01 に丸め [0.25, 4.0] にクランプ。出力の長さ・書き出しのクロックを決める。",
+          "type": "double (hundredths)",
+          "initial": "1.0(ForClip)。分割では元のリージョンの値を継ぐ。結合では左の値",
+          "set_by": [
+            "SetSpeed"
+          ],
+          "source": [
+            "REQ-002",
+            "REQ-004",
+            "REQ-006",
+            "REQ-008",
+            "SPEC-EDIT-001"
+          ]
+        },
+        {
+          "name": "preservePitch",
+          "description": "速度を変えたときに音程を保つか(true: atempo の段、false: asetrate のあと aresample でソースレートへ戻す)。リージョンごと。",
+          "type": "bool",
+          "initial": "true(ForClip)。分割では元のリージョンの値を継ぐ。結合では左の値",
+          "set_by": [
+            "SetPitch"
+          ],
+          "source": [
+            "REQ-002",
+            "REQ-004",
+            "REQ-006",
+            "REQ-008",
+            "REQ-015",
+            "SPEC-EDIT-001",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "excluded",
+          "description": "カット(除外)されているか。除外されたリージョンはタイムラインに残り、出力とすべての長さから外れる。",
+          "type": "bool",
+          "initial": "false(ForClip)。分割では元のリージョンの値を継ぐ。結合では左の値",
+          "set_by": [
+            "SetExcluded"
+          ],
+          "source": [
+            "REQ-002",
+            "REQ-004",
+            "REQ-006",
+            "REQ-010",
+            "SPEC-EDIT-001",
+            "INV-005"
+          ]
+        },
+        {
+          "name": "volume",
+          "description": "一定のゲイン。0.01 に丸め [0.0, 2.0] にクランプ。0.0 はミュート。",
+          "type": "double (hundredths)",
+          "initial": "1.0(ForClip)。分割では元のリージョンの値を継ぐ。結合では左の値",
+          "set_by": [
+            "SetVolume"
+          ],
+          "source": [
+            "REQ-002",
+            "REQ-004",
+            "REQ-006",
+            "REQ-009",
+            "SPEC-EDIT-001"
+          ]
+        },
+        {
+          "name": "isMuted",
+          "description": "ミュートか(volume が 0)。",
+          "type": "bool",
+          "initial": "derived: volume == 0.0。ForClip 直後は false",
+          "set_by": [
+            "SetVolume"
+          ],
+          "source": [
+            "REQ-009",
+            "SPEC-EDIT-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "Document",
+          "kind": "belongs to (ordered member)",
+          "source": [
+            "§1",
+            "SPEC-DOCUMENT-001"
+          ]
+        },
+        {
+          "to": "Region",
+          "kind": "adjacent to (end == next.start); split yields two, merge joins two",
+          "source": [
+            "REQ-003",
+            "REQ-004",
+            "REQ-006",
+            "INV-001"
+          ]
+        },
+        {
+          "to": "KeptPiece",
+          "kind": "yields 0..1 kept piece",
+          "source": [
+            "§1",
+            "SPEC-CLOCK-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "KeptPiece",
+      "description": "リージョンのうち除外されていない部分をトリム範囲と交わらせたもので、0.0001 s より長いもの。書き出しはこれをタイムライン順に出力する。正確なクロックでは (S, E, V, volume, pitch) として扱い、隣り合って同じ速度・音量・音程のものは先に結合する。",
+      "source": [
+        "§1",
+        "REQ-015",
+        "REQ-016",
+        "SPEC-CLOCK-001",
+        "SPEC-EXPORT-001"
+      ],
+      "attributes": [
+        {
+          "name": "S",
+          "description": "開始(ソース秒、正確なクロックでは有理数)。",
+          "type": "double / exact rational",
+          "initial": "derived: max(region.start, trimStart)",
+          "set_by": [],
+          "source": [
+            "§1",
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "name": "E",
+          "description": "終端(ソース秒、正確なクロックでは有理数)。",
+          "type": "double / exact rational",
+          "initial": "derived: min(region.end, trimEnd)",
+          "set_by": [],
+          "source": [
+            "§1",
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "name": "V",
+          "description": "速度。正確なクロックでは c/100(25 ≤ c ≤ 400 で c/100 == s のとき)、でなければ二進の正確値。",
+          "type": "exact rational",
+          "initial": "derived: region.speed",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "name": "volume",
+          "description": "ゲイン。",
+          "type": "double",
+          "initial": "derived: region.volume",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "name": "pitch",
+          "description": "音程を保つか。",
+          "type": "bool",
+          "initial": "derived: region.preservePitch",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "Region",
+          "kind": "derived from",
+          "source": [
+            "§1"
+          ]
+        },
+        {
+          "to": "ExportClock",
+          "kind": "input to (pieces, joined when adjacent and equal)",
+          "source": [
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "to": "CopySpan",
+          "kind": "forms (continuous pieces make a span)",
+          "source": [
+            "SPEC-COPY-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "History",
+      "description": "不変の状態の汎用の履歴(容量 50)。過去と未来の 2 つのスタックを持つ。連続したドラッグは開始時に 1 回だけ Snapshot する。",
+      "source": [
+        "REQ-012",
+        "SPEC-HISTORY-001"
+      ],
+      "attributes": [
+        {
+          "name": "capacity",
+          "description": "過去スタックの上限。Snapshot だけがこの上限を守らせる(Undo/Redo は状態を動かすだけで落とさない)。",
+          "type": "int",
+          "initial": "50",
+          "set_by": [],
+          "source": [
+            "REQ-012",
+            "SPEC-HISTORY-001"
+          ]
+        },
+        {
+          "name": "past",
+          "description": "過去の状態のスタック(Undo で戻る先)。",
+          "type": "stack of state (Document)",
+          "initial": "unknown",
+          "set_by": [
+            "Snapshot",
+            "TryUndo",
+            "TryRedo",
+            "Clear"
+          ],
+          "source": [
+            "REQ-012",
+            "SPEC-HISTORY-001"
+          ]
+        },
+        {
+          "name": "future",
+          "description": "未来の状態のスタック(Redo で進む先)。新しい編集(Snapshot)で空になる。",
+          "type": "stack of state (Document)",
+          "initial": "unknown",
+          "set_by": [
+            "Snapshot",
+            "TryUndo",
+            "TryRedo",
+            "Clear"
+          ],
+          "source": [
+            "REQ-012",
+            "SPEC-HISTORY-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "Document",
+          "kind": "holds whole states of",
+          "source": [
+            "REQ-012",
+            "SPEC-HISTORY-001",
+            "INV-006"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "OutputSettings",
+      "description": "出力の幅・高さ・フレームレート(output settings)のモデル。クリップから作る。元製品では画面の view model にある規則を、画面なしで書き出せるよう中核のモデルにしている(置き場所は E-BOM の判断)。",
+      "source": [
+        "§1",
+        "REQ-013",
+        "SPEC-OUTPUT-SETTINGS-001"
+      ],
+      "attributes": [
+        {
+          "name": "nativeW",
+          "description": "ソースの幅(縦横比と 100/75/50% の基準)。",
+          "type": "int",
+          "initial": "clip.width",
+          "set_by": [],
+          "source": [
+            "REQ-013",
+            "SPEC-OUTPUT-SETTINGS-001"
+          ]
+        },
+        {
+          "name": "nativeH",
+          "description": "ソースの高さ(縦横比と 100/75/50% の基準)。",
+          "type": "int",
+          "initial": "clip.height",
+          "set_by": [],
+          "source": [
+            "REQ-013",
+            "SPEC-OUTPUT-SETTINGS-001"
+          ]
+        },
+        {
+          "name": "width",
+          "description": "出力の幅。入力値は [16, 7680] にクランプしてから even(n) = max(2, round(n/2) × 2)。",
+          "type": "int",
+          "initial": "nativeW のまま(丸めない)",
+          "set_by": [
+            "ApplyWidth",
+            "ApplyHeight (keepAspect のとき)",
+            "Scale"
+          ],
+          "source": [
+            "REQ-013",
+            "SPEC-OUTPUT-SETTINGS-001"
+          ]
+        },
+        {
+          "name": "height",
+          "description": "出力の高さ。入力値は [16, 4320] にクランプしてから even。",
+          "type": "int",
+          "initial": "nativeH のまま(丸めない)",
+          "set_by": [
+            "ApplyHeight",
+            "ApplyWidth (keepAspect のとき)",
+            "Scale",
+            "ToggleKeepAspect (オンにしたとき)"
+          ],
+          "source": [
+            "REQ-013",
+            "SPEC-OUTPUT-SETTINGS-001"
+          ]
+        },
+        {
+          "name": "keepAspect",
+          "description": "縦横比を保つか。オンのとき一方の入力からもう一方をソースの比で決める。",
+          "type": "bool",
+          "initial": "true",
+          "set_by": [
+            "ToggleKeepAspect"
+          ],
+          "source": [
+            "REQ-013",
+            "SPEC-OUTPUT-SETTINGS-001"
+          ]
+        },
+        {
+          "name": "fps",
+          "description": "出力のフレームレート(output frame rate)。書き出しの出力レート F・-r p/q・VFR 経路の fps フィルタ・高速コピーの可否に使う。選べる値はソースのレートと 24, 30, 60, 120。",
+          "type": "double (fps)",
+          "initial": "ソースのフレームレート(clip.frameRate)",
+          "set_by": [
+            "SetFps"
+          ],
+          "source": [
+            "REQ-013",
+            "SPEC-OUTPUT-SETTINGS-001",
+            "SPEC-CLOCK-001",
+            "SPEC-EXPORT-VFR-001",
+            "SPEC-COPY-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "ClipInfo",
+          "kind": "created from (native size and source rate)",
+          "source": [
+            "SPEC-OUTPUT-SETTINGS-001"
+          ]
+        },
+        {
+          "to": "ExportRequest",
+          "kind": "supplies outWidth, outHeight, outFps",
+          "source": [
+            "§1",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ExportFormat",
+      "description": "書き出しの形式。MP4・中間ファイル(Lossless)・ProRes 422 HQ の 3 つ。形式ごとにエンコーダ・拡張子が固定。",
+      "source": [
+        "REQ-014",
+        "SPEC-EXPORT-001"
+      ],
+      "attributes": [
+        {
+          "name": "kind",
+          "description": "形式の種類。",
+          "type": "enum {MP4, Lossless, ProRes}",
+          "initial": "形式ごとに固定(3 つのどれか)",
+          "set_by": [],
+          "source": [
+            "REQ-014",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "videoEncoder",
+          "description": "映像エンコーダの引数。MP4: libx264 preset medium CRF 18 yuv420p。Lossless: ffv1 level 3。ProRes: prores_ks profile 3 yuv422p10le。",
+          "type": "ffmpeg arguments",
+          "initial": "形式ごとに固定",
+          "set_by": [],
+          "source": [
+            "REQ-014",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "audioEncoder",
+          "description": "音声エンコーダの引数(ソースに音声があるときだけ)。MP4: aac 192k。Lossless と ProRes: pcm_s16le。",
+          "type": "ffmpeg arguments",
+          "initial": "形式ごとに固定",
+          "set_by": [],
+          "source": [
+            "REQ-014",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "faststart",
+          "description": "-movflags +faststart をつけるか(MP4 のみ。高速コピーでもつける)。",
+          "type": "bool",
+          "initial": "MP4 で true、ほかは false",
+          "set_by": [],
+          "source": [
+            "REQ-014",
+            "SPEC-EXPORT-001",
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "name": "extension",
+          "description": "拡張子。MP4 .mp4・Lossless .mkv・ProRes .mov。",
+          "type": "string",
+          "initial": "形式ごとに固定",
+          "set_by": [],
+          "source": [
+            "REQ-014",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "suggestedName",
+          "description": "推奨の出力ファイル名: <拡張子を除いたソース名>_export<拡張子>。",
+          "type": "string",
+          "initial": "derived: clip の fileName と extension から",
+          "set_by": [],
+          "source": [
+            "REQ-014",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "ExportRequest",
+          "kind": "chosen by",
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "to": "ClipInfo",
+          "kind": "names the output after (suggested name)",
+          "source": [
+            "REQ-014",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ExportRequest",
+      "description": "書き出しの依頼: {clip, document, outWidth, outHeight, format, outputPath, outFps, fastCopy = false, copyStartOverride}。",
+      "source": [
+        "SPEC-EXPORT-001",
+        "§1"
+      ],
+      "attributes": [
+        {
+          "name": "clip",
+          "description": "ソースのクリップ情報。",
+          "type": "ClipInfo",
+          "initial": "呼び出し側が依頼を作るときに渡す",
+          "set_by": [],
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "document",
+          "description": "書き出す編集状態。",
+          "type": "Document",
+          "initial": "呼び出し側が依頼を作るときに渡す",
+          "set_by": [],
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "outWidth",
+          "description": "出力の幅。ソースと違うときだけ lanczos で拡大縮小。",
+          "type": "int",
+          "initial": "unknown",
+          "set_by": [
+            "ApplyWidth",
+            "ApplyHeight",
+            "Scale",
+            "ToggleKeepAspect"
+          ],
+          "source": [
+            "SPEC-EXPORT-001",
+            "REQ-015"
+          ]
+        },
+        {
+          "name": "outHeight",
+          "description": "出力の高さ。",
+          "type": "int",
+          "initial": "unknown",
+          "set_by": [
+            "ApplyWidth",
+            "ApplyHeight",
+            "Scale",
+            "ToggleKeepAspect"
+          ],
+          "source": [
+            "SPEC-EXPORT-001",
+            "REQ-015"
+          ]
+        },
+        {
+          "name": "format",
+          "description": "出力の形式。",
+          "type": "ExportFormat",
+          "initial": "unknown",
+          "set_by": [],
+          "source": [
+            "SPEC-EXPORT-001",
+            "REQ-014"
+          ]
+        },
+        {
+          "name": "outputPath",
+          "description": "出力先のパス。ソースのパスと同じなら SameAsSource で拒否。",
+          "type": "string (file path)",
+          "initial": "unknown",
+          "set_by": [],
+          "source": [
+            "SPEC-EXPORT-001",
+            "REQ-014",
+            "REQ-018"
+          ]
+        },
+        {
+          "name": "outFps",
+          "description": "出力のフレームレート(output frame rate)。正確なクロックの F、-r p/q、VFR 経路の fps=<outFps>、高速コピーの条件 |outFps − sourceFps| ≤ 0.05。",
+          "type": "double (fps)",
+          "initial": "unknown",
+          "set_by": [
+            "SetFps"
+          ],
+          "source": [
+            "SPEC-EXPORT-001",
+            "SPEC-CLOCK-001",
+            "SPEC-EXPORT-VFR-001",
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "name": "fastCopy",
+          "description": "高速・無劣化コピー(ストリームコピー)を求めるか。求めていて可能なときだけコピー。",
+          "type": "bool",
+          "initial": "false",
+          "set_by": [],
+          "source": [
+            "REQ-017",
+            "SPEC-EXPORT-001",
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "name": "copyStartOverride",
+          "description": "コピーの開始時刻(キーフレームの検索結果を渡す)。無いか [0, spanStart] の外ならスパンの開始を使う。",
+          "type": "double? (s)",
+          "initial": "absent(既定値は書かれていないが、無いときの扱いが決まっている)",
+          "set_by": [
+            "KeyframeLookup"
+          ],
+          "source": [
+            "SPEC-EXPORT-001",
+            "SPEC-COPY-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "ClipInfo",
+          "kind": "refers to (clip)",
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "to": "Document",
+          "kind": "refers to (document)",
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "to": "ExportFormat",
+          "kind": "has (format)",
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "to": "OutputSettings",
+          "kind": "takes size and rate from",
+          "source": [
+            "§1"
+          ]
+        },
+        {
+          "to": "Exporter",
+          "kind": "is executed by",
+          "source": [
+            "§1",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Exporter",
+      "description": "ソース・Document・出力設定・形式を ffmpeg で出力ファイルにする。経路は 3 つ: 再エンコード(CFR は正確なクロック §2.7、VFR はリージョンごとの §2.8)と高速コピー(§2.9)。",
+      "source": [
+        "§1",
+        "REQ-014",
+        "REQ-015",
+        "REQ-016",
+        "REQ-017",
+        "REQ-018",
+        "SPEC-EXPORT-001"
+      ],
+      "attributes": [
+        {
+          "name": "fixedArguments",
+          "description": "ffmpeg の固定引数。",
+          "type": "ffmpeg arguments",
+          "initial": "-y -hide_banner -nostats -progress pipe:1",
+          "set_by": [],
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "path",
+          "description": "使う経路: copy(fastCopy かつ CanStreamCopy)・exact(計画が立つ CFR)・perRegion(計画が立たない: VFR、正でない/無限のレート、正でない速度)。",
+          "type": "enum {copy, exact, perRegion}",
+          "initial": "derived: request と clip から",
+          "set_by": [],
+          "source": [
+            "SPEC-EXPORT-001",
+            "SPEC-CLOCK-001",
+            "SPEC-EXPORT-VFR-001",
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "name": "inputSeek",
+          "description": "入力シークを使うか。最初の保持時刻 spanStart(= S_0)が 1.0 s 以上なら映像を -ss seek で開き、音声はシークしない 2 つ目の入力から取る。でなければ入力は 1 つ。",
+          "type": "bool",
+          "initial": "derived: spanStart ≥ 1.0",
+          "set_by": [],
+          "source": [
+            "SPEC-EXPORT-001",
+            "SPEC-CLOCK-001",
+            "SPEC-EXPORT-VFR-001"
+          ]
+        },
+        {
+          "name": "scaleFilter",
+          "description": "scale=<w>:<h>:flags=lanczos。出力サイズがソースと違うときだけ。",
+          "type": "filter or none",
+          "initial": "derived: (outWidth, outHeight) ≠ (clip.width, clip.height) のとき",
+          "set_by": [],
+          "source": [
+            "REQ-015",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "audioSpeedFilter",
+          "description": "ピースごとの音声の速度。音程を保つ: atempo の段(各 [0.5, 2.0]、2 を上回る間 2.0、0.5 を下回る間 0.5、残り)。保たない: asetrate=<sampleRate × speed>,aresample=<sampleRate>。",
+          "type": "filter",
+          "initial": "derived: speed と preservePitch から",
+          "set_by": [],
+          "source": [
+            "REQ-015",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "volumeFilter",
+          "description": "volume=<v>。|v − 1| ≥ 0.001 のときだけ。",
+          "type": "filter or none",
+          "initial": "derived: volume から",
+          "set_by": [],
+          "source": [
+            "REQ-015",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "vfrFpsFilter",
+          "description": "VFR 経路の fps=<outFps>。保持リージョンの速度が 1 から 0.001 以上違う、レートが 0.05 より大きく変わる、またはソースが VFR のとき。",
+          "type": "filter or none",
+          "initial": "derived: 速度・outFps とソースのレート・isVfr から",
+          "set_by": [],
+          "source": [
+            "SPEC-EXPORT-VFR-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "Source",
+          "kind": "reads, never writes",
+          "source": [
+            "REQ-015",
+            "SPEC-EXPORT-001",
+            "INV-008"
+          ]
+        },
+        {
+          "to": "ExportClock",
+          "kind": "uses for CFR sources",
+          "source": [
+            "SPEC-EXPORT-001",
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "to": "CopyEligibility",
+          "kind": "checks before copying",
+          "source": [
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "to": "FfmpegLocator",
+          "kind": "runs ffmpeg found by",
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "to": "ExportRun",
+          "kind": "produces (one running export with progress and an outcome)",
+          "source": [
+            "REQ-018",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ExportClock",
+      "description": "CFR ソースの正確な書き出しクロック(計画)。すべて正確な有理数。出力のフレーム数とサンプル数は保持ピースだけで決まり、どこで分割したかによらない。計画が立たないとき(VFR・正でない/無限のレート・正でない速度)は §2.8、ピースが無いときは NoRegions。高速コピーには使わない。",
+      "source": [
+        "REQ-016",
+        "SPEC-CLOCK-001",
+        "INV-007"
+      ],
+      "attributes": [
+        {
+          "name": "R",
+          "description": "ソースレート(有理数)。double のレートを q = 1、次に q = 1001 で p/q と認識、どちらでもなければ二進の正確値。",
+          "type": "exact rational",
+          "initial": "derived: clip.frameRate から",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "name": "F",
+          "description": "出力レート(output frame rate、有理数)。p と q は既約形の F の分子と分母で、-r p/q と MP4 の timescale に使う。",
+          "type": "exact rational (p/q)",
+          "initial": "derived: request.outFps から R と同じ認識で",
+          "set_by": [
+            "SetFps"
+          ],
+          "source": [
+            "SPEC-CLOCK-001",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "pieces",
+          "description": "結合後の保持ピース (S, E, V, volume, pitch)。E_prev == S で V・volume・pitch が等しい隣どうしを結合。時刻はグリッド時刻なら n / R、でなければ二進の正確値。",
+          "type": "list of KeptPiece",
+          "initial": "derived: document の保持ピースから",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001",
+            "REQ-016"
+          ]
+        },
+        {
+          "name": "T",
+          "description": "各ピースの出力上の開始時刻 T_k(T_0 = 0, T_{k+1} = T_k + (E_k − S_k) / V_k)。T_total は全体の長さ。",
+          "type": "list of exact rational",
+          "initial": "derived: pieces から",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001",
+            "REQ-016"
+          ]
+        },
+        {
+          "name": "frameCount",
+          "description": "出力のフレーム数 N = round_half_up(T_total × F)。",
+          "type": "int",
+          "initial": "derived: T_total と F から",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001",
+            "REQ-016"
+          ]
+        },
+        {
+          "name": "sampleCount",
+          "description": "音声があるときの出力のサンプル数 M = round_half_up(T_total × sampleRate)。",
+          "type": "int",
+          "initial": "derived: T_total と clip.sampleRate から",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001",
+            "REQ-016"
+          ]
+        },
+        {
+          "name": "frameOwnership",
+          "description": "ピース k が持つ出力フレーム [min(ceil(T_k × F), N), min(ceil(T_{k+1} × F), N))。出力フレーム i はソースフレーム floor((S + (i/F − T_k) × V) × R)(その意図時刻以前で最新)。",
+          "type": "per piece frame range",
+          "initial": "derived: T, F, N, R から",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001",
+            "REQ-016"
+          ]
+        },
+        {
+          "name": "sampleOwnership",
+          "description": "ピース k が持つ出力サンプル [round_half_up(T_k × sr), round_half_up(T_{k+1} × sr))、ソースのサンプル [round_half_up(S × sr), round_half_up(E × sr)) から切り出し、速度変更・ゲインのあと持ち分にちょうどパディング/カット。",
+          "type": "per piece sample range",
+          "initial": "derived: T, S, E, sampleRate から",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "name": "seek",
+          "description": "入力シークの目標: 最初に要るソースフレーム floor(S_0 × R) の半フレーム前。正でなければ 0。",
+          "type": "exact rational (s)",
+          "initial": "derived: S_0 と R から",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "outputClock",
+          "description": "-r p/q。MP4 では映像トラックの timescale を p(0 < p ≤ 2^31 − 1 のとき)、ムービーの timescale を lcm(p, sampleRate)(音声なしは p)、収まらなければ設定しない。計画が無いときは -r も timescale も設定しない。",
+          "type": "ffmpeg arguments",
+          "initial": "derived: F と sampleRate から",
+          "set_by": [],
+          "source": [
+            "SPEC-CLOCK-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "KeptPiece",
+          "kind": "is planned over",
+          "source": [
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "to": "ClipInfo",
+          "kind": "takes source rate, VFR flag and sample rate from",
+          "source": [
+            "SPEC-CLOCK-001"
+          ]
+        },
+        {
+          "to": "ExportRequest",
+          "kind": "takes output rate (outFps) from",
+          "source": [
+            "SPEC-CLOCK-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CopySpan",
+      "description": "連続した保持ピースの並び(スパン)。後のピースが前のピースの終端より 0.0001 s を超えて後に始まると新しいスパン。spanStart は再エンコード経路の入力シークの判定にも使う。",
+      "source": [
+        "SPEC-COPY-001",
+        "SPEC-EXPORT-001",
+        "REQ-017"
+      ],
+      "attributes": [
+        {
+          "name": "spanStart",
+          "description": "最初の保持時刻(= S_0、最初の保持ピースの開始)。",
+          "type": "double (s)",
+          "initial": "derived: 最初の保持ピースの S",
+          "set_by": [],
+          "source": [
+            "SPEC-EXPORT-001",
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "name": "spanEnd",
+          "description": "スパンの終端。コピーの終端。",
+          "type": "double (s)",
+          "initial": "derived: スパンの最後の保持ピースの E",
+          "set_by": [],
+          "source": [
+            "SPEC-COPY-001",
+            "REQ-017"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "KeptPiece",
+          "kind": "is formed by",
+          "source": [
+            "SPEC-COPY-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CopyEligibility",
+      "description": "高速・無劣化コピーができるか(CanStreamCopy)。依頼の上の純粋な述語。",
+      "source": [
+        "REQ-017",
+        "SPEC-COPY-001"
+      ],
+      "attributes": [
+        {
+          "name": "canStreamCopy",
+          "description": "形式 MP4・保持ピースがちょうど 1 つの連続スパン・保持リージョンに速度 ≠ 1(±0.001)や音量 ≠ 1(±0.001)が無い・出力サイズがソースと同じ・|outFps − sourceFps| ≤ 0.05・映像 H.264 か H.265・音声 AAC, MP3, AC-3 か音声なし、のすべて。VFR だけでは不可にならない。",
+          "type": "bool",
+          "initial": "derived: request から",
+          "set_by": [],
+          "source": [
+            "REQ-017",
+            "SPEC-COPY-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "ExportRequest",
+          "kind": "is evaluated over",
+          "source": [
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "to": "CopySpan",
+          "kind": "requires exactly one",
+          "source": [
+            "SPEC-COPY-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "KeyframeLookup",
+      "description": "コピーの開始時刻を探す: 目標時刻以前の最後のキーフレーム。",
+      "source": [
+        "REQ-017",
+        "SPEC-COPY-001"
+      ],
+      "attributes": [
+        {
+          "name": "target",
+          "description": "探す基準の時刻(スパンの開始)。",
+          "type": "double (s)",
+          "initial": "unknown",
+          "set_by": [],
+          "source": [
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "name": "copyStart",
+          "description": "コピーの開始時刻。target ≤ 0 なら 0。でなければ窓 [max(0, target − L), target] で L = 12, 48, 192, 768 s の順に試し、最初にキーフレームを含む窓での target 以前で最大のキーフレーム時刻。窓が 0 に届くか 4 つとも無ければ 0。キーフレーム時刻は ffprobe でその窓だけ読む。",
+          "type": "double (s)",
+          "initial": "derived: target とソースのキーフレームから",
+          "set_by": [],
+          "source": [
+            "REQ-017",
+            "SPEC-COPY-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "ExportRequest",
+          "kind": "result is given as copyStartOverride",
+          "source": [
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "to": "ClipInfo",
+          "kind": "looks up keyframes in the source of",
+          "source": [
+            "SPEC-COPY-001"
+          ]
+        },
+        {
+          "to": "FfmpegLocator",
+          "kind": "runs ffprobe found by",
+          "source": [
+            "SPEC-COPY-001",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ExportRun",
+      "description": "実行中の 1 回の書き出し(1 つの子プロセス)。状態は idle → running → succeeded / failed / cancelled。",
+      "source": [
+        "REQ-018",
+        "SPEC-EXPORT-001",
+        "§4"
+      ],
+      "attributes": [
+        {
+          "name": "state",
+          "description": "書き出しの状態。",
+          "type": "enum {idle, running, succeeded, failed, cancelled}",
+          "initial": "idle",
+          "set_by": [
+            "ExportAsync",
+            "Cancel"
+          ],
+          "source": [
+            "§4",
+            "REQ-018"
+          ]
+        },
+        {
+          "name": "total",
+          "description": "進捗とゼロ長判定の分母。再エンコードは OutputLength、コピーは spanEnd − copyStart。",
+          "type": "double (s)",
+          "initial": "derived: 経路に応じて",
+          "set_by": [],
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "progress",
+          "description": "書けた出力の長さの割合: out_time_us / 1e6 / total を [0, 1] にクランプ。各 progress= 行で報告。整数として読めない値は無視して前の値を保つ。成功で 1.0。",
+          "type": "double [0, 1]",
+          "initial": "unknown",
+          "set_by": [
+            "ffmpeg -progress output",
+            "ExportAsync (success → 1.0)"
+          ],
+          "source": [
+            "REQ-018",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "outcome",
+          "description": "結果: 成功、またはエラーの種類(この順で判定): SameAsSource, FfmpegUnavailable, ZeroDuration(total ≤ 0), NoRegions(保持ピースなし), FfmpegFailed。取り消しは Cancelled。エラーの文面は契約に含まない。",
+          "type": "Success | ExportError",
+          "initial": "unknown",
+          "set_by": [
+            "ExportAsync",
+            "Cancel"
+          ],
+          "source": [
+            "REQ-018",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "exitCode",
+          "description": "FfmpegFailed のときの ffmpeg の終了コード(検査対象)。",
+          "type": "int",
+          "initial": "unknown",
+          "set_by": [
+            "ExportAsync"
+          ],
+          "source": [
+            "REQ-018",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "errorLines",
+          "description": "FfmpegFailed のときのエラー出力の最後の空でない 8 行(利用者向け、検査しない)。",
+          "type": "list of string",
+          "initial": "unknown",
+          "set_by": [
+            "ExportAsync"
+          ],
+          "source": [
+            "REQ-018",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "ExportRequest",
+          "kind": "executes",
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "to": "Exporter",
+          "kind": "is produced by",
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "to": "Document",
+          "kind": "progress target is the document's output length",
+          "source": [
+            "REQ-011",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FfmpegLocator",
+      "description": "ffmpeg と ffprobe をそれぞれのファイル名で探す(Windows では ffmpeg.exe, ffprobe.exe)。順に MOVIEPAD_FFMPEG_DIR のディレクトリ、アプリのディレクトリの ffmpeg サブフォルダ、%LOCALAPPDATA%\\MoviePad\\ffmpeg、アプリのディレクトリ自身、どれにも無ければ素のファイル名(PATH で解決)。最初にファイルがある場所が勝つ。実行できなければ probe は結果なし、書き出しは FfmpegUnavailable(例外を投げない)。",
+      "source": [
+        "REQ-019",
+        "SPEC-EXPORT-001"
+      ],
+      "attributes": [
+        {
+          "name": "envDir",
+          "description": "環境変数 MOVIEPAD_FFMPEG_DIR の値。",
+          "type": "string?",
+          "initial": "プロセス自身の環境変数(既定)",
+          "set_by": [],
+          "source": [
+            "REQ-019",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "appDir",
+          "description": "アプリのディレクトリ。",
+          "type": "string",
+          "initial": "プロセス自身のアプリのディレクトリ(既定)",
+          "set_by": [],
+          "source": [
+            "REQ-019",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "localAppDataDir",
+          "description": "ローカルアプリデータのディレクトリ。",
+          "type": "string",
+          "initial": "プロセス自身の %LOCALAPPDATA%(既定)",
+          "set_by": [],
+          "source": [
+            "REQ-019",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "ffmpegPath",
+          "description": "見つけた ffmpeg のパス。ロケータの寿命のあいだキャッシュする。",
+          "type": "string",
+          "initial": "derived: 初回に上の順で探した結果",
+          "set_by": [],
+          "source": [
+            "REQ-019",
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "name": "ffprobePath",
+          "description": "見つけた ffprobe のパス(ffmpeg とは別に同じ順で探す)。ロケータの寿命のあいだキャッシュする。",
+          "type": "string",
+          "initial": "derived: 初回に上の順で探した結果",
+          "set_by": [],
+          "source": [
+            "REQ-019",
+            "SPEC-EXPORT-001"
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "to": "Exporter",
+          "kind": "supplies ffmpeg to",
+          "source": [
+            "SPEC-EXPORT-001"
+          ]
+        },
+        {
+          "to": "ClipInfo",
+          "kind": "supplies ffprobe to the probe that creates",
+          "source": [
+            "SPEC-EXPORT-001",
+            "SPEC-PROBE-001"
+          ]
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "subject": "Document (SplitAt / MoveBoundary / MoveTrim の fps 引数)",
+      "text": "分割・境界移動・トリムは fps を引数で受け取りフレームグリッドに snap するが、その fps がソースのフレームレートか出力のフレームレートかが編集操作の節には書かれていない。§2.7 step 2 はクロックについてだけ『クリップのフレームレート』と書いている。出力のフレームレートを変えたときに編集のグリッドが変わるかも書かれていない。",
+      "source": [
+        "REQ-004",
+        "REQ-005",
+        "REQ-007",
+        "SPEC-EDIT-001",
+        "SPEC-CLOCK-001",
+        "§1"
+      ]
+    },
+    {
+      "subject": "ExportRequest.outFps / outWidth / outHeight",
+      "text": "依頼の outFps・outWidth・outHeight が OutputSettings の fps・width・height から来ることは §1 の Exporter の定義(出力設定を受け取る)から読めるだけで、写し方が明記されていない。依頼の初期値は unknown とした。",
+      "source": [
+        "§1",
+        "SPEC-EXPORT-001",
+        "SPEC-OUTPUT-SETTINGS-001"
+      ]
+    },
+    {
+      "subject": "History.past / History.future",
+      "text": "履歴の初期状態(作成時に両スタックが空か)が書かれていない。Clear() が両方を空にすることだけが書かれている。新しいクリップを開いたときに Clear されるかも書かれていない。",
+      "source": [
+        "SPEC-HISTORY-001",
+        "REQ-012"
+      ]
+    },
+    {
+      "subject": "History (対象の状態)",
+      "text": "REQ-012 は『すべての編集』を元に戻せるとし、§2.4 は『不変の状態の汎用の履歴』とだけ書く。履歴に入る状態が Document だけか、出力設定(OutputSettings)の変更も編集として含むかが書かれていない。",
+      "source": [
+        "REQ-012",
+        "SPEC-HISTORY-001",
+        "SPEC-OUTPUT-SETTINGS-001"
+      ]
+    },
+    {
+      "subject": "Region.id (newId)",
+      "text": "分割の新しい id は呼び出し側が渡す(INV-002)が、その選び方(一意性を誰がどう保証するか、結合で消えた id を再利用しないか)が書かれていない。REQ-004 の反例は結合された id の再利用を誤りとして挙げている。",
+      "source": [
+        "REQ-004",
+        "SPEC-EDIT-001",
+        "INV-002",
+        "§4"
+      ]
+    },
+    {
+      "subject": "playhead / selection",
+      "text": "ResolveSelection(current, playhead) と各操作は再生位置と選択中のリージョン id を入力として受け取るが、それらを保持する実体と初期値が書かれていない(画面は範囲外)。",
+      "source": [
+        "SPEC-DOCUMENT-001",
+        "REQ-003",
+        "§1"
+      ]
+    },
+    {
+      "subject": "Document.RegionAt",
+      "text": "REQ-003 は『トリム範囲外の時刻にはリージョンが無い』『どれかの半開区間に入る』とするが、§2.2 の RegionAt はどれにも当たらないとき最後のリージョンを返す(浮動小数点の端でだけ到達、元製品のとおり残す)。文どうしが食い違って見える。",
+      "source": [
+        "REQ-003",
+        "SPEC-DOCUMENT-001",
+        "INV-001",
+        "INV-009"
+      ]
+    },
+    {
+      "subject": "Region.excluded (INV-005)",
+      "text": "REQ-010 は『除外されていない最後のリージョンの除外は拒否』とするが、INV-005 は結合(左が除外・右が唯一の保持)で保持が 0 になる Document が生じうるとし、書き出しは ZeroDuration で失敗する。要求の『出力が空にならない』と仕様の例外が食い違う。",
+      "source": [
+        "REQ-010",
+        "REQ-006",
+        "INV-005",
+        "SPEC-EDIT-001"
+      ]
+    },
+    {
+      "subject": "OutputSettings.fps (SetFps)",
+      "text": "REQ-013 は出力のフレームレートを『24, 30, 60, 120 に設定できる』とするが、§2.5 の SetFps は有限で正の任意の値を受け付ける(画面が出す 5 値以外は元製品でも通る、と注記)。受け付ける値の範囲が要求と仕様で違う。",
+      "source": [
+        "REQ-013",
+        "SPEC-OUTPUT-SETTINGS-001"
+      ]
+    },
+    {
+      "subject": "OutputSettings.width / height (keepAspect オフ)",
+      "text": "ToggleKeepAspect でオンにしたときは height を決め直すと書かれているが、オフにしたときに width・height が変わるかは書かれていない(変わらないと読むのが自然だが明記はない)。Scale が keepAspect を変えるかも書かれていない。",
+      "source": [
+        "SPEC-OUTPUT-SETTINGS-001"
+      ]
+    },
+    {
+      "subject": "CopyEligibility.canStreamCopy (レート)",
+      "text": "REQ-017 は『出力のサイズとレートがソースと等しい』とするが、§2.9 はレートについて |outFps − sourceFps| ≤ 0.05 の許容を置く。等しさの意味が要求と仕様で違う。",
+      "source": [
+        "REQ-017",
+        "SPEC-COPY-001"
+      ]
+    },
+    {
+      "subject": "ExportFormat.kind / ExportRequest.format",
+      "text": "書き出しの形式の既定(最初に選ばれている形式)が書かれていない。",
+      "source": [
+        "REQ-014",
+        "SPEC-EXPORT-001"
+      ]
+    },
+    {
+      "subject": "ExportRequest.outputPath",
+      "text": "推奨ファイル名は決まっているが、出力先のディレクトリと outputPath の初期値(推奨名を使うか)が書かれていない。",
+      "source": [
+        "REQ-014",
+        "SPEC-EXPORT-001"
+      ]
+    },
+    {
+      "subject": "ExportRun.progress / outcome / exitCode / errorLines",
+      "text": "進捗の初期値(開始時に 0 を報告するか)と、結果・終了コード・エラー行の実行前の値が書かれていない。",
+      "source": [
+        "REQ-018",
+        "SPEC-EXPORT-001"
+      ]
+    },
+    {
+      "subject": "出力の音声サンプルレート",
+      "text": "出力の音声のサンプルレートが明記されていない。REQ-016 のサンプル数は sample_rate(ソースの値)で数え、音程を保たない速度変更は aresample=<sampleRate> でソースのレートへ戻すので、出力もソースのレートと読めるが、形式ごとのエンコーダ(AAC など)で変わらないかは書かれていない。",
+      "source": [
+        "REQ-016",
+        "SPEC-CLOCK-001",
+        "SPEC-EXPORT-001",
+        "REQ-014"
+      ]
+    },
+    {
+      "subject": "KeyframeLookup.target",
+      "text": "キーフレーム検索の target がスパンの開始(spanStart)かトリム開始かが直接は書かれていない(REQ-017 は『スパン開始以前の最後のキーフレーム』とする)。誰がいつ呼び、結果を copyStartOverride に入れるかも書かれていない。",
+      "source": [
+        "REQ-017",
+        "SPEC-COPY-001"
+      ]
+    },
+    {
+      "subject": "ExportRun.state (取り消し)",
+      "text": "取り消しは ffmpeg のプロセスツリーを kill して Cancelled で終わると書かれているが、途中まで書かれた出力ファイルをどう扱うか(残すか消すか)が書かれていない。",
+      "source": [
+        "REQ-018",
+        "SPEC-EXPORT-001"
+      ]
+    },
+    {
+      "subject": "ClipInfo.sampleRate (音声なし)",
+      "text": "音声が無いとき sampleRate は 48000 になる(正の整数が無いため)と読めるが、音声なしのときの値として意図されたものかは明記されていない。MP4 のムービー timescale は音声なしなら p を使うと書かれている。",
+      "source": [
+        "REQ-001",
+        "SPEC-PROBE-001",
+        "SPEC-CLOCK-001"
+      ]
+    }
+  ]
+}
