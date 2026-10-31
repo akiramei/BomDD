@@ -79,8 +79,8 @@ def base(step, out):
         frozen(prior, out)
     if step in TEMPLATE:
         shutil.copyfile(BOMDD / "method" / "templates" / TEMPLATE[step], out / ("template-" + TEMPLATE[step]))
-    for t in TOOLS:
-        shutil.copyfile(HERE / t, out / t)
+    for t in TOOLS:  # the blind pair (definitions section 12, departure 2): form checks only, no word of what is measured
+        shutil.copyfile(HERE / "blind" / t, out / t)
     return out
 
 
@@ -136,6 +136,12 @@ def prompt_check():
         hits = sorted({m.group(0) for m in rule.finditer(p.read_text(encoding="utf-8"))})
         ok &= not hits
         print("PASS" if not hits else "FAIL", p.name, hits if hits else "")
+    for t in TOOLS:  # departure 2: the tools in an author's or auditor's folder are held to the same rule as its prompt
+        hits = sorted({m.group(0) for m in EXCLUDED.finditer((HERE / "blind" / t).read_text(encoding="utf-8"))})
+        full = sorted({m.group(0) for m in EXCLUDED.finditer((HERE / t).read_text(encoding="utf-8"))})
+        ok &= not hits and bool(full)
+        print("PASS" if not hits else "FAIL", "blind/" + t, hits if hits else "",
+              "(positive control: the full tool names", full, ")" if full else "FAIL: positive control matched nothing")
     return 0 if ok else 1
 
 

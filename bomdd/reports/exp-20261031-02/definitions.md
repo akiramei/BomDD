@@ -192,6 +192,21 @@ Each stop goes to the user; none is extended by the operator.
    re-audit; the round-3 blocker (REQ-058 / REQ-060, whether pressing the speed or volume slider records an undo step) is carried
    as an open question. The S2–S5 prompts, committed before any agent started, call the requirements "監査を通ったもの"; they are
    not reworded — the frozen S1 is audited up to its round-2 answers, and its round-3 answers are not.
+2. **The tools in the agents' folders named what is measured** (found 2026-10-31 at S2; the operator's error at step 1).
+   Section 4 keeps the measured words out of the author and auditor prompts, but `check_model.py` (its `FPS` / `OUTPUT` rule
+   and the `output_frame_rate` count, printed by `check_upstream.py model`) and `check_upstream.py` (its docstring naming this
+   experiment, the `chain` command and the frame-rate rows) were copied into every folder unchanged. The first S2 author read
+   the rule, reworded three descriptions and dropped a quoted note so that the rule would select one attribute, and said so in
+   its report. **Repair** (an instrument repair: sections 7 and 9 are unchanged): authors and auditors get `blind/check_model.py`
+   and `blind/check_upstream.py` — the same file names and commands, the same form checks, no frame-rate rule, no `chain`,
+   neutral selftest fixtures — and the full tools stay with the operator for A1. `equiv_blind.py` shows the two pairs give the
+   same ERROR lists on the leaked S2 model and 26 broken copies of it and of a screens / scenarios fixture (27 of 27, every
+   broken arm caught; a blind copy with one check removed fails it), and the same counts apart from the frame-rate key.
+   `prepare.py prompt-check` now holds the blind tools to the excluded-word rule of the prompts, with the full tools as its
+   positive control. The leaked S2 draft is kept as `s2/draft-leaked.json` and is not audited or used; S2 restarts with a fresh
+   author. **S1 is not redone:** all four S1 agents saw the tools' source (the auditors of rounds 1 and 2 the rule itself), no
+   S1 finding singles out the output frame rate as something examined, and S1's frame-rate content (REQ-001, 020, 056, 070, 071,
+   077, 078, 085–087) is the product's own; the exposure is a limit of S1, recorded in the run log.
 
 ## 13. Files
 

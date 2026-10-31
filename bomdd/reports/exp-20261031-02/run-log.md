@@ -60,4 +60,32 @@ The defaults of definitions section 3 were accepted as proposed.
   `UQ-REQ-058-001` (minor), to be checked at L2 against the running app. The same form (a library default not read, an open
   minor question) carries REQ-083 / REQ-014 (an exception in the export command ends the application). Neither was audited.
 - **S1 frozen** 2026-10-31T11:46:07+09:00 as `s1/10-requirements.yaml` (`24964b9d…`), the author folder's file copied
-  unchanged (definitions section 12, departure 1).
+  unchanged (definitions section 12, departure 1). Committed as `535486e` (the blob's hash equals the frozen file's).
+
+## Step 3 — S2 domain model
+
+- Author folder `exp07/s2-author` (`prepare.py author S2`): prompt `3bc40d44…`, requirements `24964b9d…`, `check_upstream.py`
+  `207fc7e5…`, `check_model.py` `506d04d6…`, authority tree `bfef702c…` (245 files). Author started with the watcher.
+- Author done in 777 s (33 tool calls): 22 entities, 109 attributes (70 with `set_by`), 63 operations, 12 questions; form OK.
+  **Its report said it had read the checker's frame-rate rule** and reworded three attribute descriptions
+  (`EditSession.edited`, `History.undo_depth`, `ExportSession.copy_cut_start`) and dropped a quoted note so that the rule
+  selects `OutputSettings.fps` alone. Its transcript has the rule or the `output_frame_rate` count in 8 tool results.
+  Isolation: no read outside its folder; one write outside it (`../reqs_brief.txt`, in `exp07/`), deleted by the author itself
+  and rewritten under `work/`.
+- **Stopped and repaired (definitions section 12, departure 2).** What each agent saw (tool results containing any of
+  `EXP-2026`, `chain count`, `frame_rate`, `SetFps`, `FPS = re`, `output_frame_rate`): the S1 author and the round-3 auditor saw
+  the tools' source (the docstring naming this experiment, `chain`, `frame_rate`); the round-1 and round-2 auditors also saw
+  `check_model.py`'s `FPS` rule (`head` of the file); the S2 author all of these and the printed count. No S1 finding or answer
+  singles out the output frame rate as examined (its mentions are the frame grid, the source rate and `OutFps` not re-running
+  the copy start). S1 stays as frozen; the exposure is a limit of S1.
+- The leaked draft: `s2/draft-leaked.json` (`3af0158b…`; its generator `work/build_model.py` `d4a7983b…` stays in
+  `exp07/s2-author-leaked/`). Not audited, not used.
+- Blind tools: `blind/check_model.py` `313cb523…`, `blind/check_upstream.py` `a6ae177f…` (selftests PASS);
+  `equiv_blind.py` `b5b22809…`: 27 of 27 cases equal, every broken arm caught; negative control (a blind copy without the
+  `set_by` list check) FAIL as it should. `prepare.py` `817818bd…` copies the blind pair; `prompt-check` PASS for the 12
+  prompts and the 2 blind tools (positive control: the full tools match `EXP-2026`, `SetFps`, `chain`, `fps`, `frame rate`, …).
+- Carried for the fresh author to raise, not told to it: the first author noted that `Region` is plural, so `Region.speed` in a
+  `shows` list does not say which region (a section 6 form question; decided only if a fresh author or auditor raises it).
+- Fresh author folder `exp07/s2-author` (rebuilt): prompt `3bc40d44…`, requirements `24964b9d…`, `check_upstream.py`
+  `a6ae177f…`, `check_model.py` `313cb523…`, authority tree `bfef702c…` (245 files); 0 matches of `fps`, `frame rate`, `chain`
+  or `EXP-2026` in its tools.
