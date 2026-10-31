@@ -1,0 +1,4648 @@
+{
+ "entities": [
+  {
+   "name": "Clip",
+   "description": "読み込んだ動画のメタ情報(ffprobe 由来・不変)。起動時はサンプル(実ファイルなし)。一度設定されると無しには戻らない。",
+   "source": [
+    "REQ-001",
+    "REQ-002",
+    "REQ-018",
+    "authority/Models/ClipInfo.cs"
+   ],
+   "attributes": [
+    {
+     "name": "path",
+     "description": "実ファイルのフルパス。空文字ならサンプル(書き出し不可)。",
+     "type": "string",
+     "initial": "サンプル: 空文字",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-081"
+     ]
+    },
+    {
+     "name": "fileName",
+     "description": "表示用のファイル名(タイトルバー中央・最大幅 420 px で末尾省略)。",
+     "type": "string",
+     "initial": "サンプル: interview_raw.mp4",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-006"
+     ]
+    },
+    {
+     "name": "duration",
+     "description": "長さ(秒)。format の duration、無ければ最初の映像ストリームの duration。",
+     "type": "double",
+     "initial": "サンプル: 138",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-018"
+     ]
+    },
+    {
+     "name": "width",
+     "description": "ソースの幅(px)。",
+     "type": "int",
+     "initial": "サンプル: 1920",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-018"
+     ]
+    },
+    {
+     "name": "height",
+     "description": "ソースの高さ(px)。",
+     "type": "int",
+     "initial": "サンプル: 1080",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-018"
+     ]
+    },
+    {
+     "name": "fps",
+     "description": "ソースのフレームレート。avg_frame_rate が正ならそれ、無ければ r_frame_rate、どちらも無ければ 30。",
+     "type": "double",
+     "initial": "サンプル: 30",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-018"
+     ]
+    },
+    {
+     "name": "videoCodec",
+     "description": "映像コーデックの表示名(h264→H.264 等、それ以外は大文字化)。",
+     "type": "string",
+     "initial": "サンプル: H.264",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-018"
+     ]
+    },
+    {
+     "name": "audioCodec",
+     "description": "音声コーデックの表示名。音声が無ければ「—」。",
+     "type": "string",
+     "initial": "サンプル: AAC",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-018"
+     ]
+    },
+    {
+     "name": "sampleRate",
+     "description": "音声のサンプルレート(Hz)。最初の音声ストリームの値、無ければ 48000。",
+     "type": "int",
+     "initial": "サンプル: 48000(ClipInfo の既定値)",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-018",
+      "authority/Models/Sample.cs"
+     ]
+    },
+    {
+     "name": "isVariableFrameRate",
+     "description": "VFR か。avg・r の両方が正で |avg − r| > max(0.1, 0.005·max(avg, r)) のとき真。",
+     "type": "bool",
+     "initial": "サンプル: false(ClipInfo の既定値)",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-018",
+      "authority/Models/Sample.cs"
+     ]
+    },
+    {
+     "name": "isSample",
+     "description": "派生値(独自の設定操作なし)。サンプル(実ファイルなし)か。",
+     "type": "bool",
+     "initial": "派生: path が空文字",
+     "set_by": [],
+     "source": [
+      "REQ-001",
+      "REQ-081"
+     ]
+    },
+    {
+     "name": "isOnlineOnly",
+     "description": "派生値(独自の設定操作なし)。OneDrive などのオンラインのみ(未実体化)のファイルか。この間はサムネイル・波形・キーフレームを新しく生成・解析しない(キャッシュは読む)。キーフレームは覚えている値(パスと時刻 ms)があればそれを返し、無ければ答えを求めない(null)。",
+     "type": "bool",
+     "initial": "派生: ファイルの属性 Offline・RECALL_ON_OPEN・RECALL_ON_DATA_ACCESS のいずれか(その時点のファイルの状態で決まる)",
+     "set_by": [],
+     "source": [
+      "REQ-053",
+      "REQ-080"
+     ]
+    },
+    {
+     "name": "hasAudio",
+     "description": "派生値(独自の設定操作なし)。音声トラックを持つか。",
+     "type": "bool",
+     "initial": "派生: audioCodec が「—」でも空でもない",
+     "set_by": [],
+     "source": [
+      "REQ-052",
+      "REQ-078",
+      "REQ-087"
+     ]
+    },
+    {
+     "name": "aspectRatio",
+     "description": "派生値(独自の設定操作なし)。ソースの縦横比。",
+     "type": "double",
+     "initial": "派生: height > 0 なら width/height、それ以外 16/9",
+     "set_by": [],
+     "source": [
+      "REQ-033",
+      "REQ-067",
+      "authority/Models/ClipInfo.cs"
+     ]
+    },
+    {
+     "name": "fpsText",
+     "description": "派生値(独自の設定操作なし)。クリップ情報・Source のツールチップに出す「{fps} fps」(小数 2 桁まで・末尾の 0 を除く)。",
+     "type": "string",
+     "initial": "派生: FormatSpeed(fps) + \" fps\"",
+     "set_by": [],
+     "source": [
+      "REQ-065",
+      "REQ-070"
+     ]
+    },
+    {
+     "name": "codecText",
+     "description": "派生値(独自の設定操作なし)。「映像 · 音声」のコーデック表記。",
+     "type": "string",
+     "initial": "派生: videoCodec + \" · \" + audioCodec",
+     "set_by": [],
+     "source": [
+      "REQ-065",
+      "REQ-001"
+     ]
+    },
+    {
+     "name": "durationTimecode",
+     "description": "派生値(独自の設定操作なし)。クリップの長さのタイムコード M:SS:FF(トランスポートとプレビューのバッジの分母)。",
+     "type": "string",
+     "initial": "派生: FormatTimecode(duration, fps)",
+     "set_by": [],
+     "source": [
+      "REQ-030",
+      "REQ-031",
+      "REQ-034"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "Document",
+     "kind": "編集される(1 クリップに 1 つの編集ドキュメント)",
+     "source": [
+      "REQ-020",
+      "REQ-022"
+     ]
+    },
+    {
+     "to": "MediaPreviewData",
+     "kind": "派生データを持つ(サムネイル・波形)",
+     "source": [
+      "REQ-050",
+      "REQ-051",
+      "REQ-052"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Document",
+   "description": "編集ドキュメント(元に戻す/やり直すの対象)。トリム範囲と、トリム範囲を隙間なく敷き詰める区間の列。不変: 編集は新しいドキュメントを作る。",
+   "source": [
+    "REQ-022",
+    "REQ-071",
+    "authority/Models/DocumentState.cs"
+   ],
+   "attributes": [
+    {
+     "name": "trimStart",
+     "description": "トリム開始(秒・ソース基準)。先頭区間の開始と常に一致。SnapFrame(偶数丸め)で fps の格子に乗る。",
+     "type": "double",
+     "initial": "サンプル: 6。読み込み時: 0",
+     "set_by": [
+      "SetTrimIn",
+      "MoveTrimStart",
+      "Undo",
+      "Redo",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-022",
+      "REQ-039",
+      "REQ-040",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "trimEnd",
+     "description": "トリム終了(秒)。末尾区間の終了と常に一致。",
+     "type": "double",
+     "initial": "サンプル: 132。読み込み時: クリップの長さ",
+     "set_by": [
+      "SetTrimOut",
+      "MoveTrimEnd",
+      "Undo",
+      "Redo",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-022",
+      "REQ-039",
+      "REQ-040",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "regions",
+     "description": "時刻順に隙間なく並んだ区間の列(Region の順序付きリスト)。",
+     "type": "list<Region>",
+     "initial": "サンプル: [6,40) 1x・[40,64) 2x・[64,104) 1x・[104,132] 0.5x(ID 1〜4・ピッチ維持オン・音量 100%・除外なし)。読み込み時: 全長 1 区間(ID 1・速度 1・ピッチ維持オン・音量 100%・除外なし)",
+     "set_by": [
+      "Split",
+      "DeleteSelectedBoundary",
+      "SetTrimIn",
+      "SetTrimOut",
+      "ApplySpeedPreset",
+      "TogglePitch",
+      "ToggleExclude",
+      "ApplyVolumePreset",
+      "ToggleMute",
+      "SetSpeedContinuous",
+      "SetVolumeContinuous",
+      "MoveTrimStart",
+      "MoveTrimEnd",
+      "MoveBoundary",
+      "Undo",
+      "Redo",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-022",
+      "REQ-037",
+      "REQ-038",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "regionCount",
+     "description": "派生値(独自の設定操作なし)。区間数。",
+     "type": "int",
+     "initial": "派生: regions の要素数",
+     "set_by": [],
+     "source": [
+      "REQ-044",
+      "REQ-057"
+     ]
+    },
+    {
+     "name": "sourceLength",
+     "description": "派生値(独自の設定操作なし)。トリム後の長さ(速度適用前・秒)。",
+     "type": "double",
+     "initial": "派生: 除外していない各区間の [max(開始, trimStart), min(終了, trimEnd)] の長さの合計",
+     "set_by": [],
+     "source": [
+      "REQ-025",
+      "REQ-066"
+     ]
+    },
+    {
+     "name": "outputLength",
+     "description": "派生値(独自の設定操作なし)。書き出しの長さ(速度適用後・秒)。",
+     "type": "double",
+     "initial": "派生: 除外していない各区間の重なりの長さ / 速度 の合計",
+     "set_by": [],
+     "source": [
+      "REQ-025",
+      "REQ-066"
+     ]
+    },
+    {
+     "name": "sourceLengthClock",
+     "description": "派生値(独自の設定操作なし)。トリム後の長さの M:SS。",
+     "type": "string",
+     "initial": "派生: FormatClock(sourceLength)",
+     "set_by": [],
+     "source": [
+      "REQ-031",
+      "REQ-032",
+      "REQ-066"
+     ]
+    },
+    {
+     "name": "outputLengthClock",
+     "description": "派生値(独自の設定操作なし)。書き出しの長さの M:SS(After speed・書き出しの長さのピル・ダイアログの出力時間)。",
+     "type": "string",
+     "initial": "派生: FormatClock(outputLength)",
+     "set_by": [],
+     "source": [
+      "REQ-032",
+      "REQ-066",
+      "REQ-077"
+     ]
+    },
+    {
+     "name": "exportLengthPillText",
+     "description": "派生値(独自の設定操作なし)。トランスポートの書き出しの長さのピル「Export length {トリム後} → {書き出し}」。",
+     "type": "string",
+     "initial": "派生: sourceLengthClock と outputLengthClock から",
+     "set_by": [],
+     "source": [
+      "REQ-032"
+     ]
+    },
+    {
+     "name": "timelineSummary",
+     "description": "派生値(独自の設定操作なし)。タイムライン見出しの要約「{区間数} regions · trim {M:SS}–{M:SS}」。",
+     "type": "string",
+     "initial": "派生: regionCount・FormatClock(trimStart)・FormatClock(trimEnd)",
+     "set_by": [],
+     "source": [
+      "REQ-044"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "Region",
+     "kind": "順序付きで複数持つ(1 個以上・隙間なく接する)",
+     "source": [
+      "REQ-022"
+     ]
+    },
+    {
+     "to": "History",
+     "kind": "過去/未来のスナップショットとして保持される",
+     "source": [
+      "REQ-071"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Region",
+   "description": "タイムライン上の 1 区間。不変の値で、編集は新しい区間に置き換える。除外してもタイムラインには残る。各属性の set_by は既存の区間の値を変える操作だけを挙げる。区間の生成と消滅(読み込みで全長 1 区間・分割で後半を生成し速度・ピッチ維持・除外・音量を引き継ぐ・結合で後ろの区間が消える)は Document.regions の set_by に記録する。id だけは分割で新しく振られるので Split を挙げる。",
+   "source": [
+    "REQ-022",
+    "authority/Models/RegionData.cs"
+   ],
+   "attributes": [
+    {
+     "name": "id",
+     "description": "区間 ID。分割の後半に新しい ID(EditSession.nextRegionId)を付ける。結合では前の区間の ID が残る。",
+     "type": "int",
+     "initial": "サンプル: 1〜4。読み込み時: 1",
+     "set_by": [
+      "Split"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-037",
+      "REQ-038"
+     ]
+    },
+    {
+     "name": "start",
+     "description": "開始(秒・ソース基準)。",
+     "type": "double",
+     "initial": "サンプル: 6/40/64/104。読み込み時: 0",
+     "set_by": [
+      "MoveBoundary",
+      "MoveTrimStart",
+      "SetTrimIn",
+      "Undo",
+      "Redo"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-022",
+      "REQ-037",
+      "REQ-039",
+      "REQ-040",
+      "REQ-041"
+     ]
+    },
+    {
+     "name": "end",
+     "description": "終了(秒・ソース基準)。隣の区間の開始と一致。",
+     "type": "double",
+     "initial": "サンプル: 40/64/104/132。読み込み時: クリップの長さ",
+     "set_by": [
+      "Split",
+      "DeleteSelectedBoundary",
+      "MoveBoundary",
+      "MoveTrimEnd",
+      "SetTrimOut",
+      "Undo",
+      "Redo"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-022",
+      "REQ-037",
+      "REQ-038",
+      "REQ-039",
+      "REQ-040",
+      "REQ-041"
+     ]
+    },
+    {
+     "name": "speed",
+     "description": "再生速度。0.01 単位に偶数丸めしてから [0.25, 4.0] に収める。分割・結合で引き継ぐ。",
+     "type": "double",
+     "initial": "サンプル: 1/2/1/0.5。読み込み時: 1",
+     "set_by": [
+      "ApplySpeedPreset",
+      "SetSpeedContinuous",
+      "Undo",
+      "Redo"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-058",
+      "REQ-059"
+     ]
+    },
+    {
+     "name": "preservePitch",
+     "description": "ピッチ維持(速度変更時に音の高さを保つ)。",
+     "type": "bool",
+     "initial": "サンプル・読み込み時: true",
+     "set_by": [
+      "TogglePitch",
+      "Undo",
+      "Redo"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-063",
+      "REQ-084"
+     ]
+    },
+    {
+     "name": "excluded",
+     "description": "除外(カット)。出力と再生から除くがタイムラインには残る。除外していない最後の区間は除外できない。",
+     "type": "bool",
+     "initial": "サンプル・読み込み時: false",
+     "set_by": [
+      "ToggleExclude",
+      "Undo",
+      "Redo"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-049",
+      "REQ-064"
+     ]
+    },
+    {
+     "name": "volume",
+     "description": "音量の倍率。0.01 単位に偶数丸めしてから [0.0, 2.0] に収める。",
+     "type": "double",
+     "initial": "サンプル・読み込み時: 1.0",
+     "set_by": [
+      "ApplyVolumePreset",
+      "SetVolumeContinuous",
+      "ToggleMute",
+      "Undo",
+      "Redo"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-060",
+      "REQ-061",
+      "REQ-062"
+     ]
+    },
+    {
+     "name": "duration",
+     "description": "派生値(独自の設定操作なし)。元の長さ(秒)。",
+     "type": "double",
+     "initial": "派生: end − start",
+     "set_by": [],
+     "source": [
+      "REQ-057"
+     ]
+    },
+    {
+     "name": "outputDuration",
+     "description": "派生値(独自の設定操作なし)。速度適用後の長さ(秒)。",
+     "type": "double",
+     "initial": "派生: speed > 0 なら duration / speed、それ以外 0",
+     "set_by": [],
+     "source": [
+      "REQ-058"
+     ]
+    },
+    {
+     "name": "isNormalSpeed",
+     "description": "派生値(独自の設定操作なし)。等速か。",
+     "type": "bool",
+     "initial": "派生: |speed − 1| < 0.001",
+     "set_by": [],
+     "source": [
+      "REQ-034",
+      "REQ-057"
+     ]
+    },
+    {
+     "name": "isMuted",
+     "description": "派生値(独自の設定操作なし)。ミュートか。",
+     "type": "bool",
+     "initial": "派生: volume < 0.001",
+     "set_by": [],
+     "source": [
+      "REQ-061"
+     ]
+    },
+    {
+     "name": "isFullVolume",
+     "description": "派生値(独自の設定操作なし)。等倍(100%)か。",
+     "type": "bool",
+     "initial": "派生: |volume − 1| < 0.001",
+     "set_by": [],
+     "source": [
+      "REQ-061"
+     ]
+    },
+    {
+     "name": "speedColor",
+     "description": "派生値(独自の設定操作なし)。速度の色(OKLCH から sRGB)。タイムラインの塗り・インスペクターの見本。",
+     "type": "color",
+     "initial": "派生: d = log2(speed)・L/C/H の式(REQ-048)",
+     "set_by": [],
+     "source": [
+      "REQ-048",
+      "REQ-057"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "Document",
+     "kind": "属する",
+     "source": [
+      "REQ-022"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "History",
+   "description": "元に戻す/やり直すの履歴。Document のスナップショットを過去・未来の 2 つのスタックに積む(最大 50 件・超えたら古いものから捨てる)。",
+   "source": [
+    "REQ-071",
+    "authority/Services/History.cs"
+   ],
+   "attributes": [
+    {
+     "name": "capacity",
+     "description": "過去のスタックの最大件数。",
+     "type": "int",
+     "initial": "50",
+     "set_by": [],
+     "source": [
+      "REQ-071"
+     ]
+    },
+    {
+     "name": "past",
+     "description": "過去のスナップショットの列(新しいものが末尾)。新しい記録でやり直しの列は消える。",
+     "type": "list<Document>",
+     "initial": "空",
+     "set_by": [
+      "Split",
+      "DeleteSelectedBoundary",
+      "SetTrimIn",
+      "SetTrimOut",
+      "ApplySpeedPreset",
+      "TogglePitch",
+      "ToggleExclude",
+      "ApplyVolumePreset",
+      "ToggleMute",
+      "BeginInteractiveEdit",
+      "BeginTrimStartDrag",
+      "BeginTrimEndDrag",
+      "BeginBoundaryDrag",
+      "Undo",
+      "Redo",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-037",
+      "REQ-038",
+      "REQ-040",
+      "REQ-041",
+      "REQ-058",
+      "REQ-071"
+     ]
+    },
+    {
+     "name": "future",
+     "description": "やり直しのスナップショットの列。",
+     "type": "list<Document>",
+     "initial": "空",
+     "set_by": [
+      "Split",
+      "DeleteSelectedBoundary",
+      "SetTrimIn",
+      "SetTrimOut",
+      "ApplySpeedPreset",
+      "TogglePitch",
+      "ToggleExclude",
+      "ApplyVolumePreset",
+      "ToggleMute",
+      "BeginInteractiveEdit",
+      "BeginTrimStartDrag",
+      "BeginTrimEndDrag",
+      "BeginBoundaryDrag",
+      "Undo",
+      "Redo",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-071"
+     ]
+    },
+    {
+     "name": "canUndo",
+     "description": "派生値(独自の設定操作なし)。元に戻すが押せるか。",
+     "type": "bool",
+     "initial": "派生: past が空でない",
+     "set_by": [],
+     "source": [
+      "REQ-036",
+      "REQ-071"
+     ]
+    },
+    {
+     "name": "canRedo",
+     "description": "派生値(独自の設定操作なし)。やり直すが押せるか。",
+     "type": "bool",
+     "initial": "派生: future が空でない",
+     "set_by": [],
+     "source": [
+      "REQ-036",
+      "REQ-071"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "Document",
+     "kind": "スナップショットとして参照する",
+     "source": [
+      "REQ-071"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "EditSession",
+   "description": "編集の作業状態(履歴の対象外): 再生ヘッド・再生中・編集対象の区間・未保存の変更・次の区間 ID。",
+   "source": [
+    "REQ-026",
+    "REQ-027",
+    "REQ-029",
+    "REQ-072",
+    "authority/ViewModels/MainWindowViewModel.cs"
+   ],
+   "attributes": [
+    {
+     "name": "playhead",
+     "description": "再生ヘッドの時刻(秒・ソース基準)。動かす操作は [trimStart, trimEnd] に収める。トリムの移動では動かない。",
+     "type": "double",
+     "initial": "サンプル: 6(トリム開始)。読み込み時: 0(トリム開始)",
+     "set_by": [
+      "TogglePlay",
+      "ToStart",
+      "ToEnd",
+      "StepBack",
+      "StepForward",
+      "StepSecondBack",
+      "StepSecondForward",
+      "Scrub",
+      "PlaybackTick",
+      "PlayerTimeChanged",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-027",
+      "REQ-028",
+      "REQ-040",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "playing",
+     "description": "再生中か。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [
+      "TogglePlay",
+      "ToStart",
+      "ToEnd",
+      "StepBack",
+      "StepForward",
+      "StepSecondBack",
+      "StepSecondForward",
+      "Scrub",
+      "HaltPlayback",
+      "CloseWindow",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-005",
+      "REQ-027",
+      "REQ-029"
+     ]
+    },
+    {
+     "name": "selectedRegionId",
+     "description": "編集対象の区間 ID(インスペクターが表示・編集する区間)。原則は再生ヘッドの位置の区間。分割の後は後半。",
+     "type": "int?",
+     "initial": "サンプル: 1(再生ヘッド 6 の区間)。読み込み時: 先頭区間の ID",
+     "set_by": [
+      "TogglePlay",
+      "ToStart",
+      "ToEnd",
+      "StepBack",
+      "StepForward",
+      "StepSecondBack",
+      "StepSecondForward",
+      "Scrub",
+      "PlaybackTick",
+      "PlayerTimeChanged",
+      "Split",
+      "DeleteSelectedBoundary",
+      "SetTrimIn",
+      "SetTrimOut",
+      "ApplySpeedPreset",
+      "TogglePitch",
+      "ToggleExclude",
+      "ApplyVolumePreset",
+      "ToggleMute",
+      "SetSpeedContinuous",
+      "SetVolumeContinuous",
+      "MoveTrimStart",
+      "MoveTrimEnd",
+      "MoveBoundary",
+      "Undo",
+      "Redo",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-026",
+      "REQ-037"
+     ]
+    },
+    {
+     "name": "edited",
+     "description": "未保存の変更(Edited)。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [
+      "Split",
+      "DeleteSelectedBoundary",
+      "SetTrimIn",
+      "SetTrimOut",
+      "ApplySpeedPreset",
+      "TogglePitch",
+      "ToggleExclude",
+      "ApplyVolumePreset",
+      "ToggleMute",
+      "SetSpeedContinuous",
+      "SetVolumeContinuous",
+      "MoveTrimStart",
+      "MoveTrimEnd",
+      "MoveBoundary",
+      "BeginInteractiveEdit",
+      "BeginTrimStartDrag",
+      "BeginTrimEndDrag",
+      "BeginBoundaryDrag",
+      "ApplyWidth",
+      "ApplyHeight",
+      "Scale",
+      "SetFps",
+      "ConfirmExport",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-067",
+      "REQ-069",
+      "REQ-070",
+      "REQ-072",
+      "REQ-083"
+     ]
+    },
+    {
+     "name": "loadGeneration",
+     "description": "読み込みの世代。読み込みを始めるたびに 1 増える。解析の結果は、その読み込みの世代がまだ最新のときだけ適用し、古いものは捨てる(最後に始めた読み込みが勝つ)。",
+     "type": "int",
+     "initial": "0",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-021",
+      "authority/ViewModels/MainWindowViewModel.cs#LoadFileAsync"
+     ]
+    },
+    {
+     "name": "nextRegionId",
+     "description": "分割で後半に付ける次の ID。分割のたびに 1 増える。元に戻すでは戻らない。",
+     "type": "int",
+     "initial": "サンプル: 5(最大 ID 4 + 1)。読み込み時: 読み込んだドキュメントの最大 ID + 1(= 2)",
+     "set_by": [
+      "Split",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-020",
+      "REQ-037",
+      "authority/ViewModels/MainWindowViewModel.cs#NextIdFor"
+     ]
+    },
+    {
+     "name": "activeRegion",
+     "description": "派生値(独自の設定操作なし)。再生ヘッドの位置の区間(無ければ無し)。速度ピル・速度フラグ・再生速度が使う。",
+     "type": "Region?",
+     "initial": "派生: Document の RegionAt(playhead)(REQ-023)",
+     "set_by": [],
+     "source": [
+      "REQ-023",
+      "REQ-026",
+      "REQ-032",
+      "REQ-034"
+     ]
+    },
+    {
+     "name": "selectedRegion",
+     "description": "派生値(独自の設定操作なし)。編集対象の区間。",
+     "type": "Region?",
+     "initial": "派生: regions のうち id = selectedRegionId",
+     "set_by": [],
+     "source": [
+      "REQ-026",
+      "REQ-057"
+     ]
+    },
+    {
+     "name": "hasSelection",
+     "description": "派生値(独自の設定操作なし)。編集対象の区間があるか(無ければインスペクター上部はクリップ情報)。",
+     "type": "bool",
+     "initial": "派生: selectedRegion が有る",
+     "set_by": [],
+     "source": [
+      "REQ-057",
+      "REQ-065"
+     ]
+    },
+    {
+     "name": "statusText",
+     "description": "派生値(独自の設定操作なし)。タイトルバーの状態表示「Unsaved changes」/「Saved」(ja: 未保存の変更/保存済み)。",
+     "type": "string",
+     "initial": "派生: edited の 2 値",
+     "set_by": [],
+     "source": [
+      "REQ-006"
+     ]
+    },
+    {
+     "name": "statusColor",
+     "description": "派生値(独自の設定操作なし)。状態表示の色。",
+     "type": "color",
+     "initial": "派生: edited なら #8EC1FF、それ以外 #ADB1B7",
+     "set_by": [],
+     "source": [
+      "REQ-006"
+     ]
+    },
+    {
+     "name": "playheadTimecode",
+     "description": "派生値(独自の設定操作なし)。再生ヘッドのタイムコード M:SS:FF。",
+     "type": "string",
+     "initial": "派生: FormatTimecode(playhead, Clip.fps)",
+     "set_by": [],
+     "source": [
+      "REQ-030",
+      "REQ-031",
+      "REQ-034"
+     ]
+    },
+    {
+     "name": "playIcon",
+     "description": "派生値(独自の設定操作なし)。トランスポートの再生ボタンのアイコン。",
+     "type": "enum{play,pause}",
+     "initial": "派生: playing なら pause、それ以外 play",
+     "set_by": [],
+     "source": [
+      "REQ-029"
+     ]
+    },
+    {
+     "name": "showCenterPlayButton",
+     "description": "派生値(独自の設定操作なし)。プレビュー中央の再生ボタンの表示。",
+     "type": "bool",
+     "initial": "派生: playing でない",
+     "set_by": [],
+     "source": [
+      "REQ-029"
+     ]
+    },
+    {
+     "name": "speedNow",
+     "description": "派生値(独自の設定操作なし)。現在速度。",
+     "type": "double",
+     "initial": "派生: activeRegion の speed、無ければ 1",
+     "set_by": [],
+     "source": [
+      "REQ-032"
+     ]
+    },
+    {
+     "name": "speedNowText",
+     "description": "派生値(独自の設定操作なし)。現在速度のピル「{速度}x」。",
+     "type": "string",
+     "initial": "派生: FormatSpeed(speedNow) + \"x\"",
+     "set_by": [],
+     "source": [
+      "REQ-032"
+     ]
+    },
+    {
+     "name": "showSpeedFlag",
+     "description": "派生値(独自の設定操作なし)。プレビュー右上の速度フラグを出すか。",
+     "type": "bool",
+     "initial": "派生: |speedNow − 1| > 0.001",
+     "set_by": [],
+     "source": [
+      "REQ-034"
+     ]
+    },
+    {
+     "name": "activePitchColor",
+     "description": "派生値(独自の設定操作なし)。速度フラグの音符アイコンの色。",
+     "type": "color",
+     "initial": "派生: activeRegion の preservePitch(無ければ true)なら #8EC1FF、それ以外 #E5A14B",
+     "set_by": [],
+     "source": [
+      "REQ-034"
+     ]
+    },
+    {
+     "name": "canSplit",
+     "description": "派生値(独自の設定操作なし)。分割のボタンが押せるか。",
+     "type": "bool",
+     "initial": "派生: activeRegion r があり playhead ∈ (r.start + 0.5, r.end − 0.5)",
+     "set_by": [],
+     "source": [
+      "REQ-036",
+      "REQ-037"
+     ]
+    },
+    {
+     "name": "canDeleteBoundary",
+     "description": "派生値(独自の設定操作なし)。結合(Merge)が押せるか。",
+     "type": "bool",
+     "initial": "派生: 編集対象の区間の位置 > 0(先頭でない)",
+     "set_by": [],
+     "source": [
+      "REQ-036",
+      "REQ-038"
+     ]
+    },
+    {
+     "name": "canSetTrimIn",
+     "description": "派生値(独自の設定操作なし)。Set In が押せるか。",
+     "type": "bool",
+     "initial": "派生: playhead ∈ [先頭区間の開始, 先頭区間の終了 − 0.5]",
+     "set_by": [],
+     "source": [
+      "REQ-036",
+      "REQ-039"
+     ]
+    },
+    {
+     "name": "canSetTrimOut",
+     "description": "派生値(独自の設定操作なし)。Set Out が押せるか。",
+     "type": "bool",
+     "initial": "派生: playhead ∈ [末尾区間の開始 + 0.5, 末尾区間の終了]",
+     "set_by": [],
+     "source": [
+      "REQ-036",
+      "REQ-039"
+     ]
+    },
+    {
+     "name": "canToggleExclude",
+     "description": "派生値(独自の設定操作なし)。除外の行・Delete が操作できるか。",
+     "type": "bool",
+     "initial": "派生: 編集対象の区間があり、かつ(それが除外済み、または他に除外していない区間がある)。編集対象が無ければ偽",
+     "set_by": [],
+     "source": [
+      "REQ-064",
+      "REQ-073"
+     ]
+    },
+    {
+     "name": "regionTitle",
+     "description": "派生値(独自の設定操作なし)。「Region {番号} / {区間数}」(番号は 1 始まり)。",
+     "type": "string",
+     "initial": "派生: selectedRegion の位置 + 1 と regionCount",
+     "set_by": [],
+     "source": [
+      "REQ-057"
+     ]
+    },
+    {
+     "name": "regionStartTimecode",
+     "description": "派生値(独自の設定操作なし)。編集対象の開始 M:SS:FF。",
+     "type": "string",
+     "initial": "派生: FormatTimecode(selectedRegion.start, fps)",
+     "set_by": [],
+     "source": [
+      "REQ-057"
+     ]
+    },
+    {
+     "name": "regionEndTimecode",
+     "description": "派生値(独自の設定操作なし)。編集対象の終了 M:SS:FF。",
+     "type": "string",
+     "initial": "派生: FormatTimecode(selectedRegion.end, fps)",
+     "set_by": [],
+     "source": [
+      "REQ-057"
+     ]
+    },
+    {
+     "name": "regionDurationClock",
+     "description": "派生値(独自の設定操作なし)。編集対象の元の長さ M:SS。",
+     "type": "string",
+     "initial": "派生: FormatClock(selectedRegion.duration)",
+     "set_by": [],
+     "source": [
+      "REQ-057"
+     ]
+    },
+    {
+     "name": "regionSpeedSummary",
+     "description": "派生値(独自の設定操作なし)。「This region exports as {出力の長さ} (originally {元の長さ}).」",
+     "type": "string",
+     "initial": "派生: selectedRegion の outputDuration と duration",
+     "set_by": [],
+     "source": [
+      "REQ-058"
+     ]
+    },
+    {
+     "name": "selectedSwatchColor",
+     "description": "派生値(独自の設定操作なし)。速度の色の見本。",
+     "type": "color",
+     "initial": "派生: 速度 ≠ 1 なら Region.speedColor(不透明)、1 なら #2A2E33",
+     "set_by": [],
+     "source": [
+      "REQ-057"
+     ]
+    },
+    {
+     "name": "selectedSpeedText",
+     "description": "派生値(独自の設定操作なし)。インスペクターの速度の数値。",
+     "type": "string",
+     "initial": "派生: FormatSpeed(selectedRegion.speed)、無ければ \"1\"",
+     "set_by": [],
+     "source": [
+      "REQ-058"
+     ]
+    },
+    {
+     "name": "selectedSpeedColor",
+     "description": "派生値(独自の設定操作なし)。速度の数値の色。",
+     "type": "color",
+     "initial": "派生: 速度 ≠ 1 なら accent-text #8EC1FF、それ以外 text #F2F4F6",
+     "set_by": [],
+     "source": [
+      "REQ-058"
+     ]
+    },
+    {
+     "name": "speedSliderValue",
+     "description": "派生値(独自の設定操作なし)。速度のスライダーの値。",
+     "type": "double",
+     "initial": "派生: log2(selectedRegion.speed)、無ければ 0(範囲 [−2, 2])",
+     "set_by": [],
+     "source": [
+      "REQ-058"
+     ]
+    },
+    {
+     "name": "activeSpeedPreset",
+     "description": "派生値(独自の設定操作なし)。選択状態で表示する速度プリセット。",
+     "type": "enum{0.25,0.5,1,1.5,2,3,4,none}",
+     "initial": "派生: selectedSpeedText と一致するプリセット",
+     "set_by": [],
+     "source": [
+      "REQ-058"
+     ]
+    },
+    {
+     "name": "showNoPitchCorrectionNote",
+     "description": "派生値(独自の設定操作なし)。「No correction is applied at normal speed.」を添えるか。",
+     "type": "bool",
+     "initial": "派生: selectedRegion の速度が 1",
+     "set_by": [],
+     "source": [
+      "REQ-063"
+     ]
+    },
+    {
+     "name": "volumeText",
+     "description": "派生値(独自の設定操作なし)。音量の「{偶数丸め(音量·100)}%」の数字。",
+     "type": "string",
+     "initial": "派生: Round(selectedRegion.volume·100)",
+     "set_by": [],
+     "source": [
+      "REQ-060"
+     ]
+    },
+    {
+     "name": "volumeSliderValue",
+     "description": "派生値(独自の設定操作なし)。音量のスライダーの値(0〜200・線形)。",
+     "type": "double",
+     "initial": "派生: selectedRegion.volume · 100、無ければ 100",
+     "set_by": [],
+     "source": [
+      "REQ-060"
+     ]
+    },
+    {
+     "name": "selectedVolumeColor",
+     "description": "派生値(独自の設定操作なし)。音量の数字の色。",
+     "type": "color",
+     "initial": "派生: ミュートなら #E5A14B、100% なら #F2F4F6、それ以外 #8EC1FF",
+     "set_by": [],
+     "source": [
+      "REQ-060"
+     ]
+    },
+    {
+     "name": "activeVolumePreset",
+     "description": "派生値(独自の設定操作なし)。選択状態で表示する音量プリセット。",
+     "type": "enum{Mute,50,100,150,none}",
+     "initial": "派生: volumeText と一致するプリセット",
+     "set_by": [],
+     "source": [
+      "REQ-060"
+     ]
+    },
+    {
+     "name": "showMuteNote",
+     "description": "派生値(独自の設定操作なし)。「Silences this region (video unchanged).」を出すか。",
+     "type": "bool",
+     "initial": "派生: selectedRegion がミュート",
+     "set_by": [],
+     "source": [
+      "REQ-060"
+     ]
+    },
+    {
+     "name": "showClippingNote",
+     "description": "派生値(独自の設定操作なし)。「Above 100% may cause clipping.」を出すか。",
+     "type": "bool",
+     "initial": "派生: selectedRegion.volume > 1.001",
+     "set_by": [],
+     "source": [
+      "REQ-060"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "Document",
+     "kind": "編集する",
+     "source": [
+      "REQ-026"
+     ]
+    },
+    {
+     "to": "Region",
+     "kind": "編集対象として 1 つを指す(selectedRegionId)",
+     "source": [
+      "REQ-026"
+     ]
+    },
+    {
+     "to": "History",
+     "kind": "編集を記録する",
+     "source": [
+      "REQ-071"
+     ]
+    },
+    {
+     "to": "Clip",
+     "kind": "再生ヘッドの格子に fps を使う",
+     "source": [
+      "REQ-027"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "OutputSettings",
+   "description": "出力の解像度とフレームレート。履歴の対象外(元に戻しても変わらない)・保存しない。",
+   "source": [
+    "REQ-067",
+    "REQ-068",
+    "REQ-069",
+    "REQ-070",
+    "REQ-071"
+   ],
+   "attributes": [
+    {
+     "name": "outputWidth",
+     "description": "出力の幅(px)。[16, 7680] に収めて偶数化。縦横比の維持で高さ側から計算された値は上限に収めない。",
+     "type": "int",
+     "initial": "ソースの幅(サンプル: 1920)",
+     "set_by": [
+      "ApplyWidth",
+      "ApplyHeight",
+      "Scale",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-067",
+      "REQ-069"
+     ]
+    },
+    {
+     "name": "outputHeight",
+     "description": "出力の高さ(px)。[16, 4320] に収めて偶数化。",
+     "type": "int",
+     "initial": "ソースの高さ(サンプル: 1080)",
+     "set_by": [
+      "ApplyWidth",
+      "ApplyHeight",
+      "Scale",
+      "ToggleAspect",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-067",
+      "REQ-068",
+      "REQ-069"
+     ]
+    },
+    {
+     "name": "outputFps",
+     "description": "出力のフレームレート。プリセット Source・24・30・60・120 で設定。上限なし。",
+     "type": "double",
+     "initial": "ソースの fps(サンプル: 30)",
+     "set_by": [
+      "SetFps",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "REQ-020",
+      "REQ-070"
+     ]
+    },
+    {
+     "name": "keepAspect",
+     "description": "縦横比の維持。オンにしたとき高さを幅に合わせる。切り替えは未保存の変更にしない。",
+     "type": "bool",
+     "initial": "true",
+     "set_by": [
+      "ToggleAspect",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-020",
+      "REQ-067",
+      "REQ-068"
+     ]
+    },
+    {
+     "name": "widthInputText",
+     "description": "幅の入力欄の文字列。打った文字は確定(Enter・フォーカスが外れる)まで残り、確定後は実際の幅を表示する。outputWidth が変わると表示も変わる(OneWay)。",
+     "type": "string",
+     "initial": "outputWidth の表記",
+     "set_by": [
+      "EditWidthText",
+      "ApplyWidth",
+      "ApplyHeight",
+      "Scale",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-067",
+      "authority/Views/InspectorView.axaml.cs#CommitWidth"
+     ]
+    },
+    {
+     "name": "heightInputText",
+     "description": "高さの入力欄の文字列。打った文字は確定まで残り、確定後は実際の高さを表示する。outputHeight が変わると表示も変わる(OneWay)。",
+     "type": "string",
+     "initial": "outputHeight の表記",
+     "set_by": [
+      "EditHeightText",
+      "ApplyHeight",
+      "ApplyWidth",
+      "Scale",
+      "ToggleAspect",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-067",
+      "authority/Views/InspectorView.axaml.cs#CommitHeight"
+     ]
+    },
+    {
+     "name": "outputResolutionText",
+     "description": "派生値(独自の設定操作なし)。「W×H」(ダイアログの要約)。",
+     "type": "string",
+     "initial": "派生: outputWidth×outputHeight",
+     "set_by": [],
+     "source": [
+      "REQ-077"
+     ]
+    },
+    {
+     "name": "isOriginalResolution",
+     "description": "派生値(独自の設定操作なし)。出力がソースと同じ寸法か。",
+     "type": "bool",
+     "initial": "派生: outputWidth = Clip.width かつ outputHeight = Clip.height",
+     "set_by": [],
+     "source": [
+      "REQ-069",
+      "REQ-078"
+     ]
+    },
+    {
+     "name": "showReset",
+     "description": "派生値(独自の設定操作なし)。「Reset」を表示するか。",
+     "type": "bool",
+     "initial": "派生: isOriginalResolution でない",
+     "set_by": [],
+     "source": [
+      "REQ-069"
+     ]
+    },
+    {
+     "name": "originalResolutionText",
+     "description": "派生値(独自の設定操作なし)。「Original {W×H}」のソース寸法。",
+     "type": "string",
+     "initial": "派生: Clip.width×Clip.height",
+     "set_by": [],
+     "source": [
+      "REQ-069"
+     ]
+    },
+    {
+     "name": "resolutionDiffText",
+     "description": "派生値(独自の設定操作なし)。「 → scaled to {W}×{H}」(違うときだけ)。",
+     "type": "string",
+     "initial": "派生: isOriginalResolution でなければ出力寸法",
+     "set_by": [],
+     "source": [
+      "REQ-069"
+     ]
+    },
+    {
+     "name": "activeScalePreset",
+     "description": "派生値(独自の設定操作なし)。選択状態で表示するスケールプリセット。",
+     "type": "enum{100,75,50,none}",
+     "initial": "派生: 出力寸法 = Even(ソース寸法 × 倍率) のプリセット",
+     "set_by": [],
+     "source": [
+      "REQ-069"
+     ]
+    },
+    {
+     "name": "aspectRatioText",
+     "description": "派生値(独自の設定操作なし)。縦横比の行の「{W/H を小数 2 桁まで}:1」。",
+     "type": "string",
+     "initial": "派生: FormatSpeed(Clip.width / Clip.height) + \":1\"",
+     "set_by": [],
+     "source": [
+      "REQ-068"
+     ]
+    },
+    {
+     "name": "outputFpsText",
+     "description": "派生値(独自の設定操作なし)。出力 fps の表記(小数 2 桁まで・末尾の 0 を除く)。ダイアログの「{表記} fps」。",
+     "type": "string",
+     "initial": "派生: FormatSpeed(outputFps)",
+     "set_by": [],
+     "source": [
+      "REQ-070",
+      "REQ-077"
+     ]
+    },
+    {
+     "name": "fpsSourceActive",
+     "description": "派生値(独自の設定操作なし)。「Source」プリセットを選択状態にするか。",
+     "type": "bool",
+     "initial": "派生: |outputFps − Clip.fps| < 0.05",
+     "set_by": [],
+     "source": [
+      "REQ-070"
+     ]
+    },
+    {
+     "name": "activeFpsPreset",
+     "description": "派生値(独自の設定操作なし)。選択状態で表示する数字の fps プリセット。",
+     "type": "enum{24,30,60,120,none}",
+     "initial": "派生: outputFpsText と一致する数字",
+     "set_by": [],
+     "source": [
+      "REQ-070"
+     ]
+    },
+    {
+     "name": "fpsUpsampling",
+     "description": "派生値(独自の設定操作なし)。「An fps higher than the source duplicates frames …」を出すか。",
+     "type": "bool",
+     "initial": "派生: outputFps > Clip.fps + 0.05",
+     "set_by": [],
+     "source": [
+      "REQ-070"
+     ]
+    },
+    {
+     "name": "fpsSourceTip",
+     "description": "派生値(独自の設定操作なし)。「Source」のツールチップ「Same as source ({fps} fps)」。",
+     "type": "string",
+     "initial": "派生: Clip.fpsText",
+     "set_by": [],
+     "source": [
+      "REQ-070"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "Clip",
+     "kind": "ソースの寸法・fps を基準にする",
+     "source": [
+      "REQ-020",
+      "REQ-067",
+      "REQ-069"
+     ]
+    },
+    {
+     "to": "ExportJob",
+     "kind": "書き出しの解像度と fps に使われる",
+     "source": [
+      "REQ-084",
+      "REQ-085",
+      "REQ-087"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "ExportFormat",
+   "description": "書き出し形式(固定の 3 種: MP4・中間ファイル・ProRes)。",
+   "source": [
+    "REQ-076",
+    "REQ-081",
+    "REQ-087",
+    "authority/Models/ExportFormat.cs"
+   ],
+   "attributes": [
+    {
+     "name": "key",
+     "description": "形式の識別子。",
+     "type": "enum{Mp4,Lossless,ProRes}",
+     "initial": "固定の 3 種",
+     "set_by": [],
+     "source": [
+      "REQ-076"
+     ]
+    },
+    {
+     "name": "title",
+     "description": "カードの見出し。MP4 (H.264 / AAC) と ProRes 422 HQ / PCM は翻訳しない固定の文字列。中間ファイルは resx の Export_TitleLossless(en: Intermediate file (FFV1 / PCM)・ja: 中間ファイル (FFV1 / PCM))で、言語の切り替えで変わる。ExportFormatInfo の Title の文字列は画面に出ない。",
+     "type": "string",
+     "initial": "形式ごとに固定の文字列または resx のキー",
+     "set_by": [],
+     "source": [
+      "REQ-009",
+      "REQ-076",
+      "authority/Views/ExportDialogView.axaml"
+     ]
+    },
+    {
+     "name": "tag",
+     "description": "カードのタグ。resx の Export_TagSharing・Export_TagLossless・Export_TagEditing(en: For sharing・Lossless・For editing、ja: 配布用・劣化なし・編集用)で、言語の切り替えで変わる。ExportFormatInfo の Tag の文字列は画面に出ない。",
+     "type": "string",
+     "initial": "形式ごとの resx のキー",
+     "set_by": [],
+     "source": [
+      "REQ-076",
+      "authority/Views/ExportDialogView.axaml",
+      "authority/Resources/Strings.resx"
+     ]
+    },
+    {
+     "name": "cardDescription",
+     "description": "カードの説明文(言語ごとの resx の Export_* の文言)。",
+     "type": "string",
+     "initial": "固定(resx)",
+     "set_by": [],
+     "source": [
+      "REQ-076",
+      "authority/Views/ExportDialogView.axaml"
+     ]
+    },
+    {
+     "name": "extension",
+     "description": "既定の拡張子(.mp4・.mkv・.mov)。",
+     "type": "string",
+     "initial": "固定",
+     "set_by": [],
+     "source": [
+      "REQ-081"
+     ]
+    }
+   ],
+   "relations": []
+  },
+  {
+   "name": "ExportJob",
+   "description": "書き出しダイアログと書き出しの状態(形式の選択・コピー・進捗・結果の文言)。保存しない。",
+   "source": [
+    "REQ-075",
+    "REQ-076",
+    "REQ-078",
+    "REQ-079",
+    "REQ-081",
+    "REQ-082",
+    "REQ-083"
+   ],
+   "attributes": [
+    {
+     "name": "dialogShown",
+     "description": "書き出しダイアログを表示しているか。書き出し中は閉じない。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [
+      "ShowExportDialog",
+      "CloseExport",
+      "ConfirmExport",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-075",
+      "REQ-083",
+      "REQ-094",
+      "REQ-095"
+     ]
+    },
+    {
+     "name": "selectedFormat",
+     "description": "選んでいる書き出し形式。アプリを終了するまで保たれる(読み込みでも戻らない)。",
+     "type": "ExportFormat",
+     "initial": "Mp4",
+     "set_by": [
+      "SelectFormat"
+     ],
+     "source": [
+      "REQ-020",
+      "REQ-076"
+     ]
+    },
+    {
+     "name": "fastExport",
+     "description": "高速・無劣化(コピー)の切り替え。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [
+      "SetFastExport",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-020",
+      "REQ-078"
+     ]
+    },
+    {
+     "name": "copyCutGeneration",
+     "description": "キーフレームの算出の世代。新しい算出を始めたとき(ダイアログを開いた・コピーをオンにした・形式が変わった・Document が変わった・書き出しを始めた のうち、その時点で fastExport かつ canFastExport のとき)と読み込みのときだけ 1 増える。算出の結果は世代が変わっていないときだけ copyCutStart に入る。",
+     "type": "int",
+     "initial": "0",
+     "set_by": [
+      "ShowExportDialog",
+      "SetFastExport",
+      "SelectFormat",
+      "ConfirmExport",
+      "Split",
+      "DeleteSelectedBoundary",
+      "SetTrimIn",
+      "SetTrimOut",
+      "ApplySpeedPreset",
+      "TogglePitch",
+      "ToggleExclude",
+      "ApplyVolumePreset",
+      "ToggleMute",
+      "SetSpeedContinuous",
+      "SetVolumeContinuous",
+      "MoveTrimStart",
+      "MoveTrimEnd",
+      "MoveBoundary",
+      "Undo",
+      "Redo",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-079",
+      "authority/ViewModels/MainWindowViewModel.cs#EnsureCopyCutAsync"
+     ]
+    },
+    {
+     "name": "copyCutStart",
+     "description": "コピーの開始に使うキーフレームの時刻(秒)。null = 未算出。Document が変わると消える。コピーできない状態で Document が変わったときは世代が進まないので、前のトリム開始で始めた算出の結果が後から入ることがある(その後に解像度・fps でコピーできる状態に戻ると、古いキーフレームと新しいトリム開始の差がリードとして出る)。",
+     "type": "double?",
+     "initial": "null",
+     "set_by": [
+      "KeyframeResolved",
+      "ConfirmExport",
+      "Split",
+      "DeleteSelectedBoundary",
+      "SetTrimIn",
+      "SetTrimOut",
+      "ApplySpeedPreset",
+      "TogglePitch",
+      "ToggleExclude",
+      "ApplyVolumePreset",
+      "ToggleMute",
+      "SetSpeedContinuous",
+      "SetVolumeContinuous",
+      "MoveTrimStart",
+      "MoveTrimEnd",
+      "MoveBoundary",
+      "Undo",
+      "Redo",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-079",
+      "REQ-080",
+      "REQ-088"
+     ]
+    },
+    {
+     "name": "isExporting",
+     "description": "書き出し中か。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [
+      "ConfirmExport",
+      "CancelExport"
+     ],
+     "source": [
+      "REQ-082",
+      "REQ-083"
+     ]
+    },
+    {
+     "name": "progress",
+     "description": "進捗の割合 [0, 1](ffmpeg の出力済み時刻 / 出力の総時間)。",
+     "type": "double",
+     "initial": "0",
+     "set_by": [
+      "ConfirmExport",
+      "ExportProgressReported"
+     ],
+     "source": [
+      "REQ-082"
+     ]
+    },
+    {
+     "name": "frame",
+     "description": "出力済みのフレーム数。",
+     "type": "long",
+     "initial": "0",
+     "set_by": [
+      "ConfirmExport",
+      "ExportProgressReported"
+     ],
+     "source": [
+      "REQ-082"
+     ]
+    },
+    {
+     "name": "ffmpegSpeed",
+     "description": "ffmpeg の実時間比(×)。",
+     "type": "double",
+     "initial": "0",
+     "set_by": [
+      "ConfirmExport",
+      "ExportProgressReported"
+     ],
+     "source": [
+      "REQ-082"
+     ]
+    },
+    {
+     "name": "elapsedSeconds",
+     "description": "書き出しの経過時間。ConfirmExport が書き出しの開始で測り始め、終わりで止める時計の読み(進捗の到着では設定しない。読むのは etaText を計算し直すとき)。",
+     "type": "double",
+     "initial": "0",
+     "set_by": [
+      "ConfirmExport"
+     ],
+     "source": [
+      "REQ-082"
+     ]
+    },
+    {
+     "name": "statusMessage",
+     "description": "状態の文言(ボタンの上に warn 色)。値は次のどれか: サンプルのとき「Samples cannot be exported. Open an actual file.」/ 書き出しの開始で「Exporting…」(書き出し中は表示の条件で見えない)/ 中断で「Export canceled.」/ 出力の総時間(ExportRun.totalOutputSeconds)が 0 以下で「Output duration is zero.」/ 再エンコードで書き出す区間が 0 で「There are no regions to export.」/ ffmpeg が 0 以外で終了で「ffmpeg exited with an error (code {N}).」の次の行に標準エラーの最後の 8 行(空行を除く)。判定の順は 総時間 → 区間 → ffmpeg の終了。成功で消える(null)。次の書き出しを始めるまで残る。",
+     "type": "string?",
+     "initial": "null(なし)",
+     "set_by": [
+      "ConfirmExport",
+      "CancelExport",
+      "SwitchLanguage"
+     ],
+     "source": [
+      "REQ-011",
+      "REQ-081",
+      "REQ-083"
+     ]
+    },
+    {
+     "name": "outputPath",
+     "description": "保存先の選択ダイアログ(タイトル Export to)で選んだ書き出し先のパス。選ばなければ書き出しを始めない。同名のファイルがあれば上書きする。",
+     "type": "path?",
+     "initial": "null",
+     "set_by": [
+      "ConfirmExport"
+     ],
+     "source": [
+      "REQ-081",
+      "REQ-087",
+      "authority/Views/MainWindow.axaml.cs#PickSavePathAsync"
+     ]
+    },
+    {
+     "name": "statusMessageKey",
+     "description": "状態の文言の翻訳元のキー。定型文で再翻訳するときだけ持ち、結果の文言(中断・失敗)は持たない。",
+     "type": "string?",
+     "initial": "null",
+     "set_by": [
+      "ConfirmExport"
+     ],
+     "source": [
+      "REQ-011",
+      "authority/ViewModels/MainWindowViewModel.cs#OnCultureChanged"
+     ]
+    },
+    {
+     "name": "canFastExport",
+     "description": "派生値(独自の設定操作なし)。コピーで書き出せるか(切り替えを表示するか)。",
+     "type": "bool",
+     "initial": "派生: 実ファイル・MP4・解像度がソースと同じ・除外していない区間の速度がすべて 1・|outputFps − fps| ≤ 0.05・映像 H.264/H.265・音声なしか AAC/MP3/AC-3 で除外していない区間の音量がすべて 100%・トリムと除外の後に残る内容が 1 つの連続した範囲(除外した区間の速度・音量は見ない)",
+     "set_by": [],
+     "source": [
+      "REQ-078"
+     ]
+    },
+    {
+     "name": "showFastExportNote",
+     "description": "派生値(独自の設定操作なし)。コピーの説明・キーフレームの注記・帯を出すか。",
+     "type": "bool",
+     "initial": "派生: fastExport かつ canFastExport",
+     "set_by": [],
+     "source": [
+      "REQ-079"
+     ]
+    },
+    {
+     "name": "showVfrCopyNote",
+     "description": "派生値(独自の設定操作なし)。VFR の注記を出すか。",
+     "type": "bool",
+     "initial": "派生: showFastExportNote かつ Clip.isVariableFrameRate",
+     "set_by": [],
+     "source": [
+      "REQ-079"
+     ]
+    },
+    {
+     "name": "copyLeadInSeconds",
+     "description": "派生値(独自の設定操作なし)。先頭のリード秒数。",
+     "type": "double",
+     "initial": "派生: copyCutStart があれば max(0, trimStart − copyCutStart)、無ければ 0",
+     "set_by": [],
+     "source": [
+      "REQ-079",
+      "REQ-088"
+     ]
+    },
+    {
+     "name": "copyLeadInText",
+     "description": "派生値(独自の設定操作なし)。「About {リード秒数(小数 1 桁)} s of lead footage is included at the start.」",
+     "type": "string",
+     "initial": "派生: copyLeadInSeconds",
+     "set_by": [],
+     "source": [
+      "REQ-079"
+     ]
+    },
+    {
+     "name": "showCopyCutMarker",
+     "description": "派生値(独自の設定操作なし)。リードの文言とタイムラインの破線・リードの帯を出すか。",
+     "type": "bool",
+     "initial": "派生: fastExport かつ canFastExport かつ copyLeadInSeconds > 0.02",
+     "set_by": [],
+     "source": [
+      "REQ-079"
+     ]
+    },
+    {
+     "name": "percentText",
+     "description": "派生値(独自の設定操作なし)。「{偶数丸め(割合·100)}%」。",
+     "type": "string",
+     "initial": "派生: Round(progress·100)",
+     "set_by": [],
+     "source": [
+      "REQ-082"
+     ]
+    },
+    {
+     "name": "detailText",
+     "description": "派生値(独自の設定操作なし)。「Frame {N}」と「 · ×{速度}」。",
+     "type": "string",
+     "initial": "派生: isExporting かつ frame ≥ 1 のとき。速度 > 0.01 なら続ける",
+     "set_by": [],
+     "source": [
+      "REQ-082"
+     ]
+    },
+    {
+     "name": "etaText",
+     "description": "派生値(独自の設定操作なし)。「About {M:SS} left」。",
+     "type": "string",
+     "initial": "派生: isExporting かつ 進捗 > 2% のとき(それ以外は空)。速度 > 0.01 なら outputLength·(1 − 進捗)/速度、無ければ 経過·(1 − 進捗)/進捗",
+     "set_by": [],
+     "source": [
+      "REQ-082"
+     ]
+    },
+    {
+     "name": "showStatus",
+     "description": "派生値(独自の設定操作なし)。状態の文言を表示するか。",
+     "type": "bool",
+     "initial": "派生: isExporting でなく statusMessage が空でない",
+     "set_by": [],
+     "source": [
+      "REQ-011",
+      "REQ-083"
+     ]
+    },
+    {
+     "name": "suggestedFileName",
+     "description": "派生値(独自の設定操作なし)。保存先の既定のファイル名。",
+     "type": "string",
+     "initial": "派生: {Clip.fileName の拡張子なし}_export{selectedFormat.extension}",
+     "set_by": [],
+     "source": [
+      "REQ-081"
+     ]
+    },
+    {
+     "name": "outputDurationText",
+     "description": "派生値(独自の設定操作なし)。ダイアログの出力時間「{書き出しの長さ} (orig {トリム後の長さ})」。",
+     "type": "string",
+     "initial": "派生: Document.outputLengthClock と sourceLengthClock",
+     "set_by": [],
+     "source": [
+      "REQ-077"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "ExportFormat",
+     "kind": "1 つを選ぶ",
+     "source": [
+      "REQ-076"
+     ]
+    },
+    {
+     "to": "Document",
+     "kind": "開始時のドキュメントを書き出す",
+     "source": [
+      "REQ-020",
+      "REQ-084"
+     ]
+    },
+    {
+     "to": "OutputSettings",
+     "kind": "出力の解像度・fps を使う",
+     "source": [
+      "REQ-084",
+      "REQ-087"
+     ]
+    },
+    {
+     "to": "Clip",
+     "kind": "ソースとして読む",
+     "source": [
+      "REQ-084",
+      "REQ-088"
+     ]
+    },
+    {
+     "to": "KeyframeCache",
+     "kind": "コピーの開始キーフレームを引く",
+     "source": [
+      "REQ-080"
+     ]
+    },
+    {
+     "to": "EditSession",
+     "kind": "成功で未保存の変更をオフにする",
+     "source": [
+      "REQ-083"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "KeyframeCache",
+   "description": "コピーの開始キーフレームの算出結果の記憶(パスと時刻 ms で覚える・失敗の 0 も覚える・打ち切りは覚えない)。",
+   "source": [
+    "REQ-080",
+    "authority/Services/KeyframeIndex.cs"
+   ],
+   "attributes": [
+    {
+     "name": "entries",
+     "description": "(パス, 時刻 ms(偶数丸め)) → キーフレームの時刻 の対応。",
+     "type": "map<(string,long),double>",
+     "initial": "空",
+     "set_by": [
+      "KeyframeResolved"
+     ],
+     "source": [
+      "REQ-080"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "Clip",
+     "kind": "パスで引く",
+     "source": [
+      "REQ-080"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "MediaPreviewData",
+   "description": "タイムラインに描くクリップ由来の派生データ(サムネイル・波形)。履歴の対象外。実データが届くまでは擬似表示。",
+   "source": [
+    "REQ-050",
+    "REQ-051",
+    "REQ-052",
+    "REQ-053"
+   ],
+   "attributes": [
+    {
+     "name": "filmstrip",
+     "description": "キャッシュにあった全体のフィルムストリップ(サムネイルの列)。読み込み時に新規生成はしない。",
+     "type": "list<image>?",
+     "initial": "null",
+     "set_by": [
+      "CachedThumbnailsLoaded",
+      "CloseWindow",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-050",
+      "REQ-051",
+      "REQ-053"
+     ]
+    },
+    {
+     "name": "filmstripInterval",
+     "description": "全体のフィルムストリップのコマ間隔(秒)。",
+     "type": "double",
+     "initial": "0",
+     "set_by": [
+      "CachedThumbnailsLoaded",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-050"
+     ]
+    },
+    {
+     "name": "filmstripApproximate",
+     "description": "全体のフィルムストリップが近似版か。真になる経路は無い: キャッシュの正確版(thumbs2)も高速版(thumbs2-fast)も近似ではないとして渡すので常に false で、全体のフィルムストリップは常に不透明度 0.5 で描く(要求の 0.4 は到達しない)。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [],
+     "source": [
+      "REQ-050",
+      "authority/Services/MediaPreviewService.cs#EmitCachedThumbnailsAsync"
+     ]
+    },
+    {
+     "name": "visibleThumbnails",
+     "description": "可視範囲のサムネイル(時刻つき)。全体のフィルムストリップがあれば使わない。",
+     "type": "list<(double,image)>?",
+     "initial": "null",
+     "set_by": [
+      "VisibleThumbnailsGenerated",
+      "CachedThumbnailsLoaded",
+      "CloseWindow",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-050",
+      "REQ-051"
+     ]
+    },
+    {
+     "name": "lastVisibleRequest",
+     "description": "前回の可視範囲の要求 [S, E] と間隔 sp(再要求の判定に使う)。",
+     "type": "(double,double,double)?",
+     "initial": "null",
+     "set_by": [
+      "RequestVisibleTimelinePreview",
+      "CloseWindow",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-051"
+     ]
+    },
+    {
+     "name": "waveform",
+     "description": "音声波形(バケットごとの最小/最大)。",
+     "type": "peaks?",
+     "initial": "null",
+     "set_by": [
+      "WaveformGenerated",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-050",
+      "REQ-052"
+     ]
+    },
+    {
+     "name": "waveformMemoryCache",
+     "description": "メモリの波形キャッシュ(キャッシュのキー → 波形)。ディスクより先に引く。読み込みでは消えない(アプリを終了するまで残る)。",
+     "type": "map<key,peaks>",
+     "initial": "空",
+     "set_by": [
+      "WaveformGenerated"
+     ],
+     "source": [
+      "REQ-053",
+      "authority/Services/MediaPreviewService.cs#GetWaveformAsync"
+     ]
+    },
+    {
+     "name": "thumbnailsRefining",
+     "description": "サムネイルを生成中のフラグ。真になる経路は無い(読み込みで false に戻すだけ・見出しの進捗表示は出ない)。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [],
+     "source": [
+      "REQ-044"
+     ]
+    },
+    {
+     "name": "showThumbnails",
+     "description": "サムネイルを表示するか。切り替える UI は無い。",
+     "type": "bool",
+     "initial": "true",
+     "set_by": [],
+     "source": [
+      "REQ-050"
+     ]
+    },
+    {
+     "name": "showWaveform",
+     "description": "波形を表示するか。切り替える UI は無い。",
+     "type": "bool",
+     "initial": "true",
+     "set_by": [],
+     "source": [
+      "REQ-049",
+      "REQ-050"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "Clip",
+     "kind": "属する(新しいクリップで捨てる)",
+     "source": [
+      "REQ-052",
+      "REQ-055"
+     ]
+    },
+    {
+     "to": "MediaJobQueue",
+     "kind": "生成を依頼する",
+     "source": [
+      "REQ-055"
+     ]
+    },
+    {
+     "to": "DiskCache",
+     "kind": "読み書きする",
+     "source": [
+      "REQ-054"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "MediaJobQueue",
+   "description": "サムネイル・波形の生成の単一作業者のキュー(優先度の列挙はシーク用 → 可視範囲 → 波形 → アイドルだが、実際に投入されるのは可視範囲のサムネイルと波形の 2 種だけ。同じ優先度は先着・同じ種類は最新 1 件・実行中は横取りしない)。",
+   "source": [
+    "REQ-055",
+    "authority/Services/MediaJobQueue.cs"
+   ],
+   "attributes": [
+    {
+     "name": "pending",
+     "description": "待っている要求の列(優先度・種類のキー)。",
+     "type": "list<job>",
+     "initial": "空",
+     "set_by": [
+      "RequestVisibleTimelinePreview",
+      "MediaJobCompleted",
+      "CloseWindow",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-055"
+     ]
+    },
+    {
+     "name": "running",
+     "description": "実行中の要求(横取りしない)。",
+     "type": "job?",
+     "initial": "null",
+     "set_by": [
+      "RequestVisibleTimelinePreview",
+      "MediaJobCompleted",
+      "CloseWindow",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-055"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "MediaPreviewData",
+     "kind": "結果を届ける",
+     "source": [
+      "REQ-055"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "DiskCache",
+   "description": "サムネイル・波形のディスクキャッシュ(%LOCALAPPDATA%\\MoviePad\\Cache\\<キー>、MOVIEPAD_CACHE_DIR で置き場を変える)。",
+   "source": [
+    "REQ-054",
+    "REQ-094"
+   ],
+   "attributes": [
+    {
+     "name": "root",
+     "description": "キャッシュの置き場。",
+     "type": "path",
+     "initial": "%LOCALAPPDATA%\\MoviePad\\Cache(MOVIEPAD_CACHE_DIR があればそこ)",
+     "set_by": [],
+     "source": [
+      "REQ-054",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "entries",
+     "description": "キー(パス・サイズ・更新時刻から作る)ごとのフォルダ。読み込みのたびに 1 GiB を超えた分を古い順に消す。",
+     "type": "map<key,folder>",
+     "initial": "既存のディスクの内容",
+     "set_by": [
+      "CachedThumbnailsLoaded",
+      "VisibleThumbnailsGenerated",
+      "WaveformGenerated",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-053",
+      "REQ-054"
+     ]
+    },
+    {
+     "name": "sizeLimit",
+     "description": "キャッシュ全体の上限。",
+     "type": "bytes",
+     "initial": "1 GiB",
+     "set_by": [],
+     "source": [
+      "REQ-054"
+     ]
+    }
+   ],
+   "relations": []
+  },
+  {
+   "name": "TimelineView",
+   "description": "タイムラインの表示状態(ズーム・横スクロール・ドラッグ・ホバー)。",
+   "source": [
+    "REQ-042",
+    "REQ-043",
+    "REQ-045",
+    "REQ-046",
+    "REQ-093"
+   ],
+   "attributes": [
+    {
+     "name": "pxPerSec",
+     "description": "ズーム(1 秒あたりの px)。[4, 120]。読み込みでは戻らない。",
+     "type": "double",
+     "initial": "8.5",
+     "set_by": [
+      "ZoomIn",
+      "ZoomOut"
+     ],
+     "source": [
+      "REQ-045",
+      "authority/ViewModels/MainWindowViewModel.cs#LoadClip"
+     ]
+    },
+    {
+     "name": "scrollOffset",
+     "description": "横スクロールの位置(px)。",
+     "type": "double",
+     "initial": "0(先頭)",
+     "set_by": [
+      "ScrollTimeline",
+      "ZoomIn",
+      "ZoomOut",
+      "PlaybackTick",
+      "PlayerTimeChanged",
+      "TogglePlay"
+     ],
+     "source": [
+      "REQ-045",
+      "REQ-046",
+      "REQ-093"
+     ]
+    },
+    {
+     "name": "dragMode",
+     "description": "押したままの操作の種類。",
+     "type": "enum{None,Scrub,TrimStart,TrimEnd,Boundary}",
+     "initial": "None",
+     "set_by": [
+      "Scrub",
+      "BeginTrimStartDrag",
+      "BeginTrimEndDrag",
+      "BeginBoundaryDrag",
+      "ReleaseTimelinePointer"
+     ],
+     "source": [
+      "REQ-042"
+     ]
+    },
+    {
+     "name": "hoverBoundary",
+     "description": "掴みの表示を出す内部の境界の番号(無ければ −1)。",
+     "type": "int",
+     "initial": "−1",
+     "set_by": [
+      "HoverTimeline",
+      "LeaveTimeline"
+     ],
+     "source": [
+      "REQ-043"
+     ]
+    },
+    {
+     "name": "cursor",
+     "description": "タイムライン上のカーソル。",
+     "type": "enum{Arrow,SizeWestEast}",
+     "initial": "Arrow",
+     "set_by": [
+      "HoverTimeline",
+      "LeaveTimeline"
+     ],
+     "source": [
+      "REQ-043"
+     ]
+    },
+    {
+     "name": "viewportWidth",
+     "description": "タイムラインの表示幅(px)。追従・ズームの基準・可視範囲の計算に使う。",
+     "type": "double",
+     "initial": "unknown",
+     "set_by": [
+      "LayoutChanged"
+     ],
+     "source": [
+      "REQ-045",
+      "REQ-046",
+      "REQ-051"
+     ]
+    },
+    {
+     "name": "contentWidth",
+     "description": "派生値(独自の設定操作なし)。タイムラインの幅。",
+     "type": "double",
+     "initial": "派生: Clip.duration · pxPerSec + 48",
+     "set_by": [],
+     "source": [
+      "REQ-045"
+     ]
+    },
+    {
+     "name": "rulerStep",
+     "description": "派生値(独自の設定操作なし)。ルーラーの目盛り間隔(秒)。",
+     "type": "double",
+     "initial": "派生: 70/pxPerSec 以上で最小の {0.5,1,2,5,10,15,30,60,120,300}、無ければ 600",
+     "set_by": [],
+     "source": [
+      "REQ-047"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "EditSession",
+     "kind": "再生ヘッドを表示・追従する",
+     "source": [
+      "REQ-046"
+     ]
+    },
+    {
+     "to": "Document",
+     "kind": "区間・トリムを描き、ドラッグで変える",
+     "source": [
+      "REQ-040",
+      "REQ-041",
+      "REQ-048"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "PreviewPlayer",
+   "description": "プレビューの映像枠とプレイヤーの状態(映像の描画と再生のタイミングそのものは範囲外)。",
+   "source": [
+    "REQ-029",
+    "REQ-033",
+    "REQ-035",
+    "authority/Views/PreviewView.axaml.cs"
+   ],
+   "attributes": [
+    {
+     "name": "playerAvailable",
+     "description": "LibVLC のプレイヤーが使えるか。",
+     "type": "bool",
+     "initial": "unknown",
+     "set_by": [
+      "PlayerInitialized"
+     ],
+     "source": [
+      "REQ-033",
+      "authority/Views/PreviewView.axaml.cs#OnPlayerConstructed"
+     ]
+    },
+    {
+     "name": "externalPlayback",
+     "description": "実映像のプレイヤーが再生ヘッドを駆動するか(サンプルは内蔵タイマー)。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [
+      "PlayerClipLoaded",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-001",
+      "authority/ViewModels/MainWindowViewModel.cs#UseExternalPlayback"
+     ]
+    },
+    {
+     "name": "frameAspect",
+     "description": "映像枠の計算に使っている縦横比。",
+     "type": "double",
+     "initial": "unknown",
+     "set_by": [
+      "LayoutChanged",
+      "PlayerClipLoaded"
+     ],
+     "source": [
+      "REQ-033"
+     ]
+    },
+    {
+     "name": "frameWidth",
+     "description": "映像枠の幅(px・切り捨て)。",
+     "type": "int",
+     "initial": "unknown",
+     "set_by": [
+      "LayoutChanged",
+      "PlayerClipLoaded"
+     ],
+     "source": [
+      "REQ-033"
+     ]
+    },
+    {
+     "name": "frameHeight",
+     "description": "映像枠の高さ(px・切り捨て)。",
+     "type": "int",
+     "initial": "unknown",
+     "set_by": [
+      "LayoutChanged",
+      "PlayerClipLoaded"
+     ],
+     "source": [
+      "REQ-033"
+     ]
+    },
+    {
+     "name": "sceneVisible",
+     "description": "実映像の代わりに濃色のグラデーション(シーン)を出しているか。実ファイルの最初のフレームが届くと消える。",
+     "type": "bool",
+     "initial": "true(サンプル)",
+     "set_by": [
+      "PlayerFrameReady",
+      "PlayerClipLoaded",
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-033",
+      "authority/Views/PreviewView.axaml.cs#OnClipOpened",
+      "authority/Views/PreviewView.axaml.cs#AttachPlayer"
+     ]
+    },
+    {
+     "name": "rateSentToPlayer",
+     "description": "プレイヤーに渡している再生速度(再生ヘッドの位置の区間の速度・無ければ 1)。ピッチ維持の設定は渡さない(音の高さは LibVLC の既定のまま)。",
+     "type": "double?",
+     "initial": "未設定(実クリップをプレイヤーに読み込むまで渡さない)",
+     "set_by": [
+      "PlayerClipLoaded",
+      "TogglePlay",
+      "PlayerTimeChanged"
+     ],
+     "source": [
+      "REQ-028",
+      "authority/Views/PreviewView.axaml.cs#SetRateForCurrent"
+     ]
+    },
+    {
+     "name": "volumeSentToPlayer",
+     "description": "プレイヤーに渡している音量(再生ヘッドの位置の区間の音量 × 100 を丸めた 0〜200)。",
+     "type": "int?",
+     "initial": "未設定(実クリップをプレイヤーに読み込むまで渡さない)",
+     "set_by": [
+      "PlayerClipLoaded",
+      "TogglePlay",
+      "PlayerTimeChanged"
+     ],
+     "source": [
+      "REQ-028",
+      "authority/Views/PreviewView.axaml.cs#SetRateForCurrent"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "EditSession",
+     "kind": "再生ヘッド・再生中・速度・音量を受け取る",
+     "source": [
+      "REQ-028",
+      "REQ-035"
+     ]
+    },
+    {
+     "to": "Clip",
+     "kind": "実ファイルを読み込む",
+     "source": [
+      "REQ-035"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "LoadError",
+   "description": "読み込みエラーのバナー(画面下部中央・✕で消える)。",
+   "source": [
+    "REQ-019"
+   ],
+   "attributes": [
+    {
+     "name": "message",
+     "description": "表示中のエラーの文言。null = なし。言語の切り替えで訳し直す。",
+     "type": "string?",
+     "initial": "null",
+     "set_by": [
+      "Open",
+      "DropFile",
+      "ApplyStartupEnvironment",
+      "ClearError",
+      "SwitchLanguage"
+     ],
+     "source": [
+      "REQ-011",
+      "REQ-019"
+     ]
+    },
+    {
+     "name": "visible",
+     "description": "派生値(独自の設定操作なし)。バナーを表示するか。",
+     "type": "bool",
+     "initial": "派生: message が空でない",
+     "set_by": [],
+     "source": [
+      "REQ-019"
+     ]
+    }
+   ],
+   "relations": []
+  },
+  {
+   "name": "FfmpegInstallation",
+   "description": "ffmpeg / ffprobe の実行ファイルの所在。",
+   "source": [
+    "REQ-013",
+    "REQ-015",
+    "authority/Services/FfmpegLocator.cs"
+   ],
+   "attributes": [
+    {
+     "name": "ffmpegPath",
+     "description": "解決した ffmpeg のパス(探索順は REQ-013)。",
+     "type": "path",
+     "initial": "探索順で解決(見つからなければ ffmpeg.exe)",
+     "set_by": [
+      "InstallFfmpeg"
+     ],
+     "source": [
+      "REQ-013",
+      "REQ-015"
+     ]
+    },
+    {
+     "name": "ffprobePath",
+     "description": "解決した ffprobe のパス。",
+     "type": "path",
+     "initial": "探索順で解決(見つからなければ ffprobe.exe)",
+     "set_by": [
+      "InstallFfmpeg"
+     ],
+     "source": [
+      "REQ-013",
+      "REQ-015"
+     ]
+    },
+    {
+     "name": "available",
+     "description": "派生値(独自の設定操作なし)。ffmpeg が使えるか。",
+     "type": "bool",
+     "initial": "派生: 2 つのパスがどちらも実在のファイル",
+     "set_by": [],
+     "source": [
+      "REQ-013",
+      "REQ-014"
+     ]
+    }
+   ],
+   "relations": []
+  },
+  {
+   "name": "FfmpegSetup",
+   "description": "ffmpeg セットアップのオーバーレイ(幅 470 px)の状態。",
+   "source": [
+    "REQ-014",
+    "REQ-015"
+   ],
+   "attributes": [
+    {
+     "name": "shown",
+     "description": "オーバーレイを表示しているか。「Later」で閉じても次回起動で再び出る(保存しない)。",
+     "type": "bool",
+     "initial": "起動時の FfmpegInstallation.available の否定",
+     "set_by": [
+      "DismissFfmpegSetup",
+      "InstallFfmpeg",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-014",
+      "REQ-015",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "installing",
+     "description": "取得中か(ボタンを隠す・二重に取得しない)。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [
+      "InstallFfmpeg"
+     ],
+     "source": [
+      "REQ-015"
+     ]
+    },
+    {
+     "name": "installProgress",
+     "description": "取得の進捗 [0, 1](取得 0〜0.9・展開 0.92・検証 0.97・完了 1)。",
+     "type": "double",
+     "initial": "0",
+     "set_by": [
+      "InstallFfmpeg",
+      "FfmpegInstallProgressReported"
+     ],
+     "source": [
+      "REQ-015"
+     ]
+    },
+    {
+     "name": "errorMessage",
+     "description": "エラーの文言(検証の失敗・取得の失敗 + 例外メッセージ)。定型部分は言語の切り替えで訳し直す。",
+     "type": "string?",
+     "initial": "null",
+     "set_by": [
+      "InstallFfmpeg",
+      "SwitchLanguage"
+     ],
+     "source": [
+      "REQ-011",
+      "REQ-015"
+     ]
+    },
+    {
+     "name": "installText",
+     "description": "派生値(独自の設定操作なし)。「Downloading… N%」。",
+     "type": "string",
+     "initial": "派生: Round(installProgress·100)",
+     "set_by": [],
+     "source": [
+      "REQ-015"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "FfmpegInstallation",
+     "kind": "取得して配置する",
+     "source": [
+      "REQ-015"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "AboutDialog",
+   "description": "About ダイアログ(幅 560 px・最大高 660 px)。",
+   "source": [
+    "REQ-089",
+    "REQ-090"
+   ],
+   "attributes": [
+    {
+     "name": "shown",
+     "description": "表示しているか。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [
+      "OpenAbout",
+      "CloseAbout",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-089",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "notices",
+     "description": "ライセンス全文(THIRD-PARTY-NOTICES.txt)か、無いときの案内文。最初に開いたときに読み、再読込しない。",
+     "type": "string",
+     "initial": "空",
+     "set_by": [
+      "OpenAbout",
+      "SwitchLanguage",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-011",
+      "REQ-090",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "noticesIsFallback",
+     "description": "notices が案内文(言語の切り替えで訳し直す)か。",
+     "type": "bool",
+     "initial": "false",
+     "set_by": [
+      "OpenAbout",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-090",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "version",
+     "description": "派生値(独自の設定操作なし)。「v」+ 情報バージョンの「+」より前(無ければアセンブリのバージョン 3 桁、それも無ければ v1.0.0)。",
+     "type": "string",
+     "initial": "派生: アセンブリの属性",
+     "set_by": [],
+     "source": [
+      "REQ-090"
+     ]
+    }
+   ],
+   "relations": []
+  },
+  {
+   "name": "Localization",
+   "description": "UI の言語(切り替えは ja / en)。切り替えは即時。数値の書式は言語に関わらず不変。",
+   "source": [
+    "REQ-008",
+    "REQ-009",
+    "REQ-010",
+    "REQ-011"
+   ],
+   "attributes": [
+    {
+     "name": "uiLanguage",
+     "description": "現在の UI のカルチャ名。切り替えのメニューで選べるのは ja と en だけだが、起動時は設定の言語名をそのままカルチャにするので、正しい別の名前(fr・ja-JP など)ならそのカルチャになる(fr なら文字列は英語のリソースに落ちる)。",
+     "type": "string(カルチャ名)",
+     "initial": "設定に言語があればその名前のカルチャ(不正なカルチャ名なら en)、無ければ OS の UI 言語の 2 文字コードが ja なら ja、それ以外 en",
+     "set_by": [
+      "SwitchLanguage"
+     ],
+     "source": [
+      "REQ-008",
+      "REQ-010",
+      "REQ-011"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "AppSettings",
+     "kind": "起動時に読み、切り替えで保存する",
+     "source": [
+      "REQ-008",
+      "REQ-010"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "AppSettings",
+   "description": "%LOCALAPPDATA%\\MoviePad\\settings.json に保存する設定(UI 言語だけ)。",
+   "source": [
+    "REQ-012"
+   ],
+   "attributes": [
+    {
+     "name": "language",
+     "description": "保存された UI 言語(キー language・値 ja / en)。無い・壊れている・読めないときは未設定。保存の失敗は無視。",
+     "type": "string?",
+     "initial": "ファイルの内容(無ければ未設定 null)",
+     "set_by": [
+      "SwitchLanguage"
+     ],
+     "source": [
+      "REQ-008",
+      "REQ-012"
+     ]
+    }
+   ],
+   "relations": []
+  },
+  {
+   "name": "MainWindow",
+   "description": "メインウィンドウ(自前のタイトルバーと縁・タイトル MoviePad・ダークテーマ)。",
+   "source": [
+    "REQ-003",
+    "REQ-004",
+    "REQ-007",
+    "REQ-092"
+   ],
+   "attributes": [
+    {
+     "name": "width",
+     "description": "幅(論理 px)。最小 960。",
+     "type": "double",
+     "initial": "1280(作業領域より大きければ作業領域に収まる大きさ・最小 960 以上)",
+     "set_by": [
+      "ResizeWindow"
+     ],
+     "source": [
+      "REQ-003",
+      "REQ-004"
+     ]
+    },
+    {
+     "name": "height",
+     "description": "高さ(論理 px)。最小 600。",
+     "type": "double",
+     "initial": "880(同様に縮める・最小 600 以上)",
+     "set_by": [
+      "ResizeWindow"
+     ],
+     "source": [
+      "REQ-003",
+      "REQ-004"
+     ]
+    },
+    {
+     "name": "position",
+     "description": "ウィンドウの位置(物理 px)。既定サイズを作業領域に収めるため縮めたときだけ、起動時に作業領域の中央(整数除算の切り捨て)に置く。",
+     "type": "point",
+     "initial": "unknown",
+     "set_by": [
+      "MoveWindow",
+      "ResizeWindow"
+     ],
+     "source": [
+      "REQ-003",
+      "REQ-007"
+     ]
+    },
+    {
+     "name": "windowState",
+     "description": "Normal / Maximized / Minimized。最大化中は縁でリサイズしない。",
+     "type": "enum{Normal,Maximized,Minimized}",
+     "initial": "Normal",
+     "set_by": [
+      "ToggleMaximize",
+      "MinimizeWindow"
+     ],
+     "source": [
+      "REQ-004",
+      "REQ-007"
+     ]
+    },
+    {
+     "name": "open",
+     "description": "ウィンドウが開いているか。閉じるは確認なしに即座に閉じる。",
+     "type": "bool",
+     "initial": "true",
+     "set_by": [
+      "CloseWindow",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-005",
+      "REQ-007",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "modalOverlayShown",
+     "description": "派生値(独自の設定操作なし)。ウィンドウ全体を覆うオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示中か。表示中はタイトルバー・縁・ツールバー・プレビュー・タイムライン・インスペクターのマウス操作が使えない(キーボードとドロップは働く)。",
+     "type": "bool",
+     "initial": "派生: ExportJob.dialogShown または AboutDialog.shown または FfmpegSetup.shown",
+     "set_by": [],
+     "source": [
+      "REQ-074",
+      "REQ-095"
+     ]
+    }
+   ],
+   "relations": []
+  },
+  {
+   "name": "ExportRun",
+   "description": "1 回の書き出しの内容。ConfirmExport が書き出しの開始に固定した依頼(request)と、そこから決まる書き出しの計画(残る範囲・コピーか再エンコードか・出力の総時間・フレーム数・符号化)。書き出し中に Document・出力設定・形式を変えても、進行中の書き出しは request のまま続く。",
+   "source": [
+    "REQ-020",
+    "REQ-076",
+    "REQ-084",
+    "REQ-085",
+    "REQ-086",
+    "REQ-087",
+    "REQ-088",
+    "authority/Services/FfmpegExporter.cs#ExportAsync"
+   ],
+   "attributes": [
+    {
+     "name": "request",
+     "description": "書き出しの開始に固定した依頼: Clip・Document・出力の幅/高さ/fps・形式・コピーの指定(fastExport かつ canFastExport)・コピーの開始の指定(copyCutStart)・outputPath。",
+     "type": "record?",
+     "initial": "null(まだ書き出していない)",
+     "set_by": [
+      "ConfirmExport"
+     ],
+     "source": [
+      "REQ-020",
+      "REQ-076",
+      "REQ-081",
+      "authority/Services/FfmpegExporter.cs#Request"
+     ]
+    },
+    {
+     "name": "spanCount",
+     "description": "派生値(独自の設定操作なし)。トリムと除外の後に残る範囲の数。",
+     "type": "int",
+     "initial": "派生: 除外していない各区間の [max(開始, trimStart), min(終了, trimEnd)] のうち長さが 0.0001 秒を超えるものを時刻順に並べ、前の終わり + 0.0001 以内で始まるものを同じ範囲にまとめた数",
+     "set_by": [],
+     "source": [
+      "REQ-078",
+      "REQ-084",
+      "authority/Services/FfmpegExporter.cs#ExportPlan.Analyze"
+     ]
+    },
+    {
+     "name": "singleSpan",
+     "description": "派生値(独自の設定操作なし)。残る内容が 1 つの連続した範囲か。",
+     "type": "bool",
+     "initial": "派生: spanCount = 1",
+     "set_by": [],
+     "source": [
+      "REQ-078",
+      "authority/Services/FfmpegExporter.cs#ExportPlan.Analyze"
+     ]
+    },
+    {
+     "name": "spanStart",
+     "description": "派生値(独自の設定操作なし)。残る範囲の開始(SpanStart・ソース基準の秒)。",
+     "type": "double",
+     "initial": "派生: 最初の範囲の開始(範囲が無ければ 0)",
+     "set_by": [],
+     "source": [
+      "REQ-087",
+      "REQ-088",
+      "authority/Services/FfmpegExporter.cs#ExportPlan"
+     ]
+    },
+    {
+     "name": "spanEnd",
+     "description": "派生値(独自の設定操作なし)。残る範囲の終わり(SpanEnd)。",
+     "type": "double",
+     "initial": "派生: 最後の範囲の終わり(範囲が無ければ 0)",
+     "set_by": [],
+     "source": [
+      "REQ-088",
+      "authority/Services/FfmpegExporter.cs#ExportPlan"
+     ]
+    },
+    {
+     "name": "canStreamCopy",
+     "description": "派生値(独自の設定操作なし)。依頼の内容がコピーできるか(ExportJob.canFastExport と同じ判定を request に当てたもの)。",
+     "type": "bool",
+     "initial": "派生: 映像: MP4 かつ解像度がソースと同じ・除外していない区間の速度がすべて 1・|出力 fps − ソース fps| ≤ 0.05・H.264/H.265。音声: 音声なし、または MP4 かつ速度・音量の変更なし・AAC/MP3/AC-3。かつ singleSpan",
+     "set_by": [],
+     "source": [
+      "REQ-078",
+      "authority/Services/FfmpegExporter.cs#ExportPlan.Analyze"
+     ]
+    },
+    {
+     "name": "path",
+     "description": "派生値(独自の設定操作なし)。書き出しの経路。",
+     "type": "enum{copy,exactCfr,legacy}",
+     "initial": "派生: request のコピーの指定かつ canStreamCopy なら copy。それ以外で、ソースが CFR で、ソース fps・出力 fps・各区間の速度が正の有限値なら exactCfr(REQ-085)、それ以外は legacy(VFR などの従来経路・REQ-086)",
+     "set_by": [],
+     "source": [
+      "REQ-085",
+      "REQ-086",
+      "REQ-088",
+      "authority/Services/ExportClock.cs#Build"
+     ]
+    },
+    {
+     "name": "copyStart",
+     "description": "派生値(独自の設定操作なし)。コピーの実際の開始位置(秒)。",
+     "type": "double?",
+     "initial": "派生: path が copy のとき: copyCutStart が 0 以上 spanStart 以下(誤差 1e-6)なら max(0, copyCutStart)、範囲外か null なら spanStart。キーフレームはトリム開始を基準に求めるので、先頭側の区間を除外して残る範囲がその後ろから始まるときは、除外した区間がまるごと(さらにその前のリードも)出力に入る",
+     "set_by": [],
+     "source": [
+      "REQ-088",
+      "authority/Services/FfmpegExporter.cs#CopyStart"
+     ]
+    },
+    {
+     "name": "totalOutputSeconds",
+     "description": "派生値(独自の設定操作なし)。出力の総時間(進捗の割合の分母)。",
+     "type": "double",
+     "initial": "派生: path が copy なら max(0, spanEnd − copyStart)、それ以外は Document.outputLength(request の Document)。0 以下なら ffmpeg を起動せず「Output duration is zero.」",
+     "set_by": [],
+     "source": [
+      "REQ-082",
+      "REQ-083",
+      "REQ-088",
+      "authority/Services/FfmpegExporter.cs#ExportAsync"
+     ]
+    },
+    {
+     "name": "runs",
+     "description": "派生値(独自の設定操作なし)。exactCfr の経路で使う run の列。ソース上で連続し、速度・音量・ピッチ維持が同じ隣り合う区間を 1 つにまとめたもの(分割/結合しただけでは出力を変えない)。",
+     "type": "list<run>",
+     "initial": "派生: 残る範囲の各区間から(REQ-085)",
+     "set_by": [],
+     "source": [
+      "REQ-085",
+      "authority/Services/ExportClock.cs#Build"
+     ]
+    },
+    {
+     "name": "exactOutputTime",
+     "description": "派生値(独自の設定操作なし)。exactCfr の出力の総時間 T(有理数で厳密)。",
+     "type": "rational",
+     "initial": "派生: Σ(重なりの長さ / 速度)(速度は c/100、時刻はソース fps の格子上の値)",
+     "set_by": [],
+     "source": [
+      "REQ-085"
+     ]
+    },
+    {
+     "name": "outputFrameCount",
+     "description": "派生値(独自の設定操作なし)。exactCfr の出力フレーム数。",
+     "type": "long",
+     "initial": "派生: RoundHalfUp(exactOutputTime · 出力 fps)",
+     "set_by": [],
+     "source": [
+      "REQ-085"
+     ]
+    },
+    {
+     "name": "outputSampleCount",
+     "description": "派生値(独自の設定操作なし)。exactCfr の音声の総サンプル数。",
+     "type": "long",
+     "initial": "派生: RoundHalfUp(exactOutputTime · サンプルレート)",
+     "set_by": [],
+     "source": [
+      "REQ-085"
+     ]
+    },
+    {
+     "name": "segmentCount",
+     "description": "派生値(独自の設定操作なし)。再エンコードのグラフでつなぐ区間の数。",
+     "type": "int",
+     "initial": "派生: 重なりが 0.0001 秒を超える除外していない区間の数。0 なら ffmpeg を起動せず「There are no regions to export.」",
+     "set_by": [],
+     "source": [
+      "REQ-083",
+      "REQ-084",
+      "authority/Services/FfmpegExporter.cs#ExportAsync"
+     ]
+    },
+    {
+     "name": "inputSeek",
+     "description": "派生値(独自の設定操作なし)。再エンコードの入力シークの位置 S(秒)。",
+     "type": "double",
+     "initial": "派生: spanStart ≥ 1.0 なら spanStart、未満なら 0。exactCfr では S > 0 のとき (n0 − 1/2)/ソース fps(正のときだけ)に置き換える",
+     "set_by": [],
+     "source": [
+      "REQ-087",
+      "authority/Services/ExportClock.cs#SeekTarget"
+     ]
+    },
+    {
+     "name": "hasAudioStream",
+     "description": "派生値(独自の設定操作なし)。出力に音声のストリームがあるか。",
+     "type": "bool",
+     "initial": "派生: ソースに音声がある(Clip.hasAudio)",
+     "set_by": [],
+     "source": [
+      "REQ-087"
+     ]
+    },
+    {
+     "name": "encoding",
+     "description": "派生値(独自の設定操作なし)。形式ごとの符号化。",
+     "type": "record",
+     "initial": "派生: MP4: libx264(preset medium・crf 18・yuv420p)+ AAC 192 kbps・+faststart(exactCfr では映像のタイムスケール = 出力 fps の分子・ムービーのタイムスケール = lcm(分子, サンプルレート)、音声なしは分子)。中間ファイル: FFV1 level 3 + PCM 16bit。ProRes: prores_ks profile 3・yuv422p10le + PCM 16bit。exactCfr では -r p/q を付け、legacy では -r もタイムスケールも付けない。copy は最初の映像と音声のストリームを再エンコードせずに写す(負のタイムスタンプは 0 起点・+faststart・VFR は VFR のまま)",
+     "set_by": [],
+     "source": [
+      "REQ-086",
+      "REQ-087",
+      "REQ-088",
+      "authority/Services/FfmpegExporter.cs#EncoderArgs"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "ExportJob",
+     "kind": "その書き出しの依頼と計画",
+     "source": [
+      "REQ-082"
+     ]
+    },
+    {
+     "to": "OutputFile",
+     "kind": "書き出す",
+     "source": [
+      "REQ-087"
+     ]
+    },
+    {
+     "to": "Clip",
+     "kind": "ソースとして読む(ソースは変更しない)",
+     "source": [
+      "REQ-084"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "OutputFile",
+   "description": "書き出し先のファイル(ExportRun.request の outputPath)。",
+   "source": [
+    "REQ-083",
+    "REQ-087"
+   ],
+   "attributes": [
+    {
+     "name": "state",
+     "description": "書き出し先のファイルの状態。absent: 書き出しで作っていない(総時間 0・区間なしで ffmpeg を起動しなかったときを含む・既存のファイルはそのまま)。complete: 成功(同名のファイルがあれば上書き)。partial: 中断・ffmpeg の失敗・ウィンドウを閉じた中断で、途中までのファイルが残る(削除しない)。",
+     "type": "enum{absent,complete,partial}",
+     "initial": "absent",
+     "set_by": [
+      "ConfirmExport",
+      "CancelExport",
+      "CloseWindow"
+     ],
+     "source": [
+      "REQ-005",
+      "REQ-083",
+      "REQ-087"
+     ]
+    },
+    {
+     "name": "contents",
+     "description": "派生値(独自の設定操作なし)。成功したときの中身。",
+     "type": "record",
+     "initial": "派生: ExportRun の path・encoding・hasAudioStream に従う。exactCfr なら outputFrameCount 枚の出力 fps の CFR・outputSampleCount サンプル。copy なら [copyStart, spanEnd] のコピー(先頭に copyStart からトリム開始までのリード)",
+     "set_by": [],
+     "source": [
+      "REQ-084",
+      "REQ-085",
+      "REQ-086",
+      "REQ-087",
+      "REQ-088"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "ExportRun",
+     "kind": "その書き出しの結果",
+     "source": [
+      "REQ-083"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "StartupEnvironment",
+   "description": "起動時に読む環境変数(デバッグ・ドキュメント撮影・計測用)。プロセスの開始時に決まり、アプリの操作では変わらない。未設定なら何もしない。",
+   "source": [
+    "REQ-013",
+    "REQ-094",
+    "authority/Views/MainWindow.axaml.cs#OnOpened"
+   ],
+   "attributes": [
+    {
+     "name": "openPath",
+     "description": "MOVIEPAD_OPEN: 起動時に開くファイルのパス。",
+     "type": "string?",
+     "initial": "環境変数の値(未設定なら null)",
+     "set_by": [],
+     "source": [
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "scenario",
+     "description": "MOVIEPAD_SCENARIO: 編集状態を直接作る名前(ffmpeg・trim・split・speed・exclude・volume・mute。それ以外は何もしない)。",
+     "type": "string?",
+     "initial": "環境変数の値(未設定なら null)",
+     "set_by": [],
+     "source": [
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "showExport",
+     "description": "MOVIEPAD_SHOWEXPORT: 空でなければ書き出しダイアログを開く。",
+     "type": "string?",
+     "initial": "環境変数の値(未設定なら null)",
+     "set_by": [],
+     "source": [
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "showAbout",
+     "description": "MOVIEPAD_SHOWABOUT: 空でなければ About を開く。",
+     "type": "string?",
+     "initial": "環境変数の値(未設定なら null)",
+     "set_by": [],
+     "source": [
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "shotPath",
+     "description": "MOVIEPAD_SHOT: 1800 ms 後にウィンドウを PNG(96 dpi・クライアント領域の大きさ)で保存して閉じる先のパス。",
+     "type": "string?",
+     "initial": "環境変数の値(未設定なら null)",
+     "set_by": [],
+     "source": [
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "inspectorScroll",
+     "description": "MOVIEPAD_INSPECTOR_SCROLL: shotPath があり、現在のカルチャーの数値の書式で読めれば、1200 ms 後のインスペクターの縦スクロール位置。",
+     "type": "string?",
+     "initial": "環境変数の値(未設定なら null)",
+     "set_by": [],
+     "source": [
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "ttiPath",
+     "description": "MOVIEPAD_TTI: 読み込みの各段の経過時間の行を追記するファイルのパス。",
+     "type": "string?",
+     "initial": "環境変数の値(未設定なら null)",
+     "set_by": [],
+     "source": [
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "cacheDir",
+     "description": "MOVIEPAD_CACHE_DIR: サムネイル・波形のキャッシュの置き場(DiskCache.root)。",
+     "type": "string?",
+     "initial": "環境変数の値(未設定なら null)",
+     "set_by": [],
+     "source": [
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "ffmpegDir",
+     "description": "MOVIEPAD_FFMPEG_DIR: ffmpeg を最初に探すフォルダ。",
+     "type": "string?",
+     "initial": "環境変数の値(未設定なら null)",
+     "set_by": [],
+     "source": [
+      "REQ-013"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "DiskCache",
+     "kind": "置き場を決める",
+     "source": [
+      "REQ-094"
+     ]
+    },
+    {
+     "to": "FfmpegInstallation",
+     "kind": "探索の最初の場所を決める",
+     "source": [
+      "REQ-013"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "InspectorView",
+   "description": "インスペクターの表示状態(上部のスクロール位置・入力欄のフォーカス)。",
+   "source": [
+    "REQ-056",
+    "REQ-074"
+   ],
+   "attributes": [
+    {
+     "name": "scrollOffset",
+     "description": "上部のスクロールする領域の縦の位置(px)。",
+     "type": "double",
+     "initial": "0",
+     "set_by": [
+      "ScrollInspector",
+      "ApplyStartupEnvironment"
+     ],
+     "source": [
+      "REQ-056",
+      "REQ-094"
+     ]
+    },
+    {
+     "name": "focusedInput",
+     "description": "フォーカスのある文字の入力欄。none 以外のあいだキーボードの操作はすべて働かない。",
+     "type": "enum{none,width,height}",
+     "initial": "none",
+     "set_by": [
+      "FocusWidthInput",
+      "FocusHeightInput",
+      "ApplyWidth",
+      "ApplyHeight"
+     ],
+     "source": [
+      "REQ-074",
+      "authority/Views/MainWindow.axaml.cs#OnKeyDown"
+     ]
+    }
+   ],
+   "relations": [
+    {
+     "to": "OutputSettings",
+     "kind": "幅・高さを入力する",
+     "source": [
+      "REQ-067"
+     ]
+    }
+   ]
+  }
+ ],
+ "operations": [
+  {
+   "name": "DragOver",
+   "description": "ファイルをウィンドウ上へドラッグする。受け入れ(コピー)の表示になるだけで、モデルの値は変えない。",
+   "source": [
+    "REQ-017"
+   ]
+  },
+  {
+   "name": "OpenLanguageMenu",
+   "description": "言語ボタンで「日本語」「English」の 2 項目のメニューを開く(項目を選ぶと SwitchLanguage)。",
+   "source": [
+    "REQ-008"
+   ]
+  }
+ ],
+ "operation_definitions": [
+  {
+   "name": "Open",
+   "kind": "user",
+   "trigger": "ツールバーの Open",
+   "param": null,
+   "effect": "ファイル選択ダイアログ(Open video・単一選択)を開く。選ばずに閉じたら何も変えない。選んだら読み込みを始める: loadGeneration を 1 増やし、LoadError.message を消し、解析する。解析の結果は、その世代がまだ最新のときだけ適用する(古い結果は捨てる)。失敗なら LoadError.message を出し、他は変えない。成功なら読み込みの初期状態にする(REQ-020 の各項目・History を空・MediaPreviewData と MediaJobQueue を捨てて波形を投入)。ffprobe が起動できないときは例外で異常終了(REQ-014)。",
+   "history": "読み込みで History を空にする",
+   "source": [
+    "REQ-016",
+    "REQ-019",
+    "REQ-020",
+    "REQ-021",
+    "authority/ViewModels/MainWindowViewModel.cs#Open",
+    "authority/ViewModels/MainWindowViewModel.cs#LoadFileAsync",
+    "authority/ViewModels/MainWindowViewModel.cs#LoadClip"
+   ]
+  },
+  {
+   "name": "DropFile",
+   "kind": "user",
+   "trigger": "ファイルをウィンドウへドロップ(オーバーレイの表示中・書き出し中も受け付ける)",
+   "param": "ドロップした最初の 1 ファイルのパス",
+   "effect": "拡張子が .mp4 .mov .mkv .m4v .webm(大文字小文字を区別しない)でなければ何もしない。そうなら Open で選んだときと同じ読み込みを始める。",
+   "history": "読み込みで History を空にする",
+   "source": [
+    "REQ-017",
+    "REQ-020",
+    "REQ-095",
+    "authority/Views/MainWindow.axaml.cs#OnDrop"
+   ]
+  },
+  {
+   "name": "ApplyStartupEnvironment",
+   "kind": "startup",
+   "trigger": "ウィンドウを開いた直後(1 回だけ)",
+   "param": "StartupEnvironment の各値",
+   "effect": "順に: openPath があれば読み込み(Open と同じ・完了を待つ)→ scenario があれば Document と playhead を直接作る(履歴に積まない・ffmpeg なら FfmpegSetup.shown を真に)→ showExport が空でなければ書き出しダイアログを開く → showAbout が空でなければ About を開く。openPath と scenario を両方指定すると、読み込みで nextRegionId が 2 になった後に ID 1〜3 の区間が入るので、次の分割の ID が重複する(未決事項)。shotPath があれば 1800 ms 後にウィンドウを PNG に保存して閉じ(MainWindow.open を偽に)、inspectorScroll が数値として読めれば 1200 ms 後に InspectorView.scrollOffset をその値にする。どれも未設定なら何もしない。",
+   "history": "scenario は記録しない(openPath の読み込みは History を空にする)",
+   "source": [
+    "REQ-094",
+    "authority/Views/MainWindow.axaml.cs#OnOpened",
+    "authority/Views/MainWindow.axaml.cs#ApplyScreenshotScenario"
+   ]
+  },
+  {
+   "name": "DragOver",
+   "kind": "user",
+   "trigger": "ウィンドウ上へのドラッグ",
+   "param": null,
+   "effect": "ドラッグしているデータにファイルが含まれるときだけ受け入れ(コピー)の表示、含まれないときは受け入れない表示(None)にする。モデルの値は変えない。",
+   "history": "記録しない",
+   "source": [
+    "REQ-017",
+    "authority/Views/MainWindow.axaml.cs#OnDragOver"
+   ]
+  },
+  {
+   "name": "TogglePlay",
+   "kind": "user",
+   "trigger": "トランスポートの再生/一時停止・Space キー・プレビューの映像枠の左クリック",
+   "param": null,
+   "effect": "再生中なら停止する。停止中なら、playhead がトリム開始より前かトリム終了 − 0.05 以上ならトリム開始へ、除外区間の上なら次の除外していない区間の先頭へ移してから再生を始める(再生開始時に再生ヘッドが画面外ならタイムラインの横スクロールを追従させる)。実クリップのプレイヤーがあれば、再生の開始でプレイヤーへ渡す速度と音量をその位置の区間の値にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-028",
+    "REQ-029",
+    "REQ-033",
+    "REQ-073",
+    "authority/ViewModels/MainWindowViewModel.cs#StartPlayback"
+   ]
+  },
+  {
+   "name": "ToStart",
+   "kind": "user",
+   "trigger": "トランスポートの「先頭へ」",
+   "param": null,
+   "effect": "再生を止め、playhead をトリム開始にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-027",
+    "REQ-030"
+   ]
+  },
+  {
+   "name": "ToEnd",
+   "kind": "user",
+   "trigger": "トランスポートの「末尾へ」",
+   "param": null,
+   "effect": "再生を止め、playhead をトリム終了にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-027",
+    "REQ-030"
+   ]
+  },
+  {
+   "name": "StepBack",
+   "kind": "user",
+   "trigger": "トランスポートの「1 フレーム戻る」・← キー・, キー",
+   "param": null,
+   "effect": "再生を止め、playhead を (偶数丸め(playhead·fps) − 1)/fps を [trimStart, trimEnd] に収めた値にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-027",
+    "REQ-073"
+   ]
+  },
+  {
+   "name": "StepForward",
+   "kind": "user",
+   "trigger": "トランスポートの「1 フレーム進む」・→ キー・. キー",
+   "param": null,
+   "effect": "再生を止め、playhead を (偶数丸め(playhead·fps) + 1)/fps を収めた値にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-027",
+    "REQ-073"
+   ]
+  },
+  {
+   "name": "StepSecondBack",
+   "kind": "key",
+   "trigger": "Shift+← / Shift+,",
+   "param": null,
+   "effect": "再生を止め、playhead を playhead − 1 を収めた値にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-027",
+    "REQ-073"
+   ]
+  },
+  {
+   "name": "StepSecondForward",
+   "kind": "key",
+   "trigger": "Shift+→ / Shift+.",
+   "param": null,
+   "effect": "再生を止め、playhead を playhead + 1 を収めた値にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-027",
+    "REQ-073"
+   ]
+  },
+  {
+   "name": "Scrub",
+   "kind": "user",
+   "trigger": "タイムラインのルーラー帯の左ボタンの押下、トラックでハンドル・境界から 7 px より離れた位置の押下、および Scrub のドラッグ中のポインタの移動 1 回",
+   "param": "x 座標(時刻 = x/pxPerSec を [0, 長さ] に収める)",
+   "effect": "押下なら dragMode を Scrub にする。どちらも再生を止め、playhead をその時刻を [trimStart, trimEnd] に収めた値にする。1 回の押下・1 回の移動が 1 回の Scrub。",
+   "history": "記録しない",
+   "source": [
+    "REQ-027",
+    "REQ-042",
+    "authority/Controls/TimelineControl.cs#OnPointerPressed"
+   ]
+  },
+  {
+   "name": "PlaybackTick",
+   "kind": "event",
+   "trigger": "サンプル(内蔵タイマー・16 ms ごと)の再生中",
+   "param": "経過時間 dt",
+   "effect": "playhead を playhead + dt·その位置の区間の速度 にし、除外区間なら次の除外していない位置へ、末尾を過ぎたら最初の除外していない位置へ(ループ)。再生中の追従でタイムラインの横スクロールが動く。",
+   "history": "記録しない",
+   "source": [
+    "REQ-028",
+    "REQ-046",
+    "authority/ViewModels/MainWindowViewModel.cs#OnTick"
+   ]
+  },
+  {
+   "name": "PlayerTimeChanged",
+   "kind": "event",
+   "trigger": "実ファイルの再生でプレイヤー(LibVLC)が時刻を知らせたとき(シーク中の到着は判定で捨てることがある)",
+   "param": "プレイヤーの時刻 ms",
+   "effect": "採用した時刻を playhead にする。除外区間に入った・末尾に達したら次の除外していない位置(無ければ最初)へシークしてその位置を playhead にする。再生中ならプレイヤーへ渡す速度と音量(rateSentToPlayer・volumeSentToPlayer)をその位置の区間の値にする。再生中の追従でタイムラインの横スクロールが動く。シークが目標に届かず再試行の上限を超えたときの停止は、この操作ではなく出来事 HaltPlayback として扱う。",
+   "history": "記録しない",
+   "source": [
+    "REQ-028",
+    "REQ-029",
+    "REQ-046",
+    "authority/Views/PreviewView.axaml.cs#OnPlayerTime",
+    "authority/Views/PreviewView.axaml.cs#HandleSeekTimeout"
+   ]
+  },
+  {
+   "name": "HaltPlayback",
+   "kind": "event",
+   "trigger": "プレイヤーのエラー・再生中の進捗の途絶(ウォッチドッグ)・シークのタイムアウト(目標位置に届かないまま再試行 2 回を超えたとき。再試行の回数はシークを始めるたびと一時停止・最初のフレームで 0 に戻る)",
+   "param": null,
+   "effect": "再生を止める(playing を偽に)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-029",
+    "authority/ViewModels/MainWindowViewModel.cs#HaltPlayback"
+   ]
+  },
+  {
+   "name": "Split",
+   "kind": "user",
+   "trigger": "ツールバーの Split(押せるのは canSplit のとき)・S キー(Ctrl なし・Shift は問わない)",
+   "param": null,
+   "effect": "分割点 ph = SnapFrame(playhead) の位置の区間を [開始 + 0.5, 終了 − 0.5] の範囲で 2 つに割る(範囲外なら何もしない)。前半は元の ID、後半は nextRegionId で属性を引き継ぐ。nextRegionId を 1 増やし、編集対象を後半にする。",
+   "history": "1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-037",
+    "REQ-026",
+    "authority/ViewModels/MainWindowViewModel.cs#Split"
+   ]
+  },
+  {
+   "name": "DeleteSelectedBoundary",
+   "kind": "user",
+   "trigger": "ツールバーの Merge(ja: 分割を解除・押せるのは canDeleteBoundary のとき)",
+   "param": null,
+   "effect": "編集対象の区間とその前の区間を 1 つにする(前の区間の ID と属性・終了は編集対象の区間の終了)。編集対象を再解決する。",
+   "history": "1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-038",
+    "authority/ViewModels/MainWindowViewModel.cs#DeleteSelectedBoundary"
+   ]
+  },
+  {
+   "name": "SetTrimIn",
+   "kind": "user",
+   "trigger": "ツールバーの Set In(押せるのは canSetTrimIn のとき)・I キー",
+   "param": null,
+   "effect": "trimStart と先頭区間の開始を SnapFrame(playhead) にする。差が 1e-6 未満なら何もしない(記録もしない)。playhead は動かさない。",
+   "history": "変わったときだけ 1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-039",
+    "authority/ViewModels/MainWindowViewModel.cs#SetTrimIn"
+   ]
+  },
+  {
+   "name": "SetTrimOut",
+   "kind": "user",
+   "trigger": "ツールバーの Set Out(押せるのは canSetTrimOut のとき)・O キー",
+   "param": null,
+   "effect": "trimEnd と末尾区間の終了を SnapFrame(playhead) にする。差が 1e-6 未満なら何もしない。",
+   "history": "変わったときだけ 1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-039",
+    "authority/ViewModels/MainWindowViewModel.cs#SetTrimOut"
+   ]
+  },
+  {
+   "name": "ApplySpeedPreset",
+   "kind": "user",
+   "trigger": "インスペクターの速度プリセット 0.25x・0.5x・1x・1.5x・2x・3x・4x",
+   "param": "速度(0.25〜4)",
+   "effect": "編集対象の区間の速度をその値(0.01 単位に偶数丸め・[0.25, 4] に収める)にする。値が同じでも記録する。",
+   "history": "1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-058",
+    "REQ-059"
+   ]
+  },
+  {
+   "name": "TogglePitch",
+   "kind": "user",
+   "trigger": "インスペクターのピッチ維持の行(行のどこでも・マウスのどのボタンでも)",
+   "param": null,
+   "effect": "編集対象の区間のピッチ維持を反転する。",
+   "history": "1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-063",
+    "authority/Views/InspectorView.axaml.cs#OnPitchRowPressed"
+   ]
+  },
+  {
+   "name": "ToggleExclude",
+   "kind": "user",
+   "trigger": "インスペクターの除外の行(マウスのどのボタンでも)・Delete キー・Backspace キー",
+   "param": null,
+   "effect": "編集対象の区間の除外を反転する。除外していない最後の区間を除外しようとしたら何もしない(記録もしない)。",
+   "history": "変わったときだけ 1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-064",
+    "REQ-073",
+    "authority/ViewModels/MainWindowViewModel.cs#ToggleExclude"
+   ]
+  },
+  {
+   "name": "ApplyVolumePreset",
+   "kind": "user",
+   "trigger": "インスペクターの音量プリセット Mute(0)・50%・100%・150%",
+   "param": "百分率",
+   "effect": "編集対象の区間の音量を 百分率/100 にする。",
+   "history": "1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-060",
+    "REQ-061"
+   ]
+  },
+  {
+   "name": "ToggleMute",
+   "kind": "key",
+   "trigger": "M キー(Ctrl なし・Shift は問わない)",
+   "param": null,
+   "effect": "編集対象の区間がミュートなら音量を 1.0 に、それ以外は 0.0 にする(前の音量は覚えない)。",
+   "history": "1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-062",
+    "REQ-073"
+   ]
+  },
+  {
+   "name": "Undo",
+   "kind": "user",
+   "trigger": "ツールバーの元に戻す(押せるのは canUndo のとき)・Ctrl+Z",
+   "param": null,
+   "effect": "現在の Document を future に積み、past の末尾の Document に戻す。編集対象を再解決する。未保存の変更は変えない。",
+   "history": "past から 1 件取り出す",
+   "source": [
+    "REQ-071",
+    "REQ-072",
+    "REQ-073"
+   ]
+  },
+  {
+   "name": "Redo",
+   "kind": "user",
+   "trigger": "ツールバーのやり直す(押せるのは canRedo のとき)・Ctrl+Shift+Z・Ctrl+Y",
+   "param": null,
+   "effect": "現在の Document を past に積み、future の末尾の Document にする。編集対象を再解決する。",
+   "history": "future から 1 件取り出す",
+   "source": [
+    "REQ-071",
+    "REQ-073"
+   ]
+  },
+  {
+   "name": "BeginTrimStartDrag",
+   "kind": "user",
+   "trigger": "タイムラインのトラック(縦位置 30 px 以上)でトリム開始ハンドルから 7 px 以内の左ボタンの押下",
+   "param": null,
+   "effect": "dragMode を TrimStart にし、未保存の変更にする。Document は変えない(押しただけで離しても記録と未保存の変更は残る)。",
+   "history": "1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-040",
+    "REQ-042",
+    "REQ-072",
+    "authority/Controls/TimelineControl.cs#OnPointerPressed"
+   ]
+  },
+  {
+   "name": "BeginTrimEndDrag",
+   "kind": "user",
+   "trigger": "トラックでトリム終了ハンドルから 7 px 以内の押下(トリム開始ハンドルに当たらないとき)",
+   "param": null,
+   "effect": "dragMode を TrimEnd にし、未保存の変更にする。",
+   "history": "1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-040",
+    "REQ-042",
+    "authority/Controls/TimelineControl.cs#OnPointerPressed"
+   ]
+  },
+  {
+   "name": "BeginBoundaryDrag",
+   "kind": "user",
+   "trigger": "トラックで内部の境界から 7 px 以内の押下(ハンドルに当たらないとき・先頭側から最初の境界)",
+   "param": "境界の番号 i",
+   "effect": "dragMode を Boundary にし、未保存の変更にする。",
+   "history": "1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-041",
+    "REQ-042",
+    "authority/Controls/TimelineControl.cs#OnPointerPressed"
+   ]
+  },
+  {
+   "name": "MoveTrimStart",
+   "kind": "user",
+   "trigger": "dragMode が TrimStart のときのポインタの移動 1 回",
+   "param": "時刻 t",
+   "effect": "trimStart と先頭区間の開始を SnapFrame(t を [0, 先頭区間の終了 − 0.5] に収めた値) にし、編集対象を再解決し、未保存の変更にする。playhead は動かさない。1 回のドラッグは BeginTrimStartDrag 1 回と MoveTrimStart の繰り返しで、記録は押下の 1 件だけ。",
+   "history": "記録しない",
+   "source": [
+    "REQ-040",
+    "REQ-024",
+    "authority/ViewModels/MainWindowViewModel.cs#MoveTrim"
+   ]
+  },
+  {
+   "name": "MoveTrimEnd",
+   "kind": "user",
+   "trigger": "dragMode が TrimEnd のときのポインタの移動 1 回",
+   "param": "時刻 t",
+   "effect": "trimEnd と末尾区間の終了を SnapFrame(t を [末尾区間の開始 + 0.5, 長さ] に収めた値) にする。他は MoveTrimStart と同じ。",
+   "history": "記録しない",
+   "source": [
+    "REQ-040",
+    "authority/ViewModels/MainWindowViewModel.cs#MoveTrim"
+   ]
+  },
+  {
+   "name": "MoveBoundary",
+   "kind": "user",
+   "trigger": "dragMode が Boundary のときのポインタの移動 1 回",
+   "param": "時刻 t",
+   "effect": "境界 i を SnapFrame(t を [区間 i の開始 + 0.5, 区間 i+1 の終了 − 0.5] に収めた値) へ動かし、両側の区間を同時に変える。編集対象を再解決し、未保存の変更にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-041",
+    "authority/ViewModels/MainWindowViewModel.cs#MoveBoundary"
+   ]
+  },
+  {
+   "name": "ReleaseTimelinePointer",
+   "kind": "user",
+   "trigger": "タイムラインで押したボタンを離す",
+   "param": null,
+   "effect": "dragMode を None にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-042",
+    "authority/Controls/TimelineControl.cs#OnPointerReleased"
+   ]
+  },
+  {
+   "name": "BeginInteractiveEdit",
+   "kind": "user",
+   "trigger": "速度・音量のスライダーで、押下がつまみ・トラックに処理されずにスライダー自身まで届いたとき(Track の上下の透明な余白の押下)だけ。タイムラインの押下は含まない(それは Begin*Drag)",
+   "param": null,
+   "effect": "未保存の変更にする。Document は変えない。",
+   "history": "1 件記録する(記録の前の Document を past に積み、future を空にする)",
+   "source": [
+    "REQ-058",
+    "REQ-060",
+    "REQ-071",
+    "authority/Views/InspectorView.axaml.cs#OnSpeedSliderPressed"
+   ]
+  },
+  {
+   "name": "SetSpeedContinuous",
+   "kind": "user",
+   "trigger": "速度のスライダーの値の変更 1 回(つまみのドラッグ・トラックの押下を含む)",
+   "param": "スライダーの値 v(log2・[−2, 2])",
+   "effect": "編集対象の区間の速度を 2^v(0.01 単位に偶数丸め・[0.25, 4])にし、編集対象を再解決し、未保存の変更にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-058",
+    "REQ-059",
+    "authority/ViewModels/MainWindowViewModel.cs#SetSpeedContinuous"
+   ]
+  },
+  {
+   "name": "SetVolumeContinuous",
+   "kind": "user",
+   "trigger": "音量のスライダーの値の変更 1 回",
+   "param": "スライダーの値(0〜200)",
+   "effect": "編集対象の区間の音量を 値/100(0.01 単位に偶数丸め・[0, 2])にし、編集対象を再解決し、未保存の変更にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-060",
+    "REQ-061",
+    "authority/ViewModels/MainWindowViewModel.cs#SetVolumeContinuous"
+   ]
+  },
+  {
+   "name": "EditWidthText",
+   "kind": "user",
+   "trigger": "幅の入力欄に文字を打つ",
+   "param": "文字列",
+   "effect": "widthInputText をその文字列にする(確定までは出力寸法を変えない)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-067"
+   ]
+  },
+  {
+   "name": "EditHeightText",
+   "kind": "user",
+   "trigger": "高さの入力欄に文字を打つ",
+   "param": "文字列",
+   "effect": "heightInputText をその文字列にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-067"
+   ]
+  },
+  {
+   "name": "FocusWidthInput",
+   "kind": "user",
+   "trigger": "幅の入力欄をクリック・Tab で移る",
+   "param": null,
+   "effect": "InspectorView.focusedInput を width にする(キー操作が止まる)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-074"
+   ]
+  },
+  {
+   "name": "FocusHeightInput",
+   "kind": "user",
+   "trigger": "高さの入力欄をクリック・Tab で移る",
+   "param": null,
+   "effect": "InspectorView.focusedInput を height にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-074"
+   ]
+  },
+  {
+   "name": "ApplyWidth",
+   "kind": "user",
+   "trigger": "幅の入力欄での Enter(フォーカスは残る)、または幅の入力欄からフォーカスが外れたとき(focusedInput は外れた先になる)",
+   "param": "widthInputText",
+   "effect": "数字以外を取り除いて整数にできれば、幅を Even([16, 7680] に収めた値) にし、縦横比の維持がオンなら高さを Even(幅 × ソースの高さ/ソースの幅)(上限に収めない)にして、未保存の変更にする。整数にできなければ値は変えない。どちらでも入力欄に実際の幅を表示する。",
+   "history": "記録しない",
+   "source": [
+    "REQ-067",
+    "REQ-072",
+    "authority/Views/InspectorView.axaml.cs#CommitWidth",
+    "authority/ViewModels/MainWindowViewModel.cs#ApplyWidth"
+   ]
+  },
+  {
+   "name": "ApplyHeight",
+   "kind": "user",
+   "trigger": "高さの入力欄での Enter、またはフォーカスが外れたとき",
+   "param": "heightInputText",
+   "effect": "高さを Even([16, 4320] に収めた値) にし、縦横比の維持がオンなら幅を Even(高さ × ソースの幅/ソースの高さ) にする。他は ApplyWidth と同じ。",
+   "history": "記録しない",
+   "source": [
+    "REQ-067",
+    "authority/Views/InspectorView.axaml.cs#CommitHeight",
+    "authority/ViewModels/MainWindowViewModel.cs#ApplyHeight"
+   ]
+  },
+  {
+   "name": "Scale",
+   "kind": "user",
+   "trigger": "スケールのプリセット 100%・75%・50% と Reset(= 100%)",
+   "param": "倍率 1・0.75・0.5",
+   "effect": "縦横比の維持に関わらず、幅と高さをそれぞれ Even(ソースの寸法 × 倍率) にし、未保存の変更にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-069",
+    "REQ-072",
+    "authority/ViewModels/MainWindowViewModel.cs#Scale"
+   ]
+  },
+  {
+   "name": "SetFps",
+   "kind": "user",
+   "trigger": "出力フレームレートのプリセット Source・24・30・60・120",
+   "param": "source または数値",
+   "effect": "outputFps を、source ならソースの fps、数値ならその値にし、値が同じでも未保存の変更にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-070",
+    "REQ-072",
+    "authority/ViewModels/MainWindowViewModel.cs#SetFps"
+   ]
+  },
+  {
+   "name": "ToggleAspect",
+   "kind": "user",
+   "trigger": "縦横比の維持の行(マウスのどのボタンでも)",
+   "param": null,
+   "effect": "keepAspect を反転する。オンにしたときは高さを Even(幅 × ソースの高さ/ソースの幅) にする。未保存の変更は変えない。",
+   "history": "記録しない",
+   "source": [
+    "REQ-068",
+    "authority/ViewModels/MainWindowViewModel.cs#ToggleAspect"
+   ]
+  },
+  {
+   "name": "ScrollInspector",
+   "kind": "user",
+   "trigger": "インスペクターの上部の領域を縦にスクロール",
+   "param": "位置",
+   "effect": "InspectorView.scrollOffset をその位置にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-056"
+   ]
+  },
+  {
+   "name": "ShowExportDialog",
+   "kind": "user",
+   "trigger": "ツールバーの Export",
+   "param": null,
+   "effect": "書き出しダイアログを開く。コピーがオンでコピーできる状態なら、キーフレームを求め始める(結果は KeyframeResolved)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-075",
+    "REQ-079",
+    "authority/ViewModels/MainWindowViewModel.cs#OnShowExportChanged"
+   ]
+  },
+  {
+   "name": "CloseExport",
+   "kind": "user",
+   "trigger": "ダイアログの Cancel・モーダルの外(タイトルバーの上を含む)の押下(マウスのどのボタンでも)",
+   "param": null,
+   "effect": "書き出し中でなければダイアログを閉じる。書き出し中は何もしない。Esc では閉じない。",
+   "history": "記録しない",
+   "source": [
+    "REQ-075",
+    "REQ-095",
+    "authority/ViewModels/MainWindowViewModel.cs#CloseExport"
+   ]
+  },
+  {
+   "name": "SelectFormat",
+   "kind": "user",
+   "trigger": "書き出し形式のカード(どこでも・マウスのどのボタンでも・書き出し中も)",
+   "param": "Mp4・Lossless・ProRes",
+   "effect": "selectedFormat をその形式にする。コピーがオンでコピーできる状態なら、キーフレームを求め始める。進行中の書き出しは開始時の形式のまま。",
+   "history": "記録しない",
+   "source": [
+    "REQ-076",
+    "REQ-079",
+    "authority/ViewModels/MainWindowViewModel.cs#SelectFormat"
+   ]
+  },
+  {
+   "name": "SetFastExport",
+   "kind": "user",
+   "trigger": "ダイアログのコピーの切り替え(表示されるのは canFastExport のとき)",
+   "param": "オン/オフ",
+   "effect": "fastExport をその値にする。オンでコピーできる状態なら、キーフレームを求め始める。",
+   "history": "記録しない",
+   "source": [
+    "REQ-078",
+    "REQ-079"
+   ]
+  },
+  {
+   "name": "ConfirmExport",
+   "kind": "user",
+   "trigger": "ダイアログの Export(書き出す)",
+   "param": null,
+   "effect": "書き出し中なら何もしない。サンプルなら statusMessage を「Samples cannot be exported. Open an actual file.」にして終わる。実ファイルなら保存先の選択ダイアログを開き、選ばなければ何もしない。選んだら outputPath を設定し、isExporting を真・progress/frame/ffmpegSpeed を 0・statusMessage を「Exporting…」にして時計を測り始め、コピーならキーフレームを確定(copyCutStart)してから、その時点の Document・出力設定・形式・コピーの指定を ExportRun.request に固定して書き出す(書き出しの内容は ExportRun と OutputFile)。終わったら isExporting を偽にして時計を止め、成功ならダイアログを閉じ・未保存の変更をオフ・statusMessage を消す。失敗・中断なら statusMessage の列挙のどれかの文言にする(再翻訳しない)。ffprobe/ffmpeg の起動の例外・キーフレーム算出の打ち切りは異常終了(REQ-083)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-081",
+    "REQ-082",
+    "REQ-083",
+    "authority/ViewModels/MainWindowViewModel.cs#ConfirmExport"
+   ]
+  },
+  {
+   "name": "CancelExport",
+   "kind": "user",
+   "trigger": "書き出し中の Abort",
+   "param": null,
+   "effect": "進行中の書き出しを取り消す。ConfirmExport の続きが isExporting を偽にし、statusMessage を「Export canceled.」にする。書き出し先の途中までのファイルは削除しない(OutputFile.state = partial)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-082",
+    "REQ-083",
+    "authority/ViewModels/MainWindowViewModel.cs#CancelExport"
+   ]
+  },
+  {
+   "name": "ExportProgressReported",
+   "kind": "event",
+   "trigger": "書き出し中に ffmpeg が進捗を出したとき",
+   "param": "割合・フレーム数・速度",
+   "effect": "progress・frame・ffmpegSpeed を更新する(elapsedSeconds は更新しない)。成功で終わるときは最後に割合 1 を届ける。",
+   "history": "記録しない",
+   "source": [
+    "REQ-082"
+   ]
+  },
+  {
+   "name": "KeyframeResolved",
+   "kind": "event",
+   "trigger": "キーフレームの算出が終わったとき(ダイアログを開いた・コピーをオンにした・形式が変わった・Document が変わったとき、コピーがオンでコピーできる状態なら始まる)",
+   "param": "キーフレームの時刻(null あり)",
+   "effect": "算出を始めたときの copyCutGeneration がまだ変わっていなければ copyCutStart にする。世代はコピーできる状態での新しい算出の開始と読み込みでしか進まないので、コピーできない状態で Document が変わった後でも、前のトリム開始の結果が入ることがある。KeyframeCache に覚える(打ち切りは覚えない)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-079",
+    "REQ-080",
+    "authority/ViewModels/MainWindowViewModel.cs#EnsureCopyCutAsync"
+   ]
+  },
+  {
+   "name": "ZoomIn",
+   "kind": "user",
+   "trigger": "タイムライン見出しのズームイン",
+   "param": null,
+   "effect": "pxPerSec を pxPerSec·1.4 を [4, 120] に収めた値にし、再生ヘッド(画面内なら)か画面中央の時刻を同じ画面位置に保つよう scrollOffset を合わせる。",
+   "history": "記録しない",
+   "source": [
+    "REQ-045"
+   ]
+  },
+  {
+   "name": "ZoomOut",
+   "kind": "user",
+   "trigger": "タイムライン見出しのズームアウト",
+   "param": null,
+   "effect": "pxPerSec を pxPerSec/1.4 を [4, 120] に収めた値にし、ZoomIn と同じく scrollOffset を合わせる。",
+   "history": "記録しない",
+   "source": [
+    "REQ-045"
+   ]
+  },
+  {
+   "name": "ScrollTimeline",
+   "kind": "user",
+   "trigger": "タイムラインの横スクロールバー・ホイール",
+   "param": "位置",
+   "effect": "scrollOffset をその位置にする([0, 最大] の範囲)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-093"
+   ]
+  },
+  {
+   "name": "HoverTimeline",
+   "kind": "user",
+   "trigger": "ドラッグしていないときのタイムライン上のポインタの移動",
+   "param": "x・y",
+   "effect": "トラック(縦位置 30 px 以上)でハンドルか境界から 7 px 以内なら cursor を SizeWestEast、それ以外 Arrow。ハンドルに当たらず境界の上なら hoverBoundary をその境界、それ以外 −1。",
+   "history": "記録しない",
+   "source": [
+    "REQ-043"
+   ]
+  },
+  {
+   "name": "LeaveTimeline",
+   "kind": "user",
+   "trigger": "ポインタがタイムラインの外へ出る",
+   "param": null,
+   "effect": "hoverBoundary を −1、cursor を Arrow にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-043"
+   ]
+  },
+  {
+   "name": "LayoutChanged",
+   "kind": "event",
+   "trigger": "ウィンドウの大きさの変更などでプレビューの領域・タイムラインの表示幅が変わったとき",
+   "param": "新しい大きさ",
+   "effect": "タイムラインの viewportWidth を更新し、プレビューの映像枠をクリップの縦横比(不明なら 16:9)で計算し直す。",
+   "history": "記録しない",
+   "source": [
+    "REQ-033",
+    "REQ-045"
+   ]
+  },
+  {
+   "name": "RequestVisibleTimelinePreview",
+   "kind": "event",
+   "trigger": "タイムラインの描画(スクロール・ズーム・再生を含む)で可視範囲が決まったとき",
+   "param": "可視範囲と pxPerSec",
+   "effect": "全体のフィルムストリップが無く、前回の要求の範囲で覆えないとき、範囲を揃えて lastVisibleRequest を更新し、可視範囲のサムネイルの要求をキューへ入れる(同じ種類は最新 1 件)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-051",
+    "authority/ViewModels/MainWindowViewModel.cs#RequestVisibleTimelinePreview"
+   ]
+  },
+  {
+   "name": "CachedThumbnailsLoaded",
+   "kind": "event",
+   "trigger": "読み込み後、キャッシュにあった全体のフィルムストリップを読み終えたとき",
+   "param": "サムネイルの列・間隔",
+   "effect": "filmstrip・filmstripInterval を設定し、1 枚以上あれば visibleThumbnails を捨てる。",
+   "history": "記録しない",
+   "source": [
+    "REQ-050",
+    "REQ-051"
+   ]
+  },
+  {
+   "name": "VisibleThumbnailsGenerated",
+   "kind": "event",
+   "trigger": "可視範囲のサムネイルの生成が終わったとき(要求がまだ最新で全体のフィルムストリップが無いとき)",
+   "param": "サムネイルの列",
+   "effect": "visibleThumbnails にする。ディスクキャッシュに書く。",
+   "history": "記録しない",
+   "source": [
+    "REQ-051",
+    "REQ-054"
+   ]
+  },
+  {
+   "name": "WaveformGenerated",
+   "kind": "event",
+   "trigger": "読み込みの 1200 ms 後に始めた波形の生成が終わったとき(同じクリップのまま)",
+   "param": "波形",
+   "effect": "waveform にし、メモリとディスクのキャッシュに入れる。失敗・音声なしなら何もしない(擬似の波形のまま)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-052",
+    "REQ-053"
+   ]
+  },
+  {
+   "name": "MediaJobCompleted",
+   "kind": "event",
+   "trigger": "キューの実行中の要求が終わったとき(成功・失敗とも)",
+   "param": null,
+   "effect": "running を空にし、待っている要求の中から優先度の高いもの(同じなら先着)を running にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-055"
+   ]
+  },
+  {
+   "name": "PlayerInitialized",
+   "kind": "event",
+   "trigger": "プレイヤーの背景での準備が終わったとき",
+   "param": null,
+   "effect": "playerAvailable を設定し、保留中の実クリップがあれば読み込む。",
+   "history": "記録しない",
+   "source": [
+    "REQ-033",
+    "authority/Views/PreviewView.axaml.cs#OnPlayerConstructed"
+   ]
+  },
+  {
+   "name": "PlayerClipLoaded",
+   "kind": "event",
+   "trigger": "準備済みのプレイヤーへ実クリップを読み込んだとき",
+   "param": null,
+   "effect": "プレイヤーが使えれば externalPlayback を真にし、シーンを表示し、映像枠を計算し直す。使えなければ externalPlayback を偽にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-033",
+    "REQ-035",
+    "authority/Views/PreviewView.axaml.cs#LoadClipIntoPlayer"
+   ]
+  },
+  {
+   "name": "PlayerFrameReady",
+   "kind": "event",
+   "trigger": "プレイヤーが最初のフレームを出したとき",
+   "param": null,
+   "effect": "シーンを隠す(実映像を表示)。トリム開始の位置で一時停止する。",
+   "history": "記録しない",
+   "source": [
+    "REQ-033",
+    "REQ-035",
+    "authority/Views/PreviewView.axaml.cs#AttachPlayer"
+   ]
+  },
+  {
+   "name": "ClearError",
+   "kind": "user",
+   "trigger": "読み込みエラーのバナーの ✕",
+   "param": null,
+   "effect": "LoadError.message を消す。",
+   "history": "記録しない",
+   "source": [
+    "REQ-019"
+   ]
+  },
+  {
+   "name": "InstallFfmpeg",
+   "kind": "user",
+   "trigger": "ffmpeg セットアップの Download",
+   "param": null,
+   "effect": "取得中なら何もしない。installing を真・errorMessage を消して取得・展開・検証する。成功ならパスを解決し直してオーバーレイを閉じる。検証の失敗・例外なら errorMessage を出してボタンを戻す。終わったら installing を偽にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-015",
+    "authority/ViewModels/MainWindowViewModel.cs#InstallFfmpeg"
+   ]
+  },
+  {
+   "name": "FfmpegInstallProgressReported",
+   "kind": "event",
+   "trigger": "取得中に進捗が届いたとき",
+   "param": "割合",
+   "effect": "installProgress にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-015"
+   ]
+  },
+  {
+   "name": "DismissFfmpegSetup",
+   "kind": "user",
+   "trigger": "ffmpeg セットアップの Later",
+   "param": null,
+   "effect": "オーバーレイを閉じるだけ(保存しない)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-014"
+   ]
+  },
+  {
+   "name": "OpenAbout",
+   "kind": "user",
+   "trigger": "タイトルバーの ⓘ",
+   "param": null,
+   "effect": "notices が空なら THIRD-PARTY-NOTICES.txt(無ければ案内文)を読んで設定し、About を開く。",
+   "history": "記録しない",
+   "source": [
+    "REQ-089",
+    "REQ-090",
+    "authority/ViewModels/MainWindowViewModel.cs#OpenAbout"
+   ]
+  },
+  {
+   "name": "CloseAbout",
+   "kind": "user",
+   "trigger": "About の Close・モーダルの外の押下(マウスのどのボタンでも)",
+   "param": null,
+   "effect": "About を閉じる。",
+   "history": "記録しない",
+   "source": [
+    "REQ-089",
+    "REQ-095"
+   ]
+  },
+  {
+   "name": "OpenLanguageMenu",
+   "kind": "user",
+   "trigger": "タイトルバーの言語ボタン(地球アイコン)",
+   "param": null,
+   "effect": "「日本語」「English」のメニューを出すだけ。モデルの値は変えない。",
+   "history": "記録しない",
+   "source": [
+    "REQ-008"
+   ]
+  },
+  {
+   "name": "SwitchLanguage",
+   "kind": "user",
+   "trigger": "言語メニューの「日本語」「English」",
+   "param": "ja / en",
+   "effect": "UI 言語を切り替え、AppSettings.language に保存する。表示中の一時メッセージのうち翻訳元のキーを持つもの(読み込みエラー・サンプルの書き出しエラー・Exporting…・ffmpeg のエラーの定型部分・About の案内文)を新しい言語で書き直す。",
+   "history": "記録しない",
+   "source": [
+    "REQ-008",
+    "REQ-011",
+    "authority/ViewModels/MainWindowViewModel.cs#SwitchLanguage",
+    "authority/ViewModels/MainWindowViewModel.cs#OnCultureChanged"
+   ]
+  },
+  {
+   "name": "ResizeWindow",
+   "kind": "user",
+   "trigger": "ウィンドウの四辺・四隅の幅 6 px の縁の左ボタンのドラッグ(最大化中は効かない)",
+   "param": "辺/隅と移動量",
+   "effect": "width・height(と左・上の辺なら position)を変える。最小 960×600。",
+   "history": "記録しない",
+   "source": [
+    "REQ-004"
+   ]
+  },
+  {
+   "name": "MoveWindow",
+   "kind": "user",
+   "trigger": "タイトルバー中央の領域の左ボタンのドラッグ",
+   "param": "移動量",
+   "effect": "position を変える。",
+   "history": "記録しない",
+   "source": [
+    "REQ-007"
+   ]
+  },
+  {
+   "name": "ToggleMaximize",
+   "kind": "user",
+   "trigger": "タイトルバーの最大化ボタン・タイトルバー中央のダブルクリック",
+   "param": null,
+   "effect": "windowState を Maximized と Normal の間で切り替える。",
+   "history": "記録しない",
+   "source": [
+    "REQ-006",
+    "REQ-007"
+   ]
+  },
+  {
+   "name": "MinimizeWindow",
+   "kind": "user",
+   "trigger": "タイトルバーの最小化ボタン",
+   "param": null,
+   "effect": "windowState を Minimized にする。",
+   "history": "記録しない",
+   "source": [
+    "REQ-007"
+   ]
+  },
+  {
+   "name": "CloseWindow",
+   "kind": "user",
+   "trigger": "タイトルバーの閉じるボタン",
+   "param": null,
+   "effect": "確認なしに閉じる。再生を止め、書き出し・サムネイル/波形の生成を中断し、キューを空にし、サムネイルを捨てる。中断した書き出しの途中のファイルは残る(OutputFile)。",
+   "history": "記録しない",
+   "source": [
+    "REQ-005",
+    "authority/ViewModels/MainWindowViewModel.cs#Cleanup"
+   ]
+  }
+ ],
+ "questions": [
+  {
+   "subject": "MainWindow.position",
+   "text": "既定サイズが作業領域に収まるときの初期位置は MainWindow.axaml に WindowStartupLocation が無く、要求にも書かれていない(OS / Avalonia の既定に任されている)。初期値を unknown にした。",
+   "source": [
+    "REQ-003",
+    "authority/Views/MainWindow.axaml"
+   ]
+  },
+  {
+   "subject": "PreviewPlayer",
+   "text": "要求の範囲は「映像そのものの描画と再生のタイミング」を除く。映像枠の大きさ・プレイヤーが使えるか・プレイヤーに渡す速度と音量をドメインの属性として持つか(画面とシナリオが観測するか)。playerAvailable・frameWidth/Height/Aspect の初期値は実行環境と画面の大きさで決まるので unknown にした。",
+   "source": [
+    "REQ-029",
+    "REQ-033",
+    "authority/Views/PreviewView.axaml.cs"
+   ]
+  },
+  {
+   "subject": "PreviewPlayer.syncState",
+   "text": "プレビューの同期状態(Disabled・Priming・Paused・SeekingPaused・StartingPlayback・Playing・SeekingPlayback・Faulted)はソースにあるが要求は名指ししていない(REQ-029 はシークのタイムアウトで停止に戻るとだけ書く)。同期状態とシークの再試行の回数(シークを始めるたびと一時停止・最初のフレームで 0 に戻り、上限 2 を超えると停止)は属性に入れず、停止に戻る遷移は出来事 HaltPlayback の 1 か所にまとめた。入れるべきか。",
+   "source": [
+    "REQ-029",
+    "authority/Views/PreviewView.axaml.cs"
+   ]
+  },
+  {
+   "subject": "EditSession.nextRegionId",
+   "text": "ApplyStartupEnvironment のうち MOVIEPAD_OPEN は読み込みを通るので次の区間 ID を振り直すが、MOVIEPAD_SCENARIO はドキュメントを直接差し替えるだけで振り直さない(ソースでは _nextId は直前の値のまま。サンプルなら 5)。要求 REQ-094 はこの点を書いていない。MOVIEPAD_SCENARIO だけならサンプルの 5 が残るので衝突しないが、MOVIEPAD_OPEN と両方を指定すると、読み込みで nextRegionId が 2 になった後にシナリオが ID 1〜3 の区間を入れるので、次の分割が ID 2 を重複して振る(FindById / IndexOfId は先頭から最初に一致した区間を返すので、分割の後の編集対象や速度・音量の変更が別の区間に当たりうる)。この重複を再現の対象とするか。",
+   "source": [
+    "REQ-094",
+    "authority/Views/MainWindow.axaml.cs#ApplyScreenshotScenario"
+   ]
+  },
+  {
+   "subject": "TimelineView.scrollOffset",
+   "text": "読み込み(新しいクリップ)で横スクロールの位置がどうなるかは要求に書かれていない(ScrollViewer の内容幅が変わったときの扱いは Avalonia 任せ)。LoadClip は scrollOffset を直接は変えないので set_by に読み込みを入れなかった。表示幅(viewportWidth)の初期値もウィンドウの大きさとレイアウトで決まるので unknown にした。",
+   "source": [
+    "REQ-045",
+    "REQ-093"
+   ]
+  },
+  {
+   "subject": "ExportJob.statusMessage",
+   "text": "例外で異常終了する経路(ffprobe/ffmpeg の起動の失敗・キーフレーム算出の 20 秒の打ち切り)では、VM に「Exporting…」や書き出し中のまま残ると要求に書かれているが、アプリは異常終了する(REQ-014・REQ-083)。異常終了後の状態を属性の値として扱う必要があるか(シナリオの期待状態に書けるか)。",
+   "source": [
+    "REQ-014",
+    "REQ-083"
+   ]
+  },
+  {
+   "subject": "OutputSettings.widthInputText",
+   "text": "入力欄は OutW / OutH に OneWay で結ばれているので、出力寸法を変える操作(Scale・ApplyWidth/ApplyHeight の縦横比の計算・ToggleAspect・読み込み)を set_by に入れた。ただし (1) 文字を打ったまま確定せずに別の操作で寸法が変わったとき打った文字が置き換わるか、(2) 確定で CommitWidth / CommitHeight がコードから Text を直接設定した後も OneWay の結びつけが生き続けるか(その後の Scale などで表示が変わるか)は、Avalonia の既定の動作でソースからは決まらない。どちらも元のアプリで確かめる必要がある。",
+   "source": [
+    "REQ-067",
+    "authority/Views/InspectorView.axaml"
+   ]
+  },
+  {
+   "subject": "History.past",
+   "text": "スライダーのつまみ・トラックのドラッグは履歴を記録しない(REQ-058・REQ-060)。この経路は SetSpeedContinuous / SetVolumeContinuous(記録なし)として、余白の押下は BeginInteractiveEdit(記録あり)として分けた。どの押下がどちらに当たるかは Avalonia 12.0.0 の既定の動作に依存し、要求の未決事項(L2 で確かめる)のまま。",
+   "source": [
+    "REQ-058",
+    "REQ-060",
+    "REQ-071"
+   ]
+  },
+  {
+   "subject": "operations",
+   "text": "operation_definitions で kind が event のもの(PlaybackTick・PlayerTimeChanged・PlayerFrameReady・HaltPlayback・ExportProgressReported・KeyframeResolved・CachedThumbnailsLoaded・VisibleThumbnailsGenerated・WaveformGenerated・MediaJobCompleted・RequestVisibleTimelinePreview・FfmpegInstallProgressReported・PlayerInitialized・PlayerClipLoaded・LayoutChanged)はユーザーの操作ではなく、時間・プレイヤー・裏の処理・レイアウトが起こす出来事。画面の要素からは呼ばれない。操作として同じ名前空間に置いた。",
+   "source": [
+    "REQ-028",
+    "REQ-029",
+    "REQ-051",
+    "REQ-052",
+    "REQ-079",
+    "REQ-082"
+   ]
+  },
+  {
+   "subject": "ExportRun",
+   "text": "書き出しの内容は、計画の値(残る範囲・経路・総時間・フレーム数・符号化の指定)までを属性にし、フィルタグラフの文字列と run ごとの境界・ソースフレームの対応(REQ-085 の式)は要求の式を正として属性に展開しなかった。期待状態をフレーム単位で書く段が要るなら、run ごとの属性(出力上の開始 T_k・出力フレームの範囲・読むソースフレーム)を足す必要がある。",
+   "source": [
+    "REQ-085",
+    "REQ-087"
+   ]
+  },
+  {
+   "subject": "OutputFile.state",
+   "text": "ffmpeg が 0 以外で終了したとき、書き出し先に何が残るか(空・途中まで・作られない)は ffmpeg の動作で決まり、ソースは何もしない(削除しない)。partial と書いたが、元のアプリで確かめる必要がある。",
+   "source": [
+    "REQ-083"
+   ]
+  },
+  {
+   "subject": "InspectorView.focusedInput",
+   "text": "入力欄からフォーカスが外れる先(タイムライン・ボタンなどを押したとき、Avalonia がどの要素へフォーカスを移すか、どこにも移らないか)はソースでは決まらない。ApplyWidth / ApplyHeight をフォーカスが外れたときの確定にも使うので、その後の focusedInput は「外れた先」とだけ書いた。",
+   "source": [
+    "REQ-067",
+    "REQ-074"
+   ]
+  },
+  {
+   "subject": "operation_definitions",
+   "text": "prompt の形ではトップレベルの operations は「何も変えない操作」なので、値を変える操作の定義(きっかけ・引数・効果・履歴の件数)は別のキー operation_definitions に置いた(全 81 の操作名を 1 件ずつ定義・set_by と operations の名前と一致することを生成時に確かめている)。後の画面とシナリオがこの定義を読む前提でよいか。",
+   "source": [
+    "REQ-071"
+   ]
+  }
+ ]
+}

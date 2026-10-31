@@ -89,3 +89,50 @@ The defaults of definitions section 3 were accepted as proposed.
 - Fresh author folder `exp07/s2-author` (rebuilt): prompt `3bc40d44…`, requirements `24964b9d…`, `check_upstream.py`
   `a6ae177f…`, `check_model.py` `313cb523…`, authority tree `bfef702c…` (245 files); 0 matches of `fps`, `frame rate`, `chain`
   or `EXP-2026` in its tools.
+- Repair committed as `cbcbf99` (the blobs of the two blind tools and `prepare.py` equal the hashes above). The leaked draft was
+  written with CRLF and `.gitattributes` stores LF: its blob is `7264b920…`, which equals `3af0158b…`'s bytes with CRLF
+  turned to LF (no lone CR).
+- Fresh S2 author started 2026-10-31T12:20:23+09:00 with the watcher.
+- Fresh author done in 654 s (29 tool calls): 21 entities, 179 attributes (83 with `set_by`, 96 derived), 29 relations,
+  73 operation names (2 setting nothing), 9 questions, 5 attributes with an unknown initial; form OK with the blind tool.
+  Draft `28440b94…` (kept as `s2/draft-r1.json`). Isolation: no read outside its folder; the same one-off write as the first
+  author (`../reqs-dump.txt` in `exp07/`, deleted by itself, then `work/`). Its transcript has no trace of the tools' measured
+  words. (The full tool, run by the operator only: form OK; its frame-rate rule selects six `OutputSettings` attributes, of
+  which A1 counts only those with `set_by` — read at the measurement.)
+- **A channel found while checking that transcript, older than this run:** the harness gives every subagent the repository's
+  `CLAUDE.md` and the user's memory index (`MEMORY.md`). The index names `MoviePad-Remake` (3 times) and this series'
+  experiment ids, and none of fps, frame rate, `SetFps` or 出力設定. Every agent of EXP-20261030-04, -05 and EXP-20261031-01
+  had it too; none of their records name it. It does not name what A1 singles out; recorded as a limit, not repaired (the
+  harness, not the folders, supplies it).
+- Audit round 1: folder `exp07/s2-audit-r1` (prompt `ecee6464…`, draft `28440b94…`, blind tools, authority tree `bfef702c…`);
+  auditor started 2026-10-31T12:32:07+09:00 with the watcher.
+- Audit round 1 done in 596 s (45 tool calls): 12 findings, blocker 0 / material 6 / minor 6 (`s2/audit-r1.json`,
+  `ff2628bd…`); the draft in its folder unchanged (`28440b94…`). Isolation: no read or write outside its folder (one flag,
+  `d:\`, is the text `id:\|` of a grep pattern). Relayed 2026-10-31T12:42:26+09:00 as the file (same hash in the author
+  folder), in the words of S1's round-1 relay.
+- Author answered round 1 in 317 s: 12 fixed (`s2/answers-r1.json`, `3e0489ef…`); 23 entities, 196 attributes (88 with
+  `set_by`), 32 relations, 11 questions; form OK. Draft `e9c620b5…` (`s2/draft-r2.json`). It added a top-level
+  `operation_definitions` (all 81 operations: trigger, argument, effect, history entries) outside section 6's form and asked
+  the operator whether that place is right; **not answered** (the operator does not rule on content) — the author also put
+  it in `questions`, where the next auditor sees it. Isolation: unchanged (the earlier one-off write only).
+- Audit round 2 (fresh auditor, revised draft only): folder `exp07/s2-audit-r2`, started 2026-10-31T12:48:13+09:00.
+- Audit round 2 done in 923 s (48 tool calls): 10 findings, blocker 0 / material 1 / minor 9 (`s2/audit-r2.json`,
+  `7ab801d8…`); draft in its folder unchanged. The material one: the export's content (the span left after trim and
+  exclusion, the copy's real start, the progress denominator, REQ-085's totals and runs, REQ-086's path) is not in the model.
+  Isolation: no read or write outside its folder (two `d:\` flags, the grep pattern `id:\|` again); no trace of the tools'
+  measured words. Relayed 2026-10-31T13:04:00+09:00 as the file, in the words of S1's round-2 relay.
+- Author answered round 2 in 223 s: 10 fixed (`s2/answers-r2.json`, `f36b266a…`); 25 entities (ExportRun, OutputFile added),
+  217 attributes (92 with `set_by`), 36 relations, 13 questions; form OK. Draft `880a7e5b…` (`s2/draft-r3.json`). It removed
+  one attribute (`PreviewPlayer.seekRetryCount`) and wrote its rule into an operation's definition instead.
+- Audit round 3 (the last of the budget; fresh auditor, revised draft only): folder `exp07/s2-audit-r3`, started
+  2026-10-31T13:08:17+09:00.
+- Audit round 3 done in 775 s (46 tool calls): 8 findings, blocker 0 / **material 3** / minor 5 (`s2/audit-r3.json`,
+  `eac4e8e6…`); draft in its folder unchanged (`880a7e5b…`). The three: what "resolve the selection again" does after a
+  document change and after a playhead move (F-1); the internal timer drives playback whenever the external player is not
+  playing, not only for the sample (F-2); the keyframe lookup returns 0 first when the trim start is 0 or less, before the
+  online-only test (F-3; round 1's F-12 named the same function). Isolation: none outside (the `d:\` flag is the grep pattern
+  again); no trace of the measured words. Not relayed.
+- **Stop (definitions sections 4 and 10): S2 unconverged at the 3-round budget.** Blocker / material per round: 0 / 6,
+  0 / 1, 0 / 3 (all findings 12, 10, 8). The draft at the stop is `s2/draft-r3.json` (`880a7e5b…`); not frozen. As in S1, each
+  round's material findings are source behaviour the model does not yet state (here: selection rules, the timer's condition,
+  a keyframe branch). Returned to the user 2026-10-31T13:21:42+09:00.

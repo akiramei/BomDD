@@ -1,0 +1,22 @@
+{"answers": [
+  {"finding": "F-1", "action": "fixed",
+   "text": "FfmpegExporter.ExportAsync / CopyStart / ExportPlan.Analyze と ExportClock.Build を読んで確かめた。実体 ExportRun を追加した。request は ConfirmExport が書き出しの開始に固定する依頼(Clip・Document・出力の幅/高さ/fps・形式・コピーの指定・copyCutStart・outputPath)で、set_by は ConfirmExport。そこからの派生値として次を置いた: spanCount・singleSpan・spanStart・spanEnd・canStreamCopy・path(copy / exactCfr / legacy。legacy は REQ-086 の VFR などの経路)・copyStart(0 ≤ copyCutStart ≤ spanStart のときだけ使い、それ以外は spanStart。先頭側の区間を除外したときに除外した区間が入ることも書いた)・totalOutputSeconds(進捗の分母: copy は spanEnd − copyStart、それ以外は outputLength。0 以下なら ffmpeg を起動しない)・runs(連続し、速度・音量・ピッチ維持が同じ区間をまとめたもの)・exactOutputTime T・outputFrameCount RoundHalfUp(T·fps)・outputSampleCount・segmentCount・inputSeek・hasAudioStream・encoding(形式ごとの符号化・-r とタイムスケールの有無)。実体 OutputFile も追加した: state は absent / complete(同名は上書き)/ partial(中断・失敗・閉じたときに途中のファイルが残る)、contents は派生値。ConfirmExport・CancelExport・CloseWindow の定義から、これらを指すようにした。REQ-085 の run ごとの境界とソースフレームの対応は、要求の式を正として属性に展開していない。展開が要るかは questions(subject: ExportRun)に挙げた。ffmpeg が失敗したときに書き出し先に何が残るかは、questions(subject: OutputFile.state)に挙げた。"},
+  {"finding": "F-2", "action": "fixed",
+   "text": "ExportJob.statusMessage の説明に、とりうる値と条件をすべて列挙した: サンプルのエラー・Exporting…・Export canceled.・Output duration is zero.(総時間 0 以下)・There are no regions to export.(再エンコードで区間 0)・ffmpeg exited with an error (code {N}). と標準エラーの最後の 8 行。判定の順(総時間 → 区間 → ffmpeg の終了)も書いた。ConfirmExport の定義は、この列挙を参照する形にした。"},
+  {"finding": "F-3", "action": "fixed",
+   "text": "ExportDialogView.axaml と resx で確かめた。ExportFormat.title は、MP4 (H.264 / AAC) と ProRes 422 HQ / PCM だけが固定で、中間ファイルは Export_TitleLossless(言語で変わる)にした。tag は 3 つとも resx の Export_Tag*(en / ja の文言を併記・言語で変わる)にした。ExportFormatInfo の Tag / Title は画面に出ないことも明記した。"},
+  {"finding": "F-4", "action": "fixed",
+   "text": "指摘どおり(TriggerCopyCut は fastExport && canFastExport のときだけ EnsureCopyCutAsync を呼び、そこで _copyCutGen を進める。OnStateChanged は copyCutStart を null にするだけ)。ExportJob.copyCutGeneration を追加し、世代が進む条件(コピーできる状態での新しい算出の開始と読み込みだけ)を書いた。KeyframeResolved の効果を「世代が変わっていなければ入れる」に直した。copyCutStart の説明に、コピーできない状態で Document が変わった後も古い結果が入り、その後にコピーできる状態へ戻ると古いキーフレームとの差がリードとして出ることを書いた。"},
+  {"finding": "F-5", "action": "fixed",
+   "text": "指摘どおり。questions(subject: EditSession.nextRegionId)の「衝突しない」を直した。MOVIEPAD_SCENARIO だけなら衝突しないが、MOVIEPAD_OPEN と両方を指定すると ID 2 が重複し、FindById / IndexOfId の先頭一致で別の区間に当たりうる、と書き、再現の対象とするかを問う形にした。ApplyStartupEnvironment の定義にもこの重複を書いた。"},
+  {"finding": "F-6", "action": "fixed",
+   "text": "PreviewView.SetRateForCurrent が速度と音量の両方を設定することを確かめた。PreviewPlayer.rateSentToPlayer(ピッチ維持は渡さない)と volumeSentToPlayer(0〜200)を追加した。set_by は PlayerClipLoaded・TogglePlay(再生の開始)・PlayerTimeChanged。PlayerTimeChanged と TogglePlay の定義に、速度と音量を渡すことを書いた。"},
+  {"finding": "F-7", "action": "fixed",
+   "text": "HaltPlayback に寄せた。PreviewPlayer.seekRetryCount は set_by を正しく書くと BeginSeek・ClearSeek の呼び出し元すべて(多くの操作)に広がる。要求が求めるのは「上限を超えたら停止に戻る」ことだけなので、属性からは外した。再試行の規則(上限 2・シークを始めるたびと一時停止・最初のフレームで 0 に戻る)は、HaltPlayback のきっかけに書いた。PlayerTimeChanged の効果からは停止の記述を消し、停止に戻る遷移は HaltPlayback の 1 か所だけにした(playing の set_by は HaltPlayback のまま)。同期状態と再試行の回数を属性に入れるべきかは、既存の questions(PreviewPlayer.syncState)に追記した。"},
+  {"finding": "F-8", "action": "fixed",
+   "text": "指摘どおり。AboutDialog.notices と noticesIsFallback の set_by に ApplyStartupEnvironment を入れた。"},
+  {"finding": "F-9", "action": "fixed",
+   "text": "指摘どおり(進捗のコールバックは速度・フレーム・割合だけ、_exportSw は ConfirmExport が Restart / Stop)。ExportJob.elapsedSeconds の set_by を ConfirmExport だけにし、時計の読みであることを書いた。ExportProgressReported の効果から elapsedSeconds を外した。etaText の式に「isExporting かつ」を足した。EditSession.canToggleExclude の式に「編集対象の区間があり」を足した。"},
+  {"finding": "F-10", "action": "fixed",
+   "text": "指摘どおり。DragOver の効果を「データにファイルが含まれるときだけコピーの表示、含まれないときは None」に直した。"}
+]}

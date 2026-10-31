@@ -1,0 +1,61 @@
+{"findings": [
+  {"id": "F-1", "severity": "material",
+   "where": "operations(と全属性の set_by)。特に History.past / History.future / EditSession.edited の set_by",
+   "text": "set_by に現れる操作名は 71 種あるが、operations に定義があるのは DragOver と OpenLanguageMenu の 2 つだけで、71 種のうち定義があるものは 0。どの画面要素・キー・出来事が起こすか、引数(SetFps の値、Scale の倍率、ApplyWidth の n など)、1 回の操作の範囲が書かれていない。具体的な害: History.past は MoveTrimStart / MoveTrimEnd / MoveBoundary と BeginInteractiveEdit を両方挙げているが、ソースでは MoveTrim / MoveBoundary は ApplyState を通るだけで履歴を記録せず(スナップショットなし)、記録はタイムラインの押下時の BeginInteractiveEdit 1 回だけ。MoveTrimStart が『押下+移動』をまとめた操作なのか、移動 1 回分なのかが定義されていないため、ドラッグを複数の MoveTrimStart の段で書くと履歴の件数を読み違える(1 件のはずが段の数になる)。BeginInteractiveEdit がスライダーの余白の押下だけを指すのか、タイムラインの押下も含むのかも同じく決まらない。",
+   "authority_ref": "authority/ViewModels/MainWindowViewModel.cs#L656-L670, authority/ViewModels/MainWindowViewModel.cs#L727-L729, authority/Controls/TimelineControl.cs#L786-L798"},
+
+  {"id": "F-2", "severity": "material",
+   "where": "entities[EditSession].attributes[playhead].set_by / attributes[selectedRegionId].set_by / entities[TimelineView].attributes[scrollOffset].set_by",
+   "text": "実ファイルをプレイヤーで再生しているとき(externalPlayback が真)、VM のタイマーは動かず(StartPlayback は UseExternalPlayback なら timer を開始せずに戻る)、再生ヘッドは LibVLC の TimeChanged から書かれる(OnPlayerTime が _vm.Playhead を設定し、除外区間のスキップ・ループもここで行う)。モデルは PlayerTimeChanged を操作として持つが、playhead の set_by には PlaybackTick だけがあり PlayerTimeChanged が無い(PlayerTimeChanged は seekRetryCount にしか出てこない)。再生ヘッドに連動する selectedRegionId(OnPlayheadChanged)と、再生中の追従で変わる scrollOffset も同じく PlayerTimeChanged が抜けている。このままだと実ファイルの再生で再生ヘッドが進む経路がモデルに無い。",
+   "authority_ref": "authority/ViewModels/MainWindowViewModel.cs#L591, authority/Views/PreviewView.axaml.cs#L253-L273, authority/ViewModels/MainWindowViewModel.cs#L481-L485, authority/Controls/TimelineControl.cs#L172-L176"},
+
+  {"id": "F-3", "severity": "material",
+   "where": "entities[OutputSettings].attributes[widthInputText].set_by / attributes[heightInputText].set_by",
+   "text": "幅・高さの入力欄は OutW / OutH に OneWay で結ばれている。したがって確定以外でも出力寸法を変える操作(Scale、縦横比の維持がオンのときの ApplyHeight(幅が変わる)/ ApplyWidth(高さが変わる)、ToggleAspect(高さ)、Open / DropFile / ApplyStartupEnvironment(読み込みでソースの寸法になる))で表示が変わるが、set_by は EditWidthText と ApplyWidth(高さは EditHeightText と ApplyHeight)だけ。初期値を『outputWidth の表記』としながら set_by に Open が無いので、別の寸法のファイルを読み込んだ後も入力欄は 1920 のまま、と読めてしまう(自己矛盾)。なお CommitWidth / CommitHeight は tb.Text をコードから直接設定しており、その後も OneWay の結びつけが生き続けるかは Avalonia の既定の動作でソースからは決まらない。既存の questions(OutputSettings.widthInputText)は『打ったまま確定しない』場合だけを扱っており、この『確定の後に別の操作で寸法が変わる』場合は挙がっていない。",
+   "authority_ref": "authority/Views/InspectorView.axaml#L42, authority/Views/InspectorView.axaml#L49, authority/Views/InspectorView.axaml.cs#L62-L74, authority/ViewModels/MainWindowViewModel.cs#L824-L865"},
+
+  {"id": "F-4", "severity": "material",
+   "where": "entities[MediaPreviewData].attributes[filmstripApproximate]",
+   "text": "全体のフィルムストリップが近似版になる経路は無い。EmitCachedThumbnailsAsync は正確版(thumbs2)も高速版(thumbs2-fast)も approximate: false で渡す(高速版のコメントも『最終扱い＝減光しない』)。したがって ThumbnailsApproximate は常に false で、不透明度は常に 0.5。モデルは『近似版は不透明度 0.4』と書き、CachedThumbnailsLoaded を設定する操作に挙げて到達可能に見せている。同じ形の thumbnailsRefining には『真になる経路は無い』と書いているので、それと同じ扱いにすべき(そうしないと作り直しで thumbs2-fast のキャッシュを 0.4 で描き、元のアプリと違う)。",
+   "authority_ref": "authority/Services/MediaPreviewService.cs#L98-L101, authority/ViewModels/MainWindowViewModel.cs#L1249, authority/Controls/TimelineControl.cs#L435"},
+
+  {"id": "F-5", "severity": "material",
+   "where": "ApplyStartupEnvironment を set_by に持つ全属性 / entities[MainWindow].attributes[open].set_by / (インスペクターの縦スクロールの属性が無い)",
+   "text": "ApplyStartupEnvironment は 30 前後の属性の set_by に出てくるが、その入力である環境変数の値(MOVIEPAD_OPEN のパス、MOVIEPAD_SCENARIO の名前 ffmpeg/trim/split/speed/exclude/volume/mute、MOVIEPAD_SHOWEXPORT / MOVIEPAD_SHOWABOUT、MOVIEPAD_SHOT のパス、MOVIEPAD_INSPECTOR_SCROLL、MOVIEPAD_TTI)を持つ実体・属性が無い(MOVIEPAD_CACHE_DIR だけが DiskCache.root にある)。どの値でどの状態になるかをモデルから書けない。また MOVIEPAD_SHOT はウィンドウを 1800 ms 後に閉じるのに MainWindow.open の set_by は CloseWindow だけで ApplyStartupEnvironment が無い。MOVIEPAD_INSPECTOR_SCROLL が変えるインスペクターの縦スクロール位置(REQ-056 の『スクロールする領域』)も属性が無い。",
+   "authority_ref": "authority/Views/MainWindow.axaml.cs#L186-L231"},
+
+  {"id": "F-6", "severity": "material",
+   "where": "entities[ExportJob] / entities[EditSession] / (読み込み中の状態の実体が無い)",
+   "text": "要求に出てくる値で、モデルに実体も属性も無いもの(作り直しの動作に効くもの): (a) 書き出しの保存先(REQ-081 の保存先の選択ダイアログと、選ばれたパス。ExportJob には suggestedFileName しかなく、ダイアログを表示中か・選んだパスが無い。選ばなければ何もしない、同名は上書き(REQ-087)を書く先が無い)。(b) 文字の入力欄にフォーカスがあるか(REQ-074。キー操作の全体を止める条件なのに属性が無い)。(c) 進行中の読み込み(REQ-021 の『最後に始めた読み込みが勝つ』。ソースは読み込みの世代 _loadGen で古い解析結果を捨てるが、モデルには読み込み中・どの読み込みが最新かを表す属性が無い)。",
+   "authority_ref": "authority/ViewModels/MainWindowViewModel.cs#L1026-L1029, authority/Views/MainWindow.axaml.cs#L36, authority/ViewModels/MainWindowViewModel.cs#L1182-L1195"},
+
+  {"id": "F-7", "severity": "minor",
+   "where": "entities[MediaPreviewData] / entities[PreviewPlayer] / entities[ExportFormat] / entities[TimelineView]",
+   "text": "要求に出てくる値で、モデルに置かれていないもの(影響が小さいもの): (a) メモリの波形キャッシュ(REQ-053。ソースは KeyFor のキーで ConcurrentDictionary に持ち、ディスクより先に読む。DiskCache だけでは表せない)。(b) プレビューが実映像を出しているか、濃色のグラデーション(シーン)を出しているか(REQ-033。ソースは _scene.IsVisible を読み込み時に真、最初のフレームで偽にする)。(c) 書き出し形式の各カードの説明文(REQ-076『各カードに説明文がある』。ExportFormat に title・tag・extension はあるが説明文が無い)。(d) タイムラインの表示幅(REQ-045・REQ-046・REQ-051 の計算が使う画面幅。scrollOffset の値を決めるのに要る)。",
+   "authority_ref": "authority/Services/MediaPreviewService.cs#L39, authority/Services/MediaPreviewService.cs#L425-L448, authority/Views/PreviewView.axaml.cs#L173, authority/Views/PreviewView.axaml.cs#L242, authority/Controls/TimelineControl.cs#L253-L267"},
+
+  {"id": "F-8", "severity": "minor",
+   "where": "entities[ExportJob].attributes[canFastExport].initial",
+   "text": "導出式が『速度がすべて 1』『音量 100%』と書いており、REQ-078 とソースにある『除外していない区間の』が落ちている。ソースは除外した区間の速度・音量を見ない(除外した区間が 2x でもコピーできる)。式どおりに作ると除外した区間の速度でコピーできなくなる。",
+   "authority_ref": "authority/Services/FfmpegExporter.cs#L463-L470"},
+
+  {"id": "F-9", "severity": "minor",
+   "where": "entities[Region].attributes[start].set_by",
+   "text": "Region の説明は『set_by は既存の区間の値を変える操作だけを挙げる(区間の生成は Document.regions に記録)』としているが、start の set_by に Split がある。分割では前半は元の区間の start のまま end だけが変わり、後半は新しい区間として生成される。既存の区間の start は変わらないので、モデル自身の規則と食い違う。",
+   "authority_ref": "authority/Models/DocumentState.cs#L174-L175"},
+
+  {"id": "F-10", "severity": "minor",
+   "where": "entities[MediaJobQueue].description / attributes[running].set_by",
+   "text": "優先度を『シーク用 → 可視範囲 → 波形 → アイドル』と書くが、ソースで投入されるのは VisibleThumbs と Waveform の 2 種だけで、SeekThumb と IdleCache は列挙にあるだけで投入されない。また running の set_by は要求の投入(RequestVisibleTimelinePreview)と読み込みだけで、実行が終わって次へ進む出来事(VisibleThumbnailsGenerated・WaveformGenerated など)と CloseWindow(CancelAll)が無い。",
+   "authority_ref": "authority/Services/MediaJobQueue.cs#L20, authority/ViewModels/MainWindowViewModel.cs#L1255, authority/ViewModels/MainWindowViewModel.cs#L1319, authority/ViewModels/MainWindowViewModel.cs#L186"},
+
+  {"id": "F-11", "severity": "minor",
+   "where": "entities[Localization].attributes[uiLanguage].type / initial",
+   "text": "型が enum{ja,en} だが、起動時は設定の言語名をそのまま CultureInfo にして適用する。不正なカルチャ名のときだけ en になり、正しいが ja/en でない名前(例 fr、ja-JP)はそのカルチャになる(fr なら文字列は英語のリソースに落ちる)。値の取りうる範囲が enum より広い。",
+   "authority_ref": "authority/Program.cs#L26-L28"},
+
+  {"id": "F-12", "severity": "minor",
+   "where": "entities[Clip].attributes[isOnlineOnly].description",
+   "text": "『キーフレームの答えは null』とあるが、ソースは覚えている値(パスと時刻 ms)を先に引き、見つかればオンラインのみのファイルでもその値を返す。null になるのは覚えている値が無いときだけ(REQ-053『キーフレームも覚えている値があれば返す』と同じ)。",
+   "authority_ref": "authority/Services/KeyframeIndex.cs#L40-L45"}
+]}
