@@ -46,3 +46,18 @@ The defaults of definitions section 3 were accepted as proposed.
   Of round 3's eight blocker or material findings, six name a requirement the author changed in round 2 (an id overlap, not a
   reading of cause); REQ-048 (the timeline's drawing) is named in all three rounds. Returned to the user 2026-10-31T06:38:43+09:00: cut off, extend or
   stop.
+- **The user's ruling: "A: 打ち切って進む"** — the author answers round 3 with no re-audit, S1 is frozen, and the slider
+  question (REQ-058 / REQ-060) goes on to the next stages as an open question. Round 3 relayed 2026-10-31T11:35:06+09:00 as the
+  file (`audit-r3.json`, `b882e40b…`, same hash in the author folder) in the same words as round 2; the cut-off was not told to
+  the author, so its treatment of round 3 is the same as of rounds 1 and 2.
+- Author answered round 3 in about 640 s (45 tool calls): 16 fixed, 0 rejected, 0 question (`s1/answers-r3.json`,
+  `4ecedc4e…`); 26 requirements changed and REQ-095 added (the overlays cover the whole window). 95 requirements (must 86,
+  should 6, could 3); 18 unresolved questions, all minor, none blocker.
+- **How the round-3 blocker was carried:** the author did not leave it as a blocker. REQ-058 / REQ-060 now state a behaviour —
+  dragging the thumb or pressing the track records nothing, so the next undo also reverts the operation recorded before; only
+  a press on the transparent margin records — and name as their source "Avalonia 12.0.0's default pointer handling", which the
+  author says it did not read (the framework's source is outside the folder). The question stays open as
+  `UQ-REQ-058-001` (minor), to be checked at L2 against the running app. The same form (a library default not read, an open
+  minor question) carries REQ-083 / REQ-014 (an exception in the export command ends the application). Neither was audited.
+- **S1 frozen** 2026-10-31T11:46:07+09:00 as `s1/10-requirements.yaml` (`24964b9d…`), the author folder's file copied
+  unchanged (definitions section 12, departure 1).

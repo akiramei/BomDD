@@ -187,7 +187,11 @@ Each stop goes to the user; none is extended by the operator.
 
 ## 12. Departures
 
-None yet.
+1. **S1 frozen by the user's cut-off, not by convergence** (user: "A: 打ち切って進む", 2026-10-31). S1 stopped unconverged at
+   section 4's budget (blocker / material 0 / 10, 0 / 3, 1 / 7). The author answers round 3 and the result is frozen without a
+   re-audit; the round-3 blocker (REQ-058 / REQ-060, whether pressing the speed or volume slider records an undo step) is carried
+   as an open question. The S2–S5 prompts, committed before any agent started, call the requirements "監査を通ったもの"; they are
+   not reworded — the frozen S1 is audited up to its round-2 answers, and its round-3 answers are not.
 
 ## 13. Files
 
