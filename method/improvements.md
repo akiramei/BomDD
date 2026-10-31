@@ -10293,5 +10293,16 @@ measurement; no body text, template or tool changes.
   without a write), 2 days for stage A. Limits: the operator chose the screen scope and knows the answer; the authority is given
   whole (its export dialog shows the rate, so L1 is expected — the question is L4); A3's comparison mixes the model and screens with
   a change of author; one author per artefact, one product, no rate; the binding is an AI's. Start is the user's.
+  **Measured (2026-10-31; started on the user's "A: 既定で始める"; the reading awaits the user)**: S1–S5 frozen (S3 converged;
+  S1, S2 cut off on the user's "A" and "B", S4, S5 under the standing cut-off, each with unaudited last answers); four
+  departures (the tools named what is measured → blind tools; the binder's folder lacked the setup op's form). A1 k 39 of 92;
+  the frame-rate row (`OutputSettings.outputFps`) L1 / L2 false, L3 true, L4 false — the model states the rate as one
+  settable value and five derived attributes, and only the derived ones are displayed and stated (5 of 6 `SetFps` steps
+  expect literal derived values). By section 9 as fixed: broken at L1, stage B not proposed; whether to keep that reading or
+  read through the derived attributes is the user's. A2 16 of 56 scenarios certified, kept 0; 27 of 35 start failures are
+  localized strings only (the harness runs in the machine's `ja-JP`, the upstream's sample states are English with no stated
+  premise); with `en` as a sensitivity 45 certified, the frame-rate scenarios among them, still kept 0 (states coarser than
+  the authority's availability). A3 D01 after, D02 absent, D03 before, D06 after (both classifiers agree; MoviePad-Remake
+  before on all four). A4 27 agents, about 12.5 hours for stage A.
   source: this section (the user's "A: 起票する", 2026-10-31)
-  evidence: `bomdd/reports/exp-20261031-02/definitions.md`
+  evidence: `bomdd/reports/exp-20261031-02/definitions.md`, `bomdd/reports/exp-20261031-02/results.md`, `bomdd/reports/exp-20261031-02/run-log.md`

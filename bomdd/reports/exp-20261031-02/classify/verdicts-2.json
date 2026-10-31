@@ -1,0 +1,18 @@
+{"verdicts": [
+ {"item": "D01", "verdict": "after", "conflict": false,
+  "where": ["20-spec.md §2.20 結果(判定の順)と 異常終了の経路", "20-spec.md §2.6 ffprobe / ffmpeg がどこにも無いまま…書き出すと", "domain-model.json ExportJob.statusMessage(entities[7].attributes[10])", "domain-model.json ExportRun.totalOutputSeconds / segmentCount(entities[21].attributes[8], [13])", "domain-model.json ConfirmExport(operation_definitions[50])"],
+  "quote": "判定の順は 総時間 → 区間 → ffmpeg の終了 … (どちらも ffmpeg を起動しない) / 再エンコードの ffmpeg の起動の例外も異常終了",
+  "why": "総時間 0 と区間 0 は ffmpeg を起動せずに先に判定され、ffmpeg が使えないことはプロセスを起動したときに初めて表に出る(起動の例外)。ffmpeg が使えないことを総時間・区間より前に判定する文はどこにも無い。したがって『使えないことは起動時に分かり、1〜3 の後』という after の意味。ただし結果は FfmpegUnavailable という名前の失敗ではなく、捕捉されない例外による異常終了として書かれている(順序の点は after と同じ)。"},
+ {"item": "D02", "verdict": "absent", "conflict": false,
+  "where": ["20-spec.md §2.21 受入観点", "20-spec.md §7 UQ-SPEC-030"],
+  "quote": "フレーム数・サンプル数・PTS は完全一致(ZERO)",
+  "why": "書き出したファイルの受入は数(フレーム数・サンプル数)と PTS の完全一致だけを書いており、framemd5 も、音声をパケット単位で比べるか復号したサンプルの中身(SHA-256)で比べるかも、3 文書のどこにも無い(SHA-256 は ffmpeg の取得物の照合、sha256 は About の通知文の参照だけ)。"},
+ {"item": "D03", "verdict": "before", "conflict": false,
+  "where": ["20-spec.md §2.20 キーフレームの算出(KeyframeCache)"],
+  "quote": "トリム開始以下で最大のキーフレームの時刻 … ffprobe で窓 [max(0, 対象 − 幅), 対象] を読む(幅 12・48・192・768 秒の順に最大 4 回)。窓の開始が 0 に達しても見つからない・4 回で見つからない…ときは 0",
+  "why": "読む窓は [max(0, target − L), target] で、答えはその窓の中のキーフレーム(窓の開始より前にはならない)とする before の形。after の要素(読み範囲の終わり target + 0.05、ffprobe が t0 の前のキーフレームから読むこと、≤ target + 1e-6、t0 より前の答えがありうること)はどこにも無い。domain-model.json は窓を書かず、scenarios.json の UC-173(2 秒ごとのキーフレーム・トリム開始 5 秒 → 4 秒)はどちらの形でも同じ答えで区別しない。"},
+ {"item": "D06", "verdict": "after", "conflict": false,
+  "where": ["20-spec.md §2.20 コピー(高速・無劣化)の切り替え canFastExport", "domain-model.json ExportJob.canFastExport(entities[7].attributes[13])", "domain-model.json ExportRun.canStreamCopy(entities[21].attributes[5])"],
+  "quote": "音声が無いか(AAC・MP3・AC-3 で除外していない区間の音量がすべて 100%)",
+  "why": "音量 100% の条件は音声があるときだけに掛かり、音声の無いソースは音量の変更でコピー不可にならない(after の意味)。canStreamCopy も『音声なし、または MP4 かつ速度・音量の変更なし・AAC/MP3/AC-3』で同じ。音量を無条件に条件とする before の文はどこにも無い。許容幅 ±0.001 は書かれていない(100% とだけ書く)が、点の意味には関わらない。"}
+]}

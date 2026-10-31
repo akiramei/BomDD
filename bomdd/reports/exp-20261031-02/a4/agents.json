@@ -1,0 +1,274 @@
+{
+ "agents": [
+  {
+   "agent": "a7d18d0e77d99bd62",
+   "folder": "s1-author",
+   "description": "S1 requirements author",
+   "parent": null,
+   "start": "2026-10-30T20:19:25.497Z",
+   "end": "2026-10-31T02:45:55.740Z",
+   "wall_s": 23190,
+   "tool_uses": 210
+  },
+  {
+   "agent": "ae5762ea832836de3",
+   "folder": "s1-audit-r1",
+   "description": "S1 audit round 1",
+   "parent": null,
+   "start": "2026-10-30T20:34:45.871Z",
+   "end": "2026-10-30T20:52:47.424Z",
+   "wall_s": 1082,
+   "tool_uses": 60
+  },
+  {
+   "agent": "a071803bd1a81a434",
+   "folder": "s1-audit-r2",
+   "description": "S1 audit round 2",
+   "parent": null,
+   "start": "2026-10-30T21:01:14.639Z",
+   "end": "2026-10-30T21:18:54.792Z",
+   "wall_s": 1060,
+   "tool_uses": 51
+  },
+  {
+   "agent": "a234fc4885173786e",
+   "folder": "s1-audit-r3",
+   "description": "S1 audit round 3",
+   "parent": null,
+   "start": "2026-10-30T21:26:49.477Z",
+   "end": "2026-10-30T21:37:45.070Z",
+   "wall_s": 656,
+   "tool_uses": 39
+  },
+  {
+   "agent": "ae53ce99cb567457f",
+   "folder": "s2-author",
+   "description": "S2 domain model author",
+   "parent": null,
+   "start": "2026-10-31T02:53:31.607Z",
+   "end": "2026-10-31T03:06:28.722Z",
+   "wall_s": 777,
+   "tool_uses": 37
+  },
+  {
+   "agent": "a2b6fae47e02548fa",
+   "folder": "s2-author",
+   "description": "S2 domain model author (fresh)",
+   "parent": null,
+   "start": "2026-10-31T03:20:22.888Z",
+   "end": "2026-10-31T04:59:31.137Z",
+   "wall_s": 5948,
+   "tool_uses": 101
+  },
+  {
+   "agent": "a6083eb088d2495f6",
+   "folder": "s2-audit-r1",
+   "description": "S2 audit round 1",
+   "parent": null,
+   "start": "2026-10-31T03:32:20.665Z",
+   "end": "2026-10-31T03:42:17.063Z",
+   "wall_s": 596,
+   "tool_uses": 56
+  },
+  {
+   "agent": "aac23b6663588e2d2",
+   "folder": "s2-audit-r2",
+   "description": "S2 audit round 2",
+   "parent": null,
+   "start": "2026-10-31T03:48:27.578Z",
+   "end": "2026-10-31T04:03:50.590Z",
+   "wall_s": 923,
+   "tool_uses": 56
+  },
+  {
+   "agent": "a7cebcc92d72e473c",
+   "folder": "s2-audit-r3",
+   "description": "S2 audit round 3",
+   "parent": null,
+   "start": "2026-10-31T04:08:29.327Z",
+   "end": "2026-10-31T04:21:24.296Z",
+   "wall_s": 775,
+   "tool_uses": 50
+  },
+  {
+   "agent": "a3e82e42f3e0eec71",
+   "folder": "s3-author",
+   "description": "S3 screens author",
+   "parent": null,
+   "start": "2026-10-31T04:59:59.100Z",
+   "end": "2026-10-31T06:08:37.673Z",
+   "wall_s": 4119,
+   "tool_uses": 173
+  },
+  {
+   "agent": "acab2d4480d38df20",
+   "folder": "s3-audit-r1",
+   "description": "S3 audit round 1",
+   "parent": null,
+   "start": "2026-10-31T05:10:12.013Z",
+   "end": "2026-10-31T05:25:53.650Z",
+   "wall_s": 942,
+   "tool_uses": 47
+  },
+  {
+   "agent": "a8331950eb51a33b0",
+   "folder": "s3-audit-r2",
+   "description": "S3 audit round 2",
+   "parent": null,
+   "start": "2026-10-31T05:30:47.146Z",
+   "end": "2026-10-31T05:45:13.697Z",
+   "wall_s": 867,
+   "tool_uses": 46
+  },
+  {
+   "agent": "aeff7a556a8eb8b37",
+   "folder": "s3-audit-r3",
+   "description": "S3 audit round 3",
+   "parent": null,
+   "start": "2026-10-31T05:48:43.496Z",
+   "end": "2026-10-31T06:05:20.360Z",
+   "wall_s": 997,
+   "tool_uses": 60
+  },
+  {
+   "agent": "ab9ad493a2d56d237",
+   "folder": "s4-author",
+   "description": "S4 scenarios author",
+   "parent": null,
+   "start": "2026-10-31T06:09:05.964Z",
+   "end": "2026-10-31T07:35:53.739Z",
+   "wall_s": 5208,
+   "tool_uses": 93
+  },
+  {
+   "agent": "a1cdbafe10aa729be",
+   "folder": "s4-audit-r1",
+   "description": "S4 audit round 1",
+   "parent": null,
+   "start": "2026-10-31T06:28:16.555Z",
+   "end": "2026-10-31T06:41:46.546Z",
+   "wall_s": 810,
+   "tool_uses": 51
+  },
+  {
+   "agent": "afe7fe484fae4395b",
+   "folder": "s4-audit-r2",
+   "description": "S4 audit round 2",
+   "parent": null,
+   "start": "2026-10-31T06:46:22.698Z",
+   "end": "2026-10-31T07:03:54.630Z",
+   "wall_s": 1052,
+   "tool_uses": 74
+  },
+  {
+   "agent": "aa1274ff4ab404960",
+   "folder": "s4-audit-r3",
+   "description": "S4 audit round 3",
+   "parent": null,
+   "start": "2026-10-31T07:08:33.696Z",
+   "end": "2026-10-31T07:26:06.500Z",
+   "wall_s": 1053,
+   "tool_uses": 59
+  },
+  {
+   "agent": "a7a88a94b9dfb3c3e",
+   "folder": "s5-author",
+   "description": "S5 spec author",
+   "parent": null,
+   "start": "2026-10-31T07:37:54.612Z",
+   "end": "2026-10-31T08:50:36.608Z",
+   "wall_s": 4362,
+   "tool_uses": 115
+  },
+  {
+   "agent": "a15edfd8bae076286",
+   "folder": "s5-audit-r1",
+   "description": "S5 audit round 1",
+   "parent": null,
+   "start": "2026-10-31T07:52:53.859Z",
+   "end": "2026-10-31T08:09:26.554Z",
+   "wall_s": 993,
+   "tool_uses": 51
+  },
+  {
+   "agent": "a07fbe0d5658d05ca",
+   "folder": "a2-binder",
+   "description": "A2 scenario binder",
+   "parent": null,
+   "start": "2026-10-31T07:54:45.997Z",
+   "end": "2026-10-31T08:06:57.948Z",
+   "wall_s": 732,
+   "tool_uses": 34
+  },
+  {
+   "agent": "a5831dfb9f6af54e2",
+   "folder": "s5-audit-r1",
+   "description": "Verify timeline/media claims",
+   "parent": "a15edfd8bae076286",
+   "start": "2026-10-31T07:57:12.751Z",
+   "end": "2026-10-31T08:01:00.072Z",
+   "wall_s": 227,
+   "tool_uses": 51
+  },
+  {
+   "agent": "aec0cc46c4b088a64",
+   "folder": "s5-audit-r1",
+   "description": "Verify export/ffmpeg claims",
+   "parent": "a15edfd8bae076286",
+   "start": "2026-10-31T07:57:12.770Z",
+   "end": "2026-10-31T08:01:42.636Z",
+   "wall_s": 270,
+   "tool_uses": 22
+  },
+  {
+   "agent": "a319e9d41852318cc",
+   "folder": "a2-binder",
+   "description": "A2 scenario binder (fresh)",
+   "parent": null,
+   "start": "2026-10-31T08:10:51.294Z",
+   "end": "2026-10-31T08:26:19.927Z",
+   "wall_s": 929,
+   "tool_uses": 50
+  },
+  {
+   "agent": "a016f03734775414a",
+   "folder": "s5-audit-r2",
+   "description": "S5 audit round 2",
+   "parent": null,
+   "start": "2026-10-31T08:14:10.831Z",
+   "end": "2026-10-31T08:28:20.005Z",
+   "wall_s": 849,
+   "tool_uses": 83
+  },
+  {
+   "agent": "a69f3a65d0437d70c",
+   "folder": "s5-audit-r3",
+   "description": "S5 audit round 3",
+   "parent": null,
+   "start": "2026-10-31T08:38:31.806Z",
+   "end": "2026-10-31T08:48:21.331Z",
+   "wall_s": 590,
+   "tool_uses": 61
+  },
+  {
+   "agent": "a0d4a1fbf1a6c1bff",
+   "folder": "a3-classifier-1",
+   "description": "A3 classifier 1",
+   "parent": null,
+   "start": "2026-10-31T08:51:13.450Z",
+   "end": "2026-10-31T08:55:15.718Z",
+   "wall_s": 242,
+   "tool_uses": 33
+  },
+  {
+   "agent": "ad31c57f793502b26",
+   "folder": "a3-classifier-2",
+   "description": "A3 classifier 2",
+   "parent": null,
+   "start": "2026-10-31T08:51:13.463Z",
+   "end": "2026-10-31T08:55:12.262Z",
+   "wall_s": 239,
+   "tool_uses": 20
+  }
+ ]
+}

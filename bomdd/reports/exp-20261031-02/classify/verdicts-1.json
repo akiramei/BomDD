@@ -1,0 +1,18 @@
+{"verdicts": [
+ {"item": "D01", "verdict": "after", "conflict": false,
+  "where": ["20-spec.md §2.20 書き出しダイアログ「結果」(l.834-836)", "20-spec.md §2.20「異常終了の経路」(l.839-842)", "20-spec.md §2.6(l.210-213)", "domain-model.json ExportJob.statusMessage・ExportRun.totalOutputSeconds/segmentCount の initial・operation ConfirmExport の effect"],
+  "quote": "判定の順は 総時間 → 区間 → ffmpeg の終了 ... (どちらも ffmpeg を起動しない) / 再エンコードの ffmpeg の起動の例外も異常終了",
+  "why": "ffmpeg が使えるかを書き出しの前に確かめる手順はどこにも無い(FfmpegInstallation.available は ConfirmExport で参照されない)。総時間 ≤ 0 と区間 0 は ffmpeg を起動せずに終わり、ffmpeg が無いことはプロセスを起動したときの例外として初めて分かる。つまり『起動できない』は総時間・区間の判定の後に来る = after の順序。before の『2 番目に ffmpeg 不在を判定する』意味はどこにも無い。ただしこの文書群では結果は FfmpegUnavailable という結果値ではなく捕捉されない例外による異常終了として書かれている(結果の名前と扱いは after と違うが、順序の点は after と同じ)。"},
+ {"item": "D02", "verdict": "absent", "conflict": false,
+  "where": ["20-spec.md §2.21 受入観点(l.914-916)", "20-spec.md UQ-SPEC-030(l.1197)"],
+  "quote": "L3(... フレーム数・サンプル数・PTS は完全一致(ZERO)・REQ-085 ...)",
+  "why": "書き出したファイルの L3 の比べ方はフレーム数・サンプル数・PTS の完全一致としか書かれていない。framemd5 も、音声をパケット単位(-map 0)で比べるか、復号したサンプルの中身(SHA-256)で比べるかも、どの文書にも無い。domain-model と scenarios にも該当なし(scenarios は書き出しの中身を持たない・UQ-SPEC-022)。未解決事項としても挙がっていない。"},
+ {"item": "D03", "verdict": "before", "conflict": false,
+  "where": ["20-spec.md §2.20「キーフレームの算出(KeyframeCache)」(l.813-817)"],
+  "quote": "トリム開始以下で最大のキーフレームの時刻 ... ffprobe で窓 [max(0, 対象 − 幅), 対象] を読む(幅 12・48・192・768 秒の順に最大 4 回)",
+  "why": "読む窓が [max(0, target − L), target] で、答えはトリム開始(target)以下の最大のキーフレーム = before の意味。after の『[t0, target + 0.05] を読み、t0 より前のキーフレームも答えになりうる・target + 1e-6 以下』はどこにも無い。domain-model(KeyframeCache・Clip.isOnlineOnly)は窓に触れず、scenarios(UC-173/174: 2 秒ごとのキーフレーム・トリム開始 5 秒 → 4 秒)はどちらの意味でも同じ答えになるので食い違いにならない。"},
+ {"item": "D06", "verdict": "after", "conflict": false,
+  "where": ["20-spec.md §2.20 コピーの切り替え canFastExport(l.790-793)", "domain-model.json ExportJob.canFastExport の initial", "domain-model.json ExportRun.canStreamCopy の initial"],
+  "quote": "音声が無いか(AAC・MP3・AC-3 で除外していない区間の音量がすべて 100%) / 音声: 音声なし、または MP4 かつ速度・音量の変更なし・AAC/MP3/AC-3",
+  "why": "音量 100% の条件は音声があるときにだけ掛かり、音声なしのソースは音量の変更でコピー不可にならない = after の意味。3 文書のどこにも、音声の有無に関係なく音量 ≠ 1 でコピー不可にする書き方は無い。"}
+]}

@@ -443,3 +443,18 @@ The defaults of definitions section 3 were accepted as proposed.
 - Classifier folders `exp07/a3-classifier-1` and `-2` (`prepare.py classify`, each): prompt `45b2e0af…`, model `b758d626…`,
   scenarios `ef416e68…`, spec `1043076f…`, `items.json` `8dc9c13b…` (D01, D02, D03, D06 from `exp-20261031-01/items.json`,
   each with its file, before and after); no authority. Both started 2026-10-31T17:51:14+09:00.
+- Classifier 1 done in 242 s (33 tool uses), classifier 2 in 239 s (20): `classify/verdicts-1.json` `8eca667a…`,
+  `classify/verdicts-2.json` `c9f6c369…`. **They agree on all four: D01 after, D02 absent, D03 before, D06 after**, none with
+  a conflict. Isolation: 0 flags each.
+
+## Step 10 — isolation, A4, results
+
+- Isolation was run on every agent's transcript as it finished (recorded under each step); over the run, no agent named
+  another step's folder after the S2 rename, and no transcript after
+  departure 2 carries the measured words. The agents' one-off files outside their folders are listed per step.
+- A4: `a4/a4_cost.py` over the session's agent transcripts whose first prompt names an `exp07` folder → `a4/agents.json`
+  (`5a6a2c1f…`): 27 agents, 1,783 tool uses; wall time per transcript (an author's spans its idle waits between rounds).
+- Files against definitions section 13: A1 is `a1/` (two chain outputs), not `a1.json`; A2 is `bind/` (`binder-0/` set aside,
+  `run1/`, `diag1/`, `sens-en/`); A3 is `classify/`; A4 is `a4/`. There is no `verify/`: A2's certify output is in `bind/`.
+- `results.md` written and read by section 9; the frame-rate row's reading (keep section 9, or a departure through the
+  derived attributes) is left to the user.
