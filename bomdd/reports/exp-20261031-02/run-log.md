@@ -458,3 +458,6 @@ The defaults of definitions section 3 were accepted as proposed.
   `run1/`, `diag1/`, `sens-en/`); A3 is `classify/`; A4 is `a4/`. There is no `verify/`: A2's certify output is in `bind/`.
 - `results.md` written and read by section 9; the frame-rate row's reading (keep section 9, or a departure through the
   derived attributes) is left to the user.
+- 2026-10-31, after the closing commit `fbf698b`: the staging folders `exp04/` (EXP-20261030-04), `exp05/`, `exp06/`
+  (EXP-20261031-01) and `exp07/` (this run, with the harness builds and `diag1`'s 14 MB output) deleted on the user's
+  "削除してよい" (section 8); about 3.9 GB freed. What the records cite is committed in this folder.
