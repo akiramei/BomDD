@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- EXP-20261031-03 step 1: the expected table from MoviePad 126eae9. Built by run_driver.py in a staging folder next to an
+       archive of the authority (AuthorityDir); never built inside a repository. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(AuthorityDir)/MoviePad.csproj" />
+  </ItemGroup>
+</Project>

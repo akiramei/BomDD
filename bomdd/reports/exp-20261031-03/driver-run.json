@@ -1,0 +1,12 @@
+{
+ "authority_commit": "126eae9",
+ "archive_tar_sha256": "a63a1d2556136b3a0567ce447c8c48ad891cad954dd43f17b0a250912b101672",
+ "driver_dll_sha256": "9bcd9415fecc018de11de84ebcd09731baefd9b68a37b332f6d2238688a5d6aa",
+ "exit": 0,
+ "stdout": "78 cases; cultures en / en / en",
+ "settings_json": "C:\\Users\\akira\\AppData\\Local\\MoviePad\\settings.json",
+ "settings_mtime_ns_before": 1793363047314949700,
+ "settings_mtime_ns_after": 1793363047314949700,
+ "settings_unchanged": true,
+ "expected_json_sha256": "cfdce7aeb51f700681e2c98522c3ab05ae2604b22725f1914b53f1500cdf1e9b"
+}

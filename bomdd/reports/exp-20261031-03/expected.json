@@ -1,0 +1,1310 @@
+{
+  "authority": "MoviePad 126eae9",
+  "CurrentCulture": "en",
+  "CurrentUICulture": "en",
+  "LocalizerCulture": "en",
+  "cases": [
+    {
+      "id": "25|opened",
+      "rate": 25,
+      "presses": [],
+      "V1": "25 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 25
+    },
+    {
+      "id": "25|none|Source",
+      "rate": 25,
+      "presses": [
+        "Source"
+      ],
+      "V1": "25 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 25
+    },
+    {
+      "id": "25|none|24",
+      "rate": 25,
+      "presses": [
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "25|none|30",
+      "rate": 25,
+      "presses": [
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": false,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "25|none|60",
+      "rate": 25,
+      "presses": [
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "25|none|120",
+      "rate": 25,
+      "presses": [
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "25|24|Source",
+      "rate": 25,
+      "presses": [
+        "24",
+        "Source"
+      ],
+      "V1": "25 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 25
+    },
+    {
+      "id": "25|24|24",
+      "rate": 25,
+      "presses": [
+        "24",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "25|24|30",
+      "rate": 25,
+      "presses": [
+        "24",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": false,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "25|24|60",
+      "rate": 25,
+      "presses": [
+        "24",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "25|24|120",
+      "rate": 25,
+      "presses": [
+        "24",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "25|30|Source",
+      "rate": 25,
+      "presses": [
+        "30",
+        "Source"
+      ],
+      "V1": "25 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 25
+    },
+    {
+      "id": "25|30|24",
+      "rate": 25,
+      "presses": [
+        "30",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "25|30|30",
+      "rate": 25,
+      "presses": [
+        "30",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": false,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "25|30|60",
+      "rate": 25,
+      "presses": [
+        "30",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "25|30|120",
+      "rate": 25,
+      "presses": [
+        "30",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "25|60|Source",
+      "rate": 25,
+      "presses": [
+        "60",
+        "Source"
+      ],
+      "V1": "25 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 25
+    },
+    {
+      "id": "25|60|24",
+      "rate": 25,
+      "presses": [
+        "60",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "25|60|30",
+      "rate": 25,
+      "presses": [
+        "60",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": false,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "25|60|60",
+      "rate": 25,
+      "presses": [
+        "60",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "25|60|120",
+      "rate": 25,
+      "presses": [
+        "60",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "25|120|Source",
+      "rate": 25,
+      "presses": [
+        "120",
+        "Source"
+      ],
+      "V1": "25 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 25
+    },
+    {
+      "id": "25|120|24",
+      "rate": 25,
+      "presses": [
+        "120",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (25 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "25|120|30",
+      "rate": 25,
+      "presses": [
+        "120",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": false,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "25|120|60",
+      "rate": 25,
+      "presses": [
+        "120",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "25|120|120",
+      "rate": 25,
+      "presses": [
+        "120",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (25 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "29.97|opened",
+      "rate": 29.97,
+      "presses": [],
+      "V1": "29.97 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 29.97
+    },
+    {
+      "id": "29.97|none|Source",
+      "rate": 29.97,
+      "presses": [
+        "Source"
+      ],
+      "V1": "29.97 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 29.97
+    },
+    {
+      "id": "29.97|none|24",
+      "rate": 29.97,
+      "presses": [
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "29.97|none|30",
+      "rate": 29.97,
+      "presses": [
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "29.97|none|60",
+      "rate": 29.97,
+      "presses": [
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "29.97|none|120",
+      "rate": 29.97,
+      "presses": [
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "29.97|24|Source",
+      "rate": 29.97,
+      "presses": [
+        "24",
+        "Source"
+      ],
+      "V1": "29.97 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 29.97
+    },
+    {
+      "id": "29.97|24|24",
+      "rate": 29.97,
+      "presses": [
+        "24",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "29.97|24|30",
+      "rate": 29.97,
+      "presses": [
+        "24",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "29.97|24|60",
+      "rate": 29.97,
+      "presses": [
+        "24",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "29.97|24|120",
+      "rate": 29.97,
+      "presses": [
+        "24",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "29.97|30|Source",
+      "rate": 29.97,
+      "presses": [
+        "30",
+        "Source"
+      ],
+      "V1": "29.97 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 29.97
+    },
+    {
+      "id": "29.97|30|24",
+      "rate": 29.97,
+      "presses": [
+        "30",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "29.97|30|30",
+      "rate": 29.97,
+      "presses": [
+        "30",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "29.97|30|60",
+      "rate": 29.97,
+      "presses": [
+        "30",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "29.97|30|120",
+      "rate": 29.97,
+      "presses": [
+        "30",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "29.97|60|Source",
+      "rate": 29.97,
+      "presses": [
+        "60",
+        "Source"
+      ],
+      "V1": "29.97 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 29.97
+    },
+    {
+      "id": "29.97|60|24",
+      "rate": 29.97,
+      "presses": [
+        "60",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "29.97|60|30",
+      "rate": 29.97,
+      "presses": [
+        "60",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "29.97|60|60",
+      "rate": 29.97,
+      "presses": [
+        "60",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "29.97|60|120",
+      "rate": 29.97,
+      "presses": [
+        "60",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "29.97|120|Source",
+      "rate": 29.97,
+      "presses": [
+        "120",
+        "Source"
+      ],
+      "V1": "29.97 fps",
+      "V2": true,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 29.97
+    },
+    {
+      "id": "29.97|120|24",
+      "rate": 29.97,
+      "presses": [
+        "120",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "29.97|120|30",
+      "rate": 29.97,
+      "presses": [
+        "120",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "29.97|120|60",
+      "rate": 29.97,
+      "presses": [
+        "120",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "29.97|120|120",
+      "rate": 29.97,
+      "presses": [
+        "120",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (29.97 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "30|opened",
+      "rate": 30,
+      "presses": [],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|none|Source",
+      "rate": 30,
+      "presses": [
+        "Source"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|none|24",
+      "rate": 30,
+      "presses": [
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "30|none|30",
+      "rate": 30,
+      "presses": [
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|none|60",
+      "rate": 30,
+      "presses": [
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (30 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "30|none|120",
+      "rate": 30,
+      "presses": [
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (30 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "30|24|Source",
+      "rate": 30,
+      "presses": [
+        "24",
+        "Source"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|24|24",
+      "rate": 30,
+      "presses": [
+        "24",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "30|24|30",
+      "rate": 30,
+      "presses": [
+        "24",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|24|60",
+      "rate": 30,
+      "presses": [
+        "24",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (30 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "30|24|120",
+      "rate": 30,
+      "presses": [
+        "24",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (30 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "30|30|Source",
+      "rate": 30,
+      "presses": [
+        "30",
+        "Source"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|30|24",
+      "rate": 30,
+      "presses": [
+        "30",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "30|30|30",
+      "rate": 30,
+      "presses": [
+        "30",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|30|60",
+      "rate": 30,
+      "presses": [
+        "30",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (30 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "30|30|120",
+      "rate": 30,
+      "presses": [
+        "30",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (30 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "30|60|Source",
+      "rate": 30,
+      "presses": [
+        "60",
+        "Source"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|60|24",
+      "rate": 30,
+      "presses": [
+        "60",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "30|60|30",
+      "rate": 30,
+      "presses": [
+        "60",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|60|60",
+      "rate": 30,
+      "presses": [
+        "60",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (30 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "30|60|120",
+      "rate": 30,
+      "presses": [
+        "60",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (30 fps)",
+      "outFps": 120
+    },
+    {
+      "id": "30|120|Source",
+      "rate": 30,
+      "presses": [
+        "120",
+        "Source"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|120|24",
+      "rate": 30,
+      "presses": [
+        "120",
+        "24"
+      ],
+      "V1": "24 fps",
+      "V2": false,
+      "V3": true,
+      "V4": false,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 24
+    },
+    {
+      "id": "30|120|30",
+      "rate": 30,
+      "presses": [
+        "120",
+        "30"
+      ],
+      "V1": "30 fps",
+      "V2": true,
+      "V3": false,
+      "V4": true,
+      "V5": false,
+      "V6": false,
+      "V7": false,
+      "V8": "Same as source (30 fps)",
+      "outFps": 30
+    },
+    {
+      "id": "30|120|60",
+      "rate": 30,
+      "presses": [
+        "120",
+        "60"
+      ],
+      "V1": "60 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": true,
+      "V6": false,
+      "V7": true,
+      "V8": "Same as source (30 fps)",
+      "outFps": 60
+    },
+    {
+      "id": "30|120|120",
+      "rate": 30,
+      "presses": [
+        "120",
+        "120"
+      ],
+      "V1": "120 fps",
+      "V2": false,
+      "V3": false,
+      "V4": false,
+      "V5": false,
+      "V6": true,
+      "V7": true,
+      "V8": "Same as source (30 fps)",
+      "outFps": 120
+    }
+  ]
+}
