@@ -1,0 +1,869 @@
+{
+ "n_settable": 92,
+ "L1_displayed": 53,
+ "L2_stated": 42,
+ "L3_set": 84,
+ "L4_checked": 41,
+ "k_all_four": 39,
+ "steps": 206,
+ "steps_expect_unknown": 1,
+ "frame_rate_rule_selects": [
+  "OutputSettings.outputFps",
+  "OutputSettings.outputFpsText",
+  "OutputSettings.fpsSourceActive",
+  "OutputSettings.activeFpsPreset",
+  "OutputSettings.fpsUpsampling",
+  "OutputSettings.fpsSourceTip",
+  "ExportRun.request"
+ ],
+ "frame_rate_rows": [
+  {
+   "attribute": "OutputSettings.outputFps",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 20,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "ExportRun.request",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 3,
+   "checked_steps": 0
+  }
+ ],
+ "rows": [
+  {
+   "attribute": "Clip.path",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Clip.fileName",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 14,
+   "checked_steps": 4
+  },
+  {
+   "attribute": "Clip.duration",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Clip.width",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Clip.height",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Clip.fps",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Clip.videoCodec",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Clip.audioCodec",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Clip.sampleRate",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Clip.isVariableFrameRate",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Document.trimStart",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 29,
+   "checked_steps": 8
+  },
+  {
+   "attribute": "Document.trimEnd",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 24,
+   "checked_steps": 3
+  },
+  {
+   "attribute": "Document.regions",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 80,
+   "checked_steps": 18
+  },
+  {
+   "attribute": "Region.id",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 8,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Region.start",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 17,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Region.end",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 23,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Region.speed",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 23,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "Region.preservePitch",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 11,
+   "checked_steps": 3
+  },
+  {
+   "attribute": "Region.excluded",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 11,
+   "checked_steps": 4
+  },
+  {
+   "attribute": "Region.volume",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 18,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "History.past",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 72,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "History.future",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 72,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "EditSession.playhead",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 42,
+   "checked_steps": 7
+  },
+  {
+   "attribute": "EditSession.playing",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 44,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "EditSession.selectedRegionId",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 108,
+   "checked_steps": 24
+  },
+  {
+   "attribute": "EditSession.edited",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 96,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "EditSession.loadGeneration",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "EditSession.nextRegionId",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 22,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "OutputSettings.outputWidth",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 23,
+   "checked_steps": 10
+  },
+  {
+   "attribute": "OutputSettings.outputHeight",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 25,
+   "checked_steps": 11
+  },
+  {
+   "attribute": "OutputSettings.outputFps",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 20,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "OutputSettings.keepAspect",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 16,
+   "checked_steps": 2
+  },
+  {
+   "attribute": "OutputSettings.widthInputText",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 24,
+   "checked_steps": 11
+  },
+  {
+   "attribute": "OutputSettings.heightInputText",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 26,
+   "checked_steps": 12
+  },
+  {
+   "attribute": "ExportJob.dialogShown",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 18,
+   "checked_steps": 17
+  },
+  {
+   "attribute": "ExportJob.selectedFormat",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 5,
+   "checked_steps": 5
+  },
+  {
+   "attribute": "ExportJob.fastExport",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 16,
+   "checked_steps": 2
+  },
+  {
+   "attribute": "ExportJob.copyCutGeneration",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 97,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "ExportJob.copyCutStart",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 83,
+   "checked_steps": 6
+  },
+  {
+   "attribute": "ExportJob.isExporting",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 4,
+   "checked_steps": 4
+  },
+  {
+   "attribute": "ExportJob.progress",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 3,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "ExportJob.frame",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 3,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "ExportJob.ffmpegSpeed",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 3,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "ExportJob.elapsedSeconds",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 3,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "ExportJob.statusMessage",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 9,
+   "checked_steps": 4
+  },
+  {
+   "attribute": "ExportJob.outputPath",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 3,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "ExportJob.statusMessageKey",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 3,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "KeyframeCache.entries",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": false,
+   "L4_checked": false,
+   "setting_steps": 0,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "MediaPreviewData.filmstrip",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 16,
+   "checked_steps": 1
+  },
+  {
+   "attribute": "MediaPreviewData.filmstripInterval",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "MediaPreviewData.visibleThumbnails",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 16,
+   "checked_steps": 1
+  },
+  {
+   "attribute": "MediaPreviewData.lastVisibleRequest",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 16,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "MediaPreviewData.waveform",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 14,
+   "checked_steps": 1
+  },
+  {
+   "attribute": "MediaPreviewData.waveformMemoryCache",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": false,
+   "L4_checked": false,
+   "setting_steps": 0,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "MediaJobQueue.pending",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 16,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "MediaJobQueue.running",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 16,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "DiskCache.entries",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "TimelineView.pxPerSec",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 5,
+   "checked_steps": 5
+  },
+  {
+   "attribute": "TimelineView.scrollOffset",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 18,
+   "checked_steps": 7
+  },
+  {
+   "attribute": "TimelineView.dragMode",
+   "L1_displayed": false,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 12,
+   "checked_steps": 10
+  },
+  {
+   "attribute": "TimelineView.hoverBoundary",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 4,
+   "checked_steps": 4
+  },
+  {
+   "attribute": "TimelineView.cursor",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 4,
+   "checked_steps": 4
+  },
+  {
+   "attribute": "TimelineView.viewportWidth",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": false,
+   "L4_checked": false,
+   "setting_steps": 0,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "PreviewPlayer.playerAvailable",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": false,
+   "L4_checked": false,
+   "setting_steps": 0,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "PreviewPlayer.externalPlayback",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 14,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "PreviewPlayer.frameAspect",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": false,
+   "L4_checked": false,
+   "setting_steps": 0,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "PreviewPlayer.frameWidth",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": false,
+   "L4_checked": false,
+   "setting_steps": 0,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "PreviewPlayer.frameHeight",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": false,
+   "L4_checked": false,
+   "setting_steps": 0,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "PreviewPlayer.sceneVisible",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 14,
+   "checked_steps": 1
+  },
+  {
+   "attribute": "PreviewPlayer.rateSentToPlayer",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 12,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "PreviewPlayer.volumeSentToPlayer",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 12,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "LoadError.message",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 20,
+   "checked_steps": 6
+  },
+  {
+   "attribute": "FfmpegInstallation.ffmpegPath",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 2,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "FfmpegInstallation.ffprobePath",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 2,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "FfmpegSetup.shown",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 5,
+   "checked_steps": 5
+  },
+  {
+   "attribute": "FfmpegSetup.installing",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 2,
+   "checked_steps": 2
+  },
+  {
+   "attribute": "FfmpegSetup.installProgress",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 2,
+   "checked_steps": 2
+  },
+  {
+   "attribute": "FfmpegSetup.errorMessage",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 7,
+   "checked_steps": 2
+  },
+  {
+   "attribute": "AboutDialog.shown",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 6,
+   "checked_steps": 5
+  },
+  {
+   "attribute": "AboutDialog.notices",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 7,
+   "checked_steps": 2
+  },
+  {
+   "attribute": "AboutDialog.noticesIsFallback",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 2,
+   "checked_steps": 2
+  },
+  {
+   "attribute": "Localization.uiLanguage",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 5,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "AppSettings.language",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 5,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "MainWindow.width",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 2,
+   "checked_steps": 2
+  },
+  {
+   "attribute": "MainWindow.height",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 2,
+   "checked_steps": 2
+  },
+  {
+   "attribute": "MainWindow.position",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 3,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "MainWindow.windowState",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 3,
+   "checked_steps": 3
+  },
+  {
+   "attribute": "MainWindow.open",
+   "L1_displayed": true,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 2,
+   "checked_steps": 2
+  },
+  {
+   "attribute": "ExportRun.request",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 3,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "OutputFile.state",
+   "L1_displayed": false,
+   "L2_stated": false,
+   "L3_set": true,
+   "L4_checked": false,
+   "setting_steps": 6,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "InspectorView.scrollOffset",
+   "L1_displayed": true,
+   "L2_stated": false,
+   "L3_set": false,
+   "L4_checked": false,
+   "setting_steps": 0,
+   "checked_steps": 0
+  },
+  {
+   "attribute": "InspectorView.focusedInput",
+   "L1_displayed": false,
+   "L2_stated": true,
+   "L3_set": true,
+   "L4_checked": true,
+   "setting_steps": 6,
+   "checked_steps": 6
+  }
+ ]
+}

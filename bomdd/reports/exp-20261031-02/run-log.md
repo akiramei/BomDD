@@ -248,3 +248,33 @@ The defaults of definitions section 3 were accepted as proposed.
 - Author folder `exp07/s5-author` (`prepare.py author S5`): prompt `e2b63827…`, requirements `24964b9d…`, model `b758d626…`,
   screens `f46ef7cb…`, scenarios `ef416e68…`, template `45cc7a6b…`, blind tools, authority tree `bfef702c…`. Author started
   2026-10-31T16:37:54+09:00 with the watcher.
+- S4 record committed as `c30c7a2`. The frozen file `ef416e68…` has CRLF line ends; its committed LF blob hashes `1d0d70b5…` (the same JSON); likewise drafts r1–r3 (`ec33fb82…`, `968aa1bf…`, `9f2d6c65…` on disk; blobs `24d48093…`, `92c8fadd…`, `e309d25e…`).
+
+## Step 7 — A1 (run while S5's author works; A1 reads only S2–S4, which are frozen)
+
+- 2026-10-31, the full `check_upstream.py` (selftest PASS first) `chain s2/domain-model.json s3/screens.json s4/scenarios.json`
+  → `a1/chain-frozen.json` (`9b46e887…`, LF); the same on the last audited `s4/draft-r3.json` → `a1/chain-s4-draft-r3.json`
+  (`cb2b7ecb…`) for the unaudited round-3 answers' effect.
+- **Counts (frozen):** n settable 92; L1 displayed 53, L2 stated 42, L3 set 84, L4 checked 41; **k (all four) 39 of 92**; 206
+  steps, 1 with `expect` `"unknown"`. On `draft-r3.json`: the same counts, 190 steps, 1 unknown. The round-3 answers changed
+  no row's links (all 92 rows equal).
+- **The frame-rate rule selects 7 attributes:** `OutputSettings.outputFps`, `outputFpsText`, `fpsSourceActive`,
+  `activeFpsPreset`, `fpsUpsampling`, `fpsSourceTip`, and `ExportRun.request`. The chain makes rows only for settable
+  attributes (`set_by` not empty), so 2 of them are rows: `outputFps` (set by `SetFps`, `Open`, `DropFile`,
+  `ApplyStartupEnvironment`) and `ExportRun.request` (set by `ConfirmExport`; the export's fixed request, not the frame rate).
+  **Confirmed by hand: the frame-rate row is `OutputSettings.outputFps`.**
+- **The frame-rate row: L1 false, L2 false, L3 true (20 setting steps), L4 false (0 checked).** The same on `draft-r3.json`
+  (18 setting steps).
+- **By hand, after the counts (descriptive, not a reading):** the model states the frame rate as one settable double
+  (`outputFps`) and five **derived** attributes with no setting operation of their own (`set_by: []`, each described as
+  "派生値(独自の設定操作なし)": the dialog's "{n} fps" text, which preset shows selected, whether Source is selected, whether
+  the duplicate-frames note shows, and Source's tooltip). The screens show the derived ones — 5 preset buttons
+  (`activeFpsPreset`; Source also `fpsSourceActive`, `fpsSourceTip`), the note (`fpsUpsampling`), the export summary
+  (`outputFpsText`) — and no element shows `outputFps`. The states state the derived ones (4 of them in 53 states,
+  `outputFpsText` in 20) and none states `outputFps`. Of the 6 `SetFps` steps, 5 expect a state with literal derived values
+  (UC-109 60 and Source, UC-111 24, UC-113 120 and 30; UC-113 is one of round 3's unaudited additions); UC-110's expect
+  (`ST-FPSSRC-TITLEBAR`) states none.
+- **Not the unaudited edits:** no element shows `outputFps` in any S3 draft (r1, r2, r3, frozen); no state states it in any S4
+  draft; the six attributes have the same `set_by` in every S2 draft. The L1 false is the model's decomposition, present from
+  S2's first draft.
+- The reading (section 9) is left to the results, with the other measures.
