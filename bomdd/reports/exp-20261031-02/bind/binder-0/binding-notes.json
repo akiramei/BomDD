@@ -1,0 +1,3846 @@
+{
+ "unbound_attributes": [
+  {
+   "state": "ST-SAMPLE-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-S132-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-SAMPLE-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-SAMPLE-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SAMPLE-PREVIEW",
+   "attribute": "PreviewPlayer.sceneVisible",
+   "why": "the gradient scene is toggled in PreviewView code-behind (OnClipOpened / AttachPlayer), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-S40-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE-UP",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-S40-TIMELINE-UP",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE-UP",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE-UP",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE-UP",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE-UP",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S40-TIMELINE-UP",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S50-PREVIEW",
+   "attribute": "PreviewPlayer.sceneVisible",
+   "why": "the gradient scene is toggled in PreviewView code-behind (OnClipOpened / AttachPlayer), not a VM property"
+  },
+  {
+   "state": "ST-S50-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-S50-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-S50-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-S50-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-S50-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-S50-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S50-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S50-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-S50-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S50-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S50-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S6-TIMELINE-DRAG",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-S6-TIMELINE-DRAG",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S6-TIMELINE-DRAG",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S6-TIMELINE-DRAG",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-S6-TIMELINE-DRAG",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S6-TIMELINE-DRAG",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S6-TIMELINE-DRAG",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S6F1-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-S7-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-S7-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S7-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S7-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S7-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-S7-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-PLAY-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-PLAY-PREVIEW",
+   "attribute": "PreviewPlayer.sceneVisible",
+   "why": "the gradient scene is toggled in PreviewView code-behind (OnClipOpened / AttachPlayer), not a VM property"
+  },
+  {
+   "state": "ST-X1-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-X1-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-X1-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-X1-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-X1-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-X1-PLAY40-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-S20-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-S20-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S20-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S20-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-S20-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S20-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S20-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-SPLIT20-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S20-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S20-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S20-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S20-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-S20-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-S2002-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S2002-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S2002-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S2002-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-S2002-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-SPLIT2002-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002S2-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002S2-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002S2-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SPLIT2002S2-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-SPLIT2002S2-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-MERGE50-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-SM-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-SM-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SM-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SM-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-SM-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SM-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SM-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-SPLIT20-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-UNDO-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-UNDO-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-UNDO-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-UNDO-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-UNDO-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-UNDO-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-UNDO-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-UNDO-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SC50-UNDO-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SC50-UNDO-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SC50-UNDO-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-S10-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-S10-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S10-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S10-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-S10-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S10-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-S10-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-IN10-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-IN10-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-IN10-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-IN10-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-IN10-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-IN10-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-IN10-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-S120-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S120-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S120-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S120-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-S120-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-OUT120-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-S10-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S10-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S10-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-S10-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-S10-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-TSD-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-TSD-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD2-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-TSD2-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD2-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD2-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD2-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD2-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD2-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TS2-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-TS2-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TS2-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TS2-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-TS2-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TS2-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TS2-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD8-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-TSD8-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD8-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD8-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD8-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD8-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD8-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD8-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-TSD8-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-TSD8-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-TSD8-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-TSD395-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-TSD395-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD395-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD395-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD395-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD395-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TSD395-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TED-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-TED-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TED-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TED-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-TED-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TED-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TED-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TED138-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-BD-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-BD-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-BD-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-BD-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-BD-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-BD-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-BD-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-BD45-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-BD635-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-BD635-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-BD635-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-BD635-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-BD635-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-BD635-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-BD635-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERB-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-HOVERB-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERB-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERB-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERB-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERB-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERB-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERH-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-HOVERH-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERH-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERH-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERH-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERH-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-HOVERH-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-Z1-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-Z1-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-Z1-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-Z1-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-Z1-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-Z1-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-Z1-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-Z2-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-Z2-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-Z2-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-Z2-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-Z2-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-Z2-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-Z2-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO1-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-ZO1-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO1-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO1-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO1-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO1-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO1-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO2-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-ZO2-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO2-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO2-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO2-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO2-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO2-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO3-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-ZO3-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO3-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO3-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO3-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO3-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-ZO3-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SP2-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SP2-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SP2-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SP2-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-SP2-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-SP2-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SP2-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SP2-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-SP2-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SP2-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SP2-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-V50-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-V50-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V50-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V50S2-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-V50S2-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V50S2-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V50S2-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-UNDOBOTH-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-UNDOBOTH-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-UNDOBOTH-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SP123-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SP123-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SP123-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SP123-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-SP123-INSPECTOR",
+   "attribute": "EditSession.speedSliderValue",
+   "why": "ROUNDED: value 0.298658 is a rounded log2; SpeedLog2 is an unrounded double and the harness compares by equality"
+  },
+  {
+   "state": "ST-SP123-INSPECTOR",
+   "attribute": "EditSession.activeSpeedPreset",
+   "why": "'none' means no preset button has Classes.active; that is SpeedText not in {0.25,0.5,1,1.5,2,3,4}, which an equality predicate cannot state (EditSession.selectedSpeedText carries the value)"
+  },
+  {
+   "state": "ST-SP025-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SP025-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SP025-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SP025-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-V150-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-V150-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V150-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-MUTE-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-MUTE-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-MUTE-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V38-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-V38-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V38-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V38-INSPECTOR",
+   "attribute": "EditSession.activeVolumePreset",
+   "why": "'none' means VolumeText not in {0,50,100,150}; not expressible by equality (EditSession.volumeText carries the value)"
+  },
+  {
+   "state": "ST-MUTE-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-MUTE-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-MUTE-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-MUTE-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-MUTE-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-UNMUTE-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-UNMUTE-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-UNMUTE-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V50-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-V50-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-V50-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-V50-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-V50-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-V50M-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-V50M-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V50M-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V50M-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-V50M-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-V50M-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-V50M-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-V50M-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-V50MM-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-V50MM-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V50MM-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-MUTE-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-MUTE-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-MUTE-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-MUTE-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-MUTE-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-MUTE-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-MUTE-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-P50-PREVIEW",
+   "attribute": "PreviewPlayer.sceneVisible",
+   "why": "the gradient scene is toggled in PreviewView code-behind (OnClipOpened / AttachPlayer), not a VM property"
+  },
+  {
+   "state": "ST-P1OFF-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-P1OFF-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-P1OFF-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-P50-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-P50-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-P50-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-P50-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-P50-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-P50-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-P50-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-X1-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-X1-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-X1-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-X1U-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-X1U-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-X1U-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-X1-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-X1-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-X1-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-X1-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-X1-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-X1-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-X1-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-FW-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FW-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FW-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FW1281-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FW1281-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FW1281-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-W1280-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-W1280-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-W1280-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FWABC-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FWABC-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FWABC-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FW99999-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FW99999-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FW99999-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-W7680-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-W7680-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-W7680-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FH-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FH-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FH-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FH901-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FH901-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FH901-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-H900-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-H900-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-H900-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FW-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-FW-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-FW-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-FW-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-FW-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FW-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-AW1000-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-AW1000-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-AW1000-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-AON562-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-AON562-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-AON562-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SC50-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SC50-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SC50-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-RESET-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-RESET-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-RESET-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SC75-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SC75-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SC75-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FPS60-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FPS60-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FPS60-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FPSSRC-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FPSSRC-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FPSSRC-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FPS24-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FPS24-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FPS24-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-RE960-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-RE960-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-RE960-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-RE960-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-RE960-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-MAX-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-MAX-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-MAX-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-MAX-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-MAX-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-MIN-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-MIN-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-MIN-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-MIN-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-MIN-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-CLOSED-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-CLOSED-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-CLOSED-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-CLOSED-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-CLOSED-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-CLOSEDP-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-CLOSEDP-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-CLOSEDP-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-CLOSEDP-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-CLOSEDP-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-ERRJA-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-ERRJA-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-ERRJA-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-ERRJA-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-ERRJA-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-TALK-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-TALK-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TALK-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TALK-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-TALK-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TALK-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TALK-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TALK-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-TALK-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-TALK-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-TALK-INSPECTOR",
+   "attribute": "OutputSettings.activeFpsPreset",
+   "why": "'none' means no fps preset button has Classes.active (OutFpsText not in {24,30,60,120}); not expressible by equality"
+  },
+  {
+   "state": "ST-TALK-PREVIEW",
+   "attribute": "PreviewPlayer.sceneVisible",
+   "why": "the gradient scene is toggled in PreviewView code-behind (OnClipOpened / AttachPlayer), not a VM property"
+  },
+  {
+   "state": "ST-ERR-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-ERR-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-ERR-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-ERR-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-ERR-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-TALK-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-TALK-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-TALK-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-TALK-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-TALK-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SE-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-SE-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-SE-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-SE-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-SE-MAIN",
+   "attribute": "MainWindow.modalOverlayShown",
+   "why": "true means ShowExport or ShowAbout or ShowFfmpegSetup (a disjunction); the predicate is a conjunction of equalities. The dialog's own shown attribute, where the state has it, carries the overlay"
+  },
+  {
+   "state": "ST-SE-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-DLG-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-DLG-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-DLG-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-DLG-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-DLG-MAIN",
+   "attribute": "MainWindow.modalOverlayShown",
+   "why": "true means ShowExport or ShowAbout or ShowFfmpegSetup (a disjunction); the predicate is a conjunction of equalities. The dialog's own shown attribute, where the state has it, carries the overlay"
+  },
+  {
+   "state": "ST-DLG-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-DLGPLAY-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-DLGPLAY-TRANSPORT",
+   "attribute": "MainWindow.modalOverlayShown",
+   "why": "true means ShowExport or ShowAbout or ShowFfmpegSetup (a disjunction); the predicate is a conjunction of equalities. The dialog's own shown attribute, where the state has it, carries the overlay"
+  },
+  {
+   "state": "ST-DLGCLOSED-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-DLGCLOSED-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-DLGCLOSED-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-DLGCLOSED-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-DLGCLOSED-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-TK5S30-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-TK5S30-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-TK5S30-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-TK5S30-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-TK5S30-MAIN",
+   "attribute": "MainWindow.modalOverlayShown",
+   "why": "true means ShowExport or ShowAbout or ShowFfmpegSetup (a disjunction); the predicate is a conjunction of equalities. The dialog's own shown attribute, where the state has it, carries the overlay"
+  },
+  {
+   "state": "ST-TK5S30-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-TK5OFF-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-TK5OFF-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TK5OFF-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TK5OFF-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-TK5OFF-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TK5OFF-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-TK5OFF-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-TK5OFF-TIMELINE",
+   "attribute": "MainWindow.modalOverlayShown",
+   "why": "true means ShowExport or ShowAbout or ShowFfmpegSetup (a disjunction); the predicate is a conjunction of equalities. The dialog's own shown attribute, where the state has it, carries the overlay"
+  },
+  {
+   "state": "ST-TALKSC50-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-TALKSC50-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-TALKSC50-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-TALKSC50-INSPECTOR",
+   "attribute": "OutputSettings.activeFpsPreset",
+   "why": "'none' means no fps preset button has Classes.active (OutFpsText not in {24,30,60,120}); not expressible by equality"
+  },
+  {
+   "state": "ST-NOFF-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-NOFF-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-NOFF-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-NOFF-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-NOFF-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-NOFF-MUTE-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-NOFF-MUTE-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-NOFF-MUTE-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FF-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-FF-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-FF-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-FF-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-FF-MAIN",
+   "attribute": "MainWindow.modalOverlayShown",
+   "why": "true means ShowExport or ShowAbout or ShowFfmpegSetup (a disjunction); the predicate is a conjunction of equalities. The dialog's own shown attribute, where the state has it, carries the overlay"
+  },
+  {
+   "state": "ST-FF-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FFPLAY-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-FFPLAY-TRANSPORT",
+   "attribute": "MainWindow.modalOverlayShown",
+   "why": "true means ShowExport or ShowAbout or ShowFfmpegSetup (a disjunction); the predicate is a conjunction of equalities. The dialog's own shown attribute, where the state has it, carries the overlay"
+  },
+  {
+   "state": "ST-ABOUT-ABOUT",
+   "attribute": "AboutDialog.noticesIsFallback",
+   "why": "the VM keeps it in the private field _aboutNoticesIsFallback; no public property"
+  },
+  {
+   "state": "ST-ABOUTFB-ABOUT",
+   "attribute": "AboutDialog.noticesIsFallback",
+   "why": "the VM keeps it in the private field _aboutNoticesIsFallback; no public property"
+  },
+  {
+   "state": "ST-ABOUTCLOSED-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-ABOUTCLOSED-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-ABOUTCLOSED-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-ABOUTCLOSED-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-ABOUTCLOSED-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SCR200-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-SCR200-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-SCR200PLAY-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-SCR200PLAY-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200PLAY-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200PLAY-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200PLAY-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200PLAY-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-SCR200PLAY-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-START-FFENV-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-START-FFENV-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-START-FFENV-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-START-FFENV-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-START-FFENV-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-START-FFENV-PLAY-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-START-FFCWD-MAIN",
+   "attribute": "MainWindow.width",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-START-FFCWD-MAIN",
+   "attribute": "MainWindow.height",
+   "why": "window size is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-START-FFCWD-MAIN",
+   "attribute": "MainWindow.windowState",
+   "why": "WindowState is a Window property, not a VM property"
+  },
+  {
+   "state": "ST-START-FFCWD-MAIN",
+   "attribute": "MainWindow.open",
+   "why": "whether the window is open is Window state, not a VM property"
+  },
+  {
+   "state": "ST-START-FFCWD-MAIN",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-START-FFCWD-PLAY-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-ENVSPLIT-S-TIMELINE",
+   "attribute": "Document.regions",
+   "why": "a list of region records; the predicate compares scalars only (State.Regions is an ImmutableList<RegionData>)"
+  },
+  {
+   "state": "ST-ENVSPLIT-S-TIMELINE",
+   "attribute": "TimelineView.contentWidth",
+   "why": "computed inside TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ENVSPLIT-S-TIMELINE",
+   "attribute": "TimelineView.rulerStep",
+   "why": "ruler step is computed in TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ENVSPLIT-S-TIMELINE",
+   "attribute": "TimelineView.scrollOffset",
+   "why": "scroll offset is the ScrollViewer's (view), not a VM property"
+  },
+  {
+   "state": "ST-ENVSPLIT-S-TIMELINE",
+   "attribute": "TimelineView.dragMode",
+   "why": "drag mode is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-ENVSPLIT-S-TIMELINE",
+   "attribute": "TimelineView.hoverBoundary",
+   "why": "hover boundary is TimelineControl's private state (view), not a VM property"
+  },
+  {
+   "state": "ST-ENVSPLIT-S-TIMELINE",
+   "attribute": "TimelineView.cursor",
+   "why": "pointer cursor of TimelineControl (view), not a VM property"
+  },
+  {
+   "state": "ST-ENVSPEED-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-ENVSPEED-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-ENVSPEED-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-ENVSPEED-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-ENVABOUT-ABOUT",
+   "attribute": "AboutDialog.noticesIsFallback",
+   "why": "the VM keeps it in the private field _aboutNoticesIsFallback; no public property"
+  },
+  {
+   "state": "ST-S7B1-TRANSPORT",
+   "attribute": "Document.exportLengthPillText",
+   "why": "composed in TransportView from SourceLenClock and OutputLenClock (two TextBlocks and a translated label); no single VM property; both parts are bound through Document.sourceLengthClock / outputLengthClock"
+  },
+  {
+   "state": "ST-PS05-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-PS05-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-PS05-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-PS05-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-PS15-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-PS15-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-PS15-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-PS15-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-PS15-INSPECTOR",
+   "attribute": "EditSession.speedSliderValue",
+   "why": "ROUNDED: value 0.584963 is a rounded log2; SpeedLog2 is an unrounded double and the harness compares by equality"
+  },
+  {
+   "state": "ST-PS3-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-PS3-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-PS3-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-PS3-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-PS3-INSPECTOR",
+   "attribute": "EditSession.speedSliderValue",
+   "why": "ROUNDED: value 1.584963 is a rounded log2; SpeedLog2 is an unrounded double and the harness compares by equality"
+  },
+  {
+   "state": "ST-PS4-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-PS4-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-PS4-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-PS4-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-PS025-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-PS025-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-PS025-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-PS025-INSPECTOR",
+   "attribute": "EditSession.selectedSwatchColor",
+   "why": "SelectedSwatchBrush is an IBrush computed by SpeedColor.Brush(speed); a colour other than #2A2E33 cannot be compared by the predicate (only #2A2E33 <=> SelectedIsNormalSpeed is decidable)"
+  },
+  {
+   "state": "ST-V50V100-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-V50V100-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-V50V100-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SC100-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-SC100-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-SC100-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FPS120-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FPS120-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FPS120-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FPS30-INSPECTOR",
+   "attribute": "InspectorView.focusedInput",
+   "why": "keyboard focus of the width/height TextBox is view state (FocusManager), not a VM property"
+  },
+  {
+   "state": "ST-FPS30-INSPECTOR",
+   "attribute": "OutputSettings.widthInputText",
+   "why": "the WidthInput TextBox text (Text bound OneWay to OutW; typed text lives in the TextBox until committed); view state, not a VM property"
+  },
+  {
+   "state": "ST-FPS30-INSPECTOR",
+   "attribute": "OutputSettings.heightInputText",
+   "why": "the HeightInput TextBox text (Text bound OneWay to OutH; typed text lives in the TextBox until committed); view state, not a VM property"
+  }
+ ],
+ "unbound_steps": [
+  {
+   "scenario": "UC-010",
+   "step": 1,
+   "why": "EL-TM-RULER Scrub(340): no command: TimelineControl pointer handling calls the public method Scrub(t) after converting x to time (view)"
+  },
+  {
+   "scenario": "UC-010",
+   "step": 2,
+   "why": "EL-TM-RELEASE ReleaseTimelinePointer(null): no command: TimelineControl pointer release (view)"
+  },
+  {
+   "scenario": "UC-011",
+   "step": 1,
+   "why": "EL-TM-RULER Scrub(425): no command: TimelineControl pointer handling calls the public method Scrub(t) after converting x to time (view)"
+  },
+  {
+   "scenario": "UC-012",
+   "step": 1,
+   "why": "EL-TM-RULER Scrub(425): no command: TimelineControl pointer handling calls the public method Scrub(t) after converting x to time (view)"
+  },
+  {
+   "scenario": "UC-013",
+   "step": 1,
+   "why": "EL-TM-TRACK-SCRUB Scrub(0): no command: TimelineControl pointer handling calls the public method Scrub(t) after converting x to time (view)"
+  },
+  {
+   "scenario": "UC-014",
+   "step": 1,
+   "why": "EL-TM-RULER Scrub(51): no command: TimelineControl pointer handling calls the public method Scrub(t) after converting x to time (view)"
+  },
+  {
+   "scenario": "UC-017",
+   "step": 1,
+   "why": "EL-KEY-SHIFT-RIGHT StepSecondForward(null): no command: Shift+Right calls the public method StepSecond(1) from MainWindow.OnKeyDown"
+  },
+  {
+   "scenario": "UC-017",
+   "step": 2,
+   "why": "EL-KEY-SHIFT-LEFT StepSecondBack(null): no command: Shift+Left calls the public method StepSecond(-1) from MainWindow.OnKeyDown"
+  },
+  {
+   "scenario": "UC-030",
+   "step": 1,
+   "why": "EL-TM-TRACK-SCRUB Scrub(170): no command: TimelineControl pointer handling calls the public method Scrub(t) after converting x to time (view)"
+  },
+  {
+   "scenario": "UC-043",
+   "step": 1,
+   "why": "EL-INS-PITCH-ROW TogglePitch(null): no command: the pitch row flips SelectedPreservePitch in InspectorView code-behind"
+  },
+  {
+   "scenario": "UC-050",
+   "step": 1,
+   "why": "EL-TM-TRACK-SCRUB Scrub(85): no command: TimelineControl pointer handling calls the public method Scrub(t) after converting x to time (view)"
+  },
+  {
+   "scenario": "UC-054",
+   "step": 1,
+   "why": "EL-TM-TRIMSTART-HANDLE BeginTrimStartDrag(null): no command: TimelineControl pointer handling (view)"
+  },
+  {
+   "scenario": "UC-054",
+   "step": 2,
+   "why": "EL-TM-TRIMSTART-MOVE MoveTrimStart(2.0): no command: TimelineControl drag calls the public method MoveTrim(true, t)"
+  },
+  {
+   "scenario": "UC-054",
+   "step": 3,
+   "why": "EL-TM-RELEASE ReleaseTimelinePointer(null): no command: TimelineControl pointer release (view)"
+  },
+  {
+   "scenario": "UC-055",
+   "step": 1,
+   "why": "EL-TM-TRIMSTART-MOVE MoveTrimStart(8.0): no command: TimelineControl drag calls the public method MoveTrim(true, t)"
+  },
+  {
+   "scenario": "UC-058",
+   "step": 1,
+   "why": "EL-TM-TRIMSTART-MOVE MoveTrimStart(8.0): no command: TimelineControl drag calls the public method MoveTrim(true, t)"
+  },
+  {
+   "scenario": "UC-059",
+   "step": 1,
+   "why": "EL-TM-TRIMSTART-MOVE MoveTrimStart(8.0): no command: TimelineControl drag calls the public method MoveTrim(true, t)"
+  },
+  {
+   "scenario": "UC-056",
+   "step": 1,
+   "why": "EL-TM-TRIMSTART-MOVE MoveTrimStart(39.9): no command: TimelineControl drag calls the public method MoveTrim(true, t)"
+  },
+  {
+   "scenario": "UC-057",
+   "step": 1,
+   "why": "EL-TM-TRIMEND-HANDLE BeginTrimEndDrag(null): no command: TimelineControl pointer handling (view)"
+  },
+  {
+   "scenario": "UC-057",
+   "step": 2,
+   "why": "EL-TM-TRIMEND-MOVE MoveTrimEnd(140.0): no command: TimelineControl drag calls the public method MoveTrim(false, t)"
+  },
+  {
+   "scenario": "UC-060",
+   "step": 1,
+   "why": "EL-TM-BOUNDARY BeginBoundaryDrag(0): no command: TimelineControl pointer handling (view)"
+  },
+  {
+   "scenario": "UC-060",
+   "step": 2,
+   "why": "EL-TM-BOUNDARY-MOVE MoveBoundary(45.0): no command: TimelineControl drag calls the public method MoveBoundary(i, t)"
+  },
+  {
+   "scenario": "UC-061",
+   "step": 1,
+   "why": "EL-TM-BOUNDARY-MOVE MoveBoundary(70.0): no command: TimelineControl drag calls the public method MoveBoundary(i, t)"
+  },
+  {
+   "scenario": "UC-062",
+   "step": 1,
+   "why": "EL-TM-HOVER HoverTimeline({\"x\": 340, \"y\": 60}): no command: TimelineControl pointer move (view)"
+  },
+  {
+   "scenario": "UC-062",
+   "step": 2,
+   "why": "EL-TM-LEAVE LeaveTimeline(null): no command: TimelineControl pointer leave (view)"
+  },
+  {
+   "scenario": "UC-063",
+   "step": 1,
+   "why": "EL-TM-HOVER HoverTimeline({\"x\": 51, \"y\": 60}): no command: TimelineControl pointer move (view)"
+  },
+  {
+   "scenario": "UC-063",
+   "step": 2,
+   "why": "EL-TM-HOVER HoverTimeline({\"x\": 340, \"y\": 10}): no command: TimelineControl pointer move (view)"
+  },
+  {
+   "scenario": "UC-072",
+   "step": 2,
+   "why": "EL-INS-SPEED-SLIDER SetSpeedContinuous(1.0): no command: the speed slider binds Value two-way to SpeedLog2"
+  },
+  {
+   "scenario": "UC-073",
+   "step": 1,
+   "why": "EL-INS-SPEED-SLIDER SetSpeedContinuous(1.0): no command: the speed slider binds Value two-way to SpeedLog2"
+  },
+  {
+   "scenario": "UC-074",
+   "step": 1,
+   "why": "EL-INS-SPEED-SLIDER-PRESS BeginInteractiveEdit(null): no command: the slider's PointerPressed calls BeginInteractiveEdit from InspectorView code-behind"
+  },
+  {
+   "scenario": "UC-075",
+   "step": 1,
+   "why": "EL-INS-SPEED-SLIDER SetSpeedContinuous(0.3): no command: the speed slider binds Value two-way to SpeedLog2"
+  },
+  {
+   "scenario": "UC-076",
+   "step": 1,
+   "why": "EL-INS-SPEED-SLIDER SetSpeedContinuous(-2.0): no command: the speed slider binds Value two-way to SpeedLog2"
+  },
+  {
+   "scenario": "UC-082",
+   "step": 1,
+   "why": "EL-INS-VOLUME-SLIDER SetVolumeContinuous(37.5): no command: the volume slider binds Value two-way to VolumePercent"
+  },
+  {
+   "scenario": "UC-083",
+   "step": 1,
+   "why": "EL-KEY-M ToggleMute(null): ToggleMuteCommand has no XAML Command binding (only the M key in MainWindow.OnKeyDown)"
+  },
+  {
+   "scenario": "UC-083",
+   "step": 2,
+   "why": "EL-KEY-M ToggleMute(null): ToggleMuteCommand has no XAML Command binding (only the M key in MainWindow.OnKeyDown)"
+  },
+  {
+   "scenario": "UC-084",
+   "step": 1,
+   "why": "EL-KEY-M ToggleMute(null): ToggleMuteCommand has no XAML Command binding (only the M key in MainWindow.OnKeyDown)"
+  },
+  {
+   "scenario": "UC-084",
+   "step": 2,
+   "why": "EL-KEY-M ToggleMute(null): ToggleMuteCommand has no XAML Command binding (only the M key in MainWindow.OnKeyDown)"
+  },
+  {
+   "scenario": "UC-085",
+   "step": 1,
+   "why": "EL-KEY-M ToggleMute(null): ToggleMuteCommand has no XAML Command binding (only the M key in MainWindow.OnKeyDown)"
+  },
+  {
+   "scenario": "UC-090",
+   "step": 1,
+   "why": "EL-INS-PITCH-ROW TogglePitch(null): no command: the pitch row flips SelectedPreservePitch in InspectorView code-behind"
+  },
+  {
+   "scenario": "UC-091",
+   "step": 1,
+   "why": "EL-INS-PITCH-ROW TogglePitch(null): no command: the pitch row flips SelectedPreservePitch in InspectorView code-behind"
+  },
+  {
+   "scenario": "UC-092",
+   "step": 1,
+   "why": "EL-INS-PITCH-ROW TogglePitch(null): no command: the pitch row flips SelectedPreservePitch in InspectorView code-behind"
+  },
+  {
+   "scenario": "UC-093",
+   "step": 1,
+   "why": "EL-INS-EXCLUDE-ROW ToggleExclude(null): ToggleExcludeCommand has no XAML Command binding (the Delete key and the exclude row reach it / SelectedExcluded through code-behind)"
+  },
+  {
+   "scenario": "UC-093",
+   "step": 2,
+   "why": "EL-INS-EXCLUDE-ROW ToggleExclude(null): ToggleExcludeCommand has no XAML Command binding (the Delete key and the exclude row reach it / SelectedExcluded through code-behind)"
+  },
+  {
+   "scenario": "UC-094",
+   "step": 1,
+   "why": "EL-KEY-DELETE ToggleExclude(null): ToggleExcludeCommand has no XAML Command binding (the Delete key and the exclude row reach it / SelectedExcluded through code-behind)"
+  },
+  {
+   "scenario": "UC-100",
+   "step": 1,
+   "why": "EL-INS-WIDTH-FOCUS FocusWidthInput(null): no command: focusing a TextBox is view state"
+  },
+  {
+   "scenario": "UC-100",
+   "step": 2,
+   "why": "EL-INS-WIDTH EditWidthText(\"1281\"): no command: typing into the WidthInput TextBox is view text"
+  },
+  {
+   "scenario": "UC-100",
+   "step": 3,
+   "why": "EL-INS-WIDTH-COMMIT ApplyWidth(\"1281\"): no command: committing the width calls the public method ApplyWidth(int) from InspectorView code-behind"
+  },
+  {
+   "scenario": "UC-101",
+   "step": 1,
+   "why": "EL-INS-WIDTH-COMMIT ApplyWidth(\"abc\"): no command: committing the width calls the public method ApplyWidth(int) from InspectorView code-behind"
+  },
+  {
+   "scenario": "UC-102",
+   "step": 1,
+   "why": "EL-INS-WIDTH-COMMIT ApplyWidth(\"99999\"): no command: committing the width calls the public method ApplyWidth(int) from InspectorView code-behind"
+  },
+  {
+   "scenario": "UC-103",
+   "step": 1,
+   "why": "EL-INS-HEIGHT-FOCUS FocusHeightInput(null): no command: focusing a TextBox is view state"
+  },
+  {
+   "scenario": "UC-103",
+   "step": 2,
+   "why": "EL-INS-HEIGHT EditHeightText(\"9a01\"): no command: typing into the HeightInput TextBox is view text"
+  },
+  {
+   "scenario": "UC-103",
+   "step": 3,
+   "why": "EL-INS-HEIGHT-COMMIT ApplyHeight(\"9a01\"): no command: committing the height calls the public method ApplyHeight(int) from InspectorView code-behind"
+  },
+  {
+   "scenario": "UC-104",
+   "step": 1,
+   "why": "EL-KEY-SPACE TogglePlay(null): the scenario turns on a TextBox having focus (MainWindow.OnKeyDown returns without running TogglePlayCommand); the button binding has no such gate and would run it"
+  },
+  {
+   "scenario": "UC-105",
+   "step": 1,
+   "why": "EL-INS-ASPECT-ROW ToggleAspect(null): ToggleAspectCommand has no XAML Command binding (the aspect row reaches it through InspectorView code-behind)"
+  },
+  {
+   "scenario": "UC-106",
+   "step": 1,
+   "why": "EL-INS-ASPECT-ROW ToggleAspect(null): ToggleAspectCommand has no XAML Command binding (the aspect row reaches it through InspectorView code-behind)"
+  },
+  {
+   "scenario": "UC-120",
+   "step": 1,
+   "why": "EL-MAIN-RESIZE-EAST ResizeWindow(\"East\"): no command: the window edges call BeginResizeDrag from MainWindow code-behind"
+  },
+  {
+   "scenario": "UC-121",
+   "step": 1,
+   "why": "EL-TB-MAXIMIZE ToggleMaximize(null): no command: the maximize button / double press is TitleBarView code-behind (Click=OnMaximize)"
+  },
+  {
+   "scenario": "UC-121",
+   "step": 2,
+   "why": "EL-TB-DRAG-DOUBLE ToggleMaximize(null): no command: the maximize button / double press is TitleBarView code-behind (Click=OnMaximize)"
+  },
+  {
+   "scenario": "UC-122",
+   "step": 1,
+   "why": "EL-MAIN-RESIZE-SOUTHEAST ResizeWindow(\"SouthEast\"): no command: the window edges call BeginResizeDrag from MainWindow code-behind"
+  },
+  {
+   "scenario": "UC-123",
+   "step": 1,
+   "why": "EL-TB-MINIMIZE MinimizeWindow(null): no command: TitleBarView code-behind (Click=OnMinimize)"
+  },
+  {
+   "scenario": "UC-124",
+   "step": 1,
+   "why": "EL-TB-DRAG MoveWindow({\"dx\": 100, \"dy\": 50}): no command: the title-bar drag calls BeginMoveDrag from TitleBarView code-behind"
+  },
+  {
+   "scenario": "UC-125",
+   "step": 1,
+   "why": "EL-TB-CLOSE CloseWindow(null): no command: TitleBarView code-behind (Click=OnClose)"
+  },
+  {
+   "scenario": "UC-126",
+   "step": 1,
+   "why": "EL-TB-CLOSE CloseWindow(null): no command: TitleBarView code-behind (Click=OnClose)"
+  },
+  {
+   "scenario": "UC-130",
+   "step": 1,
+   "why": "EL-TB-LANGUAGE OpenLanguageMenu(null): no command: opening the language flyout is view state"
+  },
+  {
+   "scenario": "UC-130",
+   "step": 3,
+   "why": "EL-TB-LANGUAGE OpenLanguageMenu(null): no command: opening the language flyout is view state"
+  },
+  {
+   "scenario": "UC-132",
+   "step": 1,
+   "why": "EL-TB-LANGUAGE OpenLanguageMenu(null): no command: opening the language flyout is view state"
+  },
+  {
+   "scenario": "UC-133",
+   "step": 1,
+   "why": "EL-TB-LANGUAGE OpenLanguageMenu(null): no command: opening the language flyout is view state"
+  },
+  {
+   "scenario": "UC-134",
+   "step": 1,
+   "why": "EL-TB-LANGUAGE OpenLanguageMenu(null): no command: opening the language flyout is view state"
+  },
+  {
+   "scenario": "UC-131",
+   "step": 1,
+   "why": "EL-TB-LANGUAGE OpenLanguageMenu(null): no command: opening the language flyout is view state"
+  },
+  {
+   "scenario": "UC-144",
+   "step": 1,
+   "why": "EL-MAIN-DRAGOVER DragOver(null): no command: MainWindow.OnDragOver (code-behind) only sets DragEffects"
+  },
+  {
+   "scenario": "UC-144",
+   "step": 2,
+   "why": "EL-MAIN-DROP DropFile(\"C:\\\\Videos\\\\talk.mp4\"): no command: MainWindow.OnDrop calls LoadFileAsync(path) from code-behind; it also runs ffprobe (external process), so it would be harness: no if it had a binding"
+  },
+  {
+   "scenario": "UC-145",
+   "step": 1,
+   "why": "EL-MAIN-DROP DropFile(\"C:\\\\Videos\\\\TALK.MP4\"): no command: MainWindow.OnDrop calls LoadFileAsync(path) from code-behind; it also runs ffprobe (external process), so it would be harness: no if it had a binding"
+  },
+  {
+   "scenario": "UC-146",
+   "step": 1,
+   "why": "EL-MAIN-DROP DropFile(\"C:\\\\Videos\\\\notes.txt\"): no command: MainWindow.OnDrop calls LoadFileAsync(path) from code-behind; it also runs ffprobe (external process), so it would be harness: no if it had a binding"
+  },
+  {
+   "scenario": "UC-147",
+   "step": 1,
+   "why": "EL-MAIN-DROP DropFile(\"C:\\\\Videos\\\\broken.mp4\"): no command: MainWindow.OnDrop calls LoadFileAsync(path) from code-behind; it also runs ffprobe (external process), so it would be harness: no if it had a binding"
+  },
+  {
+   "scenario": "UC-148",
+   "step": 1,
+   "why": "EL-MAIN-DROP DropFile(\"C:\\\\Videos\\\\broken.mp4\"): no command: MainWindow.OnDrop calls LoadFileAsync(path) from code-behind; it also runs ffprobe (external process), so it would be harness: no if it had a binding"
+  },
+  {
+   "scenario": "UC-149",
+   "step": 1,
+   "why": "EL-MAIN-DROP DropFile(\"C:\\\\Videos\\\\talk.mp4\"): no command: MainWindow.OnDrop calls LoadFileAsync(path) from code-behind; it also runs ffprobe (external process), so it would be harness: no if it had a binding"
+  },
+  {
+   "scenario": "UC-150",
+   "step": 1,
+   "why": "EL-MAIN-DROP DropFile(\"C:\\\\Videos\\\\long.mp4\"): no command: MainWindow.OnDrop calls LoadFileAsync(path) from code-behind; it also runs ffprobe (external process), so it would be harness: no if it had a binding"
+  },
+  {
+   "scenario": "UC-150",
+   "step": 2,
+   "why": "EL-MAIN-DROP DropFile(\"C:\\\\Videos\\\\talk.mp4\"): no command: MainWindow.OnDrop calls LoadFileAsync(path) from code-behind; it also runs ffprobe (external process), so it would be harness: no if it had a binding"
+  },
+  {
+   "scenario": "UC-151",
+   "step": 1,
+   "why": "EL-MAIN-DROP DropFile(\"C:\\\\Videos\\\\talk.mp4\"): no command: MainWindow.OnDrop calls LoadFileAsync(path) from code-behind; it also runs ffprobe (external process), so it would be harness: no if it had a binding"
+  },
+  {
+   "scenario": "UC-163",
+   "step": 1,
+   "why": "EL-EX-FORMAT-LOSSLESS SelectFormat(\"Lossless\"): SelectFormatCommand has no XAML Command binding (format cards reach it through ExportDialogView.OnFormatCardPressed)"
+  },
+  {
+   "scenario": "UC-163",
+   "step": 2,
+   "why": "EL-EX-FORMAT-PRORES SelectFormat(\"ProRes\"): SelectFormatCommand has no XAML Command binding (format cards reach it through ExportDialogView.OnFormatCardPressed)"
+  },
+  {
+   "scenario": "UC-163",
+   "step": 3,
+   "why": "EL-EX-FORMAT-MP4 SelectFormat(\"Mp4\"): SelectFormatCommand has no XAML Command binding (format cards reach it through ExportDialogView.OnFormatCardPressed)"
+  },
+  {
+   "scenario": "UC-165",
+   "step": 1,
+   "why": "EL-KEY-SPACE TogglePlay(null): the key works while a modal overlay blocks the mouse (in-state modalOverlayShown true); the only binding of TogglePlayCommand is a button under the overlay, so binding it would certify the blocked path, not the key"
+  },
+  {
+   "scenario": "UC-168",
+   "step": 1,
+   "why": "EL-KEY-DELETE ToggleExclude(null): ToggleExcludeCommand has no XAML Command binding (the Delete key and the exclude row reach it / SelectedExcluded through code-behind)"
+  },
+  {
+   "scenario": "UC-167",
+   "step": 2,
+   "why": "EL-TB-LANGUAGE OpenLanguageMenu(null): no command: opening the language flyout is view state"
+  },
+  {
+   "scenario": "UC-170",
+   "step": 2,
+   "why": "EL-EX-FASTCOPY SetFastExport(true): no command: the copy CheckBox binds IsChecked two-way to FastExport"
+  },
+  {
+   "scenario": "UC-171",
+   "step": 1,
+   "why": "EL-EX-FORMAT-PRORES SelectFormat(\"ProRes\"): SelectFormatCommand has no XAML Command binding (format cards reach it through ExportDialogView.OnFormatCardPressed)"
+  },
+  {
+   "scenario": "UC-173",
+   "step": 1,
+   "why": "EL-KEY-S Split(null): the key works while a modal overlay blocks the mouse (in-state modalOverlayShown true); the only binding of SplitCommand is a button under the overlay, so binding it would certify the blocked path, not the key"
+  },
+  {
+   "scenario": "UC-174",
+   "step": 1,
+   "why": "EL-EX-FASTCOPY SetFastExport(false): no command: the copy CheckBox binds IsChecked two-way to FastExport"
+  },
+  {
+   "scenario": "UC-179",
+   "step": 1,
+   "why": "EL-EX-FORMAT-LOSSLESS SelectFormat(\"Lossless\"): SelectFormatCommand has no XAML Command binding (format cards reach it through ExportDialogView.OnFormatCardPressed)"
+  },
+  {
+   "scenario": "UC-180",
+   "step": 2,
+   "why": "EL-TB-LANGUAGE OpenLanguageMenu(null): no command: opening the language flyout is view state"
+  },
+  {
+   "scenario": "UC-190",
+   "step": 2,
+   "why": "EL-KEY-M ToggleMute(null): ToggleMuteCommand has no XAML Command binding (only the M key in MainWindow.OnKeyDown)"
+  },
+  {
+   "scenario": "UC-193",
+   "step": 1,
+   "why": "EL-KEY-SPACE TogglePlay(null): the key works while a modal overlay blocks the mouse (in-state modalOverlayShown true); the only binding of TogglePlayCommand is a button under the overlay, so binding it would certify the blocked path, not the key"
+  },
+  {
+   "scenario": "UC-026",
+   "step": 1,
+   "why": "EL-TM-SCROLL ScrollTimeline(200.0): no command: the timeline ScrollViewer offset (view)"
+  },
+  {
+   "scenario": "UC-086",
+   "step": 1,
+   "why": "EL-INS-VOLUME-SLIDER-PRESS BeginInteractiveEdit(null): no command: the slider's PointerPressed calls BeginInteractiveEdit from InspectorView code-behind"
+  }
+ ],
+ "notes": [
+  {
+   "where": "UC-015 step 1",
+   "text": "substitute control: the key runs StepForwardCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the TransportView step-forward button of the same command, whose availability adds no enabledness (visible HasClip only)"
+  },
+  {
+   "where": "UC-021 step 1",
+   "text": "substitute control: the preview press runs TogglePlayCommand from PreviewView code-behind (OnVideoPressed); bound to the TransportView play button of the same command"
+  },
+  {
+   "where": "UC-023 setup (start ST-X1-MAIN)",
+   "text": "start state not reachable by setup: the start state carries undo/redo history (CanUndo / CanRedo) or an edit made through it; History is a private field and none of the setup forms can fill it; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-023 step 1",
+   "text": "substitute control: the key runs TogglePlayCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the TransportView play button of the same command, whose availability adds no enabledness (visible HasClip only)"
+  },
+  {
+   "where": "UC-025 step 1",
+   "text": "substitute control: the key runs TogglePlayCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the TransportView play button of the same command, whose availability adds no enabledness (visible HasClip only)"
+  },
+  {
+   "where": "UC-032 step 1",
+   "text": "substitute control: the key runs SplitCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the ToolbarView Split button of the same command, whose availability adds enabled CanSplit"
+  },
+  {
+   "where": "UC-033 step 1",
+   "text": "substitute control: the key runs SplitCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the ToolbarView Split button of the same command, whose availability adds enabled CanSplit"
+  },
+  {
+   "where": "UC-034 step 1",
+   "text": "substitute control: the key runs SplitCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the ToolbarView Split button of the same command, whose availability adds enabled CanSplit"
+  },
+  {
+   "where": "UC-035 step 1",
+   "text": "substitute control: the key runs SplitCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the ToolbarView Split button of the same command, whose availability adds enabled CanSplit"
+  },
+  {
+   "where": "UC-038 setup (start ST-SPLIT20-TOOLBAR)",
+   "text": "start state not reachable by setup: the start state carries undo/redo history (CanUndo / CanRedo) or an edit made through it; History is a private field and none of the setup forms can fill it; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-040 setup (start ST-SPLIT20-TOOLBAR)",
+   "text": "start state not reachable by setup: the start state carries undo/redo history (CanUndo / CanRedo) or an edit made through it; History is a private field and none of the setup forms can fill it; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-041 setup (start ST-SPLIT20-MAIN)",
+   "text": "start state not reachable by setup: the start state carries undo/redo history (CanUndo / CanRedo) or an edit made through it; History is a private field and none of the setup forms can fill it; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-041 step 1",
+   "text": "substitute control: the key runs UndoCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the ToolbarView Undo button of the same command, whose availability adds enabled CanUndo"
+  },
+  {
+   "where": "UC-042 setup (start ST-UNDO-MAIN)",
+   "text": "start state not reachable by setup: the start state carries undo/redo history (CanUndo / CanRedo) or an edit made through it; History is a private field and none of the setup forms can fill it; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-042 step 1",
+   "text": "substitute control: the key runs RedoCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the ToolbarView Redo button of the same command, whose availability adds enabled CanRedo"
+  },
+  {
+   "where": "UC-045 setup (start ST-UNDO-MAIN)",
+   "text": "start state not reachable by setup: the start state carries undo/redo history (CanUndo / CanRedo) or an edit made through it; History is a private field and none of the setup forms can fill it; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-045 step 1",
+   "text": "substitute control: the key runs RedoCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the ToolbarView Redo button of the same command, whose availability adds enabled CanRedo"
+  },
+  {
+   "where": "UC-043 setup (start ST-UNDO-INSPECTOR)",
+   "text": "start state not reachable by setup: the start state carries undo/redo history (CanUndo / CanRedo) or an edit made through it; History is a private field and none of the setup forms can fill it; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-044 setup (start ST-SC50-SPLIT-TOOLBAR)",
+   "text": "start state not reachable by setup: the start state carries undo/redo history (CanUndo / CanRedo) or an edit made through it; History is a private field and none of the setup forms can fill it; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-051 step 1",
+   "text": "substitute control: the key runs SetTrimOutCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the ToolbarView Set Out button of the same command, whose availability adds enabled CanSetTrimOut"
+  },
+  {
+   "where": "UC-053 step 1",
+   "text": "substitute control: the key runs SetTrimInCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the ToolbarView Set In button of the same command, whose availability adds enabled CanSetTrimIn"
+  },
+  {
+   "where": "UC-055 setup (start ST-TSD-TIMELINE)",
+   "text": "start state not reachable by setup: the start state is view state (TextBox focus or typed text, a timeline drag in progress, the window maximized); not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-058 setup (start ST-TSD-TIMELINE)",
+   "text": "start state not reachable by setup: the start state is view state (TextBox focus or typed text, a timeline drag in progress, the window maximized); not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-059 setup (start ST-TSD-TIMELINE)",
+   "text": "start state not reachable by setup: the start state is view state (TextBox focus or typed text, a timeline drag in progress, the window maximized); not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-056 setup (start ST-TSD-TIMELINE)",
+   "text": "start state not reachable by setup: the start state is view state (TextBox focus or typed text, a timeline drag in progress, the window maximized); not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-061 setup (start ST-BD-TIMELINE)",
+   "text": "start state not reachable by setup: the start state is view state (TextBox focus or typed text, a timeline drag in progress, the window maximized); not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-101 setup (start ST-FWABC-INSPECTOR)",
+   "text": "start state not reachable by setup: the start state is view state (TextBox focus or typed text, a timeline drag in progress, the window maximized); not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-102 setup (start ST-FW99999-INSPECTOR)",
+   "text": "start state not reachable by setup: the start state is view state (TextBox focus or typed text, a timeline drag in progress, the window maximized); not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-104 setup (start ST-FW-MAIN)",
+   "text": "start state not reachable by setup: the start state is view state (TextBox focus or typed text, a timeline drag in progress, the window maximized); not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-122 setup (start ST-MAX-MAIN)",
+   "text": "start state not reachable by setup: the start state is view state (TextBox focus or typed text, a timeline drag in progress, the window maximized); not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-132 setup (start ST-START-SETJA-TITLEBAR)",
+   "text": "start state not reachable by setup: the start state is a startup UI language from settings.json / the OS culture; Localizer.Instance is a process-wide singleton, not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-133 setup (start ST-START-OSJA-TITLEBAR)",
+   "text": "start state not reachable by setup: the start state is a startup UI language from settings.json / the OS culture; Localizer.Instance is a process-wide singleton, not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-134 setup (start ST-START-BADLANG-TITLEBAR)",
+   "text": "start state not reachable by setup: the start state is a startup UI language from settings.json / the OS culture; Localizer.Instance is a process-wide singleton, not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-140 step 1",
+   "text": "the scenario's path C:\\Videos\\talk.mp4 is the file-dialog answer; the binding has no CommandParameter, so the action id is Open and the path is not carried (harness: no)"
+  },
+  {
+   "where": "UC-141 step 1",
+   "text": "the scenario's path C:\\Videos\\talk.mp4 is the file-dialog answer; the binding has no CommandParameter, so the action id is Open and the path is not carried (harness: no)"
+  },
+  {
+   "where": "UC-142 step 1",
+   "text": "the scenario's path C:\\Videos\\talk.mp4 is the file-dialog answer; the binding has no CommandParameter, so the action id is Open and the path is not carried (harness: no)"
+  },
+  {
+   "where": "UC-161 step 1",
+   "text": "substitute control: the scrim press runs CloseExportCommand from ExportDialogView code-behind (OnScrimPressed); bound to the Cancel button's binding of the same command, whose availability also needs !IsExporting (the scrim has no such condition)"
+  },
+  {
+   "where": "UC-164 setup (start ST-PR-EXPORT)",
+   "text": "start state not reachable by setup: the start state has an export format other than Mp4 selected; SelectedExportFormat is an ExportFormatInfo object, not a scalar the set form can write (SelectFormat has no XAML binding); no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-166 step 1",
+   "text": "substitute control: the scrim press runs CloseExportCommand from ExportDialogView code-behind (OnScrimPressed); bound to the Cancel button's binding of the same command, whose availability also needs !IsExporting (the scrim has no such condition)"
+  },
+  {
+   "where": "UC-170 setup (start ST-TALK-TOOLBAR)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-171 setup (start ST-TALKFAST-EXPORT)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-173 setup (start ST-TK5S30-MAIN)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-174 setup (start ST-TK5-EXPORT)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-175 setup (start ST-TALKDLG-EXPORT)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-175 step 1",
+   "text": "the scenario's path C:\\Videos\\talk_export.mp4 is the file-dialog answer; the binding has no CommandParameter, so the action id is ConfirmExport and the path is not carried (harness: no)"
+  },
+  {
+   "where": "UC-176 setup (start ST-TALKDLG-EXPORT)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-177 setup (start ST-TKP-EXPORT)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-178 setup (start ST-TKP-EXPORT)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-178 step 1",
+   "text": "substitute control: the scrim press runs CloseExportCommand from ExportDialogView code-behind (OnScrimPressed); bound to the Cancel button's binding of the same command, whose availability also needs !IsExporting (the scrim has no such condition)"
+  },
+  {
+   "where": "UC-179 setup (start ST-TKP-EXPORT)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-180 setup (start ST-TKCANCEL-EXPORT)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-181 setup (start ST-TALK-INSPECTOR)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-194 setup (start ST-NOFF-TOOLBAR)",
+   "text": "start state not reachable by setup: the start state needs a real file loaded (talk.mp4 and its probed ClipInfo, keyframes, or an export in progress); Clip/State of a real file and the ffmpeg run are outside the setup forms; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-194 step 1",
+   "text": "the scenario's path C:\\Videos\\talk.mp4 is the file-dialog answer; the binding has no CommandParameter, so the action id is Open and the path is not carried (harness: no)"
+  },
+  {
+   "where": "UC-201 step 1",
+   "text": "substitute control: the scrim press runs CloseAboutCommand from AboutDialogView code-behind (OnScrimPressed); bound to the Close button's binding of the same command (availability: ShowAbout)"
+  },
+  {
+   "where": "UC-202 setup (start ST-NONOTICES-TITLEBAR)",
+   "text": "start state not reachable by setup: the start state is THIRD-PARTY-NOTICES.txt absent beside the exe; a file-system precondition, not a VM property; no setup written, so the first in-predicate is expected to fail where it differs from a fresh VM"
+  },
+  {
+   "where": "UC-203 step 1",
+   "text": "substitute control: the scrim press runs CloseAboutCommand from AboutDialogView code-behind (OnScrimPressed); bound to the Close button's binding of the same command (availability: ShowAbout)"
+  },
+  {
+   "where": "UC-221 step 1",
+   "text": "substitute control: the key runs TogglePlayCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the TransportView play button of the same command, whose availability adds no enabledness (visible HasClip only)"
+  },
+  {
+   "where": "UC-222 step 1",
+   "text": "substitute control: the key runs TogglePlayCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the TransportView play button of the same command, whose availability adds no enabledness (visible HasClip only)"
+  },
+  {
+   "where": "UC-019 step 1",
+   "text": "substitute control: the key runs StepBackCommand from MainWindow.OnKeyDown (code-behind: HasClip and no TextBox focus); bound to the TransportView step-back button of the same command, whose availability adds no enabledness (visible HasClip only)"
+  },
+  {
+   "where": "all states / predicate types",
+   "text": "double-valued VM properties (Playhead, TrimStart, TrimEnd, PxPerSec, SpeedLog2, VolumePercent, CopyCutStart, FfmpegInstallProgress, SelectedRegion.Start/End/Speed/Volume) are written as JSON numbers with the scenario's value; harness-schema.md section 3 lists bool/enum/int/string/null only, so exact double equality is assumed. speedSliderValue values that are rounded logs (0.298658, 0.584963, 1.584963) are left out (unbound_attributes)"
+  },
+  {
+   "where": "all states / SelectedRegion.*",
+   "text": "EditSession.selectedRegion is split into the dotted paths SelectedRegion.Id/Start/End/Speed/PreservePitch/Excluded/Volume (null -> SelectedRegion: null); its speedColor is not bound (RegionData has no colour; the colour is SpeedColor.Brush in the view)"
+  },
+  {
+   "where": "all states / MainWindow.modalOverlayShown",
+   "text": "false is written as ShowExport=false and ShowAbout=false. ShowFfmpegSetup=false is not folded in, because a fresh VM sets ShowFfmpegSetup = !FfmpegLocator.Available (machine dependent); it is bound only where FfmpegSetup.shown is in the state. On a machine without ffmpeg the fresh VM shows the setup overlay and the scenarios assume it does not"
+  },
+  {
+   "where": "all states / brushes",
+   "text": "colour attributes are bound to the boolean that picks the brush in MainWindowViewModel (statusColor->Edited, activePitchColor->ActivePreservePitch, selectedSpeedColor->SelectedIsNormalSpeed, selectedVolumeColor->SelectedIsMuted/SelectedIsFullVolume, selectedSwatchColor #2A2E33->SelectedIsNormalSpeed); IBrush is not a predicate type"
+  },
+  {
+   "where": "all states / active presets",
+   "text": "activeSpeedPreset/activeVolumePreset/activeFpsPreset follow the XAML Classes.active binding (EqualsConverter on SpeedText / VolumeText / OutFpsText); 'Mute' -> VolumeText '0'; 'none' is unbound (a negation)"
+  },
+  {
+   "where": "all states / ExportJob.outputDurationText",
+   "text": "split into OutputLenClock and SourceLenOriginalText, as ExportDialogView composes it (two TextBlocks)"
+  },
+  {
+   "where": "FfmpegSetup.errorMessage / AboutDialog.notices objects",
+   "text": "values given as an object (prefix + environment-dependent rest; a file's sha256) are bound as not-null only"
+  },
+  {
+   "where": "SwitchLanguage steps",
+   "text": "SwitchLanguage sets Localizer.Instance (a process-wide singleton) and saves AppSettings (settings.json) to disk; in one harness process the culture leaks into every later scenario's fresh VM (StatusText becomes 保存済み etc.) and the user's settings file is written"
+  },
+  {
+   "where": "SwitchLanguage steps",
+   "text": "the language items sit inside the title-bar flyout; the binding has no visibility condition, so the harness treats them as available whether or not the menu (OpenLanguageMenu, unbound) is open"
+  },
+  {
+   "where": "Scale:1",
+   "text": "the action id Scale:1 belongs to two InspectorView elements (100% with visible HasClip; Reset with HasClip and ShowReset); EL-INS-SCALE-100 and EL-INS-SCALE-RESET both bind to Scale:1, so the harness cannot tell which control's availability it checked"
+  },
+  {
+   "where": "ConfirmExport on the sample",
+   "text": "on the sample (Clip.Path empty) ConfirmExport sets ExportStatus to Export_SampleErr without opening a dialog; it is still written harness: no as the schema lists ConfirmExport"
+  },
+  {
+   "where": "setup forms",
+   "text": "setup ops are written {op: set, property, value} for a public settable VM property and {op: state, method, args} for State = State.<method>(args) (ForClip is the static DocumentState.ForClip). Setting State directly does not advance the VM's private _nextId, so a later Split may reuse an existing id (ST-SPLIT2002-INSPECTOR); setting Playing=true does not start the timer; setting ShowAbout=true does not load AboutNotices (it stays \"\", which passes not-null)"
+  },
+  {
+   "where": "ST-SE-MAIN setup",
+   "text": "the scenario says the format is ProRes; the setup reaches the dialog and the sample error but cannot select ProRes (SelectedExportFormat is an object)"
+  },
+  {
+   "where": "ST-SP2-TITLEBAR setup",
+   "text": "only Edited=true is set (the title bar shows only the status); the 2x edit the state name implies is not reproduced"
+  },
+  {
+   "where": "ST-ENVSPLIT / ST-ENVSPEED setup",
+   "text": "the startup environment (MOVIEPAD_SCENARIO) is reproduced by State = ForClip(90) split at 30 and 60 (ids 2, 3) [and SetSpeed(2, 2)], then Playhead; the env reading itself (ApplyStartupEnvironment) is not exercised. ST-ENVFF/ST-ENVABOUT/ST-START-FFHALF likewise only set ShowFfmpegSetup / ShowAbout"
+  },
+  {
+   "where": "ST-FFNET-FFMPEG setup",
+   "text": "FfmpegSetupError is set to the Ffmpeg_DownloadFailed prefix + 'unknown' to stand for the environment-dependent exception message; the predicate checks not-null only"
+  },
+  {
+   "where": "volume slider 37.5",
+   "text": "the state after SetVolumeContinuous(37.5) gives volumeSliderValue 38.0; VolumePercent would be 37.5 (VolumeText rounds to 38). Written as given (38.0); the step itself is unbound"
+  },
+  {
+   "where": "UC-002 / ST-S132-TRANSPORT",
+   "text": "checked: DocumentState.RegionAt includes the end of the last region, so SpeedNowText at playhead 132 is 0.5x as the state says"
+  },
+  {
+   "where": "UC-131 / UC-167 setup",
+   "text": "setup writes LoadError / ExportStatus as strings, but the VM's private translation keys (_loadErrorKey, _exportStatusKey, _ffmpegSetupErrorKey) stay null, so OnCultureChanged does not re-render them; after SwitchLanguage:ja the expect (Japanese text) will fail because of the setup, not the app"
+  },
+  {
+   "where": "playback timer",
+   "text": "UseExternalPlayback is not set in any setup; the binding relies on the harness not pumping the Avalonia dispatcher between step (iv) and (v), so the DispatcherTimer started by TogglePlay does not move Playhead. If the harness pumps it, scenarios that start playback need setup UseExternalPlayback=true"
+  },
+  {
+   "where": "ST-SAMPLE-P1-TOOLBAR",
+   "text": "a state named SAMPLE carries History.canUndo true; a fresh VM has CanUndo false (not a start state, written as given)"
+  },
+  {
+   "where": "goal",
+   "text": "scenarios.json has title and no goal; both title and goal carry the title"
+  }
+ ]
+}

@@ -107,6 +107,13 @@ def bind(out, extracted):
         frozen(s, out)
     text = (HERE.parent / "exp-20261030-04" / "definitions.md").read_text(encoding="utf-8")
     schema = text[text.index("## 3. Scenario schema"):text.index("## 5. The mock")]
+    # the JSON form of a setup op is not in sections 3-4; stage 1 gave it in its writer's prompt (departure 4)
+    writer = (HERE.parent / "exp-20261030-04" / "writer" / "prompt.md").read_text(encoding="utf-8").splitlines()
+    start = next(i for i, l in enumerate(writer) if l.startswith("- **setup**"))
+    lines = writer[start:start + 5]
+    assert lines[-1].endswith("(その手順までは確かめられます)。"), lines[-1]
+    schema += ("\n## The setup op form and `\"harness\": \"no\"` (stage 1's `writer/prompt.md`, verbatim)\n\n"
+               + "\n".join(lines) + "\n")
     (out / "harness-schema.md").write_text(schema, encoding="utf-8", newline="\n")
     shutil.copyfile(extracted, out / "authority-bindings.json")
     shutil.copyfile(HERE / "prompts" / "binder.md", out / "prompt.md")

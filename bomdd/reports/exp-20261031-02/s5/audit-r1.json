@@ -1,0 +1,102 @@
+{
+ "findings": [
+  {
+   "id": "F-1",
+   "severity": "material",
+   "where": "§2.21 exactCfr(20-spec.md 789-790 行「速度は 0.01 刻みの値を c/100、時刻はソース fps の格子上の値として扱う」)",
+   "text": "有理化の規則が実装と違い、このまま作るとフレーム数・サンプル数・PTS(REQ-085 は完全一致・ZERO)が元のアプリとずれる。元のアプリは時刻を、Math.Round(x·fps)/fps が x とビット一致するときだけ格子点 n·周期として扱い、それ以外は double の厳密な二進有理数のまま使う(格子へ寄せない)。読み込み直後の既定では trimEnd = 末尾区間の end = ffprobe の duration で、これは普通格子に乗らないので、この既定の経路こそ格子外の値で計算される。速度も同じで、25 ≤ round(v·100) ≤ 400 かつ c/100 == v のときだけ c/100、それ以外は二進の厳密値。ソースと出力のレートは q ∈ {1, 1001} の p/q で (double)p/q == fps のときだけ p/q、それ以外は二進の厳密値。標本化率は clip.SampleRate(0 以下なら 48000)。本文の「格子上の値として扱う」を読んだ製造は格子へ丸めてしまう。認識の条件と、外れたときの扱い(二進の厳密値)を書く必要がある。",
+   "authority_ref": "authority/Services/ExportClock.cs:96-134(RecognizeRate・CanonicalTime・CanonicalSpeed)・:170-178(Build で各区間の端を CanonicalTime に通す)"
+  },
+  {
+   "id": "F-2",
+   "severity": "material",
+   "where": "§2.20 コピーの表示(20-spec.md 720-721 行)",
+   "text": "説明「Copies without re-encoding. …」(Export_FastCopyHint)が出る条件の書き方が違う。本文は、この説明を showFastExportNote(fastExport かつ canFastExport)の下に置いている。元のアプリでは、切り替えの枠(ShowFastExport = canFastExport)の中に IsVisible なしで置かれていて、canFastExport なら fastExport がオフでも出る。fastExport に従うのは VFR の注記・帯・リードの文言・キーフレームの注記(ShowCopyPreview)だけ。screens.json の EL-EX-FASTCOPY-HINT も「表示されるのは ExportJob.canFastExport のとき」で、本文と食い違う。また 720 行は EL-EX-FASTCOPY-HINT を「条件を満たさないときは切り替えを隠し…」の文にあてていて、この部品が何なのかが読み取れない。",
+   "authority_ref": "authority/Views/ExportDialogView.axaml:83-98・authority/ViewModels/MainWindowViewModel.cs:225-237"
+  },
+  {
+   "id": "F-3",
+   "severity": "material",
+   "where": "§2.15 トラックの描画(20-spec.md 493-511 行)",
+   "text": "REQ-048 は、固定の色を 16 進の値で完全一致させると決めている(rationale「固定の色(accent・白・マスク等)は 16 進値で完全一致」・受入 L2)。ところが本文は、次の描画要素の色を書いていない。(a) トークンはあるのに、どれを使うかを書いていない: 波形 = Wave #8CBCC5D1・ラベルの背景 = OverlayBlack42 #6B000000・除外の取り消し線 = Text3 #7C8186(線幅 1.5)。(b) トークンが無く、値が TimelineControl.cs にしか無い: 区切り線と上端の刻み #80FFFFFF(線幅 1.5)・コピーのリードの帯 #33E5A14B・ミュートの覆い #D0171A1E。さらにミュート表示を「波形の帯を背景色で覆い」と書いているが、実際の覆いは不透明ではない(アルファ 0xD0)。このままでは製造が色を決められず、受入の完全一致を満たせない。",
+   "authority_ref": "authority/Controls/TimelineControl.cs:44-58(色の定数)・:622(ミュートの覆い)・:661(ラベルの背景)・:709,718(区切り線と刻み)・authority/Styles/Tokens.axaml:23,45,54"
+  },
+  {
+   "id": "F-4",
+   "severity": "minor",
+   "where": "§2.16 波形の生成(20-spec.md 550 行「読み込みの 1200 ms 後に始め」)",
+   "text": "1200 ms は読み込みから数えた時間ではない。波形の要求がキューへ入るのは、キャッシュの全体のフィルムストリップの読み出し(EmitCachedThumbnailsAsync)を待った後。待ちの 1200 ms は、作業者がその要求を実行し始めたときに始まり、作業者は 1 つだけで、優先度の高い要求が先に処理される。括弧書きの「待ちも作業者の中で行う」とも合わない。",
+   "authority_ref": "authority/ViewModels/MainWindowViewModel.cs:1222(EmitCachedThumbnailsAsync を待つ)・:1255(投入)・:1274(Task.Delay 1200)"
+  },
+  {
+   "id": "F-5",
+   "severity": "minor",
+   "where": "§2.15 ズーム・追従(20-spec.md 481 行「最大スクロール = max(0, contentWidth − viewportWidth)」)",
+   "text": "タイムラインの ScrollViewer には Padding=\"16,0,16,0\" が付いていて、スクロール量は ScrollViewer の Extent − Viewport で決まる。元のアプリの注記では、横の Padding 32 px が Extent を縮めるので EndPad 48 で補っている。本文には Padding が書かれていないので、Padding なしで作ると最大スクロールと追従・ズームの位置が元のアプリとずれる。Padding と、最大の求め方(Extent を使う)を書く必要がある。",
+   "authority_ref": "authority/Views/TimelineView.axaml:56-58・authority/Controls/TimelineControl.cs:36-41,240,255,286"
+  },
+  {
+   "id": "F-6",
+   "severity": "minor",
+   "where": "§2.20 キーフレームの算出の契機(20-spec.md 726 行「SetFastExport(オン)・SelectFormat」)",
+   "text": "契機になるのは、値が実際に変わったとき(OnFastExportChanged・OnSelectedExportFormatChanged・OnShowExportChanged(true))だけ。いま選んでいる形式のカードを押し直しても、算出は始まらない。本文は SelectFormat を押せば契機になるように読める。",
+   "authority_ref": "authority/ViewModels/MainWindowViewModel.cs:270-280,875-878,1084-1088"
+  },
+  {
+   "id": "F-7",
+   "severity": "minor",
+   "where": "§2.6 「Download」の結果(20-spec.md 186-195 行)",
+   "text": "書かれていない分かれ道が 2 つある。(1) SHA-256 が一致しても、解決し直した後の FfmpegLocator.Available が偽なら InstallAsync は false を返し、何も削除しないまま errorMessage は「ffmpeg verification failed. …」になる。(2) InstallFfmpeg は開始時に installProgress を 0 に戻す(失敗の後は戻さない)。",
+   "authority_ref": "authority/Services/FfmpegInstaller.cs:64-74・authority/ViewModels/MainWindowViewModel.cs:1138,1157-1167"
+  },
+  {
+   "id": "F-8",
+   "severity": "minor",
+   "where": "§2.7 成功(読み込みの初期状態)(20-spec.md 235-239 行)",
+   "text": "読み込みで PreviewPlayer.externalPlayback を偽に戻すこと(UseExternalPlayback = false。プレイヤーが読み込み直すまで内蔵タイマーで進む)が、初期状態の一覧に無い。モデルの externalPlayback.set_by には Open・DropFile が入っている。",
+   "authority_ref": "authority/ViewModels/MainWindowViewModel.cs:542"
+  },
+  {
+   "id": "F-9",
+   "severity": "minor",
+   "where": "§2.3(20-spec.md 117 行「EL-TB-NOPROJECT(「No project」)」)",
+   "text": "文言は TitleBar_NoProject =「No project loaded」で、§2.1(52 行)とも食い違っている。",
+   "authority_ref": "authority/Resources/Strings.resx:74"
+  },
+  {
+   "id": "F-10",
+   "severity": "minor",
+   "where": "§4 沈黙次元の表「性能(読み込みの所要時間)」の行(20-spec.md 948 行)",
+   "text": "MOVIEPAD_TTI の参照先が §2.23 になっている。MOVIEPAD_TTI を書いているのは §2.24(起動時の環境変数)。",
+   "authority_ref": null
+  },
+  {
+   "id": "F-11",
+   "severity": "minor",
+   "where": "§2.4(20-spec.md 148 行)・§2.24(889 行)「現在のカルチャの書式」",
+   "text": "Localizer.SetCulture は UI カルチャ(CurrentUICulture・DefaultThreadCurrentUICulture)だけを変え、CurrentCulture は変えない。MOVIEPAD_INSPECTOR_SCROLL の double.TryParse は CurrentCulture、つまり OS の地域の書式で読む。UI の言語(settings.json の language)ではない。本文の「現在のカルチャ」はどちらとも読めるので、CurrentCulture(UI の言語では変わらない)と明記する必要がある。",
+   "authority_ref": "authority/Services/Localizer.cs(SetCulture)・authority/Views/MainWindow.axaml.cs:209-210"
+  },
+  {
+   "id": "F-12",
+   "severity": "minor",
+   "where": "末尾「ゲート記録(G2/G2')」(20-spec.md 1096-1104 行)",
+   "text": "テンプレートの穴埋め欄(リーダー数 N=・MeasurementCapability yes/no・原典パリティの全数照合 done/not-needed・承認者)が空のまま。§6 は blocker 0 件と書いているが、ゲートの結論はどこにも記録されていない。",
+   "authority_ref": null
+  },
+  {
+   "id": "F-13",
+   "severity": "minor",
+   "where": "§2.4 仕様節ID「SPEC-L10N-001」(20-spec.md 132 行)",
+   "text": "この ID は、フォルダの check_model.py の ID の正規表現 SPEC-[A-Z]+(?:-[A-Z]+)*-\\d{3} に合わない(L10N に数字を含む)。上流がこの節を引用しても ID として拾われず、引用先があるかの検査を素通りする。英字だけの ID(例 SPEC-LOCALE-001)にするか、検査側を合わせる必要がある。",
+   "authority_ref": null
+  },
+  {
+   "id": "F-14",
+   "severity": "minor",
+   "where": "§2.16(サムネイル・波形)・§2.2(メインウィンドウ・オーバーレイ)",
+   "text": "テンプレートは、原典がある UI の表示を持つ節に「表示契約」(原典参照・提示要素・対象外要素)を求めている。画面に描く要素(代わりのブロック・フィルムストリップ・可視範囲のサムネイル・波形・Scrim のオーバーレイ・リサイズの縁)を持つこの 2 節に、表示契約の欄が無い。",
+   "authority_ref": "template-20-spec.md(§2.x 表示契約)"
+  }
+ ]
+}

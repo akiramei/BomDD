@@ -211,6 +211,13 @@ Each stop goes to the user; none is extended by the operator.
    as S1 was (the author answers round 3, no re-audit). From S3 on, a step that reaches section 4's budget with a material
    finding open is cut off the same way without returning to the user; a step that reaches it with a **blocker** open still
    stops and returns (a blocker may change what A1 can count). Each cut-off is recorded in the run log with its counts.
+4. **The binder's folder lacked the setup op's JSON form** (found by the operator after the first binder finished, before any
+   certify counted). `prepare.py bind` gave the binder stage 1's definitions sections 3–4, which name the setup ops but not
+   their form; stage 1 gave the form in its writer's prompt (`exp-20261030-04/writer/prompt.md` lines 39–43). The first binder
+   wrote its own form (`{"op": "set", "property", "value"}`), which the harness rejects as an unknown setup op, so its 43
+   scenarios with setup could not run for a reason of the folder, not of the binder or the upstream. Repair, decided by the
+   operator: `bind()` appends those five lines verbatim to `harness-schema.md`, and a fresh binder runs on the rebuilt folder.
+   The first binder's output is kept (`bind/binder-0/`, with its one certify run as the gap's effect) and is not A2. No change to the harness, the binder's prompt or A2's counts.
 
 ## 13. Files
 

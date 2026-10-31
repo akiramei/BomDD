@@ -278,3 +278,73 @@ The defaults of definitions section 3 were accepted as proposed.
   draft; the six attributes have the same `set_by` in every S2 draft. The L1 false is the model's decomposition, present from
   S2's first draft.
 - The reading (section 9) is left to the results, with the other measures.
+
+## Step 6 (continued) — S5 spec
+
+- Author done in 865 s (38 tool calls in the harness's count; 49 tool uses in the transcript): `20-spec.md`, 129,952 bytes,
+  section 2 with 24 headings and 25 spec ids, invariants INV-001–015, 4 persistence items in place of a database, 16 silence
+  rows, a trace table of 95 rows (every requirement reaches a spec section), 30 open items UQ-SPEC-001–030 (all non-blocker;
+  16 for a human ruling, 14 for an AI check), the template's UI-IR / UI-BOM column left out with its reason in section 6. Its
+  own check covered names only (95 requirements, 175 elements, 81 operations named in the text), not content. It followed the
+  source over a requirement's wording in three places and left each as an open item (UQ-SPEC-025 REQ-079's keyframe band,
+  UQ-SPEC-011 REQ-050's 0.4 opacity, UQ-SPEC-012 REQ-052's bucket count). It built the file from `work/spec-src.md` with its
+  own `work/build.py`. Draft `874e8f2c…` (`s5/draft-r1.md`). S5 has no machine form check (`check_upstream.py` checks S2–S4
+  only); its acceptance is the audits against G2.
+- Isolation: 3 flags — `d:\` from a grep pattern, and one read of the harness's saved copy of its own long output. Nothing
+  written outside its folder. No trace of the measured words; the three `"Artifact"` hits are the harness's tool list in the
+  request, not a call.
+- Audit round 1: folder `exp07/s5-audit-r1` (`prepare.py audit S5`, prompt `bef2153b…`, draft `874e8f2c…`); auditor started
+  2026-10-31T16:52:54+09:00 with the watcher.
+
+## Step 8 — A2 (the binder reads S2–S4 only; it runs while S5's audits run, in its own folder, and neither reads the other's)
+
+- **The harness's I/O, read before running it** (stage 1's `harness/Program.cs` and the authority's view model): `extract`
+  reads `Views/*.axaml`, `*.axaml.cs` and `Resources/Strings.resx` and writes its output file; `certify` reads the bindings
+  and scenarios and writes its two output files, and builds `new MainWindowViewModel()` (the sample document; it reads
+  `FfmpegLocator.Available`, writes nothing). The authority's writes outside the process are `AppSettings.Save`
+  (`settings.json`, only from `SwitchLanguage`, which stays in `NoExecuteCommands`), the ffmpeg download (`InstallFfmpeg`), the
+  preview cache and ffmpeg runs (from `Open` and from view code) and the export (`ConfirmExport`). `Open`, `ConfirmExport` and
+  `InstallFfmpeg` are `IAsyncRelayCommand`s, which the certifier never executes whatever a step says ("async command: mark
+  harness:no"), and the mock reports their goto as `unknown`. No change to the harness.
+- `MoviePad/settings.json` before: modified 2026-10-30 21:24:07.3149497 +09:00, 24 bytes.
+- Staging `exp07/a2-harness`: the authority made with `prepare.py`'s own archive function (241 files); `build_harness.py`
+  built `Harness.dll` (`3d03cb45…`; 0 warnings, 0 errors); selftest PASS; `extract` → `bindings.json` `dfc7fe8c…` — 45
+  elements, 0 unknown, 3 modals, 24 code-behind lines, **byte-equal to stage 1's `exp-20261030-04/bindings.json`**.
+  `settings.json` unchanged after.
+- Binder folder `exp07/a2-binder` (`prepare.py bind`): prompt `5a7e2658…`, model `b758d626…`, screens `f46ef7cb…`,
+  scenarios `ef416e68…`, `harness-schema.md` `c4397760…` (stage 1's section 3–4), `authority-bindings.json` `dfc7fe8c…`,
+  authority tree `bfef702c…`. Binder started 2026-10-31T16:54:46+09:00 with the watcher.
+- First binder done in 731 s (34 tool uses): `harness-scenarios.json` `4ce75b5f…`, `binding-notes.json` `a9343cc8…`. Its report:
+  all 221 states with a non-empty predicate, 23 of 111 attributes unbound (607 state-attribute rows); 111 of 206 steps bound
+  (10 with `"harness": "no"`), 95 unbound (`action` null: operations with no command binding — drop, pointer, sliders, the
+  size inputs, window operations, the language menu, ToggleMute, ToggleExclude, ToggleAspect, TogglePitch, SelectFormat,
+  SetFastExport, StepSecond — and 4 key steps whose meaning a button would invert); 77 of 151 scenarios bound in every step;
+  43 with setup (66 ops), in a form of its own (`{"op": "set", "property", "value"}`, `{"op": "state", "method", "args"}`).
+  Isolation: 0 flags.
+- **The folder's gap (departure 4):** the setup op's JSON form is in stage 1's writer prompt, not in the definitions sections
+  `prepare.py bind` gave the binder. The first binder's output was certified once as a dry run of the certify path on
+  real-shaped input (`exp07/a2-harness/dry0`; `settings.json` unchanged before and after): **151 scenarios, 15 certified,
+  kept 0**; 43 fail at setup ("unknown setup op"), 55 at a null action (the harness reports "Value cannot be null", the
+  scenario fails, the process does not), the rest at an `in` or `expect` state; 36 states ambiguous before drops, and the 15
+  certified are all dropped for touching them, chiefly `TogglePlay`'s transition and the trim / boundary commands'
+  availability differing between visits. Kept as `bind/binder-0/` (`harness-scenarios.json` `4ce75b5f…`, `binding-notes.json`
+  `a9343cc8…`, `certify.json` `d3d4a834…` and `certify-out.txt` `7c7883a4…`, both LF). Not A2.
+- Repair: `prepare.py` (`c053e485…`) `bind()` appends stage 1's writer prompt lines 39–43 verbatim (the setup op form, the
+  sample start, `"harness": "no"` ends the scenario). The first folder renamed `exp07/a2-binder-0`; rebuilt `exp07/a2-binder`
+  with `harness-schema.md` `88c822e9…` (the other inputs' hashes unchanged); `prepare.py prompt-check` PASS. **Fresh binder
+  started 2026-10-31T17:10:52+09:00** with the watcher.
+
+## Step 6 (continued) — S5's audit round 1
+
+- Audit round 1 done in 993 s (47 tool uses): 14 findings, blocker 0 / **material 3** / minor 11 (`s5/audit-r1.json`,
+  `f15c076e…`); draft unchanged. Material: section 2.21 rounds every time to the source fps grid, while the original treats a
+  time as a grid point only when `Math.Round(x·fps)/fps` equals it bit for bit and otherwise keeps the exact binary value
+  (`ExportClock.cs`), so the default trim end from ffprobe would give other frame and sample counts and PTS (REQ-085); the
+  re-encode-free note shows whenever `canFastExport`, not only with the option on (also disagrees with `screens.json`'s
+  `EL-EX-FASTCOPY-HINT`); section 2.15 gives no colour values for the timeline although REQ-048 asks exact hex (three are
+  only in `TimelineControl.cs`). The auditor read the view model, the document state, the keys and the views itself and
+  **gave the timeline / media and export / ffmpeg sections to two agents of its own**, checking by hand what it used; it
+  re-took one line number a helper had wrong. It did not compare the scenarios' content with the spec. Isolation: the
+  auditor, 2 flags (a one-off `exp07/mech.py`, not left; its `work_mech.py` is in its folder); its two helpers, 0 flags; no
+  trace of the measured words in any of the three.
+- Relayed 2026-10-31T17:10:08+09:00 as the file (`exp07/s5-author/audit-r1.json`, `f15c076e…`), to the same author.
