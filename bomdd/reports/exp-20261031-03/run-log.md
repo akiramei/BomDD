@@ -18,3 +18,21 @@ Started 2026-10-31 on the user's "A: 既定で始める": the defaults of defini
   note shown; (25, 60, Source) "25 fps".
 - **Cross-check** (`req070.py`, from S1's REQ-020 / 070 / 077 as written): **624 values compared, 0 differences**; cultures
   checked `en` ×3 (`req070-check.json`). Step 1 passes; the stop of section 10 does not apply.
+- Committed `1411500`. `expected.json` is CRLF on disk (`cfdce7ae…`, the hash in `driver-run.json`); its LF blob is
+  `e3fd04aa…`.
+
+## Step 2 — the form, the checkers, N1 and M1–M9 (frozen before the checker runs on any specimen)
+
+- `form.md` (`96b22ac0…`): the parts, the expressions, the slots and the type probe; each rule names the fixture that pins it.
+- `form_check.py` (`768d3b58…`): the form's parser and evaluator, no case and no expected value; `check.py` (`eb05a7a2…`)
+  imports it and adds the judging and the selftest. **Selftest 29 of 29** (F1–F24, F11 in six parts).
+- Whether the fixtures can go red (`mutate_checker.py`, `b739415d…`): the checker broken four ways in memory, each time the
+  selftest exits 1 with the fixture of that rule red — `num` rounding half to even (F2), buttons assigned one by one (F12),
+  no slot type check (F8), an undefined button made an error (F3).
+- `make_specimens.py` (`12a41467…`) writes `specimens/`: N1 (`17012ca7…`) and M1–M9 (each with its meaning, named case, slot,
+  expected and mutant value in `meta`; `M1` `4279c795…`, `M2` `03e5965a…`, `M3` `8875e3fa…`, `M4` `963d18db…`, `M5`
+  `e8c9fd75…`, `M6` `56d0655c…`, `M7` `931c25bb…`, `M8` `de276090…`, `M9` `44493d63…`, all LF). `form_check.py` on each: OK
+  (M5: the 120 button not defined). **No specimen has been run by `check.py`.**
+- Step 3's package files written now and committed with this step, before any transcriber starts: `transcriber/prompt.md`
+  (`a7cede9d…`, Japanese), `rule.md` (`ad6c8250…`, definitions section 4.3's rule verbatim), `slots.json` (`54d50990…`).
+  `form.md` and `rule.md` name no experiment id and no definitions section.

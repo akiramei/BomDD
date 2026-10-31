@@ -1,0 +1,50 @@
+{
+ "meta": {
+  "id": "M3",
+  "base": "N1",
+  "meaning": "the summary text shows the value before the last press",
+  "named_case": "25|24|60",
+  "slot": "V1",
+  "expected": "60 fps",
+  "mutant": "24 fps"
+ },
+ "state": {
+  "out": "src",
+  "prev": "src"
+ },
+ "buttons": {
+  "Source": {
+   "out": "src",
+   "prev": "out"
+  },
+  "24": {
+   "out": "24",
+   "prev": "out"
+  },
+  "30": {
+   "out": "30",
+   "prev": "out"
+  },
+  "60": {
+   "out": "60",
+   "prev": "out"
+  },
+  "120": {
+   "out": "120",
+   "prev": "out"
+  }
+ },
+ "derived": {
+  "text": "num(out, 2)"
+ },
+ "observe": {
+  "V1": "num(prev, 2) + ' fps'",
+  "V2": "abs(out - src) < 0.05",
+  "V3": "text == '24'",
+  "V4": "text == '30'",
+  "V5": "text == '60'",
+  "V6": "text == '120'",
+  "V7": "out > src + 0.05",
+  "V8": "'Same as source (' + num(src, 2) + ' fps)'"
+ }
+}

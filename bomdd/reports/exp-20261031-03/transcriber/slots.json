@@ -1,0 +1,12 @@
+{
+ "slots": [
+  {"id": "V1", "type": "string", "s3_element": "EL-EX-SUMMARY-FPS", "observed": "its text"},
+  {"id": "V2", "type": "boolean", "s3_element": "EL-INS-FPS-SOURCE", "observed": "shown selected"},
+  {"id": "V3", "type": "boolean", "s3_element": "EL-INS-FPS-24", "observed": "shown selected"},
+  {"id": "V4", "type": "boolean", "s3_element": "EL-INS-FPS-30", "observed": "shown selected"},
+  {"id": "V5", "type": "boolean", "s3_element": "EL-INS-FPS-60", "observed": "shown selected"},
+  {"id": "V6", "type": "boolean", "s3_element": "EL-INS-FPS-120", "observed": "shown selected"},
+  {"id": "V7", "type": "boolean", "s3_element": "EL-INS-FPS-NOTE", "observed": "shown at all"},
+  {"id": "V8", "type": "string", "s3_element": "EL-INS-FPS-SOURCE", "observed": "its tooltip"}
+ ]
+}

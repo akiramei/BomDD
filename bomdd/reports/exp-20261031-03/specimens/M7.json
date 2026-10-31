@@ -1,0 +1,44 @@
+{
+ "meta": {
+  "id": "M7",
+  "base": "N1",
+  "meaning": "Source shown selected only on exact equality",
+  "named_case": "29.97|none|30",
+  "slot": "V2",
+  "expected": true,
+  "mutant": false
+ },
+ "state": {
+  "out": "src"
+ },
+ "buttons": {
+  "Source": {
+   "out": "src"
+  },
+  "24": {
+   "out": "24"
+  },
+  "30": {
+   "out": "30"
+  },
+  "60": {
+   "out": "60"
+  },
+  "120": {
+   "out": "120"
+  }
+ },
+ "derived": {
+  "text": "num(out, 2)"
+ },
+ "observe": {
+  "V1": "text + ' fps'",
+  "V2": "out == src",
+  "V3": "text == '24'",
+  "V4": "text == '30'",
+  "V5": "text == '60'",
+  "V6": "text == '120'",
+  "V7": "out > src + 0.05",
+  "V8": "'Same as source (' + num(src, 2) + ' fps)'"
+ }
+}
