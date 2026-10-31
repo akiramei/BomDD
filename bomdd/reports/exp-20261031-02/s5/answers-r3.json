@@ -1,0 +1,9 @@
+{"answers": [
+{"finding": "F-1", "action": "fixed", "text": "SPEC-KEYBOARD-001 (§2.19) にキーを受ける経路を書いた: ショートカットはウィンドウの OnKeyDown の上書き(base.OnKeyDown の後)だけで受けるバブルのクラスハンドラで、フォーカスのある部品が処理済みにしたキーは届かない・PreviewKeyDown などで先取りしない・ボタンなどは Focusable を外していないので、例えばボタンにフォーカスがあると Space/Enter はそのボタンの押下になる。オーバーレイの表示中も働くという行には、オーバーレイの中でフォーカスを得た部品が取ったキーは届かないことを足した。どのコントロールがどのキーを取るかは Avalonia 12 の既定に委ねて列挙しないことにし、L2 で確かめる未決事項 UQ-SPEC-033(non-blocker・AI)に記録した。"},
+{"finding": "F-2", "action": "fixed", "text": "SPEC-TITLEBAR-001 (§2.3) にボタンのツールチップ 5 つを英語と日本語で書いた: Language / 言語・About MoviePad / MoviePad について・Minimize / 最小化・Maximize / 最大化・Close / 閉じる(リソースのキーも添えた)。提示要素にもツールチップ 5 つを入れた。"},
+{"finding": "F-3", "action": "fixed", "text": "SPEC-EXPORTDLG-001 (§2.20) のチェックボックスの文言を表示の文字列「Fast, lossless (copy)」(ja: 高速・無劣化（コピー）)に直し、キー Export_FastCopy は添え書きにした。"},
+{"finding": "F-4", "action": "fixed", "text": "SPEC-EXPORTDLG-001 (§2.20) の etaText の式に、outputLength は書き出しの開始時の値ではなく、表示を計算するその時点の Document.outputLength であり、書き出し中に編集すると残り時間の表示が変わることを書いた。"},
+{"finding": "F-5", "action": "fixed", "text": "SPEC-MEDIA-001 (§2.16) の RequestVisibleTimelinePreview に要求の契機を書いた: タイムラインの描画のたびに、可視範囲を最新にしてから (max(0, 可視左端)/px, min(長さ, 可視右端/px), px) で要求する・再生が止まったときの再描画も契機になる(再生の開始では再描画せず追従だけ)。"},
+{"finding": "F-6", "action": "fixed", "text": "SPEC-TLVIEW-001 (§2.15) に描画の下限を書いた: 除外の取り消し線は見えている幅が 10 px を超えるときだけ(左 + 4, 下 − 6)→(右 − 4, 上 + 6)、ミュートの平らな線は帯の見えている幅が 6 px を超えるときだけ(1.5 px・丸い端・左右 2 px 内側)。マスクと覆いは幅に関わらず塗る。"},
+{"finding": "F-7", "action": "fixed", "text": "SPEC-PREVIEW-001 (§2.12) の PlayerFrameReady を、同期の状態が Priming でかつ playing が偽のときだけ、トリム開始へシークしてから一時停止する(この順)と書き直し、準備中に再生が始まっていれば止めないことを書いた。"}
+]}

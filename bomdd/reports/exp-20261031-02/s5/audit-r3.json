@@ -1,0 +1,23 @@
+{"findings": [
+  {"id": "F-1", "severity": "material", "where": "§2.19 キーボード(SPEC-KEYBOARD-001)振る舞い「どの文字の入力欄(TextBox)にフォーカスがあっても、ここで処理しない」・「オーバーレイの表示中も働く(例: 書き出しダイアログの裏で Space で再生)」",
+   "text": "元のアプリのショートカットは Window の OnKeyDown の上書き(base.OnKeyDown の後に処理)だけで受けており、これはクラスハンドラなので、フォーカスのある部品が先に処理済みにしたキーは届かない。ボタン・チェックボックス・ラジオ・スライダーはどれも Focusable を外していない(Views/Styles/Controls に Focusable の指定が無い)ため、例えば Split や Undo のボタンをクリックした後の Space/Enter はそのボタンの押下になり TogglePlay にならず、スライダーにフォーカスがあれば ←/→ はスライダーが消費しうる。仕様は無効になる条件を TextBox のフォーカスだけと書き、Space は常に再生/一時停止になると読めるので、この経路(未処理のキーだけを受ける・フォーカス中の部品が先に取る)を書くか、フレームワーク既定に委ねる旨を未決事項として明示する必要がある。このままだと作り直しが PreviewKeyDown 等で全キーを先取りし、元と違う動作になりうる。",
+   "authority_ref": "authority/Views/MainWindow.axaml.cs:32-36(protected override void OnKeyDown … base.OnKeyDown(e); … GetFocusedElement() is TextBox)"},
+  {"id": "F-2", "severity": "material", "where": "§2.3 タイトルバー(振る舞い・提示要素)と表示の文言の契約",
+   "text": "タイトルバーのボタンのツールチップが最大化以外書かれていない。元のアプリは言語ボタン「Language」(ja: 言語)・About「About MoviePad」(MoviePad について)・最小化「Minimize」(最小化)・閉じる「Close」(閉じる)のツールチップを持ち、要求 REQ-006 の根拠もこれらのツールチップを挙げている。仕様に無いので作り直しで欠ける。",
+   "authority_ref": "authority/Views/TitleBarView.axaml:47,56,60,63,66(ToolTip.Tip = TitleBar_Language / TitleBar_About / TitleBar_Minimize / TitleBar_Maximize / Common_Close)・authority/Resources/Strings.resx"},
+  {"id": "F-3", "severity": "minor", "where": "§2.20 書き出しダイアログ 振る舞い: 切り替えの枠の中身(EL-EX-FASTCOPY・781 行)",
+   "text": "チェックボックスの文言がリソースのキー名「Export_FastCopy」のまま書かれており、表示される文字列(en「Fast, lossless (copy)」・ja「高速・無劣化（コピー）」)が書かれていない。他の文言は実際の文字列で書いているので書式が揃っていない。",
+   "authority_ref": "authority/Views/ExportDialogView.axaml:86・authority/Resources/Strings.resx(Export_FastCopy)"},
+  {"id": "F-4", "severity": "minor", "where": "§2.20 書き出しの進行: etaText「About {FormatClock(残り)} left」の残りの式(outputLength·…)",
+   "text": "残り時間の式の outputLength がどれを指すかが曖昧。元のアプリは書き出し開始時の要求ではなく、その時点の Document(State)の OutputLength を毎回読むので、書き出し中に編集すると表示される残り時間が変わる。開始時の値と読めば作り直しの表示がずれる。",
+   "authority_ref": "authority/ViewModels/MainWindowViewModel.cs:977-992(ExportEtaText が OutputLength を参照)"},
+  {"id": "F-5", "severity": "minor", "where": "§2.16 タイムラインのサムネイル(見えている範囲の要求 RequestVisibleTimelinePreview)",
+   "text": "見えている範囲のサムネイルを要求する契機が書かれていない。元のアプリはタイムラインの描画のたびに (表示左端/px, min(長さ, 表示右端/px), px) で要求し、再生停止時の再描画もその契機になる。契機が無いと受入の観点(いつ要求が出るか)が決められない。",
+   "authority_ref": "authority/Controls/TimelineControl.cs:338・180-184"},
+  {"id": "F-6", "severity": "minor", "where": "§2.15 タイムラインの描画: 除外の取り消し線・ミュートの平らな線(EL-TM-EXCLUDED-MASK / EL-TM-MUTED-AUDIO・540-542 行)",
+   "text": "描画の下限が抜けている。元のアプリは除外の区間の取り消し線を見えている幅が 10 px を超えるときだけ、ミュートの帯の中央の平らな線を帯の幅が 6 px を超えるときだけ描く。仕様は無条件に描くと読める。",
+   "authority_ref": "authority/Controls/TimelineControl.cs:600・623"},
+  {"id": "F-7", "severity": "minor", "where": "§2.12 プレビュー: 準備中の最初のフレーム(PlayerFrameReady)でトリム開始に止める処理",
+   "text": "最初のフレームでの一時停止は、同期の状態が Priming で、かつ再生中でないときだけ行われる。準備中に再生が始まっていれば止めない。この条件が書かれていない。",
+   "authority_ref": "authority/Views/PreviewView.axaml.cs:175(_syncState == Priming && !Playing)"}
+]}

@@ -414,3 +414,32 @@ The defaults of definitions section 3 were accepted as proposed.
   hints, every UC and EL reference resolves, 120 resx keys match). It first graded eight of the material as minor and regraded
   them by the prompt's definition. Isolation: 0 flags; no trace of the measured words.
 - Relayed 2026-10-31T17:30:31+09:00 as the file (`exp07/s5-author/audit-r2.json`, `8f398d6c…`).
+- Author answered round 2 in 453 s: 15 fixed, 1 rejected (F-16, the gate record, as in round 1) (`s5/answers-r2.json`,
+  `1a7ff4e7…`); it also corrected two section references it found itself (the modal's reference to section 2.21 is 2.20).
+  One open item added (UQ-SPEC-032: REQ-091's selector list does not cover all of `Controls.axaml`), 32 in all, none
+  blocker. Draft `9b134f20…` (`s5/draft-r3.md`, 147,466 bytes).
+- Audit round 3 (the last of the budget; fresh auditor, revised draft only): folder `exp07/s5-audit-r3`, started
+  2026-10-31T17:38:32+09:00.
+- Audit round 3 done in 590 s (54 tool uses, no agents of its own): 7 findings, blocker 0 / **material 2** / minor 5
+  (`s5/audit-r3.json`, `68d91782…`); draft unchanged. The two: the shortcuts are taken only in the window's `OnKeyDown`
+  override, so a key a focused control handles first (Space or Enter on a button just clicked, the arrows on a slider) never
+  reaches them, while the spec names only a focused text box (the "handles first" part is an Avalonia default the authority
+  does not show); the title bar's tooltips other than Maximize are absent. Isolation: 3 flags — a one-off work folder
+  `exp07/s5r3-work` made from its own folder, not left (its `work_xref.py` is in its folder). No trace of the measured words.
+- **S5 unconverged at the budget** (blocker / material 0 / 3, 0 / 10, 0 / 2; all findings 14, 16, 7) with no blocker open, so
+  **cut off under departure 3** without returning to the user. Round 3 relayed 2026-10-31T17:48:45+09:00 as the file
+  (`exp07/s5-author/audit-r3.json`, `68d91782…`).
+- Author answered round 3 in 111 s: 7 fixed (`s5/answers-r3.json`, `9b8e9d42…`), **not re-audited**: sections 2.19 (the key
+  path through `OnKeyDown`), 2.3 (five tooltips in both languages), 2.20, 2.16, 2.15, 2.12, and one open item added
+  (UQ-SPEC-033: which control takes which key first rests on Avalonia 12's defaults, to be compared at L2), 33 in all, none
+  blocker. Its own check: every requirement under a heading, 25 spec ids, no open item uncited.
+- Isolation of the author over the whole step: 3 flags, as at its start (`d:\` from a grep pattern; one read of the harness's
+  saved copy of its own output). Nothing written outside its folder. No trace of the measured words.
+- **S5 frozen 2026-10-31T17:50:49+09:00** as `s5/20-spec.md` (`1043076f…`, 150,809 bytes), the author folder's file copied
+  unchanged. **Stage A is frozen: S1–S5.**
+
+## Step 9 — A3
+
+- Classifier folders `exp07/a3-classifier-1` and `-2` (`prepare.py classify`, each): prompt `45b2e0af…`, model `b758d626…`,
+  scenarios `ef416e68…`, spec `1043076f…`, `items.json` `8dc9c13b…` (D01, D02, D03, D06 from `exp-20261031-01/items.json`,
+  each with its file, before and after); no authority. Both started 2026-10-31T17:51:14+09:00.
