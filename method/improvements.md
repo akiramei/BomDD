@@ -10308,6 +10308,32 @@ measurement; no body text, template or tool changes.
   attributes; for A2, states that carry the authority's availability guards and the start language carried from the
   upstream's prose into the run. Limits added from a reader's comment: the S4 state contract (one screen's values) differs
   from the harness's criterion (every visit agrees on availability); A1 counts references, not whether a wrong rule is told
-  from a right one. Nothing wired, no body text changed.
+  from a right one. Nothing wired, no body text changed. **A reader's proposal on these results, amended, filed on the user's
+  "A: 起票する" (2026-10-31) → EXP-20261031-03.**
   source: this section (the user's "A: 起票する" and "A: §9 のまま", 2026-10-31)
   evidence: `bomdd/reports/exp-20261031-02/definitions.md`, `bomdd/reports/exp-20261031-02/results.md`, `bomdd/reports/exp-20261031-02/run-log.md`
+
+## 2026-10-31 After EXP-20261031-02 — "A: 起票する": a frozen checker for designs in a machine-evaluable form, the output frame rate (EXP-20261031-03, filed)
+
+Source: a reader's proposal on EXP-20261031-02's results and the user's "A: 起票する" (2026-10-31) with three amendments (source
+rates off the presets, the real S2 as the derived specimen, a narrowed claim). Folder `bomdd/reports/exp-20261031-03/`
+(`definitions.md` only; the driver, `form.md`, the checkers and the specimens are written at run steps 1–4). MoviePad and
+MoviePad-Remake read only.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement of a checker; no body text, template or tool changes.
+
+- [open] EXP-20261031-03 — **Given a design written in a machine-evaluable form, can a frozen checker evaluate what the design
+  predicts the screen shows after each operation, and so pass designs that are right in different representations and fail
+  designs that are wrong in meaning — over a fixed, finite range of the output frame rate, with no review?** Trigger:
+  EXP-20261031-02's A1 broke the frame-rate row on representation (one settable value, five derived attributes) and counts
+  references, not discrimination. Range: the five presets; source rates 25 and 29.97 judged, 30 as a control; 52 judged cases
+  × 8 screen values (summary text, five selections, the note, Source's tooltip). Expected values from MoviePad `126eae9` by a
+  driver calling `LoadClip` and `SetFpsCommand` with both cultures `en`, cross-checked against S1's REQ-070 / 077 / 020.
+  Specimens: N1 direct (operator); N2a / N2b, EXP-20261031-02's frozen S2 / S3 transcribed by two fresh agents; nine named
+  mutants on N1 and on N2a. Verdicts FAIL / UNKNOWN / PASS fixed so a form error is never a detection; the form's meaning in
+  `form.md`, pinned by selftest. Reading fixed in §9: success only as "a design in this form is judged on this range"; not that
+  authors write it, nor unnamed defects. Filed not converged (5 → 2 → 1, 7 → 3; after removing the causes 2 → 0 → 1), cut off on
+  the user's "A: 打ち切って起票". Start is the user's.
+  source: this section (the user's "A: 起票する", "B: 延長する", "C: 原因を除いて再開", "A: 打ち切って起票", 2026-10-31)
+  evidence: `bomdd/reports/exp-20261031-03/definitions.md`
