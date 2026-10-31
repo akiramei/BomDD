@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- EXP-20261031-02 A2 sensitivity only: runs stage 1's harness unchanged with the thread's UI culture set first. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <StartupObject>Launcher</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../harness/Harness.csproj" />
+  </ItemGroup>
+</Project>

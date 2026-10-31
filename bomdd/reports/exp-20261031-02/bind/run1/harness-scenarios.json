@@ -1,0 +1,5749 @@
+{
+ "states": [
+  {
+   "id": "ST-SAMPLE-TRANSPORT",
+   "name": "ST-SAMPLE-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S132-TRANSPORT",
+   "name": "ST-S132-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "2:12:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "0.5x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SAMPLE-TITLEBAR",
+   "name": "ST-SAMPLE-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SAMPLE-TOOLBAR",
+   "name": "ST-SAMPLE-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SAMPLE-INSPECTOR",
+   "name": "ST-SAMPLE-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-SAMPLE-TIMELINE",
+   "name": "ST-SAMPLE-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SAMPLE-MAIN",
+   "name": "ST-SAMPLE-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-SAMPLE-PREVIEW",
+   "name": "ST-SAMPLE-PREVIEW (SCR-PREVIEW)",
+   "predicate": {
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "ShowSpeedFlag": false,
+    "SpeedNowText": "1x",
+    "ActivePreservePitch": true,
+    "Playing": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SAMPLE-P1-TOOLBAR",
+   "name": "ST-SAMPLE-P1-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": true,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S40-TIMELINE",
+   "name": "ST-S40-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 2,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S40-TIMELINE-UP",
+   "name": "ST-S40-TIMELINE-UP (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 2,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S50-PREVIEW",
+   "name": "ST-S50-PREVIEW (SCR-PREVIEW)",
+   "predicate": {
+    "PlayheadTc": "0:50:00",
+    "DurTc": "2:18:00",
+    "ShowSpeedFlag": true,
+    "SpeedNowText": "2x",
+    "ActivePreservePitch": true,
+    "Playing": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S50-INSPECTOR",
+   "name": "ST-S50-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 2 / 4",
+    "RegionStartTc": "0:40:00",
+    "RegionEndTc": "1:04:00",
+    "RegionDurationClock": "0:24",
+    "SpeedText": "2",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 0:12 (originally 0:24).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-S50-TIMELINE",
+   "name": "ST-S50-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 2,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S6-TIMELINE-DRAG",
+   "name": "ST-S6-TIMELINE-DRAG (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S6F1-TRANSPORT",
+   "name": "ST-S6F1-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:06:01",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S7-TRANSPORT",
+   "name": "ST-S7-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:07:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S7-MAIN",
+   "name": "ST-S7-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": true,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-PLAY-TRANSPORT",
+   "name": "ST-PLAY-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "pause",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-PLAY-PREVIEW",
+   "name": "ST-PLAY-PREVIEW (SCR-PREVIEW)",
+   "predicate": {
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "ShowSpeedFlag": false,
+    "SpeedNowText": "1x",
+    "ActivePreservePitch": true,
+    "Playing": true,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-X1-MAIN",
+   "name": "ST-X1-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": true,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-X1-PLAY40-TRANSPORT",
+   "name": "ST-X1-PLAY40-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "pause",
+    "PlayheadTc": "0:40:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "2x",
+    "SourceLenClock": "1:32",
+    "OutputLenClock": "1:48",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S20-TIMELINE",
+   "name": "ST-S20-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S20-TOOLBAR",
+   "name": "ST-S20-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": true,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SPLIT20-TIMELINE",
+   "name": "ST-SPLIT20-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "5 regions · trim 0:06–2:12",
+    "RegionCount": 5,
+    "SelectedId": 5,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SPLIT20-TOOLBAR",
+   "name": "ST-SPLIT20-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": true,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": true,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S20-MAIN",
+   "name": "ST-S20-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": true,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-SPLIT20-INSPECTOR",
+   "name": "ST-SPLIT20-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 2 / 5",
+    "RegionStartTc": "0:20:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:20",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:20 (originally 0:20).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-S2002-MAIN",
+   "name": "ST-S2002-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": true,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-SPLIT2002-TIMELINE",
+   "name": "ST-SPLIT2002-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "5 regions · trim 0:06–2:12",
+    "RegionCount": 5,
+    "SelectedId": 5,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SPLIT2002-INSPECTOR",
+   "name": "ST-SPLIT2002-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 2 / 5",
+    "RegionStartTc": "0:20:01",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:19",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:19 (originally 0:19).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-SPLIT2002S2-INSPECTOR",
+   "name": "ST-SPLIT2002S2-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:12",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 2 / 5",
+    "RegionStartTc": "0:20:01",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:19",
+    "SpeedText": "2",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 0:09 (originally 0:19).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-SPLIT2002S2-TRANSPORT",
+   "name": "ST-SPLIT2002S2-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:20:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:12",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S50-TOOLBAR",
+   "name": "ST-S50-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": true,
+    "CanDeleteBoundary": true,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-MERGE50-TRANSPORT",
+   "name": "ST-MERGE50-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:50:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:34",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-MERGE50-TOOLBAR",
+   "name": "ST-MERGE50-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": true,
+    "CanRedo": false,
+    "CanSplit": true,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SM-TIMELINE",
+   "name": "ST-SM-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-UNDO-TOOLBAR",
+   "name": "ST-UNDO-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": true,
+    "CanSplit": true,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SPLIT20-MAIN",
+   "name": "ST-SPLIT20-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": true,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-UNDO-TITLEBAR",
+   "name": "ST-UNDO-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Unsaved changes",
+    "Edited": true,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-UNDO-MAIN",
+   "name": "ST-UNDO-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": true,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": true
+   }
+  },
+  {
+   "id": "ST-UNDO-INSPECTOR",
+   "name": "ST-UNDO-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-UNDO-PITCH-TOOLBAR",
+   "name": "ST-UNDO-PITCH-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": true,
+    "CanRedo": false,
+    "CanSplit": true,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SC50-SPLIT-TOOLBAR",
+   "name": "ST-SC50-SPLIT-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": true,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": true,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SC50-UNDO-INSPECTOR",
+   "name": "ST-SC50-UNDO-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 960,
+    "OutH": 540,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": true,
+    "ResolutionDiffText": " → scaled to 960×540",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-S10-TIMELINE",
+   "name": "ST-S10-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S10-TOOLBAR",
+   "name": "ST-S10-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": true,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-IN10-TIMELINE",
+   "name": "ST-IN10-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:10–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S120-MAIN",
+   "name": "ST-S120-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": true,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": true,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-OUT120-TRANSPORT",
+   "name": "ST-OUT120-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "2:00:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "0.5x",
+    "SourceLenClock": "1:54",
+    "OutputLenClock": "1:58",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S10-MAIN",
+   "name": "ST-S10-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": true,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-TSD-TIMELINE",
+   "name": "ST-TSD-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TSD2-TIMELINE",
+   "name": "ST-TSD2-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:02–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TS2-TIMELINE",
+   "name": "ST-TS2-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:02–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TSD8-TIMELINE",
+   "name": "ST-TSD8-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:08–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TSD8-INSPECTOR",
+   "name": "ST-TSD8-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:04",
+    "OutputLenClock": "2:20",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:08:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:32",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:32 (originally 0:32).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-TSD8-TRANSPORT",
+   "name": "ST-TSD8-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:04",
+    "OutputLenClock": "2:20",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TSD395-TIMELINE",
+   "name": "ST-TSD395-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:39–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TED-TIMELINE",
+   "name": "ST-TED-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TED138-TRANSPORT",
+   "name": "ST-TED138-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:12",
+    "OutputLenClock": "2:34",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-BD-TIMELINE",
+   "name": "ST-BD-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-BD45-TRANSPORT",
+   "name": "ST-BD45-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:24",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-BD635-TIMELINE",
+   "name": "ST-BD635-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-HOVERB-TIMELINE",
+   "name": "ST-HOVERB-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-HOVERH-TIMELINE",
+   "name": "ST-HOVERH-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-Z1-TIMELINE",
+   "name": "ST-Z1-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-Z2-TIMELINE",
+   "name": "ST-Z2-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ZO1-TIMELINE",
+   "name": "ST-ZO1-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ZO2-TIMELINE",
+   "name": "ST-ZO2-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ZO3-TIMELINE",
+   "name": "ST-ZO3-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SP2-INSPECTOR",
+   "name": "ST-SP2-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:05",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "2",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 0:17 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-SP2-TIMELINE",
+   "name": "ST-SP2-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-V50-INSPECTOR",
+   "name": "ST-V50-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "50",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": false,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-V50S2-INSPECTOR",
+   "name": "ST-V50S2-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:05",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "2",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 0:17 (originally 0:34).",
+    "VolumeText": "50",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": false,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-V50S2-TOOLBAR",
+   "name": "ST-V50S2-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": true,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-UNDOBOTH-INSPECTOR",
+   "name": "ST-UNDOBOTH-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-DRAG2-TOOLBAR",
+   "name": "ST-DRAG2-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-PRESS-TOOLBAR",
+   "name": "ST-PRESS-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": true,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SP123-INSPECTOR",
+   "name": "ST-SP123-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:15",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1.23",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 0:27 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-SP025-INSPECTOR",
+   "name": "ST-SP025-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "4:04",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "0.25",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 2:16 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-V150-INSPECTOR",
+   "name": "ST-V150-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "150",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": false,
+    "SelectedVolumeBoosted": true,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-MUTE-INSPECTOR",
+   "name": "ST-MUTE-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "0",
+    "SelectedIsMuted": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-V38-INSPECTOR",
+   "name": "ST-V38-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "38",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": false,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-MUTE-MAIN",
+   "name": "ST-MUTE-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": true,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-UNMUTE-INSPECTOR",
+   "name": "ST-UNMUTE-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-V50-MAIN",
+   "name": "ST-V50-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": true,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-V50M-INSPECTOR",
+   "name": "ST-V50M-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "0",
+    "SelectedIsMuted": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-V50M-MAIN",
+   "name": "ST-V50M-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": true,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-V50MM-INSPECTOR",
+   "name": "ST-V50MM-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-MUTE-TIMELINE",
+   "name": "ST-MUTE-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-P50-PREVIEW",
+   "name": "ST-P50-PREVIEW (SCR-PREVIEW)",
+   "predicate": {
+    "PlayheadTc": "0:50:00",
+    "DurTc": "2:18:00",
+    "ShowSpeedFlag": true,
+    "SpeedNowText": "2x",
+    "ActivePreservePitch": false,
+    "Playing": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-P1OFF-INSPECTOR",
+   "name": "ST-P1OFF-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": false,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-P50-TIMELINE",
+   "name": "ST-P50-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 2,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-X1-INSPECTOR",
+   "name": "ST-X1-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "1:32",
+    "OutputLenClock": "1:48",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": true,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-X1U-INSPECTOR",
+   "name": "ST-X1U-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-X1-TIMELINE",
+   "name": "ST-X1-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-FW-INSPECTOR",
+   "name": "ST-FW-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FW1281-INSPECTOR",
+   "name": "ST-FW1281-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-W1280-INSPECTOR",
+   "name": "ST-W1280-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1280,
+    "OutH": 720,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": true,
+    "ResolutionDiffText": " → scaled to 1280×720",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FWABC-INSPECTOR",
+   "name": "ST-FWABC-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FW99999-INSPECTOR",
+   "name": "ST-FW99999-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-W7680-INSPECTOR",
+   "name": "ST-W7680-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 7680,
+    "OutH": 4320,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": true,
+    "ResolutionDiffText": " → scaled to 7680×4320",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FH-INSPECTOR",
+   "name": "ST-FH-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FH901-INSPECTOR",
+   "name": "ST-FH901-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-H900-INSPECTOR",
+   "name": "ST-H900-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1600,
+    "OutH": 900,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": true,
+    "ResolutionDiffText": " → scaled to 1600×900",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FW-MAIN",
+   "name": "ST-FW-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-FW-TRANSPORT",
+   "name": "ST-FW-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-AOFF-TITLEBAR",
+   "name": "ST-AOFF-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-AW1000-INSPECTOR",
+   "name": "ST-AW1000-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1000,
+    "OutH": 1080,
+    "KeepAspect": false,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": true,
+    "ResolutionDiffText": " → scaled to 1000×1080",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-AON562-INSPECTOR",
+   "name": "ST-AON562-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1000,
+    "OutH": 562,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": true,
+    "ResolutionDiffText": " → scaled to 1000×562",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-SC50-INSPECTOR",
+   "name": "ST-SC50-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 960,
+    "OutH": 540,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": true,
+    "ResolutionDiffText": " → scaled to 960×540",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-RESET-INSPECTOR",
+   "name": "ST-RESET-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-SC75-INSPECTOR",
+   "name": "ST-SC75-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1440,
+    "OutH": 810,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": true,
+    "ResolutionDiffText": " → scaled to 1440×810",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FPS60-INSPECTOR",
+   "name": "ST-FPS60-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": false,
+    "OutFpsText": "60",
+    "FpsUpsampling": true,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FPSSRC-INSPECTOR",
+   "name": "ST-FPSSRC-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FPSSRC-TITLEBAR",
+   "name": "ST-FPSSRC-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Unsaved changes",
+    "Edited": true,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-FPS24-INSPECTOR",
+   "name": "ST-FPS24-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": false,
+    "OutFpsText": "24",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-RE960-MAIN",
+   "name": "ST-RE960-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-MAX-MAIN",
+   "name": "ST-MAX-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-MAX-TITLEBAR",
+   "name": "ST-MAX-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-MIN-MAIN",
+   "name": "ST-MIN-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-SP2-TITLEBAR",
+   "name": "ST-SP2-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Unsaved changes",
+    "Edited": true,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-CLOSED-MAIN",
+   "name": "ST-CLOSED-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": true,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-PLAY-TITLEBAR",
+   "name": "ST-PLAY-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-CLOSEDP-MAIN",
+   "name": "ST-CLOSEDP-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-JA-TITLEBAR",
+   "name": "ST-JA-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "保存済み",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-START-SETJA-TITLEBAR",
+   "name": "ST-START-SETJA-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "保存済み",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-START-OSJA-TITLEBAR",
+   "name": "ST-START-OSJA-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "保存済み",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-START-BADLANG-TITLEBAR",
+   "name": "ST-START-BADLANG-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ERR-TITLEBAR",
+   "name": "ST-ERR-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ERRJA-MAIN",
+   "name": "ST-ERRJA-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": "このファイルを読み込めませんでした（対応していない形式の可能性があります）。",
+    "HasLoadError": true,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-TALK-TIMELINE",
+   "name": "ST-TALK-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "1 regions · trim 0:00–1:00",
+    "RegionCount": 1,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "Thumbnails": null,
+    "VisibleThumbnails": null,
+    "WaveformData": null,
+    "ShowThumbs": true,
+    "ShowWaveform": true
+   }
+  },
+  {
+   "id": "ST-TALK-INSPECTOR",
+   "name": "ST-TALK-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "1:00",
+    "OutputLenClock": "1:00",
+    "OutW": 1280,
+    "OutH": 720,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1280×720",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (25 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 1",
+    "RegionStartTc": "0:00:00",
+    "RegionEndTc": "1:00:00",
+    "RegionDurationClock": "1:00",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 1:00 (originally 1:00).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": false
+   }
+  },
+  {
+   "id": "ST-TALK-PREVIEW",
+   "name": "ST-TALK-PREVIEW (SCR-PREVIEW)",
+   "predicate": {
+    "PlayheadTc": "0:00:00",
+    "DurTc": "1:00:00",
+    "ShowSpeedFlag": false,
+    "SpeedNowText": "1x",
+    "ActivePreservePitch": true,
+    "Playing": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TALK-TITLEBAR",
+   "name": "ST-TALK-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "talk.mp4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TALKU-TITLEBAR",
+   "name": "ST-TALKU-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "TALK.MP4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ERR-MAIN",
+   "name": "ST-ERR-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": "Could not load this file (the format may be unsupported).",
+    "HasLoadError": true,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-TALK-MAIN",
+   "name": "ST-TALK-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": false,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-SE-MAIN",
+   "name": "ST-SE-MAIN (SCR-MAIN)",
+   "predicate": {
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-TALKSE-EXPORT",
+   "name": "ST-TALKSE-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "ProRes",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "1:00",
+    "SourceLenOriginalText": "(orig 1:00)",
+    "IsExporting": false,
+    "ExportStatus": "Samples cannot be exported. Open an actual file.",
+    "ShowExportStatus": true
+   }
+  },
+  {
+   "id": "ST-DLG-EXPORT",
+   "name": "ST-DLG-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1920×1080",
+    "OutFpsText": "30",
+    "OutputLenClock": "2:22",
+    "SourceLenOriginalText": "(orig 2:06)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "ST-NODLG-EXPORT",
+   "name": "ST-NODLG-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "ST-SE-EXPORT",
+   "name": "ST-SE-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1920×1080",
+    "OutFpsText": "30",
+    "OutputLenClock": "2:22",
+    "SourceLenOriginalText": "(orig 2:06)",
+    "IsExporting": false,
+    "ExportStatus": "Samples cannot be exported. Open an actual file.",
+    "ShowExportStatus": true
+   }
+  },
+  {
+   "id": "ST-LL-EXPORT",
+   "name": "ST-LL-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Lossless",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1920×1080",
+    "OutFpsText": "30",
+    "OutputLenClock": "2:22",
+    "SourceLenOriginalText": "(orig 2:06)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "ST-PR-EXPORT",
+   "name": "ST-PR-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "ProRes",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1920×1080",
+    "OutFpsText": "30",
+    "OutputLenClock": "2:22",
+    "SourceLenOriginalText": "(orig 2:06)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "ST-MP4BACK-EXPORT",
+   "name": "ST-MP4BACK-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1920×1080",
+    "OutFpsText": "30",
+    "OutputLenClock": "2:22",
+    "SourceLenOriginalText": "(orig 2:06)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "ST-PRNODLG-EXPORT",
+   "name": "ST-PRNODLG-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "ST-PR-TOOLBAR",
+   "name": "ST-PR-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-DLG-MAIN",
+   "name": "ST-DLG-MAIN (SCR-MAIN)",
+   "predicate": {
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-DLGPLAY-TRANSPORT",
+   "name": "ST-DLGPLAY-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "pause",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "ST-DLGX1-EXPORT",
+   "name": "ST-DLGX1-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1920×1080",
+    "OutFpsText": "30",
+    "OutputLenClock": "1:48",
+    "SourceLenOriginalText": "(orig 1:32)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "ST-DLGCLOSED-MAIN",
+   "name": "ST-DLGCLOSED-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-SENODLG-EXPORT",
+   "name": "ST-SENODLG-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "ST-SENODLG-TITLEBAR",
+   "name": "ST-SENODLG-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SEJA-NODLG-EXPORT",
+   "name": "ST-SEJA-NODLG-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "ST-SEJA-TOOLBAR",
+   "name": "ST-SEJA-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SEJA-EXPORT",
+   "name": "ST-SEJA-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1920×1080",
+    "OutFpsText": "30",
+    "OutputLenClock": "2:22",
+    "SourceLenOriginalText": "（元 2:06）",
+    "IsExporting": false,
+    "ExportStatus": "サンプルは書き出せません。実際のファイルを開いてください。",
+    "ShowExportStatus": true
+   }
+  },
+  {
+   "id": "ST-TALKDLG-EXPORT",
+   "name": "ST-TALKDLG-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": true,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "1:00",
+    "SourceLenOriginalText": "(orig 1:00)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "ST-TALK-TOOLBAR",
+   "name": "ST-TALK-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TALKFAST-EXPORT",
+   "name": "ST-TALKFAST-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": true,
+    "FastExport": true,
+    "ShowFastExportNote": true,
+    "ShowVfrCopyNote": false,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "1:00",
+    "SourceLenOriginalText": "(orig 1:00)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "ST-TALKFASTPR-EXPORT",
+   "name": "ST-TALKFASTPR-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "ProRes",
+    "CanFastExport": false,
+    "FastExport": true,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "1:00",
+    "SourceLenOriginalText": "(orig 1:00)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "ST-TK5S30-MAIN",
+   "name": "ST-TK5S30-MAIN (SCR-MAIN)",
+   "predicate": {
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": true,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": true,
+    "CanToggleExclude": false,
+    "CanUndo": true,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-TK5SPLIT-EXPORT",
+   "name": "ST-TK5SPLIT-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": true,
+    "FastExport": true,
+    "ShowFastExportNote": true,
+    "ShowVfrCopyNote": false,
+    "ShowCopyCutMarker": true,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "0:55",
+    "SourceLenOriginalText": "(orig 0:55)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false,
+    "CopyLeadInText": "About 1.0 s of lead footage is included at the start."
+   }
+  },
+  {
+   "id": "ST-TK5-EXPORT",
+   "name": "ST-TK5-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": true,
+    "FastExport": true,
+    "ShowFastExportNote": true,
+    "ShowVfrCopyNote": false,
+    "ShowCopyCutMarker": true,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "0:55",
+    "SourceLenOriginalText": "(orig 0:55)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false,
+    "CopyLeadInText": "About 1.0 s of lead footage is included at the start."
+   }
+  },
+  {
+   "id": "ST-TK5OFF-TIMELINE",
+   "name": "ST-TK5OFF-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "1 regions · trim 0:05–1:00",
+    "RegionCount": 1,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false
+   }
+  },
+  {
+   "id": "ST-TKX-EXPORT",
+   "name": "ST-TKX-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": true,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "1:00",
+    "SourceLenOriginalText": "(orig 1:00)",
+    "IsExporting": true,
+    "ExportStatus": "Exporting…",
+    "ShowExportStatus": false,
+    "ExportPercent": 0,
+    "ExportDetailText": "",
+    "ExportEtaText": ""
+   }
+  },
+  {
+   "id": "ST-TKP-EXPORT",
+   "name": "ST-TKP-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": true,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "1:00",
+    "SourceLenOriginalText": "(orig 1:00)",
+    "IsExporting": true,
+    "ExportStatus": "Exporting…",
+    "ShowExportStatus": false,
+    "ExportPercent": 12,
+    "ExportDetailText": "Frame 300 · ×2.5",
+    "ExportEtaText": "About 0:21 left"
+   }
+  },
+  {
+   "id": "ST-TKCANCEL-EXPORT",
+   "name": "ST-TKCANCEL-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": true,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "1:00",
+    "SourceLenOriginalText": "(orig 1:00)",
+    "IsExporting": false,
+    "ExportStatus": "Export canceled.",
+    "ShowExportStatus": true
+   }
+  },
+  {
+   "id": "ST-TKPLL-EXPORT",
+   "name": "ST-TKPLL-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Lossless",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "1:00",
+    "SourceLenOriginalText": "(orig 1:00)",
+    "IsExporting": true,
+    "ExportStatus": "Exporting…",
+    "ShowExportStatus": false,
+    "ExportPercent": 12,
+    "ExportDetailText": "Frame 300 · ×2.5",
+    "ExportEtaText": "About 0:21 left"
+   }
+  },
+  {
+   "id": "ST-TKC-NODLG-EXPORT",
+   "name": "ST-TKC-NODLG-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "ST-TKC-TITLEBAR",
+   "name": "ST-TKC-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "talk.mp4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TKCJA-TITLEBAR",
+   "name": "ST-TKCJA-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "talk.mp4",
+    "StatusText": "保存済み",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TKCJA-TOOLBAR",
+   "name": "ST-TKCJA-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TKCJA-EXPORT",
+   "name": "ST-TKCJA-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": true,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1280×720",
+    "OutFpsText": "25",
+    "OutputLenClock": "1:00",
+    "SourceLenOriginalText": "（元 1:00）",
+    "IsExporting": false,
+    "ExportStatus": "Export canceled.",
+    "ShowExportStatus": true
+   }
+  },
+  {
+   "id": "ST-TALKSC50-INSPECTOR",
+   "name": "ST-TALKSC50-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "1:00",
+    "OutputLenClock": "1:00",
+    "OutW": 640,
+    "OutH": 360,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1280×720",
+    "ShowReset": true,
+    "ResolutionDiffText": " → scaled to 640×360",
+    "FpsSourceActive": true,
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (25 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 1",
+    "RegionStartTc": "0:00:00",
+    "RegionEndTc": "1:00:00",
+    "RegionDurationClock": "1:00",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 1:00 (originally 1:00).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": false
+   }
+  },
+  {
+   "id": "ST-TALKSC50-TOOLBAR",
+   "name": "ST-TALKSC50-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-TALKSC50-EXPORT",
+   "name": "ST-TALKSC50-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "640×360",
+    "OutFpsText": "25",
+    "OutputLenClock": "1:00",
+    "SourceLenOriginalText": "(orig 1:00)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "ST-FF-FFMPEG",
+   "name": "ST-FF-FFMPEG (SCR-FFMPEG)",
+   "predicate": {
+    "ShowFfmpegSetup": true,
+    "FfmpegInstalling": false,
+    "FfmpegInstallText": "Downloading… 0%",
+    "FfmpegSetupError": null
+   }
+  },
+  {
+   "id": "ST-NOFF-FFMPEG",
+   "name": "ST-NOFF-FFMPEG (SCR-FFMPEG)",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-NOFF-MAIN",
+   "name": "ST-NOFF-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-NOFF-MUTE-INSPECTOR",
+   "name": "ST-NOFF-MUTE-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "0",
+    "SelectedIsMuted": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FFI-FFMPEG",
+   "name": "ST-FFI-FFMPEG (SCR-FFMPEG)",
+   "predicate": {
+    "ShowFfmpegSetup": true,
+    "FfmpegInstalling": true,
+    "FfmpegInstallText": "Downloading… 0%",
+    "FfmpegSetupError": null
+   }
+  },
+  {
+   "id": "ST-FFNET-FFMPEG",
+   "name": "ST-FFNET-FFMPEG (SCR-FFMPEG)",
+   "predicate": {
+    "ShowFfmpegSetup": true,
+    "FfmpegInstalling": false,
+    "FfmpegInstallText": "Downloading… 0%"
+   }
+  },
+  {
+   "id": "ST-FF-MAIN",
+   "name": "ST-FF-MAIN (SCR-MAIN)",
+   "predicate": {
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-FFPLAY-TRANSPORT",
+   "name": "ST-FFPLAY-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "pause",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "ST-NOFF-TOOLBAR",
+   "name": "ST-NOFF-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ABOUT-ABOUT",
+   "name": "ST-ABOUT-ABOUT (SCR-ABOUT)",
+   "predicate": {
+    "ShowAbout": true
+   }
+  },
+  {
+   "id": "ST-ABOUTCLOSED-ABOUT",
+   "name": "ST-ABOUTCLOSED-ABOUT (SCR-ABOUT)",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "ST-NONOTICES-TITLEBAR",
+   "name": "ST-NONOTICES-TITLEBAR (SCR-TITLEBAR)",
+   "predicate": {
+    "FileName": "interview_raw.mp4",
+    "StatusText": "Saved",
+    "Edited": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ABOUTFB-ABOUT",
+   "name": "ST-ABOUTFB-ABOUT (SCR-ABOUT)",
+   "predicate": {
+    "ShowAbout": true,
+    "AboutNotices": "Third-party license information (THIRD-PARTY-NOTICES.txt) was not found.\nPlease refer to the bundled file of the same name / LICENSE in the repository."
+   }
+  },
+  {
+   "id": "ST-ABOUTCLOSED-MAIN",
+   "name": "ST-ABOUTCLOSED-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-SCR200-TIMELINE",
+   "name": "ST-SCR200-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SCR200-TRANSPORT",
+   "name": "ST-SCR200-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-SCR200PLAY-TIMELINE",
+   "name": "ST-SCR200PLAY-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12",
+    "RegionCount": 4,
+    "SelectedId": 1,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-START-FFHALF-FFMPEG",
+   "name": "ST-START-FFHALF-FFMPEG (SCR-FFMPEG)",
+   "predicate": {
+    "ShowFfmpegSetup": true,
+    "FfmpegInstalling": false,
+    "FfmpegInstallText": "Downloading… 0%",
+    "FfmpegSetupError": null
+   }
+  },
+  {
+   "id": "ST-START-FFHALF-CLOSED-FFMPEG",
+   "name": "ST-START-FFHALF-CLOSED-FFMPEG (SCR-FFMPEG)",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-START-FFENV-MAIN",
+   "name": "ST-START-FFENV-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-START-FFENV-PLAY-TRANSPORT",
+   "name": "ST-START-FFENV-PLAY-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "pause",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-START-FFCWD-MAIN",
+   "name": "ST-START-FFCWD-MAIN (SCR-MAIN)",
+   "predicate": {
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "LoadError": null,
+    "HasLoadError": false,
+    "HasSelection": true,
+    "CanSplit": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "CanToggleExclude": true,
+    "CanUndo": false,
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "ST-START-FFCWD-PLAY-TRANSPORT",
+   "name": "ST-START-FFCWD-PLAY-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "pause",
+    "PlayheadTc": "0:06:00",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ENVSPLIT-TOOLBAR",
+   "name": "ST-ENVSPLIT-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": false,
+    "CanRedo": false,
+    "CanSplit": true,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ENVSPLIT-S-TIMELINE",
+   "name": "ST-ENVSPLIT-S-TIMELINE (SCR-TIMELINE)",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:00–1:30",
+    "RegionCount": 4,
+    "SelectedId": 5,
+    "ShowCopyCutMarker": false,
+    "ThumbnailsRefining": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ENVSPEED-EXPORT",
+   "name": "ST-ENVSPEED-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": true,
+    "SelectedFormatKey": "Mp4",
+    "CanFastExport": false,
+    "FastExport": false,
+    "ShowFastExportNote": false,
+    "ShowVfrCopyNote": false,
+    "CopyCutStart": null,
+    "ShowCopyCutMarker": false,
+    "OutResText": "1920×1080",
+    "OutFpsText": "30",
+    "OutputLenClock": "1:15",
+    "SourceLenOriginalText": "(orig 1:30)",
+    "IsExporting": false,
+    "ExportStatus": null,
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "ST-ENVSPEED-CLOSED-EXPORT",
+   "name": "ST-ENVSPEED-CLOSED-EXPORT (SCR-EXPORT)",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "ST-ENVSPEED-INSPECTOR",
+   "name": "ST-ENVSPEED-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "1:30",
+    "OutputLenClock": "1:15",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 2 / 3",
+    "RegionStartTc": "0:30:00",
+    "RegionEndTc": "1:00:00",
+    "RegionDurationClock": "0:30",
+    "SpeedText": "2",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 0:15 (originally 0:30).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-ENVSPEED-P1-TOOLBAR",
+   "name": "ST-ENVSPEED-P1-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": true,
+    "CanRedo": false,
+    "CanSplit": true,
+    "CanDeleteBoundary": true,
+    "CanSetTrimIn": false,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-ENVABOUT-ABOUT",
+   "name": "ST-ENVABOUT-ABOUT (SCR-ABOUT)",
+   "predicate": {
+    "ShowAbout": true
+   }
+  },
+  {
+   "id": "ST-ENVABOUT-CLOSED-ABOUT",
+   "name": "ST-ENVABOUT-CLOSED-ABOUT (SCR-ABOUT)",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "ST-ENVFF-FFMPEG",
+   "name": "ST-ENVFF-FFMPEG (SCR-FFMPEG)",
+   "predicate": {
+    "ShowFfmpegSetup": true,
+    "FfmpegInstalling": false,
+    "FfmpegInstallText": "Downloading… 0%",
+    "FfmpegSetupError": null
+   }
+  },
+  {
+   "id": "ST-ENVFF-CLOSED-FFMPEG",
+   "name": "ST-ENVFF-CLOSED-FFMPEG (SCR-FFMPEG)",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-S7B1-TRANSPORT",
+   "name": "ST-S7B1-TRANSPORT (SCR-TRANSPORT)",
+   "predicate": {
+    "PlayIcon": "play",
+    "PlayheadTc": "0:06:29",
+    "DurTc": "2:18:00",
+    "SpeedNowText": "1x",
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-PS05-INSPECTOR",
+   "name": "ST-PS05-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:56",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "0.5",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 1:08 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-PS15-INSPECTOR",
+   "name": "ST-PS15-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:10",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1.5",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 0:22 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-PS3-INSPECTOR",
+   "name": "ST-PS3-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "1:59",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "3",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 0:11 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-PS4-INSPECTOR",
+   "name": "ST-PS4-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "1:56",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "4",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 0:08 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-PS025-INSPECTOR",
+   "name": "ST-PS025-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "4:04",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "0.25",
+    "SelectedIsNormalSpeed": false,
+    "RegionSpeedSummary": "This region exports as 2:16 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-VPRESS-TOOLBAR",
+   "name": "ST-VPRESS-TOOLBAR (SCR-TOOLBAR)",
+   "predicate": {
+    "CanUndo": true,
+    "CanRedo": false,
+    "CanSplit": false,
+    "CanDeleteBoundary": false,
+    "CanSetTrimIn": true,
+    "CanSetTrimOut": false,
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "ST-V50V100-INSPECTOR",
+   "name": "ST-V50V100-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-SC100-INSPECTOR",
+   "name": "ST-SC100-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FPS120-INSPECTOR",
+   "name": "ST-FPS120-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": false,
+    "OutFpsText": "120",
+    "FpsUpsampling": true,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "ST-FPS30-INSPECTOR",
+   "name": "ST-FPS30-INSPECTOR (SCR-INSPECTOR)",
+   "predicate": {
+    "HasSelection": true,
+    "SourceLenClock": "2:06",
+    "OutputLenClock": "2:22",
+    "OutW": 1920,
+    "OutH": 1080,
+    "KeepAspect": true,
+    "AspectRatioText": "1.78:1",
+    "NativeResText": "1920×1080",
+    "ShowReset": false,
+    "ResolutionDiffText": "",
+    "FpsSourceActive": true,
+    "OutFpsText": "30",
+    "FpsUpsampling": false,
+    "FpsSourceTip": "Same as source (30 fps)",
+    "ShowExport": false,
+    "ShowAbout": false,
+    "ShowFfmpegSetup": false,
+    "RegionTitle": "Region 1 / 4",
+    "RegionStartTc": "0:06:00",
+    "RegionEndTc": "0:40:00",
+    "RegionDurationClock": "0:34",
+    "SpeedText": "1",
+    "SelectedIsNormalSpeed": true,
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34).",
+    "VolumeText": "100",
+    "SelectedIsMuted": false,
+    "SelectedIsFullVolume": true,
+    "SelectedVolumeBoosted": false,
+    "SelectedPreservePitch": true,
+    "SelectedExcluded": false,
+    "CanToggleExclude": true
+   }
+  }
+ ],
+ "scenarios": [
+  {
+   "id": "UC-001",
+   "title": "起動直後のサンプルで「先頭へ」を押すと再生ヘッドはトリム開始 6 秒のまま(サンプルの読み込み済みの表示)",
+   "goal": "起動直後のサンプルで「先頭へ」を押すと再生ヘッドはトリム開始 6 秒のまま(サンプルの読み込み済みの表示)",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TRANSPORT",
+     "action": "ToStart",
+     "surface": "TransportView",
+     "expect": "ST-SAMPLE-TRANSPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-002",
+   "title": "「末尾へ」で再生ヘッドがトリム終了 132 秒へ。末尾区間は終了時刻を含むので速度は 0.5x",
+   "goal": "「末尾へ」で再生ヘッドがトリム終了 132 秒へ。末尾区間は終了時刻を含むので速度は 0.5x",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TRANSPORT",
+     "action": "ToEnd",
+     "surface": "TransportView",
+     "expect": "ST-S132-TRANSPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-003",
+   "title": "起動直後のツールバー: 元に戻す/やり直す・Split・Merge・Set Out は押せず、Set In だけ押せる。Set In を押しても値が同じなので履歴は増えない",
+   "goal": "起動直後のツールバー: 元に戻す/やり直す・Split・Merge・Set Out は押せず、Set In だけ押せる。Set In を押しても値が同じなので履歴は増えない",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TOOLBAR",
+     "action": "SetTrimIn",
+     "surface": "ToolbarView",
+     "expect": "ST-SAMPLE-TOOLBAR"
+    }
+   ]
+  },
+  {
+   "id": "UC-004",
+   "title": "起動直後のインスペクター(区間 1 / 4・等速・音量 100%・書き出し設定 2:06 → 2:22・出力 1920×1080 30 fps で Source と 30 が両方選択の表示)で 1x のプリセットを押すと、値が同じでも履歴に記録され元に戻すが押せる",
+   "goal": "起動直後のインスペクター(区間 1 / 4・等速・音量 100%・書き出し設定 2:06 → 2:22・出力 1920×1080 30 fps で Source と 30 が両方選択の表示)で 1x のプリセットを押すと、値が同じでも履歴に記録され元に戻すが押せる",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "ApplySpeedPreset:1",
+     "surface": "InspectorView",
+     "expect": "ST-SAMPLE-P1-TOOLBAR"
+    }
+   ]
+  },
+  {
+   "id": "UC-016",
+   "title": "トランスポートの「1 フレーム戻る」はトリム開始より前へは行かない(5.9667 → 6 に収まる)",
+   "goal": "トランスポートの「1 フレーム戻る」はトリム開始より前へは行かない(5.9667 → 6 に収まる)",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TRANSPORT",
+     "action": "StepBack",
+     "surface": "TransportView",
+     "expect": "ST-SAMPLE-TRANSPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-018",
+   "title": "トランスポートの「1 フレーム進む」ボタンも同じ(6.0333 秒)",
+   "goal": "トランスポートの「1 フレーム進む」ボタンも同じ(6.0333 秒)",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TRANSPORT",
+     "action": "StepForward",
+     "surface": "TransportView",
+     "expect": "ST-S6F1-TRANSPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-020",
+   "title": "再生/一時停止のボタンで再生を始めるとアイコンが一時停止に、もう一度押すと停止に戻る",
+   "goal": "再生/一時停止のボタンで再生を始めるとアイコンが一時停止に、もう一度押すと停止に戻る",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TRANSPORT",
+     "action": "TogglePlay",
+     "surface": "TransportView",
+     "expect": "ST-PLAY-TRANSPORT"
+    },
+    {
+     "in": "ST-PLAY-TRANSPORT",
+     "action": "TogglePlay",
+     "surface": "TransportView",
+     "expect": "ST-SAMPLE-TRANSPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-022",
+   "title": "再生ヘッドがトリム終了(132 秒)にいるときに再生を始めると、トリム開始 6 秒へ戻ってから再生する",
+   "goal": "再生ヘッドがトリム終了(132 秒)にいるときに再生を始めると、トリム開始 6 秒へ戻ってから再生する",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "Playhead",
+     "value": 132.0
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-S132-TRANSPORT",
+     "action": "TogglePlay",
+     "surface": "TransportView",
+     "expect": "ST-PLAY-TRANSPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-024",
+   "title": "再生中に「先頭へ」を押すと再生が止まる",
+   "goal": "再生中に「先頭へ」を押すと再生が止まる",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "Playing",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-PLAY-TRANSPORT",
+     "action": "ToStart",
+     "surface": "TransportView",
+     "expect": "ST-SAMPLE-TRANSPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-031",
+   "title": "Split の後のツールバー: 元に戻す・Merge が押せる。インスペクターは区間 2 / 5",
+   "goal": "Split の後のツールバー: 元に戻す・Merge が押せる。インスペクターは区間 2 / 5",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "Playhead",
+     "value": 20.0
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-S20-TOOLBAR",
+     "action": "Split",
+     "surface": "ToolbarView",
+     "expect": "ST-SPLIT20-TOOLBAR"
+    }
+   ]
+  },
+  {
+   "id": "UC-039",
+   "title": "UC-035 の分割の直後(編集対象は後半 ID 5・再生ヘッド 20.02 秒は前半 ID 1 の上)に 2x のプリセットを押すと、後半だけが 2x になり、トランスポートの現在速度は再生ヘッドの下の前半の 1x のまま(書き出しの長さは 2:12 に縮む)",
+   "goal": "UC-035 の分割の直後(編集対象は後半 ID 5・再生ヘッド 20.02 秒は前半 ID 1 の上)に 2x のプリセットを押すと、後半だけが 2x になり、トランスポートの現在速度は再生ヘッドの下の前半の 1x のまま(書き出しの長さは 2:12 に縮む)",
+   "flow": "alternate",
+   "setup": [
+    {
+     "state_call": "SplitAt",
+     "args": [
+      20.02,
+      5,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 20.02
+    },
+    {
+     "set": "SelectedId",
+     "value": 5
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-SPLIT2002-INSPECTOR",
+     "action": "ApplySpeedPreset:2",
+     "surface": "InspectorView",
+     "expect": "ST-SPLIT2002S2-TRANSPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-036",
+   "title": "50 秒(区間 2・2x)で Merge: 区間 1 と 2 が前の区間の ID・速度 1x で [6,64) になり、書き出しの長さは 2:34 になる",
+   "goal": "50 秒(区間 2・2x)で Merge: 区間 1 と 2 が前の区間の ID・速度 1x で [6,64) になり、書き出しの長さは 2:34 になる",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "Playhead",
+     "value": 50.0
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-S50-TOOLBAR",
+     "action": "DeleteSelectedBoundary",
+     "surface": "ToolbarView",
+     "expect": "ST-MERGE50-TRANSPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-037",
+   "title": "Merge の後は 3 区間・編集対象は区間 1 / 3(先頭なので Merge は押せない)",
+   "goal": "Merge の後は 3 区間・編集対象は区間 1 / 3(先頭なので Merge は押せない)",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "Playhead",
+     "value": 50.0
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-S50-TOOLBAR",
+     "action": "DeleteSelectedBoundary",
+     "surface": "ToolbarView",
+     "expect": "ST-MERGE50-TOOLBAR"
+    }
+   ]
+  },
+  {
+   "id": "UC-038",
+   "title": "分割の直後に Merge すると元の 4 区間に戻り(履歴は 2 件)、編集対象は再生ヘッドの位置の区間 1",
+   "goal": "分割の直後に Merge すると元の 4 区間に戻り(履歴は 2 件)、編集対象は再生ヘッドの位置の区間 1",
+   "flow": "alternate",
+   "setup": [
+    {
+     "state_call": "SplitAt",
+     "args": [
+      20.0,
+      5,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 20.0
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-SPLIT20-TOOLBAR",
+     "action": "DeleteSelectedBoundary",
+     "surface": "ToolbarView",
+     "expect": "ST-SM-TIMELINE"
+    }
+   ]
+  },
+  {
+   "id": "UC-040",
+   "title": "分割を元に戻すと 4 区間に戻り、やり直すが押せる。未保存の変更はオンのまま",
+   "goal": "分割を元に戻すと 4 区間に戻り、やり直すが押せる。未保存の変更はオンのまま",
+   "flow": "main",
+   "setup": [
+    {
+     "state_call": "SplitAt",
+     "args": [
+      20.0,
+      5,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 20.0
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-SPLIT20-TOOLBAR",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-UNDO-TOOLBAR"
+    },
+    {
+     "in": "ST-UNDO-TOOLBAR",
+     "action": "Redo",
+     "surface": "ToolbarView",
+     "expect": "ST-SPLIT20-TOOLBAR"
+    }
+   ]
+  },
+  {
+   "id": "UC-044",
+   "title": "出力解像度を 50% にしてから元に戻しても、出力解像度は 960×540 のまま(履歴の対象外)",
+   "goal": "出力解像度を 50% にしてから元に戻しても、出力解像度は 960×540 のまま(履歴の対象外)",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "OutW",
+     "value": 960
+    },
+    {
+     "set": "OutH",
+     "value": 540
+    },
+    {
+     "state_call": "SplitAt",
+     "args": [
+      20.0,
+      5,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 20.0
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-SC50-SPLIT-TOOLBAR",
+     "action": "Undo",
+     "surface": "ToolbarView",
+     "expect": "ST-SC50-UNDO-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-052",
+   "title": "Set Out は再生ヘッドが末尾区間の開始 + 0.5 秒より前(6 秒)では押せない",
+   "goal": "Set Out は再生ヘッドが末尾区間の開始 + 0.5 秒より前(6 秒)では押せない",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TOOLBAR",
+     "action": "SetTrimOut",
+     "surface": "ToolbarView",
+     "expect": "ST-SAMPLE-TOOLBAR"
+    }
+   ]
+  },
+  {
+   "id": "UC-064",
+   "title": "ズームインで 1 秒あたり 8.5 → 11.9 px(幅 1690.2 px)、さらにズームインで 16.66 px(目盛り 5 秒)。再生ヘッド 6 秒が画面内(画面位置 51 px)なので、その画面位置を保つよう横スクロールが 約 20.4 → 約 48.96 px になる(既定のウィンドウでは表示幅が内容幅より十分狭く、最大スクロールで頭打ちにならない)",
+   "goal": "ズームインで 1 秒あたり 8.5 → 11.9 px(幅 1690.2 px)、さらにズームインで 16.66 px(目盛り 5 秒)。再生ヘッド 6 秒が画面内(画面位置 51 px)なので、その画面位置を保つよう横スクロールが 約 20.4 → 約 48.96 px になる(既定のウィンドウでは表示幅が内容幅より十分狭く、最大スクロールで頭打ちにならない)",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TIMELINE",
+     "action": "ZoomIn",
+     "surface": "TimelineView",
+     "expect": "ST-Z1-TIMELINE"
+    },
+    {
+     "in": "ST-Z1-TIMELINE",
+     "action": "ZoomIn",
+     "surface": "TimelineView",
+     "expect": "ST-Z2-TIMELINE"
+    }
+   ]
+  },
+  {
+   "id": "UC-065",
+   "title": "ズームアウトを 3 回押すと 6.07 → 4.34 → 下限 4 px(目盛り 15 → 30 → 30 秒)。再生ヘッドの画面位置を保つ値は負(6·6.07 − 51 など)か全体が収まるので、横スクロールは 0 のまま",
+   "goal": "ズームアウトを 3 回押すと 6.07 → 4.34 → 下限 4 px(目盛り 15 → 30 → 30 秒)。再生ヘッドの画面位置を保つ値は負(6·6.07 − 51 など)か全体が収まるので、横スクロールは 0 のまま",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TIMELINE",
+     "action": "ZoomOut",
+     "surface": "TimelineView",
+     "expect": "ST-ZO1-TIMELINE"
+    },
+    {
+     "in": "ST-ZO1-TIMELINE",
+     "action": "ZoomOut",
+     "surface": "TimelineView",
+     "expect": "ST-ZO2-TIMELINE"
+    },
+    {
+     "in": "ST-ZO2-TIMELINE",
+     "action": "ZoomOut",
+     "surface": "TimelineView",
+     "expect": "ST-ZO3-TIMELINE"
+    }
+   ]
+  },
+  {
+   "id": "UC-070",
+   "title": "区間 1 で 2x のプリセット: 速度の数字がアクセント色・見本が速度の色・要約「0:17 (originally 0:34)」・2x が選択の表示",
+   "goal": "区間 1 で 2x のプリセット: 速度の数字がアクセント色・見本が速度の色・要約「0:17 (originally 0:34)」・2x が選択の表示",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "ApplySpeedPreset:2",
+     "surface": "InspectorView",
+     "expect": "ST-SP2-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-071",
+   "title": "2x のプリセットの後、タイムラインの区間 1 に速度の色の塗りとラベルが付き、書き出しの長さは 2:05",
+   "goal": "2x のプリセットの後、タイムラインの区間 1 に速度の色の塗りとラベルが付き、書き出しの長さは 2:05",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "ApplySpeedPreset:2",
+     "surface": "InspectorView",
+     "expect": "ST-SP2-TIMELINE"
+    }
+   ]
+  },
+  {
+   "id": "UC-080",
+   "title": "150% のプリセット: 数字がアクセント色・「Above 100% may cause clipping.」の注記",
+   "goal": "150% のプリセット: 数字がアクセント色・「Above 100% may cause clipping.」の注記",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "ApplyVolumePreset:150",
+     "surface": "InspectorView",
+     "expect": "ST-V150-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-081",
+   "title": "Mute のプリセット: 0%・警告色・「Silences this region (video unchanged).」",
+   "goal": "Mute のプリセット: 0%・警告色・「Silences this region (video unchanged).」",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "ApplyVolumePreset:0",
+     "surface": "InspectorView",
+     "expect": "ST-MUTE-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-107",
+   "title": "スケール 50%: 960×540・Reset と「 → scaled to 960×540」を表示。Reset で 1920×1080 に戻る",
+   "goal": "スケール 50%: 960×540・Reset と「 → scaled to 960×540」を表示。Reset で 1920×1080 に戻る",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "Scale:0.5",
+     "surface": "InspectorView",
+     "expect": "ST-SC50-INSPECTOR"
+    },
+    {
+     "in": "ST-SC50-INSPECTOR",
+     "action": "Scale:1",
+     "surface": "InspectorView",
+     "expect": "ST-RESET-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-108",
+   "title": "スケール 75%: 1440×810",
+   "goal": "スケール 75%: 1440×810",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "Scale:0.75",
+     "surface": "InspectorView",
+     "expect": "ST-SC75-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-109",
+   "title": "60 fps のプリセット: 60 が選択の表示・Source は外れ・フレーム複製の注記",
+   "goal": "60 fps のプリセット: 60 が選択の表示・Source は外れ・フレーム複製の注記",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "SetFps:60",
+     "surface": "InspectorView",
+     "expect": "ST-FPS60-INSPECTOR"
+    },
+    {
+     "in": "ST-FPS60-INSPECTOR",
+     "action": "SetFps:source",
+     "surface": "InspectorView",
+     "expect": "ST-FPSSRC-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-110",
+   "title": "起動直後に Source を押すと値は同じ 30 fps でも未保存の変更になる",
+   "goal": "起動直後に Source を押すと値は同じ 30 fps でも未保存の変更になる",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "SetFps:source",
+     "surface": "InspectorView",
+     "expect": "ST-FPSSRC-TITLEBAR"
+    }
+   ]
+  },
+  {
+   "id": "UC-111",
+   "title": "24 fps のプリセット: 24 が選択の表示・注記なし",
+   "goal": "24 fps のプリセット: 24 が選択の表示・注記なし",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "SetFps:24",
+     "surface": "InspectorView",
+     "expect": "ST-FPS24-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-127",
+   "title": "未保存の編集があるとタイトルバーの状態表示は「Unsaved changes」(アクセント色)",
+   "goal": "未保存の編集があるとタイトルバーの状態表示は「Unsaved changes」(アクセント色)",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "ApplySpeedPreset:2",
+     "surface": "InspectorView",
+     "expect": "ST-SP2-TITLEBAR"
+    }
+   ]
+  },
+  {
+   "id": "UC-140",
+   "title": "ツールバーの Open で talk.mp4(固定の素材: 60 秒・1280×720・25 fps・H.264/AAC・CFR)を選ぶと、全長 1 区間・トリム 0〜60・再生ヘッド 0 の初期状態になる。サムネイルと波形は届くまで擬似表示",
+   "goal": "ツールバーの Open で talk.mp4(固定の素材: 60 秒・1280×720・25 fps・H.264/AAC・CFR)を選ぶと、全長 1 区間・トリム 0〜60・再生ヘッド 0 の初期状態になる。サムネイルと波形は届くまで擬似表示",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TOOLBAR",
+     "action": "Open",
+     "surface": "ToolbarView",
+     "expect": "ST-TALK-TIMELINE",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-141",
+   "title": "talk.mp4 の読み込み後のインスペクター: 区間 1 / 1・出力 1280×720・25 fps(Source が選択の表示・数字のプリセットは無し)",
+   "goal": "talk.mp4 の読み込み後のインスペクター: 区間 1 / 1・出力 1280×720・25 fps(Source が選択の表示・数字のプリセットは無し)",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TOOLBAR",
+     "action": "Open",
+     "surface": "ToolbarView",
+     "expect": "ST-TALK-INSPECTOR",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-142",
+   "title": "talk.mp4 の読み込み後のプレビュー: 自動で再生しない(中央に再生ボタン)・0:00:00 / 1:00:00。読み込みを適用した時点ではシーン(濃色のグラデーション)を表示していて、実映像に替わるのは後の出来事 PlayerFrameReady",
+   "goal": "talk.mp4 の読み込み後のプレビュー: 自動で再生しない(中央に再生ボタン)・0:00:00 / 1:00:00。読み込みを適用した時点ではシーン(濃色のグラデーション)を表示していて、実映像に替わるのは後の出来事 PlayerFrameReady",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TOOLBAR",
+     "action": "Open",
+     "surface": "ToolbarView",
+     "expect": "ST-TALK-PREVIEW",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-143",
+   "title": "ファイル選択ダイアログを選ばずに閉じると何も変わらない",
+   "goal": "ファイル選択ダイアログを選ばずに閉じると何も変わらない",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TOOLBAR",
+     "action": "Open",
+     "surface": "ToolbarView",
+     "expect": "ST-SAMPLE-TOOLBAR",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-160",
+   "title": "ツールバーの Export で書き出しダイアログを開き、Cancel で閉じる。要約は 1920×1080・30 fps・2:22 (orig 2:06)",
+   "goal": "ツールバーの Export で書き出しダイアログを開き、Cancel で閉じる。要約は 1920×1080・30 fps・2:22 (orig 2:06)",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TOOLBAR",
+     "action": "ShowExportDialog",
+     "surface": "ToolbarView",
+     "expect": "ST-DLG-EXPORT"
+    },
+    {
+     "in": "ST-DLG-EXPORT",
+     "action": "CloseExport",
+     "surface": "ExportDialogView",
+     "expect": "ST-NODLG-EXPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-162",
+   "title": "サンプルで書き出す(Export)と「Samples cannot be exported. Open an actual file.」を出して終わる",
+   "goal": "サンプルで書き出す(Export)と「Samples cannot be exported. Open an actual file.」を出して終わる",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "ShowExport",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-DLG-EXPORT",
+     "action": "ConfirmExport",
+     "surface": "ExportDialogView",
+     "expect": "ST-SE-EXPORT",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-164",
+   "title": "ProRes を選んで閉じ、開き直しても ProRes のまま",
+   "goal": "ProRes を選んで閉じ、開き直しても ProRes のまま",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "ShowExport",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-PR-EXPORT",
+     "action": "CloseExport",
+     "surface": "ExportDialogView",
+     "expect": "ST-PRNODLG-EXPORT"
+    },
+    {
+     "in": "ST-PR-TOOLBAR",
+     "action": "ShowExportDialog",
+     "surface": "ToolbarView",
+     "expect": "ST-PR-EXPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-172",
+   "title": "サンプルではコピーの切り替えは出ない(実ファイルでない)",
+   "goal": "サンプルではコピーの切り替えは出ない(実ファイルでない)",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TOOLBAR",
+     "action": "ShowExportDialog",
+     "surface": "ToolbarView",
+     "expect": "ST-DLG-EXPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-175",
+   "title": "talk.mp4 を書き出す: 保存先 C:\\Videos\\talk_export.mp4 を選ぶと書き出し中になり、Cancel と Export が隠れて進捗 0% と Abort が出る",
+   "goal": "talk.mp4 を書き出す: 保存先 C:\\Videos\\talk_export.mp4 を選ぶと書き出し中になり、Cancel と Export が隠れて進捗 0% と Abort が出る",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "ShowExport",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-TALKDLG-EXPORT",
+     "action": "ConfirmExport",
+     "surface": "ExportDialogView",
+     "expect": "ST-TKX-EXPORT",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-176",
+   "title": "保存先の選択ダイアログで選ばずに閉じると何もしない",
+   "goal": "保存先の選択ダイアログで選ばずに閉じると何もしない",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "ShowExport",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-TALKDLG-EXPORT",
+     "action": "ConfirmExport",
+     "surface": "ExportDialogView",
+     "expect": "ST-TALKDLG-EXPORT",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-177",
+   "title": "進捗 12.5%・300 フレーム・速度 2.5 の書き出し中(出来事 ExportProgressReported の後の状態)は「12%」「Frame 300 · ×2.5」「About 0:21 left」。Abort で「Export canceled.」になる",
+   "goal": "進捗 12.5%・300 フレーム・速度 2.5 の書き出し中(出来事 ExportProgressReported の後の状態)は「12%」「Frame 300 · ×2.5」「About 0:21 left」。Abort で「Export canceled.」になる",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "ShowExport",
+     "value": true
+    },
+    {
+     "set": "IsExporting",
+     "value": true
+    },
+    {
+     "set": "ExportProgress",
+     "value": 0.125
+    },
+    {
+     "set": "ExportFrame",
+     "value": 300
+    },
+    {
+     "set": "ExportStatus",
+     "value": "Exporting…"
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-TKP-EXPORT",
+     "action": "CancelExport",
+     "surface": "ExportDialogView",
+     "expect": "ST-TKCANCEL-EXPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-181",
+   "title": "talk.mp4 でスケール 50% にしてから書き出しダイアログを開くとコピーの切り替えが出ない(解像度がソースと違う)",
+   "goal": "talk.mp4 でスケール 50% にしてから書き出しダイアログを開くとコピーの切り替えが出ない(解像度がソースと違う)",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-TALK-INSPECTOR",
+     "action": "Scale:0.5",
+     "surface": "InspectorView",
+     "expect": "ST-TALKSC50-INSPECTOR"
+    },
+    {
+     "in": "ST-TALKSC50-TOOLBAR",
+     "action": "ShowExportDialog",
+     "surface": "ToolbarView",
+     "expect": "ST-TALKSC50-EXPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-191",
+   "title": "Download を押すと取得中になり、ボタンが隠れて「Downloading… 0%」が出る(以後の進捗と完了は出来事)",
+   "goal": "Download を押すと取得中になり、ボタンが隠れて「Downloading… 0%」が出る(以後の進捗と完了は出来事)",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-FF-FFMPEG",
+     "action": "InstallFfmpeg",
+     "surface": "MainWindow",
+     "expect": "ST-FFI-FFMPEG",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-192",
+   "title": "通信の失敗で「Download failed (please check your network): …」が出た後(例外のメッセージは環境しだい)、もう一度 Download を押すと文言が消えて再試行する",
+   "goal": "通信の失敗で「Download failed (please check your network): …」が出た後(例外のメッセージは環境しだい)、もう一度 Download を押すと文言が消えて再試行する",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": true
+    },
+    {
+     "set": "FfmpegSetupError",
+     "value": "Download failed (please check your network): "
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-FFNET-FFMPEG",
+     "action": "InstallFfmpeg",
+     "surface": "MainWindow",
+     "expect": "ST-FFI-FFMPEG",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-194",
+   "title": "ffprobe がどこにも無いままファイルを開くと、プロセスの起動の例外でアプリが異常終了する(異常終了の後の状態はモデルの値で書けないので unknown)",
+   "goal": "ffprobe がどこにも無いままファイルを開くと、プロセスの起動の例外でアプリが異常終了する(異常終了の後の状態はモデルの値で書けないので unknown)",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-NOFF-TOOLBAR",
+     "action": "Open",
+     "surface": "ToolbarView",
+     "expect": "unknown",
+     "harness": "no"
+    }
+   ]
+  },
+  {
+   "id": "UC-200",
+   "title": "タイトルバーの ⓘ で About を開き(THIRD-PARTY-NOTICES.txt がある前提。全文は決まっているが長いので値には書かず、ファイルの参照と sha256 で示す)、Close で閉じる",
+   "goal": "タイトルバーの ⓘ で About を開き(THIRD-PARTY-NOTICES.txt がある前提。全文は決まっているが長いので値には書かず、ファイルの参照と sha256 で示す)、Close で閉じる",
+   "flow": "main",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-TITLEBAR",
+     "action": "OpenAbout",
+     "surface": "TitleBarView",
+     "expect": "ST-ABOUT-ABOUT"
+    },
+    {
+     "in": "ST-ABOUT-ABOUT",
+     "action": "CloseAbout",
+     "surface": "AboutDialogView",
+     "expect": "ST-ABOUTCLOSED-ABOUT"
+    }
+   ]
+  },
+  {
+   "id": "UC-202",
+   "title": "THIRD-PARTY-NOTICES.txt が無いときは「Third-party license information (THIRD-PARTY-NOTICES.txt) was not found.」で始まる 2 行の案内文になる(About_NoticesMissing の全文。行の区切りは改行 1 文字)",
+   "goal": "THIRD-PARTY-NOTICES.txt が無いときは「Third-party license information (THIRD-PARTY-NOTICES.txt) was not found.」で始まる 2 行の案内文になる(About_NoticesMissing の全文。行の区切りは改行 1 文字)",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-NONOTICES-TITLEBAR",
+     "action": "OpenAbout",
+     "surface": "TitleBarView",
+     "expect": "ST-ABOUTFB-ABOUT"
+    }
+   ]
+  },
+  {
+   "id": "UC-220",
+   "title": "起動の前提: アプリのフォルダの ffmpeg/ に ffmpeg.exe だけがあり、ffprobe.exe は環境変数のフォルダ・ユーザー領域・アプリ直下・カレントディレクトリのどこにも無い → 2 つの両方が実在しないので「使えない」と判定され、起動直後にセットアップのオーバーレイが出る。Later で閉じる",
+   "goal": "起動の前提: アプリのフォルダの ffmpeg/ に ffmpeg.exe だけがあり、ffprobe.exe は環境変数のフォルダ・ユーザー領域・アプリ直下・カレントディレクトリのどこにも無い → 2 つの両方が実在しないので「使えない」と判定され、起動直後にセットアップのオーバーレイが出る。Later で閉じる",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-START-FFHALF-FFMPEG",
+     "action": "DismissFfmpegSetup",
+     "surface": "MainWindow",
+     "expect": "ST-START-FFHALF-CLOSED-FFMPEG"
+    }
+   ]
+  },
+  {
+   "id": "UC-230",
+   "title": "起動の前提: MOVIEPAD_SCENARIO=split(ほかの環境変数は無し) → サンプルのクリップのまま 90 秒を 30 秒ずつ 3 区間・トリム 0〜90・再生ヘッド 15 秒で起動し、履歴に積まないので元に戻すは押せない。Split すると次の区間 ID はサンプルの 5 のまま([0,15) と [15,30) の ID 5)",
+   "goal": "起動の前提: MOVIEPAD_SCENARIO=split(ほかの環境変数は無し) → サンプルのクリップのまま 90 秒を 30 秒ずつ 3 区間・トリム 0〜90・再生ヘッド 15 秒で起動し、履歴に積まないので元に戻すは押せない。Split すると次の区間 ID はサンプルの 5 のまま([0,15) と [15,30) の ID 5)",
+   "flow": "main",
+   "setup": [
+    {
+     "state_call": "DeleteBoundary",
+     "args": [
+      2
+     ]
+    },
+    {
+     "state_call": "MoveTrim",
+     "args": [
+      false,
+      90.0,
+      138.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveTrim",
+     "args": [
+      true,
+      0.0,
+      138.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveBoundary",
+     "args": [
+      0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveBoundary",
+     "args": [
+      1,
+      60.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "SetSpeed",
+     "args": [
+      2,
+      1.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 15.0
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-ENVSPLIT-TOOLBAR",
+     "action": "Split",
+     "surface": "ToolbarView",
+     "expect": "ST-ENVSPLIT-S-TIMELINE"
+    }
+   ]
+  },
+  {
+   "id": "UC-231",
+   "title": "起動の前提: MOVIEPAD_SCENARIO=speed と MOVIEPAD_SHOWEXPORT=1 → 中央区間 2x・再生ヘッド 45 秒の状態で書き出しダイアログが開いて起動する(要約 1:15 (orig 1:30))。Cancel で閉じる",
+   "goal": "起動の前提: MOVIEPAD_SCENARIO=speed と MOVIEPAD_SHOWEXPORT=1 → 中央区間 2x・再生ヘッド 45 秒の状態で書き出しダイアログが開いて起動する(要約 1:15 (orig 1:30))。Cancel で閉じる",
+   "flow": "alternate",
+   "setup": [
+    {
+     "state_call": "DeleteBoundary",
+     "args": [
+      2
+     ]
+    },
+    {
+     "state_call": "MoveTrim",
+     "args": [
+      false,
+      90.0,
+      138.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveTrim",
+     "args": [
+      true,
+      0.0,
+      138.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveBoundary",
+     "args": [
+      0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveBoundary",
+     "args": [
+      1,
+      60.0,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 45.0
+    },
+    {
+     "set": "ShowExport",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-ENVSPEED-EXPORT",
+     "action": "CloseExport",
+     "surface": "ExportDialogView",
+     "expect": "ST-ENVSPEED-CLOSED-EXPORT"
+    }
+   ]
+  },
+  {
+   "id": "UC-232",
+   "title": "起動の前提: MOVIEPAD_SCENARIO=speed のとき、起動直後のインスペクターは区間 2 / 3(2x)",
+   "goal": "起動の前提: MOVIEPAD_SCENARIO=speed のとき、起動直後のインスペクターは区間 2 / 3(2x)",
+   "flow": "alternate",
+   "setup": [
+    {
+     "state_call": "DeleteBoundary",
+     "args": [
+      2
+     ]
+    },
+    {
+     "state_call": "MoveTrim",
+     "args": [
+      false,
+      90.0,
+      138.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveTrim",
+     "args": [
+      true,
+      0.0,
+      138.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveBoundary",
+     "args": [
+      0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveBoundary",
+     "args": [
+      1,
+      60.0,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 45.0
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-ENVSPEED-INSPECTOR",
+     "action": "ApplySpeedPreset:1",
+     "surface": "InspectorView",
+     "expect": "ST-ENVSPEED-P1-TOOLBAR"
+    }
+   ]
+  },
+  {
+   "id": "UC-233",
+   "title": "起動の前提: MOVIEPAD_SHOWABOUT=1(THIRD-PARTY-NOTICES.txt あり) → About が開いて起動する。Close で閉じる",
+   "goal": "起動の前提: MOVIEPAD_SHOWABOUT=1(THIRD-PARTY-NOTICES.txt あり) → About が開いて起動する。Close で閉じる",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "ShowAbout",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-ENVABOUT-ABOUT",
+     "action": "CloseAbout",
+     "surface": "AboutDialogView",
+     "expect": "ST-ENVABOUT-CLOSED-ABOUT"
+    }
+   ]
+  },
+  {
+   "id": "UC-234",
+   "title": "起動の前提: MOVIEPAD_SCENARIO=ffmpeg(ffmpeg は使える) → ffmpeg が使えてもセットアップのオーバーレイが出て起動する。Later で閉じる",
+   "goal": "起動の前提: MOVIEPAD_SCENARIO=ffmpeg(ffmpeg は使える) → ffmpeg が使えてもセットアップのオーバーレイが出て起動する。Later で閉じる",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-ENVFF-FFMPEG",
+     "action": "DismissFfmpegSetup",
+     "surface": "MainWindow",
+     "expect": "ST-ENVFF-CLOSED-FFMPEG"
+    }
+   ]
+  },
+  {
+   "id": "UC-077",
+   "title": "速度のプリセットを 0.5x → 1.5x → 3x → 4x → 0.25x と押すと、押すたびに区間 1 の速度が変わって 1 件ずつ記録され、選択の表示が移る",
+   "goal": "速度のプリセットを 0.5x → 1.5x → 3x → 4x → 0.25x と押すと、押すたびに区間 1 の速度が変わって 1 件ずつ記録され、選択の表示が移る",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "ApplySpeedPreset:0.5",
+     "surface": "InspectorView",
+     "expect": "ST-PS05-INSPECTOR"
+    },
+    {
+     "in": "ST-PS05-INSPECTOR",
+     "action": "ApplySpeedPreset:1.5",
+     "surface": "InspectorView",
+     "expect": "ST-PS15-INSPECTOR"
+    },
+    {
+     "in": "ST-PS15-INSPECTOR",
+     "action": "ApplySpeedPreset:3",
+     "surface": "InspectorView",
+     "expect": "ST-PS3-INSPECTOR"
+    },
+    {
+     "in": "ST-PS3-INSPECTOR",
+     "action": "ApplySpeedPreset:4",
+     "surface": "InspectorView",
+     "expect": "ST-PS4-INSPECTOR"
+    },
+    {
+     "in": "ST-PS4-INSPECTOR",
+     "action": "ApplySpeedPreset:0.25",
+     "surface": "InspectorView",
+     "expect": "ST-PS025-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-087",
+   "title": "音量 50% の後に 100% のプリセット: 区間 1 は 100% に戻り、2 件目が記録される",
+   "goal": "音量 50% の後に 100% のプリセット: 区間 1 は 100% に戻り、2 件目が記録される",
+   "flow": "alternate",
+   "setup": [
+    {
+     "state_call": "SetVolume",
+     "args": [
+      1,
+      0.5
+     ]
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-V50-INSPECTOR",
+     "action": "ApplyVolumePreset:100",
+     "surface": "InspectorView",
+     "expect": "ST-V50V100-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-112",
+   "title": "スケール 50% の後に 100%: 1920×1080 に戻る(Reset と同じ寸法。未保存の変更のまま)",
+   "goal": "スケール 50% の後に 100%: 1920×1080 に戻る(Reset と同じ寸法。未保存の変更のまま)",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "OutW",
+     "value": 960
+    },
+    {
+     "set": "OutH",
+     "value": 540
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [
+    {
+     "in": "ST-SC50-INSPECTOR",
+     "action": "Scale:1",
+     "surface": "InspectorView",
+     "expect": "ST-SC100-INSPECTOR"
+    }
+   ]
+  },
+  {
+   "id": "UC-113",
+   "title": "120 fps のプリセット(フレーム複製の注記)の後に 30: サンプルのソースは 30 fps なので、30 と Source の両方が選択の表示になり注記は消える",
+   "goal": "120 fps のプリセット(フレーム複製の注記)の後に 30: サンプルのソースは 30 fps なので、30 と Source の両方が選択の表示になり注記は消える",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [
+    {
+     "in": "ST-SAMPLE-INSPECTOR",
+     "action": "SetFps:120",
+     "surface": "InspectorView",
+     "expect": "ST-FPS120-INSPECTOR"
+    },
+    {
+     "in": "ST-FPS120-INSPECTOR",
+     "action": "SetFps:30",
+     "surface": "InspectorView",
+     "expect": "ST-FPS30-INSPECTOR"
+    }
+   ]
+  }
+ ]
+}

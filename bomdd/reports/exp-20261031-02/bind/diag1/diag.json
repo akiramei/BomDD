@@ -1,0 +1,5625 @@
+{
+ "states": [
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-004|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 2 / 5"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:20:01"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:19"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:19 (originally 0:19)."
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-039|ST-SPLIT2002-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-038|ST-SPLIT20-TOOLBAR|CanUndo",
+   "name": "CanUndo",
+   "predicate": {
+    "CanUndo": true
+   }
+  },
+  {
+   "id": "D|UC-038|ST-SPLIT20-TOOLBAR|CanRedo",
+   "name": "CanRedo",
+   "predicate": {
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "D|UC-038|ST-SPLIT20-TOOLBAR|CanSplit",
+   "name": "CanSplit",
+   "predicate": {
+    "CanSplit": false
+   }
+  },
+  {
+   "id": "D|UC-038|ST-SPLIT20-TOOLBAR|CanDeleteBoundary",
+   "name": "CanDeleteBoundary",
+   "predicate": {
+    "CanDeleteBoundary": true
+   }
+  },
+  {
+   "id": "D|UC-038|ST-SPLIT20-TOOLBAR|CanSetTrimIn",
+   "name": "CanSetTrimIn",
+   "predicate": {
+    "CanSetTrimIn": false
+   }
+  },
+  {
+   "id": "D|UC-038|ST-SPLIT20-TOOLBAR|CanSetTrimOut",
+   "name": "CanSetTrimOut",
+   "predicate": {
+    "CanSetTrimOut": false
+   }
+  },
+  {
+   "id": "D|UC-038|ST-SPLIT20-TOOLBAR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-038|ST-SPLIT20-TOOLBAR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-038|ST-SPLIT20-TOOLBAR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-040|ST-SPLIT20-TOOLBAR|CanUndo",
+   "name": "CanUndo",
+   "predicate": {
+    "CanUndo": true
+   }
+  },
+  {
+   "id": "D|UC-040|ST-SPLIT20-TOOLBAR|CanRedo",
+   "name": "CanRedo",
+   "predicate": {
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "D|UC-040|ST-SPLIT20-TOOLBAR|CanSplit",
+   "name": "CanSplit",
+   "predicate": {
+    "CanSplit": false
+   }
+  },
+  {
+   "id": "D|UC-040|ST-SPLIT20-TOOLBAR|CanDeleteBoundary",
+   "name": "CanDeleteBoundary",
+   "predicate": {
+    "CanDeleteBoundary": true
+   }
+  },
+  {
+   "id": "D|UC-040|ST-SPLIT20-TOOLBAR|CanSetTrimIn",
+   "name": "CanSetTrimIn",
+   "predicate": {
+    "CanSetTrimIn": false
+   }
+  },
+  {
+   "id": "D|UC-040|ST-SPLIT20-TOOLBAR|CanSetTrimOut",
+   "name": "CanSetTrimOut",
+   "predicate": {
+    "CanSetTrimOut": false
+   }
+  },
+  {
+   "id": "D|UC-040|ST-SPLIT20-TOOLBAR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-040|ST-SPLIT20-TOOLBAR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-040|ST-SPLIT20-TOOLBAR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-044|ST-SC50-SPLIT-TOOLBAR|CanUndo",
+   "name": "CanUndo",
+   "predicate": {
+    "CanUndo": true
+   }
+  },
+  {
+   "id": "D|UC-044|ST-SC50-SPLIT-TOOLBAR|CanRedo",
+   "name": "CanRedo",
+   "predicate": {
+    "CanRedo": false
+   }
+  },
+  {
+   "id": "D|UC-044|ST-SC50-SPLIT-TOOLBAR|CanSplit",
+   "name": "CanSplit",
+   "predicate": {
+    "CanSplit": false
+   }
+  },
+  {
+   "id": "D|UC-044|ST-SC50-SPLIT-TOOLBAR|CanDeleteBoundary",
+   "name": "CanDeleteBoundary",
+   "predicate": {
+    "CanDeleteBoundary": true
+   }
+  },
+  {
+   "id": "D|UC-044|ST-SC50-SPLIT-TOOLBAR|CanSetTrimIn",
+   "name": "CanSetTrimIn",
+   "predicate": {
+    "CanSetTrimIn": false
+   }
+  },
+  {
+   "id": "D|UC-044|ST-SC50-SPLIT-TOOLBAR|CanSetTrimOut",
+   "name": "CanSetTrimOut",
+   "predicate": {
+    "CanSetTrimOut": false
+   }
+  },
+  {
+   "id": "D|UC-044|ST-SC50-SPLIT-TOOLBAR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-044|ST-SC50-SPLIT-TOOLBAR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-044|ST-SC50-SPLIT-TOOLBAR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-064|ST-SAMPLE-TIMELINE|TimelineSummary",
+   "name": "TimelineSummary",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12"
+   }
+  },
+  {
+   "id": "D|UC-064|ST-SAMPLE-TIMELINE|RegionCount",
+   "name": "RegionCount",
+   "predicate": {
+    "RegionCount": 4
+   }
+  },
+  {
+   "id": "D|UC-064|ST-SAMPLE-TIMELINE|SelectedId",
+   "name": "SelectedId",
+   "predicate": {
+    "SelectedId": 1
+   }
+  },
+  {
+   "id": "D|UC-064|ST-SAMPLE-TIMELINE|ShowCopyCutMarker",
+   "name": "ShowCopyCutMarker",
+   "predicate": {
+    "ShowCopyCutMarker": false
+   }
+  },
+  {
+   "id": "D|UC-064|ST-SAMPLE-TIMELINE|ThumbnailsRefining",
+   "name": "ThumbnailsRefining",
+   "predicate": {
+    "ThumbnailsRefining": false
+   }
+  },
+  {
+   "id": "D|UC-064|ST-SAMPLE-TIMELINE|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-064|ST-SAMPLE-TIMELINE|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-064|ST-SAMPLE-TIMELINE|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-065|ST-SAMPLE-TIMELINE|TimelineSummary",
+   "name": "TimelineSummary",
+   "predicate": {
+    "TimelineSummary": "4 regions · trim 0:06–2:12"
+   }
+  },
+  {
+   "id": "D|UC-065|ST-SAMPLE-TIMELINE|RegionCount",
+   "name": "RegionCount",
+   "predicate": {
+    "RegionCount": 4
+   }
+  },
+  {
+   "id": "D|UC-065|ST-SAMPLE-TIMELINE|SelectedId",
+   "name": "SelectedId",
+   "predicate": {
+    "SelectedId": 1
+   }
+  },
+  {
+   "id": "D|UC-065|ST-SAMPLE-TIMELINE|ShowCopyCutMarker",
+   "name": "ShowCopyCutMarker",
+   "predicate": {
+    "ShowCopyCutMarker": false
+   }
+  },
+  {
+   "id": "D|UC-065|ST-SAMPLE-TIMELINE|ThumbnailsRefining",
+   "name": "ThumbnailsRefining",
+   "predicate": {
+    "ThumbnailsRefining": false
+   }
+  },
+  {
+   "id": "D|UC-065|ST-SAMPLE-TIMELINE|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-065|ST-SAMPLE-TIMELINE|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-065|ST-SAMPLE-TIMELINE|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-070|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-071|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-080|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-081|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-107|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-108|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-109|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-110|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-111|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-127|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": true
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|SelectedFormatKey",
+   "name": "SelectedFormatKey",
+   "predicate": {
+    "SelectedFormatKey": "Mp4"
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|CanFastExport",
+   "name": "CanFastExport",
+   "predicate": {
+    "CanFastExport": false
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|FastExport",
+   "name": "FastExport",
+   "predicate": {
+    "FastExport": false
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|ShowFastExportNote",
+   "name": "ShowFastExportNote",
+   "predicate": {
+    "ShowFastExportNote": false
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|ShowVfrCopyNote",
+   "name": "ShowVfrCopyNote",
+   "predicate": {
+    "ShowVfrCopyNote": false
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|CopyCutStart",
+   "name": "CopyCutStart",
+   "predicate": {
+    "CopyCutStart": null
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|ShowCopyCutMarker",
+   "name": "ShowCopyCutMarker",
+   "predicate": {
+    "ShowCopyCutMarker": false
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|OutResText",
+   "name": "OutResText",
+   "predicate": {
+    "OutResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|SourceLenOriginalText",
+   "name": "SourceLenOriginalText",
+   "predicate": {
+    "SourceLenOriginalText": "(orig 2:06)"
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|IsExporting",
+   "name": "IsExporting",
+   "predicate": {
+    "IsExporting": false
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|ExportStatus",
+   "name": "ExportStatus",
+   "predicate": {
+    "ExportStatus": null
+   }
+  },
+  {
+   "id": "D|UC-162|ST-DLG-EXPORT|ShowExportStatus",
+   "name": "ShowExportStatus",
+   "predicate": {
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": true
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|SelectedFormatKey",
+   "name": "SelectedFormatKey",
+   "predicate": {
+    "SelectedFormatKey": "ProRes"
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|CanFastExport",
+   "name": "CanFastExport",
+   "predicate": {
+    "CanFastExport": false
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|FastExport",
+   "name": "FastExport",
+   "predicate": {
+    "FastExport": false
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|ShowFastExportNote",
+   "name": "ShowFastExportNote",
+   "predicate": {
+    "ShowFastExportNote": false
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|ShowVfrCopyNote",
+   "name": "ShowVfrCopyNote",
+   "predicate": {
+    "ShowVfrCopyNote": false
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|CopyCutStart",
+   "name": "CopyCutStart",
+   "predicate": {
+    "CopyCutStart": null
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|ShowCopyCutMarker",
+   "name": "ShowCopyCutMarker",
+   "predicate": {
+    "ShowCopyCutMarker": false
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|OutResText",
+   "name": "OutResText",
+   "predicate": {
+    "OutResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|SourceLenOriginalText",
+   "name": "SourceLenOriginalText",
+   "predicate": {
+    "SourceLenOriginalText": "(orig 2:06)"
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|IsExporting",
+   "name": "IsExporting",
+   "predicate": {
+    "IsExporting": false
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|ExportStatus",
+   "name": "ExportStatus",
+   "predicate": {
+    "ExportStatus": null
+   }
+  },
+  {
+   "id": "D|UC-164|ST-PR-EXPORT|ShowExportStatus",
+   "name": "ShowExportStatus",
+   "predicate": {
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": true
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|SelectedFormatKey",
+   "name": "SelectedFormatKey",
+   "predicate": {
+    "SelectedFormatKey": "Mp4"
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|CanFastExport",
+   "name": "CanFastExport",
+   "predicate": {
+    "CanFastExport": true
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|FastExport",
+   "name": "FastExport",
+   "predicate": {
+    "FastExport": false
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|ShowFastExportNote",
+   "name": "ShowFastExportNote",
+   "predicate": {
+    "ShowFastExportNote": false
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|ShowVfrCopyNote",
+   "name": "ShowVfrCopyNote",
+   "predicate": {
+    "ShowVfrCopyNote": false
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|CopyCutStart",
+   "name": "CopyCutStart",
+   "predicate": {
+    "CopyCutStart": null
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|ShowCopyCutMarker",
+   "name": "ShowCopyCutMarker",
+   "predicate": {
+    "ShowCopyCutMarker": false
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|OutResText",
+   "name": "OutResText",
+   "predicate": {
+    "OutResText": "1280×720"
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "25"
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "1:00"
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|SourceLenOriginalText",
+   "name": "SourceLenOriginalText",
+   "predicate": {
+    "SourceLenOriginalText": "(orig 1:00)"
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|IsExporting",
+   "name": "IsExporting",
+   "predicate": {
+    "IsExporting": false
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|ExportStatus",
+   "name": "ExportStatus",
+   "predicate": {
+    "ExportStatus": null
+   }
+  },
+  {
+   "id": "D|UC-175|ST-TALKDLG-EXPORT|ShowExportStatus",
+   "name": "ShowExportStatus",
+   "predicate": {
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": true
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|SelectedFormatKey",
+   "name": "SelectedFormatKey",
+   "predicate": {
+    "SelectedFormatKey": "Mp4"
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|CanFastExport",
+   "name": "CanFastExport",
+   "predicate": {
+    "CanFastExport": true
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|FastExport",
+   "name": "FastExport",
+   "predicate": {
+    "FastExport": false
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|ShowFastExportNote",
+   "name": "ShowFastExportNote",
+   "predicate": {
+    "ShowFastExportNote": false
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|ShowVfrCopyNote",
+   "name": "ShowVfrCopyNote",
+   "predicate": {
+    "ShowVfrCopyNote": false
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|CopyCutStart",
+   "name": "CopyCutStart",
+   "predicate": {
+    "CopyCutStart": null
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|ShowCopyCutMarker",
+   "name": "ShowCopyCutMarker",
+   "predicate": {
+    "ShowCopyCutMarker": false
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|OutResText",
+   "name": "OutResText",
+   "predicate": {
+    "OutResText": "1280×720"
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "25"
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "1:00"
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|SourceLenOriginalText",
+   "name": "SourceLenOriginalText",
+   "predicate": {
+    "SourceLenOriginalText": "(orig 1:00)"
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|IsExporting",
+   "name": "IsExporting",
+   "predicate": {
+    "IsExporting": false
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|ExportStatus",
+   "name": "ExportStatus",
+   "predicate": {
+    "ExportStatus": null
+   }
+  },
+  {
+   "id": "D|UC-176|ST-TALKDLG-EXPORT|ShowExportStatus",
+   "name": "ShowExportStatus",
+   "predicate": {
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": true
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|SelectedFormatKey",
+   "name": "SelectedFormatKey",
+   "predicate": {
+    "SelectedFormatKey": "Mp4"
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|CanFastExport",
+   "name": "CanFastExport",
+   "predicate": {
+    "CanFastExport": true
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|FastExport",
+   "name": "FastExport",
+   "predicate": {
+    "FastExport": false
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|ShowFastExportNote",
+   "name": "ShowFastExportNote",
+   "predicate": {
+    "ShowFastExportNote": false
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|ShowVfrCopyNote",
+   "name": "ShowVfrCopyNote",
+   "predicate": {
+    "ShowVfrCopyNote": false
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|CopyCutStart",
+   "name": "CopyCutStart",
+   "predicate": {
+    "CopyCutStart": null
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|ShowCopyCutMarker",
+   "name": "ShowCopyCutMarker",
+   "predicate": {
+    "ShowCopyCutMarker": false
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|OutResText",
+   "name": "OutResText",
+   "predicate": {
+    "OutResText": "1280×720"
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "25"
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "1:00"
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|SourceLenOriginalText",
+   "name": "SourceLenOriginalText",
+   "predicate": {
+    "SourceLenOriginalText": "(orig 1:00)"
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|IsExporting",
+   "name": "IsExporting",
+   "predicate": {
+    "IsExporting": true
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|ExportStatus",
+   "name": "ExportStatus",
+   "predicate": {
+    "ExportStatus": "Exporting…"
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|ShowExportStatus",
+   "name": "ShowExportStatus",
+   "predicate": {
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|ExportPercent",
+   "name": "ExportPercent",
+   "predicate": {
+    "ExportPercent": 12
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|ExportDetailText",
+   "name": "ExportDetailText",
+   "predicate": {
+    "ExportDetailText": "Frame 300 · ×2.5"
+   }
+  },
+  {
+   "id": "D|UC-177|ST-TKP-EXPORT|ExportEtaText",
+   "name": "ExportEtaText",
+   "predicate": {
+    "ExportEtaText": "About 0:21 left"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "1:00"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "1:00"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1280
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 720
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1280×720"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (25 fps)"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 1"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:00:00"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "1:00:00"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "1:00"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 1:00 (originally 1:00)."
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-181|ST-TALK-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": false
+   }
+  },
+  {
+   "id": "D|UC-191|ST-FF-FFMPEG|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": true
+   }
+  },
+  {
+   "id": "D|UC-191|ST-FF-FFMPEG|FfmpegInstalling",
+   "name": "FfmpegInstalling",
+   "predicate": {
+    "FfmpegInstalling": false
+   }
+  },
+  {
+   "id": "D|UC-191|ST-FF-FFMPEG|FfmpegInstallText",
+   "name": "FfmpegInstallText",
+   "predicate": {
+    "FfmpegInstallText": "Downloading… 0%"
+   }
+  },
+  {
+   "id": "D|UC-191|ST-FF-FFMPEG|FfmpegSetupError",
+   "name": "FfmpegSetupError",
+   "predicate": {
+    "FfmpegSetupError": null
+   }
+  },
+  {
+   "id": "D|UC-192|ST-FFNET-FFMPEG|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": true
+   }
+  },
+  {
+   "id": "D|UC-192|ST-FFNET-FFMPEG|FfmpegInstalling",
+   "name": "FfmpegInstalling",
+   "predicate": {
+    "FfmpegInstalling": false
+   }
+  },
+  {
+   "id": "D|UC-192|ST-FFNET-FFMPEG|FfmpegInstallText",
+   "name": "FfmpegInstallText",
+   "predicate": {
+    "FfmpegInstallText": "Downloading… 0%"
+   }
+  },
+  {
+   "id": "D|UC-200|ST-SAMPLE-TITLEBAR|FileName",
+   "name": "FileName",
+   "predicate": {
+    "FileName": "interview_raw.mp4"
+   }
+  },
+  {
+   "id": "D|UC-200|ST-SAMPLE-TITLEBAR|StatusText",
+   "name": "StatusText",
+   "predicate": {
+    "StatusText": "Saved"
+   }
+  },
+  {
+   "id": "D|UC-200|ST-SAMPLE-TITLEBAR|Edited",
+   "name": "Edited",
+   "predicate": {
+    "Edited": false
+   }
+  },
+  {
+   "id": "D|UC-200|ST-SAMPLE-TITLEBAR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-200|ST-SAMPLE-TITLEBAR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-200|ST-SAMPLE-TITLEBAR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-202|ST-NONOTICES-TITLEBAR|FileName",
+   "name": "FileName",
+   "predicate": {
+    "FileName": "interview_raw.mp4"
+   }
+  },
+  {
+   "id": "D|UC-202|ST-NONOTICES-TITLEBAR|StatusText",
+   "name": "StatusText",
+   "predicate": {
+    "StatusText": "Saved"
+   }
+  },
+  {
+   "id": "D|UC-202|ST-NONOTICES-TITLEBAR|Edited",
+   "name": "Edited",
+   "predicate": {
+    "Edited": false
+   }
+  },
+  {
+   "id": "D|UC-202|ST-NONOTICES-TITLEBAR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-202|ST-NONOTICES-TITLEBAR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-202|ST-NONOTICES-TITLEBAR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-220|ST-START-FFHALF-FFMPEG|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": true
+   }
+  },
+  {
+   "id": "D|UC-220|ST-START-FFHALF-FFMPEG|FfmpegInstalling",
+   "name": "FfmpegInstalling",
+   "predicate": {
+    "FfmpegInstalling": false
+   }
+  },
+  {
+   "id": "D|UC-220|ST-START-FFHALF-FFMPEG|FfmpegInstallText",
+   "name": "FfmpegInstallText",
+   "predicate": {
+    "FfmpegInstallText": "Downloading… 0%"
+   }
+  },
+  {
+   "id": "D|UC-220|ST-START-FFHALF-FFMPEG|FfmpegSetupError",
+   "name": "FfmpegSetupError",
+   "predicate": {
+    "FfmpegSetupError": null
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": true
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|SelectedFormatKey",
+   "name": "SelectedFormatKey",
+   "predicate": {
+    "SelectedFormatKey": "Mp4"
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|CanFastExport",
+   "name": "CanFastExport",
+   "predicate": {
+    "CanFastExport": false
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|FastExport",
+   "name": "FastExport",
+   "predicate": {
+    "FastExport": false
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|ShowFastExportNote",
+   "name": "ShowFastExportNote",
+   "predicate": {
+    "ShowFastExportNote": false
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|ShowVfrCopyNote",
+   "name": "ShowVfrCopyNote",
+   "predicate": {
+    "ShowVfrCopyNote": false
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|CopyCutStart",
+   "name": "CopyCutStart",
+   "predicate": {
+    "CopyCutStart": null
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|ShowCopyCutMarker",
+   "name": "ShowCopyCutMarker",
+   "predicate": {
+    "ShowCopyCutMarker": false
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|OutResText",
+   "name": "OutResText",
+   "predicate": {
+    "OutResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "1:15"
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|SourceLenOriginalText",
+   "name": "SourceLenOriginalText",
+   "predicate": {
+    "SourceLenOriginalText": "(orig 1:30)"
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|IsExporting",
+   "name": "IsExporting",
+   "predicate": {
+    "IsExporting": false
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|ExportStatus",
+   "name": "ExportStatus",
+   "predicate": {
+    "ExportStatus": null
+   }
+  },
+  {
+   "id": "D|UC-231|ST-ENVSPEED-EXPORT|ShowExportStatus",
+   "name": "ShowExportStatus",
+   "predicate": {
+    "ShowExportStatus": false
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "1:30"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "1:15"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 2 / 3"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:30:00"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "1:00:00"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:30"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "2"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": false
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:15 (originally 0:30)."
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-232|ST-ENVSPEED-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-234|ST-ENVFF-FFMPEG|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": true
+   }
+  },
+  {
+   "id": "D|UC-234|ST-ENVFF-FFMPEG|FfmpegInstalling",
+   "name": "FfmpegInstalling",
+   "predicate": {
+    "FfmpegInstalling": false
+   }
+  },
+  {
+   "id": "D|UC-234|ST-ENVFF-FFMPEG|FfmpegInstallText",
+   "name": "FfmpegInstallText",
+   "predicate": {
+    "FfmpegInstallText": "Downloading… 0%"
+   }
+  },
+  {
+   "id": "D|UC-234|ST-ENVFF-FFMPEG|FfmpegSetupError",
+   "name": "FfmpegSetupError",
+   "predicate": {
+    "FfmpegSetupError": null
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-077|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "50"
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": false
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-087|ST-V50-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 960
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 540
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": true
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": " → scaled to 960×540"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-112|ST-SC50-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|HasSelection",
+   "name": "HasSelection",
+   "predicate": {
+    "HasSelection": true
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|SourceLenClock",
+   "name": "SourceLenClock",
+   "predicate": {
+    "SourceLenClock": "2:06"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|OutputLenClock",
+   "name": "OutputLenClock",
+   "predicate": {
+    "OutputLenClock": "2:22"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|OutW",
+   "name": "OutW",
+   "predicate": {
+    "OutW": 1920
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|OutH",
+   "name": "OutH",
+   "predicate": {
+    "OutH": 1080
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|KeepAspect",
+   "name": "KeepAspect",
+   "predicate": {
+    "KeepAspect": true
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|AspectRatioText",
+   "name": "AspectRatioText",
+   "predicate": {
+    "AspectRatioText": "1.78:1"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|NativeResText",
+   "name": "NativeResText",
+   "predicate": {
+    "NativeResText": "1920×1080"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|ShowReset",
+   "name": "ShowReset",
+   "predicate": {
+    "ShowReset": false
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|ResolutionDiffText",
+   "name": "ResolutionDiffText",
+   "predicate": {
+    "ResolutionDiffText": ""
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|FpsSourceActive",
+   "name": "FpsSourceActive",
+   "predicate": {
+    "FpsSourceActive": true
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|OutFpsText",
+   "name": "OutFpsText",
+   "predicate": {
+    "OutFpsText": "30"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|FpsUpsampling",
+   "name": "FpsUpsampling",
+   "predicate": {
+    "FpsUpsampling": false
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|FpsSourceTip",
+   "name": "FpsSourceTip",
+   "predicate": {
+    "FpsSourceTip": "Same as source (30 fps)"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|ShowExport",
+   "name": "ShowExport",
+   "predicate": {
+    "ShowExport": false
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|ShowAbout",
+   "name": "ShowAbout",
+   "predicate": {
+    "ShowAbout": false
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|ShowFfmpegSetup",
+   "name": "ShowFfmpegSetup",
+   "predicate": {
+    "ShowFfmpegSetup": false
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|RegionTitle",
+   "name": "RegionTitle",
+   "predicate": {
+    "RegionTitle": "Region 1 / 4"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|RegionStartTc",
+   "name": "RegionStartTc",
+   "predicate": {
+    "RegionStartTc": "0:06:00"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|RegionEndTc",
+   "name": "RegionEndTc",
+   "predicate": {
+    "RegionEndTc": "0:40:00"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|RegionDurationClock",
+   "name": "RegionDurationClock",
+   "predicate": {
+    "RegionDurationClock": "0:34"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|SpeedText",
+   "name": "SpeedText",
+   "predicate": {
+    "SpeedText": "1"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|SelectedIsNormalSpeed",
+   "name": "SelectedIsNormalSpeed",
+   "predicate": {
+    "SelectedIsNormalSpeed": true
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|RegionSpeedSummary",
+   "name": "RegionSpeedSummary",
+   "predicate": {
+    "RegionSpeedSummary": "This region exports as 0:34 (originally 0:34)."
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|VolumeText",
+   "name": "VolumeText",
+   "predicate": {
+    "VolumeText": "100"
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|SelectedIsMuted",
+   "name": "SelectedIsMuted",
+   "predicate": {
+    "SelectedIsMuted": false
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|SelectedIsFullVolume",
+   "name": "SelectedIsFullVolume",
+   "predicate": {
+    "SelectedIsFullVolume": true
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|SelectedVolumeBoosted",
+   "name": "SelectedVolumeBoosted",
+   "predicate": {
+    "SelectedVolumeBoosted": false
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|SelectedPreservePitch",
+   "name": "SelectedPreservePitch",
+   "predicate": {
+    "SelectedPreservePitch": true
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|SelectedExcluded",
+   "name": "SelectedExcluded",
+   "predicate": {
+    "SelectedExcluded": false
+   }
+  },
+  {
+   "id": "D|UC-113|ST-SAMPLE-INSPECTOR|CanToggleExclude",
+   "name": "CanToggleExclude",
+   "predicate": {
+    "CanToggleExclude": true
+   }
+  }
+ ],
+ "scenarios": [
+  {
+   "id": "D|UC-004|0",
+   "title": "起動直後のインスペクター(区間 1 / 4・等速・音量 100%・書き出し設定 2:06 → 2:22・出力 1920×1080 30 fps で Source と 30 が両方選択の表示)で 1x のプリセットを押すと、値が同じでも履歴に記録され元に戻すが押せる",
+   "goal": "起動直後のインスペクター(区間 1 / 4・等速・音量 100%・書き出し設定 2:06 → 2:22・出力 1920×1080 30 fps で Source と 30 が両方選択の表示)で 1x のプリセットを押すと、値が同じでも履歴に記録され元に戻すが押せる",
+   "flow": "main",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-039|0",
+   "title": "UC-035 の分割の直後(編集対象は後半 ID 5・再生ヘッド 20.02 秒は前半 ID 1 の上)に 2x のプリセットを押すと、後半だけが 2x になり、トランスポートの現在速度は再生ヘッドの下の前半の 1x のまま(書き出しの長さは 2:12 に縮む)",
+   "goal": "UC-035 の分割の直後(編集対象は後半 ID 5・再生ヘッド 20.02 秒は前半 ID 1 の上)に 2x のプリセットを押すと、後半だけが 2x になり、トランスポートの現在速度は再生ヘッドの下の前半の 1x のまま(書き出しの長さは 2:12 に縮む)",
+   "flow": "alternate",
+   "setup": [
+    {
+     "state_call": "SplitAt",
+     "args": [
+      20.02,
+      5,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 20.02
+    },
+    {
+     "set": "SelectedId",
+     "value": 5
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-038|0",
+   "title": "分割の直後に Merge すると元の 4 区間に戻り(履歴は 2 件)、編集対象は再生ヘッドの位置の区間 1",
+   "goal": "分割の直後に Merge すると元の 4 区間に戻り(履歴は 2 件)、編集対象は再生ヘッドの位置の区間 1",
+   "flow": "alternate",
+   "setup": [
+    {
+     "state_call": "SplitAt",
+     "args": [
+      20.0,
+      5,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 20.0
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-040|0",
+   "title": "分割を元に戻すと 4 区間に戻り、やり直すが押せる。未保存の変更はオンのまま",
+   "goal": "分割を元に戻すと 4 区間に戻り、やり直すが押せる。未保存の変更はオンのまま",
+   "flow": "main",
+   "setup": [
+    {
+     "state_call": "SplitAt",
+     "args": [
+      20.0,
+      5,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 20.0
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-044|0",
+   "title": "出力解像度を 50% にしてから元に戻しても、出力解像度は 960×540 のまま(履歴の対象外)",
+   "goal": "出力解像度を 50% にしてから元に戻しても、出力解像度は 960×540 のまま(履歴の対象外)",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "OutW",
+     "value": 960
+    },
+    {
+     "set": "OutH",
+     "value": 540
+    },
+    {
+     "state_call": "SplitAt",
+     "args": [
+      20.0,
+      5,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 20.0
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-064|0",
+   "title": "ズームインで 1 秒あたり 8.5 → 11.9 px(幅 1690.2 px)、さらにズームインで 16.66 px(目盛り 5 秒)。再生ヘッド 6 秒が画面内(画面位置 51 px)なので、その画面位置を保つよう横スクロールが 約 20.4 → 約 48.96 px になる(既定のウィンドウでは表示幅が内容幅より十分狭く、最大スクロールで頭打ちにならない)",
+   "goal": "ズームインで 1 秒あたり 8.5 → 11.9 px(幅 1690.2 px)、さらにズームインで 16.66 px(目盛り 5 秒)。再生ヘッド 6 秒が画面内(画面位置 51 px)なので、その画面位置を保つよう横スクロールが 約 20.4 → 約 48.96 px になる(既定のウィンドウでは表示幅が内容幅より十分狭く、最大スクロールで頭打ちにならない)",
+   "flow": "main",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-065|0",
+   "title": "ズームアウトを 3 回押すと 6.07 → 4.34 → 下限 4 px(目盛り 15 → 30 → 30 秒)。再生ヘッドの画面位置を保つ値は負(6·6.07 − 51 など)か全体が収まるので、横スクロールは 0 のまま",
+   "goal": "ズームアウトを 3 回押すと 6.07 → 4.34 → 下限 4 px(目盛り 15 → 30 → 30 秒)。再生ヘッドの画面位置を保つ値は負(6·6.07 − 51 など)か全体が収まるので、横スクロールは 0 のまま",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-070|0",
+   "title": "区間 1 で 2x のプリセット: 速度の数字がアクセント色・見本が速度の色・要約「0:17 (originally 0:34)」・2x が選択の表示",
+   "goal": "区間 1 で 2x のプリセット: 速度の数字がアクセント色・見本が速度の色・要約「0:17 (originally 0:34)」・2x が選択の表示",
+   "flow": "main",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-071|0",
+   "title": "2x のプリセットの後、タイムラインの区間 1 に速度の色の塗りとラベルが付き、書き出しの長さは 2:05",
+   "goal": "2x のプリセットの後、タイムラインの区間 1 に速度の色の塗りとラベルが付き、書き出しの長さは 2:05",
+   "flow": "main",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-080|0",
+   "title": "150% のプリセット: 数字がアクセント色・「Above 100% may cause clipping.」の注記",
+   "goal": "150% のプリセット: 数字がアクセント色・「Above 100% may cause clipping.」の注記",
+   "flow": "main",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-081|0",
+   "title": "Mute のプリセット: 0%・警告色・「Silences this region (video unchanged).」",
+   "goal": "Mute のプリセット: 0%・警告色・「Silences this region (video unchanged).」",
+   "flow": "main",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-107|0",
+   "title": "スケール 50%: 960×540・Reset と「 → scaled to 960×540」を表示。Reset で 1920×1080 に戻る",
+   "goal": "スケール 50%: 960×540・Reset と「 → scaled to 960×540」を表示。Reset で 1920×1080 に戻る",
+   "flow": "main",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-108|0",
+   "title": "スケール 75%: 1440×810",
+   "goal": "スケール 75%: 1440×810",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-109|0",
+   "title": "60 fps のプリセット: 60 が選択の表示・Source は外れ・フレーム複製の注記",
+   "goal": "60 fps のプリセット: 60 が選択の表示・Source は外れ・フレーム複製の注記",
+   "flow": "main",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-110|0",
+   "title": "起動直後に Source を押すと値は同じ 30 fps でも未保存の変更になる",
+   "goal": "起動直後に Source を押すと値は同じ 30 fps でも未保存の変更になる",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-111|0",
+   "title": "24 fps のプリセット: 24 が選択の表示・注記なし",
+   "goal": "24 fps のプリセット: 24 が選択の表示・注記なし",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-127|0",
+   "title": "未保存の編集があるとタイトルバーの状態表示は「Unsaved changes」(アクセント色)",
+   "goal": "未保存の編集があるとタイトルバーの状態表示は「Unsaved changes」(アクセント色)",
+   "flow": "main",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-162|0",
+   "title": "サンプルで書き出す(Export)と「Samples cannot be exported. Open an actual file.」を出して終わる",
+   "goal": "サンプルで書き出す(Export)と「Samples cannot be exported. Open an actual file.」を出して終わる",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "ShowExport",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-164|0",
+   "title": "ProRes を選んで閉じ、開き直しても ProRes のまま",
+   "goal": "ProRes を選んで閉じ、開き直しても ProRes のまま",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "ShowExport",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-175|0",
+   "title": "talk.mp4 を書き出す: 保存先 C:\\Videos\\talk_export.mp4 を選ぶと書き出し中になり、Cancel と Export が隠れて進捗 0% と Abort が出る",
+   "goal": "talk.mp4 を書き出す: 保存先 C:\\Videos\\talk_export.mp4 を選ぶと書き出し中になり、Cancel と Export が隠れて進捗 0% と Abort が出る",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "ShowExport",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-176|0",
+   "title": "保存先の選択ダイアログで選ばずに閉じると何もしない",
+   "goal": "保存先の選択ダイアログで選ばずに閉じると何もしない",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "ShowExport",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-177|0",
+   "title": "進捗 12.5%・300 フレーム・速度 2.5 の書き出し中(出来事 ExportProgressReported の後の状態)は「12%」「Frame 300 · ×2.5」「About 0:21 left」。Abort で「Export canceled.」になる",
+   "goal": "進捗 12.5%・300 フレーム・速度 2.5 の書き出し中(出来事 ExportProgressReported の後の状態)は「12%」「Frame 300 · ×2.5」「About 0:21 left」。Abort で「Export canceled.」になる",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "ShowExport",
+     "value": true
+    },
+    {
+     "set": "IsExporting",
+     "value": true
+    },
+    {
+     "set": "ExportProgress",
+     "value": 0.125
+    },
+    {
+     "set": "ExportFrame",
+     "value": 300
+    },
+    {
+     "set": "ExportStatus",
+     "value": "Exporting…"
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-181|0",
+   "title": "talk.mp4 でスケール 50% にしてから書き出しダイアログを開くとコピーの切り替えが出ない(解像度がソースと違う)",
+   "goal": "talk.mp4 でスケール 50% にしてから書き出しダイアログを開くとコピーの切り替えが出ない(解像度がソースと違う)",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-191|0",
+   "title": "Download を押すと取得中になり、ボタンが隠れて「Downloading… 0%」が出る(以後の進捗と完了は出来事)",
+   "goal": "Download を押すと取得中になり、ボタンが隠れて「Downloading… 0%」が出る(以後の進捗と完了は出来事)",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-192|0",
+   "title": "通信の失敗で「Download failed (please check your network): …」が出た後(例外のメッセージは環境しだい)、もう一度 Download を押すと文言が消えて再試行する",
+   "goal": "通信の失敗で「Download failed (please check your network): …」が出た後(例外のメッセージは環境しだい)、もう一度 Download を押すと文言が消えて再試行する",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": true
+    },
+    {
+     "set": "FfmpegSetupError",
+     "value": "Download failed (please check your network): "
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-200|0",
+   "title": "タイトルバーの ⓘ で About を開き(THIRD-PARTY-NOTICES.txt がある前提。全文は決まっているが長いので値には書かず、ファイルの参照と sha256 で示す)、Close で閉じる",
+   "goal": "タイトルバーの ⓘ で About を開き(THIRD-PARTY-NOTICES.txt がある前提。全文は決まっているが長いので値には書かず、ファイルの参照と sha256 で示す)、Close で閉じる",
+   "flow": "main",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-202|0",
+   "title": "THIRD-PARTY-NOTICES.txt が無いときは「Third-party license information (THIRD-PARTY-NOTICES.txt) was not found.」で始まる 2 行の案内文になる(About_NoticesMissing の全文。行の区切りは改行 1 文字)",
+   "goal": "THIRD-PARTY-NOTICES.txt が無いときは「Third-party license information (THIRD-PARTY-NOTICES.txt) was not found.」で始まる 2 行の案内文になる(About_NoticesMissing の全文。行の区切りは改行 1 文字)",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-220|0",
+   "title": "起動の前提: アプリのフォルダの ffmpeg/ に ffmpeg.exe だけがあり、ffprobe.exe は環境変数のフォルダ・ユーザー領域・アプリ直下・カレントディレクトリのどこにも無い → 2 つの両方が実在しないので「使えない」と判定され、起動直後にセットアップのオーバーレイが出る。Later で閉じる",
+   "goal": "起動の前提: アプリのフォルダの ffmpeg/ に ffmpeg.exe だけがあり、ffprobe.exe は環境変数のフォルダ・ユーザー領域・アプリ直下・カレントディレクトリのどこにも無い → 2 つの両方が実在しないので「使えない」と判定され、起動直後にセットアップのオーバーレイが出る。Later で閉じる",
+   "flow": "main",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-231|0",
+   "title": "起動の前提: MOVIEPAD_SCENARIO=speed と MOVIEPAD_SHOWEXPORT=1 → 中央区間 2x・再生ヘッド 45 秒の状態で書き出しダイアログが開いて起動する(要約 1:15 (orig 1:30))。Cancel で閉じる",
+   "goal": "起動の前提: MOVIEPAD_SCENARIO=speed と MOVIEPAD_SHOWEXPORT=1 → 中央区間 2x・再生ヘッド 45 秒の状態で書き出しダイアログが開いて起動する(要約 1:15 (orig 1:30))。Cancel で閉じる",
+   "flow": "alternate",
+   "setup": [
+    {
+     "state_call": "DeleteBoundary",
+     "args": [
+      2
+     ]
+    },
+    {
+     "state_call": "MoveTrim",
+     "args": [
+      false,
+      90.0,
+      138.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveTrim",
+     "args": [
+      true,
+      0.0,
+      138.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveBoundary",
+     "args": [
+      0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveBoundary",
+     "args": [
+      1,
+      60.0,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 45.0
+    },
+    {
+     "set": "ShowExport",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-232|0",
+   "title": "起動の前提: MOVIEPAD_SCENARIO=speed のとき、起動直後のインスペクターは区間 2 / 3(2x)",
+   "goal": "起動の前提: MOVIEPAD_SCENARIO=speed のとき、起動直後のインスペクターは区間 2 / 3(2x)",
+   "flow": "alternate",
+   "setup": [
+    {
+     "state_call": "DeleteBoundary",
+     "args": [
+      2
+     ]
+    },
+    {
+     "state_call": "MoveTrim",
+     "args": [
+      false,
+      90.0,
+      138.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveTrim",
+     "args": [
+      true,
+      0.0,
+      138.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveBoundary",
+     "args": [
+      0,
+      30.0,
+      30.0
+     ]
+    },
+    {
+     "state_call": "MoveBoundary",
+     "args": [
+      1,
+      60.0,
+      30.0
+     ]
+    },
+    {
+     "set": "Playhead",
+     "value": 45.0
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-234|0",
+   "title": "起動の前提: MOVIEPAD_SCENARIO=ffmpeg(ffmpeg は使える) → ffmpeg が使えてもセットアップのオーバーレイが出て起動する。Later で閉じる",
+   "goal": "起動の前提: MOVIEPAD_SCENARIO=ffmpeg(ffmpeg は使える) → ffmpeg が使えてもセットアップのオーバーレイが出て起動する。Later で閉じる",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-077|0",
+   "title": "速度のプリセットを 0.5x → 1.5x → 3x → 4x → 0.25x と押すと、押すたびに区間 1 の速度が変わって 1 件ずつ記録され、選択の表示が移る",
+   "goal": "速度のプリセットを 0.5x → 1.5x → 3x → 4x → 0.25x と押すと、押すたびに区間 1 の速度が変わって 1 件ずつ記録され、選択の表示が移る",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-087|0",
+   "title": "音量 50% の後に 100% のプリセット: 区間 1 は 100% に戻り、2 件目が記録される",
+   "goal": "音量 50% の後に 100% のプリセット: 区間 1 は 100% に戻り、2 件目が記録される",
+   "flow": "alternate",
+   "setup": [
+    {
+     "state_call": "SetVolume",
+     "args": [
+      1,
+      0.5
+     ]
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-112|0",
+   "title": "スケール 50% の後に 100%: 1920×1080 に戻る(Reset と同じ寸法。未保存の変更のまま)",
+   "goal": "スケール 50% の後に 100%: 1920×1080 に戻る(Reset と同じ寸法。未保存の変更のまま)",
+   "flow": "alternate",
+   "setup": [
+    {
+     "set": "OutW",
+     "value": 960
+    },
+    {
+     "set": "OutH",
+     "value": 540
+    },
+    {
+     "set": "Edited",
+     "value": true
+    }
+   ],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  },
+  {
+   "id": "D|UC-113|0",
+   "title": "120 fps のプリセット(フレーム複製の注記)の後に 30: サンプルのソースは 30 fps なので、30 と Source の両方が選択の表示になり注記は消える",
+   "goal": "120 fps のプリセット(フレーム複製の注記)の後に 30: サンプルのソースは 30 fps なので、30 と Source の両方が選択の表示になり注記は消える",
+   "flow": "alternate",
+   "setup": [],
+   "steps": [],
+   "_note": "replays the 0 steps before the failing one is not done; only Index 0 is exact"
+  }
+ ]
+}

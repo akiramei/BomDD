@@ -348,3 +348,69 @@ The defaults of definitions section 3 were accepted as proposed.
   auditor, 2 flags (a one-off `exp07/mech.py`, not left; its `work_mech.py` is in its folder); its two helpers, 0 flags; no
   trace of the measured words in any of the three.
 - Relayed 2026-10-31T17:10:08+09:00 as the file (`exp07/s5-author/audit-r1.json`, `f15c076e…`), to the same author.
+- Author answered round 1 in 216 s: 13 fixed, 1 rejected (F-12, the empty gate record: the prompt says the author leaves it
+  empty, for the audit and gate side to write) (`s5/answers-r1.json`, `ecdc4af5…`). The exact-time rule of `ExportClock.cs`
+  now in section 2.21; the fast-copy note on `canFastExport`; a colour and line-width table for the track; the spec id
+  `SPEC-L10N-001` renamed `SPEC-LOCALE-001` to fit `check_model.py`'s id pattern; one open item added (UQ-SPEC-031, the
+  padding's effect on the extent rests on an unread Avalonia default), 31 in all, none blocker. Draft `ca077a6a…`
+  (`s5/draft-r2.md`, 137,268 bytes).
+- Audit round 2 (fresh auditor, revised draft only): folder `exp07/s5-audit-r2`, started 2026-10-31T17:14:12+09:00.
+
+## Step 8 (continued) — A2's certify
+
+- Fresh binder done in 928 s (50 tool uses, 2 of them its own advisor tool): `harness-scenarios.json` `6431495f…`,
+  `binding-notes.json` `d0e87d74…` (both LF). Its counts: 221 of 221 states written, each with a predicate (2,934
+  state-attribute values bound, 937 unbound, 33 `"unknown"` left out); of 206 steps, 80 bound, 10 with `"harness": "no"`, 116
+  unbound; **56 of 151 scenarios written** (a scenario with any unbound step is left out whole, not cut); 24 with setup (60
+  ops, in the stage 1 form). Unbound, chiefly: view-only values (focus, the size inputs' text, the timeline control, the
+  window), doubles (the schema lists no double; it wrote the matching strings or ints instead), list and object values, and
+  operations with no command binding; key steps are not replaced by the button with the same command (a different element
+  would be certified). It announced the scenarios expected to fail: setup cannot reach the start (UC-038, 040, 044: undo
+  history; UC-164: an export format is an object; UC-175–177, 181: a `talk.mp4` clip), machine-dependent (UC-191, 192, 194,
+  202, 220, 234), and UC-052 by construction (it presses a disabled button). Isolation: 6 flags — `l:\` from a pattern, and
+  five relative paths (`../harness-scenarios.json`, `../binding-notes.json`) run from its own `work/`.
+- **Certify** (`exp07/a2-harness/run1`, 2026-10-31T17:26:38–40+09:00; `settings.json` 21:24:07.3149497 before and after):
+  **56 scenarios, 16 certified, kept 0, states in the mock 0**; 57 step results, 17 pass (13 executed and matched, 4 at
+  `"harness": "no"`, which the harness counts as pass without executing), 35 fail at their first step's `in` state, 3 at an `expect`, 1 disabled,
+  1 an unknown state id; 36 states ambiguous before drops, and all 16 certified scenarios are dropped for touching one (stage
+  1's D2). Kept as `bind/run1/` (`certify.json` `f7464598…`, `certify-out.txt` `bd1f9115…`, LF; the input and the notes as
+  above). Against all 206 steps of S4: 17 pass.
+- **Read by hand, after the counts.** A diagnostic (`bind/diag1/mk_diag.py`, `diag.json` `ffd2547a…`) gives the harness, for
+  each of the 35 scenarios failing at the start, the same setup with no steps and one singleton state per predicate key, so
+  the k = 0 point names the keys that fail (run in `exp07/a2-harness/diag1`; its 14 MB output stays there; `settings.json`
+  unchanged). `bind/diag1/bin_diag.py` → `bins.json` (`0371704d…`), a key being "localized" when its view-model property is
+  an expression of the Localizer: **27 of 35 fail only on localized strings, 5 on both, 3 only on others** (`CanUndo`,
+  UC-038, 040, 044). The 8 with other keys are exactly the binder's announced setup-unreachable starts.
+- **The localized failures are the environment, a bin outside section 7's three.** The harness builds
+  `new MainWindowViewModel()` and sets the Localizer to the thread's UI culture, which on this machine is `ja-JP`
+  (`certify.json` `environment`); it does not run the app's `Program.cs:26–33` (saved language, else the OS's). S1's REQ-010
+  states that rule, and S4 writes the language as a premise only in its startup-language scenarios ("固定の前提: …"); its
+  sample states carry English strings with no stated premise. So the upstream assumes an English start without saying so, and
+  the harness takes the machine's culture.
+- **Sensitivity (not A2): the same certify with the UI culture set to `en`.** A launcher (`bind/sens-en/Launcher.cs`,
+  `Launcher.csproj`; built in `exp07/a2-harness/launcher` against the same `Harness.dll` `3d03cb45…`) sets the thread's UI
+  culture and calls the harness's own entry point; the harness is unchanged. **Control first: through the launcher with
+  `ja-JP`, `certify.json`, `mockdata.json` and the console output are byte-equal to run1's.** With `en` (`environment`
+  `CurrentUICulture` = `en`): **56 scenarios, 45 certified, kept 0**; 69 step results, 58 pass (51 executed and matched, 7 at
+  `"harness": "no"`); the 11 failing are the binder's 8 announced setup-unreachable starts, UC-052 (by construction), UC-202
+  (the About fallback, machine-dependent) and UC-194, whose `expect` is `"unknown"` (the binder prompt keeps `"unknown"`, the
+  harness takes only state ids — a mismatch of the operator's prompt and the harness). **The frame-rate scenarios UC-109
+  (60 then Source), UC-110, UC-111 (24) and UC-113 (120 then 30) are certified.** 97 states ambiguous before drops; of them,
+  70 differ in a command's availability whose guard (`CanUndo`, `CanSplit`, …) the state's predicate does not carry (S4
+  states `History.canUndo` and `EditSession.canSplit` in 52 states, on the screens it says show them), 19 in `TogglePlay`'s
+  transition with `Playing` not in the predicate, 8 others. So kept is 0 in either culture: the upstream's states are coarser
+  than the authority's availability (OBS-20261030-07's bin). Kept as `bind/sens-en/` (`certify.json` `8f3188f8…`,
+  `certify-out.txt` `1d822105…`). `settings.json` unchanged through both runs.
+
+## Step 6 (continued) — S5's audit round 2
+
+- Audit round 2 done in 849 s (73 tool uses, no agents of its own): 16 findings, blocker 0 / **material 10** / minor 6
+  (`s5/audit-r2.json`, `8f398d6c…`); draft unchanged. The heaviest: section 2.16 gives the visible-thumbnail request's range
+  but not which times inside it are taken (`MediaPreviewService.cs`: count, the times at the half-steps, batch versus one by
+  one, the cache path). The other material ones are visual details absent from the spec (selectors of the shared button
+  template, the ruler tick's extent, wide tracks without rounded corners, 3 toolbar separators, the title bar's icon and dot,
+  the preview's stopped dim, the copy strip's colours) and two behaviours (Space, the arrows and Delete ignore Ctrl; the
+  language name's fallbacks). Structural checks clean (95 of 95 requirements reach a section, acceptance depths match the
+  hints, every UC and EL reference resolves, 120 resx keys match). It first graded eight of the material as minor and regraded
+  them by the prompt's definition. Isolation: 0 flags; no trace of the measured words.
+- Relayed 2026-10-31T17:30:31+09:00 as the file (`exp07/s5-author/audit-r2.json`, `8f398d6c…`).

@@ -1,0 +1,437 @@
+{
+ "localized_properties": [
+  "CopyLeadInText",
+  "FfmpegInstallText",
+  "FpsSourceTip",
+  "RegionSpeedSummary",
+  "RegionTitle",
+  "ResolutionDiffText",
+  "SourceLenOriginalText",
+  "StatusText",
+  "ThumbnailProgressText",
+  "TimelineSummary"
+ ],
+ "rows": [
+  {
+   "scenario": "UC-004",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-039",
+   "state": "ST-SPLIT2002-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-038",
+   "state": "ST-SPLIT20-TOOLBAR",
+   "keys": 9,
+   "failing_localized": [],
+   "failing_other": [
+    "CanUndo"
+   ],
+   "kind": "other only"
+  },
+  {
+   "scenario": "UC-040",
+   "state": "ST-SPLIT20-TOOLBAR",
+   "keys": 9,
+   "failing_localized": [],
+   "failing_other": [
+    "CanUndo"
+   ],
+   "kind": "other only"
+  },
+  {
+   "scenario": "UC-044",
+   "state": "ST-SC50-SPLIT-TOOLBAR",
+   "keys": 9,
+   "failing_localized": [],
+   "failing_other": [
+    "CanUndo"
+   ],
+   "kind": "other only"
+  },
+  {
+   "scenario": "UC-064",
+   "state": "ST-SAMPLE-TIMELINE",
+   "keys": 8,
+   "failing_localized": [
+    "TimelineSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-065",
+   "state": "ST-SAMPLE-TIMELINE",
+   "keys": 8,
+   "failing_localized": [
+    "TimelineSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-070",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-071",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-080",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-081",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-107",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-108",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-109",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-110",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-111",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-127",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-162",
+   "state": "ST-DLG-EXPORT",
+   "keys": 15,
+   "failing_localized": [
+    "SourceLenOriginalText"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-164",
+   "state": "ST-PR-EXPORT",
+   "keys": 15,
+   "failing_localized": [
+    "SourceLenOriginalText"
+   ],
+   "failing_other": [
+    "SelectedFormatKey"
+   ],
+   "kind": "both"
+  },
+  {
+   "scenario": "UC-175",
+   "state": "ST-TALKDLG-EXPORT",
+   "keys": 15,
+   "failing_localized": [
+    "SourceLenOriginalText"
+   ],
+   "failing_other": [
+    "CanFastExport",
+    "OutResText",
+    "OutFpsText",
+    "OutputLenClock"
+   ],
+   "kind": "both"
+  },
+  {
+   "scenario": "UC-176",
+   "state": "ST-TALKDLG-EXPORT",
+   "keys": 15,
+   "failing_localized": [
+    "SourceLenOriginalText"
+   ],
+   "failing_other": [
+    "CanFastExport",
+    "OutResText",
+    "OutFpsText",
+    "OutputLenClock"
+   ],
+   "kind": "both"
+  },
+  {
+   "scenario": "UC-177",
+   "state": "ST-TKP-EXPORT",
+   "keys": 18,
+   "failing_localized": [
+    "SourceLenOriginalText"
+   ],
+   "failing_other": [
+    "CanFastExport",
+    "OutResText",
+    "OutFpsText",
+    "OutputLenClock",
+    "ExportDetailText",
+    "ExportEtaText"
+   ],
+   "kind": "both"
+  },
+  {
+   "scenario": "UC-181",
+   "state": "ST-TALK-INSPECTOR",
+   "keys": 30,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [
+    "SourceLenClock",
+    "OutputLenClock",
+    "OutW",
+    "OutH",
+    "NativeResText",
+    "RegionStartTc",
+    "RegionEndTc",
+    "RegionDurationClock",
+    "CanToggleExclude"
+   ],
+   "kind": "both"
+  },
+  {
+   "scenario": "UC-191",
+   "state": "ST-FF-FFMPEG",
+   "keys": 4,
+   "failing_localized": [
+    "FfmpegInstallText"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-192",
+   "state": "ST-FFNET-FFMPEG",
+   "keys": 3,
+   "failing_localized": [
+    "FfmpegInstallText"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-200",
+   "state": "ST-SAMPLE-TITLEBAR",
+   "keys": 6,
+   "failing_localized": [
+    "StatusText"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-202",
+   "state": "ST-NONOTICES-TITLEBAR",
+   "keys": 6,
+   "failing_localized": [
+    "StatusText"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-220",
+   "state": "ST-START-FFHALF-FFMPEG",
+   "keys": 4,
+   "failing_localized": [
+    "FfmpegInstallText"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-231",
+   "state": "ST-ENVSPEED-EXPORT",
+   "keys": 15,
+   "failing_localized": [
+    "SourceLenOriginalText"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-232",
+   "state": "ST-ENVSPEED-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-234",
+   "state": "ST-ENVFF-FFMPEG",
+   "keys": 4,
+   "failing_localized": [
+    "FfmpegInstallText"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-077",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-087",
+   "state": "ST-V50-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-112",
+   "state": "ST-SC50-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "ResolutionDiffText",
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  },
+  {
+   "scenario": "UC-113",
+   "state": "ST-SAMPLE-INSPECTOR",
+   "keys": 31,
+   "failing_localized": [
+    "FpsSourceTip",
+    "RegionTitle",
+    "RegionSpeedSummary"
+   ],
+   "failing_other": [],
+   "kind": "localized only"
+  }
+ ],
+ "count": {
+  "localized only": 27,
+  "other only": 3,
+  "both": 5
+ }
+}
