@@ -384,9 +384,9 @@ The defaults of definitions section 3 were accepted as proposed.
 - **The localized failures are the environment, a bin outside section 7's three.** The harness builds
   `new MainWindowViewModel()` and sets the Localizer to the thread's UI culture, which on this machine is `ja-JP`
   (`certify.json` `environment`); it does not run the app's `Program.cs:26–33` (saved language, else the OS's). S1's REQ-010
-  states that rule, and S4 writes the language as a premise only in its startup-language scenarios ("固定の前提: …"); its
-  sample states carry English strings with no stated premise. So the upstream assumes an English start without saying so, and
-  the harness takes the machine's culture.
+  states that rule, and S4 states an English start in its open question "固定の素材と前提" ("起動時の UI 言語は英語", in every
+  draft), in prose only; the harness's scenario form has no field for it. So the upstream's premise did not reach the run, and
+  the harness takes the machine's culture. (Corrected 2026-10-31: this entry first said the premise was not stated.)
 - **Sensitivity (not A2): the same certify with the UI culture set to `en`.** A launcher (`bind/sens-en/Launcher.cs`,
   `Launcher.csproj`; built in `exp07/a2-harness/launcher` against the same `Harness.dll` `3d03cb45…`) sets the thread's UI
   culture and calls the harness's own entry point; the harness is unchanged. **Control first: through the launcher with
@@ -461,3 +461,8 @@ The defaults of definitions section 3 were accepted as proposed.
 - 2026-10-31, after the closing commit `fbf698b`: the staging folders `exp04/` (EXP-20261030-04), `exp05/`, `exp06/`
   (EXP-20261031-01) and `exp07/` (this run, with the harness builds and `diag1`'s 14 MB output) deleted on the user's
   "削除してよい" (section 8); about 3.9 GB freed. What the records cite is committed in this folder.
+- 2026-10-31, correction on the user's "A: 訂正する": a reader's comment showed that S4 states the English start in prose
+  (`s4/scenarios.json`, open question "固定の素材と前提"; also in draft-r1 to r3). The attribution "no stated premise" is
+  corrected in `results.md` sections 3 and 7, in this log (step on A2) and in the register entry; `results.md` section 6 gets
+  two limits from the same comment (the state contract against the harness's criterion; A1 counts references, not
+  discrimination). The user's ruling "A: §9 のまま" is about the frame-rate row and is unchanged.

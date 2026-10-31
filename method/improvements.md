@@ -10300,12 +10300,14 @@ measurement; no body text, template or tool changes.
   settable value and five derived attributes, and only the derived ones are displayed and stated (5 of 6 `SetFps` steps
   expect literal derived values). **By section 9 as fixed, kept by the user's ruling: broken at L1, stage B not proposed on
   this evidence**; the decomposition is a limit of A1's row definition (it counts the settable attribute only). A2 16 of 56 scenarios certified, kept 0; 27 of 35 start failures are
-  localized strings only (the harness runs in the machine's `ja-JP`, the upstream's sample states are English with no stated
-  premise); with `en` as a sensitivity 45 certified, the frame-rate scenarios among them, still kept 0 (states coarser than
+  localized strings only (the harness runs in the machine's `ja-JP`; the upstream states an English start, but in prose
+  only, and it did not reach the run — corrected 2026-10-31 from "no stated premise"); with `en` as a sensitivity 45 certified, the frame-rate scenarios among them, still kept 0 (states coarser than
   the authority's availability). A3 D01 after, D02 absent, D03 before, D06 after (both classifiers agree; MoviePad-Remake
   before on all four). A4 27 agents, about 12.5 hours for stage A. Missing, as section 9 asks: for the row, an upstream that
   displays and states the settable value itself, or a row definition fixed beforehand that follows it into its derived
-  attributes; for A2, states that carry the authority's availability guards and a stated start language. Nothing wired, no
-  body text changed.
+  attributes; for A2, states that carry the authority's availability guards and the start language carried from the
+  upstream's prose into the run. Limits added from a reader's comment: the S4 state contract (one screen's values) differs
+  from the harness's criterion (every visit agrees on availability); A1 counts references, not whether a wrong rule is told
+  from a right one. Nothing wired, no body text changed.
   source: this section (the user's "A: 起票する" and "A: §9 のまま", 2026-10-31)
   evidence: `bomdd/reports/exp-20261031-02/definitions.md`, `bomdd/reports/exp-20261031-02/results.md`, `bomdd/reports/exp-20261031-02/run-log.md`

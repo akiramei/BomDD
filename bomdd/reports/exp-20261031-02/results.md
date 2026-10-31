@@ -57,8 +57,9 @@ Stage 1's harness, unchanged, built against `126eae9` (selftest PASS; `extract` 
   on localized strings**, 5 on localized strings and others, 3 only on others. The 8 with other keys are exactly the binder's
   own list of starts setup cannot reach (undo history, an export format object, a `talk.mp4` clip). The localized failures are
   **the environment**, a bin outside section 7's three: the harness builds the view model in the thread's UI culture, `ja-JP`
-  on this machine, and the upstream's sample states carry English strings with no stated language premise (S4 names the
-  language only in its startup-language scenarios).
+  on this machine. The upstream does state an English start — "起動時の UI 言語は英語" in S4's open question "固定の素材と前提",
+  in every draft and given to the binder — but in prose only: the harness's scenario form has no field for it, and the
+  operator did not carry it into the run. (Corrected 2026-10-31: this text first said no premise was stated.)
 - **Sensitivity, not A2: the same run with the UI culture `en`** (`bind/sens-en/`; a launcher sets the culture and calls the
   unchanged harness; with `ja-JP` it reproduces run1 byte for byte). **45 of 56 certified, kept 0**; 58 steps pass. The 11
   failing: the binder's 8 announced starts, UC-052 by construction, UC-202 machine-dependent, UC-194 (an `expect` of
@@ -102,6 +103,16 @@ screens; not a like-for-like comparison.
   experiment ids (no frame-rate word); older than this run.
 - **A2 ran on this machine's culture.** The sensitivity shows the culture accounts for 29 of the 40 scenarios that fail on
   `ja-JP`, not for kept = 0.
+- **The state contract and the measure differ.** S4's authors were asked for a state as "the values one screen shows"
+  (`prompts/author-s4.md`); A2's harness asks that every visit to a state agrees on every known operation's availability and
+  transition (stage 1's D2). The S4 author put the `can*` guards into the main screen's states (its own note in `scenarios.json`). Kept = 0 is read as this
+  mismatch as much as an omission by the authors. (Added 2026-10-31 from a reader's comment.)
+- **A1 counts references, not discrimination.** L4 holds when a setting step's expected state gives the attribute a value
+  other than `unknown`; it does not check that value against the step's parameter. The denominator is the model's own settable
+  attributes, so an attribute the model leaves out is not counted. k = 39 of 92 is not a share of the product that is
+  verified; as with D03 (section 4), a scenario can exist and still not tell a wrong rule from a right one. Of the derived
+  frame-rate attributes, Source's tooltip shows the source's rate and does not show the output setting. (Added 2026-10-31 from
+  a reader's comment.)
 - The operator wrote the prompts and the bindings' folder and runs the counts, and knows the answer (section 11).
 
 ## 7. The reading left to the user
@@ -127,6 +138,8 @@ definition, which counts the settable attribute only. What is missing, as sectio
   experiment, a row definition fixed beforehand that follows a settable value into the derived attributes it feeds. Neither is
   decided here.
 - **For A2:** states that carry the guards of the authority's availability (`CanUndo`, `CanSplit`, `Playing`, …), without which
-  kept is 0 in either culture; and a stated start language, without which the sample states fail on a `ja-JP` machine.
+  kept is 0 in either culture; and the start language carried from the upstream's prose into the run's conditions, without
+  which the sample states fail on a `ja-JP` machine. (Corrected 2026-10-31: this line first named a stated start language as
+  missing; the upstream states it, section 3.)
 
 EXP-20261031-02 closes on this reading.
