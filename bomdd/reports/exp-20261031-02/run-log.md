@@ -194,3 +194,57 @@ The defaults of definitions section 3 were accepted as proposed.
 - Author folder `exp07/s4-author` (`prepare.py author S4`): prompt `a892359d…`, requirements `24964b9d…`, model `b758d626…`,
   screens `f46ef7cb…`, blind tools, authority tree `bfef702c…` (247 files). Author started 2026-10-31T15:08:47+09:00 with the
   watcher.
+- S3 record committed as `97e5ad4` (the screens blob equals `f46ef7cb…`).
+- Author done in 1116 s (38 tool calls): 182 states, 128 scenarios (57 main, 71 alternate), 173 steps, 3 with `expect`
+  `"unknown"`, 12 questions; form OK. 77 of 95 requirements cited; the 18 not cited are those no element and visible value can
+  confirm (startup language, settings, the ffmpeg search, generation and caches, the exported file's content, appearance, the
+  environment variables). Its rule for events: the `expect` of an asynchronous operation is the state when its synchronous
+  part ends, and a state that exists only after an event is placed directly as an `in`; so export success, ffmpeg failure,
+  download success and the thumbnails' arrival are in no step. It defined test fixtures (`talk.mp4` 60 s, 1280×720, 25 fps
+  and others). Draft `ec33fb82…` (`s4/draft-r1.json`). Isolation: one one-off write outside (`../s4-reqs.txt`, not left in
+  `exp07/`); one read of `~/.claude/projects/…/tool-results/bxu31tyd6.txt`, which is the harness's saved copy of its own
+  long command output (its own tool result names that path). No trace of the measured words.
+- Audit round 1: folder `exp07/s4-audit-r1` (draft `ec33fb82…`, 248 files); auditor started 2026-10-31T15:27:52+09:00.
+- Audit round 1 done in 810 s (44 tool calls): 9 findings, **blocker 1** / material 3 / minor 5 (`s4/audit-r1.json`,
+  `d7492688…`); draft unchanged. The blocker: UC-010's first step presses the track at x = 340, which is on a boundary, so the
+  original starts a boundary drag, not a seek. Material: the zoom states leave `scrollOffset` unknown although the source
+  decides it; 18 requirements uncited; a split behind the export dialog does not clear the cached keyframe. Isolation: one
+  flag, `d:\s*`, a grep pattern; no trace of the measured words. Relayed 2026-10-31T15:41:55+09:00 as the file.
+- Author answered round 1 in 234 s: 8 fixed, 1 question (F-3, the uncited requirements: checked at the unit / L2 / L3 levels
+  their acceptance hints name, or may a state list attributes no screen shows — asked of a ruling; **not answered by the
+  operator**, it stays in `questions`) (`s4/answers-r1.json`, `6ad91249…`). 188 states, 135 scenarios, 177 steps, 1 with
+  `expect` `"unknown"`; 16 requirements uncited. Draft `968aa1bf…` (`s4/draft-r2.json`); form OK.
+- Audit round 2 (fresh auditor, revised draft only): folder `exp07/s4-audit-r2`, started 2026-10-31T15:46:10+09:00.
+- Audit round 2 done in 1052 s (64 tool calls): 6 findings, blocker 0 / material 3 / minor 3 (`s4/audit-r2.json`); draft
+  unchanged. Material: the copy toggle on `talk.mp4` sets the copy start to 0.0 at once (not null); following the playhead on
+  play start is synchronous, so REQ-046 can be a step; REQ-013 and REQ-094 can be written by fixing startup conditions, as
+  REQ-010 was. **Isolation: it worked from `exp07/` and wrote 8 working files there** (dumps of the draft's states, screens
+  and scenarios, a resx dump, 4 small scripts) and left them; no command names another step's folder. The operator moved them
+  into `exp07/s4-audit-r2/stray-from-exp07/` so later agents do not find them. No trace of the measured words. Relayed
+  2026-10-31T16:04:07+09:00 as the file.
+- Author answered round 2 in 212 s: 6 fixed (`s4/answers-r2.json`, `c2c6b0a2…`); 207 states, 144 scenarios, 190 steps; 13
+  requirements uncited (REQ-009, 051–055, 084–088, 092, 093); form OK. Draft `9f2d6c65…` (`s4/draft-r3.json`).
+- Audit round 3 (the last of the budget): folder `exp07/s4-audit-r3`, started 2026-10-31T16:08:21+09:00.
+- Audit round 3 done in 1053 s (51 tool calls): 6 findings, blocker 0 / **material 2** / minor 4 (`s4/audit-r3.json`,
+  `540beda3…`); draft unchanged. The two: a title-bar press under the export dialog or About lands on the dialog's backdrop
+  and closes it (UC-166, UC-203 expect nothing to happen). Isolation: none outside (relative paths from inside `authority/`);
+  no trace of the measured words.
+- **S4 unconverged at the budget** (blocker / material 1 / 3, 0 / 3, 0 / 2; all findings 9, 6, 6) with no blocker open, so
+  **cut off under departure 3** without returning to the user. Round 3 relayed 2026-10-31T16:26:22+09:00 as the file.
+- Author answered round 3 in 551 s: 6 fixed (`s4/answers-r3.json`, `79663eba…`), **not re-audited**. The two title-bar
+  scenarios now press the dialogs' backdrops (UC-166, UC-203); REQ-009's visible part is cited by four scenarios. The answers
+  also **added 7 scenarios no auditor has read** (UC-019 the ← key, UC-039, UC-077, UC-086 the volume slider's margin,
+  UC-087, UC-112, UC-113; UC-113 sets the frame rate to 120 and then 30 fps) and changed 9 (UC-035 gains a 2x preset after
+  the split; UC-103, 130, 131, 163, 166, 167, 180, 203), against the last audited `s4/draft-r3.json`. 221
+  states, 151 scenarios, 206 steps, 13 questions; 12 requirements uncited (REQ-051–055, 084–088, 092, 093); form OK.
+- Isolation of the author over the whole step: 16 flags, all its own one-off files — `../els.txt` written from
+  `s4-author/` (it landed in `exp07/`; the operator moved it into `exp07/s4-author/stray-from-exp07/`), and `../q.txt`,
+  `../chk.txt`, `../scenarios.json` from `s4-author/work/` (inside its own folder); one read of the harness's saved copy of
+  its own output. No command names another step's folder; no trace of the measured words.
+- **S4 frozen 2026-10-31T16:36:06+09:00** as `s4/scenarios.json` (`ef416e68…`), the author folder's file copied unchanged.
+
+## Step 6 — S5 spec
+
+- Author folder `exp07/s5-author` (`prepare.py author S5`): prompt `e2b63827…`, requirements `24964b9d…`, model `b758d626…`,
+  screens `f46ef7cb…`, scenarios `ef416e68…`, template `45cc7a6b…`, blind tools, authority tree `bfef702c…`. Author started
+  2026-10-31T16:37:54+09:00 with the watcher.
