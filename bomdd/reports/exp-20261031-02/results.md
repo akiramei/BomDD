@@ -1,7 +1,8 @@
 # EXP-20261031-02 — results (stage A)
 
 Written 2026-10-31 after every measure ran. Read by `definitions.md` section 9. Every number below is in `run-log.md` with the
-file it comes from. **EXP-20261031-02 stays open**: the reading of the frame-rate row is left to the user (the last section).
+file it comes from. The reading of the frame-rate row was left to the user, who ruled "A: §9 のまま" (the last section);
+EXP-20261031-02 closes on it.
 
 ## 1. What ran
 
@@ -117,3 +118,15 @@ Whether to keep the fixed reading or to amend it is the user's, on one of two op
   buttons, the summary), L2 (53 states), L3 (the `SetFps` steps) and L4 (5 of 6 `SetFps` steps) then hold, A2 ran, so stage B
   earns a proposal (its design and start still the user's). Cost: the fixed reading is changed after the data were seen, which
   is what fixing it beforehand exists to prevent.
+
+**The user's ruling: "A: §9 のまま" (2026-10-31).** The frame-rate row is read as broken at L1 (and L2); **stage B is not
+proposed on this evidence.** The decomposition of one value into a settable attribute and derived ones is a limit of A1's row
+definition, which counts the settable attribute only. What is missing, as section 9 asks the report to name:
+
+- **For the frame-rate row:** an upstream in which the settable value itself is displayed and stated — or, for a later
+  experiment, a row definition fixed beforehand that follows a settable value into the derived attributes it feeds. Neither is
+  decided here.
+- **For A2:** states that carry the guards of the authority's availability (`CanUndo`, `CanSplit`, `Playing`, …), without which
+  kept is 0 in either culture; and a stated start language, without which the sample states fail on a `ja-JP` machine.
+
+EXP-20261031-02 closes on this reading.
