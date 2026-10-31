@@ -60,3 +60,14 @@ Started 2026-10-31 on the user's "A: 既定で始める": the defaults of defini
   directly and wraps the tooltip in a derived value; N2b goes through `activeFpsPreset` (one value, `'none'` when no digit
   matches) and wraps the tooltip in the slot. Both write the rounding of 「小数 2 桁まで」 as `num(x, 2)` and note that S2 states
   no rounding for it.
+- Committed `090b283`.
+
+## Step 4 — M1′–M9′ on N2a (frozen before the checker runs on any specimen)
+
+- `make_mutants_n2a.py` (`dd2b3dab…`) writes the nine meanings of section 5 on N2a in N2a's own names, files `M1p`–`M9p`
+  (′ is written `p`), each with its meaning, named case, slot, expected and mutant value and `how` in `meta`; N2a's `notes`
+  dropped. **None NA.** Where the representation changes what the edit touches: M4′ binds V1 to N2a's `fpsText` (the clip's
+  own text); M9′ edits the derived `outputFpsText`, which in N2a also feeds V3–V6. Hashes: `M1p` `9e2004b8…`, `M2p`
+  `39810774…`, `M3p` `b1d263b2…`, `M4p` `f09bf419…`, `M5p` `ac9233ba…`, `M6p` `16f87411…`, `M7p` `4cde7952…`, `M8p`
+  `f9e50fe2…`, `M9p` `a514e7a6…`. `form_check.py` OK on each (M5′: 120 not defined). **No specimen has been run by
+  `check.py`.**

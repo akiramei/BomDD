@@ -1,0 +1,46 @@
+{
+ "state": {
+  "outputFps": "src"
+ },
+ "buttons": {
+  "Source": {
+   "outputFps": "src"
+  },
+  "24": {
+   "outputFps": "24"
+  },
+  "30": {
+   "outputFps": "30"
+  },
+  "60": {
+   "outputFps": "60"
+  }
+ },
+ "derived": {
+  "fpsText": "num(src, 2) + ' fps'",
+  "outputFpsText": "num(outputFps, 2)",
+  "fpsSourceActive": "abs(outputFps - src) < 0.05",
+  "fpsUpsampling": "outputFps > src + 0.05",
+  "fpsSourceTip": "'Same as source (' + fpsText + ')'"
+ },
+ "observe": {
+  "V1": "outputFpsText + ' fps'",
+  "V2": "fpsSourceActive",
+  "V3": "outputFpsText == '24'",
+  "V4": "outputFpsText == '30'",
+  "V5": "outputFpsText == '60'",
+  "V6": "outputFpsText == '120'",
+  "V7": "fpsUpsampling",
+  "V8": "fpsSourceTip"
+ },
+ "meta": {
+  "id": "M5p",
+  "base": "N2a",
+  "meaning": "the 120 button is not defined",
+  "named_case": "25|none|120",
+  "slot": "undefined",
+  "expected": null,
+  "mutant": null,
+  "how": "buttons.120 removed"
+ }
+}

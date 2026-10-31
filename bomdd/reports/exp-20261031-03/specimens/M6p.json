@@ -1,0 +1,49 @@
+{
+ "state": {
+  "outputFps": "src"
+ },
+ "buttons": {
+  "Source": {
+   "outputFps": "30"
+  },
+  "24": {
+   "outputFps": "24"
+  },
+  "30": {
+   "outputFps": "30"
+  },
+  "60": {
+   "outputFps": "60"
+  },
+  "120": {
+   "outputFps": "120"
+  }
+ },
+ "derived": {
+  "fpsText": "num(src, 2) + ' fps'",
+  "outputFpsText": "num(outputFps, 2)",
+  "fpsSourceActive": "abs(outputFps - src) < 0.05",
+  "fpsUpsampling": "outputFps > src + 0.05",
+  "fpsSourceTip": "'Same as source (' + fpsText + ')'"
+ },
+ "observe": {
+  "V1": "outputFpsText + ' fps'",
+  "V2": "fpsSourceActive",
+  "V3": "outputFpsText == '24'",
+  "V4": "outputFpsText == '30'",
+  "V5": "outputFpsText == '60'",
+  "V6": "outputFpsText == '120'",
+  "V7": "fpsUpsampling",
+  "V8": "fpsSourceTip"
+ },
+ "meta": {
+  "id": "M6p",
+  "base": "N2a",
+  "meaning": "Source sets a constant 30",
+  "named_case": "25|60|Source",
+  "slot": "V1",
+  "expected": "25 fps",
+  "mutant": "30 fps",
+  "how": "buttons.Source: outputFps = 30"
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "state": {
+  "outputFps": "src"
+ },
+ "buttons": {
+  "Source": {
+   "outputFps": "src"
+  },
+  "24": {
+   "outputFps": "24"
+  },
+  "30": {
+   "outputFps": "30"
+  },
+  "60": {
+   "outputFps": "outputFps"
+  },
+  "120": {
+   "outputFps": "120"
+  }
+ },
+ "derived": {
+  "fpsText": "num(src, 2) + ' fps'",
+  "outputFpsText": "num(outputFps, 2)",
+  "fpsSourceActive": "abs(outputFps - src) < 0.05",
+  "fpsUpsampling": "outputFps > src + 0.05",
+  "fpsSourceTip": "'Same as source (' + fpsText + ')'"
+ },
+ "observe": {
+  "V1": "outputFpsText + ' fps'",
+  "V2": "fpsSourceActive",
+  "V3": "outputFpsText == '24'",
+  "V4": "outputFpsText == '30'",
+  "V5": "outputFpsText == '60'",
+  "V6": "outputFpsText == '120'",
+  "V7": "fpsUpsampling",
+  "V8": "fpsSourceTip"
+ },
+ "meta": {
+  "id": "M1p",
+  "base": "N2a",
+  "meaning": "the 60 button keeps the previous value",
+  "named_case": "25|none|60",
+  "slot": "V1",
+  "expected": "60 fps",
+  "mutant": "25 fps",
+  "how": "buttons.60: outputFps = outputFps"
+ }
+}
