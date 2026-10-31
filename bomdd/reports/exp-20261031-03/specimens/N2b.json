@@ -1,0 +1,43 @@
+{
+  "state": {
+    "outputFps": "src"
+  },
+  "buttons": {
+    "Source": {"outputFps": "src"},
+    "24": {"outputFps": "24"},
+    "30": {"outputFps": "30"},
+    "60": {"outputFps": "60"},
+    "120": {"outputFps": "120"}
+  },
+  "derived": {
+    "clipFpsText": "num(src, 2) + ' fps'",
+    "outputFpsText": "num(outputFps, 2)",
+    "fpsSourceActive": "abs(outputFps - src) < 0.05",
+    "activeFpsPreset": "'24' if outputFpsText == '24' else ('30' if outputFpsText == '30' else ('60' if outputFpsText == '60' else ('120' if outputFpsText == '120' else 'none')))",
+    "fpsUpsampling": "outputFps > src + 0.05",
+    "fpsSourceTip": "clipFpsText"
+  },
+  "observe": {
+    "V1": "outputFpsText + ' fps'",
+    "V2": "fpsSourceActive",
+    "V3": "activeFpsPreset == '24'",
+    "V4": "activeFpsPreset == '30'",
+    "V5": "activeFpsPreset == '60'",
+    "V6": "activeFpsPreset == '120'",
+    "V7": "fpsUpsampling",
+    "V8": "'Same as source (' + fpsSourceTip + ')'"
+  },
+  "notes": [
+    "1. FormatSpeed is not defined as a formula anywhere in S2/S3. From OutputSettings.outputFpsText.description (\"小数 2 桁まで・末尾の 0 を除く\") and Clip.fpsText.description (same words), I wrote FormatSpeed(x) as num(x, 2). The rounding rule of FormatSpeed at the 2nd decimal is not stated; num rounds half away from zero, so that choice is mine (S2 uses 偶数丸め elsewhere, e.g. Region.speed, but never says it for FormatSpeed).",
+    "2. OutputSettings.outputFps.initial \"ソースの fps(サンプル: 30)\" -> state outputFps = src (Clip.fps is src). The sample value 30 is not written; the opened clip's rate is used.",
+    "3. Buttons from operation_definitions SetFps.effect \"outputFps を、source ならソースの fps、数値ならその値にし\": Source -> outputFps = src; 24/30/60/120 -> outputFps = that number (param of EL-INS-FPS-SOURCE is \"source\", of EL-INS-FPS-24..120 the numbers 24/30/60/120). The rest of the effect \"値が同じでも未保存の変更にする\" (unsaved-changes flag) is not written: no slot observes it and its opening value is outside the frame-rate part.",
+    "4. OutputSettings.activeFpsPreset.initial \"派生: outputFpsText と一致する数字\" (type enum{24,30,60,120,none}): I read \"一致\" as the text outputFpsText being equal to the preset's digits ('24','30','60','120'), else none. So e.g. outputFps 23.996 (text '24') selects 24. V3-V6 (EL-INS-FPS-24..120 \"activeFpsPreset が N なら選択の表示\") = activeFpsPreset == 'N'.",
+    "5. OutputSettings.fpsSourceActive.initial \"|outputFps − Clip.fps| < 0.05\" -> abs(outputFps - src) < 0.05, copied as written; V2 = it (EL-INS-FPS-SOURCE \"fpsSourceActive なら選択の表示\"). Source and a number preset can both be shown selected; the design says nothing against it, so nothing is added.",
+    "6. OutputSettings.fpsUpsampling.initial \"outputFps > Clip.fps + 0.05\" -> outputFps > src + 0.05; V7 = it (EL-INS-FPS-NOTE \"表示されるのは OutputSettings.fpsUpsampling のとき\").",
+    "7. V1: EL-EX-SUMMARY-FPS shows outputFpsText, and its text \"常に(「{表記} fps」)\" with outputFpsText.description \"ダイアログの「{表記} fps」\" gives the shown form: outputFpsText + ' fps' (outputFpsText itself is only FormatSpeed(outputFps), without ' fps').",
+    "8. V8: fpsSourceTip.initial is \"派生: Clip.fpsText\" while its description and EL-INS-FPS-SOURCE say the tooltip is \"Same as source ({fps} fps)\". Clip.fpsText is FormatSpeed(fps) + \" fps\" (= the \"{fps} fps\" part), so I wrote the tooltip as 'Same as source (' + Clip.fpsText + ')' -> e.g. \"Same as source (30 fps)\", not adding a second ' fps'.",
+    "9. Clip.fpsText.initial \"FormatSpeed(fps) + \\\" fps\\\"\" -> num(src, 2) + ' fps' (derived clipFpsText), with FormatSpeed as in note 1.",
+    "10. Not written: the reachability conditions in the enabled_when of EL-INS-FPS-* (modal overlay shown, error banner covering the button). The specimen has no such state; every press is taken as reaching the button."
+  ],
+  "meta": {"id": "N2"}
+}

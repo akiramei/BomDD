@@ -185,7 +185,13 @@ authority; it must equal `expected.json` on every value.
 
 ## 12. Departures
 
-None yet.
+1. **The transcribers' context named the measured side (2026-10-31, step 3).** The harness started both transcribers with the
+   operator's working directory (this folder) and the repository's status and recent commit subjects in their context. The
+   subjects of `1411500` and `39e0974` name the 78 cases, REQ-020 / 070 / 077, a checker and "the nine mutants M1-M9 with their
+   named cases" — not a mutant's content, a case's values or an expected value. Neither transcriber read anything outside its
+   folder (section 4.3's isolation, 0 flags each), so by section 4.3 neither is set aside; the exposure is recorded as a limit
+   of A2. Found after both had finished, by counting the measured side's words in the transcripts. Later agents are started
+   with the working directory in the staging folder.
 
 ## 13. Convergence receipt (filing)
 

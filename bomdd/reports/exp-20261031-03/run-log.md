@@ -36,3 +36,27 @@ Started 2026-10-31 on the user's "A: 既定で始める": the defaults of defini
 - Step 3's package files written now and committed with this step, before any transcriber starts: `transcriber/prompt.md`
   (`a7cede9d…`, Japanese), `rule.md` (`ad6c8250…`, definitions section 4.3's rule verbatim), `slots.json` (`54d50990…`).
   `form.md` and `rule.md` name no experiment id and no definitions section.
+- Committed `39e0974` (self-conformance restarted once: the operator wrote `build_packages.py` into this folder while it ran,
+  moved it out, and ran the check again on the tree that was committed).
+
+## Step 3 — the transcriptions (definitions section 4.3)
+
+- `build_packages.py` built `exp08/t1` and `exp08/t2`, 7 files each, identical: `prompt.md` `a7cede9d…`, `form.md`
+  `96b22ac0…`, `form_check.py` `768d3b58…`, `rule.md` `ad6c8250…`, `slots.json` `54d50990…`, `s2/domain-model.json`
+  `b758d626…`, `s3/screens.json` `f46ef7cb…` (the frozen S2 and S3 of EXP-20261031-02).
+- Both started 2026-10-31T23:26:30+09:00 (fresh Claude agents, general-purpose; prompt: read the folder's `prompt.md` and work
+  only in the folder). t2 finished about 23:29 (16 tool uses by its transcript, 144 s); t1 about 23:29 (14 by its transcript,
+  13 by its own count, 182 s). Neither near section 10's limits.
+- **Isolation** (`../exp-20261030-04/isolation.py` on each agent's transcript under the session's `subagents/`): t1 Bash 10,
+  Write 4, **0 flags**; t2 Bash 10, Read 4, Write 2, **0 flags**. The first run of the tool was given the agent's task output
+  file instead of its transcript and counted 0 tool calls; that run is not used (a measure that reads nothing passes).
+- **Departure 1** (definitions section 12): counting the measured side's words in the transcripts found them only in the
+  harness's context lines (the working directory, the status and the recent commit subjects naming the cases count, the
+  requirement ids and "the nine mutants"), none in a tool call. Both specimens kept.
+- Frozen: **N2a** = t1's `n2.json` (`86e031f4…`, 8 notes), **N2b** = t2's (`7e56e0b1…`, 10 notes); `form_check.py` OK on both,
+  all five buttons defined. t1 left `work/` (`gather.py` `f42820d9…`, `q.txt` `770144c5…`, `s2_dump.txt` = a copy of the S2
+  file) in its folder; not used.
+- The two representations differ before any check (A2 reads them in full): N2a compares the output text with each preset
+  directly and wraps the tooltip in a derived value; N2b goes through `activeFpsPreset` (one value, `'none'` when no digit
+  matches) and wraps the tooltip in the slot. Both write the rounding of 「小数 2 桁まで」 as `num(x, 2)` and note that S2 states
+  no rounding for it.

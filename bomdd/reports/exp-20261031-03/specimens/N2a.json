@@ -1,0 +1,40 @@
+{
+ "state": {
+  "outputFps": "src"
+ },
+ "buttons": {
+  "Source": {"outputFps": "src"},
+  "24": {"outputFps": "24"},
+  "30": {"outputFps": "30"},
+  "60": {"outputFps": "60"},
+  "120": {"outputFps": "120"}
+ },
+ "derived": {
+  "fpsText": "num(src, 2) + ' fps'",
+  "outputFpsText": "num(outputFps, 2)",
+  "fpsSourceActive": "abs(outputFps - src) < 0.05",
+  "fpsUpsampling": "outputFps > src + 0.05",
+  "fpsSourceTip": "'Same as source (' + fpsText + ')'"
+ },
+ "observe": {
+  "V1": "outputFpsText + ' fps'",
+  "V2": "fpsSourceActive",
+  "V3": "outputFpsText == '24'",
+  "V4": "outputFpsText == '30'",
+  "V5": "outputFpsText == '60'",
+  "V6": "outputFpsText == '120'",
+  "V7": "fpsUpsampling",
+  "V8": "fpsSourceTip"
+ },
+ "notes": [
+  "1. FormatSpeed -> num(x, 2): S2 にも S3 にも FormatSpeed の定義(operation_definitions)は無い。Clip.fpsText の説明「(小数 2 桁まで・末尾の 0 を除く)」と OutputSettings.outputFpsText の説明「出力 fps の表記(小数 2 桁まで・末尾の 0 を除く)」から、桁数 2・末尾の 0 と小数点を除く、を決めた。丸め方はどこにも書かれていない(S2 は速度・音量などで「偶数丸め」と書くが、FormatSpeed には書いていない)。形が持つ num は四捨五入(0 から遠い側)なので、それを使った。",
+  "2. Clip.fps = src: Clip.fps の説明「ソースのフレームレート」を、form.md の src(クリップのソースのフレームレート)と同じものとした。OutputSettings.outputFps の initial「ソースの fps(サンプル: 30)」から、開いたときの outputFps = src とした。",
+  "3. ボタン: SetFps の effect「outputFps を、source ならソースの fps、数値ならその値にし」から、Source は outputFps = src、24/30/60/120 は outputFps = その数とした(S3 の各部品の param: source / 24 / 30 / 60 / 120)。同じ effect の「値が同じでも未保存の変更にする」は、8 つのスロットのどれも見ないので写していない。",
+  "4. V1 の囲み: OutputSettings.outputFpsText の initial は「派生: FormatSpeed(outputFps)」で fps の語を含まないが、同じ属性の説明「ダイアログの「{表記} fps」」と EL-EX-SUMMARY-FPS の文「常に(「{表記} fps」)」が表示の形を述べているので、rule.md に従い V1 = outputFpsText + ' fps' とした。",
+  "5. V3-V6: OutputSettings.activeFpsPreset の initial「派生: outputFpsText と一致する数字」と、EL-INS-FPS-24 などの文「OutputSettings.activeFpsPreset が 24 なら選択の表示」から、選択の表示 = outputFpsText が '24'(30・60・120 も同様)と文字列で一致すること、とした。outputFps を数で 24 と比べる読み方は、文が outputFpsText を名指ししているので採らなかった。",
+  "6. V8 の囲み: OutputSettings.fpsSourceTip の initial は「派生: Clip.fpsText」(「{fps} fps」)だけだが、同じ属性の説明「「Source」のツールチップ「Same as source ({fps} fps)」」と EL-INS-FPS-SOURCE の文「ツールチップ「Same as source ({fps} fps)」」が表示の形を述べているので、rule.md に従い 'Same as source (' + Clip.fpsText + ')' とした。Clip.fpsText がすでに「{fps} fps」なので、' fps' を重ねて足してはいない(例: 'Same as source (30 fps)')。",
+  "7. V2 と V7: OutputSettings.fpsSourceActive の「|outputFps − Clip.fps| < 0.05」と OutputSettings.fpsUpsampling の「outputFps > Clip.fps + 0.05」は式のとおり写した(V7 は EL-INS-FPS-NOTE の文「表示されるのは OutputSettings.fpsUpsampling のとき」から)。Source と数字のプリセットが同時に選択の表示になる場合(例: src = 30 で 30 を押す)を排他にする記述は設計に無いので、排他にはしていない。",
+  "8. 写していない条件: 各ボタンの文の「モーダルのオーバーレイを表示していないとき」「読み込みエラーのバナーの表示中は…届かない」は、形にオーバーレイやバナーの状態が無いので写していない(押せば常に届くものとした)。"
+ ],
+ "meta": {"id": "N2"}
+}
