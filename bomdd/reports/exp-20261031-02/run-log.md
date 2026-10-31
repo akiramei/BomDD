@@ -136,3 +136,16 @@ The defaults of definitions section 3 were accepted as proposed.
   0 / 1, 0 / 3 (all findings 12, 10, 8). The draft at the stop is `s2/draft-r3.json` (`880a7e5b…`); not frozen. As in S1, each
   round's material findings are source behaviour the model does not yet state (here: selection rules, the timer's condition,
   a keyframe branch). Returned to the user 2026-10-31T13:21:42+09:00.
+- **The user's ruling: "B: 以後も打ち切り"** (definitions section 12, departure 3) — S2 cut off as S1 was, and S3–S5 cut off at
+  the budget without returning unless a blocker is open. Round 3 relayed 2026-10-31T13:57:09+09:00 as the file
+  (`eac4e8e6…`, same hash in the author folder) in the words of round 2; the cut-off not told to the author.
+- Author answered round 3 in 130 s: 8 fixed (`s2/answers-r3.json`, `171c77b7…`); counts and names unchanged (25 entities,
+  217 attributes, 92 with `set_by`, 13 questions); form OK. Isolation unchanged.
+- **S2 frozen** 2026-10-31T13:59:42+09:00 as `s2/domain-model.json` (`b758d626…`), the author folder's file copied unchanged
+  (departure 3).
+
+## Step 4 — S3 screens
+
+- Author folder `exp07/s3-author` (`prepare.py author S3`): prompt `640a7490…`, requirements `24964b9d…`, model `b758d626…`,
+  blind tools (`a6ae177f…`, `313cb523…`), authority tree `bfef702c…` (246 files). Author started 2026-10-31T13:59:42+09:00 with
+  the watcher (the S2 freeze is committed while it runs; the frozen bytes are those hashed here).

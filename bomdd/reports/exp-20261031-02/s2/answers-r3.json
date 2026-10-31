@@ -1,0 +1,18 @@
+{"answers": [
+  {"finding": "F-1", "action": "fixed",
+   "text": "ResolveSelection・OnPlayheadChanged・ResyncSelection・Split で確かめた。EditSession.selectedRegionId の説明に、決まり方を 4 つ書いた。(a) 再生ヘッドの値が変わったとき: 位置の区間があり ID が違えばそれにし、位置の区間が無いか同じ ID なら変えない。(b) 「編集対象を再解決する」の定義: 位置の区間 → 今の ID がまだあればそれ → 先頭の区間 → null の 3 段。どの操作の後に働くかも挙げた。(c) Split は (b) の後に後半の ID で上書きする(丸めによるずれが続くことも書いた)。(d) 読み込みは先頭の区間。MOVIEPAD_SCENARIO は (b) を通らない。operation_definitions の「編集対象を再解決する」は、この (b) を指す。"},
+  {"finding": "F-2", "action": "fixed",
+   "text": "指摘どおり(StartPlayback は UseExternalPlayback が偽ならタイマーを始める。OnPlayerConstructed の失敗と !player.Available では偽にする)。PlaybackTick のきっかけを「再生を始めた時点で externalPlayback が偽なら、停止するまで動く(サンプル・プレイヤーが使えない実ファイル・プレイヤーの準備中の実ファイル)」に直した。PreviewPlayer.externalPlayback の説明も、真になる条件と、偽のあいだは内蔵タイマーで進むことを書く形に直した。"},
+  {"finding": "F-3", "action": "fixed",
+   "text": "指摘どおり(KeyframeIndex は target <= 0 → 0 を、覚えている値と IsCloudPlaceholder より先に判定する)。Clip.isOnlineOnly の説明を、判定の順「トリム開始 ≤ 0 なら 0 → 覚えている値 → オンラインのみなら null」に直した。トリム開始 0 のオンラインのみのファイルでは 0 になり、コピーはファイルの先頭からになることも書いた。"},
+  {"finding": "F-4", "action": "fixed",
+   "text": "TogglePlay の効果を NextPlayable(playhead) ?? NextPlayable(trimStart) ?? trimStart のとおりに直した。次の除外していない区間が無ければ最初の除外していない位置へ、それも無ければトリム開始へ。"},
+  {"finding": "F-5", "action": "fixed",
+   "text": "指摘どおり(BuildExactGraph は segCount = runs の数で、FrameCount <= 0 か、音声ありで SampleCount <= 0 なら 0)。ExportRun.segmentCount を経路ごとに書き分けた。legacy は重なりが 0.0001 秒を超える区間の数。exactCfr は runs の数で、フレーム数・サンプル数が 0 以下なら 0(T > 0 でも 0 になる例も書いた)。"},
+  {"finding": "F-6", "action": "fixed",
+   "text": "OutputSettings.outputWidth と outputHeight の説明を直した。範囲に収めるのは、ApplyWidth / ApplyHeight で入力した側だけ。縦横比の維持で計算した側(ApplyWidth・ApplyHeight・ToggleAspect)、Scale、読み込みは、上限にも下限にも収めない(例 1080×1920 → 13654)。"},
+  {"finding": "F-7", "action": "fixed",
+   "text": "ComputeZoomOffset・ApplyZoomAnchor・ComputeFollowOffset・FollowPlayhead で確かめた。TimelineView.scrollOffset の説明に、ズームの規則と再生中の追従の規則を書いた。ズーム: 0 以下なら動かさない・全体が収まれば 0・基準の時刻の選び方・0.5 px 未満の差は動かさない。追従: ドラッグ中・全体が収まるときは動かさない・0.92 / 0.12 の式・1 px 未満の差は動かさない。ZoomIn / ZoomOut / PlaybackTick / PlayerTimeChanged の効果は、この規則を指す形にした。"},
+  {"finding": "F-8", "action": "fixed",
+   "text": "RequestVisibleTimelinePreview の効果に、REQ-051 の値をすべて書いた。働く条件・間隔 clamp(164/pxPerSec, 0.75, 30)・余白 2 倍・描画範囲・覆う判定の 3 条件・bucket = max(間隔, 1) での揃え・lastVisibleRequest に入れる値・180 ms / 96 px / 36 枚。MediaPreviewData.lastVisibleRequest の説明はこの定義を指す形にした。MediaPreviewData.waveform に、バケット数 clamp(floor(長さ·40), 1000, 16000) を書いた。"}
+]}

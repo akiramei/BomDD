@@ -207,6 +207,10 @@ Each stop goes to the user; none is extended by the operator.
    author. **S1 is not redone:** all four S1 agents saw the tools' source (the auditors of rounds 1 and 2 the rule itself), no
    S1 finding singles out the output frame rate as something examined, and S1's frame-rate content (REQ-001, 020, 056, 070, 071,
    077, 078, 085–087) is the product's own; the exposure is a limit of S1, recorded in the run log.
+3. **A standing cut-off for S2–S5** (user: "B: 以後も打ち切り", 2026-10-31, on S2's stop at 0 / 6, 0 / 1, 0 / 3). S2 is frozen
+   as S1 was (the author answers round 3, no re-audit). From S3 on, a step that reaches section 4's budget with a material
+   finding open is cut off the same way without returning to the user; a step that reaches it with a **blocker** open still
+   stops and returns (a blocker may change what A1 can count). Each cut-off is recorded in the run log with its counts.
 
 ## 13. Files
 
