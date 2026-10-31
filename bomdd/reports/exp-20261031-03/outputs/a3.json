@@ -1,0 +1,17 @@
+{
+ "N1": {
+  "verdict": "PASS",
+  "cases": 26,
+  "counterexamples": []
+ },
+ "M6": {
+  "verdict": "PASS",
+  "cases": 26,
+  "counterexamples": []
+ },
+ "M6p": {
+  "verdict": "PASS",
+  "cases": 26,
+  "counterexamples": []
+ }
+}

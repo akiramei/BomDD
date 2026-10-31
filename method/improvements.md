@@ -10323,7 +10323,7 @@ MoviePad-Remake read only.
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement of a checker; no body text, template or tool changes.
 
-- [open] EXP-20261031-03 — **Given a design written in a machine-evaluable form, can a frozen checker evaluate what the design
+- [recovered 2026-10-31 via bomdd/reports/exp-20261031-03/results.md] EXP-20261031-03 — **Given a design written in a machine-evaluable form, can a frozen checker evaluate what the design
   predicts the screen shows after each operation, and so pass designs that are right in different representations and fail
   designs that are wrong in meaning — over a fixed, finite range of the output frame rate, with no review?** Trigger:
   EXP-20261031-02's A1 broke the frame-rate row on representation (one settable value, five derived attributes) and counts
@@ -10335,5 +10335,12 @@ measurement of a checker; no body text, template or tool changes.
   `form.md`, pinned by selftest. Reading fixed in §9: success only as "a design in this form is judged on this range"; not that
   authors write it, nor unnamed defects. Filed not converged (5 → 2 → 1, 7 → 3; after removing the causes 2 → 0 → 1), cut off on
   the user's "A: 打ち切って起票". Start is the user's.
-  source: this section (the user's "A: 起票する", "B: 延長する", "C: 原因を除いて再開", "A: 打ち切って起票", 2026-10-31)
-  evidence: `bomdd/reports/exp-20261031-03/definitions.md`
+  **Read (2026-10-31; started on the user's "A: 既定で始める")**: the expected table (78 cases) reproduced S1's REQ-020 / 070 /
+  077 on all 624 values; N1, N2a and N2b PASS; all 18 named mutants FAIL with their named case and slot (none NA, all
+  informative); no UNKNOWN. By §9: within this range a design in this form is judged without review, a direct and a derived
+  representation pass and the named defects fail — nothing more. Limits: the transcription rule "the displayed form follows the
+  text" was fixed knowing that S2's tooltip expression lacks its wrapper (without it V8 would differ in all 52 cases; derived, not run); the
+  representations share one state variable and differ in the path to the slots; departure 1 (the transcribers' context named
+  the mutants' existence, not their content; 0 isolation flags). Nothing wired, no body text changed.
+  source: this section (the user's "A: 起票する", "B: 延長する", "C: 原因を除いて再開", "A: 打ち切って起票", "A: 既定で始める", 2026-10-31)
+  evidence: `bomdd/reports/exp-20261031-03/definitions.md`, `bomdd/reports/exp-20261031-03/results.md`, `bomdd/reports/exp-20261031-03/run-log.md`, `bomdd/reports/exp-20261031-03/outputs/a1.json`

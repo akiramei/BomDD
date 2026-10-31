@@ -1,0 +1,97 @@
+{
+ "state": {
+  "N2a": {
+   "outputFps": "src"
+  },
+  "N2b": {
+   "outputFps": "src"
+  },
+  "same": true
+ },
+ "buttons": {
+  "N2a": {
+   "Source": {
+    "outputFps": "src"
+   },
+   "24": {
+    "outputFps": "24"
+   },
+   "30": {
+    "outputFps": "30"
+   },
+   "60": {
+    "outputFps": "60"
+   },
+   "120": {
+    "outputFps": "120"
+   }
+  },
+  "N2b": {
+   "Source": {
+    "outputFps": "src"
+   },
+   "24": {
+    "outputFps": "24"
+   },
+   "30": {
+    "outputFps": "30"
+   },
+   "60": {
+    "outputFps": "60"
+   },
+   "120": {
+    "outputFps": "120"
+   }
+  },
+  "same": true
+ },
+ "derived": {
+  "N2a": {
+   "fpsText": "num(src, 2) + ' fps'",
+   "outputFpsText": "num(outputFps, 2)",
+   "fpsSourceActive": "abs(outputFps - src) < 0.05",
+   "fpsUpsampling": "outputFps > src + 0.05",
+   "fpsSourceTip": "'Same as source (' + fpsText + ')'"
+  },
+  "N2b": {
+   "clipFpsText": "num(src, 2) + ' fps'",
+   "outputFpsText": "num(outputFps, 2)",
+   "fpsSourceActive": "abs(outputFps - src) < 0.05",
+   "activeFpsPreset": "'24' if outputFpsText == '24' else ('30' if outputFpsText == '30' else ('60' if outputFpsText == '60' else ('120' if outputFpsText == '120' else 'none')))",
+   "fpsUpsampling": "outputFps > src + 0.05",
+   "fpsSourceTip": "clipFpsText"
+  },
+  "same": false
+ },
+ "observe": {
+  "N2a": {
+   "V1": "outputFpsText + ' fps'",
+   "V2": "fpsSourceActive",
+   "V3": "outputFpsText == '24'",
+   "V4": "outputFpsText == '30'",
+   "V5": "outputFpsText == '60'",
+   "V6": "outputFpsText == '120'",
+   "V7": "fpsUpsampling",
+   "V8": "fpsSourceTip"
+  },
+  "N2b": {
+   "V1": "outputFpsText + ' fps'",
+   "V2": "fpsSourceActive",
+   "V3": "activeFpsPreset == '24'",
+   "V4": "activeFpsPreset == '30'",
+   "V5": "activeFpsPreset == '60'",
+   "V6": "activeFpsPreset == '120'",
+   "V7": "fpsUpsampling",
+   "V8": "'Same as source (' + fpsSourceTip + ')'"
+  },
+  "same": false
+ },
+ "verdicts": {
+  "N2a": "PASS",
+  "N2b": "PASS"
+ },
+ "notes_count": {
+  "N2a": 8,
+  "N2b": 10
+ }
+}

@@ -1,0 +1,3246 @@
+{
+ "N1": {
+  "verdict": "PASS",
+  "cases": 52,
+  "counterexamples": []
+ },
+ "N2a": {
+  "verdict": "PASS",
+  "cases": 52,
+  "counterexamples": []
+ },
+ "N2b": {
+  "verdict": "PASS",
+  "cases": 52,
+  "counterexamples": []
+ },
+ "M1": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V2",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V3",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|60",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|30|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|60|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|60|60",
+    "kind": "value",
+    "slot": "V2",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|60|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|60|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "25|120|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|120|60",
+    "kind": "value",
+    "slot": "V6",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V2",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V3",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V2",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|60|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|60|60",
+    "kind": "value",
+    "slot": "V2",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|60|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "value",
+    "slot": "V6",
+    "expected": false,
+    "predicted": true
+   }
+  ],
+  "named": {
+   "case": "25|none|60",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1",
+   "V2",
+   "V3",
+   "V4",
+   "V5",
+   "V6",
+   "V7"
+  ],
+  "cases_failing": 10
+ },
+ "M2": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V3",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V5",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V6",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V3",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V5",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V6",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   }
+  ],
+  "named": {
+   "case": "25|60|Source",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1",
+   "V2",
+   "V3",
+   "V4",
+   "V5",
+   "V6",
+   "V7"
+  ],
+  "cases_failing": 8
+ },
+ "M3": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|none|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|24|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|24|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "25|60|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "25|60|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "25|60|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "25|120|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "25|120|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "25|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|none|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|24|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|24|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "29.97|60|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "29.97|60|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "29.97|60|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|120|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|120|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "120 fps"
+   }
+  ],
+  "named": {
+   "case": "25|24|60",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1"
+  ],
+  "cases_failing": 40
+ },
+ "M4": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|none|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|24|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|24|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|24|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|30|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|30|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|30|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|60|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|60|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|60|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|60|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|120|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|120|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|120|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "29.97|none|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|24|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|24|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|24|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|30|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|30|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|30|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|60|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|60|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|60|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|60|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|120|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|120|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|120|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   }
+  ],
+  "named": {
+   "case": "25|none|24",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1"
+  ],
+  "cases_failing": 40
+ },
+ "M5": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|none|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|24|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|30|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|60|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|120|24",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|120|30",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|120|60",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|120|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|none|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|24|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|30|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|60|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|120|24",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|120|30",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|120|120",
+    "kind": "undefined",
+    "button": "120"
+   }
+  ],
+  "named": {
+   "case": "25|none|120",
+   "slot": "undefined",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "undefined"
+  ],
+  "cases_failing": 18
+ },
+ "M6": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|none|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|none|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|none|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|none|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|none|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|none|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   }
+  ],
+  "named": {
+   "case": "25|60|Source",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1",
+   "V2",
+   "V4",
+   "V7"
+  ],
+  "cases_failing": 10
+ },
+ "M7": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "29.97|none|30",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|24|30",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|30|30",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|60|30",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|120|30",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   }
+  ],
+  "named": {
+   "case": "29.97|none|30",
+   "slot": "V2",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V2"
+  ],
+  "cases_failing": 5
+ },
+ "M8": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "29.97|none|30",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|24|30",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|30",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|30",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|120|30",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   }
+  ],
+  "named": {
+   "case": "29.97|none|30",
+   "slot": "V7",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V7"
+  ],
+  "cases_failing": 5
+ },
+ "M9": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "29.97|opened",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|none|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   }
+  ],
+  "named": {
+   "case": "29.97|opened",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1"
+  ],
+  "cases_failing": 6
+ },
+ "M1p": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V2",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V3",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|60",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|30|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|60|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|60|60",
+    "kind": "value",
+    "slot": "V2",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|60|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|60|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "25|120|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|120|60",
+    "kind": "value",
+    "slot": "V6",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V2",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V3",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V2",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|60|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|60|60",
+    "kind": "value",
+    "slot": "V2",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|60|60",
+    "kind": "value",
+    "slot": "V7",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "value",
+    "slot": "V5",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "value",
+    "slot": "V6",
+    "expected": false,
+    "predicted": true
+   }
+  ],
+  "named": {
+   "case": "25|none|60",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1",
+   "V2",
+   "V3",
+   "V4",
+   "V5",
+   "V6",
+   "V7"
+  ],
+  "cases_failing": 10
+ },
+ "M2p": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V3",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V5",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V6",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V3",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V5",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V6",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   }
+  ],
+  "named": {
+   "case": "25|60|Source",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1",
+   "V2",
+   "V3",
+   "V4",
+   "V5",
+   "V6",
+   "V7"
+  ],
+  "cases_failing": 8
+ },
+ "M3p": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|none|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|24|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|24|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "25|60|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "25|60|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "25|60|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "25|120|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "25|120|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "25|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|none|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|24|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|24|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "24 fps"
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "29.97|60|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "29.97|60|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "29.97|60|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "60 fps"
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|120|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|120|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "120 fps"
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "120 fps"
+   }
+  ],
+  "named": {
+   "case": "25|24|60",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1"
+  ],
+  "cases_failing": 40
+ },
+ "M4p": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|none|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|none|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|24|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|24|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|24|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|30|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|30|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|30|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|60|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|60|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|60|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|60|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|120|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|120|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "25|120|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "25 fps"
+   },
+   {
+    "case": "29.97|none|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|none|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|24|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|24|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|24|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|24|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|30|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|30|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|30|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|30|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|60|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|60|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|60|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|60|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|120|24",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "24 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|120|30",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "30 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "60 fps",
+    "predicted": "29.97 fps"
+   },
+   {
+    "case": "29.97|120|120",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "120 fps",
+    "predicted": "29.97 fps"
+   }
+  ],
+  "named": {
+   "case": "25|none|24",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1"
+  ],
+  "cases_failing": 40
+ },
+ "M5p": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|none|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|24|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|30|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|60|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|120|24",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|120|30",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|120|60",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "25|120|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|none|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|24|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|30|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|60|120",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|120|24",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|120|30",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|120|60",
+    "kind": "undefined",
+    "button": "120"
+   },
+   {
+    "case": "29.97|120|120",
+    "kind": "undefined",
+    "button": "120"
+   }
+  ],
+  "named": {
+   "case": "25|none|120",
+   "slot": "undefined",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "undefined"
+  ],
+  "cases_failing": 18
+ },
+ "M6p": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "25|none|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|none|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|none|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|none|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|24|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|30|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|60|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "25 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "25|120|Source",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|none|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|none|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   }
+  ],
+  "named": {
+   "case": "25|60|Source",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1",
+   "V2",
+   "V4",
+   "V7"
+  ],
+  "cases_failing": 10
+ },
+ "M7p": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "29.97|none|30",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|24|30",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|30|30",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|60|30",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   },
+   {
+    "case": "29.97|120|30",
+    "kind": "value",
+    "slot": "V2",
+    "expected": true,
+    "predicted": false
+   }
+  ],
+  "named": {
+   "case": "29.97|none|30",
+   "slot": "V2",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V2"
+  ],
+  "cases_failing": 5
+ },
+ "M8p": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "29.97|none|30",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|24|30",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|30",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|30",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|120|30",
+    "kind": "value",
+    "slot": "V7",
+    "expected": false,
+    "predicted": true
+   }
+  ],
+  "named": {
+   "case": "29.97|none|30",
+   "slot": "V7",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V7"
+  ],
+  "cases_failing": 5
+ },
+ "M9p": {
+  "verdict": "FAIL",
+  "cases": 52,
+  "counterexamples": [
+   {
+    "case": "29.97|opened",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|opened",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|none|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|none|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|24|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|30|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|60|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V1",
+    "expected": "29.97 fps",
+    "predicted": "30 fps"
+   },
+   {
+    "case": "29.97|120|Source",
+    "kind": "value",
+    "slot": "V4",
+    "expected": false,
+    "predicted": true
+   }
+  ],
+  "named": {
+   "case": "29.97|opened",
+   "slot": "V1",
+   "hit": true,
+   "base_fails_there": false
+  },
+  "slots_differing": [
+   "V1",
+   "V4"
+  ],
+  "cases_failing": 6
+ }
+}

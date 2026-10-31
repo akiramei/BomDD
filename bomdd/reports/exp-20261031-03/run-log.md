@@ -71,3 +71,16 @@ Started 2026-10-31 on the user's "A: 既定で始める": the defaults of defini
   `39810774…`, `M3p` `b1d263b2…`, `M4p` `f09bf419…`, `M5p` `ac9233ba…`, `M6p` `16f87411…`, `M7p` `4cde7952…`, `M8p`
   `f9e50fe2…`, `M9p` `a514e7a6…`. `form_check.py` OK on each (M5′: 120 not defined). **No specimen has been run by
   `check.py`.**
+- Committed `cb1b28d`.
+
+## Step 5 — the checker on every specimen
+
+- `run_all.py` (written after `cb1b28d`; it calls `check.judge` and changes nothing frozen), 2026-10-31 about 23:46:
+  `outputs/a1.json`, `a2.json`, `a3.json`. 52 judged cases, 26 control cases.
+- A1: N1, N2a, N2b PASS; all 18 mutants FAIL, each with its named case and slot hit and its base not failing there; no
+  UNKNOWN. A3: N1, M6, M6′ PASS at rate 30. A2: `state` and `buttons` the same, `derived` and `observe` different.
+- The counterexample counts checked by hand against the case table after the run (results section 3).
+
+## Step 6 — results
+
+- `results.md` written and read by section 9: the first reading holds.
