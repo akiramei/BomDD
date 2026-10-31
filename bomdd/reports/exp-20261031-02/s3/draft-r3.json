@@ -1,0 +1,1885 @@
+{
+ "screens": [
+  {
+   "id": "SCR-MAIN",
+   "name": "メインウィンドウ(枠・ドロップ・エラーのバナー・キー操作)",
+   "authority_view": "MainWindow",
+   "elements": [
+    {
+     "id": "EL-MAIN-WINDOW",
+     "kind": "display",
+     "shows": [
+      "MainWindow.width",
+      "MainWindow.height",
+      "MainWindow.position",
+      "MainWindow.windowState",
+      "MainWindow.open"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(ウィンドウそのもの。タイトル MoviePad・自前のタイトルバーと縁・ダークテーマ・最小 960×600)"
+    },
+    {
+     "id": "EL-MAIN-RESIZE-NORTHWEST",
+     "kind": "command",
+     "shows": [
+      "MainWindow.width",
+      "MainWindow.height",
+      "MainWindow.position"
+     ],
+     "invokes": "ResizeWindow",
+     "param": "NorthWest",
+     "enabled_when": "左上の隅の幅 6 px の縁を左ボタンでドラッグしたとき。MainWindow.windowState が Maximized でなく、モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。縁はウィンドウの外周 6 px にあって本体(タイトルバー・ツールバー・インスペクター・タイムライン)より上、オーバーレイとエラーのバナーより下に重なるので、外周 6 px の押下はその下の部品には届かない。最大化中も縁は押下を取り、何もしない(下の部品にも届かない)"
+    },
+    {
+     "id": "EL-MAIN-RESIZE-NORTH",
+     "kind": "command",
+     "shows": [
+      "MainWindow.width",
+      "MainWindow.height",
+      "MainWindow.position"
+     ],
+     "invokes": "ResizeWindow",
+     "param": "North",
+     "enabled_when": "上の辺の幅 6 px の縁を左ボタンでドラッグしたとき。MainWindow.windowState が Maximized でなく、モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。縁はウィンドウの外周 6 px にあって本体(タイトルバー・ツールバー・インスペクター・タイムライン)より上、オーバーレイとエラーのバナーより下に重なるので、外周 6 px の押下はその下の部品には届かない。最大化中も縁は押下を取り、何もしない(下の部品にも届かない)"
+    },
+    {
+     "id": "EL-MAIN-RESIZE-NORTHEAST",
+     "kind": "command",
+     "shows": [
+      "MainWindow.width",
+      "MainWindow.height",
+      "MainWindow.position"
+     ],
+     "invokes": "ResizeWindow",
+     "param": "NorthEast",
+     "enabled_when": "右上の隅の幅 6 px の縁を左ボタンでドラッグしたとき。MainWindow.windowState が Maximized でなく、モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。縁はウィンドウの外周 6 px にあって本体(タイトルバー・ツールバー・インスペクター・タイムライン)より上、オーバーレイとエラーのバナーより下に重なるので、外周 6 px の押下はその下の部品には届かない。最大化中も縁は押下を取り、何もしない(下の部品にも届かない)"
+    },
+    {
+     "id": "EL-MAIN-RESIZE-WEST",
+     "kind": "command",
+     "shows": [
+      "MainWindow.width",
+      "MainWindow.height",
+      "MainWindow.position"
+     ],
+     "invokes": "ResizeWindow",
+     "param": "West",
+     "enabled_when": "左の辺の幅 6 px の縁を左ボタンでドラッグしたとき。MainWindow.windowState が Maximized でなく、モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。縁はウィンドウの外周 6 px にあって本体(タイトルバー・ツールバー・インスペクター・タイムライン)より上、オーバーレイとエラーのバナーより下に重なるので、外周 6 px の押下はその下の部品には届かない。最大化中も縁は押下を取り、何もしない(下の部品にも届かない)"
+    },
+    {
+     "id": "EL-MAIN-RESIZE-EAST",
+     "kind": "command",
+     "shows": [
+      "MainWindow.width",
+      "MainWindow.height",
+      "MainWindow.position"
+     ],
+     "invokes": "ResizeWindow",
+     "param": "East",
+     "enabled_when": "右の辺の幅 6 px の縁を左ボタンでドラッグしたとき。MainWindow.windowState が Maximized でなく、モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。縁はウィンドウの外周 6 px にあって本体(タイトルバー・ツールバー・インスペクター・タイムライン)より上、オーバーレイとエラーのバナーより下に重なるので、外周 6 px の押下はその下の部品には届かない。最大化中も縁は押下を取り、何もしない(下の部品にも届かない)"
+    },
+    {
+     "id": "EL-MAIN-RESIZE-SOUTHWEST",
+     "kind": "command",
+     "shows": [
+      "MainWindow.width",
+      "MainWindow.height",
+      "MainWindow.position"
+     ],
+     "invokes": "ResizeWindow",
+     "param": "SouthWest",
+     "enabled_when": "左下の隅の幅 6 px の縁を左ボタンでドラッグしたとき。MainWindow.windowState が Maximized でなく、モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。縁はウィンドウの外周 6 px にあって本体(タイトルバー・ツールバー・インスペクター・タイムライン)より上、オーバーレイとエラーのバナーより下に重なるので、外周 6 px の押下はその下の部品には届かない。最大化中も縁は押下を取り、何もしない(下の部品にも届かない)"
+    },
+    {
+     "id": "EL-MAIN-RESIZE-SOUTH",
+     "kind": "command",
+     "shows": [
+      "MainWindow.width",
+      "MainWindow.height",
+      "MainWindow.position"
+     ],
+     "invokes": "ResizeWindow",
+     "param": "South",
+     "enabled_when": "下の辺の幅 6 px の縁を左ボタンでドラッグしたとき。MainWindow.windowState が Maximized でなく、モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。縁はウィンドウの外周 6 px にあって本体(タイトルバー・ツールバー・インスペクター・タイムライン)より上、オーバーレイとエラーのバナーより下に重なるので、外周 6 px の押下はその下の部品には届かない。最大化中も縁は押下を取り、何もしない(下の部品にも届かない)"
+    },
+    {
+     "id": "EL-MAIN-RESIZE-SOUTHEAST",
+     "kind": "command",
+     "shows": [
+      "MainWindow.width",
+      "MainWindow.height",
+      "MainWindow.position"
+     ],
+     "invokes": "ResizeWindow",
+     "param": "SouthEast",
+     "enabled_when": "右下の隅の幅 6 px の縁を左ボタンでドラッグしたとき。MainWindow.windowState が Maximized でなく、モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。縁はウィンドウの外周 6 px にあって本体(タイトルバー・ツールバー・インスペクター・タイムライン)より上、オーバーレイとエラーのバナーより下に重なるので、外周 6 px の押下はその下の部品には届かない。最大化中も縁は押下を取り、何もしない(下の部品にも届かない)"
+    },
+    {
+     "id": "EL-MAIN-DRAGOVER",
+     "kind": "input",
+     "shows": [],
+     "invokes": "DragOver",
+     "param": null,
+     "enabled_when": "常に(ウィンドウ全体。オーバーレイの表示中・書き出し中も)。ファイルを含むドラッグなら受け入れ(コピー)の表示"
+    },
+    {
+     "id": "EL-MAIN-DROP",
+     "kind": "input",
+     "shows": [],
+     "invokes": "DropFile",
+     "param": null,
+     "enabled_when": "常に(ウィンドウ全体。オーバーレイの表示中・書き出し中も)。ドロップしたファイルのうち最初の 1 つだけを見て、その拡張子が .mp4 .mov .mkv .m4v .webm(大文字小文字を区別しない)なら読み込み、そうでなければ何もしない(2 つ目以降に動画があっても読まない)"
+    },
+    {
+     "id": "EL-MAIN-ERROR-BANNER",
+     "kind": "display",
+     "shows": [
+      "LoadError.message",
+      "LoadError.visible"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは LoadError.visible のとき(画面下部中央・警告色の点つき・最大幅 520 px で折り返し)"
+    },
+    {
+     "id": "EL-MAIN-ERROR-CLOSE",
+     "kind": "command",
+     "shows": [],
+     "invokes": "ClearError",
+     "param": null,
+     "enabled_when": "エラーのバナーが表示されている(LoadError.visible)とき。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-KEY-SPACE",
+     "kind": "command",
+     "shows": [],
+     "invokes": "TogglePlay",
+     "param": null,
+     "enabled_when": "キー Space(Ctrl・Shift・Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)"
+    },
+    {
+     "id": "EL-KEY-LEFT",
+     "kind": "command",
+     "shows": [],
+     "invokes": "StepBack",
+     "param": null,
+     "enabled_when": "キー ← または ,(Shift を押していない。Ctrl・Alt は問わない: Ctrl+← も 1 フレーム戻る) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)"
+    },
+    {
+     "id": "EL-KEY-RIGHT",
+     "kind": "command",
+     "shows": [],
+     "invokes": "StepForward",
+     "param": null,
+     "enabled_when": "キー → または .(Shift を押していない。Ctrl・Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)"
+    },
+    {
+     "id": "EL-KEY-SHIFT-LEFT",
+     "kind": "command",
+     "shows": [],
+     "invokes": "StepSecondBack",
+     "param": null,
+     "enabled_when": "キー Shift+← または Shift+,(Ctrl・Alt は問わない: Ctrl+Shift+← も 1 秒戻る) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)"
+    },
+    {
+     "id": "EL-KEY-SHIFT-RIGHT",
+     "kind": "command",
+     "shows": [],
+     "invokes": "StepSecondForward",
+     "param": null,
+     "enabled_when": "キー Shift+→ または Shift+.(Ctrl・Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)"
+    },
+    {
+     "id": "EL-KEY-S",
+     "kind": "command",
+     "shows": [],
+     "invokes": "Split",
+     "param": null,
+     "enabled_when": "キー S(Ctrl を押していない。Shift・Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)。EditSession.canSplit を見ずに Split を実行する(ツールバーの Split が無効の表示でも働く)。分割できるかは Split の定義どおり、SnapFrame(playhead) の位置の区間の [開始 + 0.5, 終了 − 0.5](両端を含む)で決まり、canSplit(丸める前の playhead・両端を含まない)より広い。範囲外なら何も起きない"
+    },
+    {
+     "id": "EL-KEY-I",
+     "kind": "command",
+     "shows": [],
+     "invokes": "SetTrimIn",
+     "param": null,
+     "enabled_when": "キー I(Ctrl を押していない。Shift・Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)。EditSession.canSetTrimIn でなければ何も起きない"
+    },
+    {
+     "id": "EL-KEY-O",
+     "kind": "command",
+     "shows": [],
+     "invokes": "SetTrimOut",
+     "param": null,
+     "enabled_when": "キー O(Ctrl を押していない。Shift・Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)。EditSession.canSetTrimOut でなければ何も起きない"
+    },
+    {
+     "id": "EL-KEY-DELETE",
+     "kind": "command",
+     "shows": [],
+     "invokes": "ToggleExclude",
+     "param": null,
+     "enabled_when": "キー Delete または Backspace(Ctrl・Shift・Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)。EditSession.canToggleExclude でなければ何も起きない"
+    },
+    {
+     "id": "EL-KEY-M",
+     "kind": "command",
+     "shows": [],
+     "invokes": "ToggleMute",
+     "param": null,
+     "enabled_when": "キー M(Ctrl を押していない。Shift・Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)。編集対象の区間が無ければ(EditSession.hasSelection が偽)何も起きない"
+    },
+    {
+     "id": "EL-KEY-CTRL-Z",
+     "kind": "command",
+     "shows": [],
+     "invokes": "Undo",
+     "param": null,
+     "enabled_when": "キー Ctrl+Z(Shift を押していない。Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)。History.canUndo でなければ何も起きない"
+    },
+    {
+     "id": "EL-KEY-CTRL-SHIFT-Z",
+     "kind": "command",
+     "shows": [],
+     "invokes": "Redo",
+     "param": null,
+     "enabled_when": "キー Ctrl+Shift+Z(Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)。History.canRedo でなければ何も起きない"
+    },
+    {
+     "id": "EL-KEY-CTRL-Y",
+     "kind": "command",
+     "shows": [],
+     "invokes": "Redo",
+     "param": null,
+     "enabled_when": "キー Ctrl+Y(Shift・Alt は問わない) を押したとき。文字の入力欄にフォーカスが無いとき(InspectorView.focusedInput = none)。オーバーレイの表示中・書き出し中も働く。ただしフォーカスのある部品がキーを先に処理したとき(ボタンの Space、スライダーの矢印キーなど)はウィンドウに届かない(Avalonia 12.0.0 の既定の動作で、ソースからは決まらない。スライダーの側では同じキーで値が変わる可能性がある)。History.canRedo でなければ何も起きない"
+    }
+   ]
+  },
+  {
+   "id": "SCR-FFMPEG",
+   "name": "ffmpeg セットアップのオーバーレイ",
+   "authority_view": "MainWindow",
+   "elements": [
+    {
+     "id": "EL-FF-OVERLAY",
+     "kind": "display",
+     "shows": [
+      "FfmpegSetup.shown"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは FfmpegSetup.shown のとき(ウィンドウ全体を覆うスクリムと幅 470 px のカード。スクリムの押下では閉じない)"
+    },
+    {
+     "id": "EL-FF-PROGRESS",
+     "kind": "display",
+     "shows": [
+      "FfmpegSetup.installProgress",
+      "FfmpegSetup.installText",
+      "FfmpegSetup.installing"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは FfmpegSetup.installing のとき(進捗バーと「Downloading… N%」)"
+    },
+    {
+     "id": "EL-FF-ERROR",
+     "kind": "display",
+     "shows": [
+      "FfmpegSetup.errorMessage"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは FfmpegSetup.errorMessage が空でないとき(警告色)"
+    },
+    {
+     "id": "EL-FF-LATER",
+     "kind": "command",
+     "shows": [],
+     "invokes": "DismissFfmpegSetup",
+     "param": null,
+     "enabled_when": "FfmpegSetup.shown で、取得中でない(FfmpegSetup.installing が偽。取得中はボタンを隠す)とき"
+    },
+    {
+     "id": "EL-FF-DOWNLOAD",
+     "kind": "command",
+     "shows": [],
+     "invokes": "InstallFfmpeg",
+     "param": null,
+     "enabled_when": "FfmpegSetup.shown で、取得中でない(FfmpegSetup.installing が偽。取得中はボタンを隠す)とき"
+    }
+   ]
+  },
+  {
+   "id": "SCR-TITLEBAR",
+   "name": "タイトルバー",
+   "authority_view": "TitleBarView",
+   "elements": [
+    {
+     "id": "EL-TB-FILENAME",
+     "kind": "display",
+     "shows": [
+      "Clip.fileName"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(中央・フィルムのアイコンつき・最大幅 420 px で末尾を省略)"
+    },
+    {
+     "id": "EL-TB-STATUS",
+     "kind": "display",
+     "shows": [
+      "EditSession.statusText",
+      "EditSession.statusColor"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(ファイル名の右、点で区切る)"
+    },
+    {
+     "id": "EL-TB-NOPROJECT",
+     "kind": "display",
+     "shows": [],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されない(元のアプリではクリップが無いときだけ出るが、クリップは常にある)"
+    },
+    {
+     "id": "EL-TB-DRAG",
+     "kind": "command",
+     "shows": [
+      "MainWindow.position"
+     ],
+     "invokes": "MoveWindow",
+     "param": null,
+     "enabled_when": "タイトルバー中央の領域を左ボタンでドラッグしたとき。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。ウィンドウの外周 6 px にかかる部分はリサイズの縁(EL-MAIN-RESIZE-*)が押下を取るので届かない"
+    },
+    {
+     "id": "EL-TB-DRAG-DOUBLE",
+     "kind": "command",
+     "shows": [
+      "MainWindow.windowState"
+     ],
+     "invokes": "ToggleMaximize",
+     "param": null,
+     "enabled_when": "タイトルバー中央の領域を左ボタンでダブルクリックしたとき。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。ウィンドウの外周 6 px にかかる部分はリサイズの縁(EL-MAIN-RESIZE-*)が押下を取るので届かない(最大化中でも上端 6 px のダブルクリックでは元に戻らない)"
+    },
+    {
+     "id": "EL-TB-LANGUAGE",
+     "kind": "command",
+     "shows": [],
+     "invokes": "OpenLanguageMenu",
+     "param": null,
+     "enabled_when": "常に。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。開いたメニューは項目を選ぶかメニューの外を押すと閉じる(開閉の状態はモデルに無い)"
+    },
+    {
+     "id": "EL-TB-LANG-JA",
+     "kind": "command",
+     "shows": [
+      "Localization.uiLanguage"
+     ],
+     "invokes": "SwitchLanguage",
+     "param": "ja",
+     "enabled_when": "言語のメニューが開いているとき(項目「日本語」。言語名は翻訳しない。今の言語の印は出さない)"
+    },
+    {
+     "id": "EL-TB-LANG-EN",
+     "kind": "command",
+     "shows": [
+      "Localization.uiLanguage"
+     ],
+     "invokes": "SwitchLanguage",
+     "param": "en",
+     "enabled_when": "言語のメニューが開いているとき(項目「English」)"
+    },
+    {
+     "id": "EL-TB-ABOUT",
+     "kind": "command",
+     "shows": [],
+     "invokes": "OpenAbout",
+     "param": null,
+     "enabled_when": "常に(ⓘ)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TB-MINIMIZE",
+     "kind": "command",
+     "shows": [
+      "MainWindow.windowState"
+     ],
+     "invokes": "MinimizeWindow",
+     "param": null,
+     "enabled_when": "常に。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TB-MAXIMIZE",
+     "kind": "command",
+     "shows": [
+      "MainWindow.windowState"
+     ],
+     "invokes": "ToggleMaximize",
+     "param": null,
+     "enabled_when": "常に(アイコンは状態によらず同じ)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TB-CLOSE",
+     "kind": "command",
+     "shows": [],
+     "invokes": "CloseWindow",
+     "param": null,
+     "enabled_when": "常に(確認なしに閉じる)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    }
+   ]
+  },
+  {
+   "id": "SCR-TOOLBAR",
+   "name": "ツールバー",
+   "authority_view": "ToolbarView",
+   "elements": [
+    {
+     "id": "EL-TL-OPEN",
+     "kind": "command",
+     "shows": [],
+     "invokes": "Open",
+     "param": null,
+     "enabled_when": "モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。非同期のコマンド(CommunityToolkit.Mvvm 8.4.0 の AsyncRelayCommand・同時実行を許さない既定)なので、前の実行が終わるまでは無効の表示になる(ライブラリの既定の動作。その状態の属性はモデルに無い): ファイル選択ダイアログを開いているあいだと、選んだファイルの解析(LoadFileAsync)が終わるまで。ドロップ(EL-MAIN-DROP)はこのコマンドを通らないのでこの間も効く"
+    },
+    {
+     "id": "EL-TL-UNDO",
+     "kind": "command",
+     "shows": [
+      "History.canUndo"
+     ],
+     "invokes": "Undo",
+     "param": null,
+     "enabled_when": "History.canUndo のとき(偽なら無効の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TL-REDO",
+     "kind": "command",
+     "shows": [
+      "History.canRedo"
+     ],
+     "invokes": "Redo",
+     "param": null,
+     "enabled_when": "History.canRedo のとき。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TL-SPLIT",
+     "kind": "command",
+     "shows": [
+      "EditSession.canSplit"
+     ],
+     "invokes": "Split",
+     "param": null,
+     "enabled_when": "EditSession.canSplit のとき。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TL-MERGE",
+     "kind": "command",
+     "shows": [
+      "EditSession.canDeleteBoundary"
+     ],
+     "invokes": "DeleteSelectedBoundary",
+     "param": null,
+     "enabled_when": "EditSession.canDeleteBoundary のとき(表記 Merge・ja: 分割を解除)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TL-SETIN",
+     "kind": "command",
+     "shows": [
+      "EditSession.canSetTrimIn"
+     ],
+     "invokes": "SetTrimIn",
+     "param": null,
+     "enabled_when": "EditSession.canSetTrimIn のとき。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TL-SETOUT",
+     "kind": "command",
+     "shows": [
+      "EditSession.canSetTrimOut"
+     ],
+     "invokes": "SetTrimOut",
+     "param": null,
+     "enabled_when": "EditSession.canSetTrimOut のとき。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TL-EXPORT",
+     "kind": "command",
+     "shows": [],
+     "invokes": "ShowExportDialog",
+     "param": null,
+     "enabled_when": "常に(右端の主ボタン)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    }
+   ]
+  },
+  {
+   "id": "SCR-PREVIEW",
+   "name": "プレビュー",
+   "authority_view": "PreviewView",
+   "elements": [
+    {
+     "id": "EL-PV-FRAME",
+     "kind": "command",
+     "shows": [
+      "PreviewPlayer.frameWidth",
+      "PreviewPlayer.frameHeight",
+      "PreviewPlayer.frameAspect"
+     ],
+     "invokes": "TogglePlay",
+     "param": null,
+     "enabled_when": "映像枠を左ボタンで押したとき。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-PV-SCENE",
+     "kind": "display",
+     "shows": [
+      "PreviewPlayer.sceneVisible"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは PreviewPlayer.sceneVisible のとき(実映像の代わりの濃色のグラデーション)"
+    },
+    {
+     "id": "EL-PV-SPEED-FLAG",
+     "kind": "display",
+     "shows": [
+      "EditSession.showSpeedFlag",
+      "EditSession.speedNowText",
+      "EditSession.activePitchColor"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは EditSession.showSpeedFlag のとき(右上。ゲージ・「{速度}x」・音符のアイコンの色がピッチ維持)"
+    },
+    {
+     "id": "EL-PV-TIMECODE",
+     "kind": "display",
+     "shows": [
+      "EditSession.playheadTimecode",
+      "Clip.durationTimecode"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(左下のバッジ「{再生ヘッド} / {長さ}」)"
+    },
+    {
+     "id": "EL-PV-CENTER-PLAY",
+     "kind": "display",
+     "shows": [
+      "EditSession.showCenterPlayButton"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは EditSession.showCenterPlayButton のとき(押下は受けず、下の映像枠に通る)"
+    }
+   ]
+  },
+  {
+   "id": "SCR-TRANSPORT",
+   "name": "再生操作",
+   "authority_view": "TransportView",
+   "elements": [
+    {
+     "id": "EL-TP-TOSTART",
+     "kind": "command",
+     "shows": [],
+     "invokes": "ToStart",
+     "param": null,
+     "enabled_when": "常に。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TP-STEPBACK",
+     "kind": "command",
+     "shows": [],
+     "invokes": "StepBack",
+     "param": null,
+     "enabled_when": "常に。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TP-PLAY",
+     "kind": "command",
+     "shows": [
+      "EditSession.playIcon"
+     ],
+     "invokes": "TogglePlay",
+     "param": null,
+     "enabled_when": "常に(アイコンは再生/一時停止)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TP-STEPFWD",
+     "kind": "command",
+     "shows": [],
+     "invokes": "StepForward",
+     "param": null,
+     "enabled_when": "常に。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TP-TOEND",
+     "kind": "command",
+     "shows": [],
+     "invokes": "ToEnd",
+     "param": null,
+     "enabled_when": "常に。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TP-TIMECODE",
+     "kind": "display",
+     "shows": [
+      "EditSession.playheadTimecode",
+      "Clip.durationTimecode"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(「{再生ヘッド} / {長さ}」と単位の注記)"
+    },
+    {
+     "id": "EL-TP-SPEED-PILL",
+     "kind": "display",
+     "shows": [
+      "EditSession.speedNowText"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(現在速度のピル)"
+    },
+    {
+     "id": "EL-TP-LENGTH-PILL",
+     "kind": "display",
+     "shows": [
+      "Document.exportLengthPillText",
+      "Document.sourceLengthClock",
+      "Document.outputLengthClock"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(「Export length {トリム後} → {書き出し}」)"
+    }
+   ]
+  },
+  {
+   "id": "SCR-TIMELINE",
+   "name": "タイムライン",
+   "authority_view": "TimelineView",
+   "elements": [
+    {
+     "id": "EL-TM-SUMMARY",
+     "kind": "display",
+     "shows": [
+      "Document.timelineSummary"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(見出しの「{区間数} regions · trim {M:SS}–{M:SS}」)"
+    },
+    {
+     "id": "EL-TM-THUMB-PROGRESS",
+     "kind": "display",
+     "shows": [
+      "MediaPreviewData.thumbnailsRefining"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは MediaPreviewData.thumbnailsRefining のとき(真になる経路が無いので表示されない)"
+    },
+    {
+     "id": "EL-TM-ZOOMOUT",
+     "kind": "command",
+     "shows": [
+      "TimelineView.pxPerSec"
+     ],
+     "invokes": "ZoomOut",
+     "param": null,
+     "enabled_when": "常に(下限でも押せる)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TM-ZOOMIN",
+     "kind": "command",
+     "shows": [
+      "TimelineView.pxPerSec"
+     ],
+     "invokes": "ZoomIn",
+     "param": null,
+     "enabled_when": "常に(上限でも押せる)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TM-SCROLL",
+     "kind": "input",
+     "shows": [
+      "TimelineView.scrollOffset",
+      "TimelineView.contentWidth",
+      "TimelineView.viewportWidth"
+     ],
+     "invokes": "ScrollTimeline",
+     "param": null,
+     "enabled_when": "内容が表示幅より広いとき(横スクロールバーは常設・ホバー時だけ太くなる)。ホイールで横にスクロールするかは、ソースにホイールの処理が無く ScrollViewer(縦スクロールは Disabled)の既定に任されているので、Avalonia 12.0.0 の既定の動作で、ソースからは決まらない(動けばこの操作)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。ウィンドウの外周 6 px にかかる部分はリサイズの縁(EL-MAIN-RESIZE-*)が押下を取るので届かない(スクロールバーの下端)"
+    },
+    {
+     "id": "EL-TM-RULER",
+     "kind": "command",
+     "shows": [
+      "TimelineView.rulerStep",
+      "TimelineView.pxPerSec",
+      "Clip.duration"
+     ],
+     "invokes": "Scrub",
+     "param": null,
+     "enabled_when": "ルーラー帯(トラックより上)を左ボタンで押したとき。ハンドル・境界が重なってもシークが優先。目盛りは M:SS。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TM-TRACK-SCRUB",
+     "kind": "command",
+     "shows": [
+      "EditSession.playhead"
+     ],
+     "invokes": "Scrub",
+     "param": null,
+     "enabled_when": "トラック(縦位置 30 px 以上)で、トリムのハンドルからも内部の境界からも 7 px より離れた位置を左ボタンで押したとき、および押したまま(dragMode = Scrub)ポインタを動かすたび。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TM-TRIMSTART-HANDLE",
+     "kind": "command",
+     "shows": [
+      "Document.trimStart"
+     ],
+     "invokes": "BeginTrimStartDrag",
+     "param": null,
+     "enabled_when": "トラック(縦位置 30 px 以上)でトリム開始のハンドルから 7 px 以内を左ボタンで押したとき(最優先)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TM-TRIMEND-HANDLE",
+     "kind": "command",
+     "shows": [
+      "Document.trimEnd"
+     ],
+     "invokes": "BeginTrimEndDrag",
+     "param": null,
+     "enabled_when": "トラック(縦位置 30 px 以上)でトリム終了のハンドルから 7 px 以内を左ボタンで押したとき(トリム開始のハンドルに当たらないとき)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TM-BOUNDARY",
+     "kind": "command",
+     "shows": [
+      "Document.regions",
+      "TimelineView.hoverBoundary"
+     ],
+     "invokes": "BeginBoundaryDrag",
+     "param": null,
+     "enabled_when": "トラック(縦位置 30 px 以上)で内部の境界から 7 px 以内を左ボタンで押したとき(ハンドルに当たらないとき・先頭側から最初の境界)。引数は境界の番号 i で、押した位置で決まる。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TM-TRIMSTART-MOVE",
+     "kind": "input",
+     "shows": [
+      "Document.trimStart"
+     ],
+     "invokes": "MoveTrimStart",
+     "param": null,
+     "enabled_when": "トリム開始のハンドルを押したまま(TimelineView.dragMode = TrimStart)ポインタを動かすたび"
+    },
+    {
+     "id": "EL-TM-TRIMEND-MOVE",
+     "kind": "input",
+     "shows": [
+      "Document.trimEnd"
+     ],
+     "invokes": "MoveTrimEnd",
+     "param": null,
+     "enabled_when": "トリム終了のハンドルを押したまま(TimelineView.dragMode = TrimEnd)ポインタを動かすたび"
+    },
+    {
+     "id": "EL-TM-BOUNDARY-MOVE",
+     "kind": "input",
+     "shows": [
+      "Document.regions"
+     ],
+     "invokes": "MoveBoundary",
+     "param": null,
+     "enabled_when": "境界を押したまま(TimelineView.dragMode = Boundary)ポインタを動かすたび"
+    },
+    {
+     "id": "EL-TM-RELEASE",
+     "kind": "command",
+     "shows": [
+      "TimelineView.dragMode"
+     ],
+     "invokes": "ReleaseTimelinePointer",
+     "param": null,
+     "enabled_when": "タイムラインでマウスのどのボタンを離したときも(押したボタンに限らない。ボタンを区別せず dragMode を None に戻しポインタのキャプチャを外す。例: 左ボタンでドラッグ中に右ボタンを押して離すとドラッグが終わる)"
+    },
+    {
+     "id": "EL-TM-HOVER",
+     "kind": "input",
+     "shows": [
+      "TimelineView.cursor",
+      "TimelineView.hoverBoundary"
+     ],
+     "invokes": "HoverTimeline",
+     "param": null,
+     "enabled_when": "ドラッグしていない(TimelineView.dragMode = None)ときにタイムライン上でポインタを動かすたび。ルーラー帯(縦位置 30 px 未満)でも働き、トラックの外として TimelineView.hoverBoundary を −1・cursor を Arrow にする(境界からルーラーへ動かすと掴みの強調と左右矢印のカーソルが消える)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-TM-LEAVE",
+     "kind": "command",
+     "shows": [
+      "TimelineView.cursor",
+      "TimelineView.hoverBoundary"
+     ],
+     "invokes": "LeaveTimeline",
+     "param": null,
+     "enabled_when": "ポインタがタイムラインの外へ出たとき"
+    },
+    {
+     "id": "EL-TM-REGIONS",
+     "kind": "display",
+     "shows": [
+      "Document.regions",
+      "Region.start",
+      "Region.end",
+      "Region.speed",
+      "Region.isNormalSpeed",
+      "Region.speedColor",
+      "Region.excluded"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(区間ごとの塗り。等速でなく除外していない区間は速度の色を薄く敷く)"
+    },
+    {
+     "id": "EL-TM-REGION-LABEL",
+     "kind": "display",
+     "shows": [
+      "Region.speed",
+      "Region.preservePitch",
+      "Region.isNormalSpeed",
+      "Region.isMuted"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "除外していない区間で、幅が 44 px を超え、かつラベルの左端 labelX = max(区間の左端 + 8, 描画範囲の左端 + 8) が 区間の右端 − 44 より左にあるとき。描画範囲の左端は画面の左端ではなく max(0, TimelineView.scrollOffset − 400 px)(余白 400 px 込み・REQ-048)。そのためスクロール位置が 400 px 未満なら labelX は常に区間の左端 + 8 で、それ以上でも基準は画面の左端より 400 px 左にある。ラベルは画面の左端に張り付かずに区間と一緒に画面の外へ流れ、描かれなくなるのは描画範囲の左端より右に残る区間の部分が約 52 px 以下になったとき(そのとき区間はすでに画面の外)(「{速度}x」・等速でなくピッチ維持がオフなら「♪off」・ミュートならスピーカー×)"
+    },
+    {
+     "id": "EL-TM-EXCLUDED-MASK",
+     "kind": "display",
+     "shows": [
+      "Region.excluded"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "除外した区間ごと(暗いマスクと斜めの取り消し線)"
+    },
+    {
+     "id": "EL-TM-MUTED-AUDIO",
+     "kind": "display",
+     "shows": [
+      "Region.isMuted",
+      "MediaPreviewData.showWaveform"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "波形を表示していて、ミュートで除外していない区間ごと(波形を伏せて中央に警告色の平坦な線)"
+    },
+    {
+     "id": "EL-TM-TRIM-MASK",
+     "kind": "display",
+     "shows": [
+      "Document.trimStart",
+      "Document.trimEnd"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(トリム範囲の外を暗くする)"
+    },
+    {
+     "id": "EL-TM-SELECTED-OUTLINE",
+     "kind": "display",
+     "shows": [
+      "EditSession.selectedRegionId",
+      "EditSession.selectedRegion"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection・アクセント色の枠)"
+    },
+    {
+     "id": "EL-TM-BOUNDARY-LINES",
+     "kind": "display",
+     "shows": [
+      "Document.regions",
+      "Document.regionCount",
+      "TimelineView.hoverBoundary"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "内部の境界ごと(区切り線と上端の小さな印。TimelineView.hoverBoundary の境界は掴みを濃く出す)"
+    },
+    {
+     "id": "EL-TM-TRIM-HANDLES",
+     "kind": "display",
+     "shows": [
+      "Document.trimStart",
+      "Document.trimEnd"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(トリム開始・終了の位置のアクセント色のハンドル)"
+    },
+    {
+     "id": "EL-TM-PLAYHEAD",
+     "kind": "display",
+     "shows": [
+      "EditSession.playhead"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(白い縦線と上部の印)"
+    },
+    {
+     "id": "EL-TM-COPYCUT-MARKER",
+     "kind": "display",
+     "shows": [
+      "ExportJob.showCopyCutMarker",
+      "ExportJob.copyCutStart",
+      "Document.trimStart"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.showCopyCutMarker のとき(コピーの開始キーフレームからトリム開始までのリードの帯と、キーフレームの位置の警告色の破線)"
+    },
+    {
+     "id": "EL-TM-THUMBNAILS",
+     "kind": "display",
+     "shows": [
+      "MediaPreviewData.showThumbnails",
+      "MediaPreviewData.filmstrip",
+      "MediaPreviewData.filmstripInterval",
+      "MediaPreviewData.filmstripApproximate",
+      "MediaPreviewData.visibleThumbnails"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "MediaPreviewData.showThumbnails のとき(全体のフィルムストリップがあれば不透明度 0.5 で並べる。無ければ擬似のグラデーションの上に可視範囲のサムネイル)"
+    },
+    {
+     "id": "EL-TM-WAVEFORM",
+     "kind": "display",
+     "shows": [
+      "MediaPreviewData.showWaveform",
+      "MediaPreviewData.waveform"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "MediaPreviewData.showWaveform のとき(トラック下部。実データが無ければ擬似の波形)"
+    }
+   ]
+  },
+  {
+   "id": "SCR-INSPECTOR",
+   "name": "インスペクター",
+   "authority_view": "InspectorView",
+   "elements": [
+    {
+     "id": "EL-INS-SCROLL",
+     "kind": "input",
+     "shows": [
+      "InspectorView.scrollOffset"
+     ],
+     "invokes": "ScrollInspector",
+     "param": null,
+     "enabled_when": "上部の領域が表示の高さより長いとき(縦のスクロールバーは自動)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。ウィンドウの外周 6 px にかかる部分はリサイズの縁(EL-MAIN-RESIZE-*)が押下を取るので届かない(スクロールバーの右端)"
+    },
+    {
+     "id": "EL-INS-REGION-SWATCH",
+     "kind": "display",
+     "shows": [
+      "EditSession.selectedSwatchColor"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは編集対象の区間があるとき(EditSession.hasSelection)"
+    },
+    {
+     "id": "EL-INS-REGION-TITLE",
+     "kind": "display",
+     "shows": [
+      "EditSession.regionTitle"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは編集対象の区間があるとき(EditSession.hasSelection)(見出し Inspector_PlayheadRegion「Region at playhead」・ja「再生位置の区間」の下)"
+    },
+    {
+     "id": "EL-INS-REGION-START",
+     "kind": "display",
+     "shows": [
+      "EditSession.regionStartTimecode"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは編集対象の区間があるとき(EditSession.hasSelection)"
+    },
+    {
+     "id": "EL-INS-REGION-END",
+     "kind": "display",
+     "shows": [
+      "EditSession.regionEndTimecode"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは編集対象の区間があるとき(EditSession.hasSelection)"
+    },
+    {
+     "id": "EL-INS-REGION-DURATION",
+     "kind": "display",
+     "shows": [
+      "EditSession.regionDurationClock"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは編集対象の区間があるとき(EditSession.hasSelection)"
+    },
+    {
+     "id": "EL-INS-SPEED-VALUE",
+     "kind": "display",
+     "shows": [
+      "EditSession.selectedSpeedText",
+      "EditSession.selectedSpeedColor"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは編集対象の区間があるとき(EditSession.hasSelection)(大きな数字と「x」)"
+    },
+    {
+     "id": "EL-INS-SPEED-SLIDER",
+     "kind": "input",
+     "shows": [
+      "EditSession.speedSliderValue"
+     ],
+     "invokes": "SetSpeedContinuous",
+     "param": null,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)。つまみのドラッグ・トラックの押下で値が変わるたび(範囲 −2〜2 の log2)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。スライダーにフォーカスがあるときに矢印キーなどで値が変わるか(変われば 1 回ごとにこの操作で、ウィンドウのキー操作には届かない)は Avalonia 12.0.0 の既定の動作で、ソースからは決まらない(EL-KEY-LEFT・EL-KEY-RIGHT と同じ扱い)"
+    },
+    {
+     "id": "EL-INS-SPEED-SLIDER-PRESS",
+     "kind": "command",
+     "shows": [],
+     "invokes": "BeginInteractiveEdit",
+     "param": null,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)。速度のスライダーの押下が、つまみ・トラックに処理されずにスライダー自身まで届いたときだけ(上下の透明な余白)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SPEED-0_25",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeSpeedPreset"
+     ],
+     "invokes": "ApplySpeedPreset",
+     "param": 0.25,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 0.25x。EditSession.activeSpeedPreset が 0.25 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SPEED-0_5",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeSpeedPreset"
+     ],
+     "invokes": "ApplySpeedPreset",
+     "param": 0.5,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 0.5x。EditSession.activeSpeedPreset が 0.5 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SPEED-1",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeSpeedPreset"
+     ],
+     "invokes": "ApplySpeedPreset",
+     "param": 1.0,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 1x。EditSession.activeSpeedPreset が 1 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SPEED-1_5",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeSpeedPreset"
+     ],
+     "invokes": "ApplySpeedPreset",
+     "param": 1.5,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 1.5x。EditSession.activeSpeedPreset が 1.5 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SPEED-2",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeSpeedPreset"
+     ],
+     "invokes": "ApplySpeedPreset",
+     "param": 2.0,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 2x。EditSession.activeSpeedPreset が 2 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SPEED-3",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeSpeedPreset"
+     ],
+     "invokes": "ApplySpeedPreset",
+     "param": 3.0,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 3x。EditSession.activeSpeedPreset が 3 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SPEED-4",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeSpeedPreset"
+     ],
+     "invokes": "ApplySpeedPreset",
+     "param": 4.0,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 4x。EditSession.activeSpeedPreset が 4 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SPEED-SUMMARY",
+     "kind": "display",
+     "shows": [
+      "EditSession.regionSpeedSummary"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは編集対象の区間があるとき(EditSession.hasSelection)"
+    },
+    {
+     "id": "EL-INS-VOLUME-VALUE",
+     "kind": "display",
+     "shows": [
+      "EditSession.volumeText",
+      "EditSession.selectedVolumeColor"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは編集対象の区間があるとき(EditSession.hasSelection)(数字と「%」)"
+    },
+    {
+     "id": "EL-INS-VOLUME-SLIDER",
+     "kind": "input",
+     "shows": [
+      "EditSession.volumeSliderValue"
+     ],
+     "invokes": "SetVolumeContinuous",
+     "param": null,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)。つまみのドラッグ・トラックの押下で値が変わるたび(0〜200・線形)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)。スライダーにフォーカスがあるときに矢印キーなどで値が変わるか(変われば 1 回ごとにこの操作で、ウィンドウのキー操作には届かない)は Avalonia 12.0.0 の既定の動作で、ソースからは決まらない(EL-KEY-LEFT・EL-KEY-RIGHT と同じ扱い)"
+    },
+    {
+     "id": "EL-INS-VOLUME-SLIDER-PRESS",
+     "kind": "command",
+     "shows": [],
+     "invokes": "BeginInteractiveEdit",
+     "param": null,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)。音量のスライダーの押下が、つまみ・トラックに処理されずにスライダー自身まで届いたときだけ。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-VOLUME-0",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeVolumePreset"
+     ],
+     "invokes": "ApplyVolumePreset",
+     "param": 0,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 Mute。EditSession.activeVolumePreset が Mute なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-VOLUME-50",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeVolumePreset"
+     ],
+     "invokes": "ApplyVolumePreset",
+     "param": 50,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 50%。EditSession.activeVolumePreset が 50 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-VOLUME-100",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeVolumePreset"
+     ],
+     "invokes": "ApplyVolumePreset",
+     "param": 100,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 100%。EditSession.activeVolumePreset が 100 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-VOLUME-150",
+     "kind": "command",
+     "shows": [
+      "EditSession.activeVolumePreset"
+     ],
+     "invokes": "ApplyVolumePreset",
+     "param": 150,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)(表記 150%。EditSession.activeVolumePreset が 150 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-MUTE-NOTE",
+     "kind": "display",
+     "shows": [
+      "EditSession.showMuteNote"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは EditSession.showMuteNote のとき(「Silences this region (video unchanged).」)"
+    },
+    {
+     "id": "EL-INS-CLIP-NOTE",
+     "kind": "display",
+     "shows": [
+      "EditSession.showClippingNote"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは EditSession.showClippingNote のとき(「Above 100% may cause clipping.」)"
+    },
+    {
+     "id": "EL-INS-PITCH-ROW",
+     "kind": "command",
+     "shows": [
+      "EditSession.selectedRegion",
+      "Region.preservePitch"
+     ],
+     "invokes": "TogglePitch",
+     "param": null,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)。行のどこでも・マウスのどのボタンでも。切り替えの表示は編集対象の区間の preservePitch。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-PITCH-NOTE",
+     "kind": "display",
+     "shows": [
+      "EditSession.showNoPitchCorrectionNote"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは EditSession.showNoPitchCorrectionNote のとき(「No correction is applied at normal speed.」)"
+    },
+    {
+     "id": "EL-INS-EXCLUDE-ROW",
+     "kind": "command",
+     "shows": [
+      "EditSession.selectedRegion",
+      "Region.excluded",
+      "EditSession.canToggleExclude"
+     ],
+     "invokes": "ToggleExclude",
+     "param": null,
+     "enabled_when": "編集対象の区間があるとき(EditSession.hasSelection)かつ EditSession.canToggleExclude のとき(偽なら行ごと無効の表示で押下が届かない)。マウスのどのボタンでも。切り替えの表示は編集対象の区間の excluded。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-CLIP-NAME",
+     "kind": "display",
+     "shows": [
+      "Clip.fileName"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは編集対象の区間が無いとき(EditSession.hasSelection が偽。見出し Clip info)。ただし到達しない: 区間がある限り編集対象は ResolveSelection で必ず決まる(REQ-065)ので、EditSession.hasSelection は偽にならず、この表示は出ない。シナリオの期待状態には書かない"
+    },
+    {
+     "id": "EL-INS-CLIP-RESOLUTION",
+     "kind": "display",
+     "shows": [
+      "OutputSettings.originalResolutionText"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは EditSession.hasSelection が偽のとき(ソースの「W×H」)。ただし到達しない: 区間がある限り編集対象は ResolveSelection で必ず決まる(REQ-065)ので、EditSession.hasSelection は偽にならず、この表示は出ない。シナリオの期待状態には書かない"
+    },
+    {
+     "id": "EL-INS-CLIP-FPS",
+     "kind": "display",
+     "shows": [
+      "Clip.fpsText"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは EditSession.hasSelection が偽のとき。ただし到達しない: 区間がある限り編集対象は ResolveSelection で必ず決まる(REQ-065)ので、EditSession.hasSelection は偽にならず、この表示は出ない。シナリオの期待状態には書かない"
+    },
+    {
+     "id": "EL-INS-CLIP-DURATION",
+     "kind": "display",
+     "shows": [
+      "Clip.durationTimecode"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは EditSession.hasSelection が偽のとき。ただし到達しない: 区間がある限り編集対象は ResolveSelection で必ず決まる(REQ-065)ので、EditSession.hasSelection は偽にならず、この表示は出ない。シナリオの期待状態には書かない"
+    },
+    {
+     "id": "EL-INS-CLIP-CODEC",
+     "kind": "display",
+     "shows": [
+      "Clip.codecText"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは EditSession.hasSelection が偽のとき。ただし到達しない: 区間がある限り編集対象は ResolveSelection で必ず決まる(REQ-065)ので、EditSession.hasSelection は偽にならず、この表示は出ない。シナリオの期待状態には書かない"
+    },
+    {
+     "id": "EL-INS-AFTER-TRIM",
+     "kind": "display",
+     "shows": [
+      "Document.sourceLengthClock"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(下部に固定・After trim)"
+    },
+    {
+     "id": "EL-INS-AFTER-SPEED",
+     "kind": "display",
+     "shows": [
+      "Document.outputLengthClock"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(After speed・アクセント色)"
+    },
+    {
+     "id": "EL-INS-WIDTH",
+     "kind": "input",
+     "shows": [
+      "OutputSettings.widthInputText",
+      "OutputSettings.outputWidth"
+     ],
+     "invokes": "EditWidthText",
+     "param": null,
+     "enabled_when": "常に(幅の入力欄に文字を打つ。確定までは出力寸法を変えない)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-WIDTH-FOCUS",
+     "kind": "command",
+     "shows": [
+      "InspectorView.focusedInput"
+     ],
+     "invokes": "FocusWidthInput",
+     "param": null,
+     "enabled_when": "常に(幅の入力欄をクリック・Tab で移る)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-WIDTH-COMMIT",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.outputWidth",
+      "OutputSettings.outputHeight"
+     ],
+     "invokes": "ApplyWidth",
+     "param": null,
+     "enabled_when": "幅の入力欄にフォーカスがある(InspectorView.focusedInput = width)ときの Enter、またはそこからフォーカスが外れたとき"
+    },
+    {
+     "id": "EL-INS-HEIGHT",
+     "kind": "input",
+     "shows": [
+      "OutputSettings.heightInputText",
+      "OutputSettings.outputHeight"
+     ],
+     "invokes": "EditHeightText",
+     "param": null,
+     "enabled_when": "常に(高さの入力欄に文字を打つ)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-HEIGHT-FOCUS",
+     "kind": "command",
+     "shows": [
+      "InspectorView.focusedInput"
+     ],
+     "invokes": "FocusHeightInput",
+     "param": null,
+     "enabled_when": "常に(高さの入力欄をクリック・Tab で移る)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-HEIGHT-COMMIT",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.outputWidth",
+      "OutputSettings.outputHeight"
+     ],
+     "invokes": "ApplyHeight",
+     "param": null,
+     "enabled_when": "高さの入力欄にフォーカスがある(InspectorView.focusedInput = height)ときの Enter、またはそこからフォーカスが外れたとき"
+    },
+    {
+     "id": "EL-INS-ASPECT-ROW",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.keepAspect",
+      "OutputSettings.aspectRatioText"
+     ],
+     "invokes": "ToggleAspect",
+     "param": null,
+     "enabled_when": "常に(行のどこでも・マウスのどのボタンでも。「{W/H}:1」を添える)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SCALE-100",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.outputWidth",
+      "OutputSettings.outputHeight",
+      "Clip.width",
+      "Clip.height"
+     ],
+     "invokes": "Scale",
+     "param": 1,
+     "enabled_when": "常に(表記 100%)。選択の表示はプリセットごとに独立に判定する: outputWidth = Even(Clip.width × 1) かつ outputHeight = Even(Clip.height × 1) のとき(Even(n) = max(2, 偶数丸め(n/2)·2))。そのため 2 つ以上が同時に選択の表示になりうる(例: ソース 4×4 では 100% と 75%、2×2 では 3 つすべて)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SCALE-75",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.outputWidth",
+      "OutputSettings.outputHeight",
+      "Clip.width",
+      "Clip.height"
+     ],
+     "invokes": "Scale",
+     "param": 0.75,
+     "enabled_when": "常に(表記 75%)。選択の表示はプリセットごとに独立に判定する: outputWidth = Even(Clip.width × 0.75) かつ outputHeight = Even(Clip.height × 0.75) のとき(Even(n) = max(2, 偶数丸め(n/2)·2))。そのため 2 つ以上が同時に選択の表示になりうる(例: ソース 4×4 では 100% と 75%、2×2 では 3 つすべて)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SCALE-50",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.outputWidth",
+      "OutputSettings.outputHeight",
+      "Clip.width",
+      "Clip.height"
+     ],
+     "invokes": "Scale",
+     "param": 0.5,
+     "enabled_when": "常に(表記 50%)。選択の表示はプリセットごとに独立に判定する: outputWidth = Even(Clip.width × 0.5) かつ outputHeight = Even(Clip.height × 0.5) のとき(Even(n) = max(2, 偶数丸め(n/2)·2))。そのため 2 つ以上が同時に選択の表示になりうる(例: ソース 4×4 では 100% と 75%、2×2 では 3 つすべて)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-SCALE-RESET",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.showReset"
+     ],
+     "invokes": "Scale",
+     "param": 1,
+     "enabled_when": "表示されるのは OutputSettings.showReset のとき(表記 Reset = 100%)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-ORIGINAL-RES",
+     "kind": "display",
+     "shows": [
+      "OutputSettings.originalResolutionText",
+      "OutputSettings.resolutionDiffText"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(「Original {W×H}」と、違うときだけ「 → scaled to {W}×{H}」)"
+    },
+    {
+     "id": "EL-INS-FPS-SOURCE",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.fpsSourceActive",
+      "OutputSettings.fpsSourceTip"
+     ],
+     "invokes": "SetFps",
+     "param": "source",
+     "enabled_when": "常に(表記 Source。OutputSettings.fpsSourceActive なら選択の表示。ツールチップ「Same as source ({fps} fps)」)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-FPS-24",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.activeFpsPreset"
+     ],
+     "invokes": "SetFps",
+     "param": 24,
+     "enabled_when": "常に(表記 24。OutputSettings.activeFpsPreset が 24 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-FPS-30",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.activeFpsPreset"
+     ],
+     "invokes": "SetFps",
+     "param": 30,
+     "enabled_when": "常に(表記 30。OutputSettings.activeFpsPreset が 30 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-FPS-60",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.activeFpsPreset"
+     ],
+     "invokes": "SetFps",
+     "param": 60,
+     "enabled_when": "常に(表記 60。OutputSettings.activeFpsPreset が 60 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-FPS-120",
+     "kind": "command",
+     "shows": [
+      "OutputSettings.activeFpsPreset"
+     ],
+     "invokes": "SetFps",
+     "param": 120,
+     "enabled_when": "常に(表記 120。OutputSettings.activeFpsPreset が 120 なら選択の表示)。モーダルのオーバーレイ(書き出し・About・ffmpeg セットアップ)を表示していないとき(MainWindow.modalOverlayShown が偽。表示中はマウスの操作が届かない)"
+    },
+    {
+     "id": "EL-INS-FPS-NOTE",
+     "kind": "display",
+     "shows": [
+      "OutputSettings.fpsUpsampling"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは OutputSettings.fpsUpsampling のとき(ソースより高い fps はフレームを複製する旨)"
+    }
+   ]
+  },
+  {
+   "id": "SCR-EXPORT",
+   "name": "書き出しダイアログ",
+   "authority_view": "ExportDialogView",
+   "elements": [
+    {
+     "id": "EL-EX-DIALOG",
+     "kind": "display",
+     "shows": [
+      "ExportJob.dialogShown"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.dialogShown のとき(ウィンドウ全体を覆うスクリムと幅 520 px のモーダル)"
+    },
+    {
+     "id": "EL-EX-SCRIM",
+     "kind": "command",
+     "shows": [],
+     "invokes": "CloseExport",
+     "param": null,
+     "enabled_when": "書き出しダイアログの表示中(ExportJob.dialogShown)。About と ffmpeg セットアップが上に重なっていないとき。モーダルの外(タイトルバーの上を含む)をマウスのどのボタンで押しても。書き出し中は何も起きない。モーダルの中の押下では閉じない"
+    },
+    {
+     "id": "EL-EX-FORMAT-MP4",
+     "kind": "command",
+     "shows": [
+      "ExportJob.selectedFormat",
+      "ExportFormat.title",
+      "ExportFormat.tag",
+      "ExportFormat.cardDescription"
+     ],
+     "invokes": "SelectFormat",
+     "param": "Mp4",
+     "enabled_when": "書き出しダイアログの表示中(ExportJob.dialogShown)。About と ffmpeg セットアップが上に重なっていないとき(カード MP4 (H.264 / AAC)。どこでも・マウスのどのボタンでも・書き出し中も。ExportJob.selectedFormat が Mp4 なら選択の表示)"
+    },
+    {
+     "id": "EL-EX-FORMAT-LOSSLESS",
+     "kind": "command",
+     "shows": [
+      "ExportJob.selectedFormat",
+      "ExportFormat.title",
+      "ExportFormat.tag",
+      "ExportFormat.cardDescription"
+     ],
+     "invokes": "SelectFormat",
+     "param": "Lossless",
+     "enabled_when": "書き出しダイアログの表示中(ExportJob.dialogShown)。About と ffmpeg セットアップが上に重なっていないとき(カード 中間ファイル (FFV1 / PCM)。どこでも・マウスのどのボタンでも・書き出し中も。ExportJob.selectedFormat が Lossless なら選択の表示)"
+    },
+    {
+     "id": "EL-EX-FORMAT-PRORES",
+     "kind": "command",
+     "shows": [
+      "ExportJob.selectedFormat",
+      "ExportFormat.title",
+      "ExportFormat.tag",
+      "ExportFormat.cardDescription"
+     ],
+     "invokes": "SelectFormat",
+     "param": "ProRes",
+     "enabled_when": "書き出しダイアログの表示中(ExportJob.dialogShown)。About と ffmpeg セットアップが上に重なっていないとき(カード ProRes 422 HQ / PCM。どこでも・マウスのどのボタンでも・書き出し中も。ExportJob.selectedFormat が ProRes なら選択の表示)"
+    },
+    {
+     "id": "EL-EX-FASTCOPY",
+     "kind": "input",
+     "shows": [
+      "ExportJob.fastExport",
+      "ExportJob.canFastExport"
+     ],
+     "invokes": "SetFastExport",
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.canFastExport のとき。書き出しダイアログの表示中(ExportJob.dialogShown)。About と ffmpeg セットアップが上に重なっていないとき。引数は切り替え後の値(今の fastExport の否定)"
+    },
+    {
+     "id": "EL-EX-FASTCOPY-HINT",
+     "kind": "display",
+     "shows": [
+      "ExportJob.canFastExport"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.canFastExport のとき(コピーの切り替えの下の説明 Export_FastCopyHint)"
+    },
+    {
+     "id": "EL-EX-VFR-NOTE",
+     "kind": "display",
+     "shows": [
+      "ExportJob.showVfrCopyNote"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.showVfrCopyNote のとき"
+    },
+    {
+     "id": "EL-EX-COPY-STRIP",
+     "kind": "display",
+     "shows": [
+      "ExportJob.showFastExportNote",
+      "ExportJob.copyCutStart",
+      "Document.trimStart",
+      "Document.trimEnd"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.showFastExportNote のとき(出力範囲 [キーフレーム(未算出ならトリム開始), トリム終了] を全幅にして、リードを警告色・本来の範囲をアクセント色で描く。キーフレームの注記を添える)"
+    },
+    {
+     "id": "EL-EX-LEADIN",
+     "kind": "display",
+     "shows": [
+      "ExportJob.showCopyCutMarker",
+      "ExportJob.copyLeadInText"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.showCopyCutMarker のとき(警告色)"
+    },
+    {
+     "id": "EL-EX-SUMMARY-RES",
+     "kind": "display",
+     "shows": [
+      "OutputSettings.outputResolutionText"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(要約の Output resolution)"
+    },
+    {
+     "id": "EL-EX-SUMMARY-FPS",
+     "kind": "display",
+     "shows": [
+      "OutputSettings.outputFpsText"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(「{表記} fps」)"
+    },
+    {
+     "id": "EL-EX-SUMMARY-DURATION",
+     "kind": "display",
+     "shows": [
+      "ExportJob.outputDurationText",
+      "Document.outputLengthClock",
+      "Document.sourceLengthClock"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "常に(「{書き出しの長さ} (orig {トリム後の長さ})」)"
+    },
+    {
+     "id": "EL-EX-PROGRESS",
+     "kind": "display",
+     "shows": [
+      "ExportJob.isExporting",
+      "ExportJob.progress",
+      "ExportJob.percentText"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.isExporting のとき(進捗バーと「{N}%」)"
+    },
+    {
+     "id": "EL-EX-DETAIL",
+     "kind": "display",
+     "shows": [
+      "ExportJob.detailText",
+      "ExportJob.etaText"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.isExporting のとき(「Frame {N} · ×{速度}」と「About {M:SS} left」)"
+    },
+    {
+     "id": "EL-EX-ABORT",
+     "kind": "command",
+     "shows": [],
+     "invokes": "CancelExport",
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.isExporting のとき。書き出しダイアログの表示中(ExportJob.dialogShown)。About と ffmpeg セットアップが上に重なっていないとき"
+    },
+    {
+     "id": "EL-EX-STATUS",
+     "kind": "display",
+     "shows": [
+      "ExportJob.statusMessage",
+      "ExportJob.showStatus"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.showStatus のとき(ボタンの上・警告色)"
+    },
+    {
+     "id": "EL-EX-CANCEL",
+     "kind": "command",
+     "shows": [],
+     "invokes": "CloseExport",
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.isExporting が偽のとき。書き出しダイアログの表示中(ExportJob.dialogShown)。About と ffmpeg セットアップが上に重なっていないとき"
+    },
+    {
+     "id": "EL-EX-CONFIRM",
+     "kind": "command",
+     "shows": [],
+     "invokes": "ConfirmExport",
+     "param": null,
+     "enabled_when": "表示されるのは ExportJob.isExporting が偽のとき。書き出しダイアログの表示中(ExportJob.dialogShown)。About と ffmpeg セットアップが上に重なっていないとき。非同期のコマンド(CommunityToolkit.Mvvm 8.4.0 の AsyncRelayCommand・同時実行を許さない既定)なので、前の実行が終わるまでは無効の表示になる(ライブラリの既定の動作。その状態の属性はモデルに無い): 保存先の選択ダイアログを開いているあいだも無効の表示"
+    }
+   ]
+  },
+  {
+   "id": "SCR-OPEN-PICKER",
+   "name": "開くファイルの選択ダイアログ(OS)",
+   "authority_view": "MainWindow",
+   "elements": [
+    {
+     "id": "EL-OP-PICKER",
+     "kind": "display",
+     "shows": [],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "OS のファイルの選択ダイアログ(アプリはタイトル・種類・既定の名前を渡すだけで、見た目と操作は OS のもの)。ツールバーの Open(EL-TL-OPEN)で開く。タイトル Dialog_OpenVideo(en「Open video」・ja「動画を開く」)・単一選択・種類は Dialog_VideoFiles(*.mp4 *.mov *.mkv *.m4v *.webm)と Dialog_AllFiles(*)。選んだファイルのパスが Open の続き(読み込み)に渡り、選ばずに閉じたら何も起きない(どちらも Open の定義の中)"
+    }
+   ]
+  },
+  {
+   "id": "SCR-SAVE-PICKER",
+   "name": "書き出し先の選択ダイアログ(OS)",
+   "authority_view": "MainWindow",
+   "elements": [
+    {
+     "id": "EL-SP-PICKER",
+     "kind": "display",
+     "shows": [
+      "ExportFormat.extension"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "OS のファイルの選択ダイアログ(アプリはタイトル・種類・既定の名前を渡すだけで、見た目と操作は OS のもの)。書き出しダイアログの Export(EL-EX-CONFIRM)で、実ファイルのときだけ開く。タイトル Dialog_SaveAs(en「Export to」・ja「書き出し先」)・既定の拡張子は選んでいる形式の extension・種類は Dialog_FileSuffix「{拡張子の大文字} file」(*.{拡張子})"
+    },
+    {
+     "id": "EL-SP-FILENAME",
+     "kind": "display",
+     "shows": [
+      "ExportJob.suggestedFileName"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "保存先の選択ダイアログのファイル名の初期値(「{ファイル名の拡張子なし}_export{拡張子}」)。選んだパスは ConfirmExport の続きで ExportJob.outputPath になり、選ばずに閉じたら何も起きない(どちらも ConfirmExport の定義の中)"
+    }
+   ]
+  },
+  {
+   "id": "SCR-ABOUT",
+   "name": "About ダイアログ",
+   "authority_view": "AboutDialogView",
+   "elements": [
+    {
+     "id": "EL-AB-DIALOG",
+     "kind": "display",
+     "shows": [
+      "AboutDialog.shown"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは AboutDialog.shown のとき(スクリムと幅 560 px・最大高 660 px のモーダル。書き出しダイアログより上に重なる)"
+    },
+    {
+     "id": "EL-AB-SCRIM",
+     "kind": "command",
+     "shows": [],
+     "invokes": "CloseAbout",
+     "param": null,
+     "enabled_when": "About の表示中(AboutDialog.shown)。ffmpeg セットアップが上に重なっていないとき。モーダルの外をマウスのどのボタンで押しても。モーダルの中の押下では閉じない"
+    },
+    {
+     "id": "EL-AB-VERSION",
+     "kind": "display",
+     "shows": [
+      "AboutDialog.version"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは AboutDialog.shown のとき(「MoviePad」の右)"
+    },
+    {
+     "id": "EL-AB-NOTICES",
+     "kind": "display",
+     "shows": [
+      "AboutDialog.notices",
+      "AboutDialog.noticesIsFallback"
+     ],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "表示されるのは AboutDialog.shown のとき(ライセンス全文・等幅・折り返さない・縦横にスクロール・文字を選べる)"
+    },
+    {
+     "id": "EL-AB-NOTICES-SCROLL",
+     "kind": "input",
+     "shows": [],
+     "invokes": null,
+     "param": null,
+     "enabled_when": "About の表示中(AboutDialog.shown)。ffmpeg セットアップが上に重なっていないとき。全文が枠より大きいとき(縦横のスクロール)と文字の選択"
+    },
+    {
+     "id": "EL-AB-CLOSE",
+     "kind": "command",
+     "shows": [],
+     "invokes": "CloseAbout",
+     "param": null,
+     "enabled_when": "About の表示中(AboutDialog.shown)。ffmpeg セットアップが上に重なっていないとき"
+    }
+   ]
+  }
+ ],
+ "model_gaps": [
+  {
+   "element": "EL-TB-LANGUAGE",
+   "text": "言語のメニュー(「日本語」「English」の 2 項目)が開いているかの属性がモデルに無い(OpenLanguageMenu は何も変えない操作)。そのため EL-TB-LANG-JA・EL-TB-LANG-EN が使える条件「メニューが開いている」を、シナリオの期待状態に書けない。"
+  },
+  {
+   "element": "EL-TL-OPEN",
+   "text": "Open と ConfirmExport は非同期のコマンドで、実行中(ファイル/保存先の選択ダイアログを開いている間・読み込みの解析中・書き出し中)はボタンが無効の表示になるが、この「実行中」の状態の属性がモデルに無い。"
+  },
+  {
+   "element": "EL-TB-NOPROJECT",
+   "text": "「No project」(TitleBar_NoProject)は元のアプリでクリップが無いとき(NoClip)に出すが、モデルでは Clip は常に有る(起動時はサンプル・無しに戻らない)ので、表示条件をモデルの属性で書けない。到達しない表示として残す。"
+  },
+  {
+   "element": "EL-TM-THUMB-PROGRESS",
+   "text": "見出しのサムネイルの進捗の文言「サムネイル生成中 N/M」(ThumbnailProgressText・N と M は ThumbnailProgress/ThumbnailTotal)に当たる属性がモデルに無い。表示の条件 thumbnailsRefining は真になる経路が無いので、文言は到達しない。"
+  },
+  {
+   "element": "EL-INS-SCALE-100",
+   "text": "スケールのプリセットの選択の表示は、元のアプリでは 100%・75%・50% ごとの独立の真偽値(Scale100Active・Scale75Active・Scale50Active)で、同時に 2 つ以上が真になりうる。モデルの OutputSettings.activeScalePreset は 1 つの値(100・75・50・none)なのでこの場合を表せない。EL-INS-SCALE-100・-75・-50 はそれぞれの判定に使う outputWidth・outputHeight・Clip.width・Clip.height を shows に書いた。"
+  },
+  {
+   "element": "EL-OP-PICKER",
+   "text": "開くときのファイルの選択ダイアログは OS のもので、その設定(タイトル・種類)は固定の値でモデルに属性が無い。選ぶ・閉じるは Open の定義の一部(選んだパスが引数)なので、独自の操作も無い。"
+  },
+  {
+   "element": "EL-AB-NOTICES-SCROLL",
+   "text": "ライセンス全文の枠のスクロール位置と文字の選択に当たる属性・操作がモデルに無い(InspectorView.scrollOffset のような表示状態が About には無い)。"
+  }
+ ]
+}

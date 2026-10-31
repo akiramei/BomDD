@@ -1,0 +1,39 @@
+{
+ "answers": [
+  {
+   "finding": "F-1",
+   "action": "fixed",
+   "text": "MainWindow.axaml:20-67 の重なり順(本体 → リサイズの縁 → バナー)を確かめた。EL-MAIN-ERROR-BANNER に、表示中はその矩形の押下を取り下の部品に届かないこと・重なる位置(タイムラインの下部、幅によってはインスペクターの下部)・範囲が文言の長さとウィンドウの幅で変わることを書いた。押下が届かない条件として、EL-TM-RULER・EL-TM-TRACK-SCRUB・EL-TM-TRIMSTART-HANDLE・EL-TM-TRIMEND-HANDLE・EL-TM-BOUNDARY・EL-TM-HOVER・EL-TM-SCROLL と、下部にある EL-INS-FPS-SOURCE・EL-INS-FPS-24/30/60/120 にもバナーの注記を足した。"
+  },
+  {
+   "finding": "F-2",
+   "action": "fixed",
+   "text": "Controls.axaml で :disabled の見た目を持つのが Button.btn だけなことを確かめた。EL-INS-EXCLUDE-ROW の「行ごと無効の表示」を消し、IsEnabled=偽で押下が届かない(ここは確か)・無効の見た目はソースに定義が無く Fluent テーマ 12.0.0 の既定次第でソースからは決まらない、と書き直した。"
+  },
+  {
+   "finding": "F-3",
+   "action": "fixed",
+   "text": "shows の約束を「部品そのものが見せている値(有効・選択の表示を含む)だけ。操作の結果で変わっても部品が見せない値は入れない」に決めて全要素でそろえた。shows を [] にした: EL-TB-MINIMIZE・EL-TB-MAXIMIZE・EL-TB-LANG-JA・EL-TB-LANG-EN・EL-TB-DRAG・EL-TB-DRAG-DOUBLE・EL-MAIN-RESIZE-*(8 件)・EL-TM-ZOOMOUT・EL-TM-ZOOMIN・EL-TM-TRACK-SCRUB・EL-TM-TRIMSTART-HANDLE・EL-TM-TRIMEND-HANDLE・EL-TM-BOUNDARY・EL-TM-TRIMSTART-MOVE・EL-TM-TRIMEND-MOVE・EL-TM-BOUNDARY-MOVE・EL-TM-RELEASE・EL-TM-HOVER・EL-TM-LEAVE・EL-INS-WIDTH-FOCUS・EL-INS-HEIGHT-FOCUS・EL-INS-WIDTH-COMMIT・EL-INS-HEIGHT-COMMIT。それらの値は表示の要素(EL-TM-TRIM-HANDLES・EL-TM-PLAYHEAD・EL-TM-BOUNDARY-LINES・EL-INS-WIDTH など)が持つ。ポインタの形 TimelineView.cursor を見せる要素が無くなるので EL-TM-CURSOR(display)を足した。"
+  },
+  {
+   "finding": "F-4",
+   "action": "fixed",
+   "text": "書き戻し(InspectorView.axaml.cs:62-74 の tb.Text への代入)と Enter での tb.Focus() を確かめた。F-3 で決めた約束(shows は部品が見せる値だけ)により、確定の要素(押す Enter・フォーカスが外れる)の shows には足さず [] にし、結果が入力欄に見えること(widthInputText / heightInputText の書き戻し)と focusedInput の行き先(Enter では入力欄のまま・外れたときは外れた先)を EL-INS-WIDTH-COMMIT・EL-INS-HEIGHT-COMMIT の enabled_when に書いた。見える値は入力欄の EL-INS-WIDTH・EL-INS-HEIGHT の shows(widthInputText・outputWidth など)のまま。そのうえで EL-INS-WIDTH・EL-INS-HEIGHT に、直接の代入の後も OneWay の結びつけが 生きていて outputWidth/outputHeight の変化に追従するかは Avalonia 12.0.0 の既定の動作でソースからは決まらない(モデルの未決事項と同じ)、と注記した。"
+  },
+  {
+   "finding": "F-5",
+   "action": "fixed",
+   "text": "EL-INS-WIDTH・EL-INS-HEIGHT・EL-INS-WIDTH-FOCUS・EL-INS-HEIGHT-FOCUS で、オーバーレイの条件をクリックでフォーカスを移す経路だけに限り、Tab でのフォーカスの移動と打鍵は、オーバーレイの表示中に裏の入力欄へ届くかが Avalonia 12.0.0 の既定の動作でソースからは決まらない(オーバーレイは IsVisible で重ねるだけ)、と書いた。"
+  },
+  {
+   "finding": "F-6",
+   "action": "fixed",
+   "text": "部品から起こらない 16 の操作(ApplyStartupEnvironment と 15 の出来事。監査役の列挙と同じで、生成時にモデルの kind から数えた)を model_gaps(element EL-MAIN-WINDOW)に書き、これらで起きる遷移(進捗・リードの表示・シーンが消える・再生ヘッドの進行と停止・サムネイル・波形の到着)はシナリオのステップに書けないこと、扱い方の候補(出来事の後の状態を直接置いて始める・expect を unknown にする)を添えた。どれを採るかは次の段の判断なので、画面の一覧では決めていない。部品は作らない。"
+  },
+  {
+   "finding": "F-7",
+   "action": "fixed",
+   "text": "Views の ToolTip.Tip 22 個を数え、固定の 21 個について resx のキーと en の文言を各要素の enabled_when に足した: EL-TB-LANGUAGE・EL-TB-ABOUT・EL-TB-MINIMIZE・EL-TB-MAXIMIZE・EL-TB-CLOSE・EL-TL-UNDO・EL-TL-REDO・EL-TL-SPLIT・EL-TL-MERGE・EL-TL-SETIN・EL-TL-SETOUT・EL-TP-TOSTART・EL-TP-STEPBACK・EL-TP-PLAY・EL-TP-STEPFWD・EL-TP-TOEND・EL-TP-SPEED-PILL・EL-TP-LENGTH-PILL・EL-TM-ZOOMOUT・EL-TM-ZOOMIN・EL-INS-SCALE-RESET。残る 1 個は動的な EL-INS-FPS-SOURCE(fpsSourceTip)で、すでに書いてある。"
+  }
+ ]
+}

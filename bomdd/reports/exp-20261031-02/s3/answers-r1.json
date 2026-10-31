@@ -1,0 +1,59 @@
+{
+ "answers": [
+  {
+   "finding": "F-1",
+   "action": "fixed",
+   "text": "指摘どおり(MainWindow.axaml.cs:51-52 は SplitCommand をそのまま実行し、DocumentState.SplitAt は SnapFrame した ph で両端を含む [開始 + 0.5, 終了 − 0.5] を判定、CanSplitAt は丸める前の playhead で両端を含まない範囲 — ソースで確かめた)。EL-KEY-S の enabled_when を、canSplit を見ずに Split を実行し、分割できるかは Split の定義(丸めた ph・両端を含む)で決まって canSplit より広い、と書き直した。EL-TL-SPLIT(IsEnabled=CanSplit)はそのまま。"
+  },
+  {
+   "finding": "F-2",
+   "action": "fixed",
+   "text": "Open が [RelayCommand] の async Task で CommunityToolkit.Mvvm 8.4.0(csproj:53)の AsyncRelayCommand になり、同時実行なしの既定では実行中に CanExecute が偽になる点を EL-TL-OPEN の enabled_when に書き、ドロップはこの間も効くことを添えた。モデルに「実行中」の属性が無いので model_gaps に EL-TL-OPEN を足した。同じ仕組みの ConfirmExport(async Task)も EL-EX-CONFIRM に書いた(書き出し中はもともと隠れるが、保存先の選択中は無効の表示)。"
+  },
+  {
+   "finding": "F-3",
+   "action": "fixed",
+   "text": "EL-INS-CLIP-NAME・-RESOLUTION・-FPS・-DURATION・-CODEC の enabled_when に、ResolveSelection(DocumentState.cs:85-91)により区間がある限り 編集対象が決まるので hasSelection は偽にならず表示されない(REQ-065)、シナリオの期待状態に書かない、と添えた。EL-TB-NOPROJECT・EL-TM-THUMB-PROGRESS と書き方をそろえた。"
+  },
+  {
+   "finding": "F-4",
+   "action": "fixed",
+   "text": "TimelineControl.cs:832-844 を確かめた(inTrack が偽なら bi = −1・Cursor = Arrow)。EL-TM-HOVER の「ルーラー帯は対象外」を消し、ルーラー帯でも働いて hoverBoundary を −1・cursor を Arrow にする(境界からルーラーへ動かすと強調とカーソルが消える)と書いた。"
+  },
+  {
+   "finding": "F-5",
+   "action": "fixed",
+   "text": "ResizeOverlay が本体より上・オーバーレイとバナーより下にあり、最大化中も押下を取って何もしない点を EL-MAIN-RESIZE-*(8 件)に書いた。外周 6 px が届かないことを EL-TB-DRAG・EL-TB-DRAG-DOUBLE(上端 6 px のダブルクリックで元に戻らない)・EL-INS-SCROLL(スクロールバーの右端)・EL-TM-SCROLL(スクロールバーの下端)に添えた。"
+  },
+  {
+   "finding": "F-6",
+   "action": "fixed",
+   "text": "OnKeyDown(38-66)のとおり、全 13 件の EL-KEY-* に修飾キーの扱いを明記した: Space・←/→/,/.・Delete/Backspace は Ctrl・Alt を問わない(Ctrl+← も 1 フレーム、Ctrl+Shift+← は 1 秒)、S・I・O・M は Ctrl を押していないときで Shift・Alt は問わない、Ctrl+Z は Shift なし、など。「(Shift なし)」は「Shift を押していない。Ctrl・Alt は問わない」に改めた。"
+  },
+  {
+   "finding": "F-7",
+   "action": "fixed",
+   "text": "TimelineControl.cs:579-584 のとおり、EL-TM-REGION-LABEL の enabled_when に labelX = max(区間の左端 + 8, 可視範囲の左端 + 8) < 区間の右端 − 44 の条件と、左へスクロールすると見えている部分が約 52 px 以下で消えることを足した。"
+  },
+  {
+   "finding": "F-8",
+   "action": "fixed",
+   "text": "Strings.resx:131 / Strings.ja.resx:126 を確かめ、EL-INS-REGION-TITLE の見出しを Inspector_PlayheadRegion「Region at playhead」・ja「再生位置の区間」に直した。"
+  },
+  {
+   "finding": "F-9",
+   "action": "fixed",
+   "text": "固定の文言は「その view・区画が出ていればいつも出る固定の文言は一覧に入れない(文言は authority の view と resx が正)。固定の文言でも、それ自身の表示がモデルの真偽値で決まるものは、その真偽値を shows にして入れる」に決めてそろえた。これに合わせて EL-AB-LICENSE-SUMMARY とその model_gaps を消し、Export_FastCopyHint(canFastExport のときだけ出る)を EL-EX-FASTCOPY-HINT(shows ExportJob.canFastExport)として足した。About_Tagline・About_LicenseFull・Export_Title/Subtitle・Ffmpeg_SetupTitle/Body はいつも出る側なので入れない。"
+  },
+  {
+   "finding": "F-10",
+   "action": "fixed",
+   "text": "言語のメニューが開いているかの属性がモデルに無いことを model_gaps(element EL-TB-LANGUAGE)に足し、EL-TB-LANG-JA・EL-TB-LANG-EN の条件「メニューが開いている」をシナリオの期待状態に書けないことをそこに書いた。EL-TB-LANGUAGE の enabled_when に、メニューは項目を選ぶか外を押すと閉じ、開閉の状態はモデルに無いことを添えた。モデルは直していない。"
+  },
+  {
+   "finding": "F-11",
+   "action": "fixed",
+   "text": "どちらも同じ書き方にそろえた。EL-INS-SPEED-SLIDER・EL-INS-VOLUME-SLIDER に、フォーカスのあるスライダーが矢印キーなどで値を変えるか(変われば 1 回ごとに SetSpeedContinuous / SetVolumeContinuous で、ウィンドウのキー操作には届かない)は Avalonia 12.0.0 の既定の動作でソースからは決まらない、と書き、EL-KEY-* 側にも「スライダーの側では同じキーで値が変わる可能性がある」と添えた。決められないので、どちらも未確定のまま明示している。"
+  }
+ ]
+}

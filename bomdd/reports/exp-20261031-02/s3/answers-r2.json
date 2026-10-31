@@ -1,0 +1,39 @@
+{
+ "answers": [
+  {
+   "finding": "F-1",
+   "action": "fixed",
+   "text": "指摘どおり(TimelineControl.cs:83 VisBuffer = 400・:121 min = off − VisBuffer・:336 vMin = Math.Max(0, _visMin)・:581 labelX = Math.Max(rx + 8, vMin + 8) を確かめた)。1 回目の監査に答えて書いた「可視範囲の左端」と「見えている部分が約 52 px 以下で消える」は誤りだった。EL-TM-REGION-LABEL の enabled_when を、基準は描画範囲の左端 max(0, TimelineView.scrollOffset − 400 px)(REQ-048)で、ラベルは画面の左端に張り付かずに区間と一緒に流れ、消えるのは描画範囲の左端より右に残る部分が約 52 px 以下のとき(区間はすでに画面の外)、と書き直した。"
+  },
+  {
+   "finding": "F-2",
+   "action": "fixed",
+   "text": "TimelineControl.cs:767 で左ボタン以外は最初に返ることを確かめた。EL-TM-TRIMEND-HANDLE・EL-TM-BOUNDARY の enabled_when を「左ボタンで押したとき」にそろえた。"
+  },
+  {
+   "finding": "F-3",
+   "action": "fixed",
+   "text": "OnPointerReleased(847-853)はボタンを区別しないことを確かめた。EL-TM-RELEASE の enabled_when を、どのボタンを離しても dragMode を None に戻しキャプチャを外す(左でドラッグ中に右を押して離すと終わる)と書き直した。"
+  },
+  {
+   "finding": "F-4",
+   "action": "fixed",
+   "text": "TimelineView・TimelineControl にホイールの処理が無いことを確かめた。EL-TM-SCROLL の「ホイールも」を消し、ホイールで横にスクロールするかは ScrollViewer(縦は Disabled)の既定に任されていて Avalonia 12.0.0 の既定の動作でソースからは決まらない(動けば ScrollTimeline)、と他の要素と同じ注記にそろえた。"
+  },
+  {
+   "finding": "F-5",
+   "action": "fixed",
+   "text": "MainWindow.axaml.cs:81-86(FirstOrDefault の拡張子だけを判定)を確かめた。EL-MAIN-DROP の enabled_when を、ドロップした最初の 1 ファイルだけを見て、その拡張子が動画のもの(大文字小文字を区別しない)なら読み込み、そうでなければ何もしない(2 つ目以降に動画があっても読まない)、と書き分けた。"
+  },
+  {
+   "finding": "F-6",
+   "action": "fixed",
+   "text": "範囲に入れることにした。OS のダイアログだがタイトル・種類・既定の名前はアプリが決めて渡すため。画面 SCR-OPEN-PICKER(EL-OP-PICKER: タイトル Open video・単一選択・種類 Video files / All files)と SCR-SAVE-PICKER(EL-SP-PICKER: タイトル Export to・既定の拡張子と種類「{拡張子} file」を ExportFormat.extension で、EL-SP-FILENAME: ExportJob.suggestedFileName)を足した。どちらも authority_view は MainWindow(PickVideoFileAsync / PickSavePathAsync)。選ぶ・閉じるは Open / ConfirmExport の定義の一部なので、操作は付けていない(invokes null)。開く側は shows に当たる属性が無いので model_gaps に EL-OP-PICKER を足した。"
+  },
+  {
+   "finding": "F-7",
+   "action": "fixed",
+   "text": "MainWindowViewModel.cs:454-456 と TimeMath.Even を確かめた(ソース 4×4 では Even(3) = 4 なので 100% と 75% が同時に選択の表示になる)。EL-INS-SCALE-100・-75・-50 のshows を activeScalePreset から、判定に使う outputWidth・outputHeight・Clip.width・Clip.height に変え、enabled_when にプリセットごとの独立の判定と、複数が同時に選択の表示になりうることを書いた。モデルの activeScalePreset(1 つの値)ではこの場合を表せないことを model_gaps(EL-INS-SCALE-100)に書いた。モデルは直していない。"
+  }
+ ]
+}
