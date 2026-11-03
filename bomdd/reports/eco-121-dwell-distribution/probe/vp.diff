@@ -1,0 +1,25 @@
+diff --git a/bomdd/60-change-register.yaml b/bomdd/60-change-register.yaml
+index db42271..ac3f54d 100644
+--- a/bomdd/60-change-register.yaml
++++ b/bomdd/60-change-register.yaml
+@@ -55,6 +55,9 @@ active_scope:
+     現行ハッシュへ更新済。過去 ECO 本文中の commits/baseline ハッシュは pre-rewrite のスナップショット(タグ名
+     loop-v*-r* が安定アンカー)。
+ 
++paused:
++  reason: probe for ECO-121 survey
++  resume_when: never (scratch copy)
+ changes:
+   - id: ECO-001
+     title: "20-spec §2.1 スキャン手順の実行順序を明確化(文書忠実度の欠陥)"
+@@ -152,7 +155,9 @@ changes:
+     superseded_by: ECO-010
+     notes: "ECO-010/I01 が画像タブ左 NodeGraph ツリーを撤回(チップ+パンくず化)したため、本 ECO の対象画面が消滅・撤回注記へ置換"
+ 
+-  - id: ECO-007
++  - id: ECO-007
++    waiting_on: human-acceptance
++
+     title: "タグタブ UI/UX 表示契約の更新(モック準拠・E1〜E7)"
+     type: 設計決定(表示契約更新)
+     status: implemented

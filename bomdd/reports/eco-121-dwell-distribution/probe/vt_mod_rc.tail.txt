@@ -1,0 +1,2 @@
+mode active at 62d2b3e4: inspected {'entries': 173, 'manifests': 137, 'bodies': 173}
+findings 0, outstanding 0, contract violations 0

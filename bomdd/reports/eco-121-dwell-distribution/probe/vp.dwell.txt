@@ -1,0 +1,31 @@
+dwell: bomdd/60-change-register.yaml @ 9ee76e3eb6 — commits 438・読めない 0・古い形 33・open 24・閾値 14 日(測定ビュー・gate ではない)
+PAUSED 0.0 日(since 9ee76e3eb6): reason='probe for ECO-121 survey' resume_when='never (scratch copy)'
+summary(理由 × 経過): paused: <=7d 0 8-30d 0 31-90d 0 >90d 24
+unexplained(閾値超・理由なし) 0:
+paused 24:
+  ECO-003 implemented 134.4 日
+  ECO-004 implemented 134.4 日
+  ECO-005 implemented 134.4 日
+  ECO-007 implemented 134.4 日(理由 0.0 日)
+  ECO-009 implemented 134.4 日
+  ECO-010 staged 134.4 日
+  ECO-011 staged 134.4 日
+  ECO-012 staged 134.4 日
+  ECO-013 implemented 134.4 日
+  ECO-014 implemented 134.4 日
+  ECO-015 implemented 134.4 日
+  ECO-017 implemented 128.1 日
+  ECO-018 implemented 128.1 日
+  ECO-019 implemented 128.0 日
+  ECO-020 implemented 127.3 日
+  ECO-021 implemented 127.3 日
+  ECO-022 implemented 125.5 日
+  ECO-023 implemented 125.3 日
+  ECO-024 implemented 125.2 日
+  ECO-025 implemented 124.8 日
+  ECO-026 implemented 124.2 日
+  ECO-027 implemented 124.1 日
+  ECO-036 implemented 120.6 日
+  ECO-082 staged 113.4 日
+past dwell(閉じた区間): applied n=1 median=0.3 max=0.3 / implemented n=94 median=0.0 max=1.1 / staged n=117 median=0.0 max=22.4 / verified n=1 median=1.7 max=1.7
+uncommitted: dirty 0・最古 None 日(下限)・register の HEAD 差 なし

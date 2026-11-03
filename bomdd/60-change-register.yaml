@@ -3848,3 +3848,39 @@ changes:
       41681229341 success. Six broken copies all turn the dwell selftest red. Not a closing condition: V7 every product reads "none".
       Declared: CI does not run bomdd-job --selftest; the reference and the tool share their producer and history rule.
     producer: EQ-004
+  - id: ECO-121
+    title: distribution of ECO-120 - each product's register says why an open ECO waits (waiting_on, paused) in ECO-120's vocabulary, only where its own records support it by a stated rule; the step that stops sets it and the step that moves clears it (filed only; targets, order and TimetableAdv at the manufacture ruling)
+    date: 2026-11-04
+    origin: improvement
+    status: filed   # 2026-11-04 filed on the user's "配布 ECO を起票"; manufacture waits for the ruling on targets and order (proposed ViewPrism2 then ViewTube; MoviePad-Remake a kit re-pin) and on TimetableAdv (A not a target / B a paused block only)
+    source: >
+      ECO-120 verified (32606b4): the view reads any register, but no product register has waiting_on or paused, so every open ECO reads
+      "none". Survey (bomdd/reports/eco-121-dwell-distribution/): both products' validators accept the keys (clone probe, before and after
+      identical). ViewPrism2 24 open = 10 golden pending (human-acceptance), 13 closed under the legacy convention (before ECO-061,
+      implemented, golden approved or n/a; its own open_eco names only ECO-007), 1 no rule. ViewTube 173 open = 8 named by an open entry's
+      blocks_application_golden or blocks (eco:<ID>), 165 no rule; blocks_release and free-text keys are not reasons. Correction to ECO-120's
+      basis: blocks_application_golden lists the ECOs an entry blocks; 79 of 92 open entries carrying it have [].
+    order_ref: bomdd/60-change-order-eco-121.md
+    affected_refs: [bomdd/60-change-order-eco-121.md]
+    no_impact_prediction: "(before manufacture; frozen) BomDD: this order, the register and bomdd/reports/eco-121-dwell-distribution/ at filing; the closure record (and, if chosen, an improvements.md line for the two BomDD findings) at closure. Product side, per target: its register (waiting_on values by stated rule, and any transition its rules allow for entries its records treat as closed), change-management, eco-file/eco-fix/eco-accept, its own ECO records; MoviePad-Remake: bomdd-kit and its manifest. Untouched: product code, tests, BOM files, fixed oracles, CAD, hooks, validators, BomDD's tool, template and playbook. Declared: a backfilled reason's clock starts at manufacture; entries without a rule stay unexplained (ViewTube 165); the rule that keeps the reason current is text, measured by V5, not stopped."
+    diff_audit:
+      baseline: "32606b4"  # HEAD before this filing
+      allowed_paths: [bomdd/60-change-order-eco-121.md, bomdd/60-change-register.yaml, bomdd/reports/eco-121-dwell-distribution/, method/improvements.md]
+    required_gates: [V1, V2, V3, V4]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      Per target product, one product-side ECO under its own change management. A (none): waiting_on in ECO-120's vocabulary and a top-level
+      paused block; each step that ends with the ECO waiting sets it and each step that moves it clears it, in the same commit as the status
+      change; the view's command named. B (measure): a reason only by a stated rule over the product's own records (ViewPrism2 golden
+      pending -> human-acceptance; ViewTube named by an open blocker -> eco:<ID>), each in a table compared mechanically with the register;
+      entries the records treat as closed are told apart by an allowed transition or listed as a known inaccuracy, never by a reason value.
+      C: per-product differences (ViewPrism2 CRLF and open_eco; ViewTube gate freeze, free keys kept; MoviePad-Remake kit re-pin). D: BomDD's
+      tool, template and playbook unchanged; the fixed terminal set and the missing "blocks a release" value recorded for a later BomDD ECO.
+    verification: >
+      V1 each target's ECO applied under its lifecycle; change-management names the field, paused and the view's command; eco-file, eco-fix
+      and eco-accept carry set/clear (waiting_on 0 -> at least 1 per file) / V2 each product commit passes the product's gates; BomDD
+      self-conformance exit 0 before each commit, CI green by the full SHA / V3 at each applied commit --dwell --json gives no waiting_on or
+      paused warning and the entries and values equal the product ECO's table (comparison shown failing on a broken table); every remaining
+      unexplained open entry over the threshold listed with its class; counts by reason before and after / V4 product and BomDD windows within
+      their paths. Not a closing condition: V5 the view about 14 days after each application. Conditions are frozen at filing; results go to
+      the closing section.
+    producer: EQ-004

@@ -1,0 +1,23 @@
+diff --git i/bomdd/process/change-register.yaml w/bomdd/process/change-register.yaml
+index a2b983a0..a9ac839c 100644
+--- i/bomdd/process/change-register.yaml
++++ w/bomdd/process/change-register.yaml
+@@ -5,6 +5,9 @@ bomdd:
+   lifecycle_enforcement_from: ECO-VT-006
+   process_profile: bomdd/process/change-management.md
+ 
++paused:
++  reason: probe for ECO-121 survey
++  resume_when: never (scratch copy)
+ changes:
+   - id: ECO-VT-001
+     status: applied
+@@ -1509,6 +1512,8 @@ changes:
+         evidence: bomdd/eco/ECO-VT-017-independent-review.md
+ 
+   - id: ECO-VT-018
++
++    waiting_on: eco:ECO-VT-006
+     status: implemented
+     title: Reconcile the release gate with the 59-row UI-BOM
+     body: bomdd/eco/ECO-VT-018.md

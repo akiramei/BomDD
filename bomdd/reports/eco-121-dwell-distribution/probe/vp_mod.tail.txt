@@ -1,0 +1,3 @@
+bomdd integrity validator — E-BOM active items: 44 / dangling check
+
+result: 0 error(s), 0 warning(s)

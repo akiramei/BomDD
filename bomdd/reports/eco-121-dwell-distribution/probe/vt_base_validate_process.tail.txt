@@ -1,0 +1,3 @@
+[bomdd] record-language: 0 findings over 173 measured entries (7 exempt)
+[bomdd] machinery-claims: 0 findings over 9 bound entries (39 exempt)
+[bomdd] gate inventory: 18 validators reconciled against the census

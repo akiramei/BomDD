@@ -1,0 +1,23 @@
+== ViewPrism2 @ 82c362ed: entries 148, open 24
+   top-level keys: ['bomdd', 'lifecycle_evidence', 'active_scope', 'changes']; lifecycle_evidence.applies_from = ECO-061; active_scope.open_eco = ['ECO-007']
+    13  legacy (before applies_from), implemented, golden approved or n/a: closed under the legacy convention: ECO-003, ECO-004, ECO-005, ECO-009, ECO-014, ECO-015, ECO-022, ECO-023, ECO-024, ECO-025, ECO-026, ECO-027, ECO-036
+    10  golden pending -> human-acceptance: ECO-007, ECO-010, ECO-011, ECO-012, ECO-017, ECO-018, ECO-019, ECO-020, ECO-021, ECO-082
+     1  no rule (status implemented, golden 'round1-fixed'): ECO-013
+== ViewTube @ 62d2b3e4: entries 272, open 173 (Counter({'staged': 116, 'implemented': 57}))
+   top-level keys: ['bomdd', 'changes']
+   open entries with blocks_application_golden: 92  values: {'list': 13, '[]': 79}
+   open entries with blocks: 6  values: {'list': 4, 'str': 2}
+   open entries with blocks_release: 26  values: {'True': 25, 'False': 1}
+   open entries with next_gate: 6  values: {'str': 6}
+   open entries with work_authorized: 6  values: {'str': 6}
+   open entries with a dated blocks_application_golden_added_* key: 1
+   open entries named in an OPEN entry's blocks_application_golden/blocks -> eco:<blocker>: 8
+      ECO-VT-018 <- ECO-VT-019, ECO-VT-021, ECO-VT-022
+      ECO-VT-019 <- ECO-VT-020, ECO-VT-021, ECO-VT-022
+      ECO-VT-020 <- ECO-VT-021, ECO-VT-022
+      ECO-VT-021 <- ECO-VT-022
+      ECO-VT-094 <- ECO-VT-095, ECO-VT-096
+      ECO-VT-076 <- ECO-VT-081
+      ECO-VT-075 <- ECO-VT-081
+      ECO-VT-074 <- ECO-VT-081
+   open entries without such a rule: 165
