@@ -233,6 +233,84 @@ success); the tree clean before the change apart from ECO-119's untracked R8 rep
 
 **Not done here:** the commit's self-conformance and CI (V6), the closure.
 
+## 5. Closure (2026-11-04, verified on the user's "クローズする", manufacturer's calibration only)
+
+- **Window.** Baseline `3f718b5` → filing `32e2bdd` → manufacture `4845567` (diff_audit.head; **the window is closed**; the closure commit
+  holds records only: this order and the register).
+  - Inside the window (`git diff --name-only 3f718b5 4845567`, 40 paths): `method/tools/bomdd-job.py`,
+    `method/templates/60-change-register.yaml`, `method/bomdd-playbook-v1.md`, this order, the register, and 35 files under
+    `bomdd/reports/eco-120-progress-dwell/`. **No path outside `allowed_paths`.**
+- **Acceptance results:**
+  - **V1 result: PASS** (section 4): every open entry of the six registers has the full read's start commit.
+  - **V2 result: PASS** (section 4): the five mutated histories; the line-based shortcut told apart.
+  - **V3 result: PASS** (section 4).
+  - **V4 result: PASS** (section 4; the 30-day arm ran with creation times set back, on Windows).
+  - **V5 result: PASS** (section 4): existing outputs byte-identical; `bomdd-job.py --selftest` and `bomdd-run.py --selftest` exit 0.
+  - **V6 result: PASS.**
+    - Time: ViewTube's 1,728-commit register in 30.2-43.1 s over four runs (limit 60 s).
+    - Self-conformance exit 0 observed before each commit: filing `32e2bdd` (twice: the first push was refused by the pre-push witness
+      because the witness tree included ECO-119's untracked `r8-round-1.md`; the file was held outside the tree, the gate rerun, and the
+      file restored with its sha256 checked) and manufacture `4845567` (the same holding, the same check).
+    - CI: run 41675481205 on `32e2bdd` **success**; run 41681229341 on `4845567` **success** (conclusions read with the full SHA).
+- **V7** (not a closing condition; section 4): no product register has `waiting_on` yet, so every open ECO reads "none"; open and over
+  14 days: ViewTube 173, TimetableAdv 77, ViewPrism2 24, BomDD 1 (ECO-079).
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; one tool, one template, one playbook paragraph)
+
+- **The claim (one sentence).** `bomdd-job.py --dwell` derives each open ECO's start in its current status as a full read of every
+  register commit would, reads `waiting_on` and `paused` with derived starts, shows uncommitted work's age as a lower bound, and changes
+  no existing output or decision.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The start commit equals the full read": **observed / conditionally eligible**. 276 open entries of six real registers (173 + 77 + 24 + 2), 0
+    differences; five mutated histories. The condition: the reference (`dwell.py`) and the tool were written by the same producer with
+    the same rule (`git log --reverse -- <register>`, its default history simplification, absent commits skipped), so a premise they
+    share is not tested (for example a register whose history needs `--follow` across a rename, or merges that the default
+    simplification hides).
+  - "Existing modes are unchanged": **observed / eligible**. Byte comparison of three outputs on the same tree; a one-byte alteration is
+    told apart; the new mode is dispatched before `select()` (read).
+  - "The age is a lower bound": **observed / conditionally eligible**. True on the fixtures and on TimetableAdv after the change; it
+    holds only while a write or an arrival updates either the modification or the creation time of a file (a tool that preserves both
+    would still make the age look older).
+  - "The view runs in bounded time": **observed / eligible** for one machine, four runs.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): 5, all before or during manufacture, none in a committed
+  verdict.
+  - The filing's draft stated "399 closed spans, all but two within 10 days"; recounted from the JSON before the filing commit:
+    628 spans, five exceptions. Attribution: a number written from memory of the summary, not derived (the 2026-10-28 lesson again).
+  - The tool's first version read only `changes:` and called 33 of ViewPrism2's commits unreadable (V1 found it; aligned to the reference).
+  - P4 as written (modification time only) was not a lower bound on real files (V7 found 2,991.9 days on TimetableAdv; fixed).
+  - Arm V2(c)'s first fixture (two entries) did not fool the shortcut: git's diff moved the other entry. Found because the known-bad
+    arm stayed green; three entries since.
+  - The first split of the commits between workers was unbalanced (57.9 s); a performance defect, not a verdict.
+- **宣言した検出力の限界** (declared limits of detection):
+  - The reference and the tool share their producer and their history rule (above).
+  - **CI does not run `bomdd-job.py --selftest`** (it runs self-conformance, `worklist.py --selftest` and `bomdd-witness.py --selftest`
+    only). The dwell arms run when someone runs them; a later change that breaks `--dwell` is not stopped by the gate. Not changed here
+    (outside this ECO's paths).
+  - The 30-day arm of V4 runs only where the creation time can be set (Windows); elsewhere it reports "not run".
+  - The broken copies were run from a temporary directory, where the existing arms also fail (no activation map); only the dwell line was
+    read for them.
+  - Section 2's limits stand: whether a status or a reason is true, that nothing starts the view, terminal-status stalls.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9); this receipt was written by the manufacturer.
+- **Battery, row by row:**
+  - **Q1 asked.** The view's lines claim what the code derives: "lower bound" holds under the stated condition; "unexplained" means no
+    `waiting_on` and no pause, nothing more.
+  - **Q2 asked.** Known-bad: the line-based shortcut, six broken copies, the unparsable commit, the invalid reason, the terminal reason,
+    the pause without `resume_when`. Known-good: the full read on six registers. Labels set from the order's conditions before the runs.
+  - **Q3 asked.** One arm per condition of V2-V4; PASS and FAIL sides for the age (3,000-day modification time against 30 days).
+  - **Q4 asked.** The fixtures' commit dates and file times are set by the selftest; the real registers are pinned by `heads.txt`.
+  - **Q5 asked.** CI success observed for both commits by the full SHA; the logs were not read (V6 asks for green only).
+  - **Q6 asked.** Each commit came after an observed exit 0, with the tree held to the committed files.
+  - **Q7 asked.** The known-bad arm of V2(c) was itself caught ineffective and repaired; the six broken copies show the arms can fail.
+  - **Q8 NA.** No preventive gate was added (a view).
+  - **Q9 asked.** Before and after on the same tree (V5); the six registers at recorded heads (V1).
+  - **Q10 asked.** The limits above.
+  - **Q11 NA.** No input class needs to be separated.
+- **What this closure does not support:**
+  - any product register's use of `waiting_on` or `paused` (the distribution ECO);
+  - a stop on stale uncommitted work (not chosen; the user chose the measure);
+  - CI catching a later break of `--dwell`;
+  - a time figure beyond the user's machine.
+
 ## /preflight receipt (start path: manual — the user's "A: 進捗の ECO を起票" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's choice of option A; filing only).

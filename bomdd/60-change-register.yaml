@@ -3811,7 +3811,8 @@ changes:
     title: progress - the stall of each open ECO is measured from the register's history (bomdd-job --dwell), its reason read from a fixed waiting_on vocabulary, a paused repository declared once (paused {reason, resume_when}), and uncommitted work's age shown; a view, not a gate (filed only; distribution separate)
     date: 2026-11-04
     origin: improvement
-    status: implemented   # 2026-11-04 manufactured on the user's "測る形で製造する" (order section 4: V1-V5 PASS, V6 time 30-43 s on ViewTube; departures found on the real registers - ViewPrism2's legacy change_orders shape read as section 0 reads it, and the age of uncommitted work taken from the newer of modification and creation time after TimetableAdv's 2018 NuGet DLLs gave 2,991.9 days; mutants 6 of 6 caught; V6's commit gate, CI and the closure to follow); filed 32e2bdd on the user's "A: 進捗の ECO を起票" (item 3 filed as a measure, not a stop)
+    status: verified   # 2026-11-04 closed on the user's "クローズする" (order section 5: V1-V6 PASS, manufacturer's calibration only; window 3f718b5..4845567 closed, no path outside allowed_paths); manufactured 4845567 on "測る形で製造する" (departures: ViewPrism2's legacy change_orders shape, the age from the newer of modification and creation time); filed 32e2bdd on "A: 進捗の ECO を起票" (item 3 filed as a measure, not a stop)
+    receipt_author_role: producer   # ECO-077 observation field
     source: >
       The dwell count of 2026-11-04 (bomdd/reports/eco-120-progress-dwell/): six registers read at every commit. Closed spans are short
       (623 of 628 left staged/implemented/filed within 10 days) but open ECOs stay: ViewTube 173 of 272, TimetableAdv 77 of 117,
@@ -3824,6 +3825,7 @@ changes:
     diff_audit:
       baseline: "3f718b5"  # HEAD before this filing
       allowed_paths: [method/tools/bomdd-job.py, method/templates/60-change-register.yaml, method/bomdd-playbook-v1.md, bomdd/60-change-order-eco-120.md, bomdd/60-change-register.yaml, bomdd/reports/eco-120-progress-dwell/]
+      head: "4845567"  # manufacture commit; the window is closed (40 paths, none outside allowed_paths)
     required_gates: [V1, V2, V3, V4, V5, V6]   # the order's machine copy (ECO-112 G1)
     summary: >
       P1 (measure): bomdd-job --dwell reads the register at HEAD and derives, for each open entry, the commit at which its current status
@@ -3835,11 +3837,14 @@ changes:
       Not chosen: an age gate in self-conformance (verdicts would change with the calendar), a stop in bomdd-run on a stale dirty tree (none
       of the measured stalls went through it), hand-written since fields, an adaptive threshold.
     verification: >
-      V1 the six registers at the recorded heads: each open entry's start commit equals the full-history read / V2 mutated histories (A-B-A,
-      whole-file re-indent, moved entry, unparsable commit, working-tree-only change); the last-commit-touching-the-line shortcut moves the
-      re-indent and the moved entry / V3 reasons, invalid reason and terminal-entry warnings with stop_type unchanged, an ECO-079-shaped
-      entry unexplained, the threshold override, paused with and without resume_when / V4 dirty-tree age with mtimes set back, clean, the
-      register differing from HEAD / V5 --all --json and ECO-119 --json byte-identical, bomdd-job and bomdd-run selftests pass / V6 ViewTube
-      within 60 s, self-conformance exit 0 before each commit, CI green. Not a closing condition: V7 the view on the six registers.
-      Conditions are frozen at filing; results go to the closing section.
+      Verified 2026-11-04 (order section 5; manufacturer's calibration only). V1 PASS: 276 open entries of the six registers at the heads of
+      heads.txt have the full read's start commit (ViewTube 173, TimetableAdv 77, ViewPrism2 24, BomDD 2), 0 differences, 0 parse failures
+      (ViewPrism2 33 legacy-shape commits). V2 PASS: A-B-A, whole-file re-indent, an entry moved behind two others, an unparsable commit
+      (named), a working-tree-only change; the git blame shortcut returns the re-indent and the move commits. V3 PASS: six reasons grouped,
+      invalid and terminal reasons warned, job records unchanged, the ECO-079-shaped entry unexplained, thresholds 14 and 2, paused grouped
+      and warned without resume_when. V4 PASS: dirty 3, oldest 30 days with creation times set back (Windows), a 3,000-day modification time
+      held to at most 31; clean 0; register differs. V5 PASS: --all --json, ECO-119 --json and --all byte-identical; bomdd-job and bomdd-run
+      selftests exit 0. V6 PASS: ViewTube 30.2-43.1 s over four runs; self-conformance exit 0 before 32e2bdd and 4845567; CI 41675481205 and
+      41681229341 success. Six broken copies all turn the dwell selftest red. Not a closing condition: V7 every product reads "none".
+      Declared: CI does not run bomdd-job --selftest; the reference and the tool share their producer and history rule.
     producer: EQ-004
