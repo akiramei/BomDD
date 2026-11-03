@@ -1,0 +1,5 @@
+table 4 rows / view 4 entries with waiting_on / warnings 0
+EQUAL
+compare exit=0
+real pair EQUAL (4 rows); broken table: removed ECO-VT-074 -> caught, changed ECO-VT-273 -> caught
+selftest exit=0

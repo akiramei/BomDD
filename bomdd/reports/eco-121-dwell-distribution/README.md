@@ -13,3 +13,13 @@
     after. `vt.diff` is the probe edit, which included a stray blank line (scratch only).
   - `vp.dwell.txt`: `bomdd-job.py --dwell` on the probed ViewPrism2 clone after a scratch commit. The pause groups all 24 open entries,
     and the reason written in that commit is 0.0 days old.
+
+## Manufacture evidence (section 4; V3 at each product's fix commit)
+
+- `compare_table.py`: compares the N-th table of a product ECO whose header starts `| Entry | waiting_on |` with the entries that
+  carry a `waiting_on` in `bomdd-job.py --dwell --json` (the set and each value). It fails on any warning about `waiting_on` or
+  `paused`. Exit 0 = equal, 1 = differs, 2 = input error. `--selftest` removes the table's first row and changes its last value, and
+  must catch both.
+- `viewprism2/fix-a726322.*`: the dwell JSON at ViewPrism2 `a726322`, and the comparison with ECO-149's table: EQUAL, 8 rows.
+- `viewtube/fix-3517ae21.*`: the dwell JSON at ViewTube `3517ae21`, and the comparison with ECO-VT-273's table 1: EQUAL, 4 rows.
+- The `.compare.txt` files hold the comparison's output followed by its selftest output, normalised to LF.

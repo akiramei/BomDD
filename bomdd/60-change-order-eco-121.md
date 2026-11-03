@@ -206,6 +206,96 @@ required_gates: [V1, V2, V3, V4]
 
 Conditions are frozen at filing; results go to the closing section.
 
+
+## 4. Manufacture (2026-11-04; manufacture ruling "1:提案どおり 2:A")
+
+**The ruling, quoted:** "1:提案どおり 2:A" (2026-11-04).
+- 1: ViewPrism2, then ViewTube. MoviePad-Remake is not a target; the proposal named the two products and left it optional.
+- 2: TimetableAdv is not a target. Its resume condition (EXP-20261013-01) now also covers ECO-120.
+
+**ViewPrism2 ECO-149** (implemented `a726322`; filed `d73c935`; not pushed; waits for the maintainer's accept of golden n/a):
+- **What changed:**
+  - change-management §4.3 「待ちの理由と停止の宣言」;
+  - eco-file step 5, eco-fix step 4 and eco-accept step 2;
+  - the register's header comment;
+  - 7 entries by stated rules.
+- **A departure from §1 B 1, found at manufacture.** The filing gave "`golden: pending` → `human-acceptance` (10 entries)". That reads
+  `golden` without the status: four of the ten are `staged`, which ViewPrism2 defines as filing plus E-BOM sync only, so they cannot wait
+  for a golden. The product ECO reads both fields:
+  - 6 `implemented` entries → `human-acceptance`;
+  - ECO-082 → `start-instruction`, by its own note "gate①不要";
+  - ECO-010 to ECO-012 → no rule.
+
+  This is the same mistake as ECO-120 §0's: a field read for its name without the field that gives it meaning.
+- **§1 B 2 for the 13 legacy entries:** listed as a known inaccuracy of the view (option (a), the manufacturer's decision under R4). No status
+  changed. `active_scope.open_eco` was left as ECO-144's R3 finding left it.
+- **Acceptance in the product.**
+  - V1: `waiting_on` 0 → at least 1 in change-management and in each of the three skills, and in the header; `paused` and the view's
+    command in change-management.
+  - V2: only the five files changed, with line endings unchanged; the frontmatter parses.
+  - V4: build 0/0; Tests 977/977; Oracle 109, with the 4 known skips; validate_bom 0-0.
+  - R8 not applicable: documents and register only, under the product's own rule (eco-fix 3.7).
+- **V3 at the fix commit** (`bomdd/reports/eco-121-dwell-distribution/viewprism2/`):
+  - the dwell view gives no warning;
+  - `compare_table.py --table 1` gives EQUAL: 8 rows, ECO-149 included while it waits;
+  - its selftest catches a removed row and a changed value;
+  - counts before: none 24. After: none 17, human-acceptance 7, start-instruction 1.
+
+**ViewTube ECO-VT-273** (implemented `3517ae21`; filed `1d99aebb`; probe `413beb42`; not pushed; waits for the user's acceptance with
+known defects KD-273-1 to 4):
+- **What changed:**
+  - change-management section 4, "Why an open ECO waits";
+  - eco-file step 5, the eco-fix procedure paragraph and step 8, eco-accept step 3;
+  - the register: 074 and 075 → `eco:ECO-VT-081`; 094 → `eco:ECO-VT-095`; ECO-VT-273 itself → `human-acceptance`.
+- **A departure from §1 B 1, found by the product's R8 round 1** (R273-F1). The survey's rule is one-sided: an entry named in an open
+  entry's `blocks_application_golden` or `blocks`. It read satisfied blocks as live waits. For 018, 020 and 021 the blocked step is
+  already past, and 019's and 076's could not be confirmed. The product rule is two-sided: the entry's own `blocked_by` names X, X is
+  open, and X's list names the entry. That gives 3 values, not 8.
+- **R8 round 2, the last, REJECT.** By the product's bound the findings are carried, not repaired:
+  - **KD-273-1:** 094's value rests on reciprocal records that are both stale. The two-sided rule confirms a wait's direction, not that it
+    is live.
+  - **KD-273-2:** re-derivation falls back to no value.
+  - **KD-273-3:** no later step writes `eco:<ID>`.
+  - **KD-273-4:** cad-mock's and eco-receive's stops do not write the value.
+- **Acceptance in the product:**
+  - probe RED 15/18 on `413beb42`'s files → GREEN 18/18 on the reviewed candidate, 19/19 at the transition;
+  - validate_release_workflow and its self-test PASS;
+  - validate_change_impact `--prospective-index` PASS;
+  - the commit hooks (validate_process and the record gates) PASS;
+  - no gate added (freeze ECO-VT-176).
+- **V3 at the fix commit** (`bomdd/reports/eco-121-dwell-distribution/viewtube/`):
+  - the dwell view gives no warning;
+  - `compare_table.py --table 1` gives EQUAL: 4 rows;
+  - its selftest catches a removed row and a changed value;
+  - counts before: none 174. After: none 170, `eco:ECO-VT-081` 2, `eco:ECO-VT-095` 1, `human-acceptance` 1;
+  - the 170 entries over the threshold with no reason are listed by id in the product body section 8f, all of class "no rule".
+
+**A finding against §1 A 2, found by ViewTube's R8 round 1** (R273-F3, F4, F6). §1 A 2 ties the value to the status change ("in the same
+commit as the status change"). ECOs stop while their status stays the same, and a status-tied value goes stale at those stops:
+- a filing's `start-instruction` stays after the instruction arrives;
+- a decision or limit stop inside eco-fix happens before any status change;
+- a golden on the undrawn form comes before `implemented`;
+- a delivery ECO stays `staged` through issue, receipt, holds and decisions.
+
+Nothing in §1 A 2 updates an `eco:<X>` value when X closes either.
+
+ViewTube's repair ties the value to the stop instead: every stop writes it in the commit that records it, and `applied` or `superseded`
+re-derives every entry waiting on the ECO. ViewPrism2's ECO-149, already implemented, carries §1 A 2's status-tied form. It is shown to the
+user at its acceptance (§4, the acceptance stop).
+
+The same R8 round showed that the survey's ViewTube rule (§1 B 1, one-sided) read satisfied blocks as live waits (R273-F1). The product
+rule is now two-sided, and 3 of the 8 entries keep a value.
+
+The status-tied form is this ECO's own wording at filing. ECO-120's template says only 「待ちが終わったら外す」
+(`method/templates/60-change-register.yaml:42`), which the stop-based form fits. Two things are recorded for the later BomDD ECO of §1 D,
+which already holds two:
+- the template does not say who writes the value, or that an `eco:<X>` value is re-derived when X closes;
+- a blocker list alone is not evidence of a live wait.
+
+**Where it stands (2026-11-04):** both product ECOs are implemented and wait for the user's acceptance; neither is pushed. V1 and V3
+are read again at each applied commit (table 2 in each product ECO), and V4 at the closure.
+
+
 ## /preflight receipt (start path: manual — the user's "配布 ECO を起票" read as the start artifact)
 
 - **Classification**: filing of a distribution ECO (survey; no product change at filing).

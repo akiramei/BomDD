@@ -1,0 +1,361 @@
+{
+  "register": "bomdd/60-change-register.yaml",
+  "repo": "C:\\Users\\akira\\source\\repos\\ViewPrism2",
+  "head_commit": "a726322c8969da3c8db848e5ef4ecd37db720311",
+  "commits_read": 439,
+  "parse_failures": 0,
+  "legacy_shape_commits": 33,
+  "stale_days": 14,
+  "now": "2026-11-03T19:11:34+00:00",
+  "paused": null,
+  "summary": {
+    "none": {
+      "<=7d": 0,
+      "8-30d": 0,
+      "31-90d": 0,
+      ">90d": 17
+    },
+    "human-acceptance": {
+      "<=7d": 1,
+      "8-30d": 0,
+      "31-90d": 0,
+      ">90d": 6
+    },
+    "start-instruction": {
+      "<=7d": 0,
+      "8-30d": 0,
+      "31-90d": 0,
+      ">90d": 1
+    }
+  },
+  "open": [
+    {
+      "id": "ECO-003",
+      "status": "implemented",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-004",
+      "status": "implemented",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-005",
+      "status": "implemented",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-007",
+      "status": "implemented",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": "human-acceptance",
+      "waiting_since_commit": "a726322c8969da3c8db848e5ef4ecd37db720311",
+      "waiting_days": 0.0,
+      "over_threshold": true,
+      "group": "human-acceptance"
+    },
+    {
+      "id": "ECO-009",
+      "status": "implemented",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-010",
+      "status": "staged",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-011",
+      "status": "staged",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-012",
+      "status": "staged",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-013",
+      "status": "implemented",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-014",
+      "status": "implemented",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-015",
+      "status": "implemented",
+      "since_commit": "bc9ec58fc6940de2ae902e457f29c294c1e0b515",
+      "since_date": "2026-06-22T17:45:06+09:00",
+      "days": 134.4,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-017",
+      "status": "implemented",
+      "since_commit": "8376b13dfd173e4e2f7c112c5e6a428e2eff5e1a",
+      "since_date": "2026-06-29T00:32:21+09:00",
+      "days": 128.2,
+      "waiting_on": "human-acceptance",
+      "waiting_since_commit": "a726322c8969da3c8db848e5ef4ecd37db720311",
+      "waiting_days": 0.0,
+      "over_threshold": true,
+      "group": "human-acceptance"
+    },
+    {
+      "id": "ECO-018",
+      "status": "implemented",
+      "since_commit": "d49686bcf2fab2252bbb999d6a6615bcd0acae85",
+      "since_date": "2026-06-29T01:56:07+09:00",
+      "days": 128.1,
+      "waiting_on": "human-acceptance",
+      "waiting_since_commit": "a726322c8969da3c8db848e5ef4ecd37db720311",
+      "waiting_days": 0.0,
+      "over_threshold": true,
+      "group": "human-acceptance"
+    },
+    {
+      "id": "ECO-019",
+      "status": "implemented",
+      "since_commit": "2c589d879a3ced28207110a68290fa992d702a23",
+      "since_date": "2026-06-29T04:32:08+09:00",
+      "days": 128.0,
+      "waiting_on": "human-acceptance",
+      "waiting_since_commit": "a726322c8969da3c8db848e5ef4ecd37db720311",
+      "waiting_days": 0.0,
+      "over_threshold": true,
+      "group": "human-acceptance"
+    },
+    {
+      "id": "ECO-020",
+      "status": "implemented",
+      "since_commit": "f211fa9a8862993a73f04393e5bd967499cade1f",
+      "since_date": "2026-06-29T19:09:13+09:00",
+      "days": 127.4,
+      "waiting_on": "human-acceptance",
+      "waiting_since_commit": "a726322c8969da3c8db848e5ef4ecd37db720311",
+      "waiting_days": 0.0,
+      "over_threshold": true,
+      "group": "human-acceptance"
+    },
+    {
+      "id": "ECO-021",
+      "status": "implemented",
+      "since_commit": "f211fa9a8862993a73f04393e5bd967499cade1f",
+      "since_date": "2026-06-29T19:09:13+09:00",
+      "days": 127.4,
+      "waiting_on": "human-acceptance",
+      "waiting_since_commit": "a726322c8969da3c8db848e5ef4ecd37db720311",
+      "waiting_days": 0.0,
+      "over_threshold": true,
+      "group": "human-acceptance"
+    },
+    {
+      "id": "ECO-022",
+      "status": "implemented",
+      "since_commit": "e81a37a8209b9f6d604b0bbb40e24503185e3ea2",
+      "since_date": "2026-07-01T15:59:45+09:00",
+      "days": 125.5,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-023",
+      "status": "implemented",
+      "since_commit": "6767ff894221045cc940901d3a36526ae6178bc0",
+      "since_date": "2026-07-01T20:13:32+09:00",
+      "days": 125.3,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-024",
+      "status": "implemented",
+      "since_commit": "239d8a5a06938992fe694b1a8b5eda138a367e93",
+      "since_date": "2026-07-01T22:56:53+09:00",
+      "days": 125.2,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-025",
+      "status": "implemented",
+      "since_commit": "1f25b71cce22b45c1b146b6600763794f33358f1",
+      "since_date": "2026-07-02T08:01:30+09:00",
+      "days": 124.8,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-026",
+      "status": "implemented",
+      "since_commit": "2d884bab194bdc869547672fb0014114af4fb07f",
+      "since_date": "2026-07-02T22:00:51+09:00",
+      "days": 124.3,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-027",
+      "status": "implemented",
+      "since_commit": "8e2cd852ce1997781fd16a7260b753c93a20dc3e",
+      "since_date": "2026-07-03T00:55:48+09:00",
+      "days": 124.1,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-036",
+      "status": "implemented",
+      "since_commit": "278e7b5bbb4146125a25f9fb108a337070340f7b",
+      "since_date": "2026-07-06T12:14:48+09:00",
+      "days": 120.7,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-082",
+      "status": "staged",
+      "since_commit": "c0ce8235b0dbe3f152ff547e72ad3af2e5e31b9b",
+      "since_date": "2026-07-13T17:24:39+09:00",
+      "days": 113.4,
+      "waiting_on": "start-instruction",
+      "waiting_since_commit": "a726322c8969da3c8db848e5ef4ecd37db720311",
+      "waiting_days": 0.0,
+      "over_threshold": true,
+      "group": "start-instruction"
+    },
+    {
+      "id": "ECO-149",
+      "status": "implemented",
+      "since_commit": "a726322c8969da3c8db848e5ef4ecd37db720311",
+      "since_date": "2026-11-04T04:11:17+09:00",
+      "days": 0.0,
+      "waiting_on": "human-acceptance",
+      "waiting_since_commit": "a726322c8969da3c8db848e5ef4ecd37db720311",
+      "waiting_days": 0.0,
+      "over_threshold": false,
+      "group": "human-acceptance"
+    }
+  ],
+  "past_dwell": {
+    "applied": {
+      "n": 1,
+      "median": 0.3,
+      "max": 0.3
+    },
+    "implemented": {
+      "n": 94,
+      "median": 0.0,
+      "max": 1.1
+    },
+    "staged": {
+      "n": 118,
+      "median": 0.0,
+      "max": 22.4
+    },
+    "verified": {
+      "n": 1,
+      "median": 1.7,
+      "max": 1.7
+    }
+  },
+  "uncommitted": {
+    "dirty_paths": 0,
+    "oldest_days_lower_bound": null,
+    "register_differs_from_head": false
+  },
+  "warnings": []
+}
