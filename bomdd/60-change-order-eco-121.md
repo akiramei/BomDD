@@ -292,8 +292,59 @@ which already holds two:
 - the template does not say who writes the value, or that an `eco:<X>` value is re-derived when X closes;
 - a blocker list alone is not evidence of a live wait.
 
-**Where it stands (2026-11-04):** both product ECOs are implemented and wait for the user's acceptance; neither is pushed. V1 and V3
-are read again at each applied commit (table 2 in each product ECO), and V4 at the closure.
+**Where it stood at the record of manufacture (2026-11-04, `4b3e3a8`):** both product ECOs were implemented and waited for the user's
+acceptance; neither was pushed.
+
+**The acceptance (2026-11-04).** The user's answer, quoted: "1:A 2:A".
+- **Item 1.** ViewTube ECO-VT-273 is accepted with KD-273-1 to 4 named. They are recorded in its cheat log (CHEAT-D10-034).
+- **Item 2.** ViewPrism2 ECO-149 is accepted as it is, with the status-tied form recorded as VP149-K1 in its cheat log.
+- **Both** go to a later BomDD ECO that revises the template, followed by a distribution.
+
+**Commits and pushes:**
+- **ViewPrism2 ECO-149** applied `9bdbe91`, pushed (`82c362e..9bdbe91`). No CI is configured there (`gh run list` gives `[]`).
+- **ViewTube ECO-VT-273** applied `42936d96`, pushed (`62d2b3e4..42936d96`). The X1 replay gave REPLAY_CLEAN. The ownership rows were
+  rotated back, and the eco-accept row was retired.
+
+**Gated conditions at the applied commits** (`bomdd/reports/eco-121-dwell-distribution/`):
+- **V1 PASS** (`closure_checks.txt`).
+  - Per file, the lines with `waiting_on` go from 0 at the base to at least 1 at the applied commit, in change-management and in each
+    of eco-file, eco-fix and eco-accept:
+    - ViewPrism2: 1, 1, 1, 1;
+    - ViewTube: 3, 1, 2, 1.
+  - Each change-management names `paused`, `resume_when` and `bomdd-job.py --dwell`.
+- **V2 PASS.**
+  - Every product commit passed its own hooks: ViewPrism2's validate_bom 0-0 and its lifecycle self-test OK; ViewTube's validate_process
+    and its record gates, the release-workflow validator and its self-test, and validate_change_impact.
+  - BomDD: self-conformance exited 0 before `4b3e3a8`, and CI on `4b3e3a8` succeeded.
+- **V3 PASS.**
+  - The dwell view gives no warning at either applied commit.
+  - `compare_table.py --table 2` gives EQUAL against each product ECO's closure table: ViewPrism2 7 rows, ViewTube 3 rows. Its selftest
+    catches a removed row and a changed value (`*/applied-*.compare.txt`).
+  - The counts by reason:
+
+    | Product | Before | After |
+    |---|---|---|
+    | ViewPrism2 | none 24 | none 17, human-acceptance 6, start-instruction 1 |
+    | ViewTube | none 173 | none 170, `eco:ECO-VT-081` 2, `eco:ECO-VT-095` 1 |
+
+  - The entries left unexplained are listed in each product ECO:
+    - ViewPrism2: ECO-010 to 013 with no rule, and 13 legacy entries (§1 table);
+    - ViewTube: 170 entries with no rule (body 8f).
+- **V4 PASS** (`closure_checks.txt`). Every path changed between each product's base and its applied commit is one of these:
+  - its register;
+  - its change-management;
+  - its eco-file, eco-fix and eco-accept;
+  - its own ECO records.
+
+  "Its own ECO records" is read as the records the product's change management requires for the ECO:
+  - the body and review record;
+  - the change-impact manifest;
+  - the probe and transition evidence under `test-results/eco-vt-273-*`;
+  - the cheat-log entry;
+  - ViewTube's ownership rows in `release-workflow-policy.yaml`, which were taken at the probe and given back at the acceptance.
+
+  Nothing outside these classes changed. BomDD's own window is read at the closure.
+- **V5** (not a closing condition): the view is to be rerun about 14 days after each product's application, around 2026-11-18.
 
 
 ## /preflight receipt (start path: manual — the user's "配布 ECO を起票" read as the start artifact)

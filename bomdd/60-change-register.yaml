@@ -3852,7 +3852,7 @@ changes:
     title: distribution of ECO-120 - each product's register says why an open ECO waits (waiting_on, paused) in ECO-120's vocabulary, only where its own records support it by a stated rule; the step that stops sets it and the step that moves clears it (filed only; targets, order and TimetableAdv at the manufacture ruling)
     date: 2026-11-04
     origin: improvement
-    status: filed   # 2026-11-04 filed on the user's "配布 ECO を起票"; manufacture ruling "1:提案どおり 2:A" (ViewPrism2 then ViewTube; MoviePad-Remake and TimetableAdv not targets). ViewPrism2 ECO-149 implemented a726322 and ViewTube ECO-VT-273 implemented 3517ae21 (known defects KD-273-1 to 4); both wait for the user's acceptance, unpushed (order §4)
+    status: filed   # 2026-11-04 filed on the user's "配布 ECO を起票"; manufacture ruling "1:提案どおり 2:A"; both product ECOs applied on the user's "1:A 2:A" (ViewPrism2 ECO-149 9bdbe91 with VP149-K1; ViewTube ECO-VT-273 42936d96 with KD-273-1 to 4), pushed; V1-V4 PASS at the applied commits; closure waits for the user (order §4)
     source: >
       ECO-120 verified (32606b4): the view reads any register, but no product register has waiting_on or paused, so every open ECO reads
       "none". Survey (bomdd/reports/eco-121-dwell-distribution/): both products' validators accept the keys (clone probe, before and after

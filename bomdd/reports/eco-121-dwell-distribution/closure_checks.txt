@@ -1,0 +1,41 @@
+== ViewPrism2  base 82c362e  applied 9bdbe91
+V1 PASS  waiting_on 0 -> 1  bomdd/change-management.md
+V1 PASS  waiting_on 0 -> 1  .claude/skills/eco-file/SKILL.md
+V1 PASS  waiting_on 0 -> 1  .claude/skills/eco-fix/SKILL.md
+V1 PASS  waiting_on 0 -> 1  .claude/skills/eco-accept/SKILL.md
+V1 PASS  change-management names 'paused' (1 lines)
+V1 PASS  change-management names 'resume_when' (1 lines)
+V1 PASS  change-management names 'bomdd-job.py --dwell' (1 lines)
+V4 eco-file/eco-fix/eco-accept  .claude/skills/eco-accept/SKILL.md
+V4 eco-file/eco-fix/eco-accept  .claude/skills/eco-file/SKILL.md
+V4 eco-file/eco-fix/eco-accept  .claude/skills/eco-fix/SKILL.md
+V4 its own ECO records  bomdd/51-cheat-log.md
+V4 its own ECO records  bomdd/60-change-order-eco-149.md
+V4 register  bomdd/60-change-register.yaml
+V4 change-management  bomdd/change-management.md
+== ViewTube  base 62d2b3e4  applied 42936d96
+V1 PASS  waiting_on 0 -> 3  bomdd/process/change-management.md
+V1 PASS  waiting_on 0 -> 1  .agents/skills/eco-file/SKILL.md
+V1 PASS  waiting_on 0 -> 2  .agents/skills/eco-fix/SKILL.md
+V1 PASS  waiting_on 0 -> 1  .agents/skills/eco-accept/SKILL.md
+V1 PASS  change-management names 'paused' (1 lines)
+V1 PASS  change-management names 'resume_when' (1 lines)
+V1 PASS  change-management names 'bomdd-job.py --dwell' (1 lines)
+V4 eco-file/eco-fix/eco-accept  .agents/skills/eco-accept/SKILL.md
+V4 eco-file/eco-fix/eco-accept  .agents/skills/eco-file/SKILL.md
+V4 eco-file/eco-fix/eco-accept  .agents/skills/eco-fix/SKILL.md
+V4 its own ECO records  bomdd/51-cheat-log.md
+V4 its own ECO records  bomdd/eco/ECO-VT-273-independent-review.md
+V4 its own ECO records  bomdd/eco/ECO-VT-273.md
+V4 its own ECO records  bomdd/process/change-impact/ECO-VT-273.yaml
+V4 change-management  bomdd/process/change-management.md
+V4 register  bomdd/process/change-register.yaml
+V4 its own ECO records  bomdd/process/release-workflow-policy.yaml
+V4 its own ECO records  test-results/eco-vt-273-an-open-eco-cannot-say-what-it-waits-for/probe-after.txt
+V4 its own ECO records  test-results/eco-vt-273-an-open-eco-cannot-say-what-it-waits-for/probe-before.txt
+V4 its own ECO records  test-results/eco-vt-273-an-open-eco-cannot-say-what-it-waits-for/probe-v2-baseline.txt
+V4 its own ECO records  test-results/eco-vt-273-an-open-eco-cannot-say-what-it-waits-for/probe273.py
+V4 its own ECO records  test-results/eco-vt-273-an-open-eco-cannot-say-what-it-waits-for/rotate.py
+V4 its own ECO records  test-results/eco-vt-273-an-open-eco-cannot-say-what-it-waits-for/tier-a-at-the-transition.txt
+V4 its own ECO records  test-results/eco-vt-273-an-open-eco-cannot-say-what-it-waits-for/x1-acceptance-replay.json
+ALL PASS

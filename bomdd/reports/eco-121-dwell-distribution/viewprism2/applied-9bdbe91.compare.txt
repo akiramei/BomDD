@@ -1,0 +1,5 @@
+table 7 rows / view 7 entries with waiting_on / warnings 0
+EQUAL
+compare exit=0
+real pair EQUAL (7 rows); broken table: removed ECO-007 -> caught, changed ECO-082 -> caught
+selftest exit=0

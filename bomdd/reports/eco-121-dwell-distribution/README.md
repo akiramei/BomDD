@@ -23,3 +23,7 @@
 - `viewprism2/fix-a726322.*`: the dwell JSON at ViewPrism2 `a726322`, and the comparison with ECO-149's table: EQUAL, 8 rows.
 - `viewtube/fix-3517ae21.*`: the dwell JSON at ViewTube `3517ae21`, and the comparison with ECO-VT-273's table 1: EQUAL, 4 rows.
 - The `.compare.txt` files hold the comparison's output followed by its selftest output, normalised to LF.
+- `*/applied-*.dwell.json` and `*/applied-*.compare.txt`: the same at each product's applied commit (ViewPrism2 `9bdbe91`, ViewTube
+  `42936d96`), against each product ECO's closure table (`--table 2`): EQUAL, 7 rows and 3 rows.
+- `closure_checks.py` → `closure_checks.txt`: V1 (the `waiting_on` line counts per file, base to applied, and the change-management
+  names) and V4 (each changed path with its class from section 2), read from git. Run: `python -X utf8 closure_checks.py [<repos-root>]`.
