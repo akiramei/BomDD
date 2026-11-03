@@ -1,0 +1,2371 @@
+{
+ "repo": "C:/Users/akira/source/repos/BomDD",
+ "register": "bomdd/60-change-register.yaml",
+ "commits": 347,
+ "first_commit": "2026-07-10T11:07:29+09:00",
+ "failed": [],
+ "ecos": {
+  "ECO-001": {
+   "history": [
+    [
+     "2026-07-10T11:07:29+09:00",
+     "implemented",
+     "51744758a4"
+    ],
+    [
+     "2026-07-10T11:08:11+09:00",
+     "verified",
+     "b7101de334"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 116.6,
+   "censored": false
+  },
+  "ECO-002": {
+   "history": [
+    [
+     "2026-07-10T11:07:29+09:00",
+     "implemented",
+     "51744758a4"
+    ],
+    [
+     "2026-07-10T11:08:11+09:00",
+     "verified",
+     "b7101de334"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 116.6,
+   "censored": false
+  },
+  "ECO-003": {
+   "history": [
+    [
+     "2026-07-10T11:16:29+09:00",
+     "implemented",
+     "cc8cead5bc"
+    ],
+    [
+     "2026-07-10T11:16:57+09:00",
+     "verified",
+     "437c78b55a"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 116.6,
+   "censored": false
+  },
+  "ECO-004": {
+   "history": [
+    [
+     "2026-07-10T11:26:52+09:00",
+     "implemented",
+     "8e62c317bc"
+    ],
+    [
+     "2026-07-10T11:27:19+09:00",
+     "verified",
+     "85de872c84"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 116.5,
+   "censored": false
+  },
+  "ECO-005": {
+   "history": [
+    [
+     "2026-07-10T11:35:07+09:00",
+     "implemented",
+     "9747b336f5"
+    ],
+    [
+     "2026-07-10T11:35:34+09:00",
+     "verified",
+     "e170bda48d"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 116.5,
+   "censored": false
+  },
+  "ECO-006": {
+   "history": [
+    [
+     "2026-07-10T11:43:00+09:00",
+     "implemented",
+     "9a17671147"
+    ],
+    [
+     "2026-07-10T11:43:28+09:00",
+     "verified",
+     "4bff1ed9e0"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 116.5,
+   "censored": false
+  },
+  "ECO-007": {
+   "history": [
+    [
+     "2026-07-10T13:38:58+09:00",
+     "implemented",
+     "b18f587eb4"
+    ],
+    [
+     "2026-07-10T13:39:26+09:00",
+     "verified",
+     "aa4dc5930a"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 116.5,
+   "censored": false
+  },
+  "ECO-008": {
+   "history": [
+    [
+     "2026-07-11T13:01:26+09:00",
+     "filed",
+     "fba7f1bb97"
+    ],
+    [
+     "2026-07-11T13:10:12+09:00",
+     "implemented",
+     "46038e5e65"
+    ],
+    [
+     "2026-07-11T13:11:47+09:00",
+     "verified",
+     "bc27115e09"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 115.5,
+   "censored": false
+  },
+  "ECO-009": {
+   "history": [
+    [
+     "2026-07-11T13:01:26+09:00",
+     "filed",
+     "fba7f1bb97"
+    ],
+    [
+     "2026-07-11T13:17:49+09:00",
+     "implemented",
+     "57ccf7e85f"
+    ],
+    [
+     "2026-07-11T13:20:22+09:00",
+     "verified",
+     "588af6d13b"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 115.5,
+   "censored": false
+  },
+  "ECO-010": {
+   "history": [
+    [
+     "2026-07-11T19:19:42+09:00",
+     "filed",
+     "0fbc34a2b4"
+    ],
+    [
+     "2026-07-11T19:34:00+09:00",
+     "implemented",
+     "ff02a6be3d"
+    ],
+    [
+     "2026-07-11T19:35:21+09:00",
+     "verified",
+     "b586cea2e9"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 115.2,
+   "censored": false
+  },
+  "ECO-011": {
+   "history": [
+    [
+     "2026-07-16T01:34:07+09:00",
+     "filed",
+     "1016c1ca34"
+    ],
+    [
+     "2026-07-16T01:54:06+09:00",
+     "verified",
+     "f8591d475f"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 110.9,
+   "censored": false
+  },
+  "ECO-012": {
+   "history": [
+    [
+     "2026-07-16T01:34:07+09:00",
+     "filed",
+     "1016c1ca34"
+    ],
+    [
+     "2026-07-16T02:13:51+09:00",
+     "verified",
+     "0f9beaa6e9"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 110.9,
+   "censored": false
+  },
+  "ECO-013": {
+   "history": [
+    [
+     "2026-07-16T02:37:22+09:00",
+     "filed",
+     "35b875a743"
+    ],
+    [
+     "2026-07-16T03:15:23+09:00",
+     "verified",
+     "1dab13f6ab"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 110.9,
+   "censored": false
+  },
+  "ECO-014": {
+   "history": [
+    [
+     "2026-07-16T02:37:22+09:00",
+     "filed",
+     "35b875a743"
+    ],
+    [
+     "2026-07-16T03:27:43+09:00",
+     "verified",
+     "b7fd34a9ba"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 110.9,
+   "censored": false
+  },
+  "ECO-015": {
+   "history": [
+    [
+     "2026-07-25T23:59:50+09:00",
+     "filed",
+     "ce6e1057ab"
+    ],
+    [
+     "2026-07-26T00:55:37+09:00",
+     "verified",
+     "ba9f325f29"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 101.0,
+   "censored": false
+  },
+  "ECO-016": {
+   "history": [
+    [
+     "2026-07-26T08:33:22+09:00",
+     "filed",
+     "d5f249315c"
+    ],
+    [
+     "2026-08-29T01:21:47+09:00",
+     "verified",
+     "8a9a3f13d5"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 67.0,
+   "censored": false
+  },
+  "ECO-017": {
+   "history": [
+    [
+     "2026-07-26T08:33:22+09:00",
+     "filed",
+     "d5f249315c"
+    ],
+    [
+     "2026-08-29T01:21:47+09:00",
+     "verified",
+     "8a9a3f13d5"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 67.0,
+   "censored": false
+  },
+  "ECO-018": {
+   "history": [
+    [
+     "2026-07-26T16:25:27+09:00",
+     "filed",
+     "b671571861"
+    ],
+    [
+     "2026-08-29T01:21:47+09:00",
+     "verified",
+     "8a9a3f13d5"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 67.0,
+   "censored": false
+  },
+  "ECO-019": {
+   "history": [
+    [
+     "2026-07-27T00:48:18+09:00",
+     "filed",
+     "5b8488992a"
+    ],
+    [
+     "2026-08-29T01:21:47+09:00",
+     "verified",
+     "8a9a3f13d5"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 67.0,
+   "censored": false
+  },
+  "ECO-020": {
+   "history": [
+    [
+     "2026-07-27T10:01:27+09:00",
+     "filed",
+     "7068ad522e"
+    ],
+    [
+     "2026-07-27T10:41:42+09:00",
+     "verified",
+     "55cd111da0"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 99.6,
+   "censored": false
+  },
+  "ECO-021": {
+   "history": [
+    [
+     "2026-07-27T15:31:39+09:00",
+     "filed",
+     "bdb63919f1"
+    ],
+    [
+     "2026-07-27T16:21:15+09:00",
+     "verified",
+     "90b7bdcccb"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 99.3,
+   "censored": false
+  },
+  "ECO-022": {
+   "history": [
+    [
+     "2026-07-27T17:27:10+09:00",
+     "filed",
+     "94529360ae"
+    ],
+    [
+     "2026-07-27T17:42:16+09:00",
+     "verified",
+     "7c5da0831c"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 99.3,
+   "censored": false
+  },
+  "ECO-023": {
+   "history": [
+    [
+     "2026-07-27T20:05:54+09:00",
+     "filed",
+     "540d59e263"
+    ],
+    [
+     "2026-07-27T20:43:13+09:00",
+     "verified",
+     "2997ed7591"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 99.2,
+   "censored": false
+  },
+  "ECO-024": {
+   "history": [
+    [
+     "2026-07-28T00:54:44+09:00",
+     "filed",
+     "90b1f63b55"
+    ],
+    [
+     "2026-07-28T02:51:39+09:00",
+     "verified",
+     "dc97786222"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 98.9,
+   "censored": false
+  },
+  "ECO-025": {
+   "history": [
+    [
+     "2026-07-28T10:29:18+09:00",
+     "filed",
+     "4c2abe592d"
+    ],
+    [
+     "2026-07-28T14:30:05+09:00",
+     "verified",
+     "a604783301"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 98.4,
+   "censored": false
+  },
+  "ECO-026": {
+   "history": [
+    [
+     "2026-08-02T09:16:31+09:00",
+     "filed",
+     "605649982f"
+    ],
+    [
+     "2026-08-02T09:52:41+09:00",
+     "verified",
+     "a41bd6155d"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 93.6,
+   "censored": false
+  },
+  "ECO-027": {
+   "history": [
+    [
+     "2026-08-02T09:58:59+09:00",
+     "filed",
+     "cd81e88f20"
+    ],
+    [
+     "2026-08-02T10:50:47+09:00",
+     "verified",
+     "c0abb32457"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 93.6,
+   "censored": false
+  },
+  "ECO-028": {
+   "history": [
+    [
+     "2026-08-02T15:12:11+09:00",
+     "filed",
+     "3c1731dfd4"
+    ],
+    [
+     "2026-08-02T15:47:14+09:00",
+     "verified",
+     "a567159515"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 93.4,
+   "censored": false
+  },
+  "ECO-029": {
+   "history": [
+    [
+     "2026-08-03T03:45:29+09:00",
+     "filed",
+     "262e1d6086"
+    ],
+    [
+     "2026-08-03T03:53:33+09:00",
+     "verified",
+     "5434be4665"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 92.9,
+   "censored": false
+  },
+  "ECO-030": {
+   "history": [
+    [
+     "2026-08-28T01:54:43+09:00",
+     "filed",
+     "c03101de18"
+    ],
+    [
+     "2026-08-28T05:12:54+09:00",
+     "verified",
+     "8aa03dbd5c"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 67.8,
+   "censored": false
+  },
+  "ECO-031": {
+   "history": [
+    [
+     "2026-08-28T04:26:40+09:00",
+     "filed",
+     "b8ad4830a6"
+    ],
+    [
+     "2026-08-28T13:14:06+09:00",
+     "verified",
+     "ce4538893a"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 67.5,
+   "censored": false
+  },
+  "ECO-032": {
+   "history": [
+    [
+     "2026-08-28T06:23:21+09:00",
+     "filed",
+     "c987e34df3"
+    ],
+    [
+     "2026-08-28T07:17:59+09:00",
+     "verified",
+     "e05afbdb85"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 67.7,
+   "censored": false
+  },
+  "ECO-033": {
+   "history": [
+    [
+     "2026-08-30T13:28:00+09:00",
+     "filed",
+     "78af21b632"
+    ],
+    [
+     "2026-08-30T14:10:25+09:00",
+     "applied",
+     "6f33631e5d"
+    ],
+    [
+     "2026-08-30T14:24:54+09:00",
+     "verified",
+     "9ec716e78e"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 65.4,
+   "censored": false
+  },
+  "ECO-034": {
+   "history": [
+    [
+     "2026-08-30T20:08:49+09:00",
+     "applied",
+     "44d2904127"
+    ],
+    [
+     "2026-08-30T20:24:25+09:00",
+     "verified",
+     "0c2d9a5e29"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 65.2,
+   "censored": false
+  },
+  "ECO-035": {
+   "history": [
+    [
+     "2026-08-31T13:56:20+09:00",
+     "applied",
+     "7707a59fea"
+    ],
+    [
+     "2026-08-31T14:13:23+09:00",
+     "verified",
+     "31eaefed4a"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 64.4,
+   "censored": false
+  },
+  "ECO-036": {
+   "history": [
+    [
+     "2026-08-31T15:35:14+09:00",
+     "applied",
+     "79bcc6020f"
+    ],
+    [
+     "2026-08-31T15:51:39+09:00",
+     "verified",
+     "ba1928fb68"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 64.4,
+   "censored": false
+  },
+  "ECO-037": {
+   "history": [
+    [
+     "2026-08-31T16:23:23+09:00",
+     "filed",
+     "52e600d44c"
+    ],
+    [
+     "2026-08-31T18:33:09+09:00",
+     "applied",
+     "0db4685049"
+    ],
+    [
+     "2026-08-31T18:48:10+09:00",
+     "verified",
+     "dacc2148e4"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 64.2,
+   "censored": false
+  },
+  "ECO-038": {
+   "history": [
+    [
+     "2026-08-31T20:19:00+09:00",
+     "filed",
+     "9613f44433"
+    ],
+    [
+     "2026-08-31T21:00:09+09:00",
+     "applied",
+     "e44687d488"
+    ],
+    [
+     "2026-08-31T21:21:28+09:00",
+     "verified",
+     "5c0f5dcb72"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 64.1,
+   "censored": false
+  },
+  "ECO-039": {
+   "history": [
+    [
+     "2026-08-31T22:38:38+09:00",
+     "filed",
+     "a201226333"
+    ],
+    [
+     "2026-08-31T23:16:34+09:00",
+     "applied",
+     "4ddc9c3b8a"
+    ],
+    [
+     "2026-08-31T23:37:07+09:00",
+     "verified",
+     "a4e9322634"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 64.0,
+   "censored": false
+  },
+  "ECO-040": {
+   "history": [
+    [
+     "2026-09-01T01:19:42+09:00",
+     "applied",
+     "b56dbd6ba4"
+    ],
+    [
+     "2026-09-01T01:54:41+09:00",
+     "verified",
+     "181126f98f"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 63.9,
+   "censored": false
+  },
+  "ECO-041": {
+   "history": [
+    [
+     "2026-09-01T02:52:59+09:00",
+     "applied",
+     "5bb71b9aaf"
+    ],
+    [
+     "2026-09-01T03:08:42+09:00",
+     "verified",
+     "4430f96620"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 63.9,
+   "censored": false
+  },
+  "ECO-042": {
+   "history": [
+    [
+     "2026-09-01T08:57:58+09:00",
+     "filed",
+     "a56f504380"
+    ],
+    [
+     "2026-09-01T09:58:08+09:00",
+     "applied",
+     "9f19de3db3"
+    ],
+    [
+     "2026-09-01T10:14:00+09:00",
+     "verified",
+     "d6112211b0"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 63.6,
+   "censored": false
+  },
+  "ECO-043": {
+   "history": [
+    [
+     "2026-09-01T12:53:36+09:00",
+     "filed",
+     "6aecae951a"
+    ],
+    [
+     "2026-09-01T13:07:13+09:00",
+     "applied",
+     "4e88e4d37f"
+    ],
+    [
+     "2026-09-01T13:23:38+09:00",
+     "verified",
+     "06076cf663"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 63.5,
+   "censored": false
+  },
+  "ECO-044": {
+   "history": [
+    [
+     "2026-09-01T15:34:43+09:00",
+     "applied",
+     "3a383e0177"
+    ],
+    [
+     "2026-09-01T15:48:34+09:00",
+     "verified",
+     "9d8b8c1166"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 63.4,
+   "censored": false
+  },
+  "ECO-045": {
+   "history": [
+    [
+     "2026-09-01T16:13:06+09:00",
+     "applied",
+     "17b3182963"
+    ],
+    [
+     "2026-09-01T16:39:07+09:00",
+     "verified",
+     "c2c2448bb1"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 63.3,
+   "censored": false
+  },
+  "ECO-046": {
+   "history": [
+    [
+     "2026-09-01T17:12:46+09:00",
+     "applied",
+     "4a2ed2f24c"
+    ],
+    [
+     "2026-09-01T17:46:56+09:00",
+     "verified",
+     "e72fcec9f0"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 63.3,
+   "censored": false
+  },
+  "ECO-047": {
+   "history": [
+    [
+     "2026-09-01T20:15:17+09:00",
+     "applied",
+     "55c04bb1b1"
+    ],
+    [
+     "2026-09-01T20:30:13+09:00",
+     "verified",
+     "fc41ee2b83"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 63.2,
+   "censored": false
+  },
+  "ECO-048": {
+   "history": [
+    [
+     "2026-09-01T21:17:31+09:00",
+     "in-progress",
+     "cd6ab2f794"
+    ],
+    [
+     "2026-09-01T21:34:03+09:00",
+     "verified",
+     "f150105909"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 63.1,
+   "censored": false
+  },
+  "ECO-049": {
+   "history": [
+    [
+     "2026-09-01T22:51:08+09:00",
+     "in-progress",
+     "c691fa254c"
+    ],
+    [
+     "2026-09-01T23:10:00+09:00",
+     "verified",
+     "eb13bf30ec"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 63.1,
+   "censored": false
+  },
+  "ECO-050": {
+   "history": [
+    [
+     "2026-09-02T01:30:02+09:00",
+     "in-progress",
+     "97dbbed19b"
+    ],
+    [
+     "2026-09-02T01:44:55+09:00",
+     "verified",
+     "51e2d534f4"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 62.9,
+   "censored": false
+  },
+  "ECO-051": {
+   "history": [
+    [
+     "2026-09-02T08:06:39+09:00",
+     "in-progress",
+     "51756e5c80"
+    ],
+    [
+     "2026-09-02T08:22:39+09:00",
+     "verified",
+     "5646517b9e"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 62.7,
+   "censored": false
+  },
+  "ECO-052": {
+   "history": [
+    [
+     "2026-09-02T08:36:43+09:00",
+     "in-progress",
+     "5dd3ccea49"
+    ],
+    [
+     "2026-09-02T08:54:45+09:00",
+     "verified",
+     "4703606c38"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 62.7,
+   "censored": false
+  },
+  "ECO-053": {
+   "history": [
+    [
+     "2026-09-02T11:05:33+09:00",
+     "in-progress",
+     "18a48f4d5b"
+    ],
+    [
+     "2026-09-02T11:21:57+09:00",
+     "verified",
+     "9de69f886a"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 62.5,
+   "censored": false
+  },
+  "ECO-054": {
+   "history": [
+    [
+     "2026-09-02T12:38:49+09:00",
+     "filed",
+     "c00de99397"
+    ],
+    [
+     "2026-09-02T13:03:17+09:00",
+     "in-progress",
+     "0f2fb7f360"
+    ],
+    [
+     "2026-09-02T13:23:31+09:00",
+     "verified",
+     "c7c90b1b55"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 62.5,
+   "censored": false
+  },
+  "ECO-055": {
+   "history": [
+    [
+     "2026-09-03T01:41:03+09:00",
+     "filed",
+     "a82fc2a048"
+    ],
+    [
+     "2026-09-03T02:05:48+09:00",
+     "in-progress",
+     "c692c3c2c2"
+    ],
+    [
+     "2026-09-11T15:27:08+09:00",
+     "verified",
+     "3c14c83ca3"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 53.4,
+   "censored": false
+  },
+  "ECO-056": {
+   "history": [
+    [
+     "2026-09-03T06:01:35+09:00",
+     "in-progress",
+     "13cca3dcd2"
+    ],
+    [
+     "2026-09-03T09:44:31+09:00",
+     "verified",
+     "af72c4cc35"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 61.6,
+   "censored": false
+  },
+  "ECO-057": {
+   "history": [
+    [
+     "2026-09-03T13:03:35+09:00",
+     "filed",
+     "26b877cb78"
+    ],
+    [
+     "2026-09-03T13:24:58+09:00",
+     "in-progress",
+     "c935ac9f12"
+    ],
+    [
+     "2026-09-03T13:46:43+09:00",
+     "verified",
+     "6b1a549bcb"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 61.4,
+   "censored": false
+  },
+  "ECO-058": {
+   "history": [
+    [
+     "2026-09-03T13:49:55+09:00",
+     "in-progress",
+     "937d1d7e58"
+    ],
+    [
+     "2026-09-03T14:04:10+09:00",
+     "verified",
+     "00a3190bc6"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 61.4,
+   "censored": false
+  },
+  "ECO-059": {
+   "history": [
+    [
+     "2026-09-04T00:43:47+09:00",
+     "applied",
+     "8427f24d36"
+    ],
+    [
+     "2026-09-04T01:06:29+09:00",
+     "verified",
+     "c019d6ada6"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 61.0,
+   "censored": false
+  },
+  "ECO-060": {
+   "history": [
+    [
+     "2026-09-04T09:45:57+09:00",
+     "applied",
+     "5ffcd4490a"
+    ],
+    [
+     "2026-09-04T10:03:07+09:00",
+     "verified",
+     "f797eb9f72"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 60.6,
+   "censored": false
+  },
+  "ECO-061": {
+   "history": [
+    [
+     "2026-09-06T01:04:37+09:00",
+     "filed",
+     "efe157f0c2"
+    ],
+    [
+     "2026-09-06T01:27:31+09:00",
+     "in-progress",
+     "e69b1c5820"
+    ],
+    [
+     "2026-09-06T01:42:33+09:00",
+     "verified",
+     "976d32a13e"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 59.0,
+   "censored": false
+  },
+  "ECO-062": {
+   "history": [
+    [
+     "2026-09-10T10:08:40+09:00",
+     "filed",
+     "9ac802e9ac"
+    ],
+    [
+     "2026-09-10T16:00:54+09:00",
+     "decided",
+     "985f0e2acd"
+    ],
+    [
+     "2026-09-10T19:45:49+09:00",
+     "implemented",
+     "1eefe352a3"
+    ],
+    [
+     "2026-09-10T22:26:47+09:00",
+     "verified",
+     "a45f30b7c2"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 54.1,
+   "censored": false
+  },
+  "ECO-063": {
+   "history": [
+    [
+     "2026-09-10T22:51:11+09:00",
+     "decided",
+     "f89b81c884"
+    ],
+    [
+     "2026-09-10T23:03:41+09:00",
+     "verified",
+     "7e9002556d"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 54.1,
+   "censored": false
+  },
+  "ECO-064": {
+   "history": [
+    [
+     "2026-09-10T23:44:44+09:00",
+     "filed",
+     "da412388f3"
+    ],
+    [
+     "2026-09-11T00:26:37+09:00",
+     "implemented",
+     "24e16e06e8"
+    ],
+    [
+     "2026-09-11T02:42:45+09:00",
+     "verified",
+     "689a219c0f"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 53.9,
+   "censored": false
+  },
+  "ECO-065": {
+   "history": [
+    [
+     "2026-09-11T03:06:19+09:00",
+     "filed",
+     "6cf654b390"
+    ],
+    [
+     "2026-09-11T03:31:36+09:00",
+     "implemented",
+     "a2f9e41127"
+    ],
+    [
+     "2026-09-11T03:44:43+09:00",
+     "verified",
+     "807635bdc7"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 53.9,
+   "censored": false
+  },
+  "ECO-066": {
+   "history": [
+    [
+     "2026-09-11T12:39:50+09:00",
+     "filed",
+     "0f728b8419"
+    ],
+    [
+     "2026-09-11T12:58:53+09:00",
+     "decided",
+     "4068029af3"
+    ],
+    [
+     "2026-09-11T13:18:24+09:00",
+     "implemented",
+     "b39c6f739a"
+    ],
+    [
+     "2026-09-11T13:32:30+09:00",
+     "verified",
+     "64a162d0fd"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 53.5,
+   "censored": false
+  },
+  "ECO-067": {
+   "history": [
+    [
+     "2026-09-11T15:12:15+09:00",
+     "filed",
+     "9835be657a"
+    ],
+    [
+     "2026-09-11T16:56:14+09:00",
+     "implemented",
+     "ff7cd9f0a1"
+    ],
+    [
+     "2026-09-11T17:59:12+09:00",
+     "verified",
+     "74801569ca"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 53.3,
+   "censored": false
+  },
+  "ECO-068": {
+   "history": [
+    [
+     "2026-09-11T20:42:10+09:00",
+     "filed",
+     "58a5c3f463"
+    ],
+    [
+     "2026-09-11T21:08:59+09:00",
+     "implemented",
+     "3c529259fd"
+    ],
+    [
+     "2026-09-11T21:21:48+09:00",
+     "verified",
+     "764957cba0"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 53.1,
+   "censored": false
+  },
+  "ECO-069": {
+   "history": [
+    [
+     "2026-09-11T23:26:44+09:00",
+     "implemented",
+     "b0e832b5f7"
+    ],
+    [
+     "2026-09-11T23:51:27+09:00",
+     "verified",
+     "a5700e90b4"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 53.0,
+   "censored": false
+  },
+  "ECO-070": {
+   "history": [
+    [
+     "2026-09-12T00:50:35+09:00",
+     "implemented",
+     "aa70b65aca"
+    ],
+    [
+     "2026-09-12T01:04:42+09:00",
+     "verified",
+     "bf0924effd"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 53.0,
+   "censored": false
+  },
+  "ECO-071": {
+   "history": [
+    [
+     "2026-09-12T01:33:14+09:00",
+     "implemented",
+     "4e518cfd6d"
+    ],
+    [
+     "2026-09-12T01:48:26+09:00",
+     "verified",
+     "6cf7b7e759"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 52.9,
+   "censored": false
+  },
+  "ECO-072": {
+   "history": [
+    [
+     "2026-09-12T03:03:45+09:00",
+     "filed",
+     "3e918de1ff"
+    ],
+    [
+     "2026-09-12T04:11:40+09:00",
+     "implemented",
+     "2dad24f706"
+    ],
+    [
+     "2026-09-12T04:32:40+09:00",
+     "verified",
+     "2a921bd350"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 52.8,
+   "censored": false
+  },
+  "ECO-073": {
+   "history": [
+    [
+     "2026-09-12T09:53:26+09:00",
+     "filed",
+     "e0639b2681"
+    ],
+    [
+     "2026-09-12T10:59:13+09:00",
+     "implemented",
+     "d60471efd7"
+    ],
+    [
+     "2026-09-12T12:09:47+09:00",
+     "verified",
+     "a8ad524e87"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 52.5,
+   "censored": false
+  },
+  "ECO-074": {
+   "history": [
+    [
+     "2026-09-12T12:53:45+09:00",
+     "filed",
+     "c180cc8341"
+    ],
+    [
+     "2026-09-12T13:14:32+09:00",
+     "implemented",
+     "a43c7f8eb8"
+    ],
+    [
+     "2026-09-12T14:11:53+09:00",
+     "verified",
+     "1ab7ec69c3"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 52.4,
+   "censored": false
+  },
+  "ECO-075": {
+   "history": [
+    [
+     "2026-09-14T15:03:55+09:00",
+     "filed",
+     "f71e6284b0"
+    ],
+    [
+     "2026-09-14T15:28:47+09:00",
+     "implemented",
+     "bd16bbb581"
+    ],
+    [
+     "2026-09-14T16:04:37+09:00",
+     "verified",
+     "7b0d67a585"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 50.4,
+   "censored": false
+  },
+  "ECO-076": {
+   "history": [
+    [
+     "2026-09-14T21:12:29+09:00",
+     "implemented",
+     "cea4b411a5"
+    ],
+    [
+     "2026-09-14T21:25:00+09:00",
+     "verified",
+     "6cebe6bd6f"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 50.1,
+   "censored": false
+  },
+  "ECO-077": {
+   "history": [
+    [
+     "2026-09-14T23:37:01+09:00",
+     "implemented",
+     "5917e29bbe"
+    ],
+    [
+     "2026-09-15T00:13:23+09:00",
+     "verified",
+     "be93aad313"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 50.0,
+   "censored": false
+  },
+  "ECO-078": {
+   "history": [
+    [
+     "2026-09-15T01:14:50+09:00",
+     "implemented",
+     "7e060c920d"
+    ],
+    [
+     "2026-09-15T01:44:04+09:00",
+     "verified",
+     "b46359f92d"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 50.0,
+   "censored": false
+  },
+  "ECO-079": {
+   "history": [
+    [
+     "2026-09-15T23:03:06+09:00",
+     "implemented",
+     "04838322c7"
+    ]
+   ],
+   "current": "implemented",
+   "terminal": false,
+   "days_in_current": 49.1,
+   "censored": false
+  },
+  "ECO-080": {
+   "history": [
+    [
+     "2026-09-18T11:26:36+09:00",
+     "filed",
+     "0e50b2fe09"
+    ],
+    [
+     "2026-09-18T11:43:50+09:00",
+     "implemented",
+     "79cdcf74c6"
+    ],
+    [
+     "2026-09-18T12:34:24+09:00",
+     "verified",
+     "b34f4f0d64"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 46.5,
+   "censored": false
+  },
+  "ECO-081": {
+   "history": [
+    [
+     "2026-09-19T10:36:42+09:00",
+     "filed",
+     "0e871754fd"
+    ],
+    [
+     "2026-09-22T18:59:59+09:00",
+     "implemented",
+     "9e59d42837"
+    ],
+    [
+     "2026-09-22T19:53:39+09:00",
+     "verified",
+     "09495add48"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 42.2,
+   "censored": false
+  },
+  "ECO-082": {
+   "history": [
+    [
+     "2026-09-24T11:35:46+09:00",
+     "implemented",
+     "a3356eb485"
+    ],
+    [
+     "2026-09-24T12:49:42+09:00",
+     "verified",
+     "1bf213a3a3"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 40.5,
+   "censored": false
+  },
+  "ECO-083": {
+   "history": [
+    [
+     "2026-09-24T13:05:51+09:00",
+     "implemented",
+     "cf8bdcd244"
+    ],
+    [
+     "2026-09-24T13:35:11+09:00",
+     "verified",
+     "1fa036849b"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 40.5,
+   "censored": false
+  },
+  "ECO-084": {
+   "history": [
+    [
+     "2026-09-26T10:04:57+09:00",
+     "implemented",
+     "e30eb2ad82"
+    ],
+    [
+     "2026-09-26T10:18:30+09:00",
+     "verified",
+     "2a8908b352"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 38.6,
+   "censored": false
+  },
+  "ECO-085": {
+   "history": [
+    [
+     "2026-09-29T21:10:31+09:00",
+     "filed",
+     "5ca64de266"
+    ],
+    [
+     "2026-09-29T22:09:52+09:00",
+     "implemented",
+     "6ed183f415"
+    ],
+    [
+     "2026-09-29T23:27:09+09:00",
+     "verified",
+     "0f8805d41b"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 35.0,
+   "censored": false
+  },
+  "ECO-086": {
+   "history": [
+    [
+     "2026-09-30T21:27:48+09:00",
+     "implemented",
+     "91b2160119"
+    ],
+    [
+     "2026-09-30T21:40:18+09:00",
+     "verified",
+     "e8173ec0de"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 34.1,
+   "censored": false
+  },
+  "ECO-087": {
+   "history": [
+    [
+     "2026-09-30T22:15:08+09:00",
+     "implemented",
+     "8d789cfaae"
+    ],
+    [
+     "2026-09-30T22:27:02+09:00",
+     "verified",
+     "b5ba4259d5"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 34.1,
+   "censored": false
+  },
+  "ECO-088": {
+   "history": [
+    [
+     "2026-09-30T23:05:19+09:00",
+     "implemented",
+     "35d2ae2cfb"
+    ],
+    [
+     "2026-09-30T23:20:20+09:00",
+     "verified",
+     "a3aa3277ca"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 34.1,
+   "censored": false
+  },
+  "ECO-089": {
+   "history": [
+    [
+     "2026-10-01T10:45:09+09:00",
+     "filed",
+     "b78ad3317a"
+    ],
+    [
+     "2026-10-01T14:06:42+09:00",
+     "implemented",
+     "42eaa382d0"
+    ],
+    [
+     "2026-10-01T19:18:36+09:00",
+     "verified",
+     "efa98647c4"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 33.2,
+   "censored": false
+  },
+  "ECO-090": {
+   "history": [
+    [
+     "2026-10-02T07:06:48+09:00",
+     "implemented",
+     "1bea50b987"
+    ],
+    [
+     "2026-10-02T07:33:19+09:00",
+     "verified",
+     "069e0d5ab5"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 32.7,
+   "censored": false
+  },
+  "ECO-091": {
+   "history": [
+    [
+     "2026-10-03T14:52:28+09:00",
+     "filed",
+     "246c2fd0f3"
+    ],
+    [
+     "2026-10-03T15:20:18+09:00",
+     "implemented",
+     "e7d563b115"
+    ],
+    [
+     "2026-10-03T16:45:42+09:00",
+     "verified",
+     "debc2bf6b9"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 31.3,
+   "censored": false
+  },
+  "ECO-092": {
+   "history": [
+    [
+     "2026-10-03T14:52:28+09:00",
+     "filed",
+     "246c2fd0f3"
+    ],
+    [
+     "2026-10-03T15:20:18+09:00",
+     "implemented",
+     "e7d563b115"
+    ],
+    [
+     "2026-10-03T16:45:42+09:00",
+     "verified",
+     "debc2bf6b9"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 31.3,
+   "censored": false
+  },
+  "ECO-093": {
+   "history": [
+    [
+     "2026-10-03T14:52:28+09:00",
+     "filed",
+     "246c2fd0f3"
+    ],
+    [
+     "2026-10-03T15:20:18+09:00",
+     "implemented",
+     "e7d563b115"
+    ],
+    [
+     "2026-10-03T15:49:59+09:00",
+     "verified",
+     "5d90ba4839"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 31.4,
+   "censored": false
+  },
+  "ECO-094": {
+   "history": [
+    [
+     "2026-10-03T15:49:59+09:00",
+     "filed",
+     "5d90ba4839"
+    ],
+    [
+     "2026-10-03T20:05:48+09:00",
+     "implemented",
+     "813365aa13"
+    ],
+    [
+     "2026-10-03T23:10:15+09:00",
+     "verified",
+     "b6f5fe2d58"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 31.1,
+   "censored": false
+  },
+  "ECO-095": {
+   "history": [
+    [
+     "2026-10-03T23:47:53+09:00",
+     "implemented",
+     "23b6bd5764"
+    ],
+    [
+     "2026-10-04T00:01:34+09:00",
+     "verified",
+     "a2eae9e5e2"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 31.0,
+   "censored": false
+  },
+  "ECO-096": {
+   "history": [
+    [
+     "2026-10-04T00:09:06+09:00",
+     "filed",
+     "305fba29f5"
+    ],
+    [
+     "2026-10-04T02:30:36+09:00",
+     "implemented",
+     "f34a6d6e75"
+    ],
+    [
+     "2026-10-04T02:58:39+09:00",
+     "verified",
+     "6810d2c428"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 30.9,
+   "censored": false
+  },
+  "ECO-097": {
+   "history": [
+    [
+     "2026-10-05T03:21:13+09:00",
+     "draft",
+     "ce597ab08f"
+    ],
+    [
+     "2026-10-05T06:02:40+09:00",
+     "verified",
+     "f99c7c4f4f"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 29.8,
+   "censored": false
+  },
+  "ECO-098": {
+   "history": [
+    [
+     "2026-10-05T11:13:08+09:00",
+     "draft",
+     "cf1852fc14"
+    ],
+    [
+     "2026-10-05T11:20:24+09:00",
+     "implemented",
+     "8d84edb86c"
+    ],
+    [
+     "2026-10-05T11:48:27+09:00",
+     "verified",
+     "a9063ffddf"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 29.5,
+   "censored": false
+  },
+  "ECO-099": {
+   "history": [
+    [
+     "2026-10-05T12:48:21+09:00",
+     "draft",
+     "78cac745af"
+    ],
+    [
+     "2026-10-05T13:06:35+09:00",
+     "implemented",
+     "7c0b54efb7"
+    ],
+    [
+     "2026-10-05T13:14:02+09:00",
+     "verified",
+     "569a4bc806"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 29.5,
+   "censored": false
+  },
+  "ECO-100": {
+   "history": [
+    [
+     "2026-10-06T00:08:59+09:00",
+     "draft",
+     "ffffdab84e"
+    ],
+    [
+     "2026-10-06T00:21:37+09:00",
+     "implemented",
+     "fbd3f4a57b"
+    ],
+    [
+     "2026-10-06T00:35:16+09:00",
+     "verified",
+     "6edfb16040"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 29.0,
+   "censored": false
+  },
+  "ECO-101": {
+   "history": [
+    [
+     "2026-10-06T12:53:13+09:00",
+     "implemented",
+     "662faffc87"
+    ],
+    [
+     "2026-10-06T13:00:04+09:00",
+     "verified",
+     "aec11daa6a"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 28.5,
+   "censored": false
+  },
+  "ECO-102": {
+   "history": [
+    [
+     "2026-10-07T00:15:41+09:00",
+     "draft",
+     "37c4f82e47"
+    ],
+    [
+     "2026-10-07T01:11:35+09:00",
+     "verified",
+     "271a0d72a0"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 28.0,
+   "censored": false
+  },
+  "ECO-103": {
+   "history": [
+    [
+     "2026-10-10T12:55:44+09:00",
+     "draft",
+     "c41838ad4e"
+    ],
+    [
+     "2026-10-10T13:36:02+09:00",
+     "verified",
+     "6b2c76c817"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 24.5,
+   "censored": false
+  },
+  "ECO-104": {
+   "history": [
+    [
+     "2026-10-11T13:00:30+09:00",
+     "implemented",
+     "0c1af402a2"
+    ],
+    [
+     "2026-10-11T13:18:42+09:00",
+     "verified",
+     "1d59dea87f"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 23.5,
+   "censored": false
+  },
+  "ECO-105": {
+   "history": [
+    [
+     "2026-10-12T23:47:21+09:00",
+     "draft",
+     "c82b852699"
+    ],
+    [
+     "2026-10-12T23:54:17+09:00",
+     "implemented",
+     "d188b5a352"
+    ],
+    [
+     "2026-10-13T00:06:11+09:00",
+     "verified",
+     "41efd00cfd"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 22.0,
+   "censored": false
+  },
+  "ECO-106": {
+   "history": [
+    [
+     "2026-10-13T09:26:45+09:00",
+     "implemented",
+     "44c0332040"
+    ],
+    [
+     "2026-10-13T09:34:13+09:00",
+     "verified",
+     "207f56d8be"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 21.6,
+   "censored": false
+  },
+  "ECO-107": {
+   "history": [
+    [
+     "2026-10-13T09:53:13+09:00",
+     "filed",
+     "8ed08328ff"
+    ],
+    [
+     "2026-10-13T11:42:36+09:00",
+     "implemented",
+     "548aa05238"
+    ],
+    [
+     "2026-10-13T12:35:29+09:00",
+     "verified",
+     "40379d103a"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 21.5,
+   "censored": false
+  },
+  "ECO-108": {
+   "history": [
+    [
+     "2026-10-13T13:41:29+09:00",
+     "implemented",
+     "bdda53e56d"
+    ],
+    [
+     "2026-10-13T13:49:26+09:00",
+     "verified",
+     "7050e6af10"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 21.4,
+   "censored": false
+  },
+  "ECO-109": {
+   "history": [
+    [
+     "2026-10-13T20:47:13+09:00",
+     "filed",
+     "070d46e6be"
+    ],
+    [
+     "2026-10-13T22:56:46+09:00",
+     "verified",
+     "eac8c1abe1"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 21.1,
+   "censored": false
+  },
+  "ECO-110": {
+   "history": [
+    [
+     "2026-10-13T22:19:31+09:00",
+     "implemented",
+     "f7e860e2d9"
+    ],
+    [
+     "2026-10-13T22:26:42+09:00",
+     "verified",
+     "f1a4d2228e"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 21.1,
+   "censored": false
+  },
+  "ECO-111": {
+   "history": [
+    [
+     "2026-10-13T23:55:11+09:00",
+     "implemented",
+     "fbc73b26bc"
+    ],
+    [
+     "2026-10-14T00:03:17+09:00",
+     "verified",
+     "3a9de069ae"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 21.0,
+   "censored": false
+  },
+  "ECO-112": {
+   "history": [
+    [
+     "2026-10-18T18:30:41+09:00",
+     "filed",
+     "19243e5c08"
+    ],
+    [
+     "2026-10-18T20:27:33+09:00",
+     "implemented",
+     "f2d91d4e4e"
+    ],
+    [
+     "2026-10-18T23:48:27+09:00",
+     "verified",
+     "5ddd42855b"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 16.0,
+   "censored": false
+  },
+  "ECO-113": {
+   "history": [
+    [
+     "2026-10-18T21:01:20+09:00",
+     "filed",
+     "3c7781cdbb"
+    ],
+    [
+     "2026-10-19T06:14:14+09:00",
+     "implemented",
+     "2752d18a8b"
+    ],
+    [
+     "2026-10-24T02:27:55+09:00",
+     "verified",
+     "be966981d1"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 10.9,
+   "censored": false
+  },
+  "ECO-114": {
+   "history": [
+    [
+     "2026-10-24T07:51:19+09:00",
+     "filed",
+     "25bea38b41"
+    ],
+    [
+     "2026-10-24T08:54:05+09:00",
+     "implemented",
+     "286d02c944"
+    ],
+    [
+     "2026-10-24T11:09:49+09:00",
+     "verified",
+     "729b52f06d"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 10.6,
+   "censored": false
+  },
+  "ECO-115": {
+   "history": [
+    [
+     "2026-10-26T06:39:08+09:00",
+     "filed",
+     "db16fa3ebc"
+    ],
+    [
+     "2026-10-26T07:26:21+09:00",
+     "implemented",
+     "35961c32d9"
+    ],
+    [
+     "2026-10-26T13:40:52+09:00",
+     "verified",
+     "ef1506aeec"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 8.5,
+   "censored": false
+  },
+  "ECO-116": {
+   "history": [
+    [
+     "2026-10-26T17:21:40+09:00",
+     "filed",
+     "00c77436f7"
+    ],
+    [
+     "2026-10-28T00:36:35+09:00",
+     "verified",
+     "4e2c571745"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 7.0,
+   "censored": false
+  },
+  "ECO-117": {
+   "history": [
+    [
+     "2026-10-29T06:32:10+09:00",
+     "filed",
+     "44287a078e"
+    ],
+    [
+     "2026-10-29T07:09:55+09:00",
+     "implemented",
+     "2f666c6270"
+    ],
+    [
+     "2026-10-29T07:23:14+09:00",
+     "verified",
+     "879b3745e7"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 5.7,
+   "censored": false
+  },
+  "ECO-118": {
+   "history": [
+    [
+     "2026-10-29T11:14:10+09:00",
+     "filed",
+     "3a71807ad6"
+    ],
+    [
+     "2026-10-29T19:29:02+09:00",
+     "implemented",
+     "f8b48910ef"
+    ],
+    [
+     "2026-10-29T22:27:58+09:00",
+     "verified",
+     "42a6158724"
+    ]
+   ],
+   "current": "verified",
+   "terminal": true,
+   "days_in_current": 5.1,
+   "censored": false
+  },
+  "ECO-119": {
+   "history": [
+    [
+     "2026-10-29T15:22:09+09:00",
+     "filed",
+     "94a2a2af0e"
+    ],
+    [
+     "2026-10-29T23:25:45+09:00",
+     "implemented",
+     "3d16181ccd"
+    ]
+   ],
+   "current": "implemented",
+   "terminal": false,
+   "days_in_current": 5.0,
+   "censored": false
+  }
+ }
+}

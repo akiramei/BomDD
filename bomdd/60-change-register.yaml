@@ -3807,3 +3807,39 @@ changes:
       CI green. Not a closing condition: V6 E13's full mode on a product's history after it opts in. Conditions are frozen at filing; results
       go to the closing section.
     producer: EQ-004
+  - id: ECO-120
+    title: progress - the stall of each open ECO is measured from the register's history (bomdd-job --dwell), its reason read from a fixed waiting_on vocabulary, a paused repository declared once (paused {reason, resume_when}), and uncommitted work's age shown; a view, not a gate (filed only; distribution separate)
+    date: 2026-11-04
+    origin: improvement
+    status: filed   # 2026-11-04 filed on the user's "A: 進捗の ECO を起票" (items 1-3 of the table after the dwell count; item 3 filed as a measure, not a stop - disclosed in the order's header); manufacture waits for the start instruction (ECO-106)
+    source: >
+      The dwell count of 2026-11-04 (bomdd/reports/eco-120-progress-dwell/): six registers read at every commit. Closed spans are short
+      (623 of 628 left staged/implemented/filed within 10 days) but open ECOs stay: ViewTube 173 of 272, TimetableAdv 77 of 117,
+      ViewPrism2 24 of 148, BomDD 2 (ECO-079 implemented 49 days), almost all past 30 days. The reason lives in free keys (ViewTube 76
+      blocks_application_golden variants) or the status is behind the work (TimetableAdv 62 staged with implementation_started); TimetableAdv
+      also holds 665 uncommitted register lines and 2,191 dirty paths. No tool shows age.
+    order_ref: bomdd/60-change-order-eco-120.md
+    affected_refs: [method/tools/bomdd-job.py, method/templates/60-change-register.yaml, method/bomdd-playbook-v1.md]
+    no_impact_prediction: "(before manufacture; frozen) bomdd-job.py gains --dwell (with --stale-days, default 14) and its selftest arms; the register template gains commented waiting_on and paused; playbook section 8 gains one paragraph; the order, the register and bomdd/reports/eco-120-progress-dwell/. Every existing bomdd-job mode prints the same output for the same input, bomdd-run decides the same, every self-conformance check gives the same line on the same tree. No product is changed. Declared: the view does not tell whether a status or a reason is true, runs only when someone runs it, gives uncommitted work's age as a lower bound, and does not list stalls in a terminal status."
+    diff_audit:
+      baseline: "3f718b5"  # HEAD before this filing
+      allowed_paths: [method/tools/bomdd-job.py, method/templates/60-change-register.yaml, method/bomdd-playbook-v1.md, bomdd/60-change-order-eco-120.md, bomdd/60-change-register.yaml, bomdd/reports/eco-120-progress-dwell/]
+    required_gates: [V1, V2, V3, V4, V5, V6]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      P1 (measure): bomdd-job --dwell reads the register at HEAD and derives, for each open entry, the commit at which its current status
+      began (equal to a full read of every commit); output summary first (reason x age), then the unexplained entries over the threshold,
+      then by reason, then past dwell per status; exit 0, no stop_type change. P2 (measure): optional waiting_on in {start-instruction,
+      human-ruling, human-acceptance, independent-inspection, eco:<ID>, external}, its start derived; invalid or on a terminal entry =
+      warning. P3 (measure): optional top-level paused {reason, resume_when}, its start derived; open entries grouped under it. P4 (measure):
+      dirty paths, the oldest mtime as a lower bound, and whether the register differs from HEAD. P5 (none): playbook section 8 paragraph.
+      Not chosen: an age gate in self-conformance (verdicts would change with the calendar), a stop in bomdd-run on a stale dirty tree (none
+      of the measured stalls went through it), hand-written since fields, an adaptive threshold.
+    verification: >
+      V1 the six registers at the recorded heads: each open entry's start commit equals the full-history read / V2 mutated histories (A-B-A,
+      whole-file re-indent, moved entry, unparsable commit, working-tree-only change); the last-commit-touching-the-line shortcut moves the
+      re-indent and the moved entry / V3 reasons, invalid reason and terminal-entry warnings with stop_type unchanged, an ECO-079-shaped
+      entry unexplained, the threshold override, paused with and without resume_when / V4 dirty-tree age with mtimes set back, clean, the
+      register differing from HEAD / V5 --all --json and ECO-119 --json byte-identical, bomdd-job and bomdd-run selftests pass / V6 ViewTube
+      within 60 s, self-conformance exit 0 before each commit, CI green. Not a closing condition: V7 the view on the six registers.
+      Conditions are frozen at filing; results go to the closing section.
+    producer: EQ-004

@@ -1,0 +1,70 @@
+
+== BomDD  (register commits 347, first 2026-07-10, parse failures 0)
+  ECO 119 / open 2
+  implemented  <=7d:1  8-30d:0  31-90d:1  >90d:0
+  past dwell in applied      n= 17 median=   0.0d p90=   0.0d max=   0.0d
+  past dwell in decided      n=  3 median=   0.0d p90=   0.2d max=   0.2d
+  past dwell in draft        n=  7 median=   0.0d p90=   0.0d max=   0.1d
+  past dwell in filed        n= 64 median=   0.0d p90=   0.4d max=  33.7d
+  past dwell in implemented  n= 60 median=   0.0d p90=   0.1d max=   4.8d
+  past dwell in in-progress  n= 12 median=   0.0d p90=   0.2d max=   8.6d
+    ECO-079        implemented    49.1d since 2026-09-15
+    ECO-119        implemented     5.0d since 2026-10-29
+
+== ViewTube  (register commits 1728, first 2026-07-25, parse failures 0)
+  ECO 272 / open 173
+  implemented  <=7d:0  8-30d:2  31-90d:26  >90d:29
+  staged       <=7d:0  8-30d:3  31-90d:103  >90d:10
+  past dwell in implemented  n= 93 median=   0.1d p90=   3.1d max=   9.0d
+  past dwell in staged       n=151 median=   0.2d p90=   1.3d max=   9.1d
+    ECO-VT-008     staged        100.6d since 2026-07-26
+    ECO-VT-007     implemented   100.5d since 2026-07-26
+    ECO-VT-009     staged        100.5d since 2026-07-26
+    ECO-VT-010     implemented    99.7d since 2026-07-27
+    ECO-VT-011     implemented    99.6d since 2026-07-27
+    ECO-VT-012     staged         99.6d since 2026-07-27
+    ECO-VT-013     implemented    99.5d since 2026-07-27
+    ECO-VT-014     implemented    99.4d since 2026-07-27
+
+== TimetableAdv  (register commits 601, first 2026-08-10, parse failures 0)
+  ECO 117 / open 77
+  staged       <=7d:0  8-30d:0  31-90d:77  >90d:0
+  past dwell in proposed     n=  1 median=   1.1d p90=   1.1d max=   1.1d
+  past dwell in staged       n= 40 median=   0.3d p90=   1.8d max=   9.7d
+    ECO-010        staged         81.4d since 2026-08-14
+    ECO-011        staged         81.4d since 2026-08-14
+    ECO-014        staged         80.0d since 2026-08-16
+    ECO-019        staged         77.3d since 2026-08-18
+    ECO-020        staged         73.6d since 2026-08-22
+    ECO-025        staged         70.5d since 2026-08-25
+    ECO-026        staged         69.9d since 2026-08-26
+    ECO-027        staged         69.0d since 2026-08-26
+
+== ViewPrism2  (register commits 437, first 2026-06-22, parse failures 0)
+  ECO 148 / open 24
+  implemented  <=7d:0  8-30d:0  31-90d:0  >90d:20  (censored 8)
+  staged       <=7d:0  8-30d:0  31-90d:0  >90d:4  (censored 3)
+  past dwell in applied      n=  1 median=   0.3d p90=   0.3d max=   0.3d
+  past dwell in implemented  n= 94 median=   0.0d p90=   0.1d max=   1.1d
+  past dwell in staged       n=117 median=   0.0d p90=   0.3d max=  22.4d
+  past dwell in verified     n=  1 median=   1.7d p90=   1.7d max=   1.7d
+    ECO-003        implemented   134.3d since 2026-06-22 (censored)
+    ECO-004        implemented   134.3d since 2026-06-22 (censored)
+    ECO-005        implemented   134.3d since 2026-06-22 (censored)
+    ECO-007        implemented   134.3d since 2026-06-22 (censored)
+    ECO-009        implemented   134.3d since 2026-06-22 (censored)
+    ECO-010        staged        134.3d since 2026-06-22 (censored)
+    ECO-011        staged        134.3d since 2026-06-22 (censored)
+    ECO-012        staged        134.3d since 2026-06-22 (censored)
+
+== BomDD-Plm  (register commits 19, first 2026-07-03, parse failures 0)
+  ECO 9 / open 0
+  past dwell in filed        n=  1 median=   0.1d p90=   0.1d max=   0.1d
+  past dwell in implemented  n=  2 median=   0.0d p90=   0.0d max=   0.0d
+  past dwell in in-progress  n=  2 median=   0.0d p90=   0.0d max=   0.0d
+  past dwell in open         n=  1 median=   0.1d p90=   0.1d max=   0.1d
+
+== MoviePad-Remake  (register commits 21, first 2026-10-24, parse failures 0)
+  ECO 6 / open 0
+  past dwell in proposed     n=  1 median=   0.3d p90=   0.3d max=   0.3d
+  past dwell in staged       n=  6 median=   0.1d p90=   0.1d max=   0.7d

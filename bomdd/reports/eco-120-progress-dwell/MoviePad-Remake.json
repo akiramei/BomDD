@@ -1,0 +1,122 @@
+{
+ "repo": "C:/Users/akira/source/repos/MoviePad-Remake",
+ "register": "bomdd/60-change-register.yaml",
+ "commits": 21,
+ "first_commit": "2026-10-24T14:07:55+09:00",
+ "failed": [],
+ "ecos": {
+  "ECO-001": {
+   "history": [
+    [
+     "2026-10-24T14:07:55+09:00",
+     "proposed",
+     "0db59b1b4f"
+    ],
+    [
+     "2026-10-24T21:33:35+09:00",
+     "staged",
+     "ca9d3fe010"
+    ],
+    [
+     "2026-10-24T22:02:34+09:00",
+     "applied",
+     "8ed292eb31"
+    ]
+   ],
+   "current": "applied",
+   "terminal": true,
+   "days_in_current": 10.1,
+   "censored": false
+  },
+  "ECO-002": {
+   "history": [
+    [
+     "2026-10-25T04:13:41+09:00",
+     "staged",
+     "20052f8263"
+    ],
+    [
+     "2026-10-25T06:31:06+09:00",
+     "applied",
+     "ca58d208a1"
+    ]
+   ],
+   "current": "applied",
+   "terminal": true,
+   "days_in_current": 9.8,
+   "censored": false
+  },
+  "ECO-003": {
+   "history": [
+    [
+     "2026-10-25T07:05:47+09:00",
+     "staged",
+     "b06a5bfe9e"
+    ],
+    [
+     "2026-10-25T10:28:07+09:00",
+     "applied",
+     "a768e3a751"
+    ]
+   ],
+   "current": "applied",
+   "terminal": true,
+   "days_in_current": 9.6,
+   "censored": false
+  },
+  "ECO-004": {
+   "history": [
+    [
+     "2026-10-26T19:23:32+09:00",
+     "staged",
+     "1a15006585"
+    ],
+    [
+     "2026-10-26T20:18:44+09:00",
+     "applied",
+     "e45f4fa471"
+    ]
+   ],
+   "current": "applied",
+   "terminal": true,
+   "days_in_current": 8.2,
+   "censored": false
+  },
+  "ECO-005": {
+   "history": [
+    [
+     "2026-10-28T07:10:55+09:00",
+     "staged",
+     "f4861e863b"
+    ],
+    [
+     "2026-10-28T22:54:56+09:00",
+     "applied",
+     "d3683d6ffa"
+    ]
+   ],
+   "current": "applied",
+   "terminal": true,
+   "days_in_current": 6.1,
+   "censored": false
+  },
+  "ECO-006": {
+   "history": [
+    [
+     "2026-10-29T11:11:49+09:00",
+     "staged",
+     "c083165ec7"
+    ],
+    [
+     "2026-10-29T12:55:19+09:00",
+     "applied",
+     "a2ca41ec49"
+    ]
+   ],
+   "current": "applied",
+   "terminal": true,
+   "days_in_current": 5.5,
+   "censored": false
+  }
+ }
+}
