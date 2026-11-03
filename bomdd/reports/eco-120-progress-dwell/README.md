@@ -21,6 +21,15 @@ Runs:
 Terminal statuses in `dwell.py`: verified, applied, superseded, rejected, withdrawn, cancelled, closed. `censored` marks an ECO whose
 current status was already present at the first commit of the register's history, so its true entry date is earlier than shown.
 
+Manufacture (the order's section 4):
+
+| File | What it is |
+|---|---|
+| `v1_compare.py`, `v1/` | V1: `bomdd-job.py --dwell --json` on the six registers against the reference JSON above (start commit per open entry); `results.txt` and each run's JSON. |
+| `v5/` | V5: the filing tree's tool and the changed tool on the same tree (`*-before.*` / `*-after.*`, byte-identical); the two selftests' outputs with exit codes. |
+| `mutants.py`, `mutants-results.txt` | Six broken copies of `bomdd-job.py`, each run with `--selftest`; the dwell line must turn red. |
+| `v7/` | V7: `--dwell` (text) on each of the six registers. |
+
 Read by hand after the run (2026-11-04), recorded in the order's section 0:
 
 - TimetableAdv: 62 of its 78 `staged` entries carry `implementation_started: True`; 68 carry a `next_gate`. The register has 665

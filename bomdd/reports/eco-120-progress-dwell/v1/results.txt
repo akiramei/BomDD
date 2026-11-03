@@ -1,0 +1,7 @@
+BomDD: PASS - open 3 (reference 2), same start commit 2, differing 0 [], missing [], extra ['ECO-120'], commits read 348, parse failures 0, 1.3 s
+ViewTube: PASS - open 173 (reference 173), same start commit 173, differing 0 [], missing [], extra [], commits read 1728, parse failures 0, 30.4 s
+TimetableAdv: PASS - open 77 (reference 77), same start commit 77, differing 0 [], missing [], extra [], commits read 601, parse failures 0, 6.9 s
+ViewPrism2: PASS - open 24 (reference 24), same start commit 24, differing 0 [], missing [], extra [], commits read 437, parse failures 0, 1.8 s
+BomDD-Plm: PASS - open 0 (reference 0), same start commit 0, differing 0 [], missing [], extra [], commits read 19, parse failures 0, 0.3 s
+MoviePad-Remake: PASS - open 0 (reference 0), same start commit 0, differing 0 [], missing [], extra [], commits read 21, parse failures 0, 0.4 s
+V1: PASS

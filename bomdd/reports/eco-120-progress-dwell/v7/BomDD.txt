@@ -1,0 +1,6 @@
+dwell: bomdd/60-change-register.yaml @ 32e2bdda47 — commits 348・読めない 0・古い形 0・open 3・閾値 14 日(測定ビュー・gate ではない)
+summary(理由 × 経過): none: <=7d 2 8-30d 0 31-90d 1 >90d 0
+unexplained(閾値超・理由なし) 1:
+  ECO-079 implemented 49.1 日(since 04838322c7)
+past dwell(閉じた区間): applied n=17 median=0.0 max=0.0 / decided n=3 median=0.0 max=0.2 / draft n=7 median=0.0 max=0.1 / filed n=64 median=0.0 max=33.7 / implemented n=60 median=0.0 max=4.8 / in-progress n=12 median=0.0 max=8.6
+uncommitted: dirty 28・最古 5.1 日(下限)・register の HEAD 差 なし

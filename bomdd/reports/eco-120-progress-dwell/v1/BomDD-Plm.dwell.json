@@ -1,0 +1,41 @@
+{
+  "register": "bomdd/60-change-register.yaml",
+  "repo": "C:\\Users\\akira\\source\\repos\\BomDD-Plm",
+  "head_commit": "0d98371253781d97a942204a30ce948e7222ff36",
+  "commits_read": 19,
+  "parse_failures": 0,
+  "legacy_shape_commits": 0,
+  "stale_days": 14,
+  "now": "2026-11-03T16:58:38+00:00",
+  "paused": null,
+  "summary": {},
+  "open": [],
+  "past_dwell": {
+    "filed": {
+      "n": 1,
+      "median": 0.1,
+      "max": 0.1
+    },
+    "implemented": {
+      "n": 2,
+      "median": 0.0,
+      "max": 0.0
+    },
+    "in-progress": {
+      "n": 2,
+      "median": 0.0,
+      "max": 0.0
+    },
+    "open": {
+      "n": 1,
+      "median": 0.1,
+      "max": 0.1
+    }
+  },
+  "uncommitted": {
+    "dirty_paths": 0,
+    "oldest_days_lower_bound": null,
+    "register_differs_from_head": false
+  },
+  "warnings": []
+}

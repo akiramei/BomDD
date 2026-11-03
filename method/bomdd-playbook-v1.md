@@ -750,6 +750,8 @@ Routing を導出するとき(Phase 3 の手順 4–6、ECO での導出のや�
 5. **回帰+変更受入**: 既存固定オラクル全行(不変)+新規行+移行オラクルを実行し、**失敗5分類**で帰属する。**diff 監査(63)は機械実行できる**: BomDD-Plm(bomdd-lint)の R-052 を使う場合、register の対象 ECO に `diff_audit: { baseline: <凍結タグ>, allowed_paths: [<影響集合のパスプレフィックス>] }` を宣言し `--eco` で実行 — 実 diff が宣言影響集合の外にあれば R-052(error)が unnecessary modification を機械検出する(plm ECO-002 で自己適用により初稼働・手動 63 と同一結論) — `regression`(既存行の差分)/ `change miss`(新規行の差分)/ `data-preservation miss`(移行の差分)/ `unnecessary modification`(影響分析外への diff。format-noise / test-only / behavior-risk / contract-change に細分)/ `manufacturing nonconformance`(自己受入赤での納品=採点対象外)。
 6. **記録**: As-Built 追記(新 unit の来歴・不要改変件数)・Service BOM 更新・cheat-log(変更で露出したずるは C6 系として記録)・metrics に ECO 行(52)。
 
+**滞留の測定(candidate・ECO-120・測る — 止めない)**: 流れている ECO は速い(6 リポ・628 の閉じた区間のうち 623 が 10 日以内に次の status へ移った)が、止まった ECO はそのまま残る(open のほぼ全件が 30 日超)。`python method/tools/bomdd-job.py --dwell [--register PATH] [--stale-days N]` が、register の git 履歴の全コミットから、open の各エントリが現在の status に入ったコミットと経過日数を導出し、理由 × 経過の集計・閾値(既定 14 日)を超えて理由のないもの・理由ごとの群・status ごとの過去の滞留・未コミットの作業を出す。開始日は書かない(導出する — §13)。待ちの理由は register の任意欄 `waiting_on`(start-instruction / human-ruling / human-acceptance / independent-inspection / `eco:<ID>` / external)に、リポ全体の一時停止は top-level の `paused: {reason, resume_when}` に書く([templates/60-change-register.yaml](templates/60-change-register.yaml))。**gate ではない**: 経過日数で検査を赤にすると、同じ tree が暦だけで赤になる。限界= status や理由が正しいかは読まない・誰かが走らせなければ何も出ない・未コミットの作業の年齢は下限(後の触れで新しく見える)・終端 status(applied 等)での滞留は並ばない。
+
 ### 8.1 unit 再編成(挙動保存リファクタ)ECO の規律 — scale-02/ECO-036 系列(全5段)で確立
 
 ハブ unit(god ファイル)の解体など「挙動を変えずに M-BOM unit 構造を変える」ECO の型。

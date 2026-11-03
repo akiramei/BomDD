@@ -1,0 +1,5 @@
+dwell: bomdd/60-change-register.yaml @ 0d98371253 — commits 19・読めない 0・古い形 0・open 0・閾値 14 日(測定ビュー・gate ではない)
+summary: open なし
+unexplained(閾値超・理由なし) 0:
+past dwell(閉じた区間): filed n=1 median=0.1 max=0.1 / implemented n=2 median=0.0 max=0.0 / in-progress n=2 median=0.0 max=0.0 / open n=1 median=0.1 max=0.1
+uncommitted: dirty 0・最古 None 日(下限)・register の HEAD 差 なし

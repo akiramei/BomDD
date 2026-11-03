@@ -159,6 +159,80 @@ required_gates: [V1, V2, V3, V4, V5, V6]
 
 Conditions are frozen at filing; results go to the closing section.
 
+## 4. Manufacture and the measurements before commit (2026-11-04, the user's "測る形で製造する")
+
+**Start.** The user chose the filed form (measure; no stop in `bomdd-run.py`). Baseline the filing commit `32e2bdd` (CI run 41675481205
+success); the tree clean before the change apart from ECO-119's untracked R8 report, which this ECO does not touch.
+
+**What was changed** (`git diff --stat` against `32e2bdd`: 3 files, 503 insertions, 1 deletion before this record):
+- `method/tools/bomdd-job.py`:
+  - header note (8) and the usage line;
+  - `--dwell` is dispatched in `main()` **before** `select()`, so no existing mode passes through new code;
+  - `dwell()`: the register's history read with one `git cat-file --batch` per worker (8 workers on 64 commits or more, the commits dealt
+    out in turn; serial below that); a forward pass with section 0's rule (only commits that parse are compared, each against the last
+    value seen); P2's `waiting_on` and P3's `paused` take their start from the same pass; P4 from `git status --porcelain=v1 -z -uall`;
+  - `render_dwell()` (summary first), `dwell_main()` (arguments; every error is one `MISSING_INPUT` line, or `{"error"}` with `--json`;
+    exit 0);
+  - `_dwell_selftest()` nested in `--selftest` (git fixtures with commit dates set; the existing arms are untouched), and
+    `_set_times_back()` for the fixtures.
+- `method/templates/60-change-register.yaml`: the commented `waiting_on` line (the vocabulary) and the commented `paused` block.
+- `method/bomdd-playbook-v1.md` §8: one paragraph after step 6 (the measure, the vocabulary, the pause, "not a gate", the limits).
+
+**Departures found by running on the real registers** (each recorded, none changes a frozen condition):
+1. **Legacy register shape (found by V1).** The first run read 33 of ViewPrism2's commits as unreadable: its register before 2026-07-03
+   keeps the entries under `change_orders:`, not `changes:`. Section 0's full read takes the first list whose first item has an `id`; the
+   tool now does the same when `changes` is absent and counts those commits as `legacy_shape_commits` (ViewPrism2: 33), not as
+   warnings. V1 was rerun after this.
+2. **The age of uncommitted work (found by V7).** Section 1 P4 says "the oldest modification time". On TimetableAdv that gave
+   2,991.9 days: untracked NuGet DLLs under `artifacts/acceptance/eco-042/` keep their 2018 modification times but were created on
+   2026-09-02. The modification time alone is not the lower bound the same paragraph declares. The tool now takes, per file, the newer
+   of the modification time and the creation time (`st_birthtime`, else `st_ctime`); TimetableAdv now reads 66.5 days (2026-08-29).
+   V4's arm sets both times back on Windows (`SetFileTime`) so its frozen condition (30 days) is tested as written; an added arm (a
+   file with only its modification time 3,000 days back) holds the age at most 31 days. On an OS where the creation time cannot be set,
+   the 30-day arm is reported as not run, not passed.
+3. **The rule at a gap.** Section 1 P1 says "the commit before it has another status or no such entry". Implemented as section 0's
+   rule, which V1 compares against: a commit where the entry is absent is skipped, not counted as a change. No register of the six has
+   such a gap among its open entries (V1: 0 differences).
+4. **Counting dirty paths.** `-uall` counts each file inside an untracked directory: TimetableAdv reads 12,186 dirty paths where
+   `git status` shows 2,191 entries. Kept (section 1 says "untracked files").
+5. **Speed.** The first V1 run gave ViewTube 48.2 s and 57.9 s with the commits split into consecutive blocks (later registers are
+   larger, so the last worker carried most of the work); dealt out in turn, 30-43 s (below).
+
+**Evidence** is in `bomdd/reports/eco-120-progress-dwell/` (README.md lists each file).
+
+- **V1 result: PASS** (`v1/results.txt`, `v1/<repo>.dwell.json`; `v1_compare.py`). Every open entry of the six registers at the heads
+  of `heads.txt` has the same start commit as the full read: ViewTube 173/173, TimetableAdv 77/77, ViewPrism2 24/24, BomDD 2/2 (plus
+  ECO-120, filed after the reference), BomDD-Plm and MoviePad-Remake 0 open; 0 parse failures.
+- **V2 result: PASS** (the dwell selftest, `v5/bomdd-job-selftest.txt`): (a) A → B → A gives the second A; (b) a whole-file re-indent
+  and (c) moving ECO-002 behind two other entries move no start; (d) the unparsable commit is named in a warning and the starts come
+  from the other commits; (e) a working-tree-only status change is not counted and the register is reported as differing from HEAD.
+  Known-bad: "the last commit that touched the status line" (`git blame -L` at the re-indent and at the move) returns the re-indent
+  commit and the move commit, not the first commit — the arms tell it apart. A first version of arm (c) moved one of only two entries,
+  and git's diff kept ECO-002's lines in place, so the shortcut was not fooled; the fixture has three entries since.
+- **V3 result: PASS** (same run): the six vocabulary values each form their own group (besides "none" and the invalid value's own); an invalid value and a value
+  left on a `verified` entry are warnings; `project()` gives the same job record with and without `waiting_on`; the ECO-079-shaped
+  entry (49.0 days, no reason) is the one unexplained entry; a 3-day entry is not over 14 and is over 2; `paused` with both fields groups
+  every open entry under it with no warning; without `resume_when` it is warned.
+- **V4 result: PASS** (same run; the 30-day arm ran, creation times set back): dirty 3 with the oldest at 30 days and the 3,000-day
+  modification-time file not raising it; clean: dirty 0 and no age; the register changed and uncommitted: "differs from HEAD".
+- **V5 result: PASS** (`v5/`): `--all --json`, `ECO-119 --json` and `--all` (text) from the filing tree's tool and from the changed tool
+  on the same tree are byte-identical (`cmp`; a copy with one altered byte is told apart). `bomdd-job.py --selftest` exit 0 (both lines
+  PASS); `bomdd-run.py --selftest` exit 0 (`v5/bomdd-run-selftest.txt`).
+- **The dwell arms against broken copies** (`mutants.py`, `mutants-results.txt`; not a condition, a check of the arms): M1 the start
+  taken at the first entry into the status, M2 an unparsable commit skipped silently, M3 untracked files not counted, M4 an invalid
+  reason not warned, M5 a pause that does not group, M6 the age from the modification time only — **6 of 6 turn the dwell selftest red**.
+  (The copies run from a temporary directory, so the existing arms also fail there for want of the activation map; only the dwell line
+  is read.)
+- **V6, time: PASS** — ViewTube's register at `62d2b3e4`, 1,728 commits, on the user's machine: 30.2 s and 30.4 s (the two V1 runs of
+  the final split), 43.1 s and 33.0 s (two runs of the same split by hand). The self-conformance and CI parts of V6 are recorded at
+  closure.
+- **V7** (not a closing condition; `v7/<repo>.txt`): every product reads "none" for every open entry (no register has `waiting_on`
+  yet). Open and over 14 days: ViewTube 173 (8-30 d 5, 31-90 d 129, >90 d 39), TimetableAdv 77, ViewPrism2 24 (all >90 d), BomDD 1
+  (ECO-079). Uncommitted: TimetableAdv 12,186 paths, oldest 66.5 days (lower bound), its register differs from HEAD; ViewTube 4 paths,
+  21.0 days; ViewPrism2, BomDD-Plm and MoviePad-Remake clean; BomDD's own lines are this manufacture's files.
+
+**Not done here:** the commit's self-conformance and CI (V6), the closure.
+
 ## /preflight receipt (start path: manual — the user's "A: 進捗の ECO を起票" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's choice of option A; filing only).

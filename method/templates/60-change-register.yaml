@@ -36,3 +36,11 @@ changes:
     # required_gates: [CP-X-001, inspection]   # 任意・記述欄(BomDD ECO-112): 昇格判定が結果を読む検査行の ID(製品では Control Plan の行 ID・独立検査は inspection)。
     #                                 # 変更指示書の required_gates: 行(行頭・fence/HTML コメントの外に 1 本)と同じ集合にする — 指示書が裁定の記録、本欄は機械の写し。
     #                                 # 起票後に変えるなら、受入を変える裁定を指示書に書いて両方を同時に直す。欄がないことは合格ではない(operator-layer.md §6.1)
+    # waiting_on: human-acceptance   # 任意・測定欄(BomDD ECO-120): open のエントリが何を待っているか。語彙= start-instruction(起票後の着手指示)/
+    #                                 # human-ruling(人の裁定)/ human-acceptance(golden・受入・承認)/ independent-inspection(R8 等)/
+    #                                 # eco:<ID>(別の ECO)/ external(CI・別リポ・外部)。開始日は書かない(履歴から導出 — bomdd-job --dwell)。
+    #                                 # 待ちが終わったら外す。gate ではない: 語彙外・終端 status に残った値は --dwell の警告になるだけ
+
+# paused:                            # 任意・測定欄(BomDD ECO-120): リポ全体の一時停止を 1 回だけ宣言する(開始日は履歴から導出)。
+#   reason: <なぜ止めているか>        # あるあいだ --dwell は open のエントリを 1 つの群にまとめ、理由なしの滞留として並べない。
+#   resume_when: <再開の条件>          # 欄の欠落は --dwell の警告。再開したら block ごと外す

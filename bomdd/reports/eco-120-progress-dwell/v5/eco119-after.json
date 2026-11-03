@@ -1,0 +1,137 @@
+{
+  "register": "bomdd/60-change-register.yaml",
+  "jobs": [
+    {
+      "job": {
+        "value": "JOB-ECO-119",
+        "source": "bomdd/60-change-register.yaml:ECO-119.id(導出)"
+      },
+      "eco": {
+        "value": "ECO-119",
+        "source": "bomdd/60-change-register.yaml:ECO-119.id"
+      },
+      "objective": {
+        "value": "the ruled layer (10, 20, 30, 31, the ADRs) becomes protected after the design release - process-core's E13 refuses a commit changing it unless a BomDD-ECO-Ruling trailer names an ECO open at HEAD whose order's Sources read section cites each touched ruled file (opt-in by a profile field; filed only; distribution separate)",
+        "source": "bomdd/60-change-register.yaml:ECO-119.title"
+      },
+      "state": {
+        "value": "implemented",
+        "source": "bomdd/60-change-register.yaml:ECO-119.status(状態の正本)"
+      },
+      "inputs": {
+        "value": {
+          "order_ref": "bomdd/60-change-order-eco-119.md",
+          "affected_refs": [
+            "method/templates/process-core/tools/process-validator.py",
+            "method/templates/process-core/process-profile.yaml",
+            "method/templates/process-core/tools/process-qualification.py",
+            "method/templates/60-change-order.md",
+            "method/bomdd-playbook-v1.md"
+          ]
+        },
+        "source": "bomdd/60-change-register.yaml:ECO-119.order_ref/affected_refs"
+      },
+      "write_scope": {
+        "value": [
+          "method/templates/process-core/",
+          "method/templates/60-change-order.md",
+          "method/bomdd-playbook-v1.md",
+          "method/tools/bomdd-init.py",
+          "method/tools/self-conformance.py",
+          "README.md",
+          "bomdd/60-change-order-eco-119.md",
+          "bomdd/60-change-register.yaml",
+          "bomdd/reports/eco-119-ruled-layer/"
+        ],
+        "source": "bomdd/60-change-register.yaml:ECO-119.diff_audit.allowed_paths"
+      },
+      "diff_baseline": {
+        "value": "9cc108b",
+        "source": "bomdd/60-change-register.yaml:ECO-119.diff_audit.baseline"
+      },
+      "required_skills": {
+        "value": [
+          "preflight"
+        ],
+        "source": "activation-map.yaml: start"
+      },
+      "required_skills_by_role": {
+        "value": {
+          "producer": [
+            "preflight"
+          ]
+        },
+        "source": "導出: 該当 class の required_skills を roles ごとに集合化(F7 情報欄・役割パッケージの入力・gate 化しない)"
+      },
+      "receipt_author_role": {
+        "value": "producer",
+        "source": "bomdd/60-change-register.yaml:ECO-119.receipt_author_role(F7 観測欄・ECO-077: 受入時の較正 receipt を書いた役割。欄なし= null・停止しない)"
+      },
+      "required_capability": {
+        "value": null,
+        "source": "none(F2: order の担当設備節に配員欄〔- producer: EQ-NNN / - inspector: EQ-NNN〕なし)"
+      },
+      "forbidden": {
+        "value": null,
+        "source": "none(F3: order「採らない」は散文 — 転写しない)"
+      },
+      "expected_outputs": {
+        "value": null,
+        "source": "none(F4: order §1 は散文 — 転写しない)"
+      },
+      "independent_inspection": {
+        "value": null,
+        "source": "none(F6: 配員欄に inspector なし — verification 散文は転写しない)"
+      },
+      "required_gates": {
+        "value": [
+          "V1",
+          "V2",
+          "V3",
+          "V4",
+          "V5"
+        ],
+        "source": "register の required_gates(機械の写し)= order の required_gates: 行(裁定の記録・column 0・fence/HTML コメント外)"
+      },
+      "stop_vocabulary": {
+        "value": [
+          "NONE",
+          "NORMATIVE_RULING",
+          "VERIFICATION_FAIL",
+          "BOM_CONTRADICTION",
+          "CONVERGENCE_LIMIT",
+          "PREFLIGHT_HOLD",
+          "LEDGER_INCONSISTENT",
+          "MISSING_INPUT",
+          "INDEPENDENCE_FAIL",
+          "INSPECTION_MISSING",
+          "RUN_IN_FLIGHT"
+        ],
+        "source": "bomdd-job.py 固定値(F5)"
+      },
+      "stop_derivable_from_ledger": {
+        "value": [
+          "NONE",
+          "LEDGER_INCONSISTENT",
+          "MISSING_INPUT"
+        ],
+        "source": "bomdd-job.py 固定値(被覆宣言)"
+      },
+      "stop_type": {
+        "value": "NONE",
+        "source": "導出: register と order の状態に矛盾なし"
+      },
+      "skills_observed": {
+        "value": [
+          "preflight",
+          "converge"
+        ],
+        "source": "order の receipt 見出し(fence 除去後・C16/C17 の正規表現を import・preflight は job 側の見出し検出)"
+      },
+      "skills_missing": {
+        "value": [],
+        "source": "導出: required − observed(情報欄・停止語彙不変・gate 化しない — playbook §8.5)"
+      }
+    }
+  ]
+}

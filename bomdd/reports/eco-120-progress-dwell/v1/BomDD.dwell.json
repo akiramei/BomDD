@@ -1,0 +1,95 @@
+{
+  "register": "bomdd/60-change-register.yaml",
+  "repo": "C:\\Users\\akira\\source\\repos\\BomDD",
+  "head_commit": "32e2bdda47541e306c23328cefbd4f2bbae372f0",
+  "commits_read": 348,
+  "parse_failures": 0,
+  "legacy_shape_commits": 0,
+  "stale_days": 14,
+  "now": "2026-11-03T16:57:58+00:00",
+  "paused": null,
+  "summary": {
+    "none": {
+      "<=7d": 2,
+      "8-30d": 0,
+      "31-90d": 1,
+      ">90d": 0
+    }
+  },
+  "open": [
+    {
+      "id": "ECO-079",
+      "status": "implemented",
+      "since_commit": "04838322c7f321003edb7f75c4003aec45950585",
+      "since_date": "2026-09-15T23:03:06+09:00",
+      "days": 49.1,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": true,
+      "group": "none"
+    },
+    {
+      "id": "ECO-119",
+      "status": "implemented",
+      "since_commit": "3d16181ccd9ba9850d47921d94fe13d40b88e922",
+      "since_date": "2026-10-29T23:25:45+09:00",
+      "days": 5.1,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": false,
+      "group": "none"
+    },
+    {
+      "id": "ECO-120",
+      "status": "filed",
+      "since_commit": "32e2bdda47541e306c23328cefbd4f2bbae372f0",
+      "since_date": "2026-11-04T01:24:03+09:00",
+      "days": 0.0,
+      "waiting_on": null,
+      "waiting_since_commit": null,
+      "waiting_days": null,
+      "over_threshold": false,
+      "group": "none"
+    }
+  ],
+  "past_dwell": {
+    "applied": {
+      "n": 17,
+      "median": 0.0,
+      "max": 0.0
+    },
+    "decided": {
+      "n": 3,
+      "median": 0.0,
+      "max": 0.2
+    },
+    "draft": {
+      "n": 7,
+      "median": 0.0,
+      "max": 0.1
+    },
+    "filed": {
+      "n": 64,
+      "median": 0.0,
+      "max": 33.7
+    },
+    "implemented": {
+      "n": 60,
+      "median": 0.0,
+      "max": 4.8
+    },
+    "in-progress": {
+      "n": 12,
+      "median": 0.0,
+      "max": 8.6
+    }
+  },
+  "uncommitted": {
+    "dirty_paths": 28,
+    "oldest_days_lower_bound": 5.1,
+    "register_differs_from_head": false
+  },
+  "warnings": []
+}

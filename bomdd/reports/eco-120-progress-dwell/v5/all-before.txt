@@ -1,0 +1,123 @@
+job: JOB-ECO-079
+  source: bomdd/60-change-register.yaml:ECO-079.id(導出)
+eco: ECO-079
+  source: bomdd/60-change-register.yaml:ECO-079.id
+objective: Immutable製造証拠と独立append-only受入証拠レイヤーの分離
+  source: bomdd/60-change-register.yaml:ECO-079.title
+state: implemented
+  source: bomdd/60-change-register.yaml:ECO-079.status(状態の正本)
+inputs: {"order_ref": "bomdd/60-change-order-eco-079.md", "affected_refs": ["method/acceptance-evidence.md", "method/templates/product-profile/skills/eco-accept.md", "method/templates/product-profile/change-management.md"]}
+  source: bomdd/60-change-register.yaml:ECO-079.order_ref/affected_refs
+write_scope: ["method/acceptance-evidence.md", "method/templates/product-profile/skills/eco-accept.md", "method/templates/product-profile/change-management.md", "bomdd/60-change-order-eco-079.md", "bomdd/60-change-register.yaml"]
+  source: bomdd/60-change-register.yaml:ECO-079.diff_audit.allowed_paths
+diff_baseline: 7e060c920db1bc3b07e838ab905420db03200b5a
+  source: bomdd/60-change-register.yaml:ECO-079.diff_audit.baseline
+required_skills: ["preflight"]
+  source: activation-map.yaml: start
+required_skills_by_role: {"producer": ["preflight"]}
+  source: 導出: 該当 class の required_skills を roles ごとに集合化(F7 情報欄・役割パッケージの入力・gate 化しない)
+receipt_author_role: null
+  source: bomdd/60-change-register.yaml:ECO-079.receipt_author_role(F7 観測欄・ECO-077: 受入時の較正 receipt を書いた役割。欄なし= null・停止しない)
+required_capability: null
+  source: none(F2: order の担当設備節に配員欄〔- producer: EQ-NNN / - inspector: EQ-NNN〕なし)
+forbidden: null
+  source: none(F3: order「採らない」は散文 — 転写しない)
+expected_outputs: null
+  source: none(F4: order §1 は散文 — 転写しない)
+independent_inspection: null
+  source: none(F6: 配員欄に inspector なし — verification 散文は転写しない)
+required_gates: null
+  source: none(G1: register に required_gates なし・order に required_gates: 行なし)
+stop_vocabulary: ["NONE", "NORMATIVE_RULING", "VERIFICATION_FAIL", "BOM_CONTRADICTION", "CONVERGENCE_LIMIT", "PREFLIGHT_HOLD", "LEDGER_INCONSISTENT", "MISSING_INPUT", "INDEPENDENCE_FAIL", "INSPECTION_MISSING", "RUN_IN_FLIGHT"]
+  source: bomdd-job.py 固定値(F5)
+stop_derivable_from_ledger: ["NONE", "LEDGER_INCONSISTENT", "MISSING_INPUT"]
+  source: bomdd-job.py 固定値(被覆宣言)
+stop_type: NONE
+  source: 導出: register と order の状態に矛盾なし
+skills_observed: ["preflight", "converge", "calibrate"]
+  source: order の receipt 見出し(fence 除去後・C16/C17 の正規表現を import・preflight は job 側の見出し検出)
+skills_missing: []
+  source: 導出: required − observed(情報欄・停止語彙不変・gate 化しない — playbook §8.5)
+
+job: JOB-ECO-119
+  source: bomdd/60-change-register.yaml:ECO-119.id(導出)
+eco: ECO-119
+  source: bomdd/60-change-register.yaml:ECO-119.id
+objective: the ruled layer (10, 20, 30, 31, the ADRs) becomes protected after the design release - process-core's E13 refuses a commit changing it unless a BomDD-ECO-Ruling trailer names an ECO open at HEAD whose order's Sources read section cites each touched ruled file (opt-in by a profile field; filed only; distribution separate)
+  source: bomdd/60-change-register.yaml:ECO-119.title
+state: implemented
+  source: bomdd/60-change-register.yaml:ECO-119.status(状態の正本)
+inputs: {"order_ref": "bomdd/60-change-order-eco-119.md", "affected_refs": ["method/templates/process-core/tools/process-validator.py", "method/templates/process-core/process-profile.yaml", "method/templates/process-core/tools/process-qualification.py", "method/templates/60-change-order.md", "method/bomdd-playbook-v1.md"]}
+  source: bomdd/60-change-register.yaml:ECO-119.order_ref/affected_refs
+write_scope: ["method/templates/process-core/", "method/templates/60-change-order.md", "method/bomdd-playbook-v1.md", "method/tools/bomdd-init.py", "method/tools/self-conformance.py", "README.md", "bomdd/60-change-order-eco-119.md", "bomdd/60-change-register.yaml", "bomdd/reports/eco-119-ruled-layer/"]
+  source: bomdd/60-change-register.yaml:ECO-119.diff_audit.allowed_paths
+diff_baseline: 9cc108b
+  source: bomdd/60-change-register.yaml:ECO-119.diff_audit.baseline
+required_skills: ["preflight"]
+  source: activation-map.yaml: start
+required_skills_by_role: {"producer": ["preflight"]}
+  source: 導出: 該当 class の required_skills を roles ごとに集合化(F7 情報欄・役割パッケージの入力・gate 化しない)
+receipt_author_role: producer
+  source: bomdd/60-change-register.yaml:ECO-119.receipt_author_role(F7 観測欄・ECO-077: 受入時の較正 receipt を書いた役割。欄なし= null・停止しない)
+required_capability: null
+  source: none(F2: order の担当設備節に配員欄〔- producer: EQ-NNN / - inspector: EQ-NNN〕なし)
+forbidden: null
+  source: none(F3: order「採らない」は散文 — 転写しない)
+expected_outputs: null
+  source: none(F4: order §1 は散文 — 転写しない)
+independent_inspection: null
+  source: none(F6: 配員欄に inspector なし — verification 散文は転写しない)
+required_gates: ["V1", "V2", "V3", "V4", "V5"]
+  source: register の required_gates(機械の写し)= order の required_gates: 行(裁定の記録・column 0・fence/HTML コメント外)
+stop_vocabulary: ["NONE", "NORMATIVE_RULING", "VERIFICATION_FAIL", "BOM_CONTRADICTION", "CONVERGENCE_LIMIT", "PREFLIGHT_HOLD", "LEDGER_INCONSISTENT", "MISSING_INPUT", "INDEPENDENCE_FAIL", "INSPECTION_MISSING", "RUN_IN_FLIGHT"]
+  source: bomdd-job.py 固定値(F5)
+stop_derivable_from_ledger: ["NONE", "LEDGER_INCONSISTENT", "MISSING_INPUT"]
+  source: bomdd-job.py 固定値(被覆宣言)
+stop_type: NONE
+  source: 導出: register と order の状態に矛盾なし
+skills_observed: ["preflight", "converge"]
+  source: order の receipt 見出し(fence 除去後・C16/C17 の正規表現を import・preflight は job 側の見出し検出)
+skills_missing: []
+  source: 導出: required − observed(情報欄・停止語彙不変・gate 化しない — playbook §8.5)
+
+job: JOB-ECO-120
+  source: bomdd/60-change-register.yaml:ECO-120.id(導出)
+eco: ECO-120
+  source: bomdd/60-change-register.yaml:ECO-120.id
+objective: progress - the stall of each open ECO is measured from the register's history (bomdd-job --dwell), its reason read from a fixed waiting_on vocabulary, a paused repository declared once (paused {reason, resume_when}), and uncommitted work's age shown; a view, not a gate (filed only; distribution separate)
+  source: bomdd/60-change-register.yaml:ECO-120.title
+state: filed
+  source: bomdd/60-change-register.yaml:ECO-120.status(状態の正本)
+inputs: {"order_ref": "bomdd/60-change-order-eco-120.md", "affected_refs": ["method/tools/bomdd-job.py", "method/templates/60-change-register.yaml", "method/bomdd-playbook-v1.md"]}
+  source: bomdd/60-change-register.yaml:ECO-120.order_ref/affected_refs
+write_scope: ["method/tools/bomdd-job.py", "method/templates/60-change-register.yaml", "method/bomdd-playbook-v1.md", "bomdd/60-change-order-eco-120.md", "bomdd/60-change-register.yaml", "bomdd/reports/eco-120-progress-dwell/"]
+  source: bomdd/60-change-register.yaml:ECO-120.diff_audit.allowed_paths
+diff_baseline: 3f718b5
+  source: bomdd/60-change-register.yaml:ECO-120.diff_audit.baseline
+required_skills: ["calibrate", "preflight"]
+  source: activation-map.yaml: instrument-change, start
+required_skills_by_role: {"producer": ["calibrate", "preflight"]}
+  source: 導出: 該当 class の required_skills を roles ごとに集合化(F7 情報欄・役割パッケージの入力・gate 化しない)
+receipt_author_role: null
+  source: bomdd/60-change-register.yaml:ECO-120.receipt_author_role(F7 観測欄・ECO-077: 受入時の較正 receipt を書いた役割。欄なし= null・停止しない)
+required_capability: null
+  source: none(F2: order の担当設備節に配員欄〔- producer: EQ-NNN / - inspector: EQ-NNN〕なし)
+forbidden: null
+  source: none(F3: order「採らない」は散文 — 転写しない)
+expected_outputs: null
+  source: none(F4: order §1 は散文 — 転写しない)
+independent_inspection: null
+  source: none(F6: 配員欄に inspector なし — verification 散文は転写しない)
+required_gates: ["V1", "V2", "V3", "V4", "V5", "V6"]
+  source: register の required_gates(機械の写し)= order の required_gates: 行(裁定の記録・column 0・fence/HTML コメント外)
+stop_vocabulary: ["NONE", "NORMATIVE_RULING", "VERIFICATION_FAIL", "BOM_CONTRADICTION", "CONVERGENCE_LIMIT", "PREFLIGHT_HOLD", "LEDGER_INCONSISTENT", "MISSING_INPUT", "INDEPENDENCE_FAIL", "INSPECTION_MISSING", "RUN_IN_FLIGHT"]
+  source: bomdd-job.py 固定値(F5)
+stop_derivable_from_ledger: ["NONE", "LEDGER_INCONSISTENT", "MISSING_INPUT"]
+  source: bomdd-job.py 固定値(被覆宣言)
+stop_type: NONE
+  source: 導出: register と order の状態に矛盾なし
+skills_observed: ["preflight", "converge"]
+  source: order の receipt 見出し(fence 除去後・C16/C17 の正規表現を import・preflight は job 側の見出し検出)
+skills_missing: ["calibrate"]
+  source: 導出: required − observed(情報欄・停止語彙不変・gate 化しない — playbook §8.5)
+

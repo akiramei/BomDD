@@ -18,6 +18,7 @@
 # 使い方:
 #   python bomdd-job.py ECO-062 [--register PATH] [--json]
 #   python bomdd-job.py --all [--register PATH]      # verified 以外の全 ECO
+#   python bomdd-job.py --dwell [--register PATH] [--stale-days N] [--json]   # 滞留の測定(ECO-120)
 #   python bomdd-job.py --selftest
 #
 # 検出力の限界(宣言):
@@ -44,6 +45,11 @@
 #   (7) ECO-112(G2): required_gates は register の同名欄(機械の写し)と order の `required_gates:` 行(行頭・fence/HTML コメント外に
 #       1 本・裁定の記録)を集合として照合して射影する。両方なし= null(停止しない)。片方だけ・行が 2 本以上・形状不正(非空文字列の重複なし
 #       list でない)・集合の不一致は LEDGER_INCONSISTENT。起票後に両方を同時に変えても検出しない(ECO-112 L2)。読むのは入口(bomdd-run R12)。
+#   (8) ECO-120(--dwell): 滞留の**測定**ビュー(gate ではない・job レコードと stop_type に触れない・exit 0)。register の git 履歴の
+#       全コミットを読み(cat-file --batch・大きい履歴は並列)、open の各エントリが現在の status に入ったコミットを導出する
+#       (手書きの since は持たない — §13)。waiting_on(語彙 WAITING_VOCAB)と top-level paused も同じく履歴から開始を導出する。
+#       読めないコミットは警告で名指しし黙って捨てない。未コミットの作業は dirty パス数と最古 mtime(下限)と register の HEAD 差で示す。
+#       測らないもの: status や理由が正しいか・誰も走らせなければ何も出ない・終端 status(applied 等)での滞留。
 
 import io
 import json
@@ -560,7 +566,212 @@ def selftest() -> int:
     except OSError as e:
         print(f"UNMEASURABLE TREE_UNAVAILABLE(TEMP_UNAVAILABLE): selftest の前提不在 — {e.__class__.__name__}: {str(e)[:120]}")
         return 2
-    return _selftest_body(td_cm)
+    rc = _selftest_body(td_cm)
+    return max(rc, _dwell_selftest())   # ECO-120: --dwell の腕(git を使う — 既存の腕は git を使わないので分ける)
+
+
+def _set_times_back(path: Path, epoch: float) -> bool:
+    """fixture 用: mtime と(Windows では)作成日時を epoch に戻す。作成日時を戻せたら True(ctime は他の OS では設定できない)。"""
+    import os
+    os.utime(path, (epoch, epoch))
+    if os.name != "nt":
+        return False
+    import ctypes
+    from ctypes import wintypes
+    k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    k32.CreateFileW.restype = wintypes.HANDLE
+    k32.CreateFileW.argtypes = (wintypes.LPCWSTR, wintypes.DWORD, wintypes.DWORD, wintypes.LPVOID, wintypes.DWORD,
+                                wintypes.DWORD, wintypes.HANDLE)
+    h = k32.CreateFileW(str(path), 0x100, 0x7, None, 3, 0x02000000, None)   # FILE_WRITE_ATTRIBUTES・共有全部・OPEN_EXISTING
+    if h in (None, wintypes.HANDLE(-1).value):
+        return False
+    try:
+        t = int((epoch + 11644473600) * 10**7)
+        ft = wintypes.FILETIME(t & 0xFFFFFFFF, t >> 32)
+        return bool(k32.SetFileTime(h, ctypes.byref(ft), None, ctypes.byref(ft)))
+    finally:
+        k32.CloseHandle(h)
+
+
+def _dwell_selftest() -> int:
+    """ECO-120 V2-V4 の腕: 改変した履歴・理由と一時停止・未コミットの作業・直列と並列の一致・引数。"""
+    import contextlib
+    import datetime as dt
+    import os
+    import subprocess
+    if yaml is None:
+        print("bomdd-job dwell selftest UNMEASURABLE: PyYAML 不在")
+        return 2
+    now = dt.datetime(2026, 11, 4, 12, 0, tzinfo=dt.timezone.utc)
+    env = dict(os.environ, GIT_AUTHOR_NAME="t", GIT_AUTHOR_EMAIL="t@x", GIT_COMMITTER_NAME="t",
+               GIT_COMMITTER_EMAIL="t@x", GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_SYSTEM=os.devnull)
+    fails = []
+    v4_note = ["30 日の腕は未到達"]
+
+    def git(root, *a, days_ago=None):
+        e = dict(env)
+        if days_ago is not None:
+            e["GIT_AUTHOR_DATE"] = e["GIT_COMMITTER_DATE"] = (now - dt.timedelta(days=days_ago)).isoformat()
+        r = subprocess.run(["git", "-C", str(root), *a], capture_output=True, env=e)
+        if r.returncode != 0:
+            raise RuntimeError(f"fixture git {a[:2]}: {r.stderr.decode(errors='replace')[:120]}")
+        return r.stdout.decode(errors="replace").strip()
+
+    def repo(root):
+        root.mkdir()
+        git(root, "init", "-q")
+        git(root, "config", "core.autocrlf", "false")
+        (root / "bomdd").mkdir()
+        return root / "bomdd" / "60-change-register.yaml"
+
+    def commit(root, reg, text, days_ago):
+        reg.write_text(text, encoding="utf-8", newline="\n")
+        git(root, "add", "-A")
+        git(root, "commit", "-q", "-m", f"d-{days_ago}", days_ago=days_ago)
+        return git(root, "rev-parse", "HEAD")
+
+    def by_id(r):
+        return {o["id"]: o for o in r["open"]}
+
+    def blk(entries, ind="  "):   # ブロック形式の register(ind= リストの字下げ)
+        out = "changes:\n"
+        for eid, st, extra in entries:
+            out += f"{ind}- id: {eid}\n{ind}  title: t\n{ind}  status: {st}\n" + "".join(f"{ind}  {k}: {v}\n" for k, v in extra)
+        return out
+
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            # --- V2: 改変した履歴(各腕が 1 つの近道の known-bad) ---
+            ra = Path(td) / "a"
+            reg = repo(ra)
+            e3 = ("ECO-003", "filed", [])   # 3 件目: (c) で ECO-002 の行が「動いた側」になるように(2 件だと diff は相手を動かす)
+            c1 = commit(ra, reg, blk([("ECO-002", "implemented", []), ("ECO-001", "filed", []), e3]), 60)
+            commit(ra, reg, blk([("ECO-002", "implemented", []), ("ECO-001", "implemented", []), e3]), 50)
+            c3 = commit(ra, reg, blk([("ECO-002", "implemented", []), ("ECO-001", "filed", []), e3]), 40)
+            c4 = commit(ra, reg, blk([("ECO-002", "implemented", []), ("ECO-001", "filed", []), e3], ind="    "), 30)   # (b) 字下げだけ
+            c5 = commit(ra, reg, blk([("ECO-001", "filed", []), e3, ("ECO-002", "implemented", [])], ind="    "), 20)   # (c) 並べ替えだけ
+            c6 = commit(ra, reg, "changes: [ {id: ECO-001, status: filed\n", 10)                                        # (d) 読めない
+            commit(ra, reg, blk([("ECO-001", "filed", []), e3, ("ECO-002", "implemented", [])], ind="    "), 5)
+            reg.write_text(blk([("ECO-001", "filed", []), e3, ("ECO-002", "verified", [])], ind="    "), encoding="utf-8", newline="\n")  # (e)
+            r = dwell(reg, 14, now)
+            o = by_id(r)
+            if o.get("ECO-001", {}).get("since_commit") != c3:
+                fails.append(f"V2(a) A→B→A: ECO-001 の開始 {o.get('ECO-001', {}).get('since_commit', '')[:10]} != 2 度目の A {c3[:10]}")
+            if o.get("ECO-002", {}).get("since_commit") != c1:
+                fails.append(f"V2(b)(c)(e) ECO-002 の開始 {o.get('ECO-002', {}).get('since_commit', '')[:10]} != {c1[:10]}(字下げ・並べ替え・作業木で動いた)")
+            if r["parse_failures"] != 1 or not any(c6[:10] in w for w in r["warnings"]):
+                fails.append(f"V2(d) 読めないコミット {c6[:10]} が警告で名指しされない: {r['warnings']}")
+            if not r["uncommitted"]["register_differs_from_head"]:
+                fails.append("V2(e) 作業木だけの変更で register の HEAD 差が出ない")
+            # known-bad: 「status 行に最後に触ったコミット」の近道は (b)(c) で開始を動かす — 腕が区別することを示す
+            for rev, want_bad, arm in ((c4, c4, "b"), (c5, c5, "c")):
+                text = git(ra, "show", f"{rev}:bomdd/60-change-register.yaml").splitlines()
+                n = next(i for i, l in enumerate(text, 1)
+                         if l.strip() == "status: implemented" and "ECO-002" in "\n".join(text[max(0, i - 4):i]))
+                blamed = git(ra, "blame", "--porcelain", "-L", f"{n},{n}", rev, "--", "bomdd/60-change-register.yaml").split()[0]
+                if blamed != want_bad or blamed == c1:
+                    fails.append(f"V2 known-bad({arm}): 近道が {blamed[:10]} を返した(期待 {want_bad[:10]}・腕が区別しない)")
+            # 直列と並列は同じ結果
+            r1, r2 = dwell(reg, 14, now, workers=1), dwell(reg, 14, now, workers=2)
+            if (r1["open"], r1["warnings"]) != (r2["open"], r2["warnings"]):
+                fails.append("直列と並列で結果が違う")
+
+            # --- V3: 理由・閾値・一時停止 ---
+            rb = Path(td) / "b"
+            regb = repo(rb)
+            ents = [("ECO-079", "implemented", []), ("ECO-010", "filed", [("waiting_on", "start-instruction")]),
+                    ("ECO-011", "implemented", [("waiting_on", "human-acceptance")]),
+                    ("ECO-012", "implemented", [("waiting_on", "independent-inspection")]),
+                    ("ECO-013", "filed", [("waiting_on", "human-ruling")]), ("ECO-014", "filed", [("waiting_on", "eco:ECO-VT-163")]),
+                    ("ECO-015", "filed", [("waiting_on", "external")]), ("ECO-016", "filed", [("waiting_on", "bogus")]),
+                    ("ECO-017", "verified", [("waiting_on", "external")])]
+            commit(rb, regb, blk(ents), 49)
+            commit(rb, regb, blk(ents + [("ECO-020", "filed", [])]), 3)
+            r = dwell(regb, 14, now)
+            o = by_id(r)
+            groups = {e["group"] for e in r["open"] if e["over_threshold"]}
+            want = {"none", "start-instruction", "human-acceptance", "independent-inspection", "human-ruling", "eco:ECO-VT-163",
+                    "external", "bogus"}
+            if groups != want:
+                fails.append(f"V3 理由の群: {sorted(groups)} != {sorted(want)}")
+            if not any("ECO-016" in w and "語彙外" in w for w in r["warnings"]):
+                fails.append("V3 語彙外の waiting_on が警告にならない")
+            if not any("ECO-017" in w and "終端" in w for w in r["warnings"]):
+                fails.append("V3 終端 status の waiting_on が警告にならない")
+            unexplained = [e["id"] for e in r["open"] if e["over_threshold"] and e["group"] == "none"]
+            if unexplained != ["ECO-079"] or o["ECO-079"]["days"] != 49.0:
+                fails.append(f"V3 ECO-079 形(49 日・理由なし)が unexplained に出ない: {unexplained} / {o.get('ECO-079')}")
+            if o["ECO-020"]["over_threshold"] or not by_id(dwell(regb, 2, now))["ECO-020"]["over_threshold"]:
+                fails.append("V3 閾値: 3 日の ECO-020 が 14 日で出る / 2 日で出ない")
+            if "unexplained(閾値超・理由なし) 1:" not in render_dwell(r):
+                fails.append("V3 render に unexplained 1 件が出ない")
+            # job レコードと stop_type は waiting_on で変わらない
+            (rb / "bomdd" / "o.md").write_text("# Change Order — ECO-016\n", encoding="utf-8")
+            base = {"id": "ECO-016", "title": "t", "status": "filed", "order_ref": "bomdd/o.md"}
+            j0 = project(dict(base), rb, "bomdd/60-change-register.yaml")
+            j1 = project(dict(base, waiting_on="bogus"), rb, "bomdd/60-change-register.yaml")
+            if j0 != j1:
+                fails.append("V3 waiting_on で job レコードが変わった")
+            p_ok = blk(ents + [("ECO-020", "filed", [])]) + "paused:\n  reason: r\n  resume_when: w\n"
+            cp = commit(rb, regb, p_ok, 1)
+            r = dwell(regb, 14, now)
+            if not r["paused"] or r["paused"]["since_commit"] != cp or {e["group"] for e in r["open"]} != {"paused"}:
+                fails.append(f"V3 paused: 群が paused だけにならない / 開始が違う: {r['paused']}")
+            if any("paused" in w for w in r["warnings"]):
+                fails.append("V3 両欄ある paused に警告が出た")
+            commit(rb, regb, blk(ents + [("ECO-020", "filed", [])]) + "paused:\n  reason: r\n", 0.5)
+            if not any("resume_when" in w for w in dwell(regb, 14, now)["warnings"]):
+                fails.append("V3 resume_when のない paused が警告にならない")
+
+            # --- V4: 未コミットの作業(年齢は下限) ---
+            rc_ = Path(td) / "c"
+            regc = repo(rc_)
+            (rc_ / "a.txt").write_text("a\n", encoding="utf-8")
+            commit(rc_, regc, blk([("ECO-001", "filed", [])]), 2)
+            real_now = dt.datetime.now(dt.timezone.utc)
+            (rc_ / "a.txt").write_text("a2\n", encoding="utf-8")
+            (rc_ / "b.txt").write_text("b\n", encoding="utf-8")
+            (rc_ / "c.txt").write_text("c\n", encoding="utf-8")
+            win = _set_times_back(rc_ / "a.txt", real_now.timestamp() - 30 * 86400)
+            _set_times_back(rc_ / "b.txt", real_now.timestamp() - 10 * 86400)
+            os.utime(rc_ / "c.txt", (real_now.timestamp() - 3000 * 86400,) * 2)   # 古い mtime を保って今置かれたファイル
+            u = dwell(regc, 14, real_now)["uncommitted"]
+            if u["dirty_paths"] != 3 or u["register_differs_from_head"]:
+                fails.append(f"V4 dirty 3・HEAD 差なし になっていない: {u}")
+            if (u["oldest_days_lower_bound"] or 0) > 31:
+                fails.append(f"V4 古い mtime だけのファイルで年齢が過大(作成日時を見ていない): {u}")
+            v4_note[0] = "30 日の腕は実行(作成日時も戻した)" if win else "30 日の腕は未実行(作成日時を戻せない OS)"
+            if win and abs((u["oldest_days_lower_bound"] or 0) - 30) > 1:
+                fails.append(f"V4 最古 30 日(作成日時も 30 日前)になっていない: {u}")
+            git(rc_, "checkout", "--", "a.txt")
+            (rc_ / "b.txt").unlink()
+            (rc_ / "c.txt").unlink()
+            u = dwell(regc, 14, real_now)["uncommitted"]
+            if u != {"dirty_paths": 0, "oldest_days_lower_bound": None, "register_differs_from_head": False}:
+                fails.append(f"V4 clean で dirty 0・年齢なし にならない: {u}")
+            regc.write_text(blk([("ECO-001", "implemented", [])]), encoding="utf-8", newline="\n")
+            if not dwell(regc, 14, real_now)["uncommitted"]["register_differs_from_head"]:
+                fails.append("V4 register の未コミット変更で HEAD 差が出ない")
+
+            # --- 引数(exit 0・1 行で返す) ---
+            for argv, frag in ((["--dwell", "--stale-days", "0"], "--stale-days"), (["--dwell", "--bogus"], "未知のオプション"),
+                               (["--dwell", "--register"], "値がない"),
+                               (["--dwell", "--register", str(Path(td) / "nope.yaml")], "測定不能")):
+                buf = io.StringIO()
+                with contextlib.redirect_stdout(buf):
+                    rc = dwell_main(argv)
+                if rc != 0 or not buf.getvalue().startswith("MISSING_INPUT") or frag not in buf.getvalue():
+                    fails.append(f"引数 {argv}: rc={rc} 出力={buf.getvalue()[:80]!r}")
+    except Exception as e:  # noqa: BLE001 — fixture の構築失敗は測定不能
+        print(f"bomdd-job dwell selftest UNMEASURABLE: {type(e).__name__}: {str(e)[:160]}")
+        return 2
+    if fails:
+        print("bomdd-job dwell selftest FAILED:\n  " + "\n  ".join(fails))
+        return 1
+    print("bomdd-job dwell selftest PASS(ECO-120: V2 A→B→A・字下げ・並べ替え・読めないコミット・作業木だけの変更・近道の known-bad 2 腕・"
+          "直列=並列 / V3 理由 7 群+語彙外・終端の警告・ECO-079 形・閾値 14/2・job 不変・paused 群/警告 / V4 dirty 年齢・古い mtime だけの"
+          f"ファイル・clean・register の HEAD 差・{v4_note[0]} / 引数 4 種)")
+    return 0
 
 
 def _selftest_body(td_cm) -> int:
@@ -890,6 +1101,285 @@ def _report(fails) -> int:
     return 0
 
 
+# --- ECO-120: --dwell(滞留の測定ビュー) -----------------------------------------------------------
+DWELL_TERMINAL = ("verified", "applied", "rejected", "superseded", "withdrawn", "cancelled", "closed")
+WAITING_VOCAB = ("start-instruction", "human-ruling", "human-acceptance", "independent-inspection", "external")
+WAITING_ECO_RE = re.compile(r"eco:[A-Za-z][A-Za-z0-9]*(?:-[A-Za-z0-9]+)*-\d+")
+DWELL_BUCKETS = ((7, "<=7d"), (30, "8-30d"), (90, "31-90d"), (None, ">90d"))
+DWELL_PARALLEL_MIN = 64   # これ未満のコミット数は直列で読む(並列の起動費が勝つ)
+
+
+def _dwell_loader():
+    return getattr(yaml, "CSafeLoader", yaml.SafeLoader)
+
+
+def _dwell_items(data):
+    """エントリの list と、それが `changes` 以外の古い形から取ったか。古い形(ViewPrism2 初期の change_orders 等)は
+    「最初の list で先頭が id を持つ dict」を取る(section 0 の全件読みと同じ規則)。見つからなければ (None, False)。"""
+    if isinstance(data, dict) and isinstance(data.get("changes"), list):
+        return data["changes"], False
+    if isinstance(data, list):
+        return data, True
+    if isinstance(data, dict):
+        for v in data.values():
+            if isinstance(v, list) and v and isinstance(v[0], dict) and "id" in v[0]:
+                return v, True
+    return None, False
+
+
+def _dwell_snapshot(blob: bytes):
+    """1 コミットの register → ({id: (status, waiting_on)}, paused の正規化文字列 or None, 古い形か)。形状不正は例外。"""
+    data = yaml.load(blob, Loader=_dwell_loader())
+    items, legacy = _dwell_items(data)
+    if items is None:
+        raise ValueError("エントリの list がない")
+    snap = {}
+    for e in items:
+        if isinstance(e, dict) and "id" in e:
+            w = e.get("waiting_on")
+            snap[str(e["id"])] = (str(e.get("status")), None if w is None else str(w))
+    has_p = isinstance(data, dict) and "paused" in data
+    paused = json.dumps(data["paused"], ensure_ascii=False, sort_keys=True, default=str) if has_p else None
+    return snap, paused, legacy
+
+
+def _dwell_chunk(args):
+    """(top, rel, [(idx, sha)]) → [(idx, snap|None, paused, err|None)]。自分の cat-file --batch を 1 本持つ(並列の単位)。"""
+    import subprocess
+    top, rel, items = args
+    out = []
+    p = subprocess.Popen(["git", "-C", top, "cat-file", "--batch"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    try:
+        for idx, sha in items:
+            p.stdin.write(f"{sha}:{rel}\n".encode())
+            p.stdin.flush()
+            head = p.stdout.readline().decode(errors="replace").split()
+            if len(head) != 3 or head[1] != "blob":
+                out.append((idx, None, None, "register なし(" + " ".join(head[1:])[:40] + ")"))
+                continue
+            size = int(head[2])
+            blob = p.stdout.read(size)
+            p.stdout.read(1)
+            try:
+                snap, paused, legacy = _dwell_snapshot(blob)
+                out.append((idx, snap, paused, "legacy" if legacy else None))
+            except Exception as e:  # noqa: BLE001 — 読めないコミットは名指しで返す(黙って捨てない)
+                out.append((idx, None, None, type(e).__name__))
+    finally:
+        p.stdin.close()
+        p.wait()
+    return out
+
+
+def _dwell_git(top, *args):
+    import subprocess
+    r = subprocess.run(["git", "-C", str(top), *args], capture_output=True)
+    if r.returncode != 0:
+        raise RuntimeError(f"git {' '.join(args[:2])} exit {r.returncode}: {r.stderr.decode(errors='replace').strip()[:120]}")
+    return r.stdout.decode("utf-8", errors="replace")
+
+
+def _dwell_read_history(top: Path, rel: str, workers: int | None = None):
+    """register の履歴を古い順に読む → (commits[(sha, iso)], results[(snap|None, paused, err)])。workers=1 で直列。"""
+    import os
+    log = _dwell_git(top, "log", "--reverse", "--format=%H %cI", "--", rel)
+    commits = [tuple(l.split(" ", 1)) for l in log.splitlines() if l.strip()]
+    items = list(enumerate(sha for sha, _ in commits))
+    k = workers if workers is not None else (min(os.cpu_count() or 1, 8) if len(items) >= DWELL_PARALLEL_MIN else 1)
+    rows = []
+    if k <= 1:
+        rows = _dwell_chunk((str(top), rel, items))
+    else:
+        from concurrent.futures import ProcessPoolExecutor
+        chunks = [items[i::k] for i in range(k)]   # 交互に配る: 後のコミットほど register が大きく、連続の塊だと最後の担当に偏る
+        with ProcessPoolExecutor(max_workers=k) as ex:
+            for part in ex.map(_dwell_chunk, [(str(top), rel, c) for c in chunks if c]):
+                rows.extend(part)
+    rows.sort(key=lambda r: r[0])
+    return commits, [(snap, paused, err) for _, snap, paused, err in rows]
+
+
+def _dwell_runs(commits, results):
+    """各 id の変化点(dwell.py と同じ規則: 読めたコミットだけを順に見て、直前に見た値と違えば変化点)。"""
+    st_hist, wt_hist, paused_hist = {}, {}, []
+    for (sha, iso), (snap, paused, err) in zip(commits, results):
+        if snap is None:
+            continue
+        for eid, (st, w) in snap.items():
+            h = st_hist.setdefault(eid, [])
+            if not h or h[-1][1] != st:
+                h.append((iso, st, sha))
+            hw = wt_hist.setdefault(eid, [])
+            if not hw or hw[-1][1] != w:
+                hw.append((iso, w, sha))
+        if not paused_hist or paused_hist[-1][1] != paused:
+            paused_hist.append((iso, paused, sha))
+    return st_hist, wt_hist, paused_hist
+
+
+def _days(now, iso):
+    import datetime as dt
+    return round((now - dt.datetime.fromisoformat(iso)).total_seconds() / 86400, 1)
+
+
+def _bucket(d):
+    for lim, name in DWELL_BUCKETS:
+        if lim is None or d <= lim:
+            return name
+
+
+def _dwell_uncommitted(top: Path, rel: str, now) -> dict:
+    """P4: dirty パス数・最古 mtime(下限)・register の HEAD 差。ignored は除く。"""
+    import datetime as dt
+    raw = _dwell_git(top, "status", "--porcelain=v1", "-z", "-uall")
+    parts = raw.split("\0")
+    paths, i = [], 0
+    while i < len(parts):
+        ent = parts[i]
+        if len(ent) > 3:
+            paths.append(ent[3:])
+            if ent[0] in "RC":   # rename/copy は次の要素が元パス(数えない)
+                i += 1
+        i += 1
+    oldest = None
+    for p in paths:
+        try:
+            s = (top / p).stat()
+        except OSError:   # 削除されたパス: 数えるが年齢は測れない
+            continue
+        # 更新日時と作成日時(無ければ ctime)の新しいほう: 古い mtime を保ったまま置かれたファイル(TimetableAdv の NuGet DLL・
+        # mtime 2018 年・作成 2026-09-02)で年齢を過大に出さない — 書き込みか到着のどちらかが更新する限り、年齢は下限になる(ECO-120 V7)
+        m = max(s.st_mtime, getattr(s, "st_birthtime", None) or s.st_ctime)
+        age = (now - dt.datetime.fromtimestamp(m, dt.timezone.utc)).total_seconds() / 86400
+        oldest = age if oldest is None else max(oldest, age)
+    differs = rel in paths
+    return {"dirty_paths": len(paths), "oldest_days_lower_bound": None if oldest is None else round(oldest, 1),
+            "register_differs_from_head": differs}
+
+
+def dwell(register: Path, stale_days: int = 14, now=None, workers: int | None = None) -> dict:
+    """ECO-120 P1-P4。例外は呼び側で MISSING_INPUT 相当の 1 行にする。"""
+    import datetime as dt
+    import statistics
+    now = now or dt.datetime.now(dt.timezone.utc)
+    register = register.resolve()
+    top = Path(_dwell_git(register.parent, "rev-parse", "--show-toplevel").strip())
+    rel = register.relative_to(top.resolve()).as_posix()
+    commits, results = _dwell_read_history(top, rel, workers)
+    if not commits:
+        raise RuntimeError(f"{rel} に履歴がない(未コミット)")
+    warnings = [f"読めないコミット {sha[:10]} ({iso[:10]}): {err}" for (sha, iso), (s, _, err) in zip(commits, results) if s is None]
+    last = next(((snap, paused) for snap, paused, _ in reversed(results) if snap is not None), None)
+    if last is None:
+        raise RuntimeError("どのコミットの register も読めない")
+    head_snap, head_paused = last
+    st_hist, wt_hist, paused_hist = _dwell_runs(commits, results)
+
+    paused = None
+    if head_paused is not None:
+        pv = json.loads(head_paused)
+        iso, _, sha = paused_hist[-1]
+        reason = pv.get("reason") if isinstance(pv, dict) else None
+        resume = pv.get("resume_when") if isinstance(pv, dict) else None
+        paused = {"since_commit": sha, "since_date": iso, "days": _days(now, iso), "reason": reason, "resume_when": resume}
+        if not (isinstance(reason, str) and reason.strip()):
+            warnings.append("paused に reason がない")
+        if not (isinstance(resume, str) and resume.strip()):
+            warnings.append("paused に resume_when がない")
+
+    open_, summary = [], {}
+    for eid, (st, w) in head_snap.items():
+        if w is not None and not (w in WAITING_VOCAB or WAITING_ECO_RE.fullmatch(w)):
+            warnings.append(f"{eid}: waiting_on の値が語彙外: {w!r}")
+        if st in DWELL_TERMINAL:
+            if w is not None:
+                warnings.append(f"{eid}: 終端 status ({st}) に waiting_on が残っている: {w!r}")
+            continue
+        iso, _, sha = st_hist[eid][-1]
+        rec = {"id": eid, "status": st, "since_commit": sha, "since_date": iso, "days": _days(now, iso),
+               "waiting_on": w, "waiting_since_commit": None, "waiting_days": None}
+        if w is not None:
+            wiso, _, wsha = wt_hist[eid][-1]
+            rec["waiting_since_commit"], rec["waiting_days"] = wsha, _days(now, wiso)
+        rec["over_threshold"] = rec["days"] > stale_days
+        reason = "paused" if paused else (w or "none")
+        rec["group"] = reason
+        summary.setdefault(reason, {n: 0 for _, n in DWELL_BUCKETS})[_bucket(rec["days"])] += 1
+        open_.append(rec)
+    open_.sort(key=lambda r: -r["days"])
+
+    spans = {}
+    for h in st_hist.values():
+        for (a_iso, a_st, _), (b_iso, _, _) in zip(h, h[1:]):
+            d = (dt.datetime.fromisoformat(b_iso) - dt.datetime.fromisoformat(a_iso)).total_seconds() / 86400
+            spans.setdefault(a_st, []).append(d)
+    past = {s: {"n": len(x), "median": round(statistics.median(x), 1), "max": round(max(x), 1)} for s, x in sorted(spans.items())}
+    return {"register": rel, "repo": str(top), "head_commit": commits[-1][0], "commits_read": len(commits),
+            "parse_failures": sum(1 for s, _, _ in results if s is None),
+            "legacy_shape_commits": sum(1 for s, _, e in results if s is not None and e == "legacy"), "stale_days": stale_days,
+            "now": now.isoformat(timespec="seconds"), "paused": paused, "summary": summary,
+            "open": open_, "past_dwell": past, "uncommitted": _dwell_uncommitted(top, rel, now), "warnings": warnings}
+
+
+def render_dwell(r: dict) -> str:
+    out = [f"dwell: {r['register']} @ {r['head_commit'][:10]} — commits {r['commits_read']}・読めない {r['parse_failures']}・"
+           f"古い形 {r['legacy_shape_commits']}・"
+           f"open {len(r['open'])}・閾値 {r['stale_days']} 日(測定ビュー・gate ではない)"]
+    if r["paused"]:
+        p = r["paused"]
+        out.append(f"PAUSED {p['days']} 日(since {p['since_commit'][:10]}): reason={p['reason']!r} resume_when={p['resume_when']!r}")
+    out.append("summary(理由 × 経過): " + " / ".join(
+        f"{g}: " + " ".join(f"{b} {n}" for b, n in cnt.items()) for g, cnt in sorted(r["summary"].items())) if r["summary"] else "summary: open なし")
+    unexplained = [o for o in r["open"] if o["over_threshold"] and o["group"] == "none"]
+    out.append(f"unexplained(閾値超・理由なし) {len(unexplained)}:")
+    out += [f"  {o['id']} {o['status']} {o['days']} 日(since {o['since_commit'][:10]})" for o in unexplained]
+    for g in sorted({o["group"] for o in r["open"] if o["over_threshold"] and o["group"] != "none"}):
+        rows = [o for o in r["open"] if o["over_threshold"] and o["group"] == g]
+        out.append(f"{g} {len(rows)}:")
+        out += [f"  {o['id']} {o['status']} {o['days']} 日" + (f"(理由 {o['waiting_days']} 日)" if o["waiting_days"] is not None else "")
+                for o in rows]
+    out.append("past dwell(閉じた区間): " + " / ".join(f"{s} n={v['n']} median={v['median']} max={v['max']}" for s, v in r["past_dwell"].items()))
+    u = r["uncommitted"]
+    out.append(f"uncommitted: dirty {u['dirty_paths']}・最古 {u['oldest_days_lower_bound']} 日(下限)・register の HEAD 差 "
+               f"{'あり' if u['register_differs_from_head'] else 'なし'}")
+    out += [f"WARNING {w}" for w in r["warnings"]]
+    return "\n".join(out) + "\n"
+
+
+def dwell_main(argv) -> int:
+    """--dwell の入口。引数不正・測定不能は 1 行(--json は {"error"})で返し、exit 0(原則 4)。"""
+    known = {"--dwell", "--register", "--json", "--stale-days"}
+    err, reg_rel, stale = None, "bomdd/60-change-register.yaml", 14
+    unknown = [a for a in argv if a.startswith("--") and a not in known]
+    if unknown:
+        err = f"未知のオプション(引数不正): {' '.join(unknown)}"
+    for opt in ("--register", "--stale-days"):
+        if not err and opt in argv:
+            i = argv.index(opt)
+            if i + 1 >= len(argv) or argv[i + 1].startswith("--"):
+                err = f"{opt} に値がない(引数不正)"
+            elif opt == "--register":
+                reg_rel = argv[i + 1]
+            elif not re.fullmatch(r"[1-9]\d{0,3}", argv[i + 1]):
+                err = f"--stale-days は 1〜9999 の整数: {argv[i + 1]!r}"
+            else:
+                stale = int(argv[i + 1])
+    res = None
+    if not err:
+        if yaml is None:
+            err = "PyYAML 不在"
+        else:
+            try:
+                res = dwell(Path.cwd() / reg_rel, stale)
+            except Exception as e:  # noqa: BLE001 — 測定不能は合格ではない: 理由を出して止まる
+                err = f"測定不能: {type(e).__name__}: {str(e)[:160]}"
+    if "--json" in argv:
+        print(json.dumps({"error": err} if err else res, ensure_ascii=False, indent=2))
+    else:
+        print(f"MISSING_INPUT {err}" if err else render_dwell(res), end="" if not err else "\n")
+    return 0
+
+
 def _missing(reason: str, eco: str | None = None) -> dict:
     """欠測(MISSING_INPUT)を job と同形の 1 レコードで表す — 消費側が同じ parser で読める。"""
     rec = {"stop_type": _field("MISSING_INPUT", f"導出: {reason}")}
@@ -939,6 +1429,8 @@ def main(argv) -> int:
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace", newline="\n")
     if "--selftest" in argv:
         return selftest()
+    if "--dwell" in argv:   # ECO-120: 既存の経路(select)に入る前に分ける — 既存モードの出力を変えない
+        return dwell_main(argv)
     jobs, reg_rel = select(argv, Path.cwd())
     if "--json" in argv:
         # IA-04: 複数 job でも単一 JSON 文書(object)にする — 標準 parser で閉じる
