@@ -1,0 +1,12 @@
+old tool sha256 fe2961aa7129df76, new dfb4e5dc0de32c2c
+V1 entries 123: identical 111, changed 12 (ECO-105, ECO-106, ECO-107, ECO-108, ECO-109, ECO-110, ECO-111, ECO-116, ECO-117, ECO-118, ECO-120, ECO-121); unexpected: none
+V2 bomdd-job --selftest exit 0; arms named 6/6; missing none
+    bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / ECO-123 英語 Closure 4 腕〔verified 台帳= NONE・implemented 台帳= 不整合・verified 語なしはクローズで
+    bomdd-job dwell selftest PASS(ECO-120: V2 A→B→A・字下げ・並べ替え・読めないコミット・作業木だけの変更・近道の known-bad 2 腕・直列=並列 / V3 理由 7 群+語彙外・終端の警告・ECO-079 形・閾値 14/2・job 不変・paus
+V4 --all --json: 13526 / 13526 bytes -> identical
+V4 --all: 9199 / 9199 bytes -> identical
+V4 --dwell BomDD: text identical True, json identical True (open 3)
+V4 --dwell ViewTube: text identical True, json identical True (open 173)
+V4 cache key equal: True
+V4 bomdd-run --selftest exit 0
+V1 PASS; V2 PASS; V4 PASS

@@ -7,3 +7,10 @@ Read-only, at BomDD `825d9a1` (2026-11-04). The selftest's blind spots are measu
 |---|---|
 | `heading_survey.py` | For each register entry with an order: the stop the closure rule alone gives with the current `CLOSE_HEAD_RE` and with `(?:クローズ\|Closure)`; the entries that change, the headings only the new rule matches, and what the orders still not `NONE` hold. |
 | `heading_survey.txt` | Its output: 71 not `NONE` now, 59 with the new rule; the 12 that change are ECO-105 to 111, 116 to 118, 120 and 121; the 59 are 30 without a closure heading, 27 without `verified`, two in another title. |
+
+## Manufacture (order section 4) — `manufacture/`
+
+| File | What it is |
+|---|---|
+| `v14.py`, `v14.txt` | V1 (every entry's job `--json`, old against new), V2 (the selftest's lines) and V4 (`--all`, `--dwell` at a fixed `now`, the cache key, `bomdd-run.py --selftest`). |
+| `mutants123.py`, `mutants123.txt` | V3: an unchanged copy (control), ECO-122's M1-M4 and a copy with the old `CLOSE_HEAD_RE`, each run through its own `--selftest`. |

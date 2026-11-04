@@ -22,7 +22,8 @@
 #   python bomdd-job.py --selftest
 #
 # 検出力の限界(宣言):
-#   (1) クローズ節の検出は見出し形状(「## N. クローズ」+ verified 語)のみ — 本文の意味は読まない。
+#   (1) クローズ節の検出は見出し形状(「## N. クローズ」または「## N. Closure」+ 同じ行の verified 語)のみ — 本文の意味は読まない。
+#       ECO-123: Closure を足した。それ以前の書き方(見出しなし・verified 語なし・別の題の中)の ECO-001〜060 は不整合のまま(宣言)。
 #   (2) forbidden / expected_outputs / independent_inspection / required_capability は register/order に
 #       構造欄がないため常に null(F2/F3/F4/F6)。
 #   (3) 受入の PASS/FAIL は導出しない(witness の担当・bomdd-witness.py)。
@@ -88,7 +89,7 @@ HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.S)
 HEAD_RE = re.compile(r"^[ \t]{0,3}(#{1,6})[ \t]+([^\n]*)$", re.M)
 EQUIP_HEAD_RE = re.compile(r"担当設備|equipment", re.I)
 INDEPENDENCE_AXES = ("model", "harness", "account_lineage")
-CLOSE_HEAD_RE = re.compile(r"^[ \t]{0,3}#{2,6}[ \t]+\d+\.[ \t]*クローズ[^\n]*verified", re.M)
+CLOSE_HEAD_RE = re.compile(r"^[ \t]{0,3}#{2,6}[ \t]+\d+\.[ \t]*(?:クローズ|Closure)[^\n]*verified", re.M)   # ECO-123: 英語の記録(2026-10-12〜)も読む
 FENCE_RE = re.compile(r"^[ \t]{0,3}(```|~~~)[^\n]*\n.*?(?:^[ \t]{0,3}\1[ \t]*$|\Z)", re.S | re.M)
 REQ_GATES_LINE_RE = re.compile(r"^required_gates:([^\n]*)$", re.M)   # ECO-112 G1: column 0・fence と HTML コメントの外
 
@@ -596,8 +597,9 @@ def _set_times_back(path: Path, epoch: float) -> bool:
         k32.CloseHandle(h)
 
 
-def _dwell_cache_arms(root: Path, reg: Path, now, cdir: Path, commit, fails: list) -> list:
-    """ECO-122 P3 の腕。root は読めないコミットを 1 つ含む fixture。走った腕の名前を返す。"""
+def _dwell_cache_arms(root: Path, reg: Path, now, cdir: Path, commit, fails: list, git=None, notes=None) -> list:
+    """ECO-122 P3 と ECO-123 P2 の腕。root は読めないコミットを 1 つ含む fixture。走った腕の名前を返す(未実行の理由は notes へ)。"""
+    notes = notes if notes is not None else []
     ran = []
 
     def run(cache_dir):
@@ -646,6 +648,45 @@ def _dwell_cache_arms(root: Path, reg: Path, now, cdir: Path, commit, fails: lis
     base2, _ = run(None)
     got, st = run(cdir)
     check("one-new-commit", got, base2, st, hits=n, parsed=1, read_miss=None, write="ok")
+
+    # ECO-123 P2: 版キーは解析規則の source に追従する — 自分のファイルの写しで _dwell_snapshot を 1 行だけ変え、元が書いたキャッシュで外れる
+    import importlib.util
+    marker = "    data = yaml.load(blob, Loader=_dwell_loader())\n"
+    try:
+        own = Path(__file__).read_text(encoding="utf-8")
+    except OSError:
+        own = None
+    if own is None:
+        notes.append("版キー追従の腕は未実行(ツールの source が読めない)")
+    elif own.count(marker) != 1:
+        fails.append("cache key-follows-source: _dwell_snapshot の変える行が 1 か所に見つからない(腕を組めない)")
+    else:
+        cp = cdir.parent / "keycopy" / "bj_keycopy.py"
+        cp.parent.mkdir(parents=True, exist_ok=True)
+        cp.write_text(own.replace(marker, marker.rstrip("\n") + "   # one changed line (ECO-123)\n"), encoding="utf-8", newline="\n")
+        spec = importlib.util.spec_from_file_location("bj_keycopy", cp)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        st2 = {}
+        got = json.dumps(mod.dwell(reg, 14, now, cache_dir=cdir, stats=st2), ensure_ascii=False, sort_keys=True)
+        check("key-follows-source", got, base2, st2, hits=0, read_miss="version key differs", write="ok")
+
+    # ECO-123 P2: amend で消えた版はキャッシュに残らない(書くのはこの実行で使った blob だけ)
+    run(cdir)   # 元のキーで書き直す
+    path = Path(st["file"])
+    before = set(json.loads(path.read_text(encoding="utf-8"))["blobs"])
+    reg.write_text(reg.read_text(encoding="utf-8") + "# amended\n", encoding="utf-8", newline="\n")
+    git(root, "add", "-A")
+    git(root, "commit", "-q", "--amend", "-m", "amended", days_ago=3)
+    base3, _ = run(None)
+    got, st = run(cdir)
+    hist = {_dwell_git(root, "rev-parse", f"{s}:{rel}").strip() for s in _dwell_git(root, "log", "--format=%H", "--", rel).split()}
+    after = set(json.loads(path.read_text(encoding="utf-8"))["blobs"])
+    check("amend", got, base3, st, parsed=1, write="ok")
+    if before <= hist:
+        fails.append("cache amend: amend 前のキャッシュに消える版がない(腕が区別しない)")
+    if not after <= hist:
+        fails.append(f"cache amend: 履歴にない版がキャッシュに残った({len(after - hist)} 件)")
     return ran
 
 
@@ -663,6 +704,7 @@ def _dwell_selftest() -> int:
                GIT_COMMITTER_EMAIL="t@x", GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_SYSTEM=os.devnull)
     fails = []
     v4_note = ["30 日の腕は未到達"]
+    cache_notes = []   # ECO-123: 未実行の腕(合格ではない)を PASS 行に出す
 
     def git(root, *a, days_ago=None):
         e = dict(env)
@@ -733,7 +775,7 @@ def _dwell_selftest() -> int:
                 fails.append("直列と並列で結果が違う")
 
             # --- ECO-122 P3: blob ごとのキャッシュ(冷・温・なしで同じ結果・新しいコミットだけ読む・壊れたキャッシュは外れ) ---
-            cache_n = len(_dwell_cache_arms(ra, reg, now, Path(td) / "cache", commit, fails))
+            cache_n = len(_dwell_cache_arms(ra, reg, now, Path(td) / "cache", commit, fails, git, cache_notes))
 
             # --- V3: 理由・閾値・一時停止 ---
             rb = Path(td) / "b"
@@ -829,8 +871,9 @@ def _dwell_selftest() -> int:
         return 1
     print("bomdd-job dwell selftest PASS(ECO-120: V2 A→B→A・字下げ・並べ替え・読めないコミット・作業木だけの変更・近道の known-bad 2 腕・"
           "直列=並列 / V3 理由 7 群+語彙外・終端の警告・ECO-079 形・閾値 14/2・job 不変・paused 群/警告 / V4 dirty 年齢・古い mtime だけの"
-          f"ファイル・clean・register の HEAD 差・{v4_note[0]} / 引数 4 種 / ECO-122 キャッシュ {cache_n} 腕: 冷・温(警告は残る)・途中で切れた"
-          "ファイル・別の版キー・書けない置き場・新しいコミット 1 つ)")
+          f"ファイル・clean・register の HEAD 差・{v4_note[0]} / 引数 4 種 / ECO-122/123 キャッシュ {cache_n} 腕: 冷・温(警告は残る)・途中で切れた"
+          "ファイル・別の版キー・書けない置き場・新しいコミット 1 つ・版キーが source に追従・amend で消えた版を残さない"
+          + ("".join(f"・{x}" for x in cache_notes)) + ")")
     return 0
 
 
@@ -865,6 +908,22 @@ def _selftest_body(td_cm) -> int:
             got = jobs[k]["stop_type"]["value"]
             if got != want:
                 fails.append(f"{k}: stop_type {got} != {want}")
+        # ECO-123 P2: 英語のクローズ見出し(2026-10-12 から記録は英語が正)— 両方向に効き、verified 語のない見出しと fence 内は数えない
+        (root / "bomdd" / "en-closed.md").write_text(
+            "# Change Order — ECO-906\n\n## 5. Closure (2026-11-04, verified on the user's \"A\")\n- V1 PASS\n", encoding="utf-8")
+        (root / "bomdd" / "en-noverified.md").write_text(
+            "# Change Order — ECO-908\n\n## 5. Closure (2026-11-04, waiting for the user)\n", encoding="utf-8")
+        (root / "bomdd" / "en-fenced.md").write_text(
+            "# Change Order — ECO-909\n\n```\n## 5. Closure (2026-11-04, verified)\n```\n", encoding="utf-8")
+        for eid, st, ref, want, arm in (
+                ("ECO-906", "verified", "en-closed.md", "NONE", "英語 Closure+verified 台帳= NONE"),
+                ("ECO-907", "implemented", "en-closed.md", "LEDGER_INCONSISTENT", "英語 Closure+implemented 台帳= 不整合(逆向き)"),
+                ("ECO-908", "verified", "en-noverified.md", "LEDGER_INCONSISTENT", "verified 語のない Closure はクローズでない"),
+                ("ECO-909", "verified", "en-fenced.md", "LEDGER_INCONSISTENT", "fence 内の英語 Closure は無視")):
+            got = project({"id": eid, "title": "t", "status": st, "order_ref": f"bomdd/{ref}"}, root,
+                          "bomdd/60-change-register.yaml")["stop_type"]["value"]
+            if got != want:
+                fails.append(f"ECO-123 {arm}: {eid} stop_type {got} != {want}")
         j = jobs["ECO-901"]
         if j["write_scope"]["value"] != ["a.py"] or j["job"]["value"] != "JOB-ECO-901":
             fails.append("ECO-901: 導出欄が不正")
@@ -1157,7 +1216,7 @@ def _report(fails) -> int:
     if fails:
         print("bomdd-job selftest FAILED:\n  " + "\n  ".join(fails))
         return 1
-    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕・r4: instrument_paths 正規形・statuses 語彙・required 辞書順 / F2〔ECO-072〕: 配員欄→台帳実在・fence 内無視・未知 id/構文外/重複= LEDGER_INCONSISTENT・台帳不在= MISSING_INPUT・台帳 id 重複/構文外= 不正 / r1: IA-01 未選択 entry の非文字列軸= 台帳不正・IA-03 HTML コメント/他節/節なしの言及は配員でない・下位見出しは節内 / F6〔ECO-074〕: inspector 宣言→ required / F7〔ECO-077〕: roles 必須キー・by_role 陽性/陰性・map 不在= unknown・receipt_author_role 射影〔文字列のみ・欄なし null・stop/required 不変〕・roles 欠落/空/語彙外/重複/非配列/大文字= MAP_INVALID・語彙内 2 語= 通過)")
+    print("bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / ECO-123 英語 Closure 4 腕〔verified 台帳= NONE・implemented 台帳= 不整合・verified 語なしはクローズでない・fence 内無視〕 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプション MISSING_INPUT / F1: map 実在+source 実在・陽性/陰性 class・fence 内 receipt 無視・map 不在/sc 不能/order 不在= unknown・r1: 型不正 MAP_INVALID・source 断片の陰性対照・区切りを跨がない glob・r2: 空 source 要素・unhashable id・空配列= MAP_INVALID・r3: canonical skill ID〔文法+大小文字込み実在+重複拒否〕・r4: instrument_paths 正規形・statuses 語彙・required 辞書順 / F2〔ECO-072〕: 配員欄→台帳実在・fence 内無視・未知 id/構文外/重複= LEDGER_INCONSISTENT・台帳不在= MISSING_INPUT・台帳 id 重複/構文外= 不正 / r1: IA-01 未選択 entry の非文字列軸= 台帳不正・IA-03 HTML コメント/他節/節なしの言及は配員でない・下位見出しは節内 / F6〔ECO-074〕: inspector 宣言→ required / F7〔ECO-077〕: roles 必須キー・by_role 陽性/陰性・map 不在= unknown・receipt_author_role 射影〔文字列のみ・欄なし null・stop/required 不変〕・roles 欠落/空/語彙外/重複/非配列/大文字= MAP_INVALID・語彙内 2 語= 通過)")
     return 0
 
 

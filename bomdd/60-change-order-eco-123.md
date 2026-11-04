@@ -112,6 +112,45 @@ required_gates: [V1, V2, V3, V4]
 
 Conditions are frozen at filing; results go to the closing section.
 
+## 4. Manufacture and the measurements before commit (2026-11-04, the user's "起票どおり製造")
+
+**Start.** Baseline the filing commit `a968c51` (CI run 41769003840 success); the tree clean apart from ECO-119's untracked R8 report,
+which this ECO does not touch.
+
+**What was changed** (`method/tools/bomdd-job.py` only):
+- `CLOSE_HEAD_RE`: `(?:クローズ|Closure)` in place of `クローズ`; nothing else in the rule.
+- Header limit (1): both words, and the 59 pre-convention orders declared.
+- Job selftest (`_selftest_body`): four English-heading arms (ECO-906 to ECO-909), projected from entries built in place, so the fixture
+  register and every later arm that counts its entries are untouched; the PASS line names them.
+- Dwell selftest (`_dwell_cache_arms`, now also given the fixture's `git` and a list for arms not run): **key-follows-source** writes a copy
+  of the tool's own file with the line `data = yaml.load(blob, Loader=_dwell_loader())` given a trailing comment, imports it, and runs it on
+  the cache the original wrote (expects hits 0, `version key differs`, write ok, result unchanged); when the source cannot be read, the arm
+  is named as not run on the PASS line; **amend** rewrites the cache with the original key, appends a line to the register, amends the last
+  commit, and expects parsed 1, the result unchanged, a rewritten-away blob in the file before and none outside the history after.
+
+**Departures:** none from section 1. One choice of the manufacturer: the English-heading arms project entries directly instead of adding
+rows to the shared fixture register (recorded above).
+
+**Evidence** is in `bomdd/reports/eco-123-job-gauge/manufacture/` (README.md of the folder above lists each file). Every run used the
+same tool file (sha256 `dfb4e5dc0de32c2c…`, printed by `v14.py` and checked again before the commit); the filing tree's tool is
+`fe2961aa7129df76…` (`git archive a968c51 method`).
+
+- **V1 result: PASS** (`v14.py`, `v14.txt`): of the register's 123 entries, 111 give byte-identical `--json`; the 12 that differ are
+  exactly ECO-105 to ECO-111, ECO-116 to ECO-118, ECO-120 and ECO-121, each in `stop_type` only, `LEDGER_INCONSISTENT` → `NONE`. The 59
+  pre-convention entries are among the identical.
+- **V2 result: PASS** (same run): `bomdd-job.py --selftest` exit 0; its lines name the four English-heading arms and the two new cache arms
+  (6 of 6). The dwell selftest now runs 8 cache arms.
+- **V3 result: PASS** (`mutants123.py`, `mutants123.txt`; copies run from a temporary directory):
+  - unchanged copy: dwell selftest PASS, no `ECO-123` failure in the job selftest (control);
+  - M1: dwell selftest FAILED on `cache key-follows-source` (hits 8, no miss); M3: FAILED on `cache amend` (one blob outside the history
+    kept); M2: FAILED (also on `cache amend`); M4: `UNMEASURABLE` — neither PASS;
+  - the old `CLOSE_HEAD_RE`: the job selftest names `ECO-123 英語 Closure+verified 台帳= NONE` and the reverse-direction arm.
+- **V4 result: PASS** (`v14.txt`): `--all --json` (13,526 bytes) and `--all` (9,199) byte-identical; `--dwell` on BomDD (3 open) and
+  ViewTube (173 open) in-process at a fixed `now`, no cache, text and JSON byte-identical between the tools; `_dwell_cache_key()` equal;
+  `bomdd-run.py --selftest` exit 0. The self-conformance and CI parts are recorded at closure.
+
+**Not done here:** the commit's self-conformance and CI (V4), the closure.
+
 ## /preflight receipt (start path: manual — the user's "1 本で起票する" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's choice to file both findings as one ECO; filing only).

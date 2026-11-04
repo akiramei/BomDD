@@ -1,0 +1,7 @@
+unchanged: dwell selftest PASS; named new cache arms []; job ECO-123 failures [] -> as expected
+M1: dwell selftest FAILED; named new cache arms ['cache key-follows-source: hits=8 != 0', "cache key-follows-source: read_miss=None != 'version key differs'", "cache key-follows-source: write=None != 'ok'"]; job ECO-123 failures [] -> as expected
+M2: dwell selftest FAILED; named new cache arms ['cache amend: 結果が --no-cache と違う']; job ECO-123 failures [] -> as expected
+M3: dwell selftest FAILED; named new cache arms ['cache amend: 履歴にない版がキャッシュに残った(1 件)']; job ECO-123 failures [] -> as expected
+M4: dwell selftest bomdd-job dwell selftest UNMEASURABLE: FileExistsE; named new cache arms []; job ECO-123 failures [] -> as expected
+OLD-RE: dwell selftest PASS; named new cache arms []; job ECO-123 failures ['ECO-123 英語 Closure+verified 台帳= NONE: ECO-906 stop_type LEDGER_INCONSISTENT != NONE', 'ECO-123 英語 Closure+implemented 台帳= 不整合(逆向き): ECO-907 stop_type NONE != LEDGER_INCONSISTENT'] -> as expected
+V3 PASS
