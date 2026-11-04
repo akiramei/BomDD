@@ -241,6 +241,171 @@ same six ruled-layer commits after them (`git rev-list --count <x>..HEAD -- <the
 
 **Not done here:** the commit's CI, the R8 round, the closure.
 
+**CI on `3d16181`:** success (run 40891374976).
+
+## 4A. R8 round 1 and the rulings on it (2026-10-29 → 2026-11-04)
+
+**R8 round 1: REJECT**, with 3 material and 8 minor findings. The summary is in `bomdd/reports/eco-119-ruled-layer/r8-round-1.md`.
+**Rulings:** user, 2026-11-04, "1:A 2:A 3:A 4:A 5:A" on the five points put to them:
+1. **Merges.** A merge is judged by its diff from the first parent (the view the first layer has), and its base is the combined register
+   of its parents. Cost, as stated in the question: a merge that brings ruled changes needs a trailer naming an ECO that is open there,
+   so the ECO is applied after the merge. Option B was rejected: it would accept a merge whose branch commits were each ruled.
+2. **`since` form.** `since` is a full commit SHA; the tag goes in a comment.
+3. **The replay's start.** The replay starts at the later of `since` and the commit that introduced the field.
+4. **Message parity.** A commit is refused when the trailer read with the comment lines removed differs from the trailer read from the
+   raw message.
+5. **Rounds.** Fix, then R8 round 2. Round 2 is the last: a REJECT stops for the user.
+
+The minor findings (R8-1-02, 05, 06, 07, 08, 11) are fixed without a ruling. With the user's go-ahead came a request to check, before
+continuing, that the many commits since the manufacture leave this work valid.
+
+**/preflight receipt (start path: the user's request, "このまま継続して問題ないか事前に確認して", 2026-11-04)**
+- **Classification:** continuation. This is an implemented ECO that is being fixed under rulings. The authority for it is this order,
+  its register entry and the R8 report.
+- **Baseline `2e94683` — confirmed.** HEAD equals `origin/main`. CI success on it (run 41827828764). The tree is clean apart from the R8
+  report, which is untracked.
+- **Commits after `3d16181`: 59, none in this ECO's scope — confirmed.**
+  - The 59 are ECO-120..124 and EXP-20261030-01 .. EXP-20261031-03.
+  - `git diff --quiet 3d16181 HEAD` is empty for every path this ECO changes: `method/templates/process-core/`,
+    `method/tools/bom-structure-check.py`, `method/tools/self-conformance.py`, `method/templates/60-change-order.md`,
+    `method/templates/34-routing.yaml`, this order and the evidence folder.
+  - Three files overlap. In `method/bomdd-playbook-v1.md`, ECO-120/124 add to §8 only; this ECO changes §4.5 and §7. `AGENTS.md` and
+    the register template get comments about the dwell view. `bomdd/60-change-register.yaml` gets other ECOs' entries; this ECO's
+    entry is unchanged since `3d16181`.
+- **Current state — confirmed.** The register reads `implemented`. The dwell view (ECO-120) shows this ECO open for 5.9 days with no
+  reason recorded. It is not on a DECIDE line: under ECO-124 that line is for items past 14 days.
+- **Unresolved items — confirmed** from the R8 report: R8-1-01..11.
+- **Other writers — confirmed none.** No other Claude Code session is running in this repository (the app's session list, 2026-11-04).
+- **Acceptance target — confirmed.** V1-V5 (section 3), with the conditions changed by the rulings recorded below.
+- **Discovered — the closure's diff window.** The window from this ECO's baseline to its fix contains the 59 foreign commits. The window
+  check counts only this ECO's commits. Each other commit in the range is shown as belonging to its own ECO or EXP, read from its
+  subject. Its paths are not counted against this ECO's `allowed_paths`.
+- **Start decision: PROCEED.** Overrides: none.
+
+**Frozen conditions changed by the rulings** (the changes are recorded here; sections 1-3 keep their frozen text):
+- **T1, `since`** (ruling 2:A). `since` is the release commit's full SHA (40 or 64 lowercase hex), and the tag goes in a comment.
+  `validate_profile` refuses any other form, so a tag name, a short SHA, `HEAD` or upper case make the profile invalid (exit 2).
+  Section 2's "moving `since` is a profile change E08 records" is now true: the SHA cannot move without a diff of the profile. In the
+  tag form it was false (R8-1-03).
+- **T1, `paths`** (R8-1-06). An entry matches the path itself or anything under it, with or without a trailing `/`. This replaces "a
+  trailing `/` marks a directory": `bomdd/adr` written without the slash used to match nothing. Backslashes, `.`, `..`, empty segments,
+  leading or trailing spaces, absolute paths and drive letters make the profile invalid. In full mode, an entry that matches no file at
+  HEAD is printed as a warning; it is measured, not stopped, because a product may create its ADR folder later.
+- **T2/T4, the boundary** (rulings 1:A and 3:A; both layers read it the same way, in the class `RuledBoundary`).
+  - A parent is **after the boundary** when `since` is that parent or one of its ancestors, and that parent's profile has
+    `ruled_layer`.
+  - A commit is judged by its diff from its **first parent**, when the first parent is after the boundary. Otherwise it is judged by
+    its diff from the first parent, in parent order, that is after the boundary. When no parent is after the boundary, the commit is
+    not judged.
+  - The base is the parents' combined register (REV-13, as E01 has it).
+  - The second rule exists for one form: `main` is merged into a branch forked before the field, and `main` is then fast-forwarded.
+    The first parent is the old branch, so a first-parent-only rule would skip the change the branch brings in. For every other merge
+    the base is the first parent, as ruled.
+  - In that form HEAD's profile has no field. The first layer then takes the field from the other parent's profile. NEW-02's "HEAD's
+    profile governs" is not weakened by this, since the addition can only add a refusal.
+  - The replay's candidates are the descendants of `since` (`--ancestry-path`): non-merges that touch a ruled path, and every merge
+    (the path-limited listing's merge simplification is not relied on). Paths are read with `-z` (R8-1-02).
+  - `since` not on HEAD's line is refused in the first layer and gives exit 2 in the replay. This covers the case where `since` has
+    moved off the line (R8-1-03).
+- **T2, message parity** (ruling 4:A). The trailer is read twice, from the message as the hook receives it and with the comment lines
+  removed. When the two readings differ, the commit is refused, and the refusal says to use `-m` or `-F <file>` with no `#` line after
+  the trailer.
+  - Two forms are refused: an editor's comment block (git stores the stripped text, the hook receives it raw) and an `-m "# note"`
+    paragraph after the trailer (git keeps it).
+  - A commit that passes the hook therefore reads the same in the replay, whatever cleanup mode git applies.
+
+**Earlier derived choices of section 4 that are replaced:**
+- **D3** — the comment-stripped reading is kept, and the parity check is added (above).
+- **D6** — every id the trailer names must exist in the parent register; then one id that is open and whose order cites the touched
+  files suffices. The full mode's E07 reads the ruling trailer whenever `ruled_layer` is set, whether or not `trailers.ruling` names
+  it (R8-1-07). Before this, the two disagreed when the name was set.
+- **D7** — replaced by the boundary above. A merge of a branch that changed the ruled layer needs a trailer naming an ECO that is open
+  in the combined register, so that ECO is applied after the merge. This is ruling 1:A's stated cost, and R8-1-09's account of it is
+  accepted as written: a branch whose ECO was filed, used and applied on the branch cannot be merged under that ECO's name.
+- **D8** — the `--ancestry-path` boundary is kept for the candidates. Its round-1 justification depended on V1's side-branch release
+  and no longer applies: V1 and N23 now put the release on main.
+- **D12** — extended (R8-1-08). An amend of an ECO's filing commit that adds a ruled change under that ECO's trailer passes the first
+  layer, because HEAD's register already has the ECO open. The replay judges the stored commit and reports it. Declared with
+  `--no-verify`.
+
+**New derived choices (decided and reported, ECO-106):**
+- D13 — `order_ref` must be a repository-relative path in the `paths` form. Otherwise the reason is "order_ref がリポ相対のパスでない"
+  (R8-1-11: `/Sources read` used to be read as git's `<rev>:/<text>` search).
+- D14 — the change-order template's example uses `<line>`, which the count does not match. An untouched template therefore cites
+  nothing (R8-1-05).
+- D15 — the qualification's trailer name comes from the installed profile (`trailers.ruling`, else the default), as ECO-024 requires
+  (R8-1-07).
+
+## 4B. Round 2 — the fix and the measurements before commit (2026-11-04)
+
+**What was changed** (from `3d16181`):
+- `process-validator.py`:
+  - `validate_profile`: `since` must be a full SHA; `paths` entries must have the `repo_rel_path_ok` form.
+  - Shared functions: `ruled_paths_touched` matches a path or anything under it; `order_ref_of` checks `order_ref` (D13);
+    `ruled_layer_issues` requires every named id to exist (D6).
+  - New: `trailer_parity_issue` (ruling 4:A), `merge_heads`, `RuledBoundary`, `ruled_profile_of_merge`, `staged_paths_from`.
+  - The first layer `check_ruled_layer` now takes the raw and the stripped message.
+  - The replay is rewritten on the boundary, with `-z`. In full mode, E07 reads the ruling trailer, and a `paths` entry that
+    matches nothing is printed as a warning.
+  - Selftest: 98 arms, all PASS.
+- `process-qualification.py`: N23 is rebuilt. The release is on main and the field is added later as a SHA. There are 23 controls
+  (N23a-w). N23m compares the exact set of commits the replay reports with the expected set. The round-1 check,
+  `"sneaked" not in`, could never fail (R8-1-11).
+- `process-profile.yaml`: the comment gives the SHA form and says the replay starts after the field. Round 1's "moving `since` is a
+  profile change" is now true.
+- `60-change-order.md`: the example cites with `<line>` (D14).
+- The playbook: §4.5's bracket says SHA, from the field's commit, merges by the first parent with the ECO applied after the merge,
+  and `-m`/`-F`. §7's clause says the tag's commit SHA, with the tag in a comment.
+- Evidence: `verify119.py` (V1) puts the release on main, adds the field in a later commit, and gets two new arms (below).
+
+**Evidence notes (R8-1-11):**
+- V2's frozen "known-bad of the gate itself" (section 3) has been carried by V1 since round 1: `check_ruled_layer` disabled → the
+  `0b50020` arm gets through. Round 1 did not record this move from N23 to V1, and it is recorded here. The qualification has no arm
+  that edits its own installed validator.
+- V1's KB2 changes meaning. In round 1 it removed `--ancestry-path`, which mattered only because V1 put the release on a side branch.
+  It now removes the field gate (`has_field` returns True): the change made after the release and before the field is then reported
+  too.
+
+**V1 — PASS** (`out/v1.txt`; the six commits of section 0 in their real order):
+- Unchanged from round 1: every arm's verdict, and the history E13 for `79f1791` as the only E13.
+- New arm: a ruled change after the release and before the field is allowed (ruling 3:A).
+- New KB2: without the field gate, the replay reports 2 E13.
+- The refusals now read "名指す ID はすべて台帳に実在すること" where round 1 read "親の台帳に無い" (D6).
+
+**V2 — PASS** (`out/v2.txt`; a fresh scaffold of this tree, the qualification with `--runs 2`; disposition PASS, the two runs
+identical, 70 controls):
+- The 23 N23 controls, each with its verdict line.
+- Allowed (no E13):
+  - before the release, and after the release but before the field (N23a, p);
+  - an open ECO whose order cites the file (N23j);
+  - a commit touching no ruled path (N23l);
+  - no field (N23o).
+- Refused with E13:
+  - no trailer; an id not in the register, also next to one that qualifies (N23b, c, c2);
+  - a closed ECO; no order; no `Sources read` section; a file cited 0 times; a deletion; a rename out of a ruled path (N23d-i);
+  - an editor's comment block, and an `-m "# note"` paragraph after the trailer (N23k, q — ruling 4:A);
+  - merges (ruling 1:A): a branch forked before the release (N23r); `main` merged into a branch without the field (N23s); a
+    post-release branch, refused without a trailer and allowed with an open ECO's trailer (N23t);
+  - `since` that does not resolve, and `since` off HEAD's line (N23n, v).
+- Reported by the replay as exactly the expected set of commits (N23m): a `--no-verify` change, a non-ASCII path, a pre-release
+  branch's merge, and a fast-forward to a merge of `main` into a branch without the field. The commit before the field and the
+  correctly ruled commits are not reported.
+- Exit 2 for a `since` written as a tag name (N23w).
+- **The first run had one FAIL, N23v.** That arm set `since` to the `early` branch's tip, which N23m had already merged into main, so
+  the commit was on HEAD's line and the arm could not fail. The arm now uses a commit that exists only on a side branch. The validator
+  did not change.
+- The script's expected count went from 15 to 23. The second run reported "V2: FAIL" only because it still expected 15. The verdict
+  line comes from the third run.
+
+**V3 — PASS** (`out/v3.txt`): a scaffold of `42a6158` (before the ECO, as in round 1) and of this tree (after). The 47 controls present in
+both have the same verdict and the same detail. Only the 23 N23 controls are new; no control is only in "before"; there is no E13 in
+the before run.
+
+**V5:**
+- self-conformance exit 0 on the tree with the N23v fix: C11 and C11b 70 controls each, both runs identical, 703.8 s. The order and
+  the evidence files were changed after that run.
+- The final run before the commit, and the CI after the push, are below.
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling, item 2; filing only).

@@ -33,7 +33,12 @@
                                           <id>」が名指す ECO が**親(HEAD)の台帳で open**(起票は先の commit)
                                           で、その指示書の `Sources read` 節が触れた各ファイルを path:line で
                                           1 回以上引くことを要求する(引用数 0 は遮断 — 測る)。削除・rename の
-                                          両側も数える。since が解決できなければ遮断。履歴再演でも同じ判定を
+                                          両側も数える。since は commit の完全な SHA(tag は差分なしに動かせる)・
+                                          解決できない/HEAD の系列に無ければ遮断。名指す ID はすべて台帳に実在・
+                                          trailer の読みがコメント行の扱いで変わる commit も遮断(-m / -F で書く)。
+                                          境界= since の後で、その親の profile に欄がある(欄を足す前は判定しない)。
+                                          merge は第 1 親との差分(第 1 親が境界より前なら、境界の後にある最初の
+                                          親との差分)・比較元は親の台帳の合算 — 両層で同じ。履歴再演でも同じ判定を
                                           その時点の台帳と指示書で行う(--no-verify・amend を第 2 層が検出)。
                                           止めないもの: 誰が裁定したか・資料を本当に読んだか・変更が正しいか
   E12 structure-check-failed-at-acceptance : (profile に structure_check がある場合のみ — ECO-118)
@@ -146,6 +151,15 @@ CORE_EQUIPMENT = ["bomdd/process-profile.yaml", "bomdd/hooks/pre-commit", "bomdd
 PLACEHOLDER_TITLES = {"<一行要約>"}
 
 PROFILE_REL = "bomdd/process-profile.yaml"
+FULL_SHA_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")  # E13 の since(ECO-119 裁定 2:A)
+
+
+def repo_rel_path_ok(x) -> bool:
+    """E13 の paths と order_ref(ECO-119 R8-1-06/11): git のパス表記のリポ相対パス。逆スラッシュ・絶対・ドライブ・
+    `.`/`..`/空の区切り・前後の空白は不可(当たらない欄は守らない — 無音の無効化を形で止める)。"""
+    return (isinstance(x, str) and x != "" and x == x.strip() and "\\" not in x
+            and not re.match(r"^(/|[A-Za-z]:)", x)
+            and all(seg not in ("", ".", "..") for seg in x[:-1 if x.endswith("/") else None].split("/")))
 
 
 # --- 厳格 YAML(重複キー=情報損失を遮断) -------------------------------------------
@@ -225,11 +239,14 @@ def validate_profile(prof) -> list[str]:
     if "ruled_layer" in prof:  # ECO-119: 任意キー。書いたなら since と paths を正しく持つ(壊れた値の無音無効化を遮断)
         rl = prof["ruled_layer"]
         paths = rl.get("paths") if isinstance(rl, dict) else None
-        if not (isinstance(rl, dict) and set(rl) == {"since", "paths"} and isinstance(rl.get("since"), str) and rl["since"]
-                and isinstance(paths, list) and paths
-                and all(isinstance(x, str) and x and not re.match(r"^([/\\]|[A-Za-z]:)", x)
-                        and ".." not in x.replace("\\", "/").split("/") for x in paths)):
-            errs.append("ruled_layer は {since: 非空の commit-ish, paths: リポ相対の非空パスの非空 list} だけを持つ")
+        if not (isinstance(rl, dict) and set(rl) == {"since", "paths"}
+                and isinstance(paths, list) and paths and all(repo_rel_path_ok(x) for x in paths)):
+            errs.append("ruled_layer は {since: commit の完全な SHA, paths: リポ相対の非空パス〔区切りは /・./ や .. や"
+                        "空の区切りや前後の空白なし〕の非空 list} だけを持つ")
+        elif not (isinstance(rl.get("since"), str) and FULL_SHA_RE.match(rl["since"])):
+            # ECO-119 裁定 2:A(R8-1-03): tag は差分を残さずに動かせる(git tag -f)— SHA なら動かすと本ファイルの差分= E08
+            errs.append("ruled_layer.since は commit の完全な SHA(40 か 64 桁の小文字 16 進)— tag 名はコメントに書く"
+                        "(tag は差分なしに動かせるため)")
     if "structure_check" in prof:  # ECO-118: 任意キー。書いたなら非空の相対パス(壊れた値の無音無効化を遮断)
         sc = prof["structure_check"]
         if not (isinstance(sc, str) and sc and not re.match(r"^([/\\]|[A-Za-z]:)", sc)
@@ -453,6 +470,8 @@ def scan_history(root: Path, prof: dict) -> dict:
     対象外にして warn(履歴は不変のため die しない)。"""
     ensure_git_repo(root)
     raw: dict[str, set[str]] = {n: set() for n in prof["trailers"].values()}
+    if prof.get("ruled_layer"):  # ECO-119 R8-1-07: 欄があれば ruling trailer も E07 が読む(名前を書いたかどうかによらない)
+        raw.setdefault(prof["trailers"].get("ruling", RULING_TRAILER_DEFAULT), set())
     linked: dict[tuple[str, str], list[str]] = {}
     out: dict = {"violations": [], "linked": linked, "raw": raw, "required": None, "note": ""}
     if not head_exists(root):
@@ -543,33 +562,39 @@ def scan_history(root: Path, prof: dict) -> dict:
                     f"open 状態({prof['open_states']})の ECO がない(第 1 層を回避した"
                     f"保護パス変更を第 2 層が検出)")
 
-    # --- E13 の履歴版(ECO-119 T4)— since 以後で裁定層に触れた commit を、その時点の親の台帳と、その commit の
-    # 指示書で判定し直す。--no-verify・hook 設置前・amend で第 1 層を通らなかった変更をここで見つける ---
+    # --- E13 の履歴版(ECO-119 T4)— 境界の後で裁定層に触れた commit を、その時点の親の台帳(merge は合算)と、その
+    # commit の指示書で判定し直す。--no-verify・hook 設置前・amend で第 1 層を通らなかった変更をここで見つける ---
     rl = prof.get("ruled_layer")
     if rl:
-        sp = run_git(root, "rev-parse", "--verify", "-q", f"{rl['since']}^{{commit}}")
-        if sp.returncode != 0:
+        since = resolve_commit(root, rl["since"])
+        if since is None:
             die(f"ruled_layer.since '{rl['since']}' が解決できない(裁定層の履歴検査が測定不能)")
-        # --ancestry-path: since の子孫だけ(merge で入った「since より前の枝」の commit を数えない — 第 1 層の
-        # 「since が HEAD の祖先」と同じ境界。V1 の実測で、無いと設計リリース前の commit 3 本を誤って報告した)
-        q = run_git(root, "rev-list", "--reverse", "--full-history", "--ancestry-path", f"{sp.stdout.strip()}..HEAD",
-                    "--", *rl["paths"])
-        if q.returncode != 0:
-            die(f"裁定層の履歴の走査が失敗(検査面が測定不能): {q.stderr.strip()}")
+        bd = RuledBoundary(root, since)
+        head = resolve_commit(root, "HEAD")
+        if not bd.after_since(head):
+            die(f"ruled_layer.since {rl['since'][:12]} が HEAD の系列に無い(裁定層の履歴検査が測定不能 — "
+                f"欄は設計リリースの後に、その commit の SHA で書く)")
+        # 候補= since の子孫(--ancestry-path)。非 merge は裁定層に触れたものだけ・merge は全部(パス限定の簡略化に
+        # 頼らない — 判定は基点の親との差分で行う。裁定 1:A・R8-1-01)
+        q = run_git(root, "rev-list", "--reverse", "--full-history", "--no-merges", "--ancestry-path",
+                    f"{since}..HEAD", "--", *rl["paths"])
+        a = run_git(root, "rev-list", "--reverse", "--parents", "--ancestry-path", f"{since}..HEAD")
+        if q.returncode != 0 or a.returncode != 0:
+            die(f"裁定層の履歴の走査が失敗(検査面が測定不能): {(q.stderr or a.stderr).strip()}")
+        touching = set(q.stdout.split())
         name = prof["trailers"].get("ruling", RULING_TRAILER_DEFAULT)
-        for sha in [s for s in q.stdout.split() if s]:
-            par = run_git(root, "log", "-1", "--format=%P", sha)
+        for row in a.stdout.splitlines():
+            sha, *parents = row.split()
+            if len(parents) < 2 and sha not in touching:
+                continue
+            base_p = bd.base_parent(parents)
+            if base_p is None:
+                continue                      # 境界より前(親の profile に欄が無い — 裁定 3:A)
+            d = run_git(root, "diff-tree", "-r", "--no-renames", "--name-only", "-z", base_p, sha)
             body = run_git(root, "log", "-1", "--format=%B", sha)
-            if par.returncode != 0 or body.returncode != 0:
+            if d.returncode != 0 or body.returncode != 0:
                 die(f"commit を読めない: {sha[:9]}(裁定層の履歴検査が測定不能)")
-            parents = [x for x in par.stdout.split() if x]
-            # merge は全親に対する差分(衝突の解決で入った変更)だけを数える — 枝の commit は自分で判定される
-            args = (["diff-tree", "--cc", "--no-commit-id", "--name-only", sha] if len(parents) > 1
-                    else ["diff-tree", "--no-commit-id", "--name-only", "-r", "--no-renames", "--root", sha])
-            d = run_git(root, *args)
-            if d.returncode != 0:
-                die(f"変更パスを読めない: {sha[:9]}(裁定層の履歴検査が測定不能)")
-            touched = ruled_paths_touched([x for x in d.stdout.splitlines() if x], prof)
+            touched = ruled_paths_touched([x for x in d.stdout.split("\0") if x], prof)
             if not touched:
                 continue
             pregs = []
@@ -580,15 +605,25 @@ def scan_history(root: Path, prof: dict) -> dict:
                 pregs.append(r)
             base = combine_parents(pregs, prof) if pregs else {}
 
-            def order_at(cid: str, e: dict, _sha=sha) -> str | None:
-                ref = e.get("order_ref") or f"bomdd/60-change-order-{cid.lower()}.md"
+            def order_at(ref: str, _sha=sha) -> str | None:
                 p = run_git(root, "show", f"{_sha}:{ref}")
                 return p.stdout if p.returncode == 0 else None
 
             why = ruled_layer_issues(touched, parse_trailers(body.stdout).get(name, []), base, prof, order_at)
             if why:
-                out["violations"].append(f"[E13] {REASONS['E13']}: history:{sha[:9]} 裁定層 {touched} の変更 — "
+                via = "" if base_p == parents[0] else f"(merge — 基点は境界の後にある親 {base_p[:9]})"
+                out["violations"].append(f"[E13] {REASONS['E13']}: history:{sha[:9]} 裁定層 {touched} の変更{via} — "
                                          + " / ".join(why) + "(第 1 層を通らなかった変更を第 2 層が検出)")
+        # 当たらない欄は守らない(R8-1-06)— 綴りの誤りを黙らせない(測る・止めない: 製品は ADR の置き場を後で作りうる)
+        ls = run_git(root, "ls-tree", "-r", "--name-only", "-z", "HEAD")
+        if ls.returncode != 0:
+            die(f"HEAD のファイルを列挙できない(裁定層の欄の照合が測定不能): {ls.stderr.strip()}")
+        files = [x for x in ls.stdout.split("\0") if x]
+        for e in rl["paths"]:
+            if not ruled_paths_touched(files, {"ruled_layer": {"paths": [e]}}):
+                print(f"process-validator: [warn] ruled_layer.paths の '{e}' は HEAD のどのファイルにも当たらない"
+                      f"(綴りを確かめる — 当たらない欄は何も守らない)")
+
 
     # --- trailer 走査(E07 の raw + 合法遷移のみの証拠採用)---
     p = run_git(root, "log", "--format=%H%x01%B%x02")
@@ -864,8 +899,10 @@ def check_structure(root: Path, old: dict[str, dict], new: dict[str, dict], prof
 
 # --- E13(ECO-119): 裁定層の変更は、それを名指す open な ECO と、その指示書の Sources read を要求する ---
 def ruled_paths_touched(paths: list[str], prof: dict) -> list[str]:
-    entries = (prof.get("ruled_layer") or {}).get("paths") or []
-    return sorted({p for p in paths for e in entries if (p.startswith(e) if e.endswith("/") else p == e)})
+    """裁定層に当たるパス。欄はそのパス自身か、その下(末尾の / の有無を問わない — R8-1-06: `bomdd/adr` と
+    書いても `bomdd/adr/` と同じく下のファイルに当たる)。"""
+    entries = [e.rstrip("/") for e in ((prof.get("ruled_layer") or {}).get("paths") or [])]
+    return sorted({p for p in paths for e in entries if p == e or p.startswith(e + "/")})
 
 
 def sources_read_section(order_text: str) -> str | None:
@@ -890,25 +927,37 @@ def citation_counts(section: str, touched: list[str]) -> dict[str, int]:
     return {p: len(re.findall(r"(?<![\w./-])" + re.escape(p) + r":\d+(?:-\d+)?(?!\d)", section)) for p in touched}
 
 
+def order_ref_of(cid: str, e: dict) -> str | None:
+    """指示書のパス。order_ref が無ければ既定名。リポ相対の正しい形でなければ None(R8-1-11: `/Sources read` のような
+    値が git の `<rev>:/<text>` 構文として読まれないように — 不正は「指示書が無い」側へ倒す)。"""
+    ref = e.get("order_ref") or f"bomdd/60-change-order-{cid.lower()}.md"
+    return ref if repo_rel_path_ok(ref) and not ref.endswith("/") else None
+
+
 def ruled_layer_issues(touched: list[str], named: list[str], head_entries: dict[str, dict], prof: dict,
                        order_text_of) -> list[str]:
-    """E13 の判定(純関数・第 1 層と履歴再演が共有)。空なら充足。named= ruling trailer が名指す ID。
-    order_text_of(cid, entry) -> 指示書の本文 | None(不在)。名指す ID のどれか 1 つが全条件を満たせば充足。"""
+    """E13 の判定(純関数・第 1 層と履歴再演が共有)。空なら充足。named= ruling trailer が名指す ID・head_entries= 親の
+    台帳(merge は親の合算)。order_text_of(ref) -> 指示書の本文 | None(不在)。
+    名指す ID は**すべて**親の台帳に実在すること(R8-1-07: 全モードの E07 と同じ規則 — 1 つでも無ければ遮断)、
+    そのうち 1 つが open で、指示書の Sources read が触れた各ファイルを引けば充足。"""
     if not touched:
         return []
     if not named:
         return [f"ruling trailer が無い(裁定層 {touched} の変更は、それを名指す ECO が要る)"]
+    absent = [cid for cid in named if cid not in head_entries]
+    if absent:
+        return [f"{absent} は親の台帳に無い(名指す ID はすべて台帳に実在すること)"]
     why = []
     for cid in named:
-        e = head_entries.get(cid)
-        if e is None:
-            why.append(f"{cid} は親の台帳に無い")
-            continue
+        e = head_entries[cid]
         if e.get("status") not in prof["open_states"]:
             why.append(f"{cid} は親の台帳で open でない('{e.get('status')}'— 起票は先の commit で・同じ commit の起票は不可)")
             continue
-        text = order_text_of(cid, e)
-        ref = e.get("order_ref") or f"bomdd/60-change-order-{cid.lower()}.md"
+        ref = order_ref_of(cid, e)
+        if ref is None:
+            why.append(f"{cid} の order_ref '{e.get('order_ref')}' がリポ相対のパスでない")
+            continue
+        text = order_text_of(ref)
         if text is None:
             why.append(f"{cid} の指示書 {ref} が無い")
             continue
@@ -924,55 +973,166 @@ def ruled_layer_issues(touched: list[str], named: list[str], head_entries: dict[
     return why
 
 
-def since_applies(root: Path, since: str) -> bool | None:
-    """since が HEAD かその祖先なら True・そうでなければ False・解決できなければ None。"""
-    p = run_git(root, "rev-parse", "--verify", "-q", f"{since}^{{commit}}")
-    if p.returncode != 0:
+def trailer_parity_issue(raw_msg: str, stripped_msg: str, name: str) -> str | None:
+    """ECO-119 裁定 4:A(R8-1-04): 第 1 層はコメント行を除いて読むが、git が保存するのは `-m`/`-F` なら除かない本文
+    (cleanup=whitespace)・エディタなら除いた本文。どちらでも同じ trailer になる commit だけを通す — そうでないと
+    hook を通った commit が履歴の再演で赤になり、前進では直せない。純関数。"""
+    a = parse_trailers(raw_msg).get(name, [])
+    b = parse_trailers(stripped_msg).get(name, [])
+    if a == b:
         return None
-    if not head_exists(root):
-        return False
-    return run_git(root, "merge-base", "--is-ancestor", p.stdout.strip(), "HEAD").returncode == 0
+    return (f"「{name}」の読みがコメント行の扱いで変わる(そのまま {a or 'なし'} / コメント行を除くと {b or 'なし'})— "
+            f"裁定層の変更は `git commit -m` か `-F <file>` で、trailer を最後の段落にし、その後ろに `#` で始まる行を置かずに書く")
 
 
-def staged_paths_no_renames(root: Path) -> list[str]:
-    """rename を削除+追加に分けて数える(rename out で裁定層から逃がさない — ECO-119 T2)。"""
-    p = run_git(root, "diff", "--cached", "--name-only", "--no-renames", "-z")
+def merge_heads(root: Path) -> list[str]:
+    """merge 中の他の親(MERGE_HEAD の全行 — octopus を含む)。merge 中でなければ空。"""
+    p = run_git(root, "rev-parse", "--git-path", "MERGE_HEAD")
+    if p.returncode != 0:
+        die(f"MERGE_HEAD の場所を得られない: {p.stderr.strip()}")
+    path = Path(p.stdout.strip())
+    if not path.is_absolute():
+        path = root / path
+    if not path.is_file():
+        return []
+    out = []
+    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+        q = run_git(root, "rev-parse", "--verify", "-q", f"{line.strip()}^{{commit}}") if line.strip() else None
+        if q is not None:
+            if q.returncode != 0:
+                die(f"MERGE_HEAD の '{line.strip()}' を解決できない(裁定層の判定が測定不能)")
+            out.append(q.stdout.strip())
+    return out
+
+
+class RuledBoundary:
+    """E13 の境界(ECO-119 裁定 1:A・3:A — 両層が共有する git の読み)。
+    親 P が「境界の後」= since が P か P の祖先で、かつ P の profile に ruled_layer がある(欄を足す前の commit は
+    どちらの層でも判定しない — 規則の無かった時期を罰しない)。commit の判定の基点= 第 1 親が境界の後なら第 1 親、
+    そうでなければ親の順で最初に境界の後にある親(main を、欄を足す前に分かれた枝へ merge してから fast-forward する
+    形でも、枝が持ち込む変更を見る)。どの親も境界の後でなければ判定しない。"""
+
+    def __init__(self, root: Path, since_sha: str):
+        self.root, self.since = root, since_sha
+        self._anc: dict[str, bool] = {}
+        self._field: dict[str, bool] = {}
+
+    def after_since(self, rev: str) -> bool:
+        if rev not in self._anc:
+            self._anc[rev] = rev == self.since or run_git(
+                self.root, "merge-base", "--is-ancestor", self.since, rev).returncode == 0
+        return self._anc[rev]
+
+    def has_field(self, rev: str) -> bool:
+        b = run_git(self.root, "rev-parse", "-q", "--verify", f"{rev}:{PROFILE_REL}")
+        if b.returncode != 0:
+            return False                              # profile の無い commit
+        blob = b.stdout.strip()
+        if blob not in self._field:
+            p = run_git(self.root, "cat-file", "blob", blob)
+            try:
+                d = yaml.safe_load(p.stdout) if p.returncode == 0 else None
+            except yaml.YAMLError:
+                d = None
+            if p.returncode != 0 or (d is not None and not isinstance(d, dict)):
+                die(f"{rev[:9]} の profile を読めない(裁定層の境界が測定不能)")
+            self._field[blob] = isinstance(d, dict) and "ruled_layer" in d
+        return self._field[blob]
+
+    def base_parent(self, parents: list[str]) -> str | None:
+        for p in parents:
+            if self.after_since(p) and self.has_field(p):
+                return p
+        return None
+
+
+def resolve_commit(root: Path, rev: str) -> str | None:
+    p = run_git(root, "rev-parse", "--verify", "-q", f"{rev}^{{commit}}")
+    return p.stdout.strip() if p.returncode == 0 else None
+
+
+def staged_paths_from(root: Path, base: str) -> list[str]:
+    """index と base の差分のパス。rename は削除+追加に分けて数える(rename out で裁定層から逃がさない — T2)。"""
+    p = run_git(root, "diff", "--cached", "--name-only", "--no-renames", "-z", base)
     if p.returncode != 0:
         die(f"staged ファイルを列挙できない: {p.stderr.strip()}")
     return [x for x in p.stdout.split("\0") if x]
 
 
-def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, msg: str) -> list[str]:
-    """E13 第 1 層(commit-msg)— profile に ruled_layer があり、since 以後で、staged が裁定層に触れるとき。
-    msg はエディタのコメント行を除いたもの(E12 と同じ — R8-2-01/R8-3-01 の教訓)。"""
-    rl = prof.get("ruled_layer")
-    if not rl or not head_exists(root):  # 最初の commit は設計リリースの後ではありえない
+def ruled_profile_of_merge(root: Path, others: list[str], prof: dict) -> dict | None:
+    """HEAD の profile に欄が無い merge で、他の親の profile にある欄(最初のもの)を HEAD の profile に足したもの。
+    第 1 層は HEAD 版の profile を正とするが(NEW-02)、ここで足すのは止める側だけ — 欄を足す前に分かれた枝へ main を
+    merge してから fast-forward する形(裁定 1:A)。trailer 名もその親の profile から。"""
+    for rev in others:
+        p = run_git(root, "show", f"{rev}:{PROFILE_REL}")
+        if p.returncode != 0:
+            continue
+        try:
+            d = yaml.safe_load(p.stdout)
+        except yaml.YAMLError:
+            die(f"{rev[:9]} の profile を読めない(裁定層の判定が測定不能)")
+        if isinstance(d, dict) and "ruled_layer" in d:
+            tr = dict(prof["trailers"])
+            if isinstance(d.get("trailers"), dict) and d["trailers"].get("ruling"):
+                tr["ruling"] = d["trailers"]["ruling"]
+            eff = dict(prof, ruled_layer=d["ruled_layer"], trailers=tr)
+            errs = validate_profile(eff)
+            if errs:
+                die(f"{rev[:9]} の profile の ruled_layer が不正(裁定層の判定が測定不能): " + "・".join(errs))
+            return eff
+    return None
+
+
+def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str, msg: str) -> list[str]:
+    """E13 第 1 層(commit-msg)。msg はエディタのコメント行を除いたもの(E12 と同じ — R8-2-01/R8-3-01 の教訓)、
+    raw_msg は hook が受け取ったまま(裁定 4:A の突き合わせ)。old= 親の台帳(merge 中は HEAD と MERGE_HEAD の合算)。"""
+    if not head_exists(root):  # 最初の commit は設計リリースの後ではありえない
         return []
-    touched = ruled_paths_touched(staged_paths_no_renames(root), prof)
-    if not touched:
+    head = resolve_commit(root, "HEAD")
+    others = merge_heads(root)
+    eff = prof if prof.get("ruled_layer") else ruled_profile_of_merge(root, others, prof)
+    if not eff:
         return []
-    applies = since_applies(root, rl["since"])
-    if applies is None:
+    rl = eff["ruled_layer"]
+    since = resolve_commit(root, rl["since"])
+    if since is None:
+        touched = ruled_paths_touched(staged_paths_from(root, head), eff)
+        if not touched:
+            return []
         return [f"[E13] {REASONS['E13']}: ruled_layer.since '{rl['since']}' が解決できない — 裁定層 {touched} の変更を"
                 f"判定できない(測定不能は合格ではない)"]
-    if not applies:
+    bd = RuledBoundary(root, since)
+    if prof.get("ruled_layer") and not bd.after_since(head):
+        touched = ruled_paths_touched(staged_paths_from(root, head), eff)
+        if not touched:
+            return []
+        return [f"[E13] {REASONS['E13']}: ruled_layer.since {rl['since'][:12]} が HEAD の系列に無い — 裁定層 {touched} の"
+                f"変更を判定できない(欄は設計リリースの後に、その commit の SHA で書く)"]
+    base = bd.base_parent([head] + others)
+    if base is None:
         return []
-    name = prof["trailers"].get("ruling", RULING_TRAILER_DEFAULT)
+    touched = ruled_paths_touched(staged_paths_from(root, base), eff)
+    if not touched:
+        return []
+    name = eff["trailers"].get("ruling", RULING_TRAILER_DEFAULT)
+    hint = f"(「{name}: <open な ECO>」と、その指示書の Sources read での各ファイルの path:line 引用が要る)"
+    parity = trailer_parity_issue(raw_msg, msg, name)
+    if parity:
+        return [f"[E13] {REASONS['E13']}: 裁定層 {touched} の変更 — {parity}"]
     named = parse_trailers(msg).get(name, [])
 
-    def order_text_of(cid: str, e: dict) -> str | None:
-        ref = e.get("order_ref") or f"bomdd/60-change-order-{cid.lower()}.md"
+    def order_text_of(ref: str) -> str | None:
         for spec in (f":{ref}", f"HEAD:{ref}"):
             p = run_git(root, "show", spec)
             if p.returncode == 0:
                 return p.stdout
         return None
 
-    why = ruled_layer_issues(touched, named, old, prof, order_text_of)
+    why = ruled_layer_issues(touched, named, old, eff, order_text_of)
     if not why:
         return []
-    return [f"[E13] {REASONS['E13']}: 裁定層 {touched} の変更 — " + " / ".join(why)
-            + f"(「{name}: <open な ECO>」と、その指示書の Sources read での各ファイルの path:line 引用が要る)"]
+    via = "" if base == head else f"(merge — 基点は境界の後にある親 {base[:9]})"
+    return [f"[E13] {REASONS['E13']}: 裁定層 {touched} の変更{via} — " + " / ".join(why) + hint]
 
 
 def check_history_evidence(entries: dict[str, dict], prof: dict,
@@ -1116,7 +1276,7 @@ def main() -> int:
                 die(f"メッセージファイルが読めない: {e}")
             vio += check_commit_msg(old, new, msg, prof)
             vio += check_structure(root, old, new, prof, msg)  # E12(ECO-118・profile で opt-in)
-            vio += check_ruled_layer(root, old, prof,           # E13(ECO-119・profile で opt-in)
+            vio += check_ruled_layer(root, old, prof, msg,      # E13(ECO-119・profile で opt-in)
                                      strip_commit_comments(msg, commit_comment_prefixes(root)))
         return report(vio)
 
@@ -1358,26 +1518,38 @@ def selftest() -> int:
        validate_profile(dict(prof2, structure_check="bomdd-kit/method/tools/bom-structure-check.py")) == [])
 
     # E13(ECO-119): 裁定層の保護(純粋部分。git の経路は qualification の N23 が実測)
-    prl = dict(prof2, ruled_layer={"since": "bom-v4", "paths": ["bomdd/20-spec.md", "bomdd/reports/adr/"]})
+    sha40 = "0123456789abcdef0123456789abcdef01234567"
+    prl = dict(prof2, ruled_layer={"since": sha40, "paths": ["bomdd/20-spec.md", "bomdd/reports/adr/"]})
     tb("E13: 裁定層の判定はファイル完全一致かディレクトリ接頭辞",
        ruled_paths_touched(["bomdd/20-spec.md", "bomdd/reports/adr/ADR-1.md", "bomdd/20-spec.md.bak", "src/a.py"], prl)
        == ["bomdd/20-spec.md", "bomdd/reports/adr/ADR-1.md"])
+    tb("E13: 欄の末尾の / の有無を問わない(R8-1-06: 'bomdd/adr' も下のファイルに当たる・接頭辞の一致だけでは当たらない)",
+       ruled_paths_touched(["bomdd/adr/ADR-1.md", "bomdd/adrx/ADR-1.md"], dict(prof2, ruled_layer={"since": sha40, "paths": ["bomdd/adr"]}))
+       == ["bomdd/adr/ADR-1.md"])
     sec = sources_read_section("# T\n## 1. x\nbomdd/20-spec.md:9\n## Sources read\n- bomdd/20-spec.md:12-14\n- xbomdd/20-spec.md:3\n"
                                "### sub\n- bomdd/20-spec.md:20\n## 2. next\nbomdd/20-spec.md:30\n")
     tb("E13: Sources read 節は次の同位以上の見出しまで・引用は path:line の形で境界つき",
        sec is not None and citation_counts(sec, ["bomdd/20-spec.md"]) == {"bomdd/20-spec.md": 2}
        and sources_read_section("## 1. x\nno section\n") is None)
+    tb("E13: 雛形の例(`<path>:<line>`・行番号なし)は引用に数えない(R8-1-05)",
+       citation_counts("- 例: `bomdd/20-spec.md:<line>-<line>` — <なぜ>\n", ["bomdd/20-spec.md"]) == {"bomdd/20-spec.md": 0})
     order_ok = "## Sources read\n- bomdd/20-spec.md:5\n"
-    texts = {"ECO-1": order_ok, "ECO-2": "## 1. no section\n", "ECO-3": "## Sources read\n- bomdd/30-ebom.yaml:1\n"}
-    oto = lambda cid, e: texts.get(cid)
+    texts = {"bomdd/60-change-order-eco-1.md": order_ok, "bomdd/60-change-order-eco-2.md": "## 1. no section\n",
+             "bomdd/60-change-order-eco-3.md": "## Sources read\n- bomdd/30-ebom.yaml:1\n", "orders/eco-5.md": order_ok}
+    oto = lambda ref: texts.get(ref)
     for name_, named, head, expect_ok in [
             ("ruling trailer なし", [], {"ECO-1": e("staged")}, False),
             ("台帳に無い ID", ["ECO-9"], {"ECO-1": e("staged")}, False),
+            ("名指す ID の 1 つが台帳に無ければ、他が満たしても遮断(R8-1-07・E07 と同じ規則)", ["ECO-9", "ECO-1"],
+             {"ECO-1": e("staged")}, False),
             ("open でない(applied)", ["ECO-1"], {"ECO-1": e("applied")}, False),
             ("親の台帳に無い(同じ commit の起票)", ["ECO-1"], {}, False),
             ("指示書が無い", ["ECO-4"], {"ECO-4": e("staged")}, False),
             ("Sources read 節が無い", ["ECO-2"], {"ECO-2": e("staged")}, False),
             ("触れたファイルの引用 0", ["ECO-3"], {"ECO-3": e("staged")}, False),
+            ("order_ref が git の構文になる値(R8-1-11)", ["ECO-1"], {"ECO-1": {"status": "staged", "order_ref": "/Sources read"}}, False),
+            ("order_ref の .. ", ["ECO-1"], {"ECO-1": {"status": "staged", "order_ref": "../x.md"}}, False),
+            ("陽性: order_ref の指示書", ["ECO-5"], {"ECO-5": {"status": "staged", "order_ref": "orders/eco-5.md"}}, True),
             ("陽性: open+節+引用", ["ECO-1"], {"ECO-1": e("staged")}, True),
             ("陽性: 名指す ID の 1 つが満たせば充足", ["ECO-2", "ECO-1"], {"ECO-1": e("staged"), "ECO-2": e("staged")}, True)]:
         got = ruled_layer_issues(["bomdd/20-spec.md"], named, head, prl, oto)
@@ -1385,11 +1557,30 @@ def selftest() -> int:
     tb("E13: 触れていなければ対象外", ruled_layer_issues([], [], {}, prl, oto) == [])
     tb("E13: profile の ruled_layer の壊れた形を遮断",
        all(any("ruled_layer" in x for x in validate_profile(dict(prof2, ruled_layer=v)))
-           for v in ({"since": "x"}, {"since": "", "paths": ["a"]}, {"since": "x", "paths": []},
-                     {"since": "x", "paths": ["/abs"]}, {"since": "x", "paths": ["../a"]}, {"since": "x", "paths": ["a"], "extra": 1}, "x")))
-    tb("陽性: ruled_layer の正しい形・trailers.ruling は fix/accept と別名",
+           for v in ({"since": sha40}, {"since": "", "paths": ["a"]}, {"since": sha40, "paths": []},
+                     {"since": sha40, "paths": ["/abs"]}, {"since": sha40, "paths": ["../a"]},
+                     {"since": sha40, "paths": ["a"], "extra": 1}, "x",
+                     {"since": sha40, "paths": ["bomdd\\adr"]}, {"since": sha40, "paths": ["./bomdd/a"]},
+                     {"since": sha40, "paths": ["bomdd//a"]}, {"since": sha40, "paths": [" bomdd/a"]},
+                     {"since": sha40, "paths": ["C:/a"]})))
+    tb("E13: since は commit の完全な SHA だけ(tag・短縮・大文字は遮断 — 裁定 2:A)",
+       all(any("since" in x for x in validate_profile(dict(prof2, ruled_layer={"since": s, "paths": ["a"]})))
+           for s in ("bom-v4", sha40[:12], sha40.upper(), sha40 + "0", "HEAD")))
+    tb("陽性: ruled_layer の正しい形(40 桁・64 桁)・trailers.ruling は fix/accept と別名",
        validate_profile(prl) == []
+       and validate_profile(dict(prof2, ruled_layer={"since": "a" * 64, "paths": ["bomdd/adr"]})) == []
        and any("ruling" in x for x in validate_profile(dict(prof2, trailers={"fix": "F", "accept": "A", "ruling": "A"}))))
+    rn = "BomDD-ECO-Ruling"
+    for name_, raw_m, expect_ok in [
+            ("陽性: -m の本文(コメント行なし)", "spec\n\nBomDD-ECO-Ruling: ECO-1\n", True),
+            ("-m の後ろに `# 注記` の段落(R8-1-04)", "spec\n\nBomDD-ECO-Ruling: ECO-1\n\n# note\n", False),
+            ("エディタのコメント塊(保存は除いた本文・hook はそのまま受け取る)",
+             "spec\n\nBomDD-ECO-Ruling: ECO-1\n\n# Please enter the commit message\n# Lines starting with '#'\n", False),
+            ("scissors 行の後ろ", "spec\n\nBomDD-ECO-Ruling: ECO-1\n\n# ------------------------ >8 ------------------------\ndiff\n", False),
+            ("陽性: trailer なし同士(判定は E13 本体が行う)", "spec only\n", True)]:
+        got = trailer_parity_issue(raw_m, strip_commit_comments(raw_m, GIT_COMMENT_CANDIDATES), rn)
+        tb(f"E13 裁定 4:A: {name_}", (got is None) == expect_ok, got or "一致")
+
 
     # merge 合算(REV-13)
     combined = combine_parents([{"ECO-1": e("staged")}, {"ECO-1": e("applied")}], prof2)

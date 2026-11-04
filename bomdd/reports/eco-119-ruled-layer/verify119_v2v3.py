@@ -58,7 +58,8 @@ def main():
         v2 = ["# V2 - the qualification's E13 arms (a fresh scaffold of this tree; --runs 2)",
               f"disposition {after['disposition']}, runs identical {after['runs_identical']}, controls {len(a)}"]
         v2 += [f"[{c['control']}] {'PASS' if c['pass'] else 'FAIL'} {c['expected']} - {c['detail']}" for c in n23]
-        ok2 = after["disposition"] == "PASS" and after["runs_identical"] is True and len(n23) == 15 and all(c["pass"] for c in n23)
+        # round 1 had 15 N23 controls (N23a-o); round 2 (order section 4B) has 23 (N23a-w with N23c2)
+        ok2 = after["disposition"] == "PASS" and after["runs_identical"] is True and len(n23) == 23 and all(c["pass"] for c in n23)
         v2.append(f"V2: {'PASS' if ok2 else 'FAIL'} ({len(n23)} N23 controls)")
         common = sorted(set(a) & set(b))
         diff = [k for k in common if (a[k]["pass"], a[k]["detail"]) != (b[k]["pass"], b[k]["detail"])]

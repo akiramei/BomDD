@@ -1,8 +1,10 @@
 """ECO-119 V1 - MoviePad-Remake's ruled-layer history replayed through E13 in a throwaway product made by bomdd-init.py.
 
-The product gets the profile field ruled_layer {since: bom-v4, paths: the four ruled files and bomdd/reports/adr/}. E12 is
-switched off in the same profile commit (structure_check removed) so that only E13 is measured: the copied E-BOM sits beside the
-template M-BOM and Control Plan, which E12 would read. The six commits of the order's section 0 are replayed in their real order,
+The release commit is made on the main line and tagged bom-v4 (MoviePad-Remake's own form); a later profile commit adds the field
+ruled_layer {since: the release's full SHA (the tag in a comment), paths: the four ruled files and bomdd/reports/adr/} (round 2,
+the user's rulings 2:A and 3:A). E12 is switched off in an earlier profile commit (structure_check removed) so that only E13 is
+measured: the copied E-BOM sits beside the template M-BOM and Control Plan, which E12 would read. The six commits of the order's
+section 0 are replayed in their real order,
 each with its ruled files copied from MoviePad-Remake (git, read only) and the register state of its parent recreated with the
 same ECO ids. Every commit goes through the product's hooks. Writes <this folder>/out/v1.txt; the product is removed at the end.
 
@@ -116,24 +118,20 @@ def main():
             write_reg()
             return commit(f"eco: accept {cid}", f"BomDD-ECO-Accept: {cid}", paths=[REG])
 
-        # set-up: an equipment ECO (E08), the field, the release tag on a side branch
+        # set-up: an equipment ECO (E08), structure_check off; the field comes after the release (ECO-119 rulings 2:A, 3:A)
         reg["ECO-900"] = "staged"
         write_reg()
         rc, out = commit("eco: file ECO-900 (equipment: the ruled-layer field)", paths=[REG])
         prof_p = prod / "bomdd/process-profile.yaml"
         text = prof_p.read_text(encoding="utf-8")
         text = "".join(l for l in text.splitlines(keepends=True) if not l.startswith("structure_check:"))
-        text += ("\nruled_layer:\n  since: bom-v4\n  paths: [" + ", ".join(RULED) + "]\n")
         prof_p.write_text(text, encoding="utf-8", newline="\n")
-        rc2, out2 = commit("equipment: ruled_layer set, structure_check off (V1 measures E13 only)", paths=["bomdd/process-profile.yaml"])
-        g("checkout", "-q", "-b", "rel")
-        g("commit", "-q", "--allow-empty", "-m", "release")
-        g("tag", "bom-v4")
-        g("checkout", "-q", main_branch)
-        lines.append(f"set-up: filing exit {rc}, profile exit {rc2}, tag bom-v4 on a side branch")
+        rc2, out2 = commit("equipment: structure_check off (V1 measures E13 only)", paths=["bomdd/process-profile.yaml"])
+        lines.append(f"set-up: filing exit {rc}, profile exit {rc2}")
         ok_all &= rc == 0 and rc2 == 0
 
-        # bbce170 (G3 round 1's spec change) before the release, then the ruled files as at bom-v4
+        # bbce170 (G3 round 1's spec change) before the release, then the ruled files as at bom-v4 and the release on main
+        # (MoviePad-Remake's own form: bom-v4 is on its first-parent line, and it has no merges)
         copy_state("bbce170^")
         commit("phase 3: the ruled files before G3 round 1")
         copy_change("bbce170")
@@ -141,9 +139,25 @@ def main():
         arm("bbce170 before since -> allowed", rc == 0 and "[E13]" not in out, f"exit {rc}")
         copy_state("bom-v4")
         rc0, _ = commit("phase 3: the ruled files at bom-v4")
-        rcm = g("merge", "-q", "--no-ff", "rel", "-m", "release: bom-v4").returncode
-        lines.append(f"   the ruled files at bom-v4 committed (exit {rc0}); the release merged (exit {rcm}) - since is now an ancestor")
-        ok_all &= rc0 == 0 and rcm == 0
+        g("commit", "-q", "--allow-empty", "-m", "release: bom-v4 (G3 passed)")
+        g("tag", "bom-v4")
+        release = g("rev-parse", "HEAD").stdout.strip()
+        # ruling 3:A: a ruled change after the release but before the field is not judged by either layer
+        req = prod / "bomdd/10-requirements.yaml"
+        req.write_text(req.read_text(encoding="utf-8") + "# V1: a change after the release, before the field (synthetic)\n",
+                       encoding="utf-8", newline="\n")
+        rcp, outp = commit("requirements: after the release, before the field", paths=["bomdd/10-requirements.yaml"])
+        pre_field = g("rev-parse", "HEAD").stdout.strip()
+        arm("a ruled change after the release, before the field -> allowed (ruling 3:A)", rcp == 0 and "[E13]" not in outp,
+            f"exit {rcp}")
+        text = prof_p.read_text(encoding="utf-8")
+        text += (f"\nruled_layer:\n  since: {release}   # tag: bom-v4\n  paths: [" + ", ".join(RULED) + "]\n")
+        prof_p.write_text(text, encoding="utf-8", newline="\n")
+        rc3, _ = commit("equipment: ruled_layer since the release (a full SHA, the tag in a comment)",
+                        paths=["bomdd/process-profile.yaml"])
+        lines.append(f"   the ruled files at bom-v4 committed (exit {rc0}); the release commit on {main_branch}, tagged bom-v4; "
+                     f"the field added in a later commit (exit {rc3})")
+        ok_all &= rc0 == 0 and rc3 == 0
 
         reg.update({"ECO-001": "staged", "ECO-002": "staged"})
         write_reg()
@@ -181,7 +195,7 @@ def main():
         # known-bad of the gate: check_ruled_layer disabled in the working-tree validator lets the 0b50020 arm through
         vp = prod / "bomdd/tools/process-validator.py"
         vsrc = vp.read_text(encoding="utf-8")
-        anchor = "def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, msg: str) -> list[str]:\n"
+        anchor = "def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str, msg: str) -> list[str]:\n"
         assert vsrc.count(anchor) == 1
         vp.write_text(vsrc.replace(anchor, anchor + "    return []  # ECO-119 V1 known-bad\n"), encoding="utf-8", newline="\n")
         copy_change("0b50020")
@@ -242,14 +256,18 @@ def main():
         other = [l.strip() for l in vout.splitlines() if re.match(r"\s*\[E\d\d\]", l) and "[E13]" not in l]
         lines.append(f"   other violations in the full mode: {other or 'none'}")
         ok_all &= not other
-        # known-bad of the replay's boundary: without --ancestry-path the pre-release commits merged in from main are reported
+        # known-bad of the replay's boundary (ruling 3:A): with the field gate removed, the change made after the release and
+        # before the field is reported too (round 1's KB2, --ancestry-path, needed the release on a side branch; the release is
+        # on main now, so the pre-release commits are ancestors of since and outside the range with or without that flag)
         vsrc2 = vp.read_text(encoding="utf-8")
-        assert vsrc2.count('"--ancestry-path", ') == 1
-        vp.write_text(vsrc2.replace('"--ancestry-path", ', ""), encoding="utf-8", newline="\n")
+        anchor2 = "    def has_field(self, rev: str) -> bool:\n"
+        assert vsrc2.count(anchor2) == 1
+        vp.write_text(vsrc2.replace(anchor2, anchor2 + "        return True  # ECO-119 V1 KB2\n"), encoding="utf-8", newline="\n")
         v2 = sh(sys.executable, str(vp), "--mode", "validate", "--root", str(prod))
-        n2 = sum(1 for l in (v2.stdout + v2.stderr).splitlines() if "[E13]" in l)
+        e13b = [l for l in (v2.stdout + v2.stderr).splitlines() if "[E13]" in l]
         vp.write_text(vsrc2, encoding="utf-8", newline="\n")
-        arm("KB2 the replay without --ancestry-path -> the pre-release commits are reported too (more than one E13)", n2 > 1, f"E13 lines {n2}")
+        arm("KB2 the replay without the field gate -> the change before the field is reported too (2 E13)",
+            len(e13b) == 2 and any(pre_field[:9] in l for l in e13b), f"E13 lines {len(e13b)}")
     finally:
         shutil.rmtree(tmp, onerror=_rm_readonly)
         lines.append(f"throwaway product removed: {not tmp.exists()}")
