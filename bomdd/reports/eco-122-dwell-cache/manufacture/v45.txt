@@ -1,0 +1,21 @@
+V4a --all --json: old 13503 bytes sha256 15e532cb90f8c168, new 13503 bytes sha256 15e532cb90f8c168 -> identical
+V4a ECO-119 --json: old 4896 bytes sha256 fa089024a39ec007, new 4896 bytes sha256 fa089024a39ec007 -> identical
+V4a --all: old 9166 bytes sha256 ca761f41a5d56140, new 9166 bytes sha256 ca761f41a5d56140 -> identical
+V4b bomdd-job --selftest exit 0; bomdd-run --selftest exit 0
+    bomdd-job selftest PASS(整合 NONE / 不整合 2 方向 / order 不在 / fence 内見出し無視 / 出所なし欄 null / 全欄 source / r2: 複数 --json 単一文書・引数不正 MISSING_INPUT・null エントリ・r2b: 対象なし/未知オプショ
+    bomdd-job dwell selftest PASS(ECO-120: V2 A→B→A・字下げ・並べ替え・読めないコミット・作業木だけの変更・近道の known-bad 2 腕・直列=並列 / V3 理由 7 群+語彙外・終端の警告・ECO-079 形・閾値 14/2・job 不変・paused 群/警告 / 
+    ADVANCE OK: selftest PASS(起動4/dry2/kb5/job1/不能3/独立性9/報告27/gate6/構文5/台帳3/引数13/表)
+      ECO-113 V1-V4 PASS · branch: msvcrt.locking + Job Object (Windows)
+V4c BomDD: status same (3 lines), git dir same (370 files); cache dwell cache: hits 0, parsed 355, file C:\Users\akira\AppData\Local\bomdd\dwell-cache\62a93d82314dd739d67139a7.json; cache file outside the repository True -> PASS
+V4c ViewTube: status same (4 lines), git dir same (1963 files); cache dwell cache: hits 0, parsed 1732, file C:\Users\akira\AppData\Local\bomdd\dwell-cache\e7466450874e5cc1a7696846.json; cache file outside the repository True -> PASS
+V4c ViewPrism2: status same (0 lines), git dir same (298 files); cache dwell cache: hits 0, parsed 440, file C:\Users\akira\AppData\Local\bomdd\dwell-cache\240061172f5c1cdf6f41c5aa.json; cache file outside the repository True -> PASS
+V4c BomDD-Plm: status same (0 lines), git dir same (648 files); cache dwell cache: hits 0, parsed 19, file C:\Users\akira\AppData\Local\bomdd\dwell-cache\a31ab729275db5dca7838e22.json; cache file outside the repository True -> PASS
+V4c MoviePad-Remake: status same (0 lines), git dir same (1410 files); cache dwell cache: hits 0, parsed 21, file C:\Users\akira\AppData\Local\bomdd\dwell-cache\135b5a4787c548ff33b38ad1.json; cache file outside the repository True -> PASS
+V5 cold: 37.26 s — dwell cache: hits 0, parsed 1732
+V5 cold: 37.41 s — dwell cache: hits 0, parsed 1732
+V5 cold: 40.22 s — dwell cache: hits 0, parsed 1732
+V5 warm: 0.83 s — dwell cache: hits 1732, parsed 0
+V5 warm: 0.71 s — dwell cache: hits 1732, parsed 0
+V5 warm: 0.70 s — dwell cache: hits 1732, parsed 0
+V5 cache file 8.0 MB
+V4a PASS; V4b PASS; V4c PASS; V5 time PASS

@@ -1,0 +1,8 @@
+now (fixed) 2026-11-04T12:00:00+00:00; old tool sha256 5578cc8a99e575da, new tool sha256 fe2961aa7129df76
+BomDD @ d06472adb8: commits 355, distinct blobs 355, open 3; text identical True (sha256 e6dbe5c9d85107ff), json identical True (sha256 39e7e29627d02014); cold parsed 355 hits 0, warm parsed 0 hits 355 -> PASS
+ViewTube @ 42936d962e: commits 1732, distinct blobs 1732, open 173; text identical True (sha256 3519ca01eda32b05), json identical True (sha256 b066c9824755a97e); cold parsed 1732 hits 0, warm parsed 0 hits 1732 -> PASS
+ViewPrism2 @ 9bdbe91da6: commits 440, distinct blobs 440, open 24; text identical True (sha256 c094c49af3cc8269), json identical True (sha256 0281b823eb3dc5e5); cold parsed 440 hits 0, warm parsed 0 hits 440 -> PASS
+BomDD-Plm @ 0d98371253: commits 19, distinct blobs 19, open 0; text identical True (sha256 d23217852b0789df), json identical True (sha256 11acaa82bfe8cb5c); cold parsed 19 hits 0, warm parsed 0 hits 19 -> PASS
+MoviePad-Remake @ a2ca41ec49: commits 21, distinct blobs 21, open 0; text identical True (sha256 17e984248ff3b68f), json identical True (sha256 fde7fcf4a2995d28); cold parsed 21 hits 0, warm parsed 0 hits 21 -> PASS
+control: one altered byte told apart: True
+V1 PASS

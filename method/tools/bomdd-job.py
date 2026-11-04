@@ -18,7 +18,7 @@
 # 使い方:
 #   python bomdd-job.py ECO-062 [--register PATH] [--json]
 #   python bomdd-job.py --all [--register PATH]      # verified 以外の全 ECO
-#   python bomdd-job.py --dwell [--register PATH] [--stale-days N] [--json]   # 滞留の測定(ECO-120)
+#   python bomdd-job.py --dwell [--register PATH] [--stale-days N] [--json] [--no-cache]   # 滞留の測定(ECO-120・キャッシュ ECO-122)
 #   python bomdd-job.py --selftest
 #
 # 検出力の限界(宣言):
@@ -50,6 +50,9 @@
 #       (手書きの since は持たない — §13)。waiting_on(語彙 WAITING_VOCAB)と top-level paused も同じく履歴から開始を導出する。
 #       読めないコミットは警告で名指しし黙って捨てない。未コミットの作業は dirty パス数と最古 mtime(下限)と register の HEAD 差で示す。
 #       測らないもの: status や理由が正しいか・誰も走らせなければ何も出ない・終端 status(applied 等)での滞留。
+#       ECO-122: コマンド行では blob ごとの解析結果をキャッシュ(dwell_cache_dir_default()・どのリポジトリの外)に置いて使い回す。
+#       キャッシュは履歴からの導出で、消してよい(次の実行が全部読み直す)。標準出力は変わらず、数は標準エラーへ。--no-cache で使わない。
+#       形の正しい誤ったエントリは信じる(内容アドレスのキャッシュは見分けられない)— 疑わしければ --no-cache。
 
 import io
 import json
@@ -593,6 +596,59 @@ def _set_times_back(path: Path, epoch: float) -> bool:
         k32.CloseHandle(h)
 
 
+def _dwell_cache_arms(root: Path, reg: Path, now, cdir: Path, commit, fails: list) -> list:
+    """ECO-122 P3 の腕。root は読めないコミットを 1 つ含む fixture。走った腕の名前を返す。"""
+    ran = []
+
+    def run(cache_dir):
+        st = {}
+        return json.dumps(dwell(reg, 14, now, cache_dir=cache_dir, stats=st), ensure_ascii=False, sort_keys=True), st
+
+    def check(arm, got, want, st, **expect):
+        ran.append(arm)
+        if got != want:
+            fails.append(f"cache {arm}: 結果が --no-cache と違う")
+        for k, v in expect.items():
+            if st.get(k) != v:
+                fails.append(f"cache {arm}: {k}={st.get(k)!r} != {v!r}")
+
+    base, _ = run(None)
+    n = json.loads(base)["commits_read"]   # fixture の全コミットが register の blob を持つ(hits はコミットで数える)
+    rel = reg.relative_to(root).as_posix()
+    shas = _dwell_git(root, "log", "--format=%H", "--", rel).split()
+    d = len({_dwell_git(root, "rev-parse", f"{s}:{rel}").strip() for s in shas})   # 解析は異なる blob ごとに 1 回(A→B→A は 2 度目を読まない)
+    if d >= n:
+        fails.append(f"cache: fixture に同じ内容の版がない({d} blob / {n} コミット)— 重複の腕が効かない")
+    got, st = run(cdir)
+    check("cold", got, base, st, hits=0, parsed=d, read_miss="absent", write="ok")
+    path = Path(st["file"])
+    got, st = run(cdir)
+    check("warm", got, base, st, hits=n, parsed=0, read_miss=None, write=None)
+    if not any("読めないコミット" in w for w in json.loads(got)["warnings"]):
+        fails.append("cache warm: 読めないコミットの警告が温かい実行で消えた")
+    raw = path.read_text(encoding="utf-8")
+    path.write_text(raw[: len(raw) // 2], encoding="utf-8")   # 途中で切れたファイル
+    got, st = run(cdir)
+    check("truncated", got, base, st, hits=0, parsed=d, read_miss="not JSON", write="ok")
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data["key"] = "0" * 64
+    path.write_text(json.dumps(data), encoding="utf-8")
+    got, st = run(cdir)
+    check("version-key", got, base, st, hits=0, parsed=d, read_miss="version key differs", write="ok")
+    blocked = cdir.parent / "not-a-dir"
+    blocked.write_text("x", encoding="utf-8")   # キャッシュの置き場がファイル = 書けない
+    got, st = run(blocked)
+    check("unwritable", got, base, st, hits=0, parsed=d)
+    if not str(st.get("write", "")).startswith(("FileExistsError", "NotADirectoryError", "FileNotFoundError", "PermissionError", "OSError")):
+        fails.append(f"cache unwritable: 書けない理由が出ない: {st.get('write')!r}")
+    text = reg.read_text(encoding="utf-8")
+    commit(root, reg, text.replace("ECO-002", "ECO-009", 1) if "ECO-002" in text else text + "#\n", 4)   # 新しいコミット 1 つ
+    base2, _ = run(None)
+    got, st = run(cdir)
+    check("one-new-commit", got, base2, st, hits=n, parsed=1, read_miss=None, write="ok")
+    return ran
+
+
 def _dwell_selftest() -> int:
     """ECO-120 V2-V4 の腕: 改変した履歴・理由と一時停止・未コミットの作業・直列と並列の一致・引数。"""
     import contextlib
@@ -675,6 +731,9 @@ def _dwell_selftest() -> int:
             r1, r2 = dwell(reg, 14, now, workers=1), dwell(reg, 14, now, workers=2)
             if (r1["open"], r1["warnings"]) != (r2["open"], r2["warnings"]):
                 fails.append("直列と並列で結果が違う")
+
+            # --- ECO-122 P3: blob ごとのキャッシュ(冷・温・なしで同じ結果・新しいコミットだけ読む・壊れたキャッシュは外れ) ---
+            cache_n = len(_dwell_cache_arms(ra, reg, now, Path(td) / "cache", commit, fails))
 
             # --- V3: 理由・閾値・一時停止 ---
             rb = Path(td) / "b"
@@ -770,7 +829,8 @@ def _dwell_selftest() -> int:
         return 1
     print("bomdd-job dwell selftest PASS(ECO-120: V2 A→B→A・字下げ・並べ替え・読めないコミット・作業木だけの変更・近道の known-bad 2 腕・"
           "直列=並列 / V3 理由 7 群+語彙外・終端の警告・ECO-079 形・閾値 14/2・job 不変・paused 群/警告 / V4 dirty 年齢・古い mtime だけの"
-          f"ファイル・clean・register の HEAD 差・{v4_note[0]} / 引数 4 種)")
+          f"ファイル・clean・register の HEAD 差・{v4_note[0]} / 引数 4 種 / ECO-122 キャッシュ {cache_n} 腕: 冷・温(警告は残る)・途中で切れた"
+          "ファイル・別の版キー・書けない置き場・新しいコミット 1 つ)")
     return 0
 
 
@@ -1144,14 +1204,15 @@ def _dwell_snapshot(blob: bytes):
 
 
 def _dwell_chunk(args):
-    """(top, rel, [(idx, sha)]) → [(idx, snap|None, paused, err|None)]。自分の cat-file --batch を 1 本持つ(並列の単位)。"""
+    """(top, rel, [(idx, sha)]) → [(idx, snap|None, paused, err|None)]。自分の cat-file --batch を 1 本持つ(並列の単位)。
+    rel が None なら sha は blob id そのもの(ECO-122: キャッシュに無い blob だけを読む)。"""
     import subprocess
     top, rel, items = args
     out = []
     p = subprocess.Popen(["git", "-C", top, "cat-file", "--batch"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     try:
         for idx, sha in items:
-            p.stdin.write(f"{sha}:{rel}\n".encode())
+            p.stdin.write((f"{sha}:{rel}\n" if rel is not None else f"{sha}\n").encode())
             p.stdin.flush()
             head = p.stdout.readline().decode(errors="replace").split()
             if len(head) != 3 or head[1] != "blob":
@@ -1179,12 +1240,11 @@ def _dwell_git(top, *args):
     return r.stdout.decode("utf-8", errors="replace")
 
 
-def _dwell_read_history(top: Path, rel: str, workers: int | None = None):
-    """register の履歴を古い順に読む → (commits[(sha, iso)], results[(snap|None, paused, err)])。workers=1 で直列。"""
+def _dwell_parse(top: Path, rel, items, workers):
+    """items[(idx, spec)] を読む → [(idx, snap, paused, err)](idx 順)。workers は解析が要る件数から決める(ECO-122: 全部ヒットなら起動しない)。"""
     import os
-    log = _dwell_git(top, "log", "--reverse", "--format=%H %cI", "--", rel)
-    commits = [tuple(l.split(" ", 1)) for l in log.splitlines() if l.strip()]
-    items = list(enumerate(sha for sha, _ in commits))
+    if not items:
+        return []
     k = workers if workers is not None else (min(os.cpu_count() or 1, 8) if len(items) >= DWELL_PARALLEL_MIN else 1)
     rows = []
     if k <= 1:
@@ -1196,7 +1256,135 @@ def _dwell_read_history(top: Path, rel: str, workers: int | None = None):
             for part in ex.map(_dwell_chunk, [(str(top), rel, c) for c in chunks if c]):
                 rows.extend(part)
     rows.sort(key=lambda r: r[0])
-    return commits, [(snap, paused, err) for _, snap, paused, err in rows]
+    return rows
+
+
+def _dwell_cache_key():
+    """ECO-122 P1: 版キーは導出する(手で上げる番号を持たない)— 解析規則の source・loader・PyYAML の版のハッシュ。
+    source が読めなければ None(キャッシュを使わない)。"""
+    import hashlib
+    import inspect
+    try:
+        src = inspect.getsource(_dwell_snapshot) + "\0" + inspect.getsource(_dwell_items)
+    except (OSError, TypeError):
+        return None
+    ld = _dwell_loader()
+    return hashlib.sha256(f"{ld.__module__}.{ld.__name__}\0{getattr(yaml, '__version__', '?')}\0{src}".encode("utf-8")).hexdigest()
+
+
+def dwell_cache_dir_default() -> Path:
+    """ECO-122 P2: どのリポジトリの外にも置く — BOMDD_DWELL_CACHE_DIR > %LOCALAPPDATA% > $XDG_CACHE_HOME > ~/.cache。"""
+    import os
+    if os.environ.get("BOMDD_DWELL_CACHE_DIR"):
+        return Path(os.environ["BOMDD_DWELL_CACHE_DIR"])
+    if os.name == "nt" and os.environ.get("LOCALAPPDATA"):
+        return Path(os.environ["LOCALAPPDATA"]) / "bomdd" / "dwell-cache"
+    return Path(os.environ.get("XDG_CACHE_HOME") or (Path.home() / ".cache")) / "bomdd" / "dwell-cache"
+
+
+def _dwell_cache_path(cache_dir: Path, top: Path, rel: str) -> Path:
+    """1 register 1 ファイル: git common dir と register のパスのハッシュで名づける(worktree は共有・別リポは別ファイル)。"""
+    import hashlib
+    common = (top / _dwell_git(top, "rev-parse", "--git-common-dir").strip()).resolve()
+    return Path(cache_dir) / (hashlib.sha256(f"{common.as_posix()}\0{rel}".encode("utf-8")).hexdigest()[:24] + ".json")
+
+
+def _dwell_cache_load(path: Path, key: str):
+    """→ ({blob: (snap|None, paused, err)}, None) か ({}, 外れの理由)。どんな不具合も外れ(判定にしない)。"""
+    try:
+        raw = path.read_bytes()
+    except FileNotFoundError:
+        return {}, "absent"
+    except OSError as e:
+        return {}, f"unreadable: {type(e).__name__}"
+    try:
+        data = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, ValueError):
+        return {}, "not JSON"
+    if not isinstance(data, dict) or not isinstance(data.get("blobs"), dict):
+        return {}, "shape"
+    if data.get("key") != key:
+        return {}, "version key differs"
+    out = {}
+    for b, v in data["blobs"].items():
+        if not (isinstance(v, list) and len(v) == 3 and (v[0] is None or isinstance(v[0], dict))
+                and (v[1] is None or isinstance(v[1], str)) and (v[2] is None or isinstance(v[2], str))):
+            return {}, "shape"
+        snap = None
+        if v[0] is not None:
+            snap = {}
+            for eid, sw in v[0].items():
+                if not (isinstance(sw, list) and len(sw) == 2 and isinstance(sw[0], str) and (sw[1] is None or isinstance(sw[1], str))):
+                    return {}, "shape"
+                snap[eid] = (sw[0], sw[1])
+        out[b] = (snap, v[1], v[2])
+    return out, None
+
+
+def _dwell_cache_save(path: Path, key: str, rel: str, blobs: dict):
+    """この実行で使った blob だけを書く(書き換えられた履歴の blob は落ちる)。一時ファイル → rename。失敗は理由を返す(例外にしない)。"""
+    import os
+    tmp = None
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=path.name + ".", suffix=".tmp")
+        body = {"key": key, "register": rel,
+                "blobs": {b: [None if s is None else {k: list(v) for k, v in s.items()}, p, e] for b, (s, p, e) in blobs.items()}}
+        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(body, f, ensure_ascii=False, separators=(",", ":"))
+        os.replace(tmp, path)
+        tmp = None
+        return None
+    except OSError as e:
+        return f"{type(e).__name__}: {str(e)[:120]}"
+    finally:
+        if tmp is not None:
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
+
+
+def _dwell_read_history(top: Path, rel: str, workers: int | None = None, cache_dir=None, stats=None):
+    """register の履歴を古い順に読む → (commits[(sha, iso)], results[(snap|None, paused, err)])。workers=1 で直列。
+    cache_dir が None ならキャッシュを使わない(ECO-120 と同じ読み方)。stats(dict)にはキャッシュの数を入れる(結果には入れない)。"""
+    import subprocess
+    stats = stats if stats is not None else {}
+    log = _dwell_git(top, "log", "--reverse", "--format=%H %cI", "--", rel)
+    commits = [tuple(l.split(" ", 1)) for l in log.splitlines() if l.strip()]
+    key = _dwell_cache_key() if cache_dir is not None else None
+    if key is None:
+        stats.update(cache="off" if cache_dir is None else "off (source unavailable)")
+        rows = _dwell_parse(top, rel, list(enumerate(sha for sha, _ in commits)), workers)
+        return commits, [(snap, paused, err) for _, snap, paused, err in rows]
+    # ECO-122 P1: 各コミットの register の blob id を取り、キャッシュに無い blob だけを読む
+    chk = subprocess.run(["git", "-C", str(top), "cat-file", "--batch-check"], capture_output=True,
+                         input="".join(f"{sha}:{rel}\n" for sha, _ in commits).encode())
+    if chk.returncode != 0:
+        raise RuntimeError(f"git cat-file --batch-check exit {chk.returncode}")
+    heads = [l.split() for l in chk.stdout.decode(errors="replace").splitlines()]
+    if len(heads) != len(commits):
+        raise RuntimeError(f"git cat-file --batch-check: {len(heads)} 行 != {len(commits)} コミット")
+    path = _dwell_cache_path(Path(cache_dir), top, rel)
+    cached, miss = _dwell_cache_load(path, key)
+    results, used, todo, hits = [None] * len(commits), {}, {}, 0
+    for i, head in enumerate(heads):
+        if len(head) != 3 or head[1] != "blob":   # _dwell_chunk と同じ文言(blob が無いコミットは読む費用がないのでキャッシュしない)
+            results[i] = (None, None, "register なし(" + " ".join(head[1:])[:40] + ")")
+        elif head[0] in cached:
+            results[i] = used[head[0]] = cached[head[0]]
+            hits += 1
+        else:
+            todo.setdefault(head[0], []).append(i)
+    blobs = list(todo)
+    for idx, snap, paused, err in _dwell_parse(top, None, list(enumerate(blobs)), workers):
+        used[blobs[idx]] = (snap, paused, err)
+        for i in todo[blobs[idx]]:
+            results[i] = used[blobs[idx]]
+    stats.update(cache="on", file=str(path), hits=hits, parsed=len(todo), read_miss=miss, write=None)
+    if todo or miss is not None or set(cached) != set(used):
+        stats["write"] = _dwell_cache_save(path, key, rel, used) or "ok"
+    return commits, results
 
 
 def _dwell_runs(commits, results):
@@ -1257,15 +1445,16 @@ def _dwell_uncommitted(top: Path, rel: str, now) -> dict:
             "register_differs_from_head": differs}
 
 
-def dwell(register: Path, stale_days: int = 14, now=None, workers: int | None = None) -> dict:
-    """ECO-120 P1-P4。例外は呼び側で MISSING_INPUT 相当の 1 行にする。"""
+def dwell(register: Path, stale_days: int = 14, now=None, workers: int | None = None, cache_dir=None, stats=None) -> dict:
+    """ECO-120 P1-P4。例外は呼び側で MISSING_INPUT 相当の 1 行にする。
+    ECO-122: cache_dir を渡したときだけ blob ごとの解析結果を使い回す(結果は同じ・数は stats に入れる)。"""
     import datetime as dt
     import statistics
     now = now or dt.datetime.now(dt.timezone.utc)
     register = register.resolve()
     top = Path(_dwell_git(register.parent, "rev-parse", "--show-toplevel").strip())
     rel = register.relative_to(top.resolve()).as_posix()
-    commits, results = _dwell_read_history(top, rel, workers)
+    commits, results = _dwell_read_history(top, rel, workers, cache_dir, stats)
     if not commits:
         raise RuntimeError(f"{rel} に履歴がない(未コミット)")
     warnings = [f"読めないコミット {sha[:10]} ({iso[:10]}): {err}" for (sha, iso), (s, _, err) in zip(commits, results) if s is None]
@@ -1346,9 +1535,32 @@ def render_dwell(r: dict) -> str:
     return "\n".join(out) + "\n"
 
 
+def _dwell_cache_lines(stats: dict) -> list:
+    """ECO-122: キャッシュの数(標準エラーへ — 標準出力はキャッシュの有無で変えない)。"""
+    if stats.get("cache") != "on":
+        return [f"dwell cache: {stats.get('cache', 'off')}"]
+    out = []
+    if stats.get("read_miss"):
+        out.append(f"dwell cache: read: miss ({stats['read_miss']})")
+    if stats.get("write") not in (None, "ok"):
+        out.append(f"dwell cache: write failed: {stats['write']}")
+    out.append(f"dwell cache: hits {stats['hits']}, parsed {stats['parsed']}, file {stats['file']}")
+    return out
+
+
+def _dwell_cache_report(stats: dict):
+    data = ("\n".join(_dwell_cache_lines(stats)) + "\n").encode("utf-8", errors="replace")
+    try:
+        sys.stderr.flush()
+        sys.stderr.buffer.write(data)
+        sys.stderr.buffer.flush()
+    except (AttributeError, ValueError, OSError):   # buffer の無い stderr(テストの差し替え等)
+        sys.stderr.write(data.decode("utf-8"))
+
+
 def dwell_main(argv) -> int:
     """--dwell の入口。引数不正・測定不能は 1 行(--json は {"error"})で返し、exit 0(原則 4)。"""
-    known = {"--dwell", "--register", "--json", "--stale-days"}
+    known = {"--dwell", "--register", "--json", "--stale-days", "--no-cache"}
     err, reg_rel, stale = None, "bomdd/60-change-register.yaml", 14
     unknown = [a for a in argv if a.startswith("--") and a not in known]
     if unknown:
@@ -1369,10 +1581,14 @@ def dwell_main(argv) -> int:
         if yaml is None:
             err = "PyYAML 不在"
         else:
+            stats = {}
             try:
-                res = dwell(Path.cwd() / reg_rel, stale)
+                res = dwell(Path.cwd() / reg_rel, stale, cache_dir=None if "--no-cache" in argv else dwell_cache_dir_default(),
+                            stats=stats)
             except Exception as e:  # noqa: BLE001 — 測定不能は合格ではない: 理由を出して止まる
                 err = f"測定不能: {type(e).__name__}: {str(e)[:160]}"
+            if not err:
+                _dwell_cache_report(stats)
     if "--json" in argv:
         print(json.dumps({"error": err} if err else res, ensure_ascii=False, indent=2))
     else:

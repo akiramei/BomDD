@@ -155,6 +155,64 @@ required_gates: [V1, V2, V3, V4, V5]
 
 Conditions are frozen at filing; results go to the closing section.
 
+## 4. Manufacture and the measurements before commit (2026-11-04, the user's "A: 起票どおり製造")
+
+**Start.** The user chose option A: the filed form, with no CI wiring. Baseline the filing commit `d06472a` (CI run 41760147971
+success); the tree clean apart from ECO-119's untracked R8 report, which this ECO does not touch.
+
+**What was changed** (`method/tools/bomdd-job.py` only):
+- `_dwell_read_history()` takes `cache_dir` and `stats`. With no `cache_dir` it reads as ECO-120 did. With one it lists each commit's
+  register blob id (`cat-file --batch-check`), takes the blobs found in the cache, and sends only the others (each distinct blob once) to
+  `_dwell_parse()`, which applies ECO-120's worker rule to that count; then rewrites the cache file with the blobs used, when anything
+  changed.
+- `_dwell_chunk()` accepts a bare blob id; `_dwell_parse()` is ECO-120's worker split, moved out unchanged.
+- `_dwell_cache_key()` (sha256 over `inspect.getsource` of `_dwell_snapshot` and `_dwell_items`, the loader's module and class, and
+  `yaml.__version__`; `None`, so no cache, when the source cannot be read), `dwell_cache_dir_default()`, `_dwell_cache_path()` (sha256 of the
+  git common directory and the register's path, 24 hex digits), `_dwell_cache_load()` (any fault a miss with its reason, every field's
+  shape checked), `_dwell_cache_save()` (temporary file in the same directory, `os.replace`; an `OSError` returned as text).
+- `dwell()` takes `cache_dir` and `stats` (defaults: none). `dwell_main()` passes `dwell_cache_dir_default()` unless `--no-cache`, and
+  writes the cache lines to standard error (`_dwell_cache_lines()`, `_dwell_cache_report()`); `--no-cache` is a known option.
+- The selftest: `_dwell_cache_arms()` nested in `_dwell_selftest()` on fixture (a) (it holds an unparsable commit and two repeated
+  contents): cold, warm (the warning kept), a file cut in half, another version key, a cache path that is a file, one new commit.
+- Header note (8) and the usage line.
+
+**Departures** (each recorded; none changes a frozen condition):
+1. **Distinct blobs are parsed once.** A register that returns to an earlier content (fixture (a)'s A → B → A) has the same blob at two
+   commits; the cold run parses it once. `hits` counts commits, `parsed` counts blobs. The first selftest run expected `parsed` = commits
+   and failed (5 != 7); the arm now derives the distinct count from git and fails if the fixture has no repeat. The five real registers
+   have no repeat (V1: distinct = commits).
+2. **"Not writable" realised as a cache path that is a file.** On Windows a read-only directory still accepts new files, so V3 (c) and the
+   selftest point the cache directory at a regular file; the read then reports `absent` and the write `FileExistsError`.
+3. **The write is skipped when nothing changed** (every blob a hit, the same set as the file, no miss): a warm run writes nothing. V3's
+   arms read `write=None` on a warm run and `ok` after a change.
+
+**Evidence** is in `bomdd/reports/eco-122-dwell-cache/manufacture/` (README.md of the folder above lists each file). Every run below
+used the same tool file (sha256 `fe2961aa7129df76…`, printed by `v1.py` and checked again before the commit).
+
+- **V1 result: PASS** (`v1.py`, `v1.txt`; `now` fixed at 2026-11-04T12:00Z). For BomDD @ `d06472a`, ViewTube @ `42936d96`, ViewPrism2 @
+  `9bdbe91`, BomDD-Plm @ `0d98371` and MoviePad-Remake @ `a2ca41e`, ECO-120's tool, the new tool without a cache, cold and warm are
+  byte-identical in text and in JSON (open entries 3, 173, 24, 0, 0); the cold run parsed every distinct blob (355, 1,732, 440, 19, 21)
+  and the warm run 0. A one-byte alteration is told apart.
+- **V2 result: PASS** (`v23.py`, `v23.txt`): one new commit parsed 1 and hit 5 of 6; after an amend the cache holds 0 blobs outside the
+  history (the amended-away blob dropped); both equal the result without a cache.
+- **V3 result: PASS** (same run): (a) a file cut in half and a file that is not JSON: miss `not JSON`, 5 blobs parsed, the file rewritten
+  and loadable, result unchanged; (b) the copy with one changed line of `_dwell_snapshot`: another key, miss `version key differs`;
+  (c) a cache path that is a file: result unchanged, `write failed: FileExistsError` in-process and on standard error, exit 0;
+  (d) the unparsable commit warned identically cold and warm; (e) a well-formed entry changed to `applied` is believed (ECO-001 drops
+  out of the open list) and without a cache ECO-001 is open — the declared limit shown.
+  - **Known-bad** (`mutants.py`, `mutants.txt`): M1 (key without the source) turned V3b red; M2 (a cached failure read back as an empty
+    snapshot) V3d (and V2's two arms); M3 (every blob ever seen kept) V2 amend; M4 (a write failure raised) V3c — **4 of 4**.
+- **V4 result: PASS** (`v45.py`, `v45.txt`): `--all --json` (13,503 bytes), `ECO-119 --json` (4,896) and `--all` (9,166) byte-identical from
+  9e926be's tool (`git archive`, so no worktree in BomDD's git directory) and the changed tool; `bomdd-job.py --selftest` exit 0 (with the
+  cache arms) and `bomdd-run.py --selftest` exit 0; for each of the five repositories `git status` and the git directory listing (370,
+  1,963, 298, 648, 1,410 files) are the same before and after a cold command-line run with the default cache directory, and the cache file
+  lies under `%LOCALAPPDATA%\bomdd\dwell-cache\`, outside every repository.
+- **V5, time: PASS** (same run, ViewTube @ `42936d96`, 1,732 commits, the user's machine, wall clock of the command line): cold 37.26,
+  37.41 and 40.22 s (limit 60); warm 0.83, 0.71 and 0.70 s (limit 5). The cache file is 8.0 MB. The self-conformance and CI parts of V5 are
+  recorded at closure.
+
+**Not done here:** the commit's self-conformance and CI (V5), the closure.
+
 ## /preflight receipt (start path: manual — the user's "Aを採用します" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's choice of option A; filing only).

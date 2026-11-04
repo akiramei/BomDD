@@ -1,0 +1,9 @@
+V3d parse failure warned cold and warm: PASS — warning cold ['読めないコミット 08ccc0b691 (2026-10-15): ParserError'], warm ['読めないコミット 08ccc0b691 (2026-10-15): ParserError']; warm parsed 0
+V2 grow: one new commit parses 1: PASS — parsed 1, hits 5 of 6 commits
+V2 amend: no blob outside the history kept: PASS — cache blobs 5 -> 5, outside history after: 0; parsed 1
+V3a corrupt cache is a miss: PASS — cut in half: miss 'not JSON', parsed 5, rewritten loadable True; not JSON: miss 'not JSON', parsed 5, rewritten loadable True
+V3b another version key is a miss: PASS — keys differ True; copy's run: miss 'version key differs', hits 0, parsed 5
+V3c unwritable cache directory: PASS — in-process write="FileExistsError: [WinError 183] 既に存在するファイルを作成することはできません。: 'C:\\\\Users\\\\akira\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\a04aa774f4121829\\\\eeb05dc4-01d"; command line exit 0, stderr ['dwell cache: read: miss (absent)', "dwell cache: write failed: FileExistsError: [WinError 183] 既に存在するファイルを作成することはできません。: 'C:\\\\Users\\\\akira\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\a04aa774f4121829\\\\eeb05dc4-01d"]
+V3e well-formed wrong entry believed (declared limit): PASS — with the cache ECO-001 open: False; with no cache ECO-001 open: True (the limit shown, not caught)
+arms 7, PASS 7, FAIL 0
+ALL PASS

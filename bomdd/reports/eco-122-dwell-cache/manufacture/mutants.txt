@@ -1,0 +1,5 @@
+M1 (expected red V3b): RED as expected; red arms: ['V3b another version key is a miss']
+M2 (expected red V3d): RED as expected; red arms: ['V3d parse failure warned cold and warm', 'V2 grow', 'V2 amend']
+M3 (expected red V2 amend): RED as expected; red arms: ['V2 amend']
+M4 (expected red V3c): RED as expected; red arms: ['V3c unwritable cache directory']
+known-bad PASS: every mutant turned its arm red

@@ -3890,8 +3890,8 @@ changes:
     title: progress - the dwell view reuses each register blob's parse result from a derived, disposable cache outside every repository, so a repeated run parses only the commits it has not seen; standard output unchanged (filed only)
     date: 2026-11-04
     origin: improvement
-    status: filed   # 2026-11-04 on the user's "Aを採用します" (option A; writing status dates into the register not chosen)
-    waiting_on: start-instruction   # ECO-120 vocabulary; manufacture waits for the start instruction (ECO-106)
+    status: implemented   # 2026-11-04 manufactured on the user's "A: 起票どおり製造" (no CI wiring; order section 4: V1-V4 PASS, V5 time PASS); filed d06472a on "Aを採用します" (option A; writing status dates into the register not chosen)
+    waiting_on: human-acceptance   # ECO-120 vocabulary; the closure waits for the user
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       The user's "ViewTube 39.7 秒というのはかなり長いです" (2026-11-04). Measured (bomdd/reports/eco-122-dwell-cache/): ECO-120's --dwell
