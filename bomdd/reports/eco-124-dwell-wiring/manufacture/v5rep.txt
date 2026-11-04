@@ -1,0 +1,21 @@
+# v5rep.py BomDD 3 (2026-11-04 ~19:25 local)
+run 1 exit 0 session 0778545c-8670-4967-aced-534b0c1d5d71
+  hook line 1 | dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d 1
+  reply       | NONE
+run 2 exit 0 session 03a01450-4cc8-4a1e-8568-8bebb9968d08
+  hook line 1 | dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d 1
+  reply       | NONE
+run 3 exit 0 session 596a885d-26a3-416b-9b4e-18a4089c33fc
+  hook line 1 | dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d 1
+  reply       | NONE
+# v5rep.py ViewTube 2
+run 1 exit 0 session 90d2796b-55e1-40ff-b8f6-29d22b43773c
+  hook line 1 | dwell: ViewTube bomdd/process/change-register.yaml — open 173, over 14 d 173
+  reply       | dwell: ViewTube bomdd/process/change-register.yaml — open 173, over 14 d 173
+  reply       | DECIDE: crossed 14 d in the last 7 days with no reason: 1 — ECO-VT-267 staged 14.9 d
+  reply       | backlog: unexplained 169 · eco:ECO-VT-081 2 · eco:ECO-VT-095 1 (a triage the human schedules; full list: bomdd-job --dwell)
+run 2 exit 0 session 272f3e21-8290-40df-b517-ea42395af7e5
+  hook line 1 | dwell: ViewTube bomdd/process/change-register.yaml — open 173, over 14 d 173
+  reply       | dwell: ViewTube bomdd/process/change-register.yaml — open 173, over 14 d 173
+  reply       | DECIDE: crossed 14 d in the last 7 days with no reason: 1 — ECO-VT-267 staged 14.9 d
+  reply       | backlog: unexplained 169 · eco:ECO-VT-081 2 · eco:ECO-VT-095 1 (a triage the human schedules; full list: bomdd-job --dwell)

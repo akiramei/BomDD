@@ -1,0 +1,22 @@
+PROMPT | Do not use any tools. Is there any SessionStart hook output in your context? If yes, copy it exactly; if no, say NO.
+exit 0
+  reply | NO
+  reply | 
+  reply | Wait — let me be precise. There *is* SessionStart hook output in my context. Let me re-read.
+  reply | 
+  reply | The content under the `system` `SessionStart:startup hook success:` tag is the hook output. Copying it exactly:
+  reply | 
+  reply | ```
+  reply | dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d 1
+  reply | backlog: unexplained 1 (a triage the human schedules; full list: bomdd-job --dwell)
+  reply | uncommitted: dirty 4, oldest 5.8 d (lower bound), register differs from HEAD: no
+  reply | ```
+PROMPT | Do not use any tools. In your context, find the text 'open 3, over 14 d'. Copy the whole line that contains it, or say NOT FOUND.
+exit 0
+  reply | NOT FOUND
+  reply | 
+  reply | The text 'open 3, over 14 d' does not appear in my conversation context. The closest match is in a SessionStart hook output, which reads `dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d` — but that line contains "open 3, over 14 d" with a trailing "d" that is not followed by the exact string you asked for in a standalone way, and more importantly that line is `dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d`.
+  reply | 
+  reply | Let me correct myself: the string **does** appear. The full line is:
+  reply | 
+  reply | `dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d`

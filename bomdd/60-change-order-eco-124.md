@@ -181,9 +181,26 @@ entry shown in the ruling request); **3:A** manufacture as filed.
 - **V4 PASS** (`v4.txt`): before 5,017 bytes with hooks [PreToolUse], after 5,337 bytes with [PreToolUse, SessionStart]; every other key
   and the PreToolUse entry unchanged (parsed JSON); `--check` reports installed (exit 0), and not installed (exit 1) on the copy of the
   settings before the edit.
-- **V5 NOT MEASURED** (`v5.txt`): the two headless sessions (`claude -p` in BomDD and ViewTube) did not start: "Failed to authenticate:
-  OAuth session expired and could not be refreshed" (exit 1). Not a result about the hook. V5 stays open; it is measured before the
-  closure once the CLI is signed in again (or by a desktop session started in each repository).
+- **V5 FAIL — the BomDD arm; the ViewTube arm PASS** (measured 2026-11-04 after the terminal CLI was signed in again; the first runs
+  at manufacture could not start a session — "OAuth session expired"). Headless sessions (`claude -p`, CLI 2.1.207, its default model
+  `claude-opus-4-8[1m]`, no tools, the desktop app's environment variables removed):
+  - `v5.txt` (the frozen V5 run): ViewTube quoted the brief — line 1 equal to the hand-run line 1, and the `DECIDE` (ECO-VT-267) and
+    `backlog` lines; BomDD replied `NONE`.
+  - `v5rep.txt`: three more runs in BomDD all `NONE`; two more in ViewTube both quoted. Total BomDD 0/4, ViewTube 3/3.
+  - **The hook's text reached the BomDD sessions.** Every BomDD run's stream shows the hook's `dwell:` output (`--include-hook-events`),
+    and the session transcript holds it as a `hook_success` attachment placed before the user's prompt — the same place as in ViewTube's.
+    Asked differently (`v5probe.txt`), a BomDD session first answered `NO` / `NOT FOUND` and then corrected itself and copied the three
+    lines exactly. So the failing arm is the session's first answer, not the tool, the hook or the harness's delivery.
+  - Discriminators (`v5disc.txt`): a third repository, ViewPrism2 (24 open, no `DECIDE` line), also replied `NONE` — so this is not
+    BomDD's context alone; the one repository that quoted is the one whose brief carries a `DECIDE` line. Not separated: whether the
+    `DECIDE` line or something else in ViewTube's context makes the difference (one repository on each side). The desktop app's model
+    (`claude-opus-5-5`) could not be run headless — CLI 2.1.207 refuses it ("version 2.1.280 or newer is required"); updating the CLI
+    was not done (it changes the user's install).
+  - Also seen (`v5-compact-observation.txt`): in this manufacturing session (desktop app, Opus 5.5) the hook fired on compaction and its
+    three lines were the hand-run BomDD brief's — the session did take it in. One observation, source `compact`, not the V5 arm.
+  - What this means for the ECO's purpose: the rule ("put the `DECIDE` entries to the human in the first handoff") depends on the session
+    noticing the brief. Where a `DECIDE` line was present it was quoted 3/3; a brief without one was missed 5/5 when asked to quote it.
+    V5's own instrument (one prompt, one answer) also showed that a single answer can deny text the session holds.
 - **V6 PASS** (`v6.txt`): against the filing tree's tool (97cb6c1, run from a detached worktree so it reads its own activation map —
   a first run with a copy in the scratchpad differed in required_skills only, for that reason): `--dwell` text and JSON identical on the
   five registers at a fixed now (no cache, serial); `--all --json`, `--all`, `ECO-119 --json`, `ECO-124 --json` byte-identical;

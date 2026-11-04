@@ -1,0 +1,25 @@
+ECO-124 V5 - an observation beside V5, not the V5 arm (2026-11-04, about 16:40 local)
+
+What was seen: this manufacturing session (Claude desktop app, Code tab, cwd BomDD) was compacted, and the SessionStart hook
+fired with source "compact". The harness showed the hook's output to the session as:
+
+  SessionStart:compact hook success: dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d 1
+  backlog: unexplained 1 (a triage the human schedules; full list: bomdd-job --dwell)
+  uncommitted: dirty 3, oldest 5.7 d (lower bound), register differs from HEAD: no
+
+The brief run by hand a few minutes later (python -X utf8 method/tools/bomdd-job.py --dwell --brief, cwd BomDD), standard output:
+
+  dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d 1
+  backlog: unexplained 1 (a triage the human schedules; full list: bomdd-job --dwell)
+  uncommitted: dirty 3, oldest 5.7 d (lower bound), register differs from HEAD: no
+
+The three lines are the same text.
+
+What this shows: the hook installed in ~/.claude/settings.json (V4) runs in the desktop app and its output reaches the session.
+What it does not show (why it is not V5): V5 is a new session (source "startup") in both repositories. This is one repository,
+source "compact", and BomDD's brief has no DECIDE line; the ViewTube arm is the one that carries DECIDE (ECO-VT-267 at 14.8 d at
+this time). The copy above was made from the session's context, not captured by a program.
+
+Why V5 itself is not measured yet: v5.py starts headless sessions with the terminal CLI (`claude -p`), and that CLI is not signed
+in - `claude auth status` reports "loggedIn": false for C:\Users\akira\.local\bin\claude.exe (2.1.207) and the WinGet copy (2.0.61)
+answers "Invalid API key"; ~/.claude/.credentials.json was last written at 05:42 today.

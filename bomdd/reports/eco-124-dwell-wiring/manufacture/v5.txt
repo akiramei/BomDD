@@ -1,9 +1,11 @@
-FAIL BomDD: session exit 1
+FAIL BomDD: session exit 0
   hand line 1   | dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d 1
   session quote | None
-    reply | Failed to authenticate: OAuth session expired and could not be refreshed
-FAIL ViewTube: session exit 1
+    reply | NONE
+PASS ViewTube: session exit 0
   hand line 1   | dwell: ViewTube bomdd/process/change-register.yaml — open 173, over 14 d 173
-  session quote | None
-    reply | Failed to authenticate: OAuth session expired and could not be refreshed
+  session quote | dwell: ViewTube bomdd/process/change-register.yaml — open 173, over 14 d 173
+    reply | dwell: ViewTube bomdd/process/change-register.yaml — open 173, over 14 d 173
+    reply | DECIDE: crossed 14 d in the last 7 days with no reason: 1 — ECO-VT-267 staged 14.9 d
+    reply | backlog: unexplained 169 · eco:ECO-VT-081 2 · eco:ECO-VT-095 1 (a triage the human schedules; full list: bomdd-job --dwell)
 V5 FAIL

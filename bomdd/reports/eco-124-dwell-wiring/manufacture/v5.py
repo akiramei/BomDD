@@ -7,6 +7,7 @@ For each repository: the brief by hand (bomdd-job --dwell --brief, run just befo
 "backlog:" that it received as context at session start, or NONE. PASS when the session's quoted "dwell:" line equals the hand-run
 line 1. The session is a real Claude Code start (SessionStart source "startup"); its reply is recorded as is.
 """
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -17,6 +18,14 @@ PROMPT = ("Do not use any tools. Quote verbatim, one per line, every line that s
 REGS = [("BomDD", "bomdd/60-change-register.yaml"), ("ViewTube", "bomdd/process/change-register.yaml")]
 
 
+def clean_env():
+    """The session that runs this script is itself a Claude Code child of the desktop app; its CLAUDE_* variables (host auth refresh,
+    entrypoint, child-session flags) make a nested `claude -p` wait for the host's sign-in and fail ("OAuth session expired", the first
+    two runs). The measured session starts as a terminal user's would: those variables removed."""
+    drop = ("CLAUDE", "ANTHROPIC_", "AI_AGENT", "CODEX_COMPANION", "USE_LOCAL_OAUTH", "USE_STAGING_OAUTH", "BAGGAGE")
+    return {k: v for k, v in os.environ.items() if not k.upper().startswith(drop)}
+
+
 def main():
     root = Path(sys.argv[1]).resolve()
     tool = root / "BomDD/method/tools/bomdd-job.py"
@@ -25,7 +34,7 @@ def main():
         top = root / repo
         hand = subprocess.run([sys.executable, "-X", "utf8", str(tool), "--dwell", "--brief", "--register", rel], cwd=top,
                               capture_output=True).stdout.decode("utf-8").splitlines()
-        r = subprocess.run(["claude", "-p", PROMPT, "--allowedTools", ""], cwd=top, capture_output=True, timeout=300)
+        r = subprocess.run(["claude", "-p", PROMPT, "--allowedTools", ""], cwd=top, capture_output=True, timeout=300, env=clean_env())
         reply = r.stdout.decode("utf-8", "replace").strip().splitlines()
         quoted = next((l.strip().strip("`") for l in reply if l.strip().strip("`").startswith("dwell:")), None)
         ok = r.returncode == 0 and quoted == hand[0]
