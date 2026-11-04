@@ -19,6 +19,7 @@
 #   python bomdd-job.py ECO-062 [--register PATH] [--json]
 #   python bomdd-job.py --all [--register PATH]      # verified 以外の全 ECO
 #   python bomdd-job.py --dwell [--register PATH] [--stale-days N] [--json] [--no-cache]   # 滞留の測定(ECO-120・キャッシュ ECO-122)
+#   python bomdd-job.py --dwell --brief [--register PATH] [--stale-days N]   # セッション開始用の短い形(ECO-124)
 #   python bomdd-job.py --selftest
 #
 # 検出力の限界(宣言):
@@ -54,6 +55,9 @@
 #       ECO-122: コマンド行では blob ごとの解析結果をキャッシュ(dwell_cache_dir_default()・どのリポジトリの外)に置いて使い回す。
 #       キャッシュは履歴からの導出で、消してよい(次の実行が全部読み直す)。標準出力は変わらず、数は標準エラーへ。--no-cache で使わない。
 #       形の正しい誤ったエントリは信じる(内容アドレスのキャッシュは見分けられない)— 疑わしければ --no-cache。
+#   (9) ECO-124(--brief): 同じ dwell() の結果から最大 7 行の短い形を出す(セッション開始の hook = dwell-session-hook.py が使う)。
+#       DECIDE 行= 理由なしで閾値を越えてから 7 日以内(状態を持たず毎回導出)・backlog= それより前に越えたもの(理由ごとの数)。
+#       測れないときは「dwell: not measured — 理由」の 1 行。判断の規則は playbook §8(文書・止めない)。--json との併用は引数不正。
 
 import io
 import json
@@ -854,6 +858,49 @@ def _dwell_selftest() -> int:
             if not dwell(regc, 14, real_now)["uncommitted"]["register_differs_from_head"]:
                 fails.append("V4 register の未コミット変更で HEAD 差が出ない")
 
+            # --- ECO-124 V2: 短い形(DECIDE 行の窓・理由・一時停止・上限・測れない 1 行) ---
+            rd = Path(td) / "d"
+            regd = repo(rd)
+            e_old = ("ECO-201", "filed", [])                                  # 21.5 日・理由なし → backlog
+            e_edge = ("ECO-202", "implemented", [])                           # 21.0 日・理由なし → DECIDE(窓の端を含む)
+            e_why = ("ECO-203", "filed", [("waiting_on", "human-ruling")])    # 15.0 日・理由あり → backlog(human-ruling)
+            e_new = ("ECO-204", "filed", [])                                  # 14.5 日・理由なし → DECIDE
+            e_young = ("ECO-205", "filed", [])                                # 3 日 → どこにも出ない
+            commit(rd, regd, blk([e_old]), 21.5)
+            commit(rd, regd, blk([e_old, e_edge]), 21.0)
+            commit(rd, regd, blk([e_old, e_edge, e_why]), 15.0)
+            commit(rd, regd, blk([e_old, e_edge, e_why, e_new]), 14.5)
+            commit(rd, regd, blk([e_old, e_edge, e_why, e_new, e_young]), 3)
+            b = render_brief(dwell(regd, 14, now)).splitlines()
+            dec = next((l for l in b if l.startswith("DECIDE:")), "")
+            if not dec.startswith("DECIDE: crossed 14 d in the last 7 days with no reason: 2 — ") \
+                    or "ECO-202" not in dec or "ECO-204" not in dec or any(x in dec for x in ("ECO-201", "ECO-203", "ECO-205")):
+                fails.append(f"V2(124) DECIDE 行: 14.5/21.0 日だけが載るはず: {dec!r}")
+            back = next((l for l in b if l.startswith("backlog:")), "")
+            if not back.startswith("backlog: unexplained 1 · human-ruling 1"):
+                fails.append(f"V2(124) backlog 行: 21.5 日(理由なし)と 15 日(理由あり)が数えられない: {back!r}")
+            if not b[0].endswith("— open 5, over 14 d 4") or len(b) > 7 or not any(l.startswith("rule: ") for l in b):
+                fails.append(f"V2(124) 見出し・行数・規則行: {b}")
+            commit(rd, regd, blk([e_old, e_edge, e_why, e_new, e_young]) + "paused:\n  reason: r\n  resume_when: w\n", 1)
+            b = render_brief(dwell(regd, 14, now)).splitlines()
+            if any(l.startswith(("DECIDE:", "rule:")) for l in b) or "backlog: paused 4 (a triage" not in "\n".join(b) \
+                    or not any(l.startswith("paused: 1.0 d — r / resume when: w") for l in b):
+                fails.append(f"V2(124) paused: DECIDE が出た / backlog と paused 行が違う: {b}")
+            re_ = Path(td) / "e"
+            rege = repo(re_)
+            commit(re_, rege, blk([(f"ECO-3{i:02d}", "filed", []) for i in range(12)]), 16)
+            dec = next((l for l in render_brief(dwell(rege, 14, now)).splitlines() if l.startswith("DECIDE:")), "")
+            if ": 12 — " not in dec or not dec.endswith(", +2 more") or dec.count(" filed 16.0 d") != 10:
+                fails.append(f"V2(124) 上限 10 件+「+N more」: {dec!r}")
+            for argv, frag in ((["--dwell", "--brief", "--register", str(Path(td) / "nope.yaml")], "測定不能"),
+                               (["--dwell", "--brief", "--json"], "同時に使えない")):
+                buf = io.StringIO()
+                with contextlib.redirect_stdout(buf):
+                    rc = dwell_main(argv)
+                lines = buf.getvalue().splitlines()
+                if rc != 0 or len(lines) != 1 or not lines[0].startswith("dwell: not measured — ") or frag not in lines[0]:
+                    fails.append(f"V2(124) 測れない 1 行 {argv[1:]}: rc={rc} 出力={buf.getvalue()[:100]!r}")
+
             # --- 引数(exit 0・1 行で返す) ---
             for argv, frag in ((["--dwell", "--stale-days", "0"], "--stale-days"), (["--dwell", "--bogus"], "未知のオプション"),
                                (["--dwell", "--register"], "値がない"),
@@ -873,7 +920,8 @@ def _dwell_selftest() -> int:
           "直列=並列 / V3 理由 7 群+語彙外・終端の警告・ECO-079 形・閾値 14/2・job 不変・paused 群/警告 / V4 dirty 年齢・古い mtime だけの"
           f"ファイル・clean・register の HEAD 差・{v4_note[0]} / 引数 4 種 / ECO-122/123 キャッシュ {cache_n} 腕: 冷・温(警告は残る)・途中で切れた"
           "ファイル・別の版キー・書けない置き場・新しいコミット 1 つ・版キーが source に追従・amend で消えた版を残さない"
-          + ("".join(f"・{x}" for x in cache_notes)) + ")")
+          + ("".join(f"・{x}" for x in cache_notes)) + " / ECO-124 短い形: DECIDE 窓 14.5/21.0 載る・21.5/理由あり/3 日は載らない・"
+          "backlog の理由別の数・paused で DECIDE なし・上限 10+「+2 more」・測れない 1 行 2 種)")
     return 0
 
 
@@ -1594,6 +1642,49 @@ def render_dwell(r: dict) -> str:
     return "\n".join(out) + "\n"
 
 
+BRIEF_WINDOW_DAYS = 7    # ECO-124 P1: 閾値を越えてからこの日数以内= 判断の期限(それより前に越えたものは backlog)
+BRIEF_ID_CAP = 10
+
+
+def brief_not_measured(reason: str) -> str:
+    """ECO-124: 測れないときの 1 行(黙らない — 「止まったものはない」と見分けがつかなくなる)。"""
+    return f"dwell: not measured — {reason}\n"
+
+
+def render_brief(r: dict, window: int = BRIEF_WINDOW_DAYS, cap: int = BRIEF_ID_CAP) -> str:
+    """ECO-124 P1: セッション開始用の短い形(最大 7 行)。dwell() の結果だけから導出する(状態を持たない)。
+    DECIDE= open・waiting_on なし・paused でない・days が (T, T+window]。backlog= 閾値超でそれ以外(理由ごとの数)。"""
+    t = r["stale_days"]
+    over = [o for o in r["open"] if o["over_threshold"]]
+    due = [o for o in over if o["group"] == "none" and o["days"] <= t + window]
+    due_ids = {o["id"] for o in due}
+    back = {}
+    for o in over:
+        if o["id"] not in due_ids:
+            g = "unexplained" if o["group"] == "none" else o["group"]
+            back[g] = back.get(g, 0) + 1
+    out = [f"dwell: {Path(r['repo']).name} {r['register']} — open {len(r['open'])}, over {t} d {len(over)}"]
+    if due:
+        ids = ", ".join(f"{o['id']} {o['status']} {o['days']} d" for o in due[:cap])
+        more = f", +{len(due) - cap} more" if len(due) > cap else ""
+        out.append(f"DECIDE: crossed {t} d in the last {window} days with no reason: {len(due)} — {ids}{more}")
+        out.append("rule: put these to the human in this session's first handoff — resume / record waiting_on / pause / "
+                   "withdraw or supersede (the last three are the human's; playbook §8, ECO-124)")
+    keys = (["unexplained"] if "unexplained" in back else []) + sorted(k for k in back if k != "unexplained")
+    out.append("backlog: " + (" · ".join(f"{k} {back[k]}" for k in keys) if keys else "none")
+               + (" (a triage the human schedules; full list: bomdd-job --dwell)" if keys else ""))
+    if r["paused"]:
+        p = r["paused"]
+        out.append(f"paused: {p['days']} d — {p['reason']} / resume when: {p['resume_when']}")
+    u = r["uncommitted"]
+    old = "-" if u["oldest_days_lower_bound"] is None else f"{u['oldest_days_lower_bound']} d (lower bound)"
+    out.append(f"uncommitted: dirty {u['dirty_paths']}, oldest {old}, register differs from HEAD: "
+               f"{'yes' if u['register_differs_from_head'] else 'no'}")
+    if r["warnings"]:
+        out.append(f"warnings: {len(r['warnings'])} — run bomdd-job --dwell for the lines")
+    return "\n".join(out) + "\n"
+
+
 def _dwell_cache_lines(stats: dict) -> list:
     """ECO-122: キャッシュの数(標準エラーへ — 標準出力はキャッシュの有無で変えない)。"""
     if stats.get("cache") != "on":
@@ -1619,11 +1710,13 @@ def _dwell_cache_report(stats: dict):
 
 def dwell_main(argv) -> int:
     """--dwell の入口。引数不正・測定不能は 1 行(--json は {"error"})で返し、exit 0(原則 4)。"""
-    known = {"--dwell", "--register", "--json", "--stale-days", "--no-cache"}
+    known = {"--dwell", "--register", "--json", "--stale-days", "--no-cache", "--brief"}
     err, reg_rel, stale = None, "bomdd/60-change-register.yaml", 14
     unknown = [a for a in argv if a.startswith("--") and a not in known]
     if unknown:
         err = f"未知のオプション(引数不正): {' '.join(unknown)}"
+    elif "--brief" in argv and "--json" in argv:   # ECO-124: 短い形は人とセッションの文脈向け — 機械は --json の全体を読む
+        err = "--brief と --json は同時に使えない(引数不正)"
     for opt in ("--register", "--stale-days"):
         if not err and opt in argv:
             i = argv.index(opt)
@@ -1648,7 +1741,9 @@ def dwell_main(argv) -> int:
                 err = f"測定不能: {type(e).__name__}: {str(e)[:160]}"
             if not err:
                 _dwell_cache_report(stats)
-    if "--json" in argv:
+    if "--brief" in argv:
+        print(brief_not_measured(err) if err else render_brief(res), end="")
+    elif "--json" in argv:
         print(json.dumps({"error": err} if err else res, ensure_ascii=False, indent=2))
     else:
         print(f"MISSING_INPUT {err}" if err else render_dwell(res), end="" if not err else "\n")

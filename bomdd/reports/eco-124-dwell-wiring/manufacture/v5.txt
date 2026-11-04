@@ -1,0 +1,9 @@
+FAIL BomDD: session exit 1
+  hand line 1   | dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d 1
+  session quote | None
+    reply | Failed to authenticate: OAuth session expired and could not be refreshed
+FAIL ViewTube: session exit 1
+  hand line 1   | dwell: ViewTube bomdd/process/change-register.yaml — open 173, over 14 d 173
+  session quote | None
+    reply | Failed to authenticate: OAuth session expired and could not be refreshed
+V5 FAIL

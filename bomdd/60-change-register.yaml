@@ -3968,8 +3968,8 @@ changes:
     title: progress - the dwell view is shown at the start of every Claude Code session in a BomDD repository as a short summary that puts what just crossed the threshold apart from the backlog, and what to decide about it is written down (filed only)
     date: 2026-11-04
     origin: improvement
-    status: filed   # 2026-11-04 filed on the user's "起票に進む"; manufacture waits for the start instruction, which also answers the decide rule (P3) and the user-level settings edit (P2)
-    waiting_on: start-instruction   # ECO-120 vocabulary
+    status: implemented   # 2026-11-04 manufactured on the user's "1:A 2:A 3:A" (rule of P3 as written, settings edit approved, manufacture as filed; order section 4: V1-V4 and V6 PASS, V5 not measured - the CLI's sign-in expired); filed 97cb6c1 on "起票に進む"
+    waiting_on: human-acceptance   # ECO-120 vocabulary; V5 is measured before the closure
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       The user's "工程管理と進捗管理の改善は、仕組みの問題です" and the hook question answered after ECO-120 (a hook gives "see"; it still needs

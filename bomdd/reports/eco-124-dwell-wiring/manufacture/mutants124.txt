@@ -1,0 +1,11 @@
+B0 unchanged: dwell selftest PASS
+B1 window end excluded: dwell selftest FAILED — V2(124) DECIDE 行: 14.5/21.0 日だけが載るはず: 'DECIDE: crossed 14 d in the last 7 days with no reason: 1 — ECO-204 filed 14.5 d'
+B2 DECIDE ignores the reason: dwell selftest FAILED — V2(124) DECIDE 行: 14.5/21.0 日だけが載るはず: 'DECIDE: crossed 14 d in the last 7 days with no reason: 3 — ECO-202 implemented 21.0 d, ECO-203 filed 15.0 d, E
+B3 no cap: dwell selftest FAILED — V2(124) 上限 10 件+「+N more」: 'DECIDE: crossed 14 d in the last 7 days with no reason: 12 — ECO-300 filed 16.0 d, ECO-301 filed 16.0 d, ECO-302 filed 16.
+B4 not measured goes silent: dwell selftest FAILED — V2(124) 測れない 1 行 ['--brief', '--register', 'C:\\Users\\akira\\AppData\\Local\\Temp\\tmp8oqysz59\\nope.yaml']: rc=0 出力=''
+H0 unchanged: hook selftest PASS
+H1 tool failure swallowed: hook selftest FAILED — (c) 落ちた道具が 1 行にならない: ''
+H2 time bound swallowed: hook selftest FAILED — (d) 上限: 1.9 秒・''
+H3 unexpected output passed through: hook selftest FAILED — (c) 想定外の出力が 1 行にならない
+H4 input cwd ignored: hook selftest FAILED — (a) register のない場所で出力した: none
+mutants red 8 of 8 applied; unchanged copies green: yes

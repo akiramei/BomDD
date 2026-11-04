@@ -50,6 +50,14 @@
 `[INFORM|DECIDE|DISCUSS|REQUEST / CONTINUING|BLOCKED|COMPLETE|PAUSED]`+mode ごとの必須要素)。
 試行評価= EXP-20260911-01(回収済み)・配布(product-profile)は別 ECO。
 
+## 進捗の表示と判断(ECO-124)
+
+セッションを始めたら、各リポの滞留の短い形を見る — Claude Code では `SessionStart` hook
+([method/tools/dwell-session-hook.py](method/tools/dwell-session-hook.py))が文脈に出す。hook の届かない
+ハーネス・機械では手で走らせる: `python <BomDD>/method/tools/bomdd-job.py --dwell --brief [--register PATH]`。
+`DECIDE` 行に載った項目は、そのセッションの最初の handoff で人に尋ねる(再開 / 待ちの理由を書く / 一時停止 /
+取り下げ・置き換え — 後の 3 つは人の判断)。`backlog` 行はセッションごとには尋ねない(規則の正本= playbook §8)。
+
 ## 正本の所在
 
 | 対象 | 正本 |

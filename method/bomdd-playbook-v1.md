@@ -752,6 +752,12 @@ Routing を導出するとき(Phase 3 の手順 4–6、ECO での導出のや�
 
 **滞留の測定(candidate・ECO-120・測る — 止めない)**: 流れている ECO は速い(6 リポ・628 の閉じた区間のうち 623 が 10 日以内に次の status へ移った)が、止まった ECO はそのまま残る(open のほぼ全件が 30 日超)。`python method/tools/bomdd-job.py --dwell [--register PATH] [--stale-days N]` が、register の git 履歴の全コミットから、open の各エントリが現在の status に入ったコミットと経過日数を導出し、理由 × 経過の集計・閾値(既定 14 日)を超えて理由のないもの・理由ごとの群・status ごとの過去の滞留・未コミットの作業を出す。開始日は書かない(導出する — §13)。待ちの理由は register の任意欄 `waiting_on`(start-instruction / human-ruling / human-acceptance / independent-inspection / `eco:<ID>` / external)に、リポ全体の一時停止は top-level の `paused: {reason, resume_when}` に書く([templates/60-change-register.yaml](templates/60-change-register.yaml))。**gate ではない**: 経過日数で検査を赤にすると、同じ tree が暦だけで赤になる。限界= status や理由が正しいかは読まない・誰かが走らせなければ何も出ない・未コミットの作業の年齢は下限(後の触れで新しく見える)・終端 status(applied 等)での滞留は並ばない。
 
+**滞留の表示と判断(candidate・ECO-124・表示は測る/判断の規則は文書)**: 「誰かが走らせなければ何も出ない」を閉じるため、Claude Code の `SessionStart` hook([tools/dwell-session-hook.py](tools/dwell-session-hook.py)・ユーザー設定に 1 台 1 回)が、register のあるリポでセッションを始めるたびに `bomdd-job.py --dwell --brief`(最大 7 行)を文脈に出す。測れないときは `dwell: not measured — 理由` の 1 行(黙らない)。短い形は**判断の期限**と**積み残し**を分ける — 全文は積み残しで埋まり(ViewTube 180 行のうち 170 件が理由なし)、今週止まった 1 件が埋もれるため。
+- **DECIDE 行**(理由なしで閾値を越えてから 7 日以内・毎回導出): そのセッションの**最初の handoff で人に尋ねる**(DECIDE)。選択肢= 再開する / 待ちの理由を書く(`waiting_on`・止めた工程が書く)/ リポを一時停止する(`paused`)/ 取り下げ・置き換え。後の 3 つは人の判断で、AI は自分で選ばない。
+- **backlog 行**(それより前に越えたもの・理由ごとの数): セッションごとには尋ねない。人が日を決めてリポごとに一度仕分ける(全文は `--dwell`)。
+- **測る**: 判断された項目は DECIDE 行から消える(理由・一時停止・別の status)。判断されないまま 7 日を過ぎると backlog に移る — 後の再測定で、適用後に理由なしで backlog に入った件数を数える。
+- **限界**: hook を入れた機械の Claude Code セッションだけに出る(他のハーネスは `python <BomDD>/method/tools/bomdd-job.py --dwell --brief [--register PATH]` を手で走らせる)・尋ねることは止めない(文書)・最初の 1 回は解析キャッシュが空で遅い(上限 75 秒を超えたら not measured)・表示は最後の `SessionStart`(開始・再開・`/clear`・圧縮)の時点のもの。
+
 ### 8.1 unit 再編成(挙動保存リファクタ)ECO の規律 — scale-02/ECO-036 系列(全5段)で確立
 
 ハブ unit(god ファイル)の解体など「挙動を変えずに M-BOM unit 構造を変える」ECO の型。

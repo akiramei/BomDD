@@ -1,0 +1,24 @@
+V1 at now = 2026-11-04T12:00:00+00:00, tool sha256 3d290fc20aa44423
+PASS BomDD: 3 lines; open 3, over 1, DECIDE -, backlog {'unexplained': 1}, paused no, dirty 7, warnings 0
+    | dwell: BomDD bomdd/60-change-register.yaml — open 3, over 14 d 1
+    | backlog: unexplained 1 (a triage the human schedules; full list: bomdd-job --dwell)
+    | uncommitted: dirty 7, oldest 5.9 d (lower bound), register differs from HEAD: no
+PASS ViewTube: 5 lines; open 173, over 173, DECIDE ['ECO-VT-267'], backlog {'unexplained': 169, 'eco:ECO-VT-081': 2, 'eco:ECO-VT-095': 1}, paused no, dirty 4, warnings 0
+    | dwell: ViewTube bomdd/process/change-register.yaml — open 173, over 14 d 173
+    | DECIDE: crossed 14 d in the last 7 days with no reason: 1 — ECO-VT-267 staged 15.0 d
+    | rule: put these to the human in this session's first handoff — resume / record waiting_on / pause / withdraw or supersede (the last three are the human's; playbook §8, ECO-124)
+    | backlog: unexplained 169 · eco:ECO-VT-081 2 · eco:ECO-VT-095 1 (a triage the human schedules; full list: bomdd-job --dwell)
+    | uncommitted: dirty 4, oldest 21.8 d (lower bound), register differs from HEAD: no
+PASS ViewPrism2: 3 lines; open 24, over 24, DECIDE -, backlog {'unexplained': 17, 'human-acceptance': 6, 'start-instruction': 1}, paused no, dirty 0, warnings 0
+    | dwell: ViewPrism2 bomdd/60-change-register.yaml — open 24, over 14 d 24
+    | backlog: unexplained 17 · human-acceptance 6 · start-instruction 1 (a triage the human schedules; full list: bomdd-job --dwell)
+    | uncommitted: dirty 0, oldest -, register differs from HEAD: no
+PASS BomDD-Plm: 3 lines; open 0, over 0, DECIDE -, backlog -, paused no, dirty 0, warnings 0
+    | dwell: BomDD-Plm bomdd/60-change-register.yaml — open 0, over 14 d 0
+    | backlog: none
+    | uncommitted: dirty 0, oldest -, register differs from HEAD: no
+PASS MoviePad-Remake: 3 lines; open 0, over 0, DECIDE -, backlog -, paused no, dirty 0, warnings 0
+    | dwell: MoviePad-Remake bomdd/60-change-register.yaml — open 0, over 14 d 0
+    | backlog: none
+    | uncommitted: dirty 0, oldest -, register differs from HEAD: no
+V1 PASS (5/5)

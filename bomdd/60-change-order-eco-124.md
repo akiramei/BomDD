@@ -148,6 +148,52 @@ required_gates: [V1, V2, V3, V4, V5, V6]
 
 Conditions are frozen at filing; results go to the closing section.
 
+## 4. Manufacture (2026-11-04, on the user's "1:A 2:A 3:A")
+
+The user's ruling at the start instruction: **1:A** the rule of P3 as written; **2:A** the user-level settings edit approved (the
+entry shown in the ruling request); **3:A** manufacture as filed.
+
+**What was made.**
+- `method/tools/bomdd-job.py` (sha256 `3d290fc20aa44423…`): `render_brief()` and `brief_not_measured()`; `--brief` in `dwell_main`
+  (with `--json` = argument error); header usage line and note (9); dwell selftest arms for the brief. The brief is 3-7 lines: header,
+  `DECIDE` (only when due), a `rule:` line naming the decide rule (only with `DECIDE` — added so that a session reading the brief has the
+  rule beside the entries; still within P1's 8 lines), `backlog`, `paused` (only when paused), `uncommitted`, `warnings` (only when any).
+- `method/tools/dwell-session-hook.py` (new, sha256 `5e46cce424679f2e…`): hook mode, `--check [--settings PATH]` (exit 0 installed / 1
+  not / 2 unreadable), `--selftest`. On a time bound the child is stopped with its process tree (`taskkill /T` on Windows, the process
+  group elsewhere).
+- `method/bomdd-playbook-v1.md` §8: one paragraph after ECO-120's (display and decide rule, measured by the DECIDE line, limits).
+- `AGENTS.md`: a short section "進捗の表示と判断(ECO-124)" before 正本の所在 (the hook, the manual command, the rule in one sentence).
+- Outside the repository: `~/.claude/settings.json` gained the one `SessionStart` entry (V4).
+
+**Results** (evidence in `bomdd/reports/eco-124-dwell-wiring/manufacture/`, README there):
+- **V1 PASS** (`v1.txt`): five registers at now = 2026-11-04T12:00Z, the brief's header, `DECIDE` ids, backlog counts, paused,
+  uncommitted and warnings equal an independent derivation from the same `dwell()` result; 3-5 lines each. ViewTube: `DECIDE` =
+  ECO-VT-267 (staged 15.0 d), backlog unexplained 169 · eco:ECO-VT-081 2 · eco:ECO-VT-095 1.
+- **V2 PASS**: `bomdd-job.py --selftest` exit 0; the dwell PASS line names the ECO-124 arms (14.5 and 21.0 d on `DECIDE`, 21.5 d /
+  with a reason / 3 d not; backlog counts by reason; paused = no `DECIDE`; cap 10 + "+2 more"; two one-line not-measured cases).
+  Known-bad (`mutants124.txt`): window end excluded, reason ignored, no cap, not-measured silent — 4 of 4 FAILED; the unchanged copy
+  passes.
+- **V3 PASS**: `dwell-session-hook.py --selftest` exit 0 (no register / not git = silent; both register places, from a subfolder =
+  brief; the tool's own not-measured line; a crashing tool and unexpected output = one hook line; bound 1.5 s with a grandchild = one
+  line within the bound; input without cwd, empty, not JSON, a missing folder, a non-string = the process's folder; `--check` 4 cases).
+  Known-bad: tool failure swallowed, time bound swallowed, unexpected output passed through, input cwd ignored — 4 of 4 FAILED; the
+  unchanged copy passes.
+- **V4 PASS** (`v4.txt`): before 5,017 bytes with hooks [PreToolUse], after 5,337 bytes with [PreToolUse, SessionStart]; every other key
+  and the PreToolUse entry unchanged (parsed JSON); `--check` reports installed (exit 0), and not installed (exit 1) on the copy of the
+  settings before the edit.
+- **V5 NOT MEASURED** (`v5.txt`): the two headless sessions (`claude -p` in BomDD and ViewTube) did not start: "Failed to authenticate:
+  OAuth session expired and could not be refreshed" (exit 1). Not a result about the hook. V5 stays open; it is measured before the
+  closure once the CLI is signed in again (or by a desktop session started in each repository).
+- **V6 PASS** (`v6.txt`): against the filing tree's tool (97cb6c1, run from a detached worktree so it reads its own activation map —
+  a first run with a copy in the scratchpad differed in required_skills only, for that reason): `--dwell` text and JSON identical on the
+  five registers at a fixed now (no cache, serial); `--all --json`, `--all`, `ECO-119 --json`, `ECO-124 --json` byte-identical;
+  `bomdd-job`, `bomdd-run` and `dwell-session-hook` selftests exit 0; the hook on ViewTube warm 0.89, 0.83, 0.74 s (< 3 s).
+  Self-conformance and CI: observed at the manufacture commit (below the commit, in the closure).
+
+**Found while making.** The measurement scripts that load the tool start the dwell read's worker processes, which under Windows' spawn
+import the calling script again — both scripts needed a main guard (and the mutant copies a folder on `sys.path`). Not a tool defect;
+recorded so the next measurement does not lose time to it.
+
 ## /preflight receipt (start path: manual — the user's "起票に進む" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's choice to file the wiring and the decide rule; filing only).

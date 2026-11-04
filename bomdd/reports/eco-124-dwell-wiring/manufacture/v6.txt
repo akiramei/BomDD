@@ -1,0 +1,18 @@
+(1) --dwell full view and JSON, old (filing tree) vs new, now fixed, no cache
+  PASS BomDD: text identical, json identical
+  PASS ViewTube: text identical, json identical
+  PASS ViewPrism2: text identical, json identical
+  PASS BomDD-Plm: text identical, json identical
+  PASS MoviePad-Remake: text identical, json identical
+(2) command line from BomDD
+  PASS --all --json: 13767 bytes, identical
+  PASS --all: 9354 bytes, identical
+  PASS ECO-119 --json: 4896 bytes, identical
+  PASS ECO-124 --json: 4681 bytes, identical
+(3) selftests
+  PASS bomdd-job --selftest: exit 0
+  PASS bomdd-run --selftest: exit 0
+  PASS dwell-session-hook --selftest: exit 0
+(4) the hook on ViewTube, warm cache, wall clock
+  PASS runs 0.89, 0.83, 0.74 s (bound for the gate: 3 s)
+V6 (measured part) PASS

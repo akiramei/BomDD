@@ -1,0 +1,23 @@
+ECO-124 V4 — the user-level settings edit (2026-11-04, on the user's "1:A 2:A 3:A")
+
+File: C:\Users\akira\.claude\settings.json (outside the repository; only the hooks section is recorded here, the rest is the user's)
+  before: sha256 84db3ade43f57d23..., 5017 bytes, LF; hooks keys [PreToolUse]
+  after:  sha256 d1e8899ab9b0a6dd..., 5337 bytes, LF; hooks keys [PreToolUse, SessionStart]
+  keys other than hooks: unchanged (compared as parsed JSON)
+  PreToolUse: unchanged (compared as parsed JSON)
+
+Added (the entry shown to the user at the ruling):
+  "SessionStart": [{"matcher": "startup|resume|clear|compact",
+                    "hooks": [{"type": "command",
+                               "command": "python -X utf8 \"C:/Users/akira/source/repos/BomDD/method/tools/dwell-session-hook.py\"",
+                               "timeout": 90}]}]
+
+--check:
+  python -X utf8 method/tools/dwell-session-hook.py --check
+    installed: matcher 'startup|resume|clear|compact', timeout 90, command python -X utf8 "C:/Users/akira/source/repos/BomDD/method/tools/dwell-session-hook.py"
+    exit 0
+  python -X utf8 method/tools/dwell-session-hook.py --check --settings <copy of the settings before the edit>
+    not installed: no SessionStart entry runs dwell-session-hook.py in <copy>
+    exit 1
+
+Removal: delete the "SessionStart" key from hooks (one entry); --check then reports not installed.
