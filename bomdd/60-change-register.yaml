@@ -3890,8 +3890,7 @@ changes:
     title: progress - the dwell view reuses each register blob's parse result from a derived, disposable cache outside every repository, so a repeated run parses only the commits it has not seen; standard output unchanged (filed only)
     date: 2026-11-04
     origin: improvement
-    status: implemented   # 2026-11-04 manufactured on the user's "A: 起票どおり製造" (no CI wiring; order section 4: V1-V4 PASS, V5 time PASS); filed d06472a on "Aを採用します" (option A; writing status dates into the register not chosen)
-    waiting_on: human-acceptance   # ECO-120 vocabulary; the closure waits for the user
+    status: verified   # 2026-11-04 closed on the user's "クローズする" (order section 5: V1-V5 PASS, manufacturer's calibration only; window 9e926be..9cd4c3d closed, no path outside allowed_paths, control FAIL; the nested selftest misses M1 and M3, and the job view reads 12 verified ECOs with an English Closure heading as LEDGER_INCONSISTENT - both recorded, proposed); manufactured 9cd4c3d on "A: 起票どおり製造" (no CI wiring); filed d06472a on "Aを採用します"
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       The user's "ViewTube 39.7 秒というのはかなり長いです" (2026-11-04). Measured (bomdd/reports/eco-122-dwell-cache/): ECO-120's --dwell
@@ -3904,6 +3903,7 @@ changes:
     diff_audit:
       baseline: "9e926be"  # HEAD before this filing
       allowed_paths: [method/tools/bomdd-job.py, bomdd/60-change-order-eco-122.md, bomdd/60-change-register.yaml, bomdd/reports/eco-122-dwell-cache/]
+      head: "9cd4c3d"  # manufacture commit; the window is closed (17 paths, none outside allowed_paths)
     required_gates: [V1, V2, V3, V4, V5]   # the order's machine copy (ECO-112 G1)
     summary: >
       P1 (measure): the dwell read takes each commit's register blob id and parses only the blobs not in the cache; per blob it keeps what
@@ -3915,12 +3915,14 @@ changes:
       Not chosen: status dates written in the register (writer-dependent, a transcribed value, needs a stop, backfill), a regex parser,
       git log -p diffs, the cache in each repository's .git, a hand-kept version number, a content checksum.
     verification: >
-      V1 five registers (BomDD, ViewTube, ViewPrism2, BomDD-Plm, MoviePad-Remake; TimetableAdv excluded by the user) at recorded heads, one
-      fixed now: ECO-120's tool (9e926be), the new tool without a cache, cold and warm byte-identical in text and JSON; warm parses 0 / V2
-      one new commit parses 1; after an amend the file holds no blob outside the history / V3 truncated or non-JSON cache and another
-      version key are misses; unwritable directory reported, exit 0; a parse failure warned cold and warm; a well-formed wrong entry shown
-      believed; broken copies M1-M4 each turn an arm red / V4 existing modes byte-identical; bomdd-job and bomdd-run selftests exit 0; each
-      repository's status and git directory listing unchanged by a run / V5 ViewTube warm within 5 s and cold within 60 s on the user's
-      machine; self-conformance exit 0 before each commit; CI green by the full SHA. Conditions are frozen at filing; results go to the
-      closing section.
+      Verified 2026-11-04 (order section 5; manufacturer's calibration only). V1 PASS: BomDD, ViewTube, ViewPrism2, BomDD-Plm and
+      MoviePad-Remake at the heads in v1.txt, now fixed: ECO-120's tool (9e926be), the new tool without a cache, cold and warm byte-identical
+      in text and JSON; cold parsed every distinct blob (355, 1,732, 440, 19, 21), warm 0. V2 PASS: one new commit parsed 1; after an amend 0
+      blobs outside the history kept. V3 PASS: cut and non-JSON cache and another version key are misses; a cache path that is a file
+      reports write failed, exit 0; the parse failure warned cold and warm; a well-formed wrong entry shown believed (declared); M1-M4 4 of 4
+      red against v23.py. V4 PASS: --all --json, ECO-119 --json, --all byte-identical; both selftests exit 0; five repositories' status and
+      git directory unchanged by a cold run. V5 PASS: ViewTube cold 37.26-40.22 s, warm 0.70-0.83 s; self-conformance exit 0 before d06472a
+      and 9cd4c3d; CI 41760147971 and 41764241004 success. Found at closure: the nested selftest misses M1 (key not tied to the source) and
+      M3 (pruning); only v23.py holds them. Declared: CI does not run bomdd-job --selftest; repeated contents tested on fixtures only; the
+      first run stays 37-40 s; a well-formed wrong entry is believed.
     producer: EQ-004

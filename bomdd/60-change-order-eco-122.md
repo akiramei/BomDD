@@ -213,6 +213,93 @@ used the same tool file (sha256 `fe2961aa7129df76…`, printed by `v1.py` and ch
 
 **Not done here:** the commit's self-conformance and CI (V5), the closure.
 
+## 5. クローズ (closure, 2026-11-04, verified on the user's "クローズする", manufacturer's calibration only)
+
+- **Window.** Baseline `9e926be` → filing `d06472a` → manufacture `9cd4c3d` (diff_audit.head; **the window is closed**; the closure commit
+  holds records only: this order, the register and two closure files under `bomdd/reports/eco-122-dwell-cache/manufacture/`).
+  - Inside the window (`git diff --name-only 9e926be 9cd4c3d`, 17 paths): `method/tools/bomdd-job.py`, this order, the register, and
+    14 files under `bomdd/reports/eco-122-dwell-cache/`. **No path outside `allowed_paths`.** Control: the same filter on ECO-121's
+    window (`32606b4..9e926be`) lists 31 paths outside, so the filter can fail.
+  - The committed tool is the one measured: `git show 9cd4c3d:method/tools/bomdd-job.py` has sha256 `fe2961aa7129df76…`, the hash `v1.py`
+    printed.
+- **Acceptance results:**
+  - **V1 result: PASS** (section 4): five registers, four ways, byte-identical in text and JSON; cold parsed every distinct blob, warm 0.
+  - **V2 result: PASS** (section 4).
+  - **V3 result: PASS** (section 4), with the known-bad M1-M4 4 of 4 against `v23.py`.
+  - **V4 result: PASS** (section 4).
+  - **V5 result: PASS.**
+    - Time: ViewTube cold 37.26-40.22 s (limit 60), warm 0.70-0.83 s (limit 5), three runs each.
+    - Self-conformance exit 0 observed before each commit: filing `d06472a` and manufacture `9cd4c3d` (ECO-119's untracked R8 report held
+      outside the tree each time and restored with its sha256 checked).
+    - CI: run 41760147971 on `d06472a` **success**; run 41764241004 on `9cd4c3d` **success** (conclusions read with the full SHA).
+- **Found at closure (an instrument limit, not a closing condition):** the same four broken copies run through the tool's own
+  `--selftest` (`mutants_selftest.py`, `mutants_selftest.txt`): M2 red, M4 `UNMEASURABLE` (exit 2), **M1 and M3 stay green**. The
+  selftest's version-key arm changes the key written in the file, so it does not test that the key follows the parse functions' source;
+  and it has no amend arm, so it does not test that rewritten-away blobs are dropped. Section 1 P3's list of arms is met as frozen; the
+  two properties are held only by `v23.py`, which nobody reruns. Not changed here (the window is closed); proposed to the user as a
+  follow-up.
+- **Found at closure (outside this ECO): the job view calls 12 verified ECOs inconsistent.** This closure's first heading,
+  `## 5. Closure (…verified…)`, made `bomdd-job.py ECO-122` report `LEDGER_INCONSISTENT` ("register.status=verified だが order にクローズ節
+  (verified)がない"): `CLOSE_HEAD_RE` requires `クローズ` right after the section number. Since records became English-primary
+  (2026-10-12), ECO-105 to ECO-111, ECO-116 to ECO-118, ECO-120 and ECO-121 were closed under an English `Closure` heading, and each reads
+  `LEDGER_INCONSISTENT` today (checked over ECO-100 to ECO-121; ECO-112 to ECO-115 wrote `## N. クローズ (closure, …)` and read `NONE`).
+  `--all` lists only entries that are not verified, so nothing showed it. This heading now uses the detected form; the 12 are not
+  changed here (a change to `bomdd-job.py` or to closed orders, outside this window) and are proposed to the user with the item above.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; one tool changed)
+
+- **The claim (one sentence).** `bomdd-job.py --dwell` with the per-blob cache prints the same standard output as ECO-120's tool whether
+  the cache is cold, warm or off, a repeated run on ViewTube's register takes under a second, a faulty cache is a miss, and no
+  repository is written.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The same output as ECO-120's tool, cold, warm or off": **observed / conditionally eligible**. Five real registers at recorded heads,
+    one fixed `now`, four ways byte-identical (`v1.py`); the reference is the previous commit's tool, which the change did not touch.
+    The condition: none of the five registers holds a repeated content, so the "parse a repeated blob once" path is tested on fixtures
+    only (V2, V3, the selftest's fixture (a)); and `now` was fixed in-process, so the command line's own path is compared by the
+    existing-mode check (V4) and the stderr arm (V3c), not byte for byte against ECO-120's command line.
+  - "A repeated run takes under a second on ViewTube": **observed / eligible** for one machine, three warm runs (0.70-0.83 s).
+  - "A faulty cache is a miss": **observed / eligible**. Cut, non-JSON, another key, an unwritable path; each arm shown able to fail
+    (M1-M4 against `v23.py`).
+  - "No repository is written": **observed / conditionally eligible**. Status and git-directory listing before and after a cold run in
+    five repositories; git's `index` and `logs/` were excluded from the listing, so a write there would not be seen.
+  - "A well-formed wrong entry is believed": **observed / eligible** as a declared limit (V3e shows it; nothing claims to catch it).
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): 4, none in this ECO's committed verdicts.
+  - The first selftest expected `parsed` to equal the commits and failed (5 != 7): the arm's expectation, not the tool (repeated
+    contents are parsed once). The arm now derives the distinct count and fails when the fixture has no repeat.
+  - `v23.py`'s first run gave V3c FAIL: a relative work path broke the command-line arm (the script's defect); resolved paths since.
+  - At closure: the nested selftest does not catch M1 or M3 (above). Attribution: the instrument's detection power, inside P3 as
+    frozen; recorded and proposed, not fixed in a closed window.
+  - At closure: the job view's closure-heading rule misses English `Closure` headings and reports 12 verified ECOs as
+    `LEDGER_INCONSISTENT` (above). Attribution: the instrument (`CLOSE_HEAD_RE`) against the 2026-10-12 language ruling; outside this
+    ECO, proposed.
+- **宣言した検出力の限界** (declared limits of detection):
+  - **CI does not run `bomdd-job.py --selftest`** (the user chose option A); and the selftest that someone may run misses M1 and M3.
+  - Repeated contents are tested on fixtures only; the five real registers have none.
+  - Section 2's limits stand: the first run's time (37-40 s on ViewTube), a well-formed wrong entry, the new write in the user's cache
+    directory, nothing starts the view; the time figures are one machine's.
+  - An unreadable cache path under a file reports `absent`, not `unreadable` (the reason text, not the result).
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9); this receipt was written by the manufacturer.
+- **Battery, row by row:**
+  - **Q1 asked.** The stderr line says `hits` (commits) and `parsed` (blobs); with repeated contents `hits + parsed` is below the commit
+    count. The words do not claim otherwise; recorded in section 4 departure 1. The selftest's PASS line lists the six cache arms it runs.
+  - **Q2 asked.** Known-good: ECO-120's tool on five registers. Known-bad: M1-M4, labelled by the frozen conditions before the runs; all
+    four red against `v23.py`.
+  - **Q3 asked.** One arm per condition of V2 and V3; each mutant turned its own arm red (M2 also two V2 arms).
+  - **Q4 asked.** V1 on the real registers (ViewPrism2's 33 legacy-shape commits cached and compared); the repeated-blob path only on
+    fixtures (declared).
+  - **Q5 asked.** No unmeasured arm counted: M4 against the selftest is `UNMEASURABLE`, reported as such, not as red or green.
+  - **Q6 asked.** Each commit came after an observed exit 0; CI read by the full SHA before this closure.
+  - **Q7 asked.** The positive controls are M1-M4; through the selftest two of four stay green (the limit above).
+  - **Q8 NA.** No preventive gate was added.
+  - **Q9 asked.** The committed tool's sha256 equals the measured one; the registers' heads are printed in `v1.txt`.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** Input classes kept apart: a large register (ViewTube), a legacy shape (ViewPrism2), empty open lists (BomDD-Plm,
+    MoviePad-Remake), an unparsable commit and repeated contents (fixtures).
+- **What this closure does not support:**
+  - CI or the selftest catching a later break of the version key or of the pruning;
+  - a time figure beyond the user's machine;
+  - trust in a cache entry that someone edited (use `--no-cache`).
+
 ## /preflight receipt (start path: manual — the user's "Aを採用します" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's choice of option A; filing only).

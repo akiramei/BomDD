@@ -1,0 +1,5 @@
+unchanged: dwell selftest PASS; cache arms named: none
+M1: dwell selftest PASS; cache arms named: none
+M2: dwell selftest FAILED; cache arms named: ['cache warm: 結果が --no-cache と違う', 'cache warm: 読めないコミットの警告が温かい実行で消えた', 'cache one-new-commit: 結果が --no-cache と違う']
+M3: dwell selftest PASS; cache arms named: none
+M4: dwell selftest bomdd-job dwell selftest UNMEASURABLE: FileExistsError: [Win; cache arms named: none

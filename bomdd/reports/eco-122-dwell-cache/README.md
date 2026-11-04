@@ -20,3 +20,4 @@ outside every repository, and are not kept.
 | `v23.py`, `v23.txt` | V2 and V3: growth, an amend, a corrupt cache, another version key, an unwritable cache path, a parse failure, and the declared limit (a well-formed wrong entry), on a throwaway repository. |
 | `mutants.py`, `mutants.txt` | V3's known-bad: four broken copies of the changed tool (M1-M4), each run through `v23.py`; each must turn its arm red. |
 | `v45.py`, `v45.txt` | V4 (existing modes byte-identical, both selftests, each repository's status and git directory unchanged by a cold run) and V5 (ViewTube cold and warm times by the command line). |
+| `mutants_selftest.py`, `mutants_selftest.txt` | At closure (order section 5): the same four broken copies run through the tool's own `--selftest`; M2 red, M4 unmeasurable, M1 and M3 green (a recorded limit). |
