@@ -3926,3 +3926,38 @@ changes:
       M3 (pruning); only v23.py holds them. Declared: CI does not run bomdd-job --selftest; repeated contents tested on fixtures only; the
       first run stays 37-40 s; a well-formed wrong entry is believed.
     producer: EQ-004
+  - id: ECO-123
+    title: bomdd-job's gauges - the job view reads an English closure heading (12 verified ECOs read LEDGER_INCONSISTENT today), and the dwell selftest gains the arms that catch a version key not tied to the parse rule and a cache that keeps rewritten-away blobs (filed only)
+    date: 2026-11-04
+    origin: improvement
+    status: filed   # 2026-11-04 on the user's "1 本で起票する" (both findings of ECO-122's closure as one ECO)
+    waiting_on: start-instruction   # ECO-120 vocabulary; manufacture waits for the start instruction (ECO-106)
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      ECO-122 order section 5. The nested --selftest misses two of ECO-122's broken copies (M1 version key without the source, M3 every
+      blob kept; mutants_selftest.txt). CLOSE_HEAD_RE needs "クローズ" after the section number: of 122 entries with an order, 71 verified
+      read LEDGER_INCONSISTENT on the closure rule alone - 12 closed under "## N. Closure (...verified...)" since the 2026-10-12 language
+      ruling (ECO-105 to 111, 116 to 118, 120, 121) and 59 closed before the convention (30 without a closure heading, 27 without
+      "verified", ECO-056 and 057 in another title). --all hides verified entries; the reverse direction is blind for English closures.
+    order_ref: bomdd/60-change-order-eco-123.md
+    affected_refs: [method/tools/bomdd-job.py]
+    no_impact_prediction: "(before manufacture; frozen) bomdd-job.py: CLOSE_HEAD_RE accepts Closure as well as クローズ, selftest arms (four heading arms, two cache arms), header note; the order, the register and bomdd/reports/eco-123-job-gauge/. The job view of the 12 changes LEDGER_INCONSISTENT -> NONE; every other job record byte-identical; --all, --dwell and the cache key unchanged; bomdd-run decides the same apart from the 12; every self-conformance line the same. No product changed; MoviePad-Remake's kit copy not updated (already differs). Declared: the 59 pre-convention orders stay LEDGER_INCONSISTENT; CI does not run bomdd-job --selftest; the copy arm needs the tool's source."
+    diff_audit:
+      baseline: "825d9a1"  # HEAD before this filing
+      allowed_paths: [method/tools/bomdd-job.py, bomdd/60-change-order-eco-123.md, bomdd/60-change-register.yaml, bomdd/reports/eco-123-job-gauge/]
+    required_gates: [V1, V2, V3, V4]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      P1 (measure): CLOSE_HEAD_RE = (?:クローズ|Closure) after the section number, verified on the line, fences removed; both directions.
+      P2 (measure): job selftest arms - English closure + verified register = NONE, + implemented register = LEDGER_INCONSISTENT, Closure
+      without verified is not a closure, fenced English heading ignored; dwell cache arms - a copy of the tool with one line of
+      _dwell_snapshot changed misses on the original's cache (version key differs), an amend leaves no blob outside the history.
+      P3 (none): header note. Not chosen: rewriting the 12 closed headings, accepting a heading without verified (the 59), a number
+      cut-off, a case-insensitive or any-language match, CI wiring (declined at ECO-122).
+    verification: >
+      V1 every entry's job --json byte-identical between the filing tree's tool and the changed tool except the 12, which differ only in
+      stop_type (LEDGER_INCONSISTENT -> NONE) / V2 bomdd-job --selftest exit 0 naming the four heading arms and the two cache arms / V3
+      ECO-122's M1 and M3 turn the dwell selftest FAILED on the named arms, M2 and M4 not PASS; a copy with the old CLOSE_HEAD_RE turns the
+      job selftest FAILED / V4 --all --json and --all byte-identical; --dwell on BomDD and ViewTube in-process at a fixed now byte-identical
+      and the cache key equal; bomdd-run --selftest exit 0; self-conformance exit 0 before each commit; CI green by the full SHA.
+      Conditions are frozen at filing; results go to the closing section.
+    producer: EQ-004

@@ -1,0 +1,33 @@
+BomDD HEAD 825d9a1054c82ba10ddd49678bcf7158855f1380
+entries with an order: 122
+closure rule alone, current rule: 71 not NONE: ECO-001, ECO-002, ECO-003, ECO-004, ECO-005, ECO-006, ECO-007, ECO-008, ECO-009, ECO-010, ECO-011, ECO-012, ECO-013, ECO-014, ECO-015, ECO-016, ECO-017, ECO-018, ECO-019, ECO-020, ECO-021, ECO-022, ECO-023, ECO-024, ECO-025, ECO-026, ECO-027, ECO-028, ECO-029, ECO-030, ECO-031, ECO-032, ECO-033, ECO-034, ECO-035, ECO-036, ECO-037, ECO-038, ECO-039, ECO-040, ECO-041, ECO-042, ECO-043, ECO-044, ECO-045, ECO-046, ECO-047, ECO-048, ECO-049, ECO-050, ECO-051, ECO-052, ECO-053, ECO-054, ECO-056, ECO-057, ECO-058, ECO-059, ECO-060, ECO-105, ECO-106, ECO-107, ECO-108, ECO-109, ECO-110, ECO-111, ECO-116, ECO-117, ECO-118, ECO-120, ECO-121
+closure rule alone, proposed rule: 59 not NONE: ECO-001, ECO-002, ECO-003, ECO-004, ECO-005, ECO-006, ECO-007, ECO-008, ECO-009, ECO-010, ECO-011, ECO-012, ECO-013, ECO-014, ECO-015, ECO-016, ECO-017, ECO-018, ECO-019, ECO-020, ECO-021, ECO-022, ECO-023, ECO-024, ECO-025, ECO-026, ECO-027, ECO-028, ECO-029, ECO-030, ECO-031, ECO-032, ECO-033, ECO-034, ECO-035, ECO-036, ECO-037, ECO-038, ECO-039, ECO-040, ECO-041, ECO-042, ECO-043, ECO-044, ECO-045, ECO-046, ECO-047, ECO-048, ECO-049, ECO-050, ECO-051, ECO-052, ECO-053, ECO-054, ECO-056, ECO-057, ECO-058, ECO-059, ECO-060
+changed (12):
+  ECO-105 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-106 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-107 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-108 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-109 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-110 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-111 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-116 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-117 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-118 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-120 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+  ECO-121 (verified): LEDGER_INCONSISTENT(verified, no closure) -> NONE
+headings matched only by the proposed rule (12):
+  ECO-105: ## 5. Closure (2026-10-12, verified
+  ECO-106: ## 5. Closure (2026-10-13, verified
+  ECO-107: ## 6. Closure (2026-10-13, verified
+  ECO-108: ## 5. Closure (2026-10-13, verified
+  ECO-109: ## 5. Closure (2026-10-13, verified
+  ECO-110: ## 5. Closure (2026-10-13, verified
+  ECO-111: ## 5. Closure (2026-10-13, verified
+  ECO-116: ## 5. Closure (2026-10-28; verified
+  ECO-117: ## 5. Closure (2026-10-29, verified
+  ECO-118: ## 5. Closure (2026-10-29, verified
+  ECO-120: ## 5. Closure (2026-11-04, verified
+  ECO-121: ## 5. Closure (2026-11-04; verified
+still not NONE, no closure heading (30): ECO-001, ECO-002, ECO-003, ECO-004, ECO-005, ECO-006, ECO-007, ECO-008, ECO-009, ECO-010, ECO-011, ECO-012, ECO-013, ECO-014, ECO-015, ECO-016, ECO-017, ECO-018, ECO-019, ECO-020, ECO-022, ECO-023, ECO-024, ECO-025, ECO-026, ECO-027, ECO-028, ECO-029, ECO-033, ECO-034
+still not NONE, closure heading without 'verified' (27): ECO-021, ECO-030, ECO-031, ECO-032, ECO-035, ECO-036, ECO-037, ECO-038, ECO-039, ECO-040, ECO-041, ECO-042, ECO-043, ECO-044, ECO-045, ECO-046, ECO-047, ECO-048, ECO-049, ECO-050, ECO-051, ECO-052, ECO-053, ECO-054, ECO-058, ECO-059, ECO-060
+still not NONE, closure heading in another form (2): ECO-056 [## 10. CI 実測(r3)とクローズ(2026-09-03・verified)], ECO-057 [## 5. CI 実測(V4)とクローズ(2026-09-03・verified)]
