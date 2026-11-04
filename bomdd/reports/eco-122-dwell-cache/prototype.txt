@@ -1,0 +1,4 @@
+ViewTube HEAD 42936d962e4be948bd9cdb0ef8b4190ac247aecf
+cold: commits 1732, parsed 1732, reused 0; git log 0.08 s, batch-check 0.19 s, snapshots 189.34 s, total 189.61 s
+warm: commits 1732, parsed 0, reused 1732; git log 0.07 s, batch-check 0.09 s, snapshots 3.89 s, total 4.04 s
+warm equals cold: True

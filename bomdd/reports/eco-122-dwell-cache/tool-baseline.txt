@@ -1,0 +1,2 @@
+bomdd-job --dwell (ECO-120 tool, parallel, no cache) run 1: 34.1 s
+bomdd-job --dwell (ECO-120 tool, parallel, no cache) run 2: 39.5 s

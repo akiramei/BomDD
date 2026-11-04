@@ -1,0 +1,9 @@
+ViewTube HEAD 42936d962e4be948bd9cdb0ef8b4190ac247aecf
+bomdd/process/change-register.yaml: 1732 commits
+blobs 1732, total 3026 MB, largest 3.8 MB, distinct 1732
+commits in the last 7 days: 12
+parse HEAD blob (3.8 MB, CSafeLoader): 0.14, 0.15, 0.14 s -> 27 MB/s; all blobs at that rate: 113 s serial
+git log: 0.09, 0.10, 0.20 s
+batch-check: 0.09, 0.09, 0.09 s
+git status -uall: 0.08, 0.08, 0.08 s
+load one json: 0.10, 0.08, 0.08 s

@@ -3886,3 +3886,41 @@ changes:
       their paths. Not a closing condition: V5 the view about 14 days after each application. Conditions are frozen at filing; results go to
       the closing section.
     producer: EQ-004
+  - id: ECO-122
+    title: progress - the dwell view reuses each register blob's parse result from a derived, disposable cache outside every repository, so a repeated run parses only the commits it has not seen; standard output unchanged (filed only)
+    date: 2026-11-04
+    origin: improvement
+    status: filed   # 2026-11-04 on the user's "Aを採用します" (option A; writing status dates into the register not chosen)
+    waiting_on: start-instruction   # ECO-120 vocabulary; manufacture waits for the start instruction (ECO-106)
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      The user's "ViewTube 39.7 秒というのはかなり長いです" (2026-11-04). Measured (bomdd/reports/eco-122-dwell-cache/): ECO-120's --dwell
+      parses the whole register at every commit on every run - ViewTube 1,732 blobs, 3,026 MB, libyaml 27 MB/s on the newest blob, so about 113 s serial
+      (189.6 s measured serially) and 34.1-39.5 s on 8 workers. Everything else is about 0.4 s (git log 0.09-0.20, blob ids 0.09, git status
+      0.08, one 8.8 MB JSON of all snapshots 0.08-0.10). A blob's parse cannot change while the parse rule does not; the register gained 12 commits in a week.
+    order_ref: bomdd/60-change-order-eco-122.md
+    affected_refs: [method/tools/bomdd-job.py]
+    no_impact_prediction: "(before manufacture; frozen) bomdd-job.py's dwell read gains a per-blob cache, --no-cache, selftest arms and one header sentence; the order, the register and bomdd/reports/eco-122-dwell-cache/. For the same register and moment --dwell prints the same standard output cold, warm, off and as ECO-120's tool; every other bomdd-job mode the same, bomdd-run decides the same, every self-conformance line the same. No product file, work tree or git directory written. Declared: the first run stays about 30-43 s on ViewTube; a well-formed wrong cache entry is believed (--no-cache is the remedy); the view now writes one file per register in the user's cache directory; CI does not run bomdd-job --selftest; nothing starts the view."
+    diff_audit:
+      baseline: "9e926be"  # HEAD before this filing
+      allowed_paths: [method/tools/bomdd-job.py, bomdd/60-change-order-eco-122.md, bomdd/60-change-register.yaml, bomdd/reports/eco-122-dwell-cache/]
+    required_gates: [V1, V2, V3, V4, V5]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      P1 (measure): the dwell read takes each commit's register blob id and parses only the blobs not in the cache; per blob it keeps what
+      the read returns today (snapshot, paused, legacy flag, or a parse failure's type name so its warning prints every run); the cache
+      file carries a version key derived from the parse functions' source, the loader and PyYAML's version (another key = miss); one JSON
+      file per register, rewritten with only the blobs used, by rename; any fault is a miss; workers counted from the misses (none on a
+      full hit); standard output unchanged, one stats line on standard error; --no-cache. P2 (measure): the user's cache directory
+      (BOMDD_DWELL_CACHE_DIR overrides), only the command line uses it by default. P3 (measure): selftest arms. P4 (none): header note.
+      Not chosen: status dates written in the register (writer-dependent, a transcribed value, needs a stop, backfill), a regex parser,
+      git log -p diffs, the cache in each repository's .git, a hand-kept version number, a content checksum.
+    verification: >
+      V1 five registers (BomDD, ViewTube, ViewPrism2, BomDD-Plm, MoviePad-Remake; TimetableAdv excluded by the user) at recorded heads, one
+      fixed now: ECO-120's tool (9e926be), the new tool without a cache, cold and warm byte-identical in text and JSON; warm parses 0 / V2
+      one new commit parses 1; after an amend the file holds no blob outside the history / V3 truncated or non-JSON cache and another
+      version key are misses; unwritable directory reported, exit 0; a parse failure warned cold and warm; a well-formed wrong entry shown
+      believed; broken copies M1-M4 each turn an arm red / V4 existing modes byte-identical; bomdd-job and bomdd-run selftests exit 0; each
+      repository's status and git directory listing unchanged by a run / V5 ViewTube warm within 5 s and cold within 60 s on the user's
+      machine; self-conformance exit 0 before each commit; CI green by the full SHA. Conditions are frozen at filing; results go to the
+      closing section.
+    producer: EQ-004
