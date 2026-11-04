@@ -27,3 +27,6 @@
   `42936d96`), against each product ECO's closure table (`--table 2`): EQUAL, 7 rows and 3 rows.
 - `closure_checks.py` → `closure_checks.txt`: V1 (the `waiting_on` line counts per file, base to applied, and the change-management
   names) and V4 (each changed path with its class from section 2), read from git. Run: `python -X utf8 closure_checks.py [<repos-root>]`.
+- `closure/diff_window.py` (ECO-116's, re-pointed) → `closure/diff-window.md`: the window `32606b4..884fccc` — 3 commits, all ECO-121's,
+  every path inside the allowed paths (PASS). `closure/diff-window-control.md`: the same with this folder dropped from the allowed
+  paths (FAIL, as a positive control should).

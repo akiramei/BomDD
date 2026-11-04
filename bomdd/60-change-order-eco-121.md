@@ -347,6 +347,107 @@ acceptance; neither was pushed.
 - **V5** (not a closing condition): the view is to be rerun about 14 days after each product's application, around 2026-11-18.
 
 
+## 5. Closure (2026-11-04; verified, on the user's "A" to close)
+
+**The user's answer, quoted:** "A" (2026-11-04). It closes this ECO now and records one entry in `method/improvements.md`: the input to a
+later BomDD ECO that revises the template (OBS-20261104-01).
+
+**This is a distribution ECO in ECO-116's form.** Its V3 attack is each product's own review rule. ViewTube ran R8 twice; ViewPrism2's rule
+does not apply R8 to a change of documents and register only. So there is no separate BomDD inspection and no inspector field.
+
+**Window.** Baseline `32606b4` → head `884fccc` (`diff_audit.head`; the closure commit holds records only).
+- `closure/diff_window.py` (ECO-116's, re-pointed): 3 commits, every one ECO-121's, and every path inside the allowed paths — **PASS**
+  (`closure/diff-window.md`).
+- Its positive control, with `bomdd/reports/eco-121-dwell-distribution/` dropped: **FAIL** (`closure/diff-window-control.md`).
+
+**Acceptance results** (the conditions of section 3, frozen at filing; the measurements are in section 4):
+- **V1: PASS** for both targets (`closure_checks.txt`).
+  - Each product ECO is applied under its own lifecycle: ViewPrism2 ECO-149 `9bdbe91`, ViewTube ECO-VT-273 `42936d96`.
+  - `waiting_on` goes from 0 lines to at least 1 in change-management and in each of eco-file, eco-fix and eco-accept.
+  - `paused`, `resume_when` and the view's command are named in each change-management.
+- **V2: PASS.**
+  - Each product commit passed its own gates: ViewPrism2's validate_bom 0-0 and its lifecycle self-test; ViewTube's hooks at every commit,
+    its process, change-impact and release-workflow validators at each transition, and the X1 replay REPLAY_CLEAN at the accept.
+  - Neither product has CI (`gh run list` gives `[]`; ViewTube has no workflow folder). That is an absence, not an unrun result.
+  - BomDD's 3 commits in the window: self-conformance exit 0 observed before each, and CI success on each (`db3a517`, `4b3e3a8`, `884fccc`,
+    read by the full SHA).
+- **V3: PASS.**
+  - At each applied commit, the dwell view gives no warning.
+  - Each product ECO's closure table equals the view: ViewPrism2 7 rows, ViewTube 3 rows. `compare_table.py` was shown failing on a
+    removed row and a changed value.
+  - The unexplained entries are listed by id with their class in each product ECO.
+  - The counts by reason, before → after:
+    - ViewPrism2: none 24 → none 17, human-acceptance 6, start-instruction 1;
+    - ViewTube: none 173 → none 170, `eco:ECO-VT-081` 2, `eco:ECO-VT-095` 1.
+- **V4: PASS.**
+  - Each product's paths between its base and its applied commit are inside section 2's product side (`closure_checks.txt`; how "its own
+    ECO records" is read is in section 4).
+  - BomDD's window is above.
+- **V5** (not a closing condition): rerun the view about 2026-11-18 and record three things:
+  - entries whose status moved while `waiting_on` stayed;
+  - reasons left on terminal entries;
+  - the unexplained count.
+
+**Departures and defects, carried:**
+- **§1 B 1's two survey rules were both wrong.**
+  - ViewPrism2's read `golden` without `status`: 10 became 6 plus 1.
+  - ViewTube's read a blocker list one way: 8 became 3, and one of the 3 is stale (KD-273-1).
+- **§1 A 2's status-tied wording, mine at filing.** It goes stale at stops that keep the status. ViewTube repaired it in its round 1;
+  ViewPrism2 carries it as VP149-K1.
+- **ViewTube's KD-273-2 to 4.**
+- All of these are recorded in each product's cheat log. They reach BomDD as OBS-20261104-01, the input to a later ECO that revises the
+  template, together with §1 D's two findings: the fixed terminal set, and no value for "blocks a release".
+
+Register: `filed → verified`; head frozen at `884fccc`. TimetableAdv is not a target (manufacture ruling 2: A; its resume condition
+EXP-20261013-01 now also covers ECO-120). Manufacturer's calibration on the BomDD side.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer)
+
+- **The claim (one sentence).** ViewPrism2 and ViewTube registers can now say why an open ECO waits, in ECO-120's vocabulary:
+  - each product's change management says who writes and clears the value;
+  - each value present at the applied commit follows a rule stated in its product ECO;
+  - each product ECO was accepted by the user with its known defects named.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The documents carry the rule": **observed / eligible**. Line counts from git at base and applied, which fail on a 0
+    (`closure_checks.py`).
+  - "The register values equal the stated rule's table": **observed / eligible**.
+    - `compare_table.py` reads both and was shown failing on a removed row and a changed value.
+    - It checks the table against the register, not the rule against the records' meaning.
+  - "Each value is a live wait": **observed / not eligible for one value**. ViewTube's R8 round 2 showed ECO-VT-094's value rests on
+    stale records (KD-273-1); 074 and 075 were confirmed live by the reviewer. ViewPrism2's 7 follow its fields; their liveness is
+    the fields' own.
+  - "The product gates passed": **observed / eligible**. The hooks refuse a failing commit, and each transition ran its validators.
+  - "Accepted with known defects named": **observed / eligible**. The register acceptance records and the cheat-log entries quote
+    "1:A 2:A".
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution):
+  - The survey's two rules (§1 B 1) were instruments that read a field's name without the field that gives it meaning; attributed to
+    this ECO's filing. The same class is ECO-120 §0's misreading.
+  - The status-tied wording (§1 A 2) is this ECO's filing.
+  - The products' instruments had no defect found here.
+- **宣言した検出力の限界** (declared limits of detection):
+  - The view and the comparison read values, not whether a wait is real.
+  - V5 has not run, so whether values are kept current is not yet measured.
+  - ViewTube's two R8 rounds were context-independent reviewers of the same model family.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9). Twice here the reviewer, not the
+    manufacturer, found the wrong premise.
+- **Battery, row by row:**
+  - **Q1 asked.** The window, V1 counts and V3 comparison are mechanical; liveness is the reviewers' reading.
+  - **Q2 asked.** Known-bad: the comparison's broken tables and the window's control; known-good: the real pairs.
+  - **Q3 asked.** Per product and per condition.
+  - **Q4 NA.** No declared fixture input is relied on.
+  - **Q5 asked.** No product CI exists (absence); BomDD CI observed per commit.
+  - **Q6 asked.** Every BomDD commit came after an observed self-conformance exit 0.
+  - **Q7 asked.** The window's control fails as it should; the comparison's selftest catches both edits.
+  - **Q8 NA.**
+  - **Q9 asked.** The view and closure checks read each product by commit (`head_commit` in each JSON equals the applied commit).
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** The products differ, so results are per product.
+- **What this closure does not support:**
+  - that every written reason is a live wait (KD-273-1);
+  - that reasons stay current (V5, KD-273-2 to 4, VP149-K1);
+  - TimetableAdv (not a target);
+  - MoviePad-Remake (not a target).
+
 ## /preflight receipt (start path: manual — the user's "配布 ECO を起票" read as the start artifact)
 
 - **Classification**: filing of a distribution ECO (survey; no product change at filing).

@@ -10344,3 +10344,32 @@ measurement of a checker; no body text, template or tool changes.
   the mutants' existence, not their content; 0 isolation flags). Nothing wired, no body text changed.
   source: this section (the user's "A: 起票する", "B: 延長する", "C: 原因を除いて再開", "A: 打ち切って起票", "A: 既定で始める", 2026-10-31)
   evidence: `bomdd/reports/exp-20261031-03/definitions.md`, `bomdd/reports/exp-20261031-03/results.md`, `bomdd/reports/exp-20261031-03/run-log.md`, `bomdd/reports/exp-20261031-03/outputs/a1.json`
+
+## 2026-11-04 After ECO-121 closed — the distribution of ECO-120 to ViewPrism2 and ViewTube, and what its reviews found in the rule (OBS-20261104-01)
+
+Source: BomDD ECO-121 (verified 2026-11-04; order sections 4 and 5), ViewPrism2 ECO-149 (`9bdbe91`), ViewTube ECO-VT-273 (`42936d96`), and
+the user's "A" (2026-11-04) to record this entry as the input to a later BomDD ECO.
+
+Thought layer: [x] operational rule [ ] control / probe [x] template [ ] terminology [ ] method/concept claim [ ] none — the template's
+`waiting_on` comment and a distribution's wording; no body text changes here.
+
+- [watch 1/3] OBS-20261104-01 — **A recorded reason to wait is kept current by the stop that causes it, not by the status, and a rule
+  that writes it from records has to read what the records mean, not only their keys.**
+  - Found in ECO-121's two products. ViewTube's R8 found it twice (R273-F1, F3, F4; then R273-2-01 to 04). ViewPrism2 carries it as
+    VP149-K1.
+  - Template points for a later BomDD ECO. `method/templates/60-change-register.yaml` says only 「待ちが終わったら外す」. It should
+    also say:
+    1. Who writes the value: every stop, in the commit that records it, whatever the status. The first commit after the answer clears
+       or changes it.
+    2. When an ECO named in an `eco:<ID>` value goes terminal, the waiting entries are re-derived. With no other blocker, the value
+       falls back to what the entry's own stop gives (`human-acceptance` for implemented), not to no value.
+    3. A blocker list, even confirmed from both sides, shows a wait's direction, not that it is live. A backfill rule needs the
+       blocked step to be still ahead.
+    4. A stop that is blocked by an open ECO writes `eco:<ID>`; otherwise no step ever writes one after a backfill.
+    5. ECO-121 §1 D's two points: the fixed terminal set against a legacy convention, and no value for "blocks a release".
+  - The same misreading came three times: ECO-120 §0 (`blocks_application_golden: []`), ViewPrism2's rule (`golden` without
+    `status`), and ViewTube's one-sided rule. Each time a field was read for its name.
+  - Machine face (measure): V5 of ECO-121 reruns the view about 2026-11-18 and counts reasons that stayed while the status moved.
+  - 2 例目の条件: another distribution or product ECO whose backfill rule is shown wrong by its own review, or V5 counting a stale reason.
+  source: this section (the user's "1:A 2:A" and "A", 2026-11-04)
+  evidence: `bomdd/60-change-order-eco-121.md` §4 and §5, ViewTube `bomdd/eco/ECO-VT-273-independent-review.md` and `bomdd/51-cheat-log.md` (CHEAT-D10-034), ViewPrism2 `bomdd/51-cheat-log.md` (VP149-K1)
