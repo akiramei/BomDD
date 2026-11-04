@@ -1,4 +1,4 @@
-# round-3 known-bad: the round-3 qualification against the validator at 00f3ae2
+# known-bad: this tree's qualification against the validator at 00f3ae2
 [N23a] PASS - 通過
 [N23p] PASS - 通過
 [N23b] PASS - E13 で遮断・trailer が無い を表示
@@ -19,20 +19,24 @@
 [N23t] PASS - 遮断→通過
 [N23m] PASS - history の E13 4 件= 期待の 4 commit と一致
 [N23x] FAIL - E13 で遮断
-[N23u] FAIL - 遮断されたが理由不一致(exit 1): [E05] accept-trailer-missing: ECO-954 の 'applied' 遷移コミットの最終 trailer ブロックに「BomDD-ECO-Accept: ECO-954」がない(中間段落は trailer と認
-[N23y] FAIL - 想定外(作成 True・新しい報告 ['ff166070f']): process-validator: [scope] 再演: 導入点 9682079d0 以降の台帳変更 6 commit・証拠要求の対象 6 遷移(導入点で到達済みの状態は対象外)
-[E13] ruled-layer-change-without-r
-[N23z] FAIL - 想定外(作成 True・新しい報告 ['ff166070f']): process-validator: [scope] 再演: 導入点 9682079d0 以降の台帳変更 6 commit・証拠要求の対象 6 遷移(導入点で到達済みの状態は対象外)
-[E13] ruled-layer-change-without-r
-[N23z2] FAIL - 想定外(commit 0・新しい報告 ['ff166070f']): process-validator: [note] profile は HEAD 版で判定(作業ツリー版の変更はcommit 後の次回から有効 — 規則の自己適用を禁止)
-process-validator: [note] profile 
+[N23u] FAIL - 想定外の通過(exit 0)— 負例が止まらない
+[N23y] FAIL - 想定外(作成 True・新しい報告 ['69e939954', '76d799b23']): process-validator: [scope] 再演: 導入点 bf7d9d3ac 以降の台帳変更 8 commit・証拠要求の対象 7 遷移(導入点で到達済みの状態は対象外)
+[E13] ruled-layer-cha
+[N23z] FAIL - 想定外(作成 True・新しい報告 ['69e939954', '76d799b23']): process-validator: [scope] 再演: 導入点 bf7d9d3ac 以降の台帳変更 8 commit・証拠要求の対象 7 遷移(導入点で到達済みの状態は対象外)
+[E13] ruled-layer-cha
+[N23z2] FAIL - 想定外(commit 0・新しい報告 ['69e939954', '76d799b23']): process-validator: [note] profile は HEAD 版で判定(作業ツリー版の変更はcommit 後の次回から有効 — 規則の自己適用を禁止)
+process-validator: [note] 
 [N23x2] PASS - 通過
 [N23x3] PASS - 通過
 [N23x4] FAIL - 想定外の通過(exit 0)— 負例が止まらない
+[N23z4] PASS - history の E13 でその commit だけを検出
+[N23z5] PASS - 報告しない(新しい報告 0)
+[N23z3] PASS - history の E13 で前後の 2 件を検出
+[N23z3b] PASS - history の E13 で前後の 2 件を検出
 [N23n] PASS - E13 で遮断
 [N23v] PASS - E13 で遮断
 [N23w] PASS - profile 不正で停止
 [N23o] PASS - 通過
-N23 controls 31; FAIL ['N23u', 'N23x', 'N23x4', 'N23y', 'N23z', 'N23z2']; expected FAIL ['N23u', 'N23x', 'N23x4', 'N23y', 'N23z', 'N23z2']
-round-3 known-bad: as expected
+N23 controls 35; FAIL ['N23u', 'N23x', 'N23x4', 'N23y', 'N23z', 'N23z2']; expected FAIL ['N23u', 'N23x', 'N23x4', 'N23y', 'N23z', 'N23z2']
+known-bad: as expected
 throwaway product removed: True

@@ -1,4 +1,4 @@
-# round-3 known-bad: the round-3 qualification against this tree's validator with 1:A's letter in place of ruling B
+# known-bad: this tree's qualification against this tree's validator with 1:A's letter in place of ruling B
 [N23a] PASS - 通過
 [N23p] PASS - 通過
 [N23b] PASS - E13 で遮断・trailer が無い を表示
@@ -23,13 +23,17 @@
 [N23y] PASS - history の E13 で検出
 [N23z] PASS - history の E13 で検出
 [N23z2] PASS - 第 1 層も再演も通す・新しい報告は N23y と N23z の 2 件だけ
-[N23x2] FAIL - 想定外(exit 1): [E13] ruled-layer-change-without-ruling: merge の結果が ruled_layer を変える — 結果の欄が、境界の後にあるどの親(a8b20ea50, 6108c5748)の欄とも違う。欄の変更は単独の commit で行い(E08 
-[N23x3] FAIL - 想定外(exit 1): [E13] ruled-layer-change-without-ruling: merge の結果が ruled_layer を変える — 結果の欄が、境界の後にあるどの親(6108c5748, a77fd554f)の欄とも違う。欄の変更は単独の commit で行い(E08 
+[N23x2] FAIL - 想定外(exit 1): [E13] ruled-layer-change-without-ruling: merge の結果が ruled_layer を変える — 結果の欄が、境界の後にあるどの親(e44023164, 277ac18c5)の欄とも違う。欄の変更は単独の commit で行い(E08 
+[N23x3] FAIL - 想定外(exit 1): [E13] ruled-layer-change-without-ruling: merge の結果が ruled_layer を変える — 結果の欄が、境界の後にあるどの親(277ac18c5, ba00ba604)の欄とも違う。欄の変更は単独の commit で行い(E08 
 [N23x4] PASS - E13 で遮断・ruled_layer を変える を表示
+[N23z4] PASS - history の E13 でその commit だけを検出
+[N23z5] PASS - 報告しない(新しい報告 0)
+[N23z3] PASS - history の E13 で前後の 2 件を検出
+[N23z3b] PASS - history の E13 で前後の 2 件を検出
 [N23n] PASS - E13 で遮断
 [N23v] PASS - E13 で遮断
 [N23w] PASS - profile 不正で停止
 [N23o] PASS - 通過
-N23 controls 31; FAIL ['N23x2', 'N23x3']; expected FAIL ['N23x2', 'N23x3']
-round-3 known-bad: as expected
+N23 controls 35; FAIL ['N23x2', 'N23x3']; expected FAIL ['N23x2', 'N23x3']
+known-bad: as expected
 throwaway product removed: True

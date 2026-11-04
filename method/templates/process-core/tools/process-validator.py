@@ -37,18 +37,25 @@
                                           解決できない/HEAD の系列に無ければ遮断。名指す ID はすべて台帳に実在・
                                           trailer の読みがコメント行の扱いで変わる commit も遮断(-m / -F で書く)。
                                           境界= since の後で、親かその祖先の profile に欄がある(欄を足す前は判定
-                                          しない・消して戻した間は再演が判定)。paths と trailer 名は基点の親の
-                                          profile の値。merge は第 1 親との差分(第 1 親が境界より前なら、境界の後に
-                                          ある最初の親との差分)・比較元は全部の親の台帳の合算 — 両層で同じ。merge の
-                                          結果の欄が境界の後のどの親の欄とも違えば遮断(落とす・作る — 裁定 B)。
+                                          しない・消して戻した間は再演が判定)。判定に使う paths は 1 か所
+                                          (values_for)で決める: 形の正しい項目だけ・基点の親の欄(欄が無ければ
+                                          第 1 親の系列でいちばん近い正しい版)∪ HEAD の項目のうち基点の親までの
+                                          どこかの版が持ったもの(狭めて戻した間も再演が判定・広げた項目は広げる
+                                          前を判定しない)。merge は第 1 親との差分(第 1 親が境界より前なら、境界の
+                                          後にある最初の親との差分)・比較元は全部の親の台帳の合算 — 両層で同じ。
                                           履歴再演でも同じ判定を
                                           その時点の台帳と指示書で行う(--no-verify・amend・cherry-pick・revert・
                                           rebase〔commit-msg hook が走らない〕を第 2 層が検出)。
+                                          第 1 層だけの遮断(再演は繰り返さない): merge の結果の欄が境界の後の
+                                          どの親の欄とも違う commit(落とす・作る — 裁定 B。2 本の枝がそれぞれ
+                                          広げた欄の和集合で merge するのも遮断 — 片方の欄で merge し、もう片方を
+                                          単独の commit で足す)。
                                           止めないもの: 誰が裁定したか・資料を本当に読んだか・変更が正しいか・
                                           欄を足す commit 自身の裁定層の変更(E01 の設置 commit と同じ)・
-                                          --no-verify で欄を消すこと(消えた後は両層とも働かない)・
-                                          枝の単独の commit(E08 を通る)で欄を消し、main をその枝へ merge
-                                          してから fast-forward する経路(欄の削除そのものは E08 が管理)
+                                          --no-verify で欄を消す・変えること(merge でも単独の commit でも・消えた
+                                          後は両層とも働かない)・欄を消した/狭めた間の変更を第 1 層は判定しない
+                                          (再演が判定)・単独の commit(E08 を通る)で欄を消した/変えた親の欄を
+                                          そのまま持つ merge(どちらの向きでも — 欄の変更そのものは E08 が管理)
   E12 structure-check-failed-at-acceptance : (profile に structure_check がある場合のみ — ECO-118)
                                           commit-msg で accept 状態(applied)への遷移を含む commit は、
                                           BOM の構造検査(bom-structure-check.py --index)を**その場で
@@ -584,8 +591,9 @@ def scan_history(root: Path, prof: dict) -> dict:
                 f"欄は設計リリースの後に、その commit の SHA で書く)")
         # 候補= since の子孫(--ancestry-path)。非 merge は裁定層に触れたものだけ・merge は全部(パス限定の簡略化に
         # 頼らない — 判定は基点の親との差分で行う。裁定 1:A・R8-1-01)
-        q = run_git(root, "rev-list", "--reverse", "--full-history", "--no-merges", "--ancestry-path",
-                    f"{since}..HEAD", "--", *sorted(set(rl["paths"]) | bd.paths_ever()))  # どの版の paths も(R8-2-05)
+        q = run_git(root, "--literal-pathspecs", "rev-list", "--reverse", "--full-history", "--no-merges",
+                    "--ancestry-path", f"{since}..HEAD", "--",
+                    *sorted(set(rl["paths"]) | bd.paths_ever()))  # どの版の形の正しい項目も・字句どおり(R8-2-05・R8-3-01)
         a = run_git(root, "rev-list", "--reverse", "--parents", "--ancestry-path", f"{since}..HEAD")
         if q.returncode != 0 or a.returncode != 0:
             die(f"裁定層の履歴の走査が失敗(検査面が測定不能): {(q.stderr or a.stderr).strip()}")
@@ -597,7 +605,7 @@ def scan_history(root: Path, prof: dict) -> dict:
             base_p = bd.base_parent(parents)
             if base_p is None:
                 continue                      # 境界より前(親にも祖先にも欄が無い — 裁定 3:A・round 3 の 2:A)
-            vals = bd.values_at(base_p, prof)  # 第 1 層が見た値(基点の親の profile の paths・trailer 名 — R8-2-05)
+            vals = bd.values_for(base_p, prof)  # 両層で共有する唯一の決め方(R8-2-05・R8-3-01/02/06)
             name = vals["trailers"].get("ruling", RULING_TRAILER_DEFAULT)
             d = run_git(root, "diff-tree", "-r", "--no-renames", "--name-only", "-z", base_p, sha)
             body = run_git(root, "log", "-1", "--format=%B", sha)
@@ -1022,8 +1030,8 @@ class RuledBoundary:
     起点に数えないが、それより前に欄があれば判定は続く — R8-2-03)。
     commit の判定の基点= 第 1 親が境界の後なら第 1 親、そうでなければ親の順で最初に境界の後にある親(main を、欄を
     足す前に分かれた枝へ merge してから fast-forward する形でも、枝が持ち込む変更を見る)。どの親も境界の後でなければ
-    判定しない。判定に使う paths と trailer 名は基点の親の profile のもの(その commit を作ったときに第 1 層が見た値
-    — R8-2-05)・基点の profile に欄が無ければ呼び出し側の値。"""
+    判定しない。判定に使う paths と trailer 名は values_for だけが決める(両層と、再演の候補の絞り込みが共有する
+    1 か所 — R8-3-01/02/06 の共通原因の除去)。"""
 
     def __init__(self, root: Path, since_sha: str, heads: list[str]):
         self.root, self.since, self.heads = root, since_sha, heads
@@ -1031,6 +1039,9 @@ class RuledBoundary:
         self._prof: dict[str, dict | None] = {}
         self._desc: set[str] | None = None
         self._paths_seen: set[str] = set()
+        self._versions: list[str] | None = None
+        self._held: dict[str, set[str]] = {}
+        self._near: dict[str, tuple[list[str], str] | None] = {}
 
     def after_since(self, rev: str) -> bool:
         if rev not in self._anc:
@@ -1058,34 +1069,89 @@ class RuledBoundary:
         rl = d.get("ruled_layer") if d else None
         return rl if isinstance(rl, dict) else None
 
-    def _descendants_of_field(self) -> set[str]:
-        """欄を持つ profile の commit と、その子孫(heads から到達できる範囲)。"""
-        if self._desc is None:
+    def entries_at(self, rev: str) -> tuple[list[str], str] | None:
+        """rev の profile の欄のうち、形の正しい paths の項目(repo_rel_path_ok — `:(exclude)`・`..`・`:` を含む項目は
+        捨てる — R8-3-01)と trailer 名。正しい項目が 1 つも無い・欄が無い・読めなければ None。"""
+        d = self.profile_at(rev)
+        rl = d.get("ruled_layer") if d else None
+        if not (isinstance(rl, dict) and isinstance(rl.get("paths"), list)):
+            return None
+        ents = list(dict.fromkeys(e for e in rl["paths"] if repo_rel_path_ok(e)))
+        if not ents:
+            return None
+        tr = d.get("trailers") if isinstance(d.get("trailers"), dict) else {}
+        name = tr.get("ruling") if isinstance(tr.get("ruling"), str) and tr.get("ruling") else RULING_TRAILER_DEFAULT
+        return ents, name
+
+    def _profile_versions(self) -> list[str]:
+        """profile を変えた commit(heads から到達できる範囲・古い順)。"""
+        if self._versions is None:
             q = run_git(self.root, "rev-list", "--reverse", "--topo-order", "--full-history", *self.heads,
                         "--", PROFILE_REL)
             if q.returncode != 0:
                 die(f"profile の履歴を走査できない(裁定層の境界が測定不能): {q.stderr.strip()}")
-            desc: set[str] = set()
-            for x in q.stdout.split():
-                rl = self.ruled_layer_at(x)
-                if rl is None:
-                    continue
-                if isinstance(rl.get("paths"), list):
-                    self._paths_seen |= {e for e in rl["paths"] if isinstance(e, str) and e}
-                if x in desc:
-                    continue                         # 先の起点の子孫(古い順に見るので、新しい起点はたいていここ)
-                a = run_git(self.root, "rev-list", "--ancestry-path", *self.heads, f"^{x}")
-                if a.returncode != 0:
-                    die(f"profile の履歴を走査できない(裁定層の境界が測定不能): {a.stderr.strip()}")
-                desc.add(x)
-                desc |= set(a.stdout.split())
-            self._desc = desc
+            self._versions = q.stdout.split()
+        return self._versions
+
+    def _descendants_where(self, pred) -> set[str]:
+        """pred を満たす profile の版の commit と、その子孫(heads から到達できる範囲)。"""
+        desc: set[str] = set()
+        for x in self._profile_versions():
+            if x in desc or not pred(x):
+                continue                         # 先の起点の子孫(古い順に見るので、新しい起点はたいていここ)
+            a = run_git(self.root, "rev-list", "--ancestry-path", *self.heads, f"^{x}")
+            if a.returncode != 0:
+                die(f"profile の履歴を走査できない(裁定層の境界が測定不能): {a.stderr.strip()}")
+            desc.add(x)
+            desc |= set(a.stdout.split())
+        return desc
+
+    def _descendants_of_field(self) -> set[str]:
+        """欄を持つ profile の commit と、その子孫。"""
+        if self._desc is None:
+            self._desc = self._descendants_where(lambda x: self.ruled_layer_at(x) is not None)
+            for x in self._profile_versions():
+                v = self.entries_at(x)
+                if v:
+                    self._paths_seen |= set(v[0])
         return self._desc
 
     def paths_ever(self) -> set[str]:
-        """どこかの profile の版が ruled_layer.paths に書いた欄(履歴の候補をパスで絞るのに使う)。"""
+        """どこかの profile の版が ruled_layer.paths に書いた、形の正しい項目(履歴の候補をパスで絞るのに使う・
+        git には --literal-pathspecs で渡す — R8-3-01)。"""
         self._descendants_of_field()
         return set(self._paths_seen)
+
+    def held_at(self, entry: str) -> set[str]:
+        """entry を paths に持つ profile の版の commit と、その子孫(= その commit か祖先のどれかの版が entry を持った)。"""
+        if entry not in self._held:
+            self._held[entry] = self._descendants_where(lambda x: bool((v := self.entries_at(x)) and entry in v[0]))
+        return self._held[entry]
+
+    def nearest(self, rev: str) -> tuple[list[str], str] | None:
+        """rev の欄の項目と trailer 名。rev の欄が無い・正しくなければ、第 1 親の系列でいちばん近い正しい版のもの
+        (欄を消した間も、消す前の値で判定する — R8-3-06)。"""
+        if rev not in self._near:
+            v = self.entries_at(rev)
+            if v is None:
+                q = run_git(self.root, "rev-list", "--first-parent", rev, "--", PROFILE_REL)
+                if q.returncode != 0:
+                    die(f"profile の履歴を走査できない(裁定層の判定が測定不能): {q.stderr.strip()}")
+                v = next((w for w in (self.entries_at(x) for x in q.stdout.split()) if w), None)
+            self._near[rev] = v
+        return self._near[rev]
+
+    def values_for(self, base: str, head_prof: dict) -> dict:
+        """判定に使う profile の値 — 両層と再演が共有する唯一の決め方(R8-3-01/02/06 の共通原因の除去)。
+        paths = 基点の親の欄(nearest)∪ HEAD の欄の項目のうち、基点の親か祖先のどれかの版が持った項目
+        (欄を狭めて戻した間も判定する — R8-3-02。広げた項目は広げる前の commit を判定しない — R8-2-05)。
+        trailer 名 = 基点の親の欄の版のもの・無ければ HEAD のもの。"""
+        near = self.nearest(base)
+        head_rl = head_prof["ruled_layer"]
+        head_ents = [e for e in head_rl.get("paths", []) if repo_rel_path_ok(e)]
+        paths = list(dict.fromkeys((near[0] if near else []) + [e for e in head_ents if base in self.held_at(e)]))
+        name = near[1] if near else head_prof["trailers"].get("ruling", RULING_TRAILER_DEFAULT)
+        return dict(head_prof, ruled_layer=dict(head_rl, paths=paths), trailers=dict(head_prof["trailers"], ruling=name))
 
     def after_boundary(self, rev: str) -> bool:
         return self.after_since(rev) and rev in self._descendants_of_field()
@@ -1096,17 +1162,6 @@ class RuledBoundary:
                 return p
         return None
 
-    def values_at(self, rev: str, fallback: dict) -> dict:
-        """判定に使う profile の値(paths・trailer 名)= rev の profile のもの。rev の欄が正しい形でなければ fallback。"""
-        d = self.profile_at(rev)
-        rl = d.get("ruled_layer") if d else None
-        if not (isinstance(rl, dict) and isinstance(rl.get("paths"), list) and rl["paths"]
-                and all(repo_rel_path_ok(x) for x in rl["paths"])):
-            return fallback
-        tr = d.get("trailers") if isinstance(d.get("trailers"), dict) else {}
-        name = tr.get("ruling") if isinstance(tr.get("ruling"), str) and tr.get("ruling") else RULING_TRAILER_DEFAULT
-        return dict(fallback, ruled_layer=dict(fallback["ruled_layer"], paths=rl["paths"]),
-                    trailers=dict(fallback["trailers"], ruling=name))
 
 
 def resolve_commit(root: Path, rev: str) -> str | None:
@@ -1169,6 +1224,11 @@ def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str
     eff = prof if prof.get("ruled_layer") else ruled_profile_of_merge(root, others, prof)
     if not eff:
         return []
+    if not others and not ruled_paths_touched(staged_paths_from(root, head), eff):
+        # 速い道(R8-3-07): merge でない commit の基点は HEAD で、HEAD の欄(validate_profile 済み)が判定の値そのもの
+        # (values_for(HEAD) = HEAD の項目)。裁定層に触れなければ、境界の走査より前に判定が決まる(以下の遮断はどれも
+        # 触れた場合だけ)
+        return []
     rl = eff["ruled_layer"]
     since = resolve_commit(root, rl["since"])
     if since is None:
@@ -1197,7 +1257,7 @@ def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str
             return [f"[E13] {REASONS['E13']}: merge の結果が ruled_layer を{how} — 結果の欄が、境界の後にあるどの親"
                     f"({', '.join(p[:9] for p in [head] + others if bd.after_boundary(p))})の欄とも違う。欄の変更は"
                     f"単独の commit で行い(E08 を通る)、merge はどれかの親の欄をそのまま持つ"]
-    vals = bd.values_at(base, eff)
+    vals = bd.values_for(base, eff)
     touched = ruled_paths_touched(staged_paths_from(root, base), vals)
     if not touched:
         return []

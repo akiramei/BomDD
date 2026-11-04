@@ -1,0 +1,41 @@
+# known-bad: this tree's qualification against the validator at 1cd891b
+[N23a] PASS - 通過
+[N23p] PASS - 通過
+[N23b] PASS - E13 で遮断・trailer が無い を表示
+[N23c] PASS - E13 で遮断・ECO-999 を表示
+[N23c2] PASS - E13 で遮断・ECO-999 を表示
+[N23d] PASS - E13 で遮断・open でない を表示
+[N23e] PASS - E13 で遮断・指示書 を表示
+[N23f] PASS - E13 で遮断・Sources read 節が無い を表示
+[N23g] PASS - E13 で遮断・引用数 0 を表示
+[N23h] PASS - E13 で遮断・bomdd/adr/ADR-1.md を表示
+[N23i] PASS - E13 で遮断・bomdd/20-spec.md を表示
+[N23k] PASS - E13 で遮断・-m を表示
+[N23q] PASS - E13 で遮断・コメント行 を表示
+[N23j] PASS - 通過
+[N23l] PASS - 通過
+[N23r] PASS - E13 で遮断・bomdd/adr/ADR-3.md を表示
+[N23s] PASS - E13 で遮断・bomdd/adr/ADR-4.md を表示
+[N23t] PASS - 遮断→通過
+[N23m] PASS - history の E13 4 件= 期待の 4 commit と一致
+[N23x] PASS - E13 で遮断・ruled_layer を落とす を表示
+[N23u] PASS - E13 で遮断・open でない を表示
+[N23y] PASS - history の E13 で検出
+[N23z] PASS - history の E13 で検出
+[N23z2] PASS - 第 1 層も再演も通す・新しい報告は N23y と N23z の 2 件だけ
+[N23x2] PASS - 通過
+[N23x3] PASS - 通過
+[N23x4] PASS - E13 で遮断・ruled_layer を変える を表示
+[N23z4] FAIL - 準備 True・validate exit 1・新しい報告 []・消えた報告 []: process-validator: [scope] 再演: 導入点 fe843b522 以降の台帳変更 6 commit・証拠要求の対象 6 遷移(導入点で到達済みの状態は対象外)
+[E13] ruled-layer-change-
+[N23z5] FAIL - 準備 True・validate exit 1・新しい報告 ['5372fb514']・消えた報告 []: process-validator: [scope] 再演: 導入点 fe843b522 以降の台帳変更 6 commit・証拠要求の対象 6 遷移(導入点で到達済みの状態は対象外)
+[E13] ruled-la
+[N23z3] FAIL - 準備 True・validate exit 1・新しい報告 []・消えた報告 ['1f4ac728a', '52df69bcd', '5372fb514', '614584dd6', 'b78adeb88']: process-validator: [scope] 再演: 導入点 fe843b522 以降の台帳変更 6
+[N23z3b] FAIL - 準備 True・validate exit 2・新しい報告 []・消えた報告 ['4c14790cf', '7c9a6d88e']: process-validator: 測定不能 — 裁定層の履歴の走査が失敗(検査面が測定不能): fatal: ../outside: '../outside' is outside 
+[N23n] PASS - E13 で遮断
+[N23v] PASS - E13 で遮断
+[N23w] PASS - profile 不正で停止
+[N23o] PASS - 通過
+N23 controls 35; FAIL ['N23z3', 'N23z3b', 'N23z4', 'N23z5']; expected FAIL ['N23z3', 'N23z3b', 'N23z4', 'N23z5']
+known-bad: as expected
+throwaway product removed: True

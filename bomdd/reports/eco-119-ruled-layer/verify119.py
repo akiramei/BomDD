@@ -260,10 +260,13 @@ def main():
         # before the field is reported too (round 1's KB2, --ancestry-path, needed the release on a side branch; the release is
         # on main now, so the pre-release commits are ancestors of since and outside the range with or without that flag)
         vsrc2 = vp.read_text(encoding="utf-8")
-        anchor2 = "    def after_boundary(self, rev: str) -> bool:\n"   # round 3: the field gate is in after_boundary
-        assert vsrc2.count(anchor2) == 1
-        vp.write_text(vsrc2.replace(anchor2, anchor2 + "        return self.after_since(rev)  # ECO-119 V1 KB2\n"),
-                      encoding="utf-8", newline="\n")
+        # round 3: the field gate is in after_boundary; round 4: values_for also gives no paths before the field (an entry is
+        # judged only where some version at or before the base parent held it), so both are removed
+        anchor2 = "    def after_boundary(self, rev: str) -> bool:\n"
+        held2 = "[e for e in head_ents if base in self.held_at(e)]"
+        assert vsrc2.count(anchor2) == 1 and vsrc2.count(held2) == 1
+        vp.write_text(vsrc2.replace(anchor2, anchor2 + "        return self.after_since(rev)  # ECO-119 V1 KB2\n")
+                      .replace(held2, "head_ents"), encoding="utf-8", newline="\n")
         v2 = sh(sys.executable, str(vp), "--mode", "validate", "--root", str(prod))
         e13b = [l for l in (v2.stdout + v2.stderr).splitlines() if "[E13]" in l]
         vp.write_text(vsrc2, encoding="utf-8", newline="\n")

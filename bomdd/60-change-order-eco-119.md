@@ -530,6 +530,93 @@ Only the 31 N23 controls are new. No control is only in "before", and the before
 A V2/V3 run started before ruling B was stopped part-way, and its leftover temporary folder was removed. The lines above come from
 the run made after B.
 
+**V5:** self-conformance exit 0 on the tree of `1cd891b` (C11 and C11b 78 controls each, both runs identical, 770.8 s). The commit
+`1cd891b` was pushed; its CI succeeded (run 41874648644).
+
+## 4E. R8 round 3 (2026-11-05)
+
+**R8 round 3: REJECT**, with 2 material and 6 minor findings. The summary is in `bomdd/reports/eco-119-ruled-layer/r8-round-3.md`.
+Under ruling 3:A this was the last round, so the work stopped for the user.
+- The two material findings are R8-3-01 (unchecked entries in the replay's path filter) and R8-3-02 (a narrowing window).
+- Both come from round 3's change to which `paths` a commit is judged with.
+- The inspector broke the read-only rule once and undid it; this is disclosed in the report. BomDD was left at `1cd891b`, clean.
+
+**Ruling:** user, 2026-11-05, "A: 一本化+第4回". Remove the common cause, then run a round 4 narrowed to round 3's eight findings and
+the parts changed for them.
+
+**The common cause.** R8-3-01, 02 and 06 come from one place. Round 3 decided which `paths` a commit is judged with in three different
+ways:
+- the replay's path filter took the union of every version's entries, unchecked;
+- the judgment took the base parent's entries;
+- in a removal window, the judgment fell back to HEAD's entries.
+
+## 4F. Round 4 — the fix and the measurements before commit (2026-11-05)
+
+**What was changed** (from `1cd891b`):
+- `process-validator.py`, `RuledBoundary`:
+  - `entries_at(rev)` keeps only the entries that pass `repo_rel_path_ok`. `:(exclude)…`, `..` and `:` entries are dropped. A version
+    with no such entry counts as having no well-formed field.
+  - `values_for(base, HEAD's profile)` is the only place that decides the `paths` and the trailer name. Both layers use it.
+    - The `paths` are the base parent's entries, together with HEAD's entries that some version at or before the base parent held.
+    - If the base parent has no well-formed field, its entries come from the nearest well-formed version on the first-parent line.
+    - The trailer name comes from that same version, or from HEAD if there is none.
+    - Effects:
+      - a narrowing window is judged by the replay, as a removal window is (R8-3-02);
+      - a removal window is judged with the field as it was before the removal (R8-3-06);
+      - an extended entry does not judge commits made before the extension (R8-2-05 kept).
+  - `held_at(entry)` is the set of commits whose own profile, or an ancestor's, held the entry. It is computed like the field's
+    boundary.
+  - `paths_ever()` holds well-formed entries only. The replay passes them to git with `--literal-pathspecs` (R8-3-01).
+  - `values_at` is removed.
+- `check_ruled_layer`:
+  - Fast path (R8-3-07). For a non-merge commit that touches none of HEAD's ruled paths, it returns before the boundary walk. The
+    result is the same, because for a non-merge commit `values_for(HEAD)` is HEAD's entries, which `validate_profile` has already
+    checked.
+  - Merges still take the full path.
+- The E13 docstring and playbook §4.5 (R8-3-03, 04, 05):
+  - the merge field refusal is first-layer only, and the replay does not repeat it;
+  - changing or dropping the field with `--no-verify` is not stopped, merge or not;
+  - the first layer does not judge a removal or narrowing window, which the replay judges;
+  - a merge that keeps the field of a parent whose own commit dropped or changed it is allowed, in either direction;
+  - B's cost: two branches that each extended `paths` cannot be merged with the union; merge with one side's field, then add the
+    other's entries in a commit of its own.
+- `process-qualification.py`: N23u's octopus merge now carries the accept trailer (R8-3-08). Four arms are added, 35 N23 controls in
+  all. Each new arm is judged by its own validate run, so a failing arm (an exit 2, say) cannot hide another arm's result.
+  - N23z4 (R8-3-02): `paths` narrowed, a spec change without a trailer, `paths` restored. The replay reports exactly that commit.
+  - N23z5 (R8-3-06): the field removed, a file created under an entry added later, the field restored with that entry. No new
+    report.
+  - N23z3 (R8-3-01): a side branch adds `:(exclude)bomdd` and is merged into main with `-s ours`; there is a `--no-verify` change
+    before and after. Both are reported, and no earlier report disappears.
+  - N23z3b: the same with `../outside`. Not unmeasurable (no exit 2), and both changes are reported.
+- Evidence:
+  - `verify119.py` KB2 now removes both field gates: `after_boundary` and `values_for`'s "held at or before the base parent".
+  - `verify119_r3kb.py` takes `00f3ae2`, `1cd891b` or `--letter`, each with its own expected set.
+  - `verify119_v2v3.py` expects 35 N23 controls.
+
+**Known-bad of the new arms:**
+- `out/r4kb.txt` (against round 3's `1cd891b`): exactly N23z3, N23z3b, N23z4 and N23z5 FAIL. Each fails in its own validate run:
+  - N23z4: the narrowing-window commit is not reported;
+  - N23z5: the window commit is reported (a permanent red);
+  - N23z3: every earlier report disappears (`:(exclude)`);
+  - N23z3b: exit 2 (`../outside`).
+- `out/r3kb.txt` (against round 2's `00f3ae2`): exactly N23u, N23x, N23x4, N23y, N23z and N23z2 FAIL.
+  - N23u now fails by passing (exit 0), not by a different reason text. With the accept trailer, E05 no longer refuses it (R8-3-08).
+  - N23x still tells round 2 from round 3 only by its reason text: round 2 also refuses that merge with E13, for a missing trailer
+    on the diff from main. This is declared, not changed.
+- `out/r3kb-letter.txt` (1:A's letter in place of B): exactly N23x2 and N23x3 FAIL.
+
+**V1 — PASS** (`out/v1.txt`). The first rerun failed KB2 with 1 E13, because KB2 removed only `after_boundary`, and `values_for` also
+gives no paths before the field. KB2 now removes both. Its second rerun gave 0 E13: the replacement had put a comment in the middle of
+a line, so the patched validator did not compile. That was fixed in the script. The third rerun is the recorded PASS: 2 E13.
+
+**V2 — PASS** (`out/v2.txt`): disposition PASS, the two runs identical, 82 controls; all 35 N23 controls PASS.
+
+**V3 — PASS** (`out/v3.txt`; before = `42a6158`): the 47 controls in both runs have the same verdict and detail. Only the 35 N23
+controls are new.
+
+The known-bad runs and V2/V3 were made before the last edits to the E13 docstring, and those edits change comments only. The selftest
+(99 PASS) and self-conformance's C11 ran on the final tree.
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling, item 2; filing only).
