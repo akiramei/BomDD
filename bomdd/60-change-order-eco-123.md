@@ -151,6 +151,72 @@ same tool file (sha256 `dfb4e5dc0de32c2c…`, printed by `v14.py` and checked ag
 
 **Not done here:** the commit's self-conformance and CI (V4), the closure.
 
+## 5. クローズ (closure, 2026-11-04, verified on the user's "クローズする", manufacturer's calibration only)
+
+- **Window.** Baseline `825d9a1` → filing `a968c51` → manufacture `7cf5917` (diff_audit.head; **the window is closed**; the closure commit
+  holds records only: this order and the register).
+  - Inside the window (`git diff --name-only 825d9a1 7cf5917`, 10 paths): `method/tools/bomdd-job.py`, this order, the register, and 7
+    files under `bomdd/reports/eco-123-job-gauge/`. **No path outside `allowed_paths`.** Control: the same filter on ECO-122's window
+    (`9e926be..825d9a1`) lists 17 paths outside, so the filter can fail.
+  - The committed tool is the one measured: `git show 7cf5917:method/tools/bomdd-job.py` has sha256 `dfb4e5dc0de32c2c…`, the hash `v14.py`
+    printed. With it, `bomdd-job.py ECO-105`, `ECO-110`, `ECO-116`, `ECO-120`, `ECO-121` and `ECO-122` read `NONE`.
+- **Acceptance results:**
+  - **V1 result: PASS** (section 4): 111 of 123 entries byte-identical; the 12 differ in `stop_type` only, `LEDGER_INCONSISTENT` → `NONE`.
+  - **V2 result: PASS** (section 4): `--selftest` exit 0, six new arms named.
+  - **V3 result: PASS** (section 4): M1 and M3 red on the new arms, M2 red, M4 unmeasurable, the old rule red on two English-heading arms,
+    the unchanged copy green.
+  - **V4 result: PASS.**
+    - `--all --json`, `--all`, `--dwell` (BomDD and ViewTube at a fixed `now`) byte-identical; the cache key equal; `bomdd-run.py
+      --selftest` exit 0 (section 4).
+    - Self-conformance exit 0 observed before each commit: filing `a968c51` and manufacture `7cf5917` (ECO-119's untracked R8 report held
+      outside the tree each time and restored with its sha256 checked).
+    - CI: run 41769003840 on `a968c51` **success**; run 41771610600 on `7cf5917` **success** (conclusions read with the full SHA).
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; one tool changed)
+
+- **The claim (one sentence).** The job view reads an English closure heading in both directions of its check, so the 12 verified ECOs
+  closed under `## N. Closure (…verified…)` read `NONE` and no other job record changes; and the dwell selftest now fails on a version key
+  that does not follow the parse rule (M1) and on a cache that keeps rewritten-away blobs (M3).
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "Only the 12 job records change": **observed / eligible**. Every one of the register's 123 entries, old tool against new by `--json`
+    bytes; the differing field read per entry (`v14.py`).
+  - "Both directions of the check apply to the English heading": **observed / conditionally eligible**. The direction verified → closed is
+    shown on the 12 real orders and a fixture; the reverse direction (a closed English order with the register not verified) only on a
+    fixture (ECO-907) — no real order is in that state, so there is no real case to read.
+  - "The selftest catches M1 and M3": **observed / conditionally eligible**. The two broken copies, run through their own `--selftest`,
+    fail on the named arms, and the unchanged copy does not; the condition: the copies ran from a temporary directory, so the job selftest's
+    existing arms also failed there (no activation map) and only the named lines were read; and nothing runs the selftest by itself (CI
+    does not).
+  - "Nothing else moves": **observed / eligible**. `--all` in two forms, `--dwell` on two registers at a fixed moment, the cache key, the
+    run selftest.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): none in this ECO's manufacture or verdicts. The two defects this
+  ECO repairs were found at ECO-122's closure and are its subject.
+- **宣言した検出力の限界** (declared limits of detection):
+  - The 59 pre-convention orders still read `LEDGER_INCONSISTENT` in the job view (section 2).
+  - **CI does not run `bomdd-job.py --selftest`**; the new arms run when someone runs them.
+  - The new cache arms catch the broken copies that were tried (M1-M4); another way to break the key or the pruning is not measured.
+  - The key-follows-source arm needs the tool's source file; without it the arm is named as not run on the PASS line.
+  - MoviePad-Remake's kit copy of `bomdd-job.py` is not updated.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9); this receipt was written by the manufacturer.
+- **Battery, row by row:**
+  - **Q1 asked.** The PASS lines name the arms the code runs (six new names checked in V2); header limit (1) states both words and the 59.
+  - **Q2 asked.** Known-good: the unchanged copy and the 111 unchanged job records. Known-bad: M1-M4 and the old rule, labelled by the
+    frozen conditions before the runs.
+  - **Q3 asked.** Each new arm has its own broken copy (M1 → key-follows-source, M3 → amend, old rule → two heading arms).
+  - **Q4 asked.** V1 on the real register (all 123 entries, the 12 real English closures); the reverse direction on a fixture only.
+  - **Q5 asked.** M4 is `UNMEASURABLE` and counted as neither red nor green; the "not run" path of the key arm is printed, not passed.
+  - **Q6 asked.** Each commit came after an observed exit 0; CI read by the full SHA before this closure.
+  - **Q7 asked.** The new arms were shown to fail (V3) before they were trusted.
+  - **Q8 NA.** No preventive gate was added.
+  - **Q9 asked.** The committed tool's sha256 equals the measured one.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** Heading classes kept apart: English with `verified`, English without, fenced English, and the pre-convention classes
+    (no heading, no `verified`, another title), each counted (`heading_survey.txt`).
+- **What this closure does not support:**
+  - the 59 pre-convention orders reading `NONE`;
+  - CI catching a later break of the heading rule or of the cache arms;
+  - MoviePad-Remake's kit carrying these changes.
+
 ## /preflight receipt (start path: manual — the user's "1 本で起票する" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's choice to file both findings as one ECO; filing only).

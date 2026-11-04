@@ -3930,8 +3930,7 @@ changes:
     title: bomdd-job's gauges - the job view reads an English closure heading (12 verified ECOs read LEDGER_INCONSISTENT today), and the dwell selftest gains the arms that catch a version key not tied to the parse rule and a cache that keeps rewritten-away blobs (filed only)
     date: 2026-11-04
     origin: improvement
-    status: implemented   # 2026-11-04 manufactured on the user's "起票どおり製造" (order section 4: V1-V3 PASS, V4 PASS before commit); filed a968c51 on "1 本で起票する" (both findings of ECO-122's closure as one ECO)
-    waiting_on: human-acceptance   # ECO-120 vocabulary; the closure waits for the user
+    status: verified   # 2026-11-04 closed on the user's "クローズする" (order section 5: V1-V4 PASS, manufacturer's calibration only; window 825d9a1..7cf5917 closed, no path outside allowed_paths, control FAIL); manufactured 7cf5917 on "起票どおり製造"; filed a968c51 on "1 本で起票する"
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       ECO-122 order section 5. The nested --selftest misses two of ECO-122's broken copies (M1 version key without the source, M3 every
@@ -3945,6 +3944,7 @@ changes:
     diff_audit:
       baseline: "825d9a1"  # HEAD before this filing
       allowed_paths: [method/tools/bomdd-job.py, bomdd/60-change-order-eco-123.md, bomdd/60-change-register.yaml, bomdd/reports/eco-123-job-gauge/]
+      head: "7cf5917"  # manufacture commit; the window is closed (10 paths, none outside allowed_paths)
     required_gates: [V1, V2, V3, V4]   # the order's machine copy (ECO-112 G1)
     summary: >
       P1 (measure): CLOSE_HEAD_RE = (?:クローズ|Closure) after the section number, verified on the line, fences removed; both directions.
@@ -3954,10 +3954,13 @@ changes:
       P3 (none): header note. Not chosen: rewriting the 12 closed headings, accepting a heading without verified (the 59), a number
       cut-off, a case-insensitive or any-language match, CI wiring (declined at ECO-122).
     verification: >
-      V1 every entry's job --json byte-identical between the filing tree's tool and the changed tool except the 12, which differ only in
-      stop_type (LEDGER_INCONSISTENT -> NONE) / V2 bomdd-job --selftest exit 0 naming the four heading arms and the two cache arms / V3
-      ECO-122's M1 and M3 turn the dwell selftest FAILED on the named arms, M2 and M4 not PASS; a copy with the old CLOSE_HEAD_RE turns the
-      job selftest FAILED / V4 --all --json and --all byte-identical; --dwell on BomDD and ViewTube in-process at a fixed now byte-identical
-      and the cache key equal; bomdd-run --selftest exit 0; self-conformance exit 0 before each commit; CI green by the full SHA.
-      Conditions are frozen at filing; results go to the closing section.
+      Verified 2026-11-04 (order section 5; manufacturer's calibration only). V1 PASS: 111 of 123 entries' job --json byte-identical between
+      the filing tree's tool (a968c51) and the changed tool; the 12 (ECO-105 to 111, 116 to 118, 120, 121) differ in stop_type only,
+      LEDGER_INCONSISTENT -> NONE; the 59 pre-convention entries unchanged. V2 PASS: --selftest exit 0 naming the four English-heading arms
+      and the two new cache arms (8 cache arms in all). V3 PASS: M1 and M3 FAILED on key-follows-source and amend, M2 FAILED, M4
+      UNMEASURABLE; the old CLOSE_HEAD_RE fails two English-heading arms; the unchanged copy passes the dwell selftest. V4 PASS: --all
+      --json and --all byte-identical; --dwell on BomDD and ViewTube identical at a fixed now; cache key equal; bomdd-run --selftest exit 0;
+      self-conformance exit 0 before a968c51 and 7cf5917; CI 41769003840 and 41771610600 success. Declared: the 59 stay
+      LEDGER_INCONSISTENT; CI does not run bomdd-job --selftest; the reverse direction on English orders is shown on a fixture only;
+      MoviePad-Remake's kit copy not updated.
     producer: EQ-004
