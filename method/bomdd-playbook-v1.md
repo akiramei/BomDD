@@ -542,8 +542,8 @@ M-BOM 確定**前**に(Loop4):
 - **正の順(candidate・MoviePad-Remake ECO-006 N=1・user 裁定 2026-10-29)**: 記録とコードが食い違ったら、要求(10)→ 仕様(20)→ 裁定済みの E-BOM・K-BOM・ADR・人の裁定 → 導出層(32〜34)→ コード、の順に上にあるものを正とする。
   コードも原典(再現案件の元製品)も、それだけでは正の根拠にならない — 原典は仕様と原典パリティ(§3.4)を通して効く。変更が少ないことも理由にならない。
   裁定層どうしが矛盾したらどちらも採らず、上の「人へ戻す 3 種」の「導出不能」として人へ戻す(4 種目は作らない)。
-  強制: **止める= process-core の E13**(ECO-119)— 設計リリース(profile の `ruled_layer.since`= その commit の完全な SHA)以後、裁定層のファイル(`ruled_layer.paths`)を変える commit は、親(HEAD)の台帳で open の ECO を名指す trailer `BomDD-ECO-Ruling` と、その変更指示書の `Sources read` 節での触れたファイルの `path:line` の引用を要求する(profile で opt-in・欄を足した後の commit から・merge は第 1 親との差分で判定し、ECO は merge の後に applied にする・trailer は `-m`/`-F` で書く・履歴の再演でも同じ判定で検出)/
-  **測る= E13 の引用数**(触れた裁定層ファイルごと・0 は遮断)/ **止めないもの**= 誰が裁定したか・上位の資料を読んだか・変更が正しいか(trailer も引用も commit した者が書く — E05 と同じ類)・設計リリースより前・欄を書いていない製品。
+  強制: **止める= process-core の E13**(ECO-119)— 設計リリース(profile の `ruled_layer.since`= その commit の完全な SHA)以後、裁定層のファイル(`ruled_layer.paths`)を変える commit は、親(HEAD)の台帳で open の ECO を名指す trailer `BomDD-ECO-Ruling` と、その変更指示書の `Sources read` 節での触れたファイルの `path:line` の引用を要求する(profile で opt-in・欄を足した後の commit から・merge は第 1 親との差分で判定し、比較元は全部の親の台帳の合算・ECO は merge の後に applied にする・欄そのものは単独の commit で変える〔merge の結果の欄が境界の後のどの親の欄とも違えば遮断・どれかの親の欄を持つ merge は通る〕・欄を消して戻した間の commit も再演が判定・trailer は `-m`/`-F` で書く・履歴の再演でも同じ判定で検出〔`--no-verify`・amend・cherry-pick・revert・rebase〕)/
+  **測る= E13 の引用数**(触れた裁定層ファイルごと・0 は遮断)/ **止めないもの**= 誰が裁定したか・上位の資料を読んだか・変更が正しいか(trailer も引用も commit した者が書く — E05 と同じ類)・設計リリースより前・欄を書いていない製品・欄を足す commit 自身の変更・`--no-verify` で欄を消すこと(消えた後は両層とも働かない)・枝の単独の commit で欄を消し、main をその枝へ merge してから fast-forward する経路(削除そのものは E08 が管理)。
   根拠: 設計者が 2 件を「E-BOM とコードの食い違い」と枠づけ、コードに合わせる案を推した。要求・仕様・E-BOM・ADR を読むと 2 件とも E-BOM が正しく、欠陥は導出層にあった(設計者は §4.1 の `requires`= 当てにする を呼び出しと読んでいた)。止めたのは人の保留だけだった。
 - **部品規格(candidate・ECO-114)**: 作業指示を受けて作られた部品が次の工程で使えることを、その部品を単独で受け入れる時点で照合できるようにする —
   §4.1 の粒度規準「単独で受入できる最小単位」の前提。

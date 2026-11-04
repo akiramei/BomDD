@@ -404,7 +404,131 @@ the before run.
 **V5:**
 - self-conformance exit 0 on the tree with the N23v fix: C11 and C11b 70 controls each, both runs identical, 703.8 s. The order and
   the evidence files were changed after that run.
-- The final run before the commit, and the CI after the push, are below.
+- Final run before the commit: exit 0, C11 and C11b 70 controls each, 533.8 s. The commit `00f3ae2` was pushed; its CI succeeded
+  (run 41843989344).
+
+## 4C. R8 round 2 and the rulings on it (2026-11-04 → 2026-11-05)
+
+**R8 round 2: REJECT**, with 3 material and 4 minor findings. The summary is in `bomdd/reports/eco-119-ruled-layer/r8-round-2.md`.
+All of round 1's findings are closed, or closed with a declared limit. Under ruling 5:A the work stopped for the user.
+
+**Rulings:** user, 2026-11-05, "推奨どおり", on the three points put to them, i.e. "1:A 2:A 3:A".
+1. **The field dropped through a merge** (R8-2-01). E13 itself refuses a merge whose result drops or changes the field held by the
+   parent it judges from. E08 is not changed. Dropping the field with `--no-verify` is not stopped, and this is declared.
+2. **The boundary** (R8-2-02). As ruled in 3:A, the replay judges from the later of `since` and the first appearance of the field.
+   A ruled change made between a removal of the field and its re-addition is therefore reported by the replay. The first layer
+   cannot judge such a change, because HEAD's profile then has no field; this is declared.
+3. **Rounds.** Fix, then run round 3 narrowed to the fixed parts and the seven findings. Round 3 is the last: a REJECT stops for the
+   user.
+
+**Premises stated with the question and fixed without a ruling:**
+- R8-2-03: a parent profile that does not parse.
+- R8-2-04: the register of an octopus merge.
+- R8-2-05: the values read from the parent the commit is judged from.
+- R8-2-06: the gaps in the records.
+- R8-2-07: `:` in a path.
+- Declared, not changed: cherry-pick, revert and rebase run no commit-msg hook (the replay judges them). After the field, a branch can
+  reach main without a merge trailer by a sync merge followed by a fast-forward, and each of its commits is still judged.
+
+## 4D. Round 3 — the fix and the measurements before commit (2026-11-05)
+
+**What was changed** (from `00f3ae2`):
+- `process-validator.py`:
+  - **R8-2-01 (ruling 1:A, narrowed by ruling B below).** In a merge, the first layer refuses when the index's `ruled_layer`
+    differs from the field of every parent after the boundary ("merge の結果が ruled_layer を落とす/変える — 結果の欄が、境界の
+    後にあるどの親 … の欄とも違う"). A merge that keeps the field of one of those parents is allowed. The field itself is changed in
+    a commit of its own, which goes through E08. E08 is unchanged.
+  - **R8-2-02 (ruling 2:A).** `RuledBoundary` now takes the heads it reads from. A parent is after the boundary when `since` is that
+    parent or one of its ancestors, and that parent or one of its ancestors has a profile with the field. The first commit with the
+    field is found by `rev-list --full-history -- <profile>`, and its descendants by `--ancestry-path`. A commit made while the
+    field was removed therefore stays after the boundary. The replay judges it. The first layer cannot, because HEAD's profile then
+    has no field (declared).
+  - **R8-2-03.** A profile that does not parse, or is empty, is not counted as a first appearance of the field. It does not end the
+    boundary either: if the field appeared earlier, the commits after the broken profile are judged.
+  - **R8-2-04.** In a merge, E13 combines the registers of every parent: HEAD and every line of MERGE_HEAD. This is the same base as
+    the replay's. E01's `parent_registers` is not changed (below).
+  - **R8-2-05.** The `paths` and the trailer name are read from the profile of the parent the commit is judged from. If that profile's
+    field is not well formed, the caller's values are used. Both layers do this. The replay's path filter is the union of every
+    profile version's `paths`, so a commit touching only an entry that was later removed is still listed.
+  - **R8-2-07.** `repo_rel_path_ok` refuses `:`. This covers `paths` and `order_ref`.
+  - The E13 docstring now declares what the layers do not stop:
+    - cherry-pick, revert and rebase, which the replay catches;
+    - the commit that adds the field, whose own ruled change is not judged, as E01's installation commit is not;
+    - dropping the field with `--no-verify`, after which both layers are off.
+  - Selftest: 99 arms, all PASS. New arms: `:` in `paths` and in `order_ref`.
+- `process-qualification.py`: eight arms, 31 N23 controls in all.
+  - N23x: `main` merged with `-s ours` into a branch forked before the field. Refused with "ruled_layer を落とす".
+  - N23x2 (ruling B): the trunk changes the field in its own commit, then is merged into a working branch. Allowed.
+  - N23x3 (ruling B): a branch changes the field in its own commit, then is merged into the trunk. Allowed.
+  - N23x4 (ruling B): a merge whose resolution writes a field held by neither parent. Refused with "ruled_layer を変える".
+  - These three run on a `trunk` branch cut from main, so main's line, which the later arms replay, is unchanged.
+  - N23u: an octopus merge naming an ECO that is applied on its third parent. Refused with "open でない".
+  - N23y: the field removed, a ruled change, the field restored. The replay reports the change.
+  - N23z: a profile that does not parse, then a `--no-verify` ruled change. The replay reports it.
+  - N23z2: `paths` extended in a commit that also creates a file under the new entry. Neither layer reports it. The only new
+    reports are N23y's and N23z's.
+  - The docstrings now say "N23a〜z2", 31 arms (R8-2-06d).
+- The playbook, §4.5's E13 sentence:
+  - the merge's base is the combined register of every parent;
+  - the field itself is changed in a commit of its own (a merge whose result holds a field that no parent after the boundary
+    holds is refused);
+  - the replay judges a removal window, and catches cherry-pick, revert and rebase;
+  - 止めないもの adds the field's own commit and dropping the field with `--no-verify`.
+- Evidence:
+  - `verify119.py`: KB2 now patches `after_boundary` to `after_since` (`has_field` no longer exists). Its meaning is unchanged: the
+    replay without the field gate.
+  - `verify119_v2v3.py` expects 31 N23 controls.
+  - New: `verify119_r3kb.py`, with `out/r3kb.txt` (against `00f3ae2`) and `out/r3kb-letter.txt` (`--letter`).
+
+**Ruling on the round-3 draft:** user, 2026-11-05, "B: 範囲を絞る".
+- The draft implemented ruling 1:A's text: refuse a merge whose result differs from the base parent's field. A throwaway product
+  showed that this also refused two merges that follow the error's own advice:
+  - the trunk changes the field in its own commit and is merged into a working branch;
+  - a branch changes the field in its own commit and is merged into the trunk.
+- This cost had not been shown with the round-2 question, so it was put back to the user before round 3.
+- Ruling B: refuse only when the result's field differs from the field of every parent after the boundary.
+- The attacks of R8-2-01 stay refused:
+  - `-s ours` into a branch forked before the field (N23x);
+  - `--no-commit`, then the old profile restored (the same test);
+  - a resolution that writes a field no parent holds (N23x4).
+- Residual, declared: a branch drops the field in its own commit, main is merged into that branch, and main fast-forwards to it.
+  The drop itself is an equipment change, which E08 controls.
+
+**The choice made for R8-2-03.** R8 offered two fixes: judge the commit, or exit 2 (unmeasurable). The fix takes the first. Exit 2
+would leave a product permanently red once a broken profile sits in its history, because history cannot be rewritten. Judging the
+following commits closes the fail-open just as well. The user is told of this choice with this round.
+
+**Declared limits (records only — R8-2-06):**
+- (a) Cherry-pick, revert and rebase run no commit-msg hook. The replay judges what they produce.
+- (b) The commit that adds the field is not judged for a ruled change it carries.
+- (c) Ruling 1:A's cost applies in both directions:
+  - a merge cannot launder an unruled change into main;
+  - a merge without a trailer is refused even when each branch commit was ruled.
+  For a branch forked after the field, a sync merge of main into the branch followed by a fast-forward reaches B's outcome, and each
+  branch commit is still judged by the first layer when made and by the replay.
+- E01's octopus gap is not closed: its `parent_registers` combines HEAD with the first MERGE_HEAD line only. It is outside ECO-119's
+  scope, so it is left as a candidate for a separate ECO.
+- R8-2-06(d): 4B says the refusals "now read 名指す ID はすべて台帳に実在すること". That is the text when a named id is missing. For a
+  closed ECO the refusal still reads "open でない" (N23d, N23u).
+
+**Known-bad of the new arms:**
+- `out/r3kb.txt`: this tree's qualification, run against the round-2 validator (`00f3ae2`), FAILs exactly N23u, N23x, N23x4, N23y,
+  N23z and N23z2. The other 25 N23 controls PASS, including N23x2 and N23x3, which round 2 also allowed. So each refusing or
+  reporting arm tests something round 2 did not do.
+- `out/r3kb-letter.txt`: this tree's validator with ruling B's test put back to 1:A's text. Exactly N23x2 and N23x3 FAIL. So the two
+  allowing arms detect the over-refusal that ruling B removed.
+
+**V1 — PASS** (`out/v1.txt`): every arm has the same verdict as in round 2. KB "check_ruled_layer disabled" lets the `0b50020` arm
+through. KB2 (no field gate) reports 2 E13.
+
+**V2 — PASS** (`out/v2.txt`; a fresh scaffold of this tree, `--runs 2`): disposition PASS, the two runs identical, 78 controls. All 31
+N23 controls PASS.
+
+**V3 — PASS** (`out/v3.txt`; before = a scaffold of `42a6158`): the 47 controls present in both runs have the same verdict and detail.
+Only the 31 N23 controls are new. No control is only in "before", and the before run has no E13.
+
+A V2/V3 run started before ruling B was stopped part-way, and its leftover temporary folder was removed. The lines above come from
+the run made after B.
 
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 

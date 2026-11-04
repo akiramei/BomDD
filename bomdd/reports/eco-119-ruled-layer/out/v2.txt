@@ -1,5 +1,5 @@
 # V2 - the qualification's E13 arms (a fresh scaffold of this tree; --runs 2)
-disposition PASS, runs identical True, controls 70
+disposition PASS, runs identical True, controls 78
 [N23a] PASS E13 なし(設計リリースより前・欄を足す前は検査しない) - 通過
 [N23p] PASS E13 なし(リリースの後・欄を足す前の commit は判定しない) - 通過
 [N23b] PASS E13(trailer なしの裁定層の変更→遮断) - E13 で遮断・trailer が無い を表示
@@ -19,8 +19,16 @@ disposition PASS, runs identical True, controls 70
 [N23s] PASS E13(欄の無い枝へ main を merge・枝の変更を境界の後の親との差分で判定→遮断) - E13 で遮断・bomdd/adr/ADR-4.md を表示
 [N23t] PASS E13(リリース後の枝の merge は trailer なしで遮断・open な ECO の trailer で通過) - 遮断→通過
 [N23m] PASS E13(--no-verify・日本語のパス・リリース前の枝の merge・欄の無い枝からの fast-forward を履歴の再演がちょうどその commit で検出・欄を足す前と正しく通った commit は報告しない) - history の E13 4 件= 期待の 4 commit と一致
+[N23x] PASS E13(merge の結果が境界の後の親の欄を落とす→遮断・fast-forward の後に両層が止まるのを防ぐ) - E13 で遮断・ruled_layer を落とす を表示
+[N23u] PASS E13(octopus merge — 3 番目の親で applied の ECO は open でない→遮断・再演と同じ比較元) - E13 で遮断・open でない を表示
+[N23y] PASS E13(欄を消して戻した間の裁定層の変更を履歴の再演が検出) - history の E13 で検出
+[N23z] PASS E13(読めない profile の直後の --no-verify の変更を履歴の再演が検出 — 欄なしと数えない) - history の E13 で検出
+[N23z2] PASS E13 なし(paths を広げた commit は、第 1 層が見た値〔基点の親の paths〕で再演も判定) - 第 1 層も再演も通す・新しい報告は N23y と N23z の 2 件だけ
+[N23x2] PASS E13 なし(単独の commit で変えた欄を、作業中の枝へ同期の merge で取り込む — 裁定 B) - 通過
+[N23x3] PASS E13 なし(枝の単独の commit で変えた欄を、merge で trunk へ取り込む — 裁定 B) - 通過
+[N23x4] PASS E13(merge の解決で、境界の後のどの親の欄とも違う欄を作る→遮断 — 裁定 B) - E13 で遮断・ruled_layer を変える を表示
 [N23n] PASS E13(since が解決できない→遮断・測定不能は合格ではない) - E13 で遮断
 [N23v] PASS E13(since が HEAD の系列に無い→遮断) - E13 で遮断
 [N23w] PASS exit 2(since が tag 名の profile は不正 — tag は差分なしに動かせる) - profile 不正で停止
 [N23o] PASS E13 なし(profile に ruled_layer が無ければ E13 は無い) - 通過
-V2: PASS (23 N23 controls)
+V2: PASS (31 N23 controls)
