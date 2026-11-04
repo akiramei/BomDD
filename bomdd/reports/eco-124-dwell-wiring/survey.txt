@@ -1,0 +1,6 @@
+BomDD: text 6 lines, warm 0.81 s; open 2, over 14 d 1, unexplained 1, crossed in the last 7 days unexplained 0 (-); paused no; warnings 0; dirty 2
+ViewTube: text 180 lines, warm 1.14 s; open 173, over 14 d 173, unexplained 170, crossed in the last 7 days unexplained 1 (ECO-VT-267); paused no; warnings 0; dirty 4
+ViewPrism2: text 31 lines, warm 0.37 s; open 24, over 14 d 24, unexplained 17, crossed in the last 7 days unexplained 0 (-); paused no; warnings 0; dirty 0
+BomDD-Plm: text 5 lines, warm 0.30 s; open 0, over 14 d 0, unexplained 0, crossed in the last 7 days unexplained 0 (-); paused no; warnings 0; dirty 0
+MoviePad-Remake: text 5 lines, warm 0.51 s; open 0, over 14 d 0, unexplained 0, crossed in the last 7 days unexplained 0 (-); paused no; warnings 0; dirty 0
+TimetableAdv: text 82 lines, warm 1.00 s; open 77, over 14 d 77, unexplained 77, crossed in the last 7 days unexplained 0 (-); paused no; warnings 0; dirty 12186

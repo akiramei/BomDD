@@ -3964,3 +3964,34 @@ changes:
       LEDGER_INCONSISTENT; CI does not run bomdd-job --selftest; the reverse direction on English orders is shown on a fixture only;
       MoviePad-Remake's kit copy not updated.
     producer: EQ-004
+  - id: ECO-124
+    title: progress - the dwell view is shown at the start of every Claude Code session in a BomDD repository as a short summary that puts what just crossed the threshold apart from the backlog, and what to decide about it is written down (filed only)
+    date: 2026-11-04
+    origin: improvement
+    status: filed   # 2026-11-04 filed on the user's "起票に進む"; manufacture waits for the start instruction, which also answers the decide rule (P3) and the user-level settings edit (P2)
+    waiting_on: start-instruction   # ECO-120 vocabulary
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      The user's "工程管理と進捗管理の改善は、仕組みの問題です" and the hook question answered after ECO-120 (a hook gives "see"; it still needs
+      a short output, speed, a visible "could not measure" and a rule for "decide"). ECO-122 made the view 0.37-1.14 s warm. Nothing runs
+      bomdd-job --dwell today (no Claude hook in any repository, not bomdd-run, not CI). survey.txt: the full text is the backlog
+      (ViewTube 180 lines, 170 unexplained over 14 days); the one entry that crossed the threshold this week (ECO-VT-267) is one line
+      among them.
+    order_ref: bomdd/60-change-order-eco-124.md
+    affected_refs: [method/tools/bomdd-job.py, method/tools/dwell-session-hook.py, method/bomdd-playbook-v1.md, AGENTS.md]
+    no_impact_prediction: "(before manufacture; frozen) bomdd-job.py gains --brief and selftest arms; dwell-session-hook.py is new (--selftest, --check); playbook section 8 one paragraph; AGENTS.md one line; the order, the register and bomdd/reports/eco-124-dwell-wiring/. Outside the repository: one SessionStart entry in ~/.claude/settings.json, only on the user's go-ahead. Every existing bomdd-job mode prints the same output; bomdd-run decides the same; every self-conformance line the same. No product changed. Declared: only Claude Code sessions on a machine with the hook see it (P4 is text for the rest); the decide rule is text, measured afterwards; the first start on a machine waits for the cold read (about 40 s on ViewTube, 75 s bound); the brief is as of the last SessionStart event (startup, resume, clear or compaction, as the matcher admits); the backlog is not reduced."
+    diff_audit:
+      baseline: "7b648df"  # HEAD before this filing
+      allowed_paths: [method/tools/bomdd-job.py, method/tools/dwell-session-hook.py, method/bomdd-playbook-v1.md, AGENTS.md, bomdd/60-change-order-eco-124.md, bomdd/60-change-register.yaml, bomdd/reports/eco-124-dwell-wiring/]
+    required_gates: [V1, V2, V3, V4, V5, V6]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      P1 (measure): bomdd-job --dwell --brief, at most 8 lines - header (open, over the threshold) or one "not measured" line; DECIDE line
+      = open, no waiting_on, not paused, days in (T, T+7], derived each run; backlog by reason; paused; uncommitted; warnings count; ids
+      capped at 10. P2 (measure): dwell-session-hook.py, a Claude Code SessionStart hook versioned in BomDD - finds the register from the
+      hook input's cwd, silent where there is none, prints the brief under a 75 s bound, any failure one "not measured" line, exit 0 always;
+      --check reports the installation; installed once per machine in the user-level settings (90 s timeout) on the user's go-ahead.
+      P3 (none): playbook section 8 and AGENTS.md - a DECIDE entry is put to the human in the session's first handoff (resume / record the
+      reason / pause / withdraw or supersede, the last three the human's); the backlog is a triage the human schedules; measured by the
+      DECIDE line and a later re-measure. P4 (none): the manual command in AGENTS.md. Not chosen: a hook in each repository, a git hook,
+      bomdd-run at launch, the full view, a stop, stored "new since last session" state.
+    producer: EQ-004
