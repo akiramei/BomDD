@@ -211,6 +211,84 @@ entry shown in the ruling request); **3:A** manufacture as filed.
 import the calling script again — both scripts needed a main guard (and the mutant copies a folder on `sys.path`). Not a tool defect;
 recorded so the next measurement does not lose time to it.
 
+## 5. クローズ (closure, 2026-11-04, verified with a known limit on the user's "A: close with limit", manufacturer's calibration only)
+
+- **The ruling.** V5, a required gate, failed on its BomDD arm (section 4). The user ruled **A: close with the limit declared** — the
+  path the rule needs (a `DECIDE` line reaching the session) passed 3/3 on ViewTube; a brief without a `DECIDE` line was not quoted.
+  This is a closure over a failed frozen condition by the human's ruling, not a pass of V5.
+- **Window.** Baseline `7b648df` → filing `97cb6c1` → manufacture `a4c8b68` → V5 record `d836955` (diff_audit.head; **the window is
+  closed**; the closure commit holds records only: this order and the register).
+  - Inside the window (`git diff --name-only 7b648df d836955`, 25 paths): the two tools, playbook, AGENTS.md, this order, the register and
+    19 files under `bomdd/reports/eco-124-dwell-wiring/`. **No path outside `allowed_paths`.** Control: the same filter on ECO-123's window
+    (`825d9a1..7cf5917`) lists 8 paths outside, so the filter can fail.
+  - The committed tools are the ones measured: at `a4c8b68` and at `d836955`, `method/tools/bomdd-job.py` sha256 `3d290fc20aa44423…` and
+    `method/tools/dwell-session-hook.py` `5e46cce424679f2e…` (the V5 record changed no tool).
+  - The hook is still installed: `dwell-session-hook.py --check` → `installed` (exit 0) at the closure.
+- **Acceptance results:**
+  - **V1 result: PASS** (section 4).
+  - **V2 result: PASS** (section 4).
+  - **V3 result: PASS** (section 4).
+  - **V4 result: PASS** (section 4; re-read at the closure as above).
+  - **V5 result: FAIL on the BomDD arm, PASS on the ViewTube arm** (section 4) — closed over by the ruling above.
+  - **V6 result: PASS** (section 4). Self-conformance exit 0 observed before `97cb6c1`, `a4c8b68` and `d836955` (ECO-119's untracked R8
+    report held outside the tree each time and restored with its sha256 checked). CI: run 41776408996 on `97cb6c1` **success**; run
+    41783411319 on `a4c8b68` **success**; **`d836955`: no run** — GitHub Actions was degraded (githubstatus incident) and no check suite was
+    created for that push within 45 minutes. Counted as not observed, not as green; the closure commit's CI runs on a tree that holds
+    `d836955`'s files unchanged, and its conclusion is read before the closure is reported.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; two tools, one new)
+
+- **The claim (one sentence).** At the start of a Claude Code session in a BomDD repository, the hook gives the session a short brief that
+  puts what just crossed 14 days apart from the backlog, says "not measured" in one line when it cannot read, leaves every existing
+  bomdd-job output unchanged, and — where a `DECIDE` line is present — the session can quote it.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "The brief equals the dwell view's facts" (V1): **observed / eligible** — five registers, independent derivation from the same result.
+  - "The brief's and the hook's failure paths are caught" (V2, V3): **observed / eligible** — 4 + 4 broken copies red, unchanged copies
+    green, labels from the frozen conditions.
+  - "Installed, and only one entry added" (V4): **observed / eligible** — parsed before/after, `--check` both ways.
+  - "A new session quotes the brief" (V5): **observed / ineligible for BomDD and ViewPrism2** (0/4, 0/1 — the claim is not supported
+    there); **observed / conditionally eligible for ViewTube** (3/3, one repository, the CLI's default model `claude-opus-4-8`, headless —
+    the desktop app's model not measured). Consequence chosen (step 4): **claim narrowed by the user's ruling** to the `DECIDE` path.
+  - "The hook's text reaches the session": **observed / eligible** — hook events in every run's stream, the transcript's `hook_success`
+    attachment before the prompt, and a probe that copied the three lines (`v5rep.txt`, `v5probe.txt`).
+  - "Nothing else moves" (V6): **observed / eligible** — byte-identical against the filing tree's tool from a detached worktree.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution):
+  - V5's instrument (one prompt, one answer) can deny text the session holds: a probe session first said `NO` / `NOT FOUND`, then
+    copied the lines. Attributed to the session's reading, not the tool or the hook. Not repaired in this ECO (closure by ruling).
+  - The first two V5 runs could not start (CLI sign-in) — `UNKNOWN`, recorded as not measured, never counted as PASS.
+  - No defect in the tools.
+- **宣言した検出力の限界** (declared limits of detection):
+  - **A brief without a `DECIDE` line was not quoted by a new session** (BomDD 0/4, ViewPrism2 0/1); whether the `DECIDE` line or another
+    difference in ViewTube's context decides it is not separated (one repository on each side).
+  - The `DECIDE` path is measured on one repository, one entry (ECO-VT-267), the CLI's default model, headless; **the desktop app's model
+    (Opus 5.5) is not measured headless** (CLI 2.1.207 refuses it); one compaction observation in this session (Opus 5.5) took the BomDD
+    brief in.
+  - The rule ("put the `DECIDE` entries to the human in the first handoff") is text; whether sessions follow it is measured only by a
+    later re-measure (as section 1 states).
+  - CI does not run `bomdd-job.py --selftest` or `dwell-session-hook.py --selftest`.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9); this receipt was written by the manufacturer.
+- **Battery, row by row:**
+  - **Q1 asked.** The selftests' PASS lines name the arms the code runs; V5's claim text was narrowed to what was measured (above).
+  - **Q2 asked.** Known-good: unchanged copies; known-bad: B1-B4 and H1-H4, labelled by the frozen conditions before the runs. V5 has no
+    known-bad arm (a session without the hook was not run).
+  - **Q3 asked.** Each brief and hook failure path has its own broken copy (`mutants124.txt`).
+  - **Q4 asked.** V1 and V5 on the real registers; the selftests on fixtures.
+  - **Q5 asked.** The failed sign-in runs and the refused model are `UNKNOWN`, not PASS; `d836955`'s missing CI run is not observed, not
+    green.
+  - **Q6 asked.** Each commit came after an observed exit 0; CI read by the full SHA.
+  - **Q7 asked.** The hook's own "not measured" line is the positive control for silence (V3 arms); the selftests were shown to fail
+    before they were trusted.
+  - **Q8 NA.** No preventive gate was added (the hook never stops a session).
+  - **Q9 asked.** The committed tools' sha256 equal the measured ones; V6 ran the filing tree's tool from a worktree, not a copy.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** V5 kept repositories apart (with and without a `DECIDE` line) and found the class difference that an aggregate (4/8)
+    would hide.
+- **What this closure does not support:**
+  - a session noticing a brief that has no `DECIDE` line;
+  - the desktop app's model quoting or acting on the brief (one compaction observation only);
+  - sessions following the decide rule;
+  - CI catching a later break of the brief or the hook.
+
 ## /preflight receipt (start path: manual — the user's "起票に進む" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's choice to file the wiring and the decide rule; filing only).

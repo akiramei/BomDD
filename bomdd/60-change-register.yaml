@@ -3968,8 +3968,7 @@ changes:
     title: progress - the dwell view is shown at the start of every Claude Code session in a BomDD repository as a short summary that puts what just crossed the threshold apart from the backlog, and what to decide about it is written down (filed only)
     date: 2026-11-04
     origin: improvement
-    status: implemented   # 2026-11-04 manufactured on the user's "1:A 2:A 3:A" (rule of P3 as written, settings edit approved, manufacture as filed; order section 4: V1-V4 and V6 PASS, V5 not measured - the CLI's sign-in expired); filed 97cb6c1 on "起票に進む"
-    waiting_on: human-ruling   # ECO-120 vocabulary; V5 measured 2026-11-04 = FAIL on the BomDD arm (sessions replied NONE though the hook's text reached them; ViewTube PASS 3/3) - closure with a known limit, rework or park is the human's (order section 4)
+    status: verified   # 2026-11-04 closed with a known limit on the user's "A: close with limit" (order section 5: V1-V4 and V6 PASS; V5 FAIL on the BomDD arm - a brief without a DECIDE line was not quoted - PASS on ViewTube 3/3; manufacturer's calibration only; window 7b648df..d836955 closed, no path outside allowed_paths, control FAIL); V5 recorded d836955; manufactured a4c8b68 on "1:A 2:A 3:A"; filed 97cb6c1 on "起票に進む"
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       The user's "工程管理と進捗管理の改善は、仕組みの問題です" and the hook question answered after ECO-120 (a hook gives "see"; it still needs
@@ -3983,6 +3982,7 @@ changes:
     diff_audit:
       baseline: "7b648df"  # HEAD before this filing
       allowed_paths: [method/tools/bomdd-job.py, method/tools/dwell-session-hook.py, method/bomdd-playbook-v1.md, AGENTS.md, bomdd/60-change-order-eco-124.md, bomdd/60-change-register.yaml, bomdd/reports/eco-124-dwell-wiring/]
+      head: "d836955"  # V5 record commit; the window is closed (25 paths, none outside allowed_paths)
     required_gates: [V1, V2, V3, V4, V5, V6]   # the order's machine copy (ECO-112 G1)
     summary: >
       P1 (measure): bomdd-job --dwell --brief, at most 8 lines - header (open, over the threshold) or one "not measured" line; DECIDE line
@@ -3994,4 +3994,15 @@ changes:
       reason / pause / withdraw or supersede, the last three the human's); the backlog is a triage the human schedules; measured by the
       DECIDE line and a later re-measure. P4 (none): the manual command in AGENTS.md. Not chosen: a hook in each repository, a git hook,
       bomdd-run at launch, the full view, a stop, stored "new since last session" state.
+    verification: >
+      Verified 2026-11-04 with a known limit by the user's ruling "A: close with limit" (order section 5; manufacturer's calibration only).
+      V1 PASS: the brief equals an independent derivation from dwell() on five registers. V2 PASS: dwell selftest names the brief arms;
+      4 brief mutants red, unchanged copy green. V3 PASS: hook selftest; 4 hook mutants red, unchanged copy green. V4 PASS: one SessionStart
+      entry added to ~/.claude/settings.json, --check installed / not installed. V5 FAIL on the BomDD arm, PASS on ViewTube: headless
+      sessions (CLI 2.1.207, claude-opus-4-8) - ViewTube quoted the brief with its DECIDE line 3/3, BomDD replied NONE 0/4 and ViewPrism2
+      0/1 though the hook's text reached every session (stream hook events, transcript attachment, a probe that copied it). V6 PASS: every
+      existing mode byte-identical to the filing tree's tool; hook warm 0.74-0.89 s on ViewTube. Self-conformance exit 0 before 97cb6c1,
+      a4c8b68 and d836955; CI 41776408996 and 41783411319 success; d836955 no run (GitHub Actions degraded). Declared: a brief without a
+      DECIDE line is not noticed by a new session; the desktop app's model not measured headless; the decide rule is text; CI does not
+      run the two selftests.
     producer: EQ-004
