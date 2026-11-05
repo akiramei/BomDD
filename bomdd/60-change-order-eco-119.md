@@ -782,6 +782,99 @@ distinct `since`: one `rev-list` and one `diff-tree` per `since`, plus per touch
 **V3 — PASS** (`out/v3.txt`; before = `42a6158`): the 47 controls in both runs have the same verdict and detail. Only the 44 N23
 controls are new.
 
+## 4J. R8 round 5 (2026-11-05)
+
+**R8 round 5: REJECT**, with 4 material and 4 minor findings. The summary is in `bomdd/reports/eco-119-ruled-layer/r8-round-5.md`.
+The work stopped for the user.
+
+**Round 4 closed; the inference cause removed.** R8-4-01..07 are all closed (05 and 07 with declared limits). No finding concerns
+reading the profile's history.
+
+**Not converging.** The material findings per round were 3, 3, 2, 4 and 4. One of round 5's (R8-5-02, the `HEAD:` fallback of the order
+read) was already in round 4, per the inspector. They share a cause other than inference: **E13 reads its inputs from several places in several
+ways**:
+- the working tree (the no-profile exit, `load_profile`) versus git (R8-5-03, 05);
+- the index versus HEAD (the order read's fallback, R8-5-02);
+- `strict_load` versus `safe_load` (R8-5-04);
+- a separator that a path can contain versus positional framing (R8-5-01).
+
+**Ruling:** user, 2026-11-05, "1:A 2:a".
+- 1:A: remove that common cause, so that every E13 input is read from git in one way. Add arms for the mechanisms of
+  R8-5-01..07. Then run round 6, narrowed to round 5's findings and the parts changed for them.
+- 2:a: delete the qualification's leftover sandboxes (`%TEMP%\bomdd-oq-*`, 905 found). This is housekeeping outside ECO-119.
+
+## 4K. Round 6 — the design (2026-11-05, on the ruling "1:A")
+
+**The rule this round makes true.** E13 reads each of its inputs from git, in one way:
+- the commit being made from the index;
+- a past commit from its own tree;
+- a parent from the parent's tree;
+- every YAML through `strict_load` (and `validate_profile` for a profile);
+- every list of paths from NUL-separated git output, framed by position.
+
+The working tree and a `HEAD:` fallback are no longer E13 inputs. Each change below applies the rule to one input.
+
+- **Changed paths in the replay (R8-5-01).** `diff_tree_paths` reads `git diff-tree --stdin -r --raw -z --no-renames`.
+  - The tokens are NUL-separated. A token that starts with `:` is a raw record (`:<mode> <mode> <sha> <sha> <status>`), and the
+    next token is its path, whatever it holds. Any other token is a commit header, which must be a commit that was asked for and
+    not seen before.
+  - The probe (scratchpad `r6/probe_raw.py`) gives the format on this git: a header `<sha>\0`, then `:… A\0<path>\0` per path, and
+    nothing for an empty diff. Paths such as `a\x01<sha>`, a bare SHA, `:colon` and one holding a newline were each read as one
+    path.
+  - The want/duplicate guard stays, as a defence against git output that does not match this format. With positional framing, no
+    path can reach it (declared, R8-5-07).
+- **The order in the first layer (R8-5-02).** `order_text_of` reads `:<ref>` only. A commit that deletes or moves the order is
+  judged with the order it leaves, which is what the replay reads from that commit's tree.
+- **The profile when HEAD has none (R8-5-03, 05).**
+  - In the hook modes, `load_profile` falls back to the index's profile (`:bomdd/process-profile.yaml`), and only when the index has
+    none to the working tree, as before. This applies to every check in those modes, not only E13, because the trailer name,
+    register path and open states come from that profile.
+  - Validate mode is unchanged (HEAD, then the working tree for installation).
+  - Before the exit "profile なし — 素通し", the commit-msg mode runs the merge field check, which reads only git. A merge whose
+    result has no profile, while some parent's profile has the field, is refused.
+- **Parsing (R8-5-04).**
+  - `ruled_layer_of` (a parent's profile) and the index's profile are read with `strict_load`.
+  - The index's profile is validated whole with `validate_profile`, on every commit-msg run in which it exists.
+  - A failure is unmeasurable (exit 2), which refuses the commit.
+  - A parent's profile that does not parse is unmeasurable too; it is no longer taken as "no field".
+  - Declared: this also refuses, at commit, a staged profile that breaks outside the field (such as a duplicate key elsewhere).
+    That state otherwise bricks the next commit (R8-5-04, the older general form).
+- **An entry's `since` at commit (R8-5-06).** Each entry of the index's field must have a `since` that resolves and is in force at
+  some parent of the commit being made (HEAD, or any merge parent). Otherwise the commit is refused with E13, whether or not it
+  touches the entry's paths.
+  - This refuses the squash-merge of a feature branch whose entry has `since` = the feature's HEAD, at the squash commit.
+  - It also refuses an unresolvable `since` at the commit that writes it (A7).
+  - HEAD's entries that the commit removes are not checked for this, so the forward fix of an off-line `since` passes.
+  - N23n and N23v change: the hooked profile commit that writes the bad `since` is now refused. The arms then make it with
+    `--no-verify` and expect the ruled change refused, as before.
+- **Timing (R8-5-08), declared.**
+  - Per commit after a `since`, the replay reads: one `log` for the commit's message, and the registers of its parents (cached by
+    commit). It also reads the order of each named ECO, but only for the commits that touch a ruled path.
+  - The inspector measured 20.5 s for validate with 300 commits after `since` (150 ruled), and 0.9 s without E13.
+  - Batching with `git cat-file --batch` is not done in this ECO.
+- **The guard "since の後の親が無い"** stays as a defence; no input reaches it (declared, R8-5-07).
+
+**Evidence plan.**
+- New arms:
+  - a `\x01<sha>` path made with plumbing, next to an empty ruled commit (R8-5-01);
+  - the order removed in a ruled commit (R8-5-02);
+  - a merge from a branch whose profile was removed (R8-5-03);
+  - a profile restored in the index only (R8-5-05);
+  - a duplicate key in the index's field (R8-5-04);
+  - a squash-merge of an entry with `since` off main's line (R8-5-06).
+- Changed arms: N23n, N23v, and the needle of N23z3/z3b, if the die text changes.
+- Mutants added to `verify119_r5kb.py` for round 6:
+  - `order-head`;
+  - `index-lenient` (an index profile that does not parse taken as no field);
+  - `name-only` (the round-5 `\x01` framing);
+  - `wt-profile` (the working tree in place of the index when HEAD has no profile);
+  - `exit-first` (the no-profile exit before the merge check);
+  - `since-touched-only` (the round-5 rule).
+  Each must fail only its own arms. The seven round-5 mutants are re-run.
+- `frame-trust` is declared unreachable, not armed.
+- V1, V2 (with the new count) and V3 are re-run, and so are the selftest and self-conformance.
+- Round 6 R8 is narrowed to R8-5-01..08 and the parts changed for them.
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling, item 2; filing only).
