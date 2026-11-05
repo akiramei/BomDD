@@ -8,10 +8,9 @@ profile="$root/bomdd/process-profile.yaml"
 if [ ! -f "$profile" ]; then
   # ECO-016 案a: profile が作業ツリーに無くても HEAD に実在するなら検査を継続する
   # (削除 commit 自身を素通しさせない — 撤去も ECO 経由。HEAD にも無ければ管理外)
-  # ECO-119 round 6(R8-5-05): index にだけある profile(作られる commit が持つ profile)でも検査を継続する
-  git cat-file -e HEAD:bomdd/process-profile.yaml 2>/dev/null \
-    || git cat-file -e :bomdd/process-profile.yaml 2>/dev/null \
-    || exit 0
+  # (ECO-119 round 7: index にだけある profile は commit-msg が読む — E13 は commit-msg だけで、E08 の検査も
+  # commit-msg が重ねて行う〔NEW-01a〕)
+  git cat-file -e HEAD:bomdd/process-profile.yaml 2>/dev/null || exit 0
 fi
 v="$root/bomdd/tools/process-validator.py"
 # python3 → python の順で「実際に実行できる」個体を選ぶ(Windows のストアスタブ

@@ -39,19 +39,23 @@
 [N23x6] PASS - E13 で遮断・ruled_layer を落とす を表示
 [N23x5] PASS - E13 で遮断・ruled_layer を落とす を表示
 [N23p2] PASS - history の E13 でちょうど期待の commit を検出
-[N23z5] FAIL - 準備 True・validate exit 1・新しい報告 ['5cd6af489']・消えた報告 []: process-validator: [scope] 再演: 導入点 55beb3adf 以降の台帳変更 6 commit・証拠要求の対象 6 遷移(導入点で到達済みの状態は対象外)
+[N23z5] FAIL - 準備 True・validate exit 1・新しい報告 ['45909a29d']・消えた報告 []: process-validator: [scope] 再演: 導入点 c95ff20fe 以降の台帳変更 6 commit・証拠要求の対象 6 遷移(導入点で到達済みの状態は対象外)
 [E13] ruled-la
-[N23z5b] FAIL - 準備 True・validate exit 1・新しい報告 []・消えた報告 []: process-validator: [scope] 再演: 導入点 55beb3adf 以降の台帳変更 6 commit・証拠要求の対象 6 遷移(導入点で到達済みの状態は対象外)
+[N23z5b] FAIL - 準備 True・validate exit 1・新しい報告 []・消えた報告 []: process-validator: [scope] 再演: 導入点 c95ff20fe 以降の台帳変更 6 commit・証拠要求の対象 6 遷移(導入点で到達済みの状態は対象外)
 [E13] ruled-layer-change-
 [N23z2r] PASS - history の E13 でちょうど期待の commit を検出
-[N23z7] FAIL - 準備 True・validate exit 1・新しい報告 ['a76b240f0']・消えた報告 []: process-validator: [scope] 再演: 導入点 55beb3adf 以降の台帳変更 6 commit・証拠要求の対象 6 遷移(導入点で到達済みの状態は対象外)
+[N23z7] FAIL - 準備 True・validate exit 1・新しい報告 ['2b205b468']・消えた報告 []: process-validator: [scope] 再演: 導入点 c95ff20fe 以降の台帳変更 6 commit・証拠要求の対象 6 遷移(導入点で到達済みの状態は対象外)
 [E13] ruled-la
 [N23n2] FAIL - E13 で遮断
 [N23v2] FAIL - 想定外の通過(exit 0)— 負例が止まらない
+[N23rb] FAIL - 想定外(準備 True・直す前の validate exit 1・起票 exit 0・直し exit 0・直した後 exit 1・報告の差 []): process-validator: [warn] ruled_layer.paths の 'bomdd/extra11' は HEAD のどのファイルにも当たらない(綴
+[N23pu] PASS - 測定不能で停止
 [N23n] PASS - 書く commit 遮断・E13 で遮断
 [N23v] PASS - 書く commit 遮断・E13 で遮断
 [N23w] PASS - profile 不正で停止
 [N23o] PASS - 通過
-N23 controls 50; FAIL ['N23n2', 'N23v2', 'N23z5', 'N23z5b', 'N23z7']; expected FAIL ['N23n2', 'N23v2', 'N23z5', 'N23z5b', 'N23z7']
+[N23x7] PASS - 通過
+[N23wt] PASS - E13 なし(validate exit 0)
+N23 controls 54; FAIL ['N23n2', 'N23rb', 'N23v2', 'N23z5', 'N23z5b', 'N23z7']; expected FAIL ['N23n2', 'N23rb', 'N23v2', 'N23z5', 'N23z5b', 'N23z7']
 known-bad: as expected
 throwaway product removed: True

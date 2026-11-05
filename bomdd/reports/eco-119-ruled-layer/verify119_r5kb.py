@@ -1,12 +1,13 @@
-"""ECO-119 rounds 5 and 6 - known-bad of the arms by mutants: this tree's qualification against this tree's validator with one
-mechanism broken.
+"""ECO-119 rounds 5 to 7 - known-bad of the arms by mutants: this tree's qualification against this tree's validator and hooks
+with one mechanism broken.
 
 Old validators cannot parse an entry {path, since} (exit 2), so the known-bad against earlier commits (verify119_r3kb.py) no longer
-tells the arms apart. Each mutant here changes one mechanism of E13: the first seven are round 5's (R8-4-06), the last six round
-6's (R8-5-07: each puts back one way round 5 read an input). A product is scaffolded by bomdd-init.py from this working tree, its
-installed process-validator.py is replaced with the mutant, and the qualification's OQ runs once. Expected: exactly the named arms
-FAIL and every other N23 arm PASSes. The product and the qualification's sandboxes (bomdd-oq-* made during the run) are removed
-afterwards. Writes out/r5kb-<name>.txt.
+tells the arms apart. Each mutant here changes one mechanism of E13: seven are round 5's (R8-4-06), six round 6's (R8-5-07: each
+puts back one way round 5 read an input), and six round 7's (R8-6-05: three of them break the commit-msg hook, the first mutants
+of a hook). A product is scaffolded by bomdd-init.py from this working tree, its installed process-validator.py (or commit-msg
+hook) is replaced with the mutant, and the qualification's OQ runs once. Expected: exactly the named arms FAIL and every other N23
+arm PASSes. The product and the qualification's sandboxes (bomdd-oq-* made during the run) are removed afterwards. Writes
+out/r5kb-<name>.txt.
 
 Not armed (declared, order 4K): the want/duplicate guard of the raw framing and the replay's guard "since の後の親が無い" - no input
 reaches either.
@@ -29,7 +30,10 @@ HERE = Path(__file__).resolve().parent
 BOMDD = HERE.parents[2]
 OUT = HERE / "out"
 VALIDATOR = BOMDD / "method/templates/process-core/tools/process-validator.py"
-N23_COUNT = 50
+HOOKS = BOMDD / "method/templates/process-core/hooks"
+# a replacement is (old, new) on the validator, or (product path, old, new) on another installed file (a hook)
+TARGETS = {"bomdd/tools/process-validator.py": VALIDATOR, "bomdd/hooks/commit-msg": HOOKS / "commit-msg"}
+N23_COUNT = 54
 ENV = dict(os.environ, GIT_AUTHOR_NAME="eco119-r5kb", GIT_AUTHOR_EMAIL="r5kb@bomdd.invalid",
            GIT_COMMITTER_NAME="eco119-r5kb", GIT_COMMITTER_EMAIL="r5kb@bomdd.invalid")
 
@@ -59,8 +63,9 @@ MUTANTS = {
                {"N23z2", "N23z2r"}),
     "no-entry-since": ("every entry takes the field's since (an entry's own since is ignored)",
                        [('else (x["path"], x["since"]) for x in rl["paths"]]', 'else (x["path"], rl["since"]) for x in rl["paths"]]')],
-                       # round 6: N23v2 too (its entry's own since is the branch's HEAD; the field's since is on main's line)
-                       {"N23z5", "N23z5b", "N23z7", "N23n2", "N23v2"}),
+                       # round 6: N23v2 too (its entry's own since is the branch's HEAD; the field's since is on main's line).
+                       # Round 7: N23rb too (the rebased entry's own since is what goes off the line)
+                       {"N23z5", "N23z5b", "N23z7", "N23n2", "N23v2", "N23rb"}),
     "no-index": ("the first layer judges with HEAD's field only (the index's field not used)",
                  [("ents = list(dict.fromkeys(ruled_entries(head_rl) + ruled_entries(idx_rl)))",
                    "ents = list(dict.fromkeys(ruled_entries(head_rl)))")],
@@ -98,7 +103,8 @@ MUTANTS = {
     "safe-load": ("profiles are parsed with yaml.safe_load (round 5) - duplicate keys pass",
                   [("        d = strict_load(p.stdout)\n    except yaml.YAMLError as e:\n",
                     "        d = yaml.safe_load(p.stdout)\n    except yaml.YAMLError as e:\n")],
-                  {"N23z3c"}),
+                  # round 7: N23pu too (the parent's duplicate key then parses, to the same field as main's)
+                  {"N23z3c", "N23pu"}),
     "name-only": ("the replay's paths read from --name-only -z split on \\x01 (round 5)",
                   [('["git", "-C", str(root), "diff-tree", "--stdin", "-r", "--raw", "-z", "--no-renames"]',
                     '["git", "-C", str(root), "diff-tree", "--stdin", "-r", "--no-renames", "--name-only", "-z", '
@@ -116,6 +122,29 @@ MUTANTS = {
                            [("        if sha is None or not any(si.in_force(sha, p) for p in parents):\n",
                              "        if False:\n")],
                            {"N23v2", "N23n", "N23v"}),
+    # --- round 7 (R8-6-05): round 6's mechanisms with no arm or mutant, and round 7's changes ---
+    "since-all": ("every index entry's since is checked, including those carried over from HEAD (round 6)",
+                  [("        if (path, since) in head_entries:\n            continue\n", "")],
+                  {"N23rb"}),
+    "wt-replay": ("validate's replay takes the field from the profile it loaded, the working tree's when HEAD has none (round 6)",
+                  [('    rl = prof.get("ruled_layer") if head_has_profile(root) else None\n',
+                    '    rl = prof.get("ruled_layer")\n')],
+                  {"N23wt"}),
+    "parent-lenient": ("a merge parent's profile that does not parse is taken as no field",
+                       [('    d = profile_at(root, f"{rev}:", f"親 {rev[:9]} ", validate=False)\n',
+                         '    try:\n        d = profile_at(root, f"{rev}:", f"親 {rev[:9]} ", validate=False)\n'
+                         '    except SystemExit:\n        d = None\n')],
+                       {"N23pu"}),
+    "hook-no-index": ("the commit-msg hook exits before the validator when only the index has the profile (round 5's hook)",
+                      [("bomdd/hooks/commit-msg", "    || git cat-file -e :bomdd/process-profile.yaml 2>/dev/null \\\n", "")],
+                      {"N23z9b"}),
+    "hook-no-merge": ("the commit-msg hook exits before the validator on a merge into a HEAD with no profile (round 5's hook)",
+                      [("bomdd/hooks/commit-msg", "    || merge_parent_has_profile \\\n", "")],
+                      {"N23x6"}),
+    "hook-merge-any": ("the commit-msg hook starts the validator on every merge (round 6's hook)",
+                       [("bomdd/hooks/commit-msg", "    || merge_parent_has_profile \\\n",
+                         "    || git rev-parse -q --verify MERGE_HEAD >/dev/null 2>&1 \\\n")],
+                       {"N23x7"}),
 }
 
 
@@ -124,24 +153,31 @@ def _rm_readonly(func, path, _exc):
     func(path)
 
 
-def mutant(name: str) -> str:
-    src = VALIDATOR.read_text(encoding="utf-8")
-    for old, new in MUTANTS[name][1]:
-        assert src.count(old) == 1, f"{name}: anchor found {src.count(old)} times: {old[:60]!r}"
-        src = src.replace(old, new)
-    compile(src, f"mutant-{name}", "exec")
-    return src
+def mutant(name: str) -> dict[str, str]:
+    """{product path: mutated text} - only the files the mutant changes."""
+    texts: dict[str, str] = {}
+    for rep in MUTANTS[name][1]:
+        rel, old, new = rep if len(rep) == 3 else ("bomdd/tools/process-validator.py", *rep)
+        src = texts.get(rel) or TARGETS[rel].read_text(encoding="utf-8")
+        assert src.count(old) == 1, f"{name}: anchor found {src.count(old)} times in {rel}: {old[:60]!r}"
+        texts[rel] = src.replace(old, new)
+    for rel, src in texts.items():
+        if rel.endswith(".py"):
+            compile(src, f"mutant-{name}", "exec")
+        else:  # a hook: sh -n parses it without running it
+            p = subprocess.run(["sh", "-n"], input=src, capture_output=True, text=True, encoding="utf-8", errors="replace")
+            assert p.returncode == 0, f"{name}: {rel} does not parse: {p.stderr.strip()}"
+    return texts
 
 
 def main():
     if sys.argv[1] == "--list":
         for k, (what, _, exp) in MUTANTS.items():
-            mutant(k)
-            print(f"{k}: {what}; expected FAIL {sorted(exp)}")
+            print(f"{k} ({', '.join(sorted(mutant(k)))}): {what}; expected FAIL {sorted(exp)}")
         return
     name = sys.argv[1]
     what, _, expect = MUTANTS[name]
-    src = mutant(name)
+    texts = mutant(name)
     OUT.mkdir(exist_ok=True)
     tmp = Path(tempfile.mkdtemp(prefix=f"eco119-r5kb-{name}-"))
     lines = [f"# known-bad (round 5): this tree's qualification against the mutant '{name}' - {what}"]
@@ -150,7 +186,8 @@ def main():
                             "--no-qualify"], capture_output=True, text=True, encoding="utf-8", errors="replace", env=ENV)
         assert p.returncode == 0, p.stderr
         prod = tmp / "R5KB"
-        (prod / "bomdd/tools/process-validator.py").write_text(src, encoding="utf-8", newline="\n")
+        for rel, src in texts.items():
+            (prod / rel).write_text(src, encoding="utf-8", newline="\n")
         j = tmp / "r5kb.json"
         # the qualification's sandboxes (tempfile, prefix bomdd-oq-) go under tmp, so they are removed with it (2:a, order 4J)
         qenv = dict(ENV, TMP=str(tmp), TEMP=str(tmp), TMPDIR=str(tmp))

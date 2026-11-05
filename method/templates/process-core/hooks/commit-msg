@@ -3,13 +3,26 @@
 # 台帳の状態遷移コミットに lifecycle trailer(BomDD-ECO-Fix / BomDD-ECO-Accept)を要求する。
 root=$(git rev-parse --show-toplevel) || exit 1
 profile="$root/bomdd/process-profile.yaml"
+# merge の途中で、HEAD 以外の親(MERGE_HEAD の各行 — octopus を含む)のどれかが profile を持つか
+merge_parent_has_profile() {
+  mh=$(git rev-parse --git-path MERGE_HEAD 2>/dev/null) || return 1
+  [ -f "$mh" ] || return 1
+  while read -r c; do
+    [ -n "$c" ] && git cat-file -e "$c:bomdd/process-profile.yaml" 2>/dev/null && return 0
+  done < "$mh"
+  return 1
+}
 if [ ! -f "$profile" ]; then
   # ECO-016 案a: HEAD に profile が実在するなら削除中も検査を継続(撤去も ECO 経由)
-  # ECO-119 round 6: index にだけある profile(R8-5-05)と、merge の途中(R8-5-03: 結果が欄を落とすかは validator が
-  # git だけで照合する — 照合が無ければ validator は素通しで exit 0)でも validator を起動する
+  # ECO-119: index にだけある profile(round 6・R8-5-05)と、profile を持つ親のある merge(R8-5-03: 結果が欄を落とすかは
+  # validator が git だけで照合する)でも validator を起動する。どの親にも profile の無い merge は起動しない
+  # (round 7・R8-6-02: profile を撤去し validator も外した製品の merge を止めない)。
+  # 止めないもの: profile・hook・道具を一緒に消した枝の merge — merge は結果の作業ツリー(hook の無い)を書いてから
+  # この hook を探すので、ここに来ない(R8-6-03)。profile を撤去した main へ、撤去より前の枝(欄を持つ)を merge すると
+  # 欄を落とすので止まる(向きによらない)— 先にその枝で欄を外す(R8-6-02)
   git cat-file -e HEAD:bomdd/process-profile.yaml 2>/dev/null \
     || git cat-file -e :bomdd/process-profile.yaml 2>/dev/null \
-    || git rev-parse -q --verify MERGE_HEAD >/dev/null 2>&1 \
+    || merge_parent_has_profile \
     || exit 0
 fi
 v="$root/bomdd/tools/process-validator.py"

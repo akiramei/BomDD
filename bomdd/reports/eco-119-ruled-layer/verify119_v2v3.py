@@ -38,7 +38,7 @@ def qualify(method_root: Path, tmp: Path, name: str) -> dict:
     prod = tmp / name
     j = tmp / f"{name}.json"
     subprocess.run([sys.executable, str(prod / "bomdd/tools/process-qualification.py"), "--root", str(prod), "--json", str(j)],
-                   capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=1500,
+                   capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=3600,  # round 7: 54 arms, --runs 2 (one OQ ~720 s alone)
                    env=dict(ENV, TMP=str(tmp), TEMP=str(tmp), TMPDIR=str(tmp)))  # its sandboxes are removed with tmp (order 4J, 2:a)
     return json.loads(j.read_text(encoding="utf-8"))
 
@@ -60,8 +60,8 @@ def main():
               f"disposition {after['disposition']}, runs identical {after['runs_identical']}, controls {len(a)}"]
         v2 += [f"[{c['control']}] {'PASS' if c['pass'] else 'FAIL'} {c['expected']} - {c['detail']}" for c in n23]
         # round 1 had 15 N23 controls (N23a-o); round 2 (order section 4B) 23 (N23a-w with N23c2); round 3 (4D) 31 (+x, x2, x3, x4, u, y, z, z2); round 4 (4F) 35 (+z3, z3b, z4, z5)
-        # round 5 (4I) 44 (+n2, p2, x5, z2r, z5b, z6, z7, z8, z9); round 6 (4L) 50 (+e2, fr, v2, x6, z3c, z9b)
-        ok2 = after["disposition"] == "PASS" and after["runs_identical"] is True and len(n23) == 50 and all(c["pass"] for c in n23)
+        # round 5 (4I) 44 (+n2, p2, x5, z2r, z5b, z6, z7, z8, z9); round 6 (4L) 50 (+e2, fr, v2, x6, z3c, z9b); round 7 (4O) 54 (+rb, pu, x7, wt)
+        ok2 = after["disposition"] == "PASS" and after["runs_identical"] is True and len(n23) == 54 and all(c["pass"] for c in n23)
         v2.append(f"V2: {'PASS' if ok2 else 'FAIL'} ({len(n23)} N23 controls)")
         common = sorted(set(a) & set(b))
         diff = [k for k in common if (a[k]["pass"], a[k]["detail"]) != (b[k]["pass"], b[k]["detail"])]

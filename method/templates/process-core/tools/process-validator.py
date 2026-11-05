@@ -43,13 +43,18 @@
                                           covered だけで照合する(git の pathspec は使わない)。比較元は全部の
                                           親の台帳の合算 — 両層で同じ。since を書く値= 欄(項目)を足すときの
                                           HEAD。since が解決できない/系列に無ければ、その項目の下に触れた commit を
-                                          遮断(再演は測定不能)。index の欄の項目は、触れたパスによらず since が
-                                          解決でき、どれかの親で効いていなければ遮断(squash の後など — round 6)。
+                                          遮断(再演は測定不能)。commit が足す・変える項目(index の欄の項目のうち
+                                          HEAD の欄に無いもの)は、触れたパスによらず since が解決でき、どれかの親で
+                                          効いていなければ遮断(squash の取り込みなど — round 6/7)。HEAD から
+                                          引き継ぐだけの項目は見ない(rebase・cherry-pick・浅い clone で系列から
+                                          外れても ECO の起票と直しは通る — validate は直すまで測定不能)。
                                           入力の読み方は 1 つ(round 6): 作られる commit は index・過去の commit は
                                           その tree・親は親の tree・YAML は strict_load(index の profile は全体を
                                           validate_profile)・差分のパスは diff-tree --raw -z を位置で読む。
-                                          作業ツリーと `HEAD:` への縮退は E13 の入力にしない(hook のモードで HEAD
-                                          に profile が無ければ index 版の profile を読む)。
+                                          作業ツリーと `HEAD:` への縮退は E13 の入力にしない: hook のモードで HEAD
+                                          に profile が無ければ index 版の profile を読み、validate の再演は HEAD の
+                                          profile の欄だけを読む(HEAD に profile が無ければ再演しない — round 7。
+                                          設置直後の作業ツリーの profile は validate の他の検査にだけ使う)。
                                           第 1 層: HEAD の欄(効いている規則 — NEW-02)∪ index の欄(この commit が
                                           残す規則= 再演が判定する値 — 止める側にだけ足す・不正なら測定不能)で
                                           判定する。merge は結果の欄が、欄を持つどれかの親の欄と同じでなければ
@@ -66,7 +71,8 @@
                                           (再演が判定 — 戻すときに since を後ろへ動かせばその間は判定しない:
                                           E08 を通る記録された変更)・項目を消す commit 自身の変更は第 1 層だけが
                                           判定する・trailers.ruling の名前を変えると前の commit も新しい名前で
-                                          判定する
+                                          判定する・profile と hook と道具を一緒に消した枝の merge(hook が走らない
+                                          — R8-6-03。承認された撤去〔E08〕でも同じ状態になる)
   E12 structure-check-failed-at-acceptance : (profile に structure_check がある場合のみ — ECO-118)
                                           commit-msg で accept 状態(applied)への遷移を含む commit は、
                                           BOM の構造検査(bom-structure-check.py --index)を**その場で
@@ -601,7 +607,9 @@ def scan_history(root: Path, prof: dict) -> dict:
     # --- E13 の履歴版(ECO-119 T4・round 5 裁定 B)— HEAD の欄の項目ごとに、その since の後の commit を、その時点の
     # 親の台帳(merge は合算)と、その commit の指示書で判定し直す。profile の履歴は読まない。--no-verify・hook 設置前・
     # amend で第 1 層を通らなかった変更をここで見つける ---
-    rl = prof.get("ruled_layer")
+    # R8-6-04(round 7): 欄は HEAD の profile からだけ読む — HEAD に profile が無ければ再演しない(設置直後の作業ツリーの
+    # profile は、validate の他の検査には使うが E13 の入力にしない)
+    rl = prof.get("ruled_layer") if head_has_profile(root) else None
     if rl:
         head = resolve_commit(root, "HEAD")
         name = prof["trailers"].get("ruling", RULING_TRAILER_DEFAULT)
@@ -1198,8 +1206,9 @@ def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str
     raw_msg は hook が受け取ったまま(裁定 4:A の突き合わせ)。old= 親の台帳(HEAD と MERGE_HEAD の最初の行の合算 —
     E01 と共有)。merge では E13 だけ全部の親の台帳を合算する(R8-2-04: octopus でも再演と同じ比較元)。
     判定する項目= HEAD の欄(効いている規則 — NEW-02)∪ index の欄(この commit が残す規則= 再演がこの commit を
-    判定する値 — 止める側にだけ足す)。入力はすべて git から 1 つの読み方で(round 6): 作られる commit は index・親は
-    親の tree・YAML は strict_load(index の profile は全体を validate_profile)。作業ツリーと `HEAD:` への縮退は読まない。"""
+    判定する値 — 止める側にだけ足す)。since の検査は、この commit が足す・変える項目だけ(round 7・R8-6-01)。
+    入力はすべて git から 1 つの読み方で(round 6): 作られる commit は index・親は親の tree・YAML は strict_load
+    (index の profile は全体を validate_profile)。作業ツリーと `HEAD:` への縮退は読まない。"""
     if not head_exists(root):  # 最初の commit は設計リリースの後ではありえない
         return []
     head = resolve_commit(root, "HEAD")
@@ -1212,16 +1221,21 @@ def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str
         if issue:
             return [issue]
     si = SinceIndex(root)
-    # R8-5-06(round 6): この commit が残す欄の項目は、since が解決でき、作られる commit のどれかの親で効いていること
-    # (触れたパスによらない)— 枝の HEAD を since にした項目の squash・解決できない since を、それを書く commit で止める。
-    # HEAD の欄にしか無い項目(この commit が外す項目)は見ない(系列から外れた since の前進の直しを通す)
+    # R8-5-06(round 6)→ R8-6-01(round 7): この commit が足す・変える欄の項目(index の欄の (path, since) のうち HEAD の欄に
+    # 無いもの)は、since が解決でき、作られる commit のどれかの親で効いていること(触れたパスによらない)— 枝の HEAD を since
+    # にした項目の squash・解決できない since を、それを書く commit で止める。HEAD から引き継ぐだけの項目は見ない: rebase・
+    # cherry-pick(hook が走らない)・浅い clone で since が系列から外れても、ECO の起票とその直しを止めない(その下に触れる
+    # commit は下の判定が止め、validate は直すまで測定不能)。HEAD の欄にしか無い項目(この commit が外す項目)も見ない
+    head_entries = set(ruled_entries(head_rl))
     for path, since in ruled_entries(idx_rl):
+        if (path, since) in head_entries:
+            continue
         sha = si.resolve(since)
         if sha is None or not any(si.in_force(sha, p) for p in parents):
             why = "が解決できない" if sha is None else f"が{'HEAD' if not others else 'どの親'}の系列に無い"
             return [f"[E13] {REASONS['E13']}: index の ruled_layer の項目 {path} の since '{since[:12]}'{why} — この commit が"
-                    f"残す欄では、再演が裁定層を判定できない(測定不能は合格ではない — since は、その系列の commit の SHA で書く。"
-                    f"squash や rebase の後は since を書き直す)"]
+                    f"足す・変える項目では、再演が裁定層を判定できない(測定不能は合格ではない — since は、その系列の commit の"
+                    f" SHA で書く。squash で取り込む項目は、取り込む系列の commit に書き直す)"]
     ents = list(dict.fromkeys(ruled_entries(head_rl) + ruled_entries(idx_rl)))
     if not ents:
         return []

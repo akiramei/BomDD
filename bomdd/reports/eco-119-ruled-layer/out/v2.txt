@@ -1,5 +1,5 @@
 # V2 - the qualification's E13 arms (a fresh scaffold of this tree; --runs 2)
-disposition PASS, runs identical True, controls 97
+disposition PASS, runs identical True, controls 101
 [N23a] PASS E13 なし(設計リリースより前・欄を足す前は検査しない) - 通過
 [N23p] PASS E13 なし(since〔欄を足すときの HEAD〕より前の commit は判定しない) - 通過
 [N23b] PASS E13(trailer なしの裁定層の変更→遮断) - E13 で遮断・trailer が無い を表示
@@ -46,8 +46,12 @@ disposition PASS, runs identical True, controls 97
 [N23z7] PASS E13 なし(枝だけが持った項目を main が後で {path, since: HEAD} で足しても、その前の hook を通った commit は報告しない) - 新しい報告 0
 [N23n2] PASS E13(項目の since が解決できない→その項目の下に触れる commit を遮断) - E13 で遮断・解決できない を表示
 [N23v2] PASS E13(枝の HEAD を since にした項目の squash の commit→遮断 — since が main の系列に無い) - E13 で遮断・系列に無い を表示
+[N23rb] PASS E13(rebase で since が系列から外れた後も、ECO の起票と since の直しは hook を通る — 引き継ぐだけの項目の since は見ない・validate は直すまで測定不能) - 測定不能→起票・直しが通過→測定可能・新しい報告なし
+[N23pu] PASS exit 2(merge の親の profile に重複キー → その merge を止める — 読めない親の profile は測定不能) - 測定不能で停止
 [N23n] PASS E13(since が解決できない→それを書く commit を遮断・--no-verify の後の裁定層の変更も遮断) - 書く commit 遮断・E13 で遮断
 [N23v] PASS E13(since が HEAD の系列に無い→それを書く commit を遮断・--no-verify の後の裁定層の変更も遮断) - 書く commit 遮断・E13 で遮断
 [N23w] PASS exit 2(since が tag 名の profile は不正 — tag は差分なしに動かせる) - profile 不正で停止
 [N23o] PASS E13 なし(profile に ruled_layer が無ければ E13 は無い) - 通過
-V2: PASS (50 N23 controls)
+[N23x7] PASS E13 なし(どの親にも profile の無い merge は、validator の無い製品でも通る — hook が起動しない) - 通過
+[N23wt] PASS E13 なし(HEAD に profile が無ければ、作業ツリーの profile の欄で再演しない — 測定不能にもならない) - E13 なし(validate exit 0)
+V2: PASS (54 N23 controls)

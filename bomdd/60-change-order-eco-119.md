@@ -1042,6 +1042,85 @@ R8-6-01..06 and the code changed for them. The design is section 4N.
 - V1, V2 (with 54) and V3; the selftest; self-conformance.
 - Round 7 of R8 is narrowed to R8-6-01..06 and the code changed for them.
 
+## 4O. Round 7 — the fix and the measurements before commit (2026-11-06)
+
+**What was changed** (from `93053f8`; the design is section 4N):
+- `process-validator.py`:
+  - `check_ruled_layer`: the `since` check skips the index entries whose `(path, since)` is in HEAD's field (R8-6-01). The
+    refusal's text now says "この commit が足す・変える項目" and names squash only.
+  - `scan_history`: the E13 replay takes the field only when HEAD has the profile (R8-6-04).
+  - The E13 docstring (the checked entries, validate's read, and the merge of a branch that removed the hooks with the profile in
+    "止めないもの") and `check_ruled_layer`'s docstring. Selftest: all PASS (no new pure function).
+- Hooks:
+  - `commit-msg`: the merge clause is now `merge_parent_has_profile` — `git cat-file -e <c>:bomdd/process-profile.yaml` for each
+    line of `MERGE_HEAD` (HEAD is checked by the line before). The hook's comment declares R8-6-02b and R8-6-03.
+  - `pre-commit`: the index clause is removed, as 4N decided; the hook is round 5's again, with a comment saying why.
+- `process-qualification.py`: 54 N23 arms (+rb, pu, x7, wt). N23v's side commit stays `--no-verify`; its comment now says that
+  round 7 would pass it hooked, and that N23rb measures that.
+- The profile template's comment and playbook §4.5: squash (the commit that brings the entry in is stopped) is told apart from
+  rebase, cherry-pick and shallow clones (the commit that carries it is not; a commit under it is; validate is red until an ECO
+  re-points it). §4.5 also gains: validate's replay reads HEAD's field only; the post-removal merge is refused; the merge of a
+  branch that removed the profile, hooks and tools together is not stopped.
+- Evidence scripts:
+  - `verify119_r5kb.py`: a mutant can now change an installed hook (`(product path, old, new)`; a hook is checked with `sh -n`).
+    54 arms. Six mutants added; `no-entry-since` and `safe-load` gain one arm each.
+  - `verify119_v2v3.py`: expects 54. Its bound on one qualification run is raised from 1500 s to 3600 s.
+
+**Corrections to 4N.**
+- 4N's R8-6-02b said "or merge the other way". That is wrong: either direction drops the field, so only removing the field on
+  that branch first avoids it. The hook text, §4.5 and this section say so.
+- 4N planned three new mutants (`since-all`, `hook-no-index`, `hook-merge-any`). Three more were added:
+  - `wt-replay`, for N23wt;
+  - `parent-lenient` (the inspector's, made an arm's known-bad), for N23pu;
+  - `hook-no-merge` (the inspector's `hook-no-merge-head`), for N23x6.
+
+**Arms with this tree's validator and hooks:** 54 of 54 PASS, and no other OQ control FAILs (scaffolded product, OQ once, 722 s).
+
+**Mutants** (`out/r5kb-<name>.txt`): all nineteen are as expected on the first run (four at a time, 724-1028 s each).
+
+| mutant | what it puts back or breaks | FAIL |
+|---|---|---|
+| strict | in force only strictly after `since` | N23z2, N23z2r |
+| no-entry-since | every entry takes the field's `since` | N23n2, N23rb, N23v2, N23z5, N23z5b, N23z7 |
+| no-index | the first layer ignores the index's field | N23s, N23z2, N23z9, N23z9b |
+| no-index-check | the index's profile not validated (strict parse kept) | N23z3, N23z3b |
+| fieldless-parents | the merge check counts parents without the field | N23x, N23x5, N23x6 |
+| pathspec | the replay filtered by a literal pathspec (round 4's) | N23z8 |
+| first-parent | merges judged against the first parent only | N23m, N23s |
+| order-fallback | the order read from `:`, then `HEAD:` (round 5's) | N23e2 |
+| safe-load | profiles parsed with `yaml.safe_load` (round 5's) | N23pu, N23z3c |
+| name-only | the replay's paths from `--name-only` split on `\x01` (round 5's) | N23fr |
+| wt-profile | with no profile at HEAD, the working tree's profile (round 5's) | N23z9b |
+| exit-first | the no-profile exit before the merge check (round 5's) | N23x6 |
+| since-touched-only | an index entry's `since` checked only when touched (round 5's) | N23n, N23v, N23v2 |
+| since-all | every index entry's `since` checked, carried-over ones too (round 6's) | N23rb |
+| wt-replay | validate's replay from the loaded profile, the working tree's when HEAD has none (round 6's) | N23wt |
+| parent-lenient | a merge parent's profile that does not parse taken as no field | N23pu |
+| hook-no-index | commit-msg exits when only the index has the profile (round 5's hook) | N23z9b |
+| hook-no-merge | commit-msg exits on a merge into a HEAD with no profile (round 5's hook) | N23x6 |
+| hook-merge-any | commit-msg starts the validator on every merge (round 6's hook) | N23x7 |
+
+Changes from round 6's expectations:
+- no-entry-since gains N23rb. With every entry taking the field's `since`, the rebased entry never goes off the line.
+- safe-load gains N23pu. The parent's duplicate key then parses, to the same field as main's.
+
+The hooks now have mutants of their own (R8-6-05): each clause of commit-msg's early exit is the only cause of its arm's FAIL.
+pre-commit has no E13 clause left to mutate.
+
+**Not armed (declared, as in 4L):** the raw framing's want/duplicate guard and the replay's guard "since の後の親が無い".
+
+**V1 — PASS** (`out/v1.txt`): as in round 6; KB2 reports 5 E13. Only one SHA in the output changed. MoviePad-Remake was read only
+(status clean).
+
+**V2 and V3.** The first run timed out at the bound of 1500 s on one qualification run (`--runs 2`), while the four mutant runs
+were going at the same time. The bound was raised to 3600 s, and the second run went alone:
+- **V2 — PASS** (`out/v2.txt`): disposition PASS, the two runs identical, 101 controls; all 54 N23 controls PASS.
+- **V3 — PASS** (`out/v3.txt`; before = `42a6158`): the 47 controls in both runs have the same verdict and detail. Only the 54 N23
+  controls are new. The temporary folders were removed.
+
+**CI of the record commit `93053f8`:** GitHub created no run for this push (no check suite on the commit, 75 min after the push;
+the workflow is active). The fix commit's run covers that tree too.
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling, item 2; filing only).

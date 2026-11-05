@@ -45,10 +45,14 @@
 [N23z7] PASS - 新しい報告 0
 [N23n2] PASS - E13 で遮断・解決できない を表示
 [N23v2] FAIL - 想定外の通過(exit 0)— 負例が止まらない
+[N23rb] PASS - 測定不能→起票・直しが通過→測定可能・新しい報告なし
+[N23pu] PASS - 測定不能で停止
 [N23n] FAIL - 書く commit 通過/理由不一致: process-validator: [note] profile は HEAD 版で判定(作業ツリー版の変更はcommit 後の次回から有効 — 規則の自己適・E13 で遮断
 [N23v] FAIL - 書く commit 通過/理由不一致: process-validator: [note] profile は HEAD 版で判定(作業ツリー版の変更はcommit 後の次回から有効 — 規則の自己適・E13 で遮断
 [N23w] PASS - profile 不正で停止
 [N23o] PASS - 通過
-N23 controls 50; FAIL ['N23n', 'N23v', 'N23v2']; expected FAIL ['N23n', 'N23v', 'N23v2']
+[N23x7] PASS - 通過
+[N23wt] PASS - E13 なし(validate exit 0)
+N23 controls 54; FAIL ['N23n', 'N23v', 'N23v2']; expected FAIL ['N23n', 'N23v', 'N23v2']
 known-bad: as expected
 throwaway product removed: True
