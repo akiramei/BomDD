@@ -31,8 +31,13 @@ OQ(Operational Qualification)— 使い捨て sandbox リポで実 commit 経路
            系列外は遮断・tag 名の since は profile 不正・欄なしは E13 なし。round 3: merge で欄を落とす・octopus の
            台帳は遮断・欄を消して戻した間と読めない profile の直後は再演が検出・paths を広げた commit は報告しない
            (N23x・u・y・z・z2)・裁定 B: 単独の commit で変えた欄を取り込む merge は両方向とも通し、どの親にも無い
-           欄を merge で作ると遮断(N23x2・x3・x4)。round 4: paths の形の正しくない項目は再演の絞り込みに入らない・
-           狭めて戻した間は再演が検出・欄を消した間は消す前の欄で判定(N23z3・z3b・z4・z5)
+           欄を merge で作ると遮断(N23x2・x3・x4)。round 4: 狭めて戻した間は再演が検出(N23z4)。round 5(裁定 B —
+           項目ごとの since・HEAD の欄だけで判定・profile の履歴は読まない): since は欄を足すときの HEAD で、戻すと前の
+           commit も判定(N23p・p2)・項目を足す commit がその下を作ると index の欄で遮断/--no-verify なら再演が報告
+           (N23z2・z2r)・形の正しくない項目を足す commit は測定不能で止める(N23z3・z3b)・綴りを変えて戻した間・末尾の
+           / つきのファイルの項目を再演が検出(N23z6・z8)・profile を戻す commit の変更を遮断(N23z9)・since で分かれた
+           枝からの -s ours を遮断(N23x5)・{path, since} で足した項目は前を判定しない/パスだけに書き換えると判定する
+           (N23z5・z5b・z7)・項目の since の不解決を遮断(N23n2)
   N22a〜k  (profile に structure_check がある場合のみ — ECO-118)E12: FAIL の BOM の受入は遮断・
            NOT-APPLICABLE は通して名前を出す・遷移のない途中の commit は止めない・PASS は通す・
            道具の不在と解析できない M-BOM は遮断・欄を外せば E12 は無い・受入 commit の --amend も
@@ -761,7 +766,8 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
 
 def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
-    """N23a〜z2(ECO-119 V2 の腕を qualification に入れ子で — a〜w と c2・x・x2・x3・x4・y・z・z2・z3・z3b・z4・z5・u の 35 本)。sandbox 1 本で順に。
+    """N23a〜z9(ECO-119 V2 の腕を qualification に入れ子で — a〜w と c2・n2・p2・x・x2〜x5・y・z・z2・z2r・z3・z3b・z4〜z9・
+    z5b・u の 44 本)。sandbox 1 本で順に。
     欄なしの対照は別 sandbox。
     設計リリースは main の上(実製品 MoviePad-Remake と同じ形 — R8-1-01)・欄は後の profile commit で SHA として足す
     (裁定 2:A)・trailer 名は installed profile から(ECO-024 — R8-1-07)。"""
@@ -803,6 +809,8 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
         ok, d = _blocked_with(p, "E13")
         ok = ok and (needle in out(p))
         res.append(result(name, expected, ok, d + (f"・{needle} を表示" if needle and ok else "")))
+        if p.returncode == 0:   # 遮断されるはずの commit / merge が通った(検証器の欠陥)— 後の腕の前提を変えないよう取り消す
+            git(s.root, "reset", "-q", "--hard", "HEAD~1", env=s.env)
         undo()
 
     def set_ruled_layer(since: str, msg: str) -> subprocess.CompletedProcess:
@@ -812,10 +820,12 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
         return commit_paths(msg, add=(prof_rel,))
 
     # --- 準備: 設計リリースより前(欄なし)— Phase 3 の変更と、リリースより前に分かれる枝 2 本 ---
+    file40 = "bomdd/40-file.md"   # round 5 の N23z8(ファイルの項目を末尾の / つきで書く)用 — リリースより前からある
     s.write(spec_p, "# spec\nline 2\n")
     s.write(adr1, "# ADR-1\n")
     s.write(adr2, "# ADR-2\n")
-    p = commit_paths("phase 3: spec and ADRs", add=(spec_p, adr1, adr2))
+    s.write(file40, "# 40\n")
+    p = commit_paths("phase 3: spec and ADRs", add=(spec_p, adr1, adr2, file40))
     # N23a: 設計リリースより前(欄が無い)は検査しない
     res.append(result("N23a", "E13 なし(設計リリースより前・欄を足す前は検査しない)", p.returncode == 0,
                       "通過" if p.returncode == 0 else f"想定外(exit {p.returncode}): {out(p).strip()[:140]}"))
@@ -838,13 +848,15 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     reg["ECO-951"] = SPEC["final"]
     s.write(SPEC["register"], _reg_many(reg))
     steps.append(s.commit("eco: accept ECO-951", f"{acc}: ECO-951"))
-    # N23p(裁定 3:A): リリースの後でも欄を足す前の裁定層の変更は、どちらの層も判定しない
+    # N23p(round 5・裁定 B): since は欄を足すときの HEAD — それより前の裁定層の変更は、どちらの層も判定しない
+    # (リリースの後でも。since を後ろの release へ戻すと判定される — N23p2)
     s.write(spec_p, "# spec\nline 2 before the field\n")
     p_pre = commit_paths("spec: after the release, before the field", add=(spec_p,))
     pre_field = head()
-    res.append(result("N23p", "E13 なし(リリースの後・欄を足す前の commit は判定しない)", p_pre.returncode == 0,
+    res.append(result("N23p", "E13 なし(since〔欄を足すときの HEAD〕より前の commit は判定しない)", p_pre.returncode == 0,
                       "通過" if p_pre.returncode == 0 else f"想定外(exit {p_pre.returncode}): {out(p_pre).strip()[:140]}"))
-    steps.append(set_ruled_layer(release, "equipment: ruled_layer since the release (tag oq-release) under ECO-950"))
+    steps.append(set_ruled_layer(pre_field, "equipment: ruled_layer since the HEAD it is added on (the release is tagged "
+                                            "oq-release) under ECO-950"))
     bad = [x for x in steps if x.returncode != 0]
     if bad:
         res.append(result("N23", "E13(準備)", False, f"準備の git 操作が失敗: {out(bad[0]).strip()[:160]}"))
@@ -987,13 +999,6 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     broken_next = head()
     prof_path.write_text(good_profile, encoding="utf-8", newline="\n")
     st.append(commit_paths("equipment: the profile restored", add=(prof_rel,), extra=("--no-verify",)))
-    # N23z2(R8-2-05): paths を広げる commit が広げた先のファイルを同じ commit で作る → 第 1 層は通し、再演も報告しない
-    pr = yaml.safe_load(good_profile)
-    pr["ruled_layer"]["paths"] = [spec_p, "bomdd/adr", "bomdd/extra"]
-    prof_path.write_text(yaml.safe_dump(pr, allow_unicode=True, sort_keys=False), encoding="utf-8", newline="\n")
-    s.write("bomdd/extra/x.md", "x\n")
-    p_ext = commit_paths("equipment: paths extended, with a file under the new entry", add=(prof_rel, "bomdd/extra/x.md"))
-    ext = head()
     made = all(x.returncode == 0 for x in st)
     v = s.validate()
     e13b = [l for l in out(v).splitlines() if "[E13]" in l]
@@ -1002,15 +1007,18 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     res.append(result("N23y", "E13(欄を消して戻した間の裁定層の変更を履歴の再演が検出)", made and window[:9] in new,
                       "history の E13 で検出" if made and window[:9] in new
                       else f"想定外(作成 {made}・新しい報告 {sorted(new)}): {out(v).strip()[:140]}"))
-    res.append(result("N23z", "E13(読めない profile の直後の --no-verify の変更を履歴の再演が検出 — 欄なしと数えない)",
-                      made and broken_next[:9] in new,
-                      "history の E13 で検出" if made and broken_next[:9] in new
-                      else f"想定外(作成 {made}・新しい報告 {sorted(new)}): {out(v).strip()[:140]}"))
-    ok = (p_ext.returncode == 0 and "[E13]" not in out(p_ext) and ext[:9] not in got2
-          and new == {window[:9], broken_next[:9]})
-    res.append(result("N23z2", "E13 なし(paths を広げた commit は、第 1 層が見た値〔基点の親の paths〕で再演も判定)", ok,
-                      "第 1 層も再演も通す・新しい報告は N23y と N23z の 2 件だけ" if ok
-                      else f"想定外(commit {p_ext.returncode}・新しい報告 {sorted(new)}): {out(p_ext).strip()[:120]}"))
+    ok = made and new == {window[:9], broken_next[:9]}
+    res.append(result("N23z", "E13(読めない profile の直後の --no-verify の変更を履歴の再演が検出 — 新しい報告は N23y と"
+                              "この 2 件だけ)", ok,
+                      "history の E13 で検出" if ok else f"想定外(作成 {made}・新しい報告 {sorted(new)}): {out(v).strip()[:140]}"))
+    # N23z2(round 5・裁定 B): 項目を {path, since: HEAD} で足す commit が、その下のファイルを同じ commit で作る → 第 1 層が
+    # index の欄で判定して遮断(再演はこの commit を、since の直後の commit として判定する — N23z2r)
+    pr = yaml.safe_load(good_profile)
+    pr["ruled_layer"]["paths"] = list(pr["ruled_layer"]["paths"]) + [{"path": "bomdd/extra", "since": head()}]
+    prof_path.write_text(yaml.safe_dump(pr, allow_unicode=True, sort_keys=False), encoding="utf-8", newline="\n")
+    s.write("bomdd/extra/x.md", "x\n")
+    refused("N23z2", "E13(項目を足す commit が、その下のファイルを同じ commit で作る→ index の欄で遮断 — 再演と同じ判定)",
+            commit_paths("equipment: an entry added, with a file under it", add=(prof_rel, "bomdd/extra/x.md")), "bomdd/extra/x.md")
 
     # --- 裁定 B(round 3): merge の結果の欄が境界の後のどれかの親の欄と同じなら通す・どれとも違えば遮断 ---
     # main の系列を汚さないよう、main から分けた trunk の上で(以降の対照は main に戻って続ける)
@@ -1072,6 +1080,21 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
 
     got_b = e13_set(s.validate())
     good_now = prof_path.read_text(encoding="utf-8")
+
+    def write_prof(mut) -> None:
+        q = yaml.safe_load(prof_path.read_text(encoding="utf-8"))
+        mut(q["ruled_layer"])
+        prof_path.write_text(yaml.safe_dump(q, allow_unicode=True, sort_keys=False), encoding="utf-8", newline="\n")
+
+    def arm_new(name: str, expected: str, st_: list, v_: subprocess.CompletedProcess, base_: set[str], want: set[str]) -> set[str]:
+        """新しい報告がちょうど want で、前からの報告が消えないこと(腕ごとに別の validate)。新しい基準線を返す。"""
+        made_ = all(x.returncode == 0 for x in st_)
+        got_ = e13_set(v_)
+        new_ = got_ - base_
+        ok_ = made_ and v_.returncode != 2 and new_ == {w[:9] for w in want} and base_ <= got_
+        res.append(result(name, expected, ok_, ("history の E13 でちょうど期待の commit を検出" if want else "新しい報告 0")
+                          if ok_ else report(made_, v_, new_, base_ - got_)))
+        return got_
     # N23z4(R8-3-02): paths を狭め(E08)、外した項目のファイルを trailer なしで変え、paths を戻す → 再演が報告
     pr = yaml.safe_load(good_now)
     pr["ruled_layer"]["paths"] = ["bomdd/adr"]
@@ -1089,29 +1112,11 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     ok = made and v.returncode != 2 and new1 == {narrow_c[:9]} and got_b <= got1
     res.append(result("N23z4", "E13(paths を狭めて戻した間の、外した項目のファイルの変更を履歴の再演が検出)", ok,
                       "history の E13 でその commit だけを検出" if ok else report(made, v, new1, got_b - got1)))
-    # N23z5(R8-3-06): 欄を消した間に、後で足す項目の下のファイルを作り、欄を広げて戻す → 再演は報告しない(消す前の値で判定)
-    pr = yaml.safe_load(good_now)
-    pr.pop("ruled_layer", None)
-    prof_path.write_text(yaml.safe_dump(pr, allow_unicode=True, sort_keys=False), encoding="utf-8", newline="\n")
-    st = [commit_paths("equipment: the field removed again under ECO-950", add=(prof_rel,))]
-    s.write("bomdd/extra9/x.md", "x\n")
-    st.append(commit_paths("notes: a file under a later entry, while the field is removed", add=("bomdd/extra9/x.md",)))
-    win_c = head()
-    pr = yaml.safe_load(good_now)
-    pr["ruled_layer"]["paths"] = list(pr["ruled_layer"]["paths"]) + ["bomdd/extra9"]
-    good_now = yaml.safe_dump(pr, allow_unicode=True, sort_keys=False)
-    prof_path.write_text(good_now, encoding="utf-8", newline="\n")
-    st.append(commit_paths("equipment: the field re-added with bomdd/extra9 under ECO-950", add=(prof_rel,)))
-    made = all(x.returncode == 0 for x in st)
-    v = s.validate()
-    got2 = e13_set(v)
-    new2 = got2 - got1
-    ok = made and v.returncode != 2 and not new2 and got1 <= got2
-    res.append(result("N23z5", "E13 なし(欄を消した間の commit は消す前の欄で判定 — 後で足した項目の下のファイルは報告しない)",
-                      ok, "報告しない(新しい報告 0)" if ok else report(made, v, new2, got1 - got2)))
+    got2 = got1
 
-    # N23z3 / z3b(R8-3-01): 枝の commit(E08 を通る)が paths に形の正しくない項目を足し、main へ -s ours で merge
-    # (裁定 B は通す)→ その項目は再演の絞り込みに入らない — 前後の --no-verify の変更をどちらも報告し、前からの報告も消えない
+    # N23z3 / z3b(R8-3-01 → round 5): 枝で paths に形の正しくない項目を足す commit は、第 1 層が index の欄を検査して止める
+    # (exit 2)。--no-verify で作って main へ -s ours で merge しても、再演は HEAD の欄だけを使うので前後の --no-verify の
+    # 変更をどちらも報告し、前からの報告も消えない
     def odd_entry_arm(name: str, entry: str, expected: str, extra_ok) -> None:
         nonlocal got2
         s.write(spec_p, f"# spec\nno-verify before {entry}\n")
@@ -1119,10 +1124,10 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
         nv1 = head()
         br = f"odd-{name}"
         st_.append(git(s.root, "checkout", "-q", "-b", br, env=s.env))
-        q = yaml.safe_load(good_now)
-        q["ruled_layer"]["paths"] = list(q["ruled_layer"]["paths"]) + [entry]
-        prof_path.write_text(yaml.safe_dump(q, allow_unicode=True, sort_keys=False), encoding="utf-8", newline="\n")
-        st_.append(commit_paths(f"equipment: the entry {entry} on a side branch under ECO-950", add=(prof_rel,)))
+        write_prof(lambda r: r["paths"].append(entry))
+        hooked = commit_paths(f"equipment: the entry {entry} on a side branch under ECO-950", add=(prof_rel,))
+        st_.append(commit_paths(f"equipment: the entry {entry} on a side branch under ECO-950 (hooks skipped)",
+                                add=(prof_rel,), extra=("--no-verify",)))
         st_.append(git(s.root, "checkout", "-q", main, env=s.env))
         st_.append(git(s.root, "merge", "-q", "--no-ff", "-s", "ours", br, "-m", f"merge {br} (ours)", env=s.env))
         s.write(adr2, f"# ADR-2\nno-verify after {entry}\n")
@@ -1132,15 +1137,128 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
         v_ = s.validate()
         got_ = e13_set(v_)
         new_ = got_ - got2
-        ok_ = made_ and v_.returncode != 2 and new_ == {nv1[:9], nv2[:9]} and got2 <= got_ and extra_ok(v_)
-        res.append(result(name, expected, ok_, "history の E13 で前後の 2 件を検出" if ok_
-                          else report(made_, v_, new_, got2 - got_)))
+        ok_ = (made_ and hooked.returncode != 0 and "ruled_layer が不正" in out(hooked) and v_.returncode != 2
+               and new_ == {nv1[:9], nv2[:9]} and got2 <= got_ and extra_ok(v_))
+        res.append(result(name, expected, ok_, "第 1 層が測定不能で止め・history の E13 で前後の 2 件を検出" if ok_
+                          else f"hook の commit exit {hooked.returncode}・" + report(made_, v_, new_, got2 - got_)))
         got2 = got_
 
-    odd_entry_arm("N23z3", ":(exclude)bomdd", "E13(paths の `:(exclude)` の項目は再演の絞り込みに入らない — 前後の "
-                  "--no-verify の変更を両方報告・前からの報告も消えない)", lambda _v: True)
-    odd_entry_arm("N23z3b", "../outside", "E13(paths の `..` の項目は再演の絞り込みに入らない — 測定不能にならず前後の "
-                  "変更を両方報告)", lambda _v: "outside" not in out(_v))
+    odd_entry_arm("N23z3", ":(exclude)bomdd", "E13(paths に `:(exclude)` の項目を足す commit は第 1 層が止める〔exit 2〕・"
+                  "枝から -s ours で merge しても再演は前後の --no-verify の変更を両方報告)", lambda _v: True)
+    odd_entry_arm("N23z3b", "../outside", "E13(paths に `..` の項目を足す commit は第 1 層が止める〔exit 2〕・再演は測定不能に"
+                  "ならず前後の変更を両方報告)", lambda _v: "outside" not in out(_v))
+
+    # --- round 5(R8 round 4 の所見と裁定 B): 判定は HEAD の欄の項目ごとの since だけで決まる ---
+    # N23z6(R8-4-01): 項目を外し(E08)、その下を変え、綴りを変えて戻す(`bomdd/adr` → `bomdd/adr/`・since は欄の since)
+    # → 再演が報告(綴りは判定に関係しない)
+    write_prof(lambda r: r.__setitem__("paths", [x for x in r["paths"] if x != "bomdd/adr"]))
+    st = [commit_paths("equipment: bomdd/adr taken out of paths under ECO-950", add=(prof_rel,))]
+    s.write(adr2, "# ADR-2\nwhile bomdd/adr is out\n")
+    st.append(commit_paths("adr: while bomdd/adr is out of paths", add=(adr2,)))
+    win6 = head()
+    write_prof(lambda r: r["paths"].append("bomdd/adr/"))
+    st.append(commit_paths("equipment: restored as bomdd/adr/ under ECO-950", add=(prof_rel,)))
+    got2 = arm_new("N23z6", "E13(項目を外して綴りを変えて戻した間の変更を履歴の再演が検出 — 照合は綴りでなく覆うパス)",
+                   st, s.validate(), got2, {win6})
+    # N23z8(R8-4-04): ファイルの項目を末尾の / つきで書き(`bomdd/40-file.md/`)、--no-verify で変える → 再演が報告
+    write_prof(lambda r: r["paths"].append(file40 + "/"))
+    st = [commit_paths("equipment: a file entry written with a trailing slash under ECO-950", add=(prof_rel,))]
+    s.write(file40, "# 40\nchanged with hooks skipped\n")
+    st.append(commit_paths("file40: changed with hooks skipped", add=(file40,), extra=("--no-verify",)))
+    nv8 = head()
+    got2 = arm_new("N23z8", "E13(ファイルの項目を末尾の / つきで書いても --no-verify の変更を履歴の再演が検出 — git の pathspec "
+                            "を使わない)", st, s.validate(), got2, {nv8})
+    # N23z9(R8-4-03): profile を消し(E08)、profile を戻す commit で裁定層も変える(trailer なし)→ 第 1 層が index の欄で遮断
+    st = [git(s.root, "rm", "-q", "--", prof_rel, env=s.env)]
+    st.append(commit_paths("equipment: the profile removed under ECO-950"))
+    prof_path.parent.mkdir(parents=True, exist_ok=True)
+    good_z9 = git(s.root, "show", f"HEAD~1:{prof_rel}", env=s.env).stdout
+    prof_path.write_text(good_z9, encoding="utf-8", newline="\n")
+    s.write(spec_p, "# spec\nwith the profile restored\n")
+    if all(x.returncode == 0 for x in st):
+        refused("N23z9", "E13(HEAD に profile が無いとき、profile を戻す commit の裁定層の変更を index の欄で遮断 — 速い道も同じ)",
+                commit_paths("equipment+spec: the profile restored with a ruled change", add=(prof_rel, spec_p)), spec_p)
+    else:
+        res.append(result("N23z9", "E13(profile を戻す commit)", False,
+                          f"準備の git 操作が失敗: {out(next(x for x in st if x.returncode)).strip()[:140]}"))
+        undo()
+    prof_path.write_text(good_z9, encoding="utf-8", newline="\n")
+    pz = commit_paths("equipment: the profile restored under ECO-950", add=(prof_rel,))
+    if pz.returncode != 0:
+        res.append(result("N23z9", "E13(profile を戻す)", False, f"profile を戻せない: {out(pz).strip()[:140]}"))
+        return res
+    # N23x5(R8-2-01 を事実だけで): since で分かれ commit を持つ枝(欄なし)へ main を -s ours で merge → 遮断(欄の無い親は数えない)
+    st = [git(s.root, "checkout", "-q", "-b", "old5", pre_field, env=s.env),
+          git(s.root, "commit", "-q", "--allow-empty", "-m", "old5 work", env=s.env)]
+    if all(x.returncode == 0 for x in st):
+        refused("N23x5", "E13(since で分かれ commit を持つ枝へ main を -s ours で merge し欄を落とす→遮断 — 欄の無い親は数えない)",
+                git(s.root, "merge", "-q", "--no-ff", "-s", "ours", main, "-m", "sync main into old5 (ours)", env=s.env),
+                "ruled_layer を落とす")
+    else:
+        res.append(result("N23x5", "E13(-s ours で欄を落とす)", False,
+                          f"準備の git 操作が失敗: {out(next(x for x in st if x.returncode)).strip()[:140]}"))
+    git(s.root, "checkout", "-q", main, env=s.env)
+    # N23p2(裁定 B: 事実が決める): since をリリースへ戻す(E08)→ 欄を足す前の commit(N23p)を再演が新たに報告。since を戻して元に
+    write_prof(lambda r: r.__setitem__("since", release))
+    st = [commit_paths("equipment: since moved back to the release under ECO-950", add=(prof_rel,))]
+    v = s.validate()
+    arm_new("N23p2", "E13(since をリリースへ戻すと、欄を足す前の commit も再演が判定 — 始点は profile に書いた since)",
+            st, v, got2, {pre_field})
+    write_prof(lambda r: r.__setitem__("since", pre_field))
+    st = [commit_paths("equipment: since set back to the HEAD the field was added on under ECO-950", add=(prof_rel,))]
+    got2 = e13_set(s.validate())
+
+    # --- round 5: 項目ごとの since({path, since})---
+    # N23z5(R8-3-06 → 裁定 B): 欄を消した間に、後で足す項目の下のファイルを作り、その項目を {path, since: HEAD} で足して欄を
+    # 戻す → 再演は報告しない。N23z5b: 同じ項目をパスだけ(欄の since)に書き換える → 再演がその commit を報告
+    q = yaml.safe_load(prof_path.read_text(encoding="utf-8"))
+    kept = q.pop("ruled_layer")
+    prof_path.write_text(yaml.safe_dump(q, allow_unicode=True, sort_keys=False), encoding="utf-8", newline="\n")
+    st = [commit_paths("equipment: the field removed again under ECO-950", add=(prof_rel,))]
+    s.write("bomdd/extra9/x.md", "x\n")
+    st.append(commit_paths("notes: a file under a later entry, while the field is removed", add=("bomdd/extra9/x.md",)))
+    win_c = head()
+    q["ruled_layer"] = dict(kept, paths=list(kept["paths"]) + [{"path": "bomdd/extra9", "since": win_c}])
+    prof_path.write_text(yaml.safe_dump(q, allow_unicode=True, sort_keys=False), encoding="utf-8", newline="\n")
+    st.append(commit_paths("equipment: the field re-added with bomdd/extra9 since the HEAD under ECO-950", add=(prof_rel,)))
+    got2 = arm_new("N23z5", "E13 なし(後で {path, since: HEAD} で足した項目は、その since より前の commit を判定しない)",
+                   st, s.validate(), got2, set())
+    write_prof(lambda r: r.__setitem__("paths", [x if not isinstance(x, dict) else x["path"] for x in r["paths"]]))
+    st = [commit_paths("equipment: bomdd/extra9 rewritten as a plain path under ECO-950", add=(prof_rel,))]
+    arm_new("N23z5b", "E13(同じ項目をパスだけ〔欄の since〕に書き換えると、欄を消した間の commit を再演が報告)",
+            st, s.validate(), got2, {win_c})
+    write_prof(lambda r: r.__setitem__("paths", [x if x != "bomdd/extra9" else {"path": x, "since": win_c}
+                                                for x in r["paths"]]))
+    commit_paths("equipment: bomdd/extra9 since the HEAD again under ECO-950", add=(prof_rel,))
+    got2 = e13_set(s.validate())
+    # N23z2r(N23z2 の再演の側): 同じ commit を --no-verify で作る → 再演が報告(since の直後の commit も判定する)
+    write_prof(lambda r: r["paths"].append({"path": "bomdd/extra", "since": head()}))
+    s.write("bomdd/extra/x.md", "x\n")
+    st = [commit_paths("equipment: an entry added, with a file under it (hooks skipped)", add=(prof_rel, "bomdd/extra/x.md"),
+                       extra=("--no-verify",))]
+    z2r = head()
+    got2 = arm_new("N23z2r", "E13(項目を足す commit がその下のファイルを作る — --no-verify でも再演が報告・since の直後の commit "
+                             "も判定)", st, s.validate(), got2, {z2r})
+    # N23z7(R8-4-02): 項目を持つ枝を main へ -s ours で merge → main でその項目の下を変える(hook を通る)→ main が
+    # {path, since: HEAD} で項目を足す → 再演は報告しない(ずっと赤にならない)
+    st = [git(s.root, "checkout", "-q", "-b", "side7", env=s.env)]
+    write_prof(lambda r: r["paths"].append("bomdd/extra7"))
+    st.append(commit_paths("equipment: bomdd/extra7 on a side branch under ECO-950", add=(prof_rel,)))
+    st.append(git(s.root, "checkout", "-q", main, env=s.env))
+    st.append(git(s.root, "merge", "-q", "--no-ff", "-s", "ours", "side7", "-m", "merge side7 (ours)", env=s.env))
+    s.write("bomdd/extra7/x.md", "x\n")
+    st.append(commit_paths("notes: bomdd/extra7 on main before main has the entry", add=("bomdd/extra7/x.md",)))
+    gap7 = head()
+    write_prof(lambda r: r["paths"].append({"path": "bomdd/extra7", "since": gap7}))
+    st.append(commit_paths("equipment: bomdd/extra7 since the HEAD on main under ECO-950", add=(prof_rel,)))
+    got2 = arm_new("N23z7", "E13 なし(枝だけが持った項目を main が後で {path, since: HEAD} で足しても、その前の hook を通った "
+                            "commit は報告しない)", st, s.validate(), got2, set())
+    # N23n2: 項目の since が解決できない → その項目の下に触れる commit は遮断(測定不能は合格ではない)
+    write_prof(lambda r: r["paths"].append({"path": "bomdd/extra8", "since": "0" * 40}))
+    s.write("bomdd/extra8/y.md", "y\n")
+    refused("N23n2", "E13(項目の since が解決できない→その項目の下に触れる commit を遮断)",
+            commit_paths("extra8: under an entry whose since does not resolve", f"{ruling}: ECO-950",
+                         add=(prof_rel, "bomdd/extra8/y.md")), "解決できない")
 
     # N23n: since が解決できない(profile を E08 経由で変えた後)→ 裁定層の変更は遮断
     p0 = set_ruled_layer("0" * 40, "equipment: since set to a commit that does not exist under ECO-950")

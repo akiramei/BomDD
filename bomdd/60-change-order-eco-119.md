@@ -710,6 +710,78 @@ field is added on; N23p2 moves `since` back to the release and expects the earli
 restores with the entry's own `since`. V1 writes `since` as the HEAD the field is added on; its KB2 becomes "the `since` filter
 removed". Timing is measured on the 152-version sandbox and on V1 (R8-4-07). Round 5 is full-scope on E13.
 
+## 4I. Round 5 — the fix and the measurements before commit (2026-11-05)
+
+**What was changed** (from `9f586b8`; the design is section 4H):
+- `process-validator.py`:
+  - `validate_profile` accepts an item `{path, since}`.
+  - New: `ruled_entries` (the `(path, since)` pairs), `covered` (the only path matcher of both layers), `SinceIndex` (since
+    resolution and "in force"), `ruled_layer_of` (a parent's own field, for the merge check) and `diff_tree_paths` (one
+    `git diff-tree --stdin` per since).
+  - `check_ruled_layer` and the E13 part of `scan_history` are rewritten as 4H describes.
+  - Removed: `RuledBoundary` and everything in it (`entries_at`, `_profile_versions`, `_descendants_where`, `_descendants_of_field`,
+    `paths_ever`, `held_at`, `nearest`, `values_for`), `ruled_profile_of_merge`, and the replay's pathspec.
+  - The E13 docstring is rewritten. The selftest gains three E13 checks (102 PASS).
+- `process-qualification.py`: 44 N23 arms (+n2, p2, x5, z2r, z5b, z6, z7, z8, z9). The changed arms:
+  - N23p: `since` is the HEAD the field is added on.
+  - N23z2 flips to refused.
+  - N23z3 and N23z3b: the hooked side-branch commit is now refused as unmeasurable (the index's field is checked).
+  - N23z5: the entry is restored with its own `since`.
+  - `refused()` now undoes a commit that should have been refused but got through. Without that, a defective validator's
+    accepted commit stayed in the sandbox and changed later arms (found by the mutants, below).
+- The profile template's comment: write `since` as the HEAD you add the field or the entry on.
+- Playbook §4.5's two E13 sentences.
+- Evidence scripts:
+  - `verify119.py` V1: `since` = the HEAD the field is added on; KB2 = the replay without the `since` filter.
+  - `verify119_r5kb.py` (new): the mutants.
+  - `verify119_timing.py` (new).
+  - `verify119_v2v3.py` expects 44.
+  - `verify119_r3kb.py` is kept as round-4 evidence. It cannot run against the new arms, because old validators refuse
+    `{path, since}`.
+
+**Arms with this tree's validator:** 44 of 44 PASS (OQ, scaffolded product, run twice: 527 s while self-conformance ran beside it,
+381 s alone).
+
+**Mutants** (`out/r5kb-<name>.txt`): each of the seven fails exactly its arms.
+
+| mutant | what it breaks | FAIL |
+|---|---|---|
+| strict | in force only strictly after `since` | N23z2, N23z2r |
+| no-entry-since | every entry takes the field's `since` | N23n2, N23z5, N23z5b, N23z7 |
+| no-index | the first layer ignores the index's field | N23n2, N23s, N23z2, N23z9 |
+| no-index-check | the index's field is not validated | N23z3, N23z3b |
+| fieldless-parents | the merge check counts parents without the field | N23x, N23x5 |
+| pathspec | the replay filtered by a literal pathspec (round 4's) | N23z8 |
+| first-parent | merges judged against the first parent only | N23m, N23s |
+
+The first full run differed from the expectation for three mutants. None of the three was a defect of the validator:
+- no-index stopped after 34 arms, and first-parent's N23m passed by coincidence. The cause in both: a refused arm's commit that
+  got through stayed in the sandbox. `refused()` now undoes it (above).
+- strict's N23z2 still refused. The mutant had also turned "not yet in force" into the "since off the line" refusal. The mutant
+  now keeps that refusal's own test.
+After the fixes, all seven were rerun. no-index also failed N23n2, which my expectation had missed: N23n2's entry exists only in the
+index. The expectation was corrected, and the rerun is as expected.
+
+**V1 — PASS** (`out/v1.txt`): MoviePad-Remake's six commits as before. KB2 reports 5 E13, `pre_field` and bbce170's among them.
+MoviePad-Remake was read only (status clean).
+
+**Timing** (`out/timing.txt`; 152 profile versions, 153 commits; the same history with each validator swapped in):
+
+| validator | non-ruled commit | ruled commit | merge | validate |
+|---|---|---|---|---|
+| round 4 (`9f586b8`) | 1.9 s | 1.9 s | 1.4 s | 2.5 s |
+| round 5 | 2.2 s | 2.0 s | 1.5 s | 4.7 s |
+
+A ruled commit without a trailer is refused with E13 under both, so the measured path is live. This history does not reproduce
+R8-4-07's slow case (14.4 s for round 4's ruled commit); the inspector's history had another shape. Round 5 reads no profile
+version, so its cost does not grow with the number of versions. The replay's cost grows with the number of commits after each
+distinct `since`: one `rev-list` and one `diff-tree` per `since`, plus per touched commit one `log` and the registers of its parents.
+
+**V2 — PASS** (`out/v2.txt`): disposition PASS, the two runs identical, 91 controls; all 44 N23 controls PASS.
+
+**V3 — PASS** (`out/v3.txt`; before = `42a6158`): the 47 controls in both runs have the same verdict and detail. Only the 44 N23
+controls are new.
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling, item 2; filing only).

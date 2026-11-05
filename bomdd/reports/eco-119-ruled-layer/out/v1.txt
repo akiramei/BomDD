@@ -1,7 +1,7 @@
 # V1 - MoviePad-Remake's ruled-layer history through E13 (a bomdd-init product)
 set-up: filing exit 0, profile exit 0
 bbce170 before since -> allowed: as expected - exit 0
-a ruled change after the release, before the field -> allowed (ruling 3:A): as expected - exit 0
+a ruled change after the release, before the field (since = the HEAD the field is added on) -> allowed: as expected - exit 0
    the ruled files at bom-v4 committed (exit 0); the release commit on main, tagged bom-v4; the field added in a later commit (exit 0)
 b06a5bf in ECO-003's filing commit -> refused (not open at HEAD): as expected - exit 1: [E13] ruled-layer-change-without-ruling: 裁定層 ['bomdd/20-spec.md'] の変更 — ['ECO-003'] は親の台帳に無い(名指す ID はすべて台帳に実在すること)(「BomDD-ECO-Ruling: <open な ECO>」と、その指示書の Sources read での各ファイルの path:line 引用が要る)
 b06a5bf in the next commit, ECO-003 open, its order citing the spec -> allowed: as expected - exit 0: 
@@ -13,8 +13,8 @@ f4861e8 in ECO-005's filing commit -> refused: as expected - exit 1: [E13] ruled
 f4861e8 in the next commit, both ADRs cited (bomdd/reports/adr/ADR-002.md:3, bomdd/reports/adr/ADR-006.md:1) -> allowed: as expected - exit 0: 
 31273e7 with 31-kbom.yaml uncited -> refused, names 31-kbom.yaml with count 0: as expected - exit 1: [E13] ruled-layer-change-without-ruling: 裁定層 ['bomdd/20-spec.md', 'bomdd/30-ebom.yaml', 'bomdd/31-kbom.yaml'] の変更 — ECO-005 の Sources read が触れた裁定層ファイルを引用していない(引用数 0: ['bomdd/31-kbom.yaml'])(「BomDD-ECO-Ruling: <open な ECO>」と、その指示書の
 31273e7 with all three cited -> allowed: as expected - exit 0: 
-79f1791 with --no-verify -> the full mode reports it (history E13, the only E13): as expected - validate exit 1: ["[E13] ruled-layer-change-without-ruling: history:977039be7 裁定層 ['bomdd/reports/adr/ADR-003.md'] の変更 — ruling trailer が無い(裁定層 ['bomdd/reports/adr/ADR-003.md'] の変更は、それを名指す ECO が要る)(第 1 層を通らなかった変更を第 2 層が検出)"]
+79f1791 with --no-verify -> the full mode reports it (history E13, the only E13): as expected - validate exit 1: ["[E13] ruled-layer-change-without-ruling: history:ef7786136 裁定層 ['bomdd/reports/adr/ADR-003.md'] の変更 — ruling trailer が無い(裁定層 ['bomdd/reports/adr/ADR-003.md'] の変更は、それを名指す ECO が要る)(第 1 層を通らなかった変更を第 2 層が検出)"]
    other violations in the full mode: none
-KB2 the replay without the field gate -> the change before the field is reported too (2 E13): as expected - E13 lines 2
+KB2 the replay without the since filter -> the changes before since are reported too (pre_field and bbce170's): as expected - E13 lines 5
 throwaway product removed: True
 V1: PASS

@@ -1,8 +1,8 @@
 """ECO-119 V1 - MoviePad-Remake's ruled-layer history replayed through E13 in a throwaway product made by bomdd-init.py.
 
 The release commit is made on the main line and tagged bom-v4 (MoviePad-Remake's own form); a later profile commit adds the field
-ruled_layer {since: the release's full SHA (the tag in a comment), paths: the four ruled files and bomdd/reports/adr/} (round 2,
-the user's rulings 2:A and 3:A). E12 is switched off in an earlier profile commit (structure_check removed) so that only E13 is
+ruled_layer {since: the full SHA of the HEAD it is added on (the release's tag in a comment), paths: the four ruled files and
+bomdd/reports/adr/} (round 5, the user's ruling B: since is written as a fact; the replay reads no profile history). E12 is switched off in an earlier profile commit (structure_check removed) so that only E13 is
 measured: the copied E-BOM sits beside the template M-BOM and Control Plan, which E12 would read. The six commits of the order's
 section 0 are replayed in their real order,
 each with its ruled files copied from MoviePad-Remake (git, read only) and the register state of its parent recreated with the
@@ -136,24 +136,27 @@ def main():
         commit("phase 3: the ruled files before G3 round 1")
         copy_change("bbce170")
         rc, out = commit("phase 3: bbce170's spec change (before the release)")
+        bbce = g("rev-parse", "HEAD").stdout.strip()
         arm("bbce170 before since -> allowed", rc == 0 and "[E13]" not in out, f"exit {rc}")
         copy_state("bom-v4")
         rc0, _ = commit("phase 3: the ruled files at bom-v4")
         g("commit", "-q", "--allow-empty", "-m", "release: bom-v4 (G3 passed)")
         g("tag", "bom-v4")
         release = g("rev-parse", "HEAD").stdout.strip()
-        # ruling 3:A: a ruled change after the release but before the field is not judged by either layer
+        # ruling B (round 5): since is the HEAD the field is added on; a ruled change after the release but before that commit is
+        # not judged by either layer
         req = prod / "bomdd/10-requirements.yaml"
         req.write_text(req.read_text(encoding="utf-8") + "# V1: a change after the release, before the field (synthetic)\n",
                        encoding="utf-8", newline="\n")
         rcp, outp = commit("requirements: after the release, before the field", paths=["bomdd/10-requirements.yaml"])
         pre_field = g("rev-parse", "HEAD").stdout.strip()
-        arm("a ruled change after the release, before the field -> allowed (ruling 3:A)", rcp == 0 and "[E13]" not in outp,
-            f"exit {rcp}")
+        arm("a ruled change after the release, before the field (since = the HEAD the field is added on) -> allowed",
+            rcp == 0 and "[E13]" not in outp, f"exit {rcp}")
         text = prof_p.read_text(encoding="utf-8")
-        text += (f"\nruled_layer:\n  since: {release}   # tag: bom-v4\n  paths: [" + ", ".join(RULED) + "]\n")
+        text += (f"\nruled_layer:\n  since: {pre_field}   # the HEAD the field is added on (release: tag bom-v4)\n  paths: ["
+                 + ", ".join(RULED) + "]\n")
         prof_p.write_text(text, encoding="utf-8", newline="\n")
-        rc3, _ = commit("equipment: ruled_layer since the release (a full SHA, the tag in a comment)",
+        rc3, _ = commit("equipment: ruled_layer since the HEAD it is added on (a full SHA, the release's tag in a comment)",
                         paths=["bomdd/process-profile.yaml"])
         lines.append(f"   the ruled files at bom-v4 committed (exit {rc0}); the release commit on {main_branch}, tagged bom-v4; "
                      f"the field added in a later commit (exit {rc3})")
@@ -256,22 +259,22 @@ def main():
         other = [l.strip() for l in vout.splitlines() if re.match(r"\s*\[E\d\d\]", l) and "[E13]" not in l]
         lines.append(f"   other violations in the full mode: {other or 'none'}")
         ok_all &= not other
-        # known-bad of the replay's boundary (ruling 3:A): with the field gate removed, the change made after the release and
-        # before the field is reported too (round 1's KB2, --ancestry-path, needed the release on a side branch; the release is
-        # on main now, so the pre-release commits are ancestors of since and outside the range with or without that flag)
+        # known-bad of the replay's boundary (round 5): with the since filter removed (every commit of HEAD's history judged),
+        # the changes before since are reported too - pre_field and bbce170's spec change among them
         vsrc2 = vp.read_text(encoding="utf-8")
-        # round 3: the field gate is in after_boundary; round 4: values_for also gives no paths before the field (an entry is
-        # judged only where some version at or before the base parent held it), so both are removed
-        anchor2 = "    def after_boundary(self, rev: str) -> bool:\n"
-        held2 = "[e for e in head_ents if base in self.held_at(e)]"
-        assert vsrc2.count(anchor2) == 1 and vsrc2.count(held2) == 1
-        vp.write_text(vsrc2.replace(anchor2, anchor2 + "        return self.after_since(rev)  # ECO-119 V1 KB2\n")
-                      .replace(held2, "head_ents"), encoding="utf-8", newline="\n")
+        rng = 'a = run_git(root, "rev-list", "--reverse", "--parents", "--ancestry-path", f"{s}..HEAD")'
+        die2 = ('                if base is None:\n'
+                '                    die(f"{sha[:9]} に since の後の親が無い(裁定層の履歴検査が測定不能)")\n')
+        assert vsrc2.count(rng) == 1 and vsrc2.count(die2) == 1
+        vp.write_text(vsrc2.replace(rng, 'a = run_git(root, "rev-list", "--reverse", "--parents", "HEAD")  # ECO-119 V1 KB2')
+                      .replace(die2, "                if base is None:\n                    continue\n"),
+                      encoding="utf-8", newline="\n")
         v2 = sh(sys.executable, str(vp), "--mode", "validate", "--root", str(prod))
         e13b = [l for l in (v2.stdout + v2.stderr).splitlines() if "[E13]" in l]
         vp.write_text(vsrc2, encoding="utf-8", newline="\n")
-        arm("KB2 the replay without the field gate -> the change before the field is reported too (2 E13)",
-            len(e13b) == 2 and any(pre_field[:9] in l for l in e13b), f"E13 lines {len(e13b)}")
+        arm("KB2 the replay without the since filter -> the changes before since are reported too (pre_field and bbce170's)",
+            len(e13b) > 2 and any(pre_field[:9] in l for l in e13b) and any(bbce[:9] in l for l in e13b),
+            f"E13 lines {len(e13b)}")
     finally:
         shutil.rmtree(tmp, onerror=_rm_readonly)
         lines.append(f"throwaway product removed: {not tmp.exists()}")

@@ -1,7 +1,7 @@
 # V2 - the qualification's E13 arms (a fresh scaffold of this tree; --runs 2)
-disposition PASS, runs identical True, controls 82
+disposition PASS, runs identical True, controls 91
 [N23a] PASS E13 なし(設計リリースより前・欄を足す前は検査しない) - 通過
-[N23p] PASS E13 なし(リリースの後・欄を足す前の commit は判定しない) - 通過
+[N23p] PASS E13 なし(since〔欄を足すときの HEAD〕より前の commit は判定しない) - 通過
 [N23b] PASS E13(trailer なしの裁定層の変更→遮断) - E13 で遮断・trailer が無い を表示
 [N23c] PASS E13(台帳に無い ECO を名指す→遮断) - E13 で遮断・ECO-999 を表示
 [N23c2] PASS E13(名指す ID の 1 つが台帳に無い→他が満たしても遮断) - E13 で遮断・ECO-999 を表示
@@ -22,17 +22,26 @@ disposition PASS, runs identical True, controls 82
 [N23x] PASS E13(merge の結果が境界の後の親の欄を落とす→遮断・fast-forward の後に両層が止まるのを防ぐ) - E13 で遮断・ruled_layer を落とす を表示
 [N23u] PASS E13(octopus merge — 3 番目の親で applied の ECO は open でない→遮断・再演と同じ比較元) - E13 で遮断・open でない を表示
 [N23y] PASS E13(欄を消して戻した間の裁定層の変更を履歴の再演が検出) - history の E13 で検出
-[N23z] PASS E13(読めない profile の直後の --no-verify の変更を履歴の再演が検出 — 欄なしと数えない) - history の E13 で検出
-[N23z2] PASS E13 なし(paths を広げた commit は、第 1 層が見た値〔基点の親の paths〕で再演も判定) - 第 1 層も再演も通す・新しい報告は N23y と N23z の 2 件だけ
+[N23z] PASS E13(読めない profile の直後の --no-verify の変更を履歴の再演が検出 — 新しい報告は N23y とこの 2 件だけ) - history の E13 で検出
+[N23z2] PASS E13(項目を足す commit が、その下のファイルを同じ commit で作る→ index の欄で遮断 — 再演と同じ判定) - E13 で遮断・bomdd/extra/x.md を表示
 [N23x2] PASS E13 なし(単独の commit で変えた欄を、作業中の枝へ同期の merge で取り込む — 裁定 B) - 通過
 [N23x3] PASS E13 なし(枝の単独の commit で変えた欄を、merge で trunk へ取り込む — 裁定 B) - 通過
 [N23x4] PASS E13(merge の解決で、境界の後のどの親の欄とも違う欄を作る→遮断 — 裁定 B) - E13 で遮断・ruled_layer を変える を表示
 [N23z4] PASS E13(paths を狭めて戻した間の、外した項目のファイルの変更を履歴の再演が検出) - history の E13 でその commit だけを検出
-[N23z5] PASS E13 なし(欄を消した間の commit は消す前の欄で判定 — 後で足した項目の下のファイルは報告しない) - 報告しない(新しい報告 0)
-[N23z3] PASS E13(paths の `:(exclude)` の項目は再演の絞り込みに入らない — 前後の --no-verify の変更を両方報告・前からの報告も消えない) - history の E13 で前後の 2 件を検出
-[N23z3b] PASS E13(paths の `..` の項目は再演の絞り込みに入らない — 測定不能にならず前後の 変更を両方報告) - history の E13 で前後の 2 件を検出
+[N23z3] PASS E13(paths に `:(exclude)` の項目を足す commit は第 1 層が止める〔exit 2〕・枝から -s ours で merge しても再演は前後の --no-verify の変更を両方報告) - 第 1 層が測定不能で止め・history の E13 で前後の 2 件を検出
+[N23z3b] PASS E13(paths に `..` の項目を足す commit は第 1 層が止める〔exit 2〕・再演は測定不能にならず前後の変更を両方報告) - 第 1 層が測定不能で止め・history の E13 で前後の 2 件を検出
+[N23z6] PASS E13(項目を外して綴りを変えて戻した間の変更を履歴の再演が検出 — 照合は綴りでなく覆うパス) - history の E13 でちょうど期待の commit を検出
+[N23z8] PASS E13(ファイルの項目を末尾の / つきで書いても --no-verify の変更を履歴の再演が検出 — git の pathspec を使わない) - history の E13 でちょうど期待の commit を検出
+[N23z9] PASS E13(HEAD に profile が無いとき、profile を戻す commit の裁定層の変更を index の欄で遮断 — 速い道も同じ) - E13 で遮断・bomdd/20-spec.md を表示
+[N23x5] PASS E13(since で分かれ commit を持つ枝へ main を -s ours で merge し欄を落とす→遮断 — 欄の無い親は数えない) - E13 で遮断・ruled_layer を落とす を表示
+[N23p2] PASS E13(since をリリースへ戻すと、欄を足す前の commit も再演が判定 — 始点は profile に書いた since) - history の E13 でちょうど期待の commit を検出
+[N23z5] PASS E13 なし(後で {path, since: HEAD} で足した項目は、その since より前の commit を判定しない) - 新しい報告 0
+[N23z5b] PASS E13(同じ項目をパスだけ〔欄の since〕に書き換えると、欄を消した間の commit を再演が報告) - history の E13 でちょうど期待の commit を検出
+[N23z2r] PASS E13(項目を足す commit がその下のファイルを作る — --no-verify でも再演が報告・since の直後の commit も判定) - history の E13 でちょうど期待の commit を検出
+[N23z7] PASS E13 なし(枝だけが持った項目を main が後で {path, since: HEAD} で足しても、その前の hook を通った commit は報告しない) - 新しい報告 0
+[N23n2] PASS E13(項目の since が解決できない→その項目の下に触れる commit を遮断) - E13 で遮断・解決できない を表示
 [N23n] PASS E13(since が解決できない→遮断・測定不能は合格ではない) - E13 で遮断
 [N23v] PASS E13(since が HEAD の系列に無い→遮断) - E13 で遮断
 [N23w] PASS exit 2(since が tag 名の profile は不正 — tag は差分なしに動かせる) - profile 不正で停止
 [N23o] PASS E13 なし(profile に ruled_layer が無ければ E13 は無い) - 通過
-V2: PASS (35 N23 controls)
+V2: PASS (44 N23 controls)

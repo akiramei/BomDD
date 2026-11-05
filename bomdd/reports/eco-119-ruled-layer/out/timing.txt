@@ -1,0 +1,5 @@
+# E13 timing at 150 profile versions (R8-4-07)
+profile versions on HEAD's line: 152; commits: 153
+round 4 (9f586b8): non-ruled commit 1.9 s (exit 0); ruled commit 1.9 s (exit 0); ruled commit without trailer 2.0 s (exit 1, E13 shown); merge 1.4 s (exit 0); validate 2.5 s (exit 0)
+round 5 (this tree): non-ruled commit 2.2 s (exit 0); ruled commit 2.0 s (exit 0); ruled commit without trailer 1.9 s (exit 1, E13 shown); merge 1.5 s (exit 0); validate 4.7 s (exit 0)
+throwaway product removed: True

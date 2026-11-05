@@ -59,7 +59,8 @@ def main():
               f"disposition {after['disposition']}, runs identical {after['runs_identical']}, controls {len(a)}"]
         v2 += [f"[{c['control']}] {'PASS' if c['pass'] else 'FAIL'} {c['expected']} - {c['detail']}" for c in n23]
         # round 1 had 15 N23 controls (N23a-o); round 2 (order section 4B) 23 (N23a-w with N23c2); round 3 (4D) 31 (+x, x2, x3, x4, u, y, z, z2); round 4 (4F) 35 (+z3, z3b, z4, z5)
-        ok2 = after["disposition"] == "PASS" and after["runs_identical"] is True and len(n23) == 35 and all(c["pass"] for c in n23)
+        # round 5 (4I) 44 (+n2, p2, x5, z2r, z5b, z6, z7, z8, z9)
+        ok2 = after["disposition"] == "PASS" and after["runs_identical"] is True and len(n23) == 44 and all(c["pass"] for c in n23)
         v2.append(f"V2: {'PASS' if ok2 else 'FAIL'} ({len(n23)} N23 controls)")
         common = sorted(set(a) & set(b))
         diff = [k for k in common if (a[k]["pass"], a[k]["detail"]) != (b[k]["pass"], b[k]["detail"])]
