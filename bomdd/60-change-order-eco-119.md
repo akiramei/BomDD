@@ -570,8 +570,9 @@ ways:
   - `values_at` is removed.
 - `check_ruled_layer`:
   - Fast path (R8-3-07). For a non-merge commit that touches none of HEAD's ruled paths, it returns before the boundary walk. The
-    result is the same, because for a non-merge commit `values_for(HEAD)` is HEAD's entries, which `validate_profile` has already
-    checked.
+    record said the result is the same, because for a non-merge commit `values_for(HEAD)` is HEAD's entries. **R8 round 4 showed
+    that this is false when HEAD has no profile file (R8-4-03, section 4G).** In that case the hook reads the working tree's profile,
+    while `values_for` falls back to the field as it was before the removal.
   - Merges still take the full path.
 - The E13 docstring and playbook §4.5 (R8-3-03, 04, 05):
   - the merge field refusal is first-layer only, and the replay does not repeat it;
@@ -616,6 +617,98 @@ controls are new.
 
 The known-bad runs and V2/V3 were made before the last edits to the E13 docstring, and those edits change comments only. The selftest
 (99 PASS) and self-conformance's C11 ran on the final tree.
+
+**V5:** self-conformance exit 0 on the tree of `9f586b8` (C11 and C11b 82 controls each, both runs identical, 940.6 s). The commit
+`9f586b8` was pushed; its CI succeeded (run 41892740994).
+
+## 4G. R8 round 4 (2026-11-05)
+
+**R8 round 4: REJECT**, with 4 material and 3 minor findings. The summary is in `bomdd/reports/eco-119-ruled-layer/r8-round-4.md`.
+The work stopped for the user.
+
+**Not converging.** The material findings per round were 3, 3, 2 and 4. From round 2 on, each round's material findings came from the
+previous round's fix. They all concern one requirement: that the replay judge a past commit with "the paths in force at that time",
+which it infers from the history of the profile. Three different readings of that history have now each had precision defects:
+- string versus coverage;
+- the first-parent line versus any ancestor;
+- git's pathspec matcher versus `ruled_paths_touched`.
+
+**Ruling:** user, 2026-11-05, "B: 推定をやめる". Stop inferring from the profile's history. Write "since when is this entry ruled"
+in the profile as a fact, per entry, and judge with HEAD's entries only.
+
+## 4H. Round 5 — the design (2026-11-05, on the ruling "B")
+
+**What the ruling replaces.** The replay no longer reads the profile's history at all. `entries_at`, `_profile_versions`,
+`_descendants_where`, `_descendants_of_field`, `paths_ever`, `held_at`, `nearest`, `values_for` and `ruled_profile_of_merge` are
+removed, and so are the replay's git pathspec and `--literal-pathspecs`. The parts of earlier rulings that encoded the inference are
+superseded:
+- 2:A's "from the later of since and the field's first appearance" and 3:A's "before the field is added, nothing is judged": the
+  start is now the entry's `since`, as written. The field's first appearance is no longer looked up.
+- Round 4's "an extended entry does not judge commits made before the extension" now holds through the entry's own `since`.
+
+**Schema (T1 changes; this is the ruling's content).** `ruled_layer: {since: <full SHA>, paths: [...]}` keeps its shape. An item of
+`paths` is either a path (its `since` is the field's `since`) or `{path: <path>, since: <full SHA>}`. Each path passes
+`repo_rel_path_ok`, and each `since` matches `FULL_SHA_RE`. The same path may appear twice; a commit is then judged if any of its
+entries is in force. No distributed product has the field (checked 2026-11-05: ViewTube and ViewPrism2 have no process-core
+profile; MoviePad-Remake, BomDD-UnitConv-Sample and TimetableAdv have a profile without it).
+
+**The judgment (both layers).**
+- An entry is *in force* at a commit C with base parent B when the entry's `since` is B or an ancestor of B.
+- The base parent for an entry: C's parent for a non-merge. For a merge, the first parent at which the entry is in force (ruling
+  1:A, now per entry).
+- C is judged for that entry with the paths of C's diff from that base parent, matched by `ruled_paths_touched`. No git pathspec
+  is used anywhere in E13.
+- Registers: every parent's register combined (unchanged). Trailer name: HEAD's `trailers.ruling`.
+
+**The first layer** judges with HEAD's field together with the index's field. Both are read from git (`HEAD:` and `:`), not from
+the loaded profile, which is the working tree's when HEAD has none.
+- HEAD's entries are the rule in force; the commit cannot weaken them (NEW-02 unchanged).
+- The index's entries are the rule the commit leaves, which is what the replay will judge it with. So the commit that adds or
+  restores an entry is judged under it, as the replay will judge it. The index can only add judging.
+- A malformed field in the index is unmeasurable (exit 2), which refuses the commit.
+- Fast path: if no staged path is under any of those entries, the result is `[]`. This is exact, because every refusal requires a
+  touched path. That includes the refusals for an unresolvable `since` and for a `since` off the line.
+
+**The merge field check (ruling B, read with facts only).** Only parents whose own profile has the field are counted. If any parent
+has it, the result's field must equal one of theirs. A parent without the field has no `since` to place it after the boundary.
+Counting it as "None after the boundary" would let a `-s ours` merge from a branch forked at `since` drop the field without
+`--no-verify`.
+
+**The replay.** For each distinct `since` s in HEAD's entries:
+- `rev-list --parents --ancestry-path s..HEAD` lists the commits after s;
+- each commit is judged for the entries with that `since`, against the first parent that is s or listed after it;
+- the diffs come from one `git diff-tree --stdin` run.
+An unresolvable `since`, or one that is not on HEAD's line, is unmeasurable (exit 2), as today.
+
+**Consequences, declared:**
+- A commit that is after an entry's `since` but whose own profile did not yet have the entry is judged by the replay only. This
+  happens on a branch forked at `since` before the entry was added, or when `since` is written earlier than the commit that adds
+  the entry. Remedy: give such commits rulings before merging, or squash-merge. Practice: `since` = the HEAD you add the entry on.
+  The template comment says so.
+- Removal and narrowing windows are judged by the replay. The restored entry's spelling does not matter (R8-4-01); restore it with
+  a later `since` (an E08-recorded change) to leave the window unjudged.
+- A commit that removes an entry and changes its files is refused by the first layer (HEAD's entry), but it is not reported once
+  the entry is gone.
+- A merge whose result lacks the field is refused whenever some parent has it (this tightens round 4's "not stopped" list in the
+  removal direction). To decommission E13, merge first, then remove the field in a commit of its own (E08).
+- Changing `trailers.ruling` re-judges history under the new name.
+- Unchanged: `--no-verify` changes to the field itself are not stopped; who ruled, whether the sources were read, and whether the
+  change is right are not checked.
+
+**Evidence plan.** Old validators cannot parse an entry `{path, since}` (exit 2), so the round-3/4 known-bad against earlier
+commits (`verify119_r3kb.py`) no longer tells arms apart. It is kept as round-4 evidence and replaced for round 5 by mutants of this
+tree's validator, one per mechanism, each expected to fail only its own arms (R8-4-06):
+- `since` in force strictly after it (not at it);
+- the `since` filter removed;
+- the index's field not used;
+- field-less parents counted in the merge check;
+- a trailing-slash git pathspec in place of `ruled_paths_touched`;
+- the merge base forced to the first parent.
+New arms: R8-4-01 (restore respelled), R8-4-02 (a `-s ours` side branch, then main adds the entry), R8-4-03 (profile removed with
+`--no-verify`, then restored with a ruled change), R8-4-04 (a file entry with a trailing slash). N23p's `since` becomes the HEAD the
+field is added on; N23p2 moves `since` back to the release and expects the earlier change reported. N23z2 flips to refused. N23z5
+restores with the entry's own `since`. V1 writes `since` as the HEAD the field is added on; its KB2 becomes "the `since` filter
+removed". Timing is measured on the 152-version sandbox and on V1 (R8-4-07). Round 5 is full-scope on E13.
 
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 
