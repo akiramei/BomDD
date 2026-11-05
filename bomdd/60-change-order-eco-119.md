@@ -966,6 +966,82 @@ controls are new.
 - From this round on, the evidence scripts keep the qualification's sandboxes inside their own temp folders. The qualification
   itself still does not remove its own; that is outside ECO-119.
 
+**Commit and CI.** Fix `9328477` (self-conformance exit 0 before the commit, 895.6 s); CI success, run 42036417062. The record
+commit `70921c3` before it: CI success, run 42023608989.
+
+## 4M. R8 round 6 (2026-11-05)
+
+**R8 round 6: REJECT**, with 1 material and 5 minor findings. The summary is in `bomdd/reports/eco-119-ruled-layer/r8-round-6.md`.
+The work stopped for the user.
+
+**Round 5 closed.**
+- R8-5-01..06 are closed, and R8-5-07 for its six named mechanisms; R8-5-08 is closed with a declared limit.
+- The inspector found no E13 input in the hook modes still read from the working tree, a `HEAD:` fallback, a lenient loader or a
+  separator a path can hold.
+
+**The material finding comes from round 6's own design.** R8-6-01: the rule "each index entry's `since` must resolve and be in force"
+also applied to entries that a commit only carries over from HEAD. After a rebase or cherry-pick (no hooks run) leaves a `since`
+off the line, every commit is refused, including the one that would file the ECO needed for the fix (E08). Only `--no-verify`
+gets out. 4K's "the forward fix … passes" is false. The suggested fix is a single point: check only the entries the commit adds or
+changes.
+
+Material findings per round: 3, 3, 2, 4, 4 and 1.
+
+**Ruling (2026-11-06): "A: 1 点直し+軽微も".** Fix R8-6-01, and the five minor findings with it. Then run round 7 of R8, narrowed to
+R8-6-01..06 and the code changed for them. The design is section 4N.
+
+## 4N. Round 7 — the design (2026-11-06, on the ruling "A")
+
+- **R8-6-01 — the `since` rule checks only the entries the commit adds or changes.**
+  - The checked entries are the index field's `(path, since)` pairs that are not in HEAD's field. At a merge, HEAD is the first
+    parent, so an entry brought in from another parent is checked; it passes when it is in force at some parent.
+  - An entry carried over unchanged from HEAD is not checked by this rule. If its `since` is off the line (after a rebase, a
+    cherry-pick or in a shallow clone), it can protect nothing that can be measured:
+    - a commit that touches a path under it is still refused, as before round 6;
+    - validate exits 2 until the `since` is re-pointed;
+    - filing the ECO for the fix and the fix itself both pass.
+  - What the rule still refuses: the squash commit (N23v2), the commit that writes an unresolvable `since` (N23n), and a merge that
+    brings in an off-line entry.
+  - New arm N23rb:
+    1. A branch adds an entry whose `since` is the branch's commit, under an ECO that is then accepted.
+    2. The branch is rebased onto main (no hooks run), and main is fast-forwarded to it.
+    3. Validate must exit 2.
+    4. Filing a new ECO must pass, and so must the fix that re-points `since`.
+    5. Validate must then exit 0.
+  - The template and §4.5 name cherry-pick and shallow clones next to squash and rebase. They also say what happens: the commit
+    that carries the entry over is not stopped; validate is red until the `since` is re-pointed under an ECO.
+- **R8-6-02 — the hooks and a disabled repo.**
+  - (a) commit-msg starts the validator on a merge only if some merge parent has the profile. It checks HEAD and each line of
+    `MERGE_HEAD` with `git cat-file -e <commit>:bomdd/process-profile.yaml`. A repo with no profile in any parent merges without
+    the validator, as in round 5. New arm N23x7: a profile-less repo with the hooks kept and the validator removed; a merge passes.
+  - (b) Declared in 4N, §4.5 and the hook text: after main removes the profile, merging a branch from before the removal is
+    refused, because that branch's profile still has the field. Remove the field on that branch first, or merge the other way.
+- **R8-6-03 — declared.** A branch can remove the profile, both hooks and the tools under an open ECO. A merge of it then runs no
+  hook, because the merge writes the result's working tree (without the hooks) before `commit-msg` would run. This limit is older
+  than ECO-119: the hooks are tracked files (ECO-015), and an approved removal (E08) reaches the same end state. 4K's sentence
+  "A merge whose result has no profile … is refused" holds only while the hooks run. The limit goes in §4.5's list of what E13
+  does not stop.
+- **R8-6-04 — validate's E13 replay reads HEAD's field only.** With no profile at HEAD, the replay does not run. Validate still
+  falls back to the working tree's profile for its other checks at installation; that is older than ECO-119 and unchanged. The
+  docstring, §4.5 and the register comment say so. New arm N23wt: with no profile at HEAD and an untracked working-tree profile
+  whose field has an unresolvable `since`, validate reports no E13 and does not die on the `since`.
+- **R8-6-05 — evidence for round 6's mechanisms.**
+  - New arm N23pu: a merge parent whose profile has a duplicate key. The merge must be refused as unmeasurable ("パース不能").
+  - The hooks get mutants in `verify119_r5kb.py`, alongside the validator's:
+    - `hook-no-index` (commit-msg without the index clause) must fail N23z9b;
+    - `hook-merge-any` (round 6's `MERGE_HEAD` clause) must fail N23x7.
+  - `since-all` (round 6's rule: every index entry checked) must fail N23rb.
+  - The pre-commit hook's index clause is removed. It adds nothing for E13, which runs only in commit-msg, and commit-msg already
+    repeats pre-commit's E08 checks (NEW-01a). With it removed, pre-commit is as it was in round 5.
+- **R8-6-06.** The register comment cites this order's 4L for round 6 and 4N/4O for round 7.
+
+**Evidence plan.**
+- The qualification: 50 + 4 = 54 N23 arms (rb, x7, wt, pu).
+- The mutants: the 13 from round 6, with the counts and expectations of each checked again; plus `since-all`, `hook-no-index`
+  and `hook-merge-any`. Each must fail only its own arms.
+- V1, V2 (with 54) and V3; the selftest; self-conformance.
+- Round 7 of R8 is narrowed to R8-6-01..06 and the code changed for them.
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling, item 2; filing only).
