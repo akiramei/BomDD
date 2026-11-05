@@ -5,7 +5,12 @@ root=$(git rev-parse --show-toplevel) || exit 1
 profile="$root/bomdd/process-profile.yaml"
 if [ ! -f "$profile" ]; then
   # ECO-016 案a: HEAD に profile が実在するなら削除中も検査を継続(撤去も ECO 経由)
-  git cat-file -e HEAD:bomdd/process-profile.yaml 2>/dev/null || exit 0
+  # ECO-119 round 6: index にだけある profile(R8-5-05)と、merge の途中(R8-5-03: 結果が欄を落とすかは validator が
+  # git だけで照合する — 照合が無ければ validator は素通しで exit 0)でも validator を起動する
+  git cat-file -e HEAD:bomdd/process-profile.yaml 2>/dev/null \
+    || git cat-file -e :bomdd/process-profile.yaml 2>/dev/null \
+    || git rev-parse -q --verify MERGE_HEAD >/dev/null 2>&1 \
+    || exit 0
 fi
 v="$root/bomdd/tools/process-validator.py"
 py=""

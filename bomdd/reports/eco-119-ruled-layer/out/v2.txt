@@ -1,5 +1,5 @@
 # V2 - the qualification's E13 arms (a fresh scaffold of this tree; --runs 2)
-disposition PASS, runs identical True, controls 91
+disposition PASS, runs identical True, controls 97
 [N23a] PASS E13 なし(設計リリースより前・欄を足す前は検査しない) - 通過
 [N23p] PASS E13 なし(since〔欄を足すときの HEAD〕より前の commit は判定しない) - 通過
 [N23b] PASS E13(trailer なしの裁定層の変更→遮断) - E13 で遮断・trailer が無い を表示
@@ -8,6 +8,7 @@ disposition PASS, runs identical True, controls 91
 [N23d] PASS E13(閉じた ECO を名指す→遮断) - E13 で遮断・open でない を表示
 [N23e] PASS E13(指示書の無い ECO→遮断) - E13 で遮断・指示書 を表示
 [N23f] PASS E13(Sources read 節の無い指示書→遮断) - E13 で遮断・Sources read 節が無い を表示
+[N23e2] PASS E13(名指す ECO の指示書を同じ commit で消す→遮断 — `HEAD:` の指示書へ縮退しない) - E13 で遮断・指示書 を表示
 [N23g] PASS E13(引用していない裁定層ファイル〔引用数 0〕→遮断) - E13 で遮断・引用数 0 を表示
 [N23h] PASS E13(裁定層ファイルの削除・trailer なし→遮断) - E13 で遮断・bomdd/adr/ADR-1.md を表示
 [N23i] PASS E13(裁定層の外への rename・trailer なし→遮断) - E13 で遮断・bomdd/20-spec.md を表示
@@ -32,7 +33,11 @@ disposition PASS, runs identical True, controls 91
 [N23z3b] PASS E13(paths に `..` の項目を足す commit は第 1 層が止める〔exit 2〕・再演は測定不能にならず前後の変更を両方報告) - 第 1 層が測定不能で止め・history の E13 で前後の 2 件を検出
 [N23z6] PASS E13(項目を外して綴りを変えて戻した間の変更を履歴の再演が検出 — 照合は綴りでなく覆うパス) - history の E13 でちょうど期待の commit を検出
 [N23z8] PASS E13(ファイルの項目を末尾の / つきで書いても --no-verify の変更を履歴の再演が検出 — git の pathspec を使わない) - history の E13 でちょうど期待の commit を検出
+[N23fr] PASS E13(名前に \x01<SHA> を持つパスで差分の見出しを偽る commit を、履歴の再演が報告 — raw を位置で読む) - history の E13 でちょうど期待の commit を検出
+[N23z3c] PASS exit 2(index の profile に重複キー〔ruled_layer.since〕→ それを作る commit を止める) - 測定不能で停止
 [N23z9] PASS E13(HEAD に profile が無いとき、profile を戻す commit の裁定層の変更を index の欄で遮断 — 速い道も同じ) - E13 で遮断・bomdd/20-spec.md を表示
+[N23z9b] PASS E13(profile を index にだけ戻す commit の裁定層の変更を、index 版の profile の欄で遮断) - E13 で遮断・bomdd/20-spec.md を表示
+[N23x6] PASS E13(profile の無い枝へ main を -s ours で merge し欄を落とす→遮断 — profile の無い HEAD でも照合) - E13 で遮断・ruled_layer を落とす を表示
 [N23x5] PASS E13(since で分かれ commit を持つ枝へ main を -s ours で merge し欄を落とす→遮断 — 欄の無い親は数えない) - E13 で遮断・ruled_layer を落とす を表示
 [N23p2] PASS E13(since をリリースへ戻すと、欄を足す前の commit も再演が判定 — 始点は profile に書いた since) - history の E13 でちょうど期待の commit を検出
 [N23z5] PASS E13 なし(後で {path, since: HEAD} で足した項目は、その since より前の commit を判定しない) - 新しい報告 0
@@ -40,8 +45,9 @@ disposition PASS, runs identical True, controls 91
 [N23z2r] PASS E13(項目を足す commit がその下のファイルを作る — --no-verify でも再演が報告・since の直後の commit も判定) - history の E13 でちょうど期待の commit を検出
 [N23z7] PASS E13 なし(枝だけが持った項目を main が後で {path, since: HEAD} で足しても、その前の hook を通った commit は報告しない) - 新しい報告 0
 [N23n2] PASS E13(項目の since が解決できない→その項目の下に触れる commit を遮断) - E13 で遮断・解決できない を表示
-[N23n] PASS E13(since が解決できない→遮断・測定不能は合格ではない) - E13 で遮断
-[N23v] PASS E13(since が HEAD の系列に無い→遮断) - E13 で遮断
+[N23v2] PASS E13(枝の HEAD を since にした項目の squash の commit→遮断 — since が main の系列に無い) - E13 で遮断・系列に無い を表示
+[N23n] PASS E13(since が解決できない→それを書く commit を遮断・--no-verify の後の裁定層の変更も遮断) - 書く commit 遮断・E13 で遮断
+[N23v] PASS E13(since が HEAD の系列に無い→それを書く commit を遮断・--no-verify の後の裁定層の変更も遮断) - 書く commit 遮断・E13 で遮断
 [N23w] PASS exit 2(since が tag 名の profile は不正 — tag は差分なしに動かせる) - profile 不正で停止
 [N23o] PASS E13 なし(profile に ruled_layer が無ければ E13 は無い) - 通過
-V2: PASS (44 N23 controls)
+V2: PASS (50 N23 controls)

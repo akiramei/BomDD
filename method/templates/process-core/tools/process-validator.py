@@ -43,11 +43,18 @@
                                           covered だけで照合する(git の pathspec は使わない)。比較元は全部の
                                           親の台帳の合算 — 両層で同じ。since を書く値= 欄(項目)を足すときの
                                           HEAD。since が解決できない/系列に無ければ、その項目の下に触れた commit を
-                                          遮断(再演は測定不能)。
+                                          遮断(再演は測定不能)。index の欄の項目は、触れたパスによらず since が
+                                          解決でき、どれかの親で効いていなければ遮断(squash の後など — round 6)。
+                                          入力の読み方は 1 つ(round 6): 作られる commit は index・過去の commit は
+                                          その tree・親は親の tree・YAML は strict_load(index の profile は全体を
+                                          validate_profile)・差分のパスは diff-tree --raw -z を位置で読む。
+                                          作業ツリーと `HEAD:` への縮退は E13 の入力にしない(hook のモードで HEAD
+                                          に profile が無ければ index 版の profile を読む)。
                                           第 1 層: HEAD の欄(効いている規則 — NEW-02)∪ index の欄(この commit が
                                           残す規則= 再演が判定する値 — 止める側にだけ足す・不正なら測定不能)で
                                           判定する。merge は結果の欄が、欄を持つどれかの親の欄と同じでなければ
-                                          遮断(落とす・作る — 裁定 B を事実だけで: 欄の無い親は数えない)。
+                                          遮断(落とす・作る — 裁定 B を事実だけで: 欄の無い親は数えない・HEAD に
+                                          profile が無くても照合する)。
                                           第 2 層(validate): HEAD の欄の項目ごとに、その since の後の commit を
                                           すべて(--ancestry-path)同じ判定で、その時点の台帳と指示書で判定し直す
                                           (--no-verify・amend・cherry-pick・revert・rebase〔commit-msg hook が
@@ -277,13 +284,15 @@ def validate_profile(prof) -> list[str]:
     return errs
 
 
-def load_profile(root: Path, head_preferred: bool = False) -> dict:
+def load_profile(root: Path, head_preferred: bool = False, index_fallback: bool = False) -> dict:
     """profile を読む。
 
     head_preferred(ECO-018 NEW-02): **HEAD 版を正**とする。index/作業ツリー版は「これから提案
     される設定」であって現行の規則ではない — 同一 commit で規則を書き換えて自身を通す経路
     (改竄 profile による自己再定義)を遮断する。profile の変更は E08(open ECO 必須)を通って
     commit された次から効く。HEAD に profile が無い場合(初回設置・案a の撤去中)は作業ツリー版。
+    index_fallback(ECO-119 round 6・R8-5-05): hook のモードでは、HEAD に無ければ **index 版**(作られる commit が
+    持つ profile)を読み、index にも無いときだけ作業ツリー版へ(従来どおり)。
     """
     path = root / PROFILE_REL
     text: str | None = None
@@ -297,6 +306,11 @@ def load_profile(root: Path, head_preferred: bool = False) -> dict:
             elif not path.is_file():
                 print("process-validator: [note] profile は作業ツリーに無いが HEAD に実在 — "
                       "HEAD 版で検査継続(撤去は ECO 経由・案a)")
+    if text is None and index_fallback:
+        p = run_git(root, "show", f":{PROFILE_REL}")
+        if p.returncode == 0:
+            text = p.stdout
+            print("process-validator: [note] profile は HEAD に無い — index 版(この commit が持つ profile)で判定")
     if text is None and path.is_file():
         try:
             text = path.read_text(encoding="utf-8")
@@ -613,7 +627,7 @@ def scan_history(root: Path, prof: dict) -> dict:
             pairs = []
             for sha, *parents in rows:
                 base = next((p for p in parents if p in after), None)  # 項目が効いている最初の親(裁定 1:A)
-                if base is None:
+                if base is None:  # 防御(R8-5-07): --ancestry-path の行の親は s か s の子孫なので、入力ではここに来ない
                     die(f"{sha[:9]} に since の後の親が無い(裁定層の履歴検査が測定不能)")
                 parents_at[sha] = parents
                 pairs.append((sha, base))
@@ -1085,57 +1099,98 @@ def staged_paths_from(root: Path, base: str) -> list[str]:
     return [x for x in p.stdout.split("\0") if x]
 
 
-def ruled_layer_of(root: Path, rev: str):
-    """rev の profile の ruled_layer(profile が無い・読めない・mapping でない・欄が無ければ None)— merge の欄の照合用。"""
-    p = run_git(root, "show", f"{rev}:{PROFILE_REL}")
+def profile_at(root: Path, spec: str, where: str, validate: bool):
+    """git の 1 か所(`<commit>:<path>` か index の `:<path>`)の profile を読む — E13 の入力の読み方は 1 つ(round 6)。
+    無ければ None。あれば strict_load(読めなければ測定不能= exit 2・commit を止める)。validate なら validate_profile を
+    全体に(不正も測定不能)。"""
+    p = run_git(root, "show", f"{spec}{PROFILE_REL}")
     if p.returncode != 0:
         return None
     try:
-        d = yaml.safe_load(p.stdout)
-    except yaml.YAMLError:
-        return None
-    rl = d.get("ruled_layer") if isinstance(d, dict) else None
-    return rl if isinstance(rl, dict) else None
+        d = strict_load(p.stdout)
+    except yaml.YAMLError as e:
+        die(f"{where}の profile がパース不能/情報損失(裁定層の判定が測定不能): {e}")
+    if validate:
+        errs = validate_profile(d)
+        if errs:
+            die(f"{where}の profile が不正(裁定層の判定が測定不能): " + "・".join(errs))
+    return d if isinstance(d, dict) else {}
+
+
+def ruled_layer_of(root: Path, rev: str):
+    """rev の profile の ruled_layer(profile が無い・欄が無ければ None)— merge の欄の照合用(値の一致だけを見るので
+    validate_profile はかけない)。読めない profile は測定不能(R8-5-04: 「欄なし」に倒さない)。"""
+    d = profile_at(root, f"{rev}:", f"親 {rev[:9]} ", validate=False)
+    return d.get("ruled_layer") if d is not None else None
 
 
 def index_ruled_layer(root: Path):
-    """index の profile の ruled_layer(無ければ None)。index の profile が読めなければ測定不能。"""
-    p = run_git(root, "show", f":{PROFILE_REL}")
-    if p.returncode != 0:
-        return None
-    try:
-        d = yaml.safe_load(p.stdout)
-    except yaml.YAMLError as e:
-        die(f"index の profile を読めない(裁定層の判定が測定不能): {e}")
-    return d.get("ruled_layer") if isinstance(d, dict) else None
+    """index の profile の ruled_layer(profile が無い・欄が無ければ None)。index の profile は全体を厳格に検証する
+    (R8-5-04: 重複キーなど、次の commit を止めて --no-verify でしか戻せない profile を、作る commit で止める)。"""
+    d = profile_at(root, ":", "index ", validate=True)
+    return d.get("ruled_layer") if d is not None else None
+
+
+RAW_RECORD_RE = re.compile(r"^:[0-7]{6} [0-7]{6} [0-9a-f]{40,64} [0-9a-f]{40,64} [ADMTUX]$")
 
 
 def diff_tree_paths(root: Path, pairs: list[tuple[str, str]]) -> dict[str, list[str]]:
     """{commit: 差分のパス} — 各 commit と、指定した基点との差分(rename は削除+追加に)を 1 回の git diff-tree --stdin で。
-    差分の無い commit は git が何も出さない(空として扱う)。同じ commit は 1 回だけ渡す。読めない出力は測定不能。"""
+    出力は --raw -z を位置で読む(R8-5-01: パスはどの文字も持てるので、区切り文字で切ると偽の見出しを作れる): NUL で切った
+    語のうち `:` で始まる語は raw の記録で、次の語はその中身によらずパス。それ以外の語は commit の見出しで、頼んだ commit の
+    まだ見ていないものでなければ測定不能(位置で読む限り、パスはここに来ない — 防御として残す)。差分の無い commit は git が
+    何も出さない(空として扱う)。"""
     if not pairs:
         return {}
     want = {c for c, _ in pairs}
     if len(want) != len(pairs):
         die("diff-tree に同じ commit を 2 回渡した(裁定層の履歴検査が測定不能)")
     try:
-        p = subprocess.run(["git", "-C", str(root), "diff-tree", "--stdin", "-r", "--no-renames", "--name-only", "-z",
-                            "--format=%x01%H"], input="".join(f"{c} {b}\n" for c, b in pairs), capture_output=True,
+        p = subprocess.run(["git", "-C", str(root), "diff-tree", "--stdin", "-r", "--raw", "-z", "--no-renames"],
+                           input="".join(f"{c} {b}\n" for c, b in pairs), capture_output=True,
                            text=True, encoding="utf-8", errors="replace")
     except OSError as e:
         die(f"git を実行できない: {e}")
     if p.returncode != 0:
         die(f"裁定層の履歴の差分を読めない(検査面が測定不能): {p.stderr.strip()}")
-    chunks = p.stdout.split("\x01")
-    if chunks[0] != "":
+    out = parse_raw_z(p.stdout, want)
+    if out is None:
         die("diff-tree の出力を読めない(裁定層の履歴検査が測定不能)")
-    out: dict[str, list[str]] = {}
-    for chunk in chunks[1:]:
-        sha, sep, rest = chunk.partition("\0")
-        if not sep or sha not in want or sha in out:
-            die("diff-tree の出力を読めない(裁定層の履歴検査が測定不能)")
-        out[sha] = [x for x in (rest[1:] if rest.startswith("\n") else rest).split("\0") if x]
     return out
+
+
+def parse_raw_z(text: str, want: set[str]) -> dict[str, list[str]] | None:
+    """`diff-tree --stdin -r --raw -z` の出力を位置で読む(純関数 — selftest が叩く)。形が合わなければ None。"""
+    toks = text.split("\0")
+    if toks and toks[-1] == "":
+        toks.pop()
+    out: dict[str, list[str]] = {}
+    cur: list[str] | None = None
+    i = 0
+    while i < len(toks):
+        t = toks[i]
+        if t.startswith(":"):
+            if cur is None or i + 1 >= len(toks) or not RAW_RECORD_RE.match(t):
+                return None
+            cur.append(toks[i + 1])
+            i += 2
+            continue
+        if t not in want or t in out:
+            return None
+        cur = out[t] = []
+        i += 1
+    return out
+
+
+def merge_field_issue(root: Path, parents: list[str], idx_rl) -> str | None:
+    """merge の欄の照合(裁定 B を事実だけで・round 5)。git だけを読む — profile の無い HEAD でも動く(R8-5-03)。
+    欄を持つ親だけを数え、結果(index)の欄がそのどれとも違えば遮断の文を返す。"""
+    held = [r for r in (ruled_layer_of(root, p) for p in parents) if r is not None]
+    if held and idx_rl not in held:
+        how = "落とす" if idx_rl is None else "変える"
+        return (f"[E13] {REASONS['E13']}: merge の結果が ruled_layer を{how} — 結果の欄が、欄を持つどの親の欄とも違う。"
+                f"欄の変更・削除は単独の commit で行い(E08 を通る)、merge はどれかの親の欄をそのまま持つ")
+    return None
 
 
 def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str, msg: str) -> list[str]:
@@ -1143,7 +1198,8 @@ def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str
     raw_msg は hook が受け取ったまま(裁定 4:A の突き合わせ)。old= 親の台帳(HEAD と MERGE_HEAD の最初の行の合算 —
     E01 と共有)。merge では E13 だけ全部の親の台帳を合算する(R8-2-04: octopus でも再演と同じ比較元)。
     判定する項目= HEAD の欄(効いている規則 — NEW-02)∪ index の欄(この commit が残す規則= 再演がこの commit を
-    判定する値 — 止める側にだけ足す)。どちらも git から読む(HEAD に profile が無いとき、読み込んだ profile は作業ツリー版)。"""
+    判定する値 — 止める側にだけ足す)。入力はすべて git から 1 つの読み方で(round 6): 作られる commit は index・親は
+    親の tree・YAML は strict_load(index の profile は全体を validate_profile)。作業ツリーと `HEAD:` への縮退は読まない。"""
     if not head_exists(root):  # 最初の commit は設計リリースの後ではありえない
         return []
     head = resolve_commit(root, "HEAD")
@@ -1151,23 +1207,27 @@ def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str
     parents = [head] + others
     head_rl = prof.get("ruled_layer") if head_has_profile(root) else None  # HEAD に profile があれば prof は HEAD 版(検証済み)
     idx_rl = index_ruled_layer(root)
-    if idx_rl is not None:
-        errs = validate_profile(dict(prof, ruled_layer=idx_rl))
-        if errs:
-            die("index の profile の ruled_layer が不正(裁定層の判定が測定不能): " + "・".join(errs))
     if others:  # 裁定 B(round 3)を事実だけで: 欄を持つ親だけを数え、結果の欄がそのどれとも違えば遮断(round 5)
-        held = [r for r in (ruled_layer_of(root, p) for p in parents) if r is not None]
-        if held and idx_rl not in held:
-            how = "落とす" if idx_rl is None else "変える"
-            return [f"[E13] {REASONS['E13']}: merge の結果が ruled_layer を{how} — 結果の欄が、欄を持つどの親の欄とも違う。"
-                    f"欄の変更・削除は単独の commit で行い(E08 を通る)、merge はどれかの親の欄をそのまま持つ"]
+        issue = merge_field_issue(root, parents, idx_rl)
+        if issue:
+            return [issue]
+    si = SinceIndex(root)
+    # R8-5-06(round 6): この commit が残す欄の項目は、since が解決でき、作られる commit のどれかの親で効いていること
+    # (触れたパスによらない)— 枝の HEAD を since にした項目の squash・解決できない since を、それを書く commit で止める。
+    # HEAD の欄にしか無い項目(この commit が外す項目)は見ない(系列から外れた since の前進の直しを通す)
+    for path, since in ruled_entries(idx_rl):
+        sha = si.resolve(since)
+        if sha is None or not any(si.in_force(sha, p) for p in parents):
+            why = "が解決できない" if sha is None else f"が{'HEAD' if not others else 'どの親'}の系列に無い"
+            return [f"[E13] {REASONS['E13']}: index の ruled_layer の項目 {path} の since '{since[:12]}'{why} — この commit が"
+                    f"残す欄では、再演が裁定層を判定できない(測定不能は合格ではない — since は、その系列の commit の SHA で書く。"
+                    f"squash や rebase の後は since を書き直す)"]
     ents = list(dict.fromkeys(ruled_entries(head_rl) + ruled_entries(idx_rl)))
     if not ents:
         return []
     staged_head = staged_paths_from(root, head)
     if not others and not covered(staged_head, [p for p, _ in ents]):
         return []  # 速い道: 以下の遮断はどれも、触れた裁定層のパスがあるときだけ — 結果は同じ
-    si = SinceIndex(root)
     touched: set[str] = set()
     bases: set[str] = set()
     diffs: dict[str, list[str]] = {}
@@ -1208,11 +1268,10 @@ def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str
         base_reg = old
 
     def order_text_of(ref: str) -> str | None:
-        for spec in (f":{ref}", f"HEAD:{ref}"):
-            p = run_git(root, "show", spec)
-            if p.returncode == 0:
-                return p.stdout
-        return None
+        # 作られる commit が持つ指示書だけ(R8-5-02: 再演はその commit の tree から読む — `HEAD:` へ縮退すると、指示書を
+        # 消す・動かす commit が通って、再演でずっと赤になる)
+        p = run_git(root, "show", f":{ref}")
+        return p.stdout if p.returncode == 0 else None
 
     why = ruled_layer_issues(touched_l, named, base_reg, prof, order_text_of)
     if not why:
@@ -1339,8 +1398,16 @@ def main() -> int:
     root = Path(a.root).resolve() if a.root else repo_root()
     ensure_git_repo(root)
     # ECO-018 NEW-02: 全モードで HEAD 版 profile を正とする(規則の自己適用を禁止)
-    prof = load_profile(root, head_preferred=True)
+    hook = a.mode in ("pre-commit", "commit-msg")
+    prof = load_profile(root, head_preferred=True, index_fallback=hook)   # R8-5-05: hook では HEAD → index → 作業ツリー
     if not prof:
+        # R8-5-03(round 6): profile の無い HEAD への merge でも、結果が欄を落とすかは git だけで決まる — 素通しの前に照合する
+        if a.mode == "commit-msg" and head_exists(root):
+            others = merge_heads(root)
+            if others:
+                issue = merge_field_issue(root, [resolve_commit(root, "HEAD")] + others, index_ruled_layer(root))
+                if issue:
+                    return report([issue])
         print("process-validator: profile なし(bomdd/process-profile.yaml)— 管理下でないため素通し")
         return 0
     equipped = head_has_profile(root)
@@ -1612,6 +1679,19 @@ def selftest() -> int:
     tb("E13: 欄の末尾の / の有無を問わない(R8-1-06: 'bomdd/adr' も下のファイルに当たる・接頭辞の一致だけでは当たらない)",
        ruled_paths_touched(["bomdd/adr/ADR-1.md", "bomdd/adrx/ADR-1.md"], dict(prof2, ruled_layer={"since": sha40, "paths": ["bomdd/adr"]}))
        == ["bomdd/adr/ADR-1.md"])
+    # round 6(R8-5-01): diff-tree --raw -z は位置で読む — パスがどの文字(\x01・SHA そのもの・`:` 始まり・改行)を持っても
+    # パスのまま。見出しは頼んだ commit のまだ見ていないものだけ
+    c_a, c_b = "a" * 40, "b" * 40
+    rec = ":000000 100644 " + "0" * 40 + " " + "d" * 40 + " A"
+    raw = f"{c_a}\0{rec}\0a\x01{c_b}\0{rec}\0{c_b}\0{rec}\0:colon\0{rec}\0n\nl\0"
+    tb("E13: raw の位置読み — 細工したパス(\\x01<SHA>・SHA・`:` 始まり・改行)はすべて 1 つのパス(R8-5-01)",
+       parse_raw_z(raw, {c_a, c_b}) == {c_a: [f"a\x01{c_b}", c_b, ":colon", "n\nl"]})
+    tb("E13: raw の位置読み — 頼んでいない見出し・同じ見出しの 2 回目・記録の形の誤り・パスの無い記録は読めない(None)",
+       parse_raw_z(f"{c_b}\0", {c_a}) is None and parse_raw_z(f"{c_a}\0{c_a}\0", {c_a}) is None
+       and parse_raw_z(f"{c_a}\0:junk\0p\0", {c_a}) is None and parse_raw_z(f"{c_a}\0{rec}\0", {c_a}) is None
+       and parse_raw_z(f"{rec}\0p\0", {c_a}) is None)
+    tb("陽性: raw の位置読み — 空の出力は空・差分の無い commit は出ない",
+       parse_raw_z("", {c_a}) == {} and parse_raw_z(f"{c_a}\0{rec}\0p\0", {c_a, c_b}) == {c_a: ["p"]})
     sec = sources_read_section("# T\n## 1. x\nbomdd/20-spec.md:9\n## Sources read\n- bomdd/20-spec.md:12-14\n- xbomdd/20-spec.md:3\n"
                                "### sub\n- bomdd/20-spec.md:20\n## 2. next\nbomdd/20-spec.md:30\n")
     tb("E13: Sources read 節は次の同位以上の見出しまで・引用は path:line の形で境界つき",

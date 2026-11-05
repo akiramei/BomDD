@@ -767,7 +767,7 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
 def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     """N23a〜z9(ECO-119 V2 の腕を qualification に入れ子で — a〜w と c2・n2・p2・x・x2〜x5・y・z・z2・z2r・z3・z3b・z4〜z9・
-    z5b・u の 44 本)。sandbox 1 本で順に。
+    z5b・u の 44 本に、round 6 の e2・fr・v2・x6・z3c・z9b を足した 50 本)。sandbox 1 本で順に。
     欄なしの対照は別 sandbox。
     設計リリースは main の上(実製品 MoviePad-Remake と同じ形 — R8-1-01)・欄は後の profile commit で SHA として足す
     (裁定 2:A)・trailer 名は installed profile から(ECO-024 — R8-1-07)。"""
@@ -876,6 +876,11 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     refused("N23e", "E13(指示書の無い ECO→遮断)", commit_paths("spec", f"{ruling}: ECO-953", add=(spec_p,)), "指示書")
     s.write(spec_p, "# spec\nline 2 changed\n")
     refused("N23f", "E13(Sources read 節の無い指示書→遮断)", commit_paths("spec", f"{ruling}: ECO-952", add=(spec_p,)), "Sources read 節が無い")
+    # N23e2(round 6・R8-5-02): 名指す ECO の指示書を同じ commit で消す → 遮断(作られる commit の指示書だけを読む — 再演と同じ)
+    s.write(spec_p, "# spec\nline 2 changed\n")
+    git(s.root, "rm", "-q", "--", "bomdd/60-change-order-eco-950.md", env=s.env)
+    refused("N23e2", "E13(名指す ECO の指示書を同じ commit で消す→遮断 — `HEAD:` の指示書へ縮退しない)",
+            commit_paths("spec with the order removed", f"{ruling}: ECO-950", add=(spec_p,)), "指示書")
     s.write(adr2, "# ADR-2 changed\n")
     refused("N23g", "E13(引用していない裁定層ファイル〔引用数 0〕→遮断)", commit_paths("adr", f"{ruling}: ECO-950", add=(adr2,)), "引用数 0")
     git(s.root, "rm", "-q", "--", adr1, env=s.env)
@@ -1137,7 +1142,7 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
         v_ = s.validate()
         got_ = e13_set(v_)
         new_ = got_ - got2
-        ok_ = (made_ and hooked.returncode != 0 and "ruled_layer が不正" in out(hooked) and v_.returncode != 2
+        ok_ = (made_ and hooked.returncode != 0 and "index の profile が不正" in out(hooked) and v_.returncode != 2
                and new_ == {nv1[:9], nv2[:9]} and got2 <= got_ and extra_ok(v_))
         res.append(result(name, expected, ok_, "第 1 層が測定不能で止め・history の E13 で前後の 2 件を検出" if ok_
                           else f"hook の commit exit {hooked.returncode}・" + report(made_, v_, new_, got2 - got_)))
@@ -1168,6 +1173,52 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     nv8 = head()
     got2 = arm_new("N23z8", "E13(ファイルの項目を末尾の / つきで書いても --no-verify の変更を履歴の再演が検出 — git の pathspec "
                             "を使わない)", st, s.validate(), got2, {nv8})
+    # N23fr(round 6・R8-5-01): 名前に \x01<SHA> を持つファイル(plumbing で作る — Windows の index には入らない)を足し、裁定層を
+    # trailer なしで変える commit を、ruling つきの空の commit の上に作る → 再演がその commit を報告(パスで見出しを偽れない)。
+    # 作業ツリーと index には触れない(HEAD を枝へ付け替えて validate し、main へ戻す)
+    def git_in(text: str, *args: str, env=None) -> subprocess.CompletedProcess:
+        return subprocess.run(["git", "-C", str(s.root), *args], input=text, capture_output=True, text=True,
+                              encoding="utf-8", errors="replace", env=env or s.env)
+
+    st = [git(s.root, "branch", "crafted", env=s.env)]
+    st.append(git(s.root, "symbolic-ref", "HEAD", "refs/heads/crafted", env=s.env))
+    st.append(git(s.root, "commit", "-q", "--allow-empty", "-m", "empty, with a ruling", "-m", f"{ruling}: ECO-950", env=s.env))
+    c2 = head()
+    gp = git(s.root, "rev-parse", "--git-path", "oq-crafted-index", env=s.env).stdout.strip()
+    idx = Path(gp) if Path(gp).is_absolute() else s.root / gp
+    envi = dict(s.env, GIT_INDEX_FILE=str(idx))
+    blob_spec = git_in("# spec\ncrafted\n", "hash-object", "-w", "--stdin")
+    blob_x = git_in("x\n", "hash-object", "-w", "--stdin")
+    st += [blob_spec, blob_x, git(s.root, "read-tree", "HEAD", env=envi),
+           git(s.root, "update-index", "--cacheinfo", f"100644,{blob_spec.stdout.strip()},{spec_p}", env=envi)]
+    wt = git(s.root, "write-tree", env=envi)
+    st.append(wt)
+    lst = git(s.root, "ls-tree", "-z", wt.stdout.strip(), env=s.env)
+    st.append(lst)
+    mk = git_in(lst.stdout + f"100644 blob {blob_x.stdout.strip()}\ta\x01{c2}\0", "mktree", "-z")
+    st.append(mk)
+    ct = git(s.root, "commit-tree", mk.stdout.strip(), "-p", c2, "-m", "spec: a crafted path, no trailer", env=s.env)
+    st.append(ct)
+    crafted = ct.stdout.strip()
+    st.append(git(s.root, "update-ref", "refs/heads/crafted", crafted, env=s.env))
+    v = s.validate()
+    st.append(git(s.root, "symbolic-ref", "HEAD", f"refs/heads/{main}", env=s.env))
+    if idx.exists():
+        idx.unlink()
+    undo()
+    arm_new("N23fr", "E13(名前に \\x01<SHA> を持つパスで差分の見出しを偽る commit を、履歴の再演が報告 — raw を位置で読む)",
+            st, v, got2, {crafted})
+    # N23z3c(round 6・R8-5-04): index の欄に since の重複キー → それを作る commit を止める(exit 2)— 通すと次の commit から
+    # すべて止まり、--no-verify でしか戻せない
+    txt = prof_path.read_text(encoding="utf-8")
+    prof_path.write_text(txt.replace("ruled_layer:\n", f"ruled_layer:\n  since: {head()}\n", 1), encoding="utf-8", newline="\n")
+    p = commit_paths("equipment: a duplicate since key under ECO-950", add=(prof_rel,))
+    ok = p.returncode != 0 and "index の profile がパース不能" in out(p)
+    res.append(result("N23z3c", "exit 2(index の profile に重複キー〔ruled_layer.since〕→ それを作る commit を止める)", ok,
+                      "測定不能で停止" if ok else f"想定外(exit {p.returncode}): {out(p).strip()[:140]}"))
+    if p.returncode == 0:
+        git(s.root, "reset", "-q", "--hard", "HEAD~1", env=s.env)
+    undo()
     # N23z9(R8-4-03): profile を消し(E08)、profile を戻す commit で裁定層も変える(trailer なし)→ 第 1 層が index の欄で遮断
     st = [git(s.root, "rm", "-q", "--", prof_rel, env=s.env)]
     st.append(commit_paths("equipment: the profile removed under ECO-950"))
@@ -1182,10 +1233,38 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
         res.append(result("N23z9", "E13(profile を戻す commit)", False,
                           f"準備の git 操作が失敗: {out(next(x for x in st if x.returncode)).strip()[:140]}"))
         undo()
+    # N23z9b(round 6・R8-5-05): profile を index にだけ戻し(作業ツリーには無い)、裁定層を trailer なしで変える → 遮断
+    # (HEAD に profile が無ければ hook は index 版の profile を読む — 作業ツリー版へ縮退しない)
+    if prof_path.exists():
+        prof_path.unlink()
+    rz = git(s.root, "restore", "--staged", "--source=HEAD~1", "--", prof_rel, env=s.env)
+    s.write(spec_p, "# spec\nwith the profile restored in the index only\n")
+    if rz.returncode == 0 and not prof_path.exists():
+        refused("N23z9b", "E13(profile を index にだけ戻す commit の裁定層の変更を、index 版の profile の欄で遮断)",
+                commit_paths("spec: the profile restored in the index only", add=(spec_p,)), spec_p)
+    else:
+        res.append(result("N23z9b", "E13(profile を index にだけ戻す)", False, f"準備の git 操作が失敗: {out(rz).strip()[:140]}"))
+        undo()
+    # N23x6(round 6・R8-5-03): profile を消した枝へ main を -s ours で merge(結果に profile が無い)→ 遮断
+    # (profile の無い HEAD でも、merge の欄の照合は素通しの前に git だけで行う)
+    st = [git(s.root, "checkout", "-q", "-b", "noprof", env=s.env),
+          git(s.root, "checkout", "-q", main, env=s.env)]
+    prof_path.parent.mkdir(parents=True, exist_ok=True)
     prof_path.write_text(good_z9, encoding="utf-8", newline="\n")
-    pz = commit_paths("equipment: the profile restored under ECO-950", add=(prof_rel,))
+    st.append(commit_paths("equipment: the profile restored on main under ECO-950", add=(prof_rel,)))
+    st.append(git(s.root, "checkout", "-q", "noprof", env=s.env))
+    if all(x.returncode == 0 for x in st):
+        refused("N23x6", "E13(profile の無い枝へ main を -s ours で merge し欄を落とす→遮断 — profile の無い HEAD でも照合)",
+                git(s.root, "merge", "-q", "--no-ff", "-s", "ours", main, "-m", "sync main into noprof (ours)", env=s.env),
+                "ruled_layer を落とす")
+    else:
+        res.append(result("N23x6", "E13(profile の無い枝の merge)", False,
+                          f"準備の git 操作が失敗: {out(next(x for x in st if x.returncode)).strip()[:140]}"))
+        undo()
+    git(s.root, "checkout", "-q", main, env=s.env)
+    pz = git(s.root, "cat-file", "-e", f"HEAD:{prof_rel}", env=s.env)   # main の profile は N23x6 の準備で戻した
     if pz.returncode != 0:
-        res.append(result("N23z9", "E13(profile を戻す)", False, f"profile を戻せない: {out(pz).strip()[:140]}"))
+        res.append(result("N23z9", "E13(profile を戻す)", False, f"profile を戻せない: {out(st[2]).strip()[:140]}"))
         return res
     # N23x5(R8-2-01 を事実だけで): since で分かれ commit を持つ枝(欄なし)へ main を -s ours で merge → 遮断(欄の無い親は数えない)
     st = [git(s.root, "checkout", "-q", "-b", "old5", pre_field, env=s.env),
@@ -1260,27 +1339,56 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
             commit_paths("extra8: under an entry whose since does not resolve", f"{ruling}: ECO-950",
                          add=(prof_rel, "bomdd/extra8/y.md")), "解決できない")
 
-    # N23n: since が解決できない(profile を E08 経由で変えた後)→ 裁定層の変更は遮断
-    p0 = set_ruled_layer("0" * 40, "equipment: since set to a commit that does not exist under ECO-950")
+    # N23v2(round 6・R8-5-06): 枝の HEAD を since にした項目を、main へ squash で取り込む → squash の commit を遮断
+    # (since が main の系列に無い — 通すと main の validate が測定不能になり、全部の検査が止まる)
+    st = [git(s.root, "checkout", "-q", "-b", "sq", env=s.env),
+          git(s.root, "commit", "-q", "--allow-empty", "-m", "sq work", env=s.env)]
+    write_prof(lambda r: r["paths"].append({"path": "bomdd/extra10", "since": head()}))
+    st.append(commit_paths("equipment: bomdd/extra10 since the branch's HEAD under ECO-950", add=(prof_rel,)))
+    st.append(git(s.root, "checkout", "-q", main, env=s.env))
+    st.append(git(s.root, "merge", "-q", "--squash", "sq", env=s.env))
+    if all(x.returncode == 0 for x in st):
+        refused("N23v2", "E13(枝の HEAD を since にした項目の squash の commit→遮断 — since が main の系列に無い)",
+                commit_paths("squash sq into main"), "系列に無い")
+    else:
+        res.append(result("N23v2", "E13(squash)", False,
+                          f"準備の git 操作が失敗: {out(next(x for x in st if x.returncode)).strip()[:140]}"))
+        undo()
+    git(s.root, "checkout", "-q", main, env=s.env)
+
+    # N23n: since が解決できない → その since を書く commit を遮断(round 6・R8-5-06)。--no-verify で作った後の裁定層の変更も遮断
+    p_h = set_ruled_layer("0" * 40, "equipment: since set to a commit that does not exist under ECO-950")
+    ok_h = p_h.returncode != 0 and "[E13]" in out(p_h) and "解決できない" in out(p_h)
+    # 止まった profile の変更(作業ツリーと index に残る)を --no-verify で作る(通ってしまったならそれを使う)
+    p0 = p_h if p_h.returncode == 0 else commit_paths("equipment: since set to a commit that does not exist (hooks skipped)",
+                                                      add=(prof_rel,), extra=("--no-verify",))
     s.write(spec_p, "# spec\nafter a broken since\n")
     p = commit_paths("spec", f"{ruling}: ECO-950", add=(spec_p,))
     ok, d = _blocked_with(p, "E13")
-    res.append(result("N23n", "E13(since が解決できない→遮断・測定不能は合格ではない)", ok and p0.returncode == 0,
-                      d if p0.returncode == 0 else f"profile の commit が失敗: {out(p0).strip()[:120]}"))
+    res.append(result("N23n", "E13(since が解決できない→それを書く commit を遮断・--no-verify の後の裁定層の変更も遮断)",
+                      ok and ok_h and p0.returncode == 0,
+                      f"書く commit {'遮断' if ok_h else '通過/理由不一致: ' + out(p_h).strip()[:80]}・{d}"
+                      if p0.returncode == 0 else f"profile の commit が失敗: {out(p0).strip()[:120]}"))
     undo()
-    # N23v: since が HEAD の系列に無い(main から分かれた枝だけにある commit)→ 遮断(R8-1-03 の「系列から外れる」側)
-    # (early は N23m で merge 済み= main の祖先なので使わない)
+    # N23v: since が HEAD の系列に無い(main から分かれた枝だけにある commit)→ それを書く commit を遮断(round 6)・
+    # --no-verify の後の裁定層の変更も遮断(R8-1-03 の「系列から外れる」側)(early は N23m で merge 済み= main の祖先なので使わない)
     git(s.root, "checkout", "-q", "-b", "offline", env=s.env)
-    git(s.root, "commit", "-q", "--allow-empty", "-m", "a commit only on a side branch", env=s.env)
+    # --no-verify: HEAD の since は N23n で解決できない値のまま — その欄を残す commit は、どれも第 1 層が止める(round 6)
+    git(s.root, "commit", "-q", "--allow-empty", "--no-verify", "-m", "a commit only on a side branch", env=s.env)
     off = head()
     git(s.root, "checkout", "-q", main, env=s.env)
-    p0 = set_ruled_layer(off, "equipment: since set off the main line under ECO-950")
+    p_h = set_ruled_layer(off, "equipment: since set off the main line under ECO-950")
+    ok_h = p_h.returncode != 0 and "[E13]" in out(p_h) and "系列に無い" in out(p_h)
+    p0 = p_h if p_h.returncode == 0 else commit_paths("equipment: since set off the main line (hooks skipped)",
+                                                      add=(prof_rel,), extra=("--no-verify",))
     s.write(spec_p, "# spec\nafter since moved off the line\n")
     p = commit_paths("spec", f"{ruling}: ECO-950", add=(spec_p,))
     ok, d = _blocked_with(p, "E13")
     ok = ok and "系列に無い" in out(p)
-    res.append(result("N23v", "E13(since が HEAD の系列に無い→遮断)", ok and p0.returncode == 0,
-                      d if p0.returncode == 0 else f"profile の commit が失敗: {out(p0).strip()[:120]}"))
+    res.append(result("N23v", "E13(since が HEAD の系列に無い→それを書く commit を遮断・--no-verify の後の裁定層の変更も遮断)",
+                      ok and ok_h and p0.returncode == 0,
+                      f"書く commit {'遮断' if ok_h else '通過/理由不一致: ' + out(p_h).strip()[:80]}・{d}"
+                      if p0.returncode == 0 else f"profile の commit が失敗: {out(p0).strip()[:120]}"))
     undo()
     # N23w(裁定 2:A): since に tag 名を書いた profile は不正(validator が profile を読めずに止まる)
     pr = yaml.safe_load(prof_path.read_text(encoding="utf-8"))

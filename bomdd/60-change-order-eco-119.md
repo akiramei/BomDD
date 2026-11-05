@@ -875,6 +875,97 @@ The working tree and a `HEAD:` fallback are no longer E13 inputs. Each change be
 - V1, V2 (with the new count) and V3 are re-run, and so are the selftest and self-conformance.
 - Round 6 R8 is narrowed to R8-5-01..08 and the parts changed for them.
 
+## 4L. Round 6 — the fix and the measurements before commit (2026-11-05)
+
+**What was changed** (from `70921c3`; the design is section 4K):
+- `process-validator.py`:
+  - New: `profile_at` (the one reader of a profile in git: strict_load, and validate_profile when asked), `parse_raw_z` (the
+    positional reader of `diff-tree --raw -z`, pure) and `merge_field_issue` (the merge field check, git only).
+  - `ruled_layer_of` and `index_ruled_layer` now read through `profile_at`. The index's profile is validated whole; a parent's is
+    parsed strictly.
+  - `diff_tree_paths` reads `--raw -z` by position.
+  - `check_ruled_layer`:
+    - checks each index entry's `since` before the fast path;
+    - reads the order from `:` only.
+  - `load_profile` gains `index_fallback`, used by the hook modes.
+  - `main()` runs the merge field check before the "profile なし" exit.
+  - The two unreachable guards carry a comment. The E13 docstring is updated.
+  - The selftest gains three checks of `parse_raw_z`; 105 PASS.
+- **Hooks** (`hooks/pre-commit`, `hooks/commit-msg`) — **found during manufacture; not in 4K's design:**
+  - Both hooks exited 0 before the validator when the working tree and HEAD both lacked the profile. So the validator's new reads
+    for R8-5-03 and R8-5-05 never ran.
+  - The first full run showed this. N23z9b and N23x6 got through ("想定外の通過"); the validator was right when run, but the hooks
+    never called it.
+  - pre-commit now also continues when the index has the profile. commit-msg also continues when the index has it, or when a
+    merge is in progress (`MERGE_HEAD`). With no profile anywhere, the validator itself then exits 0, after the merge check.
+  - Declared: in a repo whose profile was removed but whose hooks remain, a merge now starts the validator, which needs python
+    with PyYAML (fail-closed otherwise, as the hooks already are when a profile exists).
+- `process-qualification.py`: 50 N23 arms (+e2, fr, v2, x6, z3c, z9b).
+  - The changed arms:
+    - N23n and N23v: the hooked commit that writes the bad `since` must be refused. It is then made with `--no-verify`, and the
+      ruled change after it must be refused.
+    - N23z3 and N23z3b: the needle is "index の profile が不正".
+    - N23v's side-branch commit is made with `--no-verify`. While HEAD's `since` does not resolve (left by N23n), the first layer
+      refuses every commit that leaves that field — which is the new rule. The first run's N23v failure was this.
+  - N23fr makes its crafted commit with plumbing: a temporary index and `mktree` for the `a\x01<sha>` name. It validates with HEAD
+    pointed at a branch, and never touches the working tree or the real index.
+- The profile template's comment (write `since` on the line that stays; re-point it after a squash or rebase) and playbook §4.5's
+  E13 sentence.
+- Evidence scripts:
+  - `verify119_r5kb.py`: six mutants added, and its expectations for no-entry-since, no-index, no-index-check and
+    fieldless-parents updated. It runs the qualification with its temp folder inside the product's, so the qualification's
+    sandboxes are removed with it.
+  - `verify119_v2v3.py`: expects 50, with the same temp handling.
+  - `verify119.py`: KB2's anchor follows the guard's new comment.
+
+**Arms with this tree's validator and hooks:** 50 of 50 PASS, and no other OQ control FAILs (scaffolded product, OQ once, 424 s).
+
+**Mutants** (`out/r5kb-<name>.txt`): all thirteen are as expected on the first run.
+
+| mutant | what it puts back or breaks | FAIL |
+|---|---|---|
+| strict | in force only strictly after `since` | N23z2, N23z2r |
+| no-entry-since | every entry takes the field's `since` | N23n2, N23v2, N23z5, N23z5b, N23z7 |
+| no-index | the first layer ignores the index's field | N23s, N23z2, N23z9, N23z9b |
+| no-index-check | the index's profile not validated (strict parse kept) | N23z3, N23z3b |
+| fieldless-parents | the merge check counts parents without the field | N23x, N23x5, N23x6 |
+| pathspec | the replay filtered by a literal pathspec (round 4's) | N23z8 |
+| first-parent | merges judged against the first parent only | N23m, N23s |
+| order-fallback | the order read from `:`, then `HEAD:` (round 5's) | N23e2 |
+| safe-load | profiles parsed with `yaml.safe_load` (round 5's) | N23z3c |
+| name-only | the replay's paths from `--name-only` split on `\x01` (round 5's) | N23fr |
+| wt-profile | with no profile at HEAD, the working tree's profile (round 5's) | N23z9b |
+| exit-first | the no-profile exit before the merge check (round 5's) | N23x6 |
+| since-touched-only | an index entry's `since` checked only when touched (round 5's) | N23n, N23v, N23v2 |
+
+Changes from round 5's expectations:
+- no-index loses N23n2, which the new `since` check refuses on its own, and gains N23z9b.
+- no-entry-since gains N23v2, because that entry's own `since` is the branch's HEAD.
+- fieldless-parents gains N23x6.
+
+The hooks have no mutant of their own. Their known-bad is the first full run above: with round 5's hooks, N23z9b and N23x6 FAIL
+and nothing else does. That run had one other FAIL, N23v, which was the arm's own defect.
+
+**Not armed (declared):**
+- The want/duplicate guard of the raw framing and the replay's guard "since の後の親が無い" stay as defences. No input reaches
+  either (R8-5-07).
+- R8-5-08: no new timing was measured. 4K declares the inspector's figure.
+
+**V1 — PASS** (`out/v1.txt`): MoviePad-Remake's six commits as before. KB2 reports 5 E13. MoviePad-Remake was read only (status
+clean).
+
+**V2 — PASS** (`out/v2.txt`): disposition PASS, the two runs identical, 97 controls; all 50 N23 controls PASS.
+
+**V3 — PASS** (`out/v3.txt`; before = `42a6158`): the 47 controls in both runs have the same verdict and detail. Only the 50 N23
+controls are new.
+
+**Housekeeping (2:a):**
+- 905 `%TEMP%\bomdd-oq-*` folders were found. 822 were removed, about 1.2 GB.
+- 83 were not removed: listing them, reading their ACLs and deleting them are all denied. They were left as they are; changing
+  permissions is the user's to do.
+- From this round on, the evidence scripts keep the qualification's sandboxes inside their own temp folders. The qualification
+  itself still does not remove its own; that is outside ECO-119.
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling, item 2; filing only).

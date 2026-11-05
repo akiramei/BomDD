@@ -263,8 +263,8 @@ def main():
         # the changes before since are reported too - pre_field and bbce170's spec change among them
         vsrc2 = vp.read_text(encoding="utf-8")
         rng = 'a = run_git(root, "rev-list", "--reverse", "--parents", "--ancestry-path", f"{s}..HEAD")'
-        die2 = ('                if base is None:\n'
-                '                    die(f"{sha[:9]} に since の後の親が無い(裁定層の履歴検査が測定不能)")\n')
+        die2 = ('                if base is None:  # 防御(R8-5-07): --ancestry-path の行の親は s か s の子孫なので、入力ではここに来ない\n'
+                '                    die(f"{sha[:9]} に since の後の親が無い(裁定層の履歴検査が測定不能)")\n')  # round 6's comment
         assert vsrc2.count(rng) == 1 and vsrc2.count(die2) == 1
         vp.write_text(vsrc2.replace(rng, 'a = run_git(root, "rev-list", "--reverse", "--parents", "HEAD")  # ECO-119 V1 KB2')
                       .replace(die2, "                if base is None:\n                    continue\n"),
