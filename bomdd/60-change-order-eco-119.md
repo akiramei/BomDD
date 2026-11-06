@@ -1118,6 +1118,69 @@ were going at the same time. The bound was raised to 3600 s, and the second run 
 - **V3 — PASS** (`out/v3.txt`; before = `42a6158`): the 47 controls in both runs have the same verdict and detail. Only the 54 N23
   controls are new. The temporary folders were removed.
 
+**Commit and CI.** Fix `a021984` (self-conformance exit 0 before the commit, 19 m 44 s); CI success, run 42081081657.
+
+## 4P. R8 round 7 (2026-11-06)
+
+**R8 round 7: ACCEPT**, with 0 material and 3 minor findings. The summary is in `bomdd/reports/eco-119-ruled-layer/r8-round-7.md`.
+R8-6-01..06 are closed.
+
+- **R8-7-01.** With the validator removed, a merge of a branch that still has the profile is refused, and the recorded remedy
+  ("remove the field on that branch first") does not work there. The hook comment, §4.5, 4N and 4O are wrong on this. The
+  inspector rated it minor, but noted that the brief's rule for a false claim in the records would make it material.
+- **R8-7-02.** Re-pointing an off-line `since` to HEAD narrows the replay. The right target is the rebased or cherry-picked copy of
+  the entry's commit. For a shallow clone, the right fix is to deepen the clone, not to rewrite `since`.
+- **R8-7-03.** Two round-7 mechanisms have no arm: the octopus lines of `merge_parent_has_profile`, and the `since` check of an
+  entry brought in by a merge.
+
+Material findings per round: 3, 3, 2, 4, 4, 1 and 0 (1 under the strict reading of R8-7-01).
+
+**Ruling (2026-11-06): "B: 直して第8回".** R8-7-01 is treated as material. Fix R8-7-01..03, then run round 8 of R8, narrowed to
+these three findings and the code changed for them, before the closure. The design is section 4Q.
+
+## 4Q. Round 8 — the design (2026-11-06, on the ruling "B")
+
+- **R8-7-01 — the remedy when the validator is removed.**
+  - Declared: in a product whose profile and validator were both removed (hooks kept), a merge with a parent that still has the
+    profile is refused by the hook ("validator または実行可能な python が見つからない"), in either direction, whether or not that
+    profile has `ruled_layer`. This follows from the hooks' fail-closed rule (ECO-015) and from R8-6-02a's narrowing.
+  - The remedy: remove the profile on that branch too (under an ECO open on the branch — E08), or keep the validator until such
+    branches are merged. "Remove the field on that branch first" is right only while the validator is kept.
+  - The hook does not look inside the profile for `ruled_layer` (flow style or a quoted key would get past it).
+  - Records fixed: commit-msg's comment, playbook §4.5; 4N and 4O get a correction line here, not a rewrite.
+  - New arm N23x8:
+    1. A product's main removes the profile and the validator.
+    2. A branch from before the removal still has both.
+    3. Merging it into main is refused.
+    4. On the branch, an ECO is filed and the profile is removed, both hooked.
+    5. The merge then passes.
+- **R8-7-02 — the forward fix of an off-line `since`.**
+  - After a rebase or cherry-pick, re-point `since` to the rebased or cherry-picked copy of the commit the entry named. Pointing
+    it at HEAD would drop the commits in between from the replay.
+  - In a shallow clone, do not rewrite `since`; deepen the clone (`git fetch --unshallow`).
+  - Records fixed: the template comment and §4.5. The three "解決できない" messages (two in the first layer, one in the replay)
+    gain the shallow-clone hint.
+  - N23rb changes. It makes a `--no-verify` change under the entry in the rebase state, then re-points `since` to the rebased copy
+    of the entry's commit. The replay must then report exactly that change.
+  - New arm N23sh: a `--depth 2` clone of the sandbox; validate exits 2 with the hint `git fetch --unshallow`.
+- **R8-7-03 — arms for the two mechanisms without one.**
+  - N23oc: an octopus `-s ours` merge into a profile-less HEAD, where only `MERGE_HEAD`'s second line has the profile. It must be
+    refused ("ruled_layer を落とす").
+  - N23mi: a merge whose result carries an entry from the second parent with an off-line `since`. It must be refused
+    ("どの親の系列に無い").
+  - The inspector's mutants become `verify119_r5kb.py`'s:
+    - `hook-first-line` (only `MERGE_HEAD`'s first line read) must fail N23oc;
+    - `merge-skip-since` (no `since` check at a merge) must fail N23mi.
+
+**Evidence plan.**
+- The qualification: 54 + 4 = 58 N23 arms (x8, sh, oc, mi), with N23rb changed.
+- The mutants: the 19 from round 7, with the expectations of each checked again, plus the two above, so 21. Each must fail only its
+  own arms.
+- V1, V2 (with 58) and V3; the selftest; self-conformance.
+- Declared, not fixed: the inspector's runs showed that N23rb is the first arm to break when TMP is deep ("Filename too long" in
+  `git rebase` on Windows). The evidence scripts keep TMP short.
+- Round 8 of R8 is narrowed to R8-7-01..03 and the code changed for them.
+
 **CI of the record commit `93053f8`:** GitHub created no run for this push (no check suite on the commit, 75 min after the push;
 the workflow is active). The fix commit's run covers that tree too.
 
