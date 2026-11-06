@@ -10465,10 +10465,17 @@ scaffolding or the model made the control careful; the user chose "A: 素の対�
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement; no body text, template or tool changes.
 
-- [open] EXP-20261107-02 — **With the machine form's `unresolved` field and its sentence removed and everything else as
+- [recovered 2026-11-07 via bomdd/reports/exp-20261107-02/results.md] EXP-20261107-02 — **With the machine form's `unresolved` field and its sentence removed and everything else as
   EXP-20261107-01's control had it, do fresh writers assert values on MoviePad's undo / redo that the authority contradicts,
   in particular on the facts the sources leave open?** Two writers (B1, B2); the same sources, CAD, observed start screen,
   harness, comparison and scorer; R1′ (fails on the authority) and R2′ (open facts stated wrongly) against C1 / C2's 0 and 0,
   a direction only when both B writers agree; one variable (the field), not the CAD.
+  **Read (2026-11-07)**: 456 asserted values (B1 210, B2 246), 0 contradicted by the authority; no open fact stated wrongly —
+  **R1′ and R2′ both "the field did not carry it here": what remains is the model or the scaffolding that stayed** (sources
+  only, the observed start screen, the observation list), not separated. Descriptive: without the field the writers left
+  values out instead of marking them — fewer values per step (4.2, 3.8 against 5.1, 5.9) and no selection value after a
+  Split (0, 0 against 2-13); both documents again describe the selection as kept by region id, which this run's scorer
+  marked `open` and EXP-20261107-01's marked `wrong` — F5 is not comparable across the two scorers (R2′ unaffected).
+  Departure D1 (the word `unresolved` appears in the source's field name). Nothing wired, no body text changed.
   source: this section (the user's "A: 素の対照を足す", 2026-11-07)
-  evidence: `bomdd/reports/exp-20261107-02/definitions.md`
+  evidence: `bomdd/reports/exp-20261107-02/definitions.md`, `bomdd/reports/exp-20261107-02/results.md`, `bomdd/reports/exp-20261107-02/tally.json`

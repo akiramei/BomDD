@@ -1,0 +1,312 @@
+{
+ "paths": [
+  "CanUndo",
+  "CanRedo",
+  "CanSplit",
+  "CanDeleteBoundary",
+  "CanSetTrimIn",
+  "CanSetTrimOut",
+  "RegionCount",
+  "TrimStart",
+  "TrimEnd",
+  "OutputLength",
+  "Playhead",
+  "SelectedRegion.Start",
+  "SelectedRegion.End",
+  "SelectedRegion.Speed",
+  "VolumeText",
+  "OutFps",
+  "OutW",
+  "OutH",
+  "Edited"
+ ],
+ "runs": [
+  {
+   "id": "EX-01",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": []
+  },
+  {
+   "id": "EX-02",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "Split",
+    "Undo",
+    "Redo",
+    "Undo"
+   ]
+  },
+  {
+   "id": "EX-03",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "SetTrimIn",
+    "Undo",
+    "Redo"
+   ]
+  },
+  {
+   "id": "EX-04",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ApplySpeedPreset:2",
+    "Undo",
+    "Redo"
+   ]
+  },
+  {
+   "id": "EX-05",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ApplySpeedPreset:4",
+    "Undo",
+    "Redo"
+   ]
+  },
+  {
+   "id": "EX-06",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ApplyVolumePreset:50",
+    "Undo",
+    "Redo"
+   ]
+  },
+  {
+   "id": "EX-07",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ApplySpeedPreset:2",
+    "ApplyVolumePreset:50",
+    "SetTrimIn",
+    "Undo",
+    "Undo",
+    "Undo",
+    "Redo",
+    "Redo",
+    "Redo"
+   ]
+  },
+  {
+   "id": "EX-08",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ApplySpeedPreset:2",
+    "Undo",
+    "ApplyVolumePreset:50",
+    "Undo",
+    "Redo"
+   ]
+  },
+  {
+   "id": "EX-09",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ApplySpeedPreset:2",
+    "ApplyVolumePreset:50",
+    "Undo",
+    "ApplyVolumePreset:150",
+    "Undo",
+    "Undo",
+    "Redo",
+    "Redo"
+   ]
+  },
+  {
+   "id": "EX-10",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ApplySpeedPreset:2",
+    "Split",
+    "Undo",
+    "Undo",
+    "Redo",
+    "Redo"
+   ]
+  },
+  {
+   "id": "EX-11",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "SetTrimIn",
+    "ApplySpeedPreset:2",
+    "Undo",
+    "Undo"
+   ]
+  },
+  {
+   "id": "EX-12",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ToEnd",
+    "ToStart",
+    "StepForward"
+   ]
+  },
+  {
+   "id": "EX-13",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "Split",
+    "Undo",
+    "StepForward",
+    "StepBack",
+    "Redo"
+   ]
+  },
+  {
+   "id": "EX-14",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ApplySpeedPreset:0.5",
+    "Undo",
+    "Redo",
+    "Undo",
+    "Redo"
+   ]
+  },
+  {
+   "id": "EX-15",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "Scale:0.5",
+    "SetFps:60"
+   ]
+  }
+ ]
+}

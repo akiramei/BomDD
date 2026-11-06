@@ -1,0 +1,126 @@
+{"examples": [
+  {"id": "EX-01", "title": "起動直後は取り消しもやり直しもできない",
+   "basis": "cad/start-screen.json; REQ-012; out/01-requirements.md U-07",
+   "steps": [
+     {"action": null, "expect": {"undo_enabled": false, "redo_enabled": false, "unsaved": false, "region_count": 4, "output_length": 142}}
+   ]},
+  {"id": "EX-02", "title": "分割を取り消し、やり直し、もう一度取り消す",
+   "basis": "REQ-012; REQ-004 (split at 20 s is 14 s and 20 s from the edges of [6, 40]; settings inherited); REQ-003 (a boundary instant belongs to the later region); REQ-007 (In only inside the first region); out/03-behaviour.md 3.2",
+   "steps": [
+     {"action": "Split", "expect": {"region_count": 5, "output_length": 142, "trim_start": 6, "trim_end": 132, "undo_enabled": true, "redo_enabled": false, "split_enabled": false, "trim_in_enabled": false}},
+     {"action": "Undo", "expect": {"region_count": 4, "output_length": 142, "undo_enabled": false, "redo_enabled": true, "split_enabled": true, "trim_in_enabled": true}},
+     {"action": "Redo", "expect": {"region_count": 5, "output_length": 142, "undo_enabled": true, "redo_enabled": false, "split_enabled": false, "trim_in_enabled": false}},
+     {"action": "Undo", "expect": {"region_count": 4, "undo_enabled": false, "redo_enabled": true}}
+   ]},
+  {"id": "EX-03", "title": "トリム開始(In)の設定を取り消し、やり直す",
+   "basis": "REQ-012; REQ-007 (In at the playhead inside the first region, moves the first region's start); REQ-011 (output 142 - 34 + 20 = 128); REQ-004 (no split at a region's start)",
+   "steps": [
+     {"action": "SetTrimIn", "expect": {"trim_start": 20, "trim_end": 132, "selected_start": 20, "selected_end": 40, "output_length": 128, "split_enabled": false, "undo_enabled": true, "redo_enabled": false}},
+     {"action": "Undo", "expect": {"trim_start": 6, "trim_end": 132, "selected_start": 6, "selected_end": 40, "output_length": 142, "split_enabled": true, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"trim_start": 20, "selected_start": 20, "output_length": 128, "split_enabled": false, "undo_enabled": true, "redo_enabled": false}}
+   ]},
+  {"id": "EX-04", "title": "速度 2x の変更を取り消し、やり直す",
+   "basis": "REQ-012; REQ-008; REQ-011 (selected region [6, 40] is 34 s: 142 - 34 + 34/2 = 125)",
+   "steps": [
+     {"action": "ApplySpeedPreset:2", "expect": {"selected_speed": 2, "selected_start": 6, "selected_end": 40, "output_length": 125, "region_count": 4, "undo_enabled": true, "redo_enabled": false}},
+     {"action": "Undo", "expect": {"selected_speed": 1, "output_length": 142, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"selected_speed": 2, "output_length": 125, "undo_enabled": true, "redo_enabled": false}}
+   ]},
+  {"id": "EX-05", "title": "速度 4x の変更を取り消し、やり直す",
+   "basis": "REQ-012; REQ-008; REQ-011 (142 - 34 + 34/4 = 116.5)",
+   "steps": [
+     {"action": "ApplySpeedPreset:4", "expect": {"selected_speed": 4, "output_length": 116.5, "undo_enabled": true}},
+     {"action": "Undo", "expect": {"selected_speed": 1, "output_length": 142, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"selected_speed": 4, "output_length": 116.5, "redo_enabled": false}}
+   ]},
+  {"id": "EX-06", "title": "音量 50% の変更を取り消し、やり直す(長さは変わらない)",
+   "basis": "REQ-012; REQ-009; REQ-011 (volume does not change length); unsaved after an edit is an inference (out/04-questions.md Q-04)",
+   "steps": [
+     {"action": "ApplyVolumePreset:50", "expect": {"selected_volume_percent": 50, "selected_speed": 1, "output_length": 142, "undo_enabled": true, "redo_enabled": false, "unsaved": true}},
+     {"action": "Undo", "expect": {"selected_volume_percent": 100, "output_length": 142, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"selected_volume_percent": 50, "undo_enabled": true, "redo_enabled": false}}
+   ]},
+  {"id": "EX-07", "title": "3 段の編集を逆順に取り消し、順にやり直す",
+   "basis": "REQ-012; REQ-007; REQ-008; REQ-009; REQ-011 (2x on [20, 40] = 142 - 34 + 20/2 = 118)",
+   "steps": [
+     {"action": "ApplySpeedPreset:2", "expect": {"selected_speed": 2, "output_length": 125}},
+     {"action": "ApplyVolumePreset:50", "expect": {"selected_volume_percent": 50, "output_length": 125}},
+     {"action": "SetTrimIn", "expect": {"trim_start": 20, "selected_start": 20, "output_length": 118, "undo_enabled": true, "redo_enabled": false}},
+     {"action": "Undo", "expect": {"trim_start": 6, "selected_start": 6, "selected_volume_percent": 50, "selected_speed": 2, "output_length": 125, "undo_enabled": true, "redo_enabled": true}},
+     {"action": "Undo", "expect": {"selected_volume_percent": 100, "selected_speed": 2, "output_length": 125, "undo_enabled": true, "redo_enabled": true}},
+     {"action": "Undo", "expect": {"selected_volume_percent": 100, "selected_speed": 1, "trim_start": 6, "output_length": 142, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"selected_speed": 2, "selected_volume_percent": 100, "output_length": 125, "undo_enabled": true, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"selected_speed": 2, "selected_volume_percent": 50, "output_length": 125, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"trim_start": 20, "output_length": 118, "undo_enabled": true, "redo_enabled": false}}
+   ]},
+  {"id": "EX-08", "title": "取り消しの後に新しい編集をすると、やり直しはできなくなる",
+   "basis": "REQ-012 (a new edit clears the redo steps; counterexample: redo kept after a new edit)",
+   "steps": [
+     {"action": "ApplySpeedPreset:2", "expect": {"selected_speed": 2, "output_length": 125}},
+     {"action": "Undo", "expect": {"selected_speed": 1, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "ApplyVolumePreset:50", "expect": {"selected_speed": 1, "selected_volume_percent": 50, "output_length": 142, "undo_enabled": true, "redo_enabled": false}},
+     {"action": "Undo", "expect": {"selected_speed": 1, "selected_volume_percent": 100, "output_length": 142, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"selected_speed": 1, "selected_volume_percent": 50, "redo_enabled": false}}
+   ]},
+  {"id": "EX-09", "title": "途中まで取り消して別の編集をすると、取り消した段は戻らない",
+   "basis": "REQ-012; out/02-domain-model.md 2.3",
+   "steps": [
+     {"action": "ApplySpeedPreset:2", "expect": {"selected_speed": 2}},
+     {"action": "ApplyVolumePreset:50", "expect": {"selected_volume_percent": 50}},
+     {"action": "Undo", "expect": {"selected_speed": 2, "selected_volume_percent": 100, "redo_enabled": true}},
+     {"action": "ApplyVolumePreset:150", "expect": {"selected_speed": 2, "selected_volume_percent": 150, "output_length": 125, "undo_enabled": true, "redo_enabled": false}},
+     {"action": "Undo", "expect": {"selected_speed": 2, "selected_volume_percent": 100, "undo_enabled": true, "redo_enabled": true}},
+     {"action": "Undo", "expect": {"selected_speed": 1, "selected_volume_percent": 100, "output_length": 142, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"selected_speed": 2, "selected_volume_percent": 100, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"selected_speed": 2, "selected_volume_percent": 150, "redo_enabled": false}}
+   ]},
+  {"id": "EX-10", "title": "速度を変えてから分割し、2 段を順に取り消す(分割は速度を引き継ぐ)",
+   "basis": "REQ-012; REQ-004 (both halves keep the speed); REQ-011 (125 with 2x on [6, 40], split or not)",
+   "steps": [
+     {"action": "ApplySpeedPreset:2", "expect": {"output_length": 125, "region_count": 4}},
+     {"action": "Split", "expect": {"output_length": 125, "region_count": 5, "undo_enabled": true, "redo_enabled": false}},
+     {"action": "Undo", "expect": {"output_length": 125, "region_count": 4, "undo_enabled": true, "redo_enabled": true}},
+     {"action": "Undo", "expect": {"output_length": 142, "region_count": 4, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"output_length": 125, "region_count": 4, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"output_length": 125, "region_count": 5, "undo_enabled": true, "redo_enabled": false}}
+   ]},
+  {"id": "EX-11", "title": "トリム開始を設定してから速度を変え、2 段を取り消す",
+   "basis": "REQ-012; REQ-007; REQ-008; REQ-011 (128 after In at 20; 142 - 34 + 20/2 = 118 after 2x)",
+   "steps": [
+     {"action": "SetTrimIn", "expect": {"trim_start": 20, "output_length": 128}},
+     {"action": "ApplySpeedPreset:2", "expect": {"trim_start": 20, "selected_speed": 2, "output_length": 118}},
+     {"action": "Undo", "expect": {"trim_start": 20, "selected_speed": 1, "output_length": 128, "undo_enabled": true, "redo_enabled": true}},
+     {"action": "Undo", "expect": {"trim_start": 6, "selected_speed": 1, "output_length": 142, "undo_enabled": false, "redo_enabled": true}}
+   ]},
+  {"id": "EX-12", "title": "再生ヘッドの移動は履歴に積まれない",
+   "basis": "REQ-012 (history holds edits; transport is not an edit); out/01-requirements.md U-09",
+   "steps": [
+     {"action": "ToEnd", "expect": {"undo_enabled": false, "redo_enabled": false, "region_count": 4, "output_length": 142}},
+     {"action": "ToStart", "expect": {"undo_enabled": false, "redo_enabled": false}},
+     {"action": "StepForward", "expect": {"undo_enabled": false, "redo_enabled": false}}
+   ]},
+  {"id": "EX-13", "title": "取り消しの後に再生ヘッドを動かしても、やり直しは残る",
+   "basis": "REQ-012 (only a new edit clears the redo steps); out/01-requirements.md U-09",
+   "steps": [
+     {"action": "Split", "expect": {"region_count": 5}},
+     {"action": "Undo", "expect": {"region_count": 4, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "StepForward", "expect": {"region_count": 4, "undo_enabled": false, "redo_enabled": true}},
+     {"action": "StepBack", "expect": {"undo_enabled": false, "redo_enabled": true}},
+     {"action": "Redo", "expect": {"region_count": 5, "undo_enabled": true, "redo_enabled": false}}
+   ]},
+  {"id": "EX-14", "title": "取り消しとやり直しを繰り返しても値は往復で変わらない",
+   "basis": "REQ-012 (history holds whole states); REQ-011 (142 - 34 + 34/0.5 = 176); out/02-domain-model.md I-1, I-2",
+   "steps": [
+     {"action": "ApplySpeedPreset:0.5", "expect": {"selected_speed": 0.5, "output_length": 176}},
+     {"action": "Undo", "expect": {"selected_speed": 1, "output_length": 142}},
+     {"action": "Redo", "expect": {"selected_speed": 0.5, "output_length": 176}},
+     {"action": "Undo", "expect": {"selected_speed": 1, "output_length": 142}},
+     {"action": "Redo", "expect": {"selected_speed": 0.5, "output_length": 176, "undo_enabled": true, "redo_enabled": false}}
+   ]},
+  {"id": "EX-15", "title": "出力設定の変更(Undo の対象かは未確定・値だけ)",
+   "basis": "REQ-013 (presets set both dimensions from the source size; 50% of 1920x1080 = 960x540; fps can be set to 60); undo state not asserted (out/04-questions.md Q-01)",
+   "steps": [
+     {"action": "Scale:0.5", "expect": {"out_width": 960, "out_height": 540, "region_count": 4, "output_length": 142}},
+     {"action": "SetFps:60", "expect": {"out_fps": 60, "out_width": 960, "out_height": 540}}
+   ]}
+]}

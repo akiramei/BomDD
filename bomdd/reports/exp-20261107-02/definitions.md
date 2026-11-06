@@ -69,4 +69,7 @@ This file, `prepare.py`, `check_examples.py`, `prompts/common-bare.md`; at the r
 
 ## 8. Departures
 
-(none yet)
+- **D1 — "the word `unresolved` appears nowhere in the package" is false (found after packaging, before the writers
+  started).** It appears in the source `10-requirements.yaml` as the field name `unresolved_questions`, as it did for every
+  writer of EXP-20261107-01. The prompt and the checker carry no `unresolved`; section 3's claim holds for them only.
+- Writers B1 and B2 started 02:31:52 (agents `a71db1f5…` B1, `ad01cb21…` B2).

@@ -1,0 +1,70 @@
+{
+ "per_writer": {
+  "B2": {
+   "label": "W1",
+   "asserted": 246,
+   "fail": 0,
+   "fail_share": 0.0,
+   "pressed_unavailable": 0,
+   "R2_N_wrong": 0,
+   "D_correct": 4,
+   "N_open": 5,
+   "N_correct": 0,
+   "verdicts": {
+    "F1": "correct",
+    "F2": "correct",
+    "F3": "correct",
+    "F4": "correct",
+    "F5": "open",
+    "F6": "open",
+    "F7": "open",
+    "F8": "open",
+    "F9": "absent",
+    "F10": "open",
+    "F11": "open"
+   },
+   "questions": 9,
+   "questions_answered_by_sources": 2
+  },
+  "B1": {
+   "label": "W2",
+   "asserted": 210,
+   "fail": 0,
+   "fail_share": 0.0,
+   "pressed_unavailable": 0,
+   "R2_N_wrong": 0,
+   "D_correct": 4,
+   "N_open": 5,
+   "N_correct": 1,
+   "verdicts": {
+    "F1": "correct",
+    "F2": "correct",
+    "F3": "correct",
+    "F4": "correct",
+    "F5": "open",
+    "F6": "open",
+    "F7": "correct",
+    "F8": "open",
+    "F9": "open",
+    "F10": "open",
+    "F11": "open"
+   },
+   "questions": 9,
+   "questions_answered_by_sources": 1
+  }
+ },
+ "control_of_exp_20261107_01": {
+  "C1": {
+   "fail": 0,
+   "R2_N_wrong": 0
+  },
+  "C2": {
+   "fail": 0,
+   "R2_N_wrong": 0
+  }
+ },
+ "readings": {
+  "R1'": "not the field (b, or the remaining scaffolding)",
+  "R2'": "not the field (b, or the remaining scaffolding)"
+ }
+}

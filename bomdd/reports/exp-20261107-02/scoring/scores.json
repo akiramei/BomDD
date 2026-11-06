@@ -1,0 +1,53 @@
+{
+  "W1": {
+    "facts": {
+      "F1": {"verdict": "correct", "quote": "取り消し履歴が空のとき Undo ボタンは使えない。やり直し履歴が空のとき Redo ボタンは使えない。", "file": "W1/out/01-requirements.md"},
+      "F2": {"verdict": "correct", "quote": "新しい編集を行うと、やり直し履歴は空になる。", "file": "W1/out/01-requirements.md"},
+      "F3": {"verdict": "correct", "quote": "Undo は直前の 1 段を取り消し、ドキュメントを編集前の状態へ戻す。戻した状態はやり直し履歴に積まれる。", "file": "W1/out/01-requirements.md"},
+      "F4": {"verdict": "correct", "quote": "履歴は最大 50 段。51 段目を積むと最も古い段が捨てられる。", "file": "W1/out/01-requirements.md"},
+      "F5": {"verdict": "open", "quote": "分割の直後、選択中の区間は前半(元の id)と後半(新しい id)のどちらですか。新しい id の区間を選んだままその分割を Undo したら、どの区間が選択されますか。", "file": "W1/out/04-questions.md"},
+      "F6": {"verdict": "open", "quote": "出力サイズ(`Scale:*`・幅/高さ入力)と出力フレームレート(`SetFps:*`)の変更は、取り消し/やり直しの対象ですか。", "file": "W1/out/04-questions.md"},
+      "F7": {"verdict": "open", "quote": "再生ヘッド・出力設定が Undo/Redo で戻るかは資料にない(Q-02・Q-01)。", "file": "W1/out/03-behaviour.md"},
+      "F8": {"verdict": "open", "quote": "同じ値の再適用(速度 1 の区間に `ApplySpeedPreset:1`)が段を積むかは未確定(Q-03)。", "file": "W1/out/03-behaviour.md"},
+      "F9": {"verdict": "absent", "quote": "", "file": ""},
+      "F10": {"verdict": "open", "quote": "「保存済み/未保存の変更」の表示は、Undo で開いた直後と同じ状態に戻ったとき「保存済み」に戻りますか。", "file": "W1/out/04-questions.md"},
+      "F11": {"verdict": "open", "quote": "別のファイルを開いたとき、履歴は空になりますか。開く前の編集に Undo で戻れますか。", "file": "W1/out/04-questions.md"}
+    },
+    "questions": {
+      "count": 9,
+      "answered_by_sources": 2,
+      "answered": [
+        {"question": "Q-05 分割の直後、選択中の区間は前半(元の id)と後半(新しい id)のどちらですか。新しい id の区間を選んだままその分割を Undo したら、どの区間が選択されますか。",
+         "source_quote": "Which region is \"at the playhead\" decides the target of every per-region edit; a boundary instant belongs to the later region.",
+         "source_file": "sources/10-requirements.yaml"},
+        {"question": "Q-09 区間の除外/復帰(Delete キー)とピッチ維持の切り替えも 1 段ずつ積みますか。",
+         "source_quote": "Every edit can be undone and redone, up to 50 steps",
+         "source_file": "sources/10-requirements.yaml"}
+      ]
+    }
+  },
+  "W2": {
+    "facts": {
+      "F1": {"verdict": "correct", "quote": "戻す段がなければ Undo ボタンは使えない。やり直す段がなければ Redo ボタンは使えない。", "file": "W2/out/01-requirements.md"},
+      "F2": {"verdict": "correct", "quote": "新しい編集をすると、やり直し待ちの段はすべて消える。", "file": "W2/out/01-requirements.md"},
+      "F3": {"verdict": "correct", "quote": "Undo は 1 つ前の文書へ、Redo は 1 つ先の文書へ戻す。", "file": "W2/out/01-requirements.md"},
+      "F4": {"verdict": "correct", "quote": "51 段目の編集を記録すると、いちばん古い段が捨てられる(新しい段ではない)。", "file": "W2/out/01-requirements.md"},
+      "F5": {"verdict": "open", "quote": "分割の直後にどちらの半分が選択されるか、Undo で選択中の id が消えたときにどこへ移るかは資料にない(Q-01)。", "file": "W2/out/02-domain-model.md"},
+      "F6": {"verdict": "open", "quote": "出力の幅・高さ(スケール)と出力フレームレートの変更は、Undo/Redo で取り消せますか。", "file": "W2/out/04-owner-questions.md"},
+      "F7": {"verdict": "correct", "quote": "Undo の後に再生ヘッドが動かないため、たとえば `StepForward` → `ApplySpeedPreset:2` → `Undo` では再生ヘッドは 20 + 1/30 秒のまま残る(Q-06)。", "file": "W2/out/03-behavior.md"},
+      "F8": {"verdict": "open", "quote": "今と同じ値を押したとき(1x の区間で 1x を押すなど)、取り消しの段は増えますか。", "file": "W2/out/04-owner-questions.md"},
+      "F9": {"verdict": "open", "quote": "文書が変わらない操作が 1 段として積まれるかが書かれていない。", "file": "W2/out/01-requirements.md"},
+      "F10": {"verdict": "open", "quote": "Undo で開いた時点の状態へ戻ったときの表示は未確定(Q-02)", "file": "W2/out/01-requirements.md"},
+      "F11": {"verdict": "open", "quote": "別のファイルを開いたとき、履歴は消えますか。前のファイルの編集へ Undo で戻れますか。", "file": "W2/out/04-owner-questions.md"}
+    },
+    "questions": {
+      "count": 9,
+      "answered_by_sources": 1,
+      "answered": [
+        {"question": "Q-01 再生ヘッドで分割した直後、選択中の区間は前半・後半のどちらですか。また Undo/Redo で選択中の区間が無くなったとき(例: 分割を取り消して後半が消えた)、選択はどこへ移りますか。",
+         "source_quote": "Which region is \"at the playhead\" decides the target of every per-region edit; a boundary instant belongs to the later region.",
+         "source_file": "sources/10-requirements.yaml"}
+      ]
+    }
+  }
+}

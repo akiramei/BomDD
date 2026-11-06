@@ -1,0 +1,25 @@
+{
+ "writer": "B1",
+ "files": {
+  "examples.json": {
+   "sha256": "1dfe5a636d867b451d3f0a661ceb704a1d4b3b0cda7f6d8fa38a40eba380bce6",
+   "bytes": 11646
+  },
+  "out/01-requirements.md": {
+   "sha256": "a9f885134d49a07974e049358b8a0f4c5aa6c944a7ccc1cc5fc2f6b5737025fc",
+   "bytes": 4817
+  },
+  "out/02-domain-model.md": {
+   "sha256": "c46939608756721694ab5d8dfd2aceb14cda770d3baa0dc0fc2392d6f151da60",
+   "bytes": 5080
+  },
+  "out/03-behavior.md": {
+   "sha256": "d3d78d541da39017330e0ffb84d88d322aeedb7809e4b0466353d6eb312462f0",
+   "bytes": 5245
+  },
+  "out/04-owner-questions.md": {
+   "sha256": "c09998848ed4866578ad962233d03556b33b26133d5abc01e7de6352fe5d5907",
+   "bytes": 3545
+  }
+ }
+}
