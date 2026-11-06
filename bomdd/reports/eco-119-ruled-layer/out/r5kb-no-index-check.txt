@@ -28,8 +28,8 @@
 [N23x3] PASS - 通過
 [N23x4] PASS - E13 で遮断・ruled_layer を変える を表示
 [N23z4] PASS - history の E13 でその commit だけを検出
-[N23z3] FAIL - hook の commit exit 0・準備 False・validate exit 1・新しい報告 ['7e42d5e8b', '9fa4de208']・消えた報告 []: process-validator: [scope] 再演: 導入点 f857e0d8f 以降の台帳変更 6 commit・証拠要求の対象 6
-[N23z3b] FAIL - hook の commit exit 0・準備 False・validate exit 1・新しい報告 ['23f830c1b', '7febcc825']・消えた報告 []: process-validator: [scope] 再演: 導入点 f857e0d8f 以降の台帳変更 6 commit・証拠要求の対象 6
+[N23z3] FAIL - hook の commit exit 0・準備 False・validate exit 1・新しい報告 ['1ac2b45a9', 'f1faed96f']・消えた報告 []: process-validator: [scope] 再演: 導入点 6236ae48f 以降の台帳変更 6 commit・証拠要求の対象 6
+[N23z3b] FAIL - hook の commit exit 0・準備 False・validate exit 1・新しい報告 ['a3dde324a', 'dcfb2b45f']・消えた報告 []: process-validator: [scope] 再演: 導入点 6236ae48f 以降の台帳変更 6 commit・証拠要求の対象 6
 [N23z6] PASS - history の E13 でちょうど期待の commit を検出
 [N23z8] PASS - history の E13 でちょうど期待の commit を検出
 [N23fr] PASS - history の E13 でちょうど期待の commit を検出
@@ -37,6 +37,7 @@
 [N23z9] PASS - E13 で遮断・bomdd/20-spec.md を表示
 [N23z9b] PASS - E13 で遮断・bomdd/20-spec.md を表示
 [N23x6] PASS - E13 で遮断・ruled_layer を落とす を表示
+[N23oc] PASS - E13 で遮断・ruled_layer を落とす を表示
 [N23x5] PASS - E13 で遮断・ruled_layer を落とす を表示
 [N23p2] PASS - history の E13 でちょうど期待の commit を検出
 [N23z5] PASS - 新しい報告 0
@@ -45,14 +46,17 @@
 [N23z7] PASS - 新しい報告 0
 [N23n2] PASS - E13 で遮断・解決できない を表示
 [N23v2] PASS - E13 で遮断・系列に無い を表示
-[N23rb] PASS - 測定不能→起票・直しが通過→測定可能・新しい報告なし
+[N23rb] PASS - 測定不能→起票・直しが通過→間の変更をちょうど報告
+[N23sh] PASS - 測定不能で停止・案内あり
+[N23mi] PASS - E13 で遮断・どの親の系列に無い を表示
 [N23pu] PASS - 測定不能で停止
 [N23n] PASS - 書く commit 遮断・E13 で遮断
 [N23v] PASS - 書く commit 遮断・E13 で遮断
 [N23w] PASS - profile 不正で停止
 [N23o] PASS - 通過
 [N23x7] PASS - 通過
+[N23x8] PASS - 遮断→通過
 [N23wt] PASS - E13 なし(validate exit 0)
-N23 controls 54; FAIL ['N23z3', 'N23z3b']; expected FAIL ['N23z3', 'N23z3b']
+N23 controls 58; FAIL ['N23z3', 'N23z3b']; expected FAIL ['N23z3', 'N23z3b']
 known-bad: as expected
 throwaway product removed: True

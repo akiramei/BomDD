@@ -47,7 +47,9 @@
                                           HEAD の欄に無いもの)は、触れたパスによらず since が解決でき、どれかの親で
                                           効いていなければ遮断(squash の取り込みなど — round 6/7)。HEAD から
                                           引き継ぐだけの項目は見ない(rebase・cherry-pick・浅い clone で系列から
-                                          外れても ECO の起票と直しは通る — validate は直すまで測定不能)。
+                                          外れても ECO の起票と直しは通る — validate は直すまで測定不能。直す値は
+                                          項目が名指した commit の写し〔rebase 後の同じ commit〕・浅い clone では
+                                          書き直さず clone を深くする — round 8)。
                                           入力の読み方は 1 つ(round 6): 作られる commit は index・過去の commit は
                                           その tree・親は親の tree・YAML は strict_load(index の profile は全体を
                                           validate_profile)・差分のパスは diff-tree --raw -z を位置で読む。
@@ -622,10 +624,10 @@ def scan_history(root: Path, prof: dict) -> dict:
         for since, paths in groups.items():
             s = resolve_commit(root, since)
             if s is None:
-                die(f"ruled_layer の since '{since}' が解決できない(裁定層の履歴検査が測定不能)")
+                die(f"ruled_layer の since '{since}' が解決できない(裁定層の履歴検査が測定不能 — {SHALLOW_HINT})")
             if not (s == head or run_git(root, "merge-base", "--is-ancestor", s, head).returncode == 0):
                 die(f"ruled_layer の since {since[:12]} が HEAD の系列に無い(裁定層の履歴検査が測定不能 — "
-                    f"欄は設計リリースの後に、その commit の SHA で書く)")
+                    f"欄は設計リリースの後に、その commit の SHA で書く。{REPOINT_HINT})")
             # 候補= since の子孫(--ancestry-path)のすべて。パスでは絞らない(照合は covered だけ — R8-4-04)
             a = run_git(root, "rev-list", "--reverse", "--parents", "--ancestry-path", f"{s}..HEAD")
             if a.returncode != 0:
@@ -1094,6 +1096,18 @@ class SinceIndex:
         return self._anc[(since_sha, rev)]
 
 
+SHALLOW_HINT = "浅い clone なら since を書き直さず、clone を深くする — git fetch --unshallow"  # R8-7-02(round 8)
+REPOINT_HINT = "rebase・cherry-pick の後なら、項目が名指した commit の写し(rebase 後の同じ commit)に書き直す — HEAD に"\
+               "書くと、その間の commit が再演から抜ける"  # R8-7-02(round 8)
+
+
+def since_why(sha: str | None, merge: bool) -> str:
+    """since が使えない理由の文(第 1 層の 2 か所が共有)。"""
+    if sha is None:
+        return f"が解決できない({SHALLOW_HINT})"
+    return f"が{'どの親' if merge else 'HEAD'}の系列に無い({REPOINT_HINT})"
+
+
 def resolve_commit(root: Path, rev: str) -> str | None:
     p = run_git(root, "rev-parse", "--verify", "-q", f"{rev}^{{commit}}")
     return p.stdout.strip() if p.returncode == 0 else None
@@ -1232,7 +1246,7 @@ def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str
             continue
         sha = si.resolve(since)
         if sha is None or not any(si.in_force(sha, p) for p in parents):
-            why = "が解決できない" if sha is None else f"が{'HEAD' if not others else 'どの親'}の系列に無い"
+            why = since_why(sha, bool(others))
             return [f"[E13] {REASONS['E13']}: index の ruled_layer の項目 {path} の since '{since[:12]}'{why} — この commit が"
                     f"足す・変える項目では、再演が裁定層を判定できない(測定不能は合格ではない — since は、その系列の commit の"
                     f" SHA で書く。squash で取り込む項目は、取り込む系列の commit に書き直す)"]
@@ -1251,7 +1265,7 @@ def check_ruled_layer(root: Path, old: dict[str, dict], prof: dict, raw_msg: str
         if base is None:
             t = covered(staged_head, [path])
             if t:
-                why = "が解決できない" if sha is None else f"が{'HEAD' if not others else 'どの親'}の系列に無い"
+                why = since_why(sha, bool(others))
                 return [f"[E13] {REASONS['E13']}: ruled_layer の since '{since[:12]}'{why} — 裁定層 {t} の変更を判定できない"
                         f"(測定不能は合格ではない — 欄は設計リリースの後に、その commit の SHA で書く)"]
             continue

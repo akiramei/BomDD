@@ -3,8 +3,8 @@ with one mechanism broken.
 
 Old validators cannot parse an entry {path, since} (exit 2), so the known-bad against earlier commits (verify119_r3kb.py) no longer
 tells the arms apart. Each mutant here changes one mechanism of E13: seven are round 5's (R8-4-06), six round 6's (R8-5-07: each
-puts back one way round 5 read an input), and six round 7's (R8-6-05: three of them break the commit-msg hook, the first mutants
-of a hook). A product is scaffolded by bomdd-init.py from this working tree, its installed process-validator.py (or commit-msg
+puts back one way round 5 read an input), six round 7's (R8-6-05: three of them break the commit-msg hook, the first mutants of a
+hook), and two round 8's (R8-7-03: the inspector's i1 and i2). A product is scaffolded by bomdd-init.py from this working tree, its installed process-validator.py (or commit-msg
 hook) is replaced with the mutant, and the qualification's OQ runs once. Expected: exactly the named arms FAIL and every other N23
 arm PASSes. The product and the qualification's sandboxes (bomdd-oq-* made during the run) are removed afterwards. Writes
 out/r5kb-<name>.txt.
@@ -33,7 +33,7 @@ VALIDATOR = BOMDD / "method/templates/process-core/tools/process-validator.py"
 HOOKS = BOMDD / "method/templates/process-core/hooks"
 # a replacement is (old, new) on the validator, or (product path, old, new) on another installed file (a hook)
 TARGETS = {"bomdd/tools/process-validator.py": VALIDATOR, "bomdd/hooks/commit-msg": HOOKS / "commit-msg"}
-N23_COUNT = 54
+N23_COUNT = 58
 ENV = dict(os.environ, GIT_AUTHOR_NAME="eco119-r5kb", GIT_AUTHOR_EMAIL="r5kb@bomdd.invalid",
            GIT_COMMITTER_NAME="eco119-r5kb", GIT_COMMITTER_EMAIL="r5kb@bomdd.invalid")
 
@@ -65,7 +65,8 @@ MUTANTS = {
                        [('else (x["path"], x["since"]) for x in rl["paths"]]', 'else (x["path"], rl["since"]) for x in rl["paths"]]')],
                        # round 6: N23v2 too (its entry's own since is the branch's HEAD; the field's since is on main's line).
                        # Round 7: N23rb too (the rebased entry's own since is what goes off the line)
-                       {"N23z5", "N23z5b", "N23z7", "N23n2", "N23v2", "N23rb"}),
+                       # Round 8: N23mi too (the merged entry then takes the field's since, which is on the line)
+                       {"N23z5", "N23z5b", "N23z7", "N23n2", "N23v2", "N23rb", "N23mi"}),
     "no-index": ("the first layer judges with HEAD's field only (the index's field not used)",
                  [("ents = list(dict.fromkeys(ruled_entries(head_rl) + ruled_entries(idx_rl)))",
                    "ents = list(dict.fromkeys(ruled_entries(head_rl)))")],
@@ -79,7 +80,8 @@ MUTANTS = {
     "fieldless-parents": ("the merge field check counts parents without the field (as None)",
                           [("held = [r for r in (ruled_layer_of(root, p) for p in parents) if r is not None]",
                             "held = [ruled_layer_of(root, p) for p in parents]")],
-                          {"N23x", "N23x5", "N23x6"}),
+                          # round 8: N23oc too (the profile-less first MERGE_HEAD line counts as a parent with no field)
+                          {"N23x", "N23x5", "N23x6", "N23oc"}),
     "pathspec": ("the replay's candidates filtered by a literal git pathspec of the entries (as round 4)",
                  [(AFTER, AFTER + '            keep = set(run_git(root, "--literal-pathspecs", "rev-list", "--full-history", '
                                   '"--no-merges", "--ancestry-path", f"{s}..HEAD", "--", *paths).stdout.split())\n'
@@ -117,11 +119,12 @@ MUTANTS = {
                    {"N23z9b"}),
     "exit-first": ("the no-profile exit comes before the merge field check (round 5)",
                    [('        if a.mode == "commit-msg" and head_exists(root):\n', '        if False:\n')],
-                   {"N23x6"}),
+                   {"N23x6", "N23oc"}),
     "since-touched-only": ("an index entry's since is checked only when its paths are touched (round 5)",
                            [("        if sha is None or not any(si.in_force(sha, p) for p in parents):\n",
                              "        if False:\n")],
-                           {"N23v2", "N23n", "N23v"}),
+                           # round 8: N23mi too (a merge's entry is then never checked)
+                           {"N23v2", "N23n", "N23v", "N23mi"}),
     # --- round 7 (R8-6-05): round 6's mechanisms with no arm or mutant, and round 7's changes ---
     "since-all": ("every index entry's since is checked, including those carried over from HEAD (round 6)",
                   [("        if (path, since) in head_entries:\n            continue\n", "")],
@@ -140,11 +143,27 @@ MUTANTS = {
                       {"N23z9b"}),
     "hook-no-merge": ("the commit-msg hook exits before the validator on a merge into a HEAD with no profile (round 5's hook)",
                       [("bomdd/hooks/commit-msg", "    || merge_parent_has_profile \\\n", "")],
-                      {"N23x6"}),
+                      # round 8: N23x8 too (after the profile's removal the merged index has none, so only the
+                      # MERGE_HEAD clause starts the missing validator)
+                      {"N23x6", "N23oc", "N23x8"}),
     "hook-merge-any": ("the commit-msg hook starts the validator on every merge (round 6's hook)",
                        [("bomdd/hooks/commit-msg", "    || merge_parent_has_profile \\\n",
                          "    || git rev-parse -q --verify MERGE_HEAD >/dev/null 2>&1 \\\n")],
-                       {"N23x7"}),
+                       # round 8: N23x8 too (its merge after the branch removed the profile then starts the missing validator)
+                       {"N23x7", "N23x8"}),
+    # --- round 8 (R8-7-03): the inspector's i1 and i2 ---
+    "hook-first-line": ("the commit-msg hook reads only the first line of MERGE_HEAD (octopus parents 2 and later ignored)",
+                        [("bomdd/hooks/commit-msg",
+                          '  while read -r c; do\n    [ -n "$c" ] && git cat-file -e "$c:bomdd/process-profile.yaml" '
+                          '2>/dev/null && return 0\n  done < "$mh"\n',
+                          '  read -r c < "$mh"\n  [ -n "$c" ] && git cat-file -e "$c:bomdd/process-profile.yaml" '
+                          '2>/dev/null && return 0\n')],
+                        {"N23oc"}),
+    "merge-skip-since": ("at a merge, the since check of the index entries is skipped",
+                         [("    for path, since in ruled_entries(idx_rl):\n        if (path, since) in head_entries:\n",
+                           "    for path, since in ([] if others else ruled_entries(idx_rl)):\n"
+                           "        if (path, since) in head_entries:\n")],
+                         {"N23mi"}),
 }
 
 

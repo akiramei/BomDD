@@ -37,6 +37,7 @@
 [N23z9] PASS - E13 で遮断・bomdd/20-spec.md を表示
 [N23z9b] PASS - E13 で遮断・bomdd/20-spec.md を表示
 [N23x6] PASS - E13 で遮断・ruled_layer を落とす を表示
+[N23oc] PASS - E13 で遮断・ruled_layer を落とす を表示
 [N23x5] PASS - E13 で遮断・ruled_layer を落とす を表示
 [N23p2] PASS - history の E13 でちょうど期待の commit を検出
 [N23z5] PASS - 新しい報告 0
@@ -45,7 +46,9 @@
 [N23z7] PASS - 新しい報告 0
 [N23n2] PASS - E13 で遮断・解決できない を表示
 [N23v2] PASS - E13 で遮断・系列に無い を表示
-[N23rb] PASS - 測定不能→起票・直しが通過→測定可能・新しい報告なし
+[N23rb] PASS - 測定不能→起票・直しが通過→間の変更をちょうど報告
+[N23sh] PASS - 測定不能で停止・案内あり
+[N23mi] PASS - E13 で遮断・どの親の系列に無い を表示
 [N23pu] PASS - 測定不能で停止
 [N23n] PASS - 書く commit 遮断・E13 で遮断
 [N23v] PASS - 書く commit 遮断・E13 で遮断
@@ -53,7 +56,9 @@
 [N23o] PASS - 通過
 [N23x7] FAIL - 想定外(exit 1): process-core: validator または実行可能な python が見つからない — fail-closed で commit を遮断します
 Not committing merge; use 'git commit' to complete the merge.
+[N23x8] FAIL - 想定外(merge exit 1・枝の準備 True・撤去後の merge exit 1): process-core: validator または実行可能な python が見つからない — fail-closed で commit を遮断します
+Not committing merge; use 'git comm
 [N23wt] PASS - E13 なし(validate exit 0)
-N23 controls 54; FAIL ['N23x7']; expected FAIL ['N23x7']
+N23 controls 58; FAIL ['N23x7', 'N23x8']; expected FAIL ['N23x7', 'N23x8']
 known-bad: as expected
 throwaway product removed: True

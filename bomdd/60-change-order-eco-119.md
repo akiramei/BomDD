@@ -1118,6 +1118,9 @@ were going at the same time. The bound was raised to 3600 s, and the second run 
 - **V3 — PASS** (`out/v3.txt`; before = `42a6158`): the 47 controls in both runs have the same verdict and detail. Only the 54 N23
   controls are new. The temporary folders were removed.
 
+**CI of the record commit `93053f8`:** GitHub created no run for this push (no check suite on the commit, 75 min after the push;
+the workflow is active). The fix commit's run covers that tree too.
+
 **Commit and CI.** Fix `a021984` (self-conformance exit 0 before the commit, 19 m 44 s); CI success, run 42081081657.
 
 ## 4P. R8 round 7 (2026-11-06)
@@ -1181,8 +1184,92 @@ these three findings and the code changed for them, before the closure. The desi
   `git rebase` on Windows). The evidence scripts keep TMP short.
 - Round 8 of R8 is narrowed to R8-7-01..03 and the code changed for them.
 
-**CI of the record commit `93053f8`:** GitHub created no run for this push (no check suite on the commit, 75 min after the push;
-the workflow is active). The fix commit's run covers that tree too.
+## 4R. Round 8 — the fix and the measurements before commit (2026-11-06)
+
+**What was changed** (from `f9153a1`; the design is section 4Q):
+- `process-validator.py` (R8-7-02):
+  - New `since_why`, shared by the first layer's two refusals. It carries one of two hints:
+    - `SHALLOW_HINT`, for an unresolvable `since`: deepen the clone (`git fetch --unshallow`);
+    - `REPOINT_HINT`, for an off-line one: re-point to the copy of the commit the entry named, because HEAD would drop the
+      commits in between.
+  - The replay's two dies carry the same hints. The E13 docstring says what the forward fix is.
+  - Selftest: all PASS.
+- `hooks/commit-msg` (R8-7-01): the comment now separates what the hook does not stop from what it stops. No code changed.
+  - The post-removal merge of an older branch, with the validator kept, is refused as dropping the field. Removing the field on
+    that branch first lets it through.
+  - With the validator removed, the hook refuses that merge whatever the profile holds. The remedy is to remove the profile on
+    that branch too (E08 on the branch), or to keep the validator until such branches are merged.
+  - The hook still does not read the profile's contents.
+- The profile template's comment and playbook §4.5:
+  - the remedy above;
+  - re-point to the copy of the commit the entry named, not to HEAD;
+  - in a shallow clone, deepen it.
+- `process-qualification.py`: 58 N23 arms (+x8, sh, oc, mi), and N23rb changed. N23rb now makes a `--no-verify` change under the
+  entry in the rebase state, then re-points `since` to the rebased copy of the entry's commit (`HEAD~1` right after the
+  fast-forward). The replay must report exactly that change.
+- Evidence scripts: `verify119_r5kb.py` has 58 arms, the two new mutants and updated expectations; `verify119_v2v3.py` expects
+  58.
+- The order: 4O's paragraph on `93053f8`'s CI, which `f9153a1` had moved to the end of 4Q by mistake, is back in 4O.
+
+**Corrections to 4N and 4O (R8-7-01, R8-7-02).**
+- 4N's R8-6-02b remedy ("remove the field on that branch first") holds only while the validator is kept.
+- 4N's N23rb and 4O's "an ECO re-points it" left the target open, and the arm used HEAD. The target is the copy of the commit the
+  entry named.
+- 4O puts "shallow clones" in the same sentence as rebase, which is wrong for the fix. In a shallow clone, `since` is not off the
+  line, only missing locally.
+
+**Arms with this tree's validator and hooks:** 58 of 58 PASS on the first run, and no other OQ control FAILs (scaffolded product,
+OQ once, 674 s).
+
+**V1 — PASS** (`out/v1.txt`): as before; KB2 reports 5 E13. MoviePad-Remake was read only (status clean).
+
+**Mutants** (`out/r5kb-<name>.txt`): all 21 are as expected (four at a time, 466-1169 s each). Twenty matched on the first run.
+`hook-no-merge` failed N23x8 as well, which my expectation had left out. After the profile's removal on main the merged index has
+no profile either, so only the MERGE_HEAD clause starts the missing validator. Removing that clause lets the merge through. The
+expectation was corrected and the mutant re-run alone: as expected.
+
+| mutant | what it puts back or breaks | FAIL |
+|---|---|---|
+| strict | in force only strictly after `since` | N23z2, N23z2r |
+| no-entry-since | every entry takes the field's `since` | N23mi, N23n2, N23rb, N23v2, N23z5, N23z5b, N23z7 |
+| no-index | the first layer ignores the index's field | N23s, N23z2, N23z9, N23z9b |
+| no-index-check | the index's profile not validated (strict parse kept) | N23z3, N23z3b |
+| fieldless-parents | the merge check counts parents without the field | N23oc, N23x, N23x5, N23x6 |
+| pathspec | the replay filtered by a literal pathspec (round 4's) | N23z8 |
+| first-parent | merges judged against the first parent only | N23m, N23s |
+| order-fallback | the order read from `:`, then `HEAD:` (round 5's) | N23e2 |
+| safe-load | profiles parsed with `yaml.safe_load` (round 5's) | N23pu, N23z3c |
+| name-only | the replay's paths from `--name-only` split on `\x01` (round 5's) | N23fr |
+| wt-profile | with no profile at HEAD, the working tree's profile (round 5's) | N23z9b |
+| exit-first | the no-profile exit before the merge check (round 5's) | N23oc, N23x6 |
+| since-touched-only | an index entry's `since` checked only when touched (round 5's) | N23mi, N23n, N23v, N23v2 |
+| since-all | every index entry's `since` checked, carried-over ones too (round 6's) | N23rb |
+| wt-replay | validate's replay from the working tree's field when HEAD has none (round 6's) | N23wt |
+| parent-lenient | a merge parent's profile that does not parse taken as no field | N23pu |
+| hook-no-index | commit-msg exits when only the index has the profile (round 5's hook) | N23z9b |
+| hook-no-merge | commit-msg exits on a merge into a HEAD with no profile (round 5's hook) | N23oc, N23x6, N23x8 |
+| hook-merge-any | commit-msg starts the validator on every merge (round 6's hook) | N23x7, N23x8 |
+| hook-first-line | commit-msg reads only MERGE_HEAD's first line (R8-7-03, the inspector's i1) | N23oc |
+| merge-skip-since | at a merge, the index entries' `since` not checked (R8-7-03, the inspector's i2) | N23mi |
+
+Changes from round 7's expectations:
+- no-entry-since and since-touched-only gain N23mi.
+- fieldless-parents and exit-first gain N23oc.
+- hook-no-merge gains N23oc and N23x8.
+- hook-merge-any gains N23x8.
+
+**Not armed (declared).**
+- The new hint texts are armed only where N23sh checks the deepen hint (`git fetch --unshallow`) in the replay's output.
+- The re-point hint and the first layer's hints are guidance text. The refusals that carry them are armed (N23n, N23n2, N23v2,
+  N23rb, N23mi); the words of the hint are not.
+- Also not armed, as in 4O: the raw framing's want/duplicate guard and the replay's guard "since の後の親が無い".
+
+**V2 and V3** (bound 3600 s; the one mutant re-run went at the same time):
+- **V2 — PASS** (`out/v2.txt`): disposition PASS, the two runs identical, 105 controls; all 58 N23 controls PASS.
+- **V3 — PASS** (`out/v3.txt`; before = `42a6158`): the 47 controls in both runs have the same verdict and detail. Only the 58 N23
+  controls are new. The temporary folders were removed.
+
+**CI of the record commit `f9153a1`:** success, run 42136973664.
 
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 

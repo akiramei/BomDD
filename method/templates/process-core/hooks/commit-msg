@@ -16,10 +16,14 @@ if [ ! -f "$profile" ]; then
   # ECO-016 案a: HEAD に profile が実在するなら削除中も検査を継続(撤去も ECO 経由)
   # ECO-119: index にだけある profile(round 6・R8-5-05)と、profile を持つ親のある merge(R8-5-03: 結果が欄を落とすかは
   # validator が git だけで照合する)でも validator を起動する。どの親にも profile の無い merge は起動しない
-  # (round 7・R8-6-02: profile を撤去し validator も外した製品の merge を止めない)。
+  # (round 7・R8-6-02: profile を撤去し validator も外した製品の、profile を持たない枝どうしの merge を止めない)。
   # 止めないもの: profile・hook・道具を一緒に消した枝の merge — merge は結果の作業ツリー(hook の無い)を書いてから
-  # この hook を探すので、ここに来ない(R8-6-03)。profile を撤去した main へ、撤去より前の枝(欄を持つ)を merge すると
-  # 欄を落とすので止まる(向きによらない)— 先にその枝で欄を外す(R8-6-02)
+  # この hook を探すので、ここに来ない(R8-6-03)。
+  # 止めるもの(向きによらない): profile を撤去した main へ、撤去より前の枝(profile を持つ)を merge する —
+  #   validator を残していれば、その枝の欄を落とす merge として止まる(先にその枝で欄を外せば通る)。
+  #   validator も外していれば、欄の有無によらず validator が無いので止まる(fail-closed — R8-7-01)。直し方は、その枝でも
+  #   profile を撤去する(枝で open の ECO の下で — E08)か、そうした枝を merge し終えるまで validator を残す。
+  #   hook は profile の中身(ruled_layer の有無)を読まない(flow 形式や引用符つきのキーを見落とすので)
   git cat-file -e HEAD:bomdd/process-profile.yaml 2>/dev/null \
     || git cat-file -e :bomdd/process-profile.yaml 2>/dev/null \
     || merge_parent_has_profile \

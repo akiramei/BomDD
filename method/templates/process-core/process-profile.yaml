@@ -56,9 +56,11 @@ structure_check: "{{METHOD}}/method/tools/bom-structure-check.py"
 # tag 名はコメントへ)。それより前の commit は判定しない。後から項目を足すときは {path: <パス>, since: <そのときの HEAD>}
 # と書く(パスだけの項目の since は欄の since — 書いた since の後の commit がすべて判定される)。since は、その commit の
 # 系列に残る commit で書く — 枝で書いた項目を squash で取り込むと since が main の系列から外れ、取り込む commit が
-# 止まる(取り込む側で since を main の HEAD に書き直す)。rebase・cherry-pick(hook が走らない)や浅い clone で since が
-# 系列から外れたときは、その項目を引き継ぐだけの commit は止まらず、その下のファイルに触れる commit が止まり、validate は
-# 直すまで測定不能(exit 2)— ECO を起票して since を書き直す(起票も直しも hook を通る)。
+# 止まる(取り込む側で since を main の HEAD に書き直す)。rebase・cherry-pick(hook が走らない)で since が系列から
+# 外れたときは、その項目を引き継ぐだけの commit は止まらず、その下のファイルに触れる commit が止まり、validate は直すまで
+# 測定不能(exit 2)— ECO を起票し、since を「項目が名指した commit の写し」(rebase・cherry-pick の後の同じ commit)に
+# 書き直す(起票も直しも hook を通る。HEAD に書くと、その間の commit が再演から抜ける)。浅い clone で since が解決できない
+# ときは書き直さない — clone を深くする(git fetch --unshallow)。
 # 欄・項目の追加・since の変更・削除は本ファイルの変更= E08 を通る。
 # ruled_layer:
 #   since: <欄を足すときの HEAD の完全な SHA>   # 設計リリース: tag <tag 名>

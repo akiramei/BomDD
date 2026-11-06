@@ -767,8 +767,8 @@ def run_oq(root: Path, base: Path) -> list[dict]:
 
 def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     """N23a〜z9(ECO-119 V2 の腕を qualification に入れ子で — a〜w と c2・n2・p2・x・x2〜x5・y・z・z2・z2r・z3・z3b・z4〜z9・
-    z5b・u の 44 本に、round 6 の e2・fr・v2・x6・z3c・z9b と round 7 の rb・pu・x7・wt を足した 54 本)。sandbox 1 本で順に。
-    欄なしの対照(N23o)と profile の無い製品の対照(N23x7・N23wt)は別 sandbox。
+    z5b・u の 44 本に、round 6 の e2・fr・v2・x6・z3c・z9b と round 7 の rb・pu・x7・wt、round 8 の x8・sh・oc・mi を足した 58 本)。sandbox 1 本で順に。
+    欄なしの対照(N23o)と profile の無い製品の対照(N23x7・N23x8・N23wt)は別 sandbox。
     設計リリースは main の上(実製品 MoviePad-Remake と同じ形 — R8-1-01)・欄は後の profile commit で SHA として足す
     (裁定 2:A)・trailer 名は installed profile から(ECO-024 — R8-1-07)。"""
     res: list[dict] = []
@@ -1261,6 +1261,19 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
         res.append(result("N23x6", "E13(profile の無い枝の merge)", False,
                           f"準備の git 操作が失敗: {out(next(x for x in st if x.returncode)).strip()[:140]}"))
         undo()
+    # N23oc(round 8・R8-7-03): profile の無い枝へ octopus を -s ours で(MERGE_HEAD の 1 行目= profile の無い枝・2 行目= main)
+    # → 遮断(hook は MERGE_HEAD のすべての行を見る)
+    st = [git(s.root, "checkout", "-q", "-b", "np2", "noprof", env=s.env),
+          git(s.root, "commit", "-q", "--allow-empty", "-m", "np2 work", env=s.env),
+          git(s.root, "checkout", "-q", "noprof", env=s.env)]
+    if all(x.returncode == 0 for x in st):
+        refused("N23oc", "E13(profile の無い枝へ octopus を -s ours で〔profile は MERGE_HEAD の 2 行目だけ〕し欄を落とす→遮断)",
+                git(s.root, "merge", "-q", "--no-ff", "-s", "ours", "np2", main, "-m", "octopus into noprof (ours)", env=s.env),
+                "ruled_layer を落とす")
+    else:
+        res.append(result("N23oc", "E13(octopus の 2 行目)", False,
+                          f"準備の git 操作が失敗: {out(next(x for x in st if x.returncode)).strip()[:140]}"))
+        undo()
     git(s.root, "checkout", "-q", main, env=s.env)
     pz = git(s.root, "cat-file", "-e", f"HEAD:{prof_rel}", env=s.env)   # main の profile は N23x6 の準備で戻した
     if pz.returncode != 0:
@@ -1356,9 +1369,10 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
         undo()
     git(s.root, "checkout", "-q", main, env=s.env)
 
-    # N23rb(round 7・R8-6-01): 枝で {path, since: 枝の commit} の項目を足し、main へ rebase(hook は走らない)して main を
-    # fast-forward → since が main の系列から外れる。validate は測定不能(exit 2)・ECO の起票と since の直しはどちらも hook を
-    # 通る(HEAD から引き継ぐだけの項目の since は見ない)・直した後の validate は測定でき、新しい報告は無い
+    # N23rb(round 7・R8-6-01 → round 8・R8-7-02): 枝で {path, since: 枝の commit} の項目を足し、main へ rebase(hook は走らない)
+    # して main を fast-forward → since が main の系列から外れる。その状態で項目の下を --no-verify で変える。validate は測定不能
+    # (exit 2)・ECO の起票と since の直しはどちらも hook を通る(HEAD から引き継ぐだけの項目の since は見ない)・直す値は項目が
+    # 名指した commit の rebase 後の写し — 直した後の validate は、その間の --no-verify の変更をちょうど報告する
     st = [git(s.root, "checkout", "-q", "-b", "rb", env=s.env)]
     s.write("bomdd/rb.md", "rb\n")
     st.append(commit_paths("rb work", add=("bomdd/rb.md",)))
@@ -1371,6 +1385,10 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     st.append(git(s.root, "rebase", "-q", main, env=s.env))
     st.append(git(s.root, "checkout", "-q", main, env=s.env))
     st.append(git(s.root, "merge", "-q", "--ff-only", "rb", env=s.env))
+    rb_copy = git(s.root, "rev-parse", "HEAD~1", env=s.env).stdout.strip()   # rebase 後の「rb work」= 項目が名指した commit の写し
+    s.write("bomdd/extra11/x.md", "changed with hooks skipped in the rebase state\n")
+    st.append(commit_paths("extra11: changed with hooks skipped", add=("bomdd/extra11/x.md",), extra=("--no-verify",)))
+    nv_rb = head()
     made = all(x.returncode == 0 for x in st)
     v0 = s.validate()
     reg["ECO-955"] = SPEC["initial"]
@@ -1378,22 +1396,53 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     s.write("bomdd/60-change-order-eco-955.md", f"# ECO-955\n## Sources read\n- {prof_rel}:1\n")
     p_file = commit_paths("eco: file ECO-955 (re-point bomdd/extra11's since)",
                           add=(SPEC["register"], "bomdd/60-change-order-eco-955.md"))
-    write_prof(lambda r: r.__setitem__("paths", [dict(x, since=head()) if isinstance(x, dict) and x["path"] == "bomdd/extra11"
+    write_prof(lambda r: r.__setitem__("paths", [dict(x, since=rb_copy) if isinstance(x, dict) and x["path"] == "bomdd/extra11"
                                                 else x for x in r["paths"]]))
-    p_fix = commit_paths("equipment: bomdd/extra11's since re-pointed to main's line under ECO-955", add=(prof_rel,))
+    p_fix = commit_paths("equipment: bomdd/extra11's since re-pointed to the rebased copy of its commit under ECO-955",
+                         add=(prof_rel,))
     v1 = s.validate()
     got_rb = e13_set(v1)
     ok = (made and v0.returncode == 2 and "系列に無い" in out(v0) and p_file.returncode == 0 and p_fix.returncode == 0
-          and v1.returncode != 2 and got_rb == got2)
+          and v1.returncode != 2 and got_rb - got2 == {nv_rb[:9]} and got2 <= got_rb)
     res.append(result("N23rb", "E13(rebase で since が系列から外れた後も、ECO の起票と since の直しは hook を通る — 引き継ぐだけの"
-                               "項目の since は見ない・validate は直すまで測定不能)", ok,
-                      "測定不能→起票・直しが通過→測定可能・新しい報告なし" if ok
+                               "項目の since は見ない・validate は直すまで測定不能・写しへ直すと間の --no-verify の変更を報告)", ok,
+                      "測定不能→起票・直しが通過→間の変更をちょうど報告" if ok
                       else f"想定外(準備 {made}・直す前の validate exit {v0.returncode}・起票 exit {p_file.returncode}・直し exit "
                            f"{p_fix.returncode}・直した後 exit {v1.returncode}・報告の差 {sorted(got_rb ^ got2)}): "
                            f"{(out(p_file) if p_file.returncode else out(p_fix) if p_fix.returncode else out(v1)).strip()[:140]}"))
     if not ok:
         undo()
     got2 = got_rb if v1.returncode != 2 else got2
+    # N23sh(round 8・R8-7-02b): 浅い clone(--depth 2)では since が解決できない → validate は測定不能で、clone を深くする案内を出す
+    # (since を書き直すと本体の境界も動く)
+    shallow = base / "n23sh"
+    pc = git(base, "clone", "-q", "--depth", "2", "--no-local", s.root.as_uri(), str(shallow), env=s.env)
+    if pc.returncode == 0:
+        v = subprocess.run([sys.executable, str(shallow / "bomdd" / "tools" / "process-validator.py"), "--mode", "validate",
+                            "--root", str(shallow)], capture_output=True, text=True, encoding="utf-8", errors="replace")
+        ok = v.returncode == 2 and "解決できない" in out(v) and "git fetch --unshallow" in out(v)
+        res.append(result("N23sh", "exit 2(浅い clone で since が解決できない → 測定不能・clone を深くする案内)", ok,
+                          "測定不能で停止・案内あり" if ok else f"想定外(exit {v.returncode}): {out(v).strip()[:140]}"))
+    else:
+        res.append(result("N23sh", "exit 2(浅い clone)", False, f"準備の clone が失敗: {out(pc).strip()[:140]}"))
+    # N23mi(round 8・R8-7-03): 2 番目の親から、どの親の系列にも無い since の項目を持ち込む merge → 遮断(merge でも、HEAD の欄に
+    # 無い項目の since を調べる)
+    st = [git(s.root, "checkout", "-q", "-b", "side-mi", env=s.env),
+          git(s.root, "commit", "-q", "--allow-empty", "-m", "a commit only on side-mi", env=s.env)]
+    off_mi = head()
+    st.append(git(s.root, "checkout", "-q", "-b", "mi", main, env=s.env))
+    write_prof(lambda r: r["paths"].append({"path": "bomdd/extra12", "since": off_mi}))
+    st.append(commit_paths("equipment: bomdd/extra12 since a commit off this line (hooks skipped)", add=(prof_rel,),
+                           extra=("--no-verify",)))
+    st.append(git(s.root, "checkout", "-q", main, env=s.env))
+    if all(x.returncode == 0 for x in st):
+        refused("N23mi", "E13(2 番目の親から系列に無い since の項目を持ち込む merge→遮断 — merge でも足す項目の since を調べる)",
+                git(s.root, "merge", "-q", "--no-ff", "mi", "-m", "merge mi", env=s.env), "どの親の系列に無い")
+    else:
+        res.append(result("N23mi", "E13(merge で持ち込む項目)", False,
+                          f"準備の git 操作が失敗: {out(next(x for x in st if x.returncode)).strip()[:140]}"))
+        undo()
+    git(s.root, "checkout", "-q", main, env=s.env)
     # N23pu(round 7・R8-6-05): merge の親の profile が重複キーで読めない → その merge を止める(測定不能・exit 2)— 「欄なし」に
     # 倒さない(結果は -s ours で main の profile のまま)
     st = [git(s.root, "checkout", "-q", "-b", "pu", env=s.env)]
@@ -1470,7 +1519,8 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
     # 無ければ commit-msg hook は validator を起動しない — round 6 の hook は merge のたびに起動して fail-closed で止めた)
     s3 = Sandbox(root, base, "n23x7")
     main3 = git(s3.root, "rev-parse", "--abbrev-ref", "HEAD", env=s3.env).stdout.strip() or "main"
-    st = [git(s3.root, "rm", "-q", "--", prof_rel, "bomdd/tools/process-validator.py", env=s3.env),
+    st = [git(s3.root, "branch", "old8", env=s3.env),   # N23x8 の「撤去より前の枝」
+          git(s3.root, "rm", "-q", "--", prof_rel, "bomdd/tools/process-validator.py", env=s3.env),
           git(s3.root, "commit", "-q", "--no-verify", "-m", "equipment: profile and validator removed, hooks kept", env=s3.env),
           git(s3.root, "checkout", "-q", "-b", "x7", env=s3.env)]
     s3.write("bomdd/x7.md", "x7\n")
@@ -1484,6 +1534,35 @@ def _oq_ruled_layer(root: Path, base: Path) -> list[dict]:
                           p.returncode == 0, "通過" if p.returncode == 0 else f"想定外(exit {p.returncode}): {out(p).strip()[:140]}"))
     else:
         res.append(result("N23x7", "E13 なし(profile の無い製品の merge)", False,
+                          f"準備の git 操作が失敗: {out(next(x for x in st if x.returncode)).strip()[:140]}"))
+    # N23x8(round 8・R8-7-01): 同じ製品(profile と validator を撤去・hook は残る)へ、撤去より前の枝(profile と validator を持つ)
+    # を merge → hook が止める(validator が無い — fail-closed)。枝で ECO を起票し profile を撤去すれば(どちらも hook を通る)、
+    # merge は通る(どの親にも profile が無い)
+    git(s3.root, "reset", "-q", "--hard", env=s3.env)
+    st = [git(s3.root, "checkout", "-q", "old8", env=s3.env)]
+    s3.write("bomdd/old8.md", "old8\n")
+    st.append(s3.commit("old8: work on a branch from before the removal"))
+    st.append(git(s3.root, "checkout", "-q", main3, env=s3.env))
+    if all(x.returncode == 0 for x in st):
+        p_ref = git(s3.root, "merge", "-q", "--no-ff", "old8", "-m", "merge old8", env=s3.env)
+        git(s3.root, "merge", "--abort", env=s3.env)
+        git(s3.root, "reset", "-q", "--hard", env=s3.env)
+        st2 = [git(s3.root, "checkout", "-q", "old8", env=s3.env)]
+        s3.write(SPEC["register"], _reg_many({"ECO-960": SPEC["initial"]}))
+        st2.append(s3.commit("eco: file ECO-960 (remove the profile on old8)"))
+        st2.append(git(s3.root, "rm", "-q", "--", prof_rel, env=s3.env))
+        st2.append(git(s3.root, "commit", "-q", "-m", "equipment: the profile removed on old8 under ECO-960", env=s3.env))
+        st2.append(git(s3.root, "checkout", "-q", main3, env=s3.env))
+        p_ok = git(s3.root, "merge", "-q", "--no-ff", "old8", "-m", "merge old8 after its profile is removed", env=s3.env)
+        made = all(x.returncode == 0 for x in st2)
+        ok = (p_ref.returncode != 0 and "validator または実行可能な python が見つからない" in out(p_ref) and made
+              and p_ok.returncode == 0)
+        res.append(result("N23x8", "遮断→通過(validator も撤去した製品へ profile を持つ枝の merge は hook が止める・枝でも profile を"
+                                   "撤去すれば通る)", ok, "遮断→通過" if ok
+                          else f"想定外(merge exit {p_ref.returncode}・枝の準備 {made}・撤去後の merge exit {p_ok.returncode}): "
+                               f"{(out(p_ref) if p_ref.returncode == 0 else out(next((x for x in st2 if x.returncode), p_ok))).strip()[:140]}"))
+    else:
+        res.append(result("N23x8", "遮断→通過(撤去より前の枝の merge)", False,
                           f"準備の git 操作が失敗: {out(next(x for x in st if x.returncode)).strip()[:140]}"))
 
     # N23wt(round 7・R8-6-04): HEAD に profile が無く、作業ツリーにだけ(追跡されない)欄つきの profile があり、その since が

@@ -13,7 +13,7 @@ f4861e8 in ECO-005's filing commit -> refused: as expected - exit 1: [E13] ruled
 f4861e8 in the next commit, both ADRs cited (bomdd/reports/adr/ADR-002.md:3, bomdd/reports/adr/ADR-006.md:1) -> allowed: as expected - exit 0: 
 31273e7 with 31-kbom.yaml uncited -> refused, names 31-kbom.yaml with count 0: as expected - exit 1: [E13] ruled-layer-change-without-ruling: 裁定層 ['bomdd/20-spec.md', 'bomdd/30-ebom.yaml', 'bomdd/31-kbom.yaml'] の変更 — ECO-005 の Sources read が触れた裁定層ファイルを引用していない(引用数 0: ['bomdd/31-kbom.yaml'])(「BomDD-ECO-Ruling: <open な ECO>」と、その指示書の
 31273e7 with all three cited -> allowed: as expected - exit 0: 
-79f1791 with --no-verify -> the full mode reports it (history E13, the only E13): as expected - validate exit 1: ["[E13] ruled-layer-change-without-ruling: history:b4404b741 裁定層 ['bomdd/reports/adr/ADR-003.md'] の変更 — ruling trailer が無い(裁定層 ['bomdd/reports/adr/ADR-003.md'] の変更は、それを名指す ECO が要る)(第 1 層を通らなかった変更を第 2 層が検出)"]
+79f1791 with --no-verify -> the full mode reports it (history E13, the only E13): as expected - validate exit 1: ["[E13] ruled-layer-change-without-ruling: history:570474c33 裁定層 ['bomdd/reports/adr/ADR-003.md'] の変更 — ruling trailer が無い(裁定層 ['bomdd/reports/adr/ADR-003.md'] の変更は、それを名指す ECO が要る)(第 1 層を通らなかった変更を第 2 層が検出)"]
    other violations in the full mode: none
 KB2 the replay without the since filter -> the changes before since are reported too (pre_field and bbce170's): as expected - E13 lines 5
 throwaway product removed: True
