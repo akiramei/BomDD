@@ -1,0 +1,34 @@
+{"examples": [
+ {"id": "SL-01", "title": "split, undo (one planted wrong value), redo", "basis": "slice: REQ-012, REQ-004",
+  "steps": [
+   {"action": null, "expect": {"undo_enabled": false, "redo_enabled": false, "region_count": 4}},
+   {"action": "Split", "expect": {"region_count": 5, "undo_enabled": true, "selected_start": 20, "playhead": 20}},
+   {"action": "Undo", "expect": {"region_count": 5, "redo_enabled": true, "undo_enabled": false}, "unresolved": ["playhead"]},
+   {"action": "Redo", "expect": {"region_count": 5, "redo_enabled": false}}
+  ]},
+ {"id": "SL-02", "title": "a press of an unavailable button (planted)", "basis": "slice",
+  "steps": [
+   {"action": "Redo", "expect": {"region_count": 4}}
+  ]},
+ {"id": "SL-03", "title": "the output frame rate after an undo (planted: expects it undone)", "basis": "slice: F6",
+  "steps": [
+   {"action": "Split", "expect": {"region_count": 5}},
+   {"action": "SetFps:60", "expect": {"out_fps": 60, "unsaved": true}},
+   {"action": "Undo", "expect": {"out_fps": 30, "region_count": 4}}
+  ]},
+ {"id": "SL-04", "title": "volume as a number against the screen text; unsaved after undo (F10)", "basis": "slice",
+  "steps": [
+   {"action": "ApplyVolumePreset:50", "expect": {"selected_volume_percent": 50, "unsaved": true}},
+   {"action": "Undo", "expect": {"selected_volume_percent": 100, "unsaved": true, "undo_enabled": false}}
+  ]},
+ {"id": "SL-05", "title": "a speed preset equal to the current value (F8)", "basis": "slice",
+  "steps": [
+   {"action": "ApplySpeedPreset:1", "expect": {"undo_enabled": true, "selected_speed": 1}}
+  ]},
+ {"id": "SL-06", "title": "set in, then set in again with no change (F9); undo keeps the playhead (F7)", "basis": "slice",
+  "steps": [
+   {"action": "SetTrimIn", "expect": {"trim_start": 20, "undo_enabled": true}},
+   {"action": "StepForward", "expect": {"playhead": 20.033}},
+   {"action": "Undo", "expect": {"trim_start": 6, "playhead": 20.033, "undo_enabled": false}}
+  ]}
+]}

@@ -1,0 +1,24 @@
+{
+ "note": "起動直後(サンプル動画・ffmpeg の案内を閉じ・再生ヘッド 20 秒)に観測した値",
+ "values": {
+  "undo_enabled": false,
+  "redo_enabled": false,
+  "split_enabled": true,
+  "merge_enabled": false,
+  "trim_in_enabled": true,
+  "trim_out_enabled": false,
+  "region_count": 4,
+  "trim_start": 6,
+  "trim_end": 132,
+  "output_length": 142,
+  "playhead": 20,
+  "selected_start": 6,
+  "selected_end": 40,
+  "selected_speed": 1,
+  "selected_volume_percent": 100,
+  "out_fps": 30,
+  "out_width": 1920,
+  "out_height": 1080,
+  "unsaved": false
+ }
+}

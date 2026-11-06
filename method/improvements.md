@@ -10422,3 +10422,27 @@ Machine face of each lesson: **なし** for all four. No existing check or filed
 期待効果の棚卸し: matching open items checked — OBS-20260831-07 (cut-off adoption as convergence debt) and
 OBS-20260906-03 (defects after a "converged" label) are near but not instances: ECO-119 was not cut off for a later lens, and no
 "converged" label was declared. 回収・再演 0 件.
+
+## 2026-11-07 BehaviorForge read against the method, and the user's "A: 実機能で試す": the kit as it is on MoviePad's undo / redo, with a control (EXP-20261107-01, filed)
+
+Source: the user asked whether BehaviorForge (`C:/Users/akira/source/repos/BehaviorForge`, a document-and-template kit built
+after the feedback that the re-implementations had software CAD and mocks but a weak domain model and weak verification) is
+useful. My reading (in conversation, 2026-11-07): useful as a reading discipline; no step fixes the state enumeration
+(EXP-20261030-03's skeleton variance), history and enablement named but not enumerated, verification a recording vocabulary
+with no check (the kit declines checkers by design), its rules all prose, its example the easy frame-rate case, its effect
+unmeasured. The user chose "A: 実機能で試す" over "B: 2 点足してから". Folder `bomdd/reports/exp-20261107-01/`. MoviePad and
+MoviePad-Remake read by `git show` only; BehaviorForge copied, never written.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement of a kit; no body text, template or tool changes.
+
+- [open] EXP-20261107-01 — **Given the same sources and deliverables, do fresh writers who use BehaviorForge write an upstream
+  for MoviePad's undo / redo whose concrete examples hold better on the authority, and that completes less of what the sources
+  leave open, than fresh writers without the kit?** Two arms (K: the kit and its own start prompt filled; C: a neutral prompt),
+  two writers each; both add `examples.json` in one machine form with `unresolved` as a field; a copy of EXP-20261030-04's
+  harness with an `observe` command replays every example on MoviePad `126eae9`'s view model and reads 19 screen values after
+  each press. The authority's eleven undo facts are classed before any output as determined by the sources (F1-F5) or not
+  (F6-F11). Readings R1 (fail share on the authority), R2 (open facts stated wrongly, by a label-blind scorer), R3 (determined
+  facts stated correctly); a direction only where the arms do not overlap; no rate.
+  source: this section (the user's "A: 実機能で試す", 2026-11-07)
+  evidence: `bomdd/reports/exp-20261107-01/definitions.md`

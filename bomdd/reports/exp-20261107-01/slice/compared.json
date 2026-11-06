@@ -1,0 +1,333 @@
+{
+ "assertions": [
+  {
+   "example": "SL-01",
+   "step": 1,
+   "k": 0,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "SL-01",
+   "step": 1,
+   "k": 0,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "SL-01",
+   "step": 1,
+   "k": 0,
+   "obs": "region_count",
+   "expected": 4,
+   "outcome": "hold",
+   "actual": "4"
+  },
+  {
+   "example": "SL-01",
+   "step": 2,
+   "k": 1,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "hold",
+   "actual": "5"
+  },
+  {
+   "example": "SL-01",
+   "step": 2,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "SL-01",
+   "step": 2,
+   "k": 1,
+   "obs": "selected_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "SL-01",
+   "step": 2,
+   "k": 1,
+   "obs": "playhead",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "SL-01",
+   "step": 3,
+   "k": 2,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "fail",
+   "actual": "4",
+   "fact": "F3"
+  },
+  {
+   "example": "SL-01",
+   "step": 3,
+   "k": 2,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "SL-01",
+   "step": 3,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "SL-01",
+   "step": 4,
+   "k": 3,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "hold",
+   "actual": "5"
+  },
+  {
+   "example": "SL-01",
+   "step": 4,
+   "k": 3,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "SL-02",
+   "step": 1,
+   "k": 1,
+   "obs": "region_count",
+   "expected": 4,
+   "outcome": "not run",
+   "actual": null
+  },
+  {
+   "example": "SL-03",
+   "step": 1,
+   "k": 1,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "hold",
+   "actual": "5"
+  },
+  {
+   "example": "SL-03",
+   "step": 2,
+   "k": 2,
+   "obs": "out_fps",
+   "expected": 60,
+   "outcome": "hold",
+   "actual": "60"
+  },
+  {
+   "example": "SL-03",
+   "step": 2,
+   "k": 2,
+   "obs": "unsaved",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "SL-03",
+   "step": 3,
+   "k": 3,
+   "obs": "out_fps",
+   "expected": 30,
+   "outcome": "fail",
+   "actual": "60",
+   "fact": "F6"
+  },
+  {
+   "example": "SL-03",
+   "step": 3,
+   "k": 3,
+   "obs": "region_count",
+   "expected": 4,
+   "outcome": "hold",
+   "actual": "4"
+  },
+  {
+   "example": "SL-04",
+   "step": 1,
+   "k": 1,
+   "obs": "selected_volume_percent",
+   "expected": 50,
+   "outcome": "hold",
+   "actual": "50"
+  },
+  {
+   "example": "SL-04",
+   "step": 1,
+   "k": 1,
+   "obs": "unsaved",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "SL-04",
+   "step": 2,
+   "k": 2,
+   "obs": "selected_volume_percent",
+   "expected": 100,
+   "outcome": "hold",
+   "actual": "100"
+  },
+  {
+   "example": "SL-04",
+   "step": 2,
+   "k": 2,
+   "obs": "unsaved",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "SL-04",
+   "step": 2,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "SL-05",
+   "step": 1,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "SL-05",
+   "step": 1,
+   "k": 1,
+   "obs": "selected_speed",
+   "expected": 1,
+   "outcome": "hold",
+   "actual": "1"
+  },
+  {
+   "example": "SL-06",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "SL-06",
+   "step": 1,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "SL-06",
+   "step": 2,
+   "k": 2,
+   "obs": "playhead",
+   "expected": 20.033,
+   "outcome": "hold",
+   "actual": "20.033333333333335"
+  },
+  {
+   "example": "SL-06",
+   "step": 3,
+   "k": 3,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "SL-06",
+   "step": 3,
+   "k": 3,
+   "obs": "playhead",
+   "expected": 20.033,
+   "outcome": "hold",
+   "actual": "20.033333333333335"
+  },
+  {
+   "example": "SL-06",
+   "step": 3,
+   "k": 3,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  }
+ ],
+ "examples": [
+  {
+   "id": "SL-01",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "SL-02",
+   "stopped": "step 1: Redo disabled",
+   "kind": "pressed-unavailable"
+  },
+  {
+   "id": "SL-03",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "SL-04",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "SL-05",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "SL-06",
+   "stopped": null,
+   "kind": null
+  }
+ ],
+ "summary": {
+  "examples": 6,
+  "asserted": 31,
+  "hold": 28,
+  "fail": 2,
+  "not run": 1,
+  "fail_share": 0.0667,
+  "unresolved": 1,
+  "pressed-unavailable": 1,
+  "raised": 0,
+  "not-executed": 0,
+  "fails_by_fact": {
+   "F3": 1,
+   "F6": 1
+  }
+ }
+}

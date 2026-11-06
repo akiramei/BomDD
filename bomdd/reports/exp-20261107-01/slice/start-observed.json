@@ -1,0 +1,38 @@
+{
+  "culture": "ja-JP",
+  "runs": [
+    {
+      "id": "START",
+      "steps": [
+        {
+          "k": 0,
+          "action": null,
+          "values": {
+            "CanUndo": "False",
+            "CanRedo": "False",
+            "CanSplit": "True",
+            "CanDeleteBoundary": "False",
+            "CanSetTrimIn": "True",
+            "CanSetTrimOut": "False",
+            "RegionCount": "4",
+            "TrimStart": "6",
+            "TrimEnd": "132",
+            "OutputLength": "142",
+            "Playhead": "20",
+            "SelectedRegion.Start": "6",
+            "SelectedRegion.End": "40",
+            "SelectedRegion.Speed": "1",
+            "VolumeText": "100",
+            "OutFps": "30",
+            "OutW": "1920",
+            "OutH": "1080",
+            "Edited": "False",
+            "avail:Undo": "disabled",
+            "avail:Redo": "disabled"
+          }
+        }
+      ],
+      "stopped": null
+    }
+  ]
+}

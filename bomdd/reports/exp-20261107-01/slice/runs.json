@@ -1,0 +1,128 @@
+{
+ "paths": [
+  "CanUndo",
+  "CanRedo",
+  "CanSplit",
+  "CanDeleteBoundary",
+  "CanSetTrimIn",
+  "CanSetTrimOut",
+  "RegionCount",
+  "TrimStart",
+  "TrimEnd",
+  "OutputLength",
+  "Playhead",
+  "SelectedRegion.Start",
+  "SelectedRegion.End",
+  "SelectedRegion.Speed",
+  "VolumeText",
+  "OutFps",
+  "OutW",
+  "OutH",
+  "Edited"
+ ],
+ "runs": [
+  {
+   "id": "SL-01",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "Split",
+    "Undo",
+    "Redo"
+   ]
+  },
+  {
+   "id": "SL-02",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "Redo"
+   ]
+  },
+  {
+   "id": "SL-03",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "Split",
+    "SetFps:60",
+    "Undo"
+   ]
+  },
+  {
+   "id": "SL-04",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ApplyVolumePreset:50",
+    "Undo"
+   ]
+  },
+  {
+   "id": "SL-05",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "ApplySpeedPreset:1"
+   ]
+  },
+  {
+   "id": "SL-06",
+   "setup": [
+    {
+     "set": "ShowFfmpegSetup",
+     "value": false
+    },
+    {
+     "set": "Playhead",
+     "value": 20
+    }
+   ],
+   "actions": [
+    "SetTrimIn",
+    "StepForward",
+    "Undo"
+   ]
+  }
+ ]
+}
