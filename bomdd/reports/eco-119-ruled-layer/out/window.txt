@@ -1,0 +1,152 @@
+# ECO-119 window 9cc108b..ac0a157
+94a2a2a ECO-119   5 paths  file(eco-119) + method: the authority order on the user's "1:A 2:A 3:A" - each part labell
+f8b4891 other    36 paths  manufacture(eco-118): bom-structure-check.py runs G3's A1 rules 1-6 (rule 4's relay case),
+ea2ac97 other    21 paths  fix(eco-118): R8 round 1 (REJECT, 2 material, 11 minor) answered - E12 also fires on an ac
+8461c7f other    29 paths  fix(eco-118): R8 round 2 (REJECT, 2 material, 6 minor) answered on the user's "1:A 2:A" - 
+9724877 other     3 paths  record(eco-118): R8 round 3, the last round by the user's "1:A 2:A" - REJECT (1 material, 
+d355f62 other    19 paths  fix(eco-118): R8 round 3's three findings fixed on the user's "A" (no further round) - E12
+dcebc2e other     1 paths  fix(eco-118): playbook 4.6 A1 rule 4 and 4.5 P4 say the relay is one that crosses the requ
+42a6158 other     4 paths  accept(eco-118): verified on the user's "ECO-118 をクローズして" with "1:A 2:A 3:A" - the G3 stru
+3d16181 ECO-119  12 paths  manufacture(eco-119): process-core's E13 - after the design release (profile ruled_layer.s
+16cbeda other     7 paths  file(exp-20261030-01): an outside proposal - robustness analysis (ICONIX) as a check of th
+6b55b0d other    10 paths  record(exp-20261030-01): the desk count read by its fixed rule - of the recorded upstream 
+85c4de2 other     2 paths  fix(exp-20261030-01): the section's G2 sentence corrected - it said MoviePad-Remake was th
+bb49857 other     3 paths  record(exp-20261030-01): the user's "C" (the mock difference as a stop first) read before 
+90889de other     4 paths  file(exp-20261030-02): measure the reader on the user's "A" - six recorded upstream defect
+46e78e1 other    33 paths  record(exp-20261030-02): the reader measured on the user's "run it" - 22 inspector runs (1
+6d9d228 other     1 paths  record(exp-20261030-02): closed on the user's "A" - recorded and stopped; no rerun with a 
+f178242 other     6 paths  file(exp-20261030-03): an operation table with deterministic checks, filed on the user's "
+661e12c other    14 paths  record(exp-20261030-03): the operation table measured on the user's "A: 走らせる" - six fresh 
+c3b0bf4 other     2 paths  record(exp-20261030-03): closed on the user's "A" - recorded and stopped; no rerun over a 
+446c65f other     3 paths  record(exp-20261030-03): two corrections on the user's "A: 直す", after a review of the reco
+bc3dff8 other     2 paths  file(exp-20261030-04): a scenario walk over a mock with a correct upstream, filed on the u
+437998d other    37 paths  record(exp-20261030-04): stage 1 run on the user's "走らせる" - inside coverage 20 of 20 a-e m
+4cc64af other     3 paths  file(exp-20261030-05): stage 2 of the user's question, filed on "A: 起票する" - ordinary upstr
+26fc823 other    31 paths  record(exp-20261030-05): stage 2 run on the user's "A: 走らせる" - for both ordinary writers o
+751b5fb other     1 paths  record(exp-20261030-05): the series (EXP-20261030-04 and -05) closed on the user's "A: ここで
+c0ce186 other     9 paths  file(exp-20261031-01): a domain model derived before manufacture, filed on the user's ques
+bcf3711 other    29 paths  record(exp-20261031-01): run on the user's "A: 両方走らせる" - part 2: 2 of 2 writers given a do
+17fc199 other     1 paths  record(exp-20261031-01): the committed blobs of the two models and certify.json differ fro
+6357fc9 other     2 paths  file(exp-20261031-02): the re-manufacture's upstream with the domain model first and the s
+7b9726e other    16 paths  run(exp-20261031-02): step 1 on the user's "A: 既定で始める" - the twelve prompts, check_upstrea
+9c5306d other     7 paths  record(exp-20261031-02): S1 (requirements) stopped unconverged at the 3-round audit budget
+535486e other     4 paths  record(exp-20261031-02): S1 frozen on the user's "A: 打ち切って進む" - the author answered round 
+cbcbf99 other     7 paths  fix(exp-20261031-02): the agents' tools named what is measured - the first S2 author read 
+8b3d7d8 other     9 paths  record(exp-20261031-02): S2 (domain model) stopped unconverged at the 3-round audit budget
+2d44f1f other     4 paths  record(exp-20261031-02): S2 frozen on the user's "B: 以後も打ち切り" - the author answered round 
+97e5ad4 other    11 paths  record(exp-20261031-02): S3 (screens) converged at round 3 - blocker / material 0/1, 0/1, 
+c30c7a2 other    11 paths  record(exp-20261031-02): S4 (scenarios) cut off at the 3-round audit budget under departur
+9bb907d other     3 paths  record(exp-20261031-02): A1 on the frozen S2-S4 - k 39 of 92 settable attributes hold all 
+64d423e other     9 paths  fix(exp-20261031-02): the binder's folder lacked the setup op's JSON form - stage 1 gave i
+583ab27 other    16 paths  record(exp-20261031-02): A2 certify - the fresh binder wrote 56 of 151 scenarios; on the a
+60cbddf other     6 paths  record(exp-20261031-02): S5 (spec) cut off at the 3-round audit budget under departure 3 -
+a990e10 other     7 paths  record(exp-20261031-02): results of stage A - A1 k 39 of 92, the frame-rate row broken at 
+fbf698b other     2 paths  record(exp-20261031-02): closed on the user's "A: §9 のまま" - the frame-rate row is read as 
+a9a24ae other     1 paths  record(exp-20261031-02): staging folders exp04-exp07 deleted on the user's "削除してよい" (defin
+f9dc2ec other     3 paths  record(exp-20261031-02): correction on the user's "A: 訂正する" - the upstream does state an E
+565609e other     2 paths  file(exp-20261031-03): a frozen checker for designs in a machine-evaluable form over the o
+1411500 other     8 paths  run(exp-20261031-03): step 1 on the user's "A: 既定で始める" - the expected table from MoviePad 
+39e0974 other    19 paths  run(exp-20261031-03): step 2 frozen - form.md, form_check.py and check.py (selftest 29 of 
+090b283 other     5 paths  run(exp-20261031-03): step 3 - N2a and N2b frozen, the frozen S2 / S3 transcribed into the
+cb1b28d other    11 paths  run(exp-20261031-03): step 4 frozen - the nine meanings written on N2a in its own represen
+3f718b5 other     7 paths  run(exp-20261031-03): steps 5-6 - N1, N2a and N2b PASS, all 18 named mutants FAIL at their
+32e2bdd other    13 paths  file(eco-120): progress - each open ECO's stall measured from the register's history (bomd
+4845567 other    30 paths  fix(eco-120): bomdd-job --dwell - each open ECO's start in its current status derived from
+32606b4 other     2 paths  accept(eco-120): verified on the user's "クローズする" - V1-V6 PASS, window 3f718b5..4845567 clo
+db3a517 other    17 paths  file(eco-121): distribution of ECO-120 - each product's register says why an open ECO wait
+4b3e3a8 other     8 paths  record(eco-121): manufacture - ViewPrism2 ECO-149 implemented (a726322) and ViewTube ECO-V
+884fccc other     9 paths  record(eco-121): both product ECOs applied on the user's "1:A 2:A" - ViewPrism2 ECO-149 9b
+9e926be other     7 paths  accept(eco-121): verified - ECO-120 distributed to ViewPrism2 (ECO-149 9bdbe91) and ViewTu
+d06472a other     8 paths  file(eco-122): the dwell view reuses each register blob's parse result from a derived cach
+9cd4c3d other    12 paths  fix(eco-122): the dwell view reuses each register blob's parse result - ViewTube cold 37.3
+825d9a1 other     5 paths  accept(eco-122): verified - the dwell view's per-blob cache; V1-V5 PASS, window 9e926be..9
+a968c51 other     5 paths  file(eco-123): bomdd-job's gauges - the job view reads an English closure heading (12 veri
+7cf5917 other     8 paths  fix(eco-123): bomdd-job reads an English closure heading (the 12 verified ECOs now read NO
+7b648df other     2 paths  accept(eco-123): verified - bomdd-job reads an English closure heading and the dwell selft
+97cb6c1 other     5 paths  file(eco-124): the dwell view at every Claude Code session start in a BomDD repository - a
+a4c8b68 other    16 paths  fix(eco-124): the dwell view at every Claude Code session start - bomdd-job --dwell --brie
+d836955 other    11 paths  record(eco-124): V5 measured - FAIL on the BomDD arm (the session replies NONE though the 
+2e94683 other     2 paths  accept(eco-124): verified with a known limit on the user's "A: close with limit" - V1-V4 a
+00f3ae2 ECO-119  13 paths  fix(eco-119): round 2 on the user's "1:A 2:A 3:A 4:A 5:A" after R8 round 1's REJECT - E13 
+1cd891b ECO-119  14 paths  fix(eco-119): round 3 on the user's "1:A 2:A 3:A" and "B" after R8 round 2's REJECT - E13 
+9f586b8 ECO-119  15 paths  fix(eco-119): round 4 on the user's "A: 一本化+第4回" after R8 round 3's REJECT - one function 
+1c1fa24 ECO-119   2 paths  record(eco-119): R8 round 4 REJECT (4 material, 3 minor), not converging (3, 3, 2, 4); the
+4eba600 ECO-119  21 paths  fix(eco-119): round 5 on the user's "B: 推定をやめる" after R8 round 4's REJECT - per-entry sinc
+70921c3 ECO-119   3 paths  record(eco-119): R8 round 5 REJECT (4 material, 4 minor), round 4 all closed, not convergi
+9328477 ECO-119  27 paths  fix(eco-119): round 6 on the user's "1:A" after R8 round 5's REJECT - every E13 input read
+93053f8 ECO-119   3 paths  record(eco-119): R8 round 6 REJECT (1 material, 5 minor), round 5 closed (3, 3, 2, 4, 4, 1
+a021984 ECO-119  32 paths  fix(eco-119): round 7 on the user's "A" after R8 round 6's REJECT - the since check only f
+f9153a1 ECO-119   3 paths  record(eco-119): R8 round 7 ACCEPT (0 material, 3 minor), round 6 closed; R8-7-01 is a wro
+ac0a157 ECO-119  33 paths  fix(eco-119): round 8 on the user's "B: 直して第8回" after R8 round 7's ACCEPT with 3 minor - t
+commits: 79; ECO-119's: 13; others: 66
+  other: f8b4891 manufacture(eco-118): bom-structure-check.py runs G3's A1 rules 1-6 (rule 4's relay case), P1's id f
+  other: ea2ac97 fix(eco-118): R8 round 1 (REJECT, 2 material, 11 minor) answered - E12 also fires on an accept trail
+  other: 8461c7f fix(eco-118): R8 round 2 (REJECT, 2 material, 6 minor) answered on the user's "1:A 2:A" - E12 strips
+  other: 9724877 record(eco-118): R8 round 3, the last round by the user's "1:A 2:A" - REJECT (1 material, 2 minor), 
+  other: d355f62 fix(eco-118): R8 round 3's three findings fixed on the user's "A" (no further round) - E12 strips li
+  other: dcebc2e fix(eco-118): playbook 4.6 A1 rule 4 and 4.5 P4 say the relay is one that crosses the requirer's E-i
+  other: 42a6158 accept(eco-118): verified on the user's "ECO-118 をクローズして" with "1:A 2:A 3:A" - the G3 structure chec
+  other: 16cbeda file(exp-20261030-01): an outside proposal - robustness analysis (ICONIX) as a check of the upstream
+  other: 6b55b0d record(exp-20261030-01): the desk count read by its fixed rule - of the recorded upstream defects IN
+  other: 85c4de2 fix(exp-20261030-01): the section's G2 sentence corrected - it said MoviePad-Remake was the one prod
+  other: bb49857 record(exp-20261030-01): the user's "C" (the mock difference as a stop first) read before designing 
+  other: 90889de file(exp-20261030-02): measure the reader on the user's "A" - six recorded upstream defects (ViewTub
+  other: 46e78e1 record(exp-20261030-02): the reader measured on the user's "run it" - 22 inspector runs (12 pre, 10 
+  other: 6d9d228 record(exp-20261030-02): closed on the user's "A" - recorded and stopped; no rerun with a corrected 
+  other: f178242 file(exp-20261030-03): an operation table with deterministic checks, filed on the user's "起票する" - th
+  other: 661e12c record(exp-20261030-03): the operation table measured on the user's "A: 走らせる" - six fresh Claude der
+  other: c3b0bf4 record(exp-20261030-03): closed on the user's "A" - recorded and stopped; no rerun over a ruled skel
+  other: 446c65f record(exp-20261030-03): two corrections on the user's "A: 直す", after a review of the records the us
+  other: bc3dff8 file(exp-20261030-04): a scenario walk over a mock with a correct upstream, filed on the user's ques
+  other: 437998d record(exp-20261030-04): stage 1 run on the user's "走らせる" - inside coverage 20 of 20 a-e mutants cau
+  other: 4cc64af file(exp-20261030-05): stage 2 of the user's question, filed on "A: 起票する" - ordinary upstreams (use 
+  other: 26fc823 record(exp-20261030-05): stage 2 run on the user's "A: 走らせる" - for both ordinary writers other = 0 a
+  other: 751b5fb record(exp-20261030-05): the series (EXP-20261030-04 and -05) closed on the user's "A: ここで閉じる" - rec
+  other: c0ce186 file(exp-20261031-01): a domain model derived before manufacture, filed on the user's question (was 
+  other: bcf3711 record(exp-20261031-01): run on the user's "A: 両方走らせる" - part 2: 2 of 2 writers given a domain model
+  other: 17fc199 record(exp-20261031-01): the committed blobs of the two models and certify.json differ from the hash
+  other: 6357fc9 file(exp-20261031-02): the re-manufacture's upstream with the domain model first and the screens in 
+  other: 7b9726e run(exp-20261031-02): step 1 on the user's "A: 既定で始める" - the twelve prompts, check_upstream.py (self
+  other: 9c5306d record(exp-20261031-02): S1 (requirements) stopped unconverged at the 3-round audit budget - blocker
+  other: 535486e record(exp-20261031-02): S1 frozen on the user's "A: 打ち切って進む" - the author answered round 3 (16 fixe
+  other: cbcbf99 fix(exp-20261031-02): the agents' tools named what is measured - the first S2 author read check_mode
+  other: 8b3d7d8 record(exp-20261031-02): S2 (domain model) stopped unconverged at the 3-round audit budget - blocker
+  other: 2d44f1f record(exp-20261031-02): S2 frozen on the user's "B: 以後も打ち切り" - the author answered round 3 (8 fixed
+  other: 97e5ad4 record(exp-20261031-02): S3 (screens) converged at round 3 - blocker / material 0/1, 0/1, 0/0; froze
+  other: c30c7a2 record(exp-20261031-02): S4 (scenarios) cut off at the 3-round audit budget under departure 3 - bloc
+  other: 9bb907d record(exp-20261031-02): A1 on the frozen S2-S4 - k 39 of 92 settable attributes hold all four links
+  other: 64d423e fix(exp-20261031-02): the binder's folder lacked the setup op's JSON form - stage 1 gave it in its w
+  other: 583ab27 record(exp-20261031-02): A2 certify - the fresh binder wrote 56 of 151 scenarios; on the authority 1
+  other: 60cbddf record(exp-20261031-02): S5 (spec) cut off at the 3-round audit budget under departure 3 - blocker /
+  other: a990e10 record(exp-20261031-02): results of stage A - A1 k 39 of 92, the frame-rate row broken at L1 by sect
+  other: fbf698b record(exp-20261031-02): closed on the user's "A: §9 のまま" - the frame-rate row is read as broken at 
+  other: a9a24ae record(exp-20261031-02): staging folders exp04-exp07 deleted on the user's "削除してよい" (definitions sec
+  other: f9dc2ec record(exp-20261031-02): correction on the user's "A: 訂正する" - the upstream does state an English sta
+  other: 565609e file(exp-20261031-03): a frozen checker for designs in a machine-evaluable form over the output fram
+  other: 1411500 run(exp-20261031-03): step 1 on the user's "A: 既定で始める" - the expected table from MoviePad 126eae9 (7
+  other: 39e0974 run(exp-20261031-03): step 2 frozen - form.md, form_check.py and check.py (selftest 29 of 29; each o
+  other: 090b283 run(exp-20261031-03): step 3 - N2a and N2b frozen, the frozen S2 / S3 transcribed into the form by t
+  other: cb1b28d run(exp-20261031-03): step 4 frozen - the nine meanings written on N2a in its own representation (M1
+  other: 3f718b5 run(exp-20261031-03): steps 5-6 - N1, N2a and N2b PASS, all 18 named mutants FAIL at their named cas
+  other: 32e2bdd file(eco-120): progress - each open ECO's stall measured from the register's history (bomdd-job --dw
+  other: 4845567 fix(eco-120): bomdd-job --dwell - each open ECO's start in its current status derived from every com
+  other: 32606b4 accept(eco-120): verified on the user's "クローズする" - V1-V6 PASS, window 3f718b5..4845567 closed with n
+  other: db3a517 file(eco-121): distribution of ECO-120 - each product's register says why an open ECO waits (waiting
+  other: 4b3e3a8 record(eco-121): manufacture - ViewPrism2 ECO-149 implemented (a726322) and ViewTube ECO-VT-273 impl
+  other: 884fccc record(eco-121): both product ECOs applied on the user's "1:A 2:A" - ViewPrism2 ECO-149 9bdbe91 (VP1
+  other: 9e926be accept(eco-121): verified - ECO-120 distributed to ViewPrism2 (ECO-149 9bdbe91) and ViewTube (ECO-VT
+  other: d06472a file(eco-122): the dwell view reuses each register blob's parse result from a derived cache outside 
+  other: 9cd4c3d fix(eco-122): the dwell view reuses each register blob's parse result - ViewTube cold 37.3-40.2 s, w
+  other: 825d9a1 accept(eco-122): verified - the dwell view's per-blob cache; V1-V5 PASS, window 9e926be..9cd4c3d clo
+  other: a968c51 file(eco-123): bomdd-job's gauges - the job view reads an English closure heading (12 verified ECOs 
+  other: 7cf5917 fix(eco-123): bomdd-job reads an English closure heading (the 12 verified ECOs now read NONE, nothin
+  other: 7b648df accept(eco-123): verified - bomdd-job reads an English closure heading and the dwell selftest catche
+  other: 97cb6c1 file(eco-124): the dwell view at every Claude Code session start in a BomDD repository - a short sum
+  other: a4c8b68 fix(eco-124): the dwell view at every Claude Code session start - bomdd-job --dwell --brief, the Ses
+  other: d836955 record(eco-124): V5 measured - FAIL on the BomDD arm (the session replies NONE though the hook's tex
+  other: 2e94683 accept(eco-124): verified with a known limit on the user's "A: close with limit" - V1-V4 and V6 PASS
+ECO-119's paths: 51; outside allowed_paths: 2
+  NOT ALLOWED: .claude/skills/lesson-promote/SKILL.md
+  NOT ALLOWED: method/improvements.md
+exempt (only in the filing 94a2a2a, the ruling's other items): ['.claude/skills/lesson-promote/SKILL.md', 'method/improvements.md']; held: True
+window: PASS

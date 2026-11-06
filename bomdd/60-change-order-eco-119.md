@@ -1271,6 +1271,143 @@ Changes from round 7's expectations:
 
 **CI of the record commit `f9153a1`:** success, run 42136973664.
 
+## 5. Closure (2026-11-06, verified with declared limits on the user's "A")
+
+**The closure ruling.** R8 round 8's inspector, started on `ac0a157`, did not finish: it stopped when the session ended. In a forked
+session the user asked why eight rounds had not converged and whether the work served the purpose. The user was then asked:
+- A: close now at `ac0a157` with the purpose and the limits declared;
+- B: resume round 8;
+- C: simplify first.
+The user answered **"A"**. Round 8 is therefore not run, and no round-8 finding exists.
+
+**Window.** Baseline `9cc108b` → filing `94a2a2a` → manufacture `3d16181` → rounds 2-8 → `ac0a157` (diff_audit.head; **the
+window is closed**). The closure commit holds records only: this order, the register and `bomdd/reports/eco-119-ruled-layer/`.
+`window119.py` → `out/window.txt`: **PASS**.
+- 79 commits in `9cc108b..ac0a157`; 13 are ECO-119's, and the other 66 belong to other ECOs and experiments.
+- ECO-119's commits touch 51 paths, all inside `allowed_paths` but two: `method/improvements.md` and
+  `.claude/skills/lesson-promote/SKILL.md`. Both appear only in the filing `94a2a2a`, which carried the other items of the same
+  ruling "1:A 2:A 3:A", as ECO-118's closure recorded. The script checks that no other ECO-119 commit touches them.
+
+**Acceptance results:**
+- **V1 — PASS** (`out/v1.txt`): MoviePad-Remake's six commits in their real order. KB2 reports 5 E13. MoviePad-Remake was read only.
+- **V2 — PASS** (`out/v2.txt`): disposition PASS, the two runs identical, 105 controls; all 58 N23 controls PASS. 21 mutants each
+  fail exactly their arms (section 4R).
+- **V3 — PASS** (`out/v3.txt`; before = `42a6158`): the 47 controls in both runs have the same verdict and detail.
+- **V4 — PASS with a declared limit.** §4.5 names E13 as the stop, the citation count as the measure, and what it does not stop. §7
+  names the field, and the template has the Sources read section. R8 rounds 1-7 read the text. Round 8's text changes are not
+  inspected: the hook comment, §4.5, the profile comment and the hints.
+- **V5 — PASS.** Self-conformance exit 0 was observed before each commit. CI succeeded on every ECO-119 commit with a run:
+
+  | commit | CI run |
+  |---|---|
+  | `94a2a2a` | 40828784646 |
+  | `3d16181` | 40891374976 |
+  | `00f3ae2` | 41843989344 |
+  | `1cd891b` | 41874648644 |
+  | `9f586b8` | 41892740994 |
+  | `4eba600` | 41962648454 |
+  | `70921c3` | 42023608989 |
+  | `9328477` | 42036417062 |
+  | `a021984` | 42081081657 |
+  | `f9153a1` | 42136973664 |
+  | `ac0a157` | 42151172951 |
+
+  Two record commits have no run: `1c1fa24` (not recorded before; found at this closure) and `93053f8` (section 4O). The run of
+  each one's next push covers its tree.
+- **V6** is not a closing condition. It waits for a product that sets the field in its distribution ECO.
+
+**Declared limits (the purpose and what this closure does not claim).**
+- **The purpose** is to stop a change of the ruled layer to match the code (MoviePad-Remake ECO-006). The ordinary commit path does
+  this: the commit-msg hook refuses a ruled-layer change with no open ECO and no `path:line` citation. Validate's replay reports a
+  `--no-verify` change. Merges are judged per parent. These are the parts that carry the purpose.
+- **Edge cases** (rounds 5-8) are handled but carry little weight for the purpose on products like these, which have one writer and
+  a nearly linear history. They are shallow clones, octopus merges, the merge of an older branch after the profile's removal, and
+  the re-point after a rebase or cherry-pick. They added rules and branches. One of them (round 6's since rule) refused every commit
+  after a rebase until round 7.
+- **Not inspected:** round 8's changes in `ac0a157`, that is, R8-7-01..03's fixes. These are records, hint texts, a hook comment
+  and four arms. No stop's code changed. Round 7's ACCEPT covers the code as of `a021984`.
+- **Simplification is not done now.** Removing the edge-case code is itself a change and would need the full verification and an
+  inspection again. It is taken up only when real use shows a false refusal.
+
+**Process lessons** (from the user's questions at this closure; they go to `/lesson-promote`, and `method/improvements.md` is outside
+this ECO's paths):
+1. Eight R8 rounds were spent with material findings at 3, 3, 2, 4, 4, 1 and 0. Rounds 2 and 3 were each declared the last. Each
+   round was started on "this round's findings close", but passing needs "no new finding". Nothing supported that, and every round
+   had brought new ones.
+2. The cause was a design left open before manufacture: the git operations to handle were not listed, and nothing was declared
+   unstopped. The independent inspection served as design exploration, at the price of a full verification and an inspection each
+   time.
+3. The brief gave no purpose and no boundary. "A hole in a stop" was material whatever its weight for the purpose. It also asked only
+   for holes, never for what the purpose does not need.
+4. "Minor" was a severity, not a cost, but it was presented without the fix's cost: the full verification plus an inspection, over
+   half a day.
+5. After two rounds without a fall in material findings, the recommendation should have switched from "fix and run the next round"
+   to "review the plan".
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; a process-core check, its hooks and its qualification arms)
+
+- **The claim (one sentence).** In a product that sets `ruled_layer`, process-core's E13 does three things:
+  - it refuses a commit that changes a ruled file unless the commit names an open ECO whose Sources read cites each touched file
+    as `path:line` (the first layer, commit-msg);
+  - it reports such a change made with `--no-verify` (the replay in `--mode validate`);
+  - it judges merges per parent.
+  Products without the field are unchanged.
+- **査定した主張と判定** (measurement × evidence):
+  - "The first layer refuses and allows as stated": **observed / eligible** for the contexts armed. These are 58 N23 arms on a
+    fresh scaffold (V2, two runs identical) and 21 mutants, each failing exactly its arms. Six of the mutants break the commit-msg
+    hook. R8 rounds 1-7 ran their own contexts. Not measured: git versions other than this machine's and CI's.
+  - "The replay reports a `--no-verify` change": **observed / eligible**. V1 replays MoviePad-Remake's six real commits (KB2 reports
+    5 E13), and arms N23rb and N23wt cover rebase and the working tree.
+  - "Nothing else moves": **observed / eligible**. V3: the 47 earlier controls have the same verdict and detail.
+  - "The records are true of the code": **observed / conditionally eligible**. R8 round 7 found one wrong record (R8-7-01), fixed in
+    `ac0a157`. Round 8's text is not read independently (the user's "A").
+  - "The CI is green and the gate was observed before each commit": **observed / eligible**, apart from two record commits with no
+    run (V5).
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution). The instrument is this ECO's product, so its defects are the
+  product's. They were found by R8 rounds 1-7, with material findings 3, 3, 2, 4, 4, 1, 0 (sections 4A-4P). Grouped by cause:
+  - which paths a commit is judged with, inferred from the profile's history (rounds 3-4);
+  - inputs read from several places in several ways (round 5);
+  - a since rule that checked carried-over entries (round 6, introduced by round 6's own fix);
+  - a wrong remedy in the records (round 7).
+  The manufacturer found the hooks' early exits in round 6, and `hook-no-merge`'s missing expectation in round 8.
+- **宣言した検出力の限界** (declared limits; see also "Declared limits" above):
+  - Round 8's changes are not inspected.
+  - The edge cases are armed but carry little weight for the purpose. These are shallow clones, octopus merges, a merge after the
+    profile's removal, and re-pointing after a rebase or cherry-pick.
+  - The hint texts are armed only for the deepen hint.
+  - Two guards are not armed: the raw framing's want/duplicate guard, and the replay's "since の後の親が無い".
+  - What the hook does not stop is stated in its comment and in §4.5: a branch that removes the profile, the hooks and the tools
+    together, and no hooks installed.
+  - The R8 inspectors were fresh contexts of the same model family (context independence, not equipment independence).
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9). This receipt was written by the
+    manufacturer.
+- **Battery, row by row:**
+  - **Q1 asked.** The docstrings, the hook comment, §4.5 and the profile comment claim what the code does. R8-7-01's wrong claim was
+    corrected.
+  - **Q2 asked.**
+    - Known-bad: MoviePad-Remake's six commits (labelled before E13 existed), the 21 mutants, and the arms that must refuse.
+    - Known-good: the arms that must pass (N23o, N23x7, N23wt among them).
+    - One label was found wrong and corrected: hook-no-merge's expectation, re-run alone.
+  - **Q3 asked.** Each mutant fails exactly its named arms, so each arm goes red alone for its cause.
+  - **Q4 asked.** The arms build their own sandboxes. V1 uses real commits read from MoviePad-Remake (read only).
+  - **Q5 asked.** An unresolvable since, an unreadable register or order, and an unparsable profile each refuse or exit 2. None of
+    them passes.
+  - **Q6 asked.** Each commit came after an observed exit 0. CI conclusions were read with the full SHA.
+  - **Q7 asked.** C11 runs the qualification, N23 included, on every push. The mutant script is evidence and is not run by CI.
+  - **Q8 asked.** E13's exit is the profile field, removed through E08. The post-removal merge and its remedy are stated.
+  - **Q9 asked.** `since` is a full SHA, and the replay reads git ancestry only.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** The input classes were measured apart:
+    - a linear history;
+    - merges: two parents, octopus, `-s ours`;
+    - rebase, cherry-pick and squash;
+    - shallow clones and worktrees;
+    - a profile only in the index, in HEAD, or in a merge parent.
+- **What this closure does not support:**
+  - the distribution to the products (a separate ECO; V6);
+  - the simplification of the edge-case code (only on a real false refusal);
+  - the process lessons, which are not yet in `method/improvements.md` (`/lesson-promote`).
+
 ## /preflight receipt (start path: manual — the user's "1:A 2:A 3:A" read as the start artifact)
 
 - **Classification**: filing of a decided change (the user's ruling, item 2; filing only).
