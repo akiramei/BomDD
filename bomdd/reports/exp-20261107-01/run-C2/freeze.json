@@ -1,0 +1,25 @@
+{
+ "writer": "C2",
+ "files": {
+  "examples.json": {
+   "sha256": "1b7578450a3e0984d4fd5725f925080aefab736836501bf25412be0a78e6c822",
+   "bytes": 11618
+  },
+  "out/01-requirements.md": {
+   "sha256": "0a618bcac2706f111633c913a402ec13d71c771bc56b40efcf9373fe854091ea",
+   "bytes": 5732
+  },
+  "out/02-domain-model.md": {
+   "sha256": "d6497f7c265f7149f912b9ba9300dc5baf782b0092ff84e22ee0307e3c11f53b",
+   "bytes": 4959
+  },
+  "out/03-behavior.md": {
+   "sha256": "8a16344dffaa16ce5b233b3a74152e73e9e64aa1795ff7d001859628a9ed987b",
+   "bytes": 5267
+  },
+  "out/04-questions.md": {
+   "sha256": "18c7bb05052d129c9f4e9518a30b8aec72397c43c06de36f6872b376e8935d6a",
+   "bytes": 3699
+  }
+ }
+}

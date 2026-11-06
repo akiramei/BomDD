@@ -1,0 +1,117 @@
+{
+ "per_writer": {
+  "K2": {
+   "label": "W1",
+   "asserted": 220,
+   "fail": 0,
+   "fail_share": 0.0,
+   "unresolved": 39,
+   "pressed_unavailable": 0,
+   "R2_N_wrong": 0,
+   "R3_D_correct": 4,
+   "N_open": 4,
+   "N_correct": 0,
+   "verdicts": {
+    "F1": "correct",
+    "F2": "correct",
+    "F3": "correct",
+    "F4": "correct",
+    "F5": "wrong",
+    "F6": "open",
+    "F7": "open",
+    "F8": "open",
+    "F9": "absent",
+    "F10": "open",
+    "F11": "absent"
+   },
+   "questions": 5,
+   "questions_answered_by_sources": 1
+  },
+  "C1": {
+   "label": "W2",
+   "asserted": 280,
+   "fail": 0,
+   "fail_share": 0.0,
+   "unresolved": 64,
+   "pressed_unavailable": 0,
+   "R2_N_wrong": 0,
+   "R3_D_correct": 4,
+   "N_open": 5,
+   "N_correct": 1,
+   "verdicts": {
+    "F1": "correct",
+    "F2": "correct",
+    "F3": "correct",
+    "F4": "correct",
+    "F5": "wrong",
+    "F6": "open",
+    "F7": "correct",
+    "F8": "open",
+    "F9": "open",
+    "F10": "open",
+    "F11": "open"
+   },
+   "questions": 11,
+   "questions_answered_by_sources": 1
+  },
+  "K1": {
+   "label": "W3",
+   "asserted": 245,
+   "fail": 0,
+   "fail_share": 0.0,
+   "unresolved": 27,
+   "pressed_unavailable": 0,
+   "R2_N_wrong": 0,
+   "R3_D_correct": 5,
+   "N_open": 5,
+   "N_correct": 0,
+   "verdicts": {
+    "F1": "correct",
+    "F2": "correct",
+    "F3": "correct",
+    "F4": "correct",
+    "F5": "correct",
+    "F6": "open",
+    "F7": "open",
+    "F8": "open",
+    "F9": "open",
+    "F10": "open",
+    "F11": "absent"
+   },
+   "questions": 4,
+   "questions_answered_by_sources": 1
+  },
+  "C2": {
+   "label": "W4",
+   "asserted": 243,
+   "fail": 0,
+   "fail_share": 0.0,
+   "unresolved": 38,
+   "pressed_unavailable": 0,
+   "R2_N_wrong": 0,
+   "R3_D_correct": 4,
+   "N_open": 5,
+   "N_correct": 1,
+   "verdicts": {
+    "F1": "correct",
+    "F2": "correct",
+    "F3": "correct",
+    "F4": "correct",
+    "F5": "open",
+    "F6": "open",
+    "F7": "correct",
+    "F8": "open",
+    "F9": "open",
+    "F10": "open",
+    "F11": "open"
+   },
+   "questions": 9,
+   "questions_answered_by_sources": 1
+  }
+ },
+ "readings": {
+  "R1": null,
+  "R2": null,
+  "R3": null
+ }
+}

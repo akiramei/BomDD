@@ -171,4 +171,13 @@ None of R1-R3 decides "useful" alone; what follows is the user's. Nothing is fil
 
 ## 11. Departures
 
-(none yet)
+- **D1 — C1 wrote and ran code in its folder (the writer's own report).** Against "コードは書きません", C1 wrote a Python
+  script at its folder's top level to generate `examples.json`, ran it once, moved it to `out/` and deleted it before
+  finishing. Isolation over its transcript: 0 flags (it stayed in its folder); its frozen files are the four documents and
+  `examples.json`. Kept in the run; read as a fact about the control prompt's hold on the boundary, not a reading.
+- **D2 — the scorer package first carried the run's results (found before the scorer started).** `freeze.py scorer` copied
+  every file under `run-<W>/`, which by then also held `runs.json`, `observed.json` and `compared.json` (all-hold results).
+  The package and its key were deleted unread and rebuilt from the files listed in each `freeze.json` only (the hash checked);
+  the key hashed in `scorer-key-sha256.txt` is the rebuilt one.
+- **D3 — time.** Measured by the agents' run durations (`usage.duration_ms`): K1 677 s, K2 558 s, C1 526 s, C2 492 s; all
+  inside the bound. C2's report said "約 30 分"; the measure is the duration, not the report.

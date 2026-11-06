@@ -1,0 +1,21 @@
+{
+ "writer": "K2",
+ "files": {
+  "examples.json": {
+   "sha256": "5d13f13fc987fe7d9f2bce352c19990173901169362ba5869eefdb749828d290",
+   "bytes": 13851
+  },
+  "out/01-input-and-scope.md": {
+   "sha256": "b7c1fc389c6b4c112a398f442f8436cb00c8e27e15995f8a5a5ccc3cdb850231",
+   "bytes": 3341
+  },
+  "out/02-undo-redo-design.md": {
+   "sha256": "a7cfb58889f16d939d8876a6629bfea1b30f0d5a83a5e578a74914fe4dc197f2",
+   "bytes": 9420
+  },
+  "out/03-examples-and-open-items.md": {
+   "sha256": "e189fa6e6bf229b26e5505860e56a943edb16672b41c04d1358dddca5f41e3b6",
+   "bytes": 6859
+  }
+ }
+}

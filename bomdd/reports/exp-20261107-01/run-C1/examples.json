@@ -1,0 +1,798 @@
+{
+ "examples": [
+  {
+   "id": "EX-01",
+   "title": "起動直後は取り消しもやり直しも使えない",
+   "basis": "cad/start-screen.json; REQ-012(履歴は編集で積まれる・起動直後は編集 0 件)",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "undo_enabled": false,
+      "redo_enabled": false,
+      "split_enabled": true,
+      "merge_enabled": false,
+      "trim_in_enabled": true,
+      "trim_out_enabled": false,
+      "region_count": 4,
+      "trim_start": 6,
+      "trim_end": 132,
+      "output_length": 142,
+      "playhead": 20,
+      "selected_start": 6,
+      "selected_end": 40,
+      "selected_speed": 1,
+      "selected_volume_percent": 100,
+      "out_fps": 30,
+      "out_width": 1920,
+      "out_height": 1080,
+      "unsaved": false
+     }
+    }
+   ]
+  },
+  {
+   "id": "EX-02",
+   "title": "速度 2x を取り消し、やり直す",
+   "basis": "REQ-012(取り消し/やり直し); REQ-008(速度); REQ-011(出力長 = 区間長/速度: 142 - 34 + 17 = 125); REQ-003(再生ヘッド 20 は区間 [6,40))",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "undo_enabled": false,
+      "redo_enabled": false,
+      "split_enabled": true,
+      "merge_enabled": false,
+      "trim_in_enabled": true,
+      "trim_out_enabled": false,
+      "region_count": 4,
+      "trim_start": 6,
+      "trim_end": 132,
+      "output_length": 142,
+      "playhead": 20,
+      "selected_start": 6,
+      "selected_end": 40,
+      "selected_speed": 1,
+      "selected_volume_percent": 100,
+      "out_fps": 30,
+      "out_width": 1920,
+      "out_height": 1080,
+      "unsaved": false
+     }
+    },
+    {
+     "action": "ApplySpeedPreset:2",
+     "expect": {
+      "selected_start": 6,
+      "selected_end": 40,
+      "selected_speed": 2,
+      "selected_volume_percent": 100,
+      "output_length": 125,
+      "region_count": 4,
+      "trim_start": 6,
+      "trim_end": 132,
+      "playhead": 20,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "selected_start": 6,
+      "selected_end": 40,
+      "selected_speed": 1,
+      "selected_volume_percent": 100,
+      "output_length": 142,
+      "region_count": 4,
+      "trim_start": 6,
+      "trim_end": 132,
+      "playhead": 20,
+      "undo_enabled": false,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Redo",
+     "expect": {
+      "selected_start": 6,
+      "selected_end": 40,
+      "selected_speed": 2,
+      "selected_volume_percent": 100,
+      "output_length": 125,
+      "region_count": 4,
+      "trim_start": 6,
+      "trim_end": 132,
+      "playhead": 20,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-03",
+   "title": "速度 0.5x の取り消しで出力長が戻る",
+   "basis": "REQ-012; REQ-008; REQ-011(142 - 34 + 68 = 176)",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "output_length": 142
+     }
+    },
+    {
+     "action": "ApplySpeedPreset:0.5",
+     "expect": {
+      "selected_speed": 0.5,
+      "output_length": 176,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "selected_speed": 1,
+      "output_length": 142,
+      "undo_enabled": false,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-04",
+   "title": "音量 50% の取り消しとやり直し(出力長は変わらない)",
+   "basis": "REQ-012; REQ-009(音量は一定の利得); REQ-011(出力長は音量に依らない)",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "selected_volume_percent": 100,
+      "output_length": 142
+     }
+    },
+    {
+     "action": "ApplyVolumePreset:50",
+     "expect": {
+      "selected_volume_percent": 50,
+      "selected_speed": 1,
+      "output_length": 142,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "selected_volume_percent": 100,
+      "output_length": 142,
+      "undo_enabled": false,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Redo",
+     "expect": {
+      "selected_volume_percent": 50,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-05",
+   "title": "2 つの編集を 2 回取り消し、2 回やり直す(順序どおりに戻る)",
+   "basis": "REQ-012(履歴は状態の積み重ね・取り消しは新しい順); REQ-008; REQ-009; REQ-011",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "undo_enabled": false
+     }
+    },
+    {
+     "action": "ApplySpeedPreset:2",
+     "expect": {
+      "selected_speed": 2,
+      "output_length": 125,
+      "undo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "ApplyVolumePreset:50",
+     "expect": {
+      "selected_speed": 2,
+      "selected_volume_percent": 50,
+      "output_length": 125,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "selected_speed": 2,
+      "selected_volume_percent": 100,
+      "output_length": 125,
+      "undo_enabled": true,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "selected_speed": 1,
+      "selected_volume_percent": 100,
+      "output_length": 142,
+      "undo_enabled": false,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Redo",
+     "expect": {
+      "selected_speed": 2,
+      "selected_volume_percent": 100,
+      "output_length": 125,
+      "undo_enabled": true,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Redo",
+     "expect": {
+      "selected_speed": 2,
+      "selected_volume_percent": 50,
+      "output_length": 125,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-06",
+   "title": "取り消しのあとに新しい編集をすると、やり直しが消える",
+   "basis": "REQ-012(新しい編集はやり直しの段を消す); REQ-008; REQ-009; REQ-011",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "redo_enabled": false
+     }
+    },
+    {
+     "action": "ApplySpeedPreset:2",
+     "expect": {
+      "selected_speed": 2,
+      "output_length": 125
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "selected_speed": 1,
+      "output_length": 142,
+      "redo_enabled": true,
+      "undo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "ApplyVolumePreset:50",
+     "expect": {
+      "selected_speed": 1,
+      "selected_volume_percent": 50,
+      "output_length": 142,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "selected_speed": 1,
+      "selected_volume_percent": 100,
+      "output_length": 142,
+      "undo_enabled": false,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Redo",
+     "expect": {
+      "selected_speed": 1,
+      "selected_volume_percent": 50,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-07",
+   "title": "トリム開始を再生ヘッドへ置き、取り消す",
+   "basis": "REQ-007(トリム開始は最初の区間の中・最初の区間の開始も動く・再生ヘッドが奥の端から 0.5 s 以上); REQ-004(区間の端から 0.5 s 未満の分割は不可); REQ-011(142 - 14 = 128); REQ-012; 値が変わらない In が使えるかは未確定(out/04-questions.md Q-4)",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "trim_in_enabled": true,
+      "split_enabled": true
+     }
+    },
+    {
+     "action": "SetTrimIn",
+     "expect": {
+      "trim_start": 20,
+      "selected_start": 20,
+      "selected_end": 40,
+      "output_length": 128,
+      "region_count": 4,
+      "trim_end": 132,
+      "playhead": 20,
+      "split_enabled": false,
+      "trim_out_enabled": false,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved",
+      "trim_in_enabled"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "trim_start": 6,
+      "selected_start": 6,
+      "selected_end": 40,
+      "output_length": 142,
+      "playhead": 20,
+      "split_enabled": true,
+      "trim_in_enabled": true,
+      "undo_enabled": false,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Redo",
+     "expect": {
+      "trim_start": 20,
+      "selected_start": 20,
+      "output_length": 128,
+      "split_enabled": false,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-08",
+   "title": "分割を取り消すと区間が 4 つに戻る",
+   "basis": "REQ-004(20 s は 30 fps の格子上・分割で 2 つに); REQ-003(境界の瞬間は後ろの区間に属す); REQ-007(トリム開始は再生ヘッドが最初の区間内のときだけ); REQ-012; 取り消し後の選択は推定(out/03-behavior.md B-4)",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "region_count": 4
+     }
+    },
+    {
+     "action": "Split",
+     "expect": {
+      "region_count": 5,
+      "output_length": 142,
+      "trim_start": 6,
+      "trim_end": 132,
+      "playhead": 20,
+      "split_enabled": false,
+      "trim_in_enabled": false,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "selected_start",
+      "selected_end",
+      "merge_enabled",
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "region_count": 4,
+      "output_length": 142,
+      "playhead": 20,
+      "split_enabled": true,
+      "trim_in_enabled": true,
+      "selected_start": 6,
+      "selected_end": 40,
+      "merge_enabled": false,
+      "undo_enabled": false,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Redo",
+     "expect": {
+      "region_count": 5,
+      "output_length": 142,
+      "split_enabled": false,
+      "trim_in_enabled": false,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "selected_start",
+      "selected_end",
+      "merge_enabled",
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-09",
+   "title": "トリムと速度の 2 段を順に取り消す",
+   "basis": "REQ-007; REQ-008; REQ-011(トリム後 128・その区間 [20,40) を 2x で 142 - 34 + 10 = 118); REQ-012",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "output_length": 142
+     }
+    },
+    {
+     "action": "SetTrimIn",
+     "expect": {
+      "trim_start": 20,
+      "output_length": 128
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "ApplySpeedPreset:2",
+     "expect": {
+      "selected_start": 20,
+      "selected_end": 40,
+      "selected_speed": 2,
+      "output_length": 118,
+      "undo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "trim_start": 20,
+      "selected_start": 20,
+      "selected_speed": 1,
+      "output_length": 128,
+      "undo_enabled": true,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "trim_start": 6,
+      "selected_start": 6,
+      "selected_speed": 1,
+      "output_length": 142,
+      "undo_enabled": false,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-10",
+   "title": "再生ヘッドの移動は履歴に入らず、やり直しも消さない",
+   "basis": "REQ-012(履歴は編集); README「履歴: 不変ドキュメントのスナップショット」(再生ヘッドはドキュメント外); REQ-004(区間の端・区間外では分割不可); REQ-011",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "undo_enabled": false
+     }
+    },
+    {
+     "action": "ApplySpeedPreset:2",
+     "expect": {
+      "output_length": 125,
+      "undo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "output_length": 142,
+      "undo_enabled": false,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "ToEnd",
+     "expect": {
+      "undo_enabled": false,
+      "redo_enabled": true,
+      "split_enabled": false,
+      "output_length": 142,
+      "trim_end": 132,
+      "region_count": 4
+     },
+     "unresolved": [
+      "playhead",
+      "selected_start",
+      "selected_end",
+      "selected_speed",
+      "trim_out_enabled",
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Redo",
+     "expect": {
+      "output_length": 125,
+      "undo_enabled": true,
+      "redo_enabled": false,
+      "region_count": 4
+     },
+     "unresolved": [
+      "playhead",
+      "selected_start",
+      "selected_end",
+      "selected_speed",
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-11",
+   "title": "フレーム送りだけでは取り消しは使えるようにならない",
+   "basis": "REQ-012(編集だけが段になる); README 履歴(ドキュメントのスナップショット); 30 fps の 1 フレーム = 1/30 s",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "undo_enabled": false,
+      "playhead": 20
+     }
+    },
+    {
+     "action": "StepForward",
+     "expect": {
+      "undo_enabled": false,
+      "redo_enabled": false,
+      "region_count": 4,
+      "trim_start": 6,
+      "output_length": 142,
+      "playhead": 20.033,
+      "selected_start": 6,
+      "selected_end": 40
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "StepBack",
+     "expect": {
+      "undo_enabled": false,
+      "redo_enabled": false,
+      "playhead": 20
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "ToStart",
+     "expect": {
+      "undo_enabled": false,
+      "redo_enabled": false,
+      "split_enabled": false,
+      "trim_start": 6
+     },
+     "unresolved": [
+      "playhead",
+      "trim_in_enabled",
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-12",
+   "title": "出力サイズは、後の別の編集を取り消しても変わらない",
+   "basis": "REQ-013(50% は 1920×1080 → 960×540・偶数); REQ-012; 出力設定が履歴に入るかは未確定(out/04-questions.md Q-2)",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "out_width": 1920,
+      "out_height": 1080
+     }
+    },
+    {
+     "action": "Scale:0.5",
+     "expect": {
+      "out_width": 960,
+      "out_height": 540,
+      "region_count": 4,
+      "output_length": 142
+     },
+     "unresolved": [
+      "undo_enabled",
+      "unsaved"
+     ]
+    },
+    {
+     "action": "ApplySpeedPreset:2",
+     "expect": {
+      "out_width": 960,
+      "out_height": 540,
+      "selected_speed": 2,
+      "output_length": 125,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "out_width": 960,
+      "out_height": 540,
+      "selected_speed": 1,
+      "output_length": 142,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "undo_enabled",
+      "unsaved"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "EX-13",
+   "title": "出力フレームレートは、後の別の編集を取り消しても変わらない",
+   "basis": "REQ-013(出力 fps は 24/30/60/120 に設定可); REQ-012; 出力設定が履歴に入るかは未確定(Q-2)",
+   "steps": [
+    {
+     "action": null,
+     "expect": {
+      "out_fps": 30
+     }
+    },
+    {
+     "action": "SetFps:60",
+     "expect": {
+      "out_fps": 60,
+      "output_length": 142,
+      "out_width": 1920
+     },
+     "unresolved": [
+      "undo_enabled",
+      "unsaved"
+     ]
+    },
+    {
+     "action": "ApplyVolumePreset:0",
+     "expect": {
+      "out_fps": 60,
+      "selected_volume_percent": 0,
+      "output_length": 142,
+      "undo_enabled": true,
+      "redo_enabled": false
+     },
+     "unresolved": [
+      "unsaved"
+     ]
+    },
+    {
+     "action": "Undo",
+     "expect": {
+      "out_fps": 60,
+      "selected_volume_percent": 100,
+      "redo_enabled": true
+     },
+     "unresolved": [
+      "undo_enabled",
+      "unsaved"
+     ]
+    }
+   ]
+  }
+ ]
+}

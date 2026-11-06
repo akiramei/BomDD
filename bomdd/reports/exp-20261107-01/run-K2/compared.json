@@ -1,0 +1,2069 @@
+{
+ "assertions": [
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "split_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "merge_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "trim_in_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "trim_out_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "region_count",
+   "expected": 4,
+   "outcome": "hold",
+   "actual": "4"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "trim_end",
+   "expected": 132,
+   "outcome": "hold",
+   "actual": "132"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "playhead",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "selected_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "selected_end",
+   "expected": 40,
+   "outcome": "hold",
+   "actual": "40"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "selected_speed",
+   "expected": 1,
+   "outcome": "hold",
+   "actual": "1"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "selected_volume_percent",
+   "expected": 100,
+   "outcome": "hold",
+   "actual": "100"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "out_fps",
+   "expected": 30,
+   "outcome": "hold",
+   "actual": "30"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "out_width",
+   "expected": 1920,
+   "outcome": "hold",
+   "actual": "1920"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "out_height",
+   "expected": 1080,
+   "outcome": "hold",
+   "actual": "1080"
+  },
+  {
+   "example": "EX-01",
+   "step": 1,
+   "k": 0,
+   "obs": "unsaved",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-02",
+   "step": 1,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-02",
+   "step": 1,
+   "k": 1,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-02",
+   "step": 1,
+   "k": 1,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "hold",
+   "actual": "5"
+  },
+  {
+   "example": "EX-02",
+   "step": 1,
+   "k": 1,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-02",
+   "step": 1,
+   "k": 1,
+   "obs": "playhead",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-02",
+   "step": 1,
+   "k": 1,
+   "obs": "split_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-02",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-02",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_end",
+   "expected": 132,
+   "outcome": "hold",
+   "actual": "132"
+  },
+  {
+   "example": "EX-02",
+   "step": 2,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-02",
+   "step": 2,
+   "k": 2,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-02",
+   "step": 2,
+   "k": 2,
+   "obs": "region_count",
+   "expected": 4,
+   "outcome": "hold",
+   "actual": "4"
+  },
+  {
+   "example": "EX-02",
+   "step": 2,
+   "k": 2,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-02",
+   "step": 2,
+   "k": 2,
+   "obs": "playhead",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-02",
+   "step": 2,
+   "k": 2,
+   "obs": "split_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-02",
+   "step": 2,
+   "k": 2,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-02",
+   "step": 2,
+   "k": 2,
+   "obs": "trim_end",
+   "expected": 132,
+   "outcome": "hold",
+   "actual": "132"
+  },
+  {
+   "example": "EX-02",
+   "step": 3,
+   "k": 3,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-02",
+   "step": 3,
+   "k": 3,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-02",
+   "step": 3,
+   "k": 3,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "hold",
+   "actual": "5"
+  },
+  {
+   "example": "EX-02",
+   "step": 3,
+   "k": 3,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-02",
+   "step": 3,
+   "k": 3,
+   "obs": "playhead",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-02",
+   "step": 3,
+   "k": 3,
+   "obs": "split_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_end",
+   "expected": 132,
+   "outcome": "hold",
+   "actual": "132"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "region_count",
+   "expected": 4,
+   "outcome": "hold",
+   "actual": "4"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "selected_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "selected_end",
+   "expected": 40,
+   "outcome": "hold",
+   "actual": "40"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "selected_speed",
+   "expected": 1,
+   "outcome": "hold",
+   "actual": "1"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "output_length",
+   "expected": 128,
+   "outcome": "hold",
+   "actual": "128"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "playhead",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "split_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-03",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_in_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-03",
+   "step": 2,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-03",
+   "step": 2,
+   "k": 2,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-03",
+   "step": 2,
+   "k": 2,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-03",
+   "step": 2,
+   "k": 2,
+   "obs": "region_count",
+   "expected": 4,
+   "outcome": "hold",
+   "actual": "4"
+  },
+  {
+   "example": "EX-03",
+   "step": 2,
+   "k": 2,
+   "obs": "selected_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-03",
+   "step": 2,
+   "k": 2,
+   "obs": "selected_end",
+   "expected": 40,
+   "outcome": "hold",
+   "actual": "40"
+  },
+  {
+   "example": "EX-03",
+   "step": 2,
+   "k": 2,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-03",
+   "step": 2,
+   "k": 2,
+   "obs": "playhead",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-03",
+   "step": 2,
+   "k": 2,
+   "obs": "split_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-03",
+   "step": 2,
+   "k": 2,
+   "obs": "trim_in_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-03",
+   "step": 3,
+   "k": 3,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-03",
+   "step": 3,
+   "k": 3,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-03",
+   "step": 3,
+   "k": 3,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-03",
+   "step": 3,
+   "k": 3,
+   "obs": "selected_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-03",
+   "step": 3,
+   "k": 3,
+   "obs": "selected_end",
+   "expected": 40,
+   "outcome": "hold",
+   "actual": "40"
+  },
+  {
+   "example": "EX-03",
+   "step": 3,
+   "k": 3,
+   "obs": "output_length",
+   "expected": 128,
+   "outcome": "hold",
+   "actual": "128"
+  },
+  {
+   "example": "EX-03",
+   "step": 3,
+   "k": 3,
+   "obs": "split_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-04",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-04",
+   "step": 1,
+   "k": 1,
+   "obs": "output_length",
+   "expected": 128,
+   "outcome": "hold",
+   "actual": "128"
+  },
+  {
+   "example": "EX-04",
+   "step": 1,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-04",
+   "step": 1,
+   "k": 1,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-04",
+   "step": 2,
+   "k": 2,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-04",
+   "step": 2,
+   "k": 2,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-04",
+   "step": 2,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-04",
+   "step": 2,
+   "k": 2,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-04",
+   "step": 2,
+   "k": 2,
+   "obs": "playhead",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-04",
+   "step": 3,
+   "k": 3,
+   "obs": "playhead",
+   "expected": 20.033,
+   "outcome": "hold",
+   "actual": "20.033333333333335"
+  },
+  {
+   "example": "EX-04",
+   "step": 3,
+   "k": 3,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-04",
+   "step": 3,
+   "k": 3,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-04",
+   "step": 3,
+   "k": 3,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-04",
+   "step": 3,
+   "k": 3,
+   "obs": "selected_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-04",
+   "step": 3,
+   "k": 3,
+   "obs": "selected_end",
+   "expected": 40,
+   "outcome": "hold",
+   "actual": "40"
+  },
+  {
+   "example": "EX-04",
+   "step": 4,
+   "k": 4,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-04",
+   "step": 4,
+   "k": 4,
+   "obs": "selected_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-04",
+   "step": 4,
+   "k": 4,
+   "obs": "selected_end",
+   "expected": 40,
+   "outcome": "hold",
+   "actual": "40"
+  },
+  {
+   "example": "EX-04",
+   "step": 4,
+   "k": 4,
+   "obs": "output_length",
+   "expected": 128,
+   "outcome": "hold",
+   "actual": "128"
+  },
+  {
+   "example": "EX-04",
+   "step": 4,
+   "k": 4,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-04",
+   "step": 4,
+   "k": 4,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-05",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-05",
+   "step": 1,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-05",
+   "step": 1,
+   "k": 1,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-05",
+   "step": 2,
+   "k": 2,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-05",
+   "step": 2,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-05",
+   "step": 2,
+   "k": 2,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-05",
+   "step": 3,
+   "k": 3,
+   "obs": "selected_speed",
+   "expected": 2,
+   "outcome": "hold",
+   "actual": "2"
+  },
+  {
+   "example": "EX-05",
+   "step": 3,
+   "k": 3,
+   "obs": "selected_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-05",
+   "step": 3,
+   "k": 3,
+   "obs": "selected_end",
+   "expected": 40,
+   "outcome": "hold",
+   "actual": "40"
+  },
+  {
+   "example": "EX-05",
+   "step": 3,
+   "k": 3,
+   "obs": "output_length",
+   "expected": 125,
+   "outcome": "hold",
+   "actual": "125"
+  },
+  {
+   "example": "EX-05",
+   "step": 3,
+   "k": 3,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-05",
+   "step": 3,
+   "k": 3,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-05",
+   "step": 3,
+   "k": 3,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-05",
+   "step": 4,
+   "k": 4,
+   "obs": "selected_speed",
+   "expected": 1,
+   "outcome": "hold",
+   "actual": "1"
+  },
+  {
+   "example": "EX-05",
+   "step": 4,
+   "k": 4,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-05",
+   "step": 4,
+   "k": 4,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-05",
+   "step": 4,
+   "k": 4,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-05",
+   "step": 4,
+   "k": 4,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-05",
+   "step": 5,
+   "k": 5,
+   "obs": "selected_speed",
+   "expected": 2,
+   "outcome": "hold",
+   "actual": "2"
+  },
+  {
+   "example": "EX-05",
+   "step": 5,
+   "k": 5,
+   "obs": "output_length",
+   "expected": 125,
+   "outcome": "hold",
+   "actual": "125"
+  },
+  {
+   "example": "EX-05",
+   "step": 5,
+   "k": 5,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-05",
+   "step": 5,
+   "k": 5,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-05",
+   "step": 5,
+   "k": 5,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-06",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-06",
+   "step": 1,
+   "k": 1,
+   "obs": "output_length",
+   "expected": 128,
+   "outcome": "hold",
+   "actual": "128"
+  },
+  {
+   "example": "EX-06",
+   "step": 1,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 1,
+   "k": 1,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-06",
+   "step": 2,
+   "k": 2,
+   "obs": "selected_speed",
+   "expected": 2,
+   "outcome": "hold",
+   "actual": "2"
+  },
+  {
+   "example": "EX-06",
+   "step": 2,
+   "k": 2,
+   "obs": "output_length",
+   "expected": 118,
+   "outcome": "hold",
+   "actual": "118"
+  },
+  {
+   "example": "EX-06",
+   "step": 2,
+   "k": 2,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-06",
+   "step": 2,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 2,
+   "k": 2,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-06",
+   "step": 3,
+   "k": 3,
+   "obs": "selected_volume_percent",
+   "expected": 50,
+   "outcome": "hold",
+   "actual": "50"
+  },
+  {
+   "example": "EX-06",
+   "step": 3,
+   "k": 3,
+   "obs": "selected_speed",
+   "expected": 2,
+   "outcome": "hold",
+   "actual": "2"
+  },
+  {
+   "example": "EX-06",
+   "step": 3,
+   "k": 3,
+   "obs": "output_length",
+   "expected": 118,
+   "outcome": "hold",
+   "actual": "118"
+  },
+  {
+   "example": "EX-06",
+   "step": 3,
+   "k": 3,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 3,
+   "k": 3,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-06",
+   "step": 4,
+   "k": 4,
+   "obs": "selected_volume_percent",
+   "expected": 100,
+   "outcome": "hold",
+   "actual": "100"
+  },
+  {
+   "example": "EX-06",
+   "step": 4,
+   "k": 4,
+   "obs": "selected_speed",
+   "expected": 2,
+   "outcome": "hold",
+   "actual": "2"
+  },
+  {
+   "example": "EX-06",
+   "step": 4,
+   "k": 4,
+   "obs": "output_length",
+   "expected": 118,
+   "outcome": "hold",
+   "actual": "118"
+  },
+  {
+   "example": "EX-06",
+   "step": 4,
+   "k": 4,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-06",
+   "step": 4,
+   "k": 4,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 4,
+   "k": 4,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 5,
+   "k": 5,
+   "obs": "selected_volume_percent",
+   "expected": 100,
+   "outcome": "hold",
+   "actual": "100"
+  },
+  {
+   "example": "EX-06",
+   "step": 5,
+   "k": 5,
+   "obs": "selected_speed",
+   "expected": 1,
+   "outcome": "hold",
+   "actual": "1"
+  },
+  {
+   "example": "EX-06",
+   "step": 5,
+   "k": 5,
+   "obs": "output_length",
+   "expected": 128,
+   "outcome": "hold",
+   "actual": "128"
+  },
+  {
+   "example": "EX-06",
+   "step": 5,
+   "k": 5,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-06",
+   "step": 5,
+   "k": 5,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 5,
+   "k": 5,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 6,
+   "k": 6,
+   "obs": "selected_speed",
+   "expected": 1,
+   "outcome": "hold",
+   "actual": "1"
+  },
+  {
+   "example": "EX-06",
+   "step": 6,
+   "k": 6,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-06",
+   "step": 6,
+   "k": 6,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-06",
+   "step": 6,
+   "k": 6,
+   "obs": "selected_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-06",
+   "step": 6,
+   "k": 6,
+   "obs": "selected_end",
+   "expected": 40,
+   "outcome": "hold",
+   "actual": "40"
+  },
+  {
+   "example": "EX-06",
+   "step": 6,
+   "k": 6,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-06",
+   "step": 6,
+   "k": 6,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 7,
+   "k": 7,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-06",
+   "step": 7,
+   "k": 7,
+   "obs": "output_length",
+   "expected": 128,
+   "outcome": "hold",
+   "actual": "128"
+  },
+  {
+   "example": "EX-06",
+   "step": 7,
+   "k": 7,
+   "obs": "selected_speed",
+   "expected": 1,
+   "outcome": "hold",
+   "actual": "1"
+  },
+  {
+   "example": "EX-06",
+   "step": 7,
+   "k": 7,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 7,
+   "k": 7,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 8,
+   "k": 8,
+   "obs": "selected_speed",
+   "expected": 2,
+   "outcome": "hold",
+   "actual": "2"
+  },
+  {
+   "example": "EX-06",
+   "step": 8,
+   "k": 8,
+   "obs": "output_length",
+   "expected": 118,
+   "outcome": "hold",
+   "actual": "118"
+  },
+  {
+   "example": "EX-06",
+   "step": 8,
+   "k": 8,
+   "obs": "selected_volume_percent",
+   "expected": 100,
+   "outcome": "hold",
+   "actual": "100"
+  },
+  {
+   "example": "EX-06",
+   "step": 8,
+   "k": 8,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 8,
+   "k": 8,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 9,
+   "k": 9,
+   "obs": "selected_volume_percent",
+   "expected": 50,
+   "outcome": "hold",
+   "actual": "50"
+  },
+  {
+   "example": "EX-06",
+   "step": 9,
+   "k": 9,
+   "obs": "selected_speed",
+   "expected": 2,
+   "outcome": "hold",
+   "actual": "2"
+  },
+  {
+   "example": "EX-06",
+   "step": 9,
+   "k": 9,
+   "obs": "output_length",
+   "expected": 118,
+   "outcome": "hold",
+   "actual": "118"
+  },
+  {
+   "example": "EX-06",
+   "step": 9,
+   "k": 9,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-06",
+   "step": 9,
+   "k": 9,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-06",
+   "step": 9,
+   "k": 9,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-07",
+   "step": 1,
+   "k": 1,
+   "obs": "playhead",
+   "expected": 20.033,
+   "outcome": "hold",
+   "actual": "20.033333333333335"
+  },
+  {
+   "example": "EX-07",
+   "step": 1,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-07",
+   "step": 1,
+   "k": 1,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-07",
+   "step": 1,
+   "k": 1,
+   "obs": "region_count",
+   "expected": 4,
+   "outcome": "hold",
+   "actual": "4"
+  },
+  {
+   "example": "EX-07",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-07",
+   "step": 2,
+   "k": 2,
+   "obs": "playhead",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-07",
+   "step": 2,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-07",
+   "step": 2,
+   "k": 2,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-08",
+   "step": 1,
+   "k": 1,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "hold",
+   "actual": "5"
+  },
+  {
+   "example": "EX-08",
+   "step": 1,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-08",
+   "step": 2,
+   "k": 2,
+   "obs": "out_fps",
+   "expected": 60,
+   "outcome": "hold",
+   "actual": "60"
+  },
+  {
+   "example": "EX-08",
+   "step": 2,
+   "k": 2,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "hold",
+   "actual": "5"
+  },
+  {
+   "example": "EX-08",
+   "step": 2,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-08",
+   "step": 2,
+   "k": 2,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-08",
+   "step": 3,
+   "k": 3,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-09",
+   "step": 1,
+   "k": 1,
+   "obs": "out_width",
+   "expected": 960,
+   "outcome": "hold",
+   "actual": "960"
+  },
+  {
+   "example": "EX-09",
+   "step": 1,
+   "k": 1,
+   "obs": "out_height",
+   "expected": 540,
+   "outcome": "hold",
+   "actual": "540"
+  },
+  {
+   "example": "EX-09",
+   "step": 1,
+   "k": 1,
+   "obs": "region_count",
+   "expected": 4,
+   "outcome": "hold",
+   "actual": "4"
+  },
+  {
+   "example": "EX-09",
+   "step": 1,
+   "k": 1,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-10",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-10",
+   "step": 1,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-10",
+   "step": 2,
+   "k": 2,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-10",
+   "step": 2,
+   "k": 2,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-10",
+   "step": 3,
+   "k": 3,
+   "obs": "out_fps",
+   "expected": 24,
+   "outcome": "hold",
+   "actual": "24"
+  },
+  {
+   "example": "EX-10",
+   "step": 3,
+   "k": 3,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-11",
+   "step": 1,
+   "k": 1,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "hold",
+   "actual": "5"
+  },
+  {
+   "example": "EX-11",
+   "step": 1,
+   "k": 1,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-11",
+   "step": 2,
+   "k": 2,
+   "obs": "selected_speed",
+   "expected": 2,
+   "outcome": "hold",
+   "actual": "2"
+  },
+  {
+   "example": "EX-11",
+   "step": 2,
+   "k": 2,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "hold",
+   "actual": "5"
+  },
+  {
+   "example": "EX-11",
+   "step": 2,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-11",
+   "step": 3,
+   "k": 3,
+   "obs": "region_count",
+   "expected": 5,
+   "outcome": "hold",
+   "actual": "5"
+  },
+  {
+   "example": "EX-11",
+   "step": 3,
+   "k": 3,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-11",
+   "step": 3,
+   "k": 3,
+   "obs": "selected_speed",
+   "expected": 1,
+   "outcome": "hold",
+   "actual": "1"
+  },
+  {
+   "example": "EX-11",
+   "step": 3,
+   "k": 3,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-11",
+   "step": 3,
+   "k": 3,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-11",
+   "step": 4,
+   "k": 4,
+   "obs": "region_count",
+   "expected": 4,
+   "outcome": "hold",
+   "actual": "4"
+  },
+  {
+   "example": "EX-11",
+   "step": 4,
+   "k": 4,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-11",
+   "step": 4,
+   "k": 4,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-11",
+   "step": 4,
+   "k": 4,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-12",
+   "step": 1,
+   "k": 1,
+   "obs": "selected_speed",
+   "expected": 1,
+   "outcome": "hold",
+   "actual": "1"
+  },
+  {
+   "example": "EX-12",
+   "step": 1,
+   "k": 1,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-12",
+   "step": 1,
+   "k": 1,
+   "obs": "redo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-13",
+   "step": 1,
+   "k": 1,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-13",
+   "step": 1,
+   "k": 1,
+   "obs": "playhead",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-13",
+   "step": 2,
+   "k": 2,
+   "obs": "playhead",
+   "expected": 20.033,
+   "outcome": "hold",
+   "actual": "20.033333333333335"
+  },
+  {
+   "example": "EX-13",
+   "step": 2,
+   "k": 2,
+   "obs": "trim_start",
+   "expected": 20,
+   "outcome": "hold",
+   "actual": "20"
+  },
+  {
+   "example": "EX-13",
+   "step": 2,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-13",
+   "step": 3,
+   "k": 3,
+   "obs": "trim_start",
+   "expected": 6,
+   "outcome": "hold",
+   "actual": "6"
+  },
+  {
+   "example": "EX-13",
+   "step": 3,
+   "k": 3,
+   "obs": "output_length",
+   "expected": 142,
+   "outcome": "hold",
+   "actual": "142"
+  },
+  {
+   "example": "EX-13",
+   "step": 3,
+   "k": 3,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-13",
+   "step": 3,
+   "k": 3,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-14",
+   "step": 1,
+   "k": 0,
+   "obs": "unsaved",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-14",
+   "step": 2,
+   "k": 1,
+   "obs": "selected_volume_percent",
+   "expected": 150,
+   "outcome": "hold",
+   "actual": "150"
+  },
+  {
+   "example": "EX-14",
+   "step": 2,
+   "k": 1,
+   "obs": "undo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  },
+  {
+   "example": "EX-14",
+   "step": 3,
+   "k": 2,
+   "obs": "selected_volume_percent",
+   "expected": 100,
+   "outcome": "hold",
+   "actual": "100"
+  },
+  {
+   "example": "EX-14",
+   "step": 3,
+   "k": 2,
+   "obs": "undo_enabled",
+   "expected": false,
+   "outcome": "hold",
+   "actual": "False"
+  },
+  {
+   "example": "EX-14",
+   "step": 3,
+   "k": 2,
+   "obs": "redo_enabled",
+   "expected": true,
+   "outcome": "hold",
+   "actual": "True"
+  }
+ ],
+ "examples": [
+  {
+   "id": "EX-01",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-02",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-03",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-04",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-05",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-06",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-07",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-08",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-09",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-10",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-11",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-12",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-13",
+   "stopped": null,
+   "kind": null
+  },
+  {
+   "id": "EX-14",
+   "stopped": null,
+   "kind": null
+  }
+ ],
+ "summary": {
+  "examples": 14,
+  "asserted": 220,
+  "hold": 220,
+  "fail": 0,
+  "not run": 0,
+  "fail_share": 0.0,
+  "unresolved": 39,
+  "pressed-unavailable": 0,
+  "raised": 0,
+  "not-executed": 0,
+  "fails_by_fact": {}
+ }
+}

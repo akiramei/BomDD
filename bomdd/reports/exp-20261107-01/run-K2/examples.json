@@ -1,0 +1,194 @@
+{"examples": [
+ {"id": "EX-01", "title": "起動直後: 履歴は空で Undo/Redo とも使えない",
+  "basis": "cad/start-screen.json の観測値そのもの(SOURCE_EXPLICIT・観測)",
+  "steps": [
+   {"action": null,
+    "expect": {"undo_enabled": false, "redo_enabled": false, "split_enabled": true, "merge_enabled": false,
+               "trim_in_enabled": true, "trim_out_enabled": false, "region_count": 4, "trim_start": 6, "trim_end": 132,
+               "output_length": 142, "playhead": 20, "selected_start": 6, "selected_end": 40, "selected_speed": 1,
+               "selected_volume_percent": 100, "out_fps": 30, "out_width": 1920, "out_height": 1080, "unsaved": false},
+    "unresolved": []}
+  ]},
+
+ {"id": "EX-02", "title": "分割を Undo/Redo する(区間数・出力長・分割可否が戻る/進む)",
+  "basis": "REQ-012(全編集は undo/redo 可・履歴は状態全体)・REQ-004(フレーム格子へ丸めて分割・0.5 秒未満は拒否・設定継承)・REQ-003(境界の瞬間は後ろの区間)・REQ-011(出力長)・README.md:23。分割可否ボタン=CanSplitAt は start-screen で trim_out_enabled=false が CanTrimEndAt(20) と一致することからの類推(SOURCE_DERIVED)。分割後の選択区間は未決 Q1",
+  "steps": [
+   {"action": "Split",
+    "expect": {"undo_enabled": true, "redo_enabled": false, "region_count": 5, "output_length": 142, "playhead": 20,
+               "split_enabled": false, "trim_start": 6, "trim_end": 132},
+    "unresolved": ["selected_start", "selected_end", "merge_enabled", "unsaved"]},
+   {"action": "Undo",
+    "expect": {"undo_enabled": false, "redo_enabled": true, "region_count": 4, "output_length": 142, "playhead": 20,
+               "split_enabled": true, "trim_start": 6, "trim_end": 132},
+    "unresolved": ["selected_start", "selected_end", "merge_enabled", "unsaved"]},
+   {"action": "Redo",
+    "expect": {"undo_enabled": true, "redo_enabled": false, "region_count": 5, "output_length": 142, "playhead": 20,
+               "split_enabled": false},
+    "unresolved": ["selected_start", "selected_end", "merge_enabled", "unsaved"]}
+  ]},
+
+ {"id": "EX-03", "title": "トリム開始(In)を Undo/Redo する(先頭区間の開始と出力長が一緒に戻る)",
+  "basis": "REQ-007(In は先頭区間内でだけ・先頭区間の開始も動く)・REQ-011・REQ-012。前提: trim_start=selected_start=6 なので選択区間は先頭区間 [6,40) 速度 1。他の区間の寄与は不明だが不変なので差分 34→20 だけで 142→128 を導く(SOURCE_DERIVED)。選択は区間 id で保持(REQ-004 反例 3)だが、この例では id も再生ヘッド位置の区間も同じなので選択は確定",
+  "steps": [
+   {"action": "SetTrimIn",
+    "expect": {"undo_enabled": true, "redo_enabled": false, "trim_start": 20, "trim_end": 132, "region_count": 4,
+               "selected_start": 20, "selected_end": 40, "selected_speed": 1, "output_length": 128, "playhead": 20,
+               "split_enabled": false, "trim_in_enabled": true},
+    "unresolved": ["unsaved"]},
+   {"action": "Undo",
+    "expect": {"undo_enabled": false, "redo_enabled": true, "trim_start": 6, "region_count": 4, "selected_start": 6,
+               "selected_end": 40, "output_length": 142, "playhead": 20, "split_enabled": true, "trim_in_enabled": true},
+    "unresolved": ["unsaved"]},
+   {"action": "Redo",
+    "expect": {"undo_enabled": true, "redo_enabled": false, "trim_start": 20, "selected_start": 20, "selected_end": 40,
+               "output_length": 128, "split_enabled": false},
+    "unresolved": ["unsaved"]}
+  ]},
+
+ {"id": "EX-04", "title": "Redo は保存した状態へ戻す(現在の再生ヘッドで操作をやり直さない)・再生ヘッド移動は Redo を消さない",
+  "basis": "REQ-012 rationale「history holds whole states」・README.md:145(不変ドキュメントの参照を積む)。再生ヘッド移動は編集ではない(README.md:15-23 で編集は区間編集・解像度・書き出し、再生ヘッドはプレビュー側 README.md:147)ので履歴を変えない(SOURCE_DERIVED)。1 フレーム= 1/30 秒(REQ-013 で出力 fps の初期値=元の fps=30)。Redo 後に再生ヘッドが戻るかは未決 Q5",
+  "steps": [
+   {"action": "SetTrimIn",
+    "expect": {"trim_start": 20, "output_length": 128, "undo_enabled": true, "redo_enabled": false},
+    "unresolved": []},
+   {"action": "Undo",
+    "expect": {"trim_start": 6, "output_length": 142, "undo_enabled": false, "redo_enabled": true, "playhead": 20},
+    "unresolved": []},
+   {"action": "StepForward",
+    "expect": {"playhead": 20.033, "trim_start": 6, "undo_enabled": false, "redo_enabled": true,
+               "selected_start": 6, "selected_end": 40},
+    "unresolved": []},
+   {"action": "Redo",
+    "expect": {"trim_start": 20, "selected_start": 20, "selected_end": 40, "output_length": 128,
+               "undo_enabled": true, "redo_enabled": false},
+    "unresolved": ["playhead"]}
+  ]},
+
+ {"id": "EX-05", "title": "Undo のあとに新しい編集をすると Redo が消える",
+  "basis": "REQ-012「a new edit clears the redo steps」(SOURCE_EXPLICIT)・README.md:23。速度プリセットは選択区間(先頭区間 [6,40)・34 秒)へ: 34/2=17 で 142→125(REQ-008・REQ-011・SOURCE_DERIVED)",
+  "steps": [
+   {"action": "SetTrimIn",
+    "expect": {"trim_start": 20, "undo_enabled": true, "redo_enabled": false},
+    "unresolved": []},
+   {"action": "Undo",
+    "expect": {"trim_start": 6, "undo_enabled": false, "redo_enabled": true},
+    "unresolved": []},
+   {"action": "ApplySpeedPreset:2",
+    "expect": {"selected_speed": 2, "selected_start": 6, "selected_end": 40, "output_length": 125, "trim_start": 6,
+               "undo_enabled": true, "redo_enabled": false},
+    "unresolved": ["unsaved"]},
+   {"action": "Undo",
+    "expect": {"selected_speed": 1, "output_length": 142, "trim_start": 6, "undo_enabled": false, "redo_enabled": true},
+    "unresolved": []},
+   {"action": "Redo",
+    "expect": {"selected_speed": 2, "output_length": 125, "trim_start": 6, "undo_enabled": true, "redo_enabled": false},
+    "unresolved": []}
+  ]},
+
+ {"id": "EX-06", "title": "3 回の編集を順に Undo し、順に Redo する",
+  "basis": "REQ-012(50 段まで・新しい順に戻す)・REQ-007・REQ-008・REQ-009・REQ-011。In 後の選択区間 [20,40)=20 秒を 2x で 10 秒: 128→118。音量は出力長に影響しない(REQ-011 の式に音量がない)。すべて SOURCE_DERIVED",
+  "steps": [
+   {"action": "SetTrimIn",
+    "expect": {"trim_start": 20, "output_length": 128, "undo_enabled": true, "redo_enabled": false}, "unresolved": []},
+   {"action": "ApplySpeedPreset:2",
+    "expect": {"selected_speed": 2, "output_length": 118, "trim_start": 20, "undo_enabled": true, "redo_enabled": false},
+    "unresolved": []},
+   {"action": "ApplyVolumePreset:50",
+    "expect": {"selected_volume_percent": 50, "selected_speed": 2, "output_length": 118, "undo_enabled": true,
+               "redo_enabled": false}, "unresolved": []},
+   {"action": "Undo",
+    "expect": {"selected_volume_percent": 100, "selected_speed": 2, "output_length": 118, "trim_start": 20,
+               "undo_enabled": true, "redo_enabled": true}, "unresolved": []},
+   {"action": "Undo",
+    "expect": {"selected_volume_percent": 100, "selected_speed": 1, "output_length": 128, "trim_start": 20,
+               "undo_enabled": true, "redo_enabled": true}, "unresolved": []},
+   {"action": "Undo",
+    "expect": {"selected_speed": 1, "output_length": 142, "trim_start": 6, "selected_start": 6, "selected_end": 40,
+               "undo_enabled": false, "redo_enabled": true}, "unresolved": []},
+   {"action": "Redo",
+    "expect": {"trim_start": 20, "output_length": 128, "selected_speed": 1, "undo_enabled": true, "redo_enabled": true},
+    "unresolved": []},
+   {"action": "Redo",
+    "expect": {"selected_speed": 2, "output_length": 118, "selected_volume_percent": 100, "undo_enabled": true,
+               "redo_enabled": true}, "unresolved": []},
+   {"action": "Redo",
+    "expect": {"selected_volume_percent": 50, "selected_speed": 2, "output_length": 118, "trim_start": 20,
+               "undo_enabled": true, "redo_enabled": false}, "unresolved": []}
+  ]},
+
+ {"id": "EX-07", "title": "再生ヘッドの移動は履歴に積まない",
+  "basis": "REQ-012 の対象は edit。再生ヘッドはドキュメントでなくプレビュー/ビューモデル側(README.md:147「Playback position (source time) = playhead」・README.md:126 MainWindowViewModel)なので Undo 対象の編集ではない(SOURCE_DERIVED)。1 フレーム= 1/30 秒",
+  "steps": [
+   {"action": "StepForward",
+    "expect": {"playhead": 20.033, "undo_enabled": false, "redo_enabled": false, "region_count": 4, "trim_start": 6},
+    "unresolved": []},
+   {"action": "StepBack",
+    "expect": {"playhead": 20, "undo_enabled": false, "redo_enabled": false}, "unresolved": []}
+  ]},
+
+ {"id": "EX-08", "title": "[未決 Q2] 出力 fps の変更は Undo の対象か(分割のあとに fps を変えて 1 回 Undo)",
+  "basis": "REQ-012「Every edit」と REQ-013 + UQ-REQ-013-001(出力設定はビューモデル側の規則・ドキュメント外)が両立の仕方を決めない。fps 値そのものは REQ-013(SOURCE_EXPLICIT)。Undo は分割で既に使えるので押せる",
+  "steps": [
+   {"action": "Split",
+    "expect": {"region_count": 5, "undo_enabled": true}, "unresolved": []},
+   {"action": "SetFps:60",
+    "expect": {"out_fps": 60, "region_count": 5, "undo_enabled": true, "redo_enabled": false}, "unresolved": []},
+   {"action": "Undo",
+    "expect": {"redo_enabled": true},
+    "unresolved": ["out_fps", "region_count", "undo_enabled"]}
+  ]},
+
+ {"id": "EX-09", "title": "[未決 Q2] 起動直後に出力スケールだけ変えると Undo が使えるようになるか",
+  "basis": "スケール値は REQ-013(プリセットは元のサイズから・even(1920×0.5)=960・even(1080×0.5)=540・SOURCE_EXPLICIT)。履歴に入るかは未決 Q2",
+  "steps": [
+   {"action": "Scale:0.5",
+    "expect": {"out_width": 960, "out_height": 540, "region_count": 4, "redo_enabled": false},
+    "unresolved": ["undo_enabled", "unsaved"]}
+  ]},
+
+ {"id": "EX-10", "title": "[未決 Q2] Undo のあとに出力 fps を変えると Redo が消えるか",
+  "basis": "REQ-012「a new edit clears the redo steps」— fps 変更が edit に当たるかが未決 Q2",
+  "steps": [
+   {"action": "SetTrimIn", "expect": {"trim_start": 20, "undo_enabled": true}, "unresolved": []},
+   {"action": "Undo", "expect": {"trim_start": 6, "redo_enabled": true}, "unresolved": []},
+   {"action": "SetFps:24", "expect": {"out_fps": 24, "trim_start": 6}, "unresolved": ["redo_enabled", "undo_enabled"]}
+  ]},
+
+ {"id": "EX-11", "title": "[未決 Q1] 分割直後の速度変更はどちらの区間に効くか、Undo でどう戻るか",
+  "basis": "REQ-003(20 は後ろの区間 [20,40))・README.md:18(クリックで頭出しした区間が編集対象)・REQ-004 反例 3(Undo は選択を区間 id で解決)が、分割直後の選択を決めない。後ろなら 20/2=10 で出力 132、前なら 14/2=7 で 135。2 回目の Undo で分割前へ戻るのは REQ-012",
+  "steps": [
+   {"action": "Split", "expect": {"region_count": 5, "output_length": 142}, "unresolved": ["selected_start", "selected_end"]},
+   {"action": "ApplySpeedPreset:2", "expect": {"selected_speed": 2, "region_count": 5, "undo_enabled": true},
+    "unresolved": ["selected_start", "selected_end", "output_length"]},
+   {"action": "Undo", "expect": {"region_count": 5, "output_length": 142, "selected_speed": 1, "undo_enabled": true, "redo_enabled": true},
+    "unresolved": ["selected_start", "selected_end"]},
+   {"action": "Undo", "expect": {"region_count": 4, "output_length": 142, "undo_enabled": false, "redo_enabled": true},
+    "unresolved": ["selected_start", "selected_end", "selected_speed"]}
+  ]},
+
+ {"id": "EX-12", "title": "[未決 Q3] すでに同じ値のプリセットを押すと履歴が 1 段積まれるか",
+  "basis": "REQ-008/009 は値の丸め・範囲だけ、REQ-012 は「Every edit」。値が変わらない適用が edit かは資料にない",
+  "steps": [
+   {"action": "ApplySpeedPreset:1", "expect": {"selected_speed": 1, "output_length": 142, "redo_enabled": false},
+    "unresolved": ["undo_enabled", "unsaved"]}
+  ]},
+
+ {"id": "EX-13", "title": "[未決 Q5] 編集のあとで再生ヘッドを動かしてから Undo すると、再生ヘッドは戻るか",
+  "basis": "履歴はドキュメントの状態(REQ-012・README.md:145)、再生ヘッドはプレビュー側(README.md:147)なので 20.033 のまま、が導出上の傾き。ただし再生ヘッドの扱いを明記した資料はない",
+  "steps": [
+   {"action": "SetTrimIn", "expect": {"trim_start": 20, "playhead": 20}, "unresolved": []},
+   {"action": "StepForward", "expect": {"playhead": 20.033, "trim_start": 20, "undo_enabled": true}, "unresolved": []},
+   {"action": "Undo", "expect": {"trim_start": 6, "output_length": 142, "redo_enabled": true, "undo_enabled": false},
+    "unresolved": ["playhead"]}
+  ]},
+
+ {"id": "EX-14", "title": "[未決 Q4] 編集で「未保存」になるか、Undo で起動直後へ戻すと「保存済み」に戻るか",
+  "basis": "cad/observations.json に unsaved がある一方、cad/actions.json に保存の操作はなく、sources にも保存の記述がない",
+  "steps": [
+   {"action": null, "expect": {"unsaved": false}, "unresolved": []},
+   {"action": "ApplyVolumePreset:150", "expect": {"selected_volume_percent": 150, "undo_enabled": true},
+    "unresolved": ["unsaved"]},
+   {"action": "Undo", "expect": {"selected_volume_percent": 100, "undo_enabled": false, "redo_enabled": true},
+    "unresolved": ["unsaved"]}
+  ]}
+]}

@@ -1,0 +1,21 @@
+{
+ "writer": "K1",
+ "files": {
+  "examples.json": {
+   "sha256": "405fc31fec1ce7bdd9554aa192beffe37587a4ecbc3e964335f289a4e1f875a9",
+   "bytes": 12942
+  },
+  "out/01-input-and-scope.md": {
+   "sha256": "b8b16bf7ce950bc846d5c8db6da2653d226681e8224da59904df0f9c8ee6aebc",
+   "bytes": 4679
+  },
+  "out/02-requirements-cad-model-behavior.md": {
+   "sha256": "ac032873d1c06b5d43ad4b2efc6bff5e21d4d6cda7c850da60c2184289c3faaa",
+   "bytes": 13177
+  },
+  "out/03-examples-checks-questions-next.md": {
+   "sha256": "a62598055ce08ec9c0c8b11cdcbeee73fd5da46029b2a2bfdaf4873c52df6a1c",
+   "bytes": 9532
+  }
+ }
+}

@@ -1,0 +1,98 @@
+{
+ "W1": {
+  "facts": {
+   "F1": {"verdict": "correct", "quote": "`undo_enabled` | cad/observations.json | = Undo 段が 1 つ以上ある / `redo_enabled` | cad/observations.json | = Redo 段が 1 つ以上ある", "file": "W1/out/02-undo-redo-design.md"},
+   "F2": {"verdict": "correct", "quote": "F-03 | 新しい編集は Redo の段を消す", "file": "W1/out/02-undo-redo-design.md"},
+   "F3": {"verdict": "correct", "quote": "B-03 ... ドキュメント由来の表示がすべてその状態に戻る / B-01 受け付けられた編集(Split・DeleteSelectedBoundary・SetTrimIn/Out・速度/音量プリセット・ドラッグ)", "file": "W1/out/02-undo-redo-design.md"},
+   "F4": {"verdict": "correct", "quote": "段数の上限は 50。51 段目で最も古い段が落ちる", "file": "W1/out/02-undo-redo-design.md"},
+   "F5": {"verdict": "wrong", "quote": "[02 §5] Selection は区間 id で保持し、区間の位置では保持しない / [02 F-07] Undo は選択を区間 id で解決する / [03 Q1] 分割した直後、選択されるのは前半([6,20))か後半([20,40))か", "file": "W1/out/02-undo-redo-design.md; W1/out/03-examples-and-open-items.md"},
+   "F6": {"verdict": "open", "quote": "Q2 出力の fps・解像度の変更は Undo の対象か(Undo で戻るか・Redo を消すか)", "file": "W1/out/03-examples-and-open-items.md"},
+   "F7": {"verdict": "open", "quote": "Q5 編集のあと再生ヘッドを動かしてから Undo すると、再生ヘッドは戻るか ... 明記はない", "file": "W1/out/03-examples-and-open-items.md"},
+   "F8": {"verdict": "open", "quote": "Q3 すでに同じ値のプリセット(1x のときの 1x)を押すと Undo が 1 段増えるか", "file": "W1/out/03-examples-and-open-items.md"},
+   "F9": {"verdict": "absent", "quote": "", "file": ""},
+   "F10": {"verdict": "open", "quote": "Q4 ... Undo で起動時の状態に戻すと「保存済み」に戻るか", "file": "W1/out/03-examples-and-open-items.md"},
+   "F11": {"verdict": "absent", "quote": "", "file": ""}
+  },
+  "questions": {
+   "count": 5,
+   "answered_by_sources": 1,
+   "answered": [
+    {"question": "Q1 分割した直後、選択されるのは前半([6,20))か後半([20,40))か ... 分割を Undo して後半の区間が消えたとき、選択はどこへ行くか",
+     "source_quote": "Which region is \"at the playhead\" decides the target of every per-region edit; a boundary instant belongs to the later region. / (README.md:18) the region under the playhead becomes the edit target",
+     "source_file": "sources/10-requirements.yaml (REQ-003 rationale); sources/README.md"}
+   ]
+  }
+ },
+ "W2": {
+  "facts": {
+   "F1": {"verdict": "correct", "quote": "undo_enabled = len(past)   > 0 / redo_enabled = len(future) > 0", "file": "W2/out/02-domain-model.md"},
+   "F2": {"verdict": "correct", "quote": "U-3 | 取り消しのあとに**新しい編集**をすると、やり直しの段はすべて消える。", "file": "W2/out/01-requirements.md"},
+   "F3": {"verdict": "correct", "quote": "1 つ前のスナップショットへ丸ごと戻る(区間の数・境界・速度・音量・除外・トリムすべて)。 / やり直し: 取り消したスナップショットへ進む。", "file": "W2/out/03-behavior.md"},
+   "F4": {"verdict": "correct", "quote": "履歴の深さは最大 **50 段**。51 段目を積むと**いちばん古い段**が捨てられる", "file": "W2/out/01-requirements.md"},
+   "F5": {"verdict": "wrong", "quote": "[01 U-7] 選択(編集対象の区間)は区間の **id** で持つ。 / [03 B-1] 選択 | id を保つ。戻った状態にその id が無ければ再生ヘッドの下の区間(推定 — Q-1 と同根) / [04 Q-1] 分割した直後、選択されるのは前半(元の区間)か、後半(再生ヘッドの下の区間)か。", "file": "W2/out/01-requirements.md; W2/out/03-behavior.md; W2/out/04-questions.md"},
+   "F6": {"verdict": "open", "quote": "Q-2 | A | 出力の幅・高さ・スケールと出力 fps の変更は、取り消しの対象か。", "file": "W2/out/04-questions.md"},
+   "F7": {"verdict": "correct", "quote": "再生ヘッド | 動かない(推定)。戻ったトリム範囲の外になる場合は未確定(Q-5)。", "file": "W2/out/03-behavior.md"},
+   "F8": {"verdict": "open", "quote": "Q-4 | A | 値が変わらない編集(速度 1 の区間に 1x、音量 100% に 100%、...)は 1 段になるか", "file": "W2/out/04-questions.md"},
+   "F9": {"verdict": "open", "quote": "Q-4 ... (... トリム開始が既に再生ヘッドにあるときの In)は 1 段になるか(=やり直しが消えるか)。", "file": "W2/out/04-questions.md"},
+   "F10": {"verdict": "open", "quote": "Q-3 ... 取り消しで読込直後の状態に戻ったら「保存済み」に戻るか。", "file": "W2/out/04-questions.md"},
+   "F11": {"verdict": "open", "quote": "[04 Q-7] 別のファイルを開いたら履歴は消えるか ... 仮置き: 開くたびに空にする / [02 §3] ファイルを開く/起動(サンプル読込) | [] | 読込状態 | []", "file": "W2/out/04-questions.md; W2/out/02-domain-model.md"}
+  },
+  "questions": {
+   "count": 11,
+   "answered_by_sources": 1,
+   "answered": [
+    {"question": "Q-1 分割した直後、選択されるのは前半(元の区間)か、後半(再生ヘッドの下の区間)か。分割を取り消して選択していた区間が消えたとき、選択はどこへ行くか。",
+     "source_quote": "Which region is \"at the playhead\" decides the target of every per-region edit; a boundary instant belongs to the later region. / (README.md:18) the region under the playhead becomes the edit target",
+     "source_file": "sources/10-requirements.yaml (REQ-003 rationale); sources/README.md"}
+   ]
+  }
+ },
+ "W3": {
+  "facts": {
+   "F1": {"verdict": "correct", "quote": "U-06 ... 取り消せる段が無い ... undo_enabled=false ... 逆向き(段があれば true)は REQ-012「can be undone」+ CAD-ACT の Undo ボタンから DERIVED / U-07 ... やり直せる段が無い ... redo_enabled=false", "file": "W3/out/02-requirements-cad-model-behavior.md"},
+   "F2": {"verdict": "correct", "quote": "U-03 | やり直しが残っている | 新しい編集 | やり直しが全部消える | redo_enabled=false", "file": "W3/out/02-requirements-cad-model-behavior.md"},
+   "F3": {"verdict": "correct", "quote": "U-01 ... Undo | 直前の編集の前のドキュメントに戻る / U-02 ... Redo | 取り消した編集の後のドキュメントに戻る / B-03 編集(Split/結合/In/Out/速度/音量)", "file": "W3/out/02-requirements-cad-model-behavior.md"},
+   "F4": {"verdict": "correct", "quote": "U-04 | 50 段ある | 51 個目の編集 | 最古の 1 段が落ちる", "file": "W3/out/02-requirements-cad-model-behavior.md"},
+   "F5": {"verdict": "correct", "quote": "P2 ... 編集対象は再生ヘッドの下の区間で、境界の時刻は後ろの区間に属する ... 依存: 分割後の選択 [20,40)、merge_enabled=true、trim_in_enabled=false(EX-02, EX-06, EX-09)。 / [§5 CF-01] 分かれる場面(分割・結合の取り消し・やり直しで、選んでいた id が消える/現れる)は `unresolved` にした", "file": "W3/out/02-requirements-cad-model-behavior.md"},
+   "F6": {"verdict": "open", "quote": "U-10 | — | 出力サイズ・フレームレートの変更 | 段になるか不明 ... UNRESOLVED(Q1)", "file": "W3/out/02-requirements-cad-model-behavior.md"},
+   "F7": {"verdict": "open", "quote": "P1 ... 差し替えで再生ヘッドを動かすとは書かれていない。ただし「動かさない」とも書かれていないので、再生ヘッドの値そのものは例で主張しない。", "file": "W3/out/02-requirements-cad-model-behavior.md"},
+   "F8": {"verdict": "open", "quote": "Q3 値が変わらない操作は取り消しの段になりますか ... 操作: 「1x」を押す。", "file": "W3/out/03-examples-checks-questions-next.md"},
+   "F9": {"verdict": "open", "quote": "U-11 | — | 値が変わらない編集(1x に 1x) | 段になるか不明 / B-07 | 任意 | 値が変わらない編集 | — | 未決", "file": "W3/out/02-requirements-cad-model-behavior.md"},
+   "F10": {"verdict": "open", "quote": "Q4 「未保存の変更」表示は編集と Undo でどう変わりますか ... 結果 B: 分割で「未保存の変更」、Undo の後も「未保存の変更」のまま。", "file": "W3/out/03-examples-checks-questions-next.md"},
+   "F11": {"verdict": "absent", "quote": "", "file": ""}
+  },
+  "questions": {
+   "count": 4,
+   "answered_by_sources": 1,
+   "answered": [
+    {"question": "Q2 分割を取り消した直後、どの区間が選択されていますか",
+     "source_quote": "Which region is \"at the playhead\" decides the target of every per-region edit; a boundary instant belongs to the later region. / (README.md:18) the region under the playhead becomes the edit target",
+     "source_file": "sources/10-requirements.yaml (REQ-003 rationale); sources/README.md"}
+   ]
+  }
+ },
+ "W4": {
+  "facts": {
+   "F1": {"verdict": "correct", "quote": "I-2 `undo_enabled ⇔ past が空でない`、`redo_enabled ⇔ future が空でない`。", "file": "W4/out/02-domain-model.md"},
+   "F2": {"verdict": "correct", "quote": "U-2.3 | 取り消しのあとで新しい編集をすると、やり直しの段はすべて消える。", "file": "W4/out/01-requirements.md"},
+   "F3": {"verdict": "correct", "quote": "U-2.1 | 取り消しは直前の編集の前の状態へ戻す。 / U-2.2 | やり直しは直前に取り消した編集を再適用する。", "file": "W4/out/01-requirements.md"},
+   "F4": {"verdict": "correct", "quote": "U-2.5 | 取り消しは最大 50 段。51 段目の編集で最も古い段が捨てられる(最新ではない)。", "file": "W4/out/01-requirements.md"},
+   "F5": {"verdict": "open", "quote": "Q-02 | 分割・取り消し・やり直しのあと、どの区間が「選択中」になりますか。(a) 再生ヘッドの下の区間、(b) ... id を保ち ... 分割の直後は前半・後半のどちらですか。", "file": "W4/out/04-questions.md"},
+   "F6": {"verdict": "open", "quote": "U-1.3 | 出力設定(幅・高さ・縦横比維持・スケールプリセット・出力 fps)が履歴に積まれるか。 | **未決**", "file": "W4/out/01-requirements.md"},
+   "F7": {"verdict": "correct", "quote": "[01 U-3.4] 取り消し/やり直しは再生ヘッドを動かさない(ドキュメントの外のため)。ただし ... トリム範囲の外 ... 未決。 / [examples EX-04 Redo] \"playhead\": 20.033", "file": "W4/out/01-requirements.md; W4/examples.json"},
+   "F8": {"verdict": "open", "quote": "U-1.4 | 値が変わらない編集(1x の区間に 1x を当てる等)が 1 段になるか。 | **未決**", "file": "W4/out/01-requirements.md"},
+   "F9": {"verdict": "open", "quote": "Q-04 | 値の変わらない編集(1x の区間に 1x、100% に 100%)は 1 段として積みますか。... また、再生ヘッドがすでにトリム開始と同じ位置のとき In ボタンは使えますか", "file": "W4/out/04-questions.md"},
+   "F10": {"verdict": "open", "quote": "U-3.7 | 取り消しで最後に保存した(起動直後の)状態まで戻ったとき「保存済み」に戻るか。 | **未決**", "file": "W4/out/01-requirements.md"},
+   "F11": {"verdict": "open", "quote": "U-2.7 | ファイルを開くと履歴はどうなるか(新しいクリップで空になるか)。 | **未決**", "file": "W4/out/01-requirements.md"}
+  },
+  "questions": {
+   "count": 9,
+   "answered_by_sources": 1,
+   "answered": [
+    {"question": "Q-02 分割・取り消し・やり直しのあと、どの区間が「選択中」になりますか。... 分割の直後は前半・後半のどちらですか。",
+     "source_quote": "Which region is \"at the playhead\" decides the target of every per-region edit; a boundary instant belongs to the later region. / (README.md:18) the region under the playhead becomes the edit target",
+     "source_file": "sources/10-requirements.yaml (REQ-003 rationale); sources/README.md"}
+   ]
+  }
+ }
+}

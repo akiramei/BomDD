@@ -10436,7 +10436,7 @@ MoviePad-Remake read by `git show` only; BehaviorForge copied, never written.
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement of a kit; no body text, template or tool changes.
 
-- [open] EXP-20261107-01 — **Given the same sources and deliverables, do fresh writers who use BehaviorForge write an upstream
+- [recovered 2026-11-07 via bomdd/reports/exp-20261107-01/results.md] EXP-20261107-01 — **Given the same sources and deliverables, do fresh writers who use BehaviorForge write an upstream
   for MoviePad's undo / redo whose concrete examples hold better on the authority, and that completes less of what the sources
   leave open, than fresh writers without the kit?** Two arms (K: the kit and its own start prompt filled; C: a neutral prompt),
   two writers each; both add `examples.json` in one machine form with `unresolved` as a field; a copy of EXP-20261030-04's
@@ -10444,5 +10444,14 @@ measurement of a kit; no body text, template or tool changes.
   each press. The authority's eleven undo facts are classed before any output as determined by the sources (F1-F5) or not
   (F6-F11). Readings R1 (fail share on the authority), R2 (open facts stated wrongly, by a label-blind scorer), R3 (determined
   facts stated correctly); a direction only where the arms do not overlap; no rate.
+  **Read (2026-11-07)**: 988 asserted values from the four writers, 0 contradicted by the authority; no open fact stated
+  wrongly; determined facts correct K 5 / 4, C 4 / 4 — **R1, R2 and R3 all no claim: the kit's effect is not visible on this
+  feature** (868 of the 988 follow a press, 483 directly after Undo or Redo). Descriptive: why the control held is not
+  measured — the common section (sources only, an observed CAD, a machine form with `unresolved`) carries the kit's central
+  idea into it, or the model writes this way anyway; the documents of K2 and C1 committed to "selection by region id" (from
+  REQ-004's counterexample) where their machine-form examples hedged — prose rule broken, machine form kept — and K1 named
+  it a conflict inside MoviePad-Remake's requirements — the class D of F5 is contestable;
+  the kit's writers asked fewer questions (4, 5 against 11, 9). Departures: C1 ran a script in its folder (D1); the scorer
+  package rebuilt before use (D2); self-reported times off (D3). Nothing wired, no body text changed.
   source: this section (the user's "A: 実機能で試す", 2026-11-07)
-  evidence: `bomdd/reports/exp-20261107-01/definitions.md`
+  evidence: `bomdd/reports/exp-20261107-01/definitions.md`, `bomdd/reports/exp-20261107-01/results.md`, `bomdd/reports/exp-20261107-01/tally.json`
