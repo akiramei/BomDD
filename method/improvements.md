@@ -10373,3 +10373,52 @@ Thought layer: [x] operational rule [ ] control / probe [x] template [ ] termino
   - 2 例目の条件: another distribution or product ECO whose backfill rule is shown wrong by its own review, or V5 counting a stale reason.
   source: this section (the user's "1:A 2:A" and "A", 2026-11-04)
   evidence: `bomdd/60-change-order-eco-121.md` §4 and §5, ViewTube `bomdd/eco/ECO-VT-273-independent-review.md` and `bomdd/51-cheat-log.md` (CHEAT-D10-034), ViewPrism2 `bomdd/51-cheat-log.md` (VP149-K1)
+
+## 2026-11-06 After ECO-119 closed — eight R8 rounds on what the user took for a cleanup: "this round's findings close" is not "the inspection passes" (OBS-20261106-01..04)
+
+Source: BomDD ECO-119 (verified with declared limits 2026-11-06 on the user's "A"; order section 5, "Process lessons" 1-5), and the
+user's questions at that closure. The user approved this entry ("Yes, record them", 2026-11-06).
+
+Facts (from the order): eight R8 rounds, material findings 3, 3, 2, 4, 4, 1, 0 (round 8 not run); rounds 2 and 3 were each declared
+the last; each fix was offered as "minor" and each round cost the full verification plus an independent inspection (over half a day);
+the edge cases of rounds 5-8 carry little weight for the purpose, and round 6's own fix refused every commit after a rebase until
+round 7. The user had asked for the work as a small cleanup of an unclosed ECO.
+
+Thought layer: [x] operational rule [ ] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — playbook
+rules are the candidate destination; nothing is woven into the body (no stop or measure can be named, below).
+
+Machine face of each lesson: **なし** for all four. No existing check or filed ECO stops or measures them; the order and memory
+(`next-round-is-not-a-plan`) are text. By the rule of this skill they stay `watch` and no body text is proposed.
+
+- [watch 1/3] OBS-20261106-01 — **Recommending another inspection round needs a stated reason it will pass, not only that this
+  round's findings will close; after two rounds without a fall in material findings, the recommended option is a plan review.**
+  (lessons 1 and 5)
+  - Machine face: なし. A measure is possible (the per-round material counts are already in each order's R8 sections) but no
+    instrument reads them.
+  - 2 例目の条件: another ECO with three or more R8/convergence rounds whose material count does not fall.
+  source: ECO-119
+  evidence: `bomdd/60-change-order-eco-119.md` §5 "Process lessons" 1 and 5; §4A-4P
+- [watch 1/3] OBS-20261106-02 — **A new mechanism's design is closed before manufacture: list the states and operations it must
+  handle, declare what it does not stop, and estimate the size; a request framed as cleanup that needs a new mechanism is said to
+  be one up front.** Otherwise the independent inspection becomes design exploration at the price of a full verification each time.
+  (lesson 2)
+  - Machine face: なし.
+  - 2 例目の条件: an ECO whose inspection rounds find new input classes (operations, states) not listed in its order.
+  source: ECO-119
+  evidence: `bomdd/60-change-order-eco-119.md` §5 "Process lessons" 2
+- [watch 1/3] OBS-20261106-03 — **An inspector's brief carries the purpose, the boundary, severity by effect on the purpose, and
+  what the purpose does not need**; without them every hole in a stop is "material" whatever its weight. (lesson 3)
+  - Machine face: なし (the brief templates have no such field and nothing checks it).
+  - 2 例目の条件: an R8 round whose material finding is later declared of small weight for the purpose.
+  source: ECO-119
+  evidence: `bomdd/60-change-order-eco-119.md` §5 "Process lessons" 3 and "Declared limits"
+- [watch 1/3] OBS-20261106-04 — **A proposed fix gives its severity and its cost (verification plus inspection time) separately;
+  iterations run the touched arms, and the full suite and the inspection run once at the end.** "Minor" was read as cheap. (lesson 4)
+  - Machine face: なし.
+  - 2 例目の条件: a user ruling on a fix offered as minor whose round costs more than half a day.
+  source: ECO-119
+  evidence: `bomdd/60-change-order-eco-119.md` §5 "Process lessons" 4
+
+期待効果の棚卸し: matching open items checked — OBS-20260831-07 (cut-off adoption as convergence debt) and
+OBS-20260906-03 (defects after a "converged" label) are near but not instances: ECO-119 was not cut off for a later lens, and no
+"converged" label was declared. 回収・再演 0 件.
