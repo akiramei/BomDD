@@ -10455,3 +10455,20 @@ measurement of a kit; no body text, template or tool changes.
   package rebuilt before use (D2); self-reported times off (D3). Nothing wired, no body text changed.
   source: this section (the user's "A: 実機能で試す", 2026-11-07)
   evidence: `bomdd/reports/exp-20261107-01/definitions.md`, `bomdd/reports/exp-20261107-01/results.md`, `bomdd/reports/exp-20261107-01/tally.json`
+
+## 2026-11-07 After EXP-20261107-01 — "A: 素の対照を足す": the control without the `unresolved` field (EXP-20261107-02, filed)
+
+Source: EXP-20261107-01 read no difference between the kit's writers and the control's, and could not say whether the common
+scaffolding or the model made the control careful; the user chose "A: 素の対照を足す" over "B: ここで閉じる". Folder
+`bomdd/reports/exp-20261107-02/`. MoviePad and MoviePad-Remake read only; BehaviorForge not used.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement; no body text, template or tool changes.
+
+- [open] EXP-20261107-02 — **With the machine form's `unresolved` field and its sentence removed and everything else as
+  EXP-20261107-01's control had it, do fresh writers assert values on MoviePad's undo / redo that the authority contradicts,
+  in particular on the facts the sources leave open?** Two writers (B1, B2); the same sources, CAD, observed start screen,
+  harness, comparison and scorer; R1′ (fails on the authority) and R2′ (open facts stated wrongly) against C1 / C2's 0 and 0,
+  a direction only when both B writers agree; one variable (the field), not the CAD.
+  source: this section (the user's "A: 素の対照を足す", 2026-11-07)
+  evidence: `bomdd/reports/exp-20261107-02/definitions.md`
