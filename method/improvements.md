@@ -10518,10 +10518,15 @@ lab's BF-GAP-01 reached a ceiling on six three-sentence cases; the user supplied
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement; no body text, template or tool changes.
 
-- [open] EXP-20261107-04 — **On REQ-QC-001, does a fresh reviewer given BehaviorForge find more of the holes that show only
+- [recovered 2026-11-07 via bomdd/reports/exp-20261107-04/results.md] EXP-20261107-04 — **On REQ-QC-001, does a fresh reviewer given BehaviorForge find more of the holes that show only
   when sections are read together than a fresh reviewer given a neutral request, without more unsupported findings?** A sealed
   key of twelve cross-section holes (section 13's listed items and plain vague words left out); a pilot of one neutral reviewer
   first, with a stop rule fixed in advance (10 or more of 12 detected: no room, stop); only if it leaves room, two writers per
   arm, a blind scorer, R1 items detected and R2 unsupported findings, a direction only where the arms do not overlap.
+  **Read (2026-11-07)**: the neutral pilot detected **11 of 12** (10 without one lenient call) — **at the stop rule: no room,
+  stopped at the pilot**; the kit was not run. Descriptive: the pilot went past the key (at least nine further cross-section
+  holes, for example the unit of state and migrated data as an official record), kept findings and questions apart and
+  flagged section 13's deferrals that are design inputs, unasked. Departure D1 (the pilot consulted the harness's advisor
+  once). Nothing wired, no body text changed.
   source: this section (the user's "1", 2026-11-07)
-  evidence: `bomdd/reports/exp-20261107-04/definitions.md`, `bomdd/reports/exp-20261107-04/key.md`
+  evidence: `bomdd/reports/exp-20261107-04/definitions.md`, `bomdd/reports/exp-20261107-04/key.md`, `bomdd/reports/exp-20261107-04/results.md`, `bomdd/reports/exp-20261107-04/run-P1/review.md`

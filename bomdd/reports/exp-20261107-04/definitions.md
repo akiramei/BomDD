@@ -59,4 +59,8 @@ This is a measurement. No method text, kit file or product changes. BehaviorForg
 
 ## 7. Departures
 
-(none yet)
+- **D1 — the pilot writer consulted the harness's advisor once** (its report: "書き出す前にアドバイザーに一度だけ構成の助言を
+  受けました"; it checked the cross-section candidates the advice raised against the text before writing them). The advisor is
+  available to every general-purpose agent of this harness (and would be to both arms of the main run); the prompt did not
+  forbid it. The pilot's detection therefore includes that help; a reviewer without it might find fewer. The stop rule is
+  applied as fixed.
