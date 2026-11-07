@@ -10530,3 +10530,55 @@ measurement; no body text, template or tool changes.
   once). Nothing wired, no body text changed.
   source: this section (the user's "1", 2026-11-07)
   evidence: `bomdd/reports/exp-20261107-04/definitions.md`, `bomdd/reports/exp-20261107-04/key.md`, `bomdd/reports/exp-20261107-04/results.md`, `bomdd/reports/exp-20261107-04/run-P1/review.md`
+
+## 2026-11-08 Withheld from the playbook: a 22-line draft "製造前の裁定と、試作・ユーザーテストで確かめること" — reviewed, not woven (OBS-20261108-01)
+
+Source: another agent wrote 22 lines into `method/bomdd-playbook-v1.md` (end of §3.1, before §3.2) without a commit or a review
+(file modified 2026-11-08 01:04). The user chose "A: 退避して審査へ" (2026-11-08): the lines were taken out of the body
+(`git checkout`, blob `bd9928b` restored) and kept as
+`bomdd/reports/lesson-20261108-ruling-before-manufacture/playbook-22-lines.patch` (3923 bytes; `git apply --check` exit 0 on
+`bd9928b`). Its evidence: BehaviorModelLab `comparison_plans/req_qc_001_correction_timing_v1/run-01/results.md` — one case per
+arm, one participant who was also the ruler, an order effect, ruling effort not measured, "総工数の削減は未確認" in the draft's
+own words; the lab repository has 0 commits, so the cited path cannot be resolved from a commit. Context: EXP-20261107-03,
+EXP-20261107-04 and the lab's BF-GAP-01 (detection at a ceiling without the kit).
+
+Thought layer: [x] operational rule [ ] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — the
+playbook was the draft's destination; nothing is woven (below). No concept-layer text is touched; the draft makes no claim that
+upstream rulings improve quality overall (it says the total effort is unconfirmed).
+
+Generalization and machine face, per proposition of the draft (product names dropped):
+
+1. **Behaviour that other users or steps rely on, or whose choice changes the expected acceptance result, is ruled by the
+   business owner before manufacture.** Already in the body: §4.1 outward promises (E-BOM `IF-`, ECO-114), §4.5 / §7 "人へ戻す
+   3 種", the E-BOM ruled at version freeze. Machine face: 止める= `ui-cad-gate.py` GU3 only for UI rulings (a blocking open UI
+   ruling holds promotion to manufacture); E13 / ECO-119 stops changes to the ruled layer after the freeze, not a missing ruling
+   before it. For a business ruling in REQ / spec: **なし**. 測る= なし.
+2. **When the business effect is hard to judge, try the options in the Phase 1.5 prototype and rule on what was observed.**
+   Already in the body: Phase 1.5 (§1, line 72) and OBS-20260715-19 (watch 2/3, a working mock reduces the uncertainty of the
+   ECO that takes it in). Machine face: なし.
+3. **The prototype and Phase 5 check that users understand the decided behaviour from the screen and can do the operations.**
+   Already in the body: Phase 5, §6.2 question list, the As-Built `validation` record (ECO-087). Machine face: なし for the
+   proposition as written (no check refuses a ruling left unchecked with users).
+4. **Where each part goes** (ruling in REQ / spec, dependents through §4.1, observation points in the Control Plan §4.4, user-test
+   findings back through §6.2): a restatement of §4.1 / §4.4 / §6.2; nothing new to weave.
+5. **The example table (a correction of an approved value)** names a product requirement and an unpublished lab run: it fails
+   the generalization check as body text (product-specific, and the citation is not resolvable from a commit).
+
+By the rule of this skill (止めるか測るものが無い規則は本文に入れない) no body text is proposed: propositions 1-4 either restate
+existing sections or have no stop or measure beyond GU3 (UI only), and the one new claim (ruling first saves rework) has one
+confounded case.
+
+- [watch 1/3] OBS-20261108-01 — **Telling the maker the ruling on relied-on behaviour before manufacture avoids a fix round that a
+  ruling given after manufacture needs** (the draft's evidence; weak: one case per arm, the participant was the ruler, order
+  effect, ruling effort not counted).
+  - Machine face: なし.
+  - 2 例目の条件: a product ECO (not a lab trial) whose order records a business ruling that dependents rely on, with these counts
+    fixed before it starts — when the ruling was made (before / after manufacture started), the fixes and re-checks caused by the
+    ruling's timing, kept apart from fixes with other causes, and the time spent on the ruling itself.
+  source: this section (the user's "A: 退避して審査へ", 2026-11-08)
+  evidence: `bomdd/reports/lesson-20261108-ruling-before-manufacture/playbook-22-lines.patch`; BehaviorModelLab `comparison_plans/req_qc_001_correction_timing_v1/run-01/results.md` (uncommitted)
+
+期待効果の棚卸し: worklist started (validation warnings 0). Near items checked, none an instance — OBS-20260715-19 (working mock
+before taking in an ECO: the lab run is about ruling timing, not a prototype), OBS-20260718-06 and EXP-20260718-07 (where human
+rulings sit by medium: no product ECO here), OBS-20261106-02 (closing a new mechanism's design before manufacture: the maker's
+design, not the owner's business ruling). 回収・再演 0 件.
