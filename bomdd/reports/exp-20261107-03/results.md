@@ -46,8 +46,10 @@ searched for.
 - **Writers found two things the sealed list did not hold.** (1) All four noticed that the clip information panel showing the
   source rate is visible only when no region is selected, which in practice does not happen after a clip is opened — recorded
   as D3, a gap in my list, not in the writers. (2) K1 and C2 found an inconsistency inside the original: on a 29.97 fps source,
-  pressing "30" sets the output to 30, yet the 0.05 tolerance treats it as unchanged, so fast copy stays available and would
-  keep 29.97 while the export dialog shows "30 fps"; both put it to the owner. Neither was scored (not on the list).
+  pressing "30" sets the output to 30, yet the 0.05 tolerance treats it as unchanged — K1: a copy export keeps 29.97 and a
+  re-encode gives 30 (`run-K1/out/04-review-and-questions.md` Q-01); C2: the copy check sees no change while the nominal rate
+  is built from 30/1 (`run-C2/out/04-owner-questions.md` Q8); both put it to the owner. K2 copies the tolerance as a design
+  choice and C1 mentions 29.97 without stating the inconsistency. Neither was scored (not on the list).
 - **The kit's writers marked their checks `NOT_RUN`** in their documents (K1 3 files, K2 6); no control document uses the mark.
   No writer claimed an execution (none was permitted).
 - **The kit's example: K1 says it did not read it** (`run-K1/out/01-input-index.md` 15: the example is fictional and was
