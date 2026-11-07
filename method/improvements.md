@@ -10508,3 +10508,20 @@ measurement; no body text, template or tool changes.
   garbled). The execution pass is not run. Nothing wired, no body text changed.
   source: this section (the user's review of the options, 2026-11-07)
   evidence: `bomdd/reports/exp-20261107-03/definitions.md`, `bomdd/reports/exp-20261107-03/targets.md`, `bomdd/reports/exp-20261107-03/results.md`, `bomdd/reports/exp-20261107-03/tally.json`
+
+## 2026-11-07 After EXP-20261107-03 — BehaviorForge as a checker of a human-style specification (EXP-20261107-04, filed)
+
+Source: the user said the kit's aim is to check human-written upstream documents so that a weak upstream does not flow on; the
+lab's BF-GAP-01 reached a ceiling on six three-sentence cases; the user supplied a longer specification with ambiguities
+(REQ-QC-001, 2026-11-07) and chose "1" (start with a pilot). Folder `bomdd/reports/exp-20261107-04/`. BehaviorForge read only.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement; no body text, template or tool changes.
+
+- [open] EXP-20261107-04 — **On REQ-QC-001, does a fresh reviewer given BehaviorForge find more of the holes that show only
+  when sections are read together than a fresh reviewer given a neutral request, without more unsupported findings?** A sealed
+  key of twelve cross-section holes (section 13's listed items and plain vague words left out); a pilot of one neutral reviewer
+  first, with a stop rule fixed in advance (10 or more of 12 detected: no room, stop); only if it leaves room, two writers per
+  arm, a blind scorer, R1 items detected and R2 unsupported findings, a direction only where the arms do not overlap.
+  source: this section (the user's "1", 2026-11-07)
+  evidence: `bomdd/reports/exp-20261107-04/definitions.md`, `bomdd/reports/exp-20261107-04/key.md`
