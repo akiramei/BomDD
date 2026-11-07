@@ -1,0 +1,141 @@
+{
+ "per_writer": {
+  "C1": {
+   "label": "W1",
+   "R1_correct": 16,
+   "R2_wrong": 0,
+   "open": 0,
+   "absent": 0,
+   "correct_by_class": {
+    "a": 1,
+    "b": 7,
+    "c": 8
+   },
+   "verdicts": {
+    "T01": "correct",
+    "T02": "correct",
+    "T03": "correct",
+    "T04": "correct",
+    "T05": "correct",
+    "T06": "correct",
+    "T07": "correct",
+    "T08": "correct",
+    "T09": "correct",
+    "T10": "correct",
+    "T11": "correct",
+    "T12": "correct",
+    "T13": "correct",
+    "T14": "correct",
+    "T15": "correct",
+    "T16": "correct"
+   },
+   "questions": 11,
+   "questions_answered_by_original": 1
+  },
+  "K1": {
+   "label": "W2",
+   "R1_correct": 16,
+   "R2_wrong": 0,
+   "open": 0,
+   "absent": 0,
+   "correct_by_class": {
+    "a": 1,
+    "b": 7,
+    "c": 8
+   },
+   "verdicts": {
+    "T01": "correct",
+    "T02": "correct",
+    "T03": "correct",
+    "T04": "correct",
+    "T05": "correct",
+    "T06": "correct",
+    "T07": "correct",
+    "T08": "correct",
+    "T09": "correct",
+    "T10": "correct",
+    "T11": "correct",
+    "T12": "correct",
+    "T13": "correct",
+    "T14": "correct",
+    "T15": "correct",
+    "T16": "correct"
+   },
+   "questions": 1,
+   "questions_answered_by_original": 0
+  },
+  "K2": {
+   "label": "W3",
+   "R1_correct": 15,
+   "R2_wrong": 0,
+   "open": 0,
+   "absent": 1,
+   "correct_by_class": {
+    "a": 1,
+    "b": 7,
+    "c": 7
+   },
+   "verdicts": {
+    "T01": "correct",
+    "T02": "absent",
+    "T03": "correct",
+    "T04": "correct",
+    "T05": "correct",
+    "T06": "correct",
+    "T07": "correct",
+    "T08": "correct",
+    "T09": "correct",
+    "T10": "correct",
+    "T11": "correct",
+    "T12": "correct",
+    "T13": "correct",
+    "T14": "correct",
+    "T15": "correct",
+    "T16": "correct"
+   },
+   "questions": 3,
+   "questions_answered_by_original": 0
+  },
+  "C2": {
+   "label": "W4",
+   "R1_correct": 15,
+   "R2_wrong": 0,
+   "open": 0,
+   "absent": 1,
+   "correct_by_class": {
+    "a": 1,
+    "b": 6,
+    "c": 8
+   },
+   "verdicts": {
+    "T01": "correct",
+    "T02": "correct",
+    "T03": "correct",
+    "T04": "correct",
+    "T05": "correct",
+    "T06": "correct",
+    "T07": "correct",
+    "T08": "correct",
+    "T09": "correct",
+    "T10": "correct",
+    "T11": "correct",
+    "T12": "correct",
+    "T13": "correct",
+    "T14": "correct",
+    "T15": "correct",
+    "T16": "absent"
+   },
+   "questions": 16,
+   "questions_answered_by_original": 0
+  }
+ },
+ "readings": {
+  "R1": null,
+  "R2": null
+ },
+ "class_sizes": {
+  "a": 1,
+  "b": 7,
+  "c": 8
+ }
+}

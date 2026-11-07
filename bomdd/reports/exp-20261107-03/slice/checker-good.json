@@ -1,0 +1,5 @@
+{"examples": [
+ {"id": "EX-01", "title": "a", "steps": [{"press": null, "expect": [{"element": "x", "shows": "30 fps"}]}]},
+ {"id": "EX-02", "title": "b", "steps": [{"press": null, "expect": []}, {"press": "24 button", "expect": [{"element": "y", "shows": "active"}]}]},
+ {"id": "EX-03", "title": "c", "steps": [{"press": "Source", "expect": [{"element": "z", "shows": "hidden"}]}]}
+]}

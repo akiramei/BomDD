@@ -1,0 +1,189 @@
+{"examples": [
+{"id": "EX-01", "title": "Right after opening: the output frame rate is the source's, shown on both Source and 30", "steps": [
+  {"press": null, "expect": [
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'30' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'24' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "'120' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "hidden"},
+    {"element": "Save status next to the file name (title bar, center)", "shows": "Saved"},
+    {"element": "Undo button (toolbar, left; tooltip 'Undo')", "shows": "not active"},
+    {"element": "Export dialog", "shows": "hidden"},
+    {"element": "Playhead timecode (transport bar under the preview, left of '/')", "shows": "0:00:00"}
+  ]}
+]},
+{"id": "EX-02", "title": "Choosing 60: only 60 is highlighted, the upsampling note appears, the status becomes unsaved, Undo stays unavailable", "steps": [
+  {"press": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "'30' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "'24' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "'120' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "visible"},
+    {"element": "Save status next to the file name (title bar, center)", "shows": "Unsaved changes"},
+    {"element": "Undo button (toolbar, left; tooltip 'Undo')", "shows": "not active"},
+    {"element": "Playhead timecode (transport bar under the preview, left of '/')", "shows": "0:00:00"}
+  ]}
+]},
+{"id": "EX-03", "title": "Pressing 30 when the output is already 30: nothing changes in the highlight, but the status still becomes unsaved", "steps": [
+  {"press": "'30' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'30' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "hidden"},
+    {"element": "Save status next to the file name (title bar, center)", "shows": "Unsaved changes"},
+    {"element": "Undo button (toolbar, left; tooltip 'Undo')", "shows": "not active"}
+  ]}
+]},
+{"id": "EX-04", "title": "60 then Source: back to the source rate (Source and 30 highlighted, note gone), status stays unsaved", "steps": [
+  {"press": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "Save status next to the file name (title bar, center)", "shows": "Unsaved changes"}
+  ]},
+  {"press": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'30' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "hidden"},
+    {"element": "Save status next to the file name (title bar, center)", "shows": "Unsaved changes"},
+    {"element": "Undo button (toolbar, left; tooltip 'Undo')", "shows": "not active"}
+  ]}
+]},
+{"id": "EX-05", "title": "24 (below the source) shows no note; 120 (above) shows the note", "steps": [
+  {"press": "'24' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'24' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "'30' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "hidden"},
+    {"element": "Save status next to the file name (title bar, center)", "shows": "Unsaved changes"}
+  ]},
+  {"press": "'120' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'120' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'24' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "visible"}
+  ]}
+]},
+{"id": "EX-06", "title": "Export dialog without any change shows 30 fps; closing it keeps the settings and the saved status", "steps": [
+  {"press": "Export button (toolbar, top right)", "expect": [
+    {"element": "Export dialog", "shows": "visible"},
+    {"element": "'Frame rate' value in the Export dialog summary", "shows": "30 fps"},
+    {"element": "Save status next to the file name (title bar, center)", "shows": "Saved"}
+  ]},
+  {"press": "Cancel button (Export dialog, bottom right)", "expect": [
+    {"element": "Export dialog", "shows": "hidden"},
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'30' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "Save status next to the file name (title bar, center)", "shows": "Saved"}
+  ]}
+]},
+{"id": "EX-07", "title": "After choosing 60 the export dialog shows 60 fps and offers no fast copy", "steps": [
+  {"press": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"}
+  ]},
+  {"press": "Export button (toolbar, top right)", "expect": [
+    {"element": "Export dialog", "shows": "visible"},
+    {"element": "'Frame rate' value in the Export dialog summary", "shows": "60 fps"},
+    {"element": "'Fast, lossless (copy)' checkbox in the Export dialog", "shows": "hidden"}
+  ]}
+]},
+{"id": "EX-08", "title": "The chosen rate survives closing the dialog; going back to Source makes the dialog show 30 fps again", "steps": [
+  {"press": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"}
+  ]},
+  {"press": "Export button (toolbar, top right)", "expect": [
+    {"element": "'Frame rate' value in the Export dialog summary", "shows": "60 fps"}
+  ]},
+  {"press": "Cancel button (Export dialog, bottom right)", "expect": [
+    {"element": "Export dialog", "shows": "hidden"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "visible"},
+    {"element": "Save status next to the file name (title bar, center)", "shows": "Unsaved changes"}
+  ]},
+  {"press": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'30' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"}
+  ]},
+  {"press": "Export button (toolbar, top right)", "expect": [
+    {"element": "Export dialog", "shows": "visible"},
+    {"element": "'Frame rate' value in the Export dialog summary", "shows": "30 fps"}
+  ]}
+]},
+{"id": "EX-09", "title": "Undo after a speed change and a frame-rate change undoes only the speed; the output frame rate stays 60", "steps": [
+  {"press": "'1.5x' button in the 'Playback speed' section (inspector)", "expect": [
+    {"element": "Playback speed value (inspector, 'Playback speed' section, large number before 'x')", "shows": "1.5"},
+    {"element": "'1.5x' button in the 'Playback speed' section (inspector)", "shows": "active"},
+    {"element": "Undo button (toolbar, left; tooltip 'Undo')", "shows": "active"},
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"}
+  ]},
+  {"press": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "Playback speed value (inspector, 'Playback speed' section, large number before 'x')", "shows": "1.5"},
+    {"element": "Undo button (toolbar, left; tooltip 'Undo')", "shows": "active"},
+    {"element": "Redo button (toolbar, left, next to Undo; tooltip 'Redo')", "shows": "not active"}
+  ]},
+  {"press": "Undo button (toolbar, left; tooltip 'Undo')", "expect": [
+    {"element": "Playback speed value (inspector, 'Playback speed' section, large number before 'x')", "shows": "1"},
+    {"element": "'1x' button in the 'Playback speed' section (inspector)", "shows": "active"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "visible"},
+    {"element": "Undo button (toolbar, left; tooltip 'Undo')", "shows": "not active"},
+    {"element": "Redo button (toolbar, left, next to Undo; tooltip 'Redo')", "shows": "active"},
+    {"element": "Save status next to the file name (title bar, center)", "shows": "Unsaved changes"}
+  ]}
+]},
+{"id": "EX-10", "title": "Frame stepping and the timecode keep counting in source frames (1/30 s) after choosing 60", "steps": [
+  {"press": "Step forward 1 frame button (transport bar under the preview, 4th button; tooltip 'Step forward 1 frame  (→ / .)')", "expect": [
+    {"element": "Playhead timecode (transport bar under the preview, left of '/')", "shows": "0:00:01"}
+  ]},
+  {"press": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "Playhead timecode (transport bar under the preview, left of '/')", "shows": "0:00:01"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"}
+  ]},
+  {"press": "Step forward 1 frame button (transport bar under the preview, 4th button; tooltip 'Step forward 1 frame  (→ / .)')", "expect": [
+    {"element": "Playhead timecode (transport bar under the preview, left of '/')", "shows": "0:00:02"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"}
+  ]}
+]},
+{"id": "EX-11", "title": "Presets can be chosen in any order; each press highlights only the pressed one and the note follows the value", "steps": [
+  {"press": "'120' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'120' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "visible"}
+  ]},
+  {"press": "'24' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'24' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'120' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "hidden"}
+  ]},
+  {"press": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'24' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "visible"}
+  ]},
+  {"press": "'30' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'30' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "hidden"}
+  ]}
+]},
+{"id": "EX-12", "title": "Output resolution changes and Reset do not touch the output frame rate", "steps": [
+  {"press": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "expect": [
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"}
+  ]},
+  {"press": "'50%' button under 'Output resolution' (inspector, bottom)", "expect": [
+    {"element": "'50%' button under 'Output resolution' (inspector, bottom)", "shows": "active"},
+    {"element": "Reset button next to the 100% / 75% / 50% buttons (inspector, 'Output resolution')", "shows": "visible"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"}
+  ]},
+  {"press": "Reset button next to the 100% / 75% / 50% buttons (inspector, 'Output resolution')", "expect": [
+    {"element": "'100%' button under 'Output resolution' (inspector, bottom)", "shows": "active"},
+    {"element": "'60' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "active"},
+    {"element": "'Source' button under 'Output frame rate (fps)' (inspector, bottom)", "shows": "not active"},
+    {"element": "Note under the 'Output frame rate (fps)' buttons: 'An fps higher than the source duplicates frames (quality does not improve).'", "shows": "visible"}
+  ]}
+]}
+]}

@@ -140,4 +140,22 @@ Per writer, never pooled; a direction only when the arms do not overlap.
 
 ## 11. Departures
 
-(none yet)
+- **D1 — the scorer is given the product tree (found while writing the scorer's prompt, before any writer finished).** Section
+  6 gives the scorer `targets.md` and not the product tree, yet asks it to count the questions the original answers, which it
+  cannot judge without the original. The scorer gets `moviepad/` (the writers' copy) for the question count only; its prompt
+  says the items are judged on `targets.md` alone.
+- **D2 — K1 left its folder once.** Its report says it created an empty folder `scratchpad/gen` outside its folder and deleted
+  it at once without writing into it; checked by the isolation tool (results).
+- **D4 — two writers ran inline Python in their folders, against the prompt** ("only `check_examples.py`"): K2 counted its own
+  examples with `python -c`; C2 edited its own document with `python -`. Both inside their folders; packages verified unchanged.
+- **D3 — T08 states no visibility condition (found from C2's report, after K1 and C2 had finished; the list is not changed).**
+  The clip information panel that shows the source rate is visible only when no region is selected
+  (`Views/InspectorView.axaml` 247, `IsVisible="{Binding !HasSelection}"`), and on opening a clip the region under the playhead
+  is selected. T08 is scored as filed; a writer who states the condition is not marked down for it. The harness would read
+  `FpsText` whether or not the panel is visible.
+- **D5 — the scorer wrote outside its folder, against its prompt** ("write only `scores.json`"): four reading dumps
+  (`w2.txt`, `w3.txt`, `w4.txt` in the session's scratchpad, `ex234.txt` next to the scorer folder), deleted after the scores
+  were copied. It read W3's and W4's `examples.json` (K2's and C2's) only through a dump it calls garbled, so its verdicts on
+  those two rest mainly on their documents.
+- Writers K1, K2, C1, C2 started together at 10:13:49 (packages hashed in `writer-package-sha256.txt`; 139 files of the
+  original, 18 of the kit).

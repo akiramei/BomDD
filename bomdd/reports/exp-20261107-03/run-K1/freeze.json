@@ -1,0 +1,26 @@
+{
+ "writer": "K1",
+ "files": {
+  "examples.json": {
+   "sha256": "9de56a585adcfdddb4af4c90095bba7b71ff5b9733967cafd484a579e7ad723c",
+   "bytes": 16444
+  },
+  "out/01-input-index.md": {
+   "sha256": "51741a4849d553e82199ed543f4e42596acdcff3926031d1456673344ec84705",
+   "bytes": 5498
+  },
+  "out/02-requirements-and-cad.md": {
+   "sha256": "80f99aa9ee1ca5fc5a515478afee8ed4273258508313495bca5f4a6e5e4a6f29",
+   "bytes": 9223
+  },
+  "out/03-domain-model-and-behavior.md": {
+   "sha256": "06b9bf3d8da09da3e3580bdd4e43c325718c7e961faa3d62aa3950d0d92814e7",
+   "bytes": 7364
+  },
+  "out/04-review-and-questions.md": {
+   "sha256": "46739da910dd8bef76c304c5eea0528d57a28bf22f2200ed80f7644e53ad8a9b",
+   "bytes": 8234
+  }
+ },
+ "other_files_in_folder": []
+}

@@ -1,0 +1,30 @@
+{
+ "writer": "C1",
+ "files": {
+  "examples.json": {
+   "sha256": "ec5e7c8639c6faad4bcfa2adb771ba831abb8450224f233ed754ebfbe6c499c3",
+   "bytes": 15623
+  },
+  "out/00-readme.md": {
+   "sha256": "8d7a4558a2768a16ae50fd4339f3c863b0627f98c2ff2ab0247656e84fb889e8",
+   "bytes": 3834
+  },
+  "out/01-requirements.md": {
+   "sha256": "d0fbdfafa547729d87d3f3df53c82a13d5d4e30a6d4535fd12171c5252af1319",
+   "bytes": 9455
+  },
+  "out/02-domain-model.md": {
+   "sha256": "189db95ffc84741c933b5c3362332ce897935fe674669b22ca07bf0d66f681d4",
+   "bytes": 4718
+  },
+  "out/03-behavior.md": {
+   "sha256": "a8b662bdbedbff16618d5acdc9a06931ce8f34aec5c16f5b1270ccb28903b83a",
+   "bytes": 6846
+  },
+  "out/04-questions.md": {
+   "sha256": "d901d13298d3bea814348cf09ae9dfc9019f105d19e5ecf54452a08ba398e865",
+   "bytes": 5902
+  }
+ },
+ "other_files_in_folder": []
+}

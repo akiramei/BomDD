@@ -1,0 +1,34 @@
+{
+ "writer": "K2",
+ "files": {
+  "examples.json": {
+   "sha256": "fb4509e2c5eadacce8077abe634185d3816f874674662fc645bc35558df1aad5",
+   "bytes": 14260
+  },
+  "out/01-input-index.md": {
+   "sha256": "106a954974f714b0f2e8be28577d11a82b01d8df646c06ad6c676dc4a26702a3",
+   "bytes": 7285
+  },
+  "out/02-requirements.md": {
+   "sha256": "55d94bc320cb86c1c63672f496b05dfc6ebb0ef648d75ecbf388907bd3c1754f",
+   "bytes": 9663
+  },
+  "out/03-software-cad.md": {
+   "sha256": "1ceb63fb8e26ff5388ec4b6375038d7afef821ef07777eedd45de9be7bf3350c",
+   "bytes": 8091
+  },
+  "out/04-domain-model.md": {
+   "sha256": "0f70a7e0f1a2e28461b880d1c25ab9946f5b4415e7ab264c63dfb34071c0a727",
+   "bytes": 8242
+  },
+  "out/05-behavior-contract.md": {
+   "sha256": "2b05c0fff0a74c3d7269194b6bbf2dd7c8bfe02e27ddf6c174674e3aaef367cc",
+   "bytes": 8619
+  },
+  "out/06-review-and-decisions.md": {
+   "sha256": "1e3fe9bd42942c764302ab4744cb06406453c464ce009ce34bc8b0e6b9fe4c2e",
+   "bytes": 11377
+  }
+ },
+ "other_files_in_folder": []
+}

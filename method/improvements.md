@@ -10492,12 +10492,19 @@ BehaviorForge not written.
 Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
 measurement; no body text, template or tool changes.
 
-- [open] EXP-20261107-03 — **Given only MoviePad itself (`126eae9`, minus BomDD management material), do fresh writers who use
+- [recovered 2026-11-07 via bomdd/reports/exp-20261107-03/results.md] EXP-20261107-03 — **Given only MoviePad itself (`126eae9`, minus BomDD management material), do fresh writers who use
   BehaviorForge extract the original's frame-rate behaviour more completely and with fewer wrong statements than fresh writers
   without it?** Two writers per arm, reading only; a sealed list of sixteen behaviours read from the code (`targets.md`, classed
   in the docs / on screen only / in the code only), never shown to a writer or mapper; a blind scorer with the line fixed in
   writing; R1 (items correct) and R2 (items wrong) with a direction only where the arms do not overlap; all-success is a valid
   result. Execution on the authority (a menu in the screen's words, a mapper that adds nothing) is descriptive and after the
   verdict. Unconfirmed and not a start condition: that a past re-implementation product lacked frame-rate features.
+  **Read (2026-11-07)**: correct of 16 — K1 16, K2 15, C1 16, C2 15; wrong 0 in every writer — **R1 and R2 both no claim:
+  from the original alone, every writer with or without the kit extracted the frame-rate behaviour, including the items in the
+  code only (7-8 of 8) and on screen only (6-7 of 7)**; a ceiling again, and a valid result by the definitions. Descriptive: the
+  kit's writers asked fewer questions (1, 3 against 11, 16), as in EXP-20261107-01; K1 and C2 found a 29.97 / 30 inconsistency
+  inside the original that the list did not hold; all four noticed the clip information panel is hidden while a region is
+  selected (D3). Departures D1-D5 (D5: the scorer wrote reading dumps outside its folder and read K2's and C2's examples only
+  garbled). The execution pass is not run. Nothing wired, no body text changed.
   source: this section (the user's review of the options, 2026-11-07)
-  evidence: `bomdd/reports/exp-20261107-03/definitions.md`, `bomdd/reports/exp-20261107-03/targets.md`
+  evidence: `bomdd/reports/exp-20261107-03/definitions.md`, `bomdd/reports/exp-20261107-03/targets.md`, `bomdd/reports/exp-20261107-03/results.md`, `bomdd/reports/exp-20261107-03/tally.json`

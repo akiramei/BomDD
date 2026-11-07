@@ -1,0 +1,106 @@
+{
+ "W1": {
+  "items": {
+   "T01": {"verdict": "correct", "quote": "ffprobe の映像ストリームの `avg_frame_rate` を優先、なければ `r_frame_rate`、どちらも取れなければ 30。", "file": "out/01-requirements.md:90"},
+   "T02": {"verdict": "correct", "quote": "`avg` と `r` が両方有効で、差が max(0.1, 0.5%) を超えれば VFR とみなす。", "file": "out/01-requirements.md:91"},
+   "T03": {"verdict": "correct", "quote": "動画を開く(`LoadClip`)たびに出力 fps をソース fps に戻す。", "file": "out/01-requirements.md:18"},
+   "T04": {"verdict": "correct", "quote": "`Source` を押すと出力 fps = ソース fps。数値ボタンを押すとその値。", "file": "out/01-requirements.md:13"},
+   "T05": {"verdict": "correct", "quote": "`Source` ボタンは |出力 fps − ソース fps| < 0.05 のとき強調。 / したがって **30 fps のソースでは既定で `Source` と `30` が同時に強調**される", "file": "out/01-requirements.md:26, 29"},
+   "T06": {"verdict": "correct", "quote": "`Source` のツールチップは「Same as source (30 fps)」(ソース fps を表示文字列化したもの)。", "file": "out/01-requirements.md:31"},
+   "T07": {"verdict": "correct", "quote": "出力 fps > ソース fps + 0.05 のとき、プリセットの下に注記「An fps higher than the source duplicates frames (quality does not improve).」を出す。", "file": "out/01-requirements.md:41-42"},
+   "T08": {"verdict": "correct", "quote": "インスペクター上部の「Clip info」節にも「Frame rate 30 fps」行があるが(Insp:257-261)、この節は「選択区間なし」のときだけ出る。", "file": "out/01-requirements.md:32-33"},
+   "T09": {"verdict": "correct", "quote": "書き出しダイアログのサマリに「Frame rate」行があり、出力 fps を「{値} fps」で示す(例 `30 fps` `60 fps`)。", "file": "out/01-requirements.md:36"},
+   "T10": {"verdict": "correct", "quote": "プリセットを押すと、値が変わらなくても(既に選択中のボタンを押しても)保存状態を Unsaved にする。 / 出力 fps は文書状態(`DocumentState`: トリム・区間・速度・音量・除外)の外にあり、取り消し履歴に積まれない。", "file": "out/01-requirements.md:48, 50"},
+   "T11": {"verdict": "correct", "quote": "分割・境界移動・トリムのフレームスナップもソース fps。", "file": "out/01-requirements.md:61"},
+   "T12": {"verdict": "correct", "quote": "1 フレーム送り/戻し(ボタン・← → , .)はソース fps のグリッドで動く。", "file": "out/01-requirements.md:60"},
+   "T13": {"verdict": "correct", "quote": "タイムコード表示(トランスポート・プレビュー左下・区間の Start/End)は `M:SS:FF` で、FF はソース fps で数える。", "file": "out/01-requirements.md:59"},
+   "T14": {"verdict": "correct", "quote": "出力 fps がソース fps と 0.05 より大きく違う(fpsChange)とき、または区間速度の変更・VFR ソースのとき、映像を出力 fps の CFR に揃える(再サンプル)。", "file": "out/01-requirements.md:68-69"},
+   "T15": {"verdict": "correct", "quote": "出力 fps をソースから変えると(fpsChange)、映像のストリームコピーは不適格になり、書き出しダイアログの「Fast, lossless (copy)」チェックボックスとその注記・コピー用プレビューは**隠れる**。 / 高速コピーは fps を変えなければ選べ、ON にすると VFR 注記(…)が出る。", "file": "out/01-requirements.md:78-79; out/03-behavior.md:102"},
+   "T16": {"verdict": "correct", "quote": "VFR ソースで高速コピーが ON のときだけ、「Fast copy preserves the original timestamps, so variable-frame-rate (VFR) footage is exported as-is and not converted to CFR. …」の注記を出す。", "file": "out/01-requirements.md:84-85"}
+  },
+  "questions": {
+   "count": 11,
+   "answered_by_original": 1,
+   "answered": [
+    {"question": "Q6 ソースの fps をどこに表示するか(「Clip info」節が出ない) — 「私の読み取り(到達経路なし)が実機で正しいかの確認も含めて」(事実の確認の部分。表示場所を足すかの判断の部分は原製品では決まらない)",
+     "evidence": "Clip info は !HasSelection のときだけ表示(InspectorView.axaml:247)、HasSelection => SelectedRegion != null(MainWindowViewModel.cs:325)。SelectedId への代入は 4 か所だけで、どれも区間がある限り null にならない: 読込時に先頭区間(MainWindowViewModel.cs:533)、再生ヘッドが区間に入ったときは非 null のときだけ代入(484)、ResolveSelection は直下の区間→現在の選択→先頭区間の順で、区間が 0 個のときだけ null(677; DocumentState.cs:85-91)、分割後は新しい区間(724)。区間は結合でも 2→1 になるだけ(DocumentState.cs:190)。手引きもインスペクターを「Info for the region at the playhead」と書く(docs/QUICKSTART.md:45)。読み取りどおり、開いた後に Clip info が出る経路は無い。",
+     "file": "Views/InspectorView.axaml:247; ViewModels/MainWindowViewModel.cs:325, 484, 533, 677, 724; Models/DocumentState.cs:85-91, 190; docs/QUICKSTART.md:45"}
+   ]
+  }
+ },
+ "W2": {
+  "items": {
+   "T01": {"verdict": "correct", "quote": "元 fps = avg_frame_rate(無ければ r_frame_rate、どちらも無ければ 30)。", "file": "out/02-requirements-and-cad.md:33"},
+   "T02": {"verdict": "correct", "quote": "avg と r の差が max(0.1, 0.5%) を超えれば VFR", "file": "out/02-requirements-and-cad.md:33"},
+   "T03": {"verdict": "correct", "quote": "| R-01 | 動画を開く | 開く | 出力 fps = 元動画の fps(上限なし) | 「ソース」が選択表示 |", "file": "out/02-requirements-and-cad.md:14"},
+   "T04": {"verdict": "correct", "quote": "プリセット 24 / 30 / 60 / 120 を押す | 出力 fps = その値 / 「ソース」を押す | 出力 fps = 元動画の fps", "file": "out/02-requirements-and-cad.md:15-16"},
+   "T05": {"verdict": "correct", "quote": "「ソース」の選択表示は |出力 fps − 元 fps| < 0.05 のとき / 元 30 fps で出力 30 のとき「ソース」と「30」が**同時に**選択表示。ボタンは排他ではない", "file": "out/02-requirements-and-cad.md:17, 19"},
+   "T06": {"verdict": "correct", "quote": "「ソース」にポインタを重ねる | — | ツールチップ「元動画と同じ（<元 fps> fps）」", "file": "out/02-requirements-and-cad.md:27"},
+   "T07": {"verdict": "correct", "quote": "出力 fps > 元 fps + 0.05 のとき注記「ソースより高いfpsはフレーム複製になります（画質は向上しません）。」を表示。それ以外は隠す", "file": "out/02-requirements-and-cad.md:20"},
+   "T08": {"verdict": "correct", "quote": "インスペクターのクリップ情報「フレームレート」に `<元 fps の 0.##> fps`", "file": "out/02-requirements-and-cad.md:26"},
+   "T09": {"verdict": "correct", "quote": "サマリ「フレームレート」に `<出力 fps の 0.## 表記> fps`", "file": "out/02-requirements-and-cad.md:25"},
+   "T10": {"verdict": "correct", "quote": "任意の fps プリセットを押す(値が変わらなくても) | 編集済み = true / 履歴(Undo スタック)に**積まない**。出力 fps は文書状態(DocumentState)の外", "file": "out/02-requirements-and-cad.md:21-22"},
+   "T11": {"verdict": "correct", "quote": "1 フレーム送り・フレームスナップ・分割・境界移動・タイムコード | **元動画の fps** を使い、出力 fps は使わない", "file": "out/02-requirements-and-cad.md:31"},
+   "T12": {"verdict": "correct", "quote": "Playhead := clamp((round(p·F)±1)/F, TrimStart, TrimEnd) | 成功 | タイムコードは F 基準で ±1 フレーム。**OutFps は関与しない**", "file": "out/03-domain-model-and-behavior.md:44"},
+   "T13": {"verdict": "correct", "quote": "タイムコード `M:SS:FF` の FF は元 fps 基準", "file": "out/02-requirements-and-cad.md:31"},
+   "T14": {"verdict": "correct", "quote": "速度変更・fps 変更・VFR 素材なら fps で CFR 化", "file": "out/02-requirements-and-cad.md:32"},
+   "T15": {"verdict": "correct", "quote": "| R-10 | 出力 fps が元 fps と 0.05 以上違う | — | ストリームコピー不可 | 書き出しダイアログの「高速・無劣化（コピー）」を隠す / | R-21 | VFR 素材・コピー有効 | — | — | 注記(Export_CopyVfrNote)を表示", "file": "out/02-requirements-and-cad.md:23, 34"},
+   "T16": {"verdict": "correct", "quote": "| R-21 | VFR 素材・コピー有効 | — | — | 注記(Export_CopyVfrNote)を表示 |", "file": "out/02-requirements-and-cad.md:34"}
+  },
+  "questions": {
+   "count": 1,
+   "answered_by_original": 0,
+   "answered": []
+  }
+ },
+ "W3": {
+  "items": {
+   "T01": {"verdict": "correct", "quote": "ソースフレームレート(SourceFps): 開いた動画の代表 fps | 開いているクリップに 1 つ。読込時に決まり、編集では変わらない | ClipInfo.Fps、MediaProbe.ParseFrameRate(avg_frame_rate 優先)", "file": "out/04-domain-model.md:11"},
+   "T02": {"verdict": "absent", "quote": "", "file": ""},
+   "T03": {"verdict": "correct", "quote": "| R-02 | 動画を開いた(読み込んだ)直後 | 必要 | 出力 fps はソースの fps になる(上限なし) |", "file": "out/02-requirements.md:23"},
+   "T04": {"verdict": "correct", "quote": "出力 fps を「ソース / 24 / 30 / 60 / 120」の 5 つから選べる / 押す: SetFps(\"source\") → 出力fps = ソースfps", "file": "out/02-requirements.md:22; out/03-software-cad.md:18"},
+   "T05": {"verdict": "correct", "quote": "「ソース」ボタンは 出力fps とソースfps の差が 0.05 未満のとき強調。数値ボタン(24/30/60/120)は出力fps の表示文字列(小数 2 桁まで・末尾 0 除去)が ボタンの数字と**文字列一致**するとき強調 | 値が変わった時点。**30 fps 素材では「ソース」と「30」が同時に強調**される", "file": "out/02-requirements.md:24"},
+   "T06": {"verdict": "correct", "quote": "ツールチップ「元動画と同じ（30 fps）」(ソース fps を表示)", "file": "out/02-requirements.md:35"},
+   "T07": {"verdict": "correct", "quote": "| R-04 | 出力 fps > ソース fps + 0.05 | 必要 | 注記「ソースより高いfpsはフレーム複製になります（画質は向上しません）。」を出す。それ以外は隠す |", "file": "out/02-requirements.md:25"},
+   "T08": {"verdict": "correct", "quote": "インスペクター「クリップ情報」の「フレームレート 30 fps」は**選択区間が無いときだけ**表示。", "file": "out/02-requirements.md:36"},
+   "T09": {"verdict": "correct", "quote": "サマリ行「フレームレート」に `<出力fps表示> fps` を出す", "file": "out/02-requirements.md:26"},
+   "T10": {"verdict": "correct", "quote": "出力 fps のボタンを押すと、値が変わらなくても「未保存の変更」になる / 出力 fps の変更は Undo/Redo 履歴に入らない。Undo/Redo で出力 fps は変わらない", "file": "out/02-requirements.md:28-29"},
+   "T11": {"verdict": "correct", "quote": "| REL-04 | C-01 → タイムコード/コマ送り/フレームスナップ | 編集の時間格子はソース fps | 出力 fps は関与しない |", "file": "out/04-domain-model.md:43"},
+   "T12": {"verdict": "correct", "quote": "再生ヘッド := clamp((round(p×S-01)±1)/S-01, トリム範囲)。S-02 不関与", "file": "out/05-behavior-contract.md:36"},
+   "T13": {"verdict": "correct", "quote": "`M:SS:FF`、FF = floor(秒の小数部 × **ソースfps**)", "file": "out/03-software-cad.md:45"},
+   "T14": {"verdict": "correct", "quote": "出力動画は選んだ fps の固定フレームレートになる。区間速度の変更・fps 変更・VFR 素材のいずれかがあるときだけ再サンプルし、無ければ再サンプルしない", "file": "out/02-requirements.md:31"},
+   "T15": {"verdict": "correct", "quote": "| R-06 | 出力 fps とソース fps の差 > 0.05 | 必要 | 高速・無劣化(コピー)は不適格。ダイアログのトグルを隠す(他の条件が揃っていても) | / | R-18 | VFR 素材・書き出しダイアログで「高速・無劣化（コピー）」が ON かつコピー可能 |", "file": "out/02-requirements.md:27, 39"},
+   "T16": {"verdict": "correct", "quote": "注記「高速コピーは元のタイムスタンプを保持するため、VFR（可変フレームレート）素材は VFR のまま書き出されます（CFR には変換されません）。…」を出す", "file": "out/02-requirements.md:39"}
+  },
+  "questions": {
+   "count": 3,
+   "answered_by_original": 0,
+   "answered": []
+  }
+ },
+ "W4": {
+  "items": {
+   "T01": {"verdict": "correct", "quote": "sourceFps : 実数 > 0       … ffprobe の avg_frame_rate(無ければ r_frame_rate、どちらも無ければ 30)", "file": "out/02-domain-model.md:7"},
+   "T02": {"verdict": "correct", "quote": "isVariableFrameRate : 真偽  … avg と r が max(0.1, 0.5%) を超えて食い違うとき真", "file": "out/02-domain-model.md:8"},
+   "T03": {"verdict": "correct", "quote": "動画を開くと、出力 fps はその動画のフレームレート(ソース fps)になる。", "file": "out/01-requirements.md:18"},
+   "T04": {"verdict": "correct", "quote": "「ソース」を押すと出力 fps はソース fps に戻る。数字のボタンはその値にする。", "file": "out/01-requirements.md:20"},
+   "T05": {"verdict": "correct", "quote": "「ソース」ボタンは、出力 fps とソース fps の差が 0.05 未満のとき点灯する。数字ボタンは、出力 fps の表示文字列(小数 2 桁まで・末尾 0 除去)がボタンの文字と完全一致するとき点灯する。両方が同時に点灯しうる(30 fps の動画を開いた直後は「ソース」と「30」が両方点灯)。", "file": "out/01-requirements.md:21"},
+   "T06": {"verdict": "correct", "quote": "「ソース」ボタンのツールチップは「元動画と同じ（{ソース fps} fps）」(30 fps なら「元動画と同じ（30 fps）」)。", "file": "out/01-requirements.md:23"},
+   "T07": {"verdict": "correct", "quote": "出力 fps がソース fps より 0.05 を超えて高いとき、プリセットの下に注記「ソースより高いfpsはフレーム複製になります（画質は向上しません）。」を出す。", "file": "out/01-requirements.md:22"},
+   "T08": {"verdict": "correct", "quote": "クリップ情報の「フレームレート」はソース fps(「{値} fps」)。", "file": "out/01-requirements.md:41"},
+   "T09": {"verdict": "correct", "quote": "書き出しダイアログのサマリ「フレームレート」に出力 fps を「{値} fps」で出す。", "file": "out/01-requirements.md:26"},
+   "T10": {"verdict": "correct", "quote": "プリセットを押すと、値が変わらなくても文書は「未保存の変更」になる(タイトルバーの状態表示)。 / 出力 fps の変更は元に戻す/やり直すの履歴に入らない。", "file": "out/01-requirements.md:24-25"},
+   "T11": {"verdict": "correct", "quote": "分割・境界移動・トリムの位置はソース fps のフレームに吸着する。", "file": "out/01-requirements.md:39"},
+   "T12": {"verdict": "correct", "quote": "1 フレーム移動(「1フレーム進む/戻る」・← → , .)はソース fps の 1 フレーム。", "file": "out/01-requirements.md:38"},
+   "T13": {"verdict": "correct", "quote": "画面のタイムコード(再生位置・総尺・区間の開始/終了)は **ソース fps** で M:SS:FF を数える。", "file": "out/01-requirements.md:37"},
+   "T14": {"verdict": "correct", "quote": "区間速度の変更・出力 fps の変更・ソースが可変フレームレート(VFR)のいずれかがあれば、出力を出力 fps の固定フレームレート(CFR)に揃える。", "file": "out/01-requirements.md:28"},
+   "T15": {"verdict": "correct", "quote": "出力 fps がソース fps から 0.05 を超えて違うと、「高速・無劣化（コピー）」は使えず、書き出しダイアログのコピーのチェックボックスが隠れる(通常の再エンコードになる)。", "file": "out/01-requirements.md:27"},
+   "T16": {"verdict": "absent", "quote": "", "file": ""}
+  },
+  "questions": {
+   "count": 16,
+   "answered_by_original": 0,
+   "answered": []
+  }
+ }
+}
