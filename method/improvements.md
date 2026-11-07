@@ -10479,3 +10479,25 @@ measurement; no body text, template or tool changes.
   Departure D1 (the word `unresolved` appears in the source's field name). Nothing wired, no body text changed.
   source: this section (the user's "A: 素の対照を足す", 2026-11-07)
   evidence: `bomdd/reports/exp-20261107-02/definitions.md`, `bomdd/reports/exp-20261107-02/results.md`, `bomdd/reports/exp-20261107-02/tally.json`
+
+## 2026-11-07 After EXP-20261107-02 — BehaviorForge on the re-implementation's path: MoviePad's frame rate from the original only (EXP-20261107-03, filed)
+
+Source: the user's questions after EXP-20261107-02 found that its input skipped the re-implementation's path (MoviePad-Remake's
+requirements and an observation list and start screen made from the authority were given, so the skeleton was solved before the
+writers started); the user asked which test would show BehaviorForge's effect, and a review (pasted by the user) accepted option 1
+with three corrections (a control that fails is not required; the kit as distributed with a narrowed claim; the mapping repairs
+nothing) and the input "code and tests too, reading only". Folder `bomdd/reports/exp-20261107-03/`. MoviePad read only;
+BehaviorForge not written.
+
+Thought layer: [ ] operational rule [x] control / probe [ ] template [ ] terminology [ ] method/concept claim [ ] none — a
+measurement; no body text, template or tool changes.
+
+- [open] EXP-20261107-03 — **Given only MoviePad itself (`126eae9`, minus BomDD management material), do fresh writers who use
+  BehaviorForge extract the original's frame-rate behaviour more completely and with fewer wrong statements than fresh writers
+  without it?** Two writers per arm, reading only; a sealed list of sixteen behaviours read from the code (`targets.md`, classed
+  in the docs / on screen only / in the code only), never shown to a writer or mapper; a blind scorer with the line fixed in
+  writing; R1 (items correct) and R2 (items wrong) with a direction only where the arms do not overlap; all-success is a valid
+  result. Execution on the authority (a menu in the screen's words, a mapper that adds nothing) is descriptive and after the
+  verdict. Unconfirmed and not a start condition: that a past re-implementation product lacked frame-rate features.
+  source: this section (the user's review of the options, 2026-11-07)
+  evidence: `bomdd/reports/exp-20261107-03/definitions.md`, `bomdd/reports/exp-20261107-03/targets.md`
