@@ -4011,8 +4011,7 @@ changes:
     title: self-conformance in two tiers - a quick run for the work in between (every fast-tier check except C11, no witness) and the full run before a push, which stays where it is (filed only)
     date: 2026-11-10
     origin: improvement
-    status: implemented   # 2026-11-10 filed 92fc3cb on the user's "A" -> manufactured 0ed8b12 on the user's "A: 着手する" (the cut-off of a design not converged in the form, 4-4-0; EQ-006 registered) -> V1-V5 PASS with two parts not measured (--c9-only not run; nothing pushed, so the full run before a push and CI are owed); the closure is the user's
-    waiting_on: human-acceptance   # ECO-120 vocabulary
+    status: verified   # 2026-11-10 closed with known limits on the user's "A: 受け入れる" (order section 5: V1-V5 PASS for what was run; --c9-only not run, and nothing pushed, so the full run before a push and CI are owed - a red there reopens it; manufacturer's calibration only); filed 92fc3cb -> manufactured 0ed8b12 -> record b2ab175
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       A one-file record waited 21 minutes for the full check on 2026-11-10 (total 1,264.7 s, C11 with C11b 1,253.3 s, the other
@@ -4026,6 +4025,7 @@ changes:
     diff_audit:
       baseline: "ae5fdb2"  # HEAD before this filing
       allowed_paths: [method/tools/self-conformance.py, AGENTS.md, bomdd/70-equipment.yaml, bomdd/60-change-order-eco-125.md, bomdd/60-change-register.yaml, bomdd/reports/eco-125-two-tiers/]
+      head: "b2ab175"  # record commit; the window is closed (12 paths, none outside allowed_paths)
     required_gates: [V1, V2, V3, V4, V5]   # the order's machine copy (ECO-112 G1)
     summary: >
       P1 (measure): self-conformance.py --quick runs every fast-tier check except C11 with C11b, by the same functions, prints what it
@@ -4034,4 +4034,14 @@ changes:
       the pre-push hook. P3 (none): one sentence in AGENTS.md discipline 2. Not chosen: a per-check map from changed files, running C11
       inside the quick tier, the full run at every commit, skipping the full run when C11's inputs did not change (declined 2026-10-12 and
       2026-10-29), making C11 itself faster (stays open).
+    verification: >
+      Verified 2026-11-10 with known limits by the user's ruling "A: 受け入れる" (order section 5; manufacturer's calibration only).
+      V1 PASS: the quick run's 21 [Cn] lines byte-identical to the full run's 23 without its two C11 lines. V2 PASS: no witness after a
+      quick pass and the pre-push hook exits 1 on that tree; an existing witness's sha256 unchanged after a quick pass and a quick
+      failure. V3 PASS: a register that does not parse gives exit 1 with the (quick) FAILED line; the notice no / yes / no / no / not
+      determined on five cases; two broken copies caught, the unchanged tool passes. V4 PASS: quick 9.7 to 13.1 s; full 1,232.2 s by the
+      changed tool and 1,332.6 s by the filing tree's tool. V5 PASS for what was run: the full run's lines identical by both tools apart
+      from [time] and [env]; the diff inside allowed_paths. Not measured: --c9-only; the full run in the main tree before a push; CI
+      (nothing is pushed). Declared: the notice counts any path under method/ other than improvements.md, broader than the order's P1;
+      the full run still takes about 21 minutes; whether sessions use the quick tier is not shown.
     producer: EQ-006

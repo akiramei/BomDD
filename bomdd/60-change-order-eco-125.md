@@ -197,3 +197,75 @@ ECO. The two full runs V5 needed took 43 minutes together.
 
 **Declared.** The notice is broader than P1 wrote. `--c9-only` and CI are not measured. Whether sessions use the quick tier is
 not shown by any of this.
+
+## 5. クローズ (closure, 2026-11-10, verified with known limits on the user's "A: 受け入れる", manufacturer's calibration only)
+
+- **The ruling.** Shown V1-V5's results and the two parts of V5 not measured (`--c9-only` not run; nothing pushed, so the
+  full run before a push and CI are owed), and the notice's departure from P1, the user answered **"A: 受け入れる"**. This is a
+  closure with those parts unmeasured, by the human's ruling; it is not a pass of them.
+- **Window.** Baseline `ae5fdb2` → filing `92fc3cb` → manufacture `0ed8b12` → record `b2ab175` (diff_audit.head; **the window
+  is closed**; the closure commit holds records only: this order and the register).
+  - Inside the window (`git diff --name-only ae5fdb2 b2ab175`, 12 paths): the tool, AGENTS.md, the equipment ledger, this
+    order, the register and 7 files under `bomdd/reports/eco-125-two-tiers/`. **No path outside `allowed_paths`.**
+  - The committed tool is the one measured: `method/tools/self-conformance.py` is unchanged from `0ed8b12`, the commit the
+    worktree of V1-V5 was made from, to `b2ab175`.
+- **Acceptance results:**
+  - **V1 result: PASS** (section 4).
+  - **V2 result: PASS** (section 4).
+  - **V3 result: PASS** (section 4).
+  - **V4 result: PASS** (section 4; one full run by each tool, so the run-to-run spread V4 names was not measured).
+  - **V5 result: PASS for what was run; two parts not measured** (section 4) — closed over by the ruling above. No commit of
+    this ECO was preceded by the full run in the main tree: each was checked by the checks other than C11, and the full run
+    was made twice in the worktree at `0ed8b12`. Nothing is pushed; the full run before the push and CI's conclusion are read
+    then, and a red there reopens this ECO.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; one tool changed)
+
+- **The claim (one sentence).** `self-conformance.py --quick` gives the same verdict lines as the full run for every check but
+  C11, in about ten seconds, cannot stand in for the full run at a push, and leaves the full run as it was.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "Quick is the full run without C11" (V1): **observed / eligible** — one tree, both runs, line by line.
+  - "A quick pass cannot push" (V2): **observed / eligible** — the real hook run on that tree with no witness, exit 1; the
+    witness's sha256 before and after a pass and a failure.
+  - "Quick fails when a check fails" (V3): **observed / eligible for one check** (a broken register, C3); the other sixteen
+    are covered only by V1's identity of lines on a passing tree.
+  - "The notice tells" (V3): **observed / eligible** for five cases on files; it reads no machine state.
+  - "The full run is unchanged" (V5): **observed / eligible** for the verdict lines on one tree; **not observed** for
+    `--c9-only`, for the push and for CI.
+  - "About ten seconds" (V4): **observed / eligible** — four runs on this machine, 9.7 to 13.1 s.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution):
+  - `verify125.py` stopped at its first line of output on this machine's console encoding (cp932); attributed to the script,
+    repaired (stdout set to UTF-8) before any result was read. No measurement had been taken by the failed run.
+  - No defect found in the tool.
+- **宣言した検出力の限界** (declared limits of detection):
+  - The comparison of the two tools ran on a tree that differs by the tool file itself, so the two witnesses name different
+    trees; only their result lines were compared.
+  - One passing tree: that quick and full agree on a failing tree is shown for C3 alone.
+  - `--c9-only`, the push and CI are not measured. The spread of the full run's time is not measured.
+  - Whether a session uses the quick tier, and whether a defect only C11 sees now reaches a push more often, are not measured;
+    the second is the cost this ECO accepts.
+  - The self-assessment is blind to the manufacturer's own wrong premises (playbook §9); this receipt was written by the
+    manufacturer, with no independent inspection.
+- **Battery, row by row:**
+  - **Q1 asked.** The mode's closing line says "全検査ではない・witness なし"; the notice's `yes` is worded "paths under
+    method/", which is what the code counts.
+  - **Q2 asked.** Known-good: the unchanged tool; known-bad: the copy that writes the witness and the copy that drops C3,
+    each made by a stated one-line change before its run.
+  - **Q3 asked.** The two known-bad copies fall on different conditions (V2's and V1's); the notice's five cases fall
+    separately.
+  - **Q4 asked.** The runs are on the repository's real tree in a worktree, not on a fixture.
+  - **Q5 asked.** `--c9-only`, the push and CI are recorded as not measured, not as PASS.
+  - **Q6 asked.** Each commit came after an observed exit 0 of the checks other than C11; none after the full run in the
+    main tree — said in V5's result.
+  - **Q7 asked.** The quick mode prints what it did not run on every run; a silent quick run would be seen by the missing
+    `[quick]` lines, which V1's script reads.
+  - **Q8 NA.** No preventive gate is added.
+  - **Q9 asked.** The worktree was made from `0ed8b12` and the tool is unchanged since; the filing tree's tool was read from
+    `92fc3cb` by `git show`.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** The notice's cases keep the classes apart (process-core, records under `bomdd/`, `method/improvements.md`,
+    no upstream); a path under `method/` that is not a C11 input is counted `yes` — the stated over-count.
+- **What this closure does not support:**
+  - that `--c9-only`, a push or CI behave as before;
+  - that the full run is faster (it is not changed: 1,232 s);
+  - that sessions will use the quick tier.
