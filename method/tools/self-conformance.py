@@ -1966,6 +1966,21 @@ def c19_bom_structure() -> None:
           + (m.group(0) if m else f"件数行なし(exit {p.returncode}): {(p.stdout + p.stderr).strip()[-120:]}"))
 
 
+def _quick_c11_inputs_notice() -> str:
+    """ECO-125: C11 のファイル入力が上流ブランチから変わったか(yes / no / not determined)。
+    kit は method/ の写しなので、method/ 配下(記録である method/improvements.md を除く)の変更を「変わった」と数える
+    — 広めに取る(見落としより言い過ぎ)。機械の git・Python の変化は見えない(全件と CI が見る)。"""
+    up = run(["git", "-C", str(ROOT), "diff", "--name-only", "@{u}"])
+    if up.returncode != 0:
+        return "not determined — no upstream branch to compare with"
+    un = run(["git", "-C", str(ROOT), "ls-files", "--others", "--exclude-standard"])
+    if un.returncode != 0:
+        return "not determined — untracked files could not be listed"
+    paths = {p.strip() for p in (up.stdout + un.stdout).splitlines() if p.strip()}
+    hit = sorted(p for p in paths if p.startswith("method/") and p != "method/improvements.md")
+    return f"yes ({len(hit)} paths under method/)" if hit else "no"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="BomDD リポ全体の自己適合ゲート")
     mode = ap.add_mutually_exclusive_group()
@@ -1973,6 +1988,8 @@ def main() -> int:
                       help="loop .NET スイートを期待結果 manifest と突合(C9)")
     mode.add_argument("--c9-only", action="store_true",
                       help="C9 だけを実行(CI dotnet job 用・ECO-117)— fast tier を走らせないので witness は書かず消さない")
+    mode.add_argument("--quick", action="store_true",
+                      help="作業の途中用(ECO-125)— C11(C11b 込み)以外の fast tier を実行。witness は書かず消さない。push 前の全件の代わりにならない")
     a = ap.parse_args()
     # ECO-117 S3: CI のログで各行が出た時点を見えるようにする(import 側= bomdd-job.py には及ぼさない)
     if hasattr(sys.stdout, "reconfigure"):
@@ -1992,6 +2009,9 @@ def main() -> int:
                   ("C19", c19_bom_structure)]
         if a.dotnet:
             checks.append(("C9", c9_dotnet))
+        if a.quick:
+            # ECO-125: 途中用の段 — 同じ関数を同じ順で、C11(C11b 込み)だけを外す
+            checks = [c for c in checks if c[0] != "C11"]
     # ECO-117 S3: 検査ごとの経過時間は判定行と別の 1 行に出す([Cn] 行は変えない — 版間で比較できる形を保つ)
     times, t_all = [], time.perf_counter()
     for cid, fn in checks:
@@ -2001,7 +2021,7 @@ def main() -> int:
     times.append(f"total {time.perf_counter() - t_all:.1f} s")
 
     print()
-    print("[time] " + " / ".join(times) + ("(C11 は C11b を含む)" if not a.c9_only else ""))
+    print("[time] " + " / ".join(times) + ("(C11 は C11b を含む)" if not (a.c9_only or a.quick) else ""))
     # ECO-065(A 案): temp の残置は必ず報告するが判定に関与させない(後片付けは環境の性質・方法論の適合ではない)。
     if CLEANUP_RESIDUE:
         line = f"[cleanup] 残置 {len(CLEANUP_RESIDUE)} 件(判定不変・ECO-065 A 案): " + " / ".join(CLEANUP_RESIDUE[:5]) + (" …" if len(CLEANUP_RESIDUE) > 5 else "")
@@ -2016,6 +2036,16 @@ def main() -> int:
             print(f"self-conformance (C9 only) FAILED — {len(FAILURES)} 件の不適合(全検査ではない)")
             return 1
         print("self-conformance (C9 only) passed — C9 のみ合格(全検査ではない・witness なし)")
+        return 0
+    if a.quick:
+        # ECO-125: 走らせなかったものと、C11 の入力が変わったかを毎回出す(通知。判定に関与させず、何も走らせない)
+        print("[quick] not run: C11 (process-core qualification) — the full run decides before a push")
+        print(f"[quick] C11 inputs changed: {_quick_c11_inputs_notice()}")
+        print("[witness] 書出しなし・既存も変更なし(--quick は C11 を実行しない — ECO-125)")
+        if FAILURES:
+            print(f"self-conformance (quick) FAILED — {len(FAILURES)} 件の不適合(全検査ではない)")
+            return 1
+        print("self-conformance (quick) passed — C11 を除く検査が合格(全検査ではない・witness なし)")
         return 0
     if FAILURES:
         print(f"self-conformance FAILED — {len(FAILURES)} 件の不適合")

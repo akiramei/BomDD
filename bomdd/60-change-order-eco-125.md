@@ -14,6 +14,7 @@
 
 - Filing: requested/resolved `claude-fable-5-2`, Claude Code (Claude Agent SDK, desktop app), provenance **self-reported**.
 - Producer: not named at filing — the filing model has no entry in `bomdd/70-equipment.yaml`. Named at the start instruction.
+- producer: EQ-006
 - Independent inspection: none planned (a mode that runs fewer of the same checks and writes no witness; the manufacturer's
   calibration only). The user may name one.
 
