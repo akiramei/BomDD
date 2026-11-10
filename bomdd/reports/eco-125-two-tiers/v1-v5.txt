@@ -1,0 +1,13 @@
+worktree C:\Users\akira\AppData\Local\Temp\w125 at 0ed8b12a00bcf43c26a2f9590d3394a6791457a7; the filing tree's tool from 92fc3cb
+quick.txt: exit 0, 10 s
+full-changed-tool.txt: exit 0, 1233 s
+full-filing-tool.txt: exit 0, 1333 s
+PASS  all three runs exit 0 — quick 0, changed 0, filing 0
+PASS  V1 every [Cn] line of the quick run is byte-identical to the same line of the full run — quick 21 lines, full 23 lines
+PASS  V1 the full run has C11 lines and the quick run has none
+PASS  V5 the full run's [Cn] lines are identical by the changed tool and the filing tree's tool
+PASS  V5 every other line but [time] and [env] is identical too
+PASS  V5 both full runs wrote a witness whose result line is PASS — changed ['PASS'], filing ['PASS']
+[time] changed: C1 0.8 / C2 0.0 / C3 0.2 / C4 1.4 / C5 0.2 / C6 0.2 / C7 0.0 / C8 0.0 / C10 0.0 / C11 1221.9 / C12 0.0 / C13 1.4 / C14 2.8 / C15 0.1 / C16 0.4 / C17 0.2 / C18 1.0 / C19 1.7 / total 1232.2 s(C11 は C11b を含む)
+[time] filing: C1 0.8 / C2 0.0 / C3 0.2 / C4 1.4 / C5 0.3 / C6 0.3 / C7 0.0 / C8 0.0 / C10 0.0 / C11 1321.4 / C12 0.0 / C13 1.7 / C14 3.1 / C15 0.1 / C16 0.4 / C17 0.2 / C18 0.8 / C19 1.7 / total 1332.6 s(C11 は C11b を含む)
+failures: 0

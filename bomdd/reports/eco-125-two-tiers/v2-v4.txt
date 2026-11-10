@@ -1,0 +1,19 @@
+worktree C:\Users\akira\AppData\Local\Temp\w125 at 0ed8b12a00bcf43c26a2f9590d3394a6791457a7
+PASS  V2a quick passes on the clean worktree — exit 0, 12.8 s
+PASS  V2a a quick pass leaves no witness
+PASS  V2a the pre-push hook refuses that tree with no witness — exit 1
+PASS  V2b a quick pass leaves an existing witness byte-identical
+PASS  V3 a register that does not parse makes the quick run exit 1 with its own FAILED line — exit 1
+PASS  V2b a quick failure leaves an existing witness byte-identical
+PASS  V3 notice on the clean worktree is no — no
+PASS  V3 notice with a new file under method/templates/process-core is yes — yes (1 paths under method/)
+PASS  V3 notice with a record-only change is no — no
+PASS  V3 notice with a change to method/improvements.md alone is no — no
+PASS  V4 three quick runs each within 60 s — 11.9 s / 11.3 s / 13.1 s
+quick run's check ids: C1 C10 C12 C13 C14 C15 C16 C17 C18 C19 C2 C3 C4 C5a C5b C6a C6b C7 C8
+PASS  V1 (part) the quick run has no C11 line
+PASS  known-bad 1 (quick writes the witness) is caught by V2a's condition — the witness appeared
+PASS  known-bad 2 (quick drops C3) is caught by comparing the check ids — missing: C3
+PASS  V3 notice with no upstream is not determined — not determined — no upstream branch to compare with
+PASS  the worktree is clean at the end — clean
+failures: 0

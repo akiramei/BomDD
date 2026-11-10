@@ -4011,8 +4011,8 @@ changes:
     title: self-conformance in two tiers - a quick run for the work in between (every fast-tier check except C11, no witness) and the full run before a push, which stays where it is (filed only)
     date: 2026-11-10
     origin: improvement
-    status: filed   # 2026-11-10 filed on the user's "A" to "この形で ECO の起票に進むか"; manufacture waits for the start instruction, which also answers the cut-off of a design not converged in the form (4-4-0 at the limit) and the producer's equipment entry
-    waiting_on: start-instruction   # ECO-120 vocabulary
+    status: implemented   # 2026-11-10 filed 92fc3cb on the user's "A" -> manufactured 0ed8b12 on the user's "A: 着手する" (the cut-off of a design not converged in the form, 4-4-0; EQ-006 registered) -> V1-V5 PASS with two parts not measured (--c9-only not run; nothing pushed, so the full run before a push and CI are owed); the closure is the user's
+    waiting_on: human-acceptance   # ECO-120 vocabulary
     receipt_author_role: producer   # ECO-077 observation field
     source: >
       A one-file record waited 21 minutes for the full check on 2026-11-10 (total 1,264.7 s, C11 with C11b 1,253.3 s, the other
@@ -4034,3 +4034,4 @@ changes:
       the pre-push hook. P3 (none): one sentence in AGENTS.md discipline 2. Not chosen: a per-check map from changed files, running C11
       inside the quick tier, the full run at every commit, skipping the full run when C11's inputs did not change (declined 2026-10-12 and
       2026-10-29), making C11 itself faster (stays open).
+    producer: EQ-006

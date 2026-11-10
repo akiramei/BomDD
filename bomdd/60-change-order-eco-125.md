@@ -152,3 +152,48 @@ Conditions are frozen at filing; results go to the closing section.
   chosen).
 - 未収束事項: the form itself. No open finding is known. Whether sessions will use the quick tier is a prediction, not verified
   here; it is measured after application by how often a record-only push is preceded by more than one full run.
+
+## 4. Manufacture (2026-11-10, on the user's "A: 着手する")
+
+The start instruction also answered section 1's two points: the design is built as filed (the cut-off of a design not
+converged in the form), and the producer's equipment entry is made with `account_lineage: akiramei@anthropic` (EQ-006).
+
+**What was made** (`0ed8b12`).
+- `method/tools/self-conformance.py`: `--quick`, mutually exclusive with `--dotnet` and `--c9-only`; C11 dropped from the same
+  list of checks; the two `[quick]` lines, a `[witness]` line and the closing line of P1; `_quick_c11_inputs_notice()`.
+- `AGENTS.md` discipline 2: one sentence on the two tiers.
+- `bomdd/70-equipment.yaml`: EQ-006 (`claude-fable-5-2`); this order's Equipment section names it.
+
+**A departure from P1, the producer's choice (derived layer).** P1 said the notice compares "against the survey's list". The
+list's last item — the AGENTS template's link targets in the kit — cannot be named by a path rule, so the notice counts every
+path under `method/` other than `method/improvements.md` as a changed input (the kit is a copy of `method/`). It errs toward
+`yes`: changing this tool itself gives `yes`. It still changes no verdict and runs nothing.
+
+**Results** (evidence in `bomdd/reports/eco-125-two-tiers/`; measured in a detached worktree of `0ed8b12` outside the
+repository, removed afterwards):
+- **V1 PASS** (`v1-v5.txt`, `quick.txt`, `full-changed-tool.txt`): the quick run's 21 `[Cn]` lines are byte-identical to the
+  full run's 23 without its two C11 lines; the quick run has no C11 line.
+- **V2 PASS** (`v2-v4.txt`): with no witness, a quick pass leaves none and `bomdd/hooks/pre-push`, run with that tree's ref on
+  its input, exits 1; with a witness present, a quick pass and a quick failure both leave its sha256 unchanged.
+- **V3 PASS** (`v2-v4.txt`): a register that does not parse → exit 1 with `self-conformance (quick) FAILED`; the notice is `no`
+  on a clean tree, `yes (1 paths under method/)` with a new file under `method/templates/process-core/`, `no` with a
+  record-only change and with a change to `method/improvements.md` alone, `not determined` with no upstream. Known-bad: the
+  copy whose quick mode writes the witness left a witness (caught by V2's condition); the copy that also drops C3 lost the
+  `[C3]` line (caught by comparing the check ids). The unchanged tool passes both.
+- **V4 PASS**: three quick runs 11.9, 11.3 and 13.1 s in the worktree (9.7 s in the main tree). The full run by the changed
+  tool took 1,232.2 s and by the filing tree's tool 1,332.6 s, C11 1,221.9 and 1,321.4 s; no other check differs by more than
+  0.3 s. One run each, so the spread of two runs that V4 names was not measured; the changed tool is the faster of the two.
+- **V5 PASS, with two parts not measured** (`v1-v5.txt`, `full-filing-tool.txt`): on the same worktree the full run's `[Cn]`
+  lines, and every other line but `[time]` and `[env]`, are identical by the changed tool and by the filing tree's tool
+  (`92fc3cb`, written over the tool file for its run — so its tree differs by that one file, and the two witnesses name
+  different trees; both carry `PASS`). The commits are inside `allowed_paths` (`git diff --name-only ae5fdb2 HEAD`).
+  **Not measured:** `--c9-only` was not run (it needs the .NET build in the working tree; its branch is untouched but for the
+  suffix of the `[time]` line, read from the diff); and no commit of this ECO has been pushed, so the full run in the main
+  tree before a push and CI's conclusion are still owed.
+
+**Seen while manufacturing.** The filing commit and the manufacture commit were each checked with the seventeen checks other
+than C11 (24.0 s by calling the functions, then 9.7 s by `--quick`) instead of the full run — the mode's first use, on its own
+ECO. The two full runs V5 needed took 43 minutes together.
+
+**Declared.** The notice is broader than P1 wrote. `--c9-only` and CI are not measured. Whether sessions use the quick tier is
+not shown by any of this.
