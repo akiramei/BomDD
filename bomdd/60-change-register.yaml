@@ -4007,3 +4007,30 @@ changes:
       DECIDE line is not noticed by a new session; the desktop app's model not measured headless; the decide rule is text; CI does not
       run the two selftests.
     producer: EQ-004
+  - id: ECO-125
+    title: self-conformance in two tiers - a quick run for the work in between (every fast-tier check except C11, no witness) and the full run before a push, which stays where it is (filed only)
+    date: 2026-11-10
+    origin: improvement
+    status: filed   # 2026-11-10 filed on the user's "A" to "この形で ECO の起票に進むか"; manufacture waits for the start instruction, which also answers the cut-off of a design not converged in the form (4-4-0 at the limit) and the producer's equipment entry
+    waiting_on: start-instruction   # ECO-120 vocabulary
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      A one-file record waited 21 minutes for the full check on 2026-11-10 (total 1,264.7 s, C11 with C11b 1,253.3 s, the other
+      eighteen checks 11.4 s). C11 was 201.7 s on 2026-10-28 and grew with its controls (27 OQ controls then, 105 now; ECO-118, ECO-119).
+      A record commit touches none of C11's file inputs. The full run is enforced only at the push (the witness, C18); no local mode runs
+      less than everything; "the touched arms in between, the full suite once at the end" is a watch item with no machine face
+      (OBS-20261106-04). The user's requirement: the full run and the rest must be separable; the full run may sit before the push.
+    order_ref: bomdd/60-change-order-eco-125.md
+    affected_refs: [method/tools/self-conformance.py, AGENTS.md]
+    no_impact_prediction: "(before manufacture; frozen) self-conformance.py gains --quick (about 30 lines); AGENTS.md one sentence; the order, the register and bomdd/reports/eco-125-two-tiers/; bomdd/70-equipment.yaml only if the start instruction names a new entry. The full run prints the same lines and writes the same witness on the same tree; --dotnet and --c9-only unchanged; the pre-push hook and the CI workflow are not in the diff; no product changed."
+    diff_audit:
+      baseline: "ae5fdb2"  # HEAD before this filing
+      allowed_paths: [method/tools/self-conformance.py, AGENTS.md, bomdd/70-equipment.yaml, bomdd/60-change-order-eco-125.md, bomdd/60-change-register.yaml, bomdd/reports/eco-125-two-tiers/]
+    required_gates: [V1, V2, V3, V4, V5]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      P1 (measure): self-conformance.py --quick runs every fast-tier check except C11 with C11b, by the same functions, prints what it
+      did not run and whether C11's file inputs differ from the upstream branch (yes / no / not determined), writes no witness and leaves
+      an existing one byte-identical, and ends with its own "(quick)" line. P2 (stop, unchanged): the run with no option, its witness and
+      the pre-push hook. P3 (none): one sentence in AGENTS.md discipline 2. Not chosen: a per-check map from changed files, running C11
+      inside the quick tier, the full run at every commit, skipping the full run when C11's inputs did not change (declined 2026-10-12 and
+      2026-10-29), making C11 itself faster (stays open).
