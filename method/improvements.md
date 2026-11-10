@@ -10582,3 +10582,74 @@ confounded case.
 before taking in an ECO: the lab run is about ruling timing, not a prototype), OBS-20260718-06 and EXP-20260718-07 (where human
 rulings sit by medium: no product ECO here), OBS-20261106-02 (closing a new mechanism's design before manufacture: the maker's
 design, not the owner's business ruling). 回収・再演 0 件.
+
+## 2026-11-10 qc-test-management — what the correction-of-an-approved-value product brings back: no body text, two watches (OBS-20261110-01, -02)
+
+Source: `bomdd/reports/qc-test-management-handoff-20261109.md` (written in the product's session; its opening sentence was
+corrected in this commit — "can tell apart an implementation that holds everything" was a design intent, not a measurement; its "BomDD での扱い" section was
+then rewritten outside this session to the same reading — 1a and 2 watch candidates, 1b and 3 instances). The
+user asked whether anything can be brought back and chose "A: 記帳だけ" (2026-11-10). Product repository
+`qc-test-management` at commit `1b4216a7bdc3d0562862d391d2531adc1a482eaf` (clean tree): REQ-QC-001 made concrete for one
+department's moisture test, from the rulings to `ROUTE-QC-BUILD-READ`. Checked here: the commit, the Control Plan's 21 rows, the
+scenario counts of the recorded self-checks (core 8, read 6, all PASS) and the SHA-256 of the five records and the fixture
+manifest (6 of 6 as the report states). Not done here: a re-run, and reading how far the self-checks go through `src/qc/`.
+
+Standing of the evidence: **all 21 product checks and Phase 5 are `NOT_RUN`**; what ran is the instruments' own self-checks on
+fictional data in an isolated database. The repository has no change register and comes out of an experiment's requirement — one
+example apart from the general-application products. No implementation with a planted defect was run by either self-check
+(the scenarios are the correct implementation passing), so detection power is unmeasured (playbook §4.4, "検出力は、ケースを
+見ていない者が置いた壊し方で測る").
+
+Thought layer: [ ] operational rule [ ] control / probe [ ] template [ ] terminology [ ] method/concept claim [x] none — a
+record; no body text, template or tool changes.
+
+Generalization and machine face, per proposition of the report (product names dropped):
+
+1. **A state change is observed from a second connection before and after the commit, and two competing operations are run in
+   both orders.** In the body only as silence-checklist §14 "トランザクション境界" and "同時更新の競合", both still "予防候補"
+   with no example. Evidence: 8 self-check scenarios PASS (a forced commit failure rolls back the history and approval records
+   too; withdrawal against re-approval in both orders, the later one waits for the row lock and is refused as stale).
+   Machine face: 止める= なし / 測る= なし. → OBS-20261110-01.
+2. **A check pairs "what depends on the held value stops" with "what is independent goes on".** Already in the body: silence
+   §12 副則① (the protected thing and the bystander are declared apart; closing too little and too much are two faces of one
+   omission — ViewPrism2 ECO-046/102). Here it appears at design time in another product: two Control Plan rows carry an
+   expected-FAIL vector for "holds everything alike"; neither is run. An instance of the existing rule, not a new observation.
+3. **An acceptance condition written only as a prohibition ("does not return the old value") is also met by a blank or a
+   general error; the condition must name the state that has to hold.** Not found as a proposition in the body (nearest: §4.4
+   `test_vectors` with counterexamples, and "粗い到達検査" under calibration). Evidence: found in the review of one Control Plan
+   row; the rewritten row's instrument then passed 1 synthetic conforming response and failed 9 non-conforming ones (blank and
+   general error among them) — synthetic responses, not the product path. Machine face: 止める= なし / 測る= なし.
+   → OBS-20261110-02.
+4. **Business rulings, registered operating data and fictional test data are kept apart, and the test inputs are pinned by
+   hash and referenced from the result's version.** Already in the body: §8 効力専用オラクル, §13. An instance (79 cases read
+   back; a limit revision and a rounding revision separated).
+5. **Rulings given before manufacture.** Not a second example for OBS-20261108-01: no comparison of ruling timing and no effort
+   counts were fixed before the start (that item's condition); the report says the same.
+
+By the rule of this skill (止めるか測るものが無い規則は本文に入れない) no body text is proposed.
+
+- [watch 1/3] OBS-20261110-01 — **For a state change that others read, the check fixes who observes, right after which
+  operation, and what they see: a second connection before and after the commit, and competing operations in both orders**
+  (one product, instrument self-checks only; product checks not run).
+  - Machine face: なし.
+  - 2 例目の条件: another product with shared state where such a row is run against the delivered product, or where a
+    transaction-boundary or concurrent-update defect reaches acceptance or later; silence §14's two "予防候補" rows take their
+    first example only from a run on a product.
+  source: this section (the user's "A: 記帳だけ", 2026-11-10)
+  evidence: `bomdd/reports/qc-test-management-handoff-20261109.md` 観察 1; qc-test-management `1b4216a` `tests/acceptance/CoreSelfTest.cs`, `.qc-acceptance/core/build-read-core-01/report.json`
+- [watch 1/3] OBS-20261110-02 — **A prohibition-only acceptance condition passes on a blank or a general error; the row must
+  also state what has to be visible, and to whom** (one row in one product, found by review; discrimination shown on synthetic
+  responses only).
+  - Machine face: なし.
+  - 2 例目の条件: a product ECO where a prohibition-only row passed a delivered item that returned nothing or a general error,
+    or where a review rewrote such a row before manufacture.
+  source: this section (the user's "A: 記帳だけ", 2026-11-10)
+  evidence: `bomdd/reports/qc-test-management-handoff-20261109.md` 観察 2; qc-test-management `1b4216a` `bomdd/33-control-plan.yaml` CP-QC-03, `.qc-acceptance/harness/build-read-harness-01/CP-QC-03.json`
+
+Not filed (the user's "A"; "B" was the alternative): a detection-power trial in which someone who has not seen the cases
+plants "ignores the hold", "holds everything" and "confirms on old inputs" and the paired rows are run against them.
+
+期待効果の棚卸し: worklist started. Near item checked — EXP-20260717-10 (does the state × operation matrix appear in the
+check-surface design of the next state-holding UI ECO): all 21 Control Plan rows carry `transition_refs` to the specification's
+transition table, but this is neither a UI ECO nor a run that could show zero latent cross-cell findings — 機会なし.
+回収・再演 0 件.
