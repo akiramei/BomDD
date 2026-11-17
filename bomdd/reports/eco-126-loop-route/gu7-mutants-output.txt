@@ -1,0 +1,5 @@
+PASS the unchanged tool's self-test — exit 0
+PASS IB-01 an empty member of the list disabled: self-test exit 1, failing arms 1, names its arm True
+PASS IB-02 a ruling naming itself disabled: self-test exit 1, failing arms 1, names its arm True
+PASS ruled, but not by the user disabled: self-test exit 1, failing arms 1, names its arm True
+GU7 mutants: each disabled check turns exactly its own arm red

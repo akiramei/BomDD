@@ -1,0 +1,10 @@
+PASS same output, no bundle: MoviePad d5dab41 (before ECO-006's manufacture) — files 6/6, exit 0 and 0, lines 8
+PASS same output, no bundle: MoviePad 9d46268 (ECO-006 closed; the head of the merged branch) — files 6/6, exit 0 and 0, lines 8
+PASS same output, no bundle: ViewTube HEAD (b714c54628d1) — files 6/6, exit 1 and 1, lines 19
+PASS retyped bundle, no list: red, GU7 only, the 10 overlapping rulings named — exit 1, named 10/10, GU7 lines 10, other FAIL 0
+PASS list filled, UQ-0027 touched, no entry of its own: red for that reason — exit 1
+PASS two single entries open and blocking: GU7 passes, GU3 holds manufacture — exit 1
+PASS two single entries open and not blocking: GU7 red for that reason — exit 1
+PASS two single entries ruled but not listed in the bundle: red, both named — exit 1
+PASS two single entries ruled by the user: green as the untouched ledger — exit 0, untouched 0
+V1 real ledgers: all as expected

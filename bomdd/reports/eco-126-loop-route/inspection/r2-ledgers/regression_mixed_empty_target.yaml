@@ -1,0 +1,12 @@
+rulings:
+  - id: H
+    status: ruled
+    target: {ui_ids: [x]}
+    ruling: keep
+    decided_by: user
+  - id: T
+    status: ruled
+    target: {ui_ids: [y]}
+    ruling: resolved-change
+    decided_by: user
+    touches_confirmed: [H, null]

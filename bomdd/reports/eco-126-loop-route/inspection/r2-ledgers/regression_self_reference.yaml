@@ -1,0 +1,14 @@
+rulings:
+  - id: H
+    status: ruled
+    target: {ui_ids: [x]}
+    ruling: keep
+    decided_by: user
+    touches_confirmed: H
+  - id: B
+    status: open
+    type: provisional-bundle
+    blocking: false
+    target: {ui_ids: [x]}
+    confirmed_checked:
+      - {id: H, touches: yes, why: claims-separate-ruling-exists}

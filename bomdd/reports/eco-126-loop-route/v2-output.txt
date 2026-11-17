@@ -1,0 +1,14 @@
+PASS the transcribed record passes --check — exit 0
+PASS rows and subjects — 65 rows, 51 subjects
+PASS disposition by source equals the table — producer {'no_action': 2, 'to_user_check': 8} / reader {'known_only': 2, 'measured_closed': 1, 'no_action': 13, 'record_fixed': 2, 'to_user_check': 11, 'to_user_report': 4} / maker {'no_action': 17, 'to_user_check': 5}
+PASS outcome by disposition equals the table
+PASS asked of the user: producer 8/10, reader 15/33, maker 5/22 — [(8, 10), (15, 33), (5, 22)]
+PASS the one difference lands on a producer's decision that was listed before use — [('X2', 'P-R20', 'producer', 'yes')]
+PASS kinds: one assigned by the producer's reading, two by the user
+PASS known-bad: a reaction with no kind — exit 1, gaps 1
+PASS known-bad: a round with no set — exit 1, gaps 1
+PASS known-bad: an accepted report with no naming reply — exit 1, gaps 1
+PASS known-bad: an item with no disposition — exit 1, gaps 1
+note: the 65 item rows come from the table. The rounds, the three reactions and the four reports are entered by hand in this
+      script from MoviePad's order; the lines about them show that the tool reports what was entered, not that the entry is right.
+V2 (table sha256 67861a09…a4dc8315): all as expected

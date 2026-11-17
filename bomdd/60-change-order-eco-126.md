@@ -268,3 +268,177 @@ Conditions are frozen at filing; results go to the closing section.
   answer. Failure types A①-⑧ checked: ① the validator claim is limited to the rule list and marked; ③ R3/R4/R6 quoted from
   the current text, not from the trial copy; ⑥ GU7 not reading other types is declared and is not a permission; ⑦ five
   alternatives listed; ⑧ this receipt.
+
+## 4. Manufacture (2026-11-17, on the user's "A: この形で着手する")
+
+**The start instruction.** The question put to the user was "ECO-126 を、推しの組のまま、詰め切れていない設計で作り始めてよいですか"; the
+answer was "A: この形で着手する". It carries: the recommended answers to **RP1-RP4**; **RP5**, building a design not converged in
+the form (9 → 2 → 1) as the user's cut-off; and the inspector of another lineage, named in the question as Codex (EQ-002,
+`gpt-5.6-sol`). No limit of time or rounds was named; the producer kept the default of two rounds for each kind of review.
+
+**Where it is first used (the user's word of 2026-11-17, before the start):** 「MoviePadで続けても良いし、ViewTubeと比較して好ましい方を
+選んでも良いです。」 The producer compared the two by reading (ViewTube read-only) and chose **MoviePad first, ViewTube second**:
+ViewTube does not consume this kit (no `bomdd.lock`; its own procedure, skills and gates; its ledger fails this gate's GU4 on its
+own status words), adding a check there needs the user's exception each time (its gate freeze), and its register holds 172
+changes not closed; MoviePad takes the parts as built and has two looped changes to compare with, but its kit is 659 commits
+behind (`kit-freshness.py`: STALE) and must be replaced first — a MoviePad change of its own, not part of this ECO. **No product
+carries this kit yet.**
+
+**What was made** (`da797b7`, against `59b96bb`: 16 files, +1269 -17; nothing under `method/templates/process-core/`).
+- **L1** `product-profile/change-management.md`: §3.5 (the route), the clauses of R3, R4 and R6, the scenario row, the commit
+  note, the skill row.
+- **L2** `product-profile/skills/eco-turn.md` (new), listed in `bomdd-init.SKILLS` (14 skills; README's two counts follow);
+  one line each in `eco-fix`, `eco-accept`, `eco-file`, `bomdd-next`, and in the product entry templates (`AGENTS.product.md`,
+  `CLAUDE.product.md`).
+- **L3** `templates/37-ui-rulings.yaml` (discipline 9, examples 4 and 5); `ui-ir-ui-bom.md` (§13.1 and §15); `tools/ui-cad-gate.py`
+  GU7 with 16 self-test arms of its own (19 in all); self-conformance C6c, C6d, C6e.
+- **L4** the read before manufacture: in §3.5, with its rows in the record (`kind: preread`).
+- **L5** `tools/loop-count.py` (new; the record's format is its header) with 23 self-test arms. **L6** `tools/handover-stamp.py`
+  (new) with 11. Both run in self-conformance as C20a and C20b.
+
+**Departures from section 1 (the producer's choices unless marked; section 1 is frozen and not rewritten).**
+- The field of a single entry is **`touches_confirmed`**, not `touches: <id>` (the bundle's rows already use `touches`).
+- **GU7 does more than (a) and (b)**, after the inspections: the target of `touches_confirmed` must be a ruling decided by the
+  user, not itself, with no empty member; while open the entry must be `blocking: true` as a boolean; once ruled it must be ruled
+  by the user; one row per ruling; ids are compared as strings; a single entry already ruled by the user is listed like any other
+  overlapping ruling (no exemption).
+- **The route uses `eco-fix` steps 1-5, not 1-3.6**: the implementation record and the commit of each round are steps 4 and 5;
+  only the stop differs (the first review's finding 18).
+- **Two rules were added to the route because V4 found them**: a round's commit that changes a ruled-layer file needs the ruling
+  trailer and a citation in the order's Sources read (E13); a product with three states needs the `implemented` transition
+  before the confirmation items.
+- **The launcher's log line carries a stamp id, not the label** (the label stays in the manifest: the launcher scripts are kept
+  to ASCII). The started program is stamped too. File names are limited to letters, digits and `. _ - /`.
+- **`loop-count --check` checks more than L5's three conditions** (the record's shape, vocabularies, rounds, replies) and, as
+  declared in its header, less than its whole format (KD-03). The class `left_as_is` and `limits.budget` were added.
+- **Delivered though section 1 did not name them, all inside `allowed_paths`**: the lines in the two product entry templates,
+  README's counts, the scenario row, the commit note, the skill row, C20 and C6c-e. The line in `eco-file.md` carries a rule
+  (what gate ① asks), not only a pointer.
+- **Nothing was dropped at a limit**: L4 and L6 were built.
+
+**The independent inspection of GU7 (EQ-002, another lineage; read-only on a scratch copy).** Two rounds, **both REJECT**.
+Round 1: eight findings (IA-01 to IA-08), each reproduced as an arm that was red on the unrepaired tool, then repaired. Round 2
+(the last): seven closed, IA-08 not closed, two new (IB-01, introduced by the round-1 repair; IB-02). **After the last round the
+producer repaired IB-01, IB-02 and one finding of the fresh-context review, against the default** (which is to leave them as
+known defects), on the user's standing instruction of 2026-09-29 that a measured false negative of a gauge is closed first.
+**The inspector has not seen that repair** (UR-1 to UR-3). Briefs, reports and the disposition:
+`bomdd/reports/eco-126-loop-route/inspection/`.
+
+**The review in a fresh context of the same equipment (the rest of the diff).** Two rounds. Round 1: 42 findings — 11 on the
+two new tools (false passes of `--check` and of the launcher check, tracebacks), 14 on text against tools and text against
+text, 11 on the verification scripts, 3 on the record, 3 out of scope. The substance was repaired (both tools were largely
+rewritten; the skill and §3.5 were corrected). Round 2 (the last): of round 1's findings 28 closed; 7 not closed; 16 new
+(11 substance, 4 evidence, 1 record). **Nothing of substance was repaired after round 2**; four statements that said more than
+the tools do were narrowed, and the rest is the list of known defects below. Both rounds, condensed, with every disposition:
+`inspection/review-r1-findings.md`, `inspection/review-r2-report.md`.
+
+**Mistakes of the producer during manufacture (declared).**
+- V3's first run left a window open: the test program was a script, which `start` keeps open; the run was stopped, the stray
+  processes (those naming the scratch folder) were ended, and the test program was made to exit by itself.
+- V5's first expectation counted seven added lines in section 2 where there are five; the count in the script was corrected
+  after reading the five lines — the text was not changed to fit.
+- Both subagents reported that files changed under them while they read: the producer repaired GU7 and the route's text while
+  the first review and the first V4 run were in progress. The later rounds ran on a tree that was not edited meanwhile.
+- The first full self-conformance run measured the tree before the GU7 repair; the second measured the tree before the last
+  four narrowed statements (text and comments). Only the quick tier was run after them.
+
+## 5. Results before the acceptance request (2026-11-17; status `implemented`, not closed)
+
+**Acceptance (the frozen gates of section 3).**
+- **V1 result: PASS.** `v1_gu7.py` (9 checks): on MoviePad's ledger at `d5dab41` and at `9d46268` and on ViewTube's at
+  `b714c546` the changed gate's output equals the filing tree's (no bundle); the ledger at `d5dab41` retyped as a bundle is red
+  on GU7 alone and names the 10 overlapping rulings; with the list filled it is red for the missing single entry, then held by
+  GU3 while the two single entries are open and blocking, red when they are not blocking, red when they are ruled but not
+  listed, green when ruled and listed. Self-test 19 arms; C6c-e. **A departure in the check itself**: every run declares GU6 as
+  not applicable (`--na`), because the current gate withholds its verdict on MoviePad's ledger without it — MoviePad's kit of
+  July does not have that rule.
+- **V2 result: PASS.** `v2_count.py` (11 checks): ECO-006 transcribed (65 rows, 51 subjects) gives the stage tables of the
+  count of 2026-11-17; four mutations of the real record each make `--check` exit 1 with one gap. **Limit**: the rounds, the
+  three reactions and the four reports are entered by hand in the script; the lines about them show that the tool reports what
+  was entered.
+- **V3 result: PASS.** `v3_launcher.py` (5 checks): `launch.cmd` really starts a program and logs one line with the stamp's
+  hash; a changed file is a mismatch; a start that bypasses the launcher is "unknown", exit 3; `launch.sh` under Git's `sh`
+  starts and logs, and reports a mismatch. A POSIX system was not used.
+- **V4 result: PASS on the last tree** (`v4_route.py`, 69 checks, three scaffolds bound to one kit manifest, `409aa6c5b721`). **Its first run
+  failed one step**: with `ruled_layer` enabled, a round's commit that changed the requirements file as the route was then
+  worded was refused by E13. The route's text was repaired (above) and the script now drives the route as worded, with the
+  refusals as controls. Variant C (three states) was added after the review. Not run: IQ/OQ on these scaffolds (C11 runs it on
+  its own), a return to a round after `implemented` (KD-09), branches and merges, a populated BOM at acceptance.
+- **V5 result: PASS.** `v5_text.py` (12 checks): `eco-fix`'s steps are identical character for character; nothing is removed
+  from `change-management.md`; section 2 gains five lines; every path of this ECO is inside `allowed_paths`; nothing under
+  `process-core`; the playbook unchanged.
+- **V6 result: PASS for what was run; two parts owed.** The full self-conformance exited 0 twice on this machine (28 result
+  lines each, C11 and C11b included; `full-self-conformance-run2.txt`), the second time before the last four narrowed
+  statements; the quick tier exited 0 after them (`quick-self-conformance-final.txt`). **Nothing is pushed**: the full run on the
+  committed tree before the push, and CI's conclusion, are owed, and a red there reopens this ECO.
+
+**Known defects and unreviewed repairs (the user names what is accepted; the list with sources is
+`inspection/review-r2-report.md`).**
+- **KD-01** `loop-count`: a record that is not UTF-8 ends in a traceback (exit 1) instead of `[input]` (exit 2).
+- **KD-02** `handover-stamp check`: a malformed manifest or a log that is a directory ends in a traceback with exit 1, the code
+  for "another build ran".
+- **KD-03** `loop-count --check` does not check six rules its format names; a round with a reply and no reaction row passes.
+- **KD-04** `loop-count`: unquoted values that YAML retypes are reported as missing.
+- **KD-05** `eco-turn`: the instruction for the launcher check's exit 3 does not fit the record's fields.
+- **KD-06** the words for an item's kind, disposition and outcome are explained nowhere in the kit.
+- **KD-07** the status note "golden 待ち" is set one step late. **KD-08** two entry texts say less than the route.
+- **KD-09** three states: returning from the confirmation items to a round needs `implemented` in `open_states` (read, not run).
+- **KD-10** the self-tests of the two new tools cover part of their checks (22 of 47 and 13 of 25 of the reviewer's mutants).
+- **KD-11** V4's labels use the names R3 / R4 for what the skill now calls A3 / A4.
+- **UR-1 to UR-3** the three GU7 repairs made after the inspector's last round, not seen by the inspector. The producer's own
+  check: with each disabled in a copy, the self-test turns exactly its own arm red (`gu7-mutants-output.txt`).
+
+**Out of scope, found on the way (not changed).** `method/onboarding/working-with-ai.md` lists the entry skills without
+`/eco-turn` (not in `allowed_paths`). The scaffold puts its ledger at `bomdd/37-ui-rulings.yaml`, where `--ui-dir bomdd/ui` does
+not look. GU3 and GU4 do not look at who ruled. ECO-079's window is still open on two of this ECO's files.
+
+**Not shown by any of this.** That the loop helps; that the read before manufacture ends in questions a user can answer; that
+sessions use the record and the launcher. These are measured on the first three looped changes of products carrying this kit
+(section 3, "Not gated"), and there is no such product yet.
+
+### 較正 receipt (/calibrate self-application - trigger ③: instruments changed; receipt_author_role = producer; three instruments)
+
+- **The claims (one sentence each).** (1) GU7 fails a ledger whose open provisional bundle omits an overlapping ruling decided by
+  the user, or leaves a touched one without a blocking entry ruled by the user, and changes nothing for a ledger with no bundle
+  and no `touches_confirmed` field. (2) `loop-count` reports the stage tables of a record and its `--check` exits 1 on the gaps
+  its header lists. (3) `handover-stamp check` tells a launch of the stamped build from a launch of another, and from no launch.
+- **査定した主張と判定** (measurement × evidence):
+  - (1) the omission is stopped: **observed / eligible** — 15 known-bad arms, each red for its own reason with no other gate
+    red; MoviePad's real ledger retyped (10 rulings named); the inspector's 18 ledgers of round 2 and its seven mutated copies;
+    the producer's three mutated copies for the last repairs.
+  - (1) no effect without a bundle: **observed / eligible** — output identical on three real ledgers and on the inspector's 14
+    cases; **conditionally**, since identity was measured with GU6 declared not applicable.
+  - (1) as accepted by an independent inspector: **not eligible** — both verdicts are REJECT, and the last repair is unseen.
+  - (2) the stage tables: **observed / eligible for one record** (ECO-006, against the table it was transcribed from).
+  - (2) `--check` on gaps: **observed / conditionally eligible** — 22 known-bad arms and four mutations of the real record; the
+    reviewer's mutants show 25 of 47 removed checks leave the self-test green, and six rules of the format are not checked.
+  - (3): **observed / conditionally eligible** — real starts on Windows and under Git's `sh`; 10 known-bad arms; 12 of 25
+    mutants survive the self-test, among them the mismatch dropped from the exit condition (the tool itself returns 1 there).
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): GU7 — IA-01 to IA-08, IB-01, IB-02 and one more
+  (the producer's logic; repaired). `loop-count` — review findings 1-4 and 10 (repaired), N1, N3, N4 (left: KD-01, KD-03, KD-04).
+  `handover-stamp` — review findings 5-9 and 11 (repaired), N2 (left: KD-02). The verification scripts — V5's wrong count and
+  V3's test program (the producer's; corrected before a result was used). No defect is attributed to a product.
+- **宣言した検出力の限界** (declared limits of detection): GU7 judges the omission, not the truth of "does not touch"; overlap is
+  equality of ids; an untyped bundle is not read. The count shows what was written, not whether it is right. The launcher sees
+  only starts through itself. No POSIX system, no product, no user took part. The self-assessment is blind to the producer's
+  own wrong premises; the two reviews and the inspection found 68 things the producer had not (10, 42 and 16).
+- **Battery, row by row:**
+  - **Q1 asked.** Four statements said more than the code measures and were narrowed (the route's sentence on `--check`,
+    `ui-ir-ui-bom.md` on when GU7 applies, the skill on exit 0, V5's label); the headers of the two tools list what is not checked.
+  - **Q2 asked.** Known-bad and known-good arms in pairs for all three; the labels come from the stated rule, the inspector's
+    fixtures and MoviePad's ledger, not from the tools' own output.
+  - **Q3 asked.** Each GU7 arm must be red on GU7 alone with its own words; for the two new tools the reviewer's mutants show
+    that not every clause falls separately (KD-10).
+  - **Q4 asked.** V1 runs on product ledgers read from their repositories; V2 on a record transcribed from a real change; the
+    hand-entered part of V2 is declared.
+  - **Q5 asked.** The push, CI, a POSIX system and a third inspection are recorded as not measured; the withheld verdict of the
+    gate on MoviePad's ledger without `--na` is recorded, not counted as a pass.
+  - **Q6 asked.** Each repair followed an observed red; the commit follows observed exits of the quick tier and of V1-V5.
+  - **Q7 asked.** C6c-e and C20a-b run the arms on every self-conformance; a tool that is missing is a FAIL there.
+  - **Q8 asked.** GU7 is a preventive gate: its way out is the list itself (`touches: no` with a reason), which is counted in the
+    ledger; there is no exemption switch.
+  - **Q9 asked.** V1 names the commits it read; V4 prints the kit manifest of its scaffolds (the last run: see its output).
+  - **Q10 asked.** The limits above and the known defects.
+  - **Q11 asked.** GU7 was measured on separate classes: ledgers with no bundle, with a bundle, with single entries open, ruled
+    by the user, ruled by another, with malformed fields; the two new tools on well-formed records, records with gaps and
+    malformed input, and for the last class the answer is only partly sound (KD-01, KD-02).

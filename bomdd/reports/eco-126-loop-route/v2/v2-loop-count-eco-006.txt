@@ -1,0 +1,48 @@
+loop-count: ECO-006 — rounds 2 / limit 5
+  round 1: commit b84cedd files 1 launches unknown reply yes
+  round 2: commit 5ab2031 files 1 launches unknown reply yes
+
+stage 1 — decided or found: rows 65 / subjects 51
+
+stage 2 — disposition (rows)
+                    producer  reader  maker   all
+  to_user_check            8      11      5    24
+  to_user_report           0       4      0     4
+  no_action                2      13     17    32
+  record_fixed             0       2      0     2
+  known_only               0       2      0     2
+  measured_closed          0       1      0     1
+  asked of the user, producer: 8 / 10
+  asked of the user, reader: 15 / 33
+  asked of the user, maker: 5 / 22
+
+stage 3 — outcome by disposition (rows)
+  producer  no_action        none           2
+  producer  to_user_check    diff           1
+  producer  to_user_check    passed         7
+  reader    known_only       measured       1
+  reader    known_only       none           1
+  reader    measured_closed  measured       1
+  reader    no_action        none           10
+  reader    no_action        tied_to_diff   3
+  reader    record_fixed     none           2
+  reader    to_user_check    open           1
+  reader    to_user_check    passed         10
+  reader    to_user_report   accepted       3
+  reader    to_user_report   diff           1
+  maker     no_action        none           15
+  maker     no_action        tied_to_diff   2
+  maker     to_user_check    passed         5
+
+reactions — kind (who assigned it)
+  pass      by reading  1
+  pass      by user     1
+  pass_but  by user     1
+  class: {'decision_change': 1, 'none': 2}
+
+where tied causes land
+  X2 -> P-R20 (source producer; listed before use: yes)
+
+inner loop — fixed after reproduction 0, patched without reproduction 0, checks replaced 1, re-asks 1
+reports: {'dropped': 1, 'yes': 3}
+gaps: 0

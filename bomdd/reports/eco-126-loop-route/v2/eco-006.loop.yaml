@@ -1,0 +1,97 @@
+schema: loop-record/0.1-candidate
+eco: ECO-006
+product: MoviePad
+source_table_sha256: 67861a0945b7fa2afe5bbdcad9a3e22b1aac6914a38583faccb82a92a4dc8315
+limits: {rounds: 5}
+rounds:
+  - n: 1
+    set: {commit: b84cedd, jig: ce3520a98558e382, files: {MoviePad.dll: 5ae0b02f8f20b0c1}}
+    handed_at: "2026-11-13T21:19:50Z"
+    launches: unknown
+    reply: {words: 使いやすくなりました。}
+    repairs: {fixed_after_reproduction: 0, patched_without_reproduction: 0}
+    checks_replaced: 0
+    reasks: 0
+  - n: 2
+    set: {commit: 5ab2031, jig: none, files: {MoviePad.dll: 61eac4f1c8c7f446}}
+    handed_at: "2026-11-14T06:47:51Z"
+    launches: unknown
+    reply: {words: 全部合格}
+    repairs: {fixed_after_reproduction: 0, patched_without_reproduction: 0}
+    checks_replaced: 1
+    reasks: 1
+items:
+  - {id: F1, round: 1, source: reader, kind: finding, subject: F1, disposition: to_user_check, outcome: passed, about: S-T1P7, channel: "H5"}
+  - {id: F2, round: 1, source: reader, kind: finding, subject: S-N1, disposition: to_user_check, outcome: passed, about: S-VC24, channel: "H2"}
+  - {id: F3, round: 1, source: reader, kind: finding, subject: F3, disposition: to_user_report, outcome: accepted, about: P-R17, channel: "U-1"}
+  - {id: F4, round: 1, source: reader, kind: finding, subject: F4, disposition: to_user_report, outcome: accepted, about: P-R17, channel: "U-2"}
+  - {id: F5, round: 1, source: reader, kind: finding, subject: S-D1, disposition: no_action, outcome: none, about: P-R17}
+  - {id: F6, round: 1, source: reader, kind: finding, subject: F6, disposition: to_user_report, outcome: accepted, about: P-R17, channel: "U-3"}
+  - {id: F7, round: 1, source: reader, kind: finding, subject: S-D3, disposition: to_user_check, outcome: passed, about: P-R17, channel: "H3"}
+  - {id: F8, round: 1, source: reader, kind: finding, subject: S-D5, disposition: no_action, outcome: tied_to_diff, about: P-R20}
+  - {id: F9, round: 1, source: reader, kind: finding, subject: F9, disposition: to_user_report, outcome: diff, about: P-R20, channel: "U-4"}
+  - {id: F10, round: 1, source: reader, kind: finding, subject: S-D7, disposition: no_action, outcome: tied_to_diff, about: P-R20}
+  - {id: F11, round: 1, source: reader, kind: finding, subject: F11, disposition: to_user_check, outcome: passed, about: P-R20, channel: "H7"}
+  - {id: F12a, round: 1, source: reader, kind: finding, subject: F12a, disposition: no_action, outcome: none}
+  - {id: F12b, round: 1, source: reader, kind: finding, subject: F12b, disposition: to_user_check, outcome: passed, about: P-R18, channel: "H11"}
+  - {id: F13, round: 1, source: reader, kind: finding, subject: F13, disposition: no_action, outcome: none, about: P-R18}
+  - {id: F14, round: 1, source: reader, kind: finding, subject: F14, disposition: no_action, outcome: none, about: P-R17}
+  - {id: F15, round: 1, source: reader, kind: finding, subject: F15, disposition: no_action, outcome: tied_to_diff, about: P-R17}
+  - {id: F16, round: 1, source: reader, kind: finding, subject: S-D12, disposition: no_action, outcome: none}
+  - {id: F17, round: 1, source: reader, kind: finding, subject: F17, disposition: no_action, outcome: none}
+  - {id: F18, round: 1, source: reader, kind: finding, subject: S-D8, disposition: known_only, outcome: measured, about: S-T1P7}
+  - {id: F19, round: 1, source: reader, kind: finding, subject: F19, disposition: to_user_check, outcome: open, about: P-R19, channel: "H12"}
+  - {id: F20, round: 1, source: reader, kind: finding, subject: S-D13, disposition: no_action, outcome: none}
+  - {id: F21, round: 1, source: reader, kind: finding, subject: F21, disposition: to_user_check, outcome: passed, about: P-R21, channel: "H1"}
+  - {id: F22, round: 1, source: reader, kind: finding, subject: F22, disposition: measured_closed, outcome: measured}
+  - {id: G1, round: 2, source: reader, kind: finding, subject: G1, disposition: to_user_check, outcome: passed, about: P-R20r2, channel: "H4"}
+  - {id: G2, round: 2, source: reader, kind: finding, subject: G2, disposition: record_fixed, outcome: none, about: P-R20r2}
+  - {id: G3, round: 2, source: reader, kind: finding, subject: G3, disposition: no_action, outcome: none}
+  - {id: G4, round: 2, source: reader, kind: finding, subject: G4, disposition: no_action, outcome: none, about: P-R20r2}
+  - {id: G5, round: 2, source: reader, kind: finding, subject: S-D5, disposition: to_user_check, outcome: passed, about: P-R20r2, channel: "H4"}
+  - {id: G6, round: 2, source: reader, kind: finding, subject: G6, disposition: to_user_check, outcome: passed, about: P-R20r2, channel: "H1"}
+  - {id: G7, round: 2, source: reader, kind: finding, subject: G7, disposition: record_fixed, outcome: none}
+  - {id: G8, round: 2, source: reader, kind: finding, subject: G8, disposition: no_action, outcome: none}
+  - {id: G9, round: 2, source: reader, kind: finding, subject: G9, disposition: to_user_check, outcome: passed, about: P-R20r2, channel: "H4"}
+  - {id: G10, round: 2, source: reader, kind: finding, subject: G10, disposition: known_only, outcome: none}
+  - {id: T1-D1, round: 1, source: maker, kind: decision, subject: S-D1, disposition: no_action, outcome: none, about: P-R17}
+  - {id: T1-D2, round: 1, source: maker, kind: decision, subject: T1-D2, disposition: to_user_check, outcome: passed, about: P-R17, channel: "H7"}
+  - {id: T1-D3, round: 1, source: maker, kind: decision, subject: S-D3, disposition: to_user_check, outcome: passed, about: P-R17, channel: "H3"}
+  - {id: T1-D4, round: 1, source: maker, kind: decision, subject: T1-D4, disposition: no_action, outcome: none, about: P-R17}
+  - {id: T1-D5, round: 1, source: maker, kind: decision, subject: S-D5, disposition: no_action, outcome: tied_to_diff, about: P-R20}
+  - {id: T1-D6, round: 1, source: maker, kind: decision, subject: T1-D6, disposition: to_user_check, outcome: passed, about: P-R18, channel: "H5"}
+  - {id: T1-D7, round: 1, source: maker, kind: decision, subject: S-D7, disposition: no_action, outcome: tied_to_diff, about: P-R20}
+  - {id: T1-D8, round: 1, source: maker, kind: decision, subject: S-D8, disposition: no_action, outcome: none, about: P-R17}
+  - {id: T1-D9, round: 1, source: maker, kind: decision, subject: T1-D9, disposition: no_action, outcome: none}
+  - {id: T1-D10, round: 1, source: maker, kind: decision, subject: T1-D10, disposition: no_action, outcome: none}
+  - {id: T1-D11, round: 1, source: maker, kind: decision, subject: T1-D11, disposition: no_action, outcome: none}
+  - {id: T1-D12, round: 1, source: maker, kind: decision, subject: S-D12, disposition: no_action, outcome: none}
+  - {id: T1-D13, round: 1, source: maker, kind: decision, subject: S-D13, disposition: no_action, outcome: none}
+  - {id: T1-D14, round: 1, source: maker, kind: decision, subject: T1-D14, disposition: no_action, outcome: none}
+  - {id: T1-D15, round: 1, source: maker, kind: decision, subject: T1-D15, disposition: no_action, outcome: none}
+  - {id: T1-D16, round: 1, source: maker, kind: decision, subject: T1-D16, disposition: no_action, outcome: none}
+  - {id: T1-D17, round: 1, source: maker, kind: decision, subject: T1-D17, disposition: no_action, outcome: none}
+  - {id: T1-D18, round: 1, source: maker, kind: decision, subject: T1-D18, disposition: no_action, outcome: none}
+  - {id: T1-N1, round: 1, source: maker, kind: notice, subject: S-N1, disposition: to_user_check, outcome: passed, about: S-VC24, channel: "H2"}
+  - {id: T1-N2, round: 1, source: maker, kind: notice, subject: S-D3, disposition: to_user_check, outcome: passed, about: P-R17, channel: "H3"}
+  - {id: T2-D1, round: 2, source: maker, kind: decision, subject: T2-D1, disposition: no_action, outcome: none, about: P-R20r2}
+  - {id: T2-D2, round: 2, source: maker, kind: decision, subject: T2-D2, disposition: no_action, outcome: none, about: P-R20r2}
+  - {id: P-R17, round: 1, source: producer, kind: provisional, subject: P-R17, disposition: to_user_check, outcome: passed, channel: "H2,H3,H8"}
+  - {id: P-R18, round: 1, source: producer, kind: provisional, subject: P-R18, disposition: to_user_check, outcome: passed, channel: "H5,H11"}
+  - {id: P-R19, round: 1, source: producer, kind: provisional, subject: P-R19, disposition: to_user_check, outcome: passed, channel: "H4"}
+  - {id: P-R20, round: 1, source: producer, kind: provisional, subject: P-R20, disposition: to_user_check, outcome: diff, channel: "H2,H3,H4,H6"}
+  - {id: P-R21, round: 1, source: producer, kind: provisional, subject: P-R21, disposition: to_user_check, outcome: passed, channel: "H1"}
+  - {id: P-K1a, round: 1, source: producer, kind: ratification, subject: T1-D6, disposition: to_user_check, outcome: passed, channel: "H5"}
+  - {id: P-K1b, round: 1, source: producer, kind: ratification, subject: S-D8, disposition: no_action, outcome: none}
+  - {id: P-K1c, round: 1, source: producer, kind: ratification, subject: S-D3, disposition: to_user_check, outcome: passed, channel: "H3"}
+  - {id: P-R20r2, round: 2, source: producer, kind: provisional, subject: P-R20r2, disposition: to_user_check, outcome: passed, channel: "H4"}
+  - {id: P-R20r2fix, round: 2, source: producer, kind: ratification, subject: G2, disposition: no_action, outcome: none}
+reactions:
+  - {id: X1, round: 1, words: 使いやすくなりました。, kind: pass, kind_by: reading, class: none}
+  - {id: X2, round: 1, words: "H3. ほとんどの時間、ゆっくりが表示される。ゆっくり判定が厳しい可能性", kind: pass_but, kind_by: user, class: decision_change, lands_on: [P-R20], listed_before_use: yes}
+  - {id: X3, round: 2, words: 全部合格, kind: pass, kind_by: user, class: none}
+reports:
+  - {id: U-1, accepted: yes, named_in: "A: 受け入れる"}
+  - {id: U-2, accepted: yes, named_in: "A: 受け入れる"}
+  - {id: U-3, accepted: yes, named_in: "A: 受け入れる"}
+  - {id: U-4, accepted: dropped}
