@@ -125,7 +125,12 @@ MUT = [("a reaction with no kind", "kind: pass_but, ", "", "種類(kind)"),
        ("no budget", ', budget: "1.5M tokens for other sessions"', "", "費用の枠"),
        ("a round with no jig field", "jig: none, ", "", "治具の欄"),
        ("a reply with no launches field", "    launches: unknown\n    reply: {words: 全部合格}", "    reply: {words: 全部合格}", "launches が無い"),
-       ("an item whose round is not a round", "{id: P-R20, round: 1,", "{id: P-R20, round: 9,", "round が rounds に無い")]
+       ("an item whose round is not a round", "{id: P-R20, round: 1,", "{id: P-R20, round: 9,", "round が rounds に無い"),
+       # the second scoped repair (R3-01, R3-02): each of these three passed --check before it
+       ("an item whose round is written `true`", "{id: P-R20, round: 1,", "{id: P-R20, round: true,", "round が rounds に無い"),
+       ("a reaction whose round is written `1.0`", "{id: X1, round: 1,", "{id: X1, round: 1.0,", "round が rounds に無い"),
+       ("a reported item whose report row is not in `reports` (three other report rows are)", 'channel: "U-1"', 'channel: "U-9"',
+        "reports に無い")]
 for label, old, new, must in MUT:
     assert text.count(old) == 1, label
     m = out / "mutant.yaml"

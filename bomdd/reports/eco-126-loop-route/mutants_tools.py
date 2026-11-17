@@ -5,13 +5,17 @@
 For every entry one check is removed (or one value changed) in a copy of the tool, and the copy's --selftest is run.
 "killed" = the self-test went red; "SURVIVED" = it stayed green, so no arm depends on that check.
 
-The lists LC_REVIEW and HS_REVIEW are the reviewer's own (round 2 of the fresh-context review, 2026-11-17: 47 and 25
-entries, one of them a skip), kept verbatim except one entry whose source line was rewritten by the repair of KD-02.
-LC_NEW and HS_NEW are the checks added by the repair of 2026-11-17 (KD-02, KD-03), written by the producer.
+The lists LC_REVIEW and HS_REVIEW are the reviewer's own (round 2 of the fresh-context review, 2026-11-17: 47 entries
+for loop-count; 26 for handover-stamp, of which 25 are mutants and one is a note that is skipped). They are kept verbatim
+except the source text of two entries whose lines the repairs rewrote (HS "#11 … main/program membership", KD-02; LC "#4
+reaction round-in-rounds check", R3-01). LC_NEW and HS_NEW are the checks added by the first scoped repair (KD-02, KD-03);
+LC_NEW2 is the second (R3-01, R3-02). All three were written by the producer.
 An entry whose source text is not found exactly once is reported as SKIP and counted apart: it is not a kill.
 
-Run:  PYTHONIOENCODING=utf-8 python bomdd/reports/eco-126-loop-route/mutants_tools.py
-Exit: 0 = ran (survivors are reported, not failed) / 2 = could not run. Writes mutants-tools-output.txt beside itself.
+Run:  PYTHONIOENCODING=utf-8 python bomdd/reports/eco-126-loop-route/mutants_tools.py [loop-count.py | handover-stamp.py]
+Exit: 0 = ran (survivors are reported, not failed) / 2 = could not run.
+Writes mutants-tools-output.txt beside itself; with a tool named, only that tool's lists are run and the output goes to
+mutants-<tool>-output.txt (the file for both tools is left as it is).
 """
 import os
 import subprocess
@@ -46,7 +50,7 @@ LC_REVIEW = [
  ("#4 'fixed' dropped from channel rule", 'if d in ("asked", "fixed") and', 'if d in ("asked",) and'),
  ("#4 'asked' dropped from channel rule", 'if d in ("asked", "fixed") and', 'if d in ("fixed",) and'),
  ("#4 reaction words check removed", '        if not _text(x.get("words")):', "        if False:"),
- ("#4 reaction round-in-rounds check removed", '        if x.get("round") not in rounds_n:', "        if False and x.get('round') not in rounds_n:"),
+ ("#4 reaction round-in-rounds check removed", '        if _round(x.get("round")) not in round_numbers:', "        if False:"),
  ("#4 reply.words check removed", '            if not _text((rd.get("reply") or {}).get("words")):', "            if False:"),
  ("items: source check removed", '        if it.get("source") not in SOURCES:', "        if False:"),
  ("items: kind check removed", '        if it.get("kind") not in ITEM_KINDS:', "        if False:"),
@@ -79,14 +83,24 @@ LC_REVIEW = [
 LC_NEW = [
  ("new: limits.rounds missing check removed", '    if lim.get("rounds") is None:', "    if False:"),
  ("new: budget missing check removed", '    if not _text(lim.get("budget")):', "    if False:"),
- ("new: item round check removed", '        if it.get("round") is None or it.get("round") not in round_numbers:', "        if False:"),
+ ("new: item round check removed", '        if _round(it.get("round")) not in round_numbers:', "        if False:"),
  ("new: jig field check removed", '        if not _text(s.get("jig")):', "        if False:"),
  ("new: matching > count check removed", '        if isinstance(la, dict) and la["matching"] > la["count"]:', "        if False:"),
  ("new: launches missing (with a reply) check removed", "            if la is None:", "            if False:"),
- ("new: reply with no reaction row check removed", '            if not any(x.get("round") == n for x in doc["reactions"]):', "            if False:"),
- ("new: duplicate report id check removed", "        elif pid in report_ids:", "        elif False:"),
+ ("new: reply with no reaction row check removed", '            if _round(n) is None or not any(_round(x.get("round")) == n for x in doc["reactions"]):', "            if False:"),
+ ("new: duplicate report id check removed", "        elif pid in seen_reports:", "        elif False:"),
  ("new: limits.rounds type check removed", "    if lr is not None and (isinstance(lr, bool) or not isinstance(lr, int) or lr < 1):", "    if False:"),
  ("new: launches count/matching type check removed", "                if isinstance(v, bool) or not isinstance(v, int) or v < 0:", "                if False:"),
+]
+LC_NEW2 = [
+ ("r2: the round reading takes any number (true and 1.0 pass)", "    return v if isinstance(v, int) and not isinstance(v, bool) else None", "    return v if isinstance(v, (int, float)) else None"),
+ ("r2: the round reading excludes bool only (1.0 passes)", "    return v if isinstance(v, int) and not isinstance(v, bool) else None", "    return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None"),
+ ("r2: item round compared loosely", '        if _round(it.get("round")) not in round_numbers:', '        if it.get("round") not in round_numbers:'),
+ ("r2: reaction round compared loosely", '        if _round(x.get("round")) not in round_numbers:', '        if x.get("round") not in round_numbers:'),
+ ("r2: per-round reaction match compared loosely", 'any(_round(x.get("round")) == n for x in doc["reactions"])', 'any(x.get("round") == n for x in doc["reactions"])'),
+ ("r2: reported item with no channel check removed", "            if not ch:", "            if False:"),
+ ("r2: reported item's channel-in-reports check removed", "            elif ch not in report_ids:", "            elif False:"),
+ ("r2: any report row satisfies a reported item (the form excluded by the user)", "            elif ch not in report_ids:", "            elif not report_ids:"),
 ]
 HS_REVIEW = [
  ("control: exit 3 for zero launches removed", "    if not mine:\n        print(\"unknown", "    if False:\n        print(\"unknown"),
@@ -154,7 +168,11 @@ def run_list(tool, title, entries, tmp, lines):
 
 def main():
     lines = []
-    for tool in ("loop-count.py", "handover-stamp.py"):
+    only = sys.argv[1] if len(sys.argv) > 1 else None
+    if only not in (None, "loop-count.py", "handover-stamp.py"):
+        print("usage: mutants_tools.py [loop-count.py | handover-stamp.py]")
+        return 2
+    for tool in ([only] if only else ["loop-count.py", "handover-stamp.py"]):
         base = subprocess.run([sys.executable, str(TOOLS / tool), "--selftest"], capture_output=True, text=True,
                               encoding="utf-8", errors="replace", env=ENV)
         lines.append(f"BASE     {tool} --selftest: exit {base.returncode} — {(base.stdout or '').strip().splitlines()[-1][:120]}")
@@ -162,11 +180,15 @@ def main():
         if base.returncode != 0:
             return 2
     with tempfile.TemporaryDirectory(prefix="bomdd-mut-") as tmp:
-        run_list("loop-count.py", "reviewer", LC_REVIEW, tmp, lines)
-        run_list("loop-count.py", "repair", LC_NEW, tmp, lines)
-        run_list("handover-stamp.py", "reviewer", HS_REVIEW, tmp, lines)
-        run_list("handover-stamp.py", "repair", HS_NEW, tmp, lines)
-    (HERE / "mutants-tools-output.txt").write_bytes(("\n".join(lines) + "\n").encode("utf-8"))
+        if only in (None, "loop-count.py"):
+            run_list("loop-count.py", "reviewer", LC_REVIEW, tmp, lines)
+            run_list("loop-count.py", "repair", LC_NEW, tmp, lines)
+            run_list("loop-count.py", "repair 2", LC_NEW2, tmp, lines)
+        if only in (None, "handover-stamp.py"):
+            run_list("handover-stamp.py", "reviewer", HS_REVIEW, tmp, lines)
+            run_list("handover-stamp.py", "repair", HS_NEW, tmp, lines)
+    name = "mutants-tools-output.txt" if only is None else "mutants-" + only.replace(".py", "") + "-output.txt"
+    (HERE / name).write_bytes(("\n".join(lines) + "\n").encode("utf-8"))
     return 0
 
 

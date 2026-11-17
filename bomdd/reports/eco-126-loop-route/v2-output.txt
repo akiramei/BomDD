@@ -15,6 +15,9 @@ PASS known-bad: no budget — exit 1, gaps 1
 PASS known-bad: a round with no jig field — exit 1, gaps 1
 PASS known-bad: a reply with no launches field — exit 1, gaps 1
 PASS known-bad: an item whose round is not a round — exit 1, gaps 1
+PASS known-bad: an item whose round is written `true` — exit 1, gaps 1
+PASS known-bad: a reaction whose round is written `1.0` — exit 1, gaps 1
+PASS known-bad: a reported item whose report row is not in `reports` (three other report rows are) — exit 1, gaps 1
 note: the 65 item rows come from the table. The rounds, the three reactions and the four reports are entered by hand in this
       script from MoviePad's order; the lines about them show that the tool reports what was entered, not that the entry is right.
 V2 (table sha256 67861a09…a4dc8315): all as expected

@@ -41,8 +41,8 @@ description: 周で回す変更(change-management.md §3.5)の、周の止まり
   反応として扱わない。どの版で使ったかを人に伺う(伺ったら、周の記録の `reasks` に 1 を足す)。
 - exit 3 — 起動口からの起動が無い(**不明**。`{count: 0, matching: 0}`)。反応の行は書くが、その返事を合格の根拠にしない:
   どの版で使ったかを人に伺う(`reasks` に 1 を足す)。区分(`class`)の語は増やさない — 不明は `launches` の欄が示す。
-- exit 2 — 測れない(起動口を作っていない・`handover.json` や跡が壊れている)。写せる record line は無いので
-  `launches: unknown` と書き、exit 3 と同じに扱う。
+- exit 2 — 測れない(起動口を作っていない・`handover.json` の形が違う・跡のファイルが読めない)。写せる record line は無いので
+  `launches: unknown` と書き、exit 3 と同じに扱う。(跡の中に読めない行があるときは、exit 2 ではなく exit 1。)
 
 ## 2. 返事の形
 
@@ -101,15 +101,15 @@ description: 周で回す変更(change-management.md §3.5)の、周の止まり
 
 状態が 3 つの製品(staged → implemented → applied)では、ここで `implemented` への遷移の commit(fix の trailer つき)を置く
 (状態が 2 つの製品では要らない — change-management.md §4)。確認項目から周へ戻れるのは、`implemented` が profile の
-`open_states` に入っている製品だけ(入っていなければ、戻りの周の保護パスの変更を検査器が E01 で拒む。戻っても status は
-`implemented` のまま — BomDD ECO-126 の V4 で、両方を足場の製品で実測)。
+`open_states` に入っている製品だけ(入っていれば戻りの周の候補の commit を検査器が通し、入っていなければ E01 で拒む —
+BomDD ECO-126 の V4 で、足場の製品で実測。戻りの周で status は動かさない)。
 
 そのうえで、**確認項目(操作・見るもの・由来)**と未解決の報告の一覧を渡して止まる。**このとき**、register の status 注記を
 「golden 待ち」にする(確認項目の返事を待つあいだの印。status そのものは変えない)。確認項目の文は、製造側の決定から
 写さず、**人が読める時に何が見えるか**で書く(動き出し・止まり際・中くらいの速さを見込む)。
 
 周の記録の行き先(`disposition`)との対応: 確認項目か単独の裁定に入れた行 = `to_user_check` / 未解決の報告に入れた行 =
-`to_user_report`(`reports` にも 1 行)/ 未確認の細部に入れた行 = `no_action`。ほかの語と、`kind`・`outcome` の語の意味は、
+`to_user_report`(`channel` に、`reports` のその行の id を書く)/ 未確認の細部に入れた行 = `no_action`。ほかの語と、`kind`・`outcome` の語の意味は、
 `{{METHOD}}/method/tools/loop-count.py` の冒頭「語の意味」にある。
 
 振り分けで「人がすることは無い」に回した指摘が、後の反応と結び付いたら、周の記録の行に `outcome: tied_to_diff` と書く

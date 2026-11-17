@@ -29,18 +29,18 @@
 #       reasks: <n>                            # 返事を聞き直した回数
 #   items:                                     # 決めたこと・見つけたこと。1 行 1 件
 #     - id: <一意>
-#       round: <n>                             # rounds にある番号(必須)
+#       round: <n>                             # rounds にある番号(必須・整数。true / yes / 1.0 は番号として受けない)
 #       source: producer | maker | reader      # 周を回す側 / 製造の担当 / 別の文脈の読み手
 #       kind: provisional | ratification | decision | notice | finding | preread
 #       subject: <同じ中身の行をまとめる名前(省けば id)>
 #       about: <どの決定についての行か(任意)>
 #       disposition: to_user_check | to_user_report | asked | no_action | not_asked | fixed | record_fixed | known_only | measured_closed
-#       channel: "<確認項目・裁定・図面の行の番号>"   # asked と fixed には必須
+#       channel: "<確認項目・裁定・図面の行の番号>"   # asked と fixed には必須。to_user_report にも必須: reports の行の id を 1 つ
 #       why: "<理由>"                           # not_asked には必須
 #       outcome: passed | accepted | diff | tied_to_diff | open | measured | none   # 後で分かったこと(任意)
 #   reactions:                                 # 返事 1 つにつき 1 行以上。違いが無い返事も 1 行(class: none)
 #     - id: <一意>
-#       round: <n>                             # rounds にある番号
+#       round: <n>                             # rounds にある番号(整数。true / yes / 1.0 は番号として受けない)
 #       words: "<原文>"
 #       kind: pass | pass_but | fail           # 合格 / 合格だが直したい / 不合格(目的に届いていない)
 #       kind_by: user | reading                # 種類を付けたのは人か、製造側の読みか
@@ -60,7 +60,7 @@
 #                finding       別の文脈の読みの指摘
 #                preread       作る前の読みが返した行
 #   disposition  to_user_check   確認項目か、単独の裁定に入れた(人に「見てください」と渡した)
-#                to_user_report  未解決の報告に入れた(人に「受け入れるかを名指してください」と渡した。reports にも 1 行)
+#                to_user_report  未解決の報告に入れた(人に「受け入れるかを名指してください」と渡した。channel に、reports のその行の id)
 #                asked           作る前に、人に伺った(channel = 伺った裁定の番号)
 #                not_asked       作る前の読みの行を、伺わないと決めた(why = 理由)
 #                fixed           作る前に、その行のとおりに図面を直した(channel = 直した図面の行の番号)。人には渡していない
@@ -83,10 +83,12 @@
 # --check が**見ない**もの(宣言 — 見ないことは許可ではない):
 #   - outcome の語彙(任意の欄。語彙の外の語は、段 3 の表に別の行として出る)/ subject・about の中身
 #   - reply の無い周に launches が無いこと(返事が来るまでは省いてよい)
+#   - eco の行が無いこと
 # 既知の欠陥: UTF-8 でない記録は、[input](exit 2)ではなく例外で落ちる(exit 1)。
 # selftest の腕が覆う範囲(BomDD ECO-126 の証拠 mutants_tools.py・2026-11-17 に実測): 検査を 1 つずつ外した写しのうち、
-#   別の文脈の読みが作った 47 と、後から足した検査の 10 のすべてで、selftest が赤になった。覆っていないと分かっているもの:
-#   上の「見ないもの」と、UTF-8 でない記録。写しの一覧に無い検査については、何も言えない。
+#   別の文脈の読みが作った 47 と、後から足した検査の 18 のすべてで、selftest が赤になった。覆っていないと分かっているもの:
+#   上の「見ないもの」と、UTF-8 でない記録。写しの一覧に無い検査については、何も言えない(同じ読みの別の回が自分で作った
+#   18 の写しでは、11 で selftest が緑のままだった — 数の下限や形の検査など)。
 #
 # これは**測る**道具で、止めない。記録が無くても、製品の検査器は変更を止めない(BomDD ECO-126 の宣言)。
 # 行き先や種類を書くのは製造側である — この道具は、書かれたものを数え、欠けを見せるだけで、正しさは測らない
@@ -139,6 +141,11 @@ def _yn(v):
 
 def _text(v):
     return str(v).strip() if isinstance(v, SCALAR) and not isinstance(v, bool) else ""
+
+
+def _round(v):
+    """周の番号は整数だけ。YAML の true / yes や 1.0 は Python では 1 と等しいので、型で分ける(番号として受けない)。"""
+    return v if isinstance(v, int) and not isinstance(v, bool) else None
 
 
 def _count(v, where):
@@ -219,7 +226,8 @@ def gaps(doc):
         out.append("limits: 周の上限(limits.rounds)が無い")
     if not _text(lim.get("budget")):
         out.append("limits: 費用の枠(limits.budget)が無い")
-    round_numbers = [r.get("n") for r in doc["rounds"]]
+    round_numbers = [n for n in (_round(r.get("n")) for r in doc["rounds"]) if n is not None]
+    report_ids = {_text(p.get("id")) for p in doc["reports"]} - {""}
     seen = set()
     for it in doc["items"]:
         iid = _text(it.get("id"))
@@ -229,7 +237,7 @@ def gaps(doc):
         if iid in seen:
             out.append(f"items {iid}: id が重複している")
         seen.add(iid)
-        if it.get("round") is None or it.get("round") not in round_numbers:
+        if _round(it.get("round")) not in round_numbers:
             out.append(f"items {iid}: round が rounds に無い({it.get('round')!r})")
         if it.get("source") not in SOURCES:
             out.append(f"items {iid}: source が {SOURCES} のどれでもない")
@@ -244,6 +252,12 @@ def gaps(doc):
             out.append(f"items {iid}: {d} なのに、伺った裁定・直した図面の行の番号(channel)が無い")
         if d == "not_asked" and not _text(it.get("why")):
             out.append(f"items {iid}: not_asked なのに理由(why)が無い")
+        if d == "to_user_report":   # 未解決の報告に入れた行は、reports のその 1 行を id で指す
+            ch = _text(it.get("channel"))
+            if not ch:
+                out.append(f"items {iid}: to_user_report なのに、報告の番号(channel = reports の id)が無い")
+            elif ch not in report_ids:
+                out.append(f"items {iid}: channel の {ch} が reports に無い(未解決の報告に入れた行は、reports の 1 行を指す)")
     rounds_n = []
     for r in doc["rounds"]:
         n = r.get("n")
@@ -266,7 +280,7 @@ def gaps(doc):
         if _text((r.get("reply") or {}).get("words")):   # 返事のある周
             if la is None:
                 out.append(f"rounds {n}: 返事があるのに launches が無い(handover-stamp check の record line か unknown)")
-            if not any(x.get("round") == n for x in doc["reactions"]):
+            if _round(n) is None or not any(_round(x.get("round")) == n for x in doc["reactions"]):
                 out.append(f"rounds {n}: 返事があるのに、反応の行が 1 つも無い(違いの無い返事も 1 行 — class: none)")
     rx_ids = set()
     for x in doc["reactions"]:
@@ -277,10 +291,10 @@ def gaps(doc):
         if xid in rx_ids:
             out.append(f"reactions {xid}: id が重複している")
         rx_ids.add(xid)
-        if x.get("round") not in rounds_n:
+        if _round(x.get("round")) not in round_numbers:
             out.append(f"reactions {xid}: round が rounds に無い({x.get('round')!r})")
         else:
-            rd = next(r for r in doc["rounds"] if r.get("n") == x.get("round"))
+            rd = next(r for r in doc["rounds"] if _round(r.get("n")) == x.get("round"))
             if not _text((rd.get("reply") or {}).get("words")):
                 out.append(f"reactions {xid}: 周 {x.get('round')} に返事の原文(reply.words)が無い")
         if not _text(x.get("words")):
@@ -296,14 +310,14 @@ def gaps(doc):
                 out.append(f"reactions {xid}: lands_on の {t} が items に無い")
         if (x.get("lands_on") or []) and _yn(x.get("listed_before_use")) not in LISTED:
             out.append(f"reactions {xid}: 行き着いた先が、使う前に載っていたか(listed_before_use)が無い")
-    report_ids = set()
+    seen_reports = set()
     for p in doc["reports"]:
         pid = _text(p.get("id"))
         if not pid:
             out.append("reports: id のない行がある")
-        elif pid in report_ids:
+        elif pid in seen_reports:
             out.append(f"reports {pid}: id が重複している")
-        report_ids.add(pid)
+        seen_reports.add(pid)
         acc = _yn(p.get("accepted"))
         if acc not in ACCEPTED:
             out.append(f"reports {pid}: accepted が yes / no / dropped のどれでもない({p.get('accepted')!r})")
@@ -406,7 +420,7 @@ items:
   - {{id: P-1, round: 1, source: producer, kind: provisional, disposition: to_user_check, channel: H1, outcome: diff}}
   - {{id: F-1, round: 1, source: reader, kind: finding, disposition: no_action, outcome: none}}
   - {{id: F-2, round: 1, source: maker, kind: notice, disposition: fixed, channel: D-12}}
-  - {{id: M-1, round: 1, source: maker, kind: decision, disposition: to_user_report, outcome: accepted}}
+  - {{id: M-1, round: 1, source: maker, kind: decision, disposition: to_user_report, channel: U-1, outcome: accepted}}
   - {{id: Q-1, round: 1, source: reader, kind: preread, disposition: asked, channel: UQ-1, outcome: passed}}
   - {{id: Q-2, round: 1, source: reader, kind: preread, disposition: not_asked, why: already ruled}}
 reactions:
@@ -480,11 +494,28 @@ _ARMS = (
     ("known-bad: 行の種類が語彙の外", "kind: finding, disposition: no_action", "kind: thing, disposition: no_action", 1, "items F-1: kind"),
     ("known-bad: 行の id が重複", "id: F-1, round: 1, ", "id: P-1, round: 1, ", 1, "items P-1: id が重複"),
     ("known-bad: id の無い行", "id: F-1, round: 1, ", "round: 1, ", 1, "items: id のない行"),
-    ("known-bad: id の無い報告", "  - {id: U-1, accepted: yes", "  - {accepted: yes", 1, "reports: id のない行"),
+    ("known-bad: id の無い報告", _REPORT, _REPORT + "  - {accepted: dropped}\n", 1, "reports: id のない行"),
     ("known-bad(形): 1 つの値でない欄", "words: w, ", "words: [w], ", 2, "[input]"),
     ("known-bad(形): launches が数", _LAUNCHES, "    launches: 3\n", 2, "[input]"),
     ("known-bad(形): files が mapping でない", "files: {app.dll: 00ff}", "files: [app.dll]", 2, "[input]"),
     ("known-bad(形): 行が mapping でない", _REPORT, _REPORT + "  - just a string\n", 2, "[input]"),
+    # --- ECO-126 の 2 回目の直し(2026-11-17・確認の読みの R3-01・R3-02。どれも、直す前の道具では exit 0 だった入力)---
+    ("known-bad: items の round が真偽値(true)", "id: F-1, round: 1, ", "id: F-1, round: true, ", 1, "items F-1: round が rounds に無い"),
+    ("known-bad: items の round が真偽値(yes)", "id: F-1, round: 1, ", "id: F-1, round: yes, ", 1, "items F-1: round が rounds に無い"),
+    ("known-bad: items の round が小数(1.0)", "id: F-1, round: 1, ", "id: F-1, round: 1.0, ", 1, "items F-1: round が rounds に無い"),
+    ("known-bad: 反応の round が真偽値(true)", _REACTION2, _REACTION2.replace("round: 1", "round: true"), 1,
+     "reactions X2: round が rounds に無い"),
+    ("known-bad: 反応の round が真偽値(yes)", _REACTION2, _REACTION2.replace("round: 1", "round: yes"), 1,
+     "reactions X2: round が rounds に無い"),
+    ("known-bad: 反応の round が小数(1.0)", _REACTION2, _REACTION2.replace("round: 1", "round: 1.0"), 1,
+     "reactions X2: round が rounds に無い"),
+    ("known-bad: 返事のある周の、ただ 1 つの反応の round が真偽値", "  - " + _REACTION + "\n" + _REACTION2,
+     "  - " + _REACTION.replace("round: 1", "round: true") + "\n", 1, "反応の行が 1 つも無い", 2),
+    ("known-bad: to_user_report なのに報告の番号が無い", "disposition: to_user_report, channel: U-1, ",
+     "disposition: to_user_report, ", 1, "items M-1: to_user_report なのに"),
+    ("known-bad: to_user_report の channel が、reports に無い番号(別の報告の行はある)", "disposition: to_user_report, channel: U-1, ",
+     "disposition: to_user_report, channel: U-9, ", 1, "items M-1: channel の U-9 が reports に無い"),
+    ("known-bad: to_user_report の行があるのに reports が空", _REPORT, "", 1, "items M-1: channel の U-1 が reports に無い"),
     ("known-good: 周の上限を超えると [over] が出る", "items:\n", _ROUND2 + _ROUND2.replace("n: 2", "n: 3").replace("def5678", "0a1b2c3")
      + _ROUND2.replace("n: 2", "n: 4").replace("def5678", "4d5e6f7") + "items:\n", 0, "[over] 周の上限 3 を超えている(4)"),
 )

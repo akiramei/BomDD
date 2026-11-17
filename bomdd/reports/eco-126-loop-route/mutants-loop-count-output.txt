@@ -1,0 +1,69 @@
+BASE     loop-count.py --selftest: exit 0 — selftest PASS(64 腕: known-bad 59・known-good 5)
+killed   [reviewer] control: accepted vocabulary check removed   <- selftest FAIL(計器を先に疑う): known-bad: accepted の語彙の外: 期待 exit 1・実測 0
+killed   [reviewer] control: named_in check removed   <- selftest FAIL(計器を先に疑う): known-bad: 名指しの無い受け入れ: 期待 exit 1・実測 0
+killed   [reviewer] #28 class check removed   <- selftest FAIL(計器を先に疑う): known-bad: 区分の無い反応: 期待 exit 1・実測 0
+killed   [reviewer] #28 handed_at check removed   <- selftest FAIL(計器を先に疑う): known-bad: 渡した時刻の無い周: 期待 exit 1・実測 0
+killed   [reviewer] #28 set.commit part removed   <- selftest FAIL(計器を先に疑う): known-bad: 版の組の無い周(commit なし): 期待 exit 1・実測 0
+killed   [reviewer] #3 empty-hash part removed   <- selftest FAIL(計器を先に疑う): known-bad: 版の組の無い周(sha256 が空): 期待 exit 1・実測 0
+killed   [reviewer] #28 disposition check removed   <- selftest FAIL(計器を先に疑う): known-bad: 行き先の無い行: 期待 exit 1・実測 0
+killed   [reviewer] #28 lands_on existence check removed   <- selftest FAIL(計器を先に疑う): known-bad: items に無い行き先: 期待 exit 1・実測 0
+killed   [reviewer] #28 listed_before_use check removed   <- selftest FAIL(計器を先に疑う): known-bad: 使う前に載っていたかが無い: 期待 exit 1・実測 0
+killed   [reviewer] #28 preread rule removed   <- selftest FAIL(計器を先に疑う): known-bad: 振り分けていない作る前の読み: 期待 exit 1・実測 0
+killed   [reviewer] #1 no-round gap removed   <- selftest FAIL(計器を先に疑う): known-bad: 周が 1 つも無い(空の記録): 期待 exit 1・実測 0
+killed   [reviewer] #4 reaction id check removed   <- selftest FAIL(計器を先に疑う): known-bad: id の無い反応: 期待 exit 1・実測 0
+killed   [reviewer] #4 duplicate reaction id check removed   <- selftest FAIL(計器を先に疑う): known-bad: 反応の id が重複: 期待 exit 1・実測 0
+killed   [reviewer] #4 duplicate round n check removed   <- selftest FAIL(計器を先に疑う): known-bad: 周の番号が重複: 期待 exit 1・実測 0
+killed   [reviewer] #4 round n integer check removed   <- selftest FAIL(計器を先に疑う): known-bad: 周の番号が整数でない: その理由で落ちていない(語 '番号(n)が整数でない')
+killed   [reviewer] #4 'fixed' dropped from channel rule   <- selftest FAIL(計器を先に疑う): known-bad: fixed なのに直した行の番号が無い: 期待 exit 1・実測 0
+killed   [reviewer] #4 'asked' dropped from channel rule   <- selftest FAIL(計器を先に疑う): known-bad: asked なのに裁定の番号が無い: 期待 exit 1・実測 0
+killed   [reviewer] #4 reaction words check removed   <- selftest FAIL(計器を先に疑う): known-bad: 原文の無い反応: 期待 exit 1・実測 0
+killed   [reviewer] #4 reaction round-in-rounds check removed   <- selftest FAIL(計器を先に疑う): known-bad: 周に無い番号の反応: その理由で落ちていない(語 'round が rounds に無い') / known-bad: 周の番号が整数でない: その理由で落ちていない(語 '番号(n)が整数でない') / known-bad: 反
+killed   [reviewer] #4 reply.words check removed   <- selftest FAIL(計器を先に疑う): known-bad: 返事の原文の無い周に反応がある: 期待 exit 1・実測 0
+killed   [reviewer] items: source check removed   <- selftest FAIL(計器を先に疑う): known-bad: 出どころが語彙の外: 期待 exit 1・実測 0
+killed   [reviewer] items: kind check removed   <- selftest FAIL(計器を先に疑う): known-bad: 行の種類が語彙の外: 期待 exit 1・実測 0
+killed   [reviewer] items: duplicate id check removed   <- selftest FAIL(計器を先に疑う): known-bad: 行の id が重複: 期待 exit 1・実測 0
+killed   [reviewer] items: id missing check removed   <- selftest FAIL(計器を先に疑う): known-bad: id の無い行: 期待 exit 1・実測 0
+killed   [reviewer] reports: id check removed   <- selftest FAIL(計器を先に疑う): known-bad: id の無い報告: 期待 exit 1・実測 0
+killed   [reviewer] not_asked why check removed   <- selftest FAIL(計器を先に疑う): known-bad: not_asked なのに理由が無い: 期待 exit 1・実測 0
+killed   [reviewer] kind check removed   <- selftest FAIL(計器を先に疑う): known-bad: 種類の無い反応: 期待 exit 1・実測 0
+killed   [reviewer] kind_by check removed   <- selftest FAIL(計器を先に疑う): known-bad: 種類を誰が付けたかが無い: 期待 exit 1・実測 0
+killed   [reviewer] tally: patched_without_reproduction not summed   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ['fixed after reproduction 1, patched without reproduction 2, checks replaced 3, re-asks 4']
+killed   [reviewer] tally: fixed_after_reproduction not summed   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ['fixed after reproduction 1, patched without reproduction 2, checks replaced 3, re-asks 4']
+killed   [reviewer] tally: checks_replaced not summed   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ['fixed after reproduction 1, patched without reproduction 2, checks replaced 3, re-asks 4']
+killed   [reviewer] tally: reasks not summed   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ['fixed after reproduction 1, patched without reproduction 2, checks replaced 3, re-asks 4']
+killed   [reviewer] tally: to_user_report dropped from ASKED   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ['asked of the user, maker: 1 / 2']
+killed   [reviewer] tally: to_user_check dropped from ASKED   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ['asked of the user, producer: 1 / 1']
+killed   [reviewer] tally: 'asked' dropped from ASKED   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ['asked of the user, reader: 1 / 3']
+killed   [reviewer] tally: reaction kinds counted by kind only (kind_by fixed to user)   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ['pass      by reading  1']
+killed   [reviewer] tally: class counter emptied   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ["  class: {'decision_change': 1, 'none': 1}"]
+killed   [reviewer] tally: reports counter emptied   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ["reports: {'yes': 1}"]
+killed   [reviewer] tally: preread counter emptied   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ["read before manufacture — rows by disposition: {'asked': 1, 'not_asked': 1}"]
+killed   [reviewer] tally: stage-3 outcome emptied   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ['  producer  to_user_check    diff           1', '  maker     to_user_report   accepted       1']
+killed   [reviewer] show: [over] line removed   <- selftest FAIL(計器を先に疑う): known-good: 周の上限を超えると [over] が出る: その理由で落ちていない(語 '[over] 周の上限 3 を超えている(4)')
+killed   [reviewer] show: budget not shown   <- selftest FAIL(計器を先に疑う): known-good: 集計の行が出ていない ['loop-count: ECO-ST — rounds 1 / limit 3 / budget 1.5M tokens']
+killed   [reviewer] shape: scalar-field type check removed   <- selftest FAIL(計器を先に疑う): known-bad(形): 1 つの値でない欄: 期待 exit 2・実測 1
+killed   [reviewer] shape: launches check removed   <- selftest FAIL(計器を先に疑う): known-bad(形): launches が数: 期待 exit 2・実測 0
+killed   [reviewer] shape: files mapping check removed   <- selftest FAIL(計器を先に疑う): known-bad(形): files が mapping でない: 期待 exit 2・実測 1
+killed   [reviewer] shape: list-element mapping check removed   <- selftest FAIL(計器を先に疑う): known-bad(形): 行が mapping でない: 期待 exit 2・実測 1
+killed   [reviewer] exit: --check never exits 1   <- selftest FAIL(計器を先に疑う): known-bad: 種類の無い反応: 期待 exit 1・実測 0 / known-bad: 種類を誰が付けたかが無い: 期待 exit 1・実測 0 / known-bad: 区分の無い反応: 期待 exit 1・実測 0 / known-bad:
+TOTAL    [reviewer] loop-count.py: killed 47 / survived 0 / skipped 0 of 47
+killed   [repair] new: limits.rounds missing check removed   <- selftest FAIL(計器を先に疑う): known-bad: limits が無い: 欠けが 2 件でない(1) / known-bad: 周の上限が無い: 期待 exit 1・実測 0
+killed   [repair] new: budget missing check removed   <- selftest FAIL(計器を先に疑う): known-bad: limits が無い: 欠けが 2 件でない(1) / known-bad: 費用の枠が無い: 期待 exit 1・実測 0
+killed   [repair] new: item round check removed   <- selftest FAIL(計器を先に疑う): known-bad: items の round が rounds に無い: 期待 exit 1・実測 0 / known-bad: items に round が無い: 期待 exit 1・実測 0 / known-bad: items の roun
+killed   [repair] new: jig field check removed   <- selftest FAIL(計器を先に疑う): known-bad: 治具の欄が無い: 期待 exit 1・実測 0
+killed   [repair] new: matching > count check removed   <- selftest FAIL(計器を先に疑う): known-bad: launches の matching が count より大きい: 期待 exit 1・実測 0
+killed   [repair] new: launches missing (with a reply) check removed   <- selftest FAIL(計器を先に疑う): known-bad: 返事があるのに launches が無い: 期待 exit 1・実測 0
+killed   [repair] new: reply with no reaction row check removed   <- selftest FAIL(計器を先に疑う): known-bad: 返事があるのに反応の行が無い: 期待 exit 1・実測 0 / known-bad: 返事のある周の、ただ 1 つの反応の round が真偽値: その理由で落ちていない(語 '反応の行が 1 つも無い')
+killed   [repair] new: duplicate report id check removed   <- selftest FAIL(計器を先に疑う): known-bad: reports の id が重複: 期待 exit 1・実測 0
+killed   [repair] new: limits.rounds type check removed   <- selftest FAIL(計器を先に疑う): known-bad(形): 周の上限が数でない: 期待 exit 2・実測 0
+killed   [repair] new: launches count/matching type check removed   <- selftest FAIL(計器を先に疑う): known-bad(形): launches の count が数でない: 期待 exit 2・実測 1 / known-bad(形): launches に matching が無い: 期待 exit 2・実測 1
+TOTAL    [repair] loop-count.py: killed 10 / survived 0 / skipped 0 of 10
+killed   [repair 2] r2: the round reading takes any number (true and 1.0 pass)   <- selftest FAIL(計器を先に疑う): known-bad: items の round が真偽値(true): 期待 exit 1・実測 0 / known-bad: items の round が真偽値(yes): 期待 exit 1・実測 0 / known-bad: items の 
+killed   [repair 2] r2: the round reading excludes bool only (1.0 passes)   <- selftest FAIL(計器を先に疑う): known-bad: items の round が小数(1.0): 期待 exit 1・実測 0 / known-bad: 反応の round が小数(1.0): 期待 exit 1・実測 0
+killed   [repair 2] r2: item round compared loosely   <- selftest FAIL(計器を先に疑う): known-bad: items の round が真偽値(true): 期待 exit 1・実測 0 / known-bad: items の round が真偽値(yes): 期待 exit 1・実測 0 / known-bad: items の 
+killed   [repair 2] r2: reaction round compared loosely   <- selftest FAIL(計器を先に疑う): known-bad: 反応の round が真偽値(true): 期待 exit 1・実測 0 / known-bad: 反応の round が真偽値(yes): 期待 exit 1・実測 0 / known-bad: 反応の round が小数(1.
+killed   [repair 2] r2: per-round reaction match compared loosely   <- selftest FAIL(計器を先に疑う): known-bad: 返事のある周の、ただ 1 つの反応の round が真偽値: その理由で落ちていない(語 '反応の行が 1 つも無い')
+killed   [repair 2] r2: reported item with no channel check removed   <- selftest FAIL(計器を先に疑う): known-bad: to_user_report なのに報告の番号が無い: その理由で落ちていない(語 'items M-1: to_user_report なのに')
+killed   [repair 2] r2: reported item's channel-in-reports check removed   <- selftest FAIL(計器を先に疑う): known-bad: to_user_report の channel が、reports に無い番号(別の報告の行はある): 期待 exit 1・実測 0 / known-bad: to_user_report の行があるのに reports が空:
+killed   [repair 2] r2: any report row satisfies a reported item (the form excluded by the user)   <- selftest FAIL(計器を先に疑う): known-bad: to_user_report の channel が、reports に無い番号(別の報告の行はある): 期待 exit 1・実測 0
+TOTAL    [repair 2] loop-count.py: killed 8 / survived 0 / skipped 0 of 8
