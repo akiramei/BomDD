@@ -452,3 +452,224 @@ sessions use the record and the launcher. These are measured on the first three 
   - **Q11 asked.** GU7 was measured on separate classes: ledgers with no bundle, with a bundle, with single entries open, ruled
     by the user, ruled by another, with malformed fields; the two new tools on well-formed records, records with gaps and
     malformed input, and for the last class the answer is only partly sound (KD-01, KD-02).
+
+## 6. Scoped repair on the user's "B" (2026-11-17; status stays `implemented`, not closed)
+
+**The instruction.** To the acceptance request of section 5 the user answered "B", limited to four items, in these words:
+
+> B。ただし、今回は次の範囲に限定してください。
+> 1. GU7 の最後の修正3件について、修正確認と回帰に範囲を絞った独立検査を、通常の結果回収経路で1回行ってください。
+> 2. KD-02・03 と、手順どおりに記録・受入できない KD-05〜08 を直してください。KD-10 は、その修正と主要な誤合格を検出する自己テストを補ってください。全変異への対応までは求めません。
+> 3. V2 の照合に必要な固定データを証拠に含め、リポジトリから再現できるようにしてください。V4 は、検査対象の終了コードが適切に合否へ反映されていることを確認してください。
+> 4. 3状態の製品で周へ戻る経路は、実測するか、今回の適用範囲から明示的に外してください。
+>
+> 追加確認は、修正箇所と対応する回帰に絞った1回とします。新しい重大な所見が出た場合は、勝手に修正を続けず、残った危険と適用できる範囲を報告してください。
+> 最終版の必要な検査結果をそろえて、残る欠陥の受入を改めて提示してください。CI 未確認は未確認として扱い、検証済みの完了には含めないでください。製品への導入は、その後の判断にします。
+
+Not in the list, and therefore left as they were: KD-01, KD-04, the labels of KD-11. Sections 1 to 5 are not rewritten; where
+this section says something different, this section is the later one.
+
+**/preflight (continuation; start artifact = the instruction above).** Baseline `acc7c05` **confirmed** (HEAD, nothing pushed;
+the working tree also holds `method/improvements.md` and `bomdd/reports/count-survey-20261110/`, not this ECO's, never staged
+with it). ECO-126 `implemented` in the register, job stop type NONE: **confirmed** (`bomdd-job.py ECO-126`). Every file to be
+changed is in `allowed_paths`: **confirmed**. No ECO in progress on the same files: **contradicted, as at the filing** —
+ECO-079's window is open on `change-management.md`; this return changes one sentence there, in the part this ECO added. The
+reviewer's mutant lists of round 2: **confirmed** present outside the repository (a temp folder the reviewer left). Start
+decision: **PROCEED_WITH_LIMITS** (the four items; one confirmation after; nothing repaired after it).
+
+### 6.1 Item 1 — the three GU7 repairs seen by the inspector: ACCEPT
+
+- **Launched through the operator entry**, before any file of this return was changed: `self-conformance.py --quick` exit 0 →
+  `bomdd-witness.py produce --eco ECO-126 --gate self-conformance-quick=0:<log>` (tree `ec6d9fc66939`) →
+  `bomdd-run.py ECO-126 --cell "codex exec --skip-git-repo-check -s workspace-write -m gpt-5.6-sol -C <scratch copy> -o
+  <repo>/bomdd/reports/eco-126-loop-route/inspection/gu7-inspection-r3-report.md - < %BOMDD_BRIEF%" --executor EQ-002 --brief
+  <brief outside the worktree> --report bomdd/reports/eco-126-loop-route/inspection/gu7-inspection-r3-report.md --range
+  是正確認+回帰`. First line `ADVANCE ECO-126 OK → next · launching`; `cell exit 0`; `report ACCEPT sha256:0b6f32c24a75 (EQ-002)`.
+  The ledger's cell record (run `20261117T113220.557065Z`, `journal_end: committed`) binds the report (`0b6f32c2…879fff73`,
+  2738 bytes) with verdict `ACCEPT` and range `是正確認+回帰`. Brief `16bbd2d2…0d44fa27` (stored; committed copy
+  `inspection/gu7-inspection-r3-brief.md`, same sha256).
+- **Two differences from the earlier launches of this register, declared**: the witness's gate is the quick tier (C11 not
+  run), and the tree was not pushed (earlier inspections were launched on a pushed commit with CI's conclusion read). The
+  inspector worked on a scratch copy holding the tool as round 2 saw it, the tool now, the tool before the change, the two
+  diffs, the template in both states, both earlier reports and the earlier fixtures.
+- **What was inspected**: `new/ui-cad-gate.py` sha256 `8f7e25ca…f70b9902a` — the bytes of `HEAD:method/tools/ui-cad-gate.py`
+  at `acc7c05`. The fix commit of this return does not touch that file or the template (git blob `1048de05…`, unchanged).
+- **The verdict's content**: C1 (an empty member, IB-01), C2 (a ruling naming itself, IB-02) and C3 (ruled, not by the user)
+  each **closed**, each on round 2's ledger and on variations the inspector wrote; IA-08 **closed**; IA-01 to IA-07 hold; no
+  false fail on five classes of valid ledgers; no false pass in the same path; no traceback in a 40-case sweep; the
+  no-bundle output identical on 6 cases; each of the three arms turns red when its check is removed (the inspector's own
+  three mutants). **New findings in range: none.**
+- **Out of range, from the inspector (not repaired, not counted)**: a ledger whose ruling id is the number `0` is failed by
+  GU4, which reads `0` as a missing id; GU7 passes it. It predates this ECO.
+- **What this changes in section 5**: UR-1 to UR-3 are no longer unreviewed. The verdict of record for GU7 is now ACCEPT in
+  the range "correction confirmation and regression"; rounds 1 and 2 remain REJECT in the record, each answered by a repair.
+
+### 6.2 Item 2 — the repairs, and the self-tests
+
+Each new arm for a repaired check was run on the unrepaired tool first and was red there (13 arms of `loop-count`, 3 of
+`handover-stamp`); the arms added only for coverage were green on the unrepaired tool, as they should be.
+
+- **KD-02** `handover-stamp.py`: a manifest whose `main` / `program` is not a string is `[input]`, exit 2; a log that
+  cannot be read (a directory) is `[input]`, exit 2; any other exception leaves through `[internal]`, exit 2. Exit 1 now
+  means only what the header says. The header's exit 2 line says "cannot measure".
+- **KD-03** `loop-count.py --check` now reports as gaps: a round with a reply and no reaction row; a duplicate report id; an
+  item whose `round` is missing or not a round; missing `limits.rounds` or `limits.budget`; a missing `jig` field; a reply
+  with no `launches` field; `matching` greater than `count`. As input errors (exit 2): `limits.rounds` not an integer of 1
+  or more; `launches.count` / `matching` missing or not integers. **A consequence for records**: `limits.budget` and
+  `set.jig` are required. Declared as still not checked (the header): the vocabulary of `outcome`, the contents of
+  `subject` / `about`, a round with no reply and no `launches`.
+- **KD-05** `eco-turn.md`: the record line is copied as printed for exit 0, 1 and 3 (`{count: 0, matching: 0}` for exit 3);
+  on exit 3 and exit 1 the build used is asked of the user and counted in `reasks`; no word is added to `class`; exit 2 is
+  named (`launches: unknown`, handled as exit 3). `loop-count`'s self-test feeds both record lines to `--check`.
+- **KD-06** the header of `loop-count.py` explains each word of `kind`, `disposition` and `outcome` (the meanings are those
+  the count of 2026-11-17 used; `fixed` and `record_fixed` are told apart as before and after manufacture);
+  `eco-turn.md` maps the confirmation items and its two lists to `to_user_check`, `to_user_report`, `no_action`.
+- **KD-07** `eco-turn.md`: the status note becomes "golden 待ち" when the confirmation items are handed over (the end of its
+  section 4), and goes back to "周 N 候補・利用待ち" on a return to a round.
+- **KD-08** `CLAUDE.product.md` names both stops of the skill; `eco-file.md` names what gate ① approves (the words, the
+  acceptance criteria, the list of what must not happen, the limit of rounds, the budget) apart from what is asked first.
+- **KD-10** arms: `loop-count` 23 → 54, `handover-stamp` 11 → 26. `mutants_tools.py` runs the reviewer's own lists of
+  round 2 again, and the producer's mutants for the checks added here (`mutants-tools-output.txt`):
+  `loop-count` — the reviewer's 47: **47 killed** (22 before); the 10 for the added checks: 10 killed. `handover-stamp` —
+  the reviewer's 25: **24 killed** (13 before); the 3 for the added checks: 3 killed. The one survivor is the `..` test of
+  the file-name check: the name pattern already refuses every name that test refuses, so removing it changes no result.
+  The headers of both tools carry these numbers in place of the old ones, and say that nothing is claimed for a check
+  that is in no list. **What the numbers are not**: the committed output was measured on the two tools before the header
+  lines that carry these numbers were written (comment lines only; no code line differs); the reviewer of 6.6 reproduced
+  six of its entries on the committed bytes with the same results, and found that 22 of 35 mutants of its own, outside
+  these lists, survive (R3-07). A second run of the whole check on the committed bytes was started after the confirmation
+  and had not ended when this record was written; it changes no tool, only `mutants-tools-output.txt` if a line differs.
+
+### 6.3 Item 3 — V2 from the repository; V4's exit codes
+
+- **V2**: the table is `v2/findings.tsv`, a byte copy (5882 bytes, 65 rows, sha256 `67861a09…a4dc8315`) of the count's
+  table, whose folder is not committed. `v2_count.py` takes no argument, reads that file, and stops if its sha256 differs.
+  The record now carries the budget MoviePad's order names. One mutation of the script was narrowed: a round with no `set`
+  at all now has two gaps (the set and the jig field), so the mutation keeps the jig field. Five mutations for the new rules
+  were added. **17 checks, all as expected** (`v2-output.txt`). The limit of section 5 stands: the rounds, three reactions
+  and four reports are entered by hand in the script.
+- **V4, read through by the producer** (679 lines before this return). Tool calls and where their exit codes go: the
+  scaffold, the two installed self-tests, every commit and every `validate`, the gate (twice), `loop-count --check` on the
+  final record — into the line's verdict. **One was not**: `loop-count --check` on the round-1 record printed its exit code
+  in a line whose verdict was the commit's. It is now a check of its own (`*.d.rec1.count`). One exit code stays in a
+  NOTE by design (`bom-structure-check --index` before the acceptance commit; the hook's verdict is the commit's line).
+- **Known-bad controls added**: the round-1 record with `handed_at` removed must make the count exit 1 with that one gap;
+  the ledger with the bundle's list left out must make the gate exit 1 on GU7.
+- **`v4_sabotage.py`** replaces one installed tool by a stub with a constant exit code and expects `v4_route.py` to go red
+  on the checks that read that tool: the count always failing, never failing, the gate always failing, never failing —
+  **4 of 4 red on the expected checks, baseline green** (`v4-sabotage-output.txt`). **Its first run showed nothing**: the
+  stub was written once after the scaffold and the route's own `git reset --hard` restored the tracked kit file, so two
+  cases stayed green for the wrong reason; the stub is now written before every call.
+- **Found by reading, corrected in the script**: the synthetic ledger closed the bundle with `decided_by: producer`, not
+  `user` as the skill's A3 words it; the record lacked the fields the count now requires.
+
+### 6.4 Item 4 — three states: the return to a round is measured
+
+`v4_route.py` variant C now returns to a round after the `implemented` transition: a candidate commit on a protected path
+with the ECO in `implemented` and `open_states: [staged, implemented]` passes both layers and leaves the status at
+`implemented` (`C.back`, `C.back.status`, `C.back.rec`). Variant D is its control: the same profile with
+`open_states: [staged]` — the same commit is refused by E01 (`D.back.ctl`). The two texts that said "read, not run"
+(`eco-turn.md` section 4, `change-management.md` section 4) now say what was measured. KD-09 is closed as a defect of the
+record; the limit it names stays a rule of the route: a three-state product can return to a round only with `implemented`
+in `open_states`.
+
+### 6.5 The results on the fix commit `12cc2be`
+
+- **V1 result: PASS** — 9 checks, run again; the gate's bytes are those of section 5 (`v1-output.txt`).
+- **V2 result: PASS** — 17 checks, from the repository alone (`v2-output.txt`).
+- **V3 result: PASS** — 5 checks, run again on Windows and under Git's `sh`; a POSIX system was not used (`v3-output.txt`).
+- **V4 result: PASS** — 88 checks on four scaffolds bound to one kit manifest, `df914814e7bb` (`v4-output.txt`); the run was
+  made on the working tree that was then committed as `12cc2be` with no file of `method/` changed in between (the reviewer of
+  6.6 compared the kit hashes in the output with the committed files: equal). `v4_sabotage.py`: baseline green, 4 of 4 red.
+- **V5 result: PASS** — 12 checks (`v5-output.txt`).
+- **V6 result: PASS for what was run; CI not confirmed.** The full self-conformance on the committed tree `12cc2be`:
+  **exit 0, 28 result lines**, C11 and C11b included, 961.7 s (`full-self-conformance-12cc2be.txt`). The quick tier exited 0
+  on the tree of this record commit (C11 is not run by it; this commit changes the order, the register and files under
+  `bomdd/reports/` only). **Nothing is pushed. CI has not run on any commit of this ECO**, and the POSIX launcher has run
+  nowhere but under Git's `sh`. By the user's instruction this is recorded as not confirmed and is part of no statement that
+  the ECO is verified. `required_gates` names V6, so a promotion to `verified` through `bomdd-run` is not attempted.
+
+### 6.6 The one confirmation after the repair
+
+One reading in a fresh context of the producer's equipment (not another lineage), read-only, on `12cc2be` against `acc7c05`,
+range "the repaired places and the regressions those repairs could cause"; brief and report with every disposition:
+`inspection/review-r3-brief.md`, `inspection/review-r3-report.md`. It was run through the session's subagent call, not through
+`bomdd-run`, so that the ledger's last cell record stays the GU7 inspection of 6.1.
+
+- **Verdict: SERIOUS FINDING — one, by the letter of the brief's definition** (a wrong exit code of a tool). **R3-01**:
+  `loop-count --check` exits 0 for an item whose `round` is written `true`, `yes` or `1.0` when round 1 exists (the check
+  compares with Python equality). The reviewer rates its practical weight low and writes that under the reading "input a
+  session would realistically write" its verdict would be "no new serious finding". Not a regression: before this return the
+  field was not checked at all. **Reproduced by the producer. Not repaired**, as instructed.
+- **Items**: KD-02, KD-05, KD-07, KD-08, KD-09, V2 and V4 **closed**; KD-03, KD-06 and KD-10 **partly** (R3-01; R3-02 and
+  R3-05; R3-07). No traceback on any input tried (72 + 59 hand-made cases, 2106 structural mutations); no regression found in
+  either tool (0 loosened against `acc7c05`, 177 tightened, all in the six rule areas); V2 reproduced from a `git archive`
+  export.
+- **Seven minor findings, none repaired**: R3-02 a rule the repair added ("reports にも 1 行") is neither checked nor declared
+  unchecked (reproduced); R3-03 the skill's exit-2 bullet names a broken trace, which is exit 1 (reproduced); R3-04 the
+  exit-1 bullet does not say to write the reply and a reaction row (it fails closed); R3-05 no word for a finding repaired in
+  the product after manufacture, and the self-test's own good record uses `fixed` against the header's meaning; R3-06
+  `C.back.status` cannot fail, so "both measured" in `eco-turn.md` says more than was measured, and the status-note edit under
+  `implemented` is driven by no commit of V4; R3-07 four parts of the added checks are not held by the self-tests, and 22 of
+  the reviewer's own 35 mutants outside the lists survive; R3-08 a count in a docstring.
+- **The remaining risk, and the scope that can be used (the producer's statement, for the user's decision).**
+  - `loop-count --check` exit 0 can be read as "the record has no gap the header names" **only for records whose item and
+    reaction rounds are written as plain integers**; it does not show that every `to_user_report` item has a row in
+    `reports`, nor anything about the vocabulary of `outcome`, nor is it defined for a record that is not UTF-8. The stage
+    tables do not group by an item's round, so R3-01 does not change a count; it lets one wrong field through.
+  - `handover-stamp check`: the exit codes are as its header says on every input tried; measured on Windows and under Git's
+    `sh` only.
+  - `eco-turn.md` carries two phrases that say more than is true (the exit-2 bullet's "跡が壊れている"; "両方を…実測") and
+    one missing sentence (exit 1). A session that follows the exit codes acts on the safe side in each.
+  - The three-state return: the validator accepts the candidate commit with the ECO in `implemented` when `implemented` is in
+    `open_states`, and refuses it otherwise — that much is measured. That the status note can be edited back under
+    `implemented` is not.
+  - GU7: accepted by the independent inspector within the range of round 3. No round has explored the boundary of the tool
+    as it now stands.
+  - **Nothing here supports use in a product yet**: no product carries this kit, and CI has not run.
+
+### 6.7 What remains (for the acceptance request)
+
+The user names what is accepted. Nothing in this list was repaired after the confirmation.
+
+- **From the confirmation**: **R3-01** (serious by the letter; a known false pass of `--check`), **R3-02 to R3-08** (minor),
+  and its seven out-of-range observations (`inspection/review-r3-report.md`).
+- **Not in the user's list for this return, unchanged**: **KD-01** (`loop-count`: a record that is not UTF-8 ends in a
+  traceback, exit 1), **KD-04** (unquoted values that YAML retypes are reported as missing — it fails closed), **KD-11**
+  (V4's labels say R3 / R4 for A3 / A4; its other half, the exit code, is closed in 6.3).
+- **Closed in this return**: KD-02, KD-05, KD-07, KD-08, KD-09; UR-1 to UR-3 (seen by the inspector: ACCEPT). **Closed in
+  part**: KD-03 (R3-01 remains), KD-06 (R3-02, R3-05 remain), KD-10 (the lists' mutants are killed; R3-07 remains).
+- **Out of range, from the inspector**: GU4 reads a ruling id that is the number `0` as missing (predates this ECO).
+- **Standing from section 5**: the hand-entered part of V2; no POSIX system; no product; no user took part; the out-of-scope
+  items listed there; "not shown by any of this".
+- **Not confirmed**: CI; the push; the full self-conformance on this record commit (the quick tier only).
+
+### 較正 receipt — addendum (/calibrate, trigger ③: `loop-count`, `handover-stamp` and the script of V4 changed; receipt_author_role = producer)
+
+- **The claims (one sentence each).** (2') `loop-count --check` exits 1 on every gap its header's format names, except
+  the three things the header lists as not checked. (3') `handover-stamp check` returns 1 only for a launch of another build,
+  a changed file or a broken log line, and 2 for anything it cannot measure. (4) `v4_route.py`'s PASS lines depend on the
+  exit codes of the tools they report.
+- **査定した主張と判定**:
+  - (2'): **observed / eligible for the classes armed** — 49 known-bad arms, each with its own words and, for gaps, its own
+    count; 13 of them red on the unrepaired tool; the real ECO-006 record and nine mutations of it; 57 of 57 mutants killed.
+    Not eligible beyond that: the three declared exclusions, a record that is not UTF-8 (KD-01), retyped values (KD-04).
+  - (3'): **observed / conditionally eligible** — 25 known-bad arms, 3 red on the unrepaired tool; 27 of 28 mutants killed,
+    the survivor equivalent; the catch-all is exercised by replacing `check` inside the self-test, not by a real fault. The
+    POSIX launcher is run by V3 under Git's `sh` only.
+  - (4): **observed / eligible for the two tools the route calls** — four stubs with constant exit codes each turn the
+    script red on the expected checks. Not shown for the validator and the hooks (their controls are the refusal lines).
+  - GU7 as accepted by an independent inspector: **eligible within the range of round 3** (the three repairs and their
+    regressions). Rounds 1 and 2 were boundary exploration and correction confirmation; no round has explored the boundary
+    of the tool as it now stands.
+- **検出した計器欠陥と帰属**: the unchecked exit code in V4 (the producer's script, written by a subagent; found by the first
+  review, repaired here); the sabotage control that showed nothing on its first run (the producer's; repaired before a
+  result was used); V2's mutation that assumed one gap (the producer's script; narrowed); the synthetic ledger's
+  `decided_by` (the producer's script). No defect is attributed to a product or to the inspector.
+- **宣言した検出力の限界**: as in section 5, and: the new arms were written by the producer after reading the reviewer's
+  lists, so they answer those lists; the confirmation of 6.6 is one reading by the producer's own equipment.
+- **Battery (only the rows whose answer changed since section 5).** Q1: two header statements were replaced by measured
+  ones; the route's sentence about `--check` still holds (it points to the header). Q3: for `loop-count` each removed check
+  in the lists now turns the self-test red; for `handover-stamp` all but the equivalent one. Q5: CI, the push, a POSIX
+  system and a boundary exploration of the final GU7 are recorded as not measured. Q9: V4 prints the kit manifest of its
+  four scaffolds. Q11: malformed input of the two tools is now a class of its own with one exit code (2), except KD-01.
