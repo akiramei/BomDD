@@ -1,5 +1,9 @@
 # ECO-126 — the one confirmation after the scoped repair (2026-11-17): the reviewer's report, and what was done with it
 
+> **Later record (2026-11-17, after this file was written):** the dispositions below are as of `5655ef2`. On the user's
+> second instruction R3-01 and R3-02 were repaired and R3-03, R3-06 and R3-08 were corrected in the text (`7f5a4dc`; the
+> order's section 7). The table is left as it was written.
+
 A fresh context of the producer's equipment (EQ-006; not another lineage), read-only, on commit `12cc2be` against `acc7c05`.
 Range: the repaired places and the regressions those repairs could cause. The brief is `review-r3-brief.md` beside this file.
 **Nothing was repaired after this report** (the user's instruction for this return: one confirmation; on a new serious

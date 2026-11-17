@@ -740,8 +740,8 @@ decided; the route asks for exit 0 only before `/eco-accept` (the skill's A4), a
 
 | Where | Before | After | Confirmed by |
 |---|---|---|---|
-| `eco-turn.md`, the exit-2 bullet (R3-03) | 「起動口を作っていない・`handover.json` や跡が壊れている」 | 「起動口を作っていない・`handover.json` の形が違う・跡のファイルが読めない」+「跡の中に読めない行があるときは、exit 2 ではなく exit 1」 | the tool's self-test arms for each class; the producer's reproduction in `inspection/review-r3-report.md` |
-| `eco-turn.md`, the three-state return (R3-06) | 「入っていなければ…E01 で拒む。戻っても status は `implemented` のまま — …V4 で、両方を足場の製品で実測」 | 「入っていれば戻りの周の候補の commit を検査器が通し、入っていなければ E01 で拒む — …V4 で、足場の製品で実測。戻りの周で status は動かさない」 | `C.back` and `D.back.ctl` in `v4-output.txt` |
+| `eco-turn.md`, the exit-2 bullet (R3-03) | 「起動口を作っていない・`handover.json` や跡が壊れている」 | 「起動口を作っていない・`handover.json` の形が違う・跡のファイルが読めない」+「跡の中に読めない行があるときは、exit 2 ではなく exit 1」 | `check` on a folder with no `handover.json`: exit 2, `[input]` (run by the producer; no arm covers it); the self-test's arms for a malformed manifest and for a log that is a folder; a malformed line: exit 1 (the producer's reproduction in `inspection/review-r3-report.md`). **The parenthesis about exit 1 is a sentence added, not a narrowing** |
+| `eco-turn.md`, the three-state return (R3-06) | 「入っていなければ…E01 で拒む。戻っても status は `implemented` のまま — …V4 で、両方を足場の製品で実測」 | 「入っていれば戻りの周の候補の commit を検査器が通し、入っていなければ E01 で拒む — …V4 で、足場の製品で実測。戻りの周で status は動かさない」 | `C.back` and `D.back.ctl` in `v4-output.txt`. **"status は動かさない" is an instruction kept from the old sentence without its claim of measurement; it is not a measured fact** |
 | `eco-turn.md`, the mapping line (R3-02) | 「`to_user_report`(`reports` にも 1 行)」 | 「`to_user_report`(`channel` に、`reports` のその行の id を書く)」 | the check of 7.2 |
 | `loop-count.py`, the header | the lines for `round` and `channel`; the meaning of `to_user_report`; "見ないもの" had no line for `eco` | the lines say "整数。true / yes / 1.0 は番号として受けない" and "to_user_report にも必須: reports の行の id を 1 つ"; "見ないもの" gains 「eco の行が無いこと」; the self-test sentence carries the numbers of 7.4 and the reviewer's 11 of 18 | the checks of 7.1 and 7.2; a record with no `eco` line exits 0 (run by the producer) |
 | `mutants_tools.py`, the docstring (R3-08) | "47 and 25 entries, one of them a skip" | 47 entries; 26, of which 25 are mutants and one a note | the script's own output |
@@ -788,6 +788,12 @@ unknown; it does not mean the defect is absent.
 | O-4 | `loop-count --check`: a record whose `items:` is empty exits 0 (the format does not ask for one) | a record with no row of what was decided or found passes | a session that writes rounds and reactions only | not caught; not a rule of the format |
 | O-5 | evidence scripts: `v2_count.py` with the table missing ends in a traceback (exit 1); `v4_route.py`'s commit lines print a status that does not enter PASS; `v4-sabotage-output.txt` carries no hash of the script it ran | a reader takes a printed status for a checked one | reading the evidence | evidence only |
 | O-6 | from section 5, unchanged: `method/onboarding/working-with-ai.md` lists the entry skills without `/eco-turn`; the scaffold's ledger is where `--ui-dir bomdd/ui` does not look; GU3 and GU4 do not look at who ruled; ECO-079's window is open on two of this ECO's files | a new user does not find the skill; a scaffolded product's gate reads no ledger until the ledger is moved | first use in a scaffolded product | not in `allowed_paths` (the first), declared (the others) |
+
+**Of the producer's own making in this return (declared)**: the header of `loop-count.py` gained the sentence that 11 of
+the reviewer's 18 own copies left the self-test green. That number is the reviewer's, measured on `12cc2be`; the producer
+did not reproduce it, and on `7f5a4dc` at least one of the eleven is now caught (a reaction of any round satisfying a replied
+round — the producer's run). The sentence errs on the cautious side, but it is an addition under an instruction that asked
+for corrections only, and it is left as it is.
 
 **Closed in this return**: R3-01 and R3-02 (7.1, 7.2); the reaction-side leniency the reviewer listed out of range (same
 repair). **Corrected in the text, read by nobody else**: R3-03, R3-06, R3-08, and the undeclared `eco` line (7.3).
