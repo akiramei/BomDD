@@ -1,0 +1,270 @@
+# Change Order — ECO-126 (a change turned in rounds: the kit gets a route in which manufacture is repeated until the user's acceptance, with what the AI decided on its own counted and stopped where it touched something already confirmed)
+
+> Ruling: user, 2026-11-17, "A: 作る作業に入る" — the answer to "仕組みを作る作業(BomDD への起票と設計)に入ってよいですか".
+> The requirement, in the user's words (2026-11-17): 「ミクロループで製造が正しく収束し、マクロループで合格するまで製造が繰り返される、
+> また、ループ毎に改善される、という仕組み」. Restated by the producer and not corrected: "in a product built with BomDD, for
+> each change, manufacture repairs itself until the checks pass, and is repeated until the user, having used the result, says it
+> passes; over successive changes the same stumble stops recurring."
+> What was wrong before this filing, in the user's words: 「あなたの作業が終わった＝改善が出来ると認識していました。」 Everything up
+> to here was investigation (counts, two trial runs); nothing in the kit or in a product's procedure had changed.
+>
+> Each part is labelled **stop**, **measure** or **none** (the standing caveat of 2026-10-29). **Filing only.** Manufacture waits for
+> the user's start instruction (ECO-106), which also answers section 1, "For the start instruction". Records are English-primary.
+
+## Equipment
+
+- Filing: requested/resolved `claude-fable-5-2`, Claude Code (Claude Agent SDK, desktop app), provenance **self-reported**.
+- producer: EQ-006
+- Independent inspection: **owed for GU7 by equipment of another lineage, read-only** — `ui-cad-gate.py` has been through an
+  independent inspection before (ECO-045), and a new check is a change of its inspection semantics (playbook §3, the
+  high-risk jig rule, line 340). The inspector is named at the start instruction. For the rest of the diff: one review in a
+  fresh context of the same equipment before the acceptance request (context independence). Three instruments are new or
+  changed, so a calibrate receipt is owed at verification (activation-map `instrument-change`).
+
+## 0. Measurement (basis of the filing)
+
+Two changes of one product (MoviePad) were turned in rounds under trial rules written outside the kit: ECO-005 (four rounds on a
+copy, then taken into the product) and ECO-006 (two rounds in the product). The trial rules are
+`bomdd/reports/count-survey-20261110/loop-trial/LOOP-TRIAL-SPEC.md` (not converged; adopted by the user's "始める") and its copy
+in the product. The counts below are in `bomdd/reports/count-survey-20261110/loop-trial/eco-005-stage-count/` and
+`.../eco-006/stage-count/` (uncommitted at this filing; whether they are committed is the user's word).
+
+- **The inner loop's return from red was taken rarely, and not inside the rounds.** Inside the rounds: repairs 0, 0, 0, 0 in
+  the trial (`turns.tsv`) and both rounds of ECO-006 passed their exit checks at the first run; in the trial's second round one
+  red seen once in a full run was patched without being reproduced (J36). Outside the rounds, ECO-005's import went from red to
+  green twice (the required-case check: FAIL → the cases registered → PASS; the fold after the layout loss: a probe red on three
+  missing names → manufactured → green). Where a check and the build disagreed in ECO-006, the check or the sentence moved
+  (the prediction T1-P7 was narrowed after the result; the maker rewrote one of its own tests).
+- **The outer loop did repeat.** The user's reactions per round: 3, 2, 1, 0 (ECO-005's trial), and one difference then a pass
+  (ECO-006). One of the seven was classified by the user ("好みの問題だった"); the other six carry only the producer's classes.
+- **Every event whose cause the records tie down lands on the stage that writes what the loop converges to** — the producer's
+  own provisional decisions or sentences: R1 (S14), R6 (F4), the layout loss found by the juxtaposition (addendum R8), H3 (R20),
+  and the false prediction T1-P7. None lands on a reader's or a maker's item.
+- **Listing a decision before use did not prevent the reaction.** R1, R6 and H3 were all in the hand-over text before the user
+  used the build. The one the user said could have been settled beforehand is H3, and only as a choice between two roles
+  (2026-11-16).
+- **Findings were lost at the producer's triage, not at the reader.** For H3, three items had pointed at it; one was handed to
+  the user as a report, two were filed under "nothing for the owner to do"; the check item's sentence said the opposite.
+- **Three stumbles, counted one by one**: a decision touching something the user had already confirmed was raised as its own
+  ruling only after manufacture — twice, both in ECO-006, although its trial rule said before (ECO-005 had raised its one such
+  case before, as a blocking entry); nobody could tell which build had run — three times (the trial's third round, ECO-005's
+  golden, ECO-006's measurement build); the reply offered had no place to name the reports being accepted — once (ECO-006).
+- **What the current kit already allows** (read at `38c482b`): a golden failure returns to step 1 of the same change
+  (`skills/eco-fix.md:70`); R4's "two gates" are two kinds, with no limit on how often (`change-management.md:36`); R8's fresh
+  read and the naming of known defects exist. **What has no form**: a round used freely with no verdict asked; a reaction that
+  is "it passes, but I would change this"; details the user never spoke of, decided by the AI and built — the text says a
+  ruling comes first, while the gate stops only `blocking` + `open` (GU3) and an `action` item with no ruled ruling (GU4)
+  (`method/tools/ui-cad-gate.py:301-318`; ECO-006 was manufactured with an open, non-blocking bundle and the gate passed).
+- **A probe of the proposed check on real ledgers** (read-only, `git show`): before ECO-006's manufacture (`d5dab41`) the open
+  bundle UQ-0030 (`screen.main`) overlapped 10 rulings decided by the user, among them UQ-0027 — the earlier bundle that holds
+  the two items ECO-006 went on to touch. Before ECO-005's import (`a56afe6`) the bundle UQ-0027 overlapped 9.
+- **The lifecycle validator binds transitions, not the number of commits while a change is open** (E01-E13 read in
+  `method/templates/process-core/tools/process-validator.py`); candidate commits that leave the status as it is carry no
+  trailer rule. E13 (`ruled_layer`, optional) asks a ruling trailer for commits that touch the product's ruled-layer paths —
+  read only as far as the rule list; its behaviour on a round's addendum commit is **not verified** (gate V4).
+
+## 1. Change request (frozen at filing)
+
+**L1 — the route (none: text and entry).** `method/templates/product-profile/change-management.md` gains §3.5 "a change turned
+in rounds (candidate)": when it applies (the user names it at gate ①, for a change whose fit is judged by use); the stages
+(direction → filing with the round limit, the cost frame and the "must never happen" list → rounds → the user's "good" →
+confirmation items → acceptance); the complete list of conditions under which a round stops for the human. **Each round's
+manufacture is `/eco-fix` steps 1-3.6 as they are** (probe first, machine acceptance, juxtaposition, the fresh read and its
+limits) — the route adds no second way to manufacture. The stop of a round is L2.
+
+**L2 — the stop of a round: skill `eco-turn` (none for the text; measured by L5).** New
+`method/templates/product-profile/skills/eco-turn.md`, added to `bomdd-init.SKILLS`. It holds: what a hand-over gives (the
+build through L6's launcher, how to tell it is this build, what changed in at most five lines, what the machine did and did not
+check, the index of decisions); **the reply form with kinds** — passes / passes but I would change something / fails (the aim
+is not met) — and a place to name accepted reports in the same reply; the routing of a reaction (a decision changed → the
+drawing gets a revision line and the ledger a ruling; a new want → the requirement table with the words; a symptom → a check
+from the written sentences: reproduced → repair, not reproduced → an unresolved report, outside → recorded); the conditions
+before confirmation items and the conditions of acceptance; the return path. `eco-fix`, `eco-accept`, `eco-file` and
+`bomdd-next` each gain one pointer line and are otherwise unchanged.
+
+**L3 — provisional decisions in the rulings ledger (stop).**
+- `method/templates/37-ui-rulings.yaml`: a `type: provisional-bundle` entry (open, `blocking: false`) carries
+  `confirmed_checked: [{id, touches: yes|no, why}]`; a decision that touches a confirmed ruling is its own entry with
+  `touches: <id>`.
+- `method/tools/ui-cad-gate.py` **GU7**: for each open provisional bundle, (a) every `ruled` entry with `decided_by: user`
+  whose `target.ui_ids` intersect the bundle's must be in `confirmed_checked` with a non-empty `why`; (b) each `touches: yes`
+  must have its own entry naming that id. Entries of other types are not read by GU7. **How (b) depends on RP2**: if what
+  touches a confirmed ruling is asked first (the recommended answer), that entry must be `blocking: true` while it is open, so
+  GU3 holds manufacture until the user rules; if RP2 is answered the other way, (b) accepts a non-blocking entry and the
+  decision is made by use, as in ECO-006.
+- The rule text (`method/ui-ir-ui-bom.md` §13 and the gate table — lines 323-330, 390 and 401 found by search, the sections
+  not yet read; the ledger template's discipline list; §3.5): a provisional bundle may not be the only ruling behind a ui-bom
+  `action` item — adding an operable part is never provisional (GU4 already stops it).
+
+**L4 — a read before manufacture that ends in questions (measure; candidate).** In §3.5: before a round's manufacture, a fresh
+context reads the round's drawing addendum, the user's words and the list of the user's rulings — not the code, not the
+producer's doubts — and returns rows of three kinds: two sentences that cannot both hold / an addition not in the user's words
+that has more than one possible role / something that touches a confirmed ruling. The producer disposes of every row:
+`asked` (as a choice between two roles; the ruling's id) / `fixed` (the drawing line) / `not asked` (the reason). The rows and
+dispositions go to L5's record.
+
+**L5 — the record of rounds and its count (measure).** A sidecar per looped change, `bomdd/loops/eco-NNN.yaml` in the product:
+per round the set (commit, jig, sha256 of the named files), the hand-over time, the reply verbatim, L6's log summary; every
+decision and finding with its source (producer / maker / reader), disposition and later outcome; every reaction with its kind,
+**who assigned the kind** (the user / the producer's reading), its class, what it lands on, and whether that was listed before
+use; repairs, checks replaced, re-asks. New `method/tools/loop-count.py`: prints the stage tables (the producer's own decisions
+included), the kinds, where causes land, and the repair count; `--check` exits 1 when a reaction has no kind or class, a round
+has no set, or an accepted report has no naming reply. `eco-accept` puts its output into the closing section.
+
+**L6 — which build ran (measure).** New `method/tools/handover-stamp.py`: `stamp` writes a manifest (label, sha256 of the named
+files) and a launcher beside the build that appends one line (time, label, the main file's sha256 at that moment) to a log and
+starts the program; `check` reads the log against the manifest: how many launches, of which set, any mismatch. A start that
+bypasses the launcher leaves no line; `check` then says "not launched through the launcher — unknown".
+
+**L7 — the three recurrences, one instrument each.** Touching a confirmed ruling → GU7 (stop). Which build ran → L6
+(measure). No place to name → the reply form (none) with L5's `kind_by` and re-ask counts (measure).
+
+**For the start instruction (the user's points).** The recommended set is the first answer of each.
+- **RP1 — is a round's free use a third human gate?** *Recommended: no — it is the second kind (the human uses the real thing)
+  asked in a second form; R4 stays "two kinds".* Otherwise: R4 is rewritten to three.
+- **RP2 — what may the AI decide and build without asking?** *Recommended: everything except five things asked first —
+  what cannot be undone (the user's data, a stored format, what leaves the product); what use cannot reveal; an added operable
+  part; what touches a ruling the user already confirmed; an addition not in the user's words that has more than one role
+  (asked as a choice between two roles).* The first two were in the trial rules of both changes; the third is today's GU4; the
+  last two come from ECO-006 and were approved so far only as a trial for the next MoviePad change.
+- **RP3 — the kinds of a reply.** *Recommended: the three of L2.* Two are the user's own distinction of 2026-11-16; the middle
+  one is the producer's.
+- **RP4 — inside a looped change, may a new want join the same change, and may a check written in this change for a
+  provisional decision be replaced when the user's reaction changes that decision?** *Recommended: yes to both, on these
+  terms: only on a recorded reaction; replaced by the producer, never by the maker; before manufacture, with the red measured;
+  rows that existed before this change are never replaced.* Otherwise R3 and R6 apply unchanged and the round stops to ask
+  each time.
+- **RP5 — the design is not converged in the form** (converge receipt: 9 → 2 → 1 at the limit of three rounds). Building it as
+  filed is the user's cut-off; the other answers are another round, or sending the design back.
+
+**Order of manufacture, and what goes first at a limit (the producer's choice; derived layer).** L3 with GU7 → L5 → L1 and L2
+→ L4 → L6. If the limit set at the start instruction is reached, L6 is dropped first and then L4; the claim is narrowed to
+what was built (R4's default), and the dropped part is named in the closing section.
+
+**Not chosen:**
+- **Only widening `eco-fix`'s stop** (no route, no skill): the three missing forms would sit inside the skill that is the inner
+  loop, and nothing would count them.
+- **A stop in the lifecycle validator** (refuse `applied` without L5's record): `process-core` is what C11 qualifies (105
+  controls, about 21 minutes); the first version measures, and a stop there needs a measured miss first.
+- **Detecting "touches a confirmed item" by meaning**: closed (the semantic sensor is not a gatekeeper, 2026-09-18). GU7 forces
+  the list by the overlap of ids; it does not judge the answers.
+- **Asking the user every provisional decision before manufacture**: the list is an index, not a set of questions; the user
+  does not know the answer before use (2026-11-12). Only RP2's five are asked.
+- **A playbook section**: the route is a product-profile part of the kit; the method text changes only through
+  `/lesson-promote` after use.
+- **Re-kitting a product**: MoviePad is pinned to the kit of 2026-07-27 and keeps the trial rules; no product is changed here.
+
+## 2. No-impact prediction (before manufacture; frozen)
+
+- **Diff:** the paths of `allowed_paths` in the register entry and nothing else. Nothing under
+  `method/templates/process-core/`; nothing in `method/bomdd-playbook-v1.md`; no product repository.
+- **Verdicts:** `ui-cad-gate.py` gives the same verdict as the filing tree's on every ledger that has no `provisional-bundle`
+  entry (GU1-GU6 unchanged). The full self-conformance prints the same lines apart from the new arms and the skill count.
+- **Skills:** `eco-fix` steps 1-3.6, `eco-accept` and `eco-file` behave as before for a change that is not looped; each gains
+  one pointer line.
+
+**Declared at filing — what this will not do:**
+- **It does not show that the loop helps.** That is known only after a product built with this kit turns a change through it.
+- **The inner loop gets no new mechanism.** It is bound to the existing steps, and its repair count becomes visible.
+- **GU7 stops the omission, not a wrong "no".** The answers in `confirmed_checked` are the producer's; a bundle typed as
+  something else is not read.
+- **L4 is a candidate resting on one statement of the user and against one counter-example** (ECO-005's trial had a read before
+  manufacture; its findings went to an index and the reaction still came).
+- **L5 and L6 measure; nothing refuses a hand-over without them.** A reply given through a one-word button still cannot carry
+  names — the form is text.
+- **Products without a UI rulings ledger are not covered.**
+- **Parts are added and none is removed.** The removal rule is in section 3, "Not gated".
+
+## 3. Acceptance (conditions; frozen at filing)
+
+required_gates: [V1, V2, V3, V4, V5, V6]
+
+**Gated:** V1-V6.
+
+- **V1 — GU7.** Known-bad: a bundle with no list; an overlapping user ruling missing from the list; `touches: yes` with no
+  entry of its own — each red for that reason. Known-good: the same ledger completed. On MoviePad's ledger at `d5dab41`
+  retyped as a bundle (a scratch copy): red, naming the 10 overlapping rulings; with the list filled and two single entries:
+  green. On ledgers with no bundle (MoviePad HEAD; ViewTube HEAD, read-only): the verdict equals the filing tree's gate. The
+  arms are in `--selftest` and in C6.
+- **V2 — the count.** ECO-006 transcribed into L5's form reproduces the count of 2026-11-17 in the survey folder
+  (`eco-006/stage-count/findings.tsv`, sha256 `67861a09…a4dc8315`: rows by source and disposition, 65 rows and 51 subjects;
+  the one difference lands on a producer's decision that was listed before use). Known-bad: a reaction
+  with no kind, a round with no set, an accepted report with no naming reply — `--check` exits 1 for each; the complete record
+  exits 0.
+- **V3 — the launcher.** On a harmless program in a scratch folder: a launch writes one line with the manifest's hash; a
+  changed file is reported as a mismatch; a start that bypasses the launcher is reported as unknown, not as a pass.
+- **V4 — the route on a scaffolded product.** `bomdd-init` into a temporary GUI product: the kit holds `eco-turn`, §3.5 and
+  the template's type; the commit sequence of a two-round looped change (filing, the addendum with a bundle, the gate, two
+  candidate commits that leave the status, L5's record file written at each hand-over and reply, acceptance with its trailer)
+  passes the installed hooks and validator, also with
+  `ruled_layer` enabled; C13 resolves the new skill's links; C7's count matches.
+- **V5 — the text.** `eco-fix` steps 1-3.6 are byte-identical apart from the pointer line; R3, R4 and R6 differ only as RP1
+  and RP4 were answered; the diff under `method/templates/process-core/` is empty.
+- **V6 — nothing else moves; the gate.** The diff is inside `allowed_paths`; the full self-conformance exits 0 before each
+  push of this ECO; CI is green for each pushed commit (read by the full SHA); no product repository has a change.
+
+**Not gated — measured after application** (a tracking item is filed at verification): on the first three looped changes of
+products carrying this kit — reactions by kind and by who assigned it, where tied causes land, GU7 reds, launcher mismatches,
+L4 rows asked, repairs. **A part with no hit in three changes is put to the user for removal.**
+
+Conditions are frozen at filing; results go to the closing section.
+
+## /preflight receipt (start path: manual — the user's "A: 作る作業に入る" read as the start artifact)
+
+- **Classification**: filing of a change the user asked to be built (filing and design; manufacture not started).
+- **Baseline `38c482b`**: **confirmed** (HEAD). The working tree also holds this session's uncommitted records
+  (`method/improvements.md`, `bomdd/reports/count-survey-20261110/`); this filing commits only its own two files.
+- **Next number 126**: **confirmed** (the last register entry and the last order are ECO-125).
+- **The kit parts named in section 0**: **confirmed** by reading (`change-management.md` R1-R8 and §3, `skills/eco-fix.md`,
+  `skills/eco-accept.md`, `skills/eco-file.md` 25-45, `37-ui-rulings.yaml` 1-60, `ui-cad-gate.py` 270-340 and its options,
+  `bomdd-init.py` SKILLS, the validator's rule list).
+- **Not read**: `skills/bomdd-next.md`, `skills/handoff.md`, the body of the validator's E13, `method/ui-ir-ui-bom.md` beyond
+  the lines a search for `ruled` returned — **unknown**, covered by V4 and V5 rather than by reading.
+- **No ECO in progress on the same files**: **contradicted** — ECO-079 (`implemented`, its window open from `7e060c92`)
+  names `skills/eco-accept.md` and `change-management.md`, two of this ECO's sixteen files. This ECO adds §3.5, the clauses
+  RP1 and RP4 decide, and one pointer line in `eco-accept`; it does not touch the acceptance-evidence text ECO-079 wrote. The
+  two windows will interleave on those two files and are read apart by commit, not by head.
+- **Closed series**: **confirmed** not reopened as to the semantic sensor as gatekeeper, a role decider, enforcement by
+  harness permission, ViewTube's gates and `process-core`. **L4 stands on the ground of the closed reader measurements**
+  (EXP-20261030-01/02, closed without a conclusion; reopening condition "an upstream defect a reader could have named reaches
+  manufacture"). That ECO-006 meets the condition is the producer's reading after the fact (about 16 of 22 findings), not a
+  measurement.
+- **The producer's equipment**: **confirmed** (EQ-006).
+- **Start decision**: **PROCEED_WITH_LIMITS** (filing only; the design is not converged — RP5).
+
+## Converge receipt (the route for a change turned in rounds; 起動経路: self-triggered at filing)
+
+- 判定: 未収束 (round 軌跡: 9 → 2 → 1; the limit of three rounds reached, no round at zero). The ruling asked for is RP5 in
+  section 1. The rounds are the producer's own. No manufacture and no change to the kit until the ruling.
+- DoD (written before the draft of section 1):
+  - ✔ D1 each rule hangs on an event that must happen, or is labelled none;
+  - ✘ D2 each rule names a site that was read — true for the kit parts of section 0; **not for `method/ui-ir-ui-bom.md`**
+    (lines found by search, sections unread) nor for `bomdd-next` and `handoff`;
+  - ✔ D3 each new check has a planned input that turns it red for its own reason (V1-V3);
+  - ✔ D4 each new record has an owner and a time of update (L5: the producer, at each hand-over and each reply; GU7's list is
+    recomputed against the ledger at every gate run, so a later user ruling turns a stale list red);
+  - ✔ D5 one source: the route refers to `eco-fix`'s steps and does not restate them;
+  - ✔ D6 impact by file (the register's `allowed_paths`), products none;
+  - ✔ D7 each part labelled, with what it does not do;
+  - ✔ D8 what changes the human's part is put to the user (RP1-RP4), not decided here;
+  - ✔ D9 closed series not reopened; `process-core` untouched;
+  - ✘ D10 each of the three parts of the requirement has a stop or a measure — **the inner loop has no new stop**: it is bound
+    to the existing ones, and gets one measure (L5's repair count, with reds patched without reproduction counted apart).
+    Stated in section 2.
+- round 1 (9): (a) the touched items of ECO-006 sat inside a closed bundle, not in rulings of their own → the list is per
+  overlapping ruling with a `why`, and the limit is declared; (b) per-round commits against the lifecycle validator → the rule
+  list read, V4 added; (c) a new skill moves C7's count and the product entry tables → listed; (d) the sidecar has no stop →
+  `--check` and the declared limit; (e) the pre-manufacture reader could be handed the producer's doubts → the brief is named;
+  (f) the launcher can be bypassed → "unknown", declared; (g) nothing removes a part → the removal rule; (h) R3 and R6 forbid
+  what the trials did → RP4; (i) a product with no UI ledger → declared out.
+- round 2 (2 new): (j) ledgers in the field have open non-blocking entries of other types, and a product re-kitted later must
+  not turn red → GU7 reads typed bundles only, the evasion declared; (m) "passes but I would change this" may be left as it is
+  by the user → the routing has that outcome.
+- round 3 (1 new): (n) E13 — a round's addendum commit on a product that enabled `ruled_layer` → not verified by reading;
+  V4 runs it.
+- Common cause of 5 of the 12 findings (b, c, i, j, n): machinery the route's commits pass through that was not read before
+  the draft. The parts still unread are named in the preflight receipt; V4 is the measure for them.
+- 未収束事項: the form (no zero round); E13's behaviour on a round's commits; whether L4's rows become questions the user can
+  answer. Failure types A①-⑧ checked: ① the validator claim is limited to the rule list and marked; ③ R3/R4/R6 quoted from
+  the current text, not from the trial copy; ⑥ GU7 not reading other types is declared and is not a permission; ⑦ five
+  alternatives listed; ⑧ this receipt.

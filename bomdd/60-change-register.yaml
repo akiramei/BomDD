@@ -4045,3 +4045,41 @@ changes:
       (nothing is pushed). Declared: the notice counts any path under method/ other than improvements.md, broader than the order's P1;
       the full run still takes about 21 minutes; whether sessions use the quick tier is not shown.
     producer: EQ-006
+  - id: ECO-126
+    title: a change turned in rounds - the kit gets a route in which manufacture is repeated until the user's acceptance, with what the AI decided on its own counted and stopped where it touched something already confirmed (filed only)
+    date: 2026-11-17
+    origin: improvement
+    status: filed   # 2026-11-17 filed on the user's "A: 作る作業に入る"; filing and design only - manufacture waits for the start instruction, which also answers RP1-RP5 (order section 1); the design is not converged in the form (9 -> 2 -> 1)
+    receipt_author_role: producer   # ECO-077 observation field
+    source: >
+      The user's requirement of 2026-11-17: an inner loop in which manufacture converges, an outer loop in which manufacture is
+      repeated until the user's acceptance, and improvement with each loop. Two changes of one product (MoviePad ECO-005 and ECO-006)
+      were turned in rounds under trial rules outside the kit. Counted from their records: the inner loop's return from red was
+      rare and not inside the rounds (repairs 0 in every round and one red patched without reproduction; twice from red to green in
+      ECO-005's import); the outer loop repeated (reactions 3, 2, 1, 0 and one difference then a pass); every event whose cause
+      the records tie down (five) lands on the producer's own provisional decisions or sentences; listing a decision before use did not
+      prevent the reaction (three of three); three stumbles (a confirmed item touched and raised only after manufacture, twice in ECO-006;
+      which build ran unknown, three times; no place in the reply to name accepted reports, once). The current kit already returns a golden failure to the same change
+      and limits no count of gates; it has no form for a round used freely, for "passes but I would change this", or for details decided
+      by the AI and built. Until this filing nothing in the kit or in a product's procedure had changed.
+    order_ref: bomdd/60-change-order-eco-126.md
+    affected_refs: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/eco-turn.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/skills/eco-accept.md, method/templates/product-profile/skills/eco-file.md, method/templates/product-profile/skills/bomdd-next.md, method/templates/product-profile/AGENTS.product.md, method/templates/product-profile/CLAUDE.product.md, method/templates/37-ui-rulings.yaml, method/ui-ir-ui-bom.md, method/tools/ui-cad-gate.py, method/tools/loop-count.py, method/tools/handover-stamp.py, method/tools/bomdd-init.py, method/tools/self-conformance.py, README.md]
+    no_impact_prediction: "(before manufacture; frozen) the diff is inside allowed_paths; nothing under method/templates/process-core/, nothing in method/bomdd-playbook-v1.md, no product repository. ui-cad-gate.py gives the same verdict as the filing tree's on every ledger with no provisional-bundle entry. eco-fix steps 1-3.6, eco-accept and eco-file behave as before for a change that is not looped (one pointer line each). The full self-conformance prints the same lines apart from the new arms and the skill count."
+    diff_audit:
+      baseline: "38c482b"  # HEAD before this filing
+      allowed_paths: [method/templates/product-profile/change-management.md, method/templates/product-profile/skills/eco-turn.md, method/templates/product-profile/skills/eco-fix.md, method/templates/product-profile/skills/eco-accept.md, method/templates/product-profile/skills/eco-file.md, method/templates/product-profile/skills/bomdd-next.md, method/templates/product-profile/AGENTS.product.md, method/templates/product-profile/CLAUDE.product.md, method/templates/37-ui-rulings.yaml, method/ui-ir-ui-bom.md, method/tools/ui-cad-gate.py, method/tools/loop-count.py, method/tools/handover-stamp.py, method/tools/bomdd-init.py, method/tools/self-conformance.py, README.md, bomdd/60-change-order-eco-126.md, bomdd/60-change-register.yaml, bomdd/reports/eco-126-loop-route/]
+    required_gates: [V1, V2, V3, V4, V5, V6]   # the order's machine copy (ECO-112 G1)
+    summary: >
+      L1 (none): change-management.md section 3.5, the route - each round's manufacture is eco-fix steps 1-3.6 as they are. L2 (none;
+      measured by L5): skill eco-turn - the hand-over, the reply form with three kinds and a place to name accepted reports, the routing
+      of a reaction, the conditions before confirmation items and of acceptance. L3 (stop): a provisional-bundle type in the rulings
+      ledger with confirmed_checked, and ui-cad-gate GU7 - every user-decided ruling overlapping the bundle by ui_ids must be listed, and
+      each touched one must have its own entry; an operable part is never provisional (GU4 as it is). L4 (measure; candidate): a fresh
+      read of the round's addendum before manufacture whose rows are disposed of as asked / fixed / not asked. L5 (measure): the sidecar
+      bomdd/loops/eco-NNN.yaml and loop-count.py - stage tables with the producer's own decisions, kinds and who assigned them, where
+      causes land, repairs; --check exits 1 on a missing kind, set or naming reply. L6 (measure): handover-stamp.py - a manifest and a
+      launcher that logs which build ran. Put to the user (RP1-RP5): whether a round's free use is a third gate, what the AI may decide
+      without asking, the kinds of a reply, new wants and replaced checks inside a looped change, and the cut-off of a design not
+      converged. Not chosen: only widening eco-fix's stop, a stop in the lifecycle validator, detection by meaning, asking every
+      provisional decision first, a playbook section, re-kitting a product.
+    producer: EQ-006
