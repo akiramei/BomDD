@@ -1,0 +1,6 @@
+PASS baseline: variant A with no stub — v4_route exit 0, FAIL lines []
+PASS loop-count.py=1 (the count always fails): v4_route exit 1; FAIL lines ['A.d.rec1.count', 'A.d.rec1.ctl', 'A.f', 'K7']; expected among them ['A.d.rec1.count', 'A.f', 'K7']
+PASS loop-count.py=0 (the count never fails): v4_route exit 1; FAIL lines ['A.d.rec1.ctl']; expected among them ['A.d.rec1.ctl']
+PASS ui-cad-gate.py=1 (the gate always fails): v4_route exit 1; FAIL lines ['A.b.gate', 'A.b.gate.ctl', 'A.e.gate', 'K8']; expected among them ['A.b.gate', 'A.e.gate', 'K8']
+PASS ui-cad-gate.py=0 (the gate never fails): v4_route exit 1; FAIL lines ['A.b.gate.ctl']; expected among them ['A.b.gate.ctl']
+V4 sabotage: every stub turned v4_route red on the checks that read that tool

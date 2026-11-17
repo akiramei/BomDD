@@ -21,7 +21,15 @@ What it does (nothing in the BomDD repo is changed except the output file next t
      qualification runner's own three-state profile) under the open ECO. The route as now worded (§4 / eco-turn §4)
      puts one `implemented` transition commit with the fix trailer between the last candidate and the acceptance.
      Controls: staged -> applied directly is refused (E03); the `implemented` transition without the fix trailer
-     is refused (E04).
+     is refused (E04). After the `implemented` transition the variant returns to a round (a candidate commit on a
+     protected path with the ECO in `implemented`), which the route allows when `implemented` is in `open_states`.
+  7. variant D (control for 6): a three-state profile whose `open_states` is [staged] only. After the `implemented`
+     transition the same return to a round must be refused by E01.
+  8. every tool whose verdict a line reports feeds its exit code into that line's PASS / FAIL, and each of the two
+     tools the route calls has a known-bad control (a record with a gap must make loop-count --check exit 1; a bundle
+     with no list must make ui-cad-gate exit 1 on GU7). `V4_SABOTAGE` (see v4_sabotage.py) replaces an installed tool
+     by a stub with a constant exit code, to show that this script then goes red; `V4_ONLY` limits the run to the
+     named variants and `V4_OUT` names another output file. A run with any of the three is not the V4 result.
 
 Line format: `PASS <id> ...` / `FAIL <id> ... — <the validator's own message>` / `NOTE ...` (observation, not a check).
 A line whose description starts with "control" is an expected refusal; every other commit line is a step of the route
@@ -52,7 +60,9 @@ for _s in (sys.stdout, sys.stderr):
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]                       # <BomDD repo root>
-OUT = HERE / "v4-output.txt"
+OUT = Path(os.environ["V4_OUT"]) if os.environ.get("V4_OUT") else HERE / "v4-output.txt"
+SABOTAGE = os.environ.get("V4_SABOTAGE", "")      # "<tool>.py=<exit code>" — see v4_sabotage.py
+ONLY = set(os.environ.get("V4_ONLY", "A,B,C,D").split(","))
 INIT = ROOT / "method" / "tools" / "bomdd-init.py"
 
 LINES: list[str] = []
@@ -203,6 +213,10 @@ class Product:
 
     def tool(self, name: str, *args: str) -> subprocess.CompletedProcess:
         """A tool of the installed kit, run with the product as cwd."""
+        if SABOTAGE and SABOTAGE.partition("=")[0] == name:
+            # written before every call: the route's own `git reset --hard` restores the tracked kit file
+            stub = "import sys\nprint('[GU7] PASS — stub')\nprint('gaps: 0')\nsys.exit(%d)\n" % int(SABOTAGE.partition("=")[2])
+            (self.root / KIT_TOOLS / name).write_text(stub, encoding="utf-8", newline="\n")
         return run([sys.executable, f"{KIT_TOOLS}/{name}", *args], cwd=self.root)
 
     def reset(self) -> None:
@@ -253,6 +267,9 @@ def scaffold(tmp: Path, name: str, cid: str) -> Product | None:
              + " ".join(f"{k.rsplit('/', 1)[-1]}={str(files.get(k, 'MISSING'))[:12]}" for k in keys))
     except (OSError, KeyError, ValueError) as e:
         note(f"{name} kit snapshot could not be read: {type(e).__name__}: {e}")
+    if ok and SABOTAGE:
+        note(f"SABOTAGE: every call of the installed {KIT_TOOLS}/{SABOTAGE.partition('=')[0]} of {name} runs a stub that "
+             f"always exits {SABOTAGE.partition('=')[2]} (this run is a control of the script itself, not the V4 result)")
     return P if ok else None
 
 
@@ -366,9 +383,10 @@ LEDGER_OPEN = (_CONFIRMED +
 LEDGER_CLOSED = (_CONFIRMED +
                  "  - id: UQ-V4-2\n    status: ruled\n    type: provisional-bundle\n    blocking: false\n"
                  "    target: {ui_ids: [\"action.v4.one\"]}\n    question: 図面の追補で [仮] の印が付いた決定を、そのままでよいか\n"
-                 "    ruling: accept-as-built\n    decided_by: producer\n"
+                 "    ruling: accept-as-built\n    decided_by: user\n"
                  "    confirmed_checked: [{id: UQ-V4-1, touches: no, why: \"並び順だけを決めた — UQ-V4-1 の意味は変えない\"}]\n"
                  "    evidence:\n      - \"確認項目が覆った決定: 並び順(H1)\"\n      - \"作ったままの決定: 既定値\"\n")
+LEDGER_NO_LIST = LEDGER_OPEN[:LEDGER_OPEN.index("    confirmed_checked:")]   # known-bad: the bundle lists nothing
 ADDENDUM_TEXT = ("# 図面の追補 — ECO-001 周 1\n\n"
                  "- [裁定] 一覧の操作 action.v4.one は残す(UQ-V4-1)\n"
                  "- [仮] 並び順は新しい順\n- [仮] 既定値は 10 件\n")
@@ -378,28 +396,47 @@ def gate(P: Product) -> subprocess.CompletedProcess:
     return P.tool("ui-cad-gate.py", "--ui-dir", "bomdd/ui")
 
 
-def record_text(P: Product, rounds: list[dict], final: bool) -> str:
+def record_text(P: Product, rounds: list[dict], final: bool, back: bool = False) -> str:
+    p1 = {"id": "P-1", "round": 1, "source": "producer", "kind": "provisional", "disposition": "to_user_check", "channel": "H1"}
+    if final:
+        p1["outcome"] = "diff"
+    reactions = []
+    if final:
+        reactions = [{"id": "X1", "round": 1, "words": "新しい順より、名前の順がよい", "kind": "pass_but", "kind_by": "user",
+                      "class": "decision_change", "lands_on": ["P-1"], "listed_before_use": "yes"},
+                     {"id": "X2", "round": 2, "words": "合格", "kind": "pass", "kind_by": "user", "class": "none"}]
+    if back:   # variant C: the confirmation items sent the change back to a round
+        reactions += [{"id": "X3", "round": 2, "words": "H1 は不合格。並びが保存されない", "kind": "fail", "kind_by": "user",
+                       "class": "repair"},
+                      {"id": "X4", "round": 3, "words": "H1 合格", "kind": "pass", "kind_by": "user", "class": "none"}]
     doc = {
-        "schema": "loop-record/0.1-candidate", "eco": ECO, "limits": {"rounds": 3},
+        "schema": "loop-record/0.1-candidate", "eco": ECO, "limits": {"rounds": 3, "budget": "0(合成)"},
         "rounds": rounds,
         "items": [
-            {"id": "P-1", "round": 1, "source": "producer", "kind": "provisional", "disposition": "to_user_check",
-             "channel": "H1", "outcome": "diff" if final else "pending"},
+            p1,
             {"id": "Q-1", "round": 1, "source": "reader", "kind": "preread", "disposition": "not_asked",
              "why": "役割が 1 通りにしか読めない足し物だった"},
         ],
-        "reactions": ([{"id": "X1", "round": 1, "words": "新しい順より、名前の順がよい", "kind": "pass_but", "kind_by": "user",
-                        "class": "decision_change", "lands_on": ["P-1"], "listed_before_use": "yes"}] if final else []),
+        "reactions": reactions,
         "reports": ([{"id": "U-1", "accepted": "yes", "named_in": "U-1 を受け入れる"}] if final else []),
     }
     return yaml.safe_dump(doc, allow_unicode=True, sort_keys=False)
 
 
+def count_check(P: Product, cid: str, desc: str, rel: str = RECORD) -> bool:
+    """loop-count --check on a record: the line's verdict is the tool's exit code."""
+    lc = P.tool("loop-count.py", "--check", rel)
+    gaps = [l for l in lc.stdout.splitlines() if l.startswith("[gap]") or l.startswith("[input]")]
+    return check(cid, lc.returncode == 0, desc + ": exit 0",
+                 f"exit {lc.returncode}; {(lc.stdout.splitlines() or [''])[0]}" + ("; " + one_line("\n".join(gaps), 300) if gaps else ""))
+
+
 def round_row(P: Product, n: int, commit: str, reply: str | None) -> dict:
-    row = {"n": n, "set": {"commit": commit, "files": {APP: sha256(P, APP)}},
+    row = {"n": n, "set": {"commit": commit, "jig": "none", "files": {APP: sha256(P, APP)}},
            "handed_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
            "repairs": {"fixed_after_reproduction": 0, "patched_without_reproduction": 0}}
     if reply:
+        row["launches"] = "unknown"   # the synthetic route hands over no launcher
         row["reply"] = {"words": reply}
     return row
 
@@ -452,12 +489,14 @@ def ruled_change(P: Product, L: str) -> None:
         P.reset()
 
 
-def enable_three_states(P: Product, cid: str) -> bool:
+def enable_three_states(P: Product, cid: str, open_implemented: bool = True) -> bool:
     """states [staged, implemented, applied] / open_states [staged, implemented] — the three-state profile the
-    qualification runner itself uses (its N7 / N10 controls). The profile is equipment: the change goes through E08."""
+    qualification runner itself uses (its N7 / N10 controls). The profile is equipment: the change goes through E08.
+    With open_implemented=False only `states` is changed (open_states stays [staged]) — variant D's control profile."""
     text = P.read(PROFILE)
+    want_open = ["staged", "implemented"] if open_implemented else ["staged"]
     pats = [(r"^states: \[staged, applied\]$", "states: [staged, implemented, applied]"),
-            (r"^open_states: \[staged\](?=\s)", "open_states: [staged, implemented]")]
+            (r"^open_states: \[staged\](?=\s)", "open_states: [" + ", ".join(want_open) + "]")]
     for pat, rep in pats:
         if len(re.findall(pat, text, re.M)) != 1:
             raise StepError(f"the installed profile does not have exactly one line matching {pat!r}")
@@ -469,7 +508,7 @@ def enable_three_states(P: Product, cid: str) -> bool:
     if ok:
         P.prof = yaml.safe_load(P.read(PROFILE))
         ok = check(cid + ".read", P.prof["states"] == ["staged", "implemented", "applied"]
-                   and P.prof["open_states"] == ["staged", "implemented"],
+                   and P.prof["open_states"] == want_open,
                    "the committed profile reads back as three states",
                    f"states={P.prof['states']} open_states={P.prof['open_states']} trailers.fix={P.prof['trailers']['fix']}")
     return ok
@@ -497,8 +536,15 @@ def route(P: Product, L: str, ruled: bool = False, three: bool = False) -> None:
     # b. drawing addendum + rulings ledger with an open provisional-bundle; the gate; the commit
     for rel, body in UI_FILES.items():
         P.write(rel, body)
-    P.write(LEDGER, LEDGER_OPEN)
     P.write(ADDENDUM, ADDENDUM_TEXT)
+    P.write(LEDGER, LEDGER_NO_LIST)
+    g = gate(P)
+    gu7 = [l for l in g.stdout.splitlines() if "[GU7] FAIL" in l]
+    check(f"{L}.b.gate.ctl", g.returncode == 1 and bool(gu7),
+          "control (the gate's exit code is read): the same ledger with the bundle's `confirmed_checked` left out makes "
+          "ui-cad-gate.py exit 1 with a [GU7] FAIL line", f"exit {g.returncode}; [GU7] FAIL lines={len(gu7)}"
+          + (f"; first: {gu7[0].strip()[:160]}" if gu7 else ""))
+    P.write(LEDGER, LEDGER_OPEN)
     g = gate(P)
     other = [l for l in g.stdout.splitlines() if "] FAIL " in l]
     last = (g.stdout.strip().splitlines() or [""])[-1]
@@ -520,9 +566,16 @@ def route(P: Product, L: str, ruled: bool = False, three: bool = False) -> None:
     # d. loop record (round 1) -> candidate round 2 -> loop record (round 2)
     P.write(RECORD, record_text(P, [round_row(P, 1, c1, None)], final=False))
     p = P.commit([RECORD], "record(eco-001): 周 1 の記録(版の組・渡した時刻)")
-    lc = P.tool("loop-count.py", "--check", RECORD)
-    passed_commit(P, f"{L}.d.rec1", f"loop record {RECORD} (round 1) committed", p,
-                  f"loop-count --check exit {lc.returncode}")
+    passed_commit(P, f"{L}.d.rec1", f"loop record {RECORD} (round 1) committed", p)
+    count_check(P, f"{L}.d.rec1.count", f"{KIT_TOOLS}/loop-count.py --check {RECORD} on the round-1 record (no reply yet)")
+    bad_rel = "bomdd/loops/v4-known-bad.yaml"   # written, checked and removed — never staged
+    P.write(bad_rel, "\n".join(l for l in P.read(RECORD).splitlines() if not l.strip().startswith("handed_at:")) + "\n")
+    lc = P.tool("loop-count.py", "--check", bad_rel)
+    n_gap = sum(1 for l in lc.stdout.splitlines() if l.startswith("[gap]"))
+    check(f"{L}.d.rec1.ctl", lc.returncode == 1 and n_gap == 1 and "handed_at" in lc.stdout,
+          "control (the count's exit code is read): the same record with `handed_at` removed makes loop-count.py --check "
+          "exit 1 with that one gap", f"exit {lc.returncode}; [gap] lines={n_gap}")
+    (P.root / bad_rel).unlink()
 
     if ruled:
         ruled_change(P, L)
@@ -556,6 +609,20 @@ def route(P: Product, L: str, ruled: bool = False, three: bool = False) -> None:
         passed_commit(P, f"{L}.impl", f"the `implemented` transition commit: {ECO} '{initial}' -> 'implemented' with the trailer "
                                       f"`{fix_tr}: {ECO}` (register only, no product code)", p,
                       f"{ECO} status in HEAD = '{P.status_of()}'")
+        # the return to a round after `implemented` (eco-turn section 5: a confirmation item failed -> fix, commit a
+        # candidate, hand over again). Allowed because `implemented` is in this profile's open_states.
+        P.write(APP, "round 3\n")
+        p = P.commit([APP], "fix(eco-001): 周 3 候補 — 確認項目 H1 が不合格だったので、直す周へ戻る")
+        passed_commit(P, f"{L}.back", f"return to a round after `implemented`: a candidate commit on {APP} (protected), no "
+                                      f"trailer, with open_states={P.prof['open_states']}", p)
+        check(f"{L}.back.status", P.status_of() == "implemented",
+              f"the return leaves {ECO} in 'implemented' (the status is not moved back)", f"status in HEAD = '{P.status_of()}'")
+        c3 = P.head()
+        rows[1]["set"]["files"][APP] = hashlib.sha256(P.git("show", f"{c2}:{APP}").stdout.encode("utf-8")).hexdigest()
+        rows.append(round_row(P, 3, c3, "H1 合格"))
+        P.write(RECORD, record_text(P, rows, final=True, back=True))
+        p = P.commit([RECORD], "record(eco-001): 周 3 の記録(確認項目からの戻りの周)")
+        passed_commit(P, f"{L}.back.rec", f"loop record {RECORD} (round 3, the return) committed", p)
     before = P.status_of()
 
     # e. acceptance — the bundle is closed, the gate is run again, the status moves with the accept trailer
@@ -590,10 +657,7 @@ def route(P: Product, L: str, ruled: bool = False, three: bool = False) -> None:
           one_line(scope + "\n" + okline) if v.returncode == 0 else rule_msg(v))
 
     # f. loop-count --check on the final record
-    lc = P.tool("loop-count.py", "--check", RECORD)
-    gaps = next((l for l in lc.stdout.splitlines() if l.startswith("gaps:")), "")
-    check(f"{L}.f", lc.returncode == 0, f"{KIT_TOOLS}/loop-count.py --check {RECORD} on the final record: exit 0",
-          f"exit {lc.returncode}; {(lc.stdout.splitlines() or [''])[0]}; {gaps}")
+    count_check(P, f"{L}.f", f"{KIT_TOOLS}/loop-count.py --check {RECORD} on the final record")
 
     neg_e01(P, f"{L}.neg2", f"after acceptance — {ECO} is '{final_state}', nothing is open")
 
@@ -615,6 +679,31 @@ def route(P: Product, L: str, ruled: bool = False, three: bool = False) -> None:
          + " / ".join(log))
 
 
+def closed_control(P: Product, L: str) -> None:
+    """Variant D: three states with open_states [staged] only. The return to a round after `implemented` must be refused."""
+    initial, fix_tr, reg = P.prof["initial"], P.prof["trailers"]["fix"], P.prof["register"]
+    P.write(reg, register_text(P, initial, approved=False))
+    P.write(ORDER, order_text(initial))
+    p = P.commit([reg, ORDER], "起票(eco-001): V4 probe — 周で回す変更を起票(上限 3 周)")
+    if not passed_commit(P, f"{L}.a", f"filing: {ECO} in status '{initial}' + {ORDER}, committed alone", p):
+        raise StepError("filing was refused — the control cannot be driven")
+    if not enable_three_states(P, f"{L}.p3", open_implemented=False):
+        raise StepError("the three-state profile could not be set up — the control cannot be driven")
+    P.write(APP, "round 1\n")
+    p = P.commit([APP], "fix(eco-001): 周 1 候補 — 仮の決定で作った最初の版")
+    passed_commit(P, f"{L}.c", f"candidate commit, round 1: {APP} (protected), no trailer ({ECO} is '{initial}', which is open)", p)
+    P.write(reg, register_text(P, "implemented", approved=False))
+    p = P.commit([reg], "fix(eco-001): 周 1 の候補を implemented にする(人の「合格」の後・確認項目を渡す前)", f"{fix_tr}: {ECO}")
+    if not passed_commit(P, f"{L}.impl", f"the `implemented` transition commit with the trailer `{fix_tr}: {ECO}`", p,
+                         f"{ECO} status in HEAD = '{P.status_of()}'"):
+        raise StepError("the `implemented` transition was refused — the control cannot be driven")
+    P.write(APP, "round 2\n")
+    p = P.commit([APP], "fix(eco-001): 周 2 候補 — 確認項目 H1 が不合格だったので、直す周へ戻る")
+    refused_commit(P, f"{L}.back.ctl", f"control: with open_states={P.prof['open_states']} (no `implemented`), the return to a "
+                                       f"round after `implemented` — a candidate commit on {APP} — is refused by E01", p, "E01")
+    P.reset()
+
+
 def main() -> int:
     emit(f"v4_route: ECO-126 V4 — the route's commit sequence through the installed hooks and lifecycle validator "
          f"({date.today().isoformat()})")
@@ -633,7 +722,7 @@ def main() -> int:
     tmp = Path(tempfile.mkdtemp(prefix="bomdd-v4-"))
     try:
         emit("== Variant A: the scaffolded profile as installed (2 states, ruled_layer not enabled) ==")
-        A = scaffold(tmp, "V4RouteA", "A.scaffold")
+        A = scaffold(tmp, "V4RouteA", "A.scaffold") if "A" in ONLY else None
         if A is not None:
             kit_checks(A)
             try:
@@ -641,22 +730,31 @@ def main() -> int:
             except StepError as e:
                 check("A.abort", False, "variant A stopped", str(e))
         emit("== Variant B: the same route with ruled_layer enabled (E13) ==")
-        B = scaffold(tmp, "V4RouteB", "B.scaffold")
+        B = scaffold(tmp, "V4RouteB", "B.scaffold") if "B" in ONLY else None
         if B is not None:
             try:
                 route(B, "B", ruled=True)
             except StepError as e:
                 check("B.abort", False, "variant B stopped", str(e))
         emit("== Variant C: the same route on a three-state profile (staged -> implemented -> applied; E03 / E04) ==")
-        C = scaffold(tmp, "V4RouteC", "C.scaffold")
+        C = scaffold(tmp, "V4RouteC", "C.scaffold") if "C" in ONLY else None
         if C is not None:
             try:
                 route(C, "C", three=True)
             except StepError as e:
                 check("C.abort", False, "variant C stopped", str(e))
-        ids = {p.name: m for p, m in ((x, MANIFESTS.get(x.name)) for x in (A, B, C) if x is not None)}
-        same = len(set(ids.values())) == 1 and len(ids) == 3
-        note(f"kit manifest the run is bound to: {ids} — {'one kit for all three scaffolds' if same else 'NOT one kit: the method working tree changed during the run (or a scaffold failed)'}")
+        emit("== Variant D: control for C — three states with open_states [staged] only (the return must be refused) ==")
+        D = scaffold(tmp, "V4RouteD", "D.scaffold") if "D" in ONLY else None
+        if D is not None:
+            try:
+                closed_control(D, "D")
+            except StepError as e:
+                check("D.abort", False, "variant D stopped", str(e))
+        ids = {p.name: m for p, m in ((x, MANIFESTS.get(x.name)) for x in (A, B, C, D) if x is not None)}
+        same = len(set(ids.values())) == 1 and len(ids) == len(ONLY & {"A", "B", "C", "D"})
+        note(f"kit manifest the run is bound to: {ids} — {'one kit for every scaffold of this run' if same else 'NOT one kit: the method working tree changed during the run (or a scaffold failed)'}")
+        if ONLY != {"A", "B", "C", "D"} or SABOTAGE or os.environ.get("V4_OUT"):
+            note(f"this is NOT the V4 result: V4_ONLY={sorted(ONLY)} V4_SABOTAGE={SABOTAGE!r} V4_OUT set={bool(os.environ.get('V4_OUT'))}")
     finally:
         left = cleanup_tmp(tmp)
         note("cleanup: temp directory removed" if not left else f"cleanup: {len(left)} path(s) could not be removed: {left[:3]}")

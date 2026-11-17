@@ -1,4 +1,4 @@
-loop-count: ECO-006 — rounds 2 / limit 5
+loop-count: ECO-006 — rounds 2 / limit 5 / budget 1.5M tokens for other sessions
   round 1: commit b84cedd files 1 launches unknown reply yes
   round 2: commit 5ab2031 files 1 launches unknown reply yes
 

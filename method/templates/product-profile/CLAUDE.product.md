@@ -34,7 +34,7 @@ BomDD(BOM 駆動開発)で製造するプロダクト。`bomdd/` が設計・受
 | `/bomdd-ui-cad` | モック→UI-IR/UI-BOM の CAD 化(施錠付き・§12.1 双子出力= DOM+PNG) |
 | `/eco-file <症状・要求>` | ECO 起票+工程診断(不具合・新機能・拡張すべての入口) |
 | `/eco-fix <eco-NNN>` | プローブ先行の是正+機械受入 → golden 基準提示で停止 |
-| `/eco-turn <eco-NNN>` | 周で回す変更(change-management.md §3.5)の周の引き渡し・反応の振り分け → 確認項目の提示で停止 |
+| `/eco-turn <eco-NNN>` | 周で回す変更(change-management.md §3.5): 周ごとに版を渡して停止(合否を付けずに使ってもらう)→ 反応の振り分け →「合格」の後に、確認項目と未解決の報告を渡して停止 |
 | `/eco-accept <eco-NNN>` | golden 合格後のクローズ(観点明記・register applied・教訓) |
 | `/sec-advisory <CVE等>` | OSS 脆弱性の実測逆引き → 処置選択肢提示で停止 |
 

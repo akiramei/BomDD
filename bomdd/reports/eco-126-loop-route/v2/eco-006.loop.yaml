@@ -2,7 +2,7 @@ schema: loop-record/0.1-candidate
 eco: ECO-006
 product: MoviePad
 source_table_sha256: 67861a0945b7fa2afe5bbdcad9a3e22b1aac6914a38583faccb82a92a4dc8315
-limits: {rounds: 5}
+limits: {rounds: 5, budget: "1.5M tokens for other sessions"}
 rounds:
   - n: 1
     set: {commit: b84cedd, jig: ce3520a98558e382, files: {MoviePad.dll: 5ae0b02f8f20b0c1}}

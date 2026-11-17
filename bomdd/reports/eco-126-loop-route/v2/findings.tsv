@@ -1,0 +1,66 @@
+id	turn	source	kind	subject	parent	disp	channel	outcome	h3	note
+F1	1	reader	finding	F1	S-T1P7	to_user_check	H5	passed		改訂 1 にも記載
+F2	1	reader	finding	S-N1	S-VC24	to_user_check	H2	passed		改訂 1 にも記載。作り手の N1 と同じ件
+F3	1	reader	finding	F3	P-R17	to_user_report	U-1	accepted		7 回の引きで 0 回
+F4	1	reader	finding	F4	P-R17	to_user_report	U-2	accepted		7 回の引きで 0 回
+F5	1	reader	finding	S-D1	P-R17	no_action		none		記録が T1-D1 と結ぶ
+F6	1	reader	finding	F6	P-R17	to_user_report	U-3	accepted		測っていない
+F7	1	reader	finding	S-D3	P-R17	to_user_check	H3	passed		記録が T1-D3 と結ぶ。第 1 版の H3 への違いは札の話で、この件(縁の遅れ)ではない
+F8	1	reader	finding	S-D5	P-R20	no_action		tied_to_diff	mechanism	記録が T1-D5 と結ぶ。周 2 で G5 として再び挙がり H4 へ
+F9	1	reader	finding	F9	P-R20	to_user_report	U-4	diff	record	周 2 で対象の仕組みが無くなった
+F10	1	reader	finding	S-D7	P-R20	no_action		tied_to_diff	record	記録が T1-D7 と結ぶ
+F11	1	reader	finding	F11	P-R20	to_user_check	H7	passed		H13(任意)の分は開いたまま
+F12a	1	reader	finding	F12a		no_action		none		
+F12b	1	reader	finding	F12b	P-R18	to_user_check	H11	passed		UQ-0032。最初は未解決の報告に入れ、見直しで単独の裁定に直した
+F13	1	reader	finding	F13	P-R18	no_action		none		
+F14	1	reader	finding	F14	P-R17	no_action		none		
+F15	1	reader	finding	F15	P-R17	no_action		tied_to_diff	mechanism	速さの境目は表示の単位
+F16	1	reader	finding	S-D12		no_action		none		記録が D12 と結ぶ
+F17	1	reader	finding	F17		no_action		none		
+F18	1	reader	finding	S-D8	S-T1P7	known_only		measured		記録が T1-D8 と結ぶ。作り手の実測 467 回中 2 回
+F19	1	reader	finding	F19	P-R19	to_user_check	H12	open		任意の項目
+F20	1	reader	finding	S-D13		no_action		none		記録が D13 と結ぶ
+F21	1	reader	finding	F21	P-R21	to_user_check	H1	passed		
+F22	1	reader	finding	F22		measured_closed		measured		diff 0 行
+G1	2	reader	finding	G1	P-R20r2	to_user_check	H4	passed		押す側は記録で埋まった。離す側の数字は無い
+G2	2	reader	finding	G2	P-R20r2	record_fixed		none		図面の文を訂正
+G3	2	reader	finding	G3		no_action		none		
+G4	2	reader	finding	G4	P-R20r2	no_action		none		
+G5	2	reader	finding	S-D5	P-R20r2	to_user_check	H4	passed		記録が T1-D5 と結ぶ。案 B の「失うもの」に 3 場面が漏れていた
+G6	2	reader	finding	G6	P-R20r2	to_user_check	H1	passed		
+G7	2	reader	finding	G7		record_fixed		none		台帳の問いの文
+G8	2	reader	finding	G8		no_action		none		
+G9	2	reader	finding	G9	P-R20r2	to_user_check	H4	passed		
+G10	2	reader	finding	G10		known_only		none		
+T1-D1	1	maker	decision	S-D1	P-R17	no_action		none		
+T1-D2	1	maker	decision	T1-D2	P-R17	to_user_check	H7	passed		
+T1-D3	1	maker	decision	S-D3	P-R17	to_user_check	H3	passed		
+T1-D4	1	maker	decision	T1-D4	P-R17	no_action		none		
+T1-D5	1	maker	decision	S-D5	P-R20	no_action		tied_to_diff	record	
+T1-D6	1	maker	decision	T1-D6	P-R18	to_user_check	H5	passed		
+T1-D7	1	maker	decision	S-D7	P-R20	no_action		tied_to_diff	record	
+T1-D8	1	maker	decision	S-D8	P-R17	no_action		none		
+T1-D9	1	maker	decision	T1-D9		no_action		none		
+T1-D10	1	maker	decision	T1-D10		no_action		none		内部
+T1-D11	1	maker	decision	T1-D11		no_action		none		内部
+T1-D12	1	maker	decision	S-D12		no_action		none		内部
+T1-D13	1	maker	decision	S-D13		no_action		none		内部
+T1-D14	1	maker	decision	T1-D14		no_action		none		内部
+T1-D15	1	maker	decision	T1-D15		no_action		none		内部
+T1-D16	1	maker	decision	T1-D16		no_action		none		内部
+T1-D17	1	maker	decision	T1-D17		no_action		none		内部。画面のコードはどのテストも通らない
+T1-D18	1	maker	decision	T1-D18		no_action		none		内部
+T1-N1	1	maker	notice	S-N1	S-VC24	to_user_check	H2	passed		最初の刻みの位置が向きで違う(図面も直した)
+T1-N2	1	maker	notice	S-D3	P-R17	to_user_check	H3	passed		止まった後の最初の動きの遅れ
+T2-D1	2	maker	decision	T2-D1	P-R20r2	no_action		none		内部
+T2-D2	2	maker	decision	T2-D2	P-R20r2	no_action		none		内部
+P-R17	1	orchestrator	provisional	P-R17		to_user_check	H2,H3,H8	passed		引く量を速さで変える。中の決定 6(T1-1〜6)。境目の数 60・300・0.1 秒そのものは、個別に確かめた記録が無い
+P-R18	1	orchestrator	provisional	P-R18		to_user_check	H5,H11	passed		縁とカーソルのずれ。中の決定 2。前に確かめたルーペの置き方(G8)に触れる — 単独の裁定 UQ-0032 は作った後に立てた
+P-R19	1	orchestrator	provisional	P-R19		to_user_check	H4	passed		Shift で常に細かく。中の決定 1
+P-R20	1	orchestrator	provisional	P-R20		to_user_check	H2,H3,H4,H6	diff	cause	値の札の「ゆっくり」。中の決定 1。前に確かめた札(G6)に触れる — 単独の裁定 UQ-0031 は作った後に立てた。作る前の確認の文 VC-25 が「速く引くと札に出ない」と書いていた
+P-R21	1	orchestrator	provisional	P-R21		to_user_check	H1	passed		「動画上で調整」の説明の文。中の決定 1
+P-K1a	1	orchestrator	ratification	T1-D6		to_user_check	H5	passed		改訂 1: 端では R18 を保ち、T1-P7 を狭める(結果を見てから)
+P-K1b	1	orchestrator	ratification	S-D8		no_action		none		改訂 1: 丸めの境目での 1 画素の違いを受け入れる
+P-K1c	1	orchestrator	ratification	S-D3		to_user_check	H3	passed		改訂 1: 押した後の最初の動きは、そのまま
+P-R20r2	2	orchestrator	provisional	P-R20r2		to_user_check	H4	passed		改訂 2: 札は Shift のあいだだけ。方向はオーナーの提案(4 案を見せた後)。UQ-0031 の裁定
+P-R20r2fix	2	orchestrator	ratification	G2		no_action		none		改訂 2 への訂正: 量が変わらない表示でも Shift で札が付く。作りは変えない

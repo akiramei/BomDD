@@ -13,7 +13,8 @@
 #
 # check の終了コード: 0 = この stamp の起動が 1 回以上あり、全部が渡した版と一致し、今のファイルも印と同じ
 #                     1 = 一致しない起動がある・今のファイルが印と違う・跡に読めない行がある
-#                     2 = 入力エラー(フォルダや handover.json が無い・形が違う・使えないファイル名)
+#                     2 = 測れない(フォルダや handover.json が無い・形が違う・跡が読めない・使えないファイル名 = [input]、
+#                         想定外の例外 = [internal])。**合格でも不合格でもない**
 #                     3 = この stamp の起動口からの起動が 0 回(**不明** — 合格ではない)
 # check の最後の「record line」を、周の記録(bomdd/loops/eco-NNN.yaml)の launches に写す。
 #
@@ -30,13 +31,15 @@
 #     (スクリプトが自分で exit しない限り)。
 #   - selftest は、いまの OS の起動口だけを通す(Windows なら launch.cmd)。もう一方は BomDD ECO-126 の V3 の記録。
 #   - ファイル名の各区切りは、英数字か _ で始める(`./main.bin`・`.hidden/m.bin`・`bin\app.bin` は使えない)。
-#   - 既知の欠陥: handover.json の main・program が文字列でないとき、launch-log.tsv がフォルダのときは、[input](exit 2)
-#     ではなく例外で落ちる(exit 1 — 「違う版が動いた」と同じ番号)。
-#   - selftest の腕が覆うのは、検査の一部である(別の文脈の読みの 2 回目: 検査を 1 つずつ外した写し 25 のうち、selftest が
-#     赤になったのは 13。たとえば「違う版が動いたが、ファイルは元に戻された」場合の腕は無い — 道具そのものは exit 1 を返す)。
+#   - selftest の腕が覆う範囲(BomDD ECO-126 の証拠 mutants_tools.py・2026-11-17 に実測): 検査を 1 つずつ外した写しのうち、
+#     別の文脈の読みが作った 25 の 24 と、後から足した検査の 3 のすべてで、selftest が赤になった。赤にならなかった 1 つは
+#     `..` の検査(ファイル名の形の検査が同じ名前を先に拒むので、外しても結果が変わらない)。写しの一覧に無い検査については、
+#     何も言えない。POSIX の起動口(launch.sh)は、この selftest を POSIX で走らせたときだけ通る。
 
 import argparse
+import contextlib
 import hashlib
+import io
 import json
 import os
 import re
@@ -136,7 +139,8 @@ def _manifest(d):
     ok = (isinstance(m, dict) and m.get("schema") == SCHEMA and isinstance(m.get("files"), dict) and m["files"]
           and isinstance(m.get("stamp_id"), str) and re.fullmatch(r"[0-9a-f]{12}", m["stamp_id"] or "")
           and all(_safe(n) and isinstance(h, str) and HEX64.match(h) for n, h in m["files"].items())
-          and m.get("main") in m["files"] and m.get("program") in m["files"])
+          and isinstance(m.get("main"), str) and isinstance(m.get("program"), str)
+          and m["main"] in m["files"] and m["program"] in m["files"])
     if not ok:
         raise InputError(f"{MANIFEST} の形が違う(schema・stamp_id・files の sha256・main・program)")
     return m
@@ -150,7 +154,11 @@ def check(d):
     want = m["files"][m["main"]]
     mine, earlier, broken = [], 0, []
     if (d / LOG).exists():
-        for raw in (d / LOG).read_text(encoding="utf-8", errors="replace").splitlines():
+        try:
+            log_text = (d / LOG).read_text(encoding="utf-8", errors="replace")
+        except OSError as e:   # フォルダ・読めないファイル — 測れない(exit 2)。「違う版が動いた」(exit 1)と混ぜない
+            raise InputError(f"{LOG} が読めない: {e}")
+        for raw in log_text.splitlines():
             if not raw.strip():
                 continue
             parts = raw.rstrip("\r\n").split("\t")
@@ -201,8 +209,10 @@ def _selftest():
     def arm(label, good, r, want, must=None):
         arms[1 if good else 0] += 1
         out = (r.stdout or "") + (r.stderr or "")
-        if r.returncode != want or (must and must not in out) or "Traceback" in out:
-            bad.append(f"{label}: 期待 exit {want}{' と ' + repr(must) if must else ''}・実測 {r.returncode}")
+        musts = [must] if isinstance(must, str) else list(must or [])
+        if r.returncode != want or any(m not in out for m in musts) or "Traceback" in out:
+            bad.append(f"{label}: 期待 exit {want}{' と ' + repr(musts) if musts else ''}・実測 {r.returncode}"
+                       + ("(例外で落ちた)" if "Traceback" in out else ""))
 
     def fresh(t, name):
         d = Path(t) / name
@@ -226,7 +236,11 @@ def _selftest():
         arm("known-good: 起動 1 回・一致", True, run("check", "--dir", str(d)), 0, "launches: {count: 1, matching: 1}")
         (d / "main.bin").write_bytes(b"build two")
         _run_launcher(d)
-        arm("known-bad: 別の版が動いた", False, run("check", "--dir", str(d)), 1, "[mismatch]")
+        arm("known-bad: 別の版が動いた", False, run("check", "--dir", str(d)), 1,
+            ("[mismatch]", "launches: {count: 2, matching: 1}"))
+        (d / "main.bin").write_bytes(b"build one")
+        arm("known-bad: 違う版が動いた後で、ファイルが元に戻された", False, run("check", "--dir", str(d)), 1,
+            ("[mismatch]", "launches: {count: 2, matching: 1}"))
 
         d = stamped(t, "b")
         _run_launcher(d)
@@ -262,6 +276,77 @@ def _selftest():
         d = stamped(t, "g")
         (d / MANIFEST).write_text("[]\n", encoding="utf-8")
         arm("known-bad: handover.json の形が違う", False, run("check", "--dir", str(d)), 2, "形が違う")
+
+        # --- ECO-126 の直し(2026-11-17): 例外で exit 1 になっていた入力と、selftest が覆っていなかった検査 ---
+        d = stamped(t, "h")
+        _run_launcher(d)
+        (d / "extra.bin").unlink()
+        arm("known-bad: 印に入れたファイルが無くなった", False, run("check", "--dir", str(d)), 1, "[changed] 今のファイルが印と違う: extra.bin")
+
+        d = stamped(t, "i")
+        _run_launcher(d)
+        good = json.loads((d / MANIFEST).read_text(encoding="utf-8"))
+        with open(d / LOG, "a", encoding="utf-8") as f:
+            f.write(f"2026-01-01T00:00:00Z\tNOT-A-STAMP\tmain.bin\t{good['files']['main.bin']}\n")
+        arm("known-bad: 跡の行の stamp_id が形になっていない", False, run("check", "--dir", str(d)), 1, "[malformed]")
+
+        d = stamped(t, "j")
+        _run_launcher(d)
+        good = json.loads((d / MANIFEST).read_text(encoding="utf-8"))
+        with open(d / LOG, "a", encoding="utf-8") as f:
+            f.write(f"2026-01-01T00:00:00Z\t{good['stamp_id']}\tother.bin\t{good['files']['main.bin']}\n")
+        arm("known-bad: 跡の行の主ファイル名が印と違う", False, run("check", "--dir", str(d)), 1,
+            ("[mismatch]", "launches: {count: 2, matching: 1}"))
+
+        d = fresh(t, "k")
+        (d / "sub").mkdir()
+        (d / "sub" / "main.bin").write_bytes(b"x")
+        arm("known-bad: / で始まるファイル名", False,
+            run("stamp", "--dir", str(d), "--program", "prog.cmd", "--file", "/main.bin", "--label", "x"), 2, "英数字")
+        arm("known-bad: \\ で区切ったファイル名(実在する)", False,
+            run("stamp", "--dir", str(d), "--program", "prog.cmd", "--file", "sub\\main.bin", "--label", "x"), 2, "英数字")
+        arm("known-bad: 無いファイル", False,
+            run("stamp", "--dir", str(d), "--program", "prog.cmd", "--file", "missing.bin", "--label", "x"), 2, "ファイルが無い")
+
+        d = stamped(t, "m")
+        _run_launcher(d)
+        good = json.loads((d / MANIFEST).read_text(encoding="utf-8"))
+        for label, key, value in (
+                ("files の sha256 が形になっていない", "files", dict(good["files"], **{"main.bin": "zz"})),
+                ("stamp_id が形になっていない", "stamp_id", "XYZ"),
+                ("main が files に無い", "main", "ghost.bin"),
+                ("schema が違う", "schema", "handover-stamp/other"),
+                ("main が文字列でない(list)", "main", ["main.bin"]),
+                ("program が文字列でない(数)", "program", 7)):
+            (d / MANIFEST).write_text(json.dumps(dict(good, **{key: value})) + "\n", encoding="utf-8")
+            arm(f"known-bad: handover.json の {label}", False, run("check", "--dir", str(d)), 2, "形が違う")
+
+        d = stamped(t, "n")
+        (d / LOG).mkdir()
+        arm("known-bad: launch-log.tsv がフォルダ", False, run("check", "--dir", str(d)), 2, ("[input]", "読めない"))
+
+    # 想定外の例外は、exit 1(「違う版が動いた」)にならない — main() の受け口を、check を例外に差し替えて通す
+    def boom(_d):
+        raise RuntimeError("selftest: unexpected")
+
+    g, buf, code = globals(), io.StringIO(), None
+    orig, argv = g["check"], sys.argv
+    try:
+        g["check"] = boom
+        sys.argv = [argv[0], "check", "--dir", "."]
+        with contextlib.redirect_stdout(buf):
+            try:
+                main()
+                code = 0
+            except SystemExit as e:
+                code = e.code
+            except Exception as e:
+                code = f"例外が外へ出た({type(e).__name__})"
+    finally:
+        g["check"], sys.argv = orig, argv
+    arms[0] += 1
+    if code != 2 or "[internal]" not in buf.getvalue():
+        bad.append(f"known-bad: 想定外の例外: 期待 exit 2 と '[internal]'・実測 {code}")
     if bad:
         print("selftest FAIL(計器を先に疑う): " + " / ".join(bad))
         return 1
@@ -286,6 +371,9 @@ def main():
         sys.exit(stamp(args.dir, args.program, args.file, args.label) if args.cmd == "stamp" else check(args.dir))
     except InputError as e:
         print(f"[input] {e}")
+        sys.exit(2)
+    except Exception as e:   # 想定外の例外を、Python の既定の exit 1(= 「違う版が動いた」)にしない
+        print(f"[internal] 測れない — {type(e).__name__}: {e}")
         sys.exit(2)
 
 

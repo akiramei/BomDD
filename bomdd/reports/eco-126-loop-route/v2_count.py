@@ -1,8 +1,13 @@
 """ECO-126 V2 — the count. Transcribes the 2026-11-17 table of MoviePad ECO-006 into the loop record form, runs loop-count
 on it, and compares its numbers with a tally taken straight from the table.
 
-usage: v2_count.py <BomDD root> <findings.tsv> <out dir>
+usage: v2_count.py                 (from anywhere: the table and the output folder are beside this script)
+       v2_count.py <BomDD root> <findings.tsv> <out dir>      (the older form; the table must still have TABLE_SHA256)
 Writes <out dir>/eco-006.loop.yaml. Exits 1 if any expectation fails.
+
+The table (`v2/findings.tsv`, 65 rows) is the fixed input: a byte copy of the count of 2026-11-17
+(`bomdd/reports/count-survey-20261110/loop-trial/eco-006/stage-count/findings.tsv`, a folder that is not committed).
+The script refuses any other bytes.
 """
 import csv
 import hashlib
@@ -12,7 +17,14 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-root, tsv, out = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])
+HERE = Path(__file__).resolve().parent
+TABLE_SHA256 = "67861a0945b7fa2afe5bbdcad9a3e22b1aac6914a38583faccb82a92a4dc8315"
+if len(sys.argv) == 4:
+    root, tsv, out = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])
+elif len(sys.argv) == 1:
+    root, tsv, out = HERE.parents[2], HERE / "v2" / "findings.tsv", HERE / "v2"
+else:
+    sys.exit("usage: v2_count.py   |   v2_count.py <BomDD root> <findings.tsv> <out dir>")
 tool = root / "method" / "tools" / "loop-count.py"
 spec = importlib.util.spec_from_file_location("loop_count", tool)
 lc = importlib.util.module_from_spec(spec)
@@ -28,11 +40,15 @@ def expect(label, ok, detail=""):
 
 raw = tsv.read_bytes()
 sha = hashlib.sha256(raw).hexdigest()
+expect("the table is the fixed input (sha256)", sha == TABLE_SHA256, f"{tsv.name}: {sha[:8]}…{sha[-8:]}, {len(raw)} bytes")
+if sha != TABLE_SHA256:
+    print("V2: the table is not the fixed input — nothing else was run")
+    sys.exit(1)
 rows = list(csv.DictReader(raw.decode("utf-8").splitlines(), delimiter="\t"))
 SRC = {"orchestrator": "producer", "reader": "reader", "maker": "maker"}
 
 # --- the record (rounds, reactions and reports are from MoviePad's order of ECO-006; the items are the table's rows) ---
-L = [f"schema: {lc.SCHEMA}", "eco: ECO-006", "product: MoviePad", f"source_table_sha256: {sha}", "limits: {rounds: 5}", "rounds:",
+L = [f"schema: {lc.SCHEMA}", "eco: ECO-006", "product: MoviePad", f"source_table_sha256: {sha}", 'limits: {rounds: 5, budget: "1.5M tokens for other sessions"}', "rounds:",
      "  - n: 1",
      "    set: {commit: b84cedd, jig: ce3520a98558e382, files: {MoviePad.dll: 5ae0b02f8f20b0c1}}",
      '    handed_at: "2026-11-13T21:19:50Z"',
@@ -97,10 +113,19 @@ expect("kinds: one assigned by the producer's reading, two by the user",
 # --- 3. known-bad on the real record: each mutation makes --check exit 1 for its own reason ---
 text = rec.read_text(encoding="utf-8")
 MUT = [("a reaction with no kind", "kind: pass_but, ", "", "種類(kind)"),
-       ("a round with no set", "    set: {commit: 5ab2031, jig: none, files: {MoviePad.dll: 61eac4f1c8c7f446}}\n", "", "版の組"),
+       # (the jig field is kept: since the repair a round with no `set` at all has two gaps — the set and the jig field)
+       ("a round with no commit and no files", "    set: {commit: 5ab2031, jig: none, files: {MoviePad.dll: 61eac4f1c8c7f446}}\n",
+        "    set: {jig: none}\n", "版の組"),
        ("an accepted report with no naming reply", '  - {id: U-2, accepted: yes, named_in: "A: 受け入れる"}', "  - {id: U-2, accepted: yes}",
         "named_in"),
-       ("an item with no disposition", "disposition: to_user_report, outcome: diff", "outcome: diff", "行き先")]
+       ("an item with no disposition", "disposition: to_user_report, outcome: diff", "outcome: diff", "行き先"),
+       # the rules --check reads since the repair of 2026-11-17 (they were declared as not checked before)
+       ("a reply with no reaction row", "  - {id: X3, round: 2, words: 全部合格, kind: pass, kind_by: user, class: none}\n", "",
+        "反応の行が 1 つも無い"),
+       ("no budget", ', budget: "1.5M tokens for other sessions"', "", "費用の枠"),
+       ("a round with no jig field", "jig: none, ", "", "治具の欄"),
+       ("a reply with no launches field", "    launches: unknown\n    reply: {words: 全部合格}", "    reply: {words: 全部合格}", "launches が無い"),
+       ("an item whose round is not a round", "{id: P-R20, round: 1,", "{id: P-R20, round: 9,", "round が rounds に無い")]
 for label, old, new, must in MUT:
     assert text.count(old) == 1, label
     m = out / "mutant.yaml"

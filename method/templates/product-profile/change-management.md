@@ -225,7 +225,7 @@ CP/Oracle/製造receiptは不変とし、基準の実変更は通常ECOへ戻す
 周で回す変更(§3.5)の周ごとの候補は、`fix(eco-NNN): 周 N 候補 — <要約>` で commit し、status は変えない(遷移の trailer は付けない)。
 状態が 3 つの製品(staged → implemented → applied)では、人が「合格」と言った候補について、確認項目を渡す前に `implemented` への遷移の
 commit(fix の trailer つき)を 1 つ置く — 置かずに applied へ進むと、検査器が段の飛ばしとして拒む。状態が 2 つの製品では要らない。
-確認項目から周へ戻れるのは、`implemented` が `open_states` に入っている製品だけ(読みによる・未実測)。
+確認項目から周へ戻れるのは、`implemented` が `open_states` に入っている製品だけ(入っていなければ、戻りの周の保護パスの変更を検査器が E01 で拒む — BomDD ECO-126 の V4 で実測)。
 
 ## 5. 導線(スキル)
 
