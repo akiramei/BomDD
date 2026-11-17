@@ -771,6 +771,9 @@ decided; the route asks for exit 0 only before `/eco-accept` (the skill's A4), a
 
 ### 7.5 What remains — not accepted by this instruction; each with what can go wrong and when
 
+> **Later record (2026-11-18, after this section was written):** the user accepted eleven of these rows under three
+> restrictions; O-6 stays managed apart — section 8. The table is left as it was written.
+
 Nothing in this table is accepted by the user's instruction for this return. "Safe side" means the tool refuses or reports
 unknown; it does not mean the defect is absent.
 
@@ -827,3 +830,55 @@ three things the header lists as not checked, about a record that is not UTF-8, 
   checked (the header's list); the phrase "both measured" is gone. Q2 / Q3: each new arm is paired with the good record
   and falls for its own words and its own number of gaps. Q5: the full run is recorded as HEAD plus an uncommitted file,
   not as the bare commit. Q10: 7.5.
+
+## 8. The user's acceptance of the remaining findings (2026-11-18; status stays `implemented`, not closed)
+
+**The answer.** To the acceptance request after section 7 the user answered, in these words:
+
+> A。ただし、残存所見の受容に限定します。
+> R3-04・05・07、KD-01・04・11、O-1〜5を、報告された影響と次の制限のもとで受容します。O-6は別管理のままとしてください。
+>
+> * 初回の適用検討は2状態の製品に限定する。
+> * R3-05に該当する分類は、改善比較の根拠に使わない。
+> * 空の記録や検査の exit 0 を、内容の完全性の証拠にはしない。
+>
+> 今回の限定是正はここで区切ります。追加のコード修正・全面レビューは求めません。CI 未確認の間は検証済みで閉じず、push と製品への導入は別の指示を待ってください。
+> なお、2つの指示は両立します。「誤合格を閉じる」は解消方針、「上限後は勝手に直さない」は追加作業の権限です。上限では報告し、その後の是正は私が範囲を指定します。恒久的な優先順位の未決事項として残す必要はありません。
+
+**What this accepts.** Eleven findings, with the impact as the table of 7.5 reports it at `b0c2a6e` (the table is not
+re-worded here): R3-04, R3-05, R3-07, KD-01, KD-04, KD-11, O-1, O-2, O-3, O-4, O-5. It accepts the findings, not the
+change: nothing here is an acceptance of ECO-126, and no closing step was taken (no `verified`, no witness, no run through
+`bomdd-run`).
+
+**The three restrictions (the user's; conditions of the acceptance).**
+
+1. The first consideration of use is limited to a product with two states. (Bears on O-2 and on the return to a round in a
+   three-state product.)
+2. A classification that falls under R3-05 is not used as a basis for comparing improvement.
+3. An empty record, or a check's exit 0, is not evidence that the content is complete. (Bears on O-4 and on what
+   `loop-count --check` exit 0 means — the scope statement of 7.5.)
+
+**Where the restrictions live.** In this section, in the register's note and in the producer's memory. No text of the kit,
+no tool header and no check was changed for them (the user: no further code repair), so nothing stops or measures them; they
+are to be applied when use in a product is considered, which is a later instruction of the user's.
+
+**O-6 — not accepted; stays managed apart.** Of its four parts, one has a place outside this order: ECO-079's open window,
+in that change's own entry of the register. The other three (the onboarding page that does not list `/eco-turn`; the
+scaffold's ledger where `--ui-dir bomdd/ui` does not look; GU3 and GU4 not looking at who ruled) are written only in this
+order (section 5 and row O-6 of 7.5). No place was made for them in this return.
+
+**Declared in section 7 and not spoken to by the answer** (neither accepted nor reopened; left as they are): the sentence
+the producer added to the header of `loop-count.py` ("11 of 18", the reviewer's number, not reproduced); the two added
+phrases of 7.3; the text corrections R3-03, R3-06 and R3-08, read by nobody but the producer; that no other context read
+`7f5a4dc`; the producer's reading of the fourth point of the second instruction.
+
+**The two standing instructions (the user's clarification; this settles the question section 7 left open).**
+They do not collide. "Close a false pass" is the policy for resolving one; "do not go on repairing after the limit" is about
+who may authorise further work. At the limit the producer reports; the repair after that is in the scope the user names. No
+standing order of priority is kept as an open question.
+
+**Where this leaves the change.** The scoped repairs end here: no further code repair and no full review were asked for, and
+none was made in this return — this commit changes this order and the register's note only. Status `implemented`.
+**Not confirmed, and so not closed as verified**: CI (it has run on no commit of this ECO; nothing is pushed; `required_gates`
+includes V6). Push and use in a product each wait for a separate instruction of the user's. Checked for this record commit:
+the quick tier of the self-conformance only.
