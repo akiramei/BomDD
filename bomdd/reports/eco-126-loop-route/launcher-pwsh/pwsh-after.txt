@@ -1,0 +1,19 @@
+shell: PowerShell 7.6.10
+tool sha256: 66c957cc37b3818342aae5ef82e39eed7d3e3bc0c2843f8fdd245669bce9fab5
+--- 1. selftest
+selftest PASS(26 腕: known-bad 25・known-good 1 — いまの OS の起動口を HANDOVER_NO_START で通した)
+selftest exit=0
+--- 2. a folder with a space and non-ASCII characters in its path; launcher started through cmd
+stamp exit=0
+launcher exit=0; launcher output lines: 0
+log hash == stamped hash: True (5fddb9545db6e7a5…)
+record line — launches: {count: 1, matching: 1}
+check exit=0
+--- 3. the main file is gone at launch: nothing printed, the line says unreadable
+launcher exit=0; launcher output lines: 0
+last field: unreadable
+record line — launches: {count: 2, matching: 1}
+check exit=1
+--- 4. the same expression under a constrained language mode (Windows PowerShell 5.1 through cmd)
+constrained: output lines: 0; text: 
+folder: C:\Users\akira\AppData\Local\Temp\claude\a04aa774f4121829\8fd270db-7f05-4f98-8dd4-80276214aa59\scratchpad\hs fix 確認-3a8a39

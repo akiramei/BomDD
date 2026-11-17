@@ -880,8 +880,117 @@ They do not collide. "Close a false pass" is the policy for resolving one; "do n
 who may authorise further work. At the limit the producer reports; the repair after that is in the scope the user names. No
 standing order of priority is kept as an open question.
 
+> **Later record (2026-11-18, after this section was written):** the user then had the change pushed; the CI's Windows job
+> was red and, on the user's "A", one line of the launcher was repaired — section 9. The paragraph below is left as written.
+
 **Where this leaves the change.** The scoped repairs end here: no further code repair and no full review were asked for, and
 none was made in this return — this commit changes this order and the register's note only. Status `implemented`.
 **Not confirmed, and so not closed as verified**: CI (it has run on no commit of this ECO; nothing is pushed; `required_gates`
 includes V6). Push and use in a product each wait for a separate instruction of the user's. Checked for this record commit:
 the quick tier of the self-conformance only.
+
+## 9. The push, the red CI, and the repair of the launcher's hash line (2026-11-18; status stays `implemented`, not closed)
+
+**The user's words, in order.**
+
+> 全件の自己検査を通してから push してください
+
+> 何故赤になったのか？これは今後も毎回起きるのか？
+
+> A
+
+"A" answers the producer's question after the red CI. The option as the producer had written it, which is the scope of this
+return:
+
+> A: 起動口だけ直す — 範囲: 起動口が親の PowerShell の設定を継がずに版を測るようにする 1 か所。確認は、自己テストを Git Bash と
+> PowerShell 7 の両方から走らせること、全件の自己検査、push 後の CI。全面レビューは付けません。
+
+### 9.1 The push of `635e535`
+
+- **Where the full self-conformance ran, and why.** The pre-push gate compares the pushed commit's tree with the tree the
+  check saw, and the check's tree is the working tree. The main checkout holds two uncommitted paths that are not this
+  ECO's, so a run there cannot be pushed. A second working tree was made at `635e535` alone
+  (`.claude/worktrees/push-635e535`, detached) and the full run was started there, from Git Bash: **exit 0, 28 result
+  lines, 1419.4 s**; the witness's tree `b6bff773…` equals the commit's tree. The user's two uncommitted paths were not
+  touched. The quick tier in that tree before the full run: 26 lines, all PASS, differing from the main checkout's only in
+  two counts that the uncommitted paths explain.
+- **The push.** From that tree, `git push origin main`: `38c482b..635e535`, the twelve commits of this ECO.
+
+### 9.2 The CI run on `635e535`: red
+
+Run 44120278931 (event push): `fast (ubuntu-latest)` success, `dotnet` success, **`fast (windows-latest)` failure** — 27
+result lines PASS and one FAIL, C20b, the self-test of `handover-stamp.py` (`launcher-pwsh/ci-44120278931-failed.log`).
+The two steps after the self-conformance did not run on Windows in that job (they passed on Linux).
+
+**Cause (reproduced by the producer on the same bytes).** `launch.cmd` measured the main file with
+`powershell -NoProfile -Command "(Get-FileHash …)"`. When the launcher is started through `cmd` from a process of
+PowerShell 7, Windows PowerShell 5.1 inherits a module path that names PowerShell 7's modules, does not find `Get-FileHash`,
+and the launcher writes `unreadable` in the hash field. The Windows job of the CI runs its steps under PowerShell 7 (the log
+names `pwsh.EXE`), so the four arms that depend on a matching launch fail. `launcher-pwsh/pwsh-before.txt`: the self-test
+of the `635e535` tool, started from PowerShell 7 on the producer's machine, fails with the same arms; the launcher prints
+eight lines of error and logs `unreadable`.
+
+**Why it was not seen before the push.** The line has been there since the manufacture commit `da797b7`. Every full run of
+this ECO on the producer's machine was started from Git Bash, where the module path is not the polluted one. CI had run on
+no commit of this ECO until this push.
+
+**What it meant for the tool.** A launcher started from a PowerShell 7 terminal logs `unreadable` for the right build, and
+`check` reports "渡した版と違うものが動いた" with exit 1 — the stop side, with a wrong message. A start from Explorer was not
+tried.
+
+### 9.3 The repair (one line of the `launch.cmd` template)
+
+/preflight (bug fix; compact): baseline `635e535` = `origin/main` **confirmed**; ECO-126 `implemented`, the window open,
+`method/tools/handover-stamp.py` in `allowed_paths` **confirmed**; the red reproduced on the baseline's bytes **confirmed**.
+Start decision: **PROCEED_WITH_LIMITS** (one line; the confirmation the user's "A" names; no review).
+
+The hash line no longer calls a cmdlet. It opens the file as a stream and computes SHA-256 through .NET
+(`[IO.File]::OpenRead`, `[Security.Cryptography.SHA256]`), inside a `try … catch` that prints nothing — so nothing that the
+module path decides is used, a large file is not read into memory, and a file that cannot be read still leaves `unreadable`.
+`Join-Path` (also a cmdlet) is gone with it. **Chosen by the producer (derived layer), and why not the others**: clearing
+the module path in the launcher would also change the environment of the program the launcher starts; `certutil` prints a
+format that differs between Windows versions. **Not changed**: the time line (it calls no cmdlet and was written correctly
+in the failing runs), `launch.sh`, the tool's header, the self-test's arms, the launcher's variables (the line sets nothing
+new, so the started program's environment is as before — by reading, not measured).
+
+### 9.4 The confirmation (the producer's; no reader, as the option says)
+
+| What | From | Result | Evidence under `launcher-pwsh/` |
+|---|---|---|---|
+| the tool's self-test, unrepaired bytes (`635e535`) | PowerShell 7 | **exit 1**, four arms | `pwsh-before.txt` |
+| the tool's self-test, repaired | PowerShell 7 | **exit 0**, 26 arms | `pwsh-after.txt` |
+| the tool's self-test, repaired | Git Bash | exit 0, 26 arms (it was green there before the repair too; it shows no regression, nothing more) | `gitbash-selftest-after.txt` |
+| a stamped folder whose path has a space and non-ASCII characters; the launcher started through `cmd` | PowerShell 7 | the logged hash equals the stamped one; `check` exit 0; the launcher prints nothing | `pwsh-after.txt` |
+| the main file removed, then one launch | PowerShell 7 | nothing printed; the field says `unreadable`; `check` exit 1 | `pwsh-after.txt` |
+| V3 (the launcher really starts a harmless program) on the repaired tool | PowerShell 7 | three checks PASS; the POSIX launcher skipped (no `sh` on that shell's path) | `v3-pwsh-after.txt` |
+| the quick tier of the self-conformance, repaired | PowerShell 7 | exit 0; its 26 result lines are identical to the Git Bash run's before the repair | `quick-pwsh-after.txt` |
+
+The script that produced the first, second, fourth and fifth rows is `launcher-pwsh/launcher_check.ps1`.
+
+**Limits (declared).**
+
+- **A regression of this line is held by the CI's Windows job only**, and locally only when the self-test is started from
+  PowerShell 7. No arm was added that pollutes the module path itself (outside the one line the option names), so the
+  self-test started from Git Bash stays green if the old line comes back.
+- **A machine whose PowerShell runs in a constrained language mode**: the same expression under that mode prints nothing
+  (the last block of `pwsh-after.txt`; the mode was set inside the command, not by a machine's policy), so the launcher
+  would log `unreadable` and `check` would exit 1 — the stop side, and new with this repair (a cmdlet is allowed there).
+- **Not tried**: a start from Explorer; a large file; a real constrained machine.
+- **Evidence not measured again**: `v3-output.txt`, `v4-output.txt`, `v4-sabotage-output.txt`, `v5-output.txt` and the
+  `handover-stamp` part of `mutants-tools-output.txt` were made with the old launcher line; the tool's header carries
+  numbers from that mutant run (24 of 25, 3 of 3). None of them was run again on the repaired bytes except V3's Windows
+  half (above).
+- **Nobody but the producer has read the repair.**
+
+較正 (/calibrate, trigger ③: an instrument changed; compact; receipt_author_role = producer). Claim: the Windows launcher
+logs the main file's hash whichever shell starts it. Judged **observed for two shells** (PowerShell 7 through `cmd`: red
+before, green after on the same script; Git Bash: green before and after), **not eligible** for Explorer, for a constrained
+machine and for POSIX (unchanged, not run here). Instrument defect and attribution: the launcher line, the producer's, from
+manufacture; no defect is attributed to the CI or to a product. The self-test's blind side — its verdict depended on the
+shell that started it — is declared above and not closed.
+
+### 9.5 What this record does not contain
+
+Written before the results exist, so not here: the full self-conformance on this commit, the push of it, and the CI run
+after that push. They are reported to the user; a later record commit carries them. **Not closed as verified**: a green CI
+on the new head would be a result for that commit only, and closing is the user's.

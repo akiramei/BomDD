@@ -1,0 +1,1 @@
+selftest PASS(26 腕: known-bad 25・known-good 1 — いまの OS の起動口を HANDOVER_NO_START で通した)

@@ -1,0 +1,45 @@
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.1430577Z ##[group]Run python method/tools/self-conformance.py
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.1431075Z [36;1mpython method/tools/self-conformance.py[0m
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.1520359Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.1520937Z env:
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.1521376Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.1522045Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.1522636Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.1523280Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.1523869Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.1524632Z ##[endgroup]
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.6810232Z self-conformance: D:\a\BomDD\BomDD
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:07.7300772Z [env] python 3.12.10・PyYAML 6.0.3・os Windows-2025Server・runner win25-vs2026/20261103.298.1
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:09.0204312Z [C1] PASS YAML 78 件厳格パース(重複キー検出・陽性対照込み)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:09.0269049Z [C2] PASS JSON 32 件パース
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:09.3280237Z [C3] PASS 台帳厳格パース+verified 124 件の状態契約(窓閉鎖・verification 実記録・型④陽性対照込み)(全 verified 適合)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:10.2512108Z [C4] PASS scaffold 煙試験(絶対パス漏れ 0 件・lock/manifest 整合 True・AGENTS.md 参照スキル 28 件・生成 YAML 厳格パース 全数)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:10.3991166Z [C5a] PASS stage0-survey.py 存在しないリポ → exit 2・測定不能マーカー=True(期待 2+マーカー)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:10.4733773Z [C5b] PASS impact-retrospective.py 存在しないリポ → exit 2・測定不能マーカー=True(期待 2+マーカー)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:10.5620993Z [C6a] PASS 理由なし rejected を遮断(exit 1)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:10.6539421Z [C6b] PASS 根拠つき rejected を通す(exit 0)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:10.7498832Z [C6c] PASS 人の裁定を挙げていない仮の束を遮断(GU7)(exit 1)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:10.8407187Z [C6d] PASS 人の裁定を挙げた仮の束を通す(GU7)(exit 0)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:12.7444726Z [C6e] PASS ui-cad-gate --selftest(GU7 の腕を含む)— selftest PASS(19 腕: known-bad 15・known-good 4
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:12.7451605Z [C7] PASS README のスキル本数表記 [14, 14] = SKILLS 実数 14
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:12.7454259Z [C8] PASS リポ直下にパス破損の化石なし
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T15:58:12.8140945Z [C10] PASS 参照スキーマの派生同期(ID 層突合+二方言被覆+テンプレ空振り・陽性対照込み)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:32.7629611Z [C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 105 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:35.1099972Z [C11b] PASS 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=True・2 回決定性=True・control 105 件
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:35.6806454Z [C12] PASS 自リポ入口(AGENTS.md)の相対リンク 16 件すべて実在
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:36.4684035Z [C13] PASS リンク実在の二文脈検査(リポ文脈 106 files/302 links 不在 0・設置先文脈 31 files/77 links 不在 0・陽性対照 True)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:36.6055072Z [C14] PASS cleanup 較正 read-only 消去=True・削除不能で残置が返る=True・解放後に消える=True
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:38.6579280Z [C14] PASS kit-freshness 対照実測(FRESH/STALE/UNKNOWN/TAMPERED/余剰/入力不正/実 scaffold = 7/7)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:38.8321725Z [C15] PASS deprecated 参照の掃討(deprecated 宣言 1 件・naive 参照 0 件・陽性対照 True)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:39.4463621Z [C16] PASS converge receipt ゲート(cutoff 2026-08-30 以降 order 94 件+improvements 節 130 件〔本体ラベル要求= ECO-053 以降〕・fixture 17/17 較正成立・根拠つき免除 2 件[ECO-034(by claude-opus-5(製造側の自己宣言・監査対象。C16 が免除を件数と宣言者つきで毎回表示する)) / improvements.md #2026-08-30 BomDD 自己適用還元 — ECO-033 弧: 裁定の選択肢は主張で(by claude-opus-5(製造側の自己宣言・監査対象。C16 は有効な免除を毎回件数と宣言者つきで表示する))])
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:39.7949902Z [C17] PASS calibrate receipt ゲート(trigger ①= verified 昇格・適用 ECO-041 以降 84 件〔本体ラベル要求= ECO-051 以降〕・fixture 18/18 較正成立・根拠つき免除 0 件)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:40.7937010Z [C18] PASS witness 較正 skip-worktree 腕(tree の blob= 作業ツリー・実 index 不変)=True・対照腕=True・失敗腕(書かない)=True
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:40.7938102Z [C18] PASS pre-push witness(NA — CI は push しない環境・適用対象外の宣言)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:42.5803540Z [C19] PASS bom-structure-check selftest(既知の良品+規則ごとの変異・腕 0 本は合格ではない)— selftest: 38/38 arms as expected
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:48.1778992Z [C20a] PASS loop-count.py selftest(既知の良品+既知の不良・腕 0 本は合格ではない)— selftest PASS(64 腕: known-bad 59・known-good 5
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:59.1588271Z [C20b] FAIL handover-stamp.py selftest(既知の良品+既知の不良・腕 0 本は合格ではない)— 件数行なし(exit 1): , matching: 1}']・実測 1 / known-bad: 跡の行の主ファイル名が印と違う: 期待 exit 1 と ['[mismatch]', 'launches: {count: 2, matching: 1}']・実測 1
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:59.1592232Z 
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:59.1593125Z [time] C1 1.3 / C2 0.0 / C3 0.3 / C4 1.0 / C5 0.1 / C6 2.3 / C7 0.0 / C8 0.0 / C10 0.1 / C11 682.9 / C12 0.0 / C13 0.9 / C14 2.2 / C15 0.0 / C16 0.6 / C17 0.3 / C18 1.0 / C19 1.8 / C20 16.6 / total 711.4 s(C11 は C11b を含む)
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:59.1593956Z [cleanup] 残置 0 件
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:59.1595700Z self-conformance FAILED — 1 件の不適合
+fast (windows-latest)	Run python method/tools/self-conformance.py	2026-11-17T16:09:59.2828059Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,19 @@
+shell: PowerShell 7.6.10
+tool sha256: 4230028781ee177e91745a324c862951f7297df8aaefe51a9fd3eb5ed3b827b8
+--- 1. selftest
+selftest FAIL(計器を先に疑う): known-good: 起動 1 回・一致: 期待 exit 0 と ['launches: {count: 1, matching: 1}']・実測 1 / known-bad: 別の版が動いた: 期待 exit 1 と ['[mismatch]', 'launches: {count: 2, matching: 1}']・実測 1 / known-bad: 違う版が動いた後で、ファイルが元に戻された: 期待 exit 1 と ['[mismatch]', 'launches: {count: 2, matching: 1}']・実測 1 / known-bad: 跡の行の主ファイル名が印と違う: 期待 exit 1 と ['[mismatch]', 'launches: {count: 2, matching: 1}']・実測 1
+selftest exit=1
+--- 2. a folder with a space and non-ASCII characters in its path; launcher started through cmd
+stamp exit=0
+launcher exit=0; launcher output lines: 8
+log hash == stamped hash: False (unreadable…)
+record line — launches: {count: 1, matching: 0}
+check exit=1
+--- 3. the main file is gone at launch: nothing printed, the line says unreadable
+launcher exit=0; launcher output lines: 8
+last field: unreadable
+record line — launches: {count: 2, matching: 0}
+check exit=1
+--- 4. the same expression under a constrained language mode (Windows PowerShell 5.1 through cmd)
+constrained: output lines: 0; text: 
+folder: C:\Users\akira\AppData\Local\Temp\claude\a04aa774f4121829\8fd270db-7f05-4f98-8dd4-80276214aa59\scratchpad\hs fix 確認-c32b4b

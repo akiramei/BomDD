@@ -1,0 +1,5 @@
+PASS launch.cmd starts the program and logs one line with the stamp's hash — stamp 0, launcher 0, started True, check 0
+PASS a changed file is reported as a mismatch — check 1
+PASS a start that bypasses the launcher is reported as unknown, not as a pass — check 3
+SKIP the POSIX launcher (no sh)
+V3: all as expected
