@@ -694,3 +694,130 @@ The user names what is accepted. Nothing in this list was repaired after the con
   in the lists now turns the self-test red; for `handover-stamp` all but the equivalent one. Q5: CI, the push, a POSIX
   system and a boundary exploration of the final GU7 are recorded as not measured. Q9: V4 prints the kit manifest of its
   four scaffolds. Q11: malformed input of the two tools is now a class of its own with one exit code (2), except KD-01.
+
+## 7. Second scoped repair on the user's "B" (2026-11-17; status stays `implemented`, not closed)
+
+**The instruction.** To the acceptance request after section 6 the user answered, in these words:
+
+> Bを、次の範囲に限定します。
+>
+> * R3-01：項目と反応の両方で、周番号を整数として検査し、真偽値・小数を受け付けないようにする。
+> * R3-02：`to_user_report` の項目から、対応する `reports` の行を確実に辿れるようにし、欠落を検出する。無関係な報告が1行あるだけで通る形にはしない。
+> * 確認は、現在誤って通る入力が修正後に拒まれること、対応する正常入力が通ること、既存の回帰検査が通ることに限定する。対応する自己テストも残す。
+> * 新しい全面レビューは付けない。文中の誤った主張は確認済みの事実へ訂正し、語彙や機能の追加には広げない。
+>
+> その他の所見は、この指示で受け入れたとは扱わず、影響と適用範囲を整理して再提示してください。CI 未確認は引き続き未確認として扱ってください。
+
+**How the fourth point was read (the producer's reading, declared).** "Wrong statements in the text" was taken to cover the
+sentences the confirmation of 6.6 showed to be false and that the producer had reproduced or could confirm from a committed
+output: R3-03, R3-06, R3-08, and the header's list of what `--check` does not check. R3-04 (a sentence that is missing) and
+R3-05 (a word that is missing) would be additions and were left. The user did not say which of the two standing instructions
+comes first when they collide (section 6.6); this return does not settle it.
+
+**/preflight (continuation).** Baseline `5655ef2` **confirmed** (HEAD; nothing pushed; the working tree also holds
+`method/improvements.md` and `bomdd/reports/count-survey-20261110/`, not this ECO's). ECO-126 `implemented`, stop type NONE:
+**confirmed**. The files to change are in `allowed_paths`: **confirmed**. Start decision: **PROCEED_WITH_LIMITS** (two repairs,
+three kinds of confirmation, no review).
+
+### 7.1 R3-01 — a round number is an integer
+
+`loop-count.py` reads a round number through one helper that returns it only when it is an integer and not a bool. The four
+places that compared with equality use it: an item's `round`, a reaction's `round`, the match of a replied round to its
+reaction rows, and the lookup of a reaction's round. The list of valid round numbers is built from integer `n` only. A round
+written `true`, `yes` or `1.0` is the gap it already was for `"1"`: "round が rounds に無い", exit 1.
+
+### 7.2 R3-02 — a reported item names its row in `reports`
+
+An item with `disposition: to_user_report` must carry in `channel` the id of one row of `reports`, compared as text. No
+`channel`, or an id that is not in `reports`, is a gap whatever other report rows the record holds. **Chosen by the producer
+(derived layer), and why**: `channel` is the field the real ECO-006 record already uses in exactly this way (its four reported
+items carry `U-1` to `U-4`), so no field and no word is added and that record passes unchanged. **Not added**: a list of ids
+in one `channel`; the reverse rule (a row of `reports` that no item names — reports also come from reactions). **When the rule
+can be met**: a row of `reports` needs `accepted`, so a record with a reported item passes `--check` only once that report is
+decided; the route asks for exit 0 only before `/eco-accept` (the skill's A4), and no step asks for it earlier.
+
+### 7.3 Sentences corrected to what was confirmed (before → after; nothing else in the texts was changed)
+
+| Where | Before | After | Confirmed by |
+|---|---|---|---|
+| `eco-turn.md`, the exit-2 bullet (R3-03) | 「起動口を作っていない・`handover.json` や跡が壊れている」 | 「起動口を作っていない・`handover.json` の形が違う・跡のファイルが読めない」+「跡の中に読めない行があるときは、exit 2 ではなく exit 1」 | the tool's self-test arms for each class; the producer's reproduction in `inspection/review-r3-report.md` |
+| `eco-turn.md`, the three-state return (R3-06) | 「入っていなければ…E01 で拒む。戻っても status は `implemented` のまま — …V4 で、両方を足場の製品で実測」 | 「入っていれば戻りの周の候補の commit を検査器が通し、入っていなければ E01 で拒む — …V4 で、足場の製品で実測。戻りの周で status は動かさない」 | `C.back` and `D.back.ctl` in `v4-output.txt` |
+| `eco-turn.md`, the mapping line (R3-02) | 「`to_user_report`(`reports` にも 1 行)」 | 「`to_user_report`(`channel` に、`reports` のその行の id を書く)」 | the check of 7.2 |
+| `loop-count.py`, the header | the lines for `round` and `channel`; the meaning of `to_user_report`; "見ないもの" had no line for `eco` | the lines say "整数。true / yes / 1.0 は番号として受けない" and "to_user_report にも必須: reports の行の id を 1 つ"; "見ないもの" gains 「eco の行が無いこと」; the self-test sentence carries the numbers of 7.4 and the reviewer's 11 of 18 | the checks of 7.1 and 7.2; a record with no `eco` line exits 0 (run by the producer) |
+| `mutants_tools.py`, the docstring (R3-08) | "47 and 25 entries, one of them a skip" | 47 entries; 26, of which 25 are mutants and one a note | the script's own output |
+
+### 7.4 The confirmation the user named (three things; no reader)
+
+- **The inputs that passed wrongly are rejected.** Ten arms were added to the self-test and run on the unrepaired tool
+  first: all ten exited 0 there (observed: an item's round `true`, `yes`, `1.0`; a reaction's round `true`, `yes`, `1.0`; a
+  replied round whose only reaction has round `true`; a reported item with no `channel`; one whose `channel` names an id
+  that is not in `reports` while another report row is; one with `reports` empty). After the repair each exits 1 with its
+  own gap. On the real ECO-006 record three more: an item's round `true`, a reaction's round `1.0`, a reported item whose
+  row is not in `reports` while three other rows are — each exit 1 with one gap (`v2-output.txt`); on the tool of
+  `5655ef2` the same three records exit 0 (run by the producer on a copy taken from git; not kept as a file).
+- **The corresponding good inputs pass.** The self-test's good record (integer rounds; the reported item names its row);
+  the real 65-row record, unchanged.
+- **The existing regression checks pass.** `loop-count --selftest` 64 arms (54 before), `handover-stamp --selftest` 26;
+  V1 9 checks, V2 20, V3 5, V4 88 on four scaffolds bound to kit manifest `8c0b1e30cb14`, V5 12; the mutant lists of
+  `loop-count` on the repaired bytes: the reviewer's 47, the first repair's 10 and this repair's 8 — **65 of 65 killed**
+  (`mutants-loop-count-output.txt`; one of the eight is "any report row satisfies a reported item", the form the user
+  excluded). The quick tier exited 0 before the fix commit. The full self-conformance with HEAD at the fix commit
+  `7f5a4dc`: **exit 0, 28 result lines**, C11 and C11b included, 1010.5 s (`full-self-conformance-7f5a4dc.txt`); the
+  working tree was that commit plus the two uncommitted paths that are not this ECO's (`method/improvements.md`, inside
+  what C11 and V4's scaffolds copy, and the survey folder) — not the bare commit CI would check out.
+- **Not run again, and why**: `v4_sabotage.py` (neither it nor `v4_route.py` changed); the mutant lists of
+  `handover-stamp` (the tool did not change; its numbers are section 6.2's). **Not done, as instructed**: a reading by
+  another context. So nobody but the producer has read the two repairs or the corrected sentences.
+
+### 7.5 What remains — not accepted by this instruction; each with what can go wrong and when
+
+Nothing in this table is accepted by the user's instruction for this return. "Safe side" means the tool refuses or reports
+unknown; it does not mean the defect is absent.
+
+| # | What it is | What can go wrong | When | Side |
+|---|---|---|---|---|
+| R3-04 | `eco-turn.md`, exit 1 of the launcher check: the bullet does not say to write the reply and a reaction row | a session writes the reply and no reaction row; `--check` then stops at "返事があるのに、反応の行が 1 つも無い" before acceptance | a round in which another build than the handed one was started | safe side (a stop, with a message that names the gap) |
+| R3-05 | no `disposition` word for a reader's finding repaired in the product after manufacture; the self-test's own good record gives a maker's `notice` the word `fixed`, against the header's meaning | sessions choose `fixed` or `record_fixed` for such a row differently, so the stage tables of two changes do not mean the same thing; counts stay right, their reading does not | a change in which a reader's finding is repaired in the product (not in ECO-006's table) | not caught by any check |
+| R3-07 | the self-tests do not hold three parts of the added checks: `limits.rounds` below 1 and negative `launches` in `loop-count` (both still green when removed, run again by the producer on `7f5a4dc`), the `program`-is-a-string half in `handover-stamp`. The fourth part the reviewer named (a reaction of any round satisfying a replied round) is held since this return (the producer's run). Of the reviewer's own 35 mutants outside the lists, 22 survived on `12cc2be` | a later edit of either tool removes one of those checks and both self-tests stay green | the next change of the two tools | today's behaviour is right on the inputs the reviewer tried; the risk is to later edits |
+| KD-01 | `loop-count`: a record that is not UTF-8 ends in a traceback, exit 1 (the header says exit 2 for unreadable input) | `--check` fails with Python's message instead of `[input]`; exit 1 reads as "gaps" | a record saved in another encoding | safe side (it does not pass); declared in the header |
+| KD-04 | `loop-count`: unquoted values that YAML retypes (a timestamp, `words: no`) are reported as missing | a gap is reported for a field that is written | a record with such values unquoted | safe side; a note on quoting is in the header |
+| KD-11 | `v4_route.py`: two labels say "eco-turn R3 / R4" for A3 / A4 | a reader of `v4-output.txt` looks for the wrong numbers | reading the evidence | evidence only; no tool, no text of the kit |
+| O-1 | GU4 reads a ruling id that is the number `0` as missing (the inspector, out of range; predates this ECO) | a ledger with id `0` fails GU4 | a product that numbers a ruling `0` | safe side |
+| O-2 | `eco-turn.md` section 4, second pass after a return in a three-state product: still says to place the `implemented` transition commit, though the status is already `implemented` | a session attempts a transition that is not one; what the validator does then is not measured | a three-state product, after a confirmation item sent the change back | not measured |
+| O-3 | `handover-stamp stamp` that fails midway leaves `handover.json`; a later `check` exits 3 | the build is reported "unknown" | a folder where `launch.cmd` cannot be written | safe side |
+| O-4 | `loop-count --check`: a record whose `items:` is empty exits 0 (the format does not ask for one) | a record with no row of what was decided or found passes | a session that writes rounds and reactions only | not caught; not a rule of the format |
+| O-5 | evidence scripts: `v2_count.py` with the table missing ends in a traceback (exit 1); `v4_route.py`'s commit lines print a status that does not enter PASS; `v4-sabotage-output.txt` carries no hash of the script it ran | a reader takes a printed status for a checked one | reading the evidence | evidence only |
+| O-6 | from section 5, unchanged: `method/onboarding/working-with-ai.md` lists the entry skills without `/eco-turn`; the scaffold's ledger is where `--ui-dir bomdd/ui` does not look; GU3 and GU4 do not look at who ruled; ECO-079's window is open on two of this ECO's files | a new user does not find the skill; a scaffolded product's gate reads no ledger until the ledger is moved | first use in a scaffolded product | not in `allowed_paths` (the first), declared (the others) |
+
+**Closed in this return**: R3-01 and R3-02 (7.1, 7.2); the reaction-side leniency the reviewer listed out of range (same
+repair). **Corrected in the text, read by nobody else**: R3-03, R3-06, R3-08, and the undeclared `eco` line (7.3).
+
+**The scope that can be used now (the producer's statement).** `loop-count --check` exit 0 means: the record has none of
+the gaps its header names, with rounds as integers and each reported item naming a row of `reports` — and nothing about the
+three things the header lists as not checked, about a record that is not UTF-8, or about whether what is written is true.
+`handover-stamp` and GU7: as section 6.6 says. The route's texts: R3-04, R3-05 and O-2 are open. **Not confirmed**: CI
+(it has run on no commit of this ECO; nothing is pushed), a POSIX system, any product. The full self-conformance is that of
+7.4, on the fix commit; this record commit was checked by the quick tier only.
+
+### 較正 receipt — addendum 2 (/calibrate, trigger ③: `loop-count` changed; receipt_author_role = producer; written after the results)
+
+- **The claim (one sentence).** `loop-count --check` exits 1 on the gaps its header's format names — with a round number
+  read as an integer only and a reported item required to name a row of `reports` — except the things the header lists
+  as not checked.
+- **査定した主張と判定**: **observed / eligible for the classes armed** — 59 known-bad arms; the ten of this return exited 0
+  on the unrepaired tool and exit 1 now; the real record passes and three mutations of it are rejected; 65 of 65 mutants of
+  the three lists killed on the repaired bytes. **Not eligible**: the declared exclusions (now four things: `outcome`'s
+  vocabulary, `subject` / `about`, a round with no reply and no `launches`, the `eco` line), a record that is not UTF-8
+  (KD-01), retyped values (KD-04), and any check that is in no list — two such are known to be unheld (R3-07, run again
+  by the producer: `limits.rounds` below 1, negative `launches`).
+- **検出した計器欠陥と帰属**: R3-01 and R3-02 (the producer's logic of the first return; repaired here, each after its
+  input was seen to pass on the unrepaired tool). The three sentences of 7.3 said more than the tools do (the producer's;
+  corrected). No defect is attributed to a product, to the inspector or to the reviewer.
+- **宣言した検出力の限界**: the confirmation is the producer's own — arms, the real record, the regression checks and the
+  mutant lists; no other context read the repair (the user's instruction). The first return's repair was read by another
+  context and still carried R3-01, so a repair read by nobody can carry the same kind of error. CI, a POSIX system and a
+  product are not measured.
+- **Battery (rows whose answer changed since the addendum of section 6).** Q1: one more statement was narrowed to what is
+  checked (the header's list); the phrase "both measured" is gone. Q2 / Q3: each new arm is paired with the good record
+  and falls for its own words and its own number of gaps. Q5: the full run is recorded as HEAD plus an uncommitted file,
+  not as the bare commit. Q10: 7.5.
