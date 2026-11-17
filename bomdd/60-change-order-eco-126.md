@@ -864,8 +864,11 @@ are to be applied when use in a product is considered, which is a later instruct
 
 **O-6 — not accepted; stays managed apart.** Of its four parts, one has a place outside this order: ECO-079's open window,
 in that change's own entry of the register. The other three (the onboarding page that does not list `/eco-turn`; the
-scaffold's ledger where `--ui-dir bomdd/ui` does not look; GU3 and GU4 not looking at who ruled) are written only in this
-order (section 5 and row O-6 of 7.5). No place was made for them in this return.
+scaffold's ledger where `--ui-dir bomdd/ui` does not look; GU3 and GU4 not looking at who ruled) have no tracked item
+outside this order (section 5 and row O-6 of 7.5). Searched for, in the register, `method/improvements.md`, the other
+orders and the reports: the page's name, `ui-dir`, the ledger's file name, `decided_by`. One related sentence was found, an
+observation and not a tracked item: ECO-005's order (line 22) set aside requiring `decided_by` on a `ruled` entry, waiting
+for more cases. No place was made for the three in this return.
 
 **Declared in section 7 and not spoken to by the answer** (neither accepted nor reopened; left as they are): the sentence
 the producer added to the header of `loop-count.py` ("11 of 18", the reviewer's number, not reproduced); the two added
