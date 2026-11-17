@@ -537,8 +537,10 @@ Each new arm for a repaired check was run on the unrepaired tool first and was r
   that is in no list. **What the numbers are not**: the committed output was measured on the two tools before the header
   lines that carry these numbers were written (comment lines only; no code line differs); the reviewer of 6.6 reproduced
   six of its entries on the committed bytes with the same results, and found that 22 of 35 mutants of its own, outside
-  these lists, survive (R3-07). A second run of the whole check on the committed bytes was started after the confirmation
-  and had not ended when this record was written; it changes no tool, only `mutants-tools-output.txt` if a line differs.
+  these lists, survive (R3-07). A second run of the whole check on the committed bytes was started after the confirmation:
+  its first list (the reviewer's 47 for `loop-count`) ended with 47 killed; the producer then stopped the run, so that
+  nothing would be writing into the repository at the acceptance stop. The other three lists were not measured again on
+  the committed bytes, and the committed output file is the first run's.
 
 ### 6.3 Item 3 — V2 from the repository; V4's exit codes
 
@@ -566,10 +568,14 @@ Each new arm for a repaired check was run on the unrepaired tool first and was r
 ### 6.4 Item 4 — three states: the return to a round is measured
 
 `v4_route.py` variant C now returns to a round after the `implemented` transition: a candidate commit on a protected path
-with the ECO in `implemented` and `open_states: [staged, implemented]` passes both layers and leaves the status at
-`implemented` (`C.back`, `C.back.status`, `C.back.rec`). Variant D is its control: the same profile with
+with the ECO in `implemented` and `open_states: [staged, implemented]` passes both layers (`C.back`), its record commit
+passes (`C.back.rec`), and the acceptance from `implemented` to `applied` follows (`C.e`). The line `C.back.status` cannot
+fail once the transition has passed and is **not** counted as a measurement (R3-06, found by the confirmation of 6.6);
+the edit of the status note back to "周 N 候補・利用待ち" under `implemented` is driven by no commit of V4. Variant D is
+the control: the same profile with
 `open_states: [staged]` — the same commit is refused by E01 (`D.back.ctl`). The two texts that said "read, not run"
-(`eco-turn.md` section 4, `change-management.md` section 4) now say what was measured. KD-09 is closed as a defect of the
+(`eco-turn.md` section 4, `change-management.md` section 4) now say what was measured — `eco-turn.md` says "both", which
+is more than the paragraph above (R3-06; not repaired). KD-09 is closed as a defect of the
 record; the limit it names stays a rule of the route: a three-state product can return to a round only with `implemented`
 in `open_states`.
 
@@ -579,11 +585,15 @@ in `open_states`.
 - **V2 result: PASS** — 17 checks, from the repository alone (`v2-output.txt`).
 - **V3 result: PASS** — 5 checks, run again on Windows and under Git's `sh`; a POSIX system was not used (`v3-output.txt`).
 - **V4 result: PASS** — 88 checks on four scaffolds bound to one kit manifest, `df914814e7bb` (`v4-output.txt`); the run was
-  made on the working tree that was then committed as `12cc2be` with no file of `method/` changed in between (the reviewer of
-  6.6 compared the kit hashes in the output with the committed files: equal). `v4_sabotage.py`: baseline green, 4 of 4 red.
+  made on the working tree that was then committed as `12cc2be` with no file of this ECO under `method/` changed in between
+  (the reviewer of 6.6 compared the kit hashes in the output with the committed files: equal for the files it lists). The
+  kit the scaffolds copied also held the uncommitted `method/improvements.md`, which is not this ECO's and which CI will not
+  see. `v4_sabotage.py`: baseline green, 4 of 4 red.
 - **V5 result: PASS** — 12 checks (`v5-output.txt`).
-- **V6 result: PASS for what was run; CI not confirmed.** The full self-conformance on the committed tree `12cc2be`:
-  **exit 0, 28 result lines**, C11 and C11b included, 961.7 s (`full-self-conformance-12cc2be.txt`). The quick tier exited 0
+- **V6 result: PASS for what was run; CI not confirmed.** The full self-conformance with HEAD at `12cc2be`:
+  **exit 0, 28 result lines**, C11 and C11b included, 961.7 s (`full-self-conformance-12cc2be.txt`). The working tree was
+  that commit plus the two uncommitted paths that are not this ECO's (`method/improvements.md`, which lies under `method/`
+  and so inside what C11 copies, and the survey folder) — not the bare commit CI would check out. The quick tier exited 0
   on the tree of this record commit (C11 is not run by it; this commit changes the order, the register and files under
   `bomdd/reports/` only). **Nothing is pushed. CI has not run on any commit of this ECO**, and the POSIX launcher has run
   nowhere but under Git's `sh`. By the user's instruction this is recorded as not confirmed and is part of no statement that
@@ -646,23 +656,34 @@ The user names what is accepted. Nothing in this list was repaired after the con
 
 ### 較正 receipt — addendum (/calibrate, trigger ③: `loop-count`, `handover-stamp` and the script of V4 changed; receipt_author_role = producer)
 
-- **The claims (one sentence each).** (2') `loop-count --check` exits 1 on every gap its header's format names, except
-  the three things the header lists as not checked. (3') `handover-stamp check` returns 1 only for a launch of another build,
+- **Written in two steps**: the judgements below were drafted before the confirmation of 6.6 returned and were corrected
+  after it; the corrections are marked "after 6.6".
+- **The claims (one sentence each).** (2') `loop-count --check` exits 1 on the gaps its header's format names, except
+  the three things the header lists as not checked — **after 6.6: and except two more that the header does not list** (an
+  item's or a reaction's `round` written as a bool or a float that equals a round number, R3-01; a `to_user_report` item
+  with no row in `reports`, R3-02). (3') `handover-stamp check` returns 1 only for a launch of another build,
   a changed file or a broken log line, and 2 for anything it cannot measure. (4) `v4_route.py`'s PASS lines depend on the
   exit codes of the tools they report.
 - **査定した主張と判定**:
   - (2'): **observed / eligible for the classes armed** — 49 known-bad arms, each with its own words and, for gaps, its own
-    count; 13 of them red on the unrepaired tool; the real ECO-006 record and nine mutations of it; 57 of 57 mutants killed.
-    Not eligible beyond that: the three declared exclusions, a record that is not UTF-8 (KD-01), retyped values (KD-04).
+    count; 13 of them red on the unrepaired tool; the real ECO-006 record and nine mutations of it; 57 of 57 mutants of
+    the two lists killed. Not eligible beyond that: the three declared exclusions, a record that is not UTF-8 (KD-01),
+    retyped values (KD-04). **After 6.6: not eligible for the two undeclared false passes (R3-01, R3-02), and the arms do not
+    hold four parts of the added checks (R3-07); of the reviewer's 18 own mutants of this tool, 11 survive.**
   - (3'): **observed / conditionally eligible** — 25 known-bad arms, 3 red on the unrepaired tool; 27 of 28 mutants killed,
     the survivor equivalent; the catch-all is exercised by replacing `check` inside the self-test, not by a real fault. The
-    POSIX launcher is run by V3 under Git's `sh` only.
+    POSIX launcher is run by V3 under Git's `sh` only. **After 6.6: 59 more inputs from the reviewer, exit codes as the
+    header says; of its 17 own mutants, 11 survive (three likely equivalent, by its reading); the arm `program: 7` does not
+    exercise the repair (R3-07).**
   - (4): **observed / eligible for the two tools the route calls** — four stubs with constant exit codes each turn the
     script red on the expected checks. Not shown for the validator and the hooks (their controls are the refusal lines).
   - GU7 as accepted by an independent inspector: **eligible within the range of round 3** (the three repairs and their
     regressions). Rounds 1 and 2 were boundary exploration and correction confirmation; no round has explored the boundary
     of the tool as it now stands.
-- **検出した計器欠陥と帰属**: the unchecked exit code in V4 (the producer's script, written by a subagent; found by the first
+- **検出した計器欠陥と帰属**: **after 6.6, left as they are** — `loop-count`'s round check compares with equality and so
+  takes `true` / `1.0` for round 1 (R3-01; the producer's logic, written in this return); a rule this return added to the
+  header is not checked and not declared (R3-02; the producer's); V4's line `C.back.status` cannot fail (R3-06; the
+  producer's). Repaired or corrected before a result was used: the unchecked exit code in V4 (the producer's script, written by a subagent; found by the first
   review, repaired here); the sabotage control that showed nothing on its first run (the producer's; repaired before a
   result was used); V2's mutation that assumed one gap (the producer's script; narrowed); the synthetic ledger's
   `decided_by` (the producer's script). No defect is attributed to a product or to the inspector.
