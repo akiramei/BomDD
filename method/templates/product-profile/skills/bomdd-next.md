@@ -30,7 +30,7 @@ description: フォワード・モード(Phase 0〜6)の現在地を bomdd/ の�
 | `30-ebom/32-mbom/33-control-plan` がテンプレ | Phase 3 | phase3-design.md(E/K/M-BOM・Control Plan・Routing)。**41 固定オラクルもここで設計(工場非開示)**。完了時に CLAUDE.md の機械受入コマンド欄を確定させる |
 | `40-work-order.md` がテンプレ | Phase 4 準備 | 製造パッケージ組成+work order(diff 基準点・stop/report 宣言) |
 | `50-as-built.yaml` に受入記録なし | Phase 4-5 | phase4-manufacture.md(fresh 工場)→ phase5-accept.md(機械受入+golden← human gate) |
-| as-built に golden 承認あり | **納品済み** | 本スキルの役目終了。「以後の変更はすべて /eco-file が入口」と案内して停止 |
+| as-built に golden 承認あり | **納品済み** | 本スキルの役目終了。「以後の変更はすべて /eco-file が入口」と案内して停止(使って確かめながら作りたい変更は、/eco-file で「周で回す」と名指す — change-management.md §3.5) |
 
    **Phase 1.5 の完了条件(機械判定 — 「作った/検査した/CAD 化した気がする」は状態ではない)**:
    (a) GUI モックが存在する(`bomdd/ui/mock/` または CAD リポ)、(b) `ui-mock-inspect.py gate-cad`

@@ -26,6 +26,19 @@ bomdd:
 #   6. ruling の記入と status の更新はセットで行う(片方忘れは GU3/GU4 が検出する)。
 #   7. 実機のある遡及では、実機の挙動・コードを evidence に含めてから裁定にかける(ui-ir-ui-bom.md §13.1)。
 #   8. スキーマは candidate。フィールド追加は実案件で不足が実測されてから。
+#   9. (BomDD ECO-126・周で回す変更だけ)製造側が仮に決めて作る細部は、type: provisional-bundle の 1 件
+#      (open・blocking: false)にまとめる。束は confirmed_checked に、束と ui_ids が重なる「人が決めた裁定」
+#      (ruled・decided_by: user)を全部挙げ、1 件ずつ touches: yes | no と why を書く(挙げ漏れは gate GU7 が止める)。
+#      touches: yes のものは、束から外して単独の 1 件(touches_confirmed: <その id>)にし、open のあいだは
+#      blocking: true にする — 人が確かめたものに触れる決定は、作る前に伺う。
+#      touches_confirmed の相手は、人が決めた裁定(ruled・decided_by: user)に限る。confirmed_checked は
+#      1 つの裁定に 1 行。単独で立てた決定も、人が裁定した後は「人が決めた裁定」なので、束と重なるなら挙げる。
+#      touches_confirmed を持つ裁定を ruled にするのは人だけ(decided_by: user)。
+#      操作の部品(ui-bom の action)を足す決定は、仮の束に入れず、単独の裁定にする — 束が open のあいだは GU4 が
+#      止めるが、束を閉じた後は検査が止めない(文の決まり)。
+#      束は受入の前に閉じる: status: ruled・ruling: accept-as-built・decided_by: user(受入の返事をした人)。
+#      evidence に「確認項目が覆った決定」と「作ったままの決定」を分けて書き、作ったままの決定を、人が中身を見て
+#      決めたとは書かない。閉じた束は「人が決めた裁定」として、次の変更の束が挙げる相手になる。
 
 schema: ui-rulings/0.1-candidate
 
@@ -34,7 +47,8 @@ rulings:
   - id: UQ-0001                      # 既存 ui-trace-map.json の blockingQuestions と同じ UQ-* 系列
     status: open                     # open | ruled | rejected | superseded
     type: action-semantics           # action-semantics | persistence | timing | deletion-mode |
-                                     # variant-boundary | scope-widening | dictionary-promotion | other
+                                     # variant-boundary | scope-widening | dictionary-promotion |
+                                     # provisional-bundle(規律 9)| other
     blocking: true                   # true なら製造昇格を止める(GU3)
     target:
       ui_ids: ["action.tag.add"]     # ui-ir.json / ui-bom.json の uiId
@@ -97,4 +111,48 @@ rulings:
     decided_by: dictionary
     decided_at: <YYYY-MM-DD>
     dictionary_entry: attach_tag_to_item
+    superseded_by: null
+
+  # 例 4: 仮の決定の束(規律 9 — 周で回す変更だけ)。製造は止めないが、人が決めた裁定との重なりは全部挙げる
+  - id: UQ-0004
+    status: open
+    type: provisional-bundle
+    blocking: false
+    target:
+      ui_ids: ["screen.tags", "action.tag.attach"]   # 束が触る面と部品の id。重なりは、この id の一致で測られる
+      surface_label: "(ECO-NNN の製造側の仮の決定・一括)"
+    question: >
+      図面の追補で [仮] の印が付いた決定(並び順・既定値・文言)を、そのままでよいか。
+    options: [accept-as-built, revise]
+    ruling: null
+    confirmed_checked:               # 束と ui_ids が重なる「人が決めた裁定」を全部(GU7)
+      - {id: UQ-0002, touches: yes, why: "「付与」の置き場所を変える — 例 5 で単独に立てた"}
+    negative_rulings: []
+    scope: screen
+    evidence:
+      - <製造側の仮の決定。人は中身を見て決めていない>
+    decided_by: null
+    decided_at: null
+    dictionary_entry: null
+    superseded_by: null
+
+  # 例 5: 人が確かめたものに触れる決定(束から外した単独の 1 件)。open のあいだは blocking: true — 作る前に伺う
+  - id: UQ-0005
+    status: open
+    type: other
+    blocking: true
+    touches_confirmed: UQ-0002       # 触れる相手(人が決めた裁定の id)
+    target:
+      ui_ids: ["action.tag.attach"]
+      surface_label: "付与"
+    question: >
+      「付与」を、タグ欄の中からツールバーへ移してよいか(前に、タグ欄の中にあることを根拠に裁定している)。
+    options: [keep-in-tag-field, move-to-toolbar]
+    ruling: null
+    negative_rulings: []
+    scope: screen
+    evidence: []
+    decided_by: null
+    decided_at: null
+    dictionary_entry: null
     superseded_by: null

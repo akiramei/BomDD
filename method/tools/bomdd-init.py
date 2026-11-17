@@ -45,7 +45,7 @@ KIT_DIRNAME = "bomdd-kit"  # 生成先リポ内の方法論同梱先({{METHOD}} 
 # 製品リポ bomdd/ へコピーするフェーズ成果物テンプレ(単一正本は method/templates/)
 PHASE_TEMPLATE_GLOBS = ["[0-9][0-9]-*.md", "[0-9][0-9]-*.yaml", "README.md"]
 
-SKILLS = ["bomdd-next", "eco-file", "eco-fix", "eco-accept", "sec-advisory",
+SKILLS = ["bomdd-next", "eco-file", "eco-fix", "eco-turn", "eco-accept", "sec-advisory",
           "bomdd-refmodel", "bomdd-mock-lint", "bomdd-ui-cad", "converge", "calibrate",
           "preflight", "factory-delegate", "handoff"]
 

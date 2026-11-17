@@ -24,6 +24,16 @@
 #              HTML selector へ辿れなければならない(screen は warning のみ)。
 #   GU6 id揺れ : --mock 指定時、ui-extract.py --verify で raw IR と再抽出の id 揺れを検査
 #              (--mock なしでは skip)。
+#   GU7 仮の束 : (BomDD ECO-126)type: provisional-bundle かつ status: open の束があるときだけ走る。
+#              (a) 束と target.ui_ids が重なる「人が決めた裁定」(status: ruled・decided_by: user)は、
+#                  束の confirmed_checked に {id, touches: yes|no, why} として全部挙がっていなければならない
+#                  (1 つの裁定に 1 行。束から外して単独で立てた決定も、人が裁定した後は挙げる)。
+#              (b) touches: yes と書いた裁定には、touches_confirmed: <その id> を持つ単独の裁定が要る。
+#              (c) touches_confirmed を持つ裁定は、相手が「人が決めた裁定」(自分自身でない・空の要素なし)でなければならず、
+#                  open のあいだ blocking: true(真偽値)、ruled なら decided_by: user でなければならない
+#                  (人が確かめたものに触れる決定は先に伺う — GU3 が製造を止め、裁定するのは人)。
+#              id は文字列にして照合する(数の id も挙げられる。文字列にして重なる id は拒む)。
+#              束も touches_confirmed の欄も無い台帳では GU7 は一覧に出ず、出力は ECO-126 の前と同じ。
 #
 # 終了コード: 0 = 実行ゲート全合格かつ昇格可 / 1 = 不合格あり または 昇格判定保留 / 2 = 入力エラー
 # ECO-054(型④の排除): (a) 成果物の欠落・スキーマ不成立(top-level が mapping でない・ui-ir に actions
@@ -48,8 +58,12 @@
 #   (3) trace-map は mappings 方言のみ対応(entries[] 等は方言不一致として診断 — 両方言対応は
 #       製品リポで実害が実測されるまで見送り・BomDD ECO-013/045)。
 #   (4) 対象台帳の個体(revision)は結果に刻印されない。
-#   (5) 常設 known-bad は GU4 の 2 腕(self-conformance C6a/b)のみ — GU1/2/3/5/6 の弁別力は
-#       建造時較正。GU6 の弁別力・実コーパス適用は unknown(BomDD ECO-045 掃引 receipt)。
+#   (5) 常設 known-bad は GU4 の 2 腕(self-conformance C6a/b)と GU7 の腕(C6c/d・--selftest)—
+#       GU1/2/3/5/6 の弁別力は建造時較正。GU6 の弁別力・実コーパス適用は unknown(BomDD ECO-045 掃引 receipt)。
+#   (6) GU7 が止めるのは**挙げ漏れ**だけ。「触れない(touches: no)」という答えの正しさは測らない(書くのは
+#       製造側)。重なりは ui_ids の一致で測るので、画面単位の id では同じ画面の裁定が全部挙がり、細かい id では
+#       別の id の裁定に触れても挙がらない。型を provisional-bundle にしなかった束は読まない(検査されないことは
+#       許可ではない)。「人が決めた」は decided_by がちょうど user のものだけ。
 
 import argparse
 import json
@@ -122,11 +136,84 @@ _SELFTEST_ARMS = (
         "ui-dictionary.yaml": "actions: {}\n"}, 0),
 )
 
+# GU7(BomDD ECO-126)の腕。known-bad は「GU7 だけが、その腕の理由で赤」であることまで見る
+# (期待 exit に加えて、出力に含まれるべき語と、GU7 以外の FAIL が無いこと)。
+_GU7_COMMON = {
+    "ui-ir.json": '{"actions": [{"uiId": "action.st.one"}], "inputs": []}',
+    "ui-bom.json": '{"items": []}', "ui-trace-map.json": '{"mappings": []}',
+    "ui-dictionary.yaml": "actions: {}\n"}
+_GU7_CONFIRMED = ("rulings:\n  - id: UQ-ST-1\n    status: ruled\n    target: {ui_ids: [\"action.st.one\"]}\n"
+                  "    question: q\n    ruling: keep\n    decided_by: user\n")
+_GU7_BUNDLE = ("  - id: UQ-ST-2\n    status: open\n    type: provisional-bundle\n    blocking: false\n"
+               "    target: {ui_ids: [\"action.st.one\"]}\n    question: provisional\n")
+_GU7_SINGLE_RULED = ("  - id: UQ-ST-3\n    status: ruled\n    blocking: true\n    touches_confirmed: UQ-ST-1\n"
+                     "    target: {ui_ids: [\"action.st.one\"]}\n    question: change it?\n    ruling: change\n"
+                     "    decided_by: user\n")
+_GU7_ARMS = (
+    # (label, rulings の本文, 期待 exit, 出力に含まれるべき語 または None[, ほかの門の FAIL を許すか])
+    ("known-bad GU7(a): 重なる人の裁定を挙げていない束", _GU7_CONFIRMED + _GU7_BUNDLE, 1, "confirmed_checked に無い"),
+    ("known-bad GU7(b): 触れると書いたのに単独の裁定が無い",
+     _GU7_CONFIRMED + _GU7_BUNDLE + "    confirmed_checked: [{id: UQ-ST-1, touches: yes, why: w}]\n", 1,
+     "単独の裁定が無い"),
+    ("known-bad GU7(c): 触れる決定が open なのに blocking でない",
+     _GU7_CONFIRMED + _GU7_BUNDLE + "    confirmed_checked: [{id: UQ-ST-1, touches: yes, why: w}]\n"
+     "  - id: UQ-ST-3\n    status: open\n    blocking: false\n    touches_confirmed: UQ-ST-1\n"
+     "    target: {ui_ids: [\"action.st.one\"]}\n    question: change it?\n", 1, "blocking でない"),
+    ("known-bad GU7: touches が yes / no でない",
+     _GU7_CONFIRMED + _GU7_BUNDLE + "    confirmed_checked: [{id: UQ-ST-1, touches: maybe, why: w}]\n", 1,
+     "yes / no でない"),
+    ("known-good GU7: 触れないと理由つきで挙げた束",
+     _GU7_CONFIRMED + _GU7_BUNDLE + "    confirmed_checked: [{id: UQ-ST-1, touches: no, why: w}]\n", 0, None),
+    ("known-good GU7: 触れる決定を単独で立て、人が裁定済み(その裁定も挙げてある)",
+     _GU7_CONFIRMED + _GU7_BUNDLE + "    confirmed_checked: [{id: UQ-ST-1, touches: yes, why: w}, "
+     "{id: UQ-ST-3, touches: no, why: w}]\n" + _GU7_SINGLE_RULED, 0, None),
+    # --- 独立検査 r1(別系統・2026-11-17)の所見 IA-01〜IA-08 の再現 ---
+    ("known-bad GU7 IA-01/07: 単独で立てて裁定済みの決定も、重なるなら挙げる(挙げていない)",
+     _GU7_CONFIRMED + _GU7_BUNDLE + "    confirmed_checked: [{id: UQ-ST-1, touches: yes, why: w}]\n" + _GU7_SINGLE_RULED,
+     1, "UQ-ST-3 と ui_ids が重なるのに confirmed_checked に無い"),
+    ("known-bad GU7 IA-02: 同じ id の行が 2 つ(後の no が前の yes を消す)",
+     _GU7_CONFIRMED + _GU7_BUNDLE + "    confirmed_checked: [{id: UQ-ST-1, touches: yes, why: w}, "
+     "{id: UQ-ST-1, touches: no, why: w}]\n", 1, "行が重複"),
+    ("known-bad GU7 IA-03: touches_confirmed が空の list",
+     _GU7_CONFIRMED + "  - id: UQ-ST-3\n    status: open\n    blocking: false\n    touches_confirmed: []\n"
+     "    target: {ui_ids: [\"action.st.one\"]}\n    question: q\n", 1, "touches_confirmed が空"),
+    ("known-bad GU7 IA-04: blocking が文字列の \"false\"(真偽値の true ではない)",
+     _GU7_CONFIRMED + _GU7_BUNDLE + "    confirmed_checked: [{id: UQ-ST-1, touches: yes, why: w}]\n"
+     "  - id: UQ-ST-3\n    status: open\n    blocking: \"false\"\n    touches_confirmed: UQ-ST-1\n"
+     "    target: {ui_ids: [\"action.st.one\"]}\n    question: change it?\n", 1, "blocking でない", True),
+    ("known-good GU7 IA-05: 数の id を挙げた束",
+     _GU7_CONFIRMED.replace("UQ-ST-1", "1") + _GU7_BUNDLE + "    confirmed_checked: [{id: 1, touches: no, why: w}]\n",
+     0, None),
+    ("known-bad GU7 IA-06: 数の 1 と文字列の \"1\" の裁定が並ぶ(1 行で 2 件を覆えない)",
+     _GU7_CONFIRMED.replace("UQ-ST-1", "1")
+     + "  - id: \"1\"\n    status: ruled\n    target: {ui_ids: [\"action.st.one\"]}\n    question: q\n    ruling: s\n"
+       "    decided_by: user\n"
+     + _GU7_BUNDLE + "    confirmed_checked: [{id: \"1\", touches: no, why: w}]\n", 1, "文字列にすると同じ"),
+    ("known-bad GU7 IA-08: touches_confirmed の相手が、人が決めた裁定ではない(束を指している)",
+     _GU7_CONFIRMED + _GU7_BUNDLE + "    confirmed_checked: [{id: UQ-ST-1, touches: no, why: w}]\n"
+     "  - id: UQ-ST-3\n    status: ruled\n    ruling: keep\n    decided_by: dictionary\n    touches_confirmed: UQ-ST-2\n"
+     "    target: {ui_ids: [\"action.st.other\"]}\n    question: q\n", 1, "人が決めた裁定ではない"),
+    # --- 独立検査 r2(最後の回)の IB-01・IB-02 と、別の文脈の読みの所見(裁定したのが人でない)の再現 ---
+    ("known-bad GU7 IB-01: touches_confirmed の list に空の要素",
+     _GU7_CONFIRMED + "  - id: UQ-ST-3\n    status: ruled\n    ruling: change\n    decided_by: user\n"
+     "    touches_confirmed: [UQ-ST-1, null]\n    target: {ui_ids: [\"action.st.other\"]}\n    question: q\n",
+     1, "空の要素"),
+    ("known-bad GU7 IB-02: 人が決めた裁定が、自分自身を touches_confirmed に指す",
+     _GU7_CONFIRMED + "    touches_confirmed: UQ-ST-1\n" + _GU7_BUNDLE
+     + "    confirmed_checked: [{id: UQ-ST-1, touches: yes, why: w}]\n", 1, "自分自身"),
+    ("known-bad GU7: 触れる決定が ruled だが、裁定したのが人でない",
+     _GU7_CONFIRMED + _GU7_BUNDLE + "    confirmed_checked: [{id: UQ-ST-1, touches: yes, why: w}]\n"
+     + _GU7_SINGLE_RULED.replace("decided_by: user", "decided_by: designer-AI"), 1, "人が裁定していない"),
+)
+
 
 def _selftest() -> int:
     import subprocess, tempfile, shutil
+    arms = [(label, files, want, None, False) for label, files, want in _SELFTEST_ARMS] + \
+           [(a[0], dict(_GU7_COMMON, **{"ui-rulings.yaml": a[1]}), a[2], a[3], len(a) > 4 and a[4])
+            for a in _GU7_ARMS]
     bad = []
-    for label, files, want in _SELFTEST_ARMS:
+    for label, files, want, must, allow_other in arms:
         d = Path(tempfile.mkdtemp(prefix="ui-cad-gate-st-"))
         try:
             for name, body in files.items():
@@ -135,12 +222,20 @@ def _selftest() -> int:
                                capture_output=True, text=True, encoding="utf-8", errors="replace")
             if p.returncode != want:
                 bad.append(f"{label}: 期待 exit {want}・実測 {p.returncode}")
+            elif must is not None:
+                out = p.stdout or ""
+                other = [l for l in out.splitlines() if "] FAIL " in l and not l.startswith("[GU7]")]
+                if "[GU7] FAIL" not in out or must not in out or (other and not allow_other):
+                    bad.append(f"{label}: GU7 がその理由で赤になっていない(語 {must!r}・ほかの FAIL {other})")
+            elif label.startswith("known-good GU7") and "[GU7] PASS" not in (p.stdout or ""):
+                bad.append(f"{label}: GU7 が実行されていない([GU7] PASS が無い)")
         finally:
             shutil.rmtree(d, ignore_errors=True)
     if bad:
         print("selftest FAIL(計器を先に疑う): " + " / ".join(bad))
         return 1
-    print(f"selftest PASS({len(_SELFTEST_ARMS)} 腕: known-bad 2・known-good 1)")
+    n_bad = sum(1 for a in arms if a[2] != 0)
+    print(f"selftest PASS({len(arms)} 腕: known-bad {n_bad}・known-good {len(arms) - n_bad})")
     return 0
 
 
@@ -333,6 +428,97 @@ def main():
         if entry_ref and entry_ref not in dict_entries:
             fail("GU4", f"{r.get('id')}: dictionary_entry '{entry_ref}' が辞書に存在しない")
 
+    # --- GU7 仮の決定の束(BomDD ECO-126): 人が確かめた裁定との重なりを全部挙げたか ---
+    # 止めるのは挙げ漏れ。答え(touches: no)の正しさは測らない(冒頭の限界 (6))。
+    def _yes(v):
+        return v is True or (isinstance(v, str) and v.strip().lower() == "yes")
+
+    def _no(v):
+        return v is False or (isinstance(v, str) and v.strip().lower() == "no")
+
+    def _human(r):
+        """人が決めた裁定(GU7 の「確かめたもの」)= ruled かつ decided_by がちょうど user。"""
+        return r is not None and r.get("status") == "ruled" and r.get("decided_by") == "user"
+
+    has_tc = [r for r in active_rulings if "touches_confirmed" in r]   # 欄があれば、空でも対象(IA-03)
+    bundles = [r for r in active_rulings
+               if r.get("type") == "provisional-bundle" and r.get("status") == "open"]
+    g7_ran = bool(bundles or has_tc)
+    by_str = {}   # GU7 は id を文字列で照合する(数の id も挙げられる — IA-05)。文字列にして重なる id は拒む(IA-06)
+    if g7_ran:
+        for r in rulings:
+            if r.get("id") is None:
+                continue
+            key = str(r.get("id"))
+            if key in by_str:
+                fail("GU7", f"id {key}: 型の違う id が文字列にすると同じになる(数の 1 と文字列の \"1\" など)"
+                            "— 1 行で 2 件の裁定を覆えない")
+            by_str.setdefault(key, r)
+
+    touched_by = {}   # 人が確かめた裁定の id(文字列)-> それに触れると名乗る裁定
+    for r in has_tc:
+        tc = r.get("touches_confirmed")
+        members = tc if isinstance(tc, list) else [tc]
+        targets = [t for t in members if t is not None and str(t).strip()]
+        if not targets:
+            fail("GU7", f"{r.get('id')}: touches_confirmed が空(触れる相手の裁定の id を書く)")
+            continue
+        if len(targets) != len(members):   # 空の要素を黙って捨てない(IB-01)
+            fail("GU7", f"{r.get('id')}: touches_confirmed の list に空の要素がある")
+        if r.get("status") == "ruled" and r.get("decided_by") != "user":   # 先に伺う = 人が裁定する
+            fail("GU7", f"{r.get('id')}: 人が確かめた裁定に触れる決定が ruled だが、人が裁定していない"
+                        f"(decided_by: {r.get('decided_by')})")
+        for t in targets:
+            cid = str(t)
+            if cid == str(r.get("id")):   # 自分自身は「束から外した単独の裁定」にならない(IB-02)
+                fail("GU7", f"{r.get('id')}: touches_confirmed が自分自身を指している")
+                continue
+            touched_by.setdefault(cid, []).append(r)
+            if not _human(by_str.get(cid)):   # 相手は、人が決めた裁定でなければならない(IA-08)
+                fail("GU7", f"{r.get('id')}: touches_confirmed の {cid} は、人が決めた裁定ではない"
+                            "(台帳に無い・ruled でない・decided_by が user でない)")
+        if r.get("status") == "open" and r.get("blocking") is not True:   # 真偽値の true だけ(IA-04)
+            fail("GU7", f"{r.get('id')}: 人が確かめた {', '.join(str(t) for t in targets)} に触れる決定が open なのに "
+                        "blocking でない(先に伺う — open のあいだは blocking: true)")
+
+    for b in bundles:
+        bid = b.get("id")
+        b_ids = ruling_target_ids(b)
+        if not b_ids:
+            fail("GU7", f"{bid}: 束に target.ui_ids がない(人の裁定との重なりを測れない)")
+        rows = b.get("confirmed_checked")
+        if rows is None:
+            rows = []
+        if not isinstance(rows, list):
+            fail("GU7", f"{bid}: confirmed_checked が list でない")
+            rows = []
+        checked = {}
+        for row in rows:
+            if not isinstance(row, dict) or row.get("id") is None or not str(row.get("id")).strip():
+                fail("GU7", f"{bid}: confirmed_checked に id のない行がある")
+                continue
+            cid = str(row["id"])
+            if cid in checked:   # 後の行が前の行を消すのを通さない(IA-02)
+                fail("GU7", f"{bid}: confirmed_checked の {cid} の行が重複している(1 つの裁定に 1 行)")
+                continue
+            if not (_yes(row.get("touches")) or _no(row.get("touches"))):
+                fail("GU7", f"{bid}: confirmed_checked の {cid} の touches が yes / no でない")
+            if not str(row.get("why") or "").strip():
+                fail("GU7", f"{bid}: confirmed_checked の {cid} に why が無い(触れる・触れないの根拠)")
+            if cid not in by_str:
+                fail("GU7", f"{bid}: confirmed_checked の {cid} が台帳に存在しない")
+            checked[cid] = row
+        for r in active_rulings:
+            # 例外は置かない: 束から外して単独で立てた決定も、人が裁定した後は「人が決めた裁定」である(IA-01)
+            if r is b or not _human(r):
+                continue
+            if ruling_target_ids(r) & b_ids and str(r.get("id")) not in checked:
+                fail("GU7", f"{bid}: 人が決めた裁定 {r.get('id')} と ui_ids が重なるのに confirmed_checked に無い"
+                            "(触れるか触れないかを、理由つきで書く)")
+        for cid, row in checked.items():
+            if _yes(row.get("touches")) and not [o for o in touched_by.get(cid, []) if o is not b]:
+                fail("GU7", f"{bid}: {cid} に触れると書いたが、touches_confirmed: {cid} を持つ単独の裁定が無い")
+
     # --- GU5 追跡: ui-bom item が trace map 経由で HTML selector へ辿れるか ---
     # ECO-045(b-1): mappings 方言のみ対応 — 未対応方言は「対応がない」でなく方言不一致を診断する
     if not (trace_map.get("mappings")) and trace_map.get("entries"):
@@ -384,6 +570,9 @@ def main():
         ("GU5", "追跡(raw trace)", False, ""),
         ("GU6", "id揺れ(stable id)", g6_skipped, "--mock 未指定"),
     ]
+    if g7_ran:  # 束も touches_confirmed も無い台帳では一覧に出さない(出力は ECO-126 の前と同じ)
+        all_gates.append(("GU7", "仮の束(provisional bundle vs confirmed rulings)", False, ""))
+    n_gates = len(all_gates)
     any_fail = False
     executed = 0
     for gate, label, skipped, skip_reason in all_gates:
@@ -431,11 +620,11 @@ def main():
         print(f"executed gates: 不合格あり — 昇格禁止(裁定・辞書・trace を補ってから再実行){na_note}")
         sys.exit(1)
     if undeclared:
-        print(f"executed gates passed({executed}/6)— **昇格判定保留(宣言不足・不適合ではない)**: "
+        print(f"executed gates passed({executed}/{n_gates})— **昇格判定保留(宣言不足・不適合ではない)**: "
               f"{' / '.join(undeclared)} — 入力を供給して再実行するか、"
               f"契約上 not-applicable なら --na \"<対象>: <理由>\" で宣言する{na_note}")
         sys.exit(1)
-    print(f"all executed gates passed — E-BOM/M-BOM 昇格可(実行 {executed}/6{na_note})")
+    print(f"all executed gates passed — E-BOM/M-BOM 昇格可(実行 {executed}/{n_gates}{na_note})")
     sys.exit(0)
 
 

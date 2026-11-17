@@ -328,6 +328,7 @@ HTML が実行時に DOM を生成するモック(React+Babel 等)は、静的 H
 - **options は候補であり、回答を拘束しない**。選択肢外の回答は正当。ただし選択肢外・曖昧な回答を記録するときは、**記録者の解釈をユーザーへ復唱して確認を取ってから ruled 化する**(実測: retro-01 で「区分解除のボタン」を選択解除と誤解釈して ruled 化 → supersede 訂正が必要になった)。
 - **実機のある遡及(as-built 裁定)では、実機の挙動・コードを evidence に含めてから裁定にかける**。実測(retro-01): 実機 evidence 付きで裁定した項目は全て conform、モック+README だけで裁定した項目は 2/2 が実機と矛盾し supersede になった。既存実装は準拠度が低くても実使用で磨かれた判断の蓄積であり、乖離解決の既定は実機優先推定(実機変更は個別裁定+明示承認)。
 - **ruling の記入と status の更新はセット**で行う(ruled 化の作業単位)。片方だけの更新は GU3/GU4 が検出する(retro-01 で 2 回実測 — 記録者ミスの頻発型)。
+- **仮の決定の束(BomDD ECO-126・周で回す変更だけ — 製品の変更管理手順 §3.5)**: 製造側が仮に決めて作る細部は、`type: provisional-bundle` の 1 件(`open`・`blocking: false`)にまとめてよい。束は、束と `ui_ids` が重なる「人が決めた裁定」を `confirmed_checked` に全部挙げ、触れるものは束から外して単独の 1 件(`touches_confirmed`・`open` のあいだ `blocking: true`)にする — 人が確かめたものに触れる決定は、作る前に伺う。`touches_confirmed` の相手は人が決めた裁定に限り、`confirmed_checked` は 1 つの裁定に 1 行(単独で立てた決定も、人が裁定した後は挙げる)。操作の部品(final action)を足す決定は束に入れず、単独の裁定にする(束が `open` のあいだは §15 の 3 が止める。閉じた後は検査が止めない — 文の決まり)。`touches_confirmed` を持つ裁定を `ruled` にするのは人だけ。挙げ漏れは GU7 が止める。**GU7 が測るのは挙げ漏れだけで、「触れない」という答えの正しさは測らない**(実測: MoviePad ECO-006 は、束に入れたまま作った決定 2 件が、前に人が確かめた札とルーペの置き方に触れていた — 気づいたのは作った後)。
 
 ### 13.2 文脈付き辞書(36-ui-dictionary.yaml)
 
@@ -391,6 +392,8 @@ prompt 追記量 0(失敗還流は全て治具・台帳側で吸収 — X1 は u
 4. `blocking: true` の `open` が 1 件でも残っていれば、E-BOM / M-BOM 昇格禁止。
 5. ui-bom item は raw DOM node への trace を持たなければならない。
 
+追加(BomDD ECO-126 — 上の 5 つは変えていない): 6. `open` の仮の決定の束(`type: provisional-bundle`)は、束と `ui_ids` が重なる「人が決めた裁定」を全部挙げ、触れるものを単独の裁定(`open` のあいだ `blocking: true`)として持たなければならない。束も `touches_confirmed` の欄も無い台帳には適用されない。
+
 検査治具は [tools/ui-cad-gate.py](tools/ui-cad-gate.py)(raw 抽出は [tools/ui-extract.py](tools/ui-extract.py))。
 
 | Gate | 検査内容 | 失敗時 |
@@ -401,6 +404,7 @@ prompt 追記量 0(失敗還流は全て治具・台帳側で吸収 — X1 は u
 | GU4 来歴 | final action に ruled 裁定があるか。辞書エントリに source_rulings があるか。**rejected は evidence または negative_rulings+decided_by を持つか(harness ECO-005)** | 裁定追加または辞書修正 |
 | GU5 追跡 | ui-bom item が trace map 経由で HTML selector へ辿れるか | 昇格禁止。trace 補完 |
 | GU6 id揺れ | `--mock` 指定時、再抽出して stable id の揺れがないか | extractor 修正またはモック改変の diff 追従 |
+| GU7 仮の束 | `open` の `provisional-bundle` があるとき: 重なる「人が決めた裁定」が `confirmed_checked` に全部あるか。`touches: yes` に単独の裁定があるか。`touches_confirmed` の裁定が `open` なのに `blocking` でないものが無いか(BomDD ECO-126。束も `touches_confirmed` も無ければ一覧に出ない) | 製造停止。挙げて、触れるものを単独に立てて伺う |
 
 raw IR のない旧方式(§11 一発変換)の案件では GU1/GU6 は skip され、GU2 が会計の全責務を負う(経過措置)。
 

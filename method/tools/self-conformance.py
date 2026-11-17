@@ -65,6 +65,9 @@
                       規則ごとの変異の腕がすべて期待どおり(腕 0 本は合格ではない)。毎 push で
                       走らせないと kit 道具が気づかれずに腐る(ECO-096 と同型)。限界= fixture の上の
                       判定までで、実在の製品 BOM での判定は ECO-118 の V1/V3 の記録
+  C20 loop-tools    : kit 道具 loop-count.py・handover-stamp.py の --selftest(ECO-126)— 既知の良品と
+                      既知の不良の腕がすべて期待どおり。C6c/d/e は ui-cad-gate の GU7(仮の決定の束)の腕。
+                      限界= fixture の上の判定まで。実物の台帳・記録での判定は ECO-126 の V1〜V3 の記録
 
 検査(--dotnet tier — 任意):
   C9 loop-suites    : loops/expected-results.yaml の期待結果 manifest と実測を突合 —
@@ -77,7 +80,7 @@
                       非証明・SDK/環境差の再現性未測定)
 
 実行モード(ECO-117):
-  既定        : fast tier(C1〜C19)— 全 PASS で witness を書く(規律 2 の単一入口)
+  既定        : fast tier(C1〜C20)— 全 PASS で witness を書く(規律 2 の単一入口)
   --dotnet    : fast tier の後に C9 — witness は既定と同じ
   --c9-only   : C9 だけ(CI の dotnet job 用 — Windows の fast tier は fast job が担う)。
                 fast tier を走らせないので witness は書かず・消さない。--dotnet と同時指定は exit 2
@@ -139,7 +142,7 @@ def check(cid: str, ok: bool, msg: str) -> None:
 # 機序= Windows で git が read-only に書く loose object を shutil.rmtree(ignore_errors=True) が消せず、
 # ignore_errors が失敗を無音にした(温度計のない fail-silent・40 日間誰も観測せず・検出は独立検査官の
 # 後片付け拒否報告)。処方(A 案・user 裁定 2026-09-11): onexc/onerror で read-only を外して再試行し、
-# それでも消せないパスを**戻り値で返す**。残置は [cleanup] 行で必ず報告するが**判定(C1〜C19)には
+# それでも消せないパスを**戻り値で返す**。残置は [cleanup] 行で必ず報告するが**判定(C1〜C20)には
 # 関与させない** — 後片付けは環境の性質であり方法論の適合ではない(C18 witness の意味を保つ)。
 # helper 自身の健全性(read-only を消せる・削除不能を残置として返す)は C14 の較正として測る。
 CLEANUP_RESIDUE: list[str] = []
@@ -594,11 +597,31 @@ _REJECTED_REASONED = """rulings:
 """
 
 
+# GU7(ECO-126): 仮の決定の束が、重なる「人が決めた裁定」を挙げていなければ止まり、挙げてあれば通る
+_GU7_CONFIRMED = """rulings:
+  - id: UQ-SELFCONF-1
+    status: ruled
+    target: {ui_ids: ["action.selfconf.one"]}
+    question: 人が決めた裁定
+    ruling: keep
+    decided_by: user
+  - id: UQ-SELFCONF-2
+    status: open
+    type: provisional-bundle
+    blocking: false
+    target: {ui_ids: ["action.selfconf.one"]}
+    question: 仮の決定の束
+"""
+_GU7_LISTED = _GU7_CONFIRMED + "    confirmed_checked: [{id: UQ-SELFCONF-1, touches: no, why: self-conformance fixture}]\n"
+
+
 def c6_gate_mutation() -> None:
     gate = ROOT / "method" / "tools" / "ui-cad-gate.py"
-    for cid, rulings, expect_fail, label in [
-            ("C6a", _REJECTED_BARE, True, "理由なし rejected を遮断"),
-            ("C6b", _REJECTED_REASONED, False, "根拠つき rejected を通す")]:
+    for cid, rulings, expect_fail, label, must in [
+            ("C6a", _REJECTED_BARE, True, "理由なし rejected を遮断", None),
+            ("C6b", _REJECTED_REASONED, False, "根拠つき rejected を通す", None),
+            ("C6c", _GU7_CONFIRMED, True, "人の裁定を挙げていない仮の束を遮断(GU7)", "[GU7] FAIL"),
+            ("C6d", _GU7_LISTED, False, "人の裁定を挙げた仮の束を通す(GU7)", "[GU7] PASS")]:
         tmp = Path(tempfile.mkdtemp(prefix="bomdd-selfconf-gu-"))
         try:
             for name, body in _FIXTURE_COMMON.items():
@@ -606,9 +629,16 @@ def c6_gate_mutation() -> None:
             (tmp / "37-ui-rulings.yaml").write_text(rulings, encoding="utf-8")
             p = run([sys.executable, str(gate), "--ui-dir", str(tmp)])
             ok = (p.returncode != 0) if expect_fail else (p.returncode == 0)
+            if must is not None:  # GU7 の腕は、GU7 がその判定を出したことまで見る(ほかの門の赤・GU7 の不実行を合格にしない)
+                other = [l for l in p.stdout.splitlines() if "] FAIL " in l and not l.startswith("[GU7]")]
+                ok = ok and must in p.stdout and not other
             check(cid, ok, f"{label}(exit {p.returncode})")
         finally:
             _cleanup_tmp(tmp)
+    st = run([sys.executable, str(gate), "--selftest"])
+    m = re.search(r"selftest PASS.(\d+) 腕: known-bad (\d+)・known-good (\d+)", st.stdout)
+    check("C6e", st.returncode == 0 and bool(m) and int(m.group(2)) >= 6 and int(m.group(3)) >= 3,
+          "ui-cad-gate --selftest(GU7 の腕を含む)— " + (m.group(0) if m else f"件数行なし(exit {st.returncode})"))
 
 
 # --- C7 README の陳腐化(スキル本数) ------------------------------------------------
@@ -1966,6 +1996,21 @@ def c19_bom_structure() -> None:
           + (m.group(0) if m else f"件数行なし(exit {p.returncode}): {(p.stdout + p.stderr).strip()[-120:]}"))
 
 
+def c20_loop_instruments() -> None:
+    """C20(ECO-126)— kit 道具 loop-count.py・handover-stamp.py の selftest を毎回走らせる(C19 と同じ理由)。"""
+    pat = r"selftest PASS.(\d+) 腕: known-bad (\d+)・known-good (\d+)"   # 道具の出力の括弧は全角
+    for cid, name in (("C20a", "loop-count.py"), ("C20b", "handover-stamp.py")):
+        tool = ROOT / "method" / "tools" / name
+        if not tool.is_file():
+            check(cid, False, f"道具がない: {tool.relative_to(ROOT)}(欠測は FAIL)")
+            continue
+        p = run([sys.executable, str(tool), "--selftest"])
+        m = re.search(pat, p.stdout)
+        ok = p.returncode == 0 and bool(m) and int(m.group(2)) > 0 and int(m.group(3)) > 0
+        check(cid, ok, f"{name} selftest(既知の良品+既知の不良・腕 0 本は合格ではない)— "
+              + (m.group(0) if m else f"件数行なし(exit {p.returncode}): {(p.stdout + p.stderr).strip()[-120:]}"))
+
+
 def _quick_c11_inputs_notice() -> str:
     """ECO-125: C11 のファイル入力が上流ブランチから変わったか(yes / no / not determined)。
     kit は method/ の写しなので、method/ 配下(記録である method/improvements.md を除く)の変更を「変わった」と数える
@@ -2006,7 +2051,7 @@ def main() -> int:
                   ("C12", c12_entry_refs), ("C13", c13_link_integrity), ("C14", c14_kit_freshness),
                   ("C15", c15_deprecated_refs), ("C16", c16_converge_receipt),
                   ("C17", c17_calibrate_receipt), ("C18", c18_prepush_witness),
-                  ("C19", c19_bom_structure)]
+                  ("C19", c19_bom_structure), ("C20", c20_loop_instruments)]
         if a.dotnet:
             checks.append(("C9", c9_dotnet))
         if a.quick:
