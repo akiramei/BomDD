@@ -15,6 +15,7 @@
 
 - Filing: requested/resolved `claude-fable-5-2`, Claude Code (Claude Agent SDK, desktop app), provenance **self-reported**.
 - producer: EQ-006
+- inspector: EQ-002
 - Independent inspection: **owed for GU7 by equipment of another lineage, read-only** — `ui-cad-gate.py` has been through an
   independent inspection before (ECO-045), and a new check is a change of its inspection semantics (playbook §3, the
   high-risk jig rule, line 340). The inspector is named at the start instruction. For the rest of the diff: one review in a
@@ -324,6 +325,12 @@ known defects), on the user's standing instruction of 2026-09-29 that a measured
 **The inspector has not seen that repair** (UR-1 to UR-3). Briefs, reports and the disposition:
 `bomdd/reports/eco-126-loop-route/inspection/`.
 
+**How the inspector was started (a departure).** Earlier inspections of this repository were started through `bomdd-run.py`,
+which also decides the promotion; here `codex exec -s workspace-write -m gpt-5.6-sol` was started directly on a scratch folder
+holding copies of the old and the new tool, the diff and the template, with the brief on standard input and the report as its
+last message. No promotion was decided by a tool. A closure of this ECO with the inspector's last verdict at REJECT has no
+precedent in this register; the nearest are closures with declared limits on the user's ruling (ECO-119, ECO-125).
+
 **The review in a fresh context of the same equipment (the rest of the diff).** Two rounds. Round 1: 42 findings — 11 on the
 two new tools (false passes of `--check` and of the launcher check, tracebacks), 14 on text against tools and text against
 text, 11 on the verification scripts, 3 on the record, 3 out of scope. The substance was repaired (both tools were largely
@@ -362,7 +369,10 @@ the tools do were narrowed, and the rest is the list of known defects below. Bot
 - **V4 result: PASS on the last tree** (`v4_route.py`, 69 checks, three scaffolds bound to one kit manifest, `409aa6c5b721`). **Its first run
   failed one step**: with `ruled_layer` enabled, a round's commit that changed the requirements file as the route was then
   worded was refused by E13. The route's text was repaired (above) and the script now drives the route as worded, with the
-  refusals as controls. Variant C (three states) was added after the review. Not run: IQ/OQ on these scaffolds (C11 runs it on
+  refusals as controls. Variant C (three states) was added after the review. The script was written by a subagent and run by
+  the producer; the producer has not read it through (a search finds no check whose verdict is a constant true; the five
+  constant-false ones are its failure branches; the first review found one PASS line that does not depend on the exit code it
+  prints). Not run: IQ/OQ on these scaffolds (C11 runs it on
   its own), a return to a round after `implemented` (KD-09), branches and merges, a populated BOM at acceptance.
 - **V5 result: PASS.** `v5_text.py` (12 checks): `eco-fix`'s steps are identical character for character; nothing is removed
   from `change-management.md`; section 2 gains five lines; every path of this ECO is inside `allowed_paths`; nothing under
