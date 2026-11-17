@@ -83,7 +83,7 @@ rem BomDD handover-stamp: logs which build ran, then starts it. Do not edit.
 setlocal
 set "D=%~dp0"
 set "H=unreadable"
-for /f "usebackq delims=" %%H in (`powershell -NoProfile -Command "(Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $env:D '{main_win}')).Hash.ToLower()"`) do set "H=%%H"
+for /f "usebackq delims=" %%H in (`powershell -NoProfile -Command "try{{$s=[IO.File]::OpenRead($env:D+'{main_win}');try{{[BitConverter]::ToString([Security.Cryptography.SHA256]::Create().ComputeHash($s)).Replace('-','').ToLower()}}finally{{$s.Dispose()}}}}catch{{}}"`) do set "H=%%H"
 for /f "usebackq delims=" %%T in (`powershell -NoProfile -Command "[DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ')"`) do set "T=%%T"
 >>"%D%{log}" echo %T%	{stamp}	{main}	%H%
 if defined HANDOVER_NO_START exit /b 0
