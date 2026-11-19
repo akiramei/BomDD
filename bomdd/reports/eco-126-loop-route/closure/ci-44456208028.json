@@ -1,0 +1,147 @@
+{
+    "conclusion": "success",
+    "createdAt": "2026-11-19T04:08:10Z",
+    "databaseId": 44456208028,
+    "event": "push",
+    "headSha": "0a9adcbb09d5bf0c2e2d54fa1447772ac59cae78",
+    "jobs": [
+        {
+            "conclusion": "success",
+            "name": "fast (windows-latest)",
+            "steps": [
+                {
+                    "conclusion": "success",
+                    "name": "Set up job"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run actions/checkout@v4"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run actions/setup-python@v5"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run pip install pyyaml"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run python method/tools/self-conformance.py"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run python method/tools/worklist.py --selftest"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run python method/tools/bomdd-witness.py --selftest"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Post Run actions/setup-python@v5"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Post Run actions/checkout@v4"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Complete job"
+                }
+            ]
+        },
+        {
+            "conclusion": "success",
+            "name": "fast (ubuntu-latest)",
+            "steps": [
+                {
+                    "conclusion": "success",
+                    "name": "Set up job"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run actions/checkout@v4"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run actions/setup-python@v5"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run pip install pyyaml"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run python method/tools/self-conformance.py"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run python method/tools/worklist.py --selftest"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run python method/tools/bomdd-witness.py --selftest"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Post Run actions/setup-python@v5"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Post Run actions/checkout@v4"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Complete job"
+                }
+            ]
+        },
+        {
+            "conclusion": "success",
+            "name": "dotnet",
+            "steps": [
+                {
+                    "conclusion": "success",
+                    "name": "Set up job"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run actions/checkout@v4"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run actions/setup-python@v5"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run actions/setup-dotnet@v4"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run pip install pyyaml"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Run python method/tools/self-conformance.py --c9-only"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Post Run actions/setup-dotnet@v4"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Post Run actions/setup-python@v5"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Post Run actions/checkout@v4"
+                },
+                {
+                    "conclusion": "success",
+                    "name": "Complete job"
+                }
+            ]
+        }
+    ]
+}

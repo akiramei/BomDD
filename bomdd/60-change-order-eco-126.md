@@ -1153,7 +1153,175 @@ verification, and the change is not verified.
 
 ### 10.6 Where this leaves the change
 
+> **Later record (2026-11-19, after this section was written):** this commit, `0a9adcb`, was then pushed after a full
+> self-conformance and its CI is green, and the change was closed on the user's ruling — section 11. The paragraph below is
+> left as written.
+
 Status `implemented`. **Not closed as verified** — closing is the user's. This commit changes this order, the register's
 note and the evidence folder `first-use/` only; no tool and no text of the kit. Checked for this record commit: the quick
 tier of the self-conformance. Not pushed (a separate word of the user's), so no full run and no CI on it. O-6 stays managed
 apart; the limits of 9.4 stand as written. Nothing here was sent through `/lesson-promote`.
+
+## 11. クローズ (closure, 2026-11-19, verified on the user's "1を閉じます。食い違いは現状を正とします"; two clauses of V6 not met by the letter and closed over by that ruling; limits declared)
+
+**The ruling.** After the push of `0a9adcb` the producer listed what was still open and, asked by the user, explained each
+item. Beside the closing of this change the producer put two facts against the frozen V6 and wrote that whether either bars
+the closing is the user's ruling. As written to the user:
+
+> 「push した commit はどれも CI が緑」という条件に対し、`635e535` は Windows だけ赤でした。直した後の `7943c64` と `0a9adcb` は緑です。
+>
+> 「製品リポに変更が無い」という条件に対し、MoviePad には今 ECO-007 と ECO-008 が入っています。どちらもあなたの別の一言で入れたものです。
+
+The user then asked whether the tracking item of section 3 keeps the change open. The producer answered that it does not
+(section 3 files it at verification) and named again what does, in these words:
+
+> V6 の文と事実が、2 か所で食い違っていること。どちらも、閉じる妨げになるかはあなたの裁定で、私は読みを決めていません。
+>
+> - `635e535` の CI は Windows だけ赤でした(直した後の 2 つの commit は緑)。
+> - MoviePad に ECO-007 と ECO-008 が入っています(どちらもあなたの別の一言で入れたもの)。
+
+The user answered:
+
+> 1を閉じます。食い違いは現状を正とします
+
+**The producer's reading of those words** (a reading, not the user's text). "1" is item 1 of the producer's list, the closing
+of ECO-126. "食い違い" are the two differences quoted above. "現状を正とします" takes the record as it stands as the correct
+state, so the letter of those two clauses does not bar the closing. This is a closure with two clauses of V6 not met by the
+letter, by the human's ruling; **it is not a pass of them**. The ruling covers those two clauses and nothing else: the limits
+further down are the producer's declarations, not part of it.
+
+**Window.** Baseline `38c482b` → filing `59b96bb` → manufacture `da797b7` → the repairs `12cc2be`, `7f5a4dc`, `43a91b2` →
+record `0a9adcb` (diff_audit.head; **the window is closed**). `closure/window126.py`, from git objects alone
+(`closure/window.txt`): **PASS** — 15 commits, each naming this ECO, 72 paths, none outside `allowed_paths`. Control
+(`closure/window-control.txt`, one allowed path dropped, `method/tools/handover-stamp.py`): FAIL, on the three commits that
+changed it. The closure commit holds records only: this order, the register and files under
+`bomdd/reports/eco-126-loop-route/closure/`. No file under `method/` has changed since `43a91b2`.
+
+**Acceptance results.** V1 to V5 were run again for this closure, on the bare commit `0a9adcb` in the clean second working
+tree (`git status` empty before and after; `closure/v-run.txt` holds each exit code, read before this section was written).
+The outputs stored at the top of the evidence folder are those of section 7.4 and older and, as 9.4 says, were not measured
+again after the launcher repair; they are left as they are.
+
+- **V1 result: PASS** — 9 checks (`closure/v1-output-0a9adcb.txt`): MoviePad's ledger at `d5dab41` and at `9d46268`,
+  ViewTube's at `b714c546`, and the retyped bundle in six steps. GU6 is declared not applicable, as in section 5.
+- **V2 result: PASS** — 20 checks from the fixed table (`closure/v2-output-0a9adcb.txt`). The hand-entered part stands as
+  declared in section 5.
+- **V3 result: PASS** — 3 checks started from PowerShell 7, the POSIX half skipped there
+  (`closure/v3-output-0a9adcb-pwsh.txt`); 5 checks under Git's bash, itself started from that PowerShell 7 session, so
+  what it adds is the POSIX half, not a second clean shell (`closure/v3-output-0a9adcb-gitbash.txt`). A Git Bash session
+  of its own was not used at this closure, and a POSIX system was not used.
+- **V4 result: PASS** — 88 checks on four scaffolds bound to one kit manifest, `e56e4016bc3f`; the kit was copied from the
+  bare commit (the output names `0a9adcbb0`), with `handover-stamp.py` at its repaired bytes
+  (`closure/v4-output-0a9adcb.txt`). `v4_sabotage.py` was not run again (neither it nor `v4_route.py` changed).
+- **V5 result: PASS** — 12 checks; 72 paths, none outside `allowed_paths` (`closure/v5-output-0a9adcb.txt`).
+- **V6 result: not met by the letter in two clauses; closed over by the ruling above.** Clause by clause:
+  - *The diff is inside `allowed_paths`*: met (the window above).
+  - *The full self-conformance exits 0 before each push*: met for the three pushes. `635e535`: exit 0 (9.1). `7943c64`: a
+    first run exit 1, a second exit 0, then the push (10.1; the cause of the first is not established). `0a9adcb`: exit 0,
+    28 result lines, 813.5 s, started from PowerShell 7 in the second working tree on the user's "A: このまま push"; the
+    witness's tree `393c460f…` equals the commit's (`closure/full-0a9adcb.txt`, `.exit.txt`, `.shell.txt`); pushed
+    `7943c64..0a9adcb` at 13:08 JST.
+  - *CI is green for each pushed commit*: **not met by the letter.** `635e535`: run 44120278931 red, the Windows job's C20b
+    (9.2), repaired by `43a91b2`. `7943c64`: run 44138485295 green (10.1). `0a9adcb`: run 44456208028 green on three jobs,
+    the self-conformance step and the two steps after it included (`closure/ci-44456208028.json`).
+  - *No product repository has a change*: **not met by the letter.** MoviePad carries the kit (its ECO-007) and one change
+    turned through the route (its ECO-008), each on the user's separate word and after the manufacture and the repairs
+    (10.2, 10.3). V1 reads the product repositories and writes nothing in them.
+  - **Owed for this closure commit**: the full self-conformance on it, its push (a separate word of the user's) and the CI
+    after that. Checked before the commit: the quick tier only. A red there reopens this ECO.
+
+**Declared limits (the producer's; outside the ruling).**
+
+- **The promotion was not put through the operator entry.** The order names an inspector, and `bomdd-run` asks, for a
+  verified change with an inspector, for a witness that carries the gate `inspection` and each of V1 to V6 by name. V6 is not
+  met by the letter, and the producer does not write an exit code for a ruling. So no witness was made and the entry's
+  decision was not run; that it would refuse, naming V6, is the producer's reading of its rule, not a result. What the ledger
+  holds is the GU7 inspection of 6.1: ACCEPT by EQ-002 in the range "correction confirmation and regression", after two
+  REJECT rounds each answered by a repair. No round has explored the boundary of the gate as it now stands, and nobody but
+  the producer has read the second repair or the launcher repair.
+- **The tracking item of section 3 is owed, not filed.** Its text is below. It is not a line of `method/improvements.md`:
+  that file holds an uncommitted edit that is not this ECO's, and it is outside `allowed_paths`, so the line goes in by a
+  commit of its own once that edit is settled. Until then `worklist.py` does not show it; this section is the only place in the
+  repository that holds it.
+- **CI ran on the three push heads only.** The twelve other commits of the window have no run of their own.
+- **Standing, unchanged**: the eleven findings accepted under the three restrictions of section 8; three parts of O-6 with
+  no tracked place outside this order; the limits of 9.4 (a regression of the launcher line is held by CI's Windows job
+  only); the launcher does not start the program while its PowerShell call does not exit (10.1); no POSIX system, no
+  three-state product, one product, one producer.
+- **Not shown**: that the loop helps, or that anything improves from loop to loop (10.5). The third clause of the
+  requirement is measured by nothing here.
+
+**The tracking item (section 3, "Not gated — measured after application") — its text, owed as a line of
+`method/improvements.md`.**
+
+- *What is counted*, on the first three looped changes of products carrying this kit: reactions by kind and by who assigned
+  it; where tied causes land; GU7 reds; launcher mismatches; rows of the read before manufacture that were asked; repairs.
+- *What happens at three*: a part with no hit in three changes is put to the user for removal.
+- *Trigger*: a change that the user names as looped at its filing, in a product whose kit holds section 3.5.
+- *State*: 1 of 3 — MoviePad ECO-008 (10.3). With no hit so far: a GU7 red, a launcher mismatch or "unknown", and the
+  return from a confirmation item to a round.
+- *Reading*: restrictions 2 and 3 of section 8 apply. No number of one change is set beside another's as an improvement,
+  and an exit 0 or an empty field is not taken as completeness.
+
+### 較正 receipt (/calibrate self-application - trigger ①: verified promotion; receipt_author_role = producer; no instrument changed since section 9)
+
+- **The claim (one sentence).** On the bare commit `0a9adcb` the route's parts — GU7, `loop-count`, `handover-stamp`, the
+  skill and section 3.5 — pass the frozen checks V1 to V5 within the limits of sections 5 to 9, and the route was used once
+  in one product.
+- **査定した主張と判定** (the claims assessed and their verdicts; measurement × evidence):
+  - "V1 to V5 pass on the closing head": **observed / eligible for that commit** — one run each, on a clean tree, exit codes
+    read from a file. **Conditionally**, as the earlier receipts say: V1 with GU6 declared not applicable; V2's rounds,
+    reactions and reports entered by hand; V3 on Windows from one PowerShell 7 session and under Git's bash started from
+    it; V4's script read through by nobody.
+  - "The diff is inside the window": **observed / eligible** — from git objects, with a control that goes red on its own
+    three commits.
+  - "The full self-conformance passed before each push": **observed / eligible** for three pushes; the failed first run on
+    `7943c64` is in the record and its cause is not established.
+  - "CI is green for each pushed commit": **observed, and false for `635e535`** — not used as a pass; closed by the ruling.
+  - "No product repository has a change": **observed, and false** — not a gap of measurement; closed by the ruling.
+  - "The route was used once in a product": **observed / eligible for that statement only** (10.3) — not for any statement
+    that it helps, and not beside another change's numbers (restriction 2).
+  - "GU7 was accepted by an independent inspector": **observed / eligible within the range** of round 3 (6.1).
+  - "The entry would advance" and "the closure commit passes the full run and CI": **unknown** (not run; the first by
+    choice, the second because the push is a separate word) — no eligibility is given, and neither is used.
+- **検出した計器欠陥と帰属** (instrument defects found, and attribution): none found in a tool at this closure. One in the
+  record, the producer's: the stored outputs of V3, V4 and V5 name bytes older than the launcher repair, so quoting them
+  for the closing head would have pointed at another individual; they were run again instead. The new script
+  `window126.py` gave PASS and, on its control, FAIL as declared before the run.
+- **宣言した検出力の限界** (declared limits of detection):
+  - One run of each check, on one machine. The run-to-run stall of 10.1 did not occur; nothing was learned about it.
+  - The re-run adds no clause-level coverage: what the self-tests of the two new tools do not hold (R3-07, KD-10) is as
+    accepted in section 8.
+  - `v4_sabotage.py` and the mutant lists were not run again.
+  - CI's conclusion is read for push heads; an intermediate commit's tree was checked by CI nowhere.
+  - The product use is one change, by the same producer who wrote the kit; the raw outputs of its rounds are deleted (10.5).
+  - The self-assessment is blind to the producer's own wrong premises (playbook §9). This receipt was written by the
+    producer; the one independent inspection is GU7's, in its range.
+- **Battery, row by row:**
+  - **Q1 asked.** V6 is written as not met in two clauses, not as PASS; the register's line says the same; "used once in
+    one product" is not widened to "works in products".
+  - **Q2 asked.** The window check is paired with its control; V1 to V5 carry their own known-bad arms (V1 four steps red on GU7 and one
+    held by GU3, V2 twelve known-bad records, V3 the mismatch and the unknown start, V4 its refusal controls). The labels come from the
+    stated rules and the frozen table, not from the tools' output.
+  - **Q3 asked.** Not every clause of the two new tools falls separately (KD-10, R3-07; accepted, not repaired).
+  - **Q4 asked.** V1 reads ledgers from the product repositories at named commits; V2 refuses any table but the one of the
+    fixed sha256; V4 copied the kit from a tree with no uncommitted file, unlike the runs of 6.5 and 7.4.
+  - **Q5 asked.** The closure commit's own full run, push and CI, the twelve commits with no CI run, the entry's decision
+    and a POSIX system are recorded as not measured; none is counted as a pass.
+  - **Q6 asked.** Each exit code was written down by the run and read before the results were written here; the commit
+    follows an observed exit of the quick tier and is not chained to it.
+  - **Q7 asked.** C6c-e and C20a-b run the arms on every self-conformance (unchanged); the launcher line's regression is
+    held by CI's Windows job only (9.4).
+  - **Q8 NA.** No preventive gate is added at this closure (GU7's way out was assessed in section 5).
+  - **Q9 asked.** The outputs name the commit (`0a9adcbb0`) and the kit manifest (`e56e4016bc3f`), with
+    `handover-stamp.py` at `66c957cc37b3`; in the stored V4 output (section 7.4) it is `4230028781ee`.
+  - **Q10 asked.** The limits above.
+  - **Q11 asked.** V3 from PowerShell 7, the class the red CI showed, and its POSIX half under Git's bash started from
+    that same session; V4 on two-state and three-state scaffolds; the real product (10.3) is kept apart from the
+    scaffolds. Not measured here: a Git Bash session of its own (9.4 has it for the tool's self-test) and a POSIX system.
+- **What this closure does not support:**
+  - that the loop helps, or that anything improves from loop to loop;
+  - that GU7 or the launcher's mismatch catches something in a product, or that either is unneeded;
+  - use in a three-state product, on a POSIX system, or by another producer;
+  - that the operator entry would advance this change;
+  - anything about the closure commit's own full run or CI.

@@ -1,0 +1,18 @@
+window 38c482b..0a9adcb: 15 commits; allowed_paths 19
+PASS 59b96bb paths 2 outside 0 names eco-126: yes
+PASS da797b7 paths 16 outside 0 names eco-126: yes
+PASS fa74842 paths 27 outside 0 names eco-126: yes
+PASS acc7c05 paths 1 outside 0 names eco-126: yes
+PASS 12cc2be paths 20 outside 0 names eco-126: yes
+PASS be321ea paths 5 outside 0 names eco-126: yes
+PASS 5655ef2 paths 1 outside 0 names eco-126: yes
+PASS 7f5a4dc paths 8 outside 0 names eco-126: yes
+PASS d5dc6f9 paths 3 outside 0 names eco-126: yes
+PASS b0c2a6e paths 2 outside 0 names eco-126: yes
+PASS f4e3fb7 paths 2 outside 0 names eco-126: yes
+PASS 635e535 paths 1 outside 0 names eco-126: yes
+PASS 43a91b2 paths 1 outside 0 names eco-126: yes
+PASS 7943c64 paths 9 outside 0 names eco-126: yes
+PASS 0a9adcb paths 12 outside 0 names eco-126: yes
+whole window: 72 paths, outside 0
+WINDOW: PASS
