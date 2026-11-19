@@ -1,0 +1,65 @@
+loop-count: ECO-008 — rounds 3 / limit 5 / budget 別の文脈の費用 180 万トークン(初めは 150 万。2026-11-19 に、オーナーが 180 万へ延ばした。周 1 の候補までに 900,268・周 2 の候補までに 1,322,131・周 3 の候補までに 1,711,512)
+  round 1: commit 5a23140 files 2 launches {'count': 1, 'matching': 1} reply yes
+  round 2: commit a1ca26a files 2 launches {'count': 1, 'matching': 1} reply yes
+  round 3: commit bd768c6 files 2 launches {'count': 1, 'matching': 1} reply yes
+
+stage 1 — decided or found: rows 124 / subjects 124
+
+stage 2 — disposition (rows)
+                    producer  reader  maker   all
+  to_user_check           30       9      0    39
+  to_user_report           0       2      0     2
+  asked                    0       8      0     8
+  no_action                5       3      7    15
+  not_asked                0       5      0     5
+  fixed                    0      32      0    32
+  record_fixed             0      13      0    13
+  known_only               0       4      0     4
+  measured_closed          0       3      3     6
+  asked of the user, producer: 30 / 35
+  asked of the user, reader: 19 / 79
+  asked of the user, maker: 0 / 10
+
+stage 3 — outcome by disposition (rows)
+  producer  no_action        None           4
+  producer  no_action        measured       1
+  producer  to_user_check    diff           2
+  producer  to_user_check    open           1
+  producer  to_user_check    passed         27
+  reader    asked            None           7
+  reader    asked            tied_to_diff   1
+  reader    fixed            None           27
+  reader    fixed            measured       5
+  reader    known_only       None           3
+  reader    known_only       measured       1
+  reader    measured_closed  measured       3
+  reader    no_action        None           2
+  reader    no_action        measured       1
+  reader    not_asked        None           4
+  reader    not_asked        tied_to_diff   1
+  reader    record_fixed     None           10
+  reader    record_fixed     measured       3
+  reader    to_user_check    measured       3
+  reader    to_user_check    passed         6
+  reader    to_user_report   accepted       2
+  maker     measured_closed  measured       3
+  maker     no_action        None           7
+
+reactions — kind (who assigned it)
+  pass      by user     1
+  pass_but  by reading  1
+  pass_but  by user     1
+  class: {'decision_change': 2, 'none': 1}
+
+where tied causes land
+  RE1-01 -> P-11 (source producer; listed before use: yes)
+  RE1-01 -> C1 (source reader; listed before use: yes)
+  RE2-01 -> P-07 (source producer; listed before use: yes)
+  RE2-01 -> B2 (source reader; listed before use: yes)
+
+read before manufacture — rows by disposition: {'asked': 8, 'fixed': 18, 'not_asked': 5}
+
+inner loop — fixed after reproduction 0, patched without reproduction 0, checks replaced 1, re-asks 0
+reports: {'yes': 2}
+gaps: 0
+exit=0

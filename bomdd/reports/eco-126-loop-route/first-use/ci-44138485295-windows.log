@@ -1,0 +1,260 @@
+fast (windows-latest)	UNKNOWN STEP	﻿2026-11-17T17:34:34.0116746Z Current runner version: '2.338.2'
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0138566Z ##[group]Runner Image Provisioner
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0139194Z Hosted Compute Agent
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0139704Z Version: 20261103.629
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0140168Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0140774Z Build Date: 2026-11-03T17:26:59Z
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0141327Z Worker ID: {df7ba764-3024-41b7-b544-49b63c100d89}
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0141885Z Region: westus3
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0142323Z Cloud: Azure
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0142753Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0143740Z ##[group]Operating System
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0144246Z Microsoft Windows Server 2025
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0144697Z 10.0.26100
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0145229Z Datacenter
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0145727Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0146151Z ##[group]Runner Image
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0146724Z Image: windows-2025-vs2026
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0147174Z Version: 20261103.298.1
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0148365Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261103.298/images/windows/Windows2025-VS2026-Readme.md
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0149643Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261103.298
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0151014Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0152352Z ##[group]GITHUB_TOKEN Permissions
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0154232Z Contents: read
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0154889Z Metadata: read
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0155538Z Packages: read
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0156238Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0158419Z Secret source: Actions
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0159532Z Cache mode: write
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0160303Z Prepare workflow directory
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0492159Z Prepare all required actions
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.0543112Z Getting action download info
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.3358701Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.4477176Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.6801096Z Complete job name: fast (windows-latest)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8078328Z ##[group]Run actions/checkout@v4
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8079227Z with:
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8079548Z   repository: akiramei/BomDD
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8082545Z   token: ***
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8082846Z   ssh-strict: true
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8083172Z   ssh-user: git
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8083490Z   persist-credentials: true
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8083843Z   clean: true
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8084165Z   sparse-checkout-cone-mode: true
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8084540Z   fetch-depth: 1
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8084846Z   fetch-tags: false
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8085159Z   show-progress: true
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8085474Z   lfs: false
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8085761Z   submodules: false
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8086076Z   set-safe-directory: true
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8086793Z   allow-unsafe-pr-checkout: false
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.8087395Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.9346116Z Syncing repository: akiramei/BomDD
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.9347520Z ##[group]Getting Git version info
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.9347990Z Working directory is 'D:\a\BomDD\BomDD'
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:34.9975367Z [command]"C:\Program Files\Git\bin\git.exe" version
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.3777109Z git version 2.56.0.windows.4
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.3821712Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.3839671Z Temporarily overriding HOME='D:\a\_temp\8fee5aaa-f0dc-4d95-9073-b26b30603aa2' before making global git config changes
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.3840699Z Adding repository directory to the temporary git global config as a safe directory
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.3848728Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\BomDD\BomDD
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.4523486Z Deleting the contents of 'D:\a\BomDD\BomDD'
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.4529570Z ##[group]Initializing the repository
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.4537653Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\BomDD\BomDD
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.5368854Z Initialized empty Git repository in D:/a/BomDD/BomDD/.git/
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.5411727Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/akiramei/BomDD
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.6091615Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.6092251Z ##[group]Disabling automatic garbage collection
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.6100092Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.6401377Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.6401936Z ##[group]Setting up auth
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.6411190Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:35.6718846Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:38.2602164Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:38.2903621Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:38.7549406Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:38.7841012Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:39.2305566Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:39.2614180Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:39.2614875Z ##[group]Fetching the repository
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:39.2624512Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7943c6403297cb05a6a19b75596fd770e8c387da:refs/remotes/origin/main
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:56.5678795Z From https://github.com/akiramei/BomDD
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:56.5681914Z  * [new ref]         7943c6403297cb05a6a19b75596fd770e8c387da -> origin/main
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:56.5717609Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:56.5718165Z ##[group]Determining the checkout info
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:56.5719509Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:56.5729251Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:56.6345197Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:56.6661486Z ##[group]Checking out the ref
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:56.6670446Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.1433766Z Updating files:  51% (1230/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.1602932Z Updating files:  52% (1254/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.1774863Z Updating files:  53% (1278/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.2122794Z Updating files:  54% (1302/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.2323730Z Updating files:  55% (1326/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.2647906Z Updating files:  56% (1350/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.2855839Z Updating files:  57% (1374/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.3371797Z Updating files:  58% (1398/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.3739631Z Updating files:  59% (1422/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.3932031Z Updating files:  60% (1446/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.4072991Z Updating files:  61% (1471/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.4126780Z Updating files:  62% (1495/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.4431276Z Updating files:  63% (1519/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.4789945Z Updating files:  64% (1543/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.5017061Z Updating files:  65% (1567/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.5337871Z Updating files:  66% (1591/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.5863310Z Updating files:  67% (1615/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.6218936Z Updating files:  68% (1639/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.6400693Z Updating files:  69% (1663/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.6573854Z Updating files:  70% (1687/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.6758342Z Updating files:  71% (1712/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.7123417Z Updating files:  72% (1736/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.7328290Z Updating files:  73% (1760/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.7472607Z Updating files:  74% (1784/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.7479940Z Updating files:  74% (1804/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.7842503Z Updating files:  75% (1808/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.7897500Z Updating files:  76% (1832/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.8214211Z Updating files:  77% (1856/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.8429093Z Updating files:  78% (1880/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.8612586Z Updating files:  79% (1904/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.8947741Z Updating files:  80% (1928/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.9144347Z Updating files:  81% (1953/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.9200886Z Updating files:  82% (1977/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.9276310Z Updating files:  83% (2001/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.9376980Z Updating files:  84% (2025/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.9654003Z Updating files:  85% (2049/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.9764036Z Updating files:  86% (2073/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.9832188Z Updating files:  87% (2097/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:58.9985956Z Updating files:  88% (2121/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.0168837Z Updating files:  89% (2145/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.0343768Z Updating files:  90% (2169/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.0438723Z Updating files:  91% (2194/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.0762297Z Updating files:  92% (2218/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.0935916Z Updating files:  93% (2242/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.1277587Z Updating files:  94% (2266/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.1332435Z Updating files:  95% (2290/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.1644800Z Updating files:  96% (2314/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.1822614Z Updating files:  97% (2338/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.2160651Z Updating files:  98% (2362/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.2369593Z Updating files:  99% (2386/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.2370273Z Updating files: 100% (2410/2410)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.2370607Z Updating files: 100% (2410/2410), done.
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.2495489Z Switched to a new branch 'main'
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.2621560Z branch 'main' set up to track 'origin/main'.
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.2670697Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.4508712Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.4833279Z 7943c6403297cb05a6a19b75596fd770e8c387da
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.5227165Z ##[group]Run actions/setup-python@v5
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.5227451Z with:
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.5227606Z   python-version: 3.12
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.5227781Z   check-latest: false
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.5230175Z   token: ***
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.5230332Z   update-environment: true
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.5230515Z   allow-prereleases: false
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.5230686Z   freethreaded: false
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.5230852Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.6846608Z ##[group]Installed versions
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.7321748Z (node:996) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.7322297Z (Use `node --trace-deprecation ...` to show where the warning was created)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.7323259Z Successfully set up CPython (3.12.10)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.7323763Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.7583470Z ##[group]Run pip install pyyaml
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.7583799Z [36;1mpip install pyyaml[0m
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.8161322Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.8161627Z env:
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.8161851Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.8162261Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.8162613Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.8162936Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.8163237Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:34:59.8163474Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:14.9962187Z Collecting pyyaml
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:15.1675059Z   Downloading pyyaml-6.0.3-cp312-cp312-win_amd64.whl.metadata (2.4 kB)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:15.5532000Z Downloading pyyaml-6.0.3-cp312-cp312-win_amd64.whl (154 kB)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.0975033Z Installing collected packages: pyyaml
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.2214200Z Successfully installed pyyaml-6.0.3
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.3919666Z ##[group]Run python method/tools/self-conformance.py
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.3920043Z [36;1mpython method/tools/self-conformance.py[0m
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.3978816Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.3979087Z env:
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.3979312Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.3979669Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.3980011Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.3980317Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.3980611Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:16.3980860Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:17.5074778Z self-conformance: D:\a\BomDD\BomDD
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:17.5440820Z [env] python 3.12.10・PyYAML 6.0.3・os Windows-2025Server・runner win25-vs2026/20261103.298.1
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:18.5955489Z [C1] PASS YAML 78 件厳格パース(重複キー検出・陽性対照込み)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:18.6010695Z [C2] PASS JSON 32 件パース
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:18.8820250Z [C3] PASS 台帳厳格パース+verified 124 件の状態契約(窓閉鎖・verification 実記録・型④陽性対照込み)(全 verified 適合)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:21.7364299Z [C4] PASS scaffold 煙試験(絶対パス漏れ 0 件・lock/manifest 整合 True・AGENTS.md 参照スキル 28 件・生成 YAML 厳格パース 全数)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:21.8679822Z [C5a] PASS stage0-survey.py 存在しないリポ → exit 2・測定不能マーカー=True(期待 2+マーカー)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:21.9258153Z [C5b] PASS impact-retrospective.py 存在しないリポ → exit 2・測定不能マーカー=True(期待 2+マーカー)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:21.9970423Z [C6a] PASS 理由なし rejected を遮断(exit 1)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:22.0976083Z [C6b] PASS 根拠つき rejected を通す(exit 0)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:22.1671119Z [C6c] PASS 人の裁定を挙げていない仮の束を遮断(GU7)(exit 1)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:22.2380772Z [C6d] PASS 人の裁定を挙げた仮の束を通す(GU7)(exit 0)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:23.6680965Z [C6e] PASS ui-cad-gate --selftest(GU7 の腕を含む)— selftest PASS(19 腕: known-bad 15・known-good 4
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:23.6686181Z [C7] PASS README のスキル本数表記 [14, 14] = SKILLS 実数 14
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:23.6687862Z [C8] PASS リポ直下にパス破損の化石なし
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:35:23.7125905Z [C10] PASS 参照スキーマの派生同期(ID 層突合+二方言被覆+テンプレ空振り・陽性対照込み)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:26.3456335Z [C11] PASS process-core 適格性(初回 commit hook 有効=True・IQ/OQ PASS=True・control 105 件・2 回決定性=True・変異〔hooksPath 無効〕IQ-03 pass=false 構造判定=True)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:26.6796453Z [C11b] PASS 非既定構成 profile の全対照(register/initial/trailers/protected を既定と変更)— PASS=True・2 回決定性=True・control 105 件
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:28.6445485Z [C12] PASS 自リポ入口(AGENTS.md)の相対リンク 16 件すべて実在
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:29.1937496Z [C13] PASS リンク実在の二文脈検査(リポ文脈 106 files/302 links 不在 0・設置先文脈 31 files/77 links 不在 0・陽性対照 True)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:29.4198673Z [C14] PASS cleanup 較正 read-only 消去=True・削除不能で残置が返る=True・解放後に消える=True
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:31.0927488Z [C14] PASS kit-freshness 対照実測(FRESH/STALE/UNKNOWN/TAMPERED/余剰/入力不正/実 scaffold = 7/7)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:31.3062863Z [C15] PASS deprecated 参照の掃討(deprecated 宣言 1 件・naive 参照 0 件・陽性対照 True)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:31.7647771Z [C16] PASS converge receipt ゲート(cutoff 2026-08-30 以降 order 94 件+improvements 節 130 件〔本体ラベル要求= ECO-053 以降〕・fixture 17/17 較正成立・根拠つき免除 2 件[ECO-034(by claude-opus-5(製造側の自己宣言・監査対象。C16 が免除を件数と宣言者つきで毎回表示する)) / improvements.md #2026-08-30 BomDD 自己適用還元 — ECO-033 弧: 裁定の選択肢は主張で(by claude-opus-5(製造側の自己宣言・監査対象。C16 は有効な免除を毎回件数と宣言者つきで表示する))])
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:32.0150810Z [C17] PASS calibrate receipt ゲート(trigger ①= verified 昇格・適用 ECO-041 以降 84 件〔本体ラベル要求= ECO-051 以降〕・fixture 18/18 較正成立・根拠つき免除 0 件)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:32.7979203Z [C18] PASS witness 較正 skip-worktree 腕(tree の blob= 作業ツリー・実 index 不変)=True・対照腕=True・失敗腕(書かない)=True
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:32.7979830Z [C18] PASS pre-push witness(NA — CI は push しない環境・適用対象外の宣言)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:34.1959238Z [C19] PASS bom-structure-check selftest(既知の良品+規則ごとの変異・腕 0 本は合格ではない)— selftest: 38/38 arms as expected
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:38.5534681Z [C20a] PASS loop-count.py selftest(既知の良品+既知の不良・腕 0 本は合格ではない)— selftest PASS(64 腕: known-bad 59・known-good 5
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.0315264Z [C20b] PASS handover-stamp.py selftest(既知の良品+既知の不良・腕 0 本は合格ではない)— selftest PASS(26 腕: known-bad 25・known-good 1
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.0315765Z 
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.0316346Z [time] C1 1.1 / C2 0.0 / C3 0.3 / C4 2.9 / C5 0.1 / C6 1.7 / C7 0.0 / C8 0.0 / C10 0.0 / C11 544.9 / C12 0.0 / C13 0.7 / C14 1.9 / C15 0.0 / C16 0.5 / C17 0.3 / C18 0.8 / C19 1.4 / C20 11.8 / total 568.5 s(C11 は C11b を含む)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.1599466Z [cleanup] 残置 0 件
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.1599838Z self-conformance passed — 全検査合格
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.2739087Z ##[group]Run python method/tools/worklist.py --selftest
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.2739561Z [36;1mpython method/tools/worklist.py --selftest[0m
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.2798030Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.2798399Z env:
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.2798674Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.2799094Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.2799499Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.2799855Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.2800218Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.2800522Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.5236734Z selftest: PASS
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.6362938Z ##[group]Run python method/tools/bomdd-witness.py --selftest
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.6363408Z [36;1mpython method/tools/bomdd-witness.py --selftest[0m
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.6420032Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.6420371Z env:
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.6420646Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.6421072Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.6421472Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.6421831Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.6422185Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:46.6422481Z ##[endgroup]
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.4657366Z ADVANCE OK: selftest PASS(known-good / hash・fail・missing・stop・dirty・不完全 gate・個体不一致 1〔CODE 別〕/ 不在・形状不正・git 不能・temp 不能・index 複製失敗・作業木内 temp・add/write-tree/git-dir 失敗〔rc 128・127〕2〔CAUSE 別〕/ CLI: PATH 単独= IDENTITY_UNCHECKED 2・--eco 付き 0・既定パス 0・引数不正 ARG_ERROR 2・produce= PRODUCED 0/ARG_ERROR/GATE_INCOMPLETE/WITNESS_UNWRITABLE 2 / 非 UTF-8 stderr で落ちない / 作業木内出力 2 / 拡張長パス 2/.git 配下 0 / 差分位置 36・0 / inspection-from-ledger〔ECO-074〕: ACCEPT+是正確認→0・境界探索/range なし/MISSING/UNPARSED→2・REJECT→1・sha 不一致/報告不在/cell 行なし/台帳不在= ARG_ERROR・最後の行 / r1: 壊れた行・別 ECO 行・絶対/../.git path・sha 欠落/大文字/短縮・MISSING に sha= ARG_ERROR)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.5743120Z Post job cleanup.
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.6936798Z (node:8700) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.6937422Z (Use `node --trace-deprecation ...` to show where the warning was created)
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.7209607Z Post job cleanup.
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.8548282Z [command]"C:\Program Files\Git\bin\git.exe" version
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.8829115Z git version 2.56.0.windows.4
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.8892612Z Temporarily overriding HOME='D:\a\_temp\98970c7e-70eb-43cf-9c5c-18706be804d3' before making global git config changes
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.8893505Z Adding repository directory to the temporary git global config as a safe directory
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.8901619Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\BomDD\BomDD
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.9214133Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:55.9517310Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:56.4115489Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:56.4468573Z http.https://github.com/.extraheader
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:56.4510057Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:56.4812586Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:56.9401473Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:56.9689759Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:57.4514504Z Cleaning up orphan processes
+fast (windows-latest)	UNKNOWN STEP	2026-11-17T17:44:57.4784219Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -1,0 +1,10 @@
+ui-cad-gate: bomdd\ui
+[GU1] PASS raw会計(raw interactable accounting)
+[GU2] PASS 会計(action accounting)
+[GU3] PASS 裁定(blocking open)
+[GU4] PASS 来歴(dictionary/ruling provenance)
+[GU5] PASS 追跡(raw trace)
+[GU6] PASS id揺れ(stable id)
+[GU7] PASS 仮の束(provisional bundle vs confirmed rulings)
+all executed gates passed — E-BOM/M-BOM 昇格可(実行 7/7)
+exit=0

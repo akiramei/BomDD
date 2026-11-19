@@ -1,0 +1,1 @@
+shell: PowerShell 7.6.10

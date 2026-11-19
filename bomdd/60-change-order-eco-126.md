@@ -991,6 +991,169 @@ shell that started it — is declared above and not closed.
 
 ### 9.5 What this record does not contain
 
+> **Later record (2026-11-19, after this section was written):** the full runs, the push and the CI run are in section 10.1.
+> The paragraph below is left as written.
+
 Written before the results exist, so not here: the full self-conformance on this commit, the push of it, and the CI run
 after that push. They are reported to the user; a later record commit carries them. **Not closed as verified**: a green CI
 on the new head would be a result for that commit only, and closing is the user's.
+
+## 10. After the repair: the push of `7943c64`, the kit in a product, and the first change turned through the route (2026-11-19; status stays `implemented`, not closed)
+
+**The user's words, in order.**
+
+After the green CI on `7943c64` (2026-11-18), choosing the next step, and then the form of the product's procedure
+(both quoted from MoviePad's order of ECO-007, section 1):
+
+> A: 導入の準備
+
+> Aで進めてください。旧51行から意味が変わる箇所と、ECO-002〜004への適用時点を受入時に示してください。MoviePadでは、確認項目で直しが出たら
+> staged のまま次の周へ戻ることも明記してください。ECO-007はキットと手順書の導入までとし、ローカルブランチで受入依頼を出すところで止めてください。
+> 実際に一周回せたかは、次に私が名指す変更で確かめます。
+
+Naming the change to be turned (2026-11-18; MoviePad's order of ECO-008, section 1):
+
+> 出力の合わせ方を選べるようにする変更を、次に回します
+> 表示される項目が増えるので画面のレイアウトも注意して。スクロールや折り畳みに頼り過ぎて、そろそろ負債が溜まっています。
+
+For this record (2026-11-19), to the producer's question whether to write the result of that one change into this order:
+
+> A: 記録する
+
+The option as the producer had written it, which is the scope of this section: facts only; the three restrictions of
+section 8 applied; a local commit, the push being a separate word; the change is not closed; no `/lesson-promote`.
+
+Evidence for this section is under `bomdd/reports/eco-126-loop-route/first-use/`. MoviePad is a private repository; it is
+cited by commit and blob id, and no file of it is copied here. Three files of that folder are computed from it — its
+commit and blob ids, the count tool's output on its record of rounds, the gate's output on its ledger — and the user's
+words above are quoted from its orders.
+
+### 10.1 What section 9.5 left out: the full runs on `7943c64`, the push, the CI
+
+- **Two full runs, both in the second working tree (`.claude/worktrees/push-635e535`, moved to `7943c64`).**
+  - **Run 1 — exit 1.** Started from PowerShell 7 (`full-7943c64-run1.shell.txt`). 27 result lines PASS and one FAIL:
+    C20b, the self-test of `handover-stamp.py` — no count line, a call of `launch.cmd` timed out after 60 seconds
+    (`full-7943c64-run1.txt`; total 1386.5 s, C20 126.2 s).
+  - **What the producer saw at that time** (reported to the user then; no file of it was kept): from about 01:53 JST and
+    for about twenty minutes, Windows PowerShell on the producer's machine printed its result and did not exit; `tasklist`
+    hung as well. After that state had cleared, five runs of the tool's self-test and one full run passed. **The cause was
+    not established**, and that the producer's own checks set it off is not excluded.
+  - **Run 2 — exit 0.** 28 result lines, all PASS; total 1102.8 s, C20 19.5 s (`full-7943c64-run2.txt`). Started by the
+    same command as run 1 without the line that writes the shell's name (read from the session's transcript), so there
+    is no shell file for it. The witness
+    it left: tree `cf54f68a4bdca575de338fadfea7816f6f0e0de7`, `PASS` — equal to the tree of `7943c64`.
+- **The push.** From that tree, by the branch's name, through the pre-push gate: `635e535..7943c64`, two commits
+  (`43a91b2`, `7943c64`), 2026-11-18 02:34:29 JST (the reflog of `origin/main`).
+- **CI run 44138485295** (event push, `7943c64`): `fast (ubuntu-latest)`, `fast (windows-latest)` and `dotnet` all
+  success. In the Windows job the self-conformance printed 28 result lines, none FAIL; C20b PASS with 26 arms
+  (`ci-44138485295-windows.log`, lines 215 and 219). The two steps after the self-conformance, which did not run on Windows in the
+  red run of 9.2, ran and succeeded.
+- **A property of the launcher that the stall showed (not repaired; in no text of the kit).** `launch.cmd` measures the
+  build before it starts the program, and it measures by calling PowerShell. While that PowerShell does not exit, the
+  program is not started. The line was the same before the repair of 9.3. In the product (10.3) five launches left a line
+  each; a launch that hung would have left none, so the log cannot show whether one did.
+
+較正 (compact; receipt_author_role = producer). Claim: the head `7943c64` passed the full self-conformance locally and in
+CI. Judged **observed for that commit**: one local run exit 0 with the witness's tree equal to the commit's, and one CI
+run with three jobs green. **Not shown**: why run 1 failed — it is tied to the machine's state by time only, and no cause
+was reproduced; that the launcher starts the program on a machine in that state (it does not).
+
+### 10.2 The kit in a product (MoviePad ECO-007)
+
+- **Scope, in the user's words above**: the kit and the procedure only; whether a round can actually be turned was left to
+  the next change the user would name.
+- **What was installed.** `bomdd.lock` at MoviePad `dcc3280`: method commit `7943c6403297…`, `dirty: false`, 218 files.
+  Five files compared by blob id between BomDD at `7943c64` and MoviePad's `bomdd-kit/` — `loop-count.py`,
+  `handover-stamp.py`, `ui-cad-gate.py`, `skills/eco-turn.md`, the template `change-management.md` — all the same
+  (`moviepad-identity.txt`). The other 213 files were not compared here.
+- **The product's procedure.** MoviePad's `bomdd/change-management.md` was replaced by the template's body with a section
+  at its top, "MoviePad での読み替え", written by the producer (MoviePad's order of ECO-007, blob `4a1eeef6…`). The three
+  restrictions of section 8 were carried into that section. They are text there too: nothing stops or measures them.
+- **Closing.** Accepted by the user ("全部合格", eleven confirmation items on documents): accept commit `db207a3`,
+  2026-11-18; merged into MoviePad's main as `68f565c` on the user's word.
+- **Restriction 1.** MoviePad's lifecycle has two states (staged → applied).
+
+### 10.3 The first change turned through the route (MoviePad ECO-008)
+
+**Identity.** Filed on a branch from `68f565c`; 21 commits; three candidate commits, one per round (`5a23140`,
+`a1ca26a`, `bd768c6`); accept commit `0703203` (2026-11-19 04:01 JST); merged into MoviePad's main as `dcc3280`
+(2026-11-19 12:21 JST) on the user's word. MoviePad's own order (blob `3b665017…`) records the change up to its CI run
+and not the merge. The product's CI ran once, by hand, on `4eec8b6` — success; the merged branch head `c2da245` differs
+from it by ten lines of the order; no CI ran on MoviePad's main. The record of rounds is `bomdd/loops/eco-008.yaml`
+(blob `0e9ee08f…`).
+
+**The parts, and on which side each was seen.** Pointers are to sections of MoviePad's order of ECO-008.
+
+| Part (section 1) | What happened in this change | Seen on the stop side? |
+|---|---|---|
+| L1 — limits set at filing | round limit 5; a cost frame for other contexts, 1.5 million tokens; a "must never happen" list of seven (§4.2, §4.4, §5) | the cost frame: at 1,322,131 after round 2 a further read did not fit; the producer asked, and the user extended the frame to 1.8 million (§14.1). Used: 1,711,512 in eight contexts. The round limit was not reached (3 of 5) |
+| L2 — the reply form with kinds | three replies, one per round | kinds: "passes but I would change something" twice (once assigned by the user, once the producer's reading of a reply written as a question), "passes" once (the user's). "Fails" 0 |
+| L3 — GU3 holding manufacture on what is asked first | nine single rulings by the user (UQ-0038 to UQ-0046); six of them stood as blocking open entries before manufacture | **yes, in a product**: GU3 red three times — two, three and one open entries — and released by the user's rulings each time (§7.4, §10.4-10.5, §14.3-14.4) |
+| L3 — GU7 | PASS on the real ledger wherever its result is written: the first gate (§7.4), each gate after GU3's release (seven of seven), and on `dcc3280` | **no red recorded.** Where GU3 was red in rounds 2 and 3, the order does not write GU7's result. Red once on a scratch copy the producer made with one row removed (§7.4) — a control, not a catch |
+| L4 — the read before manufacture | three reads, one per round (§7.3, §10.4, §14.3). The count tool's line for them: asked 8, fixed 18, not asked 5 (the reads' own tables also hold rows disposed of in other words; they were not summed against this line) | not a stop. See 10.4, first item |
+| L5 — the record and `loop-count --check` | 124 rows; `--check` exit 0, gaps 0, at acceptance and again on `dcc3280` (`moviepad-eco-008-loop-count.txt`) | the order says the exit 0 at acceptance was the first (§18.5); no output of an earlier non-zero run is kept |
+| L6 — the launcher | four builds stamped (three rounds, the acceptance set); `check` after each reply exit 0; launches 1, 1, 1 and 2, all matching | **no.** No mismatch and no "unknown" recorded |
+| RP4 — a new want joins; a check replaced | one want joined after round 1 (the requirement table's Q3); one check of this change replaced in round 3, by the producer, on a recorded reaction (§15, §18.5) | — |
+| confirmation items and acceptance (A1-A4) | 29 items; the required ones passed by the user's two replies; three optional ones open; two unresolved reports accepted by the user (§17, §18) | the return from a confirmation item to a round: not exercised. The acceptance was held once — by something outside the kit (10.4, second item) |
+
+The gate on `dcc3280`: seven of seven PASS, exit 0 (`moviepad-eco-008-ui-cad-gate.txt`).
+
+**The counts section 3 names under "Not gated — measured after application"** — this is the first of the three changes
+that paragraph speaks of. Reactions by kind and by who assigned it: as in the table. Where tied causes land: the two
+reactions that were not a pass each land on one provisional decision of the producer's (P-11, P-07) and on one row of the
+read before manufacture (C1, B2); all four had been listed before use. The class of both (`decision_change`) and the
+landing points are the producer's reading. GU7 reds: none recorded. Launcher mismatches: none recorded. L4 rows asked: 8
+(the tool's line). Repairs written down: fixed after reproduction 0, patched without reproduction 0. **No tracking item for this measurement exists**: section 3 files it at
+verification, and the change is not verified.
+
+**How the restrictions were applied.**
+
+2. *(R3-05.)* The record holds reader's findings repaired in the product after manufacture — the case R3-05 names
+   (the reader's rows under `fixed` and under `record_fixed`; which of the two words a row got was the producer's
+   choice). Those stage tables are in the evidence file and are not reproduced here; no number of this section is set beside ECO-005's or
+   ECO-006's, and none is offered as an improvement.
+3. *(Exit 0 and empty fields.)* `--check` exit 0 and `gaps: 0` say that the record has none of the gaps the tool's header
+   names (the scope statement of 7.5). `inner loop 0 / 0` is the number of repairs written down. `matching` counts lines
+   of the launcher's log. None of them is used here as evidence that the record is complete, that the inner loop
+   converged, or that an item was tried in the build that was launched.
+
+### 10.4 What happened in the route and did not come from a part of the kit
+
+- **Both reactions that came back landed on rows the read before manufacture had returned.** One row the producer had
+  disposed of as "not asked" (C1, round 1); the other held two questions and the producer asked one of them (B2,
+  round 1). The route records a disposition; nothing in it looks at the producer's "not asked". Two reactions of one
+  change: no cause is claimed, and what the producer did differently in round 3 is in MoviePad's order (§18.5), not here.
+- **The acceptance was held by a reading the kit does not contain.** After the user's "全部合格・受け入れる" the launcher's
+  log showed one launch of the acceptance set and `check` exited 0. The producer then read a trace that, of the handed
+  builds, only that one leaves — the times of the user's preview cache — found no trace of a clip opened in it, did not
+  place the accept commit, and asked. After the user's second reply ("動画を開いて確認した") the same traces showed a second
+  launch and one clip opened. They show nothing about a second clip or about exports; the order says so (§17.7, §18.1).
+  `check` exit 0 means that the handed build was started, not that an item was tried in it. The skill's A1 ("a number that
+  was not tried is not counted") has no instrument behind it.
+- **One deviation from the route's order, by the producer** (round 2): manufacture was begun in the working tree while
+  the read before manufacture was still out. Nothing stops that — the gate is run by the producer and holds no file. It
+  was not committed before the rulings, and it is recorded (§10.4 of MoviePad's order). In round 3 the producer kept the
+  code out of the repository until the rulings; that too is the producer's conduct, not a stop.
+- **Whether the other contexts read the product's section "MoviePad での読み替え".** Each brief gave `AGENTS.md` as the
+  only entry. Of eight contexts, seven reported having read the section and one (the second review of round 1) reported
+  having read its heading only. These are self-reports.
+- **The same producer** wrote the kit, wrote the product's section, and turned the change.
+
+### 10.5 What this record does not show
+
+- **That the loop helps, or that anything improves from loop to loop.** One change of one product; no comparison is made
+  (restriction 2; declared at filing in section 2). The requirement's third clause is not measured by anything here.
+- **That GU7 or the launcher's mismatch catches something in a product** — neither had a hit — **or that either is
+  unneeded**: section 3 puts a part with no hit to the user after three changes; this is one.
+- **A product with three states; a POSIX system; a product other than MoviePad; a producer other than this one.**
+- **The raw outputs of the rounds.** The handed builds, the measurement builds, the screenshots, the outputs of the media
+  gate and the briefs were kept outside both repositories and were deleted on 2026-11-19 on the user's word (23.0 GB).
+  What remains is what MoviePad holds at `dcc3280` (the order, the ledgers, the record of rounds) and the scripts.
+- **Items left open in the product** are listed in MoviePad's order (§18.4) and are not repeated here.
+
+### 10.6 Where this leaves the change
+
+Status `implemented`. **Not closed as verified** — closing is the user's. This commit changes this order, the register's
+note and the evidence folder `first-use/` only; no tool and no text of the kit. Checked for this record commit: the quick
+tier of the self-conformance. Not pushed (a separate word of the user's), so no full run and no CI on it. O-6 stays managed
+apart; the limits of 9.4 stand as written. Nothing here was sent through `/lesson-promote`.

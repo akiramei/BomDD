@@ -1,0 +1,30 @@
+== MoviePad HEAD
+dcc32802d9d6ba0ab2a0cf1465405cb6aae7a668
+main
+== MoviePad: tracked files modified (expected: none)
+== MoviePad main, first parent
+dcc32802d9d6ba0ab2a0cf1465405cb6aae7a668 2026-11-19T12:21:37+09:00 Merge pull request #17 from akiramei/feat/eco-008-output-fit
+68f565cdc8b9af8be5ce1602ae1f3c4795ef7ebf 2026-11-18T11:10:12+09:00 Merge pull request #16 from akiramei/chore/eco-007-kit-and-procedure
+== accept commits (by trailer)
+db207a37730cedf4e4373f732f14a7b0749ccc1f 2026-11-18T10:55:03+09:00
+0703203a838b1e25d24b58949ce75a33d06fc791 2026-11-19T04:01:37+09:00
+== ECO-008 window 68f565c..c2da245: commits, and the round candidates
+21
+bd768c6 2026-11-19T02:35:17+09:00
+a1ca26a 2026-11-18T19:29:26+09:00
+5a23140 2026-11-18T15:57:24+09:00
+== blobs at HEAD
+bomdd/60-change-order-eco-007.md 4a1eeef6c901db5015bafe20c42cd567bae8be6c
+bomdd/60-change-order-eco-008.md 3b6650176853e21a9a76851968eef021c7c0e593
+bomdd/loops/eco-008.yaml 0e9ee08fed1bb33c66f998980cba464aa9a810a8
+bomdd.lock 4212e359a7d8c10c97e944958c87745eba75f364
+== the lock's method commit
+    commit: "7943c6403297cb05a6a19b75596fd770e8c387da"
+    dirty: false
+    files: 218
+== kit tools: blob in BomDD at 7943c6403297cb05a6a19b75596fd770e8c387da / blob in MoviePad at HEAD
+loop-count.py 0b33e52e4859c0a52930a845b98ba98255776e38 0b33e52e4859c0a52930a845b98ba98255776e38 same
+handover-stamp.py 49ea7b3499d47b22d273fc138f50244e173e836d 49ea7b3499d47b22d273fc138f50244e173e836d same
+ui-cad-gate.py 1048de059d01f92f4abd1522d63690df64fc2fa7 1048de059d01f92f4abd1522d63690df64fc2fa7 same
+product-profile/skills/eco-turn.md 112d16ea046b5ada74194250957f1c232bbf741d 112d16ea046b5ada74194250957f1c232bbf741d same
+product-profile/change-management.md efe1e4760af95bb6c6505902ed855f7f53b9f3dd efe1e4760af95bb6c6505902ed855f7f53b9f3dd same
